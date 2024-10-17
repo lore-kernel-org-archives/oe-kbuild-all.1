@@ -1,128 +1,87 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ABF4219CA6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 19:07:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA0C17D341
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 19:51:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729192075; cv=none; b=JWs+4q0asiq00jeaIcZ/U/0WPB3vYBRbgJbo2gU+7USuiIOqju1iiEdBcMMOK+TiLPp11nblIFJorCSmuhG4TdE1th88vkBnxSC0w+yT0iRtaUAOflruDHWEYoTVEX4j9icBmeCWPMSHIPw8dtLxhIwgkpwMarGCIgTNVJcwep8=
+	t=1729194711; cv=none; b=Uw4YNcexSSmSK13JwmOzwzKLdX9LVU0hrtt6qK41xXd4TbCFf/+8skx70vYiZ96bRKXQ3nQdXhzycYgJCPiSAy6+hwKavOahQdwe0UqiYUoAXDcXAicunaLYwL6IeHESDbEbopOv0LW73v3ke3opOEdugCa2Z4iZW/AWIAS/l9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729192075; c=relaxed/simple;
-	bh=4+ixJyekF1jl6uiAyjfdWox0tZfOmu1tTOx5QFEdE0s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u2ex9w0ESSbfmcu8rfntJnggh32aFJyVWtk+l5rphgjTzBFyYA4iZp1vhEaFxAWlqINO1OlucmxJvN4r6CCNUeb0ciq8Uu4r2dPZ7fIXbvVDim84vhcpT8UyEA6RXdP77lbRBWHgy/mhTxs02OkvOW29hSezydf8Kla0DKvrAjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OrOLIKCa; arc=none smtp.client-ip=209.85.208.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1729194711; c=relaxed/simple;
+	bh=7clHmBVdDO7eg7TIGu17ivDXSn20mIQLGFhfjiqfBf0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=amDXIJ39fctrb9jxR6gftYRCcPPWaKimH2bqyE+/yRnjv25vQytmibGhoOwuVTyRJTlBGlb5XejMq/8xlgR+ZNcndQUdyjwAQqmga3EISFLbkvICayfTfijMF58kvC6rj0iFw9zJsyX9pNUGcBFzz0Ocns0XIDmUTPuGPx5K+fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TdqhjeXR; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OrOLIKCa"
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c932b47552so4915a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 12:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729192067; x=1729796867; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uixfl2jtVqbJqFwF+ymcJ/PUl6a3StJk/DrSTA+CVC0=;
-        b=OrOLIKCaW0iOFaRbih8C1BlYYPG7r+FMZKrQJTG30s2kxD9jnUDV61Xv9reyrQ0yZn
-         8EC/qlnV7EXBEJvajhCMo4/GlWmmclSYp3d0WpbJZJ0/FwNsLOTVA1WwuIYRbJsWEHPh
-         Rq3Op0PYuMoUKrmog8E/qZWQvttaRSR9hMDPrgKHZtOFwG5C6gcQcC4u4nhQbEPYlPok
-         Pk1b1y+tdpLBWIVAUOL7FXhCfnsre7+gC9G7UOmIoTVJXzCqlQs01GYmcJvWdBDJB4cK
-         MMY/M9WTEo6GxMamc/0Y6uTX2zS9+R77tvGCz6JoBLoSI7u1Dg7fPElMRx807FK6fiCs
-         JHXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729192067; x=1729796867;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uixfl2jtVqbJqFwF+ymcJ/PUl6a3StJk/DrSTA+CVC0=;
-        b=wavPNZtiD0EWVpDcgNreQOz2mKigiPzDTZczQgp18nllXxiugY+dbOG/+wB/6Mbzy6
-         SxpugbJdrSRkM+3/+RXt32dkknbKFBWgwk8ZAMnOYvx1/98y7P7VxQnb2DzaWAG6cKMb
-         se4jAz3R/z7TJK7onRimcHbbVBd8biYCMe3L8yZ94OrjzlYoM+Jib/9MP3W/A3lql2Zr
-         jkqt7za5LTb0CtHddJW+qnY7Af5wDzWBWvKkQPFHHGD0J2/hQMufb5RD1qOy6y0NxOsj
-         /UEla9wUa+j5cVdId/0nT53HZzpvyTc+HvPPAhhoir4N3XzKCMT111QbzuCauiD9nB+W
-         9AKg==
-X-Forwarded-Encrypted: i=1; AJvYcCU4QVPASOBopVBuFv0JtzYcLQLIrepkWVf7c2ojXk+a9Uz54yB4NQWKmP1bfkdrPm2nnwRwn5BQDhlVY3Rl@lists.linux.dev
-X-Gm-Message-State: AOJu0Yza51hdmrfUcxSfKnjbSCHM89hoxWH0hTRPtifuh8zeTwr79Cye
-	PfBwVdq3Ko6R0ho9UcVrk4BWn+sBdU1hcszWo9Cs/OyQQwjgTyks/BPTUnV1qbR80hNMOaTnoxy
-	obgF36DnDq+a/k2lPgE/1/qI7eMkX9hH4RBsx
-X-Google-Smtp-Source: AGHT+IGJ5bOtzlZwtV+s5IaY9jBglbZpjiJuoBwT3AgW89JKzeUwi0aGlcdr06htRSmxbUTs1hCk4iI1TzT9Wa0QxxI=
-X-Received: by 2002:a05:6402:2709:b0:5c8:84b5:7e78 with SMTP id
- 4fb4d7f45d1cf-5ca0a186b93mr58751a12.4.1729192066673; Thu, 17 Oct 2024
- 12:07:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TdqhjeXR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729194706; x=1760730706;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7clHmBVdDO7eg7TIGu17ivDXSn20mIQLGFhfjiqfBf0=;
+  b=TdqhjeXRSieuX3CnM/MtzscDY4h8T0KWI8mkK432iXgs6jf8u9Km3mdv
+   n83PSA9bzEcfkqfrqmLv9Nm8pgLJjXKr+X0eSPTHqH0cD8Ua0SuDjKt7n
+   piEnJUsp8GZQr8YKVGM3fY2ARHeGYA2Uawougjjaza4Wv9DBW7hGSqCxs
+   X3MfrSFIHejT2yvCypu3eGlQLdjLhLafgSc+wJLGJ9JWigJ+ydySUbtN/
+   zhENCDI+hCOqmlx3ViM+xetNBtoTg3k5XcmANOO/f2Sj0iuVROoNetfZp
+   Xr1MkJChUdDo4qKZFHU4jthVg/8lNu6ZTS4owXl1XaYTUUALoALkYEQab
+   w==;
+X-CSE-ConnectionGUID: xR6hF9NESVyrHfqIbP12hA==
+X-CSE-MsgGUID: PkBLc/lUS+W/5JtsJr7CAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39827310"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="39827310"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 12:51:46 -0700
+X-CSE-ConnectionGUID: 2uJQVyPsQtG6AnVKMF11JA==
+X-CSE-MsgGUID: Z6JirABtTBqjov7JCSV1DQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
+   d="scan'208";a="78617451"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 17 Oct 2024 12:51:45 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1WX8-000Mqd-27;
+	Thu, 17 Oct 2024 19:51:42 +0000
+Date: Fri, 18 Oct 2024 03:51:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 4004/5321]
+ arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: usb@a2f8800:
+ interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too
+ short
+Message-ID: <202410180310.4ytsUqy2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241015-comedi-tlb-v2-1-cafb0e27dd9a@google.com>
- <202410170111.K30oyTWa-lkp@intel.com> <CAG48ez2T7i_qCAcGi3nZqQeT8A3x42YSdL=rWqXOUDy5Eyaf6A@mail.gmail.com>
- <ccc4e0a3-34f5-4793-bd05-ee0955c9c87b@mev.co.uk> <cf1a2818-1b78-4422-bb76-421732c428c0@mev.co.uk>
-In-Reply-To: <cf1a2818-1b78-4422-bb76-421732c428c0@mev.co.uk>
-From: Jann Horn <jannh@google.com>
-Date: Thu, 17 Oct 2024 21:07:10 +0200
-Message-ID: <CAG48ez1RWTEW_ZJBYbt6WWJX90haM61pwqqb3u9Pq8C_q71bQQ@mail.gmail.com>
-Subject: Re: [PATCH v2] comedi: Flush partial mappings in error case
-To: Ian Abbott <abbotti@mev.co.uk>
-Cc: kernel test robot <lkp@intel.com>, H Hartley Sweeten <hsweeten@visionengravers.com>, 
-	Frank Mori Hess <fmh6jj@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Oct 17, 2024 at 11:48=E2=80=AFAM Ian Abbott <abbotti@mev.co.uk> wro=
-te:
-> On 17/10/2024 10:29, Ian Abbott wrote:
-> > On 16/10/2024 23:05, Jann Horn wrote:
-> >> On Wed, Oct 16, 2024 at 8:05=E2=80=AFPM kernel test robot <lkp@intel.c=
-om> wrote:
-> >>> [auto build test ERROR on 6485cf5ea253d40d507cd71253c9568c5470cd27]
-> >>>
-> >>> url:    https://github.com/intel-lab-lkp/linux/commits/Jann-Horn/
-> >>> comedi-Flush-partial-mappings-in-error-case/20241016-022809
-> >>> base:   6485cf5ea253d40d507cd71253c9568c5470cd27
-> >>> patch link:    https://lore.kernel.org/r/20241015-comedi-tlb-v2-1-
-> >>> cafb0e27dd9a%40google.com
-> >>> patch subject: [PATCH v2] comedi: Flush partial mappings in error cas=
-e
-> >>> config: arm-randconfig-004-20241016 (https://download.01.org/0day-ci/
-> >>> archive/20241017/202410170111.K30oyTWa-lkp@intel.com/config)
-> >>> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-> >>> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/
-> >>> archive/20241017/202410170111.K30oyTWa-lkp@intel.com/reproduce)
-> >>>
-> >>> If you fix the issue in a separate patch/commit (i.e. not just a new
-> >>> version of
-> >>> the same patch/commit), kindly add following tags
-> >>> | Reported-by: kernel test robot <lkp@intel.com>
-> >>> | Closes: https://lore.kernel.org/oe-kbuild-
-> >>> all/202410170111.K30oyTWa-lkp@intel.com/
-> >>>
-> >>> All errors (new ones prefixed by >>):
-> >>>
-> >>>     arm-linux-gnueabi-ld: drivers/comedi/comedi_fops.o: in function
-> >>> `comedi_mmap':
-> >>>>> comedi_fops.c:(.text+0x4be): undefined reference to `zap_vma_ptes'
-> >>
-> >> Ugh, this one is from a nommu build ("# CONFIG_MMU is not set"), it
-> >> makes sense that you can't zap PTEs when you don't have any PTEs at
-> >> all... what really impresses me about this is that the rest of the
-> >> code compiles on nommu. I'm pretty sure this codepath wouldn't
-> >> actually _work_ on nommu, but apparently compiling it works?
-> >>
-> >> I don't know what the right fix is here - should the entire comedi
-> >> driver be gated on CONFIG_MMU, or only a subset of the mmap handler,
-> >> or something else?
-> >
-> > Given that it would also affect a lot of fbdev drivers that would also
-> > benefit from zapping partial mappings, I suggest that gating on
-> > CONFIG_MMU would not be the correct fix.
->
-> Perhaps just add an #ifdef CONFIG_MMU around the affected call for now?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7df1e7189cecb6965ce672e820a5ec6cf499b65b
+commit: f5b788d0e8cdaac7df6ec9a24926672965d87dfc [4004/5321] arm64: dts: qcom: Add support for X1-based Dell XPS 13 9345
+config: arm64-randconfig-051-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180310.4ytsUqy2-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180310.4ytsUqy2-lkp@intel.com/reproduce)
 
-Sure, I guess that works, though it's not particularly pretty.
-(And this codepath looks like it won't really work on nommu either way...)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410180310.4ytsUqy2-lkp@intel.com/
 
-I'll change it that way for now.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4146.11-4156.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
