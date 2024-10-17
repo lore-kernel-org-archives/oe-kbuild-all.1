@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C461DC18B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 12:10:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24151DCB31;
+	Thu, 17 Oct 2024 12:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729167026; cv=none; b=tn+pgh0OmXSMOUunaZMuxCbK/QQRf9iO8+mQRyPRkxQifeN3JzKT3sx3S0x+P2gKyTkODMChMz7W6Cnc/Gk4xqi/CFDLSXqd7qAF8qsYrlTAXHrRXGMMH7dpNg7QIqbTXm4T3u6sT0rM7NwxCL78cmb++Xbb4WGTbTA1qScV1b4=
+	t=1729167027; cv=none; b=P7tEAZ7J0Z7n2wQvRVpo9DQyk45gkDsLWyea8HGDLHO3xeWS/9bqaqKJk6l0ASMxmEtrXoP+f23Z5NDrErxKsZ0/TN+l6Q9LsmO7oqVg5iM+mm+IeE2RhKjEKTkWX0p9LeiIYdgDmBq+G12EqjujjiaaUJqKiCMjBWsQtvjAhKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729167026; c=relaxed/simple;
-	bh=W98tUE+Ifkh/W/kdB83NF+tetshF/l4KCS5OEk4oASU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OtvyUk9MxX//dBHrrQ/rD28VwHRIB0yGeow8Q3TjEfEVlRrcMeLZnw5zZxmENE4EbZsh4VAKmAdFVsEz07PILtmefD7kzG46qBYBUh9Hti6Wm56nqUoyAmBuSXEWA+5kO0rYahT5iEOLtQ9yHEBMjlarvDtystudIZ6T2ZSZokI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZ72juds; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1729167027; c=relaxed/simple;
+	bh=NT44ZZre6TjCWX76H+BZberz4iyki6ow/DPBlAmwnz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iP64+qo/82LqV7dHJQGoDcmUULYUREvKXqE2kxIHSlAnCwdW2Ay2DZDvYyFEHOpNhdPXGJxT9w8PvE3YFcRgtD0M0Jt0h20zwovzJMIwuFsjV7aCGGDbdOo4N0/SrvlCaLLPwdad53hWVgANt9wWISQEgOXs8y3aMj+wFb7omig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TYyElavr; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZ72juds"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TYyElavr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729167023; x=1760703023;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W98tUE+Ifkh/W/kdB83NF+tetshF/l4KCS5OEk4oASU=;
-  b=TZ72judsgH84M8k2C6KZ3W+tXTUEq5x0v4Tx1PAwcvr/NmlH3U50CZlY
-   OTV1+k7B4iViieytNfVXGTDRXKOJFCFlGgLriRRE7JLbT8GChqsMZ7LwC
-   aWjgoNt1Ok6KgVY/pblASO/Q2gNjpuxNNLel1zM23CbmzOzj+6v/WImrN
-   2uNMJiBPFwr/N1xnYPgM90VIo9BNCgPrBixLWKsUIyl55rfSyug79Y7XK
-   ueJ8TG4frAkO8HgbcR4hwEexQqmMj6+1n7FtiUQOlwB/roY0C6N5vbGGK
-   4H7GrsG8ArwUDCfKJ5U04pkB8I1eAVcfP0uKekke/HwMOGLdIEV69RrXA
-   Q==;
-X-CSE-ConnectionGUID: DwvvKpTETwGR5eXxqtVUjA==
-X-CSE-MsgGUID: jwewP3N2TIGr/TxulO7WLg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28532240"
-X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="28532240"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 05:10:23 -0700
-X-CSE-ConnectionGUID: 56qDFaGaSn672Z4To671rQ==
-X-CSE-MsgGUID: Efr4kZRPToOtXmFgBFLjRw==
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NT44ZZre6TjCWX76H+BZberz4iyki6ow/DPBlAmwnz0=;
+  b=TYyElavrahzRmsvYAPIhhPhGOMbAmMin/hNXAOB4NXRs/CcqRSw8vasw
+   0eCPJEBurtJKJxP07gU0ZGbTRxmsGeOb5s3KS/SIHHLtp1vmBkIMuJ8fg
+   yU2mIsCCBST9rOCPIDHuZ6HLkPEfs5tRq7Q0KKMyxQ0lNTu14GTBs9+/u
+   qbzWMT4GciUcNvxvjB3KOXA3SLBJV5JJyXwRjVufbQAgGApZ+VqjnffZY
+   Qh5A1w5wNo0+Xm5TOzBeEePNn0k+KlwvILjyYixUVT4/GLqbKilRjHBKE
+   BIUOgPgJgduJNBzr8IrtVQCExPVcX28o6QFLMYkg2tuSBWmB3za64Nw8U
+   A==;
+X-CSE-ConnectionGUID: uDSNP3UgTYWhGzWtMB2T0Q==
+X-CSE-MsgGUID: HgO3nV2jRuWmErYV0uWzoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28601372"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28601372"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 05:10:23 -0700
+X-CSE-ConnectionGUID: FeKCE//vSLuAYKD+etOkIw==
+X-CSE-MsgGUID: S4LRezwoQMCINsXZL+p4bA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="83176399"
+   d="scan'208";a="78553510"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2024 05:10:21 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 17 Oct 2024 05:10:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1PKd-000MHh-0K;
+	id 1t1PKd-000MHf-0G;
 	Thu, 17 Oct 2024 12:10:19 +0000
-Date: Thu, 17 Oct 2024 20:09:49 +0800
+Date: Thu, 17 Oct 2024 20:09:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nate Watterson <nwatterson@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Will Deacon <will@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
-	Nicolin Chen <nicolinc@nvidia.com>
-Subject: drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:726:15: sparse:
- sparse: symbol 'cmdqv_debugfs_dir' was not declared. Should it be static?
-Message-ID: <202410172003.bRQEReTc-lkp@intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] um: Fix passing '-n' to linker for stub_exe
+Message-ID: <202410171923.EbeKa7tA-lkp@intel.com>
+References: <20241016-uml-fix-stub_exe-clang-v1-1-3d6381dc5a78@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,28 +62,33 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241016-uml-fix-stub_exe-clang-v1-1-3d6381dc5a78@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c964ced7726294d40913f2127c3f185a92cb4a41
-commit: 918eb5c856f6ce4cf93b4b38e4b5e156905c5943 iommu/arm-smmu-v3: Add in-kernel support for NVIDIA Tegra241 (Grace) CMDQV
-date:   7 weeks ago
-config: arm64-randconfig-r123-20241017 (https://download.01.org/0day-ci/archive/20241017/202410172003.bRQEReTc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241017/202410172003.bRQEReTc-lkp@intel.com/reproduce)
+Hi Nathan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 41ab5fe7471ff38d2909d1c93b88197a89c6a00f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/um-Fix-passing-n-to-linker-for-stub_exe/20241017-051439
+base:   41ab5fe7471ff38d2909d1c93b88197a89c6a00f
+patch link:    https://lore.kernel.org/r/20241016-uml-fix-stub_exe-clang-v1-1-3d6381dc5a78%40kernel.org
+patch subject: [PATCH 1/2] um: Fix passing '-n' to linker for stub_exe
+config: um-defconfig (https://download.01.org/0day-ci/archive/20241017/202410171923.EbeKa7tA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171923.EbeKa7tA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410172003.bRQEReTc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171923.EbeKa7tA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:726:15: sparse: sparse: symbol 'cmdqv_debugfs_dir' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/cmdqv_debugfs_dir +726 drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-
-   725	
- > 726	struct dentry *cmdqv_debugfs_dir;
-   727	
+>> clang: warning: argument unused during compilation: '-mno-3dnow' [-Wunused-command-line-argument]
+   /usr/bin/ld: arch/um/kernel/skas/stub_exe.o: in function `_start':
+   arch/um/kernel/skas/stub_exe.c:83: undefined reference to `memset'
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 -- 
 0-DAY CI Kernel Test Service
