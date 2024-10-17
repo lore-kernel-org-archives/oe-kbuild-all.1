@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C50770E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 12:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40D71DE3D4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 13:12:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729169487; cv=none; b=VKYJu03sBBCKFry1p3UVo48LK01dioPclOalZA6oqQjIO+HN5T2lNAY+iNJLAcwRulomTtI5RVLBrtIEcdlYwIaaEQGRYsYDzEYwnN66L4chttsY6ZGDWqJ5pGwOTzZ0pPeX4v7fNiXRqrGI6heEHQ+/OHPhxdNwMTWXgmlg8xs=
+	t=1729170750; cv=none; b=Nw9goLHMxvecn2DSQQGM5XczVaSnhnFy9U3oDTz6tt0WMxl+GmVga0HN7/aSPQar6BxHEw6HC0S4UKrFtrTqgMLSyqOL3dspKn72JoU0wAyfgqYaAASbEWRsA6Saoz6DXc5tkT6pPoC5LHLK7dtiqOKl3Fdsz39MKORGmiUNHII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729169487; c=relaxed/simple;
-	bh=XUkIInyVJ6qdDK5bfom9ZUq7pSmBYtba/l+P8SMUmy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=By0khboKLq3wMZ9e/LMewV6ffRwhr05t1O8NeVKBIVy0jAWvp6Wjom/i5k79rLYVB2Etn0ZQg7cVBwYUKPI/qG6bah/G/CB+ww56fFsq/GN3hLidZivBNFqrWmDuL7VOmRBCqwRSadvHWksyd5JpHIA2fNILh94JbvN5QPK/6Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d8i3rdQ+; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1729170750; c=relaxed/simple;
+	bh=z6DoODhaSQ1MauMVN+zE0qV0NEEBtXP29YMduO1kw6I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bFhOkls5N5n/rd9FJiVtPmp9TKUCySUC9k5kx2jSFBGbztc2ejI7nDbLS67o/4jjiJuDSbnmo210uykj2GpLAT6TFd91yzJw0mRWnqRWycfKYMluHh9WERsavdN+q6UgtmPmpO9ZeFLmJPbb6uSLFUy7LyG6nDuFMcv2+nOCgBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M90qfR5h; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d8i3rdQ+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M90qfR5h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729169484; x=1760705484;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XUkIInyVJ6qdDK5bfom9ZUq7pSmBYtba/l+P8SMUmy0=;
-  b=d8i3rdQ+wD38HM1E18uzhD9fervdusK9W9bw2K/ehb1BOU/PQfBBTX49
-   qyHeC0s8fHzA4PRVHWGZpkGinhyFNduYI8ABh4kr2K5/Xm7LYJrEnc/cU
-   S8u5uYAVwVPezhfeBOqItUIPs+i1HM6FBputL8mObdfIoFY4XhX3V7Ir6
-   rw6z+2OyZseUUN1l8AceC70AQLmSDz6IMv58iBWteYT3ugKalyveTttAK
-   V7DJYg15H91Y62XCGxu03Q9N0u8IXXBJAZHYnsA96UER+ZAj0WHG4HpEu
-   lZaOY7lf6+bwH5i579czAI6H8bbvaej4l5g/wixVD6uEC7I0ms81CgA03
-   Q==;
-X-CSE-ConnectionGUID: 5kl5tsbATq+6FEIpnbWfaw==
-X-CSE-MsgGUID: EO+WpxQjTCyRnnnhCwvP9A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="16269609"
+  t=1729170746; x=1760706746;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=z6DoODhaSQ1MauMVN+zE0qV0NEEBtXP29YMduO1kw6I=;
+  b=M90qfR5hmw4WeLa/2XItPwYbKOi0s5034tKgCBRILhW5vFugtXRPI0b3
+   9JFXYDxQVEVZujZefDzSJDjs187RB8PdwwwTl7Sr9oigcXKKKC9dBmvh4
+   Pkb2XKBr15wkDrJbx5k/rFghzPF3E29xD4atmRp4ug+GpHga8vRVn+/D/
+   UUA18iThnEVZknCRU9UOaH61QJXu9V32QoYgdJ3z9Wug4opvD3hLcmpFt
+   3M0K4ApiXs1iElcYpJEKXt9ZZTiJM3y+UzX1gzTvIJAU7jjpGf8mHbFaP
+   kLRsnrb2C2Rv/jeqYofzBtMkeUiO7BQbChrIU8Jjh7LPMBaR+CNXk9ZcK
+   g==;
+X-CSE-ConnectionGUID: M2IcHGe0TA+IpynC6Ysb4w==
+X-CSE-MsgGUID: EAKw7NlPQpecwWsxdRzIpw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="32452567"
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="16269609"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 05:51:24 -0700
-X-CSE-ConnectionGUID: 0aNNOCj/Qom57q7eHydmIg==
-X-CSE-MsgGUID: YgP7GRY+SxeejE2pLhbdzQ==
+   d="scan'208";a="32452567"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 06:12:26 -0700
+X-CSE-ConnectionGUID: xFswveiFQSakBOInpOFLXQ==
+X-CSE-MsgGUID: DU0bhVPFRkuksfWreldL/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="78200978"
+   d="scan'208";a="83315305"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Oct 2024 05:51:23 -0700
+  by orviesa005.jf.intel.com with ESMTP; 17 Oct 2024 06:12:24 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1PyK-000MKR-2Q;
-	Thu, 17 Oct 2024 12:51:20 +0000
-Date: Thu, 17 Oct 2024 20:51:04 +0800
+	id 1t1QIf-000MM3-1l;
+	Thu, 17 Oct 2024 13:12:21 +0000
+Date: Thu, 17 Oct 2024 21:11:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2024-08 2664/30000]
- arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function
- 'perf_num_counters'; did you mean 'dec_mm_counter'?
-Message-ID: <202410172045.iABtY97Z-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	Lorenzo Bianconi <lorenzo@kernel.org>, upstream@airoha.com
+Cc: oe-kbuild-all@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>
+Subject: Re: [PATCH] cpufreq: airoha: Add EN7581 Cpufreq SMC driver
+Message-ID: <202410172028.AdkR2sEw-lkp@intel.com>
+References: <20241016161044.28745-1-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,49 +66,311 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241016161044.28745-1-ansuelsmth@gmail.com>
 
-Hi Marc,
+Hi Christian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2024-08
-head:   bd674d735f838f966d3a1aff5e3eb8a9ef2ad915
-commit: 13dbdc0759fd4b89417f64d399ffa6a86fdc7caf [2664/30000] FROMGIT: KVM: arm64: Turn kvm_arm_support_pmu_v3() into a static key
-config: arm64-randconfig-004-20241017 (https://download.01.org/0day-ci/archive/20241017/202410172045.iABtY97Z-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410172045.iABtY97Z-lkp@intel.com/reproduce)
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.12-rc3 next-20241017]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/cpufreq-airoha-Add-EN7581-Cpufreq-SMC-driver/20241017-001217
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241016161044.28745-1-ansuelsmth%40gmail.com
+patch subject: [PATCH] cpufreq: airoha: Add EN7581 Cpufreq SMC driver
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241017/202410172028.AdkR2sEw-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410172028.AdkR2sEw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410172045.iABtY97Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410172028.AdkR2sEw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   arch/arm64/kvm/perf.c: In function 'kvm_perf_init':
->> arch/arm64/kvm/perf.c:58:43: error: implicit declaration of function 'perf_num_counters'; did you mean 'dec_mm_counter'? [-Werror=implicit-function-declaration]
-      58 |         if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
-         |                                           ^~~~~~~~~~~~~~~~~
-         |                                           dec_mm_counter
-   cc1: some warnings being treated as errors
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_get':
+>> drivers/cpufreq/airoha-cpufreq.c:27:22: error: variable 'args' has initializer but incomplete type
+      27 |         const struct arm_smccc_1_2_regs args = {
+         |                      ^~~~~~~~~~~~~~~~~~
+>> drivers/cpufreq/airoha-cpufreq.c:28:18: error: 'const struct arm_smccc_1_2_regs' has no member named 'a0'
+      28 |                 .a0 = AIROHA_SIP_AVS_HANDLE,
+         |                  ^~
+>> drivers/cpufreq/airoha-cpufreq.c:7:49: warning: excess elements in struct initializer
+       7 | #define AIROHA_SIP_AVS_HANDLE                   0x82000301
+         |                                                 ^~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:28:23: note: in expansion of macro 'AIROHA_SIP_AVS_HANDLE'
+      28 |                 .a0 = AIROHA_SIP_AVS_HANDLE,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:7:49: note: (near initialization for 'args')
+       7 | #define AIROHA_SIP_AVS_HANDLE                   0x82000301
+         |                                                 ^~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:28:23: note: in expansion of macro 'AIROHA_SIP_AVS_HANDLE'
+      28 |                 .a0 = AIROHA_SIP_AVS_HANDLE,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/cpufreq/airoha-cpufreq.c:29:18: error: 'const struct arm_smccc_1_2_regs' has no member named 'a1'
+      29 |                 .a1 = AIROHA_AVS_OP_GET_FREQ,
+         |                  ^~
+>> drivers/cpufreq/airoha-cpufreq.c:13:50: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      13 |                                                  FIELD_PREP(AIROHA_AVS_OP_MASK, 0x2))
+         |                                                  ^~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:29:23: note: in expansion of macro 'AIROHA_AVS_OP_GET_FREQ'
+      29 |                 .a1 = AIROHA_AVS_OP_GET_FREQ,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:12:49: warning: excess elements in struct initializer
+      12 | #define AIROHA_AVS_OP_GET_FREQ                  (AIROHA_AVS_OP_BASE | \
+         |                                                 ^
+   drivers/cpufreq/airoha-cpufreq.c:29:23: note: in expansion of macro 'AIROHA_AVS_OP_GET_FREQ'
+      29 |                 .a1 = AIROHA_AVS_OP_GET_FREQ,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:12:49: note: (near initialization for 'args')
+      12 | #define AIROHA_AVS_OP_GET_FREQ                  (AIROHA_AVS_OP_BASE | \
+         |                                                 ^
+   drivers/cpufreq/airoha-cpufreq.c:29:23: note: in expansion of macro 'AIROHA_AVS_OP_GET_FREQ'
+      29 |                 .a1 = AIROHA_AVS_OP_GET_FREQ,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/cpufreq/airoha-cpufreq.c:27:41: error: storage size of 'args' isn't known
+      27 |         const struct arm_smccc_1_2_regs args = {
+         |                                         ^~~~
+>> drivers/cpufreq/airoha-cpufreq.c:31:35: error: storage size of 'res' isn't known
+      31 |         struct arm_smccc_1_2_regs res;
+         |                                   ^~~
+>> drivers/cpufreq/airoha-cpufreq.c:33:9: error: implicit declaration of function 'arm_smccc_1_2_smc'; did you mean 'arm_smccc_1_1_smc'? [-Wimplicit-function-declaration]
+      33 |         arm_smccc_1_2_smc(&args, &res);
+         |         ^~~~~~~~~~~~~~~~~
+         |         arm_smccc_1_1_smc
+>> drivers/cpufreq/airoha-cpufreq.c:31:35: warning: unused variable 'res' [-Wunused-variable]
+      31 |         struct arm_smccc_1_2_regs res;
+         |                                   ^~~
+>> drivers/cpufreq/airoha-cpufreq.c:27:41: warning: unused variable 'args' [-Wunused-variable]
+      27 |         const struct arm_smccc_1_2_regs args = {
+         |                                         ^~~~
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_set_target':
+   drivers/cpufreq/airoha-cpufreq.c:40:22: error: variable 'args' has initializer but incomplete type
+      40 |         const struct arm_smccc_1_2_regs args = {
+         |                      ^~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:41:18: error: 'const struct arm_smccc_1_2_regs' has no member named 'a0'
+      41 |                 .a0 = AIROHA_SIP_AVS_HANDLE,
+         |                  ^~
+>> drivers/cpufreq/airoha-cpufreq.c:7:49: warning: excess elements in struct initializer
+       7 | #define AIROHA_SIP_AVS_HANDLE                   0x82000301
+         |                                                 ^~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:41:23: note: in expansion of macro 'AIROHA_SIP_AVS_HANDLE'
+      41 |                 .a0 = AIROHA_SIP_AVS_HANDLE,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:7:49: note: (near initialization for 'args')
+       7 | #define AIROHA_SIP_AVS_HANDLE                   0x82000301
+         |                                                 ^~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:41:23: note: in expansion of macro 'AIROHA_SIP_AVS_HANDLE'
+      41 |                 .a0 = AIROHA_SIP_AVS_HANDLE,
+         |                       ^~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:42:18: error: 'const struct arm_smccc_1_2_regs' has no member named 'a1'
+      42 |                 .a1 = AIROHA_AVS_OP_FREQ_DYN_ADJ,
+         |                  ^~
+   drivers/cpufreq/airoha-cpufreq.c:10:49: warning: excess elements in struct initializer
+      10 | #define AIROHA_AVS_OP_FREQ_DYN_ADJ              (AIROHA_AVS_OP_BASE | \
+         |                                                 ^
+   drivers/cpufreq/airoha-cpufreq.c:42:23: note: in expansion of macro 'AIROHA_AVS_OP_FREQ_DYN_ADJ'
+      42 |                 .a1 = AIROHA_AVS_OP_FREQ_DYN_ADJ,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c:10:49: note: (near initialization for 'args')
+      10 | #define AIROHA_AVS_OP_FREQ_DYN_ADJ              (AIROHA_AVS_OP_BASE | \
+         |                                                 ^
+   drivers/cpufreq/airoha-cpufreq.c:42:23: note: in expansion of macro 'AIROHA_AVS_OP_FREQ_DYN_ADJ'
+      42 |                 .a1 = AIROHA_AVS_OP_FREQ_DYN_ADJ,
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/cpufreq/airoha-cpufreq.c:43:18: error: 'const struct arm_smccc_1_2_regs' has no member named 'a3'
+      43 |                 .a3 = index,
+         |                  ^~
+   drivers/cpufreq/airoha-cpufreq.c:43:23: warning: excess elements in struct initializer
+      43 |                 .a3 = index,
+         |                       ^~~~~
+   drivers/cpufreq/airoha-cpufreq.c:43:23: note: (near initialization for 'args')
+   drivers/cpufreq/airoha-cpufreq.c:40:41: error: storage size of 'args' isn't known
+      40 |         const struct arm_smccc_1_2_regs args = {
+         |                                         ^~~~
+   drivers/cpufreq/airoha-cpufreq.c:45:35: error: storage size of 'res' isn't known
+      45 |         struct arm_smccc_1_2_regs res;
+         |                                   ^~~
+   drivers/cpufreq/airoha-cpufreq.c:45:35: warning: unused variable 'res' [-Wunused-variable]
+   drivers/cpufreq/airoha-cpufreq.c:40:41: warning: unused variable 'args' [-Wunused-variable]
+      40 |         const struct arm_smccc_1_2_regs args = {
+         |                                         ^~~~
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_init':
+>> drivers/cpufreq/airoha-cpufreq.c:68:24: warning: variable 'cpu_dev' set but not used [-Wunused-but-set-variable]
+      68 |         struct device *cpu_dev;
+         |                        ^~~~~~~
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_driver_init_cpu':
+>> drivers/cpufreq/airoha-cpufreq.c:103:16: error: implicit declaration of function 'kzalloc' [-Wimplicit-function-declaration]
+     103 |         priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+         |                ^~~~~~~
+>> drivers/cpufreq/airoha-cpufreq.c:103:14: error: assignment to 'struct airoha_cpufreq_priv *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     103 |         priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+         |              ^
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_release':
+>> drivers/cpufreq/airoha-cpufreq.c:145:17: error: implicit declaration of function 'kfree'; did you mean 'kvfree'? [-Wimplicit-function-declaration]
+     145 |                 kfree(priv);
+         |                 ^~~~~
+         |                 kvfree
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_get':
+>> drivers/cpufreq/airoha-cpufreq.c:36:1: warning: control reaches end of non-void function [-Wreturn-type]
+      36 | }
+         | ^
+   drivers/cpufreq/airoha-cpufreq.c: In function 'airoha_cpufreq_set_target':
+   drivers/cpufreq/airoha-cpufreq.c:51:1: warning: control reaches end of non-void function [-Wreturn-type]
+      51 | }
+         | ^
 
 
-vim +58 arch/arm64/kvm/perf.c
+vim +/args +27 drivers/cpufreq/airoha-cpufreq.c
 
-    50	
-    51	int kvm_perf_init(void)
-    52	{
-    53		/*
-    54		 * Check if HW_PERF_EVENTS are supported by checking the number of
-    55		 * hardware performance counters. This could ensure the presence of
-    56		 * a physical PMU and CONFIG_PERF_EVENT is selected.
-    57		 */
-  > 58		if (IS_ENABLED(CONFIG_ARM_PMU) && perf_num_counters() > 0)
-    59			static_branch_enable(&kvm_arm_pmu_available);
-    60	
-    61		return perf_register_guest_info_callbacks(&kvm_guest_cbs);
-    62	}
-    63	
+     6	
+   > 7	#define AIROHA_SIP_AVS_HANDLE			0x82000301
+     8	#define AIROHA_AVS_OP_BASE			0xddddddd0
+     9	#define AIROHA_AVS_OP_MASK			GENMASK(1, 0)
+    10	#define AIROHA_AVS_OP_FREQ_DYN_ADJ		(AIROHA_AVS_OP_BASE | \
+    11							 FIELD_PREP(AIROHA_AVS_OP_MASK, 0x1))
+    12	#define AIROHA_AVS_OP_GET_FREQ			(AIROHA_AVS_OP_BASE | \
+  > 13							 FIELD_PREP(AIROHA_AVS_OP_MASK, 0x2))
+    14	
+    15	struct airoha_cpufreq_priv {
+    16		struct list_head list;
+    17	
+    18		cpumask_var_t cpus;
+    19		struct device *cpu_dev;
+    20		struct cpufreq_frequency_table *freq_table;
+    21	};
+    22	
+    23	static LIST_HEAD(priv_list);
+    24	
+    25	static unsigned int airoha_cpufreq_get(unsigned int cpu)
+    26	{
+  > 27		const struct arm_smccc_1_2_regs args = {
+  > 28			.a0 = AIROHA_SIP_AVS_HANDLE,
+  > 29			.a1 = AIROHA_AVS_OP_GET_FREQ,
+    30		};
+  > 31		struct arm_smccc_1_2_regs res;
+    32	
+  > 33		arm_smccc_1_2_smc(&args, &res);
+    34	
+    35		return (int)(res.a0 * 1000);
+  > 36	}
+    37	
+    38	static int airoha_cpufreq_set_target(struct cpufreq_policy *policy, unsigned int index)
+    39	{
+    40		const struct arm_smccc_1_2_regs args = {
+    41			.a0 = AIROHA_SIP_AVS_HANDLE,
+    42			.a1 = AIROHA_AVS_OP_FREQ_DYN_ADJ,
+  > 43			.a3 = index,
+    44		};
+    45		struct arm_smccc_1_2_regs res;
+    46	
+    47		arm_smccc_1_2_smc(&args, &res);
+    48	
+    49		/* SMC signal correct apply by unsetting BIT 0 */
+    50		return res.a0 & BIT(0) ? -EINVAL : 0;
+    51	}
+    52	
+    53	static struct airoha_cpufreq_priv *airoha_cpufreq_find_data(int cpu)
+    54	{
+    55		struct airoha_cpufreq_priv *priv;
+    56	
+    57		list_for_each_entry(priv, &priv_list, list) {
+    58			if (cpumask_test_cpu(cpu, priv->cpus))
+    59				return priv;
+    60		}
+    61	
+    62		return NULL;
+    63	}
+    64	
+    65	static int airoha_cpufreq_init(struct cpufreq_policy *policy)
+    66	{
+    67		struct airoha_cpufreq_priv *priv;
+  > 68		struct device *cpu_dev;
+    69	
+    70		priv = airoha_cpufreq_find_data(policy->cpu);
+    71		if (!priv)
+    72			return -ENODEV;
+    73	
+    74		cpu_dev = priv->cpu_dev;
+    75		cpumask_copy(policy->cpus, priv->cpus);
+    76		policy->driver_data = priv;
+    77		policy->freq_table = priv->freq_table;
+    78	
+    79		return 0;
+    80	}
+    81	
+    82	static struct cpufreq_driver airoha_cpufreq_driver = {
+    83		.flags		= CPUFREQ_NEED_INITIAL_FREQ_CHECK |
+    84				  CPUFREQ_IS_COOLING_DEV,
+    85		.verify		= cpufreq_generic_frequency_table_verify,
+    86		.target_index	= airoha_cpufreq_set_target,
+    87		.get		= airoha_cpufreq_get,
+    88		.init		= airoha_cpufreq_init,
+    89		.attr		= cpufreq_generic_attr,
+    90		.name		= "airoha-cpufreq",
+    91	};
+    92	
+    93	static int airoha_cpufreq_driver_init_cpu(int cpu)
+    94	{
+    95		struct airoha_cpufreq_priv *priv;
+    96		struct device *cpu_dev;
+    97		int ret;
+    98	
+    99		cpu_dev = get_cpu_device(cpu);
+   100		if (!cpu_dev)
+   101			return -EPROBE_DEFER;
+   102	
+ > 103		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+   104		if (!priv)
+   105			return -ENOMEM;
+   106	
+   107		if (!zalloc_cpumask_var(&priv->cpus, GFP_KERNEL))
+   108			return -ENOMEM;
+   109	
+   110		cpumask_set_cpu(cpu, priv->cpus);
+   111		priv->cpu_dev = cpu_dev;
+   112	
+   113		ret = dev_pm_opp_of_get_sharing_cpus(cpu_dev, priv->cpus);
+   114		if (ret)
+   115			goto err;
+   116	
+   117		ret = dev_pm_opp_of_cpumask_add_table(priv->cpus);
+   118		if (ret)
+   119			goto err;
+   120	
+   121		ret = dev_pm_opp_init_cpufreq_table(cpu_dev, &priv->freq_table);
+   122		if (ret)
+   123			goto err;
+   124	
+   125		list_add(&priv->list, &priv_list);
+   126	
+   127		return 0;
+   128	
+   129	err:
+   130		dev_pm_opp_of_cpumask_remove_table(priv->cpus);
+   131		free_cpumask_var(priv->cpus);
+   132	
+   133		return ret;
+   134	}
+   135	
+   136	static void airoha_cpufreq_release(void)
+   137	{
+   138		struct airoha_cpufreq_priv *priv, *tmp;
+   139	
+   140		list_for_each_entry_safe(priv, tmp, &priv_list, list) {
+   141			dev_pm_opp_free_cpufreq_table(priv->cpu_dev, &priv->freq_table);
+   142			dev_pm_opp_of_cpumask_remove_table(priv->cpus);
+   143			free_cpumask_var(priv->cpus);
+   144			list_del(&priv->list);
+ > 145			kfree(priv);
+   146		}
+   147	}
+   148	
 
 -- 
 0-DAY CI Kernel Test Service
