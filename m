@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DF8A1D043D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 21:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6D01D5CCF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 21:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729200898; cv=none; b=H6mBlVnvI2vGxeFiWa0Vz9qX7/nCvsp8FuK95TsQhqJzaoKMaDWCpNKSbEhfju/ULkLUOlejQSxFkdu3BE7ZSZ6rqiB1CJ+icRSR6YxQPj6qMByZfjV6/M1eauu48x+2YfLcAQwsJJqFVwEc9MEDZSC1GgtyW9kxKXY8nQ1Ofg0=
+	t=1729200899; cv=none; b=hCihmiUqvYPmoG/DL/kbSzGiu4aIGiUkzceA6j/VGKhn2trRsjtRe054LktVUzsfADAZfMLRSQJq6znmeuNZGWFgdKMnM2ovwLuhaOJKVtZbz45iJMHIY9R/TzPd62gZlzuh0actUeOSDh30UnfKyw9Eh25n7WoFrFRqXyLtv04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729200898; c=relaxed/simple;
-	bh=NgTQJ0eaY4RkfuA6bZIBptzUzUc1XC/5hsRkdiKoQiE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RMcFkE75Lwl8/nnEhKoP/XpEJlTshc67KuhvWUmHs3x5X4Yp0RKJ8OfTf7XEtS7Z0IspMJjvYfdzEveD7Y9nqRfumsgDZRk3EOaefYLKxiTog1VIe40MJRrJN4ZBC0HnJGzOs0Pxn5Ohev9+gxVPAUfygKG/VUx71nOfo5GQIcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EtfOIfTj; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1729200899; c=relaxed/simple;
+	bh=xGsL5XIxEekvC5G0mKLGSSS+iQcB9KWvXvXMx2Sz9vc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lC/wgzGkRXP9x+XQSX+RGsaqBzGmJ26au8cpwuc/1OitfGvFN7Fx071JoADWwiR7Cqyf7n+W/joCsFtCKocxzksW15cYUYTI7TBzab54nQ2xGwscyLd+GozpzBJtNrzpRWEsmkX+6PW3R+WmSMQraIXzyroGpQIaigwqoV8TO6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyQPH2tB; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EtfOIfTj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyQPH2tB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729200893; x=1760736893;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NgTQJ0eaY4RkfuA6bZIBptzUzUc1XC/5hsRkdiKoQiE=;
-  b=EtfOIfTjddhTMsFlXbDwSwE7L8vc++UsfGnfdCYyPcj6UgecabuMpSt/
-   JqiMXGj/DK1OerZoqt10PZ9RpXxc3QVenEbThMMXy8r/iJVpU2fBFQjNq
-   6k0X3DtwFKyUNX11TWj3izCqaegL4/Wh1L1/b3fqGrN0H3Z67txgfTyGV
-   Yta4fP/MMQdktAgUiXxe73UmS//aQdlyZNa8T61IMdem3AOiFnXRJmHlC
-   32HMFAd9Qd2voJqvo/HTFcOX6ont9/+zPoRLs89trfzNbLnEkJlYCYogj
-   mQEIJ/wLJl2X8YkJetoANuJJ/xFmlYQrnAFclpyogr4nw5r238+BdamaJ
-   w==;
-X-CSE-ConnectionGUID: IN4j9/2LTTexaiBhpG1zQQ==
-X-CSE-MsgGUID: muBNt0MPRJqAtStKmaqzdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39257439"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39257439"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 14:34:52 -0700
-X-CSE-ConnectionGUID: D5u3ivn6R0OzF9eQCJC3zA==
-X-CSE-MsgGUID: B+qlr/OmSuKCyIAlhYJPMg==
+  t=1729200894; x=1760736894;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xGsL5XIxEekvC5G0mKLGSSS+iQcB9KWvXvXMx2Sz9vc=;
+  b=nyQPH2tBAriGHKhQAIKvJsIdzoY/+rXZ1jx7nr93REMv3kwTbacieddB
+   qlhShOoDMmaxAC/PZWF/ucRa+/zEPekL0KT5veFDgCOeopfDxgOSln9+2
+   wK6sb640nWrCyuIcEmq8boNY/S6kLaS7u6PTA14DI2a7iOHUQE2oUOuER
+   3do2VmYgSHXVvyOLeSalGP6wxEzCyzoKr66q/YG827LUaaTnzfSpmiEcJ
+   SN/8iXDAj1q8cR4vHBAqm0N0puD1xh3xPv8Y6ZHVtEc3FgrE9JicVSY84
+   u5mMM1doy+JwMcdqhem5xdzSR6IuTh60xHjl47xUCO20II6OfJxglmVQY
+   g==;
+X-CSE-ConnectionGUID: UEu2JQAGTPu48Xb6i+I5MQ==
+X-CSE-MsgGUID: Sjd3alSlSR6a5fkXO1v0Mw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28153944"
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
+   d="scan'208";a="28153944"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 14:34:53 -0700
+X-CSE-ConnectionGUID: gTSFiqAUSEG5Z/jbnNq7FQ==
+X-CSE-MsgGUID: VDgd6iYYQaKGQ00RkGM8Ew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
-   d="scan'208";a="83755206"
+   d="scan'208";a="83313101"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 17 Oct 2024 14:34:51 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2024 14:34:51 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1Y8u-000My3-2b;
+	id 1t1Y8u-000MyB-2w;
 	Thu, 17 Oct 2024 21:34:48 +0000
-Date: Fri, 18 Oct 2024 05:34:33 +0800
+Date: Fri, 18 Oct 2024 05:34:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-crypt 39/39] fs/afs/write.c:313:13: warning:
- 'netfs_dump_sg' defined but not used
-Message-ID: <202410180540.4u2ARzKa-lkp@intel.com>
+To: Per-Daniel Olsson <perdaniel.olsson@axis.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	rickard.andersson@axis.com, kernel@axis.com,
+	Per-Daniel Olsson <perdaniel.olsson@axis.com>
+Subject: Re: [PATCH v3 2/2] iio: light: Add support for TI OPT4060 color
+ sensor
+Message-ID: <202410180508.XPNXNSLX-lkp@intel.com>
+References: <20241015143713.2017626-3-perdaniel.olsson@axis.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,51 +70,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241015143713.2017626-3-perdaniel.olsson@axis.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-crypt
-head:   9a23281066f1353d4e10d297b57c1755d5e67ede
-commit: 9a23281066f1353d4e10d297b57c1755d5e67ede [39/39] afs: [DON'T MERGE] Implement trivial content crypto for testing purposes
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241018/202410180540.4u2ARzKa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180540.4u2ARzKa-lkp@intel.com/reproduce)
+Hi Per-Daniel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on eca631b8fe808748d7585059c4307005ca5c5820]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Per-Daniel-Olsson/dt-bindings-iio-light-Document-TI-OPT4060-RGBW-sensor/20241015-224128
+base:   eca631b8fe808748d7585059c4307005ca5c5820
+patch link:    https://lore.kernel.org/r/20241015143713.2017626-3-perdaniel.olsson%40axis.com
+patch subject: [PATCH v3 2/2] iio: light: Add support for TI OPT4060 color sensor
+config: um-randconfig-r113-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180508.XPNXNSLX-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180508.XPNXNSLX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410180540.4u2ARzKa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410180508.XPNXNSLX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/afs/write.c:313:13: warning: 'netfs_dump_sg' defined but not used [-Wunused-function]
-     313 | static void netfs_dump_sg(const char *prefix, struct scatterlist *sg, unsigned int n_sg)
-         |             ^~~~~~~~~~~~~
+   In file included from drivers/iio/light/opt4060.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __raw_readb(PCI_IOBASE + addr);
+                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+                                                     ^
+   In file included from drivers/iio/light/opt4060.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+                                                           ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+                                                     ^
+   In file included from drivers/iio/light/opt4060.c:11:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writeb(value, PCI_IOBASE + addr);
+                               ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+                                                         ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsb(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsw(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           readsl(PCI_IOBASE + addr, buffer, count);
+                  ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesb(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesw(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+           writesl(PCI_IOBASE + addr, buffer, count);
+                   ~~~~~~~~~~ ^
+>> drivers/iio/light/opt4060.c:835:10: error: label at end of compound statement: expected statement
+           default:
+                   ^
+                    ;
+   12 warnings and 1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
+vim +835 drivers/iio/light/opt4060.c
 
-vim +/netfs_dump_sg +313 fs/afs/write.c
-
-   312	
- > 313	static void netfs_dump_sg(const char *prefix, struct scatterlist *sg, unsigned int n_sg)
-   314	{
-   315		unsigned int i;
-   316	
-   317		for (i = 0; i < n_sg; i++) {
-   318			void *p = kmap_local_page(sg_page(sg));
-   319			unsigned int l = min_t(size_t, sg->length, 16);
-   320	
-   321			printk("%s[%x] %016lx %04x %04x %*phN\n",
-   322			       prefix, i, sg->page_link, sg->offset, sg->length,
-   323			       l, p + sg->offset);
-   324			kunmap_local(p);
-   325			sg++;
-   326		}
-   327	}
-   328	
+   807	
+   808	static int opt4060_write_event(struct iio_dev *indio_dev,
+   809				       const struct iio_chan_spec *chan,
+   810				       enum iio_event_type type,
+   811				       enum iio_event_direction dir,
+   812				       enum iio_event_info info,
+   813				       int val, int val2)
+   814	{
+   815		struct opt4060_chip *chip = iio_priv(indio_dev);
+   816	
+   817		switch (info) {
+   818		case IIO_EV_INFO_VALUE:
+   819			if (chan->type == IIO_INTENSITY && type == IIO_EV_TYPE_THRESH) {
+   820				u32 th_lo, th_hi;
+   821	
+   822				if (opt4060_get_thresholds(chip, &th_lo, &th_hi))
+   823					return -EFAULT;
+   824				if (dir == IIO_EV_DIR_FALLING)
+   825					th_lo = val;
+   826				else if (dir == IIO_EV_DIR_RISING)
+   827					th_hi = val;
+   828				if (opt4060_set_thresholds(chip, th_lo, th_hi))
+   829					return -EFAULT;
+   830				return 0;
+   831			}
+   832			break;
+   833		case IIO_EV_INFO_PERIOD:
+   834			return opt4060_write_ev_period(chip, val, val2);
+ > 835		default:
+   836		}
+   837		return -EINVAL;
+   838	}
+   839	
 
 -- 
 0-DAY CI Kernel Test Service
