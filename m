@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C321DDC13;
-	Thu, 17 Oct 2024 13:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C72011DED74
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 15:24:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729172012; cv=none; b=nrIu90LuFUcYHQPPFLQqHI3wOpgvHxG3zPzRkt0ESeRnTuZPD1eHmC8+ppHy6Gd8KDkaCPCcr4mBUJkZTWth2yPtT6ckfa1mYZbY4NF7cETSI/bvID8/FnWxppiuQNei2PLHkCFl2y1hkTaTo0xAjldmUlheDqftYKCw/0eeqqc=
+	t=1729178676; cv=none; b=VejtapvxwD3MYW9TpW6ky1TBQLryHccjAvTWaYZ+yJXAkGMPviZm/5h0db8SBQPalfH51UnrnSQxB8GF/MAOG/eSlIlLoJHkSPfC08oysbMgtvvrtnEzkxnr3nTWINHBavnGhaQYa/Kt954zdlVvn11IrsTZOuAECnE8O1hbIFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729172012; c=relaxed/simple;
-	bh=JkDXhb6MlaMFLEm8EgMyS7ZZvyXV2SzLExiOmUrr698=;
+	s=arc-20240116; t=1729178676; c=relaxed/simple;
+	bh=mIHhosJfdTcAI5yV3udoW/QplBqipXo8dwPDi/91C1o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gz50o63/cCrgD+yDk4LTLnyiMWth+clNrnSbELRvvXT6Cv9faK29L20IQ3e75CToUkk/RpESpGaOtHCJY25I9POSa4uMPpyYpUs15ZFTaQCYJ3wwPVasQUhzbylS6tOZNGo+PB89vUU1uLz6Dq60E94TccB28lPhsiR0tsrsAF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g9sOSzrH; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=pkbMonlUMbE+IT2oYGnIgKNqCy1si/aNdInStIlj5tc+X0WD5n50hNcnsmQj2KRP7TkBoEIQDoGhtm9zsmBb3/4tWeKVJ1kBW3g4Ctm75KP74tOeYo8F5ErOyL42bV1kQNz2Qfo8Lf8CxKzvsiAJ7MUQt7MlhdWPPw4cmeKGvTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVbwNxGF; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g9sOSzrH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVbwNxGF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729172007; x=1760708007;
+  t=1729178672; x=1760714672;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JkDXhb6MlaMFLEm8EgMyS7ZZvyXV2SzLExiOmUrr698=;
-  b=g9sOSzrHshNsLuMvPcvgp1KThgpoVB9EAX7vGeX7vFujnV7UWB9lNnjq
-   naEFAFdPjMkjjkXBCdNXmI2Bsr3O/HBRwUMrdYcDqsYyJFVXPL/cC7Fky
-   pevHAEnYVkpITIcpGof7YXQcr0iF+tJiM5GY63m9BRaE+mE2fuwhbpPyT
-   mOKuAOWrtJOC7xJWDzXrgj2LRQ2lVPH2a0HNtXqIFuLe4zCYwD8l4cuqq
-   2cYPeaGiMd2mbEyd0IO9lTrwofinF4WPY6kuNOqAkH7rflmPmm2zu7RC1
-   W0M1EaTotGS7HJtQ+wROuM+jzhjfYG0tQfq011RWrrzF42No95r7QN973
-   A==;
-X-CSE-ConnectionGUID: kAmBaY2aSzO5tmrhPfHqVg==
-X-CSE-MsgGUID: duSukq6iQfiXTG+TP8//Rw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="54070416"
-X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
-   d="scan'208";a="54070416"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 06:33:27 -0700
-X-CSE-ConnectionGUID: 2Li0FzT5T0Gzr4POuyCGag==
-X-CSE-MsgGUID: aIlon3qWQ5qDO0ietYFfgA==
+  bh=mIHhosJfdTcAI5yV3udoW/QplBqipXo8dwPDi/91C1o=;
+  b=MVbwNxGFeo09gdbvsLEogcIod28ECZgDH2PEFFuzYr3Yx1rRrX4wBQC0
+   dpkuNJiBw8vBLPEAssaAcaGSLpckgqVHsBiLAdrzu+0+mg+WNfzDjeBYF
+   xcLO0y3MdKcvLN/wZ2JKSH1fiKEV9piXybGZhN1/5YvaZHvD7BQO+W8V3
+   SVAroYGOCtyZ0v1a6UOWJNf9ERereOKjRgINNxCYRQ4CzM9WWzvoMQty1
+   dRjZYKudpVjpcXi9k3FfYDw92rb1Pb3eUuUwOsozGU9VLAbAOg/YCpJay
+   RWemn8tsdvB9oNsKB5W9CHvlW8RgaCNlT2B/z71lIhYQgLPANVwHGz55S
+   g==;
+X-CSE-ConnectionGUID: 7662Bk9ISbKs+nwe+TfG1A==
+X-CSE-MsgGUID: CFA8QY86TDKmK14mtSZGwQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28822728"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28822728"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 08:24:31 -0700
+X-CSE-ConnectionGUID: zCYRTHRARJKwW8JG8fynGQ==
+X-CSE-MsgGUID: YZxAnHvxSh6JYQVzOlN1dQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
-   d="scan'208";a="78692128"
+   d="scan'208";a="78919630"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Oct 2024 06:33:25 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 17 Oct 2024 08:24:30 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1Qd0-000MP5-33;
-	Thu, 17 Oct 2024 13:33:22 +0000
-Date: Thu, 17 Oct 2024 21:32:28 +0800
+	id 1t1SMV-000MVv-2a;
+	Thu, 17 Oct 2024 15:24:27 +0000
+Date: Thu, 17 Oct 2024 23:24:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20241015-2 6/18]
- drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:2: error: call to
- '__compiletime_assert_1077' declared with 'error' attribute: BUILD_BUG_ON
- failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
-Message-ID: <202410172107.g265uYlG-lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: [mhiramat:topic/fprobe-on-fgraph 11/16] kismet: WARNING: unmet
+ direct dependencies detected for DYNAMIC_FTRACE_WITH_ARGS when selected by
+ FPROBE
+Message-ID: <202410172344.kKByFy7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,156 +65,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241015-2
-head:   41fe8a04339b3781dca5a8ba323ba77022acc441
-commit: a1882510f2c31c9e3a9db8c138f5fa4b90eda0c8 [6/18] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241017/202410172107.g265uYlG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410172107.g265uYlG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-on-fgraph
+head:   36aa7422f5b4c5a064a78590cb58482f5bf424c9
+commit: 32f999ced5d222fee0e23a34fb9356362d0e1ef7 [11/16] fprobe: Rewrite fprobe on function-graph tracer
+config: i386-kismet-CONFIG_DYNAMIC_FTRACE_WITH_ARGS-CONFIG_FPROBE-0-0 (https://download.01.org/0day-ci/archive/20241017/202410172344.kKByFy7r-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241017/202410172344.kKByFy7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410172107.g265uYlG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410172344.kKByFy7r-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/net/wireless/intel/iwlwifi/mvm/d3.c:7:
-   In file included from include/linux/etherdevice.h:20:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/riscv/include/asm/cacheflush.h:9:
-   In file included from include/linux/mm.h:2225:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2149:2: error: call to '__compiletime_assert_1077' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
-    2149 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:517:2: note: expanded from macro 'compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:505:2: note: expanded from macro '_compiletime_assert'
-     505 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:498:4: note: expanded from macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:76:1: note: expanded from here
-      76 | __compiletime_assert_1077
-         | ^
->> drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2148:2: error: call to '__compiletime_assert_1076' declared with 'error' attribute: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
-    2148 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
-         |         ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^
-   include/linux/compiler_types.h:517:2: note: expanded from macro 'compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^
-   include/linux/compiler_types.h:505:2: note: expanded from macro '_compiletime_assert'
-     505 |         __compiletime_assert(condition, msg, prefix, suffix)
-         |         ^
-   include/linux/compiler_types.h:498:4: note: expanded from macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^
-   <scratch space>:72:1: note: expanded from here
-      72 | __compiletime_assert_1076
-         | ^
-   4 warnings and 2 errors generated.
-
-
-vim +2149 drivers/net/wireless/intel/iwlwifi/mvm/d3.c
-
-  2134	
-  2135	static bool iwl_mvm_gtk_rekey(struct iwl_wowlan_status_data *status,
-  2136				      struct ieee80211_vif *vif,
-  2137				      struct iwl_mvm *mvm, u32 gtk_cipher)
-  2138	{
-  2139		int i, j;
-  2140		struct ieee80211_key_conf *key;
-  2141		DEFINE_FLEX(struct ieee80211_key_conf, conf, key, keylen,
-  2142			    WOWLAN_KEY_MAX_SIZE);
-  2143		int link_id = vif->active_links ? __ffs(vif->active_links) : -1;
-  2144	
-  2145		conf->cipher = gtk_cipher;
-  2146	
-  2147		BUILD_BUG_ON(WLAN_KEY_LEN_CCMP != WLAN_KEY_LEN_GCMP);
-> 2148		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
-> 2149		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
-  2150		BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_TKIP);
-  2151		BUILD_BUG_ON(conf->keylen < sizeof(status->gtk[0].key));
-  2152	
-  2153		switch (gtk_cipher) {
-  2154		case WLAN_CIPHER_SUITE_CCMP:
-  2155		case WLAN_CIPHER_SUITE_GCMP:
-  2156			conf->keylen = WLAN_KEY_LEN_CCMP;
-  2157			break;
-  2158		case WLAN_CIPHER_SUITE_GCMP_256:
-  2159			conf->keylen = WLAN_KEY_LEN_GCMP_256;
-  2160			break;
-  2161		case WLAN_CIPHER_SUITE_TKIP:
-  2162			conf->keylen = WLAN_KEY_LEN_TKIP;
-  2163			break;
-  2164		default:
-  2165			WARN_ON(1);
-  2166		}
-  2167	
-  2168		for (i = 0; i < ARRAY_SIZE(status->gtk); i++) {
-  2169			if (!status->gtk[i].len)
-  2170				continue;
-  2171	
-  2172			conf->keyidx = status->gtk[i].id;
-  2173			IWL_DEBUG_WOWLAN(mvm,
-  2174					 "Received from FW GTK cipher %d, key index %d\n",
-  2175					 conf->cipher, conf->keyidx);
-  2176			memcpy(conf->key, status->gtk[i].key,
-  2177			       sizeof(status->gtk[i].key));
-  2178	
-  2179			key = ieee80211_gtk_rekey_add(vif, conf, link_id);
-  2180			if (IS_ERR(key))
-  2181				return false;
-  2182	
-  2183			for (j = 0; j < ARRAY_SIZE(status->gtk_seq); j++) {
-  2184				if (!status->gtk_seq[j].valid ||
-  2185				    status->gtk_seq[j].key_id != key->keyidx)
-  2186					continue;
-  2187				iwl_mvm_set_key_rx_seq_idx(key, status, j);
-  2188				break;
-  2189			}
-  2190			WARN_ON(j == ARRAY_SIZE(status->gtk_seq));
-  2191		}
-  2192	
-  2193		return true;
-  2194	}
-  2195	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DYNAMIC_FTRACE_WITH_ARGS when selected by FPROBE
+   WARNING: unmet direct dependencies detected for DYNAMIC_FTRACE_WITH_ARGS
+     Depends on [n]: FTRACE [=y] && DYNAMIC_FTRACE [=y] && HAVE_DYNAMIC_FTRACE_WITH_ARGS [=n]
+     Selected by [y]:
+     - FPROBE [=y] && FTRACE [=y] && HAVE_FUNCTION_GRAPH_FREGS [=y] && HAVE_FTRACE_GRAPH_FUNC [=y]
 
 -- 
 0-DAY CI Kernel Test Service
