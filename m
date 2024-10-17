@@ -1,63 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82CF487BF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 02:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C4A4F8A0;
+	Thu, 17 Oct 2024 02:05:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729130758; cv=none; b=SX1aozY6v1jS+qTe8z2LVfWJFSSi+M+YMo8WdFhR74hvWjDhLBxppG8Ho1UyDMeQ+nsmYCUrjFQMhH8oHPTpxxnaso3lxz9hHKEgqQU0d11gTkg6o5CxWuP8Awlt/71KG2RangZwsmQJNGA0go8s7QRGIxBZ4UhbWXMjEM1D4Ec=
+	t=1729130763; cv=none; b=U0yQY3mPEAq/OZJyWgxJV4NZILpFSPaug1KyjMSQhyYhKWKGi0Ejv0w6htJKJ1D9b6Qb7UzQsIYY4UxBdTfS2adjO5W1oa7/D1UXzIsYHhcp+ipOtuVrcc6/GJ3P0DlU0L0x8Aox5rTa/H5z6zplSj+RiR7WWQLeVqSHcCcsFh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729130758; c=relaxed/simple;
-	bh=sB/eF3N7Yt4FBhU5bdNaw5ferB5BUtf2dhXB9V+NOWY=;
+	s=arc-20240116; t=1729130763; c=relaxed/simple;
+	bh=4Mna6OEjLgG7GmlUcMbQtaxe3lvjAF5M+fby7Mt+Mko=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UB4BY8JzQc8YUzJn4iQZVpD8uroc9i9H/GRG+aEnI9pWrmyQQxiVPpQ5LawJ0lEK+muWA9/saDau50eYfs/HSpXugZ0TMuZZYiJwW2BPEjXJCq9rR9fs+97pdVydbykoEpmxmSt7zeCEicewrXlFJIZlQ6LepSVzfQFQeedJV4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uy0QJwcI; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=AuumMrxqqz8a7JLm1On0sFIRDOEvqfjag+vtqYhwjHYqXzQ/CFCq4VAZzY/qDTLYaK/p/+sxxz3Mi8TB06Gd5dGioMQIxPNkrkdkXohCvyf3mLTJrCmS3Nm99vbINUervUBJvW2H+cVXWayRAnpZ3ojQUXGAQw7H9bqLoTPhEaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b8M7tQxK; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uy0QJwcI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b8M7tQxK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729130756; x=1760666756;
+  t=1729130760; x=1760666760;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sB/eF3N7Yt4FBhU5bdNaw5ferB5BUtf2dhXB9V+NOWY=;
-  b=Uy0QJwcIYRKqiUEjFgsno5yjUvGJhcXFK/ho/f7U6d64+W1pYJM+zerU
-   LVWNS2VXJWizA8V720+h3bb8zBg8HXoBKjVRbk91S+uC5d0LhkXEK6ar2
-   6h3bgzI3VZl/zPYE5qlQ8J/jb/HzQL7e015oGJOsRNPPRI5zaCMLDYGhb
-   zmKrvjRoUVtUXEU7b+bGUAbx5ZHJdf4f0wlNX2PSSXEwqiMncwDK3xu4o
-   oVY9D5oMTl4gB/plSNGLcwvBMAPWSghf6lG/N59JJCTsBg1QruCtJoVwN
-   3c759ZiSQh4JETN7Rjy19TGCdIaDu8mAv2qt+nTv1GLnHabc9hxiNGeLt
-   w==;
-X-CSE-ConnectionGUID: JwHET2/YRXStLeRrRNZ+5g==
-X-CSE-MsgGUID: TJ7G3sABRq+r3ELpURv+RQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28693148"
+  bh=4Mna6OEjLgG7GmlUcMbQtaxe3lvjAF5M+fby7Mt+Mko=;
+  b=b8M7tQxKtih167URHtKvqUzIBl/XoCyiuZZVWzGVQdsf9MbLB+9Yfw6R
+   d3e34OAS5Ya1IxLfFi93Ln1aY+7tCKvolrOoBfWPY4a/E7vd4Z3zLQhnY
+   ol3dbA1Ywpi3jNxFW8qeYxKaLxBRLBnPN1v+sNzO/GHBGhWzyPAo6ZyV0
+   1CksWyYyvr/QfuJNdBEZRIOTNk4FTrZgu+heNoWHYbCBn5hkFzuQ8NTJ5
+   tThfyVxA+cPIjyFrvEJSyxAyc4+Q0EAklUSfAx7A0qfdZTDZhZddVeFFs
+   mXuuah3m/lqsyglhKzZALbLeq+o8l2rfIM107VlRn3tJPC+eJLVEcIn1Q
+   A==;
+X-CSE-ConnectionGUID: j5gKT2qmSi+q6zkVabwqnA==
+X-CSE-MsgGUID: Qhn3usaJSW+hXqXvsaP5Rw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11226"; a="28693156"
 X-IronPort-AV: E=Sophos;i="6.11,209,1725346800"; 
-   d="scan'208";a="28693148"
+   d="scan'208";a="28693156"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
   by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2024 19:05:55 -0700
-X-CSE-ConnectionGUID: xLpmNLZJR3u3R/W7UbZ9aw==
-X-CSE-MsgGUID: 2Zp3sZPATlqe0HhQyYMLjA==
+X-CSE-ConnectionGUID: Qz4+fddATlaBGIyE7WftZQ==
+X-CSE-MsgGUID: e+J3TUu6RUWTNk454YxnEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,209,1725346800"; 
-   d="scan'208";a="83467936"
+   d="scan'208";a="83467937"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 16 Oct 2024 19:05:52 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1Ftd-000Lcf-2V;
+	id 1t1Ftd-000Lcd-2N;
 	Thu, 17 Oct 2024 02:05:49 +0000
-Date: Thu, 17 Oct 2024 10:05:37 +0800
+Date: Thu, 17 Oct 2024 10:05:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Linus Walleij <linus.walleij@linaro.org>,
 	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
 	Linus Walleij <linus.walleij@linaro.org>
 Subject: Re: [PATCH 2/2] gpio: mmio: Parse ngpios property
-Message-ID: <202410170940.c317EO5s-lkp@intel.com>
+Message-ID: <202410170940.KyJaAkpF-lkp@intel.com>
 References: <20241016-gpio-ngpios-v1-2-f16cf154f715@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -79,22 +79,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Linus-Walleij/dt-bindings
 base:   9852d85ec9d492ebef56dc5f229416c925758edc
 patch link:    https://lore.kernel.org/r/20241016-gpio-ngpios-v1-2-f16cf154f715%40linaro.org
 patch subject: [PATCH 2/2] gpio: mmio: Parse ngpios property
-config: i386-buildonly-randconfig-001-20241017 (https://download.01.org/0day-ci/archive/20241017/202410170940.c317EO5s-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410170940.c317EO5s-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-003-20241017 (https://download.01.org/0day-ci/archive/20241017/202410170940.KyJaAkpF-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410170940.KyJaAkpF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410170940.c317EO5s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410170940.KyJaAkpF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpio/gpio-mmio.c: In function 'bgpio_parse_fw':
->> drivers/gpio/gpio-mmio.c:709:24: error: 'struct bgpio_pdata' has no member named 'ngpios'; did you mean 'ngpio'?
+>> drivers/gpio/gpio-mmio.c:709:10: error: no member named 'ngpios' in 'struct bgpio_pdata'; did you mean 'ngpio'?
      709 |                 pdata->ngpios = ngpios;
          |                        ^~~~~~
          |                        ngpio
+   include/linux/gpio/driver.h:688:6: note: 'ngpio' declared here
+     688 |         int ngpio;
+         |             ^
+   1 error generated.
 
 
 vim +709 drivers/gpio/gpio-mmio.c
