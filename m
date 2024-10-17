@@ -1,59 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015D01D0178;
-	Thu, 17 Oct 2024 12:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A231D90AD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 12:00:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729166427; cv=none; b=ChZqJ7gAka3o074DJWzSADnmwJiH+rRRBOcr/hjOdmlRNagZdqQWDpAGWB+1uFsstv9IGHyn/BsEycPMEg3PELRLPZ2QMcUGxRKPV229EH0USbGYI//eVVyJyMtedRAX4/CmU7g2tmLcyhb0byr6yiJq6ZBj0aCrnfXibn82mS4=
+	t=1729166428; cv=none; b=IgoBU8y2wmQYW1aelx7FNRZNb4YqXQhkKEu8dH58Dvvrx5tp/+xIpT7o4guzZkhAOKkzYR3PVnHzjtDR81A6NJ558eX/4YBeqi/y9MDT86VHMj624yhmitGL11nLVuM5/DzdZICMUnvz9DOs6ExXibFR7SjZ8psR0pya5TrfEno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729166427; c=relaxed/simple;
-	bh=mOIYfK9t0cHWMBbiRDo6t8kif51Uul515SawUtUoAvg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oq+4vuHvlwN6ZDj7071LfGMZNF5dHVg7wXacmZEeqqQLP9VYUp/SsXJbRsGcAnmQWLn2xAGPGeOR1p1GOucHAbtH2DCL2PZ0bhsOdtaY6mnWVaSwvPiLqzm9R7E0YTIx4VBQFHkozWuwF2GX1itwJyLu2qCQf+838cOn2cZhvcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LQajaj8l; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1729166428; c=relaxed/simple;
+	bh=Byl5BuzrsLEDMbFApadNHqtbjze3qn3c4G+v9EMZddk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArDNrW5m+YLWZAzeoBMEjuoWUcRih/rkc4aC+FNwdg/ZyW6xkv/+h/AOVicOEWYbciSzfdEIUsoIO+rTHH/62bp6Hkdc0Si3Ya+h5OBrPQAfxZSxiHMx609nqeLKFKWN5a5H3IifRfNp88fsb6aozDusazwFehfuJzv//qVGGow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lI5Oh6J6; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LQajaj8l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lI5Oh6J6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729166423; x=1760702423;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mOIYfK9t0cHWMBbiRDo6t8kif51Uul515SawUtUoAvg=;
-  b=LQajaj8lnQ2szq1HrXyDm2buy1BkXKa1qszNWRTvpXUC0bttY4iEaJG9
-   dMADBy7eEw2e1NAvKBhg3EzwD0/pC+PHKRg3irm9MpxR6I2fJBR0tnUAp
-   Z+G2GbF8SInvhFAp4+LJjhv/o2ENETY3/36Yh5YVNeQWmdjqAYFfgIk1I
-   1/oXcK3wUt31EexcN9DQYX+mVPHXqhA8rvSAjFGmaK+OS3MEHHmHeOB92
-   +F+g3mJ5aXap93dkB7dgsvqRHVsO1hlFTWYI5b1BSqOQD18uT/nCq/29l
-   WTNr9KSZXj46uqfT16Rf3AaAp/jeb7Rs7AxkevVSboqsM7UeWHxBsKW/X
-   w==;
-X-CSE-ConnectionGUID: Jr9CAr2ITKmFSRnUSXpsDw==
-X-CSE-MsgGUID: 8NRewuD2RhGrHHJnhkIBkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28853862"
+  t=1729166425; x=1760702425;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Byl5BuzrsLEDMbFApadNHqtbjze3qn3c4G+v9EMZddk=;
+  b=lI5Oh6J6fsbwQmNS9Hj6FnAlBzg3I2VRQq0xT7piqrY1E3HP/pfmJ3SQ
+   EbFKOmEVuL/w0Cjo0BvIIY3kCp/JJmQHOPlCNh421TeIxPOZ8u6FFzZcj
+   5R4t7EkC2Qq56ge2MIEiIjH6D1cjosEG+JCjCm+i6r4Olmi/rlzfSENh6
+   cRvlGWGsDV369vHFAD/QHEFcPcR7yWBEeyg62SU9qI4ElBQ7qTAxnSfVt
+   L03RjIvtmzxn+HzeU+hF+s9h6cCAjPZ0TAbSmW+QJqGDN+PPaFtO/gz67
+   mI74o/8/jcK5s77NLvlx/fhKxqJP7zjxKV1N7JpSh6pDR0lVIY7EjLI8Z
+   g==;
+X-CSE-ConnectionGUID: yX7UxABcTf25lXDsSUkurg==
+X-CSE-MsgGUID: Hb4j6eiORFaIcO4KYToXzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28853870"
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="28853862"
+   d="scan'208";a="28853870"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 05:00:22 -0700
-X-CSE-ConnectionGUID: jct9n2pZSJe95jBJ5N/FwA==
-X-CSE-MsgGUID: T7sGHLQ4SNi2NdJHrlqqPg==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 05:00:24 -0700
+X-CSE-ConnectionGUID: OV+igYayRjasrtRoX/cySQ==
+X-CSE-MsgGUID: +qOg4easS32xwZ0iwjns4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="79354471"
+   d="scan'208";a="79354503"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 17 Oct 2024 05:00:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1PAw-000MH3-1a;
+	id 1t1PAw-000MH1-1R;
 	Thu, 17 Oct 2024 12:00:18 +0000
 Date: Thu, 17 Oct 2024 19:59:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:pending-fixes 347/442] fs/afs/rxrpc.c:152:37: error: no
- member named 'async_rx' in 'struct afs_call_type'
-Message-ID: <202410171908.BN4oKt8H-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
+	ast@kernel.org, daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-mm@kvack.org,
+	linux-perf-users@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	rppt@kernel.org, david@redhat.com, yosryahmed@google.com,
+	shakeel.butt@linux.dev, Andrii Nakryiko <andrii@kernel.org>,
+	Yi Lai <yi1.lai@intel.com>
+Subject: Re: [PATCH v2 bpf] lib/buildid: handle memfd_secret() files in
+ build_id_parse()
+Message-ID: <202410171938.aMzLRpxM-lkp@intel.com>
+References: <20241016221629.1043883-1-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +68,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241016221629.1043883-1-andrii@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   64efb084cd83f9812b15be9519a355d6c950741c
-commit: dabae7218d1c5a658029cb9fb7c099bd39b2e48c [347/442] afs: Fix lock recursion
-config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20241017/202410171908.BN4oKt8H-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171908.BN4oKt8H-lkp@intel.com/reproduce)
+Hi Andrii,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/lib-buildid-handle-memfd_secret-files-in-build_id_parse/20241017-061747
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20241016221629.1043883-1-andrii%40kernel.org
+patch subject: [PATCH v2 bpf] lib/buildid: handle memfd_secret() files in build_id_parse()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241017/202410171938.aMzLRpxM-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171938.aMzLRpxM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410171908.BN4oKt8H-lkp@intel.com/
-
-Note: the linux-next/pending-fixes HEAD 64efb084cd83f9812b15be9519a355d6c950741c builds fine.
-      It only hurts bisectability.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171938.aMzLRpxM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/afs/rxrpc.c:152:37: error: no member named 'async_rx' in 'struct afs_call_type'
-           INIT_WORK(&call->async_work, type->async_rx ?: afs_process_async_call);
-                                        ~~~~  ^
-   include/linux/workqueue.h:308:24: note: expanded from macro 'INIT_WORK'
-           __INIT_WORK((_work), (_func), 0)
-                                 ^~~~~
-   include/linux/workqueue.h:304:26: note: expanded from macro '__INIT_WORK'
-                   __INIT_WORK_KEY(_work, _func, _onstack, &__key);        \
-                                          ^~~~~
-   include/linux/workqueue.h:296:20: note: expanded from macro '__INIT_WORK_KEY'
-                   (_work)->func = (_func);                                \
-                                    ^~~~~
-   1 error generated.
+   lib/buildid.c: In function 'freader_get_folio':
+>> lib/buildid.c:79:14: error: implicit declaration of function 'kernel_page_present' [-Wimplicit-function-declaration]
+      79 |             !kernel_page_present(&r->folio->page) ||
+         |              ^~~~~~~~~~~~~~~~~~~
 
 
-vim +152 fs/afs/rxrpc.c
+vim +/kernel_page_present +79 lib/buildid.c
 
-   133	
-   134	/*
-   135	 * Allocate a call.
-   136	 */
-   137	static struct afs_call *afs_alloc_call(struct afs_net *net,
-   138					       const struct afs_call_type *type,
-   139					       gfp_t gfp)
-   140	{
-   141		struct afs_call *call;
-   142		int o;
-   143	
-   144		call = kzalloc(sizeof(*call), gfp);
-   145		if (!call)
-   146			return NULL;
-   147	
-   148		call->type = type;
-   149		call->net = net;
-   150		call->debug_id = atomic_inc_return(&rxrpc_debug_id);
-   151		refcount_set(&call->ref, 1);
- > 152		INIT_WORK(&call->async_work, type->async_rx ?: afs_process_async_call);
-   153		INIT_WORK(&call->work, call->type->work);
-   154		INIT_WORK(&call->free_work, afs_deferred_free_worker);
-   155		init_waitqueue_head(&call->waitq);
-   156		spin_lock_init(&call->state_lock);
-   157		call->iter = &call->def_iter;
-   158	
-   159		o = atomic_inc_return(&net->nr_outstanding_calls);
-   160		trace_afs_call(call->debug_id, afs_call_trace_alloc, 1, o,
-   161			       __builtin_return_address(0));
-   162		return call;
-   163	}
-   164	
+    58	
+    59	static int freader_get_folio(struct freader *r, loff_t file_off)
+    60	{
+    61		/* check if we can just reuse current folio */
+    62		if (r->folio && file_off >= r->folio_off &&
+    63		    file_off < r->folio_off + folio_size(r->folio))
+    64			return 0;
+    65	
+    66		freader_put_folio(r);
+    67	
+    68		r->folio = filemap_get_folio(r->file->f_mapping, file_off >> PAGE_SHIFT);
+    69	
+    70		/* if sleeping is allowed, wait for the page, if necessary */
+    71		if (r->may_fault && (IS_ERR(r->folio) || !folio_test_uptodate(r->folio))) {
+    72			filemap_invalidate_lock_shared(r->file->f_mapping);
+    73			r->folio = read_cache_folio(r->file->f_mapping, file_off >> PAGE_SHIFT,
+    74						    NULL, r->file);
+    75			filemap_invalidate_unlock_shared(r->file->f_mapping);
+    76		}
+    77	
+    78		if (IS_ERR(r->folio) ||
+  > 79		    !kernel_page_present(&r->folio->page) ||
+    80		    !folio_test_uptodate(r->folio)) {
+    81			if (!IS_ERR(r->folio))
+    82				folio_put(r->folio);
+    83			r->folio = NULL;
+    84			return -EFAULT;
+    85		}
+    86	
+    87		r->folio_off = folio_pos(r->folio);
+    88		r->addr = kmap_local_folio(r->folio, 0);
+    89	
+    90		return 0;
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
