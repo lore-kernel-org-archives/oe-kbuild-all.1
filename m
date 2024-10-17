@@ -1,39 +1,60 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6931D1305;
-	Thu, 17 Oct 2024 21:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C3A1D0496
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 21:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729198936; cv=none; b=hA6ZswYX5CxG3LgQTbYkxyx/JRYWiYeKMtq0J9LOZSVDOcOIMIx0Uz6wmqT5l11R4lPwvEPPcBCOiI4SL0UgTliT4fu4i4OVTbXJ+I/kqTj0sLSsgZYFlIfyqMmRAbOxAZfvL73LKeN0kbuWqoXT1GS9JfUFGQfH7QpCLhYPP8s=
+	t=1729200897; cv=none; b=BcMYsf0Ax+vpBAh4Dq1hZRY3KINfsjmJLAETftXY+iecpUjKWaEEQ48MDK7QoqLpNAHRFBgMTLTOuqxQrEGlbPMvDDzRH3NuE2mGVmzCTxy+5Ffl9epktvvGP5g9SUInj5BAFa48Hm4hH8MwFzhhh4o3FdqA43sO+keNEEWxNK8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729198936; c=relaxed/simple;
-	bh=mwudDo7/9+DhH78DUKhEni8TZk5t8ytq7V7UbY+R+Co=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IvQtVMF4Bs+/d2LrOtWokdX/jGpbrRHI5M7MkoILAaBIRhwwtI1ARaFOhSvujfa/osWHcI6URKap2/sQudHtG8lEbiy0+d+YDnOsDHRaZye/35RV6ZvgKx75kaA7wQfMOLcjk40nZ6jgEO6nbADFFj8RYrTvDqQ1Re+IYViqyfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EfWdzafk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729200897; c=relaxed/simple;
+	bh=yz8mhqVRr/RlfMWpp6NxMaDoivmjoYVShHRYMyRmSQM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qb+xs0DHHSBMKQrwLaUVS2pj8+HMGuf+yzlezhuT3WR/80wRhVeAlLZJDFzF2JcJ8Puxl47/fVlbKMssf6h7KUouCgRVH+1l8ywUSgHA8BB6yCBl/IOn9LTAfraahAUfskbyQuHGvsnigB21W03IFv2C/+jGtKsx5kKXKITAJqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DySTIvyl; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EfWdzafk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86A00C4CEC3;
-	Thu, 17 Oct 2024 21:02:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729198935;
-	bh=mwudDo7/9+DhH78DUKhEni8TZk5t8ytq7V7UbY+R+Co=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EfWdzafkkIb17oZCmSLg5IH8NQB64GIgeZtjK+CA9w9mld7JwHJ/GyGZpAfUzTRXh
-	 RZno31buNggIDp5tqAUBdP1WKyezfQTopyTpobuuWluBMzEghLEzom885UEvcCC2Ke
-	 T7lafCoZ9GlDZ/CbtGPRdUPLqpR0L5id2i/PrHEQsa+Lz8BvjebXx/8PMw77D+a+qx
-	 ltwjf4PxpJjCXijZ5sRwHqQCaF2EJR+ISj9eHv4s0/IzvAGdOQK5rbGJ519dJAjU7F
-	 MO624M1ZSHHGHPSfGb3x5YJi8Csn8amdhAPvuv94+6RsWD5Fvvyd4durL0/VzgVc6V
-	 OPIi8284RcBeQ==
-Date: Thu, 17 Oct 2024 14:02:13 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] um: Fix passing '-n' to linker for stub_exe
-Message-ID: <20241017210213.GA3914710@thelio-3990X>
-References: <20241016-uml-fix-stub_exe-clang-v1-1-3d6381dc5a78@kernel.org>
- <202410171923.EbeKa7tA-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DySTIvyl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729200892; x=1760736892;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yz8mhqVRr/RlfMWpp6NxMaDoivmjoYVShHRYMyRmSQM=;
+  b=DySTIvylsuDUNFnxj0EPIZb+uaCf/jkwfActQoenhmAPuF9nBlr2P/3f
+   184Pzsyg//KFQlXD9Qptfoh8b/4TADBsvTTxz8M0MB3l62gd0wNqqt8s1
+   jdoH9fhs/lWDazkmiv8MidW8T3whFN5mztkxkeE66sbcQE/e+bl53xgub
+   8Qcpn5k5D3nUW9v14FdSH/Th1mgdKCnao6V44NWakeYjI07CzB4Ny4Em7
+   TRfTAIKWqHIQIZkweOwtDvMtV9G7LcA10cV3kWiQ9ns+5Y2EA8k3t+ayf
+   vAMHd/s1YmowPHp2XcIbXHgsP9C7N77WhPpcj9K9xWij3Xi2Ve52Nr2Tq
+   Q==;
+X-CSE-ConnectionGUID: LgrIbn3oQbumCp3HwjbNaw==
+X-CSE-MsgGUID: U+At/wq2TB25OJ7wNluqRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28153940"
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
+   d="scan'208";a="28153940"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 14:34:52 -0700
+X-CSE-ConnectionGUID: uljl3NshTSC8/MvKHwQwnA==
+X-CSE-MsgGUID: JXhIDCO3QEykrHbJrvtnLA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,211,1725346800"; 
+   d="scan'208";a="83313100"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2024 14:34:50 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1Y8u-000My9-2s;
+	Thu, 17 Oct 2024 21:34:48 +0000
+Date: Fri, 18 Oct 2024 05:34:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuniyuki Iwashima <kuniyu@amazon.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Eric Dumazet <edumazet@google.com>
+Subject: [linux-next:master 4569/5321] WARNING: modpost: vmlinux: section
+ mismatch in reference: ip6_mr_cleanup+0x7 (section: .text) ->
+ ip6mr_rtnl_msg_handlers (section: .init.rodata)
+Message-ID: <202410180543.4rFp8ThL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -42,45 +63,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202410171923.EbeKa7tA-lkp@intel.com>
 
-Thanks for the report!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7df1e7189cecb6965ce672e820a5ec6cf499b65b
+commit: 3ac84e31b33e2051e59245b8ceb25d707fa0e553 [4569/5321] ipmr: Use rtnl_register_many().
+config: i386-buildonly-randconfig-001-20241017 (https://download.01.org/0day-ci/archive/20241018/202410180543.4rFp8ThL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180543.4rFp8ThL-lkp@intel.com/reproduce)
 
-On Thu, Oct 17, 2024 at 08:09:50PM +0800, kernel test robot wrote:
-> Hi Nathan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 41ab5fe7471ff38d2909d1c93b88197a89c6a00f]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Chancellor/um-Fix-passing-n-to-linker-for-stub_exe/20241017-051439
-> base:   41ab5fe7471ff38d2909d1c93b88197a89c6a00f
-> patch link:    https://lore.kernel.org/r/20241016-uml-fix-stub_exe-clang-v1-1-3d6381dc5a78%40kernel.org
-> patch subject: [PATCH 1/2] um: Fix passing '-n' to linker for stub_exe
-> config: um-defconfig (https://download.01.org/0day-ci/archive/20241017/202410171923.EbeKa7tA-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171923.EbeKa7tA-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410171923.EbeKa7tA-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> clang: warning: argument unused during compilation: '-mno-3dnow' [-Wunused-command-line-argument]
->    /usr/bin/ld: arch/um/kernel/skas/stub_exe.o: in function `_start':
->    arch/um/kernel/skas/stub_exe.c:83: undefined reference to `memset'
->    clang: error: linker command failed with exit code 1 (use -v to see invocation)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410180543.4rFp8ThL-lkp@intel.com/
 
-Technically, this warning also comes from the same patch that my series
-fixes because it uses KBUILD_CFLAGS for linking, which may contain flags
-that are not used by the compiler or linker driver. In this case, I
-think this comes from the fact that '-mno-3dnow' is now a no-op in LLVM
-because 3DNOW support is removed, so we could potentially shore up the
-flags in arch/um/Makefile.
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
-Regardless, I do not think it should block acceptance of this series.
+>> WARNING: modpost: vmlinux: section mismatch in reference: ip6_mr_cleanup+0x7 (section: .text) -> ip6mr_rtnl_msg_handlers (section: .init.rodata)
 
-Cheers,
-Nathan
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
