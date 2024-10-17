@@ -1,317 +1,355 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D772A146A69
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 07:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729149251; cv=fail; b=CFMHx4l5DTMoPufLxFGANWPXK82SoTczki9lWf16sjZq0oy3T+0XYJ53/itCwBCAq/ofVp7Rrs+UD8AnqXQfkgzORQANfir8oX1kCcp7Sf6Wqray/1WxOFCaDsEjluyObNA7+tnTsybQcoCEYS66QM+5N8pH8hf90zgD7b9AIbI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729149251; c=relaxed/simple;
-	bh=flQXbKI6HGhvP9W4NO4QST3C6h1isOeQK2sy6Rdp+Qo=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=VI8PdPPrWzmKvRcrggAtcWRToznUbim7kisXPQuwdoNkgyJR4p3vlL814pWGLYsxpal+zM5esF09j990Ttlt0JR+buJgiFug8hEMm/ODxAXffyWJJRat/K9I2DbWTu0rHvyhgzbUXXPKC9KfpkkgT9MQc6viaf5hBNRv+0uLOjs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e/Tlk/Hd; arc=fail smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8303239FE5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 07:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729150390; cv=none; b=F8Zrr5L7ngANbksIfcqTPFKTOEQ/ORlhHfHPw7n+JwFSpGfs94qMU2GAgD7hJbZFRXTFDXiwOlvgCBI9ouUx1cGFjeXnpPRIyrzOU7veLAT2A11jIVvsQkp39FF1nbNhFWZ4UQuzSf4BR3fJILq7DtBxGnPWmZyYrro4RNCRsrA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729150390; c=relaxed/simple;
+	bh=e7G9iv9x1OU8U0sz8sT9XrAGwJSh7W6mvH+6s/5fobk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PUE3vDWzBAS6in7hvXOo0lKDD4HJ9tPqRk/VR4HENML1O8DV7vsm7ALozg20VqMyCg3jeh3KxtbcNF/2H5oirCozj6zi/m6PcQmz9MJe++Z9hC/k/kAFIbrTIYWUJd16SRLKRNPmO2Srqr8harRKfsBzZPUBVlvqDYVQT8d6MYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NUDRvWBB; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e/Tlk/Hd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NUDRvWBB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729149248; x=1760685248;
+  t=1729150386; x=1760686386;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=flQXbKI6HGhvP9W4NO4QST3C6h1isOeQK2sy6Rdp+Qo=;
-  b=e/Tlk/HdKp7GmhCJxivSAoQf6t3tvT5gzgneIqk2CO5AijyscskIOHFY
-   HJyG7lD57GtDAvRy9FZuodMwD4TgJU8bcQB7y1uVE8Ah7HCl0IAhIj737
-   lMv1KvY6WcN7QOXS57ls0aJngksuPLYkCk7ywpnNXIEBatsWgrJWq4FVw
-   5aVp7DEKnuZzk/T0icVE2G1sKpoYudPyRAj8irLY2OBY5QP3x8LZBMxle
-   4K5srYnEcSuchYxAnUJXTS/D6e9/yqsoGwPcjdVBsim9g5GeR2lQxVzeM
-   OLTazid6DFNTiWs2Z0zHCGKt4op1pAHQFTdHfuUNvYOKGwN/1xZvOytj2
-   A==;
-X-CSE-ConnectionGUID: FQZ+5PH9QceKpC5263n59Q==
-X-CSE-MsgGUID: zflsbl7eRimpaWJpAOq1bg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="28829190"
+  bh=e7G9iv9x1OU8U0sz8sT9XrAGwJSh7W6mvH+6s/5fobk=;
+  b=NUDRvWBB7/B8emHjardHuTlFwmuAVPmnHv7/LiMg4mMUpfKKsJWZIl9F
+   vO6xFO6p56MQ0o0qMi8376Yb3L9m9l0N5Ikd0RdcGP0fk6HJzjUUOuaFT
+   TDQ3GaVJqWvurdy4+I7birj3JubyN/74942KGtQ8cq4bsKyovsMWmvtJI
+   KIAQg+3DI6lq/FJf4BP6qOauhaPBhdPRmOETcaAsqzk1SvR5RBLjzEATr
+   ODpMWze+zJoGSzFBXibYf2rWZ8atp+o9LSLkST6tEWoJxDR9jWufiBUlo
+   0Tq0vVq6qvHy42vrVfXpdeMmMp/SOJi1E2l/iYa0fQm+Qgsu5wFof3cjM
+   Q==;
+X-CSE-ConnectionGUID: OlPG75Y2RjGHJJ4PAPKwaA==
+X-CSE-MsgGUID: wUt5V0ryR/OiVUoMNEmL8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11227"; a="39994043"
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="28829190"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 00:14:07 -0700
-X-CSE-ConnectionGUID: O7MqulGLRBasik0bN1GdAA==
-X-CSE-MsgGUID: HqlertwLSSKx5pj8MjlfTQ==
+   d="scan'208";a="39994043"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 00:33:06 -0700
+X-CSE-ConnectionGUID: IGgrc1reRFml4UIFgnbK1Q==
+X-CSE-MsgGUID: iQiCitATRSSn4Uw9We6M7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,210,1725346800"; 
-   d="scan'208";a="78075144"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
-  by fmviesa006.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 17 Oct 2024 00:14:07 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 17 Oct 2024 00:14:06 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 17 Oct 2024 00:14:05 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 17 Oct 2024 00:14:05 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.43) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 17 Oct 2024 00:14:05 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q6mvUXl6ssRGBZuS36pAHa590RMwjcXt471B+r+kNhW5bOTt4etySpyRuf2En8Lgkulh6HAsesVAW8GPDJwk+VYL/pKaPl5BJPpikmpuk+ic9BLT1kAxYoKAgGlHy72MofhcfomkwysOS9HDpN/i6+fRDyL0XC7ZwXgHD1w+cth2F/hA6tiMBBPicPzWlWzLPnlLFiHRDj0Cvshy3bloReO4U7ptQ7yrObOe4SmQt2fxcCm7iTAoxU+Wbft9lN1FQHKFqnCMKYIryFL0pB3fiKNpaWE3TIsW5Zf4Su5hsRao7PnkfARf/OU0wNhTMREvS7ZvQjZIE4ik7vnkHpeImw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=o7G6RsaFG8QfD/InEdXDnWIYGjnk+aXLejZ2/+brF9s=;
- b=XyJ8hVg4XrNQr1xqWH1tcijr1227c0otXJB6LjdRLBbk4rZ/xcOh0aOnwn/9qmRyg69ikl7tNqEFoJYZoKcMU62eP5zA614yNz1ht/yQF7FAjzFUEMKi/S4rtEUYF7ri8vN1bQh9HIQCIdUXmOyBngqlTvivP75QMfLeLj8AQpZwzox7EuYjN96vv2wAzbN/lddZkn6hpxPM/UnluzH94fFwBkHM+Ur2PHNdp4t5ttHhMg2363u707LpvYjKnlnLs4iNuVltuuxZRkDm95vXmIWtipRzhYal7FzRg4hVnP5sae0xUzvqD5T+QBW04487GaOL86E9E3Vf9mWMWD7gJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by PH7PR11MB5765.namprd11.prod.outlook.com (2603:10b6:510:139::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18; Thu, 17 Oct
- 2024 07:14:02 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8069.016; Thu, 17 Oct 2024
- 07:14:02 +0000
-Date: Thu, 17 Oct 2024 15:13:54 +0800
+   d="scan'208";a="78903213"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 17 Oct 2024 00:33:05 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1L0I-000LtH-0k;
+	Thu, 17 Oct 2024 07:33:02 +0000
+Date: Thu, 17 Oct 2024 15:32:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Apurva Nandan <a-nandan@ti.com>
-CC: <oe-kbuild-all@lists.linux.dev>, <vigneshr@ti.com>, <nm@ti.com>
-Subject: [ti:ti-rt-linux-6.1.y-cicd 32/44]
- arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning
- (avoid_unnecessary_addr_size):
- /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary
- #address-cells/#size-cells without "ranges" or child "reg" property
-Message-ID: <ZxC5Mu8DdKDCfovq@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0167.apcprd04.prod.outlook.com (2603:1096:4::29)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits
+ from constant value (ffffffc000000000 becomes 0)
+Message-ID: <202410171556.bTA4Suz5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH7PR11MB5765:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab6b47d2-1944-435d-4cbe-08dcee7b4730
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cthdg9feNTwpKLtu3lipuvFP/31kyrGaolo6Z8tXAS7W8vK8Hfp7DMC5Lgn6?=
- =?us-ascii?Q?vMxSJKqyDpae695q7pmTWTyF+inz8BEDxezVcALrAihwQ0u7a5Kh8dsOuV1e?=
- =?us-ascii?Q?3iHS6JD+l1bIt7r1nckuJrccdD/5FdIoNkd5xe3UwEGmWl9aEBzKyeUw80xP?=
- =?us-ascii?Q?zP7Q5UqpwEox7TBps8bXfHufOlcMFNYFNLZl/qJ/G51mVJXwabstg7JMQxCZ?=
- =?us-ascii?Q?dlbAYNPnyltz6vw/3pRIeVa3S9+43nabyCsQggHGavmaa8xHfbXAezx5f4LV?=
- =?us-ascii?Q?JrUS55Og6L9tv/LpAMQReUiRYh58I4H5rkA5VeLDdMvusjpQoLRi7HV6ceW1?=
- =?us-ascii?Q?j2ZqOQp7rbJA/01NGycjboYZGSb4FTImKs8+Xnm1KQzzF+8U2TcXOmCmx7qC?=
- =?us-ascii?Q?cM0SbfI+8IEFRqWz6x7NXhMfOrH8sbdy7EFUl0+1I1LehwpnHTXk08k16epM?=
- =?us-ascii?Q?O1fKIA8Y5bDX1kRbRWYMQQzFPOVgK10tCqha5oi2oSmUMhziBcUT6x9mmMTl?=
- =?us-ascii?Q?SP1CugvodvJ6ZozQbbSm1BoXgHHBy+MFhj6KuGrk0U0V78C7AKYv6LYHOiNo?=
- =?us-ascii?Q?D+rqbDDXR4YZKoa7CVIsONC8vXJpOOt4RMuXgLmp6wGzUQV/ZNrroEvuTHuc?=
- =?us-ascii?Q?J9PVMu+SMZEytPDfiIynAa+3Jk/YuShct/ndWICLSM9Eij4hHr0ScU2flxIj?=
- =?us-ascii?Q?H+NNsi1UUdfKtvoUr6D1Kw4lL67UWazPziRpXVeHK+X8qL8MiHZS47Bb4Qe5?=
- =?us-ascii?Q?IcOeBNXfmpd9a8ZoAAVLjQN87D62UM7Fk3QCi85/Xc5zrOs7H351q3FbHYfE?=
- =?us-ascii?Q?JKbiuJFlQbF3aKLBu2paz0DcuZTVWupoSf+KAbclId+oFm31UYzpEIHa9tIW?=
- =?us-ascii?Q?uS8/G1vSKknqwFfiCc70eeFjgR+F0WmIq28zVfigvhEMhSldQkIaidPzBztb?=
- =?us-ascii?Q?zvqglM7BjOK+2iQd8HdiFQaA5+nmi7wGtlemB4AHAH9Fhwgmp7Q86OFeyhtS?=
- =?us-ascii?Q?5TJVINTFkf2UmB0/TmAwSjqcC2uGcWMcq9o18CMyzUK/sIWK87JJkDrJLDnn?=
- =?us-ascii?Q?0DFslwH0NDd6/34gI/o7NxDN+OPR49OfpzGr3vJDb3DVqvwFyk4KNJRd+AKa?=
- =?us-ascii?Q?1bjMQLFTidb3S7NH0nmPo8rEjva3OXfliqziYdgCzbYlgi/YOmaPXvKGs/jM?=
- =?us-ascii?Q?Va+w8kdL4S3F/R+eVD89hJN9GNMOVgZdpIXQc/2bORmoIm+Ty9qSkyoPsFyH?=
- =?us-ascii?Q?i8dtm+erZX4hKPE6OwnakEk4s6l7NCMjv97WT6TmPbDxY5KFhn9QuaYMOOlV?=
- =?us-ascii?Q?4Pop98AknAUhRlC1vFORuF9k?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?blVqsEKA1beOTU/VwfkQgEkVuqfOd4GJyo2SZ6HFpmoyHme8y/TYNCYGPua2?=
- =?us-ascii?Q?I9h9KqjNJ84haWEhWlRe2ZST6ubb9IvHgdTSOgu5o1zuRVY7KJcORz7uIrL6?=
- =?us-ascii?Q?rSMIStEeWofy2zOhHimiK46Sco/QQBYodZtDpf38yKubfdF25PoLvnAP/rSY?=
- =?us-ascii?Q?qkd3mEAp6lA5B+LlJSqvrjrLANXHsdl/+7XKFkUeT4YWXhspuzrRAVGcGa5L?=
- =?us-ascii?Q?K5l5GTkK+nBswXfUFT9NgC4StzGFKqA05ubK158fPjNeZDKgZ7Gt/DbStY6j?=
- =?us-ascii?Q?jBWELVuu1kJprGtEUSQ86/d8kxE1eyNG/OVIJgo0c2wCUPv3HifcmA2Y7p5t?=
- =?us-ascii?Q?7QEov+O09tHCl8c408HgSWc4esO7T6KIW3iNje5yJsz/allwyTQesC24KYGj?=
- =?us-ascii?Q?L6fKuse71AspLkPmv31LCi3X9GSjrXI4KvROtIWFR20AB3UnlKq58se5fidD?=
- =?us-ascii?Q?t3K7WZR/C488hsjbQBVYr4ogcFoFje7wD17sfGlezn0ySWH37Jspc8N+IARJ?=
- =?us-ascii?Q?/g6f4NvBj6JAojzaKumeFLOBxXKQA6dlyO2aXfkq7WC86JWljFcNLHDFH1PI?=
- =?us-ascii?Q?GbXWLsOnCZU8vGmGBrYTXnR5yQMmMbwwJbjAC6kqPknNTtWNoUqLJndX+QN3?=
- =?us-ascii?Q?smNtyr5rQBU+E1t6+jAU96uznBcZQdMRUIvc3eh0BGIUP1vX+Jxir7OQ4Fir?=
- =?us-ascii?Q?kdTHKxzipjvpWpYUh5eeejzu1irYB2as0SqBras8iX//EotL2SVJubB4nHIl?=
- =?us-ascii?Q?aCF/woh1OSA1xwB1i7g1/t6XFIkhRENFiTQwB3ZQfr5TMlK84U5NLJm2GqXl?=
- =?us-ascii?Q?5csRF6YKOzzxND7OxZUajCG8rWgq3wBziao6NmtfEyq2EJ39T3QiRWunTG22?=
- =?us-ascii?Q?0DJfJZpOcctWNruQTan18P8m/1lMabG1CFGbZTkdToZQqXwgD1w2X2ItazYb?=
- =?us-ascii?Q?8Z0X6F+FyTTNTfZjejPQ6xgwh8GBoQmbG0JhlYfZUGI6WNxOz3g5RQTzfYjp?=
- =?us-ascii?Q?tPVI9jXhuUUcKa/M2KVpQKILqAUt7LcKAZO4rMhD1QzNBVqivUGfKriY9vJs?=
- =?us-ascii?Q?Kvp35VhyE+Nfs2tjhnhxU/hvyGSqRl4k0x/URFCwXV5r6UsSjSYqkJuDR2YV?=
- =?us-ascii?Q?bhB+/9f61p43M/tbzh0VNWytNZKuDvzLYNneJsSFsFc9jyx2Y2YCehrkENre?=
- =?us-ascii?Q?3sBBh8aopVPaEZEeTzoUhKByTSMmD+x/ZI0+unH+KZb5d8PS+UpIi1gWebKi?=
- =?us-ascii?Q?qsVm/q2g+7ajSMcUEV2IuVcuvmf099sme8obFKoYfKq5m7f1lKtRXODgVCDS?=
- =?us-ascii?Q?yE9Bxj7zpFLMdKObS0Ejzf13PTPVfMLV6QcGMfHvb266B/seDFFw0GO9oaLs?=
- =?us-ascii?Q?/eI+6hMcvKOhC7a9TxkIWqABwJm630gHq64Ek73AJSs+ERuZNOrrML2HTVic?=
- =?us-ascii?Q?GjjsJdRoqstgmWCy2Fn1PGgmafMyLTBqxmlIslAVfhfxVdIanS/ZOdeq/0qQ?=
- =?us-ascii?Q?pWbdOD9ywsDQBLG8lKEoOdwvBwjgmHep09fh4VQPrI7FjH1Un1baZ61rlFwJ?=
- =?us-ascii?Q?tClB33wIURIk3cHIBYtdezvnPdPg3j+rp4NhhIfIRhuBvMXvqo3Jlrsbjz8k?=
- =?us-ascii?Q?3w=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab6b47d2-1944-435d-4cbe-08dcee7b4730
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Oct 2024 07:14:02.5692
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nj65BOvAe16Ul3q8DUoHAEZo9gk1bVXgqo4QJmBEymkQT8NUgPlJmisTqbb3m8bo0bcpVjv8WeYo477O0g9HaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5765
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
-head:   e680678e5fef8c191b1588d8d7520171011ebe93
-commit: 2640dbd4d366c468dba3337bf5aa5d8d32c63248 [32/44] arm64: dts: k3-j721s2: Add node for OSPI NAND Flash
-:::::: branch date: 35 hours ago
-:::::: commit date: 1 year, 4 months ago
-config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241017/202410171420.mPcAisyc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241017/202410171420.mPcAisyc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c964ced7726294d40913f2127c3f185a92cb4a41
+commit: af682b767a41772499f8e54ca7d7e1deb3395f44 bpf: Optimize emit_mov_imm64().
+date:   7 months ago
+config: arm64-randconfig-r131-20241017 (https://download.01.org/0day-ci/archive/20241017/202410171556.bTA4Suz5-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+reproduce: (https://download.01.org/0day-ci/archive/20241017/202410171556.bTA4Suz5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202410171420.mPcAisyc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410171556.bTA4Suz5-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning (avoid_unnecessary_addr_size): /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi:1353.34-1362.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:469.21-521.4: Warning (unique_unit_address): /bus@100000/bus@28380000/bus@47000000/spi@47040000/flash@0: duplicate unit-address (also used in node /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0)
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/verifier.c:20219:38: sparse: sparse: subtraction of functions? Share your drugs
+   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+>> kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits from constant value (ffffffc000000000 becomes 0)
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
 
-vim +523 arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi
+vim +19160 kernel/bpf/verifier.c
 
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  463  
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  464  &ospi0 {
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  465  	status = "okay";
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  466  	pinctrl-names = "default";
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  467  	pinctrl-0 = <&mcu_fss0_ospi0_pins_default>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  468  
-2640dbd4d366c4 Apurva Nandan     2023-06-08 @469  	ospi0_nor: flash@0 {
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  470  		compatible = "jedec,spi-nor";
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  471  		reg = <0x0>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  472  		spi-tx-bus-width = <8>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  473  		spi-rx-bus-width = <8>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  474  		spi-max-frequency = <25000000>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  475  		cdns,tshsl-ns = <60>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  476  		cdns,tsd2d-ns = <60>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  477  		cdns,tchsh-ns = <60>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  478  		cdns,tslch-ns = <60>;
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  479  		cdns,read-delay = <4>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  480  
-d144560c3191b1 Vaishnav Achath   2023-05-16  481  		partitions {
-d144560c3191b1 Vaishnav Achath   2023-05-16  482  			compatible = "fixed-partitions";
-d144560c3191b1 Vaishnav Achath   2023-05-16  483  			#address-cells = <1>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  484  			#size-cells = <1>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  485  
-d144560c3191b1 Vaishnav Achath   2023-05-16  486  			partition@0 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  487  				label = "ospi.tiboot3";
-d144560c3191b1 Vaishnav Achath   2023-05-16  488  				reg = <0x0 0x80000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  489  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  490  
-d144560c3191b1 Vaishnav Achath   2023-05-16  491  			partition@80000 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  492  				label = "ospi.tispl";
-d144560c3191b1 Vaishnav Achath   2023-05-16  493  				reg = <0x80000 0x200000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  494  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  495  
-d144560c3191b1 Vaishnav Achath   2023-05-16  496  			partition@280000 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  497  				label = "ospi.u-boot";
-d144560c3191b1 Vaishnav Achath   2023-05-16  498  				reg = <0x280000 0x400000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  499  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  500  
-d144560c3191b1 Vaishnav Achath   2023-05-16  501  			partition@680000 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  502  				label = "ospi.env";
-d144560c3191b1 Vaishnav Achath   2023-05-16  503  				reg = <0x680000 0x40000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  504  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  505  
-d144560c3191b1 Vaishnav Achath   2023-05-16  506  			partition@6c0000 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  507  				label = "ospi.env.backup";
-d144560c3191b1 Vaishnav Achath   2023-05-16  508  				reg = <0x6c0000 0x40000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  509  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  510  
-d144560c3191b1 Vaishnav Achath   2023-05-16  511  			partition@800000 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  512  				label = "ospi.rootfs";
-d144560c3191b1 Vaishnav Achath   2023-05-16  513  				reg = <0x800000 0x37c0000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  514  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  515  
-d144560c3191b1 Vaishnav Achath   2023-05-16  516  			partition@3fc0000 {
-d144560c3191b1 Vaishnav Achath   2023-05-16  517  				label = "ospi.phypattern";
-d144560c3191b1 Vaishnav Achath   2023-05-16  518  				reg = <0x3fc0000 0x40000>;
-d144560c3191b1 Vaishnav Achath   2023-05-16  519  			};
-d144560c3191b1 Vaishnav Achath   2023-05-16  520  		};
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  521  	};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  522  
-2640dbd4d366c4 Apurva Nandan     2023-06-08 @523  	ospi0_nand: nand@0 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  524  		compatible = "spi-nand";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  525  		reg = <0x0>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  526  		spi-tx-bus-width = <8>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  527  		spi-rx-bus-width = <8>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  528  		spi-max-frequency = <25000000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  529  		cdns,tshsl-ns = <60>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  530  		cdns,tsd2d-ns = <60>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  531  		cdns,tchsh-ns = <60>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  532  		cdns,tslch-ns = <60>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  533  		cdns,read-delay = <2>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  534  		#address-cells = <1>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  535  		#size-cells = <1>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  536  		status = "disabled";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  537  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  538  		partitions {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  539  			compatible = "fixed-partitions";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  540  			#address-cells = <1>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  541  			#size-cells = <1>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  542  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  543  			partition@0 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  544  				label = "ospi_nand.tiboot3";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  545  				reg = <0x0 0x80000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  546  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  547  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  548  			partition@80000 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  549  				label = "ospi_nand.tispl";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  550  				reg = <0x80000 0x200000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  551  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  552  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  553  			partition@280000 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  554  				label = "ospi_nand.u-boot";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  555  				reg = <0x280000 0x400000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  556  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  557  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  558  			partition@680000 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  559  				label = "ospi_nand.env";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  560  				reg = <0x680000 0x40000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  561  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  562  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  563  			partition@6c0000 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  564  				label = "ospi_nand.env.backup";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  565  				reg = <0x6c0000 0x40000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  566  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  567  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  568  			partition@2000000 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  569  				label = "ospi_nand.rootfs";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  570  				reg = <0x2000000 0x5fc0000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  571  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  572  
-2640dbd4d366c4 Apurva Nandan     2023-06-08  573  			partition@7fc0000 {
-2640dbd4d366c4 Apurva Nandan     2023-06-08  574  				label = "ospi_nand.phypattern";
-2640dbd4d366c4 Apurva Nandan     2023-06-08  575  				reg = <0x7fc0000 0x40000>;
-2640dbd4d366c4 Apurva Nandan     2023-06-08  576  			};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  577  		};
-2640dbd4d366c4 Apurva Nandan     2023-06-08  578  	};
-dc3281f7ce6010 Aswath Govindraju 2023-05-02  579  };
-d47dd257a5052f Rahul T R         2023-05-26  580  
+ 19113	
+ 19114	static int jit_subprogs(struct bpf_verifier_env *env)
+ 19115	{
+ 19116		struct bpf_prog *prog = env->prog, **func, *tmp;
+ 19117		int i, j, subprog_start, subprog_end = 0, len, subprog;
+ 19118		struct bpf_map *map_ptr;
+ 19119		struct bpf_insn *insn;
+ 19120		void *old_bpf_func;
+ 19121		int err, num_exentries;
+ 19122	
+ 19123		if (env->subprog_cnt <= 1)
+ 19124			return 0;
+ 19125	
+ 19126		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19127			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
+ 19128				continue;
+ 19129	
+ 19130			/* Upon error here we cannot fall back to interpreter but
+ 19131			 * need a hard reject of the program. Thus -EFAULT is
+ 19132			 * propagated in any case.
+ 19133			 */
+ 19134			subprog = find_subprog(env, i + insn->imm + 1);
+ 19135			if (subprog < 0) {
+ 19136				WARN_ONCE(1, "verifier bug. No program starts at insn %d\n",
+ 19137					  i + insn->imm + 1);
+ 19138				return -EFAULT;
+ 19139			}
+ 19140			/* temporarily remember subprog id inside insn instead of
+ 19141			 * aux_data, since next loop will split up all insns into funcs
+ 19142			 */
+ 19143			insn->off = subprog;
+ 19144			/* remember original imm in case JIT fails and fallback
+ 19145			 * to interpreter will be needed
+ 19146			 */
+ 19147			env->insn_aux_data[i].call_imm = insn->imm;
+ 19148			/* point imm to __bpf_call_base+1 from JITs point of view */
+ 19149			insn->imm = 1;
+ 19150			if (bpf_pseudo_func(insn)) {
+ 19151	#if defined(MODULES_VADDR)
+ 19152				u64 addr = MODULES_VADDR;
+ 19153	#else
+ 19154				u64 addr = VMALLOC_START;
+ 19155	#endif
+ 19156				/* jit (e.g. x86_64) may emit fewer instructions
+ 19157				 * if it learns a u32 imm is the same as a u64 imm.
+ 19158				 * Set close enough to possible prog address.
+ 19159				 */
+ 19160				insn[0].imm = (u32)addr;
+ 19161				insn[1].imm = addr >> 32;
+ 19162			}
+ 19163		}
+ 19164	
+ 19165		err = bpf_prog_alloc_jited_linfo(prog);
+ 19166		if (err)
+ 19167			goto out_undo_insn;
+ 19168	
+ 19169		err = -ENOMEM;
+ 19170		func = kcalloc(env->subprog_cnt, sizeof(prog), GFP_KERNEL);
+ 19171		if (!func)
+ 19172			goto out_undo_insn;
+ 19173	
+ 19174		for (i = 0; i < env->subprog_cnt; i++) {
+ 19175			subprog_start = subprog_end;
+ 19176			subprog_end = env->subprog_info[i + 1].start;
+ 19177	
+ 19178			len = subprog_end - subprog_start;
+ 19179			/* bpf_prog_run() doesn't call subprogs directly,
+ 19180			 * hence main prog stats include the runtime of subprogs.
+ 19181			 * subprogs don't have IDs and not reachable via prog_get_next_id
+ 19182			 * func[i]->stats will never be accessed and stays NULL
+ 19183			 */
+ 19184			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
+ 19185			if (!func[i])
+ 19186				goto out_free;
+ 19187			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
+ 19188			       len * sizeof(struct bpf_insn));
+ 19189			func[i]->type = prog->type;
+ 19190			func[i]->len = len;
+ 19191			if (bpf_prog_calc_tag(func[i]))
+ 19192				goto out_free;
+ 19193			func[i]->is_func = 1;
+ 19194			func[i]->sleepable = prog->sleepable;
+ 19195			func[i]->aux->func_idx = i;
+ 19196			/* Below members will be freed only at prog->aux */
+ 19197			func[i]->aux->btf = prog->aux->btf;
+ 19198			func[i]->aux->func_info = prog->aux->func_info;
+ 19199			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
+ 19200			func[i]->aux->poke_tab = prog->aux->poke_tab;
+ 19201			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
+ 19202	
+ 19203			for (j = 0; j < prog->aux->size_poke_tab; j++) {
+ 19204				struct bpf_jit_poke_descriptor *poke;
+ 19205	
+ 19206				poke = &prog->aux->poke_tab[j];
+ 19207				if (poke->insn_idx < subprog_end &&
+ 19208				    poke->insn_idx >= subprog_start)
+ 19209					poke->aux = func[i]->aux;
+ 19210			}
+ 19211	
+ 19212			func[i]->aux->name[0] = 'F';
+ 19213			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
+ 19214			func[i]->jit_requested = 1;
+ 19215			func[i]->blinding_requested = prog->blinding_requested;
+ 19216			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
+ 19217			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
+ 19218			func[i]->aux->linfo = prog->aux->linfo;
+ 19219			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
+ 19220			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
+ 19221			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
+ 19222			func[i]->aux->arena = prog->aux->arena;
+ 19223			num_exentries = 0;
+ 19224			insn = func[i]->insnsi;
+ 19225			for (j = 0; j < func[i]->len; j++, insn++) {
+ 19226				if (BPF_CLASS(insn->code) == BPF_LDX &&
+ 19227				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
+ 19228				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
+ 19229				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
+ 19230					num_exentries++;
+ 19231				if ((BPF_CLASS(insn->code) == BPF_STX ||
+ 19232				     BPF_CLASS(insn->code) == BPF_ST) &&
+ 19233				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
+ 19234					num_exentries++;
+ 19235			}
+ 19236			func[i]->aux->num_exentries = num_exentries;
+ 19237			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
+ 19238			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
+ 19239			if (!i)
+ 19240				func[i]->aux->exception_boundary = env->seen_exception;
+ 19241			func[i] = bpf_int_jit_compile(func[i]);
+ 19242			if (!func[i]->jited) {
+ 19243				err = -ENOTSUPP;
+ 19244				goto out_free;
+ 19245			}
+ 19246			cond_resched();
+ 19247		}
+ 19248	
+ 19249		/* at this point all bpf functions were successfully JITed
+ 19250		 * now populate all bpf_calls with correct addresses and
+ 19251		 * run last pass of JIT
+ 19252		 */
+ 19253		for (i = 0; i < env->subprog_cnt; i++) {
+ 19254			insn = func[i]->insnsi;
+ 19255			for (j = 0; j < func[i]->len; j++, insn++) {
+ 19256				if (bpf_pseudo_func(insn)) {
+ 19257					subprog = insn->off;
+ 19258					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
+ 19259					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
+ 19260					continue;
+ 19261				}
+ 19262				if (!bpf_pseudo_call(insn))
+ 19263					continue;
+ 19264				subprog = insn->off;
+ 19265				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
+ 19266			}
+ 19267	
+ 19268			/* we use the aux data to keep a list of the start addresses
+ 19269			 * of the JITed images for each function in the program
+ 19270			 *
+ 19271			 * for some architectures, such as powerpc64, the imm field
+ 19272			 * might not be large enough to hold the offset of the start
+ 19273			 * address of the callee's JITed image from __bpf_call_base
+ 19274			 *
+ 19275			 * in such cases, we can lookup the start address of a callee
+ 19276			 * by using its subprog id, available from the off field of
+ 19277			 * the call instruction, as an index for this list
+ 19278			 */
+ 19279			func[i]->aux->func = func;
+ 19280			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 19281			func[i]->aux->real_func_cnt = env->subprog_cnt;
+ 19282		}
+ 19283		for (i = 0; i < env->subprog_cnt; i++) {
+ 19284			old_bpf_func = func[i]->bpf_func;
+ 19285			tmp = bpf_int_jit_compile(func[i]);
+ 19286			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
+ 19287				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
+ 19288				err = -ENOTSUPP;
+ 19289				goto out_free;
+ 19290			}
+ 19291			cond_resched();
+ 19292		}
+ 19293	
+ 19294		/* finally lock prog and jit images for all functions and
+ 19295		 * populate kallsysm. Begin at the first subprogram, since
+ 19296		 * bpf_prog_load will add the kallsyms for the main program.
+ 19297		 */
+ 19298		for (i = 1; i < env->subprog_cnt; i++) {
+ 19299			err = bpf_prog_lock_ro(func[i]);
+ 19300			if (err)
+ 19301				goto out_free;
+ 19302		}
+ 19303	
+ 19304		for (i = 1; i < env->subprog_cnt; i++)
+ 19305			bpf_prog_kallsyms_add(func[i]);
+ 19306	
+ 19307		/* Last step: make now unused interpreter insns from main
+ 19308		 * prog consistent for later dump requests, so they can
+ 19309		 * later look the same as if they were interpreted only.
+ 19310		 */
+ 19311		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19312			if (bpf_pseudo_func(insn)) {
+ 19313				insn[0].imm = env->insn_aux_data[i].call_imm;
+ 19314				insn[1].imm = insn->off;
+ 19315				insn->off = 0;
+ 19316				continue;
+ 19317			}
+ 19318			if (!bpf_pseudo_call(insn))
+ 19319				continue;
+ 19320			insn->off = env->insn_aux_data[i].call_imm;
+ 19321			subprog = find_subprog(env, i + insn->off + 1);
+ 19322			insn->imm = subprog;
+ 19323		}
+ 19324	
+ 19325		prog->jited = 1;
+ 19326		prog->bpf_func = func[0]->bpf_func;
+ 19327		prog->jited_len = func[0]->jited_len;
+ 19328		prog->aux->extable = func[0]->aux->extable;
+ 19329		prog->aux->num_exentries = func[0]->aux->num_exentries;
+ 19330		prog->aux->func = func;
+ 19331		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 19332		prog->aux->real_func_cnt = env->subprog_cnt;
+ 19333		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
+ 19334		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
+ 19335		bpf_prog_jit_attempt_done(prog);
+ 19336		return 0;
+ 19337	out_free:
+ 19338		/* We failed JIT'ing, so at this point we need to unregister poke
+ 19339		 * descriptors from subprogs, so that kernel is not attempting to
+ 19340		 * patch it anymore as we're freeing the subprog JIT memory.
+ 19341		 */
+ 19342		for (i = 0; i < prog->aux->size_poke_tab; i++) {
+ 19343			map_ptr = prog->aux->poke_tab[i].tail_call.map;
+ 19344			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
+ 19345		}
+ 19346		/* At this point we're guaranteed that poke descriptors are not
+ 19347		 * live anymore. We can just unlink its descriptor table as it's
+ 19348		 * released with the main prog.
+ 19349		 */
+ 19350		for (i = 0; i < env->subprog_cnt; i++) {
+ 19351			if (!func[i])
+ 19352				continue;
+ 19353			func[i]->aux->poke_tab = NULL;
+ 19354			bpf_jit_free(func[i]);
+ 19355		}
+ 19356		kfree(func);
+ 19357	out_undo_insn:
+ 19358		/* cleanup main prog to be interpreted */
+ 19359		prog->jit_requested = 0;
+ 19360		prog->blinding_requested = 0;
+ 19361		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19362			if (!bpf_pseudo_call(insn))
+ 19363				continue;
+ 19364			insn->off = 0;
+ 19365			insn->imm = env->insn_aux_data[i].call_imm;
+ 19366		}
+ 19367		bpf_prog_jit_attempt_done(prog);
+ 19368		return err;
+ 19369	}
+ 19370	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
