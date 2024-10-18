@@ -1,58 +1,56 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F91202F90
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 10:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABA6202624;
+	Fri, 18 Oct 2024 10:50:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729248572; cv=none; b=edfZ/JublcLSvaUhEE21riMhicMfmLbzQhpJvV9n7w64kkuhnc0AGvx1ou0cxB++RJVT+0xRI8eOdA+fZa3iXdUxr7ftq3syFJphckMOeUzIzqCrOLFEVJCPxT6kZNKFqZhl6h3lXpsoPCqDFE27R/oKkU7VMr+OSrEcPTJ1sF4=
+	t=1729248660; cv=none; b=OF8Vavu89S8yOCplKYvhMCbcCAFcWeLC0J3VzePQX+/h8UvWviBeyqP9CwVHfNmxzkuYk1rVCN1OK3o/Si+y3N/s+22oKgKsJqfMrWX6VmBT6Wt78VitpwGLWhL8rkPp4HoaBYxVfq+CAU5QRu46lzsZzHnYeMfptWIIeRWwM8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729248572; c=relaxed/simple;
-	bh=O01K1bg9ZWzfZhYqZ/2SiKYa9azO7b//8vJ3YWyW/Ug=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ct1xL7AKJUilbKhRwljNsOZNUPaduVEoNEvvKjOKcIEHAQeZxN/uJDB3eXF/ywIINEG6YWEYMTrbun1BffNLAy/FhFV6a79dF/MiEGrcK+x3ZDtgWfWqCW2kxaRhFVfLWDfA757Ut8Mhy1JjtGe1xcQeQ9mpN4QrWGv6EFrnoVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S1iMxVoA; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729248660; c=relaxed/simple;
+	bh=syJdLYnz5Q70PDNaZn4aYfuviFa7wVVgde/vmOAQEWw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gYoqvieJsGZtjHj0ldzIANVX1VH1YQ2HvUWCgk6mg8GGI/788kZ2rHa3C5X9koLAjtgEb/pG3SSIMrBueAUKp5vU5sIEPGLajf5B+rFnsdx3chQLiXP6xpsiTyiAmbXSEKzWAYwyXOJxQO/JL1rqwOa+yIY24w16gLZHPCvqsww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=F8Qt7nny; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S1iMxVoA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729248570; x=1760784570;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=O01K1bg9ZWzfZhYqZ/2SiKYa9azO7b//8vJ3YWyW/Ug=;
-  b=S1iMxVoAfAdKpR+X69P4p7EcCoze8iPDstyXjKu0gqnZsL5G2oqFdZvr
-   Sn2b1ZDS6j4OCbVRPtROIiBcRMslO1hBZT6/F4bvITFZFUQLquIuzetu9
-   RWdSrLSM9mHP99j0U9UmCmN5AgwCNnq0IOkEdgnDCMTFBCC+Xc0RAzi6k
-   faoX9nFeA03b+klW2JstqmDndx414r0VtVu7+op3Q6rBZgbH3pRGpxt07
-   BTVSgYEUYUQH8+dM4gwEYB/9jyGYMze+yjJ+VDxserASeZOxtYYw2S+wz
-   EQkbVTQwOnPayFGgWw85WVYQqg0XZAxNqTiKmBnxs589e2QerU0zKG8Gc
-   g==;
-X-CSE-ConnectionGUID: 6hxqKVW1Sh65JQeAJu4WmQ==
-X-CSE-MsgGUID: +KYkLmioSkWgUw6xg5ORMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46232393"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="46232393"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 03:49:30 -0700
-X-CSE-ConnectionGUID: 45yTh3boSS6rLVI0BMyI2Q==
-X-CSE-MsgGUID: WcFzdOpIS6644rrgG2w36A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,213,1725346800"; 
-   d="scan'208";a="79256871"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Oct 2024 03:49:29 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1kXu-000Ngn-2e;
-	Fri, 18 Oct 2024 10:49:26 +0000
-Date: Fri, 18 Oct 2024 18:48:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:dma-split-wip 5/5] mm/hmm.c:643: warning: Function
- parameter or struct member 'p2pdma_state' not described in 'hmm_dma_map_pfn'
-Message-ID: <202410181847.xbUEIMWs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="F8Qt7nny"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=2cU22bSglzDVdcqTFPBtq8HXbywO/nkwltNcPNsssAM=; b=F8Qt7nnyXIJ8jUCjfss2VhOk6T
+	OL+E8R1+Q8R8f4UfvHPXgvDIQRA+b+byCTuu51OwS1XmFmu4bjyQiorxdW3zWARXdUvATqvjnKQHs
+	f4U4i+aDTWIwFXdhvka0Wwh5j1+FcNwWlZMT20dHWAeR9U6AfuPxyRUn0CTWx5nHLnzd3B6ja2Zb4
+	78JNWbjq+Rs6675gYYcgcUoIfvvkf9mmoMoCwrfEy7gnemkgB4ac92puyrNHdTLZnlmrGTC9NRrs5
+	nSIm74T6PIyMDp0heZmtasmGiWzF47jq3ixeqQABHpfDawd/SdF0hQy007EC+39cIEP98r5680OB1
+	+7bzyI5w==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t1kZK-0000000D0vl-1n9N;
+	Fri, 18 Oct 2024 10:50:55 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 860333005AF; Fri, 18 Oct 2024 12:50:54 +0200 (CEST)
+Date: Fri, 18 Oct 2024 12:50:54 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, amadeuszx.slawinski@linux.intel.com,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	nex.sw.ncis.osdt.itp.upstreaming@intel.com, netdev@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>,
+	Kees Cook <keescook@chromium.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Subject: Re: [PATCH v3] cleanup: adjust scoped_guard() macros to avoid
+ potential warning
+Message-ID: <20241018105054.GB36494@noisy.programming.kicks-ass.net>
+References: <20241011121535.28049-1-przemyslaw.kitszel@intel.com>
+ <202410131151.SBnGQot0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,128 +59,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202410131151.SBnGQot0-lkp@intel.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git dma-split-wip
-head:   5b94586723e2dad11627312e515af6d4451b6921
-commit: 5b94586723e2dad11627312e515af6d4451b6921 [5/5] FOLD: implement P2P mappings in hmm_dma_map_pfn
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20241018/202410181847.xbUEIMWs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181847.xbUEIMWs-lkp@intel.com/reproduce)
+On Sun, Oct 13, 2024 at 12:01:24PM +0800, kernel test robot wrote:
+> >> drivers/firewire/core-transaction.c:912:2: warning: variable 'handler' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>      912 |         scoped_guard(rcu) {
+>          |         ^~~~~~~~~~~~~~~~~
+>    include/linux/cleanup.h:197:2: note: expanded from macro 'scoped_guard'
+>      197 |         __scoped_guard(_name, /* empty */, __UNIQUE_ID(label), args)
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/cleanup.h:190:3: note: expanded from macro '__scoped_guard'
+>      190 |                 if (!__guard_ptr(_name)(&scope) && __is_cond_ptr(_name)) {      \
+>          |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler.h:55:28: note: expanded from macro 'if'
+>       55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+>          |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/compiler.h:57:30: note: expanded from macro '__trace_if_var'
+>       57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+>          |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/firewire/core-transaction.c:921:7: note: uninitialized use occurs here
+>      921 |         if (!handler)
+>          |              ^~~~~~~
+>    include/linux/compiler.h:55:47: note: expanded from macro 'if'
+>       55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+>          |                                               ^~~~
+>    include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+>       57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+>          |                                                    ^~~~
+>    drivers/firewire/core-transaction.c:912:2: note: remove the 'if' if its condition is always false
+>      912 |         scoped_guard(rcu) {
+>          |         ^
+>    include/linux/cleanup.h:197:2: note: expanded from macro 'scoped_guard'
+>      197 |         __scoped_guard(_name, /* empty */, __UNIQUE_ID(label), args)
+>          |         ^
+>    include/linux/cleanup.h:190:3: note: expanded from macro '__scoped_guard'
+>      190 |                 if (!__guard_ptr(_name)(&scope) && __is_cond_ptr(_name)) {      \
+>          |                 ^
+>    include/linux/compiler.h:55:23: note: expanded from macro 'if'
+>       55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+>          |                       ^
+>    drivers/firewire/core-transaction.c:903:36: note: initialize the variable 'handler' to silence this warning
+>      903 |         struct fw_address_handler *handler;
+>          |                                           ^
+>          |                                            = NULL
+>    1 warning generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410181847.xbUEIMWs-lkp@intel.com/
+So this goes away when we do:
 
-All warnings (new ones prefixed by >>):
-
->> mm/hmm.c:643: warning: Function parameter or struct member 'p2pdma_state' not described in 'hmm_dma_map_pfn'
->> mm/hmm.c:643: warning: Excess function parameter 'pci_p2pdma_map_state' description in 'hmm_dma_map_pfn'
-
-
-vim +643 mm/hmm.c
-
-c101823fb37c66 Leon Romanovsky   2024-01-29  619  
-c101823fb37c66 Leon Romanovsky   2024-01-29  620  /**
-c101823fb37c66 Leon Romanovsky   2024-01-29  621   * hmm_dma_map_pfn - Map a physical HMM page to DMA address
-c101823fb37c66 Leon Romanovsky   2024-01-29  622   * @dev: Device to map the page for
-c101823fb37c66 Leon Romanovsky   2024-01-29  623   * @state: IOVA state
-c101823fb37c66 Leon Romanovsky   2024-01-29  624   * @pfns: HMM PFNs
-c101823fb37c66 Leon Romanovsky   2024-01-29  625   * @dma_addrs: Array of dma addresses for each PFN
-c101823fb37c66 Leon Romanovsky   2024-01-29  626   * @idx: Index into the PFN and dma address arrays
-c101823fb37c66 Leon Romanovsky   2024-01-29  627   * @entry_size: Size of each entry in @pfns and @dma_addrs
-5b94586723e2da Christoph Hellwig 2024-10-17  628   * @pci_p2pdma_map_state: PCI P2P state.
-c101823fb37c66 Leon Romanovsky   2024-01-29  629   *
-c101823fb37c66 Leon Romanovsky   2024-01-29  630   * dma_alloc_iova() allocates IOVA based on the size specified by their use in
-c101823fb37c66 Leon Romanovsky   2024-01-29  631   * iova->size. Call this function after IOVA allocation to link whole @page
-c101823fb37c66 Leon Romanovsky   2024-01-29  632   * to get the DMA address. Note that very first call to this function
-c101823fb37c66 Leon Romanovsky   2024-01-29  633   * will have @offset set to 0 in the IOVA space allocated from
-c101823fb37c66 Leon Romanovsky   2024-01-29  634   * dma_alloc_iova(). For subsequent calls to this function on same @iova,
-c101823fb37c66 Leon Romanovsky   2024-01-29  635   * @offset needs to be advanced by the caller with the size of previous
-c101823fb37c66 Leon Romanovsky   2024-01-29  636   * page that was linked + DMA address returned for the previous page that was
-c101823fb37c66 Leon Romanovsky   2024-01-29  637   * linked by this function.
-c101823fb37c66 Leon Romanovsky   2024-01-29  638   */
-c101823fb37c66 Leon Romanovsky   2024-01-29  639  dma_addr_t hmm_dma_map_pfn(struct device *dev, struct dma_iova_state *state,
-c101823fb37c66 Leon Romanovsky   2024-01-29  640  			   unsigned long pfns[], dma_addr_t dma_addrs[],
-5b94586723e2da Christoph Hellwig 2024-10-17  641  			   size_t idx, size_t entry_size,
-5b94586723e2da Christoph Hellwig 2024-10-17  642  			   struct pci_p2pdma_map_state *p2pdma_state)
-c101823fb37c66 Leon Romanovsky   2024-01-29 @643  {
-c101823fb37c66 Leon Romanovsky   2024-01-29  644  	size_t offset = idx * entry_size;
-5b94586723e2da Christoph Hellwig 2024-10-17  645  	struct page *page = hmm_pfn_to_page(pfns[idx]);
-5b94586723e2da Christoph Hellwig 2024-10-17  646  	phys_addr_t paddr = hmm_pfn_to_phys(pfns[idx]);
-c101823fb37c66 Leon Romanovsky   2024-01-29  647  	dma_addr_t dma_addr;
-c101823fb37c66 Leon Romanovsky   2024-01-29  648  	int ret;
-c101823fb37c66 Leon Romanovsky   2024-01-29  649  
-5b94586723e2da Christoph Hellwig 2024-10-17  650  	if ((pfns[idx] & HMM_PFN_DMA_MAPPED) &&
-5b94586723e2da Christoph Hellwig 2024-10-17  651  	    !(pfns[idx] & HMM_PFN_P2PDMA_BUS)) {
-c101823fb37c66 Leon Romanovsky   2024-01-29  652  		/*
-c101823fb37c66 Leon Romanovsky   2024-01-29  653  		 * We are in this flow when there is a need to resync flags,
-c101823fb37c66 Leon Romanovsky   2024-01-29  654  		 * for example when page was already linked in prefetch call
-c101823fb37c66 Leon Romanovsky   2024-01-29  655  		 * with READ flag and now we need to add WRITE flag
-c101823fb37c66 Leon Romanovsky   2024-01-29  656  		 *
-c101823fb37c66 Leon Romanovsky   2024-01-29  657  		 * This page was already programmed to HW and we don't want/need
-c101823fb37c66 Leon Romanovsky   2024-01-29  658  		 * to unlink and link it again just to resync flags.
-c101823fb37c66 Leon Romanovsky   2024-01-29  659  		 */
-c101823fb37c66 Leon Romanovsky   2024-01-29  660  		if (dma_can_use_iova(state))
-c101823fb37c66 Leon Romanovsky   2024-01-29  661  			return state->addr + offset;
-c101823fb37c66 Leon Romanovsky   2024-01-29  662  
-c101823fb37c66 Leon Romanovsky   2024-01-29  663  		/*
-c101823fb37c66 Leon Romanovsky   2024-01-29  664  		 * Without dma_need_unmap, the dma_addrs array is NULL, thus we
-c101823fb37c66 Leon Romanovsky   2024-01-29  665  		 * need to regenerate the address below even if there already
-c101823fb37c66 Leon Romanovsky   2024-01-29  666  		 * was a mapping.  But !dma_need_unmap implies that the
-c101823fb37c66 Leon Romanovsky   2024-01-29  667  		 * mapping stateless, so this is fine.
-c101823fb37c66 Leon Romanovsky   2024-01-29  668  		 */
-c101823fb37c66 Leon Romanovsky   2024-01-29  669  		if (dma_need_unmap(dev))
-c101823fb37c66 Leon Romanovsky   2024-01-29  670  			return dma_addrs[idx];
-5b94586723e2da Christoph Hellwig 2024-10-17  671  
-5b94586723e2da Christoph Hellwig 2024-10-17  672  		/* Fall through to remapping */
-5b94586723e2da Christoph Hellwig 2024-10-17  673  	}
-5b94586723e2da Christoph Hellwig 2024-10-17  674  
-5b94586723e2da Christoph Hellwig 2024-10-17  675  	switch (pci_p2pdma_state(p2pdma_state, dev, page)) {
-5b94586723e2da Christoph Hellwig 2024-10-17  676  	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
-5b94586723e2da Christoph Hellwig 2024-10-17  677  	case PCI_P2PDMA_MAP_NONE:
-5b94586723e2da Christoph Hellwig 2024-10-17  678  		break;
-5b94586723e2da Christoph Hellwig 2024-10-17  679  	case PCI_P2PDMA_MAP_BUS_ADDR:
-5b94586723e2da Christoph Hellwig 2024-10-17  680  		dma_addr = pci_p2pdma_bus_addr_map(p2pdma_state, paddr);
-5b94586723e2da Christoph Hellwig 2024-10-17  681  		pfns[idx] |= HMM_PFN_P2PDMA_BUS;
-5b94586723e2da Christoph Hellwig 2024-10-17  682  		goto done;
-5b94586723e2da Christoph Hellwig 2024-10-17  683  	default:
-5b94586723e2da Christoph Hellwig 2024-10-17  684  		return -EREMOTEIO;
-c101823fb37c66 Leon Romanovsky   2024-01-29  685  	}
-c101823fb37c66 Leon Romanovsky   2024-01-29  686  
-c101823fb37c66 Leon Romanovsky   2024-01-29  687  	if (dma_can_use_iova(state)) {
-5b94586723e2da Christoph Hellwig 2024-10-17  688  		ret = dma_iova_link(dev, state, paddr, offset, PAGE_SIZE,
-5b94586723e2da Christoph Hellwig 2024-10-17  689  				    DMA_BIDIRECTIONAL, 0);
-c101823fb37c66 Leon Romanovsky   2024-01-29  690  		if (ret)
-c101823fb37c66 Leon Romanovsky   2024-01-29  691  			return DMA_MAPPING_ERROR;
-c101823fb37c66 Leon Romanovsky   2024-01-29  692  
-c101823fb37c66 Leon Romanovsky   2024-01-29  693  		dma_addr = state->addr + offset;
-c101823fb37c66 Leon Romanovsky   2024-01-29  694  	} else {
-c101823fb37c66 Leon Romanovsky   2024-01-29  695  		if (WARN_ON_ONCE(dma_need_unmap(dev) && !dma_addrs))
-c101823fb37c66 Leon Romanovsky   2024-01-29  696  			return DMA_MAPPING_ERROR;
-c101823fb37c66 Leon Romanovsky   2024-01-29  697  
-5b94586723e2da Christoph Hellwig 2024-10-17  698  		dma_addr = dma_map_page(dev, page, 0, PAGE_SIZE,
-5b94586723e2da Christoph Hellwig 2024-10-17  699  					DMA_BIDIRECTIONAL);
-c101823fb37c66 Leon Romanovsky   2024-01-29  700  		if (dma_mapping_error(dev, dma_addr))
-c101823fb37c66 Leon Romanovsky   2024-01-29  701  			return DMA_MAPPING_ERROR;
-c101823fb37c66 Leon Romanovsky   2024-01-29  702  
-c101823fb37c66 Leon Romanovsky   2024-01-29  703  		if (dma_need_unmap(dev))
-c101823fb37c66 Leon Romanovsky   2024-01-29  704  			dma_addrs[idx] = dma_addr;
-c101823fb37c66 Leon Romanovsky   2024-01-29  705  	}
-c101823fb37c66 Leon Romanovsky   2024-01-29  706  
-5b94586723e2da Christoph Hellwig 2024-10-17  707  done:
-c101823fb37c66 Leon Romanovsky   2024-01-29  708  	pfns[idx] |= HMM_PFN_DMA_MAPPED;
-c101823fb37c66 Leon Romanovsky   2024-01-29  709  	return dma_addr;
-c101823fb37c66 Leon Romanovsky   2024-01-29  710  }
-c101823fb37c66 Leon Romanovsky   2024-01-29  711  EXPORT_SYMBOL_GPL(hmm_dma_map_pfn);
-c101823fb37c66 Leon Romanovsky   2024-01-29  712  
-
-:::::: The code at line 643 was first introduced by commit
-:::::: c101823fb37c66a8b3f755a76856904ebcebf5d7 mm/hmm: provide callbacks to map/unmap HMM PFNs
-
-:::::: TO: Leon Romanovsky <leonro@nvidia.com>
-:::::: CC: Leon Romanovsky <leon@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- a/include/linux/cleanup.h
++++ b/include/linux/cleanup.h
+@@ -323,7 +323,7 @@ static __maybe_unused const bool class_#
+  */
+ #define __scoped_guard(_name, _fail, _label, args...)				\
+ 	for (CLASS(_name, scope)(args);	true; ({ goto _label; }))		\
+-		if (!__guard_ptr(_name)(&scope) && __is_cond_ptr(_name)) {	\
++		if (__is_cond_ptr(_name) && !__guard_ptr(_name)(&scope)) {	\
+ 			_fail;							\
+ _label:										\
+ 			break;							\
