@@ -1,63 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1ABEADC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 12:22:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0D02F9DF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 12:54:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729254160; cv=none; b=poWrQQk+YRNmiIE4f1JC6454Y0T/1+n6RsdWefKCZsfdTC+IUq07VUr0GbleLtBkUwA7CLMhQZXUqbYwNP3mrHbRupiBgqkQyH4tQV0H1VEWnFz/LapWZvq7lFGhNr/sFZpWHkuA19hltMNxPoTHuYfpGb6Iq+yooCCq2CymGpk=
+	t=1729256085; cv=none; b=nqsmmlwuJigA7TUbeaifqoH3JLbD9bpF4W0QcCNYUDwX3vjJAD4jh2LqmdEhOXhOb9ypcZUpEEKC5/Frm/doOGPRspZmKq2HH9IbdFxvIEq48octEGa9L9S3ArgD8FE22neGtDNKGTLj4w5dz838BXHV5uforGPK3Oh78v5ldI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729254160; c=relaxed/simple;
-	bh=q4VX7mn4Dlalu2bQAI0bGEcxjzY9NPfADAIeCyUURYI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q2bGrLrs0FxSllmDXV5e8jD/OYMxjK2K1NuhUpTE7h5v+zR4JRfps7Xbs2vHBCvL14v/KYHSQe9JrGDjMR7aWrPaJTM6JRlhGaRhaAFwtH+cIGnROPykbFwXqqWcdKLHkAG/TdjjIB4HIiiYVo88QrtJx238EjMA7d7zs1aopOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYCgZZn1; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1729256085; c=relaxed/simple;
+	bh=0UXSg/gbzLvLHUdBHv2lskM8R5jYpl6G69d/LVb43dE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Hu0W6wEIB3Gl4o3BJZFiaLxTXIskH9CJRqpLcd6ey1TWYaPMK+iF2CQwzKo1NTdJt2rPxFGIyjjtlVDSsytGC4ZXENyXJLiZtWyUCBuGd63CJlFXRxjXlMH1TUoEFLpTuHSwAXOG5pMSwrPl1+yD5KdMChIjxneySWr9VqZCkjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bu/uYo3y; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYCgZZn1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bu/uYo3y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729254158; x=1760790158;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q4VX7mn4Dlalu2bQAI0bGEcxjzY9NPfADAIeCyUURYI=;
-  b=ZYCgZZn1TMAbYSrmmucUWWBg7/Bxwsu5o+q4OZMuNh+q93kXB0Cu/IyU
-   1f0kNYyn83CpyeLvDgNm+B159Pl5XmhLvTrZGhrCQAl4ONUmvsush5VFx
-   qKkc/qYzH7zAzqYsIlpOWICTgn1CUPjsQ9ftgcR9GQRol0KYauXa+qbqx
-   SP+9EGV67EL/x2fcm1Mj5APgxe9jJMIpnuYnIUgE9NewU40i/k/2dinCI
-   oqgVGcqhkJUsbmNF1YrPaZ2BxwEZ5Fnpb0GZNoMBXrfP2JMy9pJt1DBc2
-   VC5e1RTxb1In2ZdqPwOJoWpkGDRl8H8zz99xYF9osTTup+GXvGiQ2eYs/
-   w==;
-X-CSE-ConnectionGUID: KX9TSTvEQTO3LqLA8qr/7A==
-X-CSE-MsgGUID: w3WcHuIMSPOxJYHZPit11w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="32578225"
-X-IronPort-AV: E=Sophos;i="6.11,213,1725346800"; 
-   d="scan'208";a="32578225"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 05:22:38 -0700
-X-CSE-ConnectionGUID: UViPG7I2TA+Rnain72XKTg==
-X-CSE-MsgGUID: b7fe+BULS7WNNmTWXYXGRg==
+  t=1729256083; x=1760792083;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0UXSg/gbzLvLHUdBHv2lskM8R5jYpl6G69d/LVb43dE=;
+  b=bu/uYo3yWfLQA9VtknC+HObicg1DgzSM8Zj3ZVcwtIzqzIYJWX+uwNUa
+   NMZMF9Cgecpfxj5vsetQzMsLZj8mxORGtAP2bBQV70CAbmZ7v+rTpHA0B
+   d7bIh0KETpJQYc1IbK+lMnK9zsXTuYGK+97cYWaT3VxsWI8ElMv0JdplF
+   oda0gb+xg5ECFM46Hb0sHBQlwOiKA4HezsQct2wm7IrEqgrXmYMo62KFZ
+   rkuyLr9PzEp16AoEHaOhiXaQ1HahFNqhsr8Aih31IrWQ7H9Fz5J2KMkTl
+   e0sYiG8NrRecLdzEaHfwbu/H0JJPXvvRyPfPRyHgxO5Pz1wOf4e9mYtp0
+   Q==;
+X-CSE-ConnectionGUID: il+cxr3BSK+VcaSnux300A==
+X-CSE-MsgGUID: kn+Eh32wQvGYhcBuQhWnOA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28944547"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="28944547"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 05:54:40 -0700
+X-CSE-ConnectionGUID: admr1u1FQYGuCxBueE/1eA==
+X-CSE-MsgGUID: PwI51fiURIal9XCxJSt7nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,213,1725346800"; 
-   d="scan'208";a="102166134"
+   d="scan'208";a="109684596"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Oct 2024 05:22:35 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Oct 2024 05:54:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1m01-000NnN-1U;
-	Fri, 18 Oct 2024 12:22:33 +0000
-Date: Fri, 18 Oct 2024 20:21:56 +0800
+	id 1t1mV1-000Npp-0q;
+	Fri, 18 Oct 2024 12:54:35 +0000
+Date: Fri, 18 Oct 2024 20:54:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>,
-	Michael Chan <michael.chan@broadcom.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next] bnxt_en: replace PTP spinlock with seqlock
-Message-ID: <202410182038.mpo0UaRH-lkp@intel.com>
-References: <20241014232947.4059941-1-vadfed@meta.com>
+To: Abel Vesa <abel.vesa@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Johan Hovold <johan+linaro@kernel.org>
+Subject: [linux-next:master 4931/5686]
+ arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000:
+ resets: [[52, 37], [52, 36]] is too long
+Message-ID: <202410182029.n2zPkuGx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,105 +64,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241014232947.4059941-1-vadfed@meta.com>
 
-Hi Vadim,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bnxt_en-replace-PTP-spinlock-with-seqlock/20241015-073207
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241014232947.4059941-1-vadfed%40meta.com
-patch subject: [PATCH net-next] bnxt_en: replace PTP spinlock with seqlock
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241018/202410182038.mpo0UaRH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410182038.mpo0UaRH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
+commit: 837c333f46df8ce6755ba82c53acb91948ec0072 [4931/5686] arm64: dts: qcom: x1e80100: Fix PCIe 6a lanes description
+config: arm64-randconfig-051-20241017 (https://download.01.org/0day-ci/archive/20241018/202410182029.n2zPkuGx-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410182029.n2zPkuGx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410182038.mpo0UaRH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410182029.n2zPkuGx-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_force_fw_reset':
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:13488:30: warning: unused variable 'ptp' [-Wunused-variable]
-   13488 |         struct bnxt_ptp_cfg *ptp = bp->ptp_cfg;
-         |                              ^~~
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c: In function 'bnxt_fw_reset':
-   drivers/net/ethernet/broadcom/bnxt/bnxt.c:13555:38: warning: unused variable 'ptp' [-Wunused-variable]
-   13555 |                 struct bnxt_ptp_cfg *ptp = bp->ptp_cfg;
-         |                                      ^~~
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [139, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
 --
-   In file included from drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:21:
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c: In function 'bnxt_get_rx_ts_p5':
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.h:155:52: error: expected ')' before ';' token
-     155 |         while (read_seqretry(&(ptp)->ptp_lock, seq);    \
-         |               ~                                    ^
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:802:9: note: in expansion of macro 'BNXT_READ_TIME64'
-     802 |         BNXT_READ_TIME64(ptp, time, ptp->old_time);
-         |         ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.h:156:1: error: expected expression before '}' token
-     156 | } while (0)
-         | ^
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:802:9: note: in expansion of macro 'BNXT_READ_TIME64'
-     802 |         BNXT_READ_TIME64(ptp, time, ptp->old_time);
-         |         ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:810:1: error: expected 'while' before 'void'
-     810 | void bnxt_tx_ts_cmp(struct bnxt *bp, struct bnxt_napi *bnapi,
-         | ^~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:857:12: error: invalid storage class for function 'bnxt_ptp_verify'
-     857 | static int bnxt_ptp_verify(struct ptp_clock_info *ptp_info, unsigned int pin,
-         |            ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:870:12: error: invalid storage class for function 'bnxt_ptp_pps_init'
-     870 | static int bnxt_ptp_pps_init(struct bnxt *bp)
-         |            ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:931:13: error: invalid storage class for function 'bnxt_pps_config_ok'
-     931 | static bool bnxt_pps_config_ok(struct bnxt *bp)
-         |             ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:938:13: error: invalid storage class for function 'bnxt_ptp_timecounter_init'
-     938 | static void bnxt_ptp_timecounter_init(struct bnxt *bp, bool init_tc)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:998:13: error: invalid storage class for function 'bnxt_ptp_free'
-     998 | static void bnxt_ptp_free(struct bnxt *bp)
-         |             ^~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:1100:1: error: expected declaration or statement at end of input
-    1100 | }
-         | ^
-   drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c: At top level:
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:1077:6: warning: 'bnxt_ptp_clear' defined but not used [-Wunused-function]
-    1077 | void bnxt_ptp_clear(struct bnxt *bp)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.c:1010:5: warning: 'bnxt_ptp_init' defined but not used [-Wunused-function]
-    1010 | int bnxt_ptp_init(struct bnxt *bp, bool phc_cfg)
-         |     ^~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +155 drivers/net/ethernet/broadcom/bnxt/bnxt_ptp.h
-
-   147	
-   148	#if BITS_PER_LONG == 32
-   149	#define BNXT_READ_TIME64(ptp, dst, src)			\
-   150	do {							\
-   151		unsigned int seq;				\
-   152		do {						\
-   153			seq = read_seqbegin(&(ptp)->ptp_lock);	\
-   154			(dst) = (src);				\
- > 155		while (read_seqretry(&(ptp)->ptp_lock, seq);	\
- > 156	} while (0)
-   157	#else
-   158	#define BNXT_READ_TIME64(ptp, dst, src)		\
-   159		((dst) = READ_ONCE(src))
-   160	#endif
-   161	
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [138, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [138, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-asus-vivobook-s15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [139, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-crd.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddaon-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlcx-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath12k.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-lenovo-yoga-slim7x.dtb: wifi@0: 'vddwlmx-supply' is a required property
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [137, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [137, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus13.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [137, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [137, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-microsoft-romulus15.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+--
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+>> arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [135, 1], [52, 111], [52, 113], [52, 115]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [135, 0], [52, 100], [52, 102], [52, 104]] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
+   arch/arm64/boot/dts/qcom/x1e80100-qcp.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
 
 -- 
 0-DAY CI Kernel Test Service
