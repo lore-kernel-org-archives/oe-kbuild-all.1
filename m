@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BB65183098
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 05:59:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67144188591
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 06:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729231152; cv=none; b=Vljt+pAR2t53DVt91bSwxy6t4xtFlENhpXLJzHm5arwImGegDwBtXa+Pbt5tcF02pJwwRNqg0vB9U5ma8NlJVg4Ui3qLs+UAmV1aEqhVFckKU8EPPO7/WgDu2tIH3GyX2Qf/HuhFkbiNFzhcrOiiWeygj8diCxd1G9J63z7GwjM=
+	t=1729233617; cv=none; b=sWZMRNdgs/3OGN2tCpy8nQAZoeCo+i/pNSp1XTjelY8cYsVDnCaUtYIr31oyYUgaQTln/KkM+SIOgLspPFysrXHXBkcICvzWlkHoo9D1cxBvR4SStYL722UnK2y/HRciypGP0Qg1fC8cM5Q9Q9GtJ5x/TH0RyzqazaI9/G7DELo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729231152; c=relaxed/simple;
-	bh=R30cK4pO+IO5XgkvXehMEgN5sMlj5pe9H5EtsG/USoQ=;
+	s=arc-20240116; t=1729233617; c=relaxed/simple;
+	bh=4uXH8Simnotx1jQwlVs9sIXR/afO8nyDnEItwFz1h6s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MLdye/Gs8d5+D/kSmkoIXTxRiP79+ITuLrTmRPuLA25jEDwY94xq72F+OY/LH8WtM2kn/QHokzdOitQyWPOdq+ruwGLXWzuCE+gnayzea5aBw/fOngBdsypJF9viNZIcXFf3WujYanLVC0PIV5PiAT4ApxepoWKhhZ/GsTnB+c0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ct30fnT8; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=l1c/eDBGhJXlwOKwXdWCGJM4GB4VFYm8zqJyJQEqmZdOP/foNFVwrhbv+gjjJEv8/nkYxnJYuyYuRdYxDEIuoBP/hCQWvS9a7Cfu340H/9xygHiUZNGp8Y6fzJV8uPRg8B3B6eZrQ9BU6INSCew1cXkB09yxI/uTm8Ru6z83HKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DcrMZTUI; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ct30fnT8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DcrMZTUI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729231152; x=1760767152;
+  t=1729233615; x=1760769615;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R30cK4pO+IO5XgkvXehMEgN5sMlj5pe9H5EtsG/USoQ=;
-  b=Ct30fnT8tb2nbFBb5UW/TyG0vsFb9j+Y9ettMzhY9lXFbsAKYe+P28O2
-   f2XevRZ0FkDZ61/cu6Liypce2XF3ijAt+ATwBo5IbzaCdsSGAVcX4KxFu
-   Qg/JYJ1EY7Jqe/icpg2d9klOGmODpPxpOe234eRXq3OyEoakkMS03o478
-   15u/mlZh8oZ5uuNstvgi2kZJhpd1NSlWW7DcNGMBl9TkNpVoVx9affNX3
-   br99neN12Xojfnkg6lvfClFh317MSK/9HRKXMEeh1Y5r201kSFzMTQW3Y
-   E6lfFsqJcpZLbjM1qhuCXsiIb6FZFageZhauc8LUzptpwusPp0PR++YWI
-   A==;
-X-CSE-ConnectionGUID: yrkPrXfWTKyjANIqD6Vozw==
-X-CSE-MsgGUID: JKeBk82eQjOK+DPIVb1wMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28842295"
+  bh=4uXH8Simnotx1jQwlVs9sIXR/afO8nyDnEItwFz1h6s=;
+  b=DcrMZTUIbm3wbGQiZNEbdSfUujmrKqvUt0i6CX5RO03cFcsouL4mCJ3H
+   roe4QIL5+CZsekRV+HpRwGafUDF86VKcesAUZ6BpX4i+pbzuCM9sbbjgn
+   7O/qJlgydPFSp66dA52u1OmHFkhLycxpt6GNKWtoV+R2kVEzjapSYxQA6
+   KlPIuKrN2lBqav7kMixC4BOo5zfMmmNzvigkVDxPp6wz699WzlXD24JdE
+   ezReAwfS3QgMkorQLk/Yvt3eziQh0hnsO+Uux8FWxfqp2gy3q1ezg9D+s
+   pm5mSa/80ifPxuEByWmH8AbHJt8FXNtFZS75VZzXKWgqFmEvtzPqkdQUK
+   Q==;
+X-CSE-ConnectionGUID: 5SitXdvGQyKysnr2tsRXBg==
+X-CSE-MsgGUID: nN+7oKdfTpy6pK+d2z9igw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="40116512"
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="28842295"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 22:59:11 -0700
-X-CSE-ConnectionGUID: oj0KDB9iSdeHLenxf7LqRQ==
-X-CSE-MsgGUID: 6vMtshvHTqSAkZsiDQ6ybQ==
+   d="scan'208";a="40116512"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 23:40:12 -0700
+X-CSE-ConnectionGUID: 5/26PEy9R6+K9LUfefqrJw==
+X-CSE-MsgGUID: a0KeVqB0S8a7zi7lnQrnMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="79113728"
+   d="scan'208";a="83557380"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 17 Oct 2024 22:59:09 -0700
+  by orviesa005.jf.intel.com with ESMTP; 17 Oct 2024 23:40:11 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1g0x-000NKz-0L;
-	Fri, 18 Oct 2024 05:59:07 +0000
-Date: Fri, 18 Oct 2024 13:58:07 +0800
+	id 1t1gee-000NND-2U;
+	Fri, 18 Oct 2024 06:40:08 +0000
+Date: Fri, 18 Oct 2024 14:39:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Apurva Nandan <a-nandan@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
-Subject: [ti:ti-rt-linux-6.1.y 5/15]
- arch/arm64/boot/dts/ti/k3-j784s4-evm.dts:771.21-826.4: Warning
- (avoid_unnecessary_addr_size):
- /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary
- #address-cells/#size-cells without "ranges" or child "reg" property
-Message-ID: <202410181330.BpsvOHcw-lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 4486/4954]
+ arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: watchdog:
+ False schema does not allow {'compatible': ['zii,rave-sp-watchdog']}
+Message-ID: <202410181420.7Akgq48J-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,146 +64,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y
-head:   451df8c0a2a3bcf0656b2f6fdc49d6fb4d05f186
-commit: cf4971a4fe9cc09f07dcedfc8cc7250bbc898543 [5/15] arm64: dts: k3-j784s4: Add node for OSPI NAND Flash
-config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241018/202410181330.BpsvOHcw-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   7df1e7189cecb6965ce672e820a5ec6cf499b65b
+commit: f4b00ab2c29960961f9641be8f3e8ba4960fd849 [4486/4954] dt-bindings: mfd: Convert zii,rave-sp.txt to yaml format
+config: arm64-randconfig-054-20241016 (https://download.01.org/0day-ci/archive/20241018/202410181420.7Akgq48J-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181330.BpsvOHcw-lkp@intel.com/reproduce)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181420.7Akgq48J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410181330.BpsvOHcw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410181420.7Akgq48J-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/ti/k3-j784s4-evm.dts:771.21-826.4: Warning (avoid_unnecessary_addr_size): /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/ti/k3-j784s4-main.dtsi:1874.34-1883.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
-   arch/arm64/boot/dts/ti/k3-j784s4-main.dtsi:1289.25-1329.4: Warning (unique_unit_address): /bus@100000/pcie@2900000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2900000)
-   arch/arm64/boot/dts/ti/k3-j784s4-main.dtsi:1352.25-1393.4: Warning (unique_unit_address): /bus@100000/pcie@2910000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2910000)
-   arch/arm64/boot/dts/ti/k3-j784s4-main.dtsi:1416.25-1456.4: Warning (unique_unit_address): /bus@100000/pcie@2930000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2930000)
->> arch/arm64/boot/dts/ti/k3-j784s4-evm.dts:717.21-769.4: Warning (unique_unit_address): /bus@100000/bus@28380000/bus@47000000/spi@47040000/flash@0: duplicate unit-address (also used in node /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0)
-
-vim +771 arch/arm64/boot/dts/ti/k3-j784s4-evm.dts
-
-   711	
-   712	&ospi0 {
-   713		status = "okay";
-   714		pinctrl-names = "default";
-   715		pinctrl-0 = <&mcu_fss0_ospi0_pins_default>;
-   716	
- > 717		ospi0_nor: flash@0 {
-   718			compatible = "jedec,spi-nor";
-   719			reg = <0x0>;
-   720			spi-tx-bus-width = <8>;
-   721			spi-rx-bus-width = <8>;
-   722			spi-max-frequency = <25000000>;
-   723			cdns,tshsl-ns = <60>;
-   724			cdns,tsd2d-ns = <60>;
-   725			cdns,tchsh-ns = <60>;
-   726			cdns,tslch-ns = <60>;
-   727			cdns,read-delay = <4>;
-   728	
-   729			partitions {
-   730				compatible = "fixed-partitions";
-   731				#address-cells = <1>;
-   732				#size-cells = <1>;
-   733	
-   734				partition@0 {
-   735					label = "ospi.tiboot3";
-   736					reg = <0x0 0x80000>;
-   737				};
-   738	
-   739				partition@80000 {
-   740					label = "ospi.tispl";
-   741					reg = <0x80000 0x200000>;
-   742				};
-   743	
-   744				partition@280000 {
-   745					label = "ospi.u-boot";
-   746					reg = <0x280000 0x400000>;
-   747				};
-   748	
-   749				partition@680000 {
-   750					label = "ospi.env";
-   751					reg = <0x680000 0x40000>;
-   752				};
-   753	
-   754				partition@6c0000 {
-   755					label = "ospi.env.backup";
-   756					reg = <0x6c0000 0x40000>;
-   757				};
-   758	
-   759				partition@800000 {
-   760					label = "ospi.rootfs";
-   761					reg = <0x800000 0x37c0000>;
-   762				};
-   763	
-   764				partition@3fc0000 {
-   765					label = "ospi.phypattern";
-   766					reg = <0x3fc0000 0x40000>;
-   767				};
-   768			};
-   769		};
-   770	
- > 771		ospi0_nand: nand@0 {
-   772			compatible = "spi-nand";
-   773			reg = <0x0>;
-   774			spi-tx-bus-width = <8>;
-   775			spi-rx-bus-width = <8>;
-   776			spi-max-frequency = <25000000>;
-   777			cdns,tshsl-ns = <60>;
-   778			cdns,tsd2d-ns = <60>;
-   779			cdns,tchsh-ns = <60>;
-   780			cdns,tslch-ns = <60>;
-   781			cdns,read-delay = <2>;
-   782			#address-cells = <1>;
-   783			#size-cells = <1>;
-   784			status = "disabled";
-   785	
-   786			partitions {
-   787				compatible = "fixed-partitions";
-   788				#address-cells = <1>;
-   789				#size-cells = <1>;
-   790	
-   791				partition@0 {
-   792					label = "ospi_nand.tiboot3";
-   793					reg = <0x0 0x80000>;
-   794				};
-   795	
-   796				partition@80000 {
-   797					label = "ospi_nand.tispl";
-   798					reg = <0x80000 0x200000>;
-   799				};
-   800	
-   801				partition@280000 {
-   802					label = "ospi_nand.u-boot";
-   803					reg = <0x280000 0x400000>;
-   804				};
-   805	
-   806				partition@680000 {
-   807					label = "ospi_nand.env";
-   808					reg = <0x680000 0x40000>;
-   809				};
-   810	
-   811				partition@6c0000 {
-   812					label = "ospi_nand.env.backup";
-   813					reg = <0x6c0000 0x40000>;
-   814				};
-   815	
-   816				partition@2000000 {
-   817					label = "ospi_nand.rootfs";
-   818					reg = <0x2000000 0x5fc0000>;
-   819				};
-   820	
-   821				partition@7fc0000 {
-   822					label = "ospi_nand.phypattern";
-   823					reg = <0x7fc0000 0x40000>;
-   824				};
-   825			};
-   826		};
-   827	};
-   828	
+   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: watchdog: False schema does not allow {'compatible': ['zii,rave-sp-watchdog']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: backlight: False schema does not allow {'compatible': ['zii,rave-sp-backlight']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: pwrbutton: False schema does not allow {'compatible': ['zii,rave-sp-pwrbutton']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: eeprom@a3: False schema does not allow {'compatible': ['zii,rave-sp-eeprom'], 'reg': [[163, 16384]], 'zii,eeprom-name': ['dds-eeprom']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: eeprom@a4: False schema does not allow {'compatible': ['zii,rave-sp-eeprom'], 'reg': [[164, 16384]], '#address-cells': 1, '#size-cells': 1, 'zii,eeprom-name': ['main-eeprom']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: mcu: Unevaluated properties are not allowed ('backlight', 'pwrbutton', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-rmb3.dtb: pcie-ep@33c00000: reg: [[868220928, 4194304], [536870912, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
+--
+   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1251.27-1301.6: Warning (avoid_unnecessary_addr_size): /soc@0/bus@30800000/dsi@30a00000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/freescale/imx8mq.dtsi:1284.13-1292.8: Warning (graph_child_address): /soc@0/bus@30800000/dsi@30a00000/ports/port@0: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: mcu: watchdog: False schema does not allow {'compatible': ['zii,rave-sp-watchdog']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: mcu: backlight: False schema does not allow {'compatible': ['zii,rave-sp-backlight']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: mcu: pwrbutton: False schema does not allow {'compatible': ['zii,rave-sp-pwrbutton']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: mcu: eeprom@a3: False schema does not allow {'compatible': ['zii,rave-sp-eeprom'], 'reg': [[163, 16384]], 'zii,eeprom-name': ['dds-eeprom']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+>> arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: mcu: eeprom@a4: False schema does not allow {'compatible': ['zii,rave-sp-eeprom'], 'reg': [[164, 16384]], '#address-cells': 1, '#size-cells': 1, 'zii,eeprom-name': ['main-eeprom']}
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: mcu: Unevaluated properties are not allowed ('backlight', 'pwrbutton', 'watchdog' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/zii,rave-sp.yaml#
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/watchdog: failed to match any schema with compatible: ['zii,rave-sp-watchdog']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/backlight: failed to match any schema with compatible: ['zii,rave-sp-backlight']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/pwrbutton: failed to match any schema with compatible: ['zii,rave-sp-pwrbutton']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a3: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: /soc@0/bus@30800000/serial@30890000/mcu/eeprom@a4: failed to match any schema with compatible: ['zii,rave-sp-eeprom']
+   arch/arm64/boot/dts/freescale/imx8mq-zii-ultra-zest.dtb: pcie-ep@33c00000: reg: [[868220928, 4194304], [536870912, 134217728]] is too short
+   	from schema $id: http://devicetree.org/schemas/pci/fsl,imx6q-pcie-ep.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
