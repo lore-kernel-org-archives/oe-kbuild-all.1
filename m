@@ -1,142 +1,142 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE88513AA2A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 13:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2FE1D9686
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 14:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729259453; cv=none; b=ag8N2JhsAzEzgr2+LqfTaHc7cnv+meNhuxjFNaUCAZOdolhiYPep44S3PdtaRs2s3BxWiYfC+WTGnCqZEmjQ5UQLWUdT5ymVZ4qoICDvnebhQoVYFvkDUaSCeXU/irGmJ6xhivov4AWzt0FF/ZFKymiXTRv2roz+8BzKyYMAuWE=
+	t=1729262269; cv=none; b=OADBIL3+d260u2wCfs9Z9dEszRkQ6wenJOTb8ufO6FVwnx0IlYnp7iyUsaHNNaAuMdoZB+Z3IRR33ve+jZYlhCjzT9p8/o/3xL5HO09Z4uhoqJlzpgX6VNNC54DAfeqhI8/0aeNMhzlbKfjBkmAvN5XZaeRjUzq9cP/TCr6MXzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729259453; c=relaxed/simple;
-	bh=r7i+yYgh7J1zYo9HdoMsruXa6izNMb62AKlLsvsxGzM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GXH7RACoajOPTAnFFJo4hHaUMCHLIirbxbJxnCBLOKf2dwD6eOVbjHFw8QRkKoptC73Wic57KBZebxFq6kVg+yxt+fIZKzXH3oRsFf2zAv/BIWsei7Z+m7rNdlTt5/3UqQYZyt1fHrMa466jJfcz1iRLxUyNedoN+StHr1DTjoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eJIW98YF; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1729262269; c=relaxed/simple;
+	bh=it1Y9q6YoNHxwq+Tuvdp8THTniSvH+sYJZdaJo5nri0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fDmJFPfbXWEqhYy+vrw4syQLc5ovOazYPZuzNusxzCYPzfz38UUJ9ewA2G9IO8QuJlp1qnu3uTs/ZMRWwf2Vd0OcPgNRpgayM30ZKFUWjgT7/vDxBe6XWhmm477fXpKrOFJyOqJoztmHa0pxIE/hRkAh+cCw/vk+qmWEPxRQ/s4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F58oBZcP; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eJIW98YF"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49IAMiqk019890
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 13:50:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6NgMGuZXRsPH9xMGYYqG0hvxucFcWaBvJ1BOrsQvcAA=; b=eJIW98YFeZf9gJcs
-	JrcuQ82PBDq7OqPUHlBKqZay+S4Up/qRGY4E5Bt/xfiEE3MFyjz5Ge3oLV9IL407
-	H7tXtwW+q1jzjdG0UHVmgboNh3sNRZWsqvrXMqA7DGO2R1bjIGVR0u9jNFklmr+2
-	phrjeBeNfG34jJPrGu4IhL34A5Um57JnfoxqLq79vNC1DlYETIM+O5qM2emMicNK
-	TZcudqADLOb3GTdoALZv1UlyFHtSfadjENfd+tbbCEIYAijNXD832lLAUfbUtsag
-	CmvlU/4sZ6rVOIXPvACIXlw9GOyySM4RoDqoognVwhvo6aO75TzU045KL7RNsRsm
-	snuW1g==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42b0rx480d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 13:50:50 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-4a487bd8d04so79392137.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 06:50:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729259449; x=1729864249;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6NgMGuZXRsPH9xMGYYqG0hvxucFcWaBvJ1BOrsQvcAA=;
-        b=dKSnW8B0tES+triuHdCv4MvlG7fTudE04IttdzkvMfKMev0fYpZI0Hw3Tg0k6TtjjZ
-         xd/UcDh9bX17wL+KDfTSvhEDmEitLuWdH9DZXdn0FrAycYVfESZi7jQ/thTk1koNzHhO
-         XnhHLAaAVFzUUx0Q88qq/N0T/NRxYwlo1IMF3b0bnlKoluxRR6nOhX+hmirUwJbdy03p
-         W8XCe8cD2KTHrs+dtTUCwikOJFxvECpHE81QRpQ4UvZDHn7qaImPX41d32Jc1xyE8QlH
-         RDolxkz3E1TM6ToHC3mTfYDjIQ5jtQ/uMKxgr0p8oXcmlug0pHGt+xQ4ym3eL5HG8gD4
-         rnqA==
-X-Gm-Message-State: AOJu0YzmFudt0E89LPvwJ9Z7YPX9siRZxnntPKBVBm5fdTr9SNnfS9iy
-	TG7zUIlfbWyT4eNozfDOAWA3dBh3ICccPQDI1pGZ4lFgHqCcdxlJ5Bkt0tJ6gfpfRijm8gzxTO8
-	LDF1J7r0ezqr0cubsQM+ct7EPD/kHq6UAkXUUQjCmh4ECLyEk0YT/soa7+lE0JG03
-X-Received: by 2002:a05:6102:440e:b0:4a5:b29f:35d with SMTP id ada2fe7eead31-4a5d6bf09efmr817553137.6.1729259449444;
-        Fri, 18 Oct 2024 06:50:49 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFsmRKVWXbpg5d/Qq1amzcV3+v6IHTO2N1zHba4f4sx/cAwvo//ZGORdI/FABMizW1nhMDShQ==
-X-Received: by 2002:a05:6102:440e:b0:4a5:b29f:35d with SMTP id ada2fe7eead31-4a5d6bf09efmr817542137.6.1729259449007;
-        Fri, 18 Oct 2024 06:50:49 -0700 (PDT)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a68c2837dsm98336566b.208.2024.10.18.06.50.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Oct 2024 06:50:47 -0700 (PDT)
-Message-ID: <d4557e40-d078-4833-bfb6-30ac6a310788@oss.qualcomm.com>
-Date: Fri, 18 Oct 2024 15:50:46 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F58oBZcP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729262267; x=1760798267;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=it1Y9q6YoNHxwq+Tuvdp8THTniSvH+sYJZdaJo5nri0=;
+  b=F58oBZcPYHyp1BOvPIsNbzvhETwKPHNe90x0IrISFjpkdxHp0XOhJhlk
+   6aHANrhSyvkHvGCVzw6FUPqw/YW8/t26xEYm+/XpxRYFicyYzpdMqiTwr
+   9yEw5QqEYMQNuWoKZIggaCZtOV30lFgh0eU3IozFK5C0FGjdbuXk8LF0u
+   nyG58TN1AlPwvsoNE/ZyBhYq9sOIuugezX2pUj38qlupxu4XJ1oJcBdH5
+   FVZxHbmSTaq2Oa1XPegPtNYxbXaMGB1apLV7F7sok1XqEwu2WRuDkhIjE
+   ZGN6B8L/O2DNn0SRRy/lfg4Rv/sJgJpQpoTNWgWbab1KQgqGwv1RcEjWM
+   A==;
+X-CSE-ConnectionGUID: 23fBctw1QAulX8l7UcgQpw==
+X-CSE-MsgGUID: q8MFeCGgT56L6EQu0nzYVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28887565"
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="28887565"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 07:37:44 -0700
+X-CSE-ConnectionGUID: fk/ikTcbS3qtQSXUpOH+HQ==
+X-CSE-MsgGUID: HJJ3bdnyR1iEBUEZMy/3Yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
+   d="scan'208";a="78788906"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 Oct 2024 07:37:44 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t1o6n-000Nvd-0F;
+	Fri, 18 Oct 2024 14:37:41 +0000
+Date: Fri, 18 Oct 2024 22:37:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.1.x-imx 4273/17818]
+ drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:325:5: warning: no previous
+ prototype for 'cdns_mhdp_register_cec_driver'
+Message-ID: <202410182208.pxazi04P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 4931/5686]
- arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000:
- resets: [[52, 37], [52, 36]] is too long
-To: kernel test robot <lkp@intel.com>, Abel Vesa <abel.vesa@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-        Johan Hovold <johan+linaro@kernel.org>
-References: <202410182029.n2zPkuGx-lkp@intel.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <202410182029.n2zPkuGx-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: BfXRAu41suL67i5OA9QOO8D1LAm2Yinj
-X-Proofpoint-ORIG-GUID: BfXRAu41suL67i5OA9QOO8D1LAm2Yinj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1011
- mlxscore=0 priorityscore=1501 spamscore=0 suspectscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410180088
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 18.10.2024 2:54 PM, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
-> commit: 837c333f46df8ce6755ba82c53acb91948ec0072 [4931/5686] arm64: dts: qcom: x1e80100: Fix PCIe 6a lanes description
-> config: arm64-randconfig-051-20241017 (https://download.01.org/0day-ci/archive/20241018/202410182029.n2zPkuGx-lkp@intel.com/config)
-> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-> dtschema version: 2024.10.dev6+g12c3cd5
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410182029.n2zPkuGx-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410182029.n2zPkuGx-lkp@intel.com/
+Hi Li,
 
-FWIW:
+FYI, the error/warning still remains.
 
-> 
-> dtcheck warnings: (new ones prefixed by >>)
->    arch/arm64/boot/dts/qcom/x1e80100.dtsi:4150.11-4160.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-0: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
->    	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: domain-idle-states: cluster-sleep-1: 'idle-state-name' does not match any of the regexes: 'pinctrl-[0-9]+'
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.1.x-imx
+head:   096cd0432b03805f49c86684dafb9ced4511a714
+commit: 98ad662c434f5d3a43f0d7dec275529adfb67050 [4273/17818] drm/display: update header path and name
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241018/202410182208.pxazi04P-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410182208.pxazi04P-lkp@intel.com/reproduce)
 
-Addressed by Rob H's recent revert
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410182208.pxazi04P-lkp@intel.com/
 
->    	from schema $id: http://devicetree.org/schemas/power/domain-idle-state.yaml#
->>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: resets: [[52, 37], [52, 36]] is too long
->    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->>> arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1bfc000: reset-names: ['phy', 'phy_nocsr'] is too long
+All warnings (new ones prefixed by >>):
 
-Fixed in:
-<20241018-phy-qcom-qmp-pcie-fix-x1e80100-gen4x4-resets-v1-1-f543267a2dd8@linaro.org>
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:325:5: warning: no previous prototype for 'cdns_mhdp_register_cec_driver' [-Wmissing-prototypes]
+     325 | int cdns_mhdp_register_cec_driver(struct cdns_mhdp_cec *cec)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:353:5: warning: no previous prototype for 'cdns_mhdp_unregister_cec_driver' [-Wmissing-prototypes]
+     353 | int cdns_mhdp_unregister_cec_driver(struct cdns_mhdp_cec *cec)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000: clocks: [[52, 107], [52, 109], [139, 1], [52, 111], [52, 113], [52, 115]] is too long
->    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c06000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
->    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clocks: [[52, 96], [52, 98], [139, 0], [52, 100], [52, 102], [52, 104]] is too long
->    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: phy@1c0e000: clock-names: ['aux', 'cfg_ahb', 'ref', 'rchng', 'pipe', 'pipediv2'] is too long
->    	from schema $id: http://devicetree.org/schemas/phy/qcom,sc8280xp-qmp-pcie-phy.yaml#
->    arch/arm64/boot/dts/qcom/x1e78100-lenovo-thinkpad-t14s.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
 
-Fixed with the next -next, phy dt bindings changes were pulled in
+vim +/cdns_mhdp_register_cec_driver +325 drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c
 
-Others are duplicates
+37f090fcc75f8b Sandor Yu 2020-04-20  324  
+6dfb0effbcb07b Sandor Yu 2020-11-16 @325  int cdns_mhdp_register_cec_driver(struct cdns_mhdp_cec *cec)
+37f090fcc75f8b Sandor Yu 2020-04-20  326  {
+37f090fcc75f8b Sandor Yu 2020-04-20  327  	int ret;
+37f090fcc75f8b Sandor Yu 2020-04-20  328  
+37f090fcc75f8b Sandor Yu 2020-04-20  329  	cec->adap = cec_allocate_adapter(&cdns_mhdp_cec_adap_ops, cec,
+37f090fcc75f8b Sandor Yu 2020-04-20  330  					 CEC_NAME,
+37f090fcc75f8b Sandor Yu 2020-04-20  331  					 CEC_CAP_PHYS_ADDR | CEC_CAP_LOG_ADDRS |
+37f090fcc75f8b Sandor Yu 2020-04-20  332  					 CEC_CAP_TRANSMIT | CEC_CAP_PASSTHROUGH
+37f090fcc75f8b Sandor Yu 2020-04-20  333  					 | CEC_CAP_RC, CEC_MAX_LOG_ADDRS);
+37f090fcc75f8b Sandor Yu 2020-04-20  334  	ret = PTR_ERR_OR_ZERO(cec->adap);
+37f090fcc75f8b Sandor Yu 2020-04-20  335  	if (ret)
+37f090fcc75f8b Sandor Yu 2020-04-20  336  		return ret;
+6dfb0effbcb07b Sandor Yu 2020-11-16  337  	ret = cec_register_adapter(cec->adap, cec->dev);
+37f090fcc75f8b Sandor Yu 2020-04-20  338  	if (ret) {
+37f090fcc75f8b Sandor Yu 2020-04-20  339  		cec_delete_adapter(cec->adap);
+37f090fcc75f8b Sandor Yu 2020-04-20  340  		return ret;
+37f090fcc75f8b Sandor Yu 2020-04-20  341  	}
+37f090fcc75f8b Sandor Yu 2020-04-20  342  
+37f090fcc75f8b Sandor Yu 2020-04-20  343  	cec->cec_worker = kthread_create(mhdp_cec_poll_worker, cec, "cdns-mhdp-cec");
+37f090fcc75f8b Sandor Yu 2020-04-20  344  	if (IS_ERR(cec->cec_worker))
+37f090fcc75f8b Sandor Yu 2020-04-20  345  		dev_err(cec->dev, "failed  create hdp cec thread\n");
+37f090fcc75f8b Sandor Yu 2020-04-20  346  
+37f090fcc75f8b Sandor Yu 2020-04-20  347  	wake_up_process(cec->cec_worker);
+37f090fcc75f8b Sandor Yu 2020-04-20  348  
+6dfb0effbcb07b Sandor Yu 2020-11-16  349  	dev_dbg(cec->dev, "CEC successfuly probed\n");
+37f090fcc75f8b Sandor Yu 2020-04-20  350  	return 0;
+37f090fcc75f8b Sandor Yu 2020-04-20  351  }
+37f090fcc75f8b Sandor Yu 2020-04-20  352  
+6dfb0effbcb07b Sandor Yu 2020-11-16 @353  int cdns_mhdp_unregister_cec_driver(struct cdns_mhdp_cec *cec)
+37f090fcc75f8b Sandor Yu 2020-04-20  354  {
+37f090fcc75f8b Sandor Yu 2020-04-20  355  	if (cec->cec_worker) {
+37f090fcc75f8b Sandor Yu 2020-04-20  356  		kthread_stop(cec->cec_worker);
+37f090fcc75f8b Sandor Yu 2020-04-20  357  		cec->cec_worker = NULL;
+37f090fcc75f8b Sandor Yu 2020-04-20  358  	}
+37f090fcc75f8b Sandor Yu 2020-04-20  359  	cec_unregister_adapter(cec->adap);
+37f090fcc75f8b Sandor Yu 2020-04-20  360  	return 0;
+37f090fcc75f8b Sandor Yu 2020-04-20  361  }
+37f090fcc75f8b Sandor Yu 2020-04-20  362  
 
-Konrad
+:::::: The code at line 325 was first introduced by commit
+:::::: 6dfb0effbcb07b7568a792c3067eb1f71fa40525 MLK-24081-03: drm: bridge: cdns-cec: support hdmi rx cec
+
+:::::: TO: Sandor Yu <Sandor.yu@nxp.com>
+:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
