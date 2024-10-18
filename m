@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8E8200B85
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Oct 2024 23:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E3674A29
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 00:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729207678; cv=none; b=oobkENbmCuCCnlSK/Om+NBUmU4FQpziWSVjQC3wb6yJeN8yBWSFzTDYxXFOU0PpdSeIWbJ+Zb38QFLxJupZ5w7QDW3wcsw9Sucjscrd1a+DiMkuHZKlMNe+SOermLkgJdcR5+eCacS7wAltaPHt/k3PCECRH/xi4ZOorLFWMcJ8=
+	t=1729210138; cv=none; b=a26BAT0geXivKhvU+IlzGnOWe9EZXO/mMfNmD+jQw21hJXQEoYuBWickI/bvzRqTKUyGJMbEAJsAuwPyKflABo9pXdsUX9jWLDqMDQQ5r/BmXIAyq6EIkeE5eWA9Ab45A/OSU2YvtZQlf0VSGsP4BfbUMcRwValdl6P3RpGn3yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729207678; c=relaxed/simple;
-	bh=8wybGY0ydF9v2ZwakRGZBI+jXb6WuS4RpdWx3qtCY9A=;
+	s=arc-20240116; t=1729210138; c=relaxed/simple;
+	bh=sf64gOwRSn9bQ+v2/ckCBHYO0f40fVtpoTs06U5eUKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iRJCGLx6/etRgwOA98xvbad0HjtC4SrhDn3sszhxG6MSBg0Fqd42HeucScyDeHLfK7/mLoZQAj0ygBl/RhZShS3/J8Ng0otZKfXf3lPt5AnWqZSdiMuwj91EyTyLIiafhe1Hs/J0e+yjmxlw7h9CDeb2wKk9Fs2sXPcUk7MAj+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mceWJUx5; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=BbpnXJxe2DxmhRlcIV7GaXcN3bwSZRkenIOunWJU0b+FZR4qOIop8mb2eYOif+zJevThddEmXmvrjcgb105I/eNzrUc1KKfZEiy5ZF2Uw9+1ClvvMWW2o9q5QJdu/489+qUeJt3SoYkExhlcpxHkQqO6GL7jBvhaUBh/IDblYj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FB40oCQz; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mceWJUx5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FB40oCQz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729207676; x=1760743676;
+  t=1729210137; x=1760746137;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8wybGY0ydF9v2ZwakRGZBI+jXb6WuS4RpdWx3qtCY9A=;
-  b=mceWJUx5RkS/Y2/5MLdSZw1oVcPQn2d5yQFjam1volC7OpB6qs/Kb2yL
-   62iTCT9xm6h+3HAS8RzYWJ8j/YL3BHFQgMYd+jVhFm0v2UUGXJjfJlycI
-   2Qt1VAWWgmnKfZNN4omI5Co7dnNQFe65dbMoWyc8gPh1hM1iDGSKN34MS
-   fGfGOjapn8J2KifFllv+kY7qhrxIDrC4+L5kaKQDndVmvroKkdMJScDPA
-   Vy0NWQrNqaFS0Ma2+q0ZygZzdNi2MG2ix0pYB4kDmA48rYyGDOTKV8qmp
-   ffc0l2UgV3+IqNR7Q1+FW+9uZko4elAXua+TNyVBSn7yk1DuJarzrFak7
-   w==;
-X-CSE-ConnectionGUID: 7s486OU1TKqIHV+TPeUrcA==
-X-CSE-MsgGUID: I/84sLh5SJyEheb9ZF8FUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28606583"
+  bh=sf64gOwRSn9bQ+v2/ckCBHYO0f40fVtpoTs06U5eUKk=;
+  b=FB40oCQzDPQ3eUhDNL2c4gEud+d4sYktX/Xy4sDOnUMgkVyL2pZ/+Q0O
+   Xc51DZkLEDXJCCwneNgzB+vDTcgAMXyPioQ75RgLZ+asTQriQIkfkLqOO
+   8DlQAM36QO4PSPntOjCfipuOnlZrrL5M+Qld+/JiyC3azxIrBEH8ApDpP
+   75GKy/acM8OvBtc34NzmKNcA2yOZOfcoIfs9eKdIAFV8jPU5CRa9CHUCn
+   B+aBgHjxS8fG1xV6xZSm6gofdi+bbKvYJmPQ+tOB0ReN6iP0r1ToF2glK
+   n8Z0W3IvH9G2pA7L3Fyc22oBmhYmLsMrhOiIQd1rLO8P/KcXb3RigyBbz
+   Q==;
+X-CSE-ConnectionGUID: fazMs10HRgW5NYWbsg+hxw==
+X-CSE-MsgGUID: k3AfTzD9R8mh4jyk4ObrYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="31594247"
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="28606583"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 16:27:55 -0700
-X-CSE-ConnectionGUID: 2zFf06XPTqiI3W485Yfefw==
-X-CSE-MsgGUID: xsBMhgbMRDWtQ9GUo8Lydw==
+   d="scan'208";a="31594247"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 17:08:56 -0700
+X-CSE-ConnectionGUID: shYuvkNkSaK87MGBmSvfAw==
+X-CSE-MsgGUID: +jPS8QIpStSk/FkOtivyAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="102007434"
+   d="scan'208";a="78756248"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Oct 2024 16:27:53 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Oct 2024 17:08:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1ZuJ-000N2B-1G;
-	Thu, 17 Oct 2024 23:27:51 +0000
-Date: Fri, 18 Oct 2024 07:27:23 +0800
+	id 1t1aY0-000N3f-1U;
+	Fri, 18 Oct 2024 00:08:52 +0000
+Date: Fri, 18 Oct 2024 08:08:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/bcachefs/btree_cache.o: warning: objtool:
- btree_node_lock.isra.0+0x90: stack state mismatch: reg1[22]=-1+0
- reg2[22]=-2-16
-Message-ID: <202410180702.84IG5drg-lkp@intel.com>
+To: Vaishnav Achath <vaishnav.a@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 11/44]
+ arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi:184.37-188.5: Warning
+ (unit_address_vs_reg):
+ /bus@100000/bus@28380000/fss@47000000/mux-controller@47000004: node has a
+ unit name, but no reg or ranges property
+Message-ID: <202410180737.bBUDOWN1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,22 +65,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6efbea77b390604a7be7364583e19cd2d6a1291b
-commit: f1625637b85191a0ac6f9ebf2b30d8b335f08547 bcachefs: Assert that we don't lock nodes when !trans->locked
-date:   5 weeks ago
-config: loongarch-randconfig-001-20241018 (https://download.01.org/0day-ci/archive/20241018/202410180702.84IG5drg-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180702.84IG5drg-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   e680678e5fef8c191b1588d8d7520171011ebe93
+commit: 453e0e54ada305a3320d743e5511ee0fe844f23f [11/44] arm64: dts: ti: k3-j721e-mcu-wakeup: Add HyperBus node
+config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241018/202410180737.bBUDOWN1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410180737.bBUDOWN1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410180702.84IG5drg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410180737.bBUDOWN1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi:184.37-188.5: Warning (unit_address_vs_reg): /bus@100000/bus@28380000/fss@47000000/mux-controller@47000004: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:71.39-76.8: Warning (unit_address_vs_reg): /bus@100000/scm-conf@100000/mux-controller@4000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:1909.34-1918.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:725.25-751.4: Warning (unique_unit_address): /bus@100000/pcie@2900000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2900000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:773.25-799.4: Warning (unique_unit_address): /bus@100000/pcie@2910000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2910000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:821.25-847.4: Warning (unique_unit_address): /bus@100000/pcie@2920000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2920000)
+--
+>> arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi:184.37-188.5: Warning (unit_address_vs_reg): /bus@100000/bus@28380000/fss@47000000/mux-controller@47000004: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:71.39-76.8: Warning (unit_address_vs_reg): /bus@100000/scm-conf@100000/mux-controller@4000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:725.25-751.4: Warning (unique_unit_address): /bus@100000/pcie@2900000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2900000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:773.25-799.4: Warning (unique_unit_address): /bus@100000/pcie@2910000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2910000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:821.25-847.4: Warning (unique_unit_address): /bus@100000/pcie@2920000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2920000)
+   arch/arm64/boot/dts/ti/k3-j721e-main.dtsi:869.25-895.4: Warning (unique_unit_address): /bus@100000/pcie@2930000: duplicate unit-address (also used in node /bus@100000/pcie-ep@2930000)
 
->> fs/bcachefs/btree_cache.o: warning: objtool: btree_node_lock.isra.0+0x90: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
+vim +184 arch/arm64/boot/dts/ti/k3-j721e-mcu-wakeup.dtsi
+
+ > 184			hbmc_mux: mux-controller@47000004 {
 
 -- 
 0-DAY CI Kernel Test Service
