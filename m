@@ -1,68 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7689176AC5;
-	Fri, 18 Oct 2024 04:37:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96541714A5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 04:57:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729226229; cv=none; b=JKGgVVteVBjsfXWTzET49WTHzurVJZyWk6S5JYa2mdF19f1X7Sjh8FuRvD31oe4epURQuP7/OeyU+sttocxIvJLdIMpWqEME4XGiUS02lgYz4Hj5aVL8dF5b5rwm0i2GH6VTHZvww82torkFyjIqcHZ6a8a6gMtpZxd2uf5aVdo=
+	t=1729227430; cv=none; b=YTA9TAhppCCcZ9exO2hbSS7AeQaQNHlK0redd8eZ4aP90/UBHcELDW/NrlZfBSdJcViZ1s0GIYEi3zUOVlZay4pZg3CUT+6iFsUpB4FREGkA6s0ks25XC5P920IqEd18eij6qxNHNwhwBJQw9cN/PDMRWC/CpFzTU9a+Uz6X+j0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729226229; c=relaxed/simple;
-	bh=U1fgLhH6lmdomPuzPUhhgaMswZjBn491Xqqurfw0z7o=;
+	s=arc-20240116; t=1729227430; c=relaxed/simple;
+	bh=xjRPRAsN2+MS07nXvehs+xN3Fwavhb8T/rE5f5K8OXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fFoxljaRl5pYFwFX3ONnqLMSuWEzE+KXBgXHlUw17XOv75zCno4YKHRgmndvLcCVUQ1ChABmmI2lh7M1zYB1EaBvDbBdJ9H47J6Njzt2/APXEUVzEehKKskwWz6/djv7uz3SEOTN/HUzZmhQEJYh8At37wHSngYYegMRh3QVYak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/SDwm3A; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=UWKBxcl5JRmmbEpExm+C9MRP1d0PSSCqZ6cIF5HzCweZdkcj0QFFW818ZwrfwNp9mTduldhpe2vRvLIqDgTpo/0vG4uN5IdfJIVagjqoAFgZdzUXMHhoi2YAFPnEvUwsUIMQFl7zeICw93T4Si2cMQgdjrxklMQI2Cfmc3NeY8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kXfsufB8; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/SDwm3A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kXfsufB8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729226227; x=1760762227;
+  t=1729227428; x=1760763428;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=U1fgLhH6lmdomPuzPUhhgaMswZjBn491Xqqurfw0z7o=;
-  b=A/SDwm3Aom81pH0hvNFoSZVpNdQr5rY/g/1SBExa1cFAM09MAXGIihUH
-   u4AwPszTxX+P9TKdpFCC882i3TZ49Rr3aONXsFNIUUdbXLRCHQXfgABon
-   iWUPvm4o7wB7ax/X500j/NRgPb1nRNR5t5oU8IzJzMb8K/EM20rGH0xOV
-   BQ85dMV5Zgpxx0jkHeZcwzV887DOMd4s2Q3B12hsZlLbk/8WZe2rxPR3Q
-   KQxrnYvNC8xXwB6GiLDP12AWX0EBgE4wYI0usziUoaEL9e/7kEOXSMGq9
-   eojJhMsdfY/LeN+qZePt7Nw9SQ8NCCZX+gqeJMoXCnLYZ459BbiewfpXJ
-   g==;
-X-CSE-ConnectionGUID: z6UWYKDHQXOiXZxxNFNHvw==
-X-CSE-MsgGUID: fN79yXkBRjeTuSdV5bdNHA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28875672"
+  bh=xjRPRAsN2+MS07nXvehs+xN3Fwavhb8T/rE5f5K8OXg=;
+  b=kXfsufB8ximt8AAOifgDAEztE65xuALySOTG1uN6WxWit+VmjS4FFsjO
+   V5NCZgDK86wQ8yEDhjk0c4LliyBxTmRFiKeeQ2tNAp3ptw2wUUZn06++p
+   nHRsY4qfZVLHFH/BzaWiLsChP0ZTLhC1PNGFp2DJzQwyqcPSovJfEVkko
+   p0c9pHMK2q3rVAydyG/bYMoAv5I1Ekk9nT5M2/HYTKYWMbrE3GHGPADTQ
+   jZWBTcOTGvJsMva0OofTtj9WoIwE4dJ0UK9Je+VKLUVK76B8JCNLFnQjm
+   p3QyM9zBEA1zjtOQchORRn2HGc8FxagY/wOAQ69kpJeQlnSJ8oUenG3LS
+   A==;
+X-CSE-ConnectionGUID: jkeSbic/S8WT8hK8HBU6Tw==
+X-CSE-MsgGUID: YNlhAHiRR6qHha1YYxRpTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11228"; a="28877893"
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="28875672"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 21:37:07 -0700
-X-CSE-ConnectionGUID: 1rr+7d3USUqhm9O0KJNYpw==
-X-CSE-MsgGUID: c2UWR/ciRdmAVsTJmFOJgA==
+   d="scan'208";a="28877893"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2024 21:57:07 -0700
+X-CSE-ConnectionGUID: FZD2wJcsSAi76JatAAQYzA==
+X-CSE-MsgGUID: oRFh4Y9NS22CWyQJkaWzPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,212,1725346800"; 
-   d="scan'208";a="83394723"
+   d="scan'208";a="109497746"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Oct 2024 21:37:04 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Oct 2024 21:57:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1ejW-000NGr-1J;
-	Fri, 18 Oct 2024 04:37:02 +0000
-Date: Fri, 18 Oct 2024 12:36:05 +0800
+	id 1t1f2s-000NHj-2y;
+	Fri, 18 Oct 2024 04:57:02 +0000
+Date: Fri, 18 Oct 2024 12:56:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marcos Paulo de Souza <mpdesouza@suse.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	John Ogness <john.ogness@linutronix.de>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
-	Marcos Paulo de Souza <mpdesouza@suse.com>
-Subject: Re: [PATCH 2/2] tty: sysrq: Use printk_loud_console context on
- __handle_sysrq
-Message-ID: <202410181205.VT06PKmP-lkp@intel.com>
-References: <20241016-printk-loud-con-v1-2-065e4dad6632@suse.com>
+To: Gilad Naaman <gnaaman@drivenets.com>, netdev <netdev@vger.kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Gilad Naaman <gnaaman@drivenets.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>
+Subject: Re: [PATCH net-next v5 5/6] Remove bare neighbour::next pointer
+Message-ID: <202410181237.GEcWZ6xL-lkp@intel.com>
+References: <20241017070445.4013745-6-gnaaman@drivenets.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,104 +67,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241016-printk-loud-con-v1-2-065e4dad6632@suse.com>
+In-Reply-To: <20241017070445.4013745-6-gnaaman@drivenets.com>
 
-Hi Marcos,
+Hi Gilad,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 1d227fcc72223cbdd34d0ce13541cbaab5e0d72f]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marcos-Paulo-de-Souza/printk-Introduce-LOUD_CON-flag/20241017-010521
-base:   1d227fcc72223cbdd34d0ce13541cbaab5e0d72f
-patch link:    https://lore.kernel.org/r/20241016-printk-loud-con-v1-2-065e4dad6632%40suse.com
-patch subject: [PATCH 2/2] tty: sysrq: Use printk_loud_console context on __handle_sysrq
-config: i386-buildonly-randconfig-001-20241018 (https://download.01.org/0day-ci/archive/20241018/202410181205.VT06PKmP-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181205.VT06PKmP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gilad-Naaman/Add-hlist_node-to-struct-neighbour/20241017-150629
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241017070445.4013745-6-gnaaman%40drivenets.com
+patch subject: [PATCH net-next v5 5/6] Remove bare neighbour::next pointer
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241018/202410181237.GEcWZ6xL-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181237.GEcWZ6xL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410181205.VT06PKmP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410181237.GEcWZ6xL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/tty/sysrq.c:600:2: error: call to undeclared function 'printk_loud_console_enter'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     600 |         printk_loud_console_enter();
-         |         ^
->> drivers/tty/sysrq.c:610:4: error: call to undeclared function 'printk_loud_console_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     610 |                         printk_loud_console_exit();
-         |                         ^
-   drivers/tty/sysrq.c:614:4: error: call to undeclared function 'printk_loud_console_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     614 |                         printk_loud_console_exit();
-         |                         ^
-   drivers/tty/sysrq.c:632:3: error: call to undeclared function 'printk_loud_console_exit'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     632 |                 printk_loud_console_exit();
-         |                 ^
-   4 errors generated.
+   net/core/neighbour.c: In function 'neigh_remove_one':
+>> net/core/neighbour.c:210:34: warning: variable 'nht' set but not used [-Wunused-but-set-variable]
+     210 |         struct neigh_hash_table *nht;
+         |                                  ^~~
 
 
-vim +/printk_loud_console_enter +600 drivers/tty/sysrq.c
+vim +/nht +210 net/core/neighbour.c
 
-   582	
-   583	void __handle_sysrq(u8 key, bool check_mask)
-   584	{
-   585		const struct sysrq_key_op *op_p;
-   586		int orig_suppress_printk;
-   587		int i;
-   588	
-   589		orig_suppress_printk = suppress_printk;
-   590		suppress_printk = 0;
-   591	
-   592		rcu_sysrq_start();
-   593		rcu_read_lock();
-   594		/*
-   595		 * Enter in the console_loud context so that sysrq header is shown to
-   596		 * provide the user with positive feedback.  We do not simply emit this
-   597		 * at KERN_EMERG as that would change message routing in the consumers
-   598		 * of /proc/kmsg.
-   599		 */
- > 600		printk_loud_console_enter();
-   601	
-   602		op_p = __sysrq_get_key_op(key);
-   603		if (op_p) {
-   604			/*
-   605			 * Should we check for enabled operations (/proc/sysrq-trigger
-   606			 * should not) and is the invoked operation enabled?
-   607			 */
-   608			if (!check_mask || sysrq_on_mask(op_p->enable_mask)) {
-   609				pr_info("%s\n", op_p->action_msg);
- > 610				printk_loud_console_exit();
-   611				op_p->handler(key);
-   612			} else {
-   613				pr_info("This sysrq operation is disabled.\n");
-   614				printk_loud_console_exit();
-   615			}
-   616		} else {
-   617			pr_info("HELP : ");
-   618			/* Only print the help msg once per handler */
-   619			for (i = 0; i < ARRAY_SIZE(sysrq_key_table); i++) {
-   620				if (sysrq_key_table[i]) {
-   621					int j;
-   622	
-   623					for (j = 0; sysrq_key_table[i] !=
-   624							sysrq_key_table[j]; j++)
-   625						;
-   626					if (j != i)
-   627						continue;
-   628					pr_cont("%s ", sysrq_key_table[i]->help_msg);
-   629				}
-   630			}
-   631			pr_cont("\n");
-   632			printk_loud_console_exit();
-   633		}
-   634		rcu_read_unlock();
-   635		rcu_sysrq_end();
-   636	
-   637		suppress_printk = orig_suppress_printk;
-   638	}
-   639	
+   207	
+   208	bool neigh_remove_one(struct neighbour *ndel, struct neigh_table *tbl)
+   209	{
+ > 210		struct neigh_hash_table *nht;
+   211		bool retval = false;
+   212	
+   213		nht = rcu_dereference_protected(tbl->nht,
+   214						lockdep_is_held(&tbl->lock));
+   215	
+   216		write_lock(&ndel->lock);
+   217		if (refcount_read(&ndel->refcnt) == 1) {
+   218			hlist_del_rcu(&ndel->hash);
+   219			neigh_mark_dead(ndel);
+   220			retval = true;
+   221		}
+   222		write_unlock(&ndel->lock);
+   223		if (retval)
+   224			neigh_cleanup_and_release(ndel);
+   225		return retval;
+   226	}
+   227	
 
 -- 
 0-DAY CI Kernel Test Service
