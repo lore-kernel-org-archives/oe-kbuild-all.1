@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E833D18990C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 21:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C905218990C;
+	Fri, 18 Oct 2024 21:10:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729285807; cv=none; b=VY2/AcCtRAM7HwFOqb0Vr2zeGI7iMM1Cwyslh4aKBfVnU2HprwbX9GT/rZMgVK2aaFU5E8531iJLSXyXKKwBZY8dpluIJ8eeb+NXSKaMjbI7sLoB6rjCwCNIx7uNe2/eiwMAxjJEL+pLyBjSkHj985H8oMNahMpEiDFC4BRQ7bE=
+	t=1729285811; cv=none; b=XZ7B3s2F82906VDpAUmizgkNSbfNUhvPPpRmgQ+aI/dFzqWKPjy90bFeGgvJc47ZF6sV8//qVatXB9Nl7sli6afoqVVWx1SLCbPVm88JU59I4L8Z3VksNLGtWYp1Do15ofG4PRgWP64EwywLe+0h3HECkXHDjsEeN9kutJVyA2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729285807; c=relaxed/simple;
-	bh=/Pf5KMXasYc+ggDSCb01aA9D9J7P+2tZyoUtsWztRz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L/3MTrce4CDqdexDpwDZxnDcfpzKzgsgMqVImhzns5gWtzMRTWaLgBvshQdeAzh8EvQMu5HgBSbM2K6Y2zxt2owJuGI0HpvNch4atMGSaQFSHwodx8ea4tzrfi0X8KSqvFvkk7dDUsEuJQwaxxPV2nT90oXE3pcJWKQUkpGvydM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L74DMZwS; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1729285811; c=relaxed/simple;
+	bh=hQ0DG6/Eb3j0prKHYX364xskTLEd+9vKpIg1xcOPcDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kxxOBegOZrX3Dfm9/r/tfspMHt2SJNwdCgDvIwFEoOhgXXqbBXrqpY7hmhp5kAenC/djxkZ4wiOzPti2U/Rt06Fg6xPI14dfyhVbH8iyu+TlXYCotDbIVqldYCH0SNvrKG/pawp8F8uLPiDi2PfvtxmzEyinmNzyP41xVgbbBSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCC/aZR8; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L74DMZwS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCC/aZR8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729285805; x=1760821805;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Pf5KMXasYc+ggDSCb01aA9D9J7P+2tZyoUtsWztRz4=;
-  b=L74DMZwSJFkTebfNR1XhdJjHFJS2+i57/ONHvTTrn9AXdQJbU/qO/FV8
-   1mq5rgNcGC7OPdJCqWUBypUqgEvSZkttlfBjNn7HuxvnM7moeAmfWsD+s
-   F7ffYFFNLhw0FNTS5TsqgxN+VYpRTJBHLiDpSzN4QsLQnUtsHTWET8za3
-   /uFLIqJV/cNmI/SPUKc1eALjhClYIGvfWaAPkx2jSluR/nCdqRK0e90Ld
-   BOGP8Ocy/CJDtJVOKBTAmACWJhOzzhmx+RfMVocUuNCb/QL185ouEzUkV
-   wqoZUza67hVZhVERy4XgTPEg82vAH/KNr9MPm382kMQiVEXWn40GEEkLs
-   w==;
-X-CSE-ConnectionGUID: dsvOX+J8R0qYCn1BTVPGPg==
-X-CSE-MsgGUID: wE1EwNhhRgunMECiZN6Y0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28790767"
+  t=1729285809; x=1760821809;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hQ0DG6/Eb3j0prKHYX364xskTLEd+9vKpIg1xcOPcDw=;
+  b=GCC/aZR8vwcft9DKreLN/fmFJWkpkZJFH67WpSDHNksW/CR04ZaKyeWL
+   XtoZtoCtFYtmcegKvkavN+KJGVxCjzqAhdXbd+IOOezcGUxYRgKG+kMbb
+   xQAYv8nfmcqKBuL0PvyKpfNP6vX9UeHUun1IeLr+j7jsejyAHejBEg/tT
+   s16Q+FTgxKC0wfRkNfHwQWmF7NPSlPljsyZ789mZrfGKSamDYzSLkMm8y
+   KtP6Yza+q5j5uz+ift8Tp9tKB45O2JaoAIcvYkYlpHFTGrcFA2Cp6MUp4
+   QCHIHtEr9tqwvVvFf4T9CQFxMMesDXYZZQ5B3/anHpvfvyAoXOs6vFg0M
+   Q==;
+X-CSE-ConnectionGUID: f/RywqOSTq6OMnvxWDTopQ==
+X-CSE-MsgGUID: by2L74I2QvuZHPe6s4w4HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28993133"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28790767"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 14:10:04 -0700
-X-CSE-ConnectionGUID: ZC2iOYRmSEay7M/OXgopNw==
-X-CSE-MsgGUID: KOUzeRYkQkKWwsGFXAovEQ==
+   d="scan'208";a="28993133"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 14:10:08 -0700
+X-CSE-ConnectionGUID: dr8iIfhTSkuHbpup6ssh2A==
+X-CSE-MsgGUID: zkUFIu82SCqVszaErv+rJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="116434645"
+   d="scan'208";a="78938262"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Oct 2024 14:10:02 -0700
+  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2024 14:10:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1uES-000OJN-0R;
+	id 1t1uES-000OJS-0e;
 	Fri, 18 Oct 2024 21:10:00 +0000
-Date: Sat, 19 Oct 2024 05:09:13 +0800
+Date: Sat, 19 Oct 2024 05:09:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.1.x-imx 3613/17818]
- drivers/regulator/max17135-regulator.c:796:19: warning: 'max17135_setup'
- defined but not used
-Message-ID: <202410190546.bUF17gpf-lkp@intel.com>
+To: Wei Fang <wei.fang@nxp.com>, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.oltean@nxp.com,
+	claudiu.manoil@nxp.com, xiaoning.wang@nxp.com, Frank.Li@nxp.com,
+	christophe.leroy@csgroup.eu, linux@armlinux.org.uk,
+	bhelgaas@google.com, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v3 net-next 06/13] net: enetc: build enetc_pf_common.c as
+ a separate module
+Message-ID: <202410190431.wiCDZy8G-lkp@intel.com>
+References: <20241017074637.1265584-7-wei.fang@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +70,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241017074637.1265584-7-wei.fang@nxp.com>
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.1.x-imx
-head:   096cd0432b03805f49c86684dafb9ced4511a714
-commit: 853944c5181946f7b7d04330e610316b49aee2d6 [3613/17818] MLK-11556-1 pmic: max17135: add hwmon, mfd and regulator drivers for this pmic
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241019/202410190546.bUF17gpf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190546.bUF17gpf-lkp@intel.com/reproduce)
+Hi Wei,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Fang/dt-bindings-net-add-compatible-string-for-i-MX95-EMDIO/20241017-160848
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241017074637.1265584-7-wei.fang%40nxp.com
+patch subject: [PATCH v3 net-next 06/13] net: enetc: build enetc_pf_common.c as a separate module
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241019/202410190431.wiCDZy8G-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190431.wiCDZy8G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190546.bUF17gpf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190431.wiCDZy8G-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/regulator/max17135-regulator.c:796:19: warning: 'max17135_setup' defined but not used [-Wunused-function]
-     796 | static int __init max17135_setup(char *options)
-         |                   ^~~~~~~~~~~~~~
-
-
-vim +/max17135_setup +796 drivers/regulator/max17135-regulator.c
-
-   790	
-   791	/*
-   792	 * Parse user specified options (`max17135:')
-   793	 * example:
-   794	 *   max17135:pass=2,vcom=-1250000
-   795	 */
- > 796	static int __init max17135_setup(char *options)
-   797	{
-   798		int ret;
-   799		char *opt;
-   800		while ((opt = strsep(&options, ",")) != NULL) {
-   801			if (!*opt)
-   802				continue;
-   803			if (!strncmp(opt, "pass=", 5)) {
-   804				ret = kstrtoul(opt + 5, 0, &max17135_pass_num);
-   805				if (ret < 0)
-   806					return ret;
-   807			}
-   808			if (!strncmp(opt, "vcom=", 5)) {
-   809				int offs = 5;
-   810				if (opt[5] == '-')
-   811					offs = 6;
-   812				ret = kstrtoul(opt + offs, 0,
-   813					(long *)&max17135_vcom);
-   814				if (ret < 0)
-   815					return ret;
-   816				max17135_vcom = -max17135_vcom;
-   817			}
-   818		}
-   819	
-   820		return 1;
-   821	}
-   822	
+ERROR: modpost: "__delay" [drivers/net/mdio/mdio-cavium.ko] undefined!
+>> ERROR: modpost: "enetc_set_ethtool_ops" [drivers/net/ethernet/freescale/enetc/nxp-enetc-pf-common.ko] undefined!
+ERROR: modpost: "devm_of_clk_add_hw_provider" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "devm_clk_hw_register" [drivers/media/i2c/tc358746.ko] undefined!
+ERROR: modpost: "of_clk_hw_simple_get" [drivers/media/i2c/tc358746.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
