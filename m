@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A240205128
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 18:46:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BF9205132;
+	Fri, 18 Oct 2024 18:46:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729277167; cv=none; b=VK5wyNY79j4nFMBHb+wTCJXHmaJDcSKXMLQmPYqaXQD8AdyjdoNsN4ifho7lZVwxk2XgKbyjShbyocNgmrz1D1IPY+MxiK0bQAyg9LyPhdNEdzwS4iKHySqCAGUzXb3ITFTxdYV0PthOZph6qDBvKjJzPV1m77u0yg6ZteJQ48A=
+	t=1729277167; cv=none; b=aq461/XWt3LDMld1Tp4ABHLFih/QFoaJNfqPmiI65zXnySqVsuRes8bAvdENv66EwWOQZ8AOI3Z7EpYbHorgVJAdnfEu7lkOwGhHrkZCVZPKD683X9ErrP8tYxK2wEEjR+5z1e/45tmfKJZacCgGtLWrwSognY9FQO8gzz0sUcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729277167; c=relaxed/simple;
-	bh=tLeYRCWa9L/6iyxy4OLStSv4/M5ukCDBxY+KRLJwt6g=;
+	bh=hhnA/YPn+ZYS6jHFvDtwSH23zI1zQIo3jP9zrP6+kWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eYBkeFvN5PIcFhL++CvaB98rp+3RUKKhtt7EXMAi7TJtekZ6AMCxIVRgJk39dgX51ZhaDpdNl0eu3l3RBXy7bFUiYD+s1K0/YpJcN2FpLINfgJfJOe8gGevMIQq3oNb6zzWVqBgMFbdR6T3RBO09bZZkLta2ztG0cuOtrFh3o4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kKn2K0K6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJidImWb0W56Gs5TQ7bblltedWkHAdiqErn6d7WNleKURx9VqgT5Z524+0qzKinglXa1zBtzX0ju+FdUO+kugreHWZoXC6EJINTxzP6PO6BQZARQSFbnsgwwDIBs/TbVd05+IAh54fNrvwwILR24LNJVBxS44qVl5llj/eRljho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcKgZ5Lg; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kKn2K0K6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcKgZ5Lg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729277165; x=1760813165;
+  t=1729277166; x=1760813166;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tLeYRCWa9L/6iyxy4OLStSv4/M5ukCDBxY+KRLJwt6g=;
-  b=kKn2K0K6kkYxJLFgX3tLcgsm8bSR3f2/lY5Vk+4zHqWM21duuM6G7wVj
-   EDrt7JBUuBLPNpUlt9HyGNMhoEcUyOmm3C2nqTw8jpoJK1WT7YWShtlrZ
-   QC/XY8vSqE5r3Nn0tjLJicOisccf2QOdx9s/kHOMaS8TdIAfOTKGaZgUC
-   yJT2v+Ljpltqb9+Sm5QYLEHTtkirJjVZz/Hqrj0hnCWzdoApBUjageHoP
-   fQvP60S+tDUY5TPL2TAtZWPUlJPoU/4lekj0PR+mZ6C56PSQKiMZE5+Ga
-   WeAAxUKj/JO8z9iSPCuoCAMzD6Uk4iJsrNDYIk6s0wEg33yx1u53jCJn0
+  bh=hhnA/YPn+ZYS6jHFvDtwSH23zI1zQIo3jP9zrP6+kWo=;
+  b=YcKgZ5LgQLju3CMyTEU0o9Ikf6c5CMUsi/9xlhy5PJR9tOqodKClROR6
+   yevRV15ezS36txy7bxGP0KvTzATd0r1HqgeKhH0U2hY9xmOKWxrQa2se2
+   2koE0zV/5RE6wEMbMaltTRiLfoUZOdXPIp7gMJ2MqHczoYDlTegzXKQTv
+   LLyQSG8jc56Em1+TB0ZXxaGsHcQTSUMVSs6rnpE97DK1hj0gzHaUu0YJT
+   h4FpfvSoF3jaiQYOYhniyjVi/POBIFTBpwK0BSix7f8aZSMJYFbLrpPvx
+   1b0Y63MzafblsUmy3b9cDcD3uaQWusEm92zD9d7GHAcDumRYbTK9ZQ+rw
    w==;
-X-CSE-ConnectionGUID: gIhEtjR5Rb6UdPJ8jSH43w==
-X-CSE-MsgGUID: sZVPmZwvQSG/V+TYvm3TLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="40182408"
+X-CSE-ConnectionGUID: H8R2q9uiRV+u+Wo7wrcIyQ==
+X-CSE-MsgGUID: 6z0xN5z5TLGdyUv/rwsZrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="40182412"
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="40182408"
+   d="scan'208";a="40182412"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 11:46:02 -0700
-X-CSE-ConnectionGUID: 6bnIdJmMQRSdLF9/9FpVXw==
-X-CSE-MsgGUID: iLOctQrSRfyVw+jVMEnDfA==
+X-CSE-ConnectionGUID: rTaJe69eTFeoS9dDHVIEqw==
+X-CSE-MsgGUID: aF8o4rsESfiI8g3cWEwhag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="83571248"
+   d="scan'208";a="83571245"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 18 Oct 2024 11:45:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1rz1-000OBr-2H;
+	id 1t1rz1-000OBl-1s;
 	Fri, 18 Oct 2024 18:45:55 +0000
-Date: Sat, 19 Oct 2024 02:45:02 +0800
+Date: Sat, 19 Oct 2024 02:45:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: chia-yu.chang@nokia-bell-labs.com, netdev@vger.kernel.org,
 	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
@@ -56,13 +56,14 @@ To: chia-yu.chang@nokia-bell-labs.com, netdev@vger.kernel.org,
 	g.white@cablelabs.com, ingemar.s.johansson@ericsson.com,
 	mirja.kuehlewind@ericsson.com, cheshire@apple.com, rs.ietf@gmx.at,
 	Jason_Livingood@comcast.com, vidhi_goel@apple.com
-Cc: oe-kbuild-all@lists.linux.dev, Olga Albisser <olga@albisser.org>,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Olga Albisser <olga@albisser.org>,
 	Olivier Tilmans <olivier.tilmans@nokia.com>,
 	Henrik Steen <henrist@henrist.net>,
 	Bob Briscoe <research@bobbriscoe.net>,
 	Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>
 Subject: Re: [PATCH net-next 1/1] sched: Add dualpi2 qdisc
-Message-ID: <202410190244.B6vVJG3M-lkp@intel.com>
+Message-ID: <202410190238.xwFjIctf-lkp@intel.com>
 References: <20241018021004.39258-2-chia-yu.chang@nokia-bell-labs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,30 +85,24 @@ url:    https://github.com/intel-lab-lkp/linux/commits/chia-yu-chang-nokia-bell-
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20241018021004.39258-2-chia-yu.chang%40nokia-bell-labs.com
 patch subject: [PATCH net-next 1/1] sched: Add dualpi2 qdisc
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190244.B6vVJG3M-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190244.B6vVJG3M-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190238.xwFjIctf-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190238.xwFjIctf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190244.B6vVJG3M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190238.xwFjIctf-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/sched/sch_dualpi2.c: In function 'do_step_aqm':
->> net/sched/sch_dualpi2.c:536:26: error: implicit declaration of function 'skb_sojourn_time'; did you mean 'dualpi2_sojourn_time'? [-Werror=implicit-function-declaration]
+>> net/sched/sch_dualpi2.c:536:12: error: call to undeclared function 'skb_sojourn_time'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      536 |                 qdelay = skb_sojourn_time(skb, now);
-         |                          ^~~~~~~~~~~~~~~~
-         |                          dualpi2_sojourn_time
-   net/sched/sch_dualpi2.c: At top level:
->> net/sched/sch_dualpi2.c:138:12: warning: 'dualpi2_sojourn_time' defined but not used [-Wunused-function]
-     138 | static u64 dualpi2_sojourn_time(struct sk_buff *skb, u64 reference)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+         |                          ^
+   1 error generated.
 
 
-vim +536 net/sched/sch_dualpi2.c
+vim +/skb_sojourn_time +536 net/sched/sch_dualpi2.c
 
    527	
    528	static int do_step_aqm(struct dualpi2_sched_data *q, struct sk_buff *skb,
