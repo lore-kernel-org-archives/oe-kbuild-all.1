@@ -1,142 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2FE1D9686
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 14:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA97820E32D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 15:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729262269; cv=none; b=OADBIL3+d260u2wCfs9Z9dEszRkQ6wenJOTb8ufO6FVwnx0IlYnp7iyUsaHNNaAuMdoZB+Z3IRR33ve+jZYlhCjzT9p8/o/3xL5HO09Z4uhoqJlzpgX6VNNC54DAfeqhI8/0aeNMhzlbKfjBkmAvN5XZaeRjUzq9cP/TCr6MXzI=
+	t=1729266336; cv=none; b=JLCD300cal3yOXyH0Yz6USvSTYkxN0yGJPBBJoJB3LJK9qDeW0qGCR0Zuh4btc/bTHbzrNIi+YBYSevXt1LZ+t6yOfnJXJxlFVXI0tzv+18LX7CfWE38WhOWA8VOFKR8tYtpXN4bWJ5Dd4yMk71avwgbztJkq2Jx2h9vUEMXYRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729262269; c=relaxed/simple;
-	bh=it1Y9q6YoNHxwq+Tuvdp8THTniSvH+sYJZdaJo5nri0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fDmJFPfbXWEqhYy+vrw4syQLc5ovOazYPZuzNusxzCYPzfz38UUJ9ewA2G9IO8QuJlp1qnu3uTs/ZMRWwf2Vd0OcPgNRpgayM30ZKFUWjgT7/vDxBe6XWhmm477fXpKrOFJyOqJoztmHa0pxIE/hRkAh+cCw/vk+qmWEPxRQ/s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F58oBZcP; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729266336; c=relaxed/simple;
+	bh=htLmhrj0THXX8kcJr3iUajDNdIBVQGF8LxvK1XxbRTE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ExFwArTLb45Dh6OZg46W6HynoSVyqDNM5/eVhUyht6gmXQ0TYZ8StOqAqrYgfz0ueyNDWuRfWolY1htlBgSr4ScjKyRJ3+ScxgUE0kkuB8Q4ynn9D3oqKrF1EBfENDL+q11ZUcj4EM44gNwYyInzlBuW5Ax/sAecJI+5kUuBV54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q7mIr6fy; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F58oBZcP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729262267; x=1760798267;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=it1Y9q6YoNHxwq+Tuvdp8THTniSvH+sYJZdaJo5nri0=;
-  b=F58oBZcPYHyp1BOvPIsNbzvhETwKPHNe90x0IrISFjpkdxHp0XOhJhlk
-   6aHANrhSyvkHvGCVzw6FUPqw/YW8/t26xEYm+/XpxRYFicyYzpdMqiTwr
-   9yEw5QqEYMQNuWoKZIggaCZtOV30lFgh0eU3IozFK5C0FGjdbuXk8LF0u
-   nyG58TN1AlPwvsoNE/ZyBhYq9sOIuugezX2pUj38qlupxu4XJ1oJcBdH5
-   FVZxHbmSTaq2Oa1XPegPtNYxbXaMGB1apLV7F7sok1XqEwu2WRuDkhIjE
-   ZGN6B8L/O2DNn0SRRy/lfg4Rv/sJgJpQpoTNWgWbab1KQgqGwv1RcEjWM
-   A==;
-X-CSE-ConnectionGUID: 23fBctw1QAulX8l7UcgQpw==
-X-CSE-MsgGUID: q8MFeCGgT56L6EQu0nzYVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28887565"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="28887565"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 07:37:44 -0700
-X-CSE-ConnectionGUID: fk/ikTcbS3qtQSXUpOH+HQ==
-X-CSE-MsgGUID: HJJ3bdnyR1iEBUEZMy/3Yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="78788906"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Oct 2024 07:37:44 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t1o6n-000Nvd-0F;
-	Fri, 18 Oct 2024 14:37:41 +0000
-Date: Fri, 18 Oct 2024 22:37:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:6.6-2.1.x-imx 4273/17818]
- drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:325:5: warning: no previous
- prototype for 'cdns_mhdp_register_cec_driver'
-Message-ID: <202410182208.pxazi04P-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q7mIr6fy"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4608dddaa35so328901cf.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 08:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729266333; x=1729871133; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v92/kQWzEYkOLqZPU1rdAyapbIVR5PRwb7eagmRV5+Y=;
+        b=Q7mIr6fy9bc8+Ie96/EeFzpg4Mn0YZf6eQAzrLj2giv3BXv1oIIGZvkQnQNeV/wujc
+         NKTgY7M8C48D0S8tVXgUNPqIi6xt7w9EF+sF0wLzhuQOZ8uG4qBOS6kE2OqsEKrvCVqq
+         JeOjyW7sHJkPVkT38bKfpT+mFuTUoUiUSNQm9dG+8byF7c6aBYSw21RR218bGqPZXHE2
+         Qxg+LvdQq3E3TIk81rB4WpwF6h+TySsQUNeBpVPS9l55BhlTVzxkdU24g6IfLgm6HZJq
+         h94kxwJ7iyRwKKbt309L3ryX291lS1PuuInexCPEGY/Zl3aXkfAZyc6nMB8X63OiqZKk
+         O7zA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729266333; x=1729871133;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v92/kQWzEYkOLqZPU1rdAyapbIVR5PRwb7eagmRV5+Y=;
+        b=u+jbQnshxVqaB43mr7nqm2HDyoZOI6xaqT4vXnjhi+xm94+s6VK++HEpUYmyt1aB4x
+         6cQxVdqGLyc6suHqtUSB+whQ1ELch6NFvb20Wlh4rBa8smCEMSk5Wj6ynAHOfr7IUB+u
+         r5m1NqOvX0GLqtIOBKqR6EBHFtanVi3txpF97C3Uzd3vbZNm9pHGmBjs8S2+cPBOJnCj
+         e2bWn0Qg9loPQ5cpaYYkgaUd/uvsIAGhpBRsmFHUJQY1jCbyNQXxOY0GkcFJkrGNE3Zk
+         vZwyQTz7iGVidCbkvP9aKH/25B79/iXR0saTzUHPGgT3z6vDiw6K0HqQjq4JZT7Odg8t
+         weQg==
+X-Forwarded-Encrypted: i=1; AJvYcCUoVqBLce5RhAK8qXPve5o7dCu9qozciXqKRcwVK4nkHc86y1nH+zYnps1rsFToZLgDYaTO9ByfVHDfBaQ1@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy1qdx30ofgsoVh/8xCcewVsfF62hdx62DFbjVVmg8KTo9YP7kY
+	9o+th/Cz29zvyCEBpnNkRbPyglBfArxwWt/VjHTtb5eSjDLbYzK/jst1MtvhlNhYgQVz/Ek7C4F
+	dV4yiPbl4d/I8aAzIJumquY89OSXlT2ih+9y8
+X-Google-Smtp-Source: AGHT+IEYFwu3SGTxUnPopqgl0x/zRhkaRFC1y1Bfq7DZeif9Fr2zXoGR4UbJr39YbDI06jk0siUCMXoS0F2fcfy3d0c=
+X-Received: by 2002:a05:622a:5e89:b0:447:e423:a463 with SMTP id
+ d75a77b69052e-460aeb98cdemr2856581cf.3.1729266333152; Fri, 18 Oct 2024
+ 08:45:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241014203646.1952505-4-surenb@google.com> <202410181939.vLqV33c7-lkp@intel.com>
+In-Reply-To: <202410181939.vLqV33c7-lkp@intel.com>
+From: Suren Baghdasaryan <surenb@google.com>
+Date: Fri, 18 Oct 2024 08:45:18 -0700
+Message-ID: <CAJuCfpEyvXN8Em+7yiQ2o=NChb=kmcKQj5gpMNK8R3Hk-Wj4ZQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/5] alloc_tag: populate memory for module tags as needed
+To: kernel test robot <lkp@intel.com>
+Cc: akpm@linux-foundation.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, kent.overstreet@linux.dev, corbet@lwn.net, 
+	arnd@arndb.de, mcgrof@kernel.org, rppt@kernel.org, paulmck@kernel.org, 
+	thuth@redhat.com, tglx@linutronix.de, bp@alien8.de, 
+	xiongwei.song@windriver.com, ardb@kernel.org, david@redhat.com, 
+	vbabka@suse.cz, mhocko@suse.com, hannes@cmpxchg.org, roman.gushchin@linux.dev, 
+	dave@stgolabs.net, willy@infradead.org, liam.howlett@oracle.com, 
+	pasha.tatashin@soleen.com, souravpanda@google.com, keescook@chromium.org, 
+	dennis@kernel.org, jhubbard@nvidia.com, yuzhao@google.com, vvvvvv@google.com, 
+	rostedt@goodmis.org, iamjoonsoo.kim@lge.com, rientjes@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Li,
+On Fri, Oct 18, 2024 at 5:01=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Suren,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on 828d7267c42c2aab3877c08b4bb00b1e56769557]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan=
+/maple_tree-add-mas_for_each_rev-helper/20241015-044156
+> base:   828d7267c42c2aab3877c08b4bb00b1e56769557
+> patch link:    https://lore.kernel.org/r/20241014203646.1952505-4-surenb%=
+40google.com
+> patch subject: [PATCH v3 3/5] alloc_tag: populate memory for module tags =
+as needed
+> config: i386-randconfig-006-20241018 (https://download.01.org/0day-ci/arc=
+hive/20241018/202410181939.vLqV33c7-lkp@intel.com/config)
+> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b=
+5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241018/202410181939.vLqV33c7-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410181939.vLqV33c7-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+> >> lib/alloc_tag.c:394:4: warning: format specifies type 'unsigned long' =
+but the argument has type 'unsigned int' [-Wformat]
+>      393 |                 pr_err("Failed to map %lu bytes for module all=
+ocation tags\n",
+>          |                                       ~~~
+>          |                                       %u
+>      394 |                         MODULE_ALLOC_TAG_VMAP_SIZE);
+>          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-FYI, the error/warning still remains.
+I'll fix this warning in the next version. Thanks!
 
-tree:   https://github.com/Freescale/linux-fslc 6.6-2.1.x-imx
-head:   096cd0432b03805f49c86684dafb9ced4511a714
-commit: 98ad662c434f5d3a43f0d7dec275529adfb67050 [4273/17818] drm/display: update header path and name
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241018/202410182208.pxazi04P-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410182208.pxazi04P-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410182208.pxazi04P-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:325:5: warning: no previous prototype for 'cdns_mhdp_register_cec_driver' [-Wmissing-prototypes]
-     325 | int cdns_mhdp_register_cec_driver(struct cdns_mhdp_cec *cec)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c:353:5: warning: no previous prototype for 'cdns_mhdp_unregister_cec_driver' [-Wmissing-prototypes]
-     353 | int cdns_mhdp_unregister_cec_driver(struct cdns_mhdp_cec *cec)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/cdns_mhdp_register_cec_driver +325 drivers/gpu/drm/bridge/cadence/cdns-mhdp-cec.c
-
-37f090fcc75f8b Sandor Yu 2020-04-20  324  
-6dfb0effbcb07b Sandor Yu 2020-11-16 @325  int cdns_mhdp_register_cec_driver(struct cdns_mhdp_cec *cec)
-37f090fcc75f8b Sandor Yu 2020-04-20  326  {
-37f090fcc75f8b Sandor Yu 2020-04-20  327  	int ret;
-37f090fcc75f8b Sandor Yu 2020-04-20  328  
-37f090fcc75f8b Sandor Yu 2020-04-20  329  	cec->adap = cec_allocate_adapter(&cdns_mhdp_cec_adap_ops, cec,
-37f090fcc75f8b Sandor Yu 2020-04-20  330  					 CEC_NAME,
-37f090fcc75f8b Sandor Yu 2020-04-20  331  					 CEC_CAP_PHYS_ADDR | CEC_CAP_LOG_ADDRS |
-37f090fcc75f8b Sandor Yu 2020-04-20  332  					 CEC_CAP_TRANSMIT | CEC_CAP_PASSTHROUGH
-37f090fcc75f8b Sandor Yu 2020-04-20  333  					 | CEC_CAP_RC, CEC_MAX_LOG_ADDRS);
-37f090fcc75f8b Sandor Yu 2020-04-20  334  	ret = PTR_ERR_OR_ZERO(cec->adap);
-37f090fcc75f8b Sandor Yu 2020-04-20  335  	if (ret)
-37f090fcc75f8b Sandor Yu 2020-04-20  336  		return ret;
-6dfb0effbcb07b Sandor Yu 2020-11-16  337  	ret = cec_register_adapter(cec->adap, cec->dev);
-37f090fcc75f8b Sandor Yu 2020-04-20  338  	if (ret) {
-37f090fcc75f8b Sandor Yu 2020-04-20  339  		cec_delete_adapter(cec->adap);
-37f090fcc75f8b Sandor Yu 2020-04-20  340  		return ret;
-37f090fcc75f8b Sandor Yu 2020-04-20  341  	}
-37f090fcc75f8b Sandor Yu 2020-04-20  342  
-37f090fcc75f8b Sandor Yu 2020-04-20  343  	cec->cec_worker = kthread_create(mhdp_cec_poll_worker, cec, "cdns-mhdp-cec");
-37f090fcc75f8b Sandor Yu 2020-04-20  344  	if (IS_ERR(cec->cec_worker))
-37f090fcc75f8b Sandor Yu 2020-04-20  345  		dev_err(cec->dev, "failed  create hdp cec thread\n");
-37f090fcc75f8b Sandor Yu 2020-04-20  346  
-37f090fcc75f8b Sandor Yu 2020-04-20  347  	wake_up_process(cec->cec_worker);
-37f090fcc75f8b Sandor Yu 2020-04-20  348  
-6dfb0effbcb07b Sandor Yu 2020-11-16  349  	dev_dbg(cec->dev, "CEC successfuly probed\n");
-37f090fcc75f8b Sandor Yu 2020-04-20  350  	return 0;
-37f090fcc75f8b Sandor Yu 2020-04-20  351  }
-37f090fcc75f8b Sandor Yu 2020-04-20  352  
-6dfb0effbcb07b Sandor Yu 2020-11-16 @353  int cdns_mhdp_unregister_cec_driver(struct cdns_mhdp_cec *cec)
-37f090fcc75f8b Sandor Yu 2020-04-20  354  {
-37f090fcc75f8b Sandor Yu 2020-04-20  355  	if (cec->cec_worker) {
-37f090fcc75f8b Sandor Yu 2020-04-20  356  		kthread_stop(cec->cec_worker);
-37f090fcc75f8b Sandor Yu 2020-04-20  357  		cec->cec_worker = NULL;
-37f090fcc75f8b Sandor Yu 2020-04-20  358  	}
-37f090fcc75f8b Sandor Yu 2020-04-20  359  	cec_unregister_adapter(cec->adap);
-37f090fcc75f8b Sandor Yu 2020-04-20  360  	return 0;
-37f090fcc75f8b Sandor Yu 2020-04-20  361  }
-37f090fcc75f8b Sandor Yu 2020-04-20  362  
-
-:::::: The code at line 325 was first introduced by commit
-:::::: 6dfb0effbcb07b7568a792c3067eb1f71fa40525 MLK-24081-03: drm: bridge: cdns-cec: support hdmi rx cec
-
-:::::: TO: Sandor Yu <Sandor.yu@nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>    include/linux/printk.h:533:33: note: expanded from macro 'pr_err'
+>      533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+>          |                                ~~~     ^~~~~~~~~~~
+>    include/linux/printk.h:490:60: note: expanded from macro 'printk'
+>      490 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__V=
+A_ARGS__)
+>          |                                                     ~~~    ^~~=
+~~~~~~~~
+>    include/linux/printk.h:462:19: note: expanded from macro 'printk_index=
+_wrap'
+>      462 |                 _p_func(_fmt, ##__VA_ARGS__);                 =
+          \
+>          |                         ~~~~    ^~~~~~~~~~~
+>    lib/alloc_tag.c:386:36: note: expanded from macro 'MODULE_ALLOC_TAG_VM=
+AP_SIZE'
+>      386 | #define MODULE_ALLOC_TAG_VMAP_SIZE (100000 * sizeof(struct all=
+oc_tag))
+>          |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+>    1 warning generated.
+>
+>
+> vim +394 lib/alloc_tag.c
+>
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  387
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  388  static int __init all=
+oc_mod_tags_mem(void)
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  389  {
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  390      /* Map space to c=
+opy allocation tags */
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  391      vm_module_tags =
+=3D execmem_vmap(EXECMEM_MODULE_DATA, MODULE_ALLOC_TAG_VMAP_SIZE);
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  392      if (!vm_module_ta=
+gs) {
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  393              pr_err("F=
+ailed to map %lu bytes for module allocation tags\n",
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14 @394                      M=
+ODULE_ALLOC_TAG_VMAP_SIZE);
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  395              module_ta=
+gs.start_addr =3D 0;
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  396              return -E=
+NOMEM;
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  397      }
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  398
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  399      vm_module_tags->p=
+ages =3D kmalloc_array(get_vm_area_size(vm_module_tags) >> PAGE_SHIFT,
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  400                       =
+               sizeof(struct page *), GFP_KERNEL | __GFP_ZERO);
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  401      if (!vm_module_ta=
+gs->pages) {
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  402              free_vm_a=
+rea(vm_module_tags);
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  403              return -E=
+NOMEM;
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  404      }
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  405
+> f0d7ffe60ce5cf0 Suren Baghdasaryan 2024-10-14  406      module_tags.start=
+_addr =3D (unsigned long)vm_module_tags->addr;
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  407      module_tags.end_a=
+ddr =3D module_tags.start_addr + MODULE_ALLOC_TAG_VMAP_SIZE;
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  408
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  409      return 0;
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  410  }
+> 5b662b363f38b01 Suren Baghdasaryan 2024-10-14  411
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
