@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE1E201273
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 16:50:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E64188CB1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 17:21:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729270255; cv=none; b=uXUARF2DLrrKvDGE0oTM1K4AK3q/H10j1hQGdACbcO71bd3D51nyvMNxynXQWxen39V7CElHKAWWP2Q5DZ1ko2Vd1Zl4xOVfVtnhtc5mZESeIXXSzmIYKIwzKdQhg/I04P1fuwJHg47jVGvNvtHpnCTlFyIurBV4jyB1EwiMt18=
+	t=1729272116; cv=none; b=T7Ih4o+1e5UqDoTJucHKoeMAjZ8hsN4TIJKMPQ0jdDc78u7vjhcHsiOkncEcr65SEJH3/N3zx8zcXtcP02n2x0uHxwOgQzyEVZ+xyAFcMgTarr8sCPMdfnmmWEs4yKFLJ8sVPcKsfSA1Ssw00rzpcEe7eNSq+DkppC7Pc5ihVUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729270255; c=relaxed/simple;
-	bh=YCGR7aP6DpgXuvxOSEKc5s/5/dScnhX/M6PpUY5lfpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YrkiH9sQXinzqCZYumwEu5meGRDCQOXSN3x9/0Z4JD6gs012Km/kYuqiq2ePITElBFuAbcid+fqNgWMA2yWxo6vT571+Q26wg6kKL/2Fucz7bNgy6ggw9IbUuTfhnDu9o5rrPZ4nIH776sxbEFzM0mrRm5FQURB82rIPuHvEIvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KeN5LnDu; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1729272116; c=relaxed/simple;
+	bh=fLMmJVBW6bftUPkX0nnMMzxLB7D84sC7+Jtip3BlQzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OVLVrzzCkrERGqMdmj2GFidzip4P1tbTT2lXp7ZEfGZZgxHCqHgDXApE3pYEJ4XyK8SDVuibwGw505nosjT4goaOgH34guUOD1MKdbaYWlodWia2PDRr/Elqq0FPf44BUxzPkczdMDvWGyoKmtGR6rHXR00FyTZ6wIZshLcBTrY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QKxd/NyA; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KeN5LnDu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QKxd/NyA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729270253; x=1760806253;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YCGR7aP6DpgXuvxOSEKc5s/5/dScnhX/M6PpUY5lfpk=;
-  b=KeN5LnDu5NOWBWE055B7U3xkBh6BtCyOS1nG+0zA/ds94+3Cdw5E9G8h
-   Ux9TUh2pHa5bg8nbBX0MvszVveygQO0/tNUoaS8Vi/qUBs5qrHVe7qETu
-   N70U2tbrZ27aJ/z057VjjaIT0Gb3LwlUwRZ/7CWu2bunbso1ZBJGVy8TW
-   cGZeCWZ+CIZ1F9KatfhZRCv/xptYTBVbmGLE2QspXqEBfTZLkS3IRIvud
-   +xGi6wjyr5oASdwUGTvMH1z81VEeh+RGcazA9nxXjx/57RSL8tCZ+wkHC
-   8/8TsvpVyDS98Ra6NOEQmURWtFW05dOIXrOYshC91WvvkxWmQch2qYJ/8
+  t=1729272115; x=1760808115;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fLMmJVBW6bftUPkX0nnMMzxLB7D84sC7+Jtip3BlQzw=;
+  b=QKxd/NyA5t0n/cQDdVyzy826+5ull9L99qSNWmyLaPtc0yS72IpaK7Jl
+   87SSWkL42XAjV3gkNlksazaX8E4dO5a8UsrH3QjMYZDso+Hkzl1qwx8di
+   +XxSej0h7Q8zg4miCajf4Y/6USX4y5n7ozDEfL9odIB5oV7OOd9JSx/p8
+   oO5KceYwV5xqNhZ4ca5CAtR4MABUyNU9UPQfiPKq6YAwiczds0Ej0oVBE
+   2vK9ODNLL/+4S63YHNBmIF4h3iXYvriuXn1YqzPPVkcWfkC1NXKIz4QSZ
+   sUZW3r4sW1CaPWJN8YhoP/q+/KfPkURTcHDmyraYEUkvtuHBJ4x466Wtx
    Q==;
-X-CSE-ConnectionGUID: mryDFeGySNuloSOgEsmH2A==
-X-CSE-MsgGUID: DQ9f+SK9RNaZ/YTGoaTmgg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="46309718"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="46309718"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 09:50:53 -0700
-X-CSE-ConnectionGUID: lsyd9FitTy+AbtRCkcdKMA==
-X-CSE-MsgGUID: AxzWWoLSSxWn6euhswM0Ig==
+X-CSE-ConnectionGUID: /ZjXIpi0Qmez0QL+PWtTGw==
+X-CSE-MsgGUID: wFIuI0QrQMaZJ9KH8WCSBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39359553"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="39359553"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 10:21:54 -0700
+X-CSE-ConnectionGUID: yZ9nYVtYRViY5nVKqVzH9Q==
+X-CSE-MsgGUID: 8wMwP0LxSzete3cBkdPt3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="78874987"
+   d="scan'208";a="79262184"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Oct 2024 09:50:53 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Oct 2024 10:21:53 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1qBd-000O4z-2B;
-	Fri, 18 Oct 2024 16:50:49 +0000
-Date: Sat, 19 Oct 2024 00:50:42 +0800
+	id 1t1qff-000O7X-0G;
+	Fri, 18 Oct 2024 17:21:51 +0000
+Date: Sat, 19 Oct 2024 01:21:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
+To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jens-wiklander-tee:testing/tuxbuild 1/2]
- drivers/tee/tee_rstmem.c:40:43: error: implicit declaration of function
- 'phys_to_page'; did you mean 'pfn_to_page'?
-Message-ID: <202410190036.tigAYNbm-lkp@intel.com>
+Subject: Re: [PATCH] kasan: migrate copy_user_test to kunit
+Message-ID: <202410190112.GgJtD8oL-lkp@intel.com>
+References: <20241011071657.3032690-1-snovitoll@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,77 +62,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241011071657.3032690-1-snovitoll@gmail.com>
 
-tree:   http://git.linaro.org/people/jens.wiklander/linux-tee testing/tuxbuild
-head:   971e80da23e2fbfd044ec231e75a61dfeb6ce61a
-commit: bc4386e9f6899baeaf60b57076495f2336c1f7f7 [1/2] tee: add restricted memory allocation
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190036.tigAYNbm-lkp@intel.com/config)
+Hi Sabyrzhan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on akpm-mm/mm-nonmm-unstable linus/master v6.12-rc3]
+[cannot apply to next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sabyrzhan-Tasbolatov/kasan-migrate-copy_user_test-to-kunit/20241014-062132
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241011071657.3032690-1-snovitoll%40gmail.com
+patch subject: [PATCH] kasan: migrate copy_user_test to kunit
+config: x86_64-randconfig-102-20241018 (https://download.01.org/0day-ci/archive/20241019/202410190112.GgJtD8oL-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190036.tigAYNbm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190112.GgJtD8oL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190036.tigAYNbm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190112.GgJtD8oL-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tee/tee_rstmem.c: In function 'rstmem_dma_attach':
->> drivers/tee/tee_rstmem.c:40:43: error: implicit declaration of function 'phys_to_page'; did you mean 'pfn_to_page'? [-Werror=implicit-function-declaration]
-      40 |                 sg_set_page(a->table.sgl, phys_to_page(shm->paddr), shm->size,
-         |                                           ^~~~~~~~~~~~
-         |                                           pfn_to_page
->> drivers/tee/tee_rstmem.c:40:43: warning: passing argument 2 of 'sg_set_page' makes pointer from integer without a cast [-Wint-conversion]
-      40 |                 sg_set_page(a->table.sgl, phys_to_page(shm->paddr), shm->size,
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                                           |
-         |                                           int
-   In file included from include/linux/dma-buf.h:19,
-                    from drivers/tee/tee_rstmem.c:6:
-   include/linux/scatterlist.h:136:69: note: expected 'struct page *' but argument is of type 'int'
-     136 | static inline void sg_set_page(struct scatterlist *sg, struct page *page,
-         |                                                        ~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
-
-
-vim +40 drivers/tee/tee_rstmem.c
-
-    17	
-    18	static int rstmem_dma_attach(struct dma_buf *dmabuf,
-    19				     struct dma_buf_attachment *attachment)
-    20	{
-    21		struct tee_shm *shm = dmabuf->priv;
-    22		struct tee_rstmem_attachment *a;
-    23		int rc;
-    24	
-    25		a = kzalloc(sizeof(*a), GFP_KERNEL);
-    26		if (!a)
-    27			return -ENOMEM;
-    28	
-    29		if (shm->pages) {
-    30			rc = sg_alloc_table_from_pages(&a->table, shm->pages,
-    31						       shm->num_pages, 0,
-    32						       shm->num_pages * PAGE_SIZE,
-    33						       GFP_KERNEL);
-    34			if (rc)
-    35				goto err;
-    36		} else {
-    37			rc = sg_alloc_table(&a->table, 1, GFP_KERNEL);
-    38			if (rc)
-    39				goto err;
-  > 40			sg_set_page(a->table.sgl, phys_to_page(shm->paddr), shm->size,
-    41				    0);
-    42		}
-    43	
-    44		a->dev = attachment->dev;
-    45		attachment->priv = a;
-    46	
-    47		return 0;
-    48	err:
-    49		kfree(a);
-    50		return rc;
-    51	}
-    52	
+>> make[5]: *** No rule to make target 'mm/kasan/kasan_test_module.o', needed by 'mm/kasan/'.
+   make[5]: Target 'mm/kasan/' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
