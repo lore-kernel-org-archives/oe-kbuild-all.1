@@ -1,74 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E86FC152E02;
-	Fri, 18 Oct 2024 22:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2C819048F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Oct 2024 22:53:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729289535; cv=none; b=Kff751AG4Yxciyh4tlR9x84l9PEex2zfdSHbwrCsxBPB2TGJpdCOxOeh3cuopdTWmvZnfLvA7/NIvBW6z7v+wHbKnSIE217CEhx4yMlHZEZWs54UDLYNdMmml7I3VOAJ0y6xcoBgG2hXU9w7EqLwx/t7Oemr5k2MEVgZ/oX9KrM=
+	t=1729291992; cv=none; b=K0/ZpZf7oYtYy6xHXrakP7+CBQXEPjsaLfYESWbyAAVQDGMrOhymB6E359BIeugEiEkGBTfnl/GyLMxLhNny48ZJqvDeRa7jdTkZCnqC6QShDveIS7NsznTR4UEOG2d7Wr9VPU4b3yqTjzJ2EaZAcRE1G+IT2w1Tlp8b2QssT0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729289535; c=relaxed/simple;
-	bh=0XtmqpLUZK6CHPnXpNrQPuV6yXOdGyf7OW4bxutI7VE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pN0hGefTWUOxqFfSy+ceDucFvAYYLaHeL40J9VLY0qG1e5uoR8zXTRZ2MnD7gXhGis6l3t/Jf4SE6INAv3954AdGKnrMNnU57f5VyGvUY+AjgAwNJI9WlHtqVmUmOdXKscLbrmxHjI4JKwFLWGEtsrMLRa/l7fTHPU5ArNHkho8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jozIQ8aZ; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1729291992; c=relaxed/simple;
+	bh=kbCdwtQhV8AvCD6Tsj4oq+71YWg4YdVbx4gRWDGtAQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xbpi+aZf7WRf96qV1rPmlvCuWamlCEt6vi+N2NyqrRcmGAp2DC/g0AesylopPKijGrrivD99WkxS9X4Tg/Rj0V8IYizh8U9ZInY8B5Bd4tOZRPtyiFlc9LLA2LicniN8WAnJlk+oYspbJe84DCe4YhtqjaOkteAdALZiq3c7KEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ff2g03mt; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jozIQ8aZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ff2g03mt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729289533; x=1760825533;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0XtmqpLUZK6CHPnXpNrQPuV6yXOdGyf7OW4bxutI7VE=;
-  b=jozIQ8aZoN5kpyDiMdiw6JS3dm0H1fifdvNJY0jAi2jKfcnSf/AhkOI4
-   2E/lcOI5gDXVRPKlxrP14I49I5dcncsCoJJAXWOT129cEKoaTSc/F5sSn
-   IGJt9d9D3q9Qs5z45Mn+HvIa6EA9pODiQtGlUcn7fajFD0/aVpRLaVaQ3
-   CUzN4BeqmraZp2yCHw9g87j6DI38MmG8cyx/IfIS8e5WyoS0Cclmyr745
-   CqdT2OGXgW4bmTSiFbvLuwu+yxB35MacPki6bQraQ5GW3BPe3IV0O5o/6
-   kjYoW6o6eNpyBdpMjAEV4SgTega6uOVeNQtdno2LUnWOhwEcxGfEs8WPl
-   w==;
-X-CSE-ConnectionGUID: 387YjUcCS7WbHoW8xUmBSw==
-X-CSE-MsgGUID: +fDSgN1QT2mWJ+PwNvxgTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="46333460"
+  t=1729291991; x=1760827991;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kbCdwtQhV8AvCD6Tsj4oq+71YWg4YdVbx4gRWDGtAQU=;
+  b=Ff2g03mtU6wQMvL9Yqgk1uXnEhLIhyfZDpOfFpU5KYNmbDp3rzrHhpC2
+   ca/q9qnGlP6+fNXogXI7IuGgzGbQ56WJ/yF/cVdXiy32SWoDj/lGrK2kc
+   bGc6w68i1UFmLkbEeKlyAWUOPlGjKpqgeRvkDuYtMbg7hOf0Ie4AGPAQw
+   iHGrW6QtsOhSez/L2FPqefHf28Et2j2qQxLT1p48pWo50mpIAPmuqNfBz
+   EyVYs7IDY4xvWeLfnTSfGoMI/rNgszcVeVih/r15/AQ+EueXfdpNXseDH
+   zhdLZvFi7MRE9JJPMQ1cKhJuXqD08fpoZbpATr0kq3gm0dhu13NpbeC9z
+   Q==;
+X-CSE-ConnectionGUID: x2jICl6eSnSxg7YsX+oykw==
+X-CSE-MsgGUID: dh9jnmuORTulsCGznhl+5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28717953"
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="46333460"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 15:12:12 -0700
-X-CSE-ConnectionGUID: 0kdYjyC2RhiYMqT/th150A==
-X-CSE-MsgGUID: rCCxcZiaT2GXWyrVSPCw/A==
+   d="scan'208";a="28717953"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 15:53:08 -0700
+X-CSE-ConnectionGUID: D8Mk431uS8Wdy6FCLUhhbg==
+X-CSE-MsgGUID: g3bvPArBStGex+5aDpHpEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="109813608"
+   d="scan'208";a="82960924"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 18 Oct 2024 15:12:06 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 18 Oct 2024 15:53:06 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1vCV-000OM5-2U;
-	Fri, 18 Oct 2024 22:12:03 +0000
-Date: Sat, 19 Oct 2024 06:11:15 +0800
+	id 1t1vqC-000ONT-2B;
+	Fri, 18 Oct 2024 22:53:04 +0000
+Date: Sat, 19 Oct 2024 06:52:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>,
-	Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	cros-qcom-dts-watchers@chromium.org, linux-arm-msm@vger.kernel.org,
-	dmaengine@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, quic_msavaliy@quicinc.com,
-	quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <202410190549.hGAfByqg-lkp@intel.com>
-References: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
+To: Apurva Nandan <a-nandan@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com
+Subject: [ti:ti-rt-linux-6.1.y-cicd 32/44]
+ arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning
+ (avoid_unnecessary_addr_size):
+ /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary
+ #address-cells/#size-cells without "ranges" or child "reg" property
+Message-ID: <202410190611.FLd42NlP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,220 +64,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
 
-Hi Jyothi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 55bcd2e0d04c1171d382badef1def1fd04ef66c5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jyothi-Kumar-Seerapu/dt-bindings-dmaengine-qcom-gpi-Add-additional-arg-to-dma-cell-property/20241015-202637
-base:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
-patch link:    https://lore.kernel.org/r/20241015120750.21217-6-quic_jseerapu%40quicinc.com
-patch subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190549.hGAfByqg-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190549.hGAfByqg-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   e680678e5fef8c191b1588d8d7520171011ebe93
+commit: 2640dbd4d366c468dba3337bf5aa5d8d32c63248 [32/44] arm64: dts: k3-j721s2: Add node for OSPI NAND Flash
+config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241019/202410190611.FLd42NlP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190611.FLd42NlP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190549.hGAfByqg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190611.FLd42NlP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:523.21-578.4: Warning (avoid_unnecessary_addr_size): /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+   arch/arm64/boot/dts/ti/k3-j721s2-main.dtsi:1353.34-1362.4: Warning (avoid_unnecessary_addr_size): /bus@100000/pinctrl@a40000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
+>> arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi:469.21-521.4: Warning (unique_unit_address): /bus@100000/bus@28380000/bus@47000000/spi@47040000/flash@0: duplicate unit-address (also used in node /bus@100000/bus@28380000/bus@47000000/spi@47040000/nand@0)
 
->> drivers/i2c/busses/i2c-qcom-geni.c:562:8: error: incompatible pointer to integer conversion passing 'dma_addr_t *' (aka 'unsigned long long *') to parameter of type 'dma_addr_t' (aka 'unsigned long long'); dereference with * [-Wint-conversion]
-     562 |                                    tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                                    *
-   drivers/i2c/busses/i2c-qcom-geni.c:519:36: note: passing argument to parameter 'tx_addr' here
-     519 |                                void *tx_buf, dma_addr_t tx_addr,
-         |                                                         ^
->> drivers/i2c/busses/i2c-qcom-geni.c:562:47: error: incompatible pointer to integer conversion passing 'void *' to parameter of type 'dma_addr_t' (aka 'unsigned long long') [-Wint-conversion]
-     562 |                                    tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
-         |                                                                           ^~~~
-   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
-       8 | #define NULL ((void *)0)
-         |              ^~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:520:36: note: passing argument to parameter 'rx_addr' here
-     520 |                                void *rx_buf, dma_addr_t rx_addr)
-         |                                                         ^
->> drivers/i2c/busses/i2c-qcom-geni.c:586:7: error: incompatible pointer to integer conversion assigning to 'dma_addr_t' (aka 'unsigned long long') from 'dma_addr_t *' (aka 'unsigned long long *'); dereference with * [-Wint-conversion]
-     586 |         addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                *
-   3 errors generated.
+vim +523 arch/arm64/boot/dts/ti/k3-j721s2-som-p0.dtsi
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
-   Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
-   Selected by [y]:
-   - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-
-
-vim +562 drivers/i2c/busses/i2c-qcom-geni.c
-
-   532	
-   533	/**
-   534	 * gpi_i2c_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
-   535	 * @dev: pointer to the corresponding dev node
-   536	 * @gi2c: i2c dev handle
-   537	 * @msgs: i2c messages array
-   538	 * @peripheral: pointer to the gpi_i2c_config
-   539	 */
-   540	static void gpi_i2c_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
-   541					     struct gpi_i2c_config *peripheral)
-   542	{
-   543		u32 msg_xfer_cnt, wr_idx = 0;
-   544		struct gpi_multi_xfer *tx_multi_xfer = &peripheral->multi_xfer;
-   545	
-   546		/*
-   547		 * In error case, need to unmap all messages based on the msg_idx_cnt.
-   548		 * Non-error case unmap all the processed messages.
-   549		 */
-   550		if (gi2c->err)
-   551			msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
-   552		else
-   553			msg_xfer_cnt = tx_multi_xfer->irq_cnt * NUM_MSGS_PER_IRQ;
-   554	
-   555		/* Unmap the processed DMA buffers based on the received interrupt count */
-   556		for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
-   557			if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
-   558				break;
-   559			wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_GPI_MAX_NUM_MSGS;
-   560			geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
-   561					   tx_multi_xfer->dma_buf[wr_idx],
- > 562					   tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
-   563			tx_multi_xfer->freed_msg_cnt++;
-   564		}
-   565	}
-   566	
-   567	static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], int cur_msg_idx,
-   568				struct dma_slave_config *config, dma_addr_t *dma_addr_p,
-   569				void **buf, unsigned int op, struct dma_chan *dma_chan)
-   570	{
-   571		struct gpi_i2c_config *peripheral;
-   572		unsigned int flags;
-   573		void *dma_buf;
-   574		dma_addr_t addr;
-   575		enum dma_data_direction map_dirn;
-   576		enum dma_transfer_direction dma_dirn;
-   577		struct dma_async_tx_descriptor *desc;
-   578		int ret;
-   579		struct gpi_multi_xfer *gi2c_gpi_xfer;
-   580		dma_cookie_t cookie;
-   581	
-   582		peripheral = config->peripheral_config;
-   583		gi2c_gpi_xfer = &peripheral->multi_xfer;
-   584		gi2c_gpi_xfer->msg_idx_cnt = cur_msg_idx;
-   585		dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
- > 586		addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
-   587	
-   588		dma_buf = i2c_get_dma_safe_msg_buf(&msgs[gi2c_gpi_xfer->msg_idx_cnt], 1);
-   589		if (!dma_buf) {
-   590			gi2c->err = -ENOMEM;
-   591			return -ENOMEM;
-   592		}
-   593	
-   594		if (op == I2C_WRITE)
-   595			map_dirn = DMA_TO_DEVICE;
-   596		else
-   597			map_dirn = DMA_FROM_DEVICE;
-   598	
-   599		addr = dma_map_single(gi2c->se.dev->parent,
-   600				      dma_buf, msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-   601				      map_dirn);
-   602		if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
-   603			i2c_put_dma_safe_msg_buf(dma_buf, &msgs[gi2c_gpi_xfer->msg_idx_cnt],
-   604						 false);
-   605			gi2c->err = -ENOMEM;
-   606			return -ENOMEM;
-   607		}
-   608	
-   609		if (gi2c->is_tx_multi_xfer) {
-   610			if (((gi2c_gpi_xfer->msg_idx_cnt + 1) % NUM_MSGS_PER_IRQ))
-   611				peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
-   612			else
-   613				peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-   614	
-   615			/* BEI bit to be cleared for last TRE */
-   616			if (gi2c_gpi_xfer->msg_idx_cnt == gi2c->num_msgs - 1)
-   617				peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
-   618		}
-   619	
-   620		/* set the length as message for rx txn */
-   621		peripheral->rx_len = msgs[gi2c_gpi_xfer->msg_idx_cnt].len;
-   622		peripheral->op = op;
-   623	
-   624		ret = dmaengine_slave_config(dma_chan, config);
-   625		if (ret) {
-   626			dev_err(gi2c->se.dev, "dma config error: %d for op:%d\n", ret, op);
-   627			goto err_config;
-   628		}
-   629	
-   630		peripheral->set_config = 0;
-   631		peripheral->multi_msg = true;
-   632		flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
-   633	
-   634		if (op == I2C_WRITE)
-   635			dma_dirn = DMA_MEM_TO_DEV;
-   636		else
-   637			dma_dirn = DMA_DEV_TO_MEM;
-   638	
-   639		desc = dmaengine_prep_slave_single(dma_chan, addr,
-   640						   msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
-   641						   dma_dirn, flags);
-   642		if (!desc) {
-   643			dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
-   644			gi2c->err = -EIO;
-   645			goto err_config;
-   646		}
-   647	
-   648		desc->callback_result = i2c_gpi_cb_result;
-   649		desc->callback_param = gi2c;
-   650	
-   651		if (!((msgs[cur_msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
-   652			gi2c_gpi_xfer->msg_idx_cnt++;
-   653			gi2c_gpi_xfer->buf_idx = (cur_msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
-   654		}
-   655		cookie = dmaengine_submit(desc);
-   656		if (dma_submit_error(cookie)) {
-   657			dev_err(gi2c->se.dev,
-   658				"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
-   659			return -EINVAL;
-   660		}
-   661	
-   662		if (gi2c->is_tx_multi_xfer) {
-   663			dma_async_issue_pending(gi2c->tx_c);
-   664			if ((cur_msg_idx == (gi2c->num_msgs - 1)) ||
-   665			    (gi2c_gpi_xfer->msg_idx_cnt >=
-   666			     QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
-   667				ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
-   668							     gi2c->num_msgs, XFER_TIMEOUT,
-   669							     &gi2c->done);
-   670				if (ret) {
-   671					dev_dbg(gi2c->se.dev,
-   672						"I2C multi write msg transfer timeout: %d\n",
-   673						ret);
-   674					gi2c->err = -ETIMEDOUT;
-   675					goto err_config;
-   676				}
-   677			}
-   678		} else {
-   679			/* Non multi descriptor message transfer */
-   680			*buf = dma_buf;
-   681			*dma_addr_p = addr;
-   682		}
-   683		return 0;
-   684	
-   685	err_config:
-   686		dma_unmap_single(gi2c->se.dev->parent, addr,
-   687				 msgs[cur_msg_idx].len, map_dirn);
-   688		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[cur_msg_idx], false);
-   689		return ret;
-   690	}
-   691	
+   463	
+   464	&ospi0 {
+   465		status = "okay";
+   466		pinctrl-names = "default";
+   467		pinctrl-0 = <&mcu_fss0_ospi0_pins_default>;
+   468	
+ > 469		ospi0_nor: flash@0 {
+   470			compatible = "jedec,spi-nor";
+   471			reg = <0x0>;
+   472			spi-tx-bus-width = <8>;
+   473			spi-rx-bus-width = <8>;
+   474			spi-max-frequency = <25000000>;
+   475			cdns,tshsl-ns = <60>;
+   476			cdns,tsd2d-ns = <60>;
+   477			cdns,tchsh-ns = <60>;
+   478			cdns,tslch-ns = <60>;
+   479			cdns,read-delay = <4>;
+   480	
+   481			partitions {
+   482				compatible = "fixed-partitions";
+   483				#address-cells = <1>;
+   484				#size-cells = <1>;
+   485	
+   486				partition@0 {
+   487					label = "ospi.tiboot3";
+   488					reg = <0x0 0x80000>;
+   489				};
+   490	
+   491				partition@80000 {
+   492					label = "ospi.tispl";
+   493					reg = <0x80000 0x200000>;
+   494				};
+   495	
+   496				partition@280000 {
+   497					label = "ospi.u-boot";
+   498					reg = <0x280000 0x400000>;
+   499				};
+   500	
+   501				partition@680000 {
+   502					label = "ospi.env";
+   503					reg = <0x680000 0x40000>;
+   504				};
+   505	
+   506				partition@6c0000 {
+   507					label = "ospi.env.backup";
+   508					reg = <0x6c0000 0x40000>;
+   509				};
+   510	
+   511				partition@800000 {
+   512					label = "ospi.rootfs";
+   513					reg = <0x800000 0x37c0000>;
+   514				};
+   515	
+   516				partition@3fc0000 {
+   517					label = "ospi.phypattern";
+   518					reg = <0x3fc0000 0x40000>;
+   519				};
+   520			};
+   521		};
+   522	
+ > 523		ospi0_nand: nand@0 {
+   524			compatible = "spi-nand";
+   525			reg = <0x0>;
+   526			spi-tx-bus-width = <8>;
+   527			spi-rx-bus-width = <8>;
+   528			spi-max-frequency = <25000000>;
+   529			cdns,tshsl-ns = <60>;
+   530			cdns,tsd2d-ns = <60>;
+   531			cdns,tchsh-ns = <60>;
+   532			cdns,tslch-ns = <60>;
+   533			cdns,read-delay = <2>;
+   534			#address-cells = <1>;
+   535			#size-cells = <1>;
+   536			status = "disabled";
+   537	
+   538			partitions {
+   539				compatible = "fixed-partitions";
+   540				#address-cells = <1>;
+   541				#size-cells = <1>;
+   542	
+   543				partition@0 {
+   544					label = "ospi_nand.tiboot3";
+   545					reg = <0x0 0x80000>;
+   546				};
+   547	
+   548				partition@80000 {
+   549					label = "ospi_nand.tispl";
+   550					reg = <0x80000 0x200000>;
+   551				};
+   552	
+   553				partition@280000 {
+   554					label = "ospi_nand.u-boot";
+   555					reg = <0x280000 0x400000>;
+   556				};
+   557	
+   558				partition@680000 {
+   559					label = "ospi_nand.env";
+   560					reg = <0x680000 0x40000>;
+   561				};
+   562	
+   563				partition@6c0000 {
+   564					label = "ospi_nand.env.backup";
+   565					reg = <0x6c0000 0x40000>;
+   566				};
+   567	
+   568				partition@2000000 {
+   569					label = "ospi_nand.rootfs";
+   570					reg = <0x2000000 0x5fc0000>;
+   571				};
+   572	
+   573				partition@7fc0000 {
+   574					label = "ospi_nand.phypattern";
+   575					reg = <0x7fc0000 0x40000>;
+   576				};
+   577			};
+   578		};
+   579	};
+   580	
 
 -- 
 0-DAY CI Kernel Test Service
