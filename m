@@ -1,65 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D1F16C850
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 00:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06222BB0D;
+	Sat, 19 Oct 2024 00:37:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729297638; cv=none; b=Dzkt3N5IhNDLR2uxfxzmpi8Gsb2FHfptp3MFIYIyAWOSsEQ/jVLR3lrmmTv88/zf8nvTEaQL1Bik1k8KNSLbk1DirZWj18AF942T8s1hOFKZexsDPwj8LsfjBz9uJXDBgrEMh7I3IQLuraKld+/u+trS23QISvaSFARgoJFPHoU=
+	t=1729298242; cv=none; b=A0G8gVL0Zv7PDmEoMzDPnfUWjajhOy+rwvZP/3efYokz35/nZ2szCQi0g3+i3Yzt3dQyuvFCmQfQUC+mHxPBeyLyzt7AOY7tqFv/m2ufr754w0d0FWVT7o51J9JnLyw86XuV+xNfFuKQWPrmBwStcihl+WvfTgofaF1CHPSxoIo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729297638; c=relaxed/simple;
-	bh=XpzszTUw/nXjc6n+zFmxRLkcGB/oPankYYv5sQFIh/Y=;
+	s=arc-20240116; t=1729298242; c=relaxed/simple;
+	bh=PfaYoaaPCu5DWdfaaTW12VQJY6h3MD3ntyNmux/6daA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fb399byZV2efnoAFj/ZI0wH9BeLrrwLiPc5/hTZ4iTQxBv1Q+jgaVOMjlpaxp5o2In7xCBACuHVE05+jrSBWxSHXdiN89gTMx2KQqbF0Fw/MSQ+/WypvE0XAJg5aIx5F/0N6o9LPotc8bFzuC7FXa9uhm63/sgfdF1UtldcYklY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgm3G1Np; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=T77OoZxGnU5B/UYtANG+TEGZo6ymyOeiaxPPli6jPPeS+iaOsgdE7Oc1N4cJrmgY9uIi9TxoawfocB9kMh7i93O0SDfooHfBU73ti+9isUmS3w11UzZb11bJZw61JXQtP/mHMl9IvlLRMpEk+zoTBcJkrIRIOlsve+dKPwRKtlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcv56uEv; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgm3G1Np"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcv56uEv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729297636; x=1760833636;
+  t=1729298241; x=1760834241;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XpzszTUw/nXjc6n+zFmxRLkcGB/oPankYYv5sQFIh/Y=;
-  b=dgm3G1Np6SYw8FLMcv2ckjp918taGJSX4iVzl1EUiXvdFHOptTZ5ETat
-   swJqsWnZBp+AfbLFBAf9NH1ezQ2Q51ey4YZXqY4uUNGlElnz5noD7tozk
-   rgmRHzKF3hRE8wrmk3AiOPYw/CleK0uzvRNbp/DKjsJf/ejcX6ysGno1o
-   GaAJCiKNeJC3geftHKTr6oezFSe+DOYA8f86I8y53craEpJpipaBup33m
-   dh7/DaKqF4Hl+0Qou25yqRkK/+xSCY1vYQTl7JsnMyltclbit2ZnM+Pt7
-   hsi2sKti4j0OiTHSkxcgIh7TBESYTdjCxiqhU1sVCm7PmXczdF6BLxVo8
-   A==;
-X-CSE-ConnectionGUID: YkN64Hn7QxaWNBk87tzV9g==
-X-CSE-MsgGUID: 9w/hwIMPTLCiZRgmyLhhAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28977084"
+  bh=PfaYoaaPCu5DWdfaaTW12VQJY6h3MD3ntyNmux/6daA=;
+  b=gcv56uEva/ctlcfisaZHxrXvvu0APnuamyfhAUh3Jfzvx1YxkuMIcm14
+   GB/tP+4qx0qFnlb17rnW+WFVKAmCdG82AOXsayVk4I82LiAm3jH8zWyFC
+   lb5q+0R0NPVgKz868Jh/+b2cOxpQFXL+Ecf8iHYu/3s0gwt3BxvtE85ko
+   8L+J6bg8XVVGDobC4HAT0buGdXfWy5Lzb0wqaMOFH5ftzNtSvMkAbaEyT
+   PF13VZ+qrPi1Qk4oLEibUqoOuCamUfRbIpZ6Ao39MhB0jKZkJnK7JtI2w
+   18Y2v3gz6TnHjuvI6dZ0J4L6KdjMiCgvvvZ9xXvCN1GmFO28Sw7gcDKzp
+   g==;
+X-CSE-ConnectionGUID: 3m8xrjO5T7e0AV/ICto8Ew==
+X-CSE-MsgGUID: 1T62z1zoSoKvVCz5YknatQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="29054678"
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="28977084"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:27:14 -0700
-X-CSE-ConnectionGUID: bccPquIaRFSenCipGZI1Lw==
-X-CSE-MsgGUID: ZsMos1PaRsWVxJHIHDYSzQ==
+   d="scan'208";a="29054678"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:37:18 -0700
+X-CSE-ConnectionGUID: 6YMgxZiVR9emesg1GpNAHA==
+X-CSE-MsgGUID: 7zFAV9PvT6+fQq/pN8dEoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="116470078"
+   d="scan'208";a="109771570"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Oct 2024 17:27:13 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2024 17:37:13 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1xJG-000OT3-24;
-	Sat, 19 Oct 2024 00:27:10 +0000
-Date: Sat, 19 Oct 2024 08:26:26 +0800
+	id 1t1xSw-000OTl-3C;
+	Sat, 19 Oct 2024 00:37:10 +0000
+Date: Sat, 19 Oct 2024 08:36:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jennifer Berringer <jberring@redhat.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	Sebastian Reichel <sre@kernel.org>,
+To: Guillaume Stols <gstols@baylibre.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maxime Ripard <mripard@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, Jennifer Berringer <jberring@redhat.com>
-Subject: Re: [PATCH 3/3] power: reset: nvmem-reboot-mode: fix write for small
- cells
-Message-ID: <202410190829.e98plEvU-lkp@intel.com>
-References: <20241017160904.2803663-3-jberring@redhat.com>
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	aardelean@baylibre.com, dlechner@baylibre.com,
+	jstephan@baylibre.com, nuno.sa@analog.com,
+	Guillaume Stols <gstols@baylibre.com>
+Subject: Re: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
+Message-ID: <202410190802.CLaySBOq-lkp@intel.com>
+References: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,55 +77,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241017160904.2803663-3-jberring@redhat.com>
+In-Reply-To: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
 
-Hi Jennifer,
+Hi Guillaume,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
+[auto build test WARNING on 465644ac29536d10178b5ca4684d0b84765b9fa4]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jennifer-Berringer/nvmem-core-add-nvmem_cell_write_variable_u32/20241018-001140
-base:   98f7e32f20d28ec452afb208f9cffc08448a2652
-patch link:    https://lore.kernel.org/r/20241017160904.2803663-3-jberring%40redhat.com
-patch subject: [PATCH 3/3] power: reset: nvmem-reboot-mode: fix write for small cells
-config: i386-randconfig-015-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190829.e98plEvU-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190829.e98plEvU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Stols/dt-bindings-iio-adc-ad7606-Remove-spi-cpha-from-required/20241015-215831
+base:   465644ac29536d10178b5ca4684d0b84765b9fa4
+patch link:    https://lore.kernel.org/r/20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c%40baylibre.com
+patch subject: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190802.CLaySBOq-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190802.CLaySBOq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190829.e98plEvU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190802.CLaySBOq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/power/reset/nvmem-reboot-mode.c: In function 'nvmem_reboot_mode_write':
->> drivers/power/reset/nvmem-reboot-mode.c:27:15: error: implicit declaration of function 'nvmem_cell_write_variable_u32'; did you mean 'nvmem_cell_read_variable_le_u32'? [-Werror=implicit-function-declaration]
-      27 |         ret = nvmem_cell_write_variable_u32(nvmem_rbm->cell, magic);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |               nvmem_cell_read_variable_le_u32
-   cc1: some warnings being treated as errors
+>> drivers/iio/adc/ad7606_par.c:173:22: warning: unused variable 'back' [-Wunused-variable]
+     173 |         struct iio_backend *back;
+         |                             ^~~~
+   1 warning generated.
 
 
-vim +27 drivers/power/reset/nvmem-reboot-mode.c
+vim +/back +173 drivers/iio/adc/ad7606_par.c
 
-    18	
-    19	static int nvmem_reboot_mode_write(struct reboot_mode_driver *reboot,
-    20					    unsigned int magic)
-    21	{
-    22		int ret;
-    23		struct nvmem_reboot_mode *nvmem_rbm;
-    24	
-    25		nvmem_rbm = container_of(reboot, struct nvmem_reboot_mode, reboot);
-    26	
-  > 27		ret = nvmem_cell_write_variable_u32(nvmem_rbm->cell, magic);
-    28		if (ret < 0)
-    29			dev_err(reboot->dev, "update reboot mode bits failed\n");
-    30	
-    31		return ret;
-    32	}
-    33	
+   164	
+   165	static int ad7606_par_probe(struct platform_device *pdev)
+   166	{
+   167		const struct ad7606_chip_info *chip_info;
+   168		const struct platform_device_id *id;
+   169		struct resource *res;
+   170		void __iomem *addr;
+   171		resource_size_t remap_size;
+   172		int irq;
+ > 173		struct iio_backend *back;
+   174	
+   175		/*
+   176		 * If a firmware node is available (ACPI or DT), platform_device_id is null
+   177		 * and we must use get_match_data.
+   178		 */
+   179		if (dev_fwnode(&pdev->dev)) {
+   180			chip_info = device_get_match_data(&pdev->dev);
+   181			if (device_property_present(&pdev->dev, "io-backends"))
+   182				/*
+   183				 * If a backend is available ,call the core probe with backend
+   184				 * bops, otherwise use the former bops.
+   185				 */
+   186				return ad7606_probe(&pdev->dev, 0, NULL,
+   187						    chip_info,
+   188						    &ad7606_bi_bops);
+   189		} else {
+   190			id = platform_get_device_id(pdev);
+   191			chip_info = (const struct ad7606_chip_info *)id->driver_data;
+   192		}
+   193	
+   194		irq = platform_get_irq(pdev, 0);
+   195		if (irq < 0)
+   196			return irq;
+   197	
+   198		addr = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
+   199		if (IS_ERR(addr))
+   200			return PTR_ERR(addr);
+   201	
+   202		remap_size = resource_size(res);
+   203	
+   204		return ad7606_probe(&pdev->dev, irq, addr, chip_info,
+   205				    remap_size > 1 ? &ad7606_par16_bops :
+   206				    &ad7606_par8_bops);
+   207	}
+   208	
 
 -- 
 0-DAY CI Kernel Test Service
