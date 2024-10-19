@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBA3F28EF;
-	Sat, 19 Oct 2024 06:09:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F021D47BC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 06:40:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729318170; cv=none; b=OJkL9mweCsVqfFQPaP8QRo+IgeKLHaAx2gfMQiEabxaLBcXufkJkwokQCGnFxBgHj4tAdaV0i+C0IG9WFOm5TDp/TIe7WuRf1uiMLsU8cvBYzI8xKNLakRuMKT5aqHn3vDJZiSchNT7E5hMv+3gMQiawYbUYDtPYIK1atn7p4D4=
+	t=1729320028; cv=none; b=USjk4e5JEtnI1JfbMQdd1aQhSAwGmh932oJfsjsAntLPAnjjMa4qq8XKND52hZyJImruebfzoJRdIYzwxuRU+9BMLu8+YvmJimeiz8llyUADzW2qR0/q1W7KNoiJCYW+JBtLT31AxEmFk/vCIeHdvH22ESoBFABednoc7S+qav8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729318170; c=relaxed/simple;
-	bh=l0XaHCKYiAqR0O4A9yZFaL9PW+FnfGa9m1DBVGxwkC4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mbiJs59OTBLjeAJL41M4kQgT1gO9SvJsCQF7dVlof1smcc+k37u61xln0MXruSEhOT/eoxhaLmI1pn0lsp5n/TMokU6LmB2OYi5N7Yvf9LTeMfc2uSs2tgw2UAi/riJYBBoF9LXyd/GsGOVlYJJZ/BNHwWMJd44Yj7EOfG8zF4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W65FEbYr; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1729320028; c=relaxed/simple;
+	bh=D5FqVUHEb5PhIa8e816qkRe/BB6uCpIxWn//F32Wgu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uyVo1kxubjCTq66nyJTYyLVMz6xHQmtQkcrsCYbEePGka5HUPYvIbOAXL7ikqlIoj7T5x1C3/sJE4kSh8EW4nNw38MbUtIqKzCjXgOW1XN7LB32vNJcNugZ6lT4VuaDoILTPe4OoPTiucw2qTFt5JqhSwEzPldqS+2H10anjrm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVkzCIiS; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W65FEbYr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVkzCIiS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729318166; x=1760854166;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l0XaHCKYiAqR0O4A9yZFaL9PW+FnfGa9m1DBVGxwkC4=;
-  b=W65FEbYrp1wc6mZZpmhCrbRqpV7/UH0086Q3Cre5xt8R/RZsrBqfexr7
-   vudiOMem/nGNG3Jsr/55UXwfqxSoS8gqYPA7MwclRn/CQ2xS82WJBdxuk
-   pjiK8k1TixMA88Lrq77cnkduGObOqr8z187Ois1x4SF1O7QrFHTyIEbZW
-   n2MX3skB9eR4My76BKpXsBSBJ7sVQtDqJXSmph4l40XRZt3d2CYlVcyB2
-   kIH2sOL5fmRsxdKuKK3bBQ95U1KVOnXsNfcbOJSp9XRL5elbYE045DH0s
-   7E+UEh6PIlJftr9oH4JeRUAWyvUn5YAS1GZGkPdoZKjdd4+DafLM5PxTQ
+  t=1729320026; x=1760856026;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D5FqVUHEb5PhIa8e816qkRe/BB6uCpIxWn//F32Wgu4=;
+  b=kVkzCIiSlH5FRpT/j6idJYZpl2uzd46jbriDoetEQVLfpQEuGy8qGmyT
+   BkKHJnshFoHXNLLK1WY+nRHCyi64rMG76H13HGKXF4MWdsVDQjjWL4dVM
+   sCva8n5pJdXXsU9TwfQf3TxWx13lySPKa/YQskjCRV40mqsI8FXr6hgy8
+   S024115efdmNz/iA0UEwQGqGRbVptwyhXe8u+YhgJX3tq6McGAYH/dSj/
+   OURuq/F0he5FmJ49B1JCmJESuOJovxHOeLQKaXSUgGyj3f6b3TYJR39y/
+   U4zp4928xA5CV6ro9+8Mhkv48m8KURbkmflXqAbmTPayJjwAoutWtG1h4
    w==;
-X-CSE-ConnectionGUID: vpEosXOLRSehNDOGSC3mAQ==
-X-CSE-MsgGUID: LnCCOocvQSe2LMKJrmqcIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28964275"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28964275"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 23:09:25 -0700
-X-CSE-ConnectionGUID: XTIGuKcdSj6OqDAkjS+tnQ==
-X-CSE-MsgGUID: fOK5EzP4QgaAu5EWU4cgVg==
+X-CSE-ConnectionGUID: Z/9rP7ZQQ7OBvF+S1LZ3Jw==
+X-CSE-MsgGUID: gLGW24ZhQO2TZm4FrDVTKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="16470603"
+X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
+   d="scan'208";a="16470603"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 23:40:25 -0700
+X-CSE-ConnectionGUID: +6IffJ2AQK+66CtzAPmD8g==
+X-CSE-MsgGUID: C48p0Nm8QT+9SILCFHjwRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
-   d="scan'208";a="79870646"
+   d="scan'208";a="79471816"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 18 Oct 2024 23:09:23 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Oct 2024 23:40:23 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t22eP-000Ojx-00;
-	Sat, 19 Oct 2024 06:09:21 +0000
-Date: Sat, 19 Oct 2024 14:09:00 +0800
+	id 1t238P-000Ol3-2O;
+	Sat, 19 Oct 2024 06:40:21 +0000
+Date: Sat, 19 Oct 2024 14:39:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>
-Subject: [rust:staging/rust-pci 13/13] error[E0433]: failed to resolve: could
- not find `module_pci_driver` in `kernel`
-Message-ID: <202410191436.oOXV1ArA-lkp@intel.com>
+To: Guixin Liu <kanie@linux.alibaba.com>, bhelgaas@google.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
+Subject: Re: [PATCH] PCI: optimize proc sequential file read
+Message-ID: <202410191439.yQ27wvB6-lkp@intel.com>
+References: <20241018054728.116519-1-kanie@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241018054728.116519-1-kanie@linux.alibaba.com>
 
-tree:   https://github.com/Rust-for-Linux/linux staging/rust-pci
-head:   d6146e25775c14aac6abb51dfe52c06ec5de8a2e
-commit: d6146e25775c14aac6abb51dfe52c06ec5de8a2e [13/13] samples: rust: add Rust PCI sample driver
-config: x86_64-randconfig-016-20241017 (https://download.01.org/0day-ci/archive/20241019/202410191436.oOXV1ArA-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191436.oOXV1ArA-lkp@intel.com/reproduce)
+Hi Guixin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guixin-Liu/PCI-optimize-proc-sequential-file-read/20241018-135026
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20241018054728.116519-1-kanie%40linux.alibaba.com
+patch subject: [PATCH] PCI: optimize proc sequential file read
+config: i386-buildonly-randconfig-003-20241019 (https://download.01.org/0day-ci/archive/20241019/202410191439.yQ27wvB6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191439.yQ27wvB6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410191436.oOXV1ArA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410191439.yQ27wvB6-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error[E0432]: unresolved import `kernel::pci`
-   --> samples/rust/rust_driver_pci.rs:7:67
-   |
-   7  | use kernel::{bindings, c_str, device_id::IdArray, devres::Devres, pci, prelude::*};
-   |                                                                   ^^^ no `pci` in the root
-   |
-   note: found an item that was configured out
-   --> rust/kernel/lib.rs:77:9
-   |
-   77 | pub mod pci;
-   |         ^^^
---
->> error[E0433]: failed to resolve: could not find `module_pci_driver` in `kernel`
-   --> samples/rust/rust_driver_pci.rs:96:9
-   |
-   96 | kernel::module_pci_driver! {
-   |         ^^^^^^^^^^^^^^^^^ could not find `module_pci_driver` in `kernel`
+   ld: drivers/pci/probe.o: in function `pci_device_add':
+>> drivers/pci/probe.c:2595: undefined reference to `pci_seq_tree_add_dev'
+   ld: drivers/pci/remove.o: in function `pci_destroy_dev':
+>> drivers/pci/remove.c:56: undefined reference to `pci_seq_tree_remove_dev'
+
+
+vim +2595 drivers/pci/probe.c
+
+  2546	
+  2547	void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
+  2548	{
+  2549		int ret;
+  2550	
+  2551		pci_configure_device(dev);
+  2552	
+  2553		device_initialize(&dev->dev);
+  2554		dev->dev.release = pci_release_dev;
+  2555	
+  2556		set_dev_node(&dev->dev, pcibus_to_node(bus));
+  2557		dev->dev.dma_mask = &dev->dma_mask;
+  2558		dev->dev.dma_parms = &dev->dma_parms;
+  2559		dev->dev.coherent_dma_mask = 0xffffffffull;
+  2560	
+  2561		dma_set_max_seg_size(&dev->dev, 65536);
+  2562		dma_set_seg_boundary(&dev->dev, 0xffffffff);
+  2563	
+  2564		pcie_failed_link_retrain(dev);
+  2565	
+  2566		/* Fix up broken headers */
+  2567		pci_fixup_device(pci_fixup_header, dev);
+  2568	
+  2569		pci_reassigndev_resource_alignment(dev);
+  2570	
+  2571		dev->state_saved = false;
+  2572	
+  2573		pci_init_capabilities(dev);
+  2574	
+  2575		/*
+  2576		 * Add the device to our list of discovered devices
+  2577		 * and the bus list for fixup functions, etc.
+  2578		 */
+  2579		down_write(&pci_bus_sem);
+  2580		list_add_tail(&dev->bus_list, &bus->devices);
+  2581		up_write(&pci_bus_sem);
+  2582	
+  2583		ret = pcibios_device_add(dev);
+  2584		WARN_ON(ret < 0);
+  2585	
+  2586		/* Set up MSI IRQ domain */
+  2587		pci_set_msi_domain(dev);
+  2588	
+  2589		/* Notifier could use PCI capabilities */
+  2590		dev->match_driver = false;
+  2591		ret = device_add(&dev->dev);
+  2592		WARN_ON(ret < 0);
+  2593	
+  2594		pci_npem_create(dev);
+> 2595		pci_seq_tree_add_dev(dev);
+  2596	}
+  2597	
 
 -- 
 0-DAY CI Kernel Test Service
