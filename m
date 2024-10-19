@@ -1,74 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06222BB0D;
-	Sat, 19 Oct 2024 00:37:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F9F46450;
+	Sat, 19 Oct 2024 00:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729298242; cv=none; b=A0G8gVL0Zv7PDmEoMzDPnfUWjajhOy+rwvZP/3efYokz35/nZ2szCQi0g3+i3Yzt3dQyuvFCmQfQUC+mHxPBeyLyzt7AOY7tqFv/m2ufr754w0d0FWVT7o51J9JnLyw86XuV+xNfFuKQWPrmBwStcihl+WvfTgofaF1CHPSxoIo=
+	t=1729299498; cv=none; b=hwBsGSf3W69nenpS8Z+g/iLy8BZgwnaWL9DeId9vPCgl4qt1qCTMWe4x9PRHCeMopw53hEo5FBpdXs1MkIRxvqikxUwqu0gaa48xa3qSSh3aF62J/VrglmEjHnMS8mK8NxZSyPN+ZI1tHBezKT0OSEe6yY+thly4+Tcyd1E7npw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729298242; c=relaxed/simple;
-	bh=PfaYoaaPCu5DWdfaaTW12VQJY6h3MD3ntyNmux/6daA=;
+	s=arc-20240116; t=1729299498; c=relaxed/simple;
+	bh=a86+QvWB2/TZqwb0nqGjm+Y8QEQcMsm9NfpM2wXkCgE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T77OoZxGnU5B/UYtANG+TEGZo6ymyOeiaxPPli6jPPeS+iaOsgdE7Oc1N4cJrmgY9uIi9TxoawfocB9kMh7i93O0SDfooHfBU73ti+9isUmS3w11UzZb11bJZw61JXQtP/mHMl9IvlLRMpEk+zoTBcJkrIRIOlsve+dKPwRKtlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gcv56uEv; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=Y4/Jr2WFrOjAeYPhlWvaYAhPhgGn0C1vGYoV9lK7jWIzKVY217wNpajibJXG6uvxPrqjVznJEWvHB9bcrf1S3GOOZ1OsPFa9mhQkLc38THlnjDRfN3WdbmSb05YYOxAKd8lWczcXsBHxXOFf00zBwwCpvqBJbMVft/fREA3MAwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J8EAF6gj; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gcv56uEv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J8EAF6gj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729298241; x=1760834241;
+  t=1729299496; x=1760835496;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PfaYoaaPCu5DWdfaaTW12VQJY6h3MD3ntyNmux/6daA=;
-  b=gcv56uEva/ctlcfisaZHxrXvvu0APnuamyfhAUh3Jfzvx1YxkuMIcm14
-   GB/tP+4qx0qFnlb17rnW+WFVKAmCdG82AOXsayVk4I82LiAm3jH8zWyFC
-   lb5q+0R0NPVgKz868Jh/+b2cOxpQFXL+Ecf8iHYu/3s0gwt3BxvtE85ko
-   8L+J6bg8XVVGDobC4HAT0buGdXfWy5Lzb0wqaMOFH5ftzNtSvMkAbaEyT
-   PF13VZ+qrPi1Qk4oLEibUqoOuCamUfRbIpZ6Ao39MhB0jKZkJnK7JtI2w
-   18Y2v3gz6TnHjuvI6dZ0J4L6KdjMiCgvvvZ9xXvCN1GmFO28Sw7gcDKzp
+  bh=a86+QvWB2/TZqwb0nqGjm+Y8QEQcMsm9NfpM2wXkCgE=;
+  b=J8EAF6gj1AdkT5cAnwxbyVmPSiAykZc3scWtMNIy5Pmie3QQZXF+KChf
+   TxCQu3C22o8htrCYOPrQqqrAWdHFLh1W++Ebr1P/YYLvj1CDzhs7Xr0fS
+   CQC7DVFnkjl27QChCMbU1h8324ANNe0kGFIl1UgwdZzjRxC9oP2REV5Ds
+   le0BWT0s6NsCogEi87QH3kZ3uVhZqiII/1/8Wa83gsckxtQEdcFcC+Jjk
+   fgTgY0ePh6ZUrkEDOMbfs5LwcdvDiNbOWgfpYwgCI6fzoYLXNV+b3PvCm
+   88qSTMUW5RRFyf3XyHwo9Me+d0X1dnp94Eq+DrvPtF/zLCjoGl7rxYTgv
    g==;
-X-CSE-ConnectionGUID: 3m8xrjO5T7e0AV/ICto8Ew==
-X-CSE-MsgGUID: 1T62z1zoSoKvVCz5YknatQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="29054678"
-X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="29054678"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:37:18 -0700
-X-CSE-ConnectionGUID: 6YMgxZiVR9emesg1GpNAHA==
-X-CSE-MsgGUID: 7zFAV9PvT6+fQq/pN8dEoA==
+X-CSE-ConnectionGUID: 4onSudqhRuuzGRZ8rp+wJA==
+X-CSE-MsgGUID: UMAJ//UvSj+Wc1O2gm3LRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="51392239"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="51392239"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:58:15 -0700
+X-CSE-ConnectionGUID: WU3fYWV1T9m/TU7gzG7+Zg==
+X-CSE-MsgGUID: RCuox/90RbeF0odWHnZgtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="109771570"
+   d="scan'208";a="79357023"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Oct 2024 17:37:13 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 18 Oct 2024 17:58:14 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1xSw-000OTl-3C;
-	Sat, 19 Oct 2024 00:37:10 +0000
-Date: Sat, 19 Oct 2024 08:36:40 +0800
+	id 1t1xnH-000OV7-2K;
+	Sat, 19 Oct 2024 00:58:11 +0000
+Date: Sat, 19 Oct 2024 08:57:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guillaume Stols <gstols@baylibre.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	aardelean@baylibre.com, dlechner@baylibre.com,
-	jstephan@baylibre.com, nuno.sa@analog.com,
-	Guillaume Stols <gstols@baylibre.com>
-Subject: Re: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
-Message-ID: <202410190802.CLaySBOq-lkp@intel.com>
-References: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
+To: Bernd Schubert <bschubert@ddn.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v4 05/15] fuse: {uring} Handle SQEs - register
+ commands
+Message-ID: <202410190841.n8rx2ZE2-lkp@intel.com>
+References: <20241016-fuse-uring-for-6-10-rfc4-v4-5-9739c753666e@ddn.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,82 +63,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c@baylibre.com>
+In-Reply-To: <20241016-fuse-uring-for-6-10-rfc4-v4-5-9739c753666e@ddn.com>
 
-Hi Guillaume,
+Hi Bernd,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 465644ac29536d10178b5ca4684d0b84765b9fa4]
+[auto build test WARNING on 0c3836482481200ead7b416ca80c68a29cfdaabd]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Stols/dt-bindings-iio-adc-ad7606-Remove-spi-cpha-from-required/20241015-215831
-base:   465644ac29536d10178b5ca4684d0b84765b9fa4
-patch link:    https://lore.kernel.org/r/20241015-ad7606_add_iio_backend_support-v5-7-654faf1ae08c%40baylibre.com
-patch subject: [PATCH v5 7/8] iio: adc: ad7606: Add iio-backend support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190802.CLaySBOq-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bernd-Schubert/fuse-rename-to-fuse_dev_end_requests-and-make-non-static/20241016-084030
+base:   0c3836482481200ead7b416ca80c68a29cfdaabd
+patch link:    https://lore.kernel.org/r/20241016-fuse-uring-for-6-10-rfc4-v4-5-9739c753666e%40ddn.com
+patch subject: [PATCH RFC v4 05/15] fuse: {uring} Handle SQEs - register commands
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241019/202410190841.n8rx2ZE2-lkp@intel.com/config)
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190802.CLaySBOq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190841.n8rx2ZE2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190802.CLaySBOq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190841.n8rx2ZE2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/adc/ad7606_par.c:173:22: warning: unused variable 'back' [-Wunused-variable]
-     173 |         struct iio_backend *back;
-         |                             ^~~~
-   1 warning generated.
+>> fs/fuse/dev_uring.c:245: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Entry function from io_uring to handle the given passthrough command
 
 
-vim +/back +173 drivers/iio/adc/ad7606_par.c
+vim +245 fs/fuse/dev_uring.c
 
-   164	
-   165	static int ad7606_par_probe(struct platform_device *pdev)
-   166	{
-   167		const struct ad7606_chip_info *chip_info;
-   168		const struct platform_device_id *id;
-   169		struct resource *res;
-   170		void __iomem *addr;
-   171		resource_size_t remap_size;
-   172		int irq;
- > 173		struct iio_backend *back;
-   174	
-   175		/*
-   176		 * If a firmware node is available (ACPI or DT), platform_device_id is null
-   177		 * and we must use get_match_data.
-   178		 */
-   179		if (dev_fwnode(&pdev->dev)) {
-   180			chip_info = device_get_match_data(&pdev->dev);
-   181			if (device_property_present(&pdev->dev, "io-backends"))
-   182				/*
-   183				 * If a backend is available ,call the core probe with backend
-   184				 * bops, otherwise use the former bops.
-   185				 */
-   186				return ad7606_probe(&pdev->dev, 0, NULL,
-   187						    chip_info,
-   188						    &ad7606_bi_bops);
-   189		} else {
-   190			id = platform_get_device_id(pdev);
-   191			chip_info = (const struct ad7606_chip_info *)id->driver_data;
-   192		}
-   193	
-   194		irq = platform_get_irq(pdev, 0);
-   195		if (irq < 0)
-   196			return irq;
-   197	
-   198		addr = devm_platform_get_and_ioremap_resource(pdev, 0, &res);
-   199		if (IS_ERR(addr))
-   200			return PTR_ERR(addr);
-   201	
-   202		remap_size = resource_size(res);
-   203	
-   204		return ad7606_probe(&pdev->dev, irq, addr, chip_info,
-   205				    remap_size > 1 ? &ad7606_par16_bops :
-   206				    &ad7606_par8_bops);
-   207	}
-   208	
+   243	
+   244	/**
+ > 245	 * Entry function from io_uring to handle the given passthrough command
 
 -- 
 0-DAY CI Kernel Test Service
