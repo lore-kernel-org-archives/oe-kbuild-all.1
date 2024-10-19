@@ -1,73 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A6B1DFE00
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 11:38:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8BC2CA7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 13:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729337916; cv=none; b=KVu+S7ZrGB3eRpOUkJSlxOtAlTk3uSwh0nAEzuEAIaxBqGxlJM3Hteyt9NIuZNETsyQ/KWctMLhrYfRv74RXwhBYkhe0FS0s5kYr65m9U98PCPfNst4ADLLC3yco7//wZQFOXcIq8r/ds6A3UkY9GEgfonJ1EveqNQ6vfwUBxWk=
+	t=1729342837; cv=none; b=A+WbkDVqHaj3CosvKgDKyGzFvL7VxLk1VdnIyicerKDyHxT44HdZtBFIiUxgp2EGA8gJQxk2buWMphi1mIkaFL6m80tBLhSgRfbYiBM3SBqhWHpeRRE2pyNCFVCJht+jZ/eXZ/RXmQEfG/X+f6DlzRds21Th+ysXBKNI9e/3NaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729337916; c=relaxed/simple;
-	bh=marhkCyYZCh3NCtWnDi9k3n1MPLfEDhO9JL7aJPEMs8=;
+	s=arc-20240116; t=1729342837; c=relaxed/simple;
+	bh=m7W4fJEtIeyu8tniSEMGnCUSt9Skkxkp3RQMvF94rpA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ArdR5LdrCMYF+D4JBTFwC7mqnL0MP0J4QoTjimvAoJgYefJ+FD2hc4bbW9NDJTfL3ZWvf+eNhjaSs2CHWvnAsgqVjxQjSrRNstuiOgtAhuC7TSybUlfxRJUlR0yfRWgRY9GNxNSETpKBokUjSr3zBWsb+zhCvNj7KEts103qXXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GY9QP4Y5; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=GViSYa6lIj0wci5yDjdZ0hqGmHLxZRZFmlXXbQvHAgXvY55B555ZGRR6ZGFuu5AFg/pg+YbQYdac15RO6dhk2Rj6A7w+vnyH8b3ojSpcAfQcuKYHir1SXkjJGTuEDJTWcvwbCL35NQWcdU7FhPwZEdEwg2OiYlEzQJCIgu6ENk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1e4SB+O; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GY9QP4Y5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1e4SB+O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729337914; x=1760873914;
+  t=1729342836; x=1760878836;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=marhkCyYZCh3NCtWnDi9k3n1MPLfEDhO9JL7aJPEMs8=;
-  b=GY9QP4Y5Em1tMCniss+5kCeBuCOonwc7nJTc2FD84q6YgujiDiwUUbxp
-   iUDbVgbyF7LbdkCLYD5I5qBSEPfy/Ds5b8NdYTS/XxkzMxDDu4m/wS4eW
-   +YYpV01ppFM7LNVEGqrbICjlsBf5xez9MkxHfE4pRlFWx3m2RSeyzaCM+
-   jyRK0C+OQ5hTzdDLYD+J/ctJWTurIFrrR/tk5eYYANkP3ckgNDLZqwcyx
-   KTnaz6Q5Se0MjT7zViKNA4Dki7KSiitOtnZQl7vSuG/sL/nXQu7A4SIE7
-   ty6IznXxmNxhec1s1TFCL+Z31Ij82vyYs8vqJiXUz4fRujtTjl6th7khf
-   g==;
-X-CSE-ConnectionGUID: T8HUAf56RemKWeLrKK5VVg==
-X-CSE-MsgGUID: wDC0TpmGQaS43KP8XQYpOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46328537"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="46328537"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 04:38:34 -0700
-X-CSE-ConnectionGUID: jknId/GiSzil637xYRnm0A==
-X-CSE-MsgGUID: IKV8DZGdRXu0KWTBqrP/2w==
+  bh=m7W4fJEtIeyu8tniSEMGnCUSt9Skkxkp3RQMvF94rpA=;
+  b=C1e4SB+O0CE5b9vGdxz2LeqKnpK5klT7cZro+mxd9YCOu1F4sFv8f/y3
+   n6+mBa/6Zzj5ggkCy729rcTGVDlJny2EyLJFvFFmjgZ2tTny7ujI6dCyq
+   A44NscK5Y+SI+he5fdk9Qr9h5aby0N37xBB0FST3DHBF5O8Hzp1H505kT
+   HLGxXNkPBn5aCIhR3m8pm0Gtn/BNGnAt/w0Nz/VE4OFz4a9LlvKInfAdw
+   fgVuw52I+OpKyJ0+JypCXb7Iyd+/QpWpz4YKpsIuu23GI/sSyLlGIge4c
+   eNIAFrwS6qVZE5dA6qBzDgynXJnEIBG2hOmNSeKzQSLT7gBCGlsYY7nNf
+   Q==;
+X-CSE-ConnectionGUID: p1wK11DNTVueDhEVzU0c4w==
+X-CSE-MsgGUID: SOcPQu90TquFkAh9DdBdzA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="40232729"
+X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
+   d="scan'208";a="40232729"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 06:00:35 -0700
+X-CSE-ConnectionGUID: nRm6KXBBRZK57aaXZ94/mg==
+X-CSE-MsgGUID: uZ4+rfKdTee/kSSABrapEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="79067264"
+   d="scan'208";a="116580650"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Oct 2024 04:38:31 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Oct 2024 06:00:33 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t27mu-000OwT-0m;
-	Sat, 19 Oct 2024 11:38:28 +0000
-Date: Sat, 19 Oct 2024 19:38:02 +0800
+	id 1t294I-000P1B-2R;
+	Sat, 19 Oct 2024 13:00:30 +0000
+Date: Sat, 19 Oct 2024 20:59:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Vedang Nagar <quic_vnagar@quicinc.com>
-Subject: Re: [PATCH v4 25/28] media: iris: implement power scaling for vpu2
- and vpu3
-Message-ID: <202410191943.XTP992Za-lkp@intel.com>
-References: <20241014-qcom-video-iris-v4-v4-25-c5eaa4e9ab9e@quicinc.com>
+To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>,
+	jaegeuk@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+	linux-kernel@vger.kernel.org, Chao Yu <yuchao0@huawei.com>,
+	Chao Yu <chao@kernel.org>
+Subject: Re: [PATCH] f2fs: fix to convert log type to segment data type
+ correctly
+Message-ID: <202410192028.vIwx2fbN-lkp@intel.com>
+References: <20241018092200.2792472-1-chao@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,38 +66,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241014-qcom-video-iris-v4-v4-25-c5eaa4e9ab9e@quicinc.com>
+In-Reply-To: <20241018092200.2792472-1-chao@kernel.org>
 
-Hi Dikshita,
+Hi Chao,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 67cefecf2a039b9ed0030b9213ceafcd45e6f9e3]
+[auto build test ERROR on jaegeuk-f2fs/dev-test]
+[also build test ERROR on jaegeuk-f2fs/dev linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dikshita-Agarwal/dt-bindings-media-Add-video-support-for-QCOM-SM8550-SoC/20241014-171950
-base:   67cefecf2a039b9ed0030b9213ceafcd45e6f9e3
-patch link:    https://lore.kernel.org/r/20241014-qcom-video-iris-v4-v4-25-c5eaa4e9ab9e%40quicinc.com
-patch subject: [PATCH v4 25/28] media: iris: implement power scaling for vpu2 and vpu3
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410191943.XTP992Za-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191943.XTP992Za-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-fix-to-convert-log-type-to-segment-data-type-correctly/20241018-172401
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+patch link:    https://lore.kernel.org/r/20241018092200.2792472-1-chao%40kernel.org
+patch subject: [PATCH] f2fs: fix to convert log type to segment data type correctly
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241019/202410192028.vIwx2fbN-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192028.vIwx2fbN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410191943.XTP992Za-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410192028.vIwx2fbN-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   microblaze-linux-ld: drivers/media/platform/qcom/iris/iris_vpu3.o: in function `iris_vpu3_calculate_frequency':
->> .tmp_gl_iris_vpu3.o:(.text+0x52c): undefined reference to `__divdi3'
->> microblaze-linux-ld: .tmp_gl_iris_vpu3.o:(.text+0x568): undefined reference to `__udivdi3'
+>> fs/f2fs/segment.c:3818:38: warning: 'enum log_type' declared inside parameter list will not be visible outside of this definition or declaration
+    3818 | static int log_type_to_seg_type(enum log_type type)
+         |                                      ^~~~~~~~
+>> fs/f2fs/segment.c:3818:47: error: parameter 1 ('type') has incomplete type
+    3818 | static int log_type_to_seg_type(enum log_type type)
+         |                                 ~~~~~~~~~~~~~~^~~~
+>> fs/f2fs/segment.c:3818:12: error: function declaration isn't a prototype [-Werror=strict-prototypes]
+    3818 | static int log_type_to_seg_type(enum log_type type)
+         |            ^~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/segment.c: In function 'do_write_page':
+>> fs/f2fs/segment.c:3843:14: error: variable 'type' has initializer but incomplete type
+    3843 |         enum log_type type = __get_segment_type(fio);
+         |              ^~~~~~~~
+>> fs/f2fs/segment.c:3843:23: error: storage size of 'type' isn't known
+    3843 |         enum log_type type = __get_segment_type(fio);
+         |                       ^~~~
+>> fs/f2fs/segment.c:3843:23: warning: unused variable 'type' [-Wunused-variable]
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+vim +3818 fs/f2fs/segment.c
+
+  3817	
+> 3818	static int log_type_to_seg_type(enum log_type type)
+  3819	{
+  3820		int seg_type = CURSEG_COLD_DATA;
+  3821	
+  3822		switch (type) {
+  3823		case CURSEG_HOT_DATA:
+  3824		case CURSEG_WARM_DATA:
+  3825		case CURSEG_COLD_DATA:
+  3826		case CURSEG_HOT_NODE:
+  3827		case CURSEG_WARM_NODE:
+  3828		case CURSEG_COLD_NODE:
+  3829			seg_type = (int)type;
+  3830			break;
+  3831		case CURSEG_COLD_DATA_PINNED:
+  3832		case CURSEG_ALL_DATA_ATGC:
+  3833			seg_type = CURSEG_COLD_DATA;
+  3834			break;
+  3835		default:
+  3836			break;
+  3837		}
+  3838		return seg_type;
+  3839	}
+  3840	
+  3841	static void do_write_page(struct f2fs_summary *sum, struct f2fs_io_info *fio)
+  3842	{
+> 3843		enum log_type type = __get_segment_type(fio);
+  3844		int seg_type = log_type_to_seg_type(type);
+  3845		bool keep_order = (f2fs_lfs_mode(fio->sbi) &&
+  3846					seg_type == CURSEG_COLD_DATA);
+  3847	
+  3848		if (keep_order)
+  3849			f2fs_down_read(&fio->sbi->io_order_lock);
+  3850	
+  3851		if (f2fs_allocate_data_block(fio->sbi, fio->page, fio->old_blkaddr,
+  3852				&fio->new_blkaddr, sum, type, fio)) {
+  3853			if (fscrypt_inode_uses_fs_layer_crypto(fio->page->mapping->host))
+  3854				fscrypt_finalize_bounce_page(&fio->encrypted_page);
+  3855			end_page_writeback(fio->page);
+  3856			if (f2fs_in_warm_node_list(fio->sbi, fio->page))
+  3857				f2fs_del_fsync_node_entry(fio->sbi, fio->page);
+  3858			goto out;
+  3859		}
+  3860		if (GET_SEGNO(fio->sbi, fio->old_blkaddr) != NULL_SEGNO)
+  3861			f2fs_invalidate_internal_cache(fio->sbi, fio->old_blkaddr);
+  3862	
+  3863		/* writeout dirty page into bdev */
+  3864		f2fs_submit_page_write(fio);
+  3865	
+  3866		f2fs_update_device_state(fio->sbi, fio->ino, fio->new_blkaddr, 1);
+  3867	out:
+  3868		if (keep_order)
+  3869			f2fs_up_read(&fio->sbi->io_order_lock);
+  3870	}
+  3871	
 
 -- 
 0-DAY CI Kernel Test Service
