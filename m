@@ -1,150 +1,209 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2044.outbound.protection.outlook.com [40.107.223.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE771922DB;
-	Sat, 19 Oct 2024 21:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729375087; cv=none; b=Ca0lVTwvxJQi7MLgrhg3NEw+jQaIhhGJbDj+n2AW31d4HPO7RaW0Yn/Oa+tCo2d3xbRrkm/4nxxrqwMOe3Wm9LhVYJF9wMamkNgeNRxSQG3MyE4nCgpRpIj2yyxxjfy7Qdi7tE1ON7C8WZhfNR3NKhL82HJtFvx8PafK6aXX/vc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729375087; c=relaxed/simple;
-	bh=kF4o32H6Y+d5GRg9+dYDAFXUYee3JdV9QlWYoFKJKBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NUV+zLuIvwViPUwGnPROX4Ncm0nRTJx4yV7DLQJkqVKHdwVCWVAk60eyFJ1I4p6IjjxWDhiTF9Vi865gts1RUGb2WfVh66XFz3ebRcSf+rFjqDvrbGMPbNQoto3AEVc9fzH3MJ/AJbRsXZA40tH2BYVm24uGNvOQX/A8PfH93/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=du6bVCJ8; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C45113C816
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 22:05:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1729375546; cv=fail; b=U4F1bJKWSAd3h58iKMLfVVvXNguE5hesc929RqlESzFdw5ydUmZmqSnW07CSJQ1gd8svssciZ6saVxeDptlO0HADW9afTYt/kl3/xrzrDnb0LmC+e1/IIkgDinyuIXJSSIef5kPkx3MRUD14oPC1v7N7llVnQYAd/Oem3+3d55k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1729375546; c=relaxed/simple;
+	bh=B2oYL0tzt5Mx9ZgdgNAg2FmpPvENG+vacRxshP8ZMXM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QWYmym7HDfg8NQVNLOPNQ3L/1SzK6ZlR3NTMdY7DvulNEKHHhkFZOjEPCrIQVQvEuNTLV5SFBX/y1888LmCh+FMwmzLFd5tBFT/e9BprOIkRRo7XKTpQkiqKefUe6/efvMnT62V2/LaVkr7rTzmJJoDwmmKVw3DVdCRdPH4M9lY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=hJJ2s1Xh; arc=fail smtp.client-ip=40.107.223.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="du6bVCJ8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729375085; x=1760911085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kF4o32H6Y+d5GRg9+dYDAFXUYee3JdV9QlWYoFKJKBQ=;
-  b=du6bVCJ82ZYYkBbDdZzytc7j9DaEPM/AQvYryzqa1iApiejZUw0Nn1bS
-   vWP/3x3q1A9BHwlKWMor8tYR9KtuFeVMQX/rtw4/RrvWeIoNSARWtIdF+
-   K+AtVUdcK2GkIt1W4mpWi+VblUvGBZD50SABHk/fc02d3Y6b+t1rpgjJZ
-   aqTxP8aH7dgN/xqchbi+fprdqbV7Pa4ns84sjRz7ybqLiaGM/lSuOIwEQ
-   2tiu477wgaki53V8e7pmnobeQBn9Pf2IB8ZLgbtpInRCrLY3rM3ZRrpvc
-   g27C3G8K12RYT+DK2cZtNKGJF8hykZG7BE1QiNXxBY674tz2R3PnT/eCP
-   g==;
-X-CSE-ConnectionGUID: QAXcys5tTUeYj90bEZxV+w==
-X-CSE-MsgGUID: OwVoCv7PQ46okjlxUCxaog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28983916"
-X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="28983916"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 14:58:05 -0700
-X-CSE-ConnectionGUID: fPl6equpT0uNzjD4ZHvRgQ==
-X-CSE-MsgGUID: jZ/gyGMvRW2olnQDoGkwHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="83737408"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Oct 2024 14:58:02 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t2HSS-000PaT-0f;
-	Sat, 19 Oct 2024 21:58:00 +0000
-Date: Sun, 20 Oct 2024 05:57:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>,
-	jaegeuk@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: Re: [PATCH] f2fs: fix to convert log type to segment data type
- correctly
-Message-ID: <202410200521.Mc4H4BHm-lkp@intel.com>
-References: <20241018092200.2792472-1-chao@kernel.org>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="hJJ2s1Xh"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OF0lvP79cXqmLIHTDnLLfaXi5uzRMnJP9mT7X3goF+gJ1dfR2ZKa+a8rodPb+WIb4S9+PwJBnD53j0q9OmP+HiCpptnuSVQ3XrSScfJP+PtcezfVbbJ0NXxvfH4QYql1f/9Vp49QX1OaFGa/iQjKJ9JazHTekLzQy7xVK/IjyjwF3rn8PZ/sFWAOCIA86Fy+ENJUpYOhNq5zo6hbcLLsmEDmzEFVjlPwG07yL/E00w7025H4Cdpg9Kt5MYb4FazFwtt2rEbOaO0QSsmvKkO1jrh77YtBm+hnfPsCfbVes3ihPQqdApqfTUKMENB/q3yJCeARM7QdkKupEurZiNwdyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BgGi8J1ADxV7cGK6iuNnBhLcifqr4+d25YbIqWuDWpU=;
+ b=PpOUorPiE2ZIHg8ycAsMz/1oz2u5kRGAOxzrdAaJaTpFoxsYGYo0fUADAB/eZF7CCuHMHud6YH2GnSBgfA6CAZQgjnBvKEznfojkJM34lQKKrg1L4KS1XjsnNuD5nDk8KA/179d2T0KzUPKDsNQEguLxf+AoC8eDLZv/F6jdHxH2D27eU52OfUZe98CSdDWPe9ebH3oZLtk9HuAesRpD4GoSIjS1oVc+cW94di4fKTk+FgdV2KY7d2OA6HXf8eWRxPw7dx87xRIM0oJZz/WC9qHJ5Nj8MLSAG0khwDOwqzIiSd/XxkioVQz6r/fh/IrwdiFtiHKj+R8B/C+EXAZO1g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BgGi8J1ADxV7cGK6iuNnBhLcifqr4+d25YbIqWuDWpU=;
+ b=hJJ2s1Xhl1Vt0MgWPlcoGsDj/fab4jKAo5qPelSonOXM8i2KggVnkMs2+RQwjAaBR9ZEe2Zw1hZvsDLYeo1KsvbgsDCxWb+FjYIvtQO9LnDsZrsioPf69mrHJqLE1ViL4pGeN2nSWpVMNlMXRuMPWIdZ5hqstWhrEPNiIxSgWgVdWJXBAX9Q9JFfw/Qm8G8bQohawvN4p/usUaylnz5SkMujyL1iQ6avVLaoe54ppIVfSlINR30O4ghpLBuzk89SmeeaECuZlrsG3jaRKF2B8K8UNqTY65Q+wXffx07l7N41m0AJQNP4vJG80ldnCQthEoTVK8aVcpg0v7uR3C0yMw==
+Received: from MW4PR03CA0004.namprd03.prod.outlook.com (2603:10b6:303:8f::9)
+ by CH3PR12MB8969.namprd12.prod.outlook.com (2603:10b6:610:17c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.21; Sat, 19 Oct
+ 2024 22:05:40 +0000
+Received: from CO1PEPF000044FB.namprd21.prod.outlook.com
+ (2603:10b6:303:8f:cafe::cf) by MW4PR03CA0004.outlook.office365.com
+ (2603:10b6:303:8f::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.26 via Frontend
+ Transport; Sat, 19 Oct 2024 22:05:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CO1PEPF000044FB.mail.protection.outlook.com (10.167.241.201) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8114.2 via Frontend Transport; Sat, 19 Oct 2024 22:05:39 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Sat, 19 Oct
+ 2024 15:05:29 -0700
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Sat, 19 Oct
+ 2024 15:05:29 -0700
+Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com (10.129.68.8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4 via Frontend
+ Transport; Sat, 19 Oct 2024 15:05:28 -0700
+Date: Sat, 19 Oct 2024 15:05:27 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: kernel test robot <lkp@intel.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Jason Gunthorpe <jgg@ziepe.ca>, "Eric
+ Auger" <eric.auger@redhat.com>
+Subject: Re: [jgunthorpe:smmuv3_nesting 11/17]
+ drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:141:21: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <ZxQtJz3F9t2N5FoY@Asurada-Nvidia>
+References: <202410200404.OJrmhHAF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20241018092200.2792472-1-chao@kernel.org>
+In-Reply-To: <202410200404.OJrmhHAF-lkp@intel.com>
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000044FB:EE_|CH3PR12MB8969:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c721937-c935-4a0b-fc3f-08dcf08a2b30
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?LOt7U5BrQ4H1D0QqIOStYuxk8HXVpl53IZsMBUK0Vk46+NIG5zeYXQ1Zpi8y?=
+ =?us-ascii?Q?JetAY2nY1b6e7TtYCVU/ogjRr5xOaVinUNtb0pUfWRAyr3S7mEnasHPTbxE2?=
+ =?us-ascii?Q?SxExHr2Fhrtj/Bp+KK+oNUqX/qSAFcuwCv3+zbawJWmT5Du34AVRc79oo6AC?=
+ =?us-ascii?Q?I6nSOARLK6QamwBg1dF5PYCCfEEkvx2RvPMSwqqT6TpUHLpqig/ntB7P6jFp?=
+ =?us-ascii?Q?9ZErDwJpokhTnL53BljLcJAoRGzxzgHyaz/+XGZK8Zc5e9XV3/WKO6aoVrSI?=
+ =?us-ascii?Q?Jgs4otLJ8p0nSCEeRg5WWnceJwOFichfZI7a619zHeYltFNE6xUWin+UmNfz?=
+ =?us-ascii?Q?zlC6U7GUEz9fdV43UlPlNQu56UBqRj7Ou2u/a9cWKq39ZNUP2C+KRRrDiCxk?=
+ =?us-ascii?Q?iZ77pk+S+dh8j9QUigiQg1ZHnt+sN961jSS3Tcc6ixfaSOA58PmnUZ7gTpIc?=
+ =?us-ascii?Q?7nc56rGEdHIylZfX2yGhSGvJ2DGk68jiaSe4PmIiIlx9JVBTob9UuO6dLfiO?=
+ =?us-ascii?Q?a3rq175BENmRg9ydfEmgIMVYc9SmncBFArPNBWQysJQlrKsaF3lstSnZ3xUY?=
+ =?us-ascii?Q?YI06F6S/C0qtJTJqGaspEycr7ciFP1ox9dvCFso0bHMtIQTRtaVfZzUCI59+?=
+ =?us-ascii?Q?D6p/3u1sgkKm9L6UUJ2qdtRBYDGG+L2UAjwOLFbOSGdW8qFyZpS5Uwum11I0?=
+ =?us-ascii?Q?UcFpVuVp0WU+8/mIoOW71q3b9aD6ciZkBRU5sthvLffMiALiHC4oIaXvoQK0?=
+ =?us-ascii?Q?nXNy+LGyH+JXf2R3fE6c+E4uWepjPffd6iRIV7RnMVxgM6ZMygWymIl+YJ7t?=
+ =?us-ascii?Q?K/CRvMYnX7URUMdFYHLqGjiLOl92cWnCphocNv0FdUE112VVZulN1aWlvPpn?=
+ =?us-ascii?Q?pLrS7l2qFlxWh/dy69PmyJKwA/yd9bkLkNI3636Do1dn74D2ukHBbAc44yFX?=
+ =?us-ascii?Q?BeVNZj6Gu6isVVtLJdB8T+MNQGIIyEN8xVmDltsF0yOUTJUNbdn7gcpIZCYG?=
+ =?us-ascii?Q?Pco0+/t6OWS1AVx3Rv5BNuql5VTGRZO5NCf/vqiJfCvCj/OacNRRFKntjYFW?=
+ =?us-ascii?Q?srk7CxOiQBKdzNhnXh2hU9Jnx9xBjWjEXVwhB1CUjIMhhK14SViKcV7ig3if?=
+ =?us-ascii?Q?XFlSmT7fXv+lcxlpgL7S01ro4Pw4CM4YRvH+NC4klbpQwQBe/muSl4R9MUG7?=
+ =?us-ascii?Q?WRY1fkiDua23gA0IlqQ+tvkiwwPy/Ro/8W+1GS4j05Whjx/0xuQ7OMYmFzED?=
+ =?us-ascii?Q?PI2KWlOOLyVc0I7OqFtTIbYTGl0clgy9DfFKW5Vv8zI1txAMXEoMLdoxOo3/?=
+ =?us-ascii?Q?5YGnr/hdZHNaNb5eWzO2x+v2jDUaYIysg1bVj1RhucmjyVi3qiwlLEvljBw0?=
+ =?us-ascii?Q?aNUvdvHqXMeCtD9ITqwRtByIsKfSZgIBdeinBX/dfnsjGA4FBw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2024 22:05:39.8988
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c721937-c935-4a0b-fc3f-08dcf08a2b30
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1PEPF000044FB.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8969
 
-Hi Chao,
+On Sun, Oct 20, 2024 at 04:34:57AM +0800, kernel test robot wrote:
 
-kernel test robot noticed the following build errors:
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:141:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 @@     got unsigned long long [usertype] @@
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:141:21: sparse:     expected restricted __le64
+>    drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-iommufd.c:141:21: sparse:     got unsigned long long [usertype]
+[...]
+>    127
+>    128  /*
+>    129   * Convert, in place, the raw invalidation command into an internal format that
+>    130   * can be passed to arm_smmu_cmdq_issue_cmdlist(). Internally commands are
+>    131   * stored in CPU endian.
+>    132   *
+>    133   * Enforce the VMID on the command.
+>    134   */
+>    135  static int
+>    136  arm_smmu_convert_user_cmd(struct arm_smmu_nested_domain *nested_domain,
+>    137                            struct iommu_hwpt_arm_smmuv3_invalidate *cmd)
+>    138  {
+>    139          u16 vmid = nested_domain->s2_parent->s2_cfg.vmid;
+>    140
+>  > 141          cmd->cmd[0] = le64_to_cpu(cmd->cmd[0]);
+>    142          cmd->cmd[1] = le64_to_cpu(cmd->cmd[1]);
 
-[auto build test ERROR on jaegeuk-f2fs/dev-test]
-[also build test ERROR on jaegeuk-f2fs/dev linus/master v6.12-rc3 next-20241018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The iommu_hwpt_arm_smmuv3_invalidate holds a le64 array, though
+we could probably do everything here in the le64 format, but...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-fix-to-convert-log-type-to-segment-data-type-correctly/20241018-172401
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20241018092200.2792472-1-chao%40kernel.org
-patch subject: [PATCH] f2fs: fix to convert log type to segment data type correctly
-config: i386-buildonly-randconfig-002-20241019 (https://download.01.org/0day-ci/archive/20241020/202410200521.Mc4H4BHm-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410200521.Mc4H4BHm-lkp@intel.com/reproduce)
+>    199
+>    200                  /* FIXME always uses the main cmdq rather than trying to group by type */
+>    201                  ret = arm_smmu_cmdq_issue_cmdlist(smmu, &smmu->cmdq,
+>  > 202                                                    last_batch->cmd,
+>    203                                                    cur - last_batch, true); 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410200521.Mc4H4BHm-lkp@intel.com/
+..eventually, here arm_smmu_cmdq_issue_cmdlist needs u64.
 
-All error/warnings (new ones prefixed by >>):
+So, I am adding an extra native-endian structure to fix this:
 
->> fs/f2fs/segment.c:3818:38: warning: declaration of 'enum log_type' will not be visible outside of this function [-Wvisibility]
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |                                      ^
->> fs/f2fs/segment.c:3818:47: error: variable has incomplete type 'enum log_type'
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |                                               ^
-   fs/f2fs/segment.c:3818:38: note: forward declaration of 'enum log_type'
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |                                      ^
-   fs/f2fs/segment.c:3843:16: error: variable has incomplete type 'enum log_type'
-    3843 |         enum log_type type = __get_segment_type(fio);
-         |                       ^
-   fs/f2fs/segment.c:3843:7: note: forward declaration of 'enum log_type'
-    3843 |         enum log_type type = __get_segment_type(fio);
-         |              ^
->> fs/f2fs/segment.c:4828:44: error: argument type 'enum log_type' is incomplete
-    4828 |                 array[i].seg_type = log_type_to_seg_type(i);
-         |                                                          ^
-   fs/f2fs/segment.c:3818:38: note: forward declaration of 'enum log_type'
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |                                      ^
-   1 warning and 3 errors generated.
+----------------------------------------------------------------------
+@@ -217,6 +217,10 @@ static int arm_vsmmu_vsid_to_sid(struct arm_vsmmu *vsmmu, u32 vsid, u32 *sid)
+        return ret;
+ }
 
++struct vsmmu_invalidation_cmd {
++       u64 cmd[2];
++};
++
+ /*
+  * Convert, in place, the raw invalidation command into an internal format that
+  * can be passed to arm_smmu_cmdq_issue_cmdlist(). Internally commands are
+@@ -226,7 +230,7 @@ static int arm_vsmmu_vsid_to_sid(struct arm_vsmmu *vsmmu, u32 vsid, u32 *sid)
+  */
+ static int
+ arm_vsmmu_convert_user_cmd(struct arm_vsmmu *vsmmu,
+-                          struct iommu_viommu_arm_smmuv3_invalidate *cmd)
++                          struct vsmmu_invalidation_cmd *cmd)
+ {
+        cmd->cmd[0] = le64_to_cpu(cmd->cmd[0]);
+        cmd->cmd[1] = le64_to_cpu(cmd->cmd[1]);
+@@ -266,11 +270,11 @@ static int arm_vsmmu_cache_invalidate(struct iommufd_viommu *viommu,
+                                      struct iommu_user_data_array *array)
+ {
+        struct arm_vsmmu *vsmmu = container_of(viommu, struct arm_vsmmu, core);
+-       struct iommu_viommu_arm_smmuv3_invalidate *last;
+-       struct iommu_viommu_arm_smmuv3_invalidate *cmds;
+-       struct iommu_viommu_arm_smmuv3_invalidate *cur;
+-       struct iommu_viommu_arm_smmuv3_invalidate *end;
+        struct arm_smmu_device *smmu = vsmmu->smmu;
++       struct vsmmu_invalidation_cmd *last;
++       struct vsmmu_invalidation_cmd *cmds;
++       struct vsmmu_invalidation_cmd *cur;
++       struct vsmmu_invalidation_cmd *end;
+        int ret;
 
-vim +3818 fs/f2fs/segment.c
+        cmds = kcalloc(array->entry_num, sizeof(*cmds), GFP_KERNEL);
+----------------------------------------------------------------------
 
-  3817	
-> 3818	static int log_type_to_seg_type(enum log_type type)
-  3819	{
-  3820		int seg_type = CURSEG_COLD_DATA;
-  3821	
-  3822		switch (type) {
-  3823		case CURSEG_HOT_DATA:
-  3824		case CURSEG_WARM_DATA:
-  3825		case CURSEG_COLD_DATA:
-  3826		case CURSEG_HOT_NODE:
-  3827		case CURSEG_WARM_NODE:
-  3828		case CURSEG_COLD_NODE:
-  3829			seg_type = (int)type;
-  3830			break;
-  3831		case CURSEG_COLD_DATA_PINNED:
-  3832		case CURSEG_ALL_DATA_ATGC:
-  3833			seg_type = CURSEG_COLD_DATA;
-  3834			break;
-  3835		default:
-  3836			break;
-  3837		}
-  3838		return seg_type;
-  3839	}
-  3840	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Nicolin
