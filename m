@@ -1,161 +1,355 @@
-Received: from smtp-fw-80009.amazon.com (smtp-fw-80009.amazon.com [99.78.197.220])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4EBC192597
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 20:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.220
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FF1118FDBE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 21:07:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729371572; cv=none; b=cc4YzdXcWh4addMCFXHy6KScH9mFfRbrtUJSHXQ6v2pMMPJbJsgXTbeLY5hc6UmIa1RHiGTc/aIkZ3X0rGvhvV6mdN3wl+h/ifAVxJjFXZ/GNW+g2D9ZOY+QblvFbpCMf9y1k+CfwVyIM6Wgo+DI4B7IUNxprE1afqJef8AyLqE=
+	t=1729372026; cv=none; b=A1JEzRmSOqwTs1lF7tyrYkDePSc6Rn23Pvxj4XVYdDV2Ig17tBm0OM97Qq9Kw08xvX3UQu+IckvU5jmCk2KGGppJGgF+Ms9UDRiRO0n5JiXKCZqujx1fKQ+fJDwaRHD6i107LIAcxnR1lQaaY8JXCqWmBTzRi+7Qv8scKNuxt4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729371572; c=relaxed/simple;
-	bh=z/NcOMAVpievxejdRWYqIblCtes8bLGj/AFsTBW1igw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uXUkGfaueReCNukklDfD2vvCHKmmukDIXboEq94A1UR8c+6iJudYp/iVI99iXNbtPNEfjI2sGBV5IG3e2Xbx5CXEA5Rw8pHbG2XD6sbzT5SgxOhCmboyICRDoDbpZzrbXAolUMRIAVu4lENwhM7r2Us5LLXUUpBLUCILDwWev1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.co.jp; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=AU4oCZjc; arc=none smtp.client-ip=99.78.197.220
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.jp
+	s=arc-20240116; t=1729372026; c=relaxed/simple;
+	bh=mTh1Jb7YR0bAtnkWD5xJUQJOYnXKn/F+h/K6U3KfA4Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NPZ9k28DW6ga7qIWZG6j995/XRofscv2neVR7dCCwBEArvCiTBlRWIKtK29jes9U3/6F+VSX0bbqMpdB5fcXAbXLhFz3CCTOzwaNp8fnVcFcFIy0OydU8qxa6eL4yHUELDsR7OHY6GWpXeuJmepii/mTmCpCmIcpaqWqPUjhrms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mPtCpHCU; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="AU4oCZjc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1729371570; x=1760907570;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Gz+UZjSd0pc/OLGdmzs7Q04lzPyTdAZwkIkl0zUku5s=;
-  b=AU4oCZjc4nHy8RoKjVoaSfMniaxUq/TO723ZPoDvBNae/VkiY0jJ1MJz
-   66KVPDYzbxouhmwlLr5wM8q+Bqdr3tF1mrwDB7SNl3IW5We2wWd1r4zvm
-   7i6aiNue5HiARj1PVPRU0yD4vGiShmnOiUpvNuO2iHggRQzre5yUS2VFv
-   Q=;
-X-IronPort-AV: E=Sophos;i="6.11,217,1725321600"; 
-   d="scan'208";a="139622528"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-80009.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 20:59:28 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.7.35:51653]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.95:2525] with esmtp (Farcaster)
- id f037887e-849e-4918-9c69-46fb4075d48d; Sat, 19 Oct 2024 20:59:28 +0000 (UTC)
-X-Farcaster-Flow-ID: f037887e-849e-4918-9c69-46fb4075d48d
-Received: from EX19D004ANA001.ant.amazon.com (10.37.240.138) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Sat, 19 Oct 2024 20:59:28 +0000
-Received: from 6c7e67c6786f.amazon.com (10.142.233.26) by
- EX19D004ANA001.ant.amazon.com (10.37.240.138) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.35;
- Sat, 19 Oct 2024 20:59:25 +0000
-From: Kuniyuki Iwashima <kuniyu@amazon.com>
-To: <lkp@intel.com>
-CC: <davem@davemloft.net>, <dsahern@kernel.org>, <edumazet@google.com>,
-	<kuba@kernel.org>, <kuniyu@amazon.com>, <netdev@vger.kernel.org>,
-	<oe-kbuild-all@lists.linux.dev>, <pabeni@redhat.com>
-Subject: Re: [PATCH v1 net-next 05/11] ipv4: Use per-netns RTNL helpers in inet_rtm_newaddr().
-Date: Sat, 19 Oct 2024 13:59:23 -0700
-Message-ID: <20241019205923.67706-1-kuniyu@amazon.com>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <202410200325.SaEJmyZS-lkp@intel.com>
-References: <202410200325.SaEJmyZS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mPtCpHCU"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729372023; x=1760908023;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mTh1Jb7YR0bAtnkWD5xJUQJOYnXKn/F+h/K6U3KfA4Q=;
+  b=mPtCpHCUbMo8a6u4s+J2ZQlLtlGJdbI/OvXq8McyELKRmrS8jW8JC6LI
+   awm3yVnhs4zt4LkkH/9FW8j/zMLTLWRi2yc5PHsBPEtjSSSleD3gOe6CP
+   OCn0pzU81wXEV1punTnSoVpMB9O8x+zqR0bR4lml4h+aGYM98g4n9B476
+   kgKLlv/jLIX61ce4dNCh5nY7o1QhgqCYTVmq2rSJNbf8gyF5FQOq+9hFY
+   rorUkk6w5KzVk47mELyXsro10zHTIO0A+gW+m5XYPXGK0VcDK3qF6Tzzu
+   HHH15RrSc3Ep1dV1woo6sY/a8C4YMGYNj/OWANGfMYcxyg35/87XYWhaj
+   g==;
+X-CSE-ConnectionGUID: kE7d74mbQFCyH+n5EcyQng==
+X-CSE-MsgGUID: J5JBIrgaTPinxP2Wa7uL7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="39507827"
+X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
+   d="scan'208";a="39507827"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 14:07:03 -0700
+X-CSE-ConnectionGUID: kZW1EQa0TiGEpqjDZEw29w==
+X-CSE-MsgGUID: NIaXI+rXSeu3nAebPV0zng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="83989630"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 19 Oct 2024 14:07:01 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t2Gf4-000PYT-2d;
+	Sat, 19 Oct 2024 21:06:58 +0000
+Date: Sun, 20 Oct 2024 05:05:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits
+ from constant value (fffffe0000000000 becomes 0)
+Message-ID: <202410200445.J1bZEZHx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: EX19D044UWA002.ant.amazon.com (10.13.139.11) To
- EX19D004ANA001.ant.amazon.com (10.37.240.138)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: kernel test robot <lkp@intel.com>
-Date: Sun, 20 Oct 2024 04:03:55 +0800
-> Hi Kuniyuki,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Define-RTNL_FLAG_DOIT_PERNET-for-per-netns-RTNL-doit/20241018-092802
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20241018012225.90409-6-kuniyu%40amazon.com
-> patch subject: [PATCH v1 net-next 05/11] ipv4: Use per-netns RTNL helpers in inet_rtm_newaddr().
-> config: x86_64-randconfig-122-20241019 (https://download.01.org/0day-ci/archive/20241020/202410200325.SaEJmyZS-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410200325.SaEJmyZS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410200325.SaEJmyZS-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> net/ipv4/devinet.c:941:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu *ifa_list @@
->    net/ipv4/devinet.c:941:9: sparse:     expected void *p
->    net/ipv4/devinet.c:941:9: sparse:     got struct in_ifaddr [noderef] __rcu *ifa_list
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f9e4825524aaf28af6b2097776616f27c31d6847
+commit: af682b767a41772499f8e54ca7d7e1deb3395f44 bpf: Optimize emit_mov_imm64().
+date:   7 months ago
+config: arm64-randconfig-r122-20241019 (https://download.01.org/0day-ci/archive/20241020/202410200445.J1bZEZHx-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+reproduce: (https://download.01.org/0day-ci/archive/20241020/202410200445.J1bZEZHx-lkp@intel.com/reproduce)
 
-Hmm.. when DEBUG_NET_SMALL_RTNL is off, we use static inline helper
-returning (void *) to make sure net is always evaluated as requested
-in this thread.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410200445.J1bZEZHx-lkp@intel.com/
 
-  https://lore.kernel.org/netdev/20241004132145.7fd208e9@kernel.org/
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/verifier.c:20219:38: sparse: sparse: subtraction of functions? Share your drugs
+   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+>> kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits from constant value (fffffe0000000000 becomes 0)
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
 
-But it seems we can't do that when the pointer has __rcu annotation.
+vim +19160 kernel/bpf/verifier.c
 
-Also, this (void *)net evaluation  in turn makes build fail due to
--Werror=unused-value.
+ 19113	
+ 19114	static int jit_subprogs(struct bpf_verifier_env *env)
+ 19115	{
+ 19116		struct bpf_prog *prog = env->prog, **func, *tmp;
+ 19117		int i, j, subprog_start, subprog_end = 0, len, subprog;
+ 19118		struct bpf_map *map_ptr;
+ 19119		struct bpf_insn *insn;
+ 19120		void *old_bpf_func;
+ 19121		int err, num_exentries;
+ 19122	
+ 19123		if (env->subprog_cnt <= 1)
+ 19124			return 0;
+ 19125	
+ 19126		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19127			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
+ 19128				continue;
+ 19129	
+ 19130			/* Upon error here we cannot fall back to interpreter but
+ 19131			 * need a hard reject of the program. Thus -EFAULT is
+ 19132			 * propagated in any case.
+ 19133			 */
+ 19134			subprog = find_subprog(env, i + insn->imm + 1);
+ 19135			if (subprog < 0) {
+ 19136				WARN_ONCE(1, "verifier bug. No program starts at insn %d\n",
+ 19137					  i + insn->imm + 1);
+ 19138				return -EFAULT;
+ 19139			}
+ 19140			/* temporarily remember subprog id inside insn instead of
+ 19141			 * aux_data, since next loop will split up all insns into funcs
+ 19142			 */
+ 19143			insn->off = subprog;
+ 19144			/* remember original imm in case JIT fails and fallback
+ 19145			 * to interpreter will be needed
+ 19146			 */
+ 19147			env->insn_aux_data[i].call_imm = insn->imm;
+ 19148			/* point imm to __bpf_call_base+1 from JITs point of view */
+ 19149			insn->imm = 1;
+ 19150			if (bpf_pseudo_func(insn)) {
+ 19151	#if defined(MODULES_VADDR)
+ 19152				u64 addr = MODULES_VADDR;
+ 19153	#else
+ 19154				u64 addr = VMALLOC_START;
+ 19155	#endif
+ 19156				/* jit (e.g. x86_64) may emit fewer instructions
+ 19157				 * if it learns a u32 imm is the same as a u64 imm.
+ 19158				 * Set close enough to possible prog address.
+ 19159				 */
+ 19160				insn[0].imm = (u32)addr;
+ 19161				insn[1].imm = addr >> 32;
+ 19162			}
+ 19163		}
+ 19164	
+ 19165		err = bpf_prog_alloc_jited_linfo(prog);
+ 19166		if (err)
+ 19167			goto out_undo_insn;
+ 19168	
+ 19169		err = -ENOMEM;
+ 19170		func = kcalloc(env->subprog_cnt, sizeof(prog), GFP_KERNEL);
+ 19171		if (!func)
+ 19172			goto out_undo_insn;
+ 19173	
+ 19174		for (i = 0; i < env->subprog_cnt; i++) {
+ 19175			subprog_start = subprog_end;
+ 19176			subprog_end = env->subprog_info[i + 1].start;
+ 19177	
+ 19178			len = subprog_end - subprog_start;
+ 19179			/* bpf_prog_run() doesn't call subprogs directly,
+ 19180			 * hence main prog stats include the runtime of subprogs.
+ 19181			 * subprogs don't have IDs and not reachable via prog_get_next_id
+ 19182			 * func[i]->stats will never be accessed and stays NULL
+ 19183			 */
+ 19184			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
+ 19185			if (!func[i])
+ 19186				goto out_free;
+ 19187			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
+ 19188			       len * sizeof(struct bpf_insn));
+ 19189			func[i]->type = prog->type;
+ 19190			func[i]->len = len;
+ 19191			if (bpf_prog_calc_tag(func[i]))
+ 19192				goto out_free;
+ 19193			func[i]->is_func = 1;
+ 19194			func[i]->sleepable = prog->sleepable;
+ 19195			func[i]->aux->func_idx = i;
+ 19196			/* Below members will be freed only at prog->aux */
+ 19197			func[i]->aux->btf = prog->aux->btf;
+ 19198			func[i]->aux->func_info = prog->aux->func_info;
+ 19199			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
+ 19200			func[i]->aux->poke_tab = prog->aux->poke_tab;
+ 19201			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
+ 19202	
+ 19203			for (j = 0; j < prog->aux->size_poke_tab; j++) {
+ 19204				struct bpf_jit_poke_descriptor *poke;
+ 19205	
+ 19206				poke = &prog->aux->poke_tab[j];
+ 19207				if (poke->insn_idx < subprog_end &&
+ 19208				    poke->insn_idx >= subprog_start)
+ 19209					poke->aux = func[i]->aux;
+ 19210			}
+ 19211	
+ 19212			func[i]->aux->name[0] = 'F';
+ 19213			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
+ 19214			func[i]->jit_requested = 1;
+ 19215			func[i]->blinding_requested = prog->blinding_requested;
+ 19216			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
+ 19217			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
+ 19218			func[i]->aux->linfo = prog->aux->linfo;
+ 19219			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
+ 19220			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
+ 19221			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
+ 19222			func[i]->aux->arena = prog->aux->arena;
+ 19223			num_exentries = 0;
+ 19224			insn = func[i]->insnsi;
+ 19225			for (j = 0; j < func[i]->len; j++, insn++) {
+ 19226				if (BPF_CLASS(insn->code) == BPF_LDX &&
+ 19227				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
+ 19228				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
+ 19229				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
+ 19230					num_exentries++;
+ 19231				if ((BPF_CLASS(insn->code) == BPF_STX ||
+ 19232				     BPF_CLASS(insn->code) == BPF_ST) &&
+ 19233				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
+ 19234					num_exentries++;
+ 19235			}
+ 19236			func[i]->aux->num_exentries = num_exentries;
+ 19237			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
+ 19238			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
+ 19239			if (!i)
+ 19240				func[i]->aux->exception_boundary = env->seen_exception;
+ 19241			func[i] = bpf_int_jit_compile(func[i]);
+ 19242			if (!func[i]->jited) {
+ 19243				err = -ENOTSUPP;
+ 19244				goto out_free;
+ 19245			}
+ 19246			cond_resched();
+ 19247		}
+ 19248	
+ 19249		/* at this point all bpf functions were successfully JITed
+ 19250		 * now populate all bpf_calls with correct addresses and
+ 19251		 * run last pass of JIT
+ 19252		 */
+ 19253		for (i = 0; i < env->subprog_cnt; i++) {
+ 19254			insn = func[i]->insnsi;
+ 19255			for (j = 0; j < func[i]->len; j++, insn++) {
+ 19256				if (bpf_pseudo_func(insn)) {
+ 19257					subprog = insn->off;
+ 19258					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
+ 19259					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
+ 19260					continue;
+ 19261				}
+ 19262				if (!bpf_pseudo_call(insn))
+ 19263					continue;
+ 19264				subprog = insn->off;
+ 19265				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
+ 19266			}
+ 19267	
+ 19268			/* we use the aux data to keep a list of the start addresses
+ 19269			 * of the JITed images for each function in the program
+ 19270			 *
+ 19271			 * for some architectures, such as powerpc64, the imm field
+ 19272			 * might not be large enough to hold the offset of the start
+ 19273			 * address of the callee's JITed image from __bpf_call_base
+ 19274			 *
+ 19275			 * in such cases, we can lookup the start address of a callee
+ 19276			 * by using its subprog id, available from the off field of
+ 19277			 * the call instruction, as an index for this list
+ 19278			 */
+ 19279			func[i]->aux->func = func;
+ 19280			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 19281			func[i]->aux->real_func_cnt = env->subprog_cnt;
+ 19282		}
+ 19283		for (i = 0; i < env->subprog_cnt; i++) {
+ 19284			old_bpf_func = func[i]->bpf_func;
+ 19285			tmp = bpf_int_jit_compile(func[i]);
+ 19286			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
+ 19287				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
+ 19288				err = -ENOTSUPP;
+ 19289				goto out_free;
+ 19290			}
+ 19291			cond_resched();
+ 19292		}
+ 19293	
+ 19294		/* finally lock prog and jit images for all functions and
+ 19295		 * populate kallsysm. Begin at the first subprogram, since
+ 19296		 * bpf_prog_load will add the kallsyms for the main program.
+ 19297		 */
+ 19298		for (i = 1; i < env->subprog_cnt; i++) {
+ 19299			err = bpf_prog_lock_ro(func[i]);
+ 19300			if (err)
+ 19301				goto out_free;
+ 19302		}
+ 19303	
+ 19304		for (i = 1; i < env->subprog_cnt; i++)
+ 19305			bpf_prog_kallsyms_add(func[i]);
+ 19306	
+ 19307		/* Last step: make now unused interpreter insns from main
+ 19308		 * prog consistent for later dump requests, so they can
+ 19309		 * later look the same as if they were interpreted only.
+ 19310		 */
+ 19311		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19312			if (bpf_pseudo_func(insn)) {
+ 19313				insn[0].imm = env->insn_aux_data[i].call_imm;
+ 19314				insn[1].imm = insn->off;
+ 19315				insn->off = 0;
+ 19316				continue;
+ 19317			}
+ 19318			if (!bpf_pseudo_call(insn))
+ 19319				continue;
+ 19320			insn->off = env->insn_aux_data[i].call_imm;
+ 19321			subprog = find_subprog(env, i + insn->off + 1);
+ 19322			insn->imm = subprog;
+ 19323		}
+ 19324	
+ 19325		prog->jited = 1;
+ 19326		prog->bpf_func = func[0]->bpf_func;
+ 19327		prog->jited_len = func[0]->jited_len;
+ 19328		prog->aux->extable = func[0]->aux->extable;
+ 19329		prog->aux->num_exentries = func[0]->aux->num_exentries;
+ 19330		prog->aux->func = func;
+ 19331		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 19332		prog->aux->real_func_cnt = env->subprog_cnt;
+ 19333		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
+ 19334		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
+ 19335		bpf_prog_jit_attempt_done(prog);
+ 19336		return 0;
+ 19337	out_free:
+ 19338		/* We failed JIT'ing, so at this point we need to unregister poke
+ 19339		 * descriptors from subprogs, so that kernel is not attempting to
+ 19340		 * patch it anymore as we're freeing the subprog JIT memory.
+ 19341		 */
+ 19342		for (i = 0; i < prog->aux->size_poke_tab; i++) {
+ 19343			map_ptr = prog->aux->poke_tab[i].tail_call.map;
+ 19344			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
+ 19345		}
+ 19346		/* At this point we're guaranteed that poke descriptors are not
+ 19347		 * live anymore. We can just unlink its descriptor table as it's
+ 19348		 * released with the main prog.
+ 19349		 */
+ 19350		for (i = 0; i < env->subprog_cnt; i++) {
+ 19351			if (!func[i])
+ 19352				continue;
+ 19353			func[i]->aux->poke_tab = NULL;
+ 19354			bpf_jit_free(func[i]);
+ 19355		}
+ 19356		kfree(func);
+ 19357	out_undo_insn:
+ 19358		/* cleanup main prog to be interpreted */
+ 19359		prog->jit_requested = 0;
+ 19360		prog->blinding_requested = 0;
+ 19361		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19362			if (!bpf_pseudo_call(insn))
+ 19363				continue;
+ 19364			insn->off = 0;
+ 19365			insn->imm = env->insn_aux_data[i].call_imm;
+ 19366		}
+ 19367		bpf_prog_jit_attempt_done(prog);
+ 19368		return err;
+ 19369	}
+ 19370	
 
-  #define rtnl_net_dereference(net, p)			\
-  	({						\
-  		(void *)net;				\
-  		rtnl_dereference(p);			\
-  	})
-
-  net/ipv4/devinet.c: In function ‘inet_rtm_deladdr’:
-  ./include/linux/rtnetlink.h:154:17: error: statement with no effect [-Werror=unused-value]
-    154 |                 (void *)net;                            \
-  net/ipv4/devinet.c:674:21: note: in expansion of macro ‘rtnl_net_dereference’
-    674 |              (ifa = rtnl_net_dereference(net, *ifap)) != NULL;
-        |                     ^~~~~~~~~~~~~~~~~~~~
-
-
-So, we need to go back to the simplest macro.
-
-  #define rtnl_net_dereference(net, p)			\
-  	rtnl_dereference(p);
-
-I'll include the fix in v2.
-
-
-> >> net/ipv4/devinet.c:941:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu *ifa_next @@
->    net/ipv4/devinet.c:941:9: sparse:     expected void *p
->    net/ipv4/devinet.c:941:9: sparse:     got struct in_ifaddr [noderef] __rcu *ifa_next
->    net/ipv4/devinet.c: note: in included file:
-> >> include/linux/inetdevice.h:261:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_device [noderef] __rcu *const ip_ptr @@
->    include/linux/inetdevice.h:261:54: sparse:     expected void *p
->    include/linux/inetdevice.h:261:54: sparse:     got struct in_device [noderef] __rcu *const ip_ptr
->    net/ipv4/devinet.c: note: in included file (through include/linux/inetdevice.h):
-> >> include/linux/rtnetlink.h:147:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
->    include/linux/rtnetlink.h:147:16: sparse:    void [noderef] __rcu *
->    include/linux/rtnetlink.h:147:16: sparse:    void *
-> >> include/linux/rtnetlink.h:147:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
->    include/linux/rtnetlink.h:147:16: sparse:    void [noderef] __rcu *
->    include/linux/rtnetlink.h:147:16: sparse:    void *
-> >> include/linux/rtnetlink.h:147:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
->    include/linux/rtnetlink.h:147:16: sparse:    void [noderef] __rcu *
->    include/linux/rtnetlink.h:147:16: sparse:    void *
-> 
-> vim +941 net/ipv4/devinet.c
-> 
->    935	
->    936	static struct in_ifaddr *find_matching_ifa(struct net *net, struct in_ifaddr *ifa)
->    937	{
->    938		struct in_device *in_dev = ifa->ifa_dev;
->    939		struct in_ifaddr *ifa1;
->    940	
->  > 941		in_dev_for_each_ifa_rtnl_net(net, ifa1, in_dev) {
->    942			if (ifa1->ifa_mask == ifa->ifa_mask &&
->    943			    inet_ifa_match(ifa1->ifa_address, ifa) &&
->    944			    ifa1->ifa_local == ifa->ifa_local)
->    945				return ifa1;
->    946		}
->    947	
->    948		return NULL;
->    949	}
->    950	
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
