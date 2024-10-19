@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2A8192D60
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 22:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E559192D86;
+	Sat, 19 Oct 2024 23:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729376949; cv=none; b=K6hBU31xJW5Y16zsKe3+QrGrId3npIP1FFCtweCOPVr23awvOxfJ/wmxeu7pKnJZpLyx3G8RjgQ2MtrkxxDG13kczR8KphGmlInFv5WEd2ZJhPK5dYtuCV3r8EuVJ9jx5CJl4MxaueeUOxxSq1tGKdfLvgxmKzwxuHBmmBrKtmI=
+	t=1729378809; cv=none; b=sUhkhenQzb8P+GP/9yIcZnX8rakuUxX4R7hZJE2/q4qdomWA6p2gNwHmKLLQjufiy/wzah8c6e+zuCZh1BNesr82wzfutq5koU9ySCuIxqyQ60lSZTR2wpwLq14RzTVbKZ1U9jXSFjyXT3eR4IBpF/rkUAB4ifXRPuJdp2l5Ifg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729376949; c=relaxed/simple;
-	bh=muZAwiRkDqqLUBju7YNR60QLqu6terqB4mRLe7+Al7s=;
+	s=arc-20240116; t=1729378809; c=relaxed/simple;
+	bh=BBUpTi77s7170OaD5UfdpSZrh7iJNbpO/p67H//Gwik=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fq7+PZ8j1TSV4a94ciew6w79NoGG/GOBeCS1HDsMj79W0SEW2VXlNUE36/iTYnIgzKedJlD247U3U8SQgBG035ekc+lRhHJjbJmRRCA61+FSZahZI8zp0f7OrsXSbOnRp786tCoWSTz4HUstuIoJfFTF5+KJv24Hf3jKY1gzbdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DMiYKpL0; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=kRJNtv97QljjPhK81GwckVKVs0WUI1cnZT8a8oNd8sdzKAJ/rQ3ghd9/1NjcjGbyyxiY4nIJSmnroRPGHb4vH7n1mZRsBsTX4GhaPutcrpa0N7Vg/3+9gFUCk8mTR0+8XhJW9oD/Usj/9ltL+0joIxvrxd5l63QLZ7xkAmelx9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/oEh7i7; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DMiYKpL0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/oEh7i7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729376947; x=1760912947;
+  t=1729378807; x=1760914807;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=muZAwiRkDqqLUBju7YNR60QLqu6terqB4mRLe7+Al7s=;
-  b=DMiYKpL0l7YdVmUuIdf/QtWz4vFNLYPLENG4s+XA97vBqiUHvweUWhYB
-   N707/MNeab1lIKbkIlfM5WHoSdrsIMpMeR0L8r4KlIDFmonRjHq0IVeM2
-   JnlejbY+hzbQoMxmfm41YwWVfT1nSH4bey9fhcE+KRsmkNfGjJoqnqbpb
-   wgC4n3j86DlZrwlQ17Muca7fUtWn2gQPUjM3s59PLW8C5dm809lSZdl4/
-   +7WfxoA4/9aFbjDHIXcH0+NU3NZgQt2dhIqjkstPzvimV52KTiHIZU/x2
-   v8IAVq9OpvU2FqPvu9DSZzva/GQVnyIni3BfehBwlSQ4Ntqy055l64XVr
-   A==;
-X-CSE-ConnectionGUID: eS83jEdqS0u6soj7ZHU9kg==
-X-CSE-MsgGUID: /SXDuLSGQyiiaf9a/r/v0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29003712"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29003712"
+  bh=BBUpTi77s7170OaD5UfdpSZrh7iJNbpO/p67H//Gwik=;
+  b=d/oEh7i7FEpWCJhNRNBd9xOmQC8JvFdkRvkkFS0WKGDv04BeCP+RnBte
+   F2yIIiB2lwN6jrv+eqf9E3BX7ysKS+PdPOGao3Mc2VSWmY5COwyB2O/KJ
+   uJpbjWuB/SrRbsSemmU0D5ImkRXktorGXHU6xSwUZiEDP9TUTQ5Jje58P
+   gX969RyNH3DzrcQW+Jyy0zItSmxlXavP27riGSPQoxgKRBiqvnBWFLS1j
+   jeIVDqspvMoANAX0IleVmGP6VYJsjDJDegwCnkVKQh2qoHYYhNxJcoY51
+   e8nwpni+uTBXgIe+wMtWTMgVgqjR5fYoTgIJjYlVPm40b7dUPl7xe11nE
+   Q==;
+X-CSE-ConnectionGUID: CEMd91BaSEeiKB4bzzl+xw==
+X-CSE-MsgGUID: gBiKhEc1TrK/nrj9QB/MSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="40282441"
+X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
+   d="scan'208";a="40282441"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 15:29:04 -0700
-X-CSE-ConnectionGUID: hwajUgiES6y/6616LfBjDg==
-X-CSE-MsgGUID: SB3MkjPoQVCbg2HfZWftxA==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 16:00:06 -0700
+X-CSE-ConnectionGUID: Ke+qa/zOQCu8MUENMjs55w==
+X-CSE-MsgGUID: aciwN74QRZakdM2qjI29Cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="83963291"
+   d="scan'208";a="83966229"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Oct 2024 15:29:03 -0700
+  by orviesa005.jf.intel.com with ESMTP; 19 Oct 2024 16:00:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2HwT-000PcB-0l;
-	Sat, 19 Oct 2024 22:29:01 +0000
-Date: Sun, 20 Oct 2024 06:28:20 +0800
+	id 1t2IQT-000PdB-2s;
+	Sat, 19 Oct 2024 23:00:01 +0000
+Date: Sun, 20 Oct 2024 06:59:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Umang Jain <umang.jain@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 4/6] staging: vc04_services: Simplify (no)callback bulk
- transfer code paths
-Message-ID: <202410200601.QoauW748-lkp@intel.com>
-References: <20241017133629.216672-5-umang.jain@ideasonboard.com>
+To: lizhe.67@bytedance.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 1/2] rwsem: introduce upgrade_read interface
+Message-ID: <202410200646.zcyZ4KjG-lkp@intel.com>
+References: <20241016043600.35139-2-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,140 +62,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241017133629.216672-5-umang.jain@ideasonboard.com>
+In-Reply-To: <20241016043600.35139-2-lizhe.67@bytedance.com>
 
-Hi Umang,
+Hi,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on staging/staging-testing]
+[auto build test ERROR on tip/locking/core]
+[also build test ERROR on akpm-mm/mm-everything linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/staging-vchiq_core-Subsume-offset-in-struct-vchiq_bulk/20241017-213946
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20241017133629.216672-5-umang.jain%40ideasonboard.com
-patch subject: [PATCH 4/6] staging: vc04_services: Simplify (no)callback bulk transfer code paths
-config: powerpc64-randconfig-r111-20241019 (https://download.01.org/0day-ci/archive/20241020/202410200601.QoauW748-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241020/202410200601.QoauW748-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/rwsem-introduce-upgrade_read-interface/20241016-123810
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20241016043600.35139-2-lizhe.67%40bytedance.com
+patch subject: [RFC 1/2] rwsem: introduce upgrade_read interface
+config: i386-buildonly-randconfig-003-20241020 (https://download.01.org/0day-ci/archive/20241020/202410200646.zcyZ4KjG-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410200646.zcyZ4KjG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410200601.QoauW748-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410200646.zcyZ4KjG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:342:38: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[addressable] [assigned] userdata @@     got void [noderef] __user *userdata @@
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:342:38: sparse:     expected void *[addressable] [assigned] userdata
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:342:38: sparse:     got void [noderef] __user *userdata
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:557:47: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __user *[addressable] [assigned] bulk_userdata @@     got void *bulk_userdata @@
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:557:47: sparse:     expected void [noderef] __user *[addressable] [assigned] bulk_userdata
-   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c:557:47: sparse:     got void *bulk_userdata
+All errors (new ones prefixed by >>):
 
-vim +342 drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+>> kernel/locking/rwsem.c:1662:52: error: no member named 'count' in 'struct rw_semaphore'
+    1662 |         atomic_long_andnot(RWSEM_FLAG_UPGRADE_READ, &sem->count);
+         |                                                      ~~~  ^
+>> kernel/locking/rwsem.c:1662:21: error: use of undeclared identifier 'RWSEM_FLAG_UPGRADE_READ'
+    1662 |         atomic_long_andnot(RWSEM_FLAG_UPGRADE_READ, &sem->count);
+         |                            ^
+   kernel/locking/rwsem.c:1674:31: error: no member named 'count' in 'struct rw_semaphore'
+    1674 |         tmp = atomic_long_read(&sem->count);
+         |                                 ~~~  ^
+>> kernel/locking/rwsem.c:1676:14: error: use of undeclared identifier 'RWSEM_WRITER_MASK'
+    1676 |                 if (tmp & (RWSEM_WRITER_MASK | RWSEM_FLAG_UPGRADE_READ)) {
+         |                            ^
+   kernel/locking/rwsem.c:1676:34: error: use of undeclared identifier 'RWSEM_FLAG_UPGRADE_READ'
+    1676 |                 if (tmp & (RWSEM_WRITER_MASK | RWSEM_FLAG_UPGRADE_READ)) {
+         |                                                ^
+   kernel/locking/rwsem.c:1680:42: error: no member named 'count' in 'struct rw_semaphore'
+    1680 |         } while (!atomic_long_try_cmpxchg(&sem->count, &tmp,
+         |                                            ~~~  ^
+   kernel/locking/rwsem.c:1681:9: error: use of undeclared identifier 'RWSEM_FLAG_UPGRADE_READ'
+    1681 |                 tmp + RWSEM_FLAG_UPGRADE_READ + RWSEM_WRITER_LOCKED - RWSEM_READER_BIAS));
+         |                       ^
+>> kernel/locking/rwsem.c:1681:35: error: use of undeclared identifier 'RWSEM_WRITER_LOCKED'
+    1681 |                 tmp + RWSEM_FLAG_UPGRADE_READ + RWSEM_WRITER_LOCKED - RWSEM_READER_BIAS));
+         |                                                 ^
+>> kernel/locking/rwsem.c:1681:57: error: use of undeclared identifier 'RWSEM_READER_BIAS'
+    1681 |                 tmp + RWSEM_FLAG_UPGRADE_READ + RWSEM_WRITER_LOCKED - RWSEM_READER_BIAS));
+         |                                                                       ^
+>> kernel/locking/rwsem.c:1683:13: error: use of undeclared identifier 'RWSEM_READER_MASK'
+    1683 |         if ((tmp & RWSEM_READER_MASK) == RWSEM_READER_BIAS) {
+         |                    ^
+   kernel/locking/rwsem.c:1683:35: error: use of undeclared identifier 'RWSEM_READER_BIAS'
+    1683 |         if ((tmp & RWSEM_READER_MASK) == RWSEM_READER_BIAS) {
+         |                                          ^
+>> kernel/locking/rwsem.c:1687:3: error: call to undeclared function 'rwsem_set_owner'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1687 |                 rwsem_set_owner(sem);
+         |                 ^
+>> kernel/locking/rwsem.c:1692:26: error: no member named 'wait_lock' in 'struct rw_semaphore'
+    1692 |         raw_spin_lock_irq(&sem->wait_lock);
+         |                            ~~~  ^
+   include/linux/spinlock.h:274:53: note: expanded from macro 'raw_spin_lock_irq'
+     274 | #define raw_spin_lock_irq(lock)         _raw_spin_lock_irq(lock)
+         |                                                            ^~~~
+>> kernel/locking/rwsem.c:1693:2: error: call to undeclared function 'rwsem_set_owner_upgrade'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1693 |         rwsem_set_owner_upgrade(sem);
+         |         ^
+   kernel/locking/rwsem.c:1698:32: error: no member named 'count' in 'struct rw_semaphore'
+    1698 |                 if (!(atomic_long_read(&sem->count) & RWSEM_READER_MASK))
+         |                                         ~~~  ^
+   kernel/locking/rwsem.c:1698:41: error: use of undeclared identifier 'RWSEM_READER_MASK'
+    1698 |                 if (!(atomic_long_read(&sem->count) & RWSEM_READER_MASK))
+         |                                                       ^
+   kernel/locking/rwsem.c:1700:29: error: no member named 'wait_lock' in 'struct rw_semaphore'
+    1700 |                 raw_spin_unlock_irq(&sem->wait_lock);
+         |                                      ~~~  ^
+   include/linux/spinlock.h:277:56: note: expanded from macro 'raw_spin_unlock_irq'
+     277 | #define raw_spin_unlock_irq(lock)       _raw_spin_unlock_irq(lock)
+         |                                                              ^~~~
+   kernel/locking/rwsem.c:1703:27: error: no member named 'wait_lock' in 'struct rw_semaphore'
+    1703 |                 raw_spin_lock_irq(&sem->wait_lock);
+         |                                    ~~~  ^
+   include/linux/spinlock.h:274:53: note: expanded from macro 'raw_spin_lock_irq'
+     274 | #define raw_spin_lock_irq(lock)         _raw_spin_lock_irq(lock)
+         |                                                            ^~~~
+   kernel/locking/rwsem.c:1707:2: error: call to undeclared function 'rwsem_set_owner'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1707 |         rwsem_set_owner(sem);
+         |         ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
 
-   283	
-   284	static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
-   285					      struct vchiq_queue_bulk_transfer *args,
-   286					      enum vchiq_bulk_dir dir,
-   287					      enum vchiq_bulk_mode __user *mode)
-   288	{
-   289		struct vchiq_service *service;
-   290		struct bulk_waiter_node *waiter = NULL, *iter;
-   291		struct vchiq_bulk bulk_params = {};
-   292		void *userdata;
-   293		int status = 0;
-   294		int ret;
-   295	
-   296		service = find_service_for_instance(instance, args->handle);
-   297		if (!service)
-   298			return -EINVAL;
-   299	
-   300		if (args->mode == VCHIQ_BULK_MODE_BLOCKING) {
-   301			waiter = kzalloc(sizeof(*waiter), GFP_KERNEL);
-   302			if (!waiter) {
-   303				ret = -ENOMEM;
-   304				goto out;
-   305			}
-   306	
-   307			bulk_params.uoffset = args->data;
-   308			bulk_params.mode = args->mode;
-   309			bulk_params.size = args->size;
-   310			bulk_params.dir = dir;
-   311			bulk_params.userdata = &waiter->bulk_waiter;
-   312	
-   313			status = vchiq_bulk_xfer_blocking(instance, args->handle,
-   314							  &bulk_params);
-   315		} else if (args->mode == VCHIQ_BULK_MODE_WAITING) {
-   316			mutex_lock(&instance->bulk_waiter_list_mutex);
-   317			list_for_each_entry(iter, &instance->bulk_waiter_list,
-   318					    list) {
-   319				if (iter->pid == current->pid) {
-   320					list_del(&iter->list);
-   321					waiter = iter;
-   322					break;
-   323				}
-   324			}
-   325			mutex_unlock(&instance->bulk_waiter_list_mutex);
-   326			if (!waiter) {
-   327				dev_err(service->state->dev,
-   328					"arm: no bulk_waiter found for pid %d\n", current->pid);
-   329				ret = -ESRCH;
-   330				goto out;
-   331			}
-   332			dev_dbg(service->state->dev, "arm: found bulk_waiter %pK for pid %d\n",
-   333				waiter, current->pid);
-   334			userdata = &waiter->bulk_waiter;
-   335	
-   336			status = vchiq_bulk_xfer_waiting(instance, args->handle, userdata);
-   337		} else {
-   338			bulk_params.uoffset = args->data;
-   339			bulk_params.mode = args->mode;
-   340			bulk_params.size = args->size;
-   341			bulk_params.dir = dir;
- > 342			bulk_params.userdata = args->userdata;
-   343	
-   344			status = vchiq_bulk_xfer_callback(instance, args->handle,
-   345							  &bulk_params);
-   346		}
-   347	
-   348		if (!waiter) {
-   349			ret = 0;
-   350			goto out;
-   351		}
-   352	
-   353		if ((status != -EAGAIN) || fatal_signal_pending(current) ||
-   354		    !waiter->bulk_waiter.bulk) {
-   355			if (waiter->bulk_waiter.bulk) {
-   356				/* Cancel the signal when the transfer completes. */
-   357				spin_lock(&service->state->bulk_waiter_spinlock);
-   358				waiter->bulk_waiter.bulk->userdata = NULL;
-   359				spin_unlock(&service->state->bulk_waiter_spinlock);
-   360			}
-   361			kfree(waiter);
-   362			ret = 0;
-   363		} else {
-   364			const enum vchiq_bulk_mode mode_waiting =
-   365				VCHIQ_BULK_MODE_WAITING;
-   366			waiter->pid = current->pid;
-   367			mutex_lock(&instance->bulk_waiter_list_mutex);
-   368			list_add(&waiter->list, &instance->bulk_waiter_list);
-   369			mutex_unlock(&instance->bulk_waiter_list_mutex);
-   370			dev_dbg(service->state->dev, "arm: saved bulk_waiter %pK for pid %d\n",
-   371				waiter, current->pid);
-   372	
-   373			ret = put_user(mode_waiting, mode);
-   374		}
-   375	out:
-   376		vchiq_service_put(service);
-   377		if (ret)
-   378			return ret;
-   379		else if (status == -EINVAL)
-   380			return -EIO;
-   381		else if (status == -EAGAIN)
-   382			return -EINTR;
-   383		return 0;
-   384	}
-   385	
+
+vim +1662 kernel/locking/rwsem.c
+
+  1659	
+  1660	static inline void rwsem_clear_upgrade_flag(struct rw_semaphore *sem)
+  1661	{
+> 1662		atomic_long_andnot(RWSEM_FLAG_UPGRADE_READ, &sem->count);
+  1663	}
+  1664	
+  1665	/*
+  1666	 * upgrade read lock to write lock
+  1667	 */
+  1668	static inline int __upgrade_read(struct rw_semaphore *sem)
+  1669	{
+  1670		long tmp;
+  1671	
+  1672		preempt_disable();
+  1673	
+  1674		tmp = atomic_long_read(&sem->count);
+  1675		do {
+> 1676			if (tmp & (RWSEM_WRITER_MASK | RWSEM_FLAG_UPGRADE_READ)) {
+  1677				preempt_enable();
+  1678				return -EBUSY;
+  1679			}
+  1680		} while (!atomic_long_try_cmpxchg(&sem->count, &tmp,
+> 1681			tmp + RWSEM_FLAG_UPGRADE_READ + RWSEM_WRITER_LOCKED - RWSEM_READER_BIAS));
+  1682	
+> 1683		if ((tmp & RWSEM_READER_MASK) == RWSEM_READER_BIAS) {
+  1684			/* fast path */
+  1685			DEBUG_RWSEMS_WARN_ON(sem->magic != sem, sem);
+  1686			rwsem_clear_upgrade_flag(sem);
+> 1687			rwsem_set_owner(sem);
+  1688			preempt_enable();
+  1689			return 0;
+  1690		}
+  1691		/* slow path */
+> 1692		raw_spin_lock_irq(&sem->wait_lock);
+> 1693		rwsem_set_owner_upgrade(sem);
+  1694	
+  1695		set_current_state(TASK_UNINTERRUPTIBLE);
+  1696	
+  1697		for (;;) {
+  1698			if (!(atomic_long_read(&sem->count) & RWSEM_READER_MASK))
+  1699				break;
+  1700			raw_spin_unlock_irq(&sem->wait_lock);
+  1701			schedule_preempt_disabled();
+  1702			set_current_state(TASK_UNINTERRUPTIBLE);
+  1703			raw_spin_lock_irq(&sem->wait_lock);
+  1704		}
+  1705	
+  1706		rwsem_clear_upgrade_flag(sem);
+  1707		rwsem_set_owner(sem);
+  1708		__set_current_state(TASK_RUNNING);
+  1709		raw_spin_unlock_irq(&sem->wait_lock);
+  1710		preempt_enable();
+  1711		return 0;
+  1712	}
+  1713	
 
 -- 
 0-DAY CI Kernel Test Service
