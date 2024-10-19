@@ -1,59 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E16160884
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 00:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D1F16C850
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 00:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729297636; cv=none; b=UkEF/b7BMMasJkxsVfZu99SZX8IrI2O+C6w1Mpelt0WNCMIUYU3kdaa4UgrnE7ja2wKdg7RNYzg2qKa1UuQsWo6ngPD+dvotPjkHhATFqj7EqhYC6G9fCJpYmsmrhayyNaYAE7nTS8mnhPObn3d6qTPk25tJDvTXpwFLNtBhA40=
+	t=1729297638; cv=none; b=Dzkt3N5IhNDLR2uxfxzmpi8Gsb2FHfptp3MFIYIyAWOSsEQ/jVLR3lrmmTv88/zf8nvTEaQL1Bik1k8KNSLbk1DirZWj18AF942T8s1hOFKZexsDPwj8LsfjBz9uJXDBgrEMh7I3IQLuraKld+/u+trS23QISvaSFARgoJFPHoU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729297636; c=relaxed/simple;
-	bh=uHJIrqclz364HAEejXsfcFe5heajTEB0Kf+lAK5k+mE=;
+	s=arc-20240116; t=1729297638; c=relaxed/simple;
+	bh=XpzszTUw/nXjc6n+zFmxRLkcGB/oPankYYv5sQFIh/Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eu6oWWV1vPrTE9k9JFZgp1hBFmVI2GIg2tgJPQ59pxXYfELUri4BU6QgvYriNmOelis0T+aqdUTU2ginvyrv96JC1jfOFExth3OYxRIqQzPQyV1ogSNca7c5hcxdqbjoH+jqkVaB3kI5Gl5oo/q2LlTLSSWIhIW91hAfFm3u9w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFVU63ZF; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fb399byZV2efnoAFj/ZI0wH9BeLrrwLiPc5/hTZ4iTQxBv1Q+jgaVOMjlpaxp5o2In7xCBACuHVE05+jrSBWxSHXdiN89gTMx2KQqbF0Fw/MSQ+/WypvE0XAJg5aIx5F/0N6o9LPotc8bFzuC7FXa9uhm63/sgfdF1UtldcYklY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dgm3G1Np; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFVU63ZF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dgm3G1Np"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729297634; x=1760833634;
+  t=1729297636; x=1760833636;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uHJIrqclz364HAEejXsfcFe5heajTEB0Kf+lAK5k+mE=;
-  b=XFVU63ZFMbH/85Ym5WrCOxKgb1jVdbRwscyb5Kuf8qON14FcMbfm9YxQ
-   j1DeAJldOXRmAI4EtMTOCu126qRH3W7Oiw13pkLJRZgOPDx0ZDQKlPV+2
-   nFs1u8zn9/Y1fR3R8JTOWE4RMBpWkKr1lgIg772doiGWaZvbSGTxxFDr3
-   Kuv2NkAtgf9MbbPbyxf8iHTL/Qst8N1DpAp8pu1l5WpZ2+UPji4fMYAPm
-   6LCPVg1v2Pl5rmRaM5qy74uBPS0OvlMlP2NLNSzHN6TOKabOV5YMunb2W
-   SBtQey6Ne41LPvsa/efcwKQY44bVS2oiZwLORcYDp39CkhkHP/3+7XsaL
+  bh=XpzszTUw/nXjc6n+zFmxRLkcGB/oPankYYv5sQFIh/Y=;
+  b=dgm3G1Np6SYw8FLMcv2ckjp918taGJSX4iVzl1EUiXvdFHOptTZ5ETat
+   swJqsWnZBp+AfbLFBAf9NH1ezQ2Q51ey4YZXqY4uUNGlElnz5noD7tozk
+   rgmRHzKF3hRE8wrmk3AiOPYw/CleK0uzvRNbp/DKjsJf/ejcX6ysGno1o
+   GaAJCiKNeJC3geftHKTr6oezFSe+DOYA8f86I8y53craEpJpipaBup33m
+   dh7/DaKqF4Hl+0Qou25yqRkK/+xSCY1vYQTl7JsnMyltclbit2ZnM+Pt7
+   hsi2sKti4j0OiTHSkxcgIh7TBESYTdjCxiqhU1sVCm7PmXczdF6BLxVo8
    A==;
-X-CSE-ConnectionGUID: TjnHv/P1RJ+y46x6zMgWmA==
-X-CSE-MsgGUID: J2cf7tDYTk6K3K2YW6MBAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28977079"
+X-CSE-ConnectionGUID: YkN64Hn7QxaWNBk87tzV9g==
+X-CSE-MsgGUID: 9w/hwIMPTLCiZRgmyLhhAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28977084"
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="28977079"
+   d="scan'208";a="28977084"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:27:13 -0700
-X-CSE-ConnectionGUID: ycuW0bgmTF6CJY4vnlC/ag==
-X-CSE-MsgGUID: eWY187xxRpu+BTv2dzUrdQ==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 17:27:14 -0700
+X-CSE-ConnectionGUID: bccPquIaRFSenCipGZI1Lw==
+X-CSE-MsgGUID: ZsMos1PaRsWVxJHIHDYSzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,214,1725346800"; 
-   d="scan'208";a="116470076"
+   d="scan'208";a="116470078"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 18 Oct 2024 17:27:13 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t1xJG-000OT0-1w;
+	id 1t1xJG-000OT3-24;
 	Sat, 19 Oct 2024 00:27:10 +0000
-Date: Sat, 19 Oct 2024 08:26:25 +0800
+Date: Sat, 19 Oct 2024 08:26:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 05/13] ASoC: samsung: remove dpcm_xxx flags
-Message-ID: <202410190858.yQhTK2hp-lkp@intel.com>
-References: <87h69eqj4e.wl-kuninori.morimoto.gx@renesas.com>
+To: Jennifer Berringer <jberring@redhat.com>,
+	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, Jennifer Berringer <jberring@redhat.com>
+Subject: Re: [PATCH 3/3] power: reset: nvmem-reboot-mode: fix write for small
+ cells
+Message-ID: <202410190829.e98plEvU-lkp@intel.com>
+References: <20241017160904.2803663-3-jberring@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,86 +68,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87h69eqj4e.wl-kuninori.morimoto.gx@renesas.com>
+In-Reply-To: <20241017160904.2803663-3-jberring@redhat.com>
 
-Hi Kuninori,
+Hi Jennifer,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on broonie-sound/for-next]
-[also build test WARNING on next-20241018]
-[cannot apply to shawnguo/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.12-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuninori-Morimoto/ASoC-amd-remove-dpcm_xxx-flags/20241015-090321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/87h69eqj4e.wl-kuninori.morimoto.gx%40renesas.com
-patch subject: [PATCH v4 05/13] ASoC: samsung: remove dpcm_xxx flags
-config: sparc-randconfig-r113-20241018 (https://download.01.org/0day-ci/archive/20241019/202410190858.yQhTK2hp-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241019/202410190858.yQhTK2hp-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jennifer-Berringer/nvmem-core-add-nvmem_cell_write_variable_u32/20241018-001140
+base:   98f7e32f20d28ec452afb208f9cffc08448a2652
+patch link:    https://lore.kernel.org/r/20241017160904.2803663-3-jberring%40redhat.com
+patch subject: [PATCH 3/3] power: reset: nvmem-reboot-mode: fix write for small cells
+config: i386-randconfig-015-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190829.e98plEvU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190829.e98plEvU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410190858.yQhTK2hp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410190829.e98plEvU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   sound/soc/samsung/odroid.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
->> sound/soc/samsung/odroid.c:187:18: sparse: sparse: Initializer entry defined twice
-   sound/soc/samsung/odroid.c:192:18: sparse:   also defined here
+All errors (new ones prefixed by >>):
 
-vim +187 sound/soc/samsung/odroid.c
+   drivers/power/reset/nvmem-reboot-mode.c: In function 'nvmem_reboot_mode_write':
+>> drivers/power/reset/nvmem-reboot-mode.c:27:15: error: implicit declaration of function 'nvmem_cell_write_variable_u32'; did you mean 'nvmem_cell_read_variable_le_u32'? [-Werror=implicit-function-declaration]
+      27 |         ret = nvmem_cell_write_variable_u32(nvmem_rbm->cell, magic);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |               nvmem_cell_read_variable_le_u32
+   cc1: some warnings being treated as errors
 
-f89aea0f132142 Sylwester Nawrocki 2019-02-15  152  
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  153  SND_SOC_DAILINK_DEFS(primary,
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  154  	DAILINK_COMP_ARRAY(COMP_EMPTY()),
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  155  	DAILINK_COMP_ARRAY(COMP_DUMMY()),
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  156  	DAILINK_COMP_ARRAY(COMP_PLATFORM("3830000.i2s")));
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  157  
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  158  SND_SOC_DAILINK_DEFS(mixer,
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  159  	DAILINK_COMP_ARRAY(COMP_DUMMY()),
-56558d6ab8c09c Kuninori Morimoto  2023-12-19  160  	DAILINK_COMP_ARRAY(COMP_EMPTY()));
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  161  
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  162  SND_SOC_DAILINK_DEFS(secondary,
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  163  	DAILINK_COMP_ARRAY(COMP_EMPTY()),
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  164  	DAILINK_COMP_ARRAY(COMP_DUMMY()),
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  165  	DAILINK_COMP_ARRAY(COMP_PLATFORM("3830000.i2s-sec")));
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  166  
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  167  static struct snd_soc_dai_link odroid_card_dais[] = {
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  168  	{
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  169  		/* Primary FE <-> BE link */
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  170  		.ops = &odroid_card_fe_ops,
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  171  		.name = "Primary",
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  172  		.stream_name = "Primary",
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  173  		.dynamic = 1,
-8e3e1d509bfbe6 Kuninori Morimoto  2024-10-15  174  		.playback_only = 1,
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  175  		SND_SOC_DAILINK_REG(primary),
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  176  	}, {
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  177  		/* BE <-> CODECs link */
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  178  		.name = "I2S Mixer",
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  179  		.ops = &odroid_card_be_ops,
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  180  		.no_pcm = 1,
-8e3e1d509bfbe6 Kuninori Morimoto  2024-10-15  181  		.playback_only = 1,
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  182  		.dai_fmt = SND_SOC_DAIFMT_I2S | SND_SOC_DAIFMT_NB_NF |
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  183  				SND_SOC_DAIFMT_CBS_CFS,
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  184  		SND_SOC_DAILINK_REG(mixer),
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  185  	}, {
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  186  		/* Secondary FE <-> BE link */
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14 @187  		.playback_only = 1,
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  188  		.ops = &odroid_card_fe_ops,
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  189  		.name = "Secondary",
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  190  		.stream_name = "Secondary",
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  191  		.dynamic = 1,
-8e3e1d509bfbe6 Kuninori Morimoto  2024-10-15  192  		.playback_only = 1,
-3cddda10c25f46 Kuninori Morimoto  2019-06-06  193  		SND_SOC_DAILINK_REG(secondary),
-bc3cf17b575a7a Sylwester Nawrocki 2019-02-14  194  	}
-aba611fc4c6989 Sylwester Nawrocki 2017-04-21  195  };
-aba611fc4c6989 Sylwester Nawrocki 2017-04-21  196  
+
+vim +27 drivers/power/reset/nvmem-reboot-mode.c
+
+    18	
+    19	static int nvmem_reboot_mode_write(struct reboot_mode_driver *reboot,
+    20					    unsigned int magic)
+    21	{
+    22		int ret;
+    23		struct nvmem_reboot_mode *nvmem_rbm;
+    24	
+    25		nvmem_rbm = container_of(reboot, struct nvmem_reboot_mode, reboot);
+    26	
+  > 27		ret = nvmem_cell_write_variable_u32(nvmem_rbm->cell, magic);
+    28		if (ret < 0)
+    29			dev_err(reboot->dev, "update reboot mode bits failed\n");
+    30	
+    31		return ret;
+    32	}
+    33	
 
 -- 
 0-DAY CI Kernel Test Service
