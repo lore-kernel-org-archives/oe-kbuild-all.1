@@ -1,67 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1A01DF749;
-	Sat, 19 Oct 2024 09:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9457318C910
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 10:36:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729331076; cv=none; b=eHUK+K/GOOCRn0mOHBNmqN6FAbOMrzZbhDAlECGBedx+rqHnO9sEU7ZFPtzjWDOV1igBJdzxqgmmryB/qT2wbUzejVgpb+eQkG4VNVS0Oo+d2s1IZr0OkvFqevAKGxIjmH1pwYiefl/EIKSwB0rk0qy78UGzjLYYwxGN3KzaU4Y=
+	t=1729334195; cv=none; b=eVoM8E/5SMCfel3V3F9becXf2+Nwv25ZZwMVFyLkSGxTNWUu+JiNXctZ1tpd5yumXV/jgHJFJRJn8s6bR01JOc2OxZVhwS+0lR82Q3g/q4K/GY2230tJRnysmy4JbetandvfpO4WmtJtfGaOwKumDGvJkbtnGh8H+GIPU56sRYs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729331076; c=relaxed/simple;
-	bh=8JKQHEed5f/WTiLw6VZKnZcCY2h2Gs+L+t+SxwiypVI=;
+	s=arc-20240116; t=1729334195; c=relaxed/simple;
+	bh=UipNdPw5pGNY1kN1FE/U/T/fYmGN6H1910arigY7NCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QoFi2UOgVSy4xGb+EK3lE1WbM8aTWW6dK3Foe25HXDIqwlbJWV8N8QMeyboTOdjyw7hPuJWt4HaMu0Fuasp/MKM6YDGKQEQfHfyY/TUHhJC1ZcTnTmglVJ52aqKu0vHeTlWYy7RnNLld00zP/8NrdT9ZxcCbi8u9Cph9P2DjPBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KmtXEji8; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zpjxa4nAeyx6epCdijnj8Xe+y+XOHymStmszrXqFRMogqe+wo6md0bXV7gZ4r3CISQ+sHzzlBCEvFS70xq+NDBiXJDYZi/483ODtoIgTHRFjQpviOoO4pYO5Ap9Ciyb1DbYQ7/KSal538LkyDsC6UImbvqO9cr9WAuZu3l3edpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEF1cgSz; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KmtXEji8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEF1cgSz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729331074; x=1760867074;
+  t=1729334194; x=1760870194;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8JKQHEed5f/WTiLw6VZKnZcCY2h2Gs+L+t+SxwiypVI=;
-  b=KmtXEji8021L45NqyP9tAGLyZQzQklEApwwlo2vIfG0JRNrhc3eyT3Nu
-   bCPDaRyozcTq6jUuu0EjWcXZQXIizlu6rnSc/MxiubkN+NvCNXtqwygbv
-   K7rBPlhFRdWCvFowuzIk3/nG6fvIK2I7xLAepP1wDgzqB4O0YPCOK+sFl
-   BMPN2OERJaopkZ8eH7/EBqGTDo4KgVgLWPpE/jdEUTLPENH6ULw8I05MV
-   upVIWoL72NFMNUdyabwPfZnilBWd4LNbIOp7jf2V/u9nObVVaYI7wwiln
-   UXsM8p3XBE1oE94kPZdhT24l9hsAV7ckJIt98G0HSgmuDlcvgP14QMWSQ
+  bh=UipNdPw5pGNY1kN1FE/U/T/fYmGN6H1910arigY7NCc=;
+  b=kEF1cgSztPOJgUlFGi/c0dCq/Bthh0Gf051ciyQ23+eGK8suReOOTrAO
+   55i2L4CL0TWBOBkfb9yD1yJhWMOsnhoLS1PNU9FyiBndPB/DsNetYdZJ9
+   dNfkC4nqE4XHvOz4s6VO88eOm8kG+IZv+2NxjAJle6lzb7EeVWet8aUfA
+   RpDDawBTn5dpSVJ6yUfQKy379jrR93BmG89gOgg+5i7yG12YG/6Yq+89l
+   S+qVIvyATrSHBlVq1PiHpZdNhB7wVotBDzVKH1J6674BnWzVn0jqb/pBm
+   f1wgWMumoLMD0DJMtubCN3PXxA9Z7PXoKkt7ZG9tCDyasI7nX6pdHd6og
    A==;
-X-CSE-ConnectionGUID: rCQGA1YJRByqoZRdAbH0eA==
-X-CSE-MsgGUID: 7rRUTEGoS7KyHiJjDrudJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28995781"
-X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
-   d="scan'208";a="28995781"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 02:44:32 -0700
-X-CSE-ConnectionGUID: BACNGPuUQ1WafYM+UNO0rg==
-X-CSE-MsgGUID: OQg0m7ppRs2uezzrmdjyyg==
+X-CSE-ConnectionGUID: JQE0RPf1R3G7ltjwod9Hig==
+X-CSE-MsgGUID: wxpjQHMwS1G+f7crxRmB+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="39491150"
+X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
+   d="scan'208";a="39491150"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 03:36:33 -0700
+X-CSE-ConnectionGUID: 4Hsu7CY1Q3yNdZHnqQIOzg==
+X-CSE-MsgGUID: zGKS7FqpR1iuq7oKnwQgYA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
-   d="scan'208";a="79145234"
+X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
+   d="scan'208";a="79902047"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 19 Oct 2024 02:44:28 -0700
+  by orviesa008.jf.intel.com with ESMTP; 19 Oct 2024 03:36:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t260X-000OsF-20;
-	Sat, 19 Oct 2024 09:44:25 +0000
-Date: Sat, 19 Oct 2024 17:43:52 +0800
+	id 1t26os-000Otn-1o;
+	Sat, 19 Oct 2024 10:36:26 +0000
+Date: Sat, 19 Oct 2024 18:36:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Fang <wei.fang@nxp.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.oltean@nxp.com,
-	claudiu.manoil@nxp.com, xiaoning.wang@nxp.com, Frank.Li@nxp.com,
-	christophe.leroy@csgroup.eu, linux@armlinux.org.uk,
-	bhelgaas@google.com, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
-	netdev@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v3 net-next 06/13] net: enetc: build enetc_pf_common.c as
- a separate module
-Message-ID: <202410191715.TQmESUy9-lkp@intel.com>
-References: <20241017074637.1265584-7-wei.fang@nxp.com>
+To: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	NXP S32 Linux Team <s32@nxp.com>,
+	Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Bogdan Hamciuc <bogdan.hamciuc@nxp.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>
+Subject: Re: [PATCH v2 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+Message-ID: <202410191710.kHHObl1i-lkp@intel.com>
+References: <20241015105133.656360-3-ciprianmarian.costea@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,37 +77,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241017074637.1265584-7-wei.fang@nxp.com>
+In-Reply-To: <20241015105133.656360-3-ciprianmarian.costea@oss.nxp.com>
 
-Hi Wei,
+Hi Ciprian,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on abelloni/rtc-next]
+[also build test ERROR on robh/for-next arm64/for-next/core linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Fang/dt-bindings-net-add-compatible-string-for-i-MX95-EMDIO/20241017-160848
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241017074637.1265584-7-wei.fang%40nxp.com
-patch subject: [PATCH v3 net-next 06/13] net: enetc: build enetc_pf_common.c as a separate module
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410191715.TQmESUy9-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191715.TQmESUy9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/dt-bindings-rtc-add-schema-for-NXP-S32G2-S32G3-SoCs/20241015-185302
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git rtc-next
+patch link:    https://lore.kernel.org/r/20241015105133.656360-3-ciprianmarian.costea%40oss.nxp.com
+patch subject: [PATCH v2 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+config: arm-randconfig-r123-20241018 (https://download.01.org/0day-ci/archive/20241019/202410191710.kHHObl1i-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241019/202410191710.kHHObl1i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410191715.TQmESUy9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410191710.kHHObl1i-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   m68k-linux-ld: drivers/net/ethernet/freescale/enetc/enetc_pf_common.o: in function `enetc_pf_netdev_setup':
->> enetc_pf_common.c:(.text+0x55e): undefined reference to `enetc_set_ethtool_ops'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+   arm-linux-gnueabi-ld: drivers/rtc/rtc-s32g.o: in function `cycles_to_sec':
+>> rtc-s32g.c:(.text.cycles_to_sec+0x60): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: drivers/rtc/rtc-s32g.o: in function `rtc_clk_src_switch':
+   rtc-s32g.c:(.text.rtc_clk_src_switch+0x110): undefined reference to `__aeabi_uldivmod'
 
 -- 
 0-DAY CI Kernel Test Service
