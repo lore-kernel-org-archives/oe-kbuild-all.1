@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7E8C144
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 13:51:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27AF8C2E9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 14:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729345899; cv=none; b=uPgQlvOX86ccGzA0XiHu6TeU5TxO7AKMmCqCGolqXMt5+ZuyXaawS9nV5itnEEHla4DCNaRrbFJiorXWzbC15U9fdfG6OW5cuua+sM0jrRV5pUz1wG8KagHKSbQrEVyhQtP/KGX1J/3+pKv0i/n3luxkmMSqCSPuClHK3Ak2KE0=
+	t=1729347158; cv=none; b=jCj1sDTzxEvyHmD2iC3tmBCQhuCTHLvD1n7QhTUTkXqDy1nkEnyQKi0hPeyvEkZFQpYCYKlWng/HFZyPHfvkgpIDkpFuJw+T2ITVcExa/D6G2N+0OMBWXKm0d1Kfy/mOJVEp0BvliHFWZ8hykMSTmOxjdhS74CqeHrKShUwvS6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729345899; c=relaxed/simple;
-	bh=d3D3jlTs3vJPRzRP1jgNJG+KtsKKv2C8fZ0UCvKToTE=;
+	s=arc-20240116; t=1729347158; c=relaxed/simple;
+	bh=ikxsOS9//BIRhrEbwkUMCVoClNlS/zW9Wh6XXzfhBbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uqVd/LdH8yYv479xfpoQyh6nOTaVmMAtzxrhu6Chjjr7SXa5f6mQggcXgBspQjkeMGOiI+VHkW7bSQeHW9qHjnkbb1G3hGlhDQHc1y+K9uIub6nvepgwF2Dc851diOal/OxGpJD/cg260jOFaJvXPWReiceCmFBpaTjMcgKkEl4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEbacdOL; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=nuW38J6iltvIDANNzoBMyewWcBh5qRrBIWavXSan4/61XPs7vqiFnqkXRGLXlwh5+xw0f+YJtiDfRzfxMClLHhYgF5G0pk/LbTTNlxjawp5ASWMmTIoQixmMhjhyokcxJ5EKlc5qDJXzuq3n0OI08Ye6VZMPoHn+4nMMIkrfNq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XacNuF7u; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEbacdOL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XacNuF7u"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729345896; x=1760881896;
+  t=1729347156; x=1760883156;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=d3D3jlTs3vJPRzRP1jgNJG+KtsKKv2C8fZ0UCvKToTE=;
-  b=kEbacdOLojBC65GLVPNlGyV+VBeVSRjsEduSCpgIYsGnibBz47KRjCPr
-   OqpVic1xaMy1ah+Jfee2LZynCDRxCnl/NE7iGqcckudifGj6SuVQ//z8r
-   met7WRIUDlcPIBD/WPVCGk9niKaHpkVgv0uPPoFg4GIFi9jqOMqNTjG1U
-   mEcaLffRXbfonLoZuyM7JP+x/GlR5R/HexfhMOd1+1kCbzXp4YqapbDMq
-   sLDQXgJXlmVCD3O1jIYsMFp6wqYvRaUFXkGeBshUGGB6MUbqckaZckBL/
-   jl06dwOyPjk60AZc0i3wurDWAfbMesWl+XtvhFMP5MoPnYk/8wLpztoF3
-   w==;
-X-CSE-ConnectionGUID: PjxabghQQIOt6I3dUkO/dg==
-X-CSE-MsgGUID: JSX4uc72SxakmLnZVNkIng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="32671949"
+  bh=ikxsOS9//BIRhrEbwkUMCVoClNlS/zW9Wh6XXzfhBbU=;
+  b=XacNuF7uWauLzOravbxaFQZlGrf5h7+viL+x3fF6q6ohIHvUvnvIRsJz
+   6QGBuMrV6Mz0rKF6S+y93KqXNjtqVKp856R7Mf+TzjRLhUoGl5jTbmOQX
+   RTV10zxJXMxqLnq5/aphp4WfRNi+n/sPkCD+M2MtvrKvNbkM2qihiIX/J
+   qZ1J1tIRibIR0oWUBkZXoLpFVA2P7Qe0mC7hrWzyb26h+17ETEZe+oZZL
+   csYy9NfZSElf1jn3qY9zo4D+6zeFV8P5c/bKWCrRni9wDCcdzKwv1aXwa
+   PtJy7S7kLGcQOyOLBCj4OsJ77P+rmGdYeSm5Uf9liCVeDzXstfvhhw/N2
+   g==;
+X-CSE-ConnectionGUID: Ir0Dw0FxRZ6oOlRjGfc09w==
+X-CSE-MsgGUID: 7x2Nj7uYRxO2GW3DNMsnGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="40234594"
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="32671949"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 06:51:36 -0700
-X-CSE-ConnectionGUID: udY38Gc4StOqANPN+45Nyg==
-X-CSE-MsgGUID: W3yhjvlnShCstRAznDbMVw==
+   d="scan'208";a="40234594"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 07:12:35 -0700
+X-CSE-ConnectionGUID: IBkD6bFfTxCsO1QHrpE92Q==
+X-CSE-MsgGUID: 1fM7OApbSJSVY8k393r61w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="79259721"
+   d="scan'208";a="109875642"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2024 06:51:34 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 19 Oct 2024 07:12:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t29rf-000P3F-2q;
-	Sat, 19 Oct 2024 13:51:31 +0000
-Date: Sat, 19 Oct 2024 21:51:30 +0800
+	id 1t2ABz-000P3N-32;
+	Sat, 19 Oct 2024 14:12:31 +0000
+Date: Sat, 19 Oct 2024 22:12:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 2/3] fs/f2fs/f2fs.h:2183:42: error: no
- member named 'read_waiters' in 'struct f2fs_rwsem'
-Message-ID: <202410192157.53pfQt4P-lkp@intel.com>
+To: Brian Gerst <brgerst@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ingo Molnar <mingo@kernel.org>
+Subject: arch/x86/xen/enlighten_pv.c:1407:28: sparse: sparse: incorrect type
+ in initializer (different address spaces)
+Message-ID: <202410192244.k4KFmVBy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +63,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   9f59c8aa7339b2a81478ff2fcace2928263aee67
-commit: 29429c25a600ea41fc44db5d8de0f65bce2872ac [2/3] ANDROID: vendor_hooks: add hooks for f2fs down read
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241019/202410192157.53pfQt4P-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192157.53pfQt4P-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
+commit: 11e36b0f7c2150a6453872b79555767b43c846d0 x86/boot/64: Load the final kernel GDT during early boot directly, remove startup_gdt[]
+date:   8 months ago
+config: x86_64-randconfig-122-20241019 (https://download.01.org/0day-ci/archive/20241019/202410192244.k4KFmVBy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192244.k4KFmVBy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410192157.53pfQt4P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410192244.k4KFmVBy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/xen/enlighten_pv.c:1407:28: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct gdt_page * @@
+   arch/x86/xen/enlighten_pv.c:1407:28: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/xen/enlighten_pv.c:1407:28: sparse:     got struct gdt_page *
+   arch/x86/xen/enlighten_pv.c: note: in included file (through arch/x86/include/asm/stackprotector.h, include/linux/stackprotector.h):
+   arch/x86/include/asm/desc.h:54:16: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct gdt_page * @@
+   arch/x86/include/asm/desc.h:54:16: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   arch/x86/include/asm/desc.h:54:16: sparse:     got struct gdt_page *
 
-   In file included from fs/f2fs/dir.c:13:
->> fs/f2fs/f2fs.h:2183:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
-    2183 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
-         |                                            ~~~  ^
-   1 error generated.
---
-   In file included from fs/f2fs/file.c:28:
->> fs/f2fs/f2fs.h:2183:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
-    2183 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
-         |                                            ~~~  ^
-   fs/f2fs/file.c:41:12: warning: no previous prototype for function 'f2fs_filemap_fault' [-Wmissing-prototypes]
-      41 | vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
-         |            ^
-   fs/f2fs/file.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      41 | vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
-         | ^
-         | static 
-   1 warning and 1 error generated.
---
-   In file included from fs/f2fs/data.c:25:
->> fs/f2fs/f2fs.h:2183:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
-    2183 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
-         |                                            ~~~  ^
-   fs/f2fs/data.c:2413:10: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-    2413 |         pgoff_t index;
-         |                 ^
-   1 warning and 1 error generated.
+vim +1407 arch/x86/xen/enlighten_pv.c
 
+8b87d8cec1b31e Peter Zijlstra   2022-03-08  1311  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1312  /* First C function to be called on Xen boot */
+96e8fc5818686d Juergen Gross    2022-06-30  1313  asmlinkage __visible void __init xen_start_kernel(struct start_info *si)
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1314  {
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1315  	struct physdev_set_iopl set_iopl;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1316  	unsigned long initrd_start = 0;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1317  	int rc;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1318  
+96e8fc5818686d Juergen Gross    2022-06-30  1319  	if (!si)
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1320  		return;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1321  
+96e8fc5818686d Juergen Gross    2022-06-30  1322  	clear_bss();
+96e8fc5818686d Juergen Gross    2022-06-30  1323  
+96e8fc5818686d Juergen Gross    2022-06-30  1324  	xen_start_info = si;
+96e8fc5818686d Juergen Gross    2022-06-30  1325  
+8b87d8cec1b31e Peter Zijlstra   2022-03-08  1326  	__text_gen_insn(&early_xen_iret_patch,
+8b87d8cec1b31e Peter Zijlstra   2022-03-08  1327  			JMP32_INSN_OPCODE, &early_xen_iret_patch, &xen_iret,
+8b87d8cec1b31e Peter Zijlstra   2022-03-08  1328  			JMP32_INSN_SIZE);
+8b87d8cec1b31e Peter Zijlstra   2022-03-08  1329  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1330  	xen_domain_type = XEN_PV_DOMAIN;
+1fe83888a2b776 Roger Pau Monne  2018-06-08  1331  	xen_start_flags = xen_start_info->flags;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1332  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1333  	xen_setup_features();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1334  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1335  	/* Install Xen paravirt ops */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1336  	pv_info = xen_info;
+1462eb381b4c27 Peter Zijlstra   2021-06-24  1337  	pv_ops.cpu = xen_cpu_ops.cpu;
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1338  	xen_init_irq_ops();
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1339  
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1340  	/*
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1341  	 * Setup xen_vcpu early because it is needed for
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1342  	 * local_irq_disable(), irqs_disabled(), e.g. in printk().
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1343  	 *
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1344  	 * Don't do the full vcpu_info placement stuff until we have
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1345  	 * the cpu_possible_mask and a non-dummy shared_info.
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1346  	 */
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1347  	xen_vcpu_info_reset(0);
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1348  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1349  	x86_platform.get_nmi_reason = xen_get_nmi_reason;
+f1e525009493cb Juergen Gross    2022-11-23  1350  	x86_platform.realmode_reserve = x86_init_noop;
+f1e525009493cb Juergen Gross    2022-11-23  1351  	x86_platform.realmode_init = x86_init_noop;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1352  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1353  	x86_init.resources.memory_setup = xen_memory_setup;
+979923871f69a4 Thomas Gleixner  2020-01-23  1354  	x86_init.irqs.intr_mode_select	= x86_init_noop;
+3b5244bef15e0e Juergen Gross    2023-08-08  1355  	x86_init.irqs.intr_mode_init	= x86_64_probe_apic;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1356  	x86_init.oem.arch_setup = xen_arch_setup;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1357  	x86_init.oem.banner = xen_banner;
+7b25b9cb0dad83 Pavel Tatashin   2018-07-19  1358  	x86_init.hyper.init_platform = xen_pv_init_platform;
+7b25b9cb0dad83 Pavel Tatashin   2018-07-19  1359  	x86_init.hyper.guest_late_init = xen_pv_guest_late_init;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1360  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1361  	/*
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1362  	 * Set up some pagetable state before starting to set any ptes.
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1363  	 */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1364  
+0ce0bba4e5e0eb Juergen Gross    2018-07-12  1365  	xen_setup_machphys_mapping();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1366  	xen_init_mmu_ops();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1367  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1368  	/* Prevent unwanted bits from being set in PTEs. */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1369  	__supported_pte_mask &= ~_PAGE_GLOBAL;
+e69b5d308da72c Juergen Gross    2018-07-02  1370  	__default_kernel_pte_mask &= ~_PAGE_GLOBAL;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1371  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1372  	/* Get mfn list */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1373  	xen_build_dynamic_phys_to_machine();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1374  
+ae897fda4f507e Jan Beulich      2021-05-20  1375  	/* Work out if we support NX */
+ae897fda4f507e Jan Beulich      2021-05-20  1376  	get_cpu_cap(&boot_cpu_data);
+ae897fda4f507e Jan Beulich      2021-05-20  1377  	x86_configure_nx();
+ae897fda4f507e Jan Beulich      2021-05-20  1378  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1379  	/*
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1380  	 * Set up kernel GDT and segment registers, mainly so that
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1381  	 * -fstack-protector code can be executed.
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1382  	 */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1383  	xen_setup_gdt(0);
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1384  
+405c018a25fe46 M. Vefa Bicakci  2018-07-24  1385  	/* Determine virtual and physical address sizes */
+405c018a25fe46 M. Vefa Bicakci  2018-07-24  1386  	get_cpu_address_sizes(&boot_cpu_data);
+405c018a25fe46 M. Vefa Bicakci  2018-07-24  1387  
+42b3a4cb5609de Juergen Gross    2017-11-24  1388  	/* Let's presume PV guests always boot on vCPU with id 0. */
+42b3a4cb5609de Juergen Gross    2017-11-24  1389  	per_cpu(xen_vcpu_id, 0) = 0;
+42b3a4cb5609de Juergen Gross    2017-11-24  1390  
+42b3a4cb5609de Juergen Gross    2017-11-24  1391  	idt_setup_early_handler();
+42b3a4cb5609de Juergen Gross    2017-11-24  1392  
+0808e80cb760de Juergen Gross    2017-04-13  1393  	xen_init_capabilities();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1394  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1395  	/*
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1396  	 * set up the basic apic ops.
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1397  	 */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1398  	xen_init_apic();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1399  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1400  	machine_ops = xen_machine_ops;
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1401  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1402  	/*
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1403  	 * The only reliable way to retain the initial address of the
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1404  	 * percpu gdt_page is to remember it here, so we can go and
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1405  	 * mark it RW later, when the initial percpu area is freed.
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1406  	 */
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14 @1407  	xen_initial_gdt = &per_cpu(gdt_page, 0);
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1408  
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1409  	xen_smp_init();
+e1dab14cf68d1e Vitaly Kuznetsov 2017-03-14  1410  
 
-vim +2183 fs/f2fs/f2fs.h
+:::::: The code at line 1407 was first introduced by commit
+:::::: e1dab14cf68d1e03950135969af3faf322f0db04 x86/xen: split off enlighten_pv.c
 
-  2176	
-  2177	void _trace_android_rvh_f2fs_down_read(wait_queue_head_t *read_waiters,
-  2178					   struct rw_semaphore *rwsem, bool *skip);
-  2179	
-  2180	static inline void f2fs_down_read(struct f2fs_rwsem *sem)
-  2181	{
-  2182		bool skip = false;
-> 2183		_trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
-  2184		if (skip)
-  2185			return;
-  2186	#ifdef CONFIG_F2FS_UNFAIR_RWSEM
-  2187		wait_event(sem->read_waiters, down_read_trylock(&sem->internal_rwsem));
-  2188	#else
-  2189		down_read(&sem->internal_rwsem);
-  2190	#endif
-  2191	}
-  2192	
+:::::: TO: Vitaly Kuznetsov <vkuznets@redhat.com>
+:::::: CC: Juergen Gross <jgross@suse.com>
 
 -- 
 0-DAY CI Kernel Test Service
