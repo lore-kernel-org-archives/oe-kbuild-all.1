@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE8BC2CA7
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 13:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7E8C144
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 13:51:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729342837; cv=none; b=A+WbkDVqHaj3CosvKgDKyGzFvL7VxLk1VdnIyicerKDyHxT44HdZtBFIiUxgp2EGA8gJQxk2buWMphi1mIkaFL6m80tBLhSgRfbYiBM3SBqhWHpeRRE2pyNCFVCJht+jZ/eXZ/RXmQEfG/X+f6DlzRds21Th+ysXBKNI9e/3NaA=
+	t=1729345899; cv=none; b=uPgQlvOX86ccGzA0XiHu6TeU5TxO7AKMmCqCGolqXMt5+ZuyXaawS9nV5itnEEHla4DCNaRrbFJiorXWzbC15U9fdfG6OW5cuua+sM0jrRV5pUz1wG8KagHKSbQrEVyhQtP/KGX1J/3+pKv0i/n3luxkmMSqCSPuClHK3Ak2KE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729342837; c=relaxed/simple;
-	bh=m7W4fJEtIeyu8tniSEMGnCUSt9Skkxkp3RQMvF94rpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GViSYa6lIj0wci5yDjdZ0hqGmHLxZRZFmlXXbQvHAgXvY55B555ZGRR6ZGFuu5AFg/pg+YbQYdac15RO6dhk2Rj6A7w+vnyH8b3ojSpcAfQcuKYHir1SXkjJGTuEDJTWcvwbCL35NQWcdU7FhPwZEdEwg2OiYlEzQJCIgu6ENk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1e4SB+O; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1729345899; c=relaxed/simple;
+	bh=d3D3jlTs3vJPRzRP1jgNJG+KtsKKv2C8fZ0UCvKToTE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uqVd/LdH8yYv479xfpoQyh6nOTaVmMAtzxrhu6Chjjr7SXa5f6mQggcXgBspQjkeMGOiI+VHkW7bSQeHW9qHjnkbb1G3hGlhDQHc1y+K9uIub6nvepgwF2Dc851diOal/OxGpJD/cg260jOFaJvXPWReiceCmFBpaTjMcgKkEl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEbacdOL; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1e4SB+O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEbacdOL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729342836; x=1760878836;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=m7W4fJEtIeyu8tniSEMGnCUSt9Skkxkp3RQMvF94rpA=;
-  b=C1e4SB+O0CE5b9vGdxz2LeqKnpK5klT7cZro+mxd9YCOu1F4sFv8f/y3
-   n6+mBa/6Zzj5ggkCy729rcTGVDlJny2EyLJFvFFmjgZ2tTny7ujI6dCyq
-   A44NscK5Y+SI+he5fdk9Qr9h5aby0N37xBB0FST3DHBF5O8Hzp1H505kT
-   HLGxXNkPBn5aCIhR3m8pm0Gtn/BNGnAt/w0Nz/VE4OFz4a9LlvKInfAdw
-   fgVuw52I+OpKyJ0+JypCXb7Iyd+/QpWpz4YKpsIuu23GI/sSyLlGIge4c
-   eNIAFrwS6qVZE5dA6qBzDgynXJnEIBG2hOmNSeKzQSLT7gBCGlsYY7nNf
-   Q==;
-X-CSE-ConnectionGUID: p1wK11DNTVueDhEVzU0c4w==
-X-CSE-MsgGUID: SOcPQu90TquFkAh9DdBdzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="40232729"
+  t=1729345896; x=1760881896;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=d3D3jlTs3vJPRzRP1jgNJG+KtsKKv2C8fZ0UCvKToTE=;
+  b=kEbacdOLojBC65GLVPNlGyV+VBeVSRjsEduSCpgIYsGnibBz47KRjCPr
+   OqpVic1xaMy1ah+Jfee2LZynCDRxCnl/NE7iGqcckudifGj6SuVQ//z8r
+   met7WRIUDlcPIBD/WPVCGk9niKaHpkVgv0uPPoFg4GIFi9jqOMqNTjG1U
+   mEcaLffRXbfonLoZuyM7JP+x/GlR5R/HexfhMOd1+1kCbzXp4YqapbDMq
+   sLDQXgJXlmVCD3O1jIYsMFp6wqYvRaUFXkGeBshUGGB6MUbqckaZckBL/
+   jl06dwOyPjk60AZc0i3wurDWAfbMesWl+XtvhFMP5MoPnYk/8wLpztoF3
+   w==;
+X-CSE-ConnectionGUID: PjxabghQQIOt6I3dUkO/dg==
+X-CSE-MsgGUID: JSX4uc72SxakmLnZVNkIng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="32671949"
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="40232729"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 06:00:35 -0700
-X-CSE-ConnectionGUID: nRm6KXBBRZK57aaXZ94/mg==
-X-CSE-MsgGUID: uZ4+rfKdTee/kSSABrapEg==
+   d="scan'208";a="32671949"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 06:51:36 -0700
+X-CSE-ConnectionGUID: udY38Gc4StOqANPN+45Nyg==
+X-CSE-MsgGUID: W3yhjvlnShCstRAznDbMVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="116580650"
+   d="scan'208";a="79259721"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Oct 2024 06:00:33 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2024 06:51:34 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t294I-000P1B-2R;
-	Sat, 19 Oct 2024 13:00:30 +0000
-Date: Sat, 19 Oct 2024 20:59:56 +0800
+	id 1t29rf-000P3F-2q;
+	Sat, 19 Oct 2024 13:51:31 +0000
+Date: Sat, 19 Oct 2024 21:51:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>,
-	jaegeuk@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
-	linux-kernel@vger.kernel.org, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: Re: [PATCH] f2fs: fix to convert log type to segment data type
- correctly
-Message-ID: <202410192028.vIwx2fbN-lkp@intel.com>
-References: <20241018092200.2792472-1-chao@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/3] fs/f2fs/f2fs.h:2183:42: error: no
+ member named 'read_waiters' in 'struct f2fs_rwsem'
+Message-ID: <202410192157.53pfQt4P-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,110 +61,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018092200.2792472-1-chao@kernel.org>
 
-Hi Chao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jaegeuk-f2fs/dev-test]
-[also build test ERROR on jaegeuk-f2fs/dev linus/master v6.12-rc3 next-20241018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-fix-to-convert-log-type-to-segment-data-type-correctly/20241018-172401
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-patch link:    https://lore.kernel.org/r/20241018092200.2792472-1-chao%40kernel.org
-patch subject: [PATCH] f2fs: fix to convert log type to segment data type correctly
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241019/202410192028.vIwx2fbN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192028.vIwx2fbN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   9f59c8aa7339b2a81478ff2fcace2928263aee67
+commit: 29429c25a600ea41fc44db5d8de0f65bce2872ac [2/3] ANDROID: vendor_hooks: add hooks for f2fs down read
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241019/202410192157.53pfQt4P-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192157.53pfQt4P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410192028.vIwx2fbN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410192157.53pfQt4P-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/f2fs/segment.c:3818:38: warning: 'enum log_type' declared inside parameter list will not be visible outside of this definition or declaration
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |                                      ^~~~~~~~
->> fs/f2fs/segment.c:3818:47: error: parameter 1 ('type') has incomplete type
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |                                 ~~~~~~~~~~~~~~^~~~
->> fs/f2fs/segment.c:3818:12: error: function declaration isn't a prototype [-Werror=strict-prototypes]
-    3818 | static int log_type_to_seg_type(enum log_type type)
-         |            ^~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/segment.c: In function 'do_write_page':
->> fs/f2fs/segment.c:3843:14: error: variable 'type' has initializer but incomplete type
-    3843 |         enum log_type type = __get_segment_type(fio);
-         |              ^~~~~~~~
->> fs/f2fs/segment.c:3843:23: error: storage size of 'type' isn't known
-    3843 |         enum log_type type = __get_segment_type(fio);
-         |                       ^~~~
->> fs/f2fs/segment.c:3843:23: warning: unused variable 'type' [-Wunused-variable]
-   cc1: some warnings being treated as errors
+   In file included from fs/f2fs/dir.c:13:
+>> fs/f2fs/f2fs.h:2183:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
+    2183 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+         |                                            ~~~  ^
+   1 error generated.
+--
+   In file included from fs/f2fs/file.c:28:
+>> fs/f2fs/f2fs.h:2183:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
+    2183 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+         |                                            ~~~  ^
+   fs/f2fs/file.c:41:12: warning: no previous prototype for function 'f2fs_filemap_fault' [-Wmissing-prototypes]
+      41 | vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
+         |            ^
+   fs/f2fs/file.c:41:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      41 | vm_fault_t f2fs_filemap_fault(struct vm_fault *vmf)
+         | ^
+         | static 
+   1 warning and 1 error generated.
+--
+   In file included from fs/f2fs/data.c:25:
+>> fs/f2fs/f2fs.h:2183:42: error: no member named 'read_waiters' in 'struct f2fs_rwsem'
+    2183 |         _trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+         |                                            ~~~  ^
+   fs/f2fs/data.c:2413:10: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+    2413 |         pgoff_t index;
+         |                 ^
+   1 warning and 1 error generated.
 
 
-vim +3818 fs/f2fs/segment.c
+vim +2183 fs/f2fs/f2fs.h
 
-  3817	
-> 3818	static int log_type_to_seg_type(enum log_type type)
-  3819	{
-  3820		int seg_type = CURSEG_COLD_DATA;
-  3821	
-  3822		switch (type) {
-  3823		case CURSEG_HOT_DATA:
-  3824		case CURSEG_WARM_DATA:
-  3825		case CURSEG_COLD_DATA:
-  3826		case CURSEG_HOT_NODE:
-  3827		case CURSEG_WARM_NODE:
-  3828		case CURSEG_COLD_NODE:
-  3829			seg_type = (int)type;
-  3830			break;
-  3831		case CURSEG_COLD_DATA_PINNED:
-  3832		case CURSEG_ALL_DATA_ATGC:
-  3833			seg_type = CURSEG_COLD_DATA;
-  3834			break;
-  3835		default:
-  3836			break;
-  3837		}
-  3838		return seg_type;
-  3839	}
-  3840	
-  3841	static void do_write_page(struct f2fs_summary *sum, struct f2fs_io_info *fio)
-  3842	{
-> 3843		enum log_type type = __get_segment_type(fio);
-  3844		int seg_type = log_type_to_seg_type(type);
-  3845		bool keep_order = (f2fs_lfs_mode(fio->sbi) &&
-  3846					seg_type == CURSEG_COLD_DATA);
-  3847	
-  3848		if (keep_order)
-  3849			f2fs_down_read(&fio->sbi->io_order_lock);
-  3850	
-  3851		if (f2fs_allocate_data_block(fio->sbi, fio->page, fio->old_blkaddr,
-  3852				&fio->new_blkaddr, sum, type, fio)) {
-  3853			if (fscrypt_inode_uses_fs_layer_crypto(fio->page->mapping->host))
-  3854				fscrypt_finalize_bounce_page(&fio->encrypted_page);
-  3855			end_page_writeback(fio->page);
-  3856			if (f2fs_in_warm_node_list(fio->sbi, fio->page))
-  3857				f2fs_del_fsync_node_entry(fio->sbi, fio->page);
-  3858			goto out;
-  3859		}
-  3860		if (GET_SEGNO(fio->sbi, fio->old_blkaddr) != NULL_SEGNO)
-  3861			f2fs_invalidate_internal_cache(fio->sbi, fio->old_blkaddr);
-  3862	
-  3863		/* writeout dirty page into bdev */
-  3864		f2fs_submit_page_write(fio);
-  3865	
-  3866		f2fs_update_device_state(fio->sbi, fio->ino, fio->new_blkaddr, 1);
-  3867	out:
-  3868		if (keep_order)
-  3869			f2fs_up_read(&fio->sbi->io_order_lock);
-  3870	}
-  3871	
+  2176	
+  2177	void _trace_android_rvh_f2fs_down_read(wait_queue_head_t *read_waiters,
+  2178					   struct rw_semaphore *rwsem, bool *skip);
+  2179	
+  2180	static inline void f2fs_down_read(struct f2fs_rwsem *sem)
+  2181	{
+  2182		bool skip = false;
+> 2183		_trace_android_rvh_f2fs_down_read(&sem->read_waiters, &sem->internal_rwsem, &skip);
+  2184		if (skip)
+  2185			return;
+  2186	#ifdef CONFIG_F2FS_UNFAIR_RWSEM
+  2187		wait_event(sem->read_waiters, down_read_trylock(&sem->internal_rwsem));
+  2188	#else
+  2189		down_read(&sem->internal_rwsem);
+  2190	#endif
+  2191	}
+  2192	
 
 -- 
 0-DAY CI Kernel Test Service
