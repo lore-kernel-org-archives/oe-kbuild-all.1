@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F021D47BC
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 06:40:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0441D45E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 07:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729320028; cv=none; b=USjk4e5JEtnI1JfbMQdd1aQhSAwGmh932oJfsjsAntLPAnjjMa4qq8XKND52hZyJImruebfzoJRdIYzwxuRU+9BMLu8+YvmJimeiz8llyUADzW2qR0/q1W7KNoiJCYW+JBtLT31AxEmFk/vCIeHdvH22ESoBFABednoc7S+qav8=
+	t=1729321228; cv=none; b=FWvJuQuBOpdvxNwSwimNQCpfOkEx4O+MRbMLo4torrKjZar+xHLHbbDd5Du3IQecZxPER+hYrLEO1B9ZERY5AJM+BtXWa+x8AuSI0VdVic0IEzDB84RTWgbZ4DPTgkoCyX9Ybhotdw9gCqhe0xu75b/aRaMvX+RuQMx2A228RYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729320028; c=relaxed/simple;
-	bh=D5FqVUHEb5PhIa8e816qkRe/BB6uCpIxWn//F32Wgu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uyVo1kxubjCTq66nyJTYyLVMz6xHQmtQkcrsCYbEePGka5HUPYvIbOAXL7ikqlIoj7T5x1C3/sJE4kSh8EW4nNw38MbUtIqKzCjXgOW1XN7LB32vNJcNugZ6lT4VuaDoILTPe4OoPTiucw2qTFt5JqhSwEzPldqS+2H10anjrm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kVkzCIiS; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1729321228; c=relaxed/simple;
+	bh=P68SJ/B1Z5o+pJY0zB9bAU3nnKMQVjOdFwuuKa5TdM4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iMg+FzVSFV0q4ETcp2sA7rcCRfPZqYea5E8VmVxlvloo8jGQ1yByRq/UZR8udGeBDXQ64vBJXyLfsOKoCAxUw07cezF44WKuVWSUmewSo1zSnEUBIip6/TSlYwyG9gYw/W1kwe010InCSV6k28WiMwq1W7mfly/OG1ZFg8HCKcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ilYNqLlu; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kVkzCIiS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ilYNqLlu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729320026; x=1760856026;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D5FqVUHEb5PhIa8e816qkRe/BB6uCpIxWn//F32Wgu4=;
-  b=kVkzCIiSlH5FRpT/j6idJYZpl2uzd46jbriDoetEQVLfpQEuGy8qGmyT
-   BkKHJnshFoHXNLLK1WY+nRHCyi64rMG76H13HGKXF4MWdsVDQjjWL4dVM
-   sCva8n5pJdXXsU9TwfQf3TxWx13lySPKa/YQskjCRV40mqsI8FXr6hgy8
-   S024115efdmNz/iA0UEwQGqGRbVptwyhXe8u+YhgJX3tq6McGAYH/dSj/
-   OURuq/F0he5FmJ49B1JCmJESuOJovxHOeLQKaXSUgGyj3f6b3TYJR39y/
-   U4zp4928xA5CV6ro9+8Mhkv48m8KURbkmflXqAbmTPayJjwAoutWtG1h4
-   w==;
-X-CSE-ConnectionGUID: Z/9rP7ZQQ7OBvF+S1LZ3Jw==
-X-CSE-MsgGUID: gLGW24ZhQO2TZm4FrDVTKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="16470603"
+  t=1729321227; x=1760857227;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P68SJ/B1Z5o+pJY0zB9bAU3nnKMQVjOdFwuuKa5TdM4=;
+  b=ilYNqLluoQIYmLOhAg93c7OXaFNkT1ZM2rrtaVpDmL/U9cxr4ECXzwYH
+   Q9U0uOCWeXVf6Ts7ZF914Z67O/l20/AM/gWjnhFqFUg4ME5khLo+7nJ18
+   /XWQxO1CwzHN9cQ46ql+IfUYUeKh+iyVvawgmeYq9ewrMZ39j1HDDI1NK
+   gjuhFZLPE6Wz0gFijxwOsLOoQ2n8XiGq1T+HCpJ6/Jy1KY4ZqH/Z4qy9h
+   TD4GDAVuVQ4ippiwFTNTSMsBYnnkgKUGeu+Fg3mKx/D0VVXBts5LEWvk2
+   0nN00N86I1Gy7TW7SYW9YTeuHZiK5qOVReomUm+uOZFXiz/X78lZceHBe
+   Q==;
+X-CSE-ConnectionGUID: oT5UYqQlTIq/aAsqpGQhGg==
+X-CSE-MsgGUID: 3fuVVSOzTtGu6cZouDd6Hw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11229"; a="28952294"
 X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
-   d="scan'208";a="16470603"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2024 23:40:25 -0700
-X-CSE-ConnectionGUID: +6IffJ2AQK+66CtzAPmD8g==
-X-CSE-MsgGUID: C48p0Nm8QT+9SILCFHjwRQ==
+   d="scan'208";a="28952294"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 00:00:26 -0700
+X-CSE-ConnectionGUID: r1BmsvCBTbywLhLu9kYmBQ==
+X-CSE-MsgGUID: SsnPVXKQTrqDLeIguEjilw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,215,1725346800"; 
-   d="scan'208";a="79471816"
+   d="scan'208";a="79206872"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 18 Oct 2024 23:40:23 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2024 00:00:24 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t238P-000Ol3-2O;
-	Sat, 19 Oct 2024 06:40:21 +0000
-Date: Sat, 19 Oct 2024 14:39:38 +0800
+	id 1t23Rm-000Oln-0T;
+	Sat, 19 Oct 2024 07:00:22 +0000
+Date: Sat, 19 Oct 2024 15:00:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guixin Liu <kanie@linux.alibaba.com>, bhelgaas@google.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
-Subject: Re: [PATCH] PCI: optimize proc sequential file read
-Message-ID: <202410191439.yQ27wvB6-lkp@intel.com>
-References: <20241018054728.116519-1-kanie@linux.alibaba.com>
+To: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, vigneshr@ti.com, nm@ti.com,
+	Praneeth Bajjuri <praneeth@ti.com>, Bryan Brattlof <bb@ti.com>
+Subject: [ti:ti-rt-linux-6.1.y-cicd 18/37]
+ arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:426.10-435.6: Warning
+ (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports:
+ graph node has single child node 'port@0', #address-cells/#size-cells are
+ not necessary
+Message-ID: <202410191454.44Au4O9C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +65,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018054728.116519-1-kanie@linux.alibaba.com>
 
-Hi Guixin,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus linus/master v6.12-rc3 next-20241018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guixin-Liu/PCI-optimize-proc-sequential-file-read/20241018-135026
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20241018054728.116519-1-kanie%40linux.alibaba.com
-patch subject: [PATCH] PCI: optimize proc sequential file read
-config: i386-buildonly-randconfig-003-20241019 (https://download.01.org/0day-ci/archive/20241019/202410191439.yQ27wvB6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191439.yQ27wvB6-lkp@intel.com/reproduce)
+tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-rt-linux-6.1.y-cicd
+head:   ee0a094f731021562a251457045ff8a34fb9dac0
+commit: 897042819a3855e3822fa9da90b45d526e5d10af [18/37] arm64: dts: ti: k3-am62p: add the USB sub-system
+config: arm64-randconfig-002-20241013 (https://download.01.org/0day-ci/archive/20241019/202410191454.44Au4O9C-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191454.44Au4O9C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410191439.yQ27wvB6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410191454.44Au4O9C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/ti/k3-am62p5-sk.dts:426.10-435.6: Warning (graph_child_address): /bus@f0000/i2c@20000000/tps6598x@3f/connector/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/ti/k3-am62p-main.dtsi:579.22-587.5: Warning (graph_child_address): /bus@f0000/dwc3-usb@f900000/usb@31000000: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
 
-   ld: drivers/pci/probe.o: in function `pci_device_add':
->> drivers/pci/probe.c:2595: undefined reference to `pci_seq_tree_add_dev'
-   ld: drivers/pci/remove.o: in function `pci_destroy_dev':
->> drivers/pci/remove.c:56: undefined reference to `pci_seq_tree_remove_dev'
+vim +426 arch/arm64/boot/dts/ti/k3-am62p5-sk.dts
 
-
-vim +2595 drivers/pci/probe.c
-
-  2546	
-  2547	void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
-  2548	{
-  2549		int ret;
-  2550	
-  2551		pci_configure_device(dev);
-  2552	
-  2553		device_initialize(&dev->dev);
-  2554		dev->dev.release = pci_release_dev;
-  2555	
-  2556		set_dev_node(&dev->dev, pcibus_to_node(bus));
-  2557		dev->dev.dma_mask = &dev->dma_mask;
-  2558		dev->dev.dma_parms = &dev->dma_parms;
-  2559		dev->dev.coherent_dma_mask = 0xffffffffull;
-  2560	
-  2561		dma_set_max_seg_size(&dev->dev, 65536);
-  2562		dma_set_seg_boundary(&dev->dev, 0xffffffff);
-  2563	
-  2564		pcie_failed_link_retrain(dev);
-  2565	
-  2566		/* Fix up broken headers */
-  2567		pci_fixup_device(pci_fixup_header, dev);
-  2568	
-  2569		pci_reassigndev_resource_alignment(dev);
-  2570	
-  2571		dev->state_saved = false;
-  2572	
-  2573		pci_init_capabilities(dev);
-  2574	
-  2575		/*
-  2576		 * Add the device to our list of discovered devices
-  2577		 * and the bus list for fixup functions, etc.
-  2578		 */
-  2579		down_write(&pci_bus_sem);
-  2580		list_add_tail(&dev->bus_list, &bus->devices);
-  2581		up_write(&pci_bus_sem);
-  2582	
-  2583		ret = pcibios_device_add(dev);
-  2584		WARN_ON(ret < 0);
-  2585	
-  2586		/* Set up MSI IRQ domain */
-  2587		pci_set_msi_domain(dev);
-  2588	
-  2589		/* Notifier could use PCI capabilities */
-  2590		dev->match_driver = false;
-  2591		ret = device_add(&dev->dev);
-  2592		WARN_ON(ret < 0);
-  2593	
-  2594		pci_npem_create(dev);
-> 2595		pci_seq_tree_add_dev(dev);
-  2596	}
-  2597	
+   409	
+   410	&main_i2c0 {
+   411		status = "okay";
+   412		pinctrl-names = "default";
+   413		pinctrl-0 = <&main_i2c0_pins_default>;
+   414		clock-frequency = <400000>;
+   415	
+   416		typec_pd0: tps6598x@3f {
+   417			compatible = "ti,tps6598x";
+   418			reg = <0x3f>;
+   419	
+   420			connector {
+   421				compatible = "usb-c-connector";
+   422				label = "USB-C";
+   423				self-powered;
+   424				data-role = "dual";
+   425				power-role = "sink";
+ > 426				ports {
+   427					#address-cells = <1>;
+   428					#size-cells = <0>;
+   429					port@0 {
+   430						reg = <0>;
+   431						usb_con_hs: endpoint {
+   432							remote-endpoint = <&usb0_hs_ep>;
+   433						};
+   434					};
+   435				};
+   436			};
+   437		};
+   438	};
+   439	
 
 -- 
 0-DAY CI Kernel Test Service
