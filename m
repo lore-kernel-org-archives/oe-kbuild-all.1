@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34372CCAA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 14:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725CC33CE8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 14:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729348420; cv=none; b=lEYOk8rZaNbGuH/0J2j+l4Kn1CtlQdFH3YK/LUfSyD9m0H4DkJh5W6849TLtdx9zqJ4Nmmzj7zou8Plgv9JFbpMSESgpVnh4Ck29Vc6/JKmWCIqXqOb5qu4wQBgh7MYRxsxcSFYa4UYpOlphmYsJYEJNqWMBxJGX5wpxaJE3Ozs=
+	t=1729349079; cv=none; b=KlubCOMxJan3CPbq6hDLy87ZxNaMARVEbCWlNoiWoKI53UeCj2Ej5Za7CtKdyHvHXhKEpkf4IVE2JKyM8xQbYQk7V6tJ3r+X+9Va6GJ0K/VWJLQ10yIYm8U9k5E8NQM4YEYWu4ucOarv/eTqYScL4WFTbFtiFwPBP0cjtzM4F7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729348420; c=relaxed/simple;
-	bh=I/a6OcdGhnboPzCP1pde22XAGGLM1V7shNDvpaVF2nQ=;
+	s=arc-20240116; t=1729349079; c=relaxed/simple;
+	bh=DYGEHcbKNHhF7I85KB1LRv5kUrofMte1Tm5nsLefHbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ASi6ViW5ZrgP6IvdGTvqPY/OD2KgFq23vfo0KD/uNfK4Spk3USUJe5mTkAS0XdD5VSmNeugIxi5imyjZ401g2/uFP7E1uFBM10zOIy9vO4wzA2zilGU5bHeNwJmFjTH4Rq/r5l7eIJj0Mz61t1b095BWc/Sp2/sbtCO4/aXiWRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cptx070E; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=YOX83bbjCmOy365aHI70NATKbZIoDPKZ7/L/MGZTblNymivAtfQ0V6MzKYRHVmmwlZIDCUvGqXiwXicz8azznHkqZnEa//5oxg6BtUD3l4PdjmWRAYFL2tOzI3RAQyUI1PQSgMX6wfWf5ZLYV17CQUSAySAF0fAnhMFsUC66qas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bn/UoWjx; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cptx070E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bn/UoWjx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729348419; x=1760884419;
+  t=1729349077; x=1760885077;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I/a6OcdGhnboPzCP1pde22XAGGLM1V7shNDvpaVF2nQ=;
-  b=cptx070EBZt1HCOFFRT79oTrIZP1+mX9LU0hxQHfxoxlYOD0nzXUBwQS
-   uyegJp3h/N33SY1hjAhqTsVVRl7qeMtS2fz+EX5IoWlLi0qVhxbXkl7Kg
-   EoOE8xRKd3ZvNhwYTBy9ZUjAqoCXTo8Sqlscll5i1hVdH/SwVdk6e4MjS
-   9+lujPI8Gcv3RjnALQ6AsN80/ih0r53oYExy/Wp0EU6IOmAqG7JESFGry
-   AWWuW3ETsZ8J94U/uhwMAwLjOUGSEwtv7PFh5YxphJSn2PeLdDwKPQjO6
-   7eH80GkhSJtkEeWdpwyjU6Zof0G9Ej8dtGv8Ek6MrqUQliB8qzgXq2ndC
-   Q==;
-X-CSE-ConnectionGUID: khI5Y4f4RBinBPMdMPMdDw==
-X-CSE-MsgGUID: FNa4a+hTTO2U3tLQrVJ0oA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28754771"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28754771"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 07:33:36 -0700
-X-CSE-ConnectionGUID: jT1g8V6tRHmwGPeM2celPA==
-X-CSE-MsgGUID: k7EwIEH3S3S6npufcE5Tdg==
+  bh=DYGEHcbKNHhF7I85KB1LRv5kUrofMte1Tm5nsLefHbI=;
+  b=bn/UoWjxCDrTR+Frav58hNM8mF/Lp7U2un7cG49svg2T94q2OZYJ5bFk
+   Pe5+B86EeoNPIkM+FRY/0aWzgg2w3UE811p75+VzxAGxGg/gv5ioHobeB
+   M7Jr8aMbR/w/8pI10CZJeOd2J24ttH1msfZfxOL7l7QypqfYEu/iBfyr5
+   h/h7u0WDCXdHgqEAorO2L/utJLh2/5/499XWqVeLCk7vYrw/v5/6LWLZs
+   z6Y19Ph5YEaWBVwFxWcIkhOlm12AZDobHQeXrDq4pz3qF+reGEgH0bFyB
+   E5vb5UiMZKgZqhrXWqj+9t3qG84jETBSTTLzEwBtLkiRy8uaWyd8XLgvL
+   A==;
+X-CSE-ConnectionGUID: vdmVY6FvQyaVvQTEqHLiSw==
+X-CSE-MsgGUID: VIpSUnBoQaKQv0qZ7Yl/+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="32790129"
+X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
+   d="scan'208";a="32790129"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 07:44:37 -0700
+X-CSE-ConnectionGUID: yhp8aVp2QVWHQDxAll+tCg==
+X-CSE-MsgGUID: qzZGY5e5TzqIGTrWar5ntA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="83744075"
+   d="scan'208";a="79045077"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Oct 2024 07:33:34 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Oct 2024 07:44:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2AWK-000P4Z-2o;
-	Sat, 19 Oct 2024 14:33:32 +0000
-Date: Sat, 19 Oct 2024 22:33:16 +0800
+	id 1t2Agz-000P5R-1H;
+	Sat, 19 Oct 2024 14:44:33 +0000
+Date: Sat, 19 Oct 2024 22:43:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org
-Subject: [dtor-input:next 94/110] drivers/input/serio/gscps2.c:221:50: error:
- 'struct <anonymous>' has no member named 'ste'; did you mean 'str'?
-Message-ID: <202410192242.GL0CoAbv-lkp@intel.com>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: [trace:ring-buffer/for-next 2/4] kernel/trace/ring_buffer.c:1540
+ rb_check_pages() warn: inconsistent indenting
+Message-ID: <202410192201.oCwXfxZf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +63,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-head:   2c19d0159944f3aef1c0ebbd9d7fc6c2523e4307
-commit: 44f920069911437dbce84084de02b5cba4ba94f7 [94/110] Input: gscps2 - use guard notation when acquiring spinlock
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20241019/202410192242.GL0CoAbv-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192242.GL0CoAbv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace ring-buffer/for-next
+head:   70c765743423ea51af71865aeb4530bcdf892300
+commit: 1f1c2bc9d0753afb466ad6f0c2cd9dc08ed637fa [2/4] ring-buffer: Limit time with disabled interrupts in rb_check_pages()
+config: i386-randconfig-141-20241019 (https://download.01.org/0day-ci/archive/20241019/202410192201.oCwXfxZf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410192242.GL0CoAbv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410192201.oCwXfxZf-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+kernel/trace/ring_buffer.c:1540 rb_check_pages() warn: inconsistent indenting
 
-   drivers/input/serio/gscps2.c: In function 'gscps2_reset':
->> drivers/input/serio/gscps2.c:201:23: warning: unused variable 'flags' [-Wunused-variable]
-     201 |         unsigned long flags;
-         |                       ^~~~~
-   drivers/input/serio/gscps2.c: In function 'gscps2_read_data':
->> drivers/input/serio/gscps2.c:221:50: error: 'struct <anonymous>' has no member named 'ste'; did you mean 'str'?
-     221 |                 ps2port->buffer[ps2port->append].ste = status;
-         |                                                  ^~~
-         |                                                  str
+vim +1540 kernel/trace/ring_buffer.c
 
-
-vim +221 drivers/input/serio/gscps2.c
-
-   194	
-   195	/*
-   196	 * gscps2_reset() - resets the PS/2 port
-   197	 */
-   198	
-   199	static void gscps2_reset(struct gscps2port *ps2port)
-   200	{
- > 201		unsigned long flags;
-   202	
-   203		/* reset the interface */
-   204		guard(spinlock_irqsave)(&ps2port->lock);
-   205		gscps2_flush(ps2port);
-   206		writeb(0xff, ps2port->addr + GSC_RESET);
-   207		gscps2_flush(ps2port);
-   208	}
-   209	
-   210	static LIST_HEAD(ps2port_list);
-   211	
-   212	static void gscps2_read_data(struct gscps2port *ps2port)
-   213	{
-   214		u8 status;
-   215	
-   216		do {
-   217			status = gscps2_readb_status(ps2port->addr);
-   218			if (!(status & GSC_STAT_RBNE))
-   219				break;
-   220	
- > 221			ps2port->buffer[ps2port->append].ste = status;
-   222			ps2port->buffer[ps2port->append].data =
-   223					gscps2_readb_input(ps2port->addr);
-   224		} while (true);
-   225	}
-   226	
+  1493	
+  1494	/**
+  1495	 * rb_check_pages - integrity check of buffer pages
+  1496	 * @cpu_buffer: CPU buffer with pages to test
+  1497	 *
+  1498	 * As a safety measure we check to make sure the data pages have not
+  1499	 * been corrupted.
+  1500	 */
+  1501	static void rb_check_pages(struct ring_buffer_per_cpu *cpu_buffer)
+  1502	{
+  1503		struct list_head *head, *tmp;
+  1504		unsigned long buffer_cnt;
+  1505		unsigned long flags;
+  1506		int nr_loops = 0;
+  1507	
+  1508		/*
+  1509		 * Walk the linked list underpinning the ring buffer and validate all
+  1510		 * its next and prev links.
+  1511		 *
+  1512		 * The check acquires the reader_lock to avoid concurrent processing
+  1513		 * with code that could be modifying the list. However, the lock cannot
+  1514		 * be held for the entire duration of the walk, as this would make the
+  1515		 * time when interrupts are disabled non-deterministic, dependent on the
+  1516		 * ring buffer size. Therefore, the code releases and re-acquires the
+  1517		 * lock after checking each page. The ring_buffer_per_cpu.cnt variable
+  1518		 * is then used to detect if the list was modified while the lock was
+  1519		 * not held, in which case the check needs to be restarted.
+  1520		 *
+  1521		 * The code attempts to perform the check at most three times before
+  1522		 * giving up. This is acceptable because this is only a self-validation
+  1523		 * to detect problems early on. In practice, the list modification
+  1524		 * operations are fairly spaced, and so this check typically succeeds at
+  1525		 * most on the second try.
+  1526		 */
+  1527	again:
+  1528		if (++nr_loops > 3)
+  1529			return;
+  1530	
+  1531		raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+  1532		head = rb_list_head(cpu_buffer->pages);
+  1533		if (!rb_check_links(cpu_buffer, head))
+  1534			goto out_locked;
+  1535		buffer_cnt = cpu_buffer->cnt;
+  1536		tmp = head;
+  1537		raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+  1538			return;
+  1539	
+> 1540		while (true) {
+  1541			raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+  1542	
+  1543			if (buffer_cnt != cpu_buffer->cnt) {
+  1544				/* The list was updated, try again. */
+  1545				raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+  1546				goto again;
+  1547			}
+  1548	
+  1549			tmp = rb_list_head(tmp->next);
+  1550			if (tmp == head)
+  1551				/* The iteration circled back, all is done. */
+  1552				goto out_locked;
+  1553	
+  1554			if (!rb_check_links(cpu_buffer, tmp))
+  1555				goto out_locked;
+  1556	
+  1557			raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+  1558		}
+  1559	
+  1560	out_locked:
+  1561		raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+  1562	}
+  1563	
 
 -- 
 0-DAY CI Kernel Test Service
