@@ -1,122 +1,136 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C8BECA62
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 14:55:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A390C173
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Oct 2024 15:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729349743; cv=none; b=Ciu+y+MaZ1VwLCOsd2qtojmm+IecgYc0VB2BqsUyD43tworwnkrMwTNzqn8tOHPkDPpNoPa3H4RNlVp4+LmwJHNmdGZLzmt3hbU7G6pxT3yjl6gVt2pLt3m2FZDtWdYctodp6wi2DS53D6ZsE+zJNCd7VkvckdLdvcTroj90NIA=
+	t=1729350436; cv=none; b=IfY5uwGrMEmPBPJlyQLTXxHlvE++0C25tI0f4t0ZfKvRQyyr9k1F4ck9rdCkWGP0q9GApVuGK50Am9IHUPtdQJpLdq69ys2q8ysC1MbX3D421v09JznVeC1BEiy3qGnO9q7BraV5xICLzva9N3pFgYthoeJ9Ev8GE87P3mSU/PA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729349743; c=relaxed/simple;
-	bh=xLGc/fkE70XqNDOSKMtczAKjs2MSYYL8whgVc/JqJSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tH37Kt8lYAUimLGRz9sGo30qf0ngtcF2/6RwaVDjIDWMIsLbNf1UZFd20yrE3jWPlKqrLS/4fGFHeKClD6Uut8ViPKBFhfsvdurYrfE/ijGrAv7orAEd9Q14cDa01g+TvYxwdR2u9Z4iO4EkpdEVi+KQOE+nsREykIUurZBjVqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMj3vvwa; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMj3vvwa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729349741; x=1760885741;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xLGc/fkE70XqNDOSKMtczAKjs2MSYYL8whgVc/JqJSY=;
-  b=JMj3vvwaz5cVMaizpgdkG2XDtkusf8wtsOmEMMF3kpLWtwhp2wcOzYDD
-   GnCv4B/2ntXJ+vOkHCasTUHQ85XfaTffVuA8wGOqZixo/BHkaFUJhdy/V
-   G9EOSA/e7+ayAWwhHuZSV+CVE9WzIlGI3NGzR2YfCs17iZgMLzXfCgGQJ
-   IbFXXu+9b9TTshiDliKDymstpD6ZCuNdqy50N/IvtXY2rAu8P/bQRxsRP
-   KgYPzA1K3F+4hDYn5d7fGklKew9tug97W7sL9HjVwSb11CVj2BkGpRiDi
-   aRRpCk3CTTKujVNfVMnRRzEbuGSACaO/bBxTxf+XgPrMj2GDK34vmeXJT
-   Q==;
-X-CSE-ConnectionGUID: //lbPt2kRIWHfuuBWsdRXQ==
-X-CSE-MsgGUID: 08Bu0iTZRFib7z0j9yvPOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="32790396"
-X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="32790396"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 07:55:41 -0700
-X-CSE-ConnectionGUID: 6uBQQkNuRlm0VF+g8SreCg==
-X-CSE-MsgGUID: uulSNiABQ7uT9RqAe/UI2Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,216,1725346800"; 
-   d="scan'208";a="79046680"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 19 Oct 2024 07:55:36 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t2Are-000P5z-0k;
-	Sat, 19 Oct 2024 14:55:34 +0000
-Date: Sat, 19 Oct 2024 22:54:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Kurt Kanzenbach <kurt@linutronix.de>,
-	Woojung Huh <woojung.huh@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	George McCollister <george.mccollister@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Rosen Penev <rosenp@gmail.com>, Simon Horman <horms@kernel.org>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Breno Leitao <leitao@debian.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCHv7 net-next 2/6] net: ibm: emac: remove custom init/exit
- functions
-Message-ID: <202410192213.VVMV5TxH-lkp@intel.com>
-References: <20241015200222.12452-4-rosenp@gmail.com>
+	s=arc-20240116; t=1729350436; c=relaxed/simple;
+	bh=c2Vl6s1rd9MnxosrYhzNWhGzbafPXCQ71o7AnXpMg2M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uJHeXfP4gMdZi+XyM9cFgXdbHz8C72a8Xxn9O8HP2DdF0EAKnRnY+o1B0NiOUa1Iove0BGhHVeetSOYzoIQU7+JKh8X5fiou/pu8ENGPMCVoUjD6EWs+oyg25djMFi/YiHcBDZLzfqUl5dWneMmfHK9RR8N2t69LtNSvqTgVrPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7BDBC4CEC5;
+	Sat, 19 Oct 2024 15:07:15 +0000 (UTC)
+Date: Sat, 19 Oct 2024 11:07:43 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Petr Pavlu <petr.pavlu@suse.com>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [trace:ring-buffer/for-next 2/4]
+ kernel/trace/ring_buffer.c:1540 rb_check_pages() warn: inconsistent
+ indenting
+Message-ID: <20241019110743.72fa5f29@gandalf.local.home>
+In-Reply-To: <202410192201.oCwXfxZf-lkp@intel.com>
+References: <202410192201.oCwXfxZf-lkp@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241015200222.12452-4-rosenp@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Rosen,
+On Sat, 19 Oct 2024 22:43:44 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build errors:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace ring-buffer/for-next
+> head:   70c765743423ea51af71865aeb4530bcdf892300
+> commit: 1f1c2bc9d0753afb466ad6f0c2cd9dc08ed637fa [2/4] ring-buffer: Limit time with disabled interrupts in rb_check_pages()
+> config: i386-randconfig-141-20241019 (https://download.01.org/0day-ci/archive/20241019/202410192201.oCwXfxZf-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410192201.oCwXfxZf-lkp@intel.com/
+> 
+> smatch warnings:
+> kernel/trace/ring_buffer.c:1540 rb_check_pages() warn: inconsistent indenting
+> 
+> vim +1540 kernel/trace/ring_buffer.c
+> 
+>   1493	
+>   1494	/**
+>   1495	 * rb_check_pages - integrity check of buffer pages
+>   1496	 * @cpu_buffer: CPU buffer with pages to test
+>   1497	 *
+>   1498	 * As a safety measure we check to make sure the data pages have not
+>   1499	 * been corrupted.
+>   1500	 */
+>   1501	static void rb_check_pages(struct ring_buffer_per_cpu *cpu_buffer)
+>   1502	{
+>   1503		struct list_head *head, *tmp;
+>   1504		unsigned long buffer_cnt;
+>   1505		unsigned long flags;
+>   1506		int nr_loops = 0;
+>   1507	
+>   1508		/*
+>   1509		 * Walk the linked list underpinning the ring buffer and validate all
+>   1510		 * its next and prev links.
+>   1511		 *
+>   1512		 * The check acquires the reader_lock to avoid concurrent processing
+>   1513		 * with code that could be modifying the list. However, the lock cannot
+>   1514		 * be held for the entire duration of the walk, as this would make the
+>   1515		 * time when interrupts are disabled non-deterministic, dependent on the
+>   1516		 * ring buffer size. Therefore, the code releases and re-acquires the
+>   1517		 * lock after checking each page. The ring_buffer_per_cpu.cnt variable
+>   1518		 * is then used to detect if the list was modified while the lock was
+>   1519		 * not held, in which case the check needs to be restarted.
+>   1520		 *
+>   1521		 * The code attempts to perform the check at most three times before
+>   1522		 * giving up. This is acceptable because this is only a self-validation
+>   1523		 * to detect problems early on. In practice, the list modification
+>   1524		 * operations are fairly spaced, and so this check typically succeeds at
+>   1525		 * most on the second try.
+>   1526		 */
+>   1527	again:
+>   1528		if (++nr_loops > 3)
+>   1529			return;
+>   1530	
+>   1531		raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+>   1532		head = rb_list_head(cpu_buffer->pages);
+>   1533		if (!rb_check_links(cpu_buffer, head))
+>   1534			goto out_locked;
+>   1535		buffer_cnt = cpu_buffer->cnt;
+>   1536		tmp = head;
+>   1537		raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+>   1538			return;
 
-[auto build test ERROR on net-next/main]
+Bah, an extra "return" was added due to me rebasing the patch incorrectly.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-ibm-emac-use-netif_receive_skb_list/20241016-040516
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241015200222.12452-4-rosenp%40gmail.com
-patch subject: [PATCHv7 net-next 2/6] net: ibm: emac: remove custom init/exit functions
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241019/202410192213.VVMV5TxH-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410192213.VVMV5TxH-lkp@intel.com/reproduce)
+I'll fix and will need to rebase my for-next branch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410192213.VVMV5TxH-lkp@intel.com/
+-- Steve
 
-All errors (new ones prefixed by >>):
 
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/core.o: in function `emac_init':
->> core.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/core.o: in function `emac_exit':
-   core.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/zmii.o: in function `zmii_driver_init':
-   zmii.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/zmii.o: in function `zmii_driver_exit':
-   zmii.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/rgmii.o: in function `rgmii_driver_init':
-   rgmii.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/rgmii.o: in function `rgmii_driver_exit':
-   rgmii.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/tah.o: in function `tah_driver_init':
-   tah.c:(.init.text+0x8): multiple definition of `init_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.init.text+0x8): first defined here
-   powerpc64-linux-ld: drivers/net/ethernet/ibm/emac/tah.o: in function `tah_driver_exit':
-   tah.c:(.exit.text+0x8): multiple definition of `cleanup_module'; drivers/net/ethernet/ibm/emac/mal.o:mal.c:(.exit.text+0x8): first defined here
+>   1539	
+> > 1540		while (true) {  
+>   1541			raw_spin_lock_irqsave(&cpu_buffer->reader_lock, flags);
+>   1542	
+>   1543			if (buffer_cnt != cpu_buffer->cnt) {
+>   1544				/* The list was updated, try again. */
+>   1545				raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+>   1546				goto again;
+>   1547			}
+>   1548	
+>   1549			tmp = rb_list_head(tmp->next);
+>   1550			if (tmp == head)
+>   1551				/* The iteration circled back, all is done. */
+>   1552				goto out_locked;
+>   1553	
+>   1554			if (!rb_check_links(cpu_buffer, tmp))
+>   1555				goto out_locked;
+>   1556	
+>   1557			raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+>   1558		}
+>   1559	
+>   1560	out_locked:
+>   1561		raw_spin_unlock_irqrestore(&cpu_buffer->reader_lock, flags);
+>   1562	}
+>   1563	
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
