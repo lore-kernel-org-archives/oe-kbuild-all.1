@@ -1,58 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D067A7DA95
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 08:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A84C8121F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 08:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729412310; cv=none; b=r1ZoHCU+eLjgSnGv8aNxVbSSNG7t7yy1DLP6lR8ESgLyDv/cFUJJHkFVxXXoX/FbiL8Md2q2LuR6n6XEzOHdyUPKxuozWMAC1INcGqpM9hqg+x5oVcUGdwKp+yODdhJH5vafqmG9NTU/ZJxrIjBzEF/V4TB3oh+yEx4vpK2vBkQ=
+	t=1729412313; cv=none; b=CZ4UG6aYx9CFfy5CTJiYs8cnT68triCQdR0G1tmu05UHrdXiW0wROTwpT+zFEXCPwaGkDfcln2cRQarEIimz/EmsdRwsp1VA6pqw7dr83ePfhvdozLN6iDd1jejj1txyEAO89/YP3Jq54hSBrXdB5FeTSpR1sZE5qLodOPYdarU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729412310; c=relaxed/simple;
-	bh=+4GEsOd1GGY1fhV0/mvnTbC/Y5CqpLwYSe2LpSY/gCc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fHK0OQZCPVWFx3XOSpWjnBxJRckmkeDzHXNo2YOxZ/5sPPbSin0iDb2l5S8vdgtuFRb+yhWsJAjE7mQtbxTn0nrDztC79jYDqfmjRtA3MrNVI1dH3im986JigdYh4WjHw1D8ZwNDRdy1ygcs9abATcN5QKgLhBjyixMYaENTaDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LpAvnsKB; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1729412313; c=relaxed/simple;
+	bh=3NzxkVGrO7pPIUNKeNwCxXAscAC8AJ361OHZMCTFBgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bD59HCwZWD4Dh+meQyshtIRHzEJjNe/jG1qdt4r1rOyJekX9DeGoUk1VWpEI3PMBc79mi9Lrnljflv+0BcXuxomcxtZ/CQTtxba9aW/I5yrpDb2abVw0A8+YejOfXK63B4hiqUDAwK+N42Cl5vEB0KIIGMSF9RSlq859TIYeZFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HbskWcSi; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LpAvnsKB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HbskWcSi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729412308; x=1760948308;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+4GEsOd1GGY1fhV0/mvnTbC/Y5CqpLwYSe2LpSY/gCc=;
-  b=LpAvnsKBcULiUltvwwLHA/KN2Ri3IosFdrOufLAzaLbkF4EcV2Fpzk1Z
-   xSFhsbDYOElNvLen4gRD35rpDGSH8Cfvpllz5jQ47Rw048qYheEt/AarE
-   oJ55npVM2JyAK8rdxNWPPZdnGhBxZNwDny1Sz9HFADYH11sykuFHC4LAB
-   DmAE1D8MAFO2i0c/ZtmaiMxR/1ipbF2W1QL4nKBdLapjdLI42dgUsYOnH
-   G4NdZbO+UFvcn0FXaeLYwOUAj9AzhbvUpcGPgZ7jL8+F0b2QfnrffLBc7
-   YDi4huxWx4j1yM5vwjsnKkwD7I2q7QxCRmguVnHaUAjAjUc0CImxjZ8tG
-   g==;
-X-CSE-ConnectionGUID: LlZJxmctQ/m7Vg68AhYq4w==
-X-CSE-MsgGUID: Tx5K5EK8Q6SKhMB/kcezWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28361616"
+  t=1729412309; x=1760948309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3NzxkVGrO7pPIUNKeNwCxXAscAC8AJ361OHZMCTFBgU=;
+  b=HbskWcSil/xVvG64NuPhMWKV6iXuCGhf9NIsyz29ZMk8BLUFS6LGWcQ2
+   fGN/bSUZtmbmy614yzVyzLVkVgvO627zQkPwYm0v3RroBBeS3kL+eukdh
+   UFvsHW8mdXC/sR0Ia+xIMkTWLgpa87OqO5IrSQUyEMKG43oMc/zeo5P89
+   NcwDxkIfy4rPH8wt8WYSZSQElLAJfG3dyB4qTuei5MHRc7BkBOZ+j6Vxu
+   gJwkg+qsubWReJUycMbjcTsTCtyv0NYRMzBPk6RC8Cje0yDQzLxNF9uu/
+   KBV/bLNahf5JRRmkYQh9Li60/ml3QKYgd5uFKAAXm3auENVTobEZAtvTM
+   w==;
+X-CSE-ConnectionGUID: e2F+aDzOT7G79nqlOJXOHg==
+X-CSE-MsgGUID: WWDqDL9OQoy4NxRsAPxS9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28361618"
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="28361616"
+   d="scan'208";a="28361618"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 01:18:26 -0700
-X-CSE-ConnectionGUID: Iz6rc3wCT+uO5beXt3OEYQ==
-X-CSE-MsgGUID: Q2Yj7Z8VS4SGpmimg0d21w==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 01:18:27 -0700
+X-CSE-ConnectionGUID: KjTrDEsfSZWMY1QYC8/Ysg==
+X-CSE-MsgGUID: 8ZXgqKwxRHyt13se9GOPzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="116712261"
+   d="scan'208";a="116712262"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa001.jf.intel.com with ESMTP; 20 Oct 2024 01:18:25 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2R8o-000Q4h-2D;
+	id 1t2R8o-000Q4f-2B;
 	Sun, 20 Oct 2024 08:18:22 +0000
-Date: Sun, 20 Oct 2024 16:17:58 +0800
+Date: Sun, 20 Oct 2024 16:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:dir-deleg 39/39] fs/nfsd/nfs4state.c:5493:13: error: 'mask'
- redeclared as different kind of symbol
-Message-ID: <202410201645.Db3PJaxx-lkp@intel.com>
+To: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Jarkko Nikula <jarkko.nikula@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Sanket.Goswami@amd.com,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
+Subject: Re: [PATCH 3/6] i3c: master: Add ACPI support to i3c subsystem
+Message-ID: <202410201553.RtPfO9pR-lkp@intel.com>
+References: <20241017150330.3035568-4-Shyam-sundar.S-k@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,199 +66,136 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241017150330.3035568-4-Shyam-sundar.S-k@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
-head:   380a610024a1525d57e7d65bb495f7ecb87cb5ff
-commit: 380a610024a1525d57e7d65bb495f7ecb87cb5ff [39/39] nfsd: add notification handlers for dir events
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241020/202410201645.Db3PJaxx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201645.Db3PJaxx-lkp@intel.com/reproduce)
+Hi Shyam,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shyam-Sundar-S-K/i3c-dw-Add-support-for-AMDI0015-ACPI-ID/20241017-230810
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241017150330.3035568-4-Shyam-sundar.S-k%40amd.com
+patch subject: [PATCH 3/6] i3c: master: Add ACPI support to i3c subsystem
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241020/202410201553.RtPfO9pR-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201553.RtPfO9pR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410201645.Db3PJaxx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410201553.RtPfO9pR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> fs/nfsd/nfs4state.c:5488:5: warning: no previous prototype for 'nfsd_handle_dir_event' [-Wmissing-prototypes]
-    5488 | int nfsd_handle_dir_event(u32 mask, const struct inode *inode, const struct inode *dir,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   fs/nfsd/nfs4state.c: In function 'nfsd_handle_dir_event':
->> fs/nfsd/nfs4state.c:5493:13: error: 'mask' redeclared as different kind of symbol
-    5493 |         u32 mask = 0;
-         |             ^~~~
-   fs/nfsd/nfs4state.c:5488:31: note: previous definition of 'mask' with type 'u32' {aka 'unsigned int'}
-    5488 | int nfsd_handle_dir_event(u32 mask, const struct inode *inode, const struct inode *dir,
-         |                           ~~~~^~~~
-   In file included from include/linux/list.h:5,
-                    from include/linux/wait.h:7,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/nfsd/nfs4state.c:36:
->> include/linux/container_of.h:19:37: error: expected expression before ';' token
-      19 |         void *__mptr = (void *)(ptr);                                   \
-         |                                     ^
-   fs/nfsd/nfs4state.c:5501:41: note: in expansion of macro 'container_of'
-    5501 |                 struct file_lease *fl = container_of(struct file_lock_core,
-         |                                         ^~~~~~~~~~~~
-   In file included from include/linux/container_of.h:5:
->> include/linux/compiler_types.h:458:64: error: expected expression before ')' token
-     458 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                                                                ^
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   fs/nfsd/nfs4state.c:5501:41: note: in expansion of macro 'container_of'
-    5501 |                 struct file_lease *fl = container_of(struct file_lock_core,
-         |                                         ^~~~~~~~~~~~
->> include/linux/container_of.h:20:54: error: 'struct file_lease' has no member named 'flc_list'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                                                      ^~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   fs/nfsd/nfs4state.c:5501:41: note: in expansion of macro 'container_of'
-    5501 |                 struct file_lease *fl = container_of(struct file_lock_core,
-         |                                         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:458:27: error: expression in static assertion is not an integer
-     458 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/container_of.h:20:9: note: in expansion of macro 'static_assert'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |         ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:23: note: in expansion of macro '__same_type'
-      20 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
-         |                       ^~~~~~~~~~~
-   fs/nfsd/nfs4state.c:5501:41: note: in expansion of macro 'container_of'
-    5501 |                 struct file_lease *fl = container_of(struct file_lock_core,
-         |                                         ^~~~~~~~~~~~
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:317,
-                    from include/linux/file.h:9,
-                    from fs/nfsd/nfs4state.c:35:
->> include/linux/stddef.h:16:33: error: 'struct file_lease' has no member named 'flc_list'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:23:28: note: in expansion of macro 'offsetof'
-      23 |         ((type *)(__mptr - offsetof(type, member))); })
-         |                            ^~~~~~~~
-   fs/nfsd/nfs4state.c:5501:41: note: in expansion of macro 'container_of'
-    5501 |                 struct file_lease *fl = container_of(struct file_lock_core,
-         |                                         ^~~~~~~~~~~~
->> fs/nfsd/nfs4state.c:5505:24: error: 'struct file_lock_core' has no member named 'fl_lmops'
-    5505 |                 if (flc->fl_lmops != &nfsd_dir_lease_mng_ops)
-         |                        ^~
->> fs/nfsd/nfs4state.c:5510:49: error: 'component4' {aka 'opaque'} has no member named 'count'
-    5510 |                         component4 oldname = { .count = name.len, .element = name.name }
-         |                                                 ^~~~~
->> fs/nfsd/nfs4state.c:5510:61: error: 'name' is a pointer; did you mean to use '->'?
-    5510 |                         component4 oldname = { .count = name.len, .element = name.name }
-         |                                                             ^
-         |                                                             ->
->> fs/nfsd/nfs4state.c:5510:68: error: 'component4' {aka 'opaque'} has no member named 'element'
-    5510 |                         component4 oldname = { .count = name.len, .element = name.name }
-         |                                                                    ^~~~~~~
-   fs/nfsd/nfs4state.c:5510:82: error: 'name' is a pointer; did you mean to use '->'?
-    5510 |                         component4 oldname = { .count = name.len, .element = name.name }
-         |                                                                                  ^
-         |                                                                                  ->
->> fs/nfsd/nfs4state.c:5511:25: error: expected ',' or ';' before 'struct'
-    5511 |                         struct notify_remove4 nr = { };
-         |                         ^~~~~~
->> fs/nfsd/nfs4state.c:5513:25: error: 'nr' undeclared (first use in this function)
-    5513 |                         nr.nrm_old_entry.ne_file.count = name.len;
-         |                         ^~
-   fs/nfsd/nfs4state.c:5513:25: note: each undeclared identifier is reported only once for each function it appears in
-   fs/nfsd/nfs4state.c:5513:62: error: 'name' is a pointer; did you mean to use '->'?
-    5513 |                         nr.nrm_old_entry.ne_file.count = name.len;
-         |                                                              ^
-         |                                                              ->
-   fs/nfsd/nfs4state.c:5514:64: error: 'name' is a pointer; did you mean to use '->'?
-    5514 |                         nr.nrm_old_entry.ne_file.element = name.name;
-         |                                                                ^
-         |                                                                ->
->> fs/nfsd/nfs4state.c:5516:47: warning: unused variable 'nr' [-Wunused-variable]
-    5516 |                         struct notify_remove4 nr;
-         |                                               ^~
->> fs/nfsd/nfs4state.c:5510:36: warning: unused variable 'oldname' [-Wunused-variable]
-    5510 |                         component4 oldname = { .count = name.len, .element = name.name }
-         |                                    ^~~~~~~
->> fs/nfsd/nfs4state.c:5503:41: warning: unused variable 'dp' [-Wunused-variable]
-    5503 |                 struct nfs4_delegation *dp = flc->flc_owner;
-         |                                         ^~
->> fs/nfsd/nfs4state.c:5501:36: warning: unused variable 'fl' [-Wunused-variable]
-    5501 |                 struct file_lease *fl = container_of(struct file_lock_core,
-         |                                    ^~
->> fs/nfsd/nfs4state.c:5489:46: warning: parameter 'name' set but not used [-Wunused-but-set-parameter]
-    5489 |                           const struct qstr *name)
-         |                           ~~~~~~~~~~~~~~~~~~~^~~~
->> fs/nfsd/nfs4state.c:5524:1: warning: control reaches end of non-void function [-Wreturn-type]
-    5524 | }
-         | ^
+   drivers/i3c/master/dw-i3c-master.c: In function 'dw_i3c_common_probe':
+   drivers/i3c/master/dw-i3c-master.c:1606:32: error: implicit declaration of function 'acpi_device_handle'; did you mean 'acpi_fwnode_handle'? [-Wimplicit-function-declaration]
+    1606 |         master->base.ahandle = acpi_device_handle(ACPI_COMPANION(&pdev->dev));
+         |                                ^~~~~~~~~~~~~~~~~~
+         |                                acpi_fwnode_handle
+>> drivers/i3c/master/dw-i3c-master.c:1606:30: error: assignment to 'acpi_handle' {aka 'void *'} from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1606 |         master->base.ahandle = acpi_device_handle(ACPI_COMPANION(&pdev->dev));
+         |                              ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +/mask +5493 fs/nfsd/nfs4state.c
+vim +1606 drivers/i3c/master/dw-i3c-master.c
 
-  5487	
-> 5488	int nfsd_handle_dir_event(u32 mask, const struct inode *inode, const struct inode *dir,
-> 5489				  const struct qstr *name)
-  5490	{
-  5491		struct file_lock_context *ctx;
-  5492		struct file_lock_core *flc;
-> 5493		u32 mask = 0;
-  5494	
-  5495		ctx = locks_inode_context(inode);
-  5496		if (!ctx)
-  5497			return 0;
-  5498	
-  5499		spin_lock(&ctx->flc_lock);
-  5500		list_for_each_entry(flc, &ctx->flc_lease, flc_list) {
-> 5501			struct file_lease *fl = container_of(struct file_lock_core,
-  5502							     struct file_lease, flc_list);
-> 5503			struct nfs4_delegation *dp = flc->flc_owner;
-  5504	
-> 5505			if (flc->fl_lmops != &nfsd_dir_lease_mng_ops)
-  5506				continue;
-  5507	
-  5508			/* find delegation, check IGN bits, marshal notify if they match */
-  5509			if (mask & FS_DELETE) {
-> 5510				component4 oldname = { .count = name.len, .element = name.name }
-> 5511				struct notify_remove4 nr = { };
-  5512	
-> 5513				nr.nrm_old_entry.ne_file.count = name.len;
-  5514				nr.nrm_old_entry.ne_file.element = name.name;
-  5515	
-> 5516				struct notify_remove4 nr;
-  5517	
-  5518				if (!(flc->flc_flags & FL_IGN_DIR_DELETE))
-  5519					continue;
-  5520			}
-  5521	
-  5522		}
-  5523		spin_unlock(&ctx->flc_lock);
-> 5524	}
-  5525	
+  1545	
+  1546	int dw_i3c_common_probe(struct dw_i3c_master *master,
+  1547				struct platform_device *pdev)
+  1548	{
+  1549		int ret, irq;
+  1550	
+  1551		if (!master->platform_ops)
+  1552			master->platform_ops = &dw_i3c_platform_ops_default;
+  1553	
+  1554		master->dev = &pdev->dev;
+  1555	
+  1556		master->regs = devm_platform_ioremap_resource(pdev, 0);
+  1557		if (IS_ERR(master->regs))
+  1558			return PTR_ERR(master->regs);
+  1559	
+  1560		master->core_clk = devm_clk_get_enabled(&pdev->dev, NULL);
+  1561		if (IS_ERR(master->core_clk))
+  1562			return PTR_ERR(master->core_clk);
+  1563	
+  1564		master->pclk = devm_clk_get_optional_enabled(&pdev->dev, "pclk");
+  1565		if (IS_ERR(master->pclk))
+  1566			return PTR_ERR(master->pclk);
+  1567	
+  1568		master->core_rst = devm_reset_control_get_optional_exclusive(&pdev->dev,
+  1569									    "core_rst");
+  1570		if (IS_ERR(master->core_rst))
+  1571			return PTR_ERR(master->core_rst);
+  1572	
+  1573		reset_control_deassert(master->core_rst);
+  1574	
+  1575		spin_lock_init(&master->xferqueue.lock);
+  1576		INIT_LIST_HEAD(&master->xferqueue.list);
+  1577	
+  1578		writel(INTR_ALL, master->regs + INTR_STATUS);
+  1579		irq = platform_get_irq(pdev, 0);
+  1580		ret = devm_request_irq(&pdev->dev, irq,
+  1581				       dw_i3c_master_irq_handler, IRQF_SHARED,
+  1582				       dev_name(&pdev->dev), master);
+  1583		if (ret)
+  1584			goto err_assert_rst;
+  1585	
+  1586		platform_set_drvdata(pdev, master);
+  1587	
+  1588		pm_runtime_set_autosuspend_delay(&pdev->dev, RPM_AUTOSUSPEND_TIMEOUT);
+  1589		pm_runtime_use_autosuspend(&pdev->dev);
+  1590		pm_runtime_set_active(&pdev->dev);
+  1591		pm_runtime_enable(&pdev->dev);
+  1592	
+  1593		/* Information regarding the FIFOs/QUEUEs depth */
+  1594		ret = readl(master->regs + QUEUE_STATUS_LEVEL);
+  1595		master->caps.cmdfifodepth = QUEUE_STATUS_LEVEL_CMD(ret);
+  1596	
+  1597		ret = readl(master->regs + DATA_BUFFER_STATUS_LEVEL);
+  1598		master->caps.datafifodepth = DATA_BUFFER_STATUS_LEVEL_TX(ret);
+  1599	
+  1600		ret = readl(master->regs + DEVICE_ADDR_TABLE_POINTER);
+  1601		master->datstartaddr = ret;
+  1602		master->maxdevs = ret >> 16;
+  1603		master->free_pos = GENMASK(master->maxdevs - 1, 0);
+  1604	
+  1605		ACPI_COMPANION_SET(&master->base.dev, ACPI_COMPANION(&pdev->dev));
+> 1606		master->base.ahandle = acpi_device_handle(ACPI_COMPANION(&pdev->dev));
+  1607		if (!master->base.ahandle)
+  1608			dev_err(&pdev->dev, "Failed to get acpi device handle\n");
+  1609	
+  1610		INIT_WORK(&master->hj_work, dw_i3c_hj_work);
+  1611		ret = i3c_master_register(&master->base, &pdev->dev,
+  1612					  &dw_mipi_i3c_ops, false);
+  1613		if (ret)
+  1614			goto err_disable_pm;
+  1615	
+  1616		return 0;
+  1617	
+  1618	err_disable_pm:
+  1619		pm_runtime_disable(&pdev->dev);
+  1620		pm_runtime_set_suspended(&pdev->dev);
+  1621		pm_runtime_dont_use_autosuspend(&pdev->dev);
+  1622	
+  1623	err_assert_rst:
+  1624		reset_control_assert(master->core_rst);
+  1625	
+  1626		return ret;
+  1627	}
+  1628	EXPORT_SYMBOL_GPL(dw_i3c_common_probe);
+  1629	
 
 -- 
 0-DAY CI Kernel Test Service
