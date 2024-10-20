@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A85C33D1;
-	Sun, 20 Oct 2024 01:55:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8487A2904;
+	Sun, 20 Oct 2024 02:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729389317; cv=none; b=mnyV5NiXAXw/oz/O67n2/QBwUrt191yRsn+sL+SChargU053QKbewluTxEopNEo8Xe2163LqlHUwjVJU7feRahBa/eJJ7l26wudXruTzPC+wy7tfnOimQmmRD4kYBayZujzbxRwrHJz+0oHxUEuX2d9p1siqQahsXkMG/lTfA4s=
+	t=1729389918; cv=none; b=BsaBXJ7I0XN+iNz4y/8ode3+UiUI9NgXSEE9fC3a24JohVrSYPZhDEVdcO9+7QtdeJrh5hl9bCkkwroHs9FB+x4PyvjUDU2w7GRN0tkc+gVFbni7l07ob0QHRvOH/hxdAvU/+psde7+PVtfsvDldS3aC5d0Xt4qTRZWCHOByp9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729389317; c=relaxed/simple;
-	bh=I9vJH/W8PUuqdSoTWuUTr9qcm+hzB8FZyAOah39SItw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C0xhPkFBXAC2dcihAK1U5qv1IDyCwSLd+BsvBt2i4DNKz8uE8ZZePEaPYEFyfGxd2xHwoiPOrzG4Zq8mmP1YDCBEV9MHXUUmJGYZ7k5bHtY20H87RPJG3pRciqX3X7jAdTuLtnaIeR3ruY71zgV0xu1wU3O5M0VmBn0MpWfdNjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bthivcOk; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1729389918; c=relaxed/simple;
+	bh=83M22/fJyGB1tR9/miY2c43dp32t29qIpAheq1Shv50=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T+VN5FyUCUxXkJe5AHuBHhSGdqMdCBm+mVZC0xIZee1R9T1OpN6LpAGLzLwN9kt0dEmSg615F1+M7kYr1X+ecPCZIUsXTZzghA1nfTY0/3xCpKTluJSkRv5o2WEZwSUXPEZeQm9/qU5eVocd8c4rXi00I2MVjaT7ntI0kLwiVXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZjNT0s3o; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bthivcOk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZjNT0s3o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729389315; x=1760925315;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I9vJH/W8PUuqdSoTWuUTr9qcm+hzB8FZyAOah39SItw=;
-  b=bthivcOkh3+0OzwrJXyAqedZjseaP6sBocb/Xry6MBOpBhJfuo7BvBBi
-   LGyrb7n1uxQgrX3D/QKe72sNeJuFjEWM/YdapM4ZyYV94u1W1yU1zWGiS
-   aLhUquxVdLWuLD19+w4GGpLXHgoTV7QwQ3KX0haSGDYfi55xPBOqiRJOk
-   WxpsaR6eZARedgrYRK3lFDWPYbvgUxkp3UsgFg2zfHlPhXV2AxP66IHPH
-   Llgwc/3YjUpUhCOBikbpux5qm4jPZFux2QxpjMmoPFg+lXEbuAPninbeN
-   6FmxD91i036tH0YinNQB0nv2edihI1Jto+5J4iDpAtmAIUTPoEoMj5Ilx
-   g==;
-X-CSE-ConnectionGUID: 7eB1eA7xSlmCBIHKoT2DEQ==
-X-CSE-MsgGUID: Yihvp1HcQN2qpfVSmJkqKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29059004"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29059004"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 18:55:12 -0700
-X-CSE-ConnectionGUID: N/LA9hmiTgmpJ0xXJze40A==
-X-CSE-MsgGUID: j6+klyNTS4GdcNdlKj3z4Q==
+  t=1729389915; x=1760925915;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=83M22/fJyGB1tR9/miY2c43dp32t29qIpAheq1Shv50=;
+  b=ZjNT0s3o9LNPgHnras8k2u8J+pxBplKhaozNEMOaItZpyOCceMsOa/yh
+   kz4mziG7D9Ni7Q8zlCoQdaLbO/8dIKKgdabpFzrEMEEmJgjhE0b3HDgoM
+   QxPP1u/n7lPE8GLJHze71LcYYq3sB7za/ls8lc69TUsATBC8g9On75zwC
+   GaO6I8hGN4k0Puq7xpuYqQ1cV0DISLUOGvzKzYmvV7so2iuPvhrJ7+35C
+   PMMkYW1qCwezDCZ2swumaV33juGAxko2b0+x24JzveUivBfKWWJ6+H2CV
+   KMO4RMQPls0VSwMKQuvIhBp38SI1F8H/LhKpdqflr0n0RBJ81eXkIJdgq
+   Q==;
+X-CSE-ConnectionGUID: WVGDQBrxQya5/xISTgEmiQ==
+X-CSE-MsgGUID: 6171TOciS921cVEPaCDTDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="39517318"
+X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
+   d="scan'208";a="39517318"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 19:05:15 -0700
+X-CSE-ConnectionGUID: 3XsXIaETS8iLPcmLmKlhqA==
+X-CSE-MsgGUID: mL48R6XcR/2dOcW6NfDUFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="84259687"
+   d="scan'208";a="79351368"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Oct 2024 18:55:10 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Oct 2024 19:05:11 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2L9w-000Plp-0h;
-	Sun, 20 Oct 2024 01:55:08 +0000
-Date: Sun, 20 Oct 2024 09:54:26 +0800
+	id 1t2LJc-000Pm9-1K;
+	Sun, 20 Oct 2024 02:05:08 +0000
+Date: Sun, 20 Oct 2024 10:04:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Petr Machata <petrm@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Amit Cohen <amcohen@nvidia.com>
-Subject: [jpirko-mlxsw:combined_queue 28/41]
- drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c:427:19: error: use of
- undeclared identifier 'dev'
-Message-ID: <202410200950.RkX3mTFG-lkp@intel.com>
+To: Zhao Qunqin <zhaoqunqin@loongson.cn>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, chenhuacai@kernel.org,
+	bp@alien8.de, tony.luck@intel.com, james.morse@arm.com,
+	mchehab@kernel.org, rric@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@xen0n.name, loongarch@lists.linux.dev,
+	Jonathan.Cameron@huawei.com, Zhao Qunqin <zhaoqunqin@loongson.cn>
+Subject: Re: [PATCH v6 RESEND 2/2] EDAC: Add EDAC driver for loongson memory
+ controller
+Message-ID: <202410200949.GpnHSLfV-lkp@intel.com>
+References: <20241018014542.27283-3-zhaoqunqin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +69,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241018014542.27283-3-zhaoqunqin@loongson.cn>
 
-tree:   https://github.com/jpirko/linux_mlxsw combined_queue
-head:   434a55e58cae87be301996f043f25929ad2bf403
-commit: fe2143eeb389621b04e984beacbf1d900ab3127d [28/41] ndo_fdb_add: Shift responsibility for notifying to drivers
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241020/202410200950.RkX3mTFG-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410200950.RkX3mTFG-lkp@intel.com/reproduce)
+Hi Zhao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 61124f42dcaa30f58a8b47a2b69ddb80260677c7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhao-Qunqin/dt-bindings-EDAC-for-ls3a5000-memory-controller/20241018-094803
+base:   61124f42dcaa30f58a8b47a2b69ddb80260677c7
+patch link:    https://lore.kernel.org/r/20241018014542.27283-3-zhaoqunqin%40loongson.cn
+patch subject: [PATCH v6 RESEND 2/2] EDAC: Add EDAC driver for loongson memory controller
+config: arm64-randconfig-r113-20241019 (https://download.01.org/0day-ci/archive/20241020/202410200949.GpnHSLfV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241020/202410200949.GpnHSLfV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410200950.RkX3mTFG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410200949.GpnHSLfV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/edac/loongson_edac.c:100:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long [usertype] *vbase @@     got void [noderef] __iomem * @@
+   drivers/edac/loongson_edac.c:100:15: sparse:     expected unsigned long long [usertype] *vbase
+   drivers/edac/loongson_edac.c:100:15: sparse:     got void [noderef] __iomem *
 
->> drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c:427:19: error: use of undeclared identifier 'dev'
-     427 |                 rtnl_fdb_notify(dev, addr, vid, RTM_NEWNEIGH, ndm->ndm_state);
-         |                                 ^
-   drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c:2440:46: warning: shift count >= width of type [-Wshift-count-overflow]
-    2440 |         err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-         |                                                     ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   1 warning and 1 error generated.
+vim +100 drivers/edac/loongson_edac.c
 
-
-vim +/dev +427 drivers/net/ethernet/qlogic/qlcnic/qlcnic_main.c
-
-   393	
-   394	static int qlcnic_fdb_add(struct ndmsg *ndm, struct nlattr *tb[],
-   395				struct net_device *netdev,
-   396				const unsigned char *addr, u16 vid, u16 flags,
-   397				struct netlink_ext_ack *extack)
-   398	{
-   399		struct qlcnic_adapter *adapter = netdev_priv(netdev);
-   400		int err = 0;
-   401	
-   402		if (!adapter->fdb_mac_learn)
-   403			return ndo_dflt_fdb_add(ndm, tb, netdev, addr, vid, flags);
-   404	
-   405		if (!(adapter->flags & QLCNIC_ESWITCH_ENABLED) &&
-   406		    !qlcnic_sriov_check(adapter)) {
-   407			pr_info("%s: FDB e-switch is not enabled\n", __func__);
-   408			return -EOPNOTSUPP;
-   409		}
-   410	
-   411		if (ether_addr_equal(addr, adapter->mac_addr))
-   412			goto out;
-   413	
-   414		if (is_unicast_ether_addr(addr)) {
-   415			if (netdev_uc_count(netdev) < adapter->ahw->max_uc_count)
-   416				err = dev_uc_add_excl(netdev, addr);
-   417			else
-   418				err = -ENOMEM;
-   419		} else if (is_multicast_ether_addr(addr)) {
-   420			err = dev_mc_add_excl(netdev, addr);
-   421		} else {
-   422			err = -EINVAL;
-   423		}
-   424	
-   425	out:
-   426		if (!err)
- > 427			rtnl_fdb_notify(dev, addr, vid, RTM_NEWNEIGH, ndm->ndm_state);
-   428	
-   429		return err;
-   430	}
-   431	
+    91	
+    92	static int edac_probe(struct platform_device *pdev)
+    93	{
+    94		struct edac_mc_layer layers[2];
+    95		struct loongson_edac_pvt *pvt;
+    96		struct mem_ctl_info *mci;
+    97		u64 *vbase;
+    98		int ret;
+    99	
+ > 100		vbase = devm_platform_ioremap_resource(pdev, 0);
+   101		if (IS_ERR(vbase))
+   102			return PTR_ERR(vbase);
+   103	
+   104		/* allocate a new MC control structure */
+   105		layers[0].type = EDAC_MC_LAYER_CHANNEL;
+   106		layers[0].size = 1;
+   107		layers[0].is_virt_csrow = false;
+   108		layers[1].type = EDAC_MC_LAYER_SLOT;
+   109		layers[1].size = 1;
+   110		layers[1].is_virt_csrow = true;
+   111		mci = edac_mc_alloc(0, ARRAY_SIZE(layers), layers, sizeof(*pvt));
+   112		if (mci == NULL)
+   113			return -ENOMEM;
+   114	
+   115		mci->mc_idx = edac_device_alloc_index();
+   116		mci->mtype_cap = MEM_FLAG_RDDR4;
+   117		mci->edac_ctl_cap = EDAC_FLAG_NONE;
+   118		mci->edac_cap = EDAC_FLAG_NONE;
+   119		mci->mod_name = "loongson_edac.c";
+   120		mci->ctl_name = "loongson_edac_ctl";
+   121		mci->dev_name = "loongson_edac_dev";
+   122		mci->ctl_page_to_phys = NULL;
+   123		mci->pdev = &pdev->dev;
+   124		mci->error_desc.grain = 8;
+   125		/* Set the function pointer to an actual operation function */
+   126		mci->edac_check = edac_check;
+   127	
+   128		pvt_init(mci, vbase);
+   129		get_dimm_config(mci);
+   130	
+   131		ret = edac_mc_add_mc(mci);
+   132		if (ret) {
+   133			edac_dbg(0, "MC: failed edac_mc_add_mc()\n");
+   134			edac_mc_free(mci);
+   135			return ret;
+   136		}
+   137		edac_op_state = EDAC_OPSTATE_POLL;
+   138	
+   139		return 0;
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
