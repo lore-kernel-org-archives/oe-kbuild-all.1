@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B7C194A64
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 18:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF8A4431
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 18:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729449067; cv=none; b=N4NH49B7X34gsoCNMEJfAr87UvHZrB5TiD3mso2oDvZHQPtpYtwzsGXMUVOFFxtPsr31mSN+vTonjJ1wTnaVeouo4rSn2cMepuEDqGob1wl9Zi0vZ6hblQm6xz1r1XTDUyEbRHMZFnViaV3B/260bvD5+dlTY2fot4pX2/PZq3A=
+	t=1729449666; cv=none; b=Lx1niAGoAQzO0MSF5v0g3gz2A4Oajh5W7h3R0DVXsZP11X6NcmIET+4Z4dHCaSq5dppuWEcDU6fG/Uh0MStguKuJPdzwFyfwnG85EVrGeRmFrxzsrict4x9Or5jcZjxQYyG/bjyhSTxGWCX0Bc15apxZSZz+0T+c7DBCBf5tBKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729449067; c=relaxed/simple;
-	bh=v39Rr5eF3eWe0K5Su3ujXYO57zb/mrOvhsFkm+1e1nU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sY+RCFK1KOcCRkcAdXdvybnNrfQyFLiPJXglGdMir/ZOGx3k/UCRiF92HToBkzmeP7ufrLKVNzocmXTuXoyTKZzRnShCnaYLyww9oLI9A1UZwSWHL6rD+vz28GNAmCfOf4JwvGwJwMzQeZbhM0YBPVD7LtDOPs6H3unltsRsbxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgSyavW6; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1729449666; c=relaxed/simple;
+	bh=+2s+FoinvecDbx5NPvlMPBFD0ioj45nB+BDjXGNuay0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hzI673jHukjIgGkrSmnzJ6e5xUh2pH1dJDrUBqbxhdz3/zUGlg+2M2lTGK4Q9jK/0hVvBloO/hgEOfxrNczUOp6b6OY/TDR+0hO2lfIIGofb5PGat74YRH7nSjCgEj74SCFqZvGcgOVW+glXbxIBw//eAOJcyE64J0HlA6Hb1CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R2+ZvUMU; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgSyavW6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R2+ZvUMU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729449065; x=1760985065;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=v39Rr5eF3eWe0K5Su3ujXYO57zb/mrOvhsFkm+1e1nU=;
-  b=OgSyavW6TdS2Hu03Fyl1SeYcvOCrEyXPdXqj8R7aYQCecRS0bx1bV8OO
-   odvtZ77Pduno001HMZxnotJCPmzKs1k/LvjkwYBN6Siajhowmsil0Dtzo
-   n3czd4hRjB6DIYzuBAxYQ+qEPufqcFbMyrLfNS0IbrTOVu2PJ1a9pY5i3
-   g4laPKmknQ5YmZqd0wzVy4zwNRaxcG/bfvFomMlGQ+gzyvn2OFl8LK6ND
-   o3HHzjg5M1rLGuC54fLO5w4GQM1CGyRuklZ6wYP64Os/kufTuej/JbeDw
-   URlMLPX+/BxDwQTeyLDtlEQgn1kMW2Ev/oE958PqEbdzR7jTOf6ZZeCtG
-   Q==;
-X-CSE-ConnectionGUID: AHS2M/yCSNKpDj6QGI8bqw==
-X-CSE-MsgGUID: X2g+7ZfWTgaq+ExQncLr2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="32840923"
+  t=1729449665; x=1760985665;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+2s+FoinvecDbx5NPvlMPBFD0ioj45nB+BDjXGNuay0=;
+  b=R2+ZvUMUfF6XJn5v1MHBg8iEArA8lTQ02Or0Pef10vS84H4PAtlmjsUQ
+   6GIf8OmpjvPIhRqiTiaGp+mG16x5tbbT2gmBSWcDroUY6ia8AxNlBgJHr
+   Zh2/X+l0wZg2QkPnR8XTN5uQihcNgmk8l7YqAINbgerH+0Kkb3EtgX/98
+   9N4yneJBOLvgOfTQff4F44hkCmNGwyKqA86d4590xSsol5YHi52w1Hx7s
+   uTGdRwPoIJua5ZF96pdqUtCTsF9BsMUQDl4M0BEU4n6IrQXHtaWqc8XFg
+   S5YfKMYbMX5lRF0Yx+xBXYzY91vgInMbwEBFch8d4Fylf+KWLYQXZ6hmL
+   g==;
+X-CSE-ConnectionGUID: meH2IMDOQtiWKhcQqXwTEg==
+X-CSE-MsgGUID: 0bi17HWTSEGnpm4bX2PP5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="39515118"
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="32840923"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 11:31:05 -0700
-X-CSE-ConnectionGUID: OzBYEk6pRU2avgDpHiDMBQ==
-X-CSE-MsgGUID: G8xMv0IUThyf5uIazvRcLQ==
+   d="scan'208";a="39515118"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 11:41:04 -0700
+X-CSE-ConnectionGUID: d47l3V/qQjuX49i3d9v16Q==
+X-CSE-MsgGUID: 1mELwfMbSkiiRuT33KQHgg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="116786918"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="84141976"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Oct 2024 11:31:03 -0700
+  by orviesa003.jf.intel.com with ESMTP; 20 Oct 2024 11:41:03 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2ahg-000Qgy-1Q;
-	Sun, 20 Oct 2024 18:31:00 +0000
-Date: Mon, 21 Oct 2024 02:30:28 +0800
+	id 1t2arM-000QhL-2F;
+	Sun, 20 Oct 2024 18:41:00 +0000
+Date: Mon, 21 Oct 2024 02:41:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jean-Baptiste Maneyrol via B4 Relay <devnull+jean-baptiste.maneyrol.tdk.com@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Jean-Baptiste Maneyrol <jean-baptiste.maneyrol@tdk.com>
-Subject: Re: [PATCH] iio: invensense: fix multiple odr switch when FIFO is off
-Message-ID: <202410210200.tPt6CQU4-lkp@intel.com>
-References: <20241017-invn-inv-sensors-timestamp-fix-switch-fifo-off-v1-1-1bcfa70a747b@tdk.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:rdma-next 35/50] mm/hmm.c:678: warning: expecting
+ prototype for hmm_unmap_free(). Prototype was for hmm_map_free() instead
+Message-ID: <202410210220.ThlJHD9I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,94 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241017-invn-inv-sensors-timestamp-fix-switch-fifo-off-v1-1-1bcfa70a747b@tdk.com>
 
-Hi Jean-Baptiste,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c3e9df514041ec6c46be83801b1891392f4522f7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jean-Baptiste-Maneyrol-via-B4-Relay/iio-invensense-fix-multiple-odr-switch-when-FIFO-is-off/20241017-220821
-base:   c3e9df514041ec6c46be83801b1891392f4522f7
-patch link:    https://lore.kernel.org/r/20241017-invn-inv-sensors-timestamp-fix-switch-fifo-off-v1-1-1bcfa70a747b%40tdk.com
-patch subject: [PATCH] iio: invensense: fix multiple odr switch when FIFO is off
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241021/202410210200.tPt6CQU4-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   13682d383a11f330aa1204b53488b695b382c31a
+commit: 96a543e9b8715688bc28d28238dbb08e7102d16d [35/50] mm/hmm: generalize managing PFN and DMA lists
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20241021/202410210220.ThlJHD9I-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210200.tPt6CQU4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210220.ThlJHD9I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410210200.tPt6CQU4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410210220.ThlJHD9I-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/imu/inv_icm42600/inv_icm42600_gyro.c: In function 'inv_icm42600_gyro_update_scan_mode':
->> drivers/iio/imu/inv_icm42600/inv_icm42600_gyro.c:103:39: warning: unused variable 'ts' [-Wunused-variable]
-     103 |         struct inv_sensors_timestamp *ts = &gyro_st->ts;
-         |                                       ^~
---
-   drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c: In function 'inv_icm42600_accel_update_scan_mode':
->> drivers/iio/imu/inv_icm42600/inv_icm42600_accel.c:203:39: warning: unused variable 'ts' [-Wunused-variable]
-     203 |         struct inv_sensors_timestamp *ts = &accel_st->ts;
-         |                                       ^~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+>> mm/hmm.c:678: warning: expecting prototype for hmm_unmap_free(). Prototype was for hmm_map_free() instead
 
 
-vim +/ts +103 drivers/iio/imu/inv_icm42600/inv_icm42600_gyro.c
+vim +678 mm/hmm.c
 
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22   96  
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22   97  /* enable gyroscope sensor and FIFO write */
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22   98  static int inv_icm42600_gyro_update_scan_mode(struct iio_dev *indio_dev,
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22   99  					      const unsigned long *scan_mask)
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  100  {
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  101  	struct inv_icm42600_state *st = iio_device_get_drvdata(indio_dev);
-a1432b5b4f4c44 Jean-Baptiste Maneyrol    2024-04-22  102  	struct inv_icm42600_sensor_state *gyro_st = iio_priv(indio_dev);
-a1432b5b4f4c44 Jean-Baptiste Maneyrol    2024-04-22 @103  	struct inv_sensors_timestamp *ts = &gyro_st->ts;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  104  	struct inv_icm42600_sensor_conf conf = INV_ICM42600_SENSOR_CONF_INIT;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  105  	unsigned int fifo_en = 0;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  106  	unsigned int sleep_gyro = 0;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  107  	unsigned int sleep_temp = 0;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  108  	unsigned int sleep;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  109  	int ret;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  110  
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  111  	mutex_lock(&st->lock);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  112  
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  113  	if (*scan_mask & INV_ICM42600_SCAN_MASK_TEMP) {
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  114  		/* enable temp sensor */
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  115  		ret = inv_icm42600_set_temp_conf(st, true, &sleep_temp);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  116  		if (ret)
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  117  			goto out_unlock;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  118  		fifo_en |= INV_ICM42600_SENSOR_TEMP;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  119  	}
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  120  
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  121  	if (*scan_mask & INV_ICM42600_SCAN_MASK_GYRO_3AXIS) {
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  122  		/* enable gyro sensor */
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  123  		conf.mode = INV_ICM42600_SENSOR_MODE_LOW_NOISE;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  124  		ret = inv_icm42600_set_gyro_conf(st, &conf, &sleep_gyro);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  125  		if (ret)
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  126  			goto out_unlock;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  127  		fifo_en |= INV_ICM42600_SENSOR_GYRO;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  128  	}
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  129  
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  130  	/* update data FIFO write */
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  131  	ret = inv_icm42600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  132  
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  133  out_unlock:
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  134  	mutex_unlock(&st->lock);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  135  	/* sleep maximum required time */
-c788b9e56acd46 Bragatheswaran Manickavel 2023-10-27  136  	sleep = max(sleep_gyro, sleep_temp);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  137  	if (sleep)
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  138  		msleep(sleep);
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  139  	return ret;
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  140  }
-7f85e42a6c54c0 Jean-Baptiste Maneyrol    2020-06-22  141  
+   669	
+   670	/**
+   671	 * hmm_unmap_free - iFree HMM map structure
+   672	 * @dev: device to free structure from
+   673	 * @map: HMM map containing the various lists and state
+   674	 *
+   675	 * Free the HMM map structure and all the lists it contains.
+   676	 */
+   677	void hmm_map_free(struct device *dev, struct hmm_map *map)
+ > 678	{
 
 -- 
 0-DAY CI Kernel Test Service
