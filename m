@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B2B78C8B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 23:30:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645E418DF62;
+	Sun, 20 Oct 2024 23:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729467030; cv=none; b=MIRKfyth6cQnR+a2dU68aj/4wxf3i5Zadzuz5Pvw03uiDblTLnkAGznVTFXA91v4yxJhunN1hoh/FvKKoMNbvmwyxVKYclqxYRWdhOeW8UjQ2RU4yostpb/GTFIHWSu7i46+oGCTHTVyIdfhgFDrpYwO1qIXxP9FNBbe9eE+cGk=
+	t=1729468350; cv=none; b=WMkQPrvZQn0L+FpdUkxEIjeD6ZzvM4VBlOd5uSVA0pMmhqoGsVTaYK1wUcPct6OqrCHqfOI7RGIYuHceBvRvhHxC54d+1SCQYQtjGgeiwyz+7flSHMIe9VboOR8McuXaDm3+hBpoAXY4u8VbSkxjf2xHTbTDwxi19D7cc5qbf4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729467030; c=relaxed/simple;
-	bh=Kz1NHj5ItKEdf8tMz+c3LHflG9kb1GvIXDVJI6QUaw8=;
+	s=arc-20240116; t=1729468350; c=relaxed/simple;
+	bh=r5t6ezWrj8tM5XbRLWl015a2nIv4PHGA1l1F7OKUVyU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MYn8Jjf64IcXamjh1bnxvYR/sgyoW89ZPw1xo9XxNWgfcHVIHoBHjUWm0owuFAKnMKBSHvrLgKddkQPkG3t5G1hWd5kmF3Ks2ev0QchLU9n4PAybACE+kVoR2EcOKSpWGEsjdlxe7r56zBci8vUP0X8UojYRl2IlRp6BGVXy2wU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CtriHKw2; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=hn2jaT/xcwODMB/bohTa9+HrqQBLdAu4EkiLrlaw7wpLXt30z6nVDaO0iInDjj41ovsWAIpvJunaF70GWo76B7rxgClbXdsPUd35gVLKME+7izR30FMehn3+lr/c0brvAUg9gpoDh1NOy18Cxg1NYptVkMuOIup+P+8myjFbUnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZWyHz8BQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CtriHKw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZWyHz8BQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729467027; x=1761003027;
+  t=1729468348; x=1761004348;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Kz1NHj5ItKEdf8tMz+c3LHflG9kb1GvIXDVJI6QUaw8=;
-  b=CtriHKw2rD/Lr6AQNnLw+zwGZH4fL2quU5leVX10fv8xtS1H07tO1sTO
-   O4VccSqh8az1lVTnHNxCL5kS1xxZypG81ODjUJPAPkeqnzxxvlqB8OWMe
-   uzcK7FY3a6DgLb5aiROpDokMeyjQbSFM7PnJH4Rj1DncEJnTx36WHztNp
-   65YxDvb/kxIOB2KmG1urrwXGhTs1ILxsLnZVb5GX2uqVD48ZLubTjQjtG
-   mZvSBTpQ8/NmLc9pFicv6FdjNL3vLRaTkoU6V0F+Ym0CaCl6Vadp+LnPJ
-   fmrzStW8A9+lnvAbK2Eh4Jo3b4HlZ9SM1sQCxQJmuNUAe8XwOqTYJ8snu
-   Q==;
-X-CSE-ConnectionGUID: dW1SIMayTrKNc4JYJf9OAw==
-X-CSE-MsgGUID: eTk9SLjwSOi3iUu9t8yMdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="31801390"
+  bh=r5t6ezWrj8tM5XbRLWl015a2nIv4PHGA1l1F7OKUVyU=;
+  b=ZWyHz8BQR9GCEZcQLZkEPFlu+zmia2us2U6sDQCCB4mNhoHAHH+Islik
+   dTzdpHPJ9JVfQAhuXvu6BzmYqrXtPxuePoj2dyskj79QH+rmV/1BsxX5O
+   Q17fpC6z3GW4EsszAasZsR3FVnQIKkIbTkbXkA08wmGmQmshVqiReTIpR
+   hEjPNYFYEcI1S4j4PTV4woU9lSW2WuIF4c8KOUWCMTRVaXJV+Gwf47KUH
+   7xJO9tijtrRUPk+V1vL+3fTJWJnZ8DUTc7Dt+atBECpb+/fYsBJ9fsCXv
+   cIMlFkbo1+3QVv56mrvfldM5w/YO0GGlQJQCw48jNKi74EONJmkRFflau
+   w==;
+X-CSE-ConnectionGUID: v1iTURg/SxmEcZoaWKYv0Q==
+X-CSE-MsgGUID: lk3KxFA9TmSLvDmXfVLfGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="28366955"
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="31801390"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 16:30:26 -0700
-X-CSE-ConnectionGUID: TRYXLaZQS6iTM3Ws5weyAA==
-X-CSE-MsgGUID: ZE26uQnrSH6OO8a5PFhIdg==
+   d="scan'208";a="28366955"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 16:52:28 -0700
+X-CSE-ConnectionGUID: prbo0Ih9TIGcZb3dmFM1RA==
+X-CSE-MsgGUID: gFiR32AlQgGK71jkFRmtag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="79010962"
+   d="scan'208";a="83944143"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2024 16:30:22 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 Oct 2024 16:52:24 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2fNM-000QtJ-0h;
-	Sun, 20 Oct 2024 23:30:20 +0000
-Date: Mon, 21 Oct 2024 07:30:00 +0800
+	id 1t2fif-000Qtr-2v;
+	Sun, 20 Oct 2024 23:52:21 +0000
+Date: Mon, 21 Oct 2024 07:52:17 +0800
 From: kernel test robot <lkp@intel.com>
 To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Bjorn Andersson <andersson@kernel.org>,
@@ -59,12 +59,12 @@ To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
 	Neil Armstrong <neil.armstrong@linaro.org>,
 	Philipp Zabel <p.zabel@pengutronix.de>,
 	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Kalpak Kawadkar <quic_kkawadka@quicinc.com>
 Subject: Re: [PATCH 11/14] clk: qcom: add support for GCC on SAR2130P
-Message-ID: <202410210706.cTMYfYvA-lkp@intel.com>
+Message-ID: <202410210734.7rGICRUi-lkp@intel.com>
 References: <20241017-sar2130p-clocks-v1-11-f75e740f0a8d@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,32 +86,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/dt-bindi
 base:   7df1e7189cecb6965ce672e820a5ec6cf499b65b
 patch link:    https://lore.kernel.org/r/20241017-sar2130p-clocks-v1-11-f75e740f0a8d%40linaro.org
 patch subject: [PATCH 11/14] clk: qcom: add support for GCC on SAR2130P
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241021/202410210706.cTMYfYvA-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210706.cTMYfYvA-lkp@intel.com/reproduce)
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241021/202410210734.7rGICRUi-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210734.7rGICRUi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410210706.cTMYfYvA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410210734.7rGICRUi-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/clk/qcom/gcc-sar2130p.c:269:37: warning: 'gcc_parent_data_5' defined but not used [-Wunused-const-variable=]
-     269 | static const struct clk_parent_data gcc_parent_data_5[] = {
-         |                                     ^~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-sar2130p.c:264:32: warning: 'gcc_parent_map_5' defined but not used [-Wunused-const-variable=]
-     264 | static const struct parent_map gcc_parent_map_5[] = {
-         |                                ^~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-sar2130p.c:259:37: warning: 'gcc_parent_data_4' defined but not used [-Wunused-const-variable=]
-     259 | static const struct clk_parent_data gcc_parent_data_4[] = {
-         |                                     ^~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-sar2130p.c:254:32: warning: 'gcc_parent_map_4' defined but not used [-Wunused-const-variable=]
+>> drivers/clk/qcom/gcc-sar2130p.c:254:32: warning: unused variable 'gcc_parent_map_4' [-Wunused-const-variable]
      254 | static const struct parent_map gcc_parent_map_4[] = {
          |                                ^~~~~~~~~~~~~~~~
+>> drivers/clk/qcom/gcc-sar2130p.c:259:37: warning: unused variable 'gcc_parent_data_4' [-Wunused-const-variable]
+     259 | static const struct clk_parent_data gcc_parent_data_4[] = {
+         |                                     ^~~~~~~~~~~~~~~~~
+>> drivers/clk/qcom/gcc-sar2130p.c:264:32: warning: unused variable 'gcc_parent_map_5' [-Wunused-const-variable]
+     264 | static const struct parent_map gcc_parent_map_5[] = {
+         |                                ^~~~~~~~~~~~~~~~
+>> drivers/clk/qcom/gcc-sar2130p.c:269:37: warning: unused variable 'gcc_parent_data_5' [-Wunused-const-variable]
+     269 | static const struct clk_parent_data gcc_parent_data_5[] = {
+         |                                     ^~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
 
-vim +/gcc_parent_data_5 +269 drivers/clk/qcom/gcc-sar2130p.c
+vim +/gcc_parent_map_4 +254 drivers/clk/qcom/gcc-sar2130p.c
 
    253	
  > 254	static const struct parent_map gcc_parent_map_4[] = {
