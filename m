@@ -1,143 +1,117 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151BC84E0A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 10:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3710417C200;
+	Sun, 20 Oct 2024 11:15:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729421084; cv=none; b=ACuZxdKuHERV4vNFz6p3pZMzTO0R/huE4j2kM7ZsvErneRkPt5Dftvi+XRzbFT9yJ6iCYvd3HbdtN2XKcD2pSFBYo2+Sun8R6BZoxCm9r212K6iIhCaDgQCuDthjNw4jilzZFQUdAzC4lwW+luzDpAdJqXx2DOJ7iU7DW3CFh74=
+	t=1729422946; cv=none; b=THQ3NPfoYmQ7BheSohmWTMFhRhYlZJhpUTv+dvD+vvST07ypeN1ae1ME4KsAIqKdoqWj0AjFvGXo2WqmXXnUC6KjuBCLS7snpgbMP+eND0HiVzGdK7G6sQNDgfA+zoHUSnz4kvuY3FwIDjVlnYkGTvEFoMvz/Co5+xNmQMABrW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729421084; c=relaxed/simple;
-	bh=BlU6SNAVuB+ePlLNf75kQesr0X45PWZmw4zKs7QsWaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fsCf6JZBZLjCb+bWF21y0hydfvUBRBqklyMUCnFwUzgsAXtwuzHDVd5L8j4HQ+fCBLVhm+ulTBQYn2ccotshCqheg9hFt5O0GTv9dWX0c/6HwgtwmhUBaTlmbqUEV/GcmvkOa/xtw6wAHBwVHP4v5nSlV9RQOL0ID6b4UvngqAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WMsrlVWo; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1729422946; c=relaxed/simple;
+	bh=dNaIP19J6t4liRQU078lv5AlRenmylPH0pYmXw92tqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xw7l5pI7a7lAveNlFRoDTp4Yk7YItxo8r4RmC20E7nQt4DTRwtxg1oMsgalSH5c10C/ASDUBOS+fhrk0rod4dxdZ5MWSUWsAVXRH8/p87YlKZca8N059F+RsA1Qe9m9F9DuSOi/o7HXncmUdBv62xW3jE0wR43GQZ7JMxfyQ3MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrNhfY4k; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WMsrlVWo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrNhfY4k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729421082; x=1760957082;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=BlU6SNAVuB+ePlLNf75kQesr0X45PWZmw4zKs7QsWaA=;
-  b=WMsrlVWoE22X3J+thmAmRaIhEQa2B7PkgNZ1Ol8FN5SGrgdPu8bkjuHB
-   zMdKLfSuUkmLJApT1tM5J2XHUKf85mQGjoCTwOkBOKwP041b9RNzVWIWN
-   jytWRC0G6pv1lZVIn8jQMLUduiYmWkdw/8gflDOTXzTr4HXYEkaiYWA2s
-   uHplPB2m3JfH9/h+9nudGyvabeqKvT99xz6Pwjp1LOAtO/5tE7JN/6vzz
-   A0z2dquX0COoHmpw+4IXZAdMylP1x7zR2+GAt7pZ4TbJvfsOrnUAprhBQ
-   vGno805Y82SupY9hZBlVZ9Cj3uDXbBOEoln2bGkb+X1avbhpPgKk8T2fq
+  t=1729422945; x=1760958945;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dNaIP19J6t4liRQU078lv5AlRenmylPH0pYmXw92tqg=;
+  b=nrNhfY4kl3tp1cvs98eT/vAs8YNBXZMT7rB1A6h39ltmNLeFmrN7GGft
+   T9ATmRBwlPcYa8iPsLKTZgle47jNkvjKHgbxNv2BsT1bkjuwksWHtMWGd
+   5P4mhb5Oh80svGpIICsWGvezld9FO0L+Hh+apjB+w5GPQuIn1W6aCU2F7
+   UHNQwmafSb9kd2jLNg2hT9GtVMbacJoJJNbAd2snsHl+cu/IoKAc1PF4b
+   btSkfFl7U7PxzCvxQS/2D1iv6TYOPtABCeJfWuchMEEmkw3cn+LeMTaj1
+   VVwFzbHB19In4kxVGYQWpfzpbQ3y3YqsTl5PnfgTDbH/ARlyE10Nz4XCL
    Q==;
-X-CSE-ConnectionGUID: LfcRbv9bRfitRD2GEhb8OQ==
-X-CSE-MsgGUID: oPLTf10tQZqMrK+Fxe+ELQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="54321250"
+X-CSE-ConnectionGUID: Dy2dIGjNRu+wi/OuqhCuxg==
+X-CSE-MsgGUID: sQU4rFVPT76Hda8ehKcsdg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="32824829"
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="54321250"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 03:44:41 -0700
-X-CSE-ConnectionGUID: bSBlRiX2SOu/CEqHAPGTHw==
-X-CSE-MsgGUID: bIgfV6zqTKOGZlhOMRHZxw==
+   d="scan'208";a="32824829"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 04:15:41 -0700
+X-CSE-ConnectionGUID: A6B/A7DvQ/iP0D80kWE+og==
+X-CSE-MsgGUID: 1Vkx7wxuS6qZ7Auow41H/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="110018743"
+   d="scan'208";a="84061052"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Oct 2024 03:44:39 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 Oct 2024 04:15:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2TQK-000QDD-1C;
-	Sun, 20 Oct 2024 10:44:36 +0000
-Date: Sun, 20 Oct 2024 18:44:01 +0800
+	id 1t2TuL-000QEB-1B;
+	Sun, 20 Oct 2024 11:15:37 +0000
+Date: Sun, 20 Oct 2024 19:15:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: George Stark <gnstark@salutedevices.com>,
-	u.kleine-koenig@pengutronix.de, neil.armstrong@linaro.org,
-	khilman@baylibre.com, jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pwm@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	kernel@salutedevices.com, George Stark <gnstark@salutedevices.com>
-Subject: Re: [PATCH v2 1/4] pwm: meson: Simplify get_state() callback
-Message-ID: <202410201612.QJbPOweL-lkp@intel.com>
-References: <20241016152553.2321992-2-gnstark@salutedevices.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20241015-2 1/20]
+ kernel/sched/ext.c:3454:10: error: incompatible pointer types returning
+ 'struct cgroup_hdr *' from a function with result type 'struct cgroup *'
+Message-ID: <202410201911.RjSrvRuo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241016152553.2321992-2-gnstark@salutedevices.com>
 
-Hi George,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.12-rc3 next-20241018]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/George-Stark/pwm-meson-Simplify-get_state-callback/20241016-232751
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241016152553.2321992-2-gnstark%40salutedevices.com
-patch subject: [PATCH v2 1/4] pwm: meson: Simplify get_state() callback
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241020/202410201612.QJbPOweL-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201612.QJbPOweL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241015-2
+head:   f4f8ca5cd7f039bcab816194342c7b6101e891fe
+commit: 7c9abd83f6b3412752cbb1a76954568b5316ad61 [1/20] cgroup: Avoid -Wflex-array-member-not-at-end warnings
+config: i386-buildonly-randconfig-003-20241020 (https://download.01.org/0day-ci/archive/20241020/202410201911.RjSrvRuo-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201911.RjSrvRuo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410201612.QJbPOweL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410201911.RjSrvRuo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pwm/pwm-meson.c: In function 'meson_pwm_get_state':
->> drivers/pwm/pwm-meson.c:312:35: warning: variable 'channel' set but not used [-Wunused-but-set-variable]
-     312 |         struct meson_pwm_channel *channel;
-         |                                   ^~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   In file included from kernel/sched/build_policy.c:63:
+>> kernel/sched/ext.c:3454:10: error: incompatible pointer types returning 'struct cgroup_hdr *' from a function with result type 'struct cgroup *' [-Werror,-Wincompatible-pointer-types]
+    3454 |                 return &cgrp_dfl_root.cgrp;
+         |                        ^~~~~~~~~~~~~~~~~~~
+>> kernel/sched/ext.c:7152:17: error: incompatible pointer types initializing 'struct cgroup *' with an expression of type 'struct cgroup_hdr *' [-Werror,-Wincompatible-pointer-types]
+    7152 |         struct cgroup *cgrp = &cgrp_dfl_root.cgrp;
+         |                        ^      ~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +/channel +312 drivers/pwm/pwm-meson.c
+vim +3454 kernel/sched/ext.c
 
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  306  
-6c452cff79f8bf Uwe Kleine-König    2022-12-02  307  static int meson_pwm_get_state(struct pwm_chip *chip, struct pwm_device *pwm,
-211ed630753d2f Neil Armstrong      2016-08-22  308  			       struct pwm_state *state)
-211ed630753d2f Neil Armstrong      2016-08-22  309  {
-211ed630753d2f Neil Armstrong      2016-08-22  310  	struct meson_pwm *meson = to_meson_pwm(chip);
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  311  	struct meson_pwm_channel_data *channel_data;
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12 @312  	struct meson_pwm_channel *channel;
-2acdf419b01bae George Stark        2024-10-16  313  	unsigned int hi, lo;
-329db102a26da0 Heiner Kallweit     2023-05-24  314  	u32 value;
-211ed630753d2f Neil Armstrong      2016-08-22  315  
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  316  	channel = &meson->channels[pwm->hwpwm];
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  317  	channel_data = &meson_pwm_per_channel_data[pwm->hwpwm];
-211ed630753d2f Neil Armstrong      2016-08-22  318  
-211ed630753d2f Neil Armstrong      2016-08-22  319  	value = readl(meson->base + REG_MISC_AB);
-329db102a26da0 Heiner Kallweit     2023-05-24  320  	state->enabled = value & channel_data->pwm_en_mask;
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  321  
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  322  	value = readl(meson->base + channel_data->reg_offset);
-2acdf419b01bae George Stark        2024-10-16  323  	lo = FIELD_GET(PWM_LOW_MASK, value);
-2acdf419b01bae George Stark        2024-10-16  324  	hi = FIELD_GET(PWM_HIGH_MASK, value);
-c375bcbaabdb92 Martin Blumenstingl 2019-06-12  325  
-2acdf419b01bae George Stark        2024-10-16  326  	state->period = meson_pwm_cnt_to_ns(chip, pwm, lo + hi);
-2acdf419b01bae George Stark        2024-10-16  327  	state->duty_cycle = meson_pwm_cnt_to_ns(chip, pwm, hi);
-6c452cff79f8bf Uwe Kleine-König    2022-12-02  328  
-8caa81eb950cb2 Uwe Kleine-König    2023-03-22  329  	state->polarity = PWM_POLARITY_NORMAL;
-8caa81eb950cb2 Uwe Kleine-König    2023-03-22  330  
-6c452cff79f8bf Uwe Kleine-König    2022-12-02  331  	return 0;
-211ed630753d2f Neil Armstrong      2016-08-22  332  }
-211ed630753d2f Neil Armstrong      2016-08-22  333  
+f0e1a0643a59bf Tejun Heo 2024-06-18  3442  
+8195136669661f Tejun Heo 2024-09-04  3443  #ifdef CONFIG_EXT_GROUP_SCHED
+8195136669661f Tejun Heo 2024-09-04  3444  static struct cgroup *tg_cgrp(struct task_group *tg)
+8195136669661f Tejun Heo 2024-09-04  3445  {
+8195136669661f Tejun Heo 2024-09-04  3446  	/*
+8195136669661f Tejun Heo 2024-09-04  3447  	 * If CGROUP_SCHED is disabled, @tg is NULL. If @tg is an autogroup,
+8195136669661f Tejun Heo 2024-09-04  3448  	 * @tg->css.cgroup is NULL. In both cases, @tg can be treated as the
+8195136669661f Tejun Heo 2024-09-04  3449  	 * root cgroup.
+8195136669661f Tejun Heo 2024-09-04  3450  	 */
+8195136669661f Tejun Heo 2024-09-04  3451  	if (tg && tg->css.cgroup)
+8195136669661f Tejun Heo 2024-09-04  3452  		return tg->css.cgroup;
+8195136669661f Tejun Heo 2024-09-04  3453  	else
+8195136669661f Tejun Heo 2024-09-04 @3454  		return &cgrp_dfl_root.cgrp;
+8195136669661f Tejun Heo 2024-09-04  3455  }
+8195136669661f Tejun Heo 2024-09-04  3456  
+
+:::::: The code at line 3454 was first introduced by commit
+:::::: 8195136669661fdfe54e9a8923c33b31c92fc1da sched_ext: Add cgroup support
+
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
