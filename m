@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9634C3209
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 03:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ECF433E7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 04:30:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729394297; cv=none; b=O4mQxcERHcdgYDJs/i5IPl6OZ19yXIOAgDuDwyo/VULIgACZ5yf5DFbBpo1m9HizmDzmXL+eD7rjjRrftv5I1oTDl3CcHYb9F144LJ5czcFC6+wJIKNSP7V13EKITY7N+sM2sU5sXtVfd4DhTPHAFg93WdPJ6Nw2/dRTj5eT2LQ=
+	t=1729398619; cv=none; b=EU27PWweQ05sZG3hHH9H8OsCIR5j1tbpDpJBxU3Z+yIdtNvrEBk4pRETbQ2mE9nFU2BAvf3GdFMHkxmjx5v862Z/biNWBxgWe0yl8ITT6HSOfoThw2MIkvZ/dkgmI2sRgG4NrBiTCDiU5D0TAdFpYq22ZLWRZjrh4+p0zJCWJ2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729394297; c=relaxed/simple;
-	bh=8GZMI0yEATExBupqNCg+WxtvPX6/Px2dqnOuhgaxRNs=;
+	s=arc-20240116; t=1729398619; c=relaxed/simple;
+	bh=XonzJkQKNGbXF4huVfZgGGfCze7qSci52pHIkzRr3qQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m+2o2KB36u52o6ZI+JiUbBROdBudb9feQyQQzle6BeJ+FBgbAsTkqJC/xWpXSLsxFdE3tCQ12CQ7fCm/hjfufnNInnS9NHuG3dB+GXj+kGMyTprf2dNbU78e3QuZ4gzEUIJ9H5WYEo6ZxB/Jzgf0BxiKL6O8RHn08xQSm1LVWQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OayeQ8SU; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=IdIPOV1gEcuWMYn3vxNAbXirH5qPWpZigZhx7rJTDt1MoJqO8mVC+ckgYs18sdPgooQ1RAtIQRmzOrAI34K05KB36BzzGkXz6J1zwUvAgbLk/rXIs/3FC8X5gVErAGHz77OeWR8lSEg2yxeDNyWBqnuyQ4kvSTUqHbIHe98UDkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CakPbQWX; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OayeQ8SU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CakPbQWX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729394294; x=1760930294;
+  t=1729398617; x=1760934617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8GZMI0yEATExBupqNCg+WxtvPX6/Px2dqnOuhgaxRNs=;
-  b=OayeQ8SUF8PaY1+iO/Ty74SJ/dTef1dnESvbLQiEMdztbrPkqMaaI3Vq
-   gdYHOsZRvism2lPgxDi4cNoCzvLWxz+BiEOZWMV0EHrwx/NRhQaB6DEzA
-   FD9PV1oRo8n9GZlS6Zx5iP2K3UAmjlI8NpJ7iFyv1Ybw1ymI16nBDsZvF
-   gLEGTf3HBrDXykdFBVle2BtU6KEM+CxJ0TKt/CVrP26U+a+lbSuER7Z1G
-   pShFhgtQN8yL9oSessq4QEXUKUJfJnSgAlLfs0XOqxCU/LV9SSpTTVDWt
-   YgHHQKG3BpsBclIm1QkYc5NqzrSMSmpuBmMKq4IisL19EHNX444FkiXYN
-   Q==;
-X-CSE-ConnectionGUID: ymDkl/hsTny+Z2w8szbY5Q==
-X-CSE-MsgGUID: NWPnxhTkT6q+m91OymqU3Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="32697995"
+  bh=XonzJkQKNGbXF4huVfZgGGfCze7qSci52pHIkzRr3qQ=;
+  b=CakPbQWXwg6+ZDrK6yA/zANxs4/dMm/oWyemKl0QPg3YUArxriZqncJh
+   L973MhGJz+6TdE11mkzV3Wc/pORmfWG3yULJ9r2JfibQC4Q0Ei9h8puxx
+   E7V2D61Pxz0gX1EmHs8akX2GVVnbQC7W2W5RIA3rj0WGh3wg4uP/FDyMj
+   T89S1843Ue96ji0geQxC4Wsxd6ENofRUgS1XbPPM6uKtzU4+A/AqnMrv/
+   XXvGW9OOmgRsbPf8AcYQyM/NZg+Nzh4fnAaux0dJFcsLZ/HiN2yI6ihzz
+   +pP9ta3cjSPeMOmit9DjJD7JTtL5EeMv/UoOOsM+ix4c2K6BlB7WFFMln
+   g==;
+X-CSE-ConnectionGUID: U0hCd6L3Rca6CWI8BOMRfg==
+X-CSE-MsgGUID: XIg/KUGqTn2iMHljlwg2nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="28355810"
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="32697995"
+   d="scan'208";a="28355810"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 20:18:13 -0700
-X-CSE-ConnectionGUID: VdJtwip3Qz+tfoKXzht0IA==
-X-CSE-MsgGUID: HXRxVdlVQFa1Xl14AYkAVA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 21:30:17 -0700
+X-CSE-ConnectionGUID: zZqBt3zURb6g2VtizjYxpQ==
+X-CSE-MsgGUID: b+b8sHR1RP+ZWHrAeP0Qsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="78864449"
+   d="scan'208";a="78872467"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 19 Oct 2024 20:18:13 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Oct 2024 21:30:15 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2MSI-000PpF-0r;
-	Sun, 20 Oct 2024 03:18:10 +0000
-Date: Sun, 20 Oct 2024 11:18:07 +0800
+	id 1t2Na1-000PtZ-0C;
+	Sun, 20 Oct 2024 04:30:13 +0000
+Date: Sun, 20 Oct 2024 12:29:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 3/42]
- drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15:
- warning: variable 'total_plane_size' set but not used
-Message-ID: <202410201133.bRPcaFyx-lkp@intel.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 4278/4954]
+ arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48: Unevaluated properties
+ are not allowed ('bci', 'gpio', 'keypad', 'pwm', 'pwmled', 'twl4030-usb'
+ were unexpected)
+Message-ID: <202410201216.YBBsADJl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,80 +65,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   f80404ea0956d01dcbcdfb1e4807883883fb46bb
-commit: f3dfe20a2f4b990f6640e16f5a45563c02459b06 [3/42] BACKPORT: FROMLIST: media: platform: mediatek: isp: Add Mediatek DIP driver
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241020/202410201133.bRPcaFyx-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201133.bRPcaFyx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
+commit: 8a2ef90ff7924250db535454ef92ba2961b80fba [4278/4954] dt-bindings: mfd: twl: Add charger node also for TWL603x
+config: arm-randconfig-053-20241016 (https://download.01.org/0day-ci/archive/20241020/202410201216.YBBsADJl-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201216.YBBsADJl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410201133.bRPcaFyx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410201216.YBBsADJl-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15: warning: variable 'total_plane_size' set but not used [-Wunused-but-set-variable]
-     411 |         unsigned int total_plane_size = 0;
-         |                      ^
-   1 warning generated.
-
-
-vim +/total_plane_size +411 drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c
-
-   402	
-   403	static void mtk_dip_fill_ipi_img_param_mp(struct mtk_dip_pipe *pipe,
-   404						  struct img_image_buffer *b,
-   405						  struct mtk_dip_dev_buffer *dev_buf,
-   406						  char *buf_name)
-   407	{
-   408		struct v4l2_pix_format_mplane *pix_mp = &dev_buf->fmt.fmt.pix_mp;
-   409		const struct mtk_dip_dev_format *mdp_fmt = dev_buf->dev_fmt;
-   410		unsigned int i;
- > 411		unsigned int total_plane_size = 0;
-   412	
-   413		b->usage = dev_buf->dma_port;
-   414		b->format.colorformat = dev_buf->dev_fmt->mdp_color;
-   415		b->format.width = dev_buf->fmt.fmt.pix_mp.width;
-   416		b->format.height = dev_buf->fmt.fmt.pix_mp.height;
-   417		b->format.ycbcr_prof =
-   418			mtk_dip_map_ycbcr_prof_mplane(pix_mp,
-   419						      dev_buf->dev_fmt->mdp_color);
-   420	
-   421		for (i = 0; i < pix_mp->num_planes; ++i) {
-   422			u32 stride = pix_mp->plane_fmt[i].bytesperline;
-   423	
-   424			/*
-   425			 * We use dip_mdp_fmt_get_plane_size() to get the plane sizes of
-   426			 * non-M multiple plane image buffers. In this case,
-   427			 * pix_mp->plane_fmt[0].sizeimage is the total size of all
-   428			 * b->format.plane_fmt[i].
-   429			 */
-   430			b->format.plane_fmt[i].stride = stride;
-   431			b->format.plane_fmt[i].size =
-   432				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
-   433							   pix_mp->height, i);
-   434			b->iova[i] = dev_buf->isp_daddr[i];
-   435			total_plane_size += b->format.plane_fmt[i].size;
-   436		}
-   437	
-   438		if (!mtk_dip_is_contig_mp_buffer(dev_buf))
-   439			return;
-   440	
-   441		for (; i < DIP_MCOLOR_GET_PLANE_COUNT(b->format.colorformat); ++i) {
-   442			u32 stride = dip_mdp_fmt_get_stride_contig
-   443					(mdp_fmt, b->format.plane_fmt[0].stride, i);
-   444	
-   445			b->format.plane_fmt[i].stride = stride;
-   446			b->format.plane_fmt[i].size =
-   447				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
-   448							   pix_mp->height, i);
-   449			b->iova[i] = b->iova[i - 1] + b->format.plane_fmt[i - 1].size;
-   450			total_plane_size += b->format.plane_fmt[i].size;
-   451		}
-   452	}
-   453	
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/arm/cpus.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /soc: failed to match any schema with compatible: ['ti,omap-infra']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /soc/mpu: failed to match any schema with compatible: ['ti,omap2-mpu']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: ocp: $nodename:0: 'ocp' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/aes@480a6000: failed to match any schema with compatible: ['ti,omap2-aes']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/1w@480b2000: failed to match any schema with compatible: ['ti,omap2420-1w']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/interrupt-controller@1: failed to match any schema with compatible: ['ti,omap2-intc']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap2430-sdma', 'ti,omap-sdma']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/target-module@48056000/dma-controller@0: failed to match any schema with compatible: ['ti,omap2430-sdma', 'ti,omap-sdma']
+>> arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: twl@48: Unevaluated properties are not allowed ('bci', 'gpio', 'keypad', 'pwm', 'pwmled', 'twl4030-usb' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/ti,twl.yaml#
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/gpio: failed to match any schema with compatible: ['ti,twl4030-gpio']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/twl4030-usb: failed to match any schema with compatible: ['ti,twl4030-usb']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/pwm: failed to match any schema with compatible: ['ti,twl4030-pwm']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/pwmled: failed to match any schema with compatible: ['ti,twl4030-pwmled']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/i2c@48072000/twl@48/keypad: failed to match any schema with compatible: ['ti,twl4030-keypad']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000: failed to match any schema with compatible: ['ti,omap2-dss']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/dispc@48050400: failed to match any schema with compatible: ['ti,omap2-dispc']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/encoder@48050800: failed to match any schema with compatible: ['ti,omap2-rfbi']
+   arch/arm/boot/dts/ti/omap/omap2430-sdp.dtb: /ocp/dss@48050000/encoder@48050c00: failed to match any schema with compatible: ['ti,omap2-venc']
 
 -- 
 0-DAY CI Kernel Test Service
