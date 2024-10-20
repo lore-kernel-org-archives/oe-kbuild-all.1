@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F280C3D6D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 03:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9634C3209
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 03:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729393699; cv=none; b=fMxzl4E1crPWTSulYC3OfDTXzNY6m6BGQX+v/laB34U66MvImwQRnBRlr/iF87QdhbXCT07qOtTSWdP0aD0tiYDnriDxGIjUe7aDRuw/pgAt+1aQHDQm/Kx4j64ZMkM2c+iX7Eb0PBpVt99vDHGpJTPt95KKCG4+TuD7RgX7pXM=
+	t=1729394297; cv=none; b=O4mQxcERHcdgYDJs/i5IPl6OZ19yXIOAgDuDwyo/VULIgACZ5yf5DFbBpo1m9HizmDzmXL+eD7rjjRrftv5I1oTDl3CcHYb9F144LJ5czcFC6+wJIKNSP7V13EKITY7N+sM2sU5sXtVfd4DhTPHAFg93WdPJ6Nw2/dRTj5eT2LQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729393699; c=relaxed/simple;
-	bh=QPgWS4lMtZvAEVX6HvEVtO7MZw8iCYgJoBHYExlFH6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BqmZWt/FkT0lExhMizT9H6yRkTbm6GTwD4uQO6LBofbNF4vAsdJGKXp6u9jtqfLQtmdLZ8UbxZ1ZiCgrjOS+InGcHGXgroSPF6HPwrYVmxLqHwpbs8sjui+6pK3mSKdojsdK7z4I/xbyXi7x9sJGeTJME9pQ66etkYBN9y0uM9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Li/6czrp; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1729394297; c=relaxed/simple;
+	bh=8GZMI0yEATExBupqNCg+WxtvPX6/Px2dqnOuhgaxRNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=m+2o2KB36u52o6ZI+JiUbBROdBudb9feQyQQzle6BeJ+FBgbAsTkqJC/xWpXSLsxFdE3tCQ12CQ7fCm/hjfufnNInnS9NHuG3dB+GXj+kGMyTprf2dNbU78e3QuZ4gzEUIJ9H5WYEo6ZxB/Jzgf0BxiKL6O8RHn08xQSm1LVWQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OayeQ8SU; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Li/6czrp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OayeQ8SU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729393697; x=1760929697;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QPgWS4lMtZvAEVX6HvEVtO7MZw8iCYgJoBHYExlFH6E=;
-  b=Li/6czrpFKrHVnfKyiYz2Rt55LQPiWmvOf9G8yfxyUKSv4ArZVULFW/8
-   DMCEKLsDKjk1obS+6WrvVv7KGukKu0CCBZ/HoHC/4hBHnFkqUzyu9mIrz
-   iOVPM1D7bKgjRCIQEi5H/gTd9m9QbmWg0OEfA4iSJgr8DeqH1TDx0llJ5
-   CYuSRsp7a/McE0ssCQZz9QUM+RdpQdVcjeFxihN3bkuyNqUbO2GtETW2R
-   JnlSP+HmV6eyzejC+PJmMIbNCvq52IMPV75NbsdloFlcgOkx8Mck/Pbki
-   PJaz4NgH7Nxi7tL/qKhV0KppcNRiyDGUND5pvE8RdmN769vu88iWJw5tr
-   A==;
-X-CSE-ConnectionGUID: +WHDhhs5QUGRCkbs2JyKIQ==
-X-CSE-MsgGUID: 8wWwbGqeSnivuNX9ZigTRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39442881"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39442881"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 20:08:14 -0700
-X-CSE-ConnectionGUID: MdjTsAKQQnyxHlxAZJYBCA==
-X-CSE-MsgGUID: hr4+EkSsTbSJEgiov9URhw==
+  t=1729394294; x=1760930294;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8GZMI0yEATExBupqNCg+WxtvPX6/Px2dqnOuhgaxRNs=;
+  b=OayeQ8SUF8PaY1+iO/Ty74SJ/dTef1dnESvbLQiEMdztbrPkqMaaI3Vq
+   gdYHOsZRvism2lPgxDi4cNoCzvLWxz+BiEOZWMV0EHrwx/NRhQaB6DEzA
+   FD9PV1oRo8n9GZlS6Zx5iP2K3UAmjlI8NpJ7iFyv1Ybw1ymI16nBDsZvF
+   gLEGTf3HBrDXykdFBVle2BtU6KEM+CxJ0TKt/CVrP26U+a+lbSuER7Z1G
+   pShFhgtQN8yL9oSessq4QEXUKUJfJnSgAlLfs0XOqxCU/LV9SSpTTVDWt
+   YgHHQKG3BpsBclIm1QkYc5NqzrSMSmpuBmMKq4IisL19EHNX444FkiXYN
+   Q==;
+X-CSE-ConnectionGUID: ymDkl/hsTny+Z2w8szbY5Q==
+X-CSE-MsgGUID: NWPnxhTkT6q+m91OymqU3Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11230"; a="32697995"
+X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
+   d="scan'208";a="32697995"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2024 20:18:13 -0700
+X-CSE-ConnectionGUID: VdJtwip3Qz+tfoKXzht0IA==
+X-CSE-MsgGUID: HXRxVdlVQFa1Xl14AYkAVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,217,1725346800"; 
-   d="scan'208";a="79167636"
+   d="scan'208";a="78864449"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Oct 2024 20:08:12 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 19 Oct 2024 20:18:13 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2MIc-000Pod-03;
-	Sun, 20 Oct 2024 03:08:10 +0000
-Date: Sun, 20 Oct 2024 11:07:43 +0800
+	id 1t2MSI-000PpF-0r;
+	Sun, 20 Oct 2024 03:18:10 +0000
+Date: Sun, 20 Oct 2024 11:18:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@amazon.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Kuniyuki Iwashima <kuniyu@amazon.com>
-Subject: Re: [PATCH v1 net-next 11/11] ipv4: Convert devinet_ioctl to
- per-netns RTNL.
-Message-ID: <202410201022.bZkEgzK5-lkp@intel.com>
-References: <20241018012225.90409-12-kuniyu@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 3/42]
+ drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15:
+ warning: variable 'total_plane_size' set but not used
+Message-ID: <202410201133.bRPcaFyx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,144 +62,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018012225.90409-12-kuniyu@amazon.com>
 
-Hi Kuniyuki,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/rtnetlink-Define-RTNL_FLAG_DOIT_PERNET-for-per-netns-RTNL-doit/20241018-092802
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241018012225.90409-12-kuniyu%40amazon.com
-patch subject: [PATCH v1 net-next 11/11] ipv4: Convert devinet_ioctl to per-netns RTNL.
-config: x86_64-randconfig-122-20241019 (https://download.01.org/0day-ci/archive/20241020/202410201022.bZkEgzK5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201022.bZkEgzK5-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   f80404ea0956d01dcbcdfb1e4807883883fb46bb
+commit: f3dfe20a2f4b990f6640e16f5a45563c02459b06 [3/42] BACKPORT: FROMLIST: media: platform: mediatek: isp: Add Mediatek DIP driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241020/202410201133.bRPcaFyx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410201133.bRPcaFyx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410201022.bZkEgzK5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410201133.bRPcaFyx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/ipv4/devinet.c:674:47: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu * @@
-   net/ipv4/devinet.c:674:47: sparse:     expected void *p
-   net/ipv4/devinet.c:674:47: sparse:     got struct in_ifaddr [noderef] __rcu *
-   net/ipv4/devinet.c:775:65: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu * @@
-   net/ipv4/devinet.c:775:65: sparse:     expected void *p
-   net/ipv4/devinet.c:775:65: sparse:     got struct in_ifaddr [noderef] __rcu *
-   net/ipv4/devinet.c:783:73: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu * @@
-   net/ipv4/devinet.c:783:73: sparse:     expected void *p
-   net/ipv4/devinet.c:783:73: sparse:     got struct in_ifaddr [noderef] __rcu *
-   net/ipv4/devinet.c:945:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu *ifa_list @@
-   net/ipv4/devinet.c:945:9: sparse:     expected void *p
-   net/ipv4/devinet.c:945:9: sparse:     got struct in_ifaddr [noderef] __rcu *ifa_list
-   net/ipv4/devinet.c:945:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu *ifa_next @@
-   net/ipv4/devinet.c:945:9: sparse:     expected void *p
-   net/ipv4/devinet.c:945:9: sparse:     got struct in_ifaddr [noderef] __rcu *ifa_next
-   net/ipv4/devinet.c:1135:63: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu * @@
-   net/ipv4/devinet.c:1135:63: sparse:     expected void *p
-   net/ipv4/devinet.c:1135:63: sparse:     got struct in_ifaddr [noderef] __rcu *
-   net/ipv4/devinet.c:1149:63: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu * @@
-   net/ipv4/devinet.c:1149:63: sparse:     expected void *p
-   net/ipv4/devinet.c:1149:63: sparse:     got struct in_ifaddr [noderef] __rcu *
-   net/ipv4/devinet.c:1313:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu *ifa_list @@
-   net/ipv4/devinet.c:1313:9: sparse:     expected void *p
-   net/ipv4/devinet.c:1313:9: sparse:     got struct in_ifaddr [noderef] __rcu *ifa_list
->> net/ipv4/devinet.c:1313:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_ifaddr [noderef] __rcu *const ifa_next @@
-   net/ipv4/devinet.c:1313:9: sparse:     expected void *p
-   net/ipv4/devinet.c:1313:9: sparse:     got struct in_ifaddr [noderef] __rcu *const ifa_next
-   net/ipv4/devinet.c: note: in included file:
-   include/linux/inetdevice.h:261:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *p @@     got struct in_device [noderef] __rcu *const ip_ptr @@
-   include/linux/inetdevice.h:261:54: sparse:     expected void *p
-   include/linux/inetdevice.h:261:54: sparse:     got struct in_device [noderef] __rcu *const ip_ptr
-   net/ipv4/devinet.c: note: in included file (through include/linux/inetdevice.h):
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
-   include/linux/rtnetlink.h:153:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rtnetlink.h:153:16: sparse:    void [noderef] __rcu *
-   include/linux/rtnetlink.h:153:16: sparse:    void *
+All warnings (new ones prefixed by >>):
 
-vim +1313 net/ipv4/devinet.c
+>> drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15: warning: variable 'total_plane_size' set but not used [-Wunused-but-set-variable]
+     411 |         unsigned int total_plane_size = 0;
+         |                      ^
+   1 warning generated.
 
-  1299	
-  1300	int inet_gifconf(struct net_device *dev, char __user *buf, int len, int size)
-  1301	{
-  1302		struct in_device *in_dev = __in_dev_get_rtnl_net(dev);
-  1303		const struct in_ifaddr *ifa;
-  1304		struct ifreq ifr;
-  1305		int done = 0;
-  1306	
-  1307		if (WARN_ON(size > sizeof(struct ifreq)))
-  1308			goto out;
-  1309	
-  1310		if (!in_dev)
-  1311			goto out;
-  1312	
-> 1313		in_dev_for_each_ifa_rtnl_net(dev_net(dev), ifa, in_dev) {
-  1314			if (!buf) {
-  1315				done += size;
-  1316				continue;
-  1317			}
-  1318			if (len < size)
-  1319				break;
-  1320			memset(&ifr, 0, sizeof(struct ifreq));
-  1321			strcpy(ifr.ifr_name, ifa->ifa_label);
-  1322	
-  1323			(*(struct sockaddr_in *)&ifr.ifr_addr).sin_family = AF_INET;
-  1324			(*(struct sockaddr_in *)&ifr.ifr_addr).sin_addr.s_addr =
-  1325									ifa->ifa_local;
-  1326	
-  1327			if (copy_to_user(buf + done, &ifr, size)) {
-  1328				done = -EFAULT;
-  1329				break;
-  1330			}
-  1331			len  -= size;
-  1332			done += size;
-  1333		}
-  1334	out:
-  1335		return done;
-  1336	}
-  1337	
+
+vim +/total_plane_size +411 drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c
+
+   402	
+   403	static void mtk_dip_fill_ipi_img_param_mp(struct mtk_dip_pipe *pipe,
+   404						  struct img_image_buffer *b,
+   405						  struct mtk_dip_dev_buffer *dev_buf,
+   406						  char *buf_name)
+   407	{
+   408		struct v4l2_pix_format_mplane *pix_mp = &dev_buf->fmt.fmt.pix_mp;
+   409		const struct mtk_dip_dev_format *mdp_fmt = dev_buf->dev_fmt;
+   410		unsigned int i;
+ > 411		unsigned int total_plane_size = 0;
+   412	
+   413		b->usage = dev_buf->dma_port;
+   414		b->format.colorformat = dev_buf->dev_fmt->mdp_color;
+   415		b->format.width = dev_buf->fmt.fmt.pix_mp.width;
+   416		b->format.height = dev_buf->fmt.fmt.pix_mp.height;
+   417		b->format.ycbcr_prof =
+   418			mtk_dip_map_ycbcr_prof_mplane(pix_mp,
+   419						      dev_buf->dev_fmt->mdp_color);
+   420	
+   421		for (i = 0; i < pix_mp->num_planes; ++i) {
+   422			u32 stride = pix_mp->plane_fmt[i].bytesperline;
+   423	
+   424			/*
+   425			 * We use dip_mdp_fmt_get_plane_size() to get the plane sizes of
+   426			 * non-M multiple plane image buffers. In this case,
+   427			 * pix_mp->plane_fmt[0].sizeimage is the total size of all
+   428			 * b->format.plane_fmt[i].
+   429			 */
+   430			b->format.plane_fmt[i].stride = stride;
+   431			b->format.plane_fmt[i].size =
+   432				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
+   433							   pix_mp->height, i);
+   434			b->iova[i] = dev_buf->isp_daddr[i];
+   435			total_plane_size += b->format.plane_fmt[i].size;
+   436		}
+   437	
+   438		if (!mtk_dip_is_contig_mp_buffer(dev_buf))
+   439			return;
+   440	
+   441		for (; i < DIP_MCOLOR_GET_PLANE_COUNT(b->format.colorformat); ++i) {
+   442			u32 stride = dip_mdp_fmt_get_stride_contig
+   443					(mdp_fmt, b->format.plane_fmt[0].stride, i);
+   444	
+   445			b->format.plane_fmt[i].stride = stride;
+   446			b->format.plane_fmt[i].size =
+   447				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
+   448							   pix_mp->height, i);
+   449			b->iova[i] = b->iova[i - 1] + b->format.plane_fmt[i - 1].size;
+   450			total_plane_size += b->format.plane_fmt[i].size;
+   451		}
+   452	}
+   453	
 
 -- 
 0-DAY CI Kernel Test Service
