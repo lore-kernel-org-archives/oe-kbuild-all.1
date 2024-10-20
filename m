@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A532192D62;
-	Sun, 20 Oct 2024 15:45:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C5879F6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 15:45:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729439156; cv=none; b=p5vGkiR4cAYcBRrKKifPINwPePnXrE8evWhjxqL/VBMWIwKYMqdtQA2UanTdtwS1SQ2sZveovkz5zX3WOVTcmEYLsHGDXDrWsNkztOm0S83MEOtt6+K2SJXRvsQYi2jeHsbod67XoRmTPT/aooGFlFoUbFiilLHs+gAVTkeAq0A=
+	t=1729439156; cv=none; b=KmjOPfRRPPQeMaWoOM2tRW7pkUKkSArk7GCxhxJo8+RaenSIFAVAfbb9E7Ku3WZ6sz1pEyuzLjXzhaVnRuAmZRpHoQQaRFa1OOx1r/78vdEFojUkfMxTqLZWQkK+50qDKrUHmlSQKeYpN0HycsHwWwBE60AlJE6QFNrXlE2BcVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729439156; c=relaxed/simple;
-	bh=oBSxvVCQvuOFWJb29jBKcsRLEA1gUiTx+t48UEYafKA=;
+	bh=yaVq6xTU4huT9wJgnHhdkPZhfSVkLsnVcDs/c4S2FzQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ffJieP7LLTk2VJeQDc2p56/3dVIq/yefb2qrvcfvvkBa1LnmfriutxRAdZYPAq4gUD9egT6XijJLcmZz3AMkSFMYzgoNtFT5WB/nYk3p678UgSRMEmkXA+EU9Fz9KoSmtPXOPKpgORlqwDHzCFDxb57YuRkxUdYYqYB2ney1cAo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=npZ+zrDk; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=GvtlFSHyPwbTYazzIWTUwfIPwWQ1UN3ssda84H3joHxhVJJWStx/wuGlc7/D4SUC1vG0bythGOgZLg3LrciM+7etVOSflEh6jTRCKzd5dCN2BvXRESqD6Z0fxzvdtRLZfVLVQh20aw91uS+YEzR3FCPes/fvt9D2l1sHhuhalkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xpg8DIP6; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="npZ+zrDk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xpg8DIP6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729439154; x=1760975154;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oBSxvVCQvuOFWJb29jBKcsRLEA1gUiTx+t48UEYafKA=;
-  b=npZ+zrDkBCFU4+8dH4KMH1RAYMprzUr0em07teL6o4bf7R9Bnbei0m9z
-   5x3cAGgV2f+Qx7rCJ4m8voiW1rHfIxS1rGXzwNx/GT4L0jTSplOTfKXLr
-   xbekweluirzL7Qu+GHwwRwYNAS22KXX0bWKx+l84XH5Rju5wRbuGRZScz
-   MqxbCB5o8xaSC+tcO7LRirmjvtS8Rak4GU8vJFeMRWQqmT3Mo+8E7+jb5
-   y4vDkvj+/XLDIF48zIok/fupqUyfbxTTpLApqZy3xWbBxt8iIFOIAaaS7
-   SNxpGs0HBkclcKSeGNPfmXIxhBDY1B8EBepIsgV+9EgXJ1/qFo+rSLWZs
+  bh=yaVq6xTU4huT9wJgnHhdkPZhfSVkLsnVcDs/c4S2FzQ=;
+  b=Xpg8DIP6oTFxr20VdtZhmnJuckV/OBzdM2VUfcjRXxwW5fcJ4c422rCM
+   wY8GctUyVV+t+asqk7mr5dsATkdXOQtrHL0fzW7smCfN4NoDft2Sdt801
+   426ngIEZ16bPtixVlVaOip+ZcOPyOR39LNS+5/8esKU63s9FO9s3IrNmd
+   Ww50Eclwm/piVoKgGoyirOub56sZaIp0fbphzdtwoUgJEELpVYqEP8b9o
+   YNOtQb5irfeICmj12nw09Lod52yfQZFAZlhWH93qVBOf2Q7S+vrjzJfIn
+   LV3HpH/7CAziVBQ5cFItTzdXVQLO8/sRWdAYgniLSxHXYmyfhGiKzDNc5
    A==;
-X-CSE-ConnectionGUID: n/KOG51QSPOayFag3RuSUw==
-X-CSE-MsgGUID: pHJs5gF7SFKoI/qOOE/x3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46385029"
+X-CSE-ConnectionGUID: N4U8FF1QR8G6n8I3j/Wrgw==
+X-CSE-MsgGUID: 5PuE551QTHynw4GU8Yghjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46385031"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="46385029"
+   d="scan'208";a="46385031"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 08:45:50 -0700
-X-CSE-ConnectionGUID: IU+8m1tRSQSStK6A6hNJuQ==
-X-CSE-MsgGUID: yjvybfZ9SlGfWQEBGS8uFg==
+X-CSE-ConnectionGUID: XXluMuDDQ6W+/BjggdpIoA==
+X-CSE-MsgGUID: eDG+ImkMSyCw9guwKIUSVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,218,1725346800"; 
-   d="scan'208";a="110061710"
+   d="scan'208";a="110061711"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 20 Oct 2024 08:45:49 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2Y7n-000QQF-0u;
+	id 1t2Y7n-000QQD-0n;
 	Sun, 20 Oct 2024 15:45:47 +0000
-Date: Sun, 20 Oct 2024 23:45:02 +0800
+Date: Sun, 20 Oct 2024 23:45:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mikhail Ivanov <ivanov.mikhail1@huawei-partners.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 3/8] landlock: Fix inconsistency of errors for TCP
- actions
-Message-ID: <202410202353.RF5ZJUXV-lkp@intel.com>
-References: <20241017110454.265818-4-ivanov.mikhail1@huawei-partners.com>
+To: Tudor Ambarus <tudor.ambarus@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] firmware: add exynos acpm driver
+Message-ID: <202410202301.xKHxo94L-lkp@intel.com>
+References: <20241017163649.3007062-3-tudor.ambarus@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +62,169 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241017110454.265818-4-ivanov.mikhail1@huawei-partners.com>
+In-Reply-To: <20241017163649.3007062-3-tudor.ambarus@linaro.org>
 
-Hi Mikhail,
+Hi Tudor,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on fe76bd133024aaef12d12a7d58fa3e8d138d3bf3]
+[auto build test WARNING on krzk/for-next]
+[also build test WARNING on drm-misc/drm-misc-next linus/master v6.12-rc3 next-20241018]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mikhail-Ivanov/landlock-Fix-non-TCP-sockets-restriction/20241017-190842
-base:   fe76bd133024aaef12d12a7d58fa3e8d138d3bf3
-patch link:    https://lore.kernel.org/r/20241017110454.265818-4-ivanov.mikhail1%40huawei-partners.com
-patch subject: [RFC PATCH v2 3/8] landlock: Fix inconsistency of errors for TCP actions
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241020/202410202353.RF5ZJUXV-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241020/202410202353.RF5ZJUXV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tudor-Ambarus/mailbox-add-async-request-mechanism-to-empower-controllers-w-hw-queues/20241018-003840
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241017163649.3007062-3-tudor.ambarus%40linaro.org
+patch subject: [PATCH v2 2/2] firmware: add exynos acpm driver
+config: sh-randconfig-r111-20241020 (https://download.01.org/0day-ci/archive/20241020/202410202301.xKHxo94L-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241020/202410202301.xKHxo94L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410202353.RF5ZJUXV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410202301.xKHxo94L-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/firmware/samsung/exynos-acpm.c:493:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:493:54: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:493:54: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:494:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:494:55: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:494:55: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:495:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:495:54: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:495:54: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:504:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:504:54: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:504:54: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:505:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:505:55: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:505:55: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:506:54: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:506:54: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:506:54: sparse:     got unsigned int *
+>> drivers/firmware/samsung/exynos-acpm.c:537:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:537:34: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/firmware/samsung/exynos-acpm.c:537:34: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:550:51: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:550:51: sparse:     expected void [noderef] __iomem *addr
+   drivers/firmware/samsung/exynos-acpm.c:550:51: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:549:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct exynos_acpm_shmem_chan *shmem_chans @@     got void [noderef] __iomem * @@
+   drivers/firmware/samsung/exynos-acpm.c:549:21: sparse:     expected struct exynos_acpm_shmem_chan *shmem_chans
+   drivers/firmware/samsung/exynos-acpm.c:549:21: sparse:     got void [noderef] __iomem *
+   drivers/firmware/samsung/exynos-acpm.c:562:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:562:30: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/firmware/samsung/exynos-acpm.c:562:30: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:568:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:568:33: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/firmware/samsung/exynos-acpm.c:568:33: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:569:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:569:28: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/firmware/samsung/exynos-acpm.c:569:28: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:570:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int * @@
+   drivers/firmware/samsung/exynos-acpm.c:570:30: sparse:     expected void const volatile [noderef] __iomem *ptr
+   drivers/firmware/samsung/exynos-acpm.c:570:30: sparse:     got unsigned int *
+   drivers/firmware/samsung/exynos-acpm.c:658:28: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct exynos_acpm_shmem *shmem @@     got void [noderef] __iomem * @@
+   drivers/firmware/samsung/exynos-acpm.c:658:28: sparse:     expected struct exynos_acpm_shmem *shmem
+   drivers/firmware/samsung/exynos-acpm.c:658:28: sparse:     got void [noderef] __iomem *
 
->> security/landlock/net.c:94:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-      94 |                 const struct sockaddr_in *const addr =
-         |                 ^
-   1 warning generated.
+vim +537 drivers/firmware/samsung/exynos-acpm.c
 
-
-vim +94 security/landlock/net.c
-
-    72	
-    73	/*
-    74	 * Checks that TCP @sock and @address attributes are correct for bind(2).
-    75	 *
-    76	 * On success, extracts port from @address in @port and returns 0.
-    77	 *
-    78	 * This validation is consistent with network stack and returns the error
-    79	 * in the order corresponding to the order of errors from the network stack.
-    80	 * It's required to not wrongfully return -EACCES instead of meaningful network
-    81	 * stack level errors. Consistency is tested with kselftest.
-    82	 *
-    83	 * This helper does not provide consistency of error codes for BPF filter
-    84	 * (if any).
-    85	 */
-    86	static int
-    87	check_tcp_bind_consistency_and_get_port(struct socket *const sock,
-    88						struct sockaddr *const address,
-    89						const int addrlen, __be16 *port)
-    90	{
-    91		/* IPV6_ADDRFORM can change sk->sk_family under us. */
-    92		switch (READ_ONCE(sock->sk->sk_family)) {
-    93		case AF_INET:
-  > 94			const struct sockaddr_in *const addr =
-    95				(struct sockaddr_in *)address;
-    96	
-    97			/* Cf. inet_bind_sk(). */
-    98			if (addrlen < sizeof(struct sockaddr_in))
-    99				return -EINVAL;
-   100			/*
-   101			 * For compatibility reason, accept AF_UNSPEC for bind
-   102			 * accesses (mapped to AF_INET) only if the address is
-   103			 * INADDR_ANY (cf. __inet_bind).
-   104			 */
-   105			if (addr->sin_family != AF_INET) {
-   106				if (addr->sin_family != AF_UNSPEC ||
-   107				    addr->sin_addr.s_addr != htonl(INADDR_ANY))
-   108					return -EAFNOSUPPORT;
-   109			}
-   110			*port = ((struct sockaddr_in *)address)->sin_port;
-   111			break;
-   112	#if IS_ENABLED(CONFIG_IPV6)
-   113		case AF_INET6:
-   114			/* Cf. inet6_bind_sk(). */
-   115			if (addrlen < SIN6_LEN_RFC2133)
-   116				return -EINVAL;
-   117			/* Cf. __inet6_bind(). */
-   118			if (address->sa_family != AF_INET6)
-   119				return -EAFNOSUPPORT;
-   120			*port = ((struct sockaddr_in6 *)address)->sin6_port;
-   121			break;
-   122	#endif /* IS_ENABLED(CONFIG_IPV6) */
-   123		default:
-   124			WARN_ON_ONCE(0);
-   125			return -EACCES;
-   126		}
-   127		return 0;
-   128	}
-   129	
+   497	
+   498	static void exynos_acpm_tx_queue_init(struct exynos_acpm *exynos_acpm,
+   499					      struct exynos_acpm_shmem_chan *shmem_chan,
+   500					      struct exynos_acpm_queue *tx)
+   501	{
+   502		void __iomem *base = exynos_acpm->sram_base;
+   503	
+ > 504		tx->base = exynos_acpm_get_iomem_addr(base, &shmem_chan->rx_base);
+   505		tx->front = exynos_acpm_get_iomem_addr(base, &shmem_chan->rx_front);
+   506		tx->rear = exynos_acpm_get_iomem_addr(base, &shmem_chan->rx_rear);
+   507	}
+   508	
+   509	static int exynos_acpm_alloc_cmds(struct exynos_acpm *exynos_acpm,
+   510					  struct exynos_acpm_chan *chan)
+   511	{
+   512		struct device *dev = exynos_acpm->dev;
+   513		struct exynos_acpm_rx_data *rx_data;
+   514		unsigned int mlen = chan->mlen;
+   515		int i;
+   516	
+   517		for (i = 0; i < EXYNOS_ACPM_SEQNUM_MAX; i++) {
+   518			rx_data = &chan->rx_data[i];
+   519			rx_data->cmd = devm_kcalloc(dev, mlen, sizeof(*(rx_data->cmd)),
+   520						    GFP_KERNEL);
+   521			if (!rx_data->cmd)
+   522				return -ENOMEM;
+   523		}
+   524	
+   525		return 0;
+   526	}
+   527	
+   528	static int exynos_acpm_chans_init(struct exynos_acpm *exynos_acpm)
+   529	{
+   530		struct exynos_acpm_shmem_chan *shmem_chans, *shmem_chan;
+   531		struct exynos_acpm_shmem *shmem = exynos_acpm->shmem;
+   532		struct mbox_chan *mbox_chan, *mbox_chans;
+   533		struct exynos_acpm_chan *chan, *chans;
+   534		struct device *dev = exynos_acpm->dev;
+   535		int i, ret;
+   536	
+ > 537		exynos_acpm->num_chans = readl_relaxed(&shmem->num_chans);
+   538	
+   539		mbox_chans = devm_kcalloc(dev, exynos_acpm->num_chans,
+   540					  sizeof(*mbox_chans), GFP_KERNEL);
+   541		if (!mbox_chans)
+   542			return -ENOMEM;
+   543	
+   544		chans = devm_kcalloc(dev, exynos_acpm->num_chans, sizeof(*chans),
+   545				     GFP_KERNEL);
+   546		if (!chans)
+   547			return -ENOMEM;
+   548	
+   549		shmem_chans = exynos_acpm_get_iomem_addr(exynos_acpm->sram_base,
+   550							 &shmem->chans);
+   551	
+   552		for (i = 0; i < exynos_acpm->num_chans; i++) {
+   553			shmem_chan = &shmem_chans[i];
+   554			mbox_chan = &mbox_chans[i];
+   555			chan = &chans[i];
+   556	
+   557			/* Set parameters for the mailbox channel. */
+   558			mbox_chan->con_priv = chan;
+   559			mbox_chan->mbox = exynos_acpm->mbox;
+   560	
+   561			/* Set parameters for the ACPM channel. */
+   562			chan->mlen = readl_relaxed(&shmem_chan->mlen);
+   563	
+   564			ret = exynos_acpm_alloc_cmds(exynos_acpm, chan);
+   565			if (ret)
+   566				return ret;
+   567	
+   568			chan->polling = readl_relaxed(&shmem_chan->polling);
+   569			chan->id = readl_relaxed(&shmem_chan->id);
+   570			chan->qlen = readl_relaxed(&shmem_chan->qlen);
+   571	
+   572			exynos_acpm_rx_queue_init(exynos_acpm, shmem_chan, &chan->rx);
+   573			exynos_acpm_tx_queue_init(exynos_acpm, shmem_chan, &chan->tx);
+   574	
+   575			mutex_init(&chan->rx_lock);
+   576			spin_lock_init(&chan->tx_lock);
+   577	
+   578			dev_vdbg(dev, "ID = %d poll = %d, mlen = %d, qlen = %d\n",
+   579				 chan->id, chan->polling, chan->mlen, chan->qlen);
+   580		}
+   581	
+   582		/* Save pointers to the ACPM and mailbox channels. */
+   583		exynos_acpm->mbox->chans = mbox_chans;
+   584		exynos_acpm->chans = chans;
+   585	
+   586		return 0;
+   587	}
+   588	
 
 -- 
 0-DAY CI Kernel Test Service
