@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CFF194C78
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 18:41:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB5E2F56
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Oct 2024 19:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729449669; cv=none; b=UKj82WLnGaANZifM48i11RSPMWfpxNO9giJzCRO6H4qoY7TLNbbOGbB6O3JG5xN5sRrynqXB354nq41UMT71d4Mxst+ytmu45ldYAbF1Kz9HGA82IvMW3p6zs0nGCEGvW2O6bUrqSiXir3XXBumiawaRzbzZy7NIu2qckuGA7po=
+	t=1729453997; cv=none; b=bZ8fxDNPNAN9Qlrptx83miTLg9mUHZkkh/Z+an/aFzCMqr30dQWBVfshnAn6OFIBJLNZdQJgbhGKVflwOi+F5W71V65w9Ka5Go7VAvQqByDHrUHJKj0klyVbe7onJ8tiozNITwnkL1homeS1Gk20Z9JFrK002zGDWg3ZdALUwOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729449669; c=relaxed/simple;
-	bh=S6e4qHXws3LBaGWzAPRnJQX6u1kW8fxt5hm2/FDeLww=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nMgrZamujunqYf/c6iVmio9j4PKF6HGwWa9aXF6uIGv23Qpox2rE0JAXEV3c/AqHdsLDsqg/IWUrctrGAdBbK79L88P2ydTFFOrwoaJ1eUym8N6Z/awi9CcLZ/m3toAMZnPcGv/+9LjD733uo3Lmjc6DZaFd+ghjD4zEZmVVi3w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ddWUoeE+; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1729453997; c=relaxed/simple;
+	bh=J6E3qOlIPfmy+KzOM0qIYC0vVNBGa+kCznmafIO9OY0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1j9CfX40zwSctS2fuLUzuqlL13UFBCZxc3adosC9zoG8XflchyJkzi0wEqrU775A27ttO8x+fY6rCcJP88AdB0m1IUf9KV4XFqaPnqLH2ZMCR280Vn3PTgxozs0QoIQWfiZTZFRhZmt4Pa/wyYCigP56r7nxAbYyOKpO7V7xDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f3wHWiBr; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ddWUoeE+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f3wHWiBr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729449667; x=1760985667;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S6e4qHXws3LBaGWzAPRnJQX6u1kW8fxt5hm2/FDeLww=;
-  b=ddWUoeE+wI9x7WxVDNEbJKIvnaX5SsWOsJXIGzEsFPrHrbFuduCyZU0a
-   IDbNyTQWSfsNMpVY2+pjelXrJ/Izyz2hygOaAbnsHaJ8U43weFH3hj4mJ
-   dx9d+uIadC7PCtqaQggc0bD4Y1A7KB0manpq82cprcWGXRLciBjLtZRr3
-   s/qhP57LH3iADuxWTwFOd1FugIAJ97yPh229+/6kSIAEIUdIa3iaugbcd
-   nQZGkoXcURlj4jXhicXKbp902kECtp0S7zOJlP7vf56RZ4vr6yfxnNKLs
-   3nRPMi36YYYUsuzmLNCepsnSEw5thCWqEz2rMFoMKBwgGPo+6vQ5Gnlld
-   Q==;
-X-CSE-ConnectionGUID: JpN2COakQmyVq5oXqayeKQ==
-X-CSE-MsgGUID: NfjCIIKoTh6BEgFDCjgFnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="39515121"
+  t=1729453995; x=1760989995;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J6E3qOlIPfmy+KzOM0qIYC0vVNBGa+kCznmafIO9OY0=;
+  b=f3wHWiBrJkmBSCt+DuW0qFr+GvfF3wkHWsH3CVzo5qdViurN1IAAC/kv
+   3kYXUPDLAMj3RWbZMQl47qAq/2jR171WddO8Guo9F4aBRx9DqU6SZ5uzD
+   FS6w3qEMX9QVbdQaRljKd8oECYFrbZQKoS+BoyZn4XnfQ476d03sbJISo
+   T0AcdRs9cEKwFyrxgSnGGLQJzyoqFKOBO5YGAhKQ2YFjrv1cMGRculySh
+   ZvGqhjTjh7Ejzn9gZiOJ5+EY8B4X0z4/fc9P3Gwk626xnEOk3T0bhPVv5
+   gslofWYdcMcVfQfkJ/fTU5ELvbV6vkUvUyWnytbnB65KPRgB0XSM4unf3
+   g==;
+X-CSE-ConnectionGUID: lZP+O8wpSIC1TsSwIosBSA==
+X-CSE-MsgGUID: QxqT2CZZTcCXxpLTOVhGPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="16557541"
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="39515121"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 11:41:04 -0700
-X-CSE-ConnectionGUID: +uuJogFRSaKu8XU8KJfqmQ==
-X-CSE-MsgGUID: 8EQso1pDQyC8TESPPHEWeg==
+   d="scan'208";a="16557541"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 12:53:14 -0700
+X-CSE-ConnectionGUID: yFDUaOssRtWYrHNbgiCIFw==
+X-CSE-MsgGUID: sPLuMLrSSIms6gOVGDUQBA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="84141973"
+X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
+   d="scan'208";a="78989801"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 20 Oct 2024 11:41:03 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2024 12:53:12 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2arM-000QhJ-2A;
-	Sun, 20 Oct 2024 18:41:00 +0000
-Date: Mon, 21 Oct 2024 02:40:59 +0800
+	id 1t2bzC-000Qkx-06;
+	Sun, 20 Oct 2024 19:53:10 +0000
+Date: Mon, 21 Oct 2024 03:52:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-misc:dma-split-wip 7/8] block/blk-merge.c:571:43: error: too
- many arguments to function call, expected 4, have 5
-Message-ID: <202410210207.PQlkW8lg-lkp@intel.com>
+To: Yonghong Song <yonghong.song@linux.dev>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>, kernel-team@fb.com,
+	Martin KaFai Lau <martin.lau@kernel.org>, Tejun Heo <tj@kernel.org>
+Subject: Re: [PATCH bpf-next v5 7/9] bpf, x86: Add jit support for private
+ stack
+Message-ID: <202410210358.dvPfsO1C-lkp@intel.com>
+References: <20241017223214.3177977-1-yonghong.song@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,151 +66,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241017223214.3177977-1-yonghong.song@linux.dev>
 
-tree:   git://git.infradead.org/users/hch/misc.git dma-split-wip
-head:   9fc25a7b75656585da9e0c3d06d09c93581585f5
-commit: d50f6fc2c4dd093d5e21baefd10df6df2cb31cc7 [7/8] FOLD: remove the mapped_size counter
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20241021/202410210207.PQlkW8lg-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210207.PQlkW8lg-lkp@intel.com/reproduce)
+Hi Yonghong,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yonghong-Song/bpf-Allow-each-subprog-having-stack-size-of-512-bytes/20241018-063530
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241017223214.3177977-1-yonghong.song%40linux.dev
+patch subject: [PATCH bpf-next v5 7/9] bpf, x86: Add jit support for private stack
+config: x86_64-randconfig-122-20241021 (https://download.01.org/0day-ci/archive/20241021/202410210358.dvPfsO1C-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210358.dvPfsO1C-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410210207.PQlkW8lg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410210358.dvPfsO1C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/x86/net/bpf_jit_comp.c:1487:44: sparse: sparse: cast removes address space '__percpu' of expression
+   arch/x86/net/bpf_jit_comp.c:1488:31: sparse: sparse: cast removes address space '__percpu' of expression
+   arch/x86/net/bpf_jit_comp.c:2073:54: sparse: sparse: cast truncates bits from constant value (800000a00000 becomes a00000)
 
-   In file included from block/blk-merge.c:7:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from block/blk-merge.c:7:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from block/blk-merge.c:7:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> block/blk-merge.c:571:43: error: too many arguments to function call, expected 4, have 5
-     571 |         dma_iova_sync(dma_dev, state, 0, mapped, 0);
-         |         ~~~~~~~~~~~~~                            ^
-   include/linux/dma-mapping.h:333:19: note: 'dma_iova_sync' declared here
-     333 | static inline int dma_iova_sync(struct device *dev,
-         |                   ^             ~~~~~~~~~~~~~~~~~~~
-     334 |                 struct dma_iova_state *state, size_t size, int ret)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   block/blk-merge.c:575:43: error: too many arguments to function call, expected 4, have 5
-     575 |         dma_iova_sync(dma_dev, state, 0, mapped, error);
-         |         ~~~~~~~~~~~~~                            ^~~~~
-   include/linux/dma-mapping.h:333:19: note: 'dma_iova_sync' declared here
-     333 | static inline int dma_iova_sync(struct device *dev,
-         |                   ^             ~~~~~~~~~~~~~~~~~~~
-     334 |                 struct dma_iova_state *state, size_t size, int ret)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   12 warnings and 2 errors generated.
+vim +/__percpu +1487 arch/x86/net/bpf_jit_comp.c
 
-
-vim +571 block/blk-merge.c
-
-   546	
-   547	static bool blk_rq_dma_map_iova(struct request *req, struct device *dma_dev,
-   548			struct dma_iova_state *state, struct blk_dma_iter *iter,
-   549			struct phys_vec *vec)
-   550	{
-   551		unsigned int total_len = blk_rq_payload_bytes(req);
-   552		enum dma_data_direction dir = rq_dma_dir(req);
-   553		unsigned int mapped = 0;
-   554		int error = 0;
-   555	
-   556		iter->len = total_len;
-   557		iter->addr = dma_iova_alloc(dma_dev, state, vec->paddr, total_len);
-   558		if (dma_mapping_error(dma_dev, iter->addr)) {
-   559			iter->status = BLK_STS_RESOURCE;
-   560			return false;
-   561		}
-   562	
-   563		do {
-   564			error = dma_iova_link(dma_dev, state, vec->paddr, mapped,
-   565					vec->len, dir, 0);
-   566			if (error)
-   567				goto fail;
-   568			mapped += vec->len;
-   569		} while (blk_map_iter_next(req, &iter->iter, vec));
-   570	
- > 571		dma_iova_sync(dma_dev, state, 0, mapped, 0);
-   572		return true;
-   573	
-   574	fail:
-   575		dma_iova_sync(dma_dev, state, 0, mapped, error);
-   576		iter->status = errno_to_blk_status(error);
-   577		return false;
-   578	}
-   579	
+  1477	
+  1478	static void emit_root_priv_frame_ptr(u8 **pprog, struct bpf_prog *bpf_prog,
+  1479					     u32 orig_stack_depth)
+  1480	{
+  1481		void __percpu *priv_frame_ptr;
+  1482		u8 *prog = *pprog;
+  1483	
+  1484		priv_frame_ptr = bpf_prog->aux->priv_stack_ptr + orig_stack_depth;
+  1485	
+  1486		/* movabs r9, priv_frame_ptr */
+> 1487		emit_mov_imm64(&prog, X86_REG_R9, (long) priv_frame_ptr >> 32,
+  1488			       (u32) (long) priv_frame_ptr);
+  1489	#ifdef CONFIG_SMP
+  1490		/* add <r9>, gs:[<off>] */
+  1491		EMIT2(0x65, 0x4c);
+  1492		EMIT3(0x03, 0x0c, 0x25);
+  1493		EMIT((u32)(unsigned long)&this_cpu_off, 4);
+  1494	#endif
+  1495		*pprog = prog;
+  1496	}
+  1497	
 
 -- 
 0-DAY CI Kernel Test Service
