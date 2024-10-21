@@ -1,63 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCC7E1F12EC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 12:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6DBA1E25E4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 13:18:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729514781; cv=none; b=OU45BDGf2NsjvFPTQUNx6C+dOP2RNIlkmFZ6BixLSwLp0nh7iMK3xHR+/nSDO72hjF+EEqtT6ide2Mmel0GtqkU9fmFWQ2K5C3ssiKmOEzWLmN5iJpOARywn6Gv0XBIo3J8NObODCXP6bdgUyIXcCMvCKRPMiS2PQPsDuVZTAIQ=
+	t=1729516708; cv=none; b=fCmPxji17Ftvn18YTUHrvbylik6Nk3xp7rklh/gvJLa/ceFo85oOE68rDRqDYprQ/o++V2jS7eO82hOP4bJRwUnkAmcItMAONJneRUDjwzojcgPOtHcDXFI/rZzn+a5/B5yEPHPvYRwjUO7bMoTAtrc2iPItdpgM0QPIkobAAHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729514781; c=relaxed/simple;
-	bh=hLae/DJmx63aQ9hNwqi1StBu18BKbIFlowygmH3N4RE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VEyqCJ5SM2nbkkEomK20LFUvCNMibkWNAkRwN6425Urb04jihvLQ3T8nFhVaITI3l4IrR7uO1Tb7z8/IlWhryN4eQod62JAXQJMydeDF4svEHo1AjE0virfFbkMEgmz0iwC2O73KhB5H+yZJKJ60+bBba7OF3xzDCq9sSCbsJsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LwSFAjQr; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1729516708; c=relaxed/simple;
+	bh=ai3fjlvIFrMIPL3yL7pIMzbZFTs1xDvVwbDDipH4J68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IQ8bcAOrq4AhlYla0xGCJdXhWvLlohUvOQA3WwICX8re2lXX9CALA7TTSieagDp0yXRAjdX40HfFVZGhhZOUsu7VKRpzRrcJdxd++g0ru1utqai669cfjYr2EmqwEtFARYx6pu+gKiklCy4BGUGIO9NxmJn/EHBfX97SVWchtvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZBO6xGu; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwSFAjQr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZBO6xGu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729514779; x=1761050779;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hLae/DJmx63aQ9hNwqi1StBu18BKbIFlowygmH3N4RE=;
-  b=LwSFAjQrxmAOn/dEF1Zu3KFjHb8dmGjul3K96ktBaOTTMyXeL+pTpyEr
-   Cvx2LnPHqilSmWsjahCfEyMUb0G4MDaBFaa+rC3FzRfS0nV9TwvnEYIlO
-   R5dgQIbWbPLqzvx3cxDpVqV5CBTwbZ6cVEcE0UjAOdaqPl0IIrR14y4Hh
-   lbaXY8RMnpr8svQfoEG4ZW2zZzzr87u8CwFyQfsoxXQ7PWeHAIKyL9l75
-   d3sR3WISOCRcjeZ4xvp54RtNhChAqR2o8LnIDiLVzi6dP1TT/TSxEfCTM
-   W9rRiW+epQ8h6gcTOrbdwv8yeFqplW5EBsUKm4agwFG625R8YdAL9fSBD
-   w==;
-X-CSE-ConnectionGUID: Z8o8ZgNVQ8OGar72UNjMww==
-X-CSE-MsgGUID: Lsex2pHORVeS0r8AWeN51Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="32800038"
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="32800038"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 05:46:19 -0700
-X-CSE-ConnectionGUID: kDegwUX1SkeIqMLavMnJow==
-X-CSE-MsgGUID: OD/iVT7lTRO4P1FRk6adVQ==
+  t=1729516707; x=1761052707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ai3fjlvIFrMIPL3yL7pIMzbZFTs1xDvVwbDDipH4J68=;
+  b=PZBO6xGukSQi3v0cmdftCgaaz9vNTpj9McPixJwO8/ALhrndLpKeiQeW
+   AoFzcOUQagUNxaGys2MQxLhOJn+LjEdYTHFNYJHSXftcfeW+N1BYCb8YN
+   uM/4QAuf508nHqpZZC+U6Xb7jQ5m3Ice0x64jTh8IIkhhFlGDYZndl3k8
+   NoZvDblTDt+XgwVg6e1wtfNybZ9GHcVFH+Y2Yd5kL3BtVcpp2BMKZ83PN
+   X36KfobJRsfN+AqAaVerQ9RzJ7ZqZY/N4dUaozr+UnC7X5ucWrs0gbzhv
+   uz/uF9jRzK3o07qQLYkJ+6nCA7N9bNq/N4KuPVLnDctv3zfUwytz2TTzC
+   Q==;
+X-CSE-ConnectionGUID: jrBZk3EERPiN4k3/HeHCXA==
+X-CSE-MsgGUID: zoa+jNcSR8KMOfO+GiwYew==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="40368886"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
+   d="scan'208";a="40368886"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 06:18:26 -0700
+X-CSE-ConnectionGUID: OFEfAP9dREqogMk2yqwixw==
+X-CSE-MsgGUID: p5cuxn8xQfmY6lvCmFpe7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="79594926"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
+   d="scan'208";a="79874134"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 05:46:15 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 Oct 2024 06:18:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2rnZ-000S9K-0c;
-	Mon, 21 Oct 2024 12:46:13 +0000
-Date: Mon, 21 Oct 2024 20:45:44 +0800
+	id 1t2sIc-000SBG-36;
+	Mon, 21 Oct 2024 13:18:18 +0000
+Date: Mon, 21 Oct 2024 21:17:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Ian Rogers <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Kan Liang <kan.liang@linux.intel.com>,
+	Ravi Bangoria <ravi.bangoria@amd.com>,
+	Weilin Wang <weilin.wang@intel.com>,
+	Yoshihiro Furudera <fj5100bi@fujitsu.com>,
+	James Clark <james.clark@linaro.org>,
+	Athira Jajeev <atrajeev@linux.vnet.ibm.com>,
+	Howard Chu <howardchu95@gmail.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Changbin Du <changbin.du@huawei.com>, Ze Gao <zegao2021@gmail.com>,
+	Junhao He <hejunhao3@huawei.com>, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1219/2444] htmldocs:
- Warning: tools/testing/selftests/pfru/pfru_test.c references a file that
- doesn't exist: Documentation/x86/pfru_update.rst
-Message-ID: <202410212046.iv9ndL6j-lkp@intel.com>
+Subject: Re: [PATCH v5 4/5] perf test: Add hwmon "PMU" test
+Message-ID: <202410212129.7qRTRilb-lkp@intel.com>
+References: <20241017063555.366065-5-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +80,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241017063555.366065-5-irogers@google.com>
 
-Hi Chen,
+Hi Ian,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 65b2d1f44f785bb8354d4664c27fcb02507e13bc [1219/2444] selftests/pfru: add test for Platform Firmware Runtime Update and Telemetry
-reproduce: (https://download.01.org/0day-ci/archive/20241021/202410212046.iv9ndL6j-lkp@intel.com/reproduce)
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on next-20241021]
+[cannot apply to tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/tools-api-io-Ensure-line_len_out-is-always-initialized/20241017-143759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20241017063555.366065-5-irogers%40google.com
+patch subject: [PATCH v5 4/5] perf test: Add hwmon "PMU" test
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410212129.7qRTRilb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410212046.iv9ndL6j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410212129.7qRTRilb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: drivers/net/ethernet/pensando/ionic/ionic_if.h references a file that doesn't exist: Documentation/networking/checksum-
-   Warning: fs/cifs/cifsfs.c references a file that doesn't exist: Documentation/workqueue.txt
-   Warning: lib/Kconfig.debug references a file that doesn't exist: Documentation/dev-tools/kunit/
-   Warning: tools/bpf/bpf_asm.c references a file that doesn't exist: Documentation/networking/filter.rst
-   Warning: tools/bpf/bpf_dbg.c references a file that doesn't exist: Documentation/networking/filter.rst
->> Warning: tools/testing/selftests/pfru/pfru_test.c references a file that doesn't exist: Documentation/x86/pfru_update.rst
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
-   Depends on [n]: PCI [=n]
-   Selected by [y]:
-   - X86 [=y]
+   Makefile.config:665: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
+     PERF_VERSION = 6.12.rc3.g552cc7c00b6d
+   tests/hwmon_pmu.c: In function 'do_test':
+>> tests/hwmon_pmu.c:149:17: error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Werror=implicit-function-declaration]
+     149 |                 strlcpy(str, test_event, sizeof(str));
+         |                 ^~~~~~~
+         |                 strncpy
+   cc1: all warnings being treated as errors
+   make[7]: *** [tools/build/Makefile.build:105: tools/perf/tests/hwmon_pmu.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: tests] Error 2
+   make[5]: *** [Makefile.perf:777: tools/perf/perf-test-in.o] Error 2
+   make[5]: *** Waiting for unfinished jobs....
+   util/hwmon_pmu.c: In function 'parse_hwmon_filename':
+   util/hwmon_pmu.c:175:9: error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Werror=implicit-function-declaration]
+     175 |         strlcpy(fn_type, filename, sizeof(fn_type));
+         |         ^~~~~~~
+         |         strncpy
+   cc1: all warnings being treated as errors
+   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/hwmon_pmu.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[5]: *** [Makefile.perf:789: tools/perf/perf-util-in.o] Error 2
+   make[4]: *** [Makefile.perf:292: sub-make] Error 2
+   make[3]: *** [Makefile:76: all] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
