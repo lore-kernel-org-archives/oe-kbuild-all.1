@@ -1,180 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16C079CF;
-	Mon, 21 Oct 2024 18:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089BC194AF6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 18:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729534546; cv=none; b=H1EZE/N6/ZylZRyxiXIxGtpG0iozVlY0JXJVc4Vm9N0M5qZF/42Y/3tSzaabwrcqMAx4b86YDUDRbAUp1ZBLxl4Et1vySovazdiyO7nBI3O7ofAgXUSqLSiw/irtwnen/M9OPyxx3DYh3vL9G1aJNm3SPcpPlllLv4ahyeKBXd4=
+	t=1729535150; cv=none; b=I+STV3GdwWPq1OP/yk4BSl9LxXrFFv6bwPgWeCO4RlMraGXUpbFpr1WOHWnJafqikzPp0FB6K8uxfaCY6ltRkikQT+Bcp6sQEce4y53Mf9MCsi15JeybvaNpadaPAkrUW6EKzPe9V9/cCwhVl5CufhoDFxRmajvv0YA4GGaLdA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729534546; c=relaxed/simple;
-	bh=FlpkijglSgVuC2Z+6337urZOgx8AgafrheNkzB+MCZI=;
+	s=arc-20240116; t=1729535150; c=relaxed/simple;
+	bh=+mEo7hyccA8//AgO7MNOoY+r4YcdOlMiJoOJ2pdWCXU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QWfSD7rH4DMQcGf0UuaQVVNnXzXc+17ZSEJgb1nHlZch500uxavieCUS663z/ZHZcxY4j7LM+iAlATKN84P5m136egHiE/A3JvI1BmANzpmwlSKozlKYklhahzh9MYufsJRDsLkb1E6mvaD/GGW2TaOxcvHDs1toT/n+H4iYxSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFSiv+zd; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=njice25FVCuZf9otquE1ZDzyzid4YFN11+A8wy3xDRIzpOElIwGNz+zj4+i21W78TNRZxtgOVDKDT1s4N8xcUk2lpEWp6IWABWtKSxIFMJPbacth8qRGO7KQkePBBc+3qukWWlNAZw9ykgtkPLOxm9MahGKoLucptvLdK9WBmrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImY8CZ1j; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFSiv+zd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImY8CZ1j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729534544; x=1761070544;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=FlpkijglSgVuC2Z+6337urZOgx8AgafrheNkzB+MCZI=;
-  b=YFSiv+zdBe502ApdbbAuYrFKq0wdQalDDsEUPxBL/66ikdHZm3ZrvCgN
-   Hhta2F5/AwIWxez6fe6drjTqK/LqsOJquYeAvbuxa/gCub+9iGsc9jNbV
-   iuTWA3+0t3nQojRbCu0v1ySuasImE9k7eFTVlx2Zs/ZS0Obgy5M7WEI7r
-   6N7NuPMvacX8z6damhPnzjf3benx73Tu5U5CxEu0biqRe1yQ0/xoWbF3a
-   5YfKYRn0rtQwf2wwyTAtbF020kUeiUHOF51hplKBsY1ekc/CL9CcltgTM
-   uJOqBSJYunXNQkOWgwCi27/Bf1eEr4vLfR3IRsD6HI0+2FupTI6RAkEyM
-   Q==;
-X-CSE-ConnectionGUID: T67F6ot9S36S2xBN/isVvg==
-X-CSE-MsgGUID: BHPkjEvXRTaQe+YcI1ECFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="54442098"
+  t=1729535148; x=1761071148;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+mEo7hyccA8//AgO7MNOoY+r4YcdOlMiJoOJ2pdWCXU=;
+  b=ImY8CZ1jf8NnbD/0MgS9XzXDH4mFXmS9BjYGkpi8Pn8CdzjsDff5ifJ1
+   O50WBlYJllEVlvK1kw4RckK9pPVekeSJN7BAJ4y0XGkZV5al8zg0vk2Ng
+   N0ko2AN7gtT13Uv1UbGo8r4XL4otjYbZcKV6n8NDb+C/ssZOHBF7kVN0z
+   BcDoqArqPYUBhrEsgpt6gnDqLmIX+H8Os6GdhvO/W1CRXgz6RIP4PFQhp
+   Kw+wPvV2EdGhUT0Q9NfDHlhS7RBuoiIfELP7RRmb79QrCBSyARdj6Kkjy
+   rzs0XxAzNcAaf0BEx2DZSPouLXj9PViE/mqff5dvhMfI8iLB9NRh5YaLg
+   g==;
+X-CSE-ConnectionGUID: qnNgEeXkTLKes8efGyDOrg==
+X-CSE-MsgGUID: Mq7u40F9SFOt7vNsaTREjw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="40425842"
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="54442098"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 11:15:43 -0700
-X-CSE-ConnectionGUID: nC4EtSatRIWbp2zXE4xYTQ==
-X-CSE-MsgGUID: YPICkMjTR0er2/oZZTcpfA==
+   d="scan'208";a="40425842"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 11:25:46 -0700
+X-CSE-ConnectionGUID: D2egPrH9TSquHdQi/wlEOQ==
+X-CSE-MsgGUID: 2AXve8VmTfKr6c5dHJHpDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="84206630"
+   d="scan'208";a="79690343"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Oct 2024 11:15:41 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 11:25:42 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2wwN-000SVO-1G;
-	Mon, 21 Oct 2024 18:15:39 +0000
-Date: Tue, 22 Oct 2024 02:15:05 +0800
+	id 1t2x63-000SVo-2L;
+	Mon, 21 Oct 2024 18:25:39 +0000
+Date: Tue, 22 Oct 2024 02:25:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ricardo B. Marliere" <ricardo@marliere.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	devel@driverdev.osuosl.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [driver-core:const_work 31/40]
- drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct
- device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *'
- (aka 'const struct device_type *') discards qualifiers
-Message-ID: <202410220209.WYSCnfNH-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 249/2444]
+ drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used
+Message-ID: <202410220239.aE1u48Z6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_work
-head:   b7bbe168fc896538357a88d4b7de1a4d41958bfe
-commit: cfd1974cbf0023d6d6de9e410aa1860d5a34c132 [31/40] bus: fsl-mc: constify the struct device_type usage
-config: i386-buildonly-randconfig-003-20241021 (https://download.01.org/0day-ci/archive/20241022/202410220209.WYSCnfNH-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220209.WYSCnfNH-lkp@intel.com/reproduce)
+Hi Chen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
+commit: 36c7a040b76bfbfc5555b3a062ecf9d740a6c5e6 [249/2444] iommu/amd: Convert to probe/release_device() call-backs
+config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20241022/202410220239.aE1u48Z6-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220239.aE1u48Z6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410220209.WYSCnfNH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410220239.aE1u48Z6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     409 |                 { &fsl_mc_bus_dprc_type, "dprc" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:410:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpni_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     410 |                 { &fsl_mc_bus_dpni_type, "dpni" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:411:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpio_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     411 |                 { &fsl_mc_bus_dpio_type, "dpio" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:412:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpsw_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     412 |                 { &fsl_mc_bus_dpsw_type, "dpsw" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:413:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpbp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     413 |                 { &fsl_mc_bus_dpbp_type, "dpbp" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:414:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpcon_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     414 |                 { &fsl_mc_bus_dpcon_type, "dpcon" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:415:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmcp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     415 |                 { &fsl_mc_bus_dpmcp_type, "dpmcp" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:416:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmac_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     416 |                 { &fsl_mc_bus_dpmac_type, "dpmac" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:417:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprtc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     417 |                 { &fsl_mc_bus_dprtc_type, "dprtc" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:418:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpseci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     418 |                 { &fsl_mc_bus_dpseci_type, "dpseci" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:419:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmux_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     419 |                 { &fsl_mc_bus_dpdmux_type, "dpdmux" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:420:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdcei_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     420 |                 { &fsl_mc_bus_dpdcei_type, "dpdcei" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:421:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpaiop_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     421 |                 { &fsl_mc_bus_dpaiop_type, "dpaiop" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:422:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     422 |                 { &fsl_mc_bus_dpci_type, "dpci" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:423:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmai_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     423 |                 { &fsl_mc_bus_dpdmai_type, "dpdmai" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/bus/fsl-mc/fsl-mc-bus.c:424:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdbg_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-     424 |                 { &fsl_mc_bus_dpdbg_type, "dpdbg" },
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   16 errors generated.
+   drivers/iommu/amd_iommu.c: In function 'amd_iommu_uninit_device':
+>> drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used [-Wunused-but-set-variable]
+     442 |         struct amd_iommu *iommu;
+         |                           ^~~~~
+   drivers/iommu/amd_iommu.c: In function 'amd_iommu_probe_finalize':
+   drivers/iommu/amd_iommu.c:2281:17: error: 'dev_data' undeclared (first use in this function); did you mean '_edata'?
+    2281 |                 dev_data->passthrough = true;
+         |                 ^~~~~~~~
+         |                 _edata
+   drivers/iommu/amd_iommu.c:2281:17: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +409 drivers/bus/fsl-mc/fsl-mc-bus.c
+vim +/iommu +442 drivers/iommu/amd_iommu.c
 
-e70ba1b06c26cdd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08  402  
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  403  static struct device_type *fsl_mc_get_device_type(const char *type)
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  404  {
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  405  	static const struct {
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  406  		struct device_type *dev_type;
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  407  		const char *type;
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  408  	} dev_types[] = {
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @409  		{ &fsl_mc_bus_dprc_type, "dprc" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @410  		{ &fsl_mc_bus_dpni_type, "dpni" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @411  		{ &fsl_mc_bus_dpio_type, "dpio" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @412  		{ &fsl_mc_bus_dpsw_type, "dpsw" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @413  		{ &fsl_mc_bus_dpbp_type, "dpbp" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @414  		{ &fsl_mc_bus_dpcon_type, "dpcon" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @415  		{ &fsl_mc_bus_dpmcp_type, "dpmcp" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @416  		{ &fsl_mc_bus_dpmac_type, "dpmac" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @417  		{ &fsl_mc_bus_dprtc_type, "dprtc" },
-e9158b35ef9afb3 drivers/bus/fsl-mc/fsl-mc-bus.c         Horia Geantă    2018-09-12 @418  		{ &fsl_mc_bus_dpseci_type, "dpseci" },
-a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @419  		{ &fsl_mc_bus_dpdmux_type, "dpdmux" },
-a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @420  		{ &fsl_mc_bus_dpdcei_type, "dpdcei" },
-a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @421  		{ &fsl_mc_bus_dpaiop_type, "dpaiop" },
-a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @422  		{ &fsl_mc_bus_dpci_type, "dpci" },
-a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @423  		{ &fsl_mc_bus_dpdmai_type, "dpdmai" },
-e70ba1b06c26cdd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08 @424  		{ &fsl_mc_bus_dpdbg_type, "dpdbg" },
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  425  		{ NULL, NULL }
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  426  	};
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  427  	int i;
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  428  
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  429  	for (i = 0; dev_types[i].dev_type; i++)
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  430  		if (!strcmp(dev_types[i].type, type))
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  431  			return dev_types[i].dev_type;
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  432  
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  433  	return NULL;
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  434  }
-47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  435  
+26018874e3584f1 arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-06  438  
+36c7a040b76bfbf drivers/iommu/amd_iommu.c   Chen Zhuo       2021-11-18  439  static void amd_iommu_uninit_device(struct device *dev)
+657cbb6b6cba0f9 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-11-23  440  {
+7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  441  	struct iommu_dev_data *dev_data;
+39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01 @442  	struct amd_iommu *iommu;
+39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  443  	int devid;
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  444  
+7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  445  	devid = get_device_id(dev);
+9ee35e4c6f42e79 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-04-21  446  	if (devid < 0)
+7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  447  		return;
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  448  
+39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  449  	iommu = amd_iommu_rlookup_table[devid];
+39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  450  
+7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  451  	dev_data = search_dev_data(devid);
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  452  	if (!dev_data)
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  453  		return;
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  454  
+b6809ee573cc2f8 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  455  	if (dev_data->domain)
+b6809ee573cc2f8 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  456  		detach_device(dev);
+b6809ee573cc2f8 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  457  
+8fa5f802abf3cd3 arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-09  458  	/*
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  459  	 * We keep dev_data around for unplugged devices and reuse it when the
+c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  460  	 * device is re-plugged - not doing so would introduce a ton of races.
+8fa5f802abf3cd3 arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-09  461  	 */
+657cbb6b6cba0f9 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-11-23  462  }
+b7cc9554bc73641 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-12-10  463  
 
-:::::: The code at line 409 was first introduced by commit
-:::::: 47433b630b7b30d0daa360c64308c0f4c9632986 staging: fsl-mc: add support for device type
+:::::: The code at line 442 was first introduced by commit
+:::::: 39ab9555c24110671f8dc671311a26e5c985b592 iommu: Add sysfs bindings for struct iommu_device
 
-:::::: TO: Laurentiu Tudor <laurentiu.tudor@nxp.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Joerg Roedel <jroedel@suse.de>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 -- 
 0-DAY CI Kernel Test Service
