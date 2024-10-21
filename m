@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D2510A1E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 14:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA98A1F941B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 14:41:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729521035; cv=none; b=fEpAWoAI5WOvS9QYUeCI9MXmJmF6aTuQ8+bMSjlsEQMM7zbtB2C0fLUO5hUUkWH0e5pEWHDmK8Wn6vbzfnOLStHu9bvr0R/CrADYqr6tB66oLk2ZxkWrWpTB6Z3U7VI0MNYslSqnhxlVssbbYk2gCv7DwCVkuiOh+h8sZK7MJjk=
+	t=1729521692; cv=none; b=oY6DJKfgmmpUbxH+1CFcRPHndycGxwVg+HiSPhGy+yV/wxx9RiKHPIBRSYZX9tfbZ58Wa9Wts9Karz2t0XJqDZsKXC0kK3blKz8Du+NQ6vZjzpd0F7pLHYuY26KdOa1jtP8rlA2b8bZbduSXRkYTIepmUUYRQtcw3tRCneNgLD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729521035; c=relaxed/simple;
-	bh=BZiR9+NJNRqwZy7g0ui+UeYJ1lfJzlGNn1IqtXSOUNQ=;
+	s=arc-20240116; t=1729521692; c=relaxed/simple;
+	bh=whovchUrFR93ZUhi3Oj8Ovjgv/6CsLcnwsjeCszRNbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CVO1xJZYLjvcfH0gAfKjtjk/Uzi7o6Flf23XrYjhwG3IL2HNt46TYJAonYci05tIhNBqZfIEne9dO9khit2MfoGHZcaPpG8Dy+UEaqgE+Jm4/ivUBUjvCQOu09iDCCQ4dv/iqVn2X+c0slFGb8zK2CwPYOhocS3j5pcrk/iKnes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJaVUuiX; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Uvj6+YKbToUFtBZh+eFlpTeS2ENXZUvEwA7qi7eLvFjCPfblU8zoXKDION8vy8ry2XTau9BOQCEkCzyxX952v235MVOBRiA7KozHz7Pzb2blNMMb4kU/1jvwb3JJVfCvbecAk08c5Cpi3F12ozeaPbBnsFgtDTXYhXhJfjJ21Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3/Jr9dE; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJaVUuiX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3/Jr9dE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729521032; x=1761057032;
+  t=1729521691; x=1761057691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BZiR9+NJNRqwZy7g0ui+UeYJ1lfJzlGNn1IqtXSOUNQ=;
-  b=fJaVUuiXKGjML5Js6cd5H4oA9g8VUaQvIn9A5OFY3jJAezImPpNAc6RP
-   +fA4xLfDC6pYJQ2iALL/r6pg8ctPwoinF/C9dE+vqa9G0vnwkx5RUxuyA
-   xQOBHTBtrGt2oPgwRmOYORjTqYxCuuizE8GXidDlsflgYHzRjLTANYVIo
-   NRankWq9U+Iae/9LlhY/GTbfQxdL6iZNoWuYOTBBE39xeQiOUUEIcADqw
-   Mi2TFCpcsUVp8DzBeuCRaVKJuD8RQzKfmdHmNaUSyJdG9mWf5oK5ZYWm8
-   5QIRTH8l/iUz92VTAKLSGO0psCrrxEQKuW37y2Lz+nQTnbWUz4Dtt2+/a
-   g==;
-X-CSE-ConnectionGUID: dd42kX18R0aH2KajNrBB7A==
-X-CSE-MsgGUID: bRKZKn/RT+6xEOFtj5TRRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28956874"
+  bh=whovchUrFR93ZUhi3Oj8Ovjgv/6CsLcnwsjeCszRNbI=;
+  b=H3/Jr9dEyiN6Uo9RZJjvQosXm0lo0YDuPy+lMTWPUV+9BOgoVqjxeUWJ
+   ZoBMWDHNZpr8dXDvLQkIDK103C1JzhDgYS7Xz0kqKM31KXbtDvJBfO6DP
+   vVk+Qp6ie8LXH1bRc50N6YZ8AdAWVi9WiIuQasm5I6L0OKM1i6ArFGpz4
+   krBkdz/j2Mk3jX4PN9Wxi20xmNDlReSTmb7GVjyi1yiKOykjoIe+hhpKe
+   dmVbzQs4xtXCX109DXAv0G9oUB63awSSIkNpm+CDS/m0mPJro6Ern0RcE
+   ImihHjL5HjQS5u7DvfsDgSPQKZopZkzn1vxmqGLz0ZD1J4IH67f6F4f3d
+   w==;
+X-CSE-ConnectionGUID: t3nWT241RzGcm8+0t1xrog==
+X-CSE-MsgGUID: Artb3ugoSDiq/nODywFYPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28885208"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="28956874"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 07:30:32 -0700
-X-CSE-ConnectionGUID: TGEQgBQCRZat7hC6guKTBw==
-X-CSE-MsgGUID: c6cT7E7rSDGk7gI5e/RujA==
+   d="scan'208";a="28885208"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 07:41:30 -0700
+X-CSE-ConnectionGUID: eBw/IlMXQvK7IunknspVZA==
+X-CSE-MsgGUID: McNq+wThTSSF0lCwf4y4AA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79940866"
+   d="scan'208";a="79489252"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 21 Oct 2024 07:30:29 -0700
+  by orviesa009.jf.intel.com with ESMTP; 21 Oct 2024 07:41:30 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2tQQ-000SHW-2X;
-	Mon, 21 Oct 2024 14:30:26 +0000
-Date: Mon, 21 Oct 2024 22:29:36 +0800
+	id 1t2tb5-000SIM-1I;
+	Mon, 21 Oct 2024 14:41:27 +0000
+Date: Mon, 21 Oct 2024 22:40:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: Eric Sandeen <sandeen@sandeen.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1449/2444] htmldocs:
- Warning: Documentation/userspace-api/ioasid.rst references a file that
- doesn't exist: Documentation/driver-api/ioasid.rst
-Message-ID: <202410212252.IcfHjXzx-lkp@intel.com>
+Subject: [sandeen:devtmpfs-mount-api 1/1] drivers/base/devtmpfs.c:88:30:
+ sparse: sparse: symbol 'devtmpfs_context_ops' was not declared. Should it be
+ static?
+Message-ID: <202410212206.FMAnsFeA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,39 +63,27 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhuo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: b43d7bba276172e21825b705cc9647687991163b [1449/2444] ioasid: Add /dev/ioasid for userspace
-reproduce: (https://download.01.org/0day-ci/archive/20241021/202410212252.IcfHjXzx-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sandeen/linux.git devtmpfs-mount-api
+head:   41be740c85792fe4e7a844e5ddecd3a86600e49e
+commit: 41be740c85792fe4e7a844e5ddecd3a86600e49e [1/1] devtmpfs: remove ->mount from public instance
+config: x86_64-randconfig-122-20241021 (https://download.01.org/0day-ci/archive/20241021/202410212206.FMAnsFeA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410212206.FMAnsFeA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410212252.IcfHjXzx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410212206.FMAnsFeA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/devtmpfs.c:88:30: sparse: sparse: symbol 'devtmpfs_context_ops' was not declared. Should it be static?
 
-   Warning: Documentation/hwmon/inspur-ipsps1.rst references a file that doesn't exist: Documentation/i2c/instantiating-devices
-   Warning: Documentation/kernel-hacking/hacking.rst references a file that doesn't exist: Documentation/kbuild/namespaces.rst
-   Warning: Documentation/kernel-hacking/hacking.rst references a file that doesn't exist: Documentation/kbuild/namespaces.rst
-   Warning: Documentation/mips/ingenic-tcu.rst references a file that doesn't exist: Documentation/devicetree/bindings/mfd/ingenic,tcu.txt
-   Warning: Documentation/networking/device_drivers/mellanox/mlx5.rst references a file that doesn't exist: Documentation/trace/ftrase.rst
->> Warning: Documentation/userspace-api/ioasid.rst references a file that doesn't exist: Documentation/driver-api/ioasid.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/networking/j1939.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/rng/samsung,exynos5250-trng.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/input/sun4i-lradc-keys.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/misc-devices/xilinx_sdfec.rst
-   Warning: dist/templates/kernel.template.spec references a file that doesn't exist: linux-%%{kernel_unamer}/tools/perf/Documentation/examples.txt
+vim +/devtmpfs_context_ops +88 drivers/base/devtmpfs.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for PCI_MSI_ARCH_FALLBACKS
-   Depends on [n]: PCI [=n]
-   Selected by [y]:
-   - X86 [=y]
+    86	
+    87	/* Used to clone underlying context ops */
+  > 88	struct fs_context_operations devtmpfs_context_ops = {};
+    89	
 
 -- 
 0-DAY CI Kernel Test Service
