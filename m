@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 089BC194AF6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 18:25:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80E55A41
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 18:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729535150; cv=none; b=I+STV3GdwWPq1OP/yk4BSl9LxXrFFv6bwPgWeCO4RlMraGXUpbFpr1WOHWnJafqikzPp0FB6K8uxfaCY6ltRkikQT+Bcp6sQEce4y53Mf9MCsi15JeybvaNpadaPAkrUW6EKzPe9V9/cCwhVl5CufhoDFxRmajvv0YA4GGaLdA4=
+	t=1729535537; cv=none; b=RpFNgyHKjEhYzmg71+cTJmhxgVC9FNRgDdlgqTkjBRsmExpWeynmAB6bLQYF35yMqnwwczsWXtzSu5jNEQwjkOCw9vFFSdR2cSpR8RcRpV6vliWDvRmKONyWEurXYfJ345khnIhbKw1v9wveIPO0vQ+ntogY/PsVwM6LK82xd1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729535150; c=relaxed/simple;
-	bh=+mEo7hyccA8//AgO7MNOoY+r4YcdOlMiJoOJ2pdWCXU=;
+	s=arc-20240116; t=1729535537; c=relaxed/simple;
+	bh=/Jikqjf0CL0KpCnJvp147SdJ4zfDd78X0ocM783HjtI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=njice25FVCuZf9otquE1ZDzyzid4YFN11+A8wy3xDRIzpOElIwGNz+zj4+i21W78TNRZxtgOVDKDT1s4N8xcUk2lpEWp6IWABWtKSxIFMJPbacth8qRGO7KQkePBBc+3qukWWlNAZw9ykgtkPLOxm9MahGKoLucptvLdK9WBmrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImY8CZ1j; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=N6aA00UEomp7IEZuE7CfDUcwzY3aGo3fq5QRyX3rsvywhMz2pTTiOQRH83YEQXPItACn23eOcO18O5QIASlIJklkjlBkoZ1Orhszq34y13zp5XK6WFfX3WXN4ASS7R4Y7ntWOsA4vlBAW02JGJ+r9IvCx/fZV7Zpx5C0DsuLKUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Tx82zIDb; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImY8CZ1j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729535148; x=1761071148;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+mEo7hyccA8//AgO7MNOoY+r4YcdOlMiJoOJ2pdWCXU=;
-  b=ImY8CZ1jf8NnbD/0MgS9XzXDH4mFXmS9BjYGkpi8Pn8CdzjsDff5ifJ1
-   O50WBlYJllEVlvK1kw4RckK9pPVekeSJN7BAJ4y0XGkZV5al8zg0vk2Ng
-   N0ko2AN7gtT13Uv1UbGo8r4XL4otjYbZcKV6n8NDb+C/ssZOHBF7kVN0z
-   BcDoqArqPYUBhrEsgpt6gnDqLmIX+H8Os6GdhvO/W1CRXgz6RIP4PFQhp
-   Kw+wPvV2EdGhUT0Q9NfDHlhS7RBuoiIfELP7RRmb79QrCBSyARdj6Kkjy
-   rzs0XxAzNcAaf0BEx2DZSPouLXj9PViE/mqff5dvhMfI8iLB9NRh5YaLg
-   g==;
-X-CSE-ConnectionGUID: qnNgEeXkTLKes8efGyDOrg==
-X-CSE-MsgGUID: Mq7u40F9SFOt7vNsaTREjw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="40425842"
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="40425842"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 11:25:46 -0700
-X-CSE-ConnectionGUID: D2egPrH9TSquHdQi/wlEOQ==
-X-CSE-MsgGUID: 2AXve8VmTfKr6c5dHJHpDw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79690343"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 11:25:42 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t2x63-000SVo-2L;
-	Mon, 21 Oct 2024 18:25:39 +0000
-Date: Tue, 22 Oct 2024 02:25:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 249/2444]
- drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used
-Message-ID: <202410220239.aE1u48Z6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Tx82zIDb"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43163667f0eso32606285e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 11:32:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729535531; x=1730140331; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1zdjYjzLIbLJ1CeQLm3iN32vtd7+t/ewsVsWD0EwaRw=;
+        b=Tx82zIDbb5wh7W4jQ0lAtvrkOpvZK1nt+GQgrj5SLpZvjZlU3H/AIrtEYHNwRU4VRb
+         CLZ42+kvP1aty6Qtalivma6OVqLA4/bUMUg8k6NrCvD+wePoKsF+6JBVpmv8Pg85y+Ht
+         WKiM1YKH0FxaYZ7EYmTtyrLUGi0LpB1D0LQNnFu0FDv6Syj4TMKdeKAEL/Tqov9po5B7
+         Cjc8LJFpmMXsW0646JSJyLZPYIQtythTT76Du5sPacW8aZDUK+IWpW1sfioGIgaNwyvT
+         oVKvmgABOVFSe9r4OjSLQ27AQ3RgcJaGfR8R5DQ0b6ab+OoOYCk0Dv59UYqzUEelVGJl
+         05pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729535531; x=1730140331;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1zdjYjzLIbLJ1CeQLm3iN32vtd7+t/ewsVsWD0EwaRw=;
+        b=eJ9ZHzlAmFx2xoMfjkC3jr9It5ab77QdD+82XbMI++8pxDewXUN4+7voep/siBNxyJ
+         VVXK532xNTkjnUi0WdmmVb3o6LuaS2byzWYQGGbmpKbFcd8Ks3IITKiPjG28PG8QM2Rr
+         dn44a7v6UOjJw/Ds469PYWrgn0vzx5LRU8n+IYu6NhsjVTUz9S9wryOpbeAu2uLfLimU
+         LKcG2OeHNdCcpADhDpgXCMmDjAbPkxs6iSxidKSXPvYNO9JGWrq/BaGileMdyXOZQ2fE
+         dTQCvvy28SaOb1OLGlX//OVSa3T2f9JlLfMLPIHgbK5FQHN7CwRMmarPlbj1NddAsW28
+         CsTQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXCZ+WHI6H90Okcrr06002JKmkBx40IutxkINcg2ZAUsFz23nD4R9N6EMZDpvuHLpA4QLjoNFSD53X6gOAq@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw928g1EGK5tso/RHmj8se7a+vCbv6yskbXMS5ceSsugY1CtV5U
+	k/04uMpZOZllmb7jtDZbC8V7d/PWP5EBhw254rGHNFwjxl97fWNSQkEYIvVvm+/UlD/SQphN2dt
+	T
+X-Google-Smtp-Source: AGHT+IFDLZOKaqhkhui6EMc3gIgkUVJEas1IGzwEGyYVgYkTxW78PTyBKKBlS2Pik987FUlfa78QAA==
+X-Received: by 2002:a05:600c:4ed2:b0:426:64a2:5362 with SMTP id 5b1f17b1804b1-4316163b8bbmr94064995e9.8.1729535530704;
+        Mon, 21 Oct 2024 11:32:10 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a585f7sm4866289f8f.51.2024.10.21.11.32.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 11:32:10 -0700 (PDT)
+Date: Mon, 21 Oct 2024 21:32:06 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 01/13] media: v4l2-ctrls-api: fix error handling for
+ v4l2_g_ctrl()
+Message-ID: <6d638db8-956c-44e4-a842-590c00e42e80@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,72 +68,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <4d36ccf66f48a870c9bc0f7e9fda595505c4d342.1729230718.git.mchehab+huawei@kernel.org>
 
-Hi Chen,
+Hi Mauro,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 36c7a040b76bfbfc5555b3a062ecf9d740a6c5e6 [249/2444] iommu/amd: Convert to probe/release_device() call-backs
-config: x86_64-rhel-8.3-func (https://download.01.org/0day-ci/archive/20241022/202410220239.aE1u48Z6-lkp@intel.com/config)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/media-v4l2-ctrls-api-fix-error-handling-for-v4l2_g_ctrl/20241018-181159
+base:   https://git.linuxtv.org/media_stage.git master
+patch link:    https://lore.kernel.org/r/4d36ccf66f48a870c9bc0f7e9fda595505c4d342.1729230718.git.mchehab%2Bhuawei%40kernel.org
+patch subject: [PATCH v2 01/13] media: v4l2-ctrls-api: fix error handling for v4l2_g_ctrl()
+config: i386-randconfig-141-20241021 (https://download.01.org/0day-ci/archive/20241022/202410220105.oP6D4QD7-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220239.aE1u48Z6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410220239.aE1u48Z6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410220105.oP6D4QD7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/media/v4l2-core/v4l2-ctrls-api.c:825 set_ctrl_lock() warn: inconsistent returns 'ctrl->handler->lock'.
 
-   drivers/iommu/amd_iommu.c: In function 'amd_iommu_uninit_device':
->> drivers/iommu/amd_iommu.c:442:27: warning: variable 'iommu' set but not used [-Wunused-but-set-variable]
-     442 |         struct amd_iommu *iommu;
-         |                           ^~~~~
-   drivers/iommu/amd_iommu.c: In function 'amd_iommu_probe_finalize':
-   drivers/iommu/amd_iommu.c:2281:17: error: 'dev_data' undeclared (first use in this function); did you mean '_edata'?
-    2281 |                 dev_data->passthrough = true;
-         |                 ^~~~~~~~
-         |                 _edata
-   drivers/iommu/amd_iommu.c:2281:17: note: each undeclared identifier is reported only once for each function it appears in
+vim +825 drivers/media/v4l2-core/v4l2-ctrls-api.c
 
+71c689dc2e732d4 Hans Verkuil          2021-04-27  812  static int set_ctrl_lock(struct v4l2_fh *fh, struct v4l2_ctrl *ctrl,
+71c689dc2e732d4 Hans Verkuil          2021-04-27  813  			 struct v4l2_ext_control *c)
+71c689dc2e732d4 Hans Verkuil          2021-04-27  814  {
+71c689dc2e732d4 Hans Verkuil          2021-04-27  815  	int ret;
+71c689dc2e732d4 Hans Verkuil          2021-04-27  816  
+71c689dc2e732d4 Hans Verkuil          2021-04-27  817  	v4l2_ctrl_lock(ctrl);
+54c5e2c49a4358b Mauro Carvalho Chehab 2024-10-18  818  	ret = user_to_new(c, ctrl);
+54c5e2c49a4358b Mauro Carvalho Chehab 2024-10-18  819  	if (ret)
+54c5e2c49a4358b Mauro Carvalho Chehab 2024-10-18  820  		return ret;
 
-vim +/iommu +442 drivers/iommu/amd_iommu.c
+v4l2_ctrl_unlock() before returning
 
-26018874e3584f1 arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-06  438  
-36c7a040b76bfbf drivers/iommu/amd_iommu.c   Chen Zhuo       2021-11-18  439  static void amd_iommu_uninit_device(struct device *dev)
-657cbb6b6cba0f9 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-11-23  440  {
-7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  441  	struct iommu_dev_data *dev_data;
-39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01 @442  	struct amd_iommu *iommu;
-39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  443  	int devid;
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  444  
-7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  445  	devid = get_device_id(dev);
-9ee35e4c6f42e79 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-04-21  446  	if (devid < 0)
-7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  447  		return;
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  448  
-39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  449  	iommu = amd_iommu_rlookup_table[devid];
-39ab9555c241106 drivers/iommu/amd_iommu.c   Joerg Roedel    2017-02-01  450  
-7aba6cb9ee9db78 drivers/iommu/amd_iommu.c   Wan Zongshun    2016-04-01  451  	dev_data = search_dev_data(devid);
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  452  	if (!dev_data)
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  453  		return;
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  454  
-b6809ee573cc2f8 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  455  	if (dev_data->domain)
-b6809ee573cc2f8 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  456  		detach_device(dev);
-b6809ee573cc2f8 drivers/iommu/amd_iommu.c   Joerg Roedel    2016-02-26  457  
-8fa5f802abf3cd3 arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-09  458  	/*
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  459  	 * We keep dev_data around for unplugged devices and reuse it when the
-c1931090a22b96b drivers/iommu/amd_iommu.c   Alex Williamson 2014-07-03  460  	 * device is re-plugged - not doing so would introduce a ton of races.
-8fa5f802abf3cd3 arch/x86/kernel/amd_iommu.c Joerg Roedel    2011-06-09  461  	 */
-657cbb6b6cba0f9 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-11-23  462  }
-b7cc9554bc73641 arch/x86/kernel/amd_iommu.c Joerg Roedel    2009-12-10  463  
-
-:::::: The code at line 442 was first introduced by commit
-:::::: 39ab9555c24110671f8dc671311a26e5c985b592 iommu: Add sysfs bindings for struct iommu_device
-
-:::::: TO: Joerg Roedel <jroedel@suse.de>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+71c689dc2e732d4 Hans Verkuil          2021-04-27  821  	ret = set_ctrl(fh, ctrl, 0);
+71c689dc2e732d4 Hans Verkuil          2021-04-27  822  	if (!ret)
+54c5e2c49a4358b Mauro Carvalho Chehab 2024-10-18  823  		ret = cur_to_user(c, ctrl);
+71c689dc2e732d4 Hans Verkuil          2021-04-27  824  	v4l2_ctrl_unlock(ctrl);
+71c689dc2e732d4 Hans Verkuil          2021-04-27 @825  	return ret;
+71c689dc2e732d4 Hans Verkuil          2021-04-27  826  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
