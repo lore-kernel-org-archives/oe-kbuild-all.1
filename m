@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F278C31A60
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 08:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BA81E0DD4;
+	Mon, 21 Oct 2024 08:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729498615; cv=none; b=UwpYidLzdLKW5qBIYsZmkBj+x2N4jyf6Tgt5FP/AiftTLKtyvjHLThlg+9mXUs4RcaBxZfpV8VgrJsHKu6dgqF94Pd8QJqIA6bv0T2pr7i0x8Vpzc3Ay0DkzLPhB8iHLyfxbsm7ns4RowHp2XUgeUYvWrVX2MTdoDgexWBzTUwo=
+	t=1729501076; cv=none; b=TGS+a9DyV/2FdIGK1ajfKsXXh+61M7op3agy+dBvaTAgq+oNFp+pcyWRqzioovm+J2zNkJdpyYvCOToOyfAvj5RotCQ6F9VfwsC0Bb+aWoJ9s4oKUOZzxAMMGjHnRblmr/5g8VuFd2ROkljhtO8EWLzDY7x8JwYEG9g/RBkHUx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729498615; c=relaxed/simple;
-	bh=zG8389AzEcTqHbq/aHLbTOlVn9gUHn2FDnw8cKkmpCM=;
+	s=arc-20240116; t=1729501076; c=relaxed/simple;
+	bh=CMCkdIJKB+0bbZpOo8OJKHB3C6jTSgjD/PulJwbEJKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kJD4gv7VH/xzLOghSfrZAdbUoCv+TI/ZLtsX8LvGXLw3qsqzEjJgpLknQvt4TPLyjeQllftH6Zf0nNtRJzrzQRWfqXkIxETC+mWj8VfXIQuJj5Ox8q1eoHX+5cKcBfmBau42IxjL7xzPb/eNIqFC1I5ULDueEzELPdPO89WmZ1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lIAsGnCN; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=PcS88wCWfEr1MIb3+7BtERU2jp1rrNaISz3FEom7GepczWnKEw/eiQ0NJrsozA7NVJjitaE0EUMOqYWg2Iq9WGc1SeeiDghR+kIJUB264va8qmkCC8cgDBYwUu3Mnq2QSnawbporoGfYh2Js1NPmYHcPFvfHVQvzpeHG0yPUmNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApEmulQ6; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lIAsGnCN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApEmulQ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729498613; x=1761034613;
+  t=1729501074; x=1761037074;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zG8389AzEcTqHbq/aHLbTOlVn9gUHn2FDnw8cKkmpCM=;
-  b=lIAsGnCNspk168n7JLjIE65YFUjclOlcCfCjhTes/sqyd/Mb1aAbPAWx
-   4QplCQ2eNAZt51mE6SUtovGyGoJqhqNCYbY3w2g7V9sa9spW9dAniVyVs
-   hcQtHdf5HyFmbIEWmxLg14WBeAFXOunWfW4NR1n1sGZzpWNYNocEyRUmg
-   2NWk0CkTPCB+kzuSnvvSWKvv6dUPpJib3PrnR3EbawjaOGDKkc4pZkw5R
-   TYskFtOvGWnehwseQuc/6eTzIqSdjWE25g+q0w3izWAxcysyY7pR2CkSu
-   Hz3vT8SE4O/LKFuv9elSNJY/kYIl7Qm0Pu90Bd/77p7NF+++RWZ8d199O
-   A==;
-X-CSE-ConnectionGUID: pxhREiIXR12fjChyYumkig==
-X-CSE-MsgGUID: OEswfWmcQxCpmeS8hbem6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="28847514"
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="28847514"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 01:16:53 -0700
-X-CSE-ConnectionGUID: H9O/iqP6Qvy1tSU49oEzRg==
-X-CSE-MsgGUID: vf1Da8lrSkKq8wMHAA8HVQ==
+  bh=CMCkdIJKB+0bbZpOo8OJKHB3C6jTSgjD/PulJwbEJKU=;
+  b=ApEmulQ6mC4mfsM68bGQzb8Qb7cG6DbY/uWpnLOHFoocWG55tQaoptNQ
+   5K/6I03WEdcZzZzT2OqmUodT+nUiho70+lBaOLHAUiuQalfjQ6KSPpdD8
+   61a95YsMpHXg4bCN2jZAj1r1Y1DJO4yFhpZLIo+VQMBKjxnhgl7UTJkVX
+   mxR3ctnLcbx4d+AcPLHngVuASF8qChSyxZ+laO7zGwR+i5yAdEjl02q+a
+   BykiirWldbgWCXjua+IlIkSS+za6nf59SpvJ8o4KdCdId72iVhHkWZ24r
+   6px+YTvQ4HaVcLZN1sO0fm/TtCOKGqqstEubGxu9sP/N8PC5RlAnn0MkS
+   w==;
+X-CSE-ConnectionGUID: njwURU0TSieJqJ8Sl/YlEg==
+X-CSE-MsgGUID: DMW+vP12Tgy3RwaIDh4rog==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32660312"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="32660312"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 01:57:54 -0700
+X-CSE-ConnectionGUID: /RL8LhRWTYSuqcr21XPdiA==
+X-CSE-MsgGUID: xNe0oUeoQcm09xaSma2frA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="102772650"
+   d="scan'208";a="116910239"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 21 Oct 2024 01:16:51 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Oct 2024 01:57:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2nar-000RMa-03;
-	Mon, 21 Oct 2024 08:16:49 +0000
-Date: Mon, 21 Oct 2024 16:16:35 +0800
+	id 1t2oEY-000ROI-2h;
+	Mon, 21 Oct 2024 08:57:50 +0000
+Date: Mon, 21 Oct 2024 16:57:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jordan Niethe <jniethe5@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Michael Ellerman <mpe@ellerman.id.au>
-Subject: arch/powerpc/kvm/test-guest-state-buffer.c:70:25: sparse: sparse:
- restricted __be64 degrades to integer
-Message-ID: <202410211611.R5rf8B37-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe-2.2 5/9] kernel/unwind/user.c:191:18: warning:
+ shift count >= width of type
+Message-ID: <202410211608.b342Ychx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   42f7652d3eb527d03665b09edac47f85fb600924
-commit: 6ccbbc33f06adaf79acde18571c6543ad1cb4be6 KVM: PPC: Add helper library for Guest State Buffers
-date:   1 year, 1 month ago
-config: powerpc64-randconfig-r131-20241021 (https://download.01.org/0day-ci/archive/20241021/202410211611.R5rf8B37-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce: (https://download.01.org/0day-ci/archive/20241021/202410211611.R5rf8B37-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe-2.2
+head:   757574ba1822accfdae6ec405421f5e2df48fe52
+commit: d76cec29ef1d2284f0024c60d736b5ed01f89792 [5/9] unwind: Add deferred userspace unwinding API
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20241021/202410211608.b342Ychx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211608.b342Ychx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410211611.R5rf8B37-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410211608.b342Ychx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/kvm/test-guest-state-buffer.c:70:25: sparse: sparse: restricted __be64 degrades to integer
->> arch/powerpc/kvm/test-guest-state-buffer.c:70:25: sparse: sparse: incorrect type in initializer (different base types) @@     expected long long left_value @@     got restricted __be64 const __left @@
-   arch/powerpc/kvm/test-guest-state-buffer.c:70:25: sparse:     expected long long left_value
-   arch/powerpc/kvm/test-guest-state-buffer.c:70:25: sparse:     got restricted __be64 const __left
-   arch/powerpc/kvm/test-guest-state-buffer.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +70 arch/powerpc/kvm/test-guest-state-buffer.c
+>> kernel/unwind/user.c:191:18: warning: shift count >= width of type [-Wshift-count-overflow]
+     191 |                 cookie &= (1UL << 48) - 1;
+         |                                ^  ~~
+   1 warning generated.
 
-    24	
-    25	static void test_adding_element(struct kunit *test)
-    26	{
-    27		const struct kvmppc_gs_elem *head, *curr;
-    28		union {
-    29			__vector128 v;
-    30			u64 dw[2];
-    31		} u;
-    32		int rem;
-    33		struct kvmppc_gs_buff *gsb;
-    34		size_t size = 0x1000;
-    35		int i, rc;
-    36		u64 data;
-    37	
-    38		gsb = kvmppc_gsb_new(size, 0, 0, GFP_KERNEL);
-    39		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gsb);
-    40	
-    41		/* Single elements, direct use of __kvmppc_gse_put() */
-    42		data = 0xdeadbeef;
-    43		rc = __kvmppc_gse_put(gsb, KVMPPC_GSID_GPR(0), 8, &data);
-    44		KUNIT_EXPECT_GE(test, rc, 0);
-    45	
-    46		head = kvmppc_gsb_data(gsb);
-    47		KUNIT_EXPECT_EQ(test, kvmppc_gse_iden(head), KVMPPC_GSID_GPR(0));
-    48		KUNIT_EXPECT_EQ(test, kvmppc_gse_len(head), 8);
-    49		data = 0;
-    50		memcpy(&data, kvmppc_gse_data(head), 8);
-    51		KUNIT_EXPECT_EQ(test, data, 0xdeadbeef);
-    52	
-    53		/* Multiple elements, simple wrapper */
-    54		rc = kvmppc_gse_put_u64(gsb, KVMPPC_GSID_GPR(1), 0xcafef00d);
-    55		KUNIT_EXPECT_GE(test, rc, 0);
-    56	
-    57		u.dw[0] = 0x1;
-    58		u.dw[1] = 0x2;
-    59		rc = kvmppc_gse_put_vector128(gsb, KVMPPC_GSID_VSRS(0), &u.v);
-    60		KUNIT_EXPECT_GE(test, rc, 0);
-    61		u.dw[0] = 0x0;
-    62		u.dw[1] = 0x0;
-    63	
-    64		kvmppc_gsb_for_each_elem(i, curr, gsb, rem) {
-    65			switch (i) {
-    66			case 0:
-    67				KUNIT_EXPECT_EQ(test, kvmppc_gse_iden(curr),
-    68						KVMPPC_GSID_GPR(0));
-    69				KUNIT_EXPECT_EQ(test, kvmppc_gse_len(curr), 8);
-  > 70				KUNIT_EXPECT_EQ(test, kvmppc_gse_get_be64(curr),
-    71						0xdeadbeef);
-    72				break;
-    73			case 1:
-    74				KUNIT_EXPECT_EQ(test, kvmppc_gse_iden(curr),
-    75						KVMPPC_GSID_GPR(1));
-    76				KUNIT_EXPECT_EQ(test, kvmppc_gse_len(curr), 8);
-    77				KUNIT_EXPECT_EQ(test, kvmppc_gse_get_u64(curr),
-    78						0xcafef00d);
-    79				break;
-    80			case 2:
-    81				KUNIT_EXPECT_EQ(test, kvmppc_gse_iden(curr),
-    82						KVMPPC_GSID_VSRS(0));
-    83				KUNIT_EXPECT_EQ(test, kvmppc_gse_len(curr), 16);
-    84				kvmppc_gse_get_vector128(curr, &u.v);
-    85				KUNIT_EXPECT_EQ(test, u.dw[0], 0x1);
-    86				KUNIT_EXPECT_EQ(test, u.dw[1], 0x2);
-    87				break;
-    88			}
-    89		}
-    90		KUNIT_EXPECT_EQ(test, i, 3);
-    91	
-    92		kvmppc_gsb_reset(gsb);
-    93		KUNIT_EXPECT_EQ(test, kvmppc_gsb_nelems(gsb), 0);
-    94		KUNIT_EXPECT_EQ(test, kvmppc_gsb_len(gsb),
-    95				sizeof(struct kvmppc_gs_header));
-    96	
-    97		kvmppc_gsb_free(gsb);
-    98	}
-    99	
+
+vim +191 kernel/unwind/user.c
+
+   173	
+   174	int unwind_user_deferred(struct unwind_callback *callback, u64 *ctx_cookie, void *data)
+   175	{
+   176		u64 cookie = current->unwind_ctx_cookie;
+   177	
+   178		if (WARN_ON_ONCE(in_nmi() || !irqs_disabled()))
+   179			return -EINVAL;
+   180	
+   181		if (WARN_ON_ONCE(!callback->func || callback->idx < 0))
+   182			return -EINVAL;
+   183	
+   184		if (!cookie) {
+   185			u64 cpu = smp_processor_id();
+   186	
+   187			BUILD_BUG_ON(NR_CPUS > 65535);
+   188	
+   189			cookie = __this_cpu_read(ctx_ctr);
+   190			cookie++;
+ > 191			cookie &= (1UL << 48) - 1;
+   192			cookie |= cpu << 48;
+   193			__this_cpu_write(ctx_ctr, cookie);
+   194	
+   195			current->unwind_ctx_cookie = cookie;
+   196			task_work_add(current, &current->unwind_work, TWA_RESUME);
+   197		}
+   198	
+   199		if (ctx_cookie)
+   200			*ctx_cookie = cookie;
+   201	
+   202		current->unwind_pending |= (1 << callback->idx);
+   203		current->unwind_privs[callback->idx] = data;
+   204	
+   205		return 0;
+   206	}
+   207	
 
 -- 
 0-DAY CI Kernel Test Service
