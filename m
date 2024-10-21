@@ -1,52 +1,52 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A0B137750
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 16:03:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFB61CBEBC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 17:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729526620; cv=none; b=gG5u3KFo+vRFa2+1BfzAcXSo18LlgCnanPUbL7EIKHEBV1T2qqHOoso07h32zbGzbgUl3G6y5fjpQjTtTLbB2IzNBrmnl0DfvhoQleYPhuZCJwXSp99jxbN3tcIdzJcvVs6JHACApkII1gVQtYq2oOUuP0qiXs5vfPqOymVmRhU=
+	t=1729531485; cv=none; b=n0H61MKBUhBru30d3YSONi5JVXKET1Zs7stgcvD6qaSWIX86yZZEVu+vMIo18Z7ICsGK4/Bxjv2W1GmnoRl6S1fWbIlDYKWJUymTIJeG4aBibLeOMlbPSu0oaRx+Tu8lhmUeob/bsLfOqJGnh8+FZY4Y53zvEoKiELp8UmgDG/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729526620; c=relaxed/simple;
-	bh=xgzkJ9WdghQNxG+kEe27u+1Ruq/wmmE9F7pxRkDB9Wg=;
+	s=arc-20240116; t=1729531485; c=relaxed/simple;
+	bh=N8SaESnrT3hNUKcZfW1tKbeBICzXqh27NPwef/yAQew=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IeCcq9QEHm+3JYnkAnoieX4AttqK71nHIchx5sdH5Gro4z32NkjfjP4cKh2IyRLQa9jjzUzNE7OxGGMoLQDPX5LS6l3mla4VeVFZobAZbCBNUXm1X8n5zm8l8pJg42S4Vn/ajisHSbjPaEfjeAl7zU+0dXRZMTX5+x0cJaJU6cw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6uCIhsU; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=i9KkJpUKxGSOjT07tAZrQZakitL/+Ct6zkS/6xRcaonMqgJrkk27rJZdz3X8DlYLOHtmT8ik+XkoJw3kZda6d+xTZF/RLb2jF+zCtM0ve+wchBkOjpCmc8xj5i9gmFRV9v4BK4bwnLpEPxCIx8JJSHbfzc+cxzhSWpPwLVLadHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKnhStOr; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6uCIhsU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKnhStOr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729526618; x=1761062618;
+  t=1729531483; x=1761067483;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xgzkJ9WdghQNxG+kEe27u+1Ruq/wmmE9F7pxRkDB9Wg=;
-  b=j6uCIhsUN+NkPYl97R3yoP8p9y6ZrPOiXmUsQ96hmITfsqYeapm1hXfM
-   bEhAk5GoFTC540IdTO4jubCfzPqEG543uuWr+sIjghQeO4Lm6TJYtnH6n
-   NbFR2sYqfSHeyDtE1sVjaY6jSYz3eIDzbpff/6/ieq3s5gk3uMtW358Kj
-   si3sbLE6TP4yOkjetmWGXSi1fxszB1lzA2CanNy13OSykePlsjU5fgObT
-   ZInUsJOCMD1NACJ5U5cWZDsmqiw+DWwZTV+bnaZvcq1TA2vn/y8A3xRmo
-   XtIJezkHp3CgKQWEINZ6zGbLEVl346nURNgXQSyS4KVXhKrQxtnqXSvFG
+  bh=N8SaESnrT3hNUKcZfW1tKbeBICzXqh27NPwef/yAQew=;
+  b=NKnhStOrnk0kZcWy2+LrQHGs5jrAdOnY2XK5WuhhJCOgriMjfvQDIjCn
+   ja/VY6uXE0gdLfsYygmpM/VWRs1wW9o8DPnb6XfQSEx1ez7eLg3wL7fIJ
+   56uMtJG5QFu6Eef1g/sA9jEpFaSzPtl0j8Uc/Q8W5cXYUfxhytmqPJZnb
+   8TFokd/O2gMLeaRPd2SoIe+xmm09p3W+jgcVez6dpimm/xbyMagH54qFD
+   JkpdivDmudQBhRJ1BmSeK7Tw+CmyKAJfs7nD0IJUGAg6ACfwbtNjjW/5x
+   ub59zCMbzHQZA0Gtp10Ymsok70VTYtR8AkuOMMujtjTmQfCFbvtbrktyy
    A==;
-X-CSE-ConnectionGUID: OgQUFoFbSNe+oWFoBT2OVA==
-X-CSE-MsgGUID: 6oyZBv+ERpeRhXgpZsDjcg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="28897577"
+X-CSE-ConnectionGUID: 14Kh6lZASFaTKgTOJiPSXA==
+X-CSE-MsgGUID: d1l17arlRBycmMZCRzJU0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="16659908"
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="28897577"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 09:03:38 -0700
-X-CSE-ConnectionGUID: WODpYK78RJ+y3gMU8UBXKw==
-X-CSE-MsgGUID: HAUZE7/DT++QgeUNW2OhYg==
+   d="scan'208";a="16659908"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 10:24:42 -0700
+X-CSE-ConnectionGUID: HgUhQHHRQJqMqorIMoRRYQ==
+X-CSE-MsgGUID: 43x8H5Y0QCS5lZz4qT2KVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79507087"
+   d="scan'208";a="79535546"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 21 Oct 2024 09:03:34 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Oct 2024 10:24:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2usV-000SMv-37;
-	Mon, 21 Oct 2024 16:03:31 +0000
-Date: Tue, 22 Oct 2024 00:02:48 +0800
+	id 1t2w8y-000SSU-0n;
+	Mon, 21 Oct 2024 17:24:36 +0000
+Date: Tue, 22 Oct 2024 01:23:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
 	sagazchen@tencent.com, kernelxing@tencent.com,
@@ -54,9 +54,10 @@ To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
 	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
 	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 3/2444] versioncheck:
- ./drivers/net/ethernet/intel/ice/kcompat.c: 1360: need linux/version.h
-Message-ID: <202410220024.4rAGjv6P-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2167/2444]
+ versioncheck: ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h
+ not needed.
+Message-ID: <202410220101.aQV2umSi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,13 +69,13 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
 head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 7d0110e49bdc1f56083058dc9f4ea82ce9ca39f9 [3/2444] ice: update E810 100g nic driver
-reproduce: (https://download.01.org/0day-ci/archive/20241022/202410220024.4rAGjv6P-lkp@intel.com/reproduce)
+commit: 22599f9f53faee0e993fc4ae321de5ee3e95299a [2167/2444] irqlatency: add irq latency monitor support
+reproduce: (https://download.01.org/0day-ci/archive/20241022/202410220101.aQV2umSi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410220024.4rAGjv6P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410220101.aQV2umSi-lkp@intel.com/
 
 versioncheck warnings: (new ones prefixed by >>)
    INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -125,9 +126,9 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.c: 497: need linux/version.h
    ./drivers/net/ethernet/intel/i40e/kcompat.c: 2759: need linux/version.h
    ./drivers/net/ethernet/intel/iavf/kcompat.c: 2495: need linux/version.h
->> ./drivers/net/ethernet/intel/ice/kcompat.c: 1360: need linux/version.h
->> ./drivers/net/ethernet/intel/ice/kcompat_sles_defs.h: 152: need linux/version.h
->> ./drivers/net/ethernet/intel/ice/kcompat_std_defs.h: 127: need linux/version.h
+   ./drivers/net/ethernet/intel/ice/kcompat.c: 1360: need linux/version.h
+   ./drivers/net/ethernet/intel/ice/kcompat_sles_defs.h: 152: need linux/version.h
+   ./drivers/net/ethernet/intel/ice/kcompat_std_defs.h: 127: need linux/version.h
    ./drivers/net/ethernet/intel/ixgbe/kcompat.c: 2964: need linux/version.h
    ./drivers/net/ethernet/intel/ixgbe/kcompat_ethtool.c: 1148: need linux/version.h
    ./drivers/net/ethernet/intel/ixgbevf/kcompat.c: 2719: need linux/version.h
@@ -140,7 +141,7 @@ versioncheck warnings: (new ones prefixed by >>)
    ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
    ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
    ./drivers/scsi/lpfc/lpfc.h: 25 linux/version.h not needed.
-   ./drivers/scsi/lpfc/lpfc_attr.c: 8286: need linux/version.h
+   ./drivers/scsi/lpfc/lpfc_attr.c: 8282: need linux/version.h
    ./drivers/scsi/lpfc/lpfc_auth.c: 2296: need linux/version.h
    ./drivers/scsi/lpfc/lpfc_crtn.h: 719: need linux/version.h
    ./drivers/scsi/lpfc/lpfc_ct.c: 3782: need linux/version.h
@@ -166,6 +167,7 @@ versioncheck warnings: (new ones prefixed by >>)
    ./fs/ext4/ext4.h: 30 linux/version.h not needed.
    ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
    ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+>> ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h not needed.
    ./net/toa/toa.h: 7 linux/version.h not needed.
    ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
    ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
