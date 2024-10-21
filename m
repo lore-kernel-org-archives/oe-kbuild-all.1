@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5602C95
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 03:39:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1A4D2C95
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 04:00:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729481978; cv=none; b=ZS3vPZwEoMg7lHhanNXSiLoNZSq8hl3/GjFdEko8VLv8dwPLGneJ0l1zFulbA4lZu6GlTL7IBlrBXfQk7RrUesmMU7mBRmgdU7Qw+c5Za7Vr58tEUnaz0mhROaeUqxE/qZTEt5xjMqec4YgAF4vH7ePh3lU6Rl4m17K64ewcca0=
+	t=1729483239; cv=none; b=l2337sSDvrp9AZhSBJaxkzz6hax+5yPN4G+zNTujooCNtqWoamsArBlYnaJEqYimGOZTFUG4tkwPS1nPSFXIfgpkVhxxAlDSudgIrh5B5Uh/C2apoc1s0czoNOBN2bng1jl9YMjTsdpUt1UMSkrEplLwedUv7cdUW3gW6lpJbbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729481978; c=relaxed/simple;
-	bh=PVRi14KN8fM+Ne4tEpjfUBq1TZ76LASY6U/CP3YRMWw=;
+	s=arc-20240116; t=1729483239; c=relaxed/simple;
+	bh=UMjcoFXgiOjHkZx1Rqfv6O4DDvxeoSD50kFBqTfDilo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N3cYeKZK7EZvvgwXxzjbjqZ4ySqiBujMl3ch/yqOOLuCwINPCaLt5i2YdiY4kW2O1ciIEYUIXVSWJFMD3XZI9taMDEIA2yjDbSwCK4BctNiiP4cVE+adw69cjMbKPK4pDeRESHgGmphWmudd5YHfKosONtfnl6wxE2r4Y6b/qsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I4forlHC; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=AwPvxPRn1e9Arfed86eGH7nGbgeawu91Ojn5vAbEZTo+g6L8KfFeVwpahSzJAlrAx1NCnxy2rsg9J+aaqI0RmBDwTrAf0yUQ0Jf15lbZImJDySdiZzb72EXGnfNg5fJKYN4gFJRJIv3fJN2uM8pvHaTEF55axczgZxUu/xirQVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TDXQ9FwY; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I4forlHC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TDXQ9FwY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729481976; x=1761017976;
+  t=1729483238; x=1761019238;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PVRi14KN8fM+Ne4tEpjfUBq1TZ76LASY6U/CP3YRMWw=;
-  b=I4forlHCy1DWFVhqSh2TcEZFLB1gGS42n7ONm7bmMB39RNWnm1L/O+oL
-   nZKvFqEqbU4fI78oPXwThEnaw+8fpgKMe6vu6JrxRspVY+3ywHugIUULi
-   6SkgG6WvGgH+0SXXjWCwz7AgctLiQyeRz9ZKhAr/1k0wCFWjtMJaxrYDi
-   VrzoeblOokbHYGIbf2HKiHa5kPOqzwp3sjyLVHe72v6TjqVMaQyeCNYkC
-   zHwjEYzK42/WYCKkkZV+6FXGXoMxc5nKNj7nxYSwbC86GGoyhx7/u5vOI
-   YwmmcDGeu1PQzXI2lBLFOml1GEf4h3wxyZ7gQDeTd/8HS3CXxTe0rwze5
-   Q==;
-X-CSE-ConnectionGUID: mHi+uAhlThC6qJT2ek4Szw==
-X-CSE-MsgGUID: Rg8XOTQaQFm8LRPKJv1QnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29120493"
+  bh=UMjcoFXgiOjHkZx1Rqfv6O4DDvxeoSD50kFBqTfDilo=;
+  b=TDXQ9FwYV3Vb0y9MjrW0xufXbiUdRrbcc0xdUGIFolnSPdWimi4jhtdU
+   n05N5O7mL5om+TlZw7DvV6f9oU+oWnjEP/64Ts3lv1jj/eYXN45g0IjVu
+   U/UabeBwwq7KuL5ShtsRWGYSb2S4X7pgOdKadFxcSJ8ExcPADVDUzhZH4
+   QWrr1BQyhKwquS3VLecTpiJSc0ml6W/UzK3LGI48fRBIxwqbbdQlQjzcL
+   n8QBHK4p+DyWlw4lsvZ6UeolRMewzRYz0zGSJbkK4A1o9oNFi8DbAPH4X
+   C25et0eVAR/Wg1Nkknra0jZ2tA3zLfO3beH5GK8nW/vVrfx01vFtLrGbE
+   g==;
+X-CSE-ConnectionGUID: nsixUQkJSDSabrkVqjZZYg==
+X-CSE-MsgGUID: /a3n/d8iT7mrXNpyTyFKQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28829387"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29120493"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 20:39:36 -0700
-X-CSE-ConnectionGUID: fKXLtPvqS1618tRE3xhcYg==
-X-CSE-MsgGUID: Szm5zIdKTFmEkPGu6RYN6Q==
+   d="scan'208";a="28829387"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 21:00:38 -0700
+X-CSE-ConnectionGUID: CxD0cc80TluD3WTtRTFshg==
+X-CSE-MsgGUID: p59DQtVgSE6a2lQaYa1gwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="116856301"
+   d="scan'208";a="79052798"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Oct 2024 20:39:35 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 20 Oct 2024 21:00:36 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2jGW-000R6J-1k;
-	Mon, 21 Oct 2024 03:39:32 +0000
-Date: Mon, 21 Oct 2024 11:39:13 +0800
+	id 1t2jas-000R7r-0R;
+	Mon, 21 Oct 2024 04:00:34 +0000
+Date: Mon, 21 Oct 2024 11:59:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Davis <afd@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mathieu Poirier <mathieu.poirier@linaro.org>
-Subject: [remoteproc:rproc-next 9/9]
- drivers/remoteproc/ti_k3_r5_remoteproc.c:490:28: sparse: sparse: incorrect
- type in argument 1 (different address spaces)
-Message-ID: <202410211151.XuU9TYoM-lkp@intel.com>
+To: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 4041/5686]
+ arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: usb@a2f8800:
+ interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too
+ short
+Message-ID: <202410211112.oHihIlsP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,107 +64,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Andrew,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/remoteproc/linux.git rproc-next
-head:   be3e6529a8b90b1284a55117a4e23095ccbeaeaf
-commit: be3e6529a8b90b1284a55117a4e23095ccbeaeaf [9/9] remoteproc: k3-r5: Add compile testing support
-config: openrisc-randconfig-r133-20241021 (https://download.01.org/0day-ci/archive/20241021/202410211151.XuU9TYoM-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241021/202410211151.XuU9TYoM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
+commit: f5b788d0e8cdaac7df6ec9a24926672965d87dfc [4041/5686] arm64: dts: qcom: Add support for X1-based Dell XPS 13 9345
+config: arm64-randconfig-051-20241017 (https://download.01.org/0day-ci/archive/20241021/202410211112.oHihIlsP-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211112.oHihIlsP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410211151.XuU9TYoM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410211112.oHihIlsP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/remoteproc/ti_k3_r5_remoteproc.c:490:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *s @@     got void [noderef] __iomem *cpu_addr @@
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:490:28: sparse:     expected void *s
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:490:28: sparse:     got void [noderef] __iomem *cpu_addr
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:493:28: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *s @@     got void [noderef] __iomem *cpu_addr @@
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:493:28: sparse:     expected void *s
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:493:28: sparse:     got void [noderef] __iomem *cpu_addr
-   drivers/remoteproc/ti_k3_r5_remoteproc.c:720:17: sparse: sparse: cast removes address space '__iomem' of expression
-
-vim +490 drivers/remoteproc/ti_k3_r5_remoteproc.c
-
-e3865c85385aa0 Suman Anna 2022-02-13  430  
-6dedbd1d544389 Suman Anna 2020-10-02  431  /*
-6dedbd1d544389 Suman Anna 2020-10-02  432   * The R5F cores have controls for both a reset and a halt/run. The code
-6dedbd1d544389 Suman Anna 2020-10-02  433   * execution from DDR requires the initial boot-strapping code to be run
-6dedbd1d544389 Suman Anna 2020-10-02  434   * from the internal TCMs. This function is used to release the resets on
-6dedbd1d544389 Suman Anna 2020-10-02  435   * applicable cores to allow loading into the TCMs. The .prepare() ops is
-6dedbd1d544389 Suman Anna 2020-10-02  436   * invoked by remoteproc core before any firmware loading, and is followed
-6dedbd1d544389 Suman Anna 2020-10-02  437   * by the .start() ops after loading to actually let the R5 cores run.
-ee99ee7c929c3e Suman Anna 2021-03-27  438   *
-ee99ee7c929c3e Suman Anna 2021-03-27  439   * The Single-CPU mode on applicable SoCs (eg: AM64x) only uses Core0 to
-ee99ee7c929c3e Suman Anna 2021-03-27  440   * execute code, but combines the TCMs from both cores. The resets for both
-ee99ee7c929c3e Suman Anna 2021-03-27  441   * cores need to be released to make this possible, as the TCMs are in general
-ee99ee7c929c3e Suman Anna 2021-03-27  442   * private to each core. Only Core0 needs to be unhalted for running the
-ee99ee7c929c3e Suman Anna 2021-03-27  443   * cluster in this mode. The function uses the same reset logic as LockStep
-ee99ee7c929c3e Suman Anna 2021-03-27  444   * mode for this (though the behavior is agnostic of the reset release order).
-1168af40b1ad8c Suman Anna 2022-02-13  445   * This callback is invoked only in remoteproc mode.
-6dedbd1d544389 Suman Anna 2020-10-02  446   */
-6dedbd1d544389 Suman Anna 2020-10-02  447  static int k3_r5_rproc_prepare(struct rproc *rproc)
-6dedbd1d544389 Suman Anna 2020-10-02  448  {
-6dedbd1d544389 Suman Anna 2020-10-02  449  	struct k3_r5_rproc *kproc = rproc->priv;
-6dedbd1d544389 Suman Anna 2020-10-02  450  	struct k3_r5_cluster *cluster = kproc->cluster;
-6dedbd1d544389 Suman Anna 2020-10-02  451  	struct k3_r5_core *core = kproc->core;
-6dedbd1d544389 Suman Anna 2020-10-02  452  	struct device *dev = kproc->dev;
-7508ea19b20da8 Suman Anna 2020-11-18  453  	u32 ctrl = 0, cfg = 0, stat = 0;
-7508ea19b20da8 Suman Anna 2020-11-18  454  	u64 boot_vec = 0;
-7508ea19b20da8 Suman Anna 2020-11-18  455  	bool mem_init_dis;
-6dedbd1d544389 Suman Anna 2020-10-02  456  	int ret;
-6dedbd1d544389 Suman Anna 2020-10-02  457  
-7508ea19b20da8 Suman Anna 2020-11-18  458  	ret = ti_sci_proc_get_status(core->tsp, &boot_vec, &cfg, &ctrl, &stat);
-7508ea19b20da8 Suman Anna 2020-11-18  459  	if (ret < 0)
-7508ea19b20da8 Suman Anna 2020-11-18  460  		return ret;
-7508ea19b20da8 Suman Anna 2020-11-18  461  	mem_init_dis = !!(cfg & PROC_BOOT_CFG_FLAG_R5_MEM_INIT_DIS);
-7508ea19b20da8 Suman Anna 2020-11-18  462  
-ee99ee7c929c3e Suman Anna 2021-03-27  463  	/* Re-use LockStep-mode reset logic for Single-CPU mode */
-ee99ee7c929c3e Suman Anna 2021-03-27  464  	ret = (cluster->mode == CLUSTER_MODE_LOCKSTEP ||
-ee99ee7c929c3e Suman Anna 2021-03-27  465  	       cluster->mode == CLUSTER_MODE_SINGLECPU) ?
-6dedbd1d544389 Suman Anna 2020-10-02  466  		k3_r5_lockstep_release(cluster) : k3_r5_split_release(core);
-34f2653686fecc Suman Anna 2020-10-02  467  	if (ret) {
-6dedbd1d544389 Suman Anna 2020-10-02  468  		dev_err(dev, "unable to enable cores for TCM loading, ret = %d\n",
-6dedbd1d544389 Suman Anna 2020-10-02  469  			ret);
-6dedbd1d544389 Suman Anna 2020-10-02  470  		return ret;
-6dedbd1d544389 Suman Anna 2020-10-02  471  	}
-6dedbd1d544389 Suman Anna 2020-10-02  472  
-7508ea19b20da8 Suman Anna 2020-11-18  473  	/*
-7508ea19b20da8 Suman Anna 2020-11-18  474  	 * Newer IP revisions like on J7200 SoCs support h/w auto-initialization
-7508ea19b20da8 Suman Anna 2020-11-18  475  	 * of TCMs, so there is no need to perform the s/w memzero. This bit is
-7508ea19b20da8 Suman Anna 2020-11-18  476  	 * configurable through System Firmware, the default value does perform
-7508ea19b20da8 Suman Anna 2020-11-18  477  	 * auto-init, but account for it in case it is disabled
-7508ea19b20da8 Suman Anna 2020-11-18  478  	 */
-7508ea19b20da8 Suman Anna 2020-11-18  479  	if (cluster->soc_data->tcm_ecc_autoinit && !mem_init_dis) {
-7508ea19b20da8 Suman Anna 2020-11-18  480  		dev_dbg(dev, "leveraging h/w init for TCM memories\n");
-7508ea19b20da8 Suman Anna 2020-11-18  481  		return 0;
-7508ea19b20da8 Suman Anna 2020-11-18  482  	}
-7508ea19b20da8 Suman Anna 2020-11-18  483  
-34f2653686fecc Suman Anna 2020-10-02  484  	/*
-34f2653686fecc Suman Anna 2020-10-02  485  	 * Zero out both TCMs unconditionally (access from v8 Arm core is not
-34f2653686fecc Suman Anna 2020-10-02  486  	 * affected by ATCM & BTCM enable configuration values) so that ECC
-34f2653686fecc Suman Anna 2020-10-02  487  	 * can be effective on all TCM addresses.
-34f2653686fecc Suman Anna 2020-10-02  488  	 */
-34f2653686fecc Suman Anna 2020-10-02  489  	dev_dbg(dev, "zeroing out ATCM memory\n");
-34f2653686fecc Suman Anna 2020-10-02 @490  	memset(core->mem[0].cpu_addr, 0x00, core->mem[0].size);
-34f2653686fecc Suman Anna 2020-10-02  491  
-34f2653686fecc Suman Anna 2020-10-02  492  	dev_dbg(dev, "zeroing out BTCM memory\n");
-34f2653686fecc Suman Anna 2020-10-02  493  	memset(core->mem[1].cpu_addr, 0x00, core->mem[1].size);
-34f2653686fecc Suman Anna 2020-10-02  494  
-34f2653686fecc Suman Anna 2020-10-02  495  	return 0;
-34f2653686fecc Suman Anna 2020-10-02  496  }
-34f2653686fecc Suman Anna 2020-10-02  497  
-
-:::::: The code at line 490 was first introduced by commit
-:::::: 34f2653686fecc9bd5a4ee16724768c72953fb57 remoteproc: k3-r5: Initialize TCM memories for ECC
-
-:::::: TO: Suman Anna <s-anna@ti.com>
-:::::: CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/x1e80100.dtsi:4146.11-4156.7: Warning (graph_child_address): /soc@0/usb@a2f8800/usb@a200000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/qcom/x1e80100-dell-xps13-9345.dtb: usb@a2f8800: interrupt-names: ['pwr_event', 'dp_hs_phy_irq', 'dm_hs_phy_irq'] is too short
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
