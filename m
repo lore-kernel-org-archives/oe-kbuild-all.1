@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5833F1FE116;
-	Mon, 21 Oct 2024 22:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D7A31C4609
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 22:12:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729548176; cv=none; b=bd6BVu6OT8WYhmhF1K0cqM2E+G5uLzXC5wUTVwcNToXrCL5Tpelzsl81Lbu7fkzxzcqpcvAn6OB01vdDaN1YVCrGBlZZHiawA/30uZ+FmwefgMgiUJwbXzvc1lpFVAVSUjcQLYqMv//jD1RwcvzpJBZLKBk1IYr4Cd85CeSQrUs=
+	t=1729548776; cv=none; b=KCC9eULAuLPYW+3YGU9MAqF1TY4e8h5v6tkJ8/fv5mGpenZVsTYZY9K42p1abmpdP5C6Byg7wliOKLB5X1qKU8t80Oy4APTPRwXWAreqg1Spy2jVDwhA6ENznOhVxNclEHtapKfvOTA6IvWBvOSMxEUbcDzmpOczCVcEYQlYLXE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729548176; c=relaxed/simple;
-	bh=2HURbjKo1eAJNOse2Ao8NLyhdbO+OLbMMD9fcMmUnCw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TZAc4bzbOI38Gcsc4WILfbirxlWD92ASNmCiqlulxf9H5R2vPK0t9WGNOu7OtI478mWB6AZtf1fhRWk1mSTEdBFkUCZ3dKrrU2PHgOTWM3uCJ3XxpqnOjGED7yuXyco0PuWzmNeiv7rpZNGP3nJJXbPmTCGMIR4v71JZ7FIAMiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9NM8C/i; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1729548776; c=relaxed/simple;
+	bh=DTxauqUbAnrqGV918OBLOYUmz/yxADJYovhJk1psKnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OeD2suBj1gDnioeI+URa6pcZtW7ZDFwiabcU9qLluMpHpPHKnRHfZXQTNM+XpNORLe2iDXWZVmIQUTnyawhB9iOtQ07rfNeOZxuUE4moxSDIgGfFt+j2VY3iMYo0o1K1g5t4OV/8WffZJK7sl9BHeHBzTWEltUnPXpvRAf29Mzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUblqh7V; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9NM8C/i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUblqh7V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729548175; x=1761084175;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2HURbjKo1eAJNOse2Ao8NLyhdbO+OLbMMD9fcMmUnCw=;
-  b=B9NM8C/iUN3I1MLP/d37EQjd1OQnQqIXjFSfgVU+Wq1Yn/ipTV/vNYt5
-   EztIZJQsMULaEtba+WE5QCS0tPLObVTlmonHX8b1jcDtAw2FR+3PnY4tt
-   T3W/oo+NAb+5I9pQETCN5pfzGbco5vZf4WxqZNjlIAxhdPg1pe7Kflzka
-   BCvfZbjZNmZy1IFfRIN7Qjci5o1E9PszgzxfyTfuwhbHhCxTQC65ePEih
-   bxkmX3cBipdnuLeomJVQY7M+t25pzLIuiGl8nXOIIbC7XIzj0HDMcFbO4
-   kWDoUs5nybN9DYiQeP+B5hARaWdOG7VqAT4VlHFrqye0z3t0jRSFqNlLp
-   Q==;
-X-CSE-ConnectionGUID: yep1rQIASoSVH+x5K0jPXA==
-X-CSE-MsgGUID: 3n6VJk2oR8GiwwOkW5r6Ow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="51598969"
+  t=1729548775; x=1761084775;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DTxauqUbAnrqGV918OBLOYUmz/yxADJYovhJk1psKnw=;
+  b=eUblqh7V1ZRNPIszw24e+BqKa6CVDmYNvLO0wW3eUvsl5YjYhHVeT7iN
+   5i6fRUbEc0cJB02/GETyZVvQMVjlomUoJLjZpBuyWmVXMXo43BhEztpUz
+   1TGQuCoGpaAI05oKmtkg5ljWJwiXE+cWl8P7bW/ewBvywFNEEJ/itoK/+
+   4qxyNuoDVsV0e0fGy87meQM731yGqVhuiY9IdMTdpXFll3gaOwd3nh94C
+   nelTK31kRW9z7NwdeEsLSQY/tn2Lhy3ZwFM6vKiEi78yhntjxKsJAQm0Z
+   +XZ2w3pUVj8Ttj3frfiO4o73H62So1Jgi2O2Knaui68Jr3Pxf+tjuWOJn
+   w==;
+X-CSE-ConnectionGUID: szyABPPaTO6GLHm7GWVaaA==
+X-CSE-MsgGUID: nNoPOGjGQBWrCKjSg203dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46524582"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="51598969"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 15:02:54 -0700
-X-CSE-ConnectionGUID: j61wYtazQt2GvMbHT417XA==
-X-CSE-MsgGUID: JaX1jGIjTVCE/djY0grilA==
+   d="scan'208";a="46524582"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 15:12:54 -0700
+X-CSE-ConnectionGUID: sKtwBAGcRM2866i249hysg==
+X-CSE-MsgGUID: upn7GMAGRtSNV+gFasEDSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79742733"
+   d="scan'208";a="79593437"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 15:02:51 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Oct 2024 15:12:52 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t30UD-000Sfc-0o;
-	Mon, 21 Oct 2024 22:02:49 +0000
-Date: Tue, 22 Oct 2024 06:01:49 +0800
+	id 1t30du-000SgA-0H;
+	Mon, 21 Oct 2024 22:12:50 +0000
+Date: Tue, 22 Oct 2024 06:12:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bibo Mao <maobibo@loongson.cn>, Huacai Chen <chenhuacai@kernel.org>,
-	Jianmin Lv <lvjianmin@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lixianglai@loongson.cn,
-	WANG Xuerui <kernel@xen0n.name>
-Subject: Re: [PATCH v2] LoongArch: Fix cpu hotplug issue
-Message-ID: <202410220508.9OO5jJgk-lkp@intel.com>
-References: <20241021080418.644342-1-maobibo@loongson.cn>
+To: Fabio Estevam <festevam@denx.de>
+Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>
+Subject: [linux-next:master 4743/5686]
+ arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /ldb: failed to match any schema
+ with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+Message-ID: <202410220602.WnWrz1yk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,68 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021080418.644342-1-maobibo@loongson.cn>
 
-Hi Bibo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 42f7652d3eb527d03665b09edac47f85fb600924]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Fix-cpu-hotplug-issue/20241021-160525
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241021080418.644342-1-maobibo%40loongson.cn
-patch subject: [PATCH v2] LoongArch: Fix cpu hotplug issue
-config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20241022/202410220508.9OO5jJgk-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220508.9OO5jJgk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
+commit: 178edf156657a783c5be19ea01e73ec4c259e6a4 [4743/5686] ARM: dts: imx6q-lxr: Add board support
+config: arm-randconfig-053-20241017 (https://download.01.org/0day-ci/archive/20241022/202410220602.WnWrz1yk-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220602.WnWrz1yk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410220508.9OO5jJgk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410220602.WnWrz1yk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/loongarch/kernel/setup.c: In function 'topo_add_cpu':
->> arch/loongarch/kernel/setup.c:383:9: error: '__cpu_logical_map' undeclared (first use in this function); did you mean 'cpu_logical_map'?
-     383 |         __cpu_logical_map[possible_cpus] = physid;
-         |         ^~~~~~~~~~~~~~~~~
-         |         cpu_logical_map
-   arch/loongarch/kernel/setup.c:383:9: note: each undeclared identifier is reported only once for each function it appears in
-   arch/loongarch/kernel/setup.c: In function 'topo_init':
-   arch/loongarch/kernel/setup.c:391:9: error: '__cpu_logical_map' undeclared (first use in this function); did you mean 'cpu_logical_map'?
-     391 |         __cpu_logical_map[0] = loongson_sysconf.boot_cpu_id;
-         |         ^~~~~~~~~~~~~~~~~
-         |         cpu_logical_map
-
-
-vim +383 arch/loongarch/kernel/setup.c
-
-   364	
-   365	int topo_add_cpu(int physid)
-   366	{
-   367		int cpu;
-   368	
-   369		if (!bsp_added && (physid == loongson_sysconf.boot_cpu_id)) {
-   370			bsp_added = true;
-   371			return 0;
-   372		}
-   373	
-   374		cpu = topo_get_cpu(physid);
-   375		if (cpu >= 0) {
-   376			pr_warn("Adding duplicated physical cpuid 0x%x\n", physid);
-   377			return -EEXIST;
-   378		}
-   379	
-   380		if (possible_cpus >= nr_cpu_ids)
-   381			return -ERANGE;
-   382	
- > 383		__cpu_logical_map[possible_cpus] = physid;
-   384		cpu = possible_cpus++;
-   385		return cpu;
-   386	}
-   387	
+dtcheck warnings: (new ones prefixed by >>)
+   	'phytec,imx6ul-pcl063' was expected
+   	'phytec,imx6ull-pcl063' was expected
+   	'fsl,imx6ulz' was expected
+   	'toradex,verdin-imx8mm' was expected
+   	'avnet,sm2s-imx8mp' was expected
+   	'toradex,verdin-imx8mp' was expected
+   	'fsl,imx6q' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
+   	'fsl,vf500' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+   arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /: failed to match any schema with compatible: ['comvetia,imx6q-lxr', 'phytec,imx6q-pfla02', 'fsl,imx6q']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: nand-controller@112000: Unevaluated properties are not allowed ('nand-on-flash-bbt' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mtd/gpmi-nand.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: nand-controller@112000: '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/gpmi-nand.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: nand-controller@112000: '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/gpmi-nand.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: nand-controller@112000: '#address-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: nand-controller@112000: '#size-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/mtd/nand-controller.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: iomuxc-gpr@20e0000: 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /soc/bus@2000000/pinctrl@20e0000: failed to match any schema with compatible: ['fsl,imx6q-iomuxc']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /soc/bus@2100000/mipi@21dc000: failed to match any schema with compatible: ['fsl,imx6-mipi-csi2']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /soc/bus@2100000/vdoa@21e4000: failed to match any schema with compatible: ['fsl,imx6q-vdoa']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /soc/ipu@2400000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
+   arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /soc/ipu@2800000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /capture-subsystem: failed to match any schema with compatible: ['fsl,imx-capture-subsystem']
+>> arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /display-subsystem: failed to match any schema with compatible: ['fsl,imx-display-subsystem']
+   arch/arm/boot/dts/nxp/imx/imx6q-lxr.dtb: /spi/fpga@0: failed to match any schema with compatible: ['altr,fpga-passive-serial']
 
 -- 
 0-DAY CI Kernel Test Service
