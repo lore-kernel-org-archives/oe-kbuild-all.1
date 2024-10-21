@@ -1,71 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645E418DF62;
-	Sun, 20 Oct 2024 23:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E976125
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 00:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729468350; cv=none; b=WMkQPrvZQn0L+FpdUkxEIjeD6ZzvM4VBlOd5uSVA0pMmhqoGsVTaYK1wUcPct6OqrCHqfOI7RGIYuHceBvRvhHxC54d+1SCQYQtjGgeiwyz+7flSHMIe9VboOR8McuXaDm3+hBpoAXY4u8VbSkxjf2xHTbTDwxi19D7cc5qbf4k=
+	t=1729471535; cv=none; b=eMmrsre2cPi261BWSWy0LF5y9ZoSjc2IxEK5Rwzxk8l1d76cAsl+tcVOgdZlZPIIY34rw219h9B7JSfsT0z63gIPrBt5mApxVtMFHhWgVVnoSN6ebL0XqJziJWg8zqQ+OfSc2oPWOCqh2p6syOKlyLYC3EghFF3dAYQ2KWwzNxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729468350; c=relaxed/simple;
-	bh=r5t6ezWrj8tM5XbRLWl015a2nIv4PHGA1l1F7OKUVyU=;
+	s=arc-20240116; t=1729471535; c=relaxed/simple;
+	bh=zX3N1d60n3AIuJZwfC7pPNYT00ZeDOB7cX1e1JHUt6c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hn2jaT/xcwODMB/bohTa9+HrqQBLdAu4EkiLrlaw7wpLXt30z6nVDaO0iInDjj41ovsWAIpvJunaF70GWo76B7rxgClbXdsPUd35gVLKME+7izR30FMehn3+lr/c0brvAUg9gpoDh1NOy18Cxg1NYptVkMuOIup+P+8myjFbUnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZWyHz8BQ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PuJc0qfzjpNfNx7DtErGpLa6lcruQQAkZCqWKi/MucYgG2oODUrn8bmKTJYnpOFxjjIQdx7QKBM1D2VPlHpmlBudVPOIf0sc68bxYrvNeaHVHTlNWmoP7nnx1RXDXTlhAq5UWxPc/3UiUbytcgRFnTKmSI+iJCjtVvhgm4a8VVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqUym6X+; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZWyHz8BQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqUym6X+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729468348; x=1761004348;
+  t=1729471533; x=1761007533;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=r5t6ezWrj8tM5XbRLWl015a2nIv4PHGA1l1F7OKUVyU=;
-  b=ZWyHz8BQR9GCEZcQLZkEPFlu+zmia2us2U6sDQCCB4mNhoHAHH+Islik
-   dTzdpHPJ9JVfQAhuXvu6BzmYqrXtPxuePoj2dyskj79QH+rmV/1BsxX5O
-   Q17fpC6z3GW4EsszAasZsR3FVnQIKkIbTkbXkA08wmGmQmshVqiReTIpR
-   hEjPNYFYEcI1S4j4PTV4woU9lSW2WuIF4c8KOUWCMTRVaXJV+Gwf47KUH
-   7xJO9tijtrRUPk+V1vL+3fTJWJnZ8DUTc7Dt+atBECpb+/fYsBJ9fsCXv
-   cIMlFkbo1+3QVv56mrvfldM5w/YO0GGlQJQCw48jNKi74EONJmkRFflau
-   w==;
-X-CSE-ConnectionGUID: v1iTURg/SxmEcZoaWKYv0Q==
-X-CSE-MsgGUID: lk3KxFA9TmSLvDmXfVLfGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="28366955"
+  bh=zX3N1d60n3AIuJZwfC7pPNYT00ZeDOB7cX1e1JHUt6c=;
+  b=AqUym6X+NhT/w5/py7l7l1Mkp+azxDV0QPFoUvByUF4ogNqSG6nW4JQp
+   +zvyXgZXnvZxDnesaddo94y9ijo8FwqZDte128l93mqRSw2AZMUpW0bii
+   6DRR5YjJJCgbkUeGe2nPPvvIyUI9uB98UEi+Oq1Xb4whoKXsYdpnvV3t9
+   bjdralkUkKnIDTE3OBbUna9/akqEZU64JG/i0+vqhTeq6YPc9DDzDKevp
+   H2Nq+17VCMWy9TztWTwFR8A84/f4yxcLrMxTEu0BJpAZP39ILxD6ZLjVX
+   aehOBvMC+Q3+jI/opdSSY7Zm8KDUgV7dGOn88nxiAOfAkt1+p/2b5jAWj
+   A==;
+X-CSE-ConnectionGUID: Za4sUw+RTIWZwRXt+JsvWw==
+X-CSE-MsgGUID: k6LYUfcwQfykEYZaCHeCnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="31804019"
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="28366955"
+   d="scan'208";a="31804019"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 16:52:28 -0700
-X-CSE-ConnectionGUID: prbo0Ih9TIGcZb3dmFM1RA==
-X-CSE-MsgGUID: gFiR32AlQgGK71jkFRmtag==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 17:45:31 -0700
+X-CSE-ConnectionGUID: 99B1zdIWT/KwEtlUrlwOMA==
+X-CSE-MsgGUID: IcarFqj8Rr+rvNHEUas1wQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,219,1725346800"; 
-   d="scan'208";a="83944143"
+   d="scan'208";a="83952169"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Oct 2024 16:52:24 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 20 Oct 2024 17:45:26 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2fif-000Qtr-2v;
-	Sun, 20 Oct 2024 23:52:21 +0000
-Date: Mon, 21 Oct 2024 07:52:17 +0800
+	id 1t2gY0-000Qww-0O;
+	Mon, 21 Oct 2024 00:45:24 +0000
+Date: Mon, 21 Oct 2024 08:45:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Taniya Das <quic_tdas@quicinc.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Kalpak Kawadkar <quic_kkawadka@quicinc.com>
-Subject: Re: [PATCH 11/14] clk: qcom: add support for GCC on SAR2130P
-Message-ID: <202410210734.7rGICRUi-lkp@intel.com>
-References: <20241017-sar2130p-clocks-v1-11-f75e740f0a8d@linaro.org>
+To: Ian Rogers <irogers@google.com>, Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Kan Liang <kan.liang@linux.intel.com>,
+	Ravi Bangoria <ravi.bangoria@amd.com>,
+	Weilin Wang <weilin.wang@intel.com>,
+	Yoshihiro Furudera <fj5100bi@fujitsu.com>,
+	James Clark <james.clark@linaro.org>,
+	Athira Jajeev <atrajeev@linux.vnet.ibm.com>,
+	Howard Chu <howardchu95@gmail.com>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Changbin Du <changbin.du@huawei.com>, Ze Gao <zegao2021@gmail.com>,
+	Junhao He <hejunhao3@huawei.com>, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 2/5] perf hwmon_pmu: Add a tool PMU exposing events
+ from hwmon in sysfs
+Message-ID: <202410210800.pNLlo3bN-lkp@intel.com>
+References: <20241017063555.366065-3-irogers@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,67 +81,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241017-sar2130p-clocks-v1-11-f75e740f0a8d@linaro.org>
+In-Reply-To: <20241017063555.366065-3-irogers@google.com>
 
-Hi Dmitry,
+Hi Ian,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 7df1e7189cecb6965ce672e820a5ec6cf499b65b]
+[auto build test ERROR on perf-tools-next/perf-tools-next]
+[also build test ERROR on next-20241018]
+[cannot apply to tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.12-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/dt-bindings-clock-qcom-rpmhcc-Add-SAR2130P-compatible/20241018-010608
-base:   7df1e7189cecb6965ce672e820a5ec6cf499b65b
-patch link:    https://lore.kernel.org/r/20241017-sar2130p-clocks-v1-11-f75e740f0a8d%40linaro.org
-patch subject: [PATCH 11/14] clk: qcom: add support for GCC on SAR2130P
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241021/202410210734.7rGICRUi-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210734.7rGICRUi-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/tools-api-io-Ensure-line_len_out-is-always-initialized/20241017-143759
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools-next.git perf-tools-next
+patch link:    https://lore.kernel.org/r/20241017063555.366065-3-irogers%40google.com
+patch subject: [PATCH v5 2/5] perf hwmon_pmu: Add a tool PMU exposing events from hwmon in sysfs
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410210800.pNLlo3bN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410210734.7rGICRUi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410210800.pNLlo3bN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/clk/qcom/gcc-sar2130p.c:254:32: warning: unused variable 'gcc_parent_map_4' [-Wunused-const-variable]
-     254 | static const struct parent_map gcc_parent_map_4[] = {
-         |                                ^~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-sar2130p.c:259:37: warning: unused variable 'gcc_parent_data_4' [-Wunused-const-variable]
-     259 | static const struct clk_parent_data gcc_parent_data_4[] = {
-         |                                     ^~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-sar2130p.c:264:32: warning: unused variable 'gcc_parent_map_5' [-Wunused-const-variable]
-     264 | static const struct parent_map gcc_parent_map_5[] = {
-         |                                ^~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-sar2130p.c:269:37: warning: unused variable 'gcc_parent_data_5' [-Wunused-const-variable]
-     269 | static const struct clk_parent_data gcc_parent_data_5[] = {
-         |                                     ^~~~~~~~~~~~~~~~~
-   4 warnings generated.
-
-
-vim +/gcc_parent_map_4 +254 drivers/clk/qcom/gcc-sar2130p.c
-
-   253	
- > 254	static const struct parent_map gcc_parent_map_4[] = {
-   255		{ P_PCIE_0_PIPE_CLK, 0 },
-   256		{ P_BI_TCXO, 2 },
-   257	};
-   258	
- > 259	static const struct clk_parent_data gcc_parent_data_4[] = {
-   260		{ .index = DT_PCIE_0_PIPE },
-   261		{ .index = DT_BI_TCXO },
-   262	};
-   263	
- > 264	static const struct parent_map gcc_parent_map_5[] = {
-   265		{ P_PCIE_1_PIPE_CLK, 0 },
-   266		{ P_BI_TCXO, 2 },
-   267	};
-   268	
- > 269	static const struct clk_parent_data gcc_parent_data_5[] = {
-   270		{ .index = DT_PCIE_1_PIPE },
-   271		{ .index = DT_BI_TCXO },
-   272	};
-   273	
+   Makefile.config:665: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
+     PERF_VERSION = 6.12.rc3.gd8463b89755f
+   util/hwmon_pmu.c: In function 'parse_hwmon_filename':
+>> util/hwmon_pmu.c:175:9: error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Werror=implicit-function-declaration]
+     175 |         strlcpy(fn_type, filename, sizeof(fn_type));
+         |         ^~~~~~~
+         |         strncpy
+   cc1: all warnings being treated as errors
+   make[7]: *** [tools/build/Makefile.build:106: tools/perf/util/hwmon_pmu.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[5]: *** [Makefile.perf:789: tools/perf/perf-util-in.o] Error 2
+   make[5]: *** Waiting for unfinished jobs....
+   make[4]: *** [Makefile.perf:292: sub-make] Error 2
+   make[3]: *** [Makefile:76: all] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
