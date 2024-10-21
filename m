@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9978156C63;
-	Mon, 21 Oct 2024 05:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 947FD1CF7AC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 05:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729488106; cv=none; b=F8kLeoTqNjaeKiNGz1VelEgfnwAeaVcI/cC0776cP3+SjeRTb47H1bCM4wP0AYkoGG3pZDTDX8bv/ky/XmmEzlQdcI6qBjN3PcM4s2kN96FMHa2+tz2h9mvKTgR7TvQOExUmbfR9MlR+NnWfsjqN3lXgrUEUA5S3X3Mb+lGGeW8=
+	t=1729489967; cv=none; b=hgt8hzUcDilU+W7IvwsQd/bCJdp7paqu6iq9M0yVZFP+F8zcljyM4MDAIJbdJ4s/OXMgC1vFp54PSB4I+NCH4Kv63Fgiva2jMmPGPU750rWDR6TCS9cFwt0g8T5m/FbK9bXXmTm61Re0aE6/7KIF7Vc0+wwk8SbO9+EUPqlp7to=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729488106; c=relaxed/simple;
-	bh=kQzW/GiiA1snIT7JwBW5CXPpsE418DVgnOsl+c/pjRQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fv7hhEmmTiicfZtRjOmsFV4rrqD4HVg4I6s5Yin/o0KZQ7jLeW/5pKfUkSaWE4Liz9yqkK2UR6AmTy0G+Pkr73FpTYu5G8rU7cQ6Kz1ER5kj1CI24SSAsw7Pziknf20Y874m4ghO7QE9j8aocg4Dx7h5MvjGtRRfRI9sCyaP14k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b83imDtJ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1729489967; c=relaxed/simple;
+	bh=ndSVzp5aVTjhu+Ocj6rffiQ/hO3qVsTOCe5Nx3K6jDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQ0xux7B+F5ZXNBVOU6nxqfO3FVY+yqXcFlYKB1hfSTkAXPKHXG8WwZ5Y5OLDDrDNmZ49d9RyxOjfa+6Ovq/f5B4DxISO1MhT77qQcw5u6PLliM1lf8V7jYLUlB7/g9VSh1VZASneI0zPkSStLPrywLO8p3zr8UMpvefuTEh7Pg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RGX3DT5Z; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b83imDtJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RGX3DT5Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729488104; x=1761024104;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kQzW/GiiA1snIT7JwBW5CXPpsE418DVgnOsl+c/pjRQ=;
-  b=b83imDtJSmBZOkhV8JnITtGyK/diosNSzI+Fw9rrwEoe0yCpvFrFrsFb
-   NYzTqwW/S0UM0a7s9LyjNrM4O3gR+QZs65m3njeuHFjDyvOiG6IcLAKWc
-   gx/WT36JGzffzPfbLz0YT13TQVwZiKXrYQm2ur/Brf5CB1BwHuD0qBxbx
-   DHGi56E7H57eVPxYHulJZL0DfE7DnPKQOWvL6E+W9KmAPimPY1m0p026K
-   SIm4ILf35Z7UNFZ9kCZ1D7rJC9BTt+Xl/QJlk/dNC0moKTuvDAFCKFqsD
-   3fSPdpuGlR1pKe+8VwzB8hJge544ApWobEBQmtqcm36QYQsL3Dn0UFDwA
-   A==;
-X-CSE-ConnectionGUID: aTFdVeG0SH61UvTu3uBWEA==
-X-CSE-MsgGUID: /lw0rqTzQeujh5gNlzVtQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11231"; a="28833713"
-X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="28833713"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 22:21:43 -0700
-X-CSE-ConnectionGUID: LM+t/DnkRw+QPEOlzqu04w==
-X-CSE-MsgGUID: HhkjWgApRV6yHI6Wv060dA==
+  t=1729489966; x=1761025966;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ndSVzp5aVTjhu+Ocj6rffiQ/hO3qVsTOCe5Nx3K6jDE=;
+  b=RGX3DT5Z2XtB/RH15XHz7eoL1qg82n1KH5Dm8tnH//QCQWxliFrHgy+z
+   SMX/HBBHhNeFYy2cbM21UkThW8JeyBvMw0zSVuNxHfwkCddokLnv5fvyE
+   fTWAbFkE2je7OLt0+LEevT1bmYd2M/zdx3rVU5m/qTZKaRse5Mg0TzeJV
+   AKC1QC9Yz6ujLwV4Oru9663EWNzeF8L6y3fCmIUVaiaHkFJUVUOH6HrTW
+   yMyvidihb1wOfvRH1GKt7Dsf9Xc32L24XvCCl9ETA9KbDPkzysss8DEtr
+   b/La8ia72duQUCUPpSAyB6bNHa24FNAq4WJxNGTGvtUW7E+d/MyVM3k66
+   Q==;
+X-CSE-ConnectionGUID: dgOUCby1SbSwPKwPR7sx+A==
+X-CSE-MsgGUID: haU41WFGTtmQ6m+VNHOeLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29072963"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29072963"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2024 22:52:45 -0700
+X-CSE-ConnectionGUID: 7AhA8KBpQK+pWM9GFaK1qQ==
+X-CSE-MsgGUID: GWdCtCabSLmX3GjC7o0/7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="110256112"
+   d="scan'208";a="116879169"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Oct 2024 22:21:42 -0700
+  by orviesa001.jf.intel.com with ESMTP; 20 Oct 2024 22:52:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2krL-000RDg-1m;
-	Mon, 21 Oct 2024 05:21:39 +0000
-Date: Mon, 21 Oct 2024 13:21:25 +0800
+	id 1t2lLM-000RF5-1L;
+	Mon, 21 Oct 2024 05:52:40 +0000
+Date: Mon, 21 Oct 2024 13:52:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe-2.2 3/9] mm/init-mm.c:45:26: error: expected
- expression
-Message-ID: <202410211309.narb075Z-lkp@intel.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	dsahern@kernel.org, ncardwell@google.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Jason Xing <kernelxing@tencent.com>
+Subject: Re: [PATCH net-next 2/2] tcp: add more warn of socket in
+ tcp_send_loss_probe()
+Message-ID: <202410211313.7YBoFLNS-lkp@intel.com>
+References: <20241020145029.27725-3-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,129 +66,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241020145029.27725-3-kerneljasonxing@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe-2.2
-head:   757574ba1822accfdae6ec405421f5e2df48fe52
-commit: c689ba830937835b9098f0cd4d6cfeece2e8f71d [3/9] unwind: Introduce sframe userspace unwinding
-config: s390-allnoconfig (https://download.01.org/0day-ci/archive/20241021/202410211309.narb075Z-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211309.narb075Z-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/tcp-add-a-common-helper-to-debug-the-underlying-issue/20241020-225356
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241020145029.27725-3-kerneljasonxing%40gmail.com
+patch subject: [PATCH net-next 2/2] tcp: add more warn of socket in tcp_send_loss_probe()
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241021/202410211313.7YBoFLNS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211313.7YBoFLNS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410211309.narb075Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410211313.7YBoFLNS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/init-mm.c:13:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from mm/init-mm.c:13:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from mm/init-mm.c:13:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> mm/init-mm.c:45:26: error: expected expression
-      45 |         INIT_MM_CONTEXT(init_mm),
-         |                                 ^
-   13 warnings and 1 error generated.
+   In file included from arch/x86/include/asm/bug.h:99,
+                    from include/linux/bug.h:5,
+                    from include/linux/fortify-string.h:6,
+                    from include/linux/string.h:390,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/tsc.h:10,
+                    from arch/x86/include/asm/timex.h:6,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/skbuff.h:15,
+                    from include/linux/tcp.h:17,
+                    from include/net/tcp.h:20,
+                    from net/ipv4/tcp_output.c:40:
+   In function 'tcp_warn_once',
+       inlined from 'tcp_warn_once' at include/net/tcp.h:2433:20,
+       inlined from 'tcp_send_loss_probe' at net/ipv4/tcp_output.c:2957:3:
+>> include/net/tcp.h:2436:19: warning: '%s' directive argument is null [-Wformat-overflow=]
+    2436 |                   "%s"
+         |                   ^~~~
+   include/asm-generic/bug.h:106:31: note: in definition of macro '__WARN_printf'
+     106 |                 __warn_printk(arg);                                     \
+         |                               ^~~
+   include/linux/once_lite.h:31:25: note: in expansion of macro 'WARN'
+      31 |                         func(__VA_ARGS__);                              \
+         |                         ^~~~
+   include/asm-generic/bug.h:152:9: note: in expansion of macro 'DO_ONCE_LITE_IF'
+     152 |         DO_ONCE_LITE_IF(condition, WARN, 1, format)
+         |         ^~~~~~~~~~~~~~~
+   include/net/tcp.h:2435:9: note: in expansion of macro 'WARN_ONCE'
+    2435 |         WARN_ONCE(cond,
+         |         ^~~~~~~~~
+   include/net/tcp.h: In function 'tcp_send_loss_probe':
+   include/net/tcp.h:2436:20: note: format string is defined here
+    2436 |                   "%s"
+         |                    ^~
 
 
-vim +45 mm/init-mm.c
+vim +2436 include/net/tcp.h
 
-    18	
-    19	/*
-    20	 * For dynamically allocated mm_structs, there is a dynamically sized cpumask
-    21	 * at the end of the structure, the size of which depends on the maximum CPU
-    22	 * number the system can see. That way we allocate only as much memory for
-    23	 * mm_cpumask() as needed for the hundreds, or thousands of processes that
-    24	 * a system typically runs.
-    25	 *
-    26	 * Since there is only one init_mm in the entire system, keep it simple
-    27	 * and size this cpu_bitmask to NR_CPUS.
-    28	 */
-    29	struct mm_struct init_mm = {
-    30		.mm_mt		= MTREE_INIT_EXT(mm_mt, MM_MT_FLAGS, init_mm.mmap_lock),
-    31		.pgd		= swapper_pg_dir,
-    32		.mm_users	= ATOMIC_INIT(2),
-    33		.mm_count	= ATOMIC_INIT(1),
-    34		.write_protect_seq = SEQCNT_ZERO(init_mm.write_protect_seq),
-    35		MMAP_LOCK_INITIALIZER(init_mm)
-    36		.page_table_lock =  __SPIN_LOCK_UNLOCKED(init_mm.page_table_lock),
-    37		.arg_lock	=  __SPIN_LOCK_UNLOCKED(init_mm.arg_lock),
-    38		.mmlist		= LIST_HEAD_INIT(init_mm.mmlist),
-    39	#ifdef CONFIG_PER_VMA_LOCK
-    40		.mm_lock_seq	= 0,
-    41	#endif
-    42		.user_ns	= &init_user_ns,
-    43		.cpu_bitmap	= CPU_BITS_NONE,
-    44	#ifdef INIT_MM_CONTEXT
-  > 45		INIT_MM_CONTEXT(init_mm),
-    46	#endif
-    47	#ifdef INIT_MM_SFRAME
-    48		INIT_MM_SFRAME,
-    49	#endif
-    50	};
-    51	
+1a91bb7c3ebf95 Mubashir Adnan Qureshi 2022-10-26  2432  
+4fe1493c15028c Jason Xing             2024-10-20  2433  static inline void tcp_warn_once(const struct sock *sk, bool cond, const char *str)
+4fe1493c15028c Jason Xing             2024-10-20  2434  {
+4fe1493c15028c Jason Xing             2024-10-20  2435  	WARN_ONCE(cond,
+4fe1493c15028c Jason Xing             2024-10-20 @2436  		  "%s"
+d21098f05ea727 Jason Xing             2024-10-20  2437  		  "cwnd:%u "
+4fe1493c15028c Jason Xing             2024-10-20  2438  		  "out:%u sacked:%u lost:%u retrans:%u "
+4fe1493c15028c Jason Xing             2024-10-20  2439  		  "tlp_high_seq:%u sk_state:%u ca_state:%u "
+d21098f05ea727 Jason Xing             2024-10-20  2440  		  "mss:%u advmss:%u mss_cache:%u pmtu:%u\n",
+4fe1493c15028c Jason Xing             2024-10-20  2441  		  str,
+d21098f05ea727 Jason Xing             2024-10-20  2442  		  tcp_snd_cwnd(tcp_sk(sk)),
+4fe1493c15028c Jason Xing             2024-10-20  2443  		  tcp_sk(sk)->packets_out, tcp_sk(sk)->sacked_out,
+4fe1493c15028c Jason Xing             2024-10-20  2444  		  tcp_sk(sk)->lost_out, tcp_sk(sk)->retrans_out,
+4fe1493c15028c Jason Xing             2024-10-20  2445  		  tcp_sk(sk)->tlp_high_seq, sk->sk_state,
+4fe1493c15028c Jason Xing             2024-10-20  2446  		  inet_csk(sk)->icsk_ca_state,
+d21098f05ea727 Jason Xing             2024-10-20  2447  		  tcp_current_mss((struct sock *)sk),
+4fe1493c15028c Jason Xing             2024-10-20  2448  		  tcp_sk(sk)->advmss, tcp_sk(sk)->mss_cache,
+4fe1493c15028c Jason Xing             2024-10-20  2449  		  inet_csk(sk)->icsk_pmtu_cookie);
+4fe1493c15028c Jason Xing             2024-10-20  2450  }
+4fe1493c15028c Jason Xing             2024-10-20  2451  
 
 -- 
 0-DAY CI Kernel Test Service
