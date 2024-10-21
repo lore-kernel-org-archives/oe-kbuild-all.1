@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BA81E0DD4;
-	Mon, 21 Oct 2024 08:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 619F54437
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 09:18:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729501076; cv=none; b=TGS+a9DyV/2FdIGK1ajfKsXXh+61M7op3agy+dBvaTAgq+oNFp+pcyWRqzioovm+J2zNkJdpyYvCOToOyfAvj5RotCQ6F9VfwsC0Bb+aWoJ9s4oKUOZzxAMMGjHnRblmr/5g8VuFd2ROkljhtO8EWLzDY7x8JwYEG9g/RBkHUx8=
+	t=1729502337; cv=none; b=hfA73nl9xQvLxxmkaR49+rF5qet1jPK9RrKW8/bMfojlodgoaRffbT+tOtmRYp4Fr96sGAjH/8pzz+h7JuW1wYqjdGenAU+gk83YDyuPC3aO4kxMig+906jheYO+T7OGJVz7oIViXcHI5zeJX8eVCRjC/qeVBX1Ze129/ftu1AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729501076; c=relaxed/simple;
-	bh=CMCkdIJKB+0bbZpOo8OJKHB3C6jTSgjD/PulJwbEJKU=;
+	s=arc-20240116; t=1729502337; c=relaxed/simple;
+	bh=OMtvxLTIBUM+p7M2lbKOik+I4G+14brx0L+h8Ybv+Jk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PcS88wCWfEr1MIb3+7BtERU2jp1rrNaISz3FEom7GepczWnKEw/eiQ0NJrsozA7NVJjitaE0EUMOqYWg2Iq9WGc1SeeiDghR+kIJUB264va8qmkCC8cgDBYwUu3Mnq2QSnawbporoGfYh2Js1NPmYHcPFvfHVQvzpeHG0yPUmNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApEmulQ6; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=KNHlDS8HIr6MXHVrJ3kWP1l3Cakqi+fHSWm2F4BIEJeyFj3PyxchscQKWeJwPjFKCQU2qBG1hO/B/MCwJgOUfAVDimNO4Q71pDA7COxhrytlxxG32er8c+f9VeKKbmKXbbgq1toSmlJd5XD8MgfcT2zFoxtJ7iqQK96gGje9de8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Li4wRZz0; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApEmulQ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Li4wRZz0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729501074; x=1761037074;
+  t=1729502336; x=1761038336;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CMCkdIJKB+0bbZpOo8OJKHB3C6jTSgjD/PulJwbEJKU=;
-  b=ApEmulQ6mC4mfsM68bGQzb8Qb7cG6DbY/uWpnLOHFoocWG55tQaoptNQ
-   5K/6I03WEdcZzZzT2OqmUodT+nUiho70+lBaOLHAUiuQalfjQ6KSPpdD8
-   61a95YsMpHXg4bCN2jZAj1r1Y1DJO4yFhpZLIo+VQMBKjxnhgl7UTJkVX
-   mxR3ctnLcbx4d+AcPLHngVuASF8qChSyxZ+laO7zGwR+i5yAdEjl02q+a
-   BykiirWldbgWCXjua+IlIkSS+za6nf59SpvJ8o4KdCdId72iVhHkWZ24r
-   6px+YTvQ4HaVcLZN1sO0fm/TtCOKGqqstEubGxu9sP/N8PC5RlAnn0MkS
-   w==;
-X-CSE-ConnectionGUID: njwURU0TSieJqJ8Sl/YlEg==
-X-CSE-MsgGUID: DMW+vP12Tgy3RwaIDh4rog==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32660312"
+  bh=OMtvxLTIBUM+p7M2lbKOik+I4G+14brx0L+h8Ybv+Jk=;
+  b=Li4wRZz0jhQ+vR+yLS9mLa/CXJUv7FHtaHvq+GvpJ2XnrmAkNh4qrusK
+   kofrap5EXXtezZwvWDord2YyufXzudQaK0WgqF49nLORhcRWwAtg/xjL5
+   ggov84kxs6U8FsOTvkLHzJHIszSFygRHZl6iZnIoA2mFwNrAFuEmcMBh+
+   lo4YklwVxHsncG3kMbiYxuf2TZksKU30N6smbRcyDhW8pJoB9ZXXJ0zEQ
+   rpaMSLgSkfpVajphzIATANSb4qQ3FUcm29T03pfVo12T3kFMGn3+ODDGI
+   JS6lRfsu5ea5/sCuyd4RgZy40ObZkk+xG9QEOMcUp6zRbKYSBcuL04V7T
+   A==;
+X-CSE-ConnectionGUID: q9H+ouNQQGudxCAJFCiN0w==
+X-CSE-MsgGUID: 5E2tD2GmShako50haP1Q3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="28926596"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32660312"
+   d="scan'208";a="28926596"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 01:57:54 -0700
-X-CSE-ConnectionGUID: /RL8LhRWTYSuqcr21XPdiA==
-X-CSE-MsgGUID: xNe0oUeoQcm09xaSma2frA==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 02:18:55 -0700
+X-CSE-ConnectionGUID: n7hjTXvnRGikwkTFnvED4A==
+X-CSE-MsgGUID: i7XoSUO3R6mY7WCEYB5toA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,220,1725346800"; 
-   d="scan'208";a="116910239"
+   d="scan'208";a="116914966"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Oct 2024 01:57:54 -0700
+  by orviesa001.jf.intel.com with ESMTP; 21 Oct 2024 02:18:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t2oEY-000ROI-2h;
-	Mon, 21 Oct 2024 08:57:50 +0000
-Date: Mon, 21 Oct 2024 16:57:19 +0800
+	id 1t2oYt-000RP4-1S;
+	Mon, 21 Oct 2024 09:18:51 +0000
+Date: Mon, 21 Oct 2024 17:18:23 +0800
 From: kernel test robot <lkp@intel.com>
 To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:sframe-2.2 5/9] kernel/unwind/user.c:191:18: warning:
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:sframe-2.2 5/9] kernel/unwind/user.c:191:32: warning: left
  shift count >= width of type
-Message-ID: <202410211608.b342Ychx-lkp@intel.com>
+Message-ID: <202410211754.AngdyyY3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,21 +65,21 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe-2.2
 head:   757574ba1822accfdae6ec405421f5e2df48fe52
 commit: d76cec29ef1d2284f0024c60d736b5ed01f89792 [5/9] unwind: Add deferred userspace unwinding API
-config: i386-defconfig (https://download.01.org/0day-ci/archive/20241021/202410211608.b342Ychx-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211608.b342Ychx-lkp@intel.com/reproduce)
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241021/202410211754.AngdyyY3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241021/202410211754.AngdyyY3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410211608.b342Ychx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410211754.AngdyyY3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/unwind/user.c:191:18: warning: shift count >= width of type [-Wshift-count-overflow]
+   kernel/unwind/user.c: In function 'unwind_user_deferred':
+>> kernel/unwind/user.c:191:32: warning: left shift count >= width of type [-Wshift-count-overflow]
      191 |                 cookie &= (1UL << 48) - 1;
-         |                                ^  ~~
-   1 warning generated.
+         |                                ^~
 
 
 vim +191 kernel/unwind/user.c
