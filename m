@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EFB61CBEBC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 17:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681201F80CE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 17:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729531485; cv=none; b=n0H61MKBUhBru30d3YSONi5JVXKET1Zs7stgcvD6qaSWIX86yZZEVu+vMIo18Z7ICsGK4/Bxjv2W1GmnoRl6S1fWbIlDYKWJUymTIJeG4aBibLeOMlbPSu0oaRx+Tu8lhmUeob/bsLfOqJGnh8+FZY4Y53zvEoKiELp8UmgDG/U=
+	t=1729533560; cv=none; b=FBEilAERXDXGBI2/tuu2xTooN8GB1hUvKrwhxBREiI+IsZeciy2qyXO4uL7phdWLnjgO5GR7IAIbpgREYALaAPRG65TtXqlqBQap2erbm5MKm0DfU/jPBb5S1Mm1RN74v84tvPgPgUwEReP9dqBrRbMV2LUpYgOt7vkop23HV7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729531485; c=relaxed/simple;
-	bh=N8SaESnrT3hNUKcZfW1tKbeBICzXqh27NPwef/yAQew=;
+	s=arc-20240116; t=1729533560; c=relaxed/simple;
+	bh=zBxOz2PKiAMcUdIlDQcdTkv9bm2UiCEpiRRjP6g7cig=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i9KkJpUKxGSOjT07tAZrQZakitL/+Ct6zkS/6xRcaonMqgJrkk27rJZdz3X8DlYLOHtmT8ik+XkoJw3kZda6d+xTZF/RLb2jF+zCtM0ve+wchBkOjpCmc8xj5i9gmFRV9v4BK4bwnLpEPxCIx8JJSHbfzc+cxzhSWpPwLVLadHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKnhStOr; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=e/wqTKAV36wu89A/5kJ4SjDPAyx8XtjDu6GBBIL9BDhwnKC2Flir09MU5gxiO39F6tmBW0odrQbbDbHuaE34jjveu1QHqHU64ZdrdedB4oJrEkUDsNW4jVK7ByFvDVpt6Et5FT76yKKb0+f6hcgvTIne9lK1i98kfG6Gf/4wml4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gtq54ESS; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKnhStOr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729531483; x=1761067483;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=N8SaESnrT3hNUKcZfW1tKbeBICzXqh27NPwef/yAQew=;
-  b=NKnhStOrnk0kZcWy2+LrQHGs5jrAdOnY2XK5WuhhJCOgriMjfvQDIjCn
-   ja/VY6uXE0gdLfsYygmpM/VWRs1wW9o8DPnb6XfQSEx1ez7eLg3wL7fIJ
-   56uMtJG5QFu6Eef1g/sA9jEpFaSzPtl0j8Uc/Q8W5cXYUfxhytmqPJZnb
-   8TFokd/O2gMLeaRPd2SoIe+xmm09p3W+jgcVez6dpimm/xbyMagH54qFD
-   JkpdivDmudQBhRJ1BmSeK7Tw+CmyKAJfs7nD0IJUGAg6ACfwbtNjjW/5x
-   ub59zCMbzHQZA0Gtp10Ymsok70VTYtR8AkuOMMujtjTmQfCFbvtbrktyy
-   A==;
-X-CSE-ConnectionGUID: 14Kh6lZASFaTKgTOJiPSXA==
-X-CSE-MsgGUID: d1l17arlRBycmMZCRzJU0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="16659908"
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="16659908"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 10:24:42 -0700
-X-CSE-ConnectionGUID: HgUhQHHRQJqMqorIMoRRYQ==
-X-CSE-MsgGUID: 43x8H5Y0QCS5lZz4qT2KVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79535546"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 21 Oct 2024 10:24:38 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t2w8y-000SSU-0n;
-	Mon, 21 Oct 2024 17:24:36 +0000
-Date: Tue, 22 Oct 2024 01:23:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 2167/2444]
- versioncheck: ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h
- not needed.
-Message-ID: <202410220101.aQV2umSi-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gtq54ESS"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-431548bd1b4so46531465e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 10:59:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729533554; x=1730138354; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EvKRXFh670I33kQAOezgjUTcilQDzlgbUdaDIibWXsc=;
+        b=gtq54ESStFEsfPu68dJNrzvXQhzIslsTcqIkwR+BcU8D6XWbo/RhhSv2fH7HbC7v9F
+         f+9EYedDzr+Hw/fW4zQpdwAejteoR+5tclM6YGCSZCnN1dZb7Xaa+akg43S6jYfI2D9q
+         qWIv472aCr8Vd+kZ6+hy1ripU8NaOFlqmiG+pXHzKuRVp7Bj9Qs0lxC6lbcH33YSUlKj
+         UZM3fVWTTH6QlZ4B5/m2wBruC9N69dL0wLBcVLGUB7ys8eAC3dGlVbdcpWu2UijroBuR
+         CwmIito85UUMEOQd5gZxbZio0OSMakF8UGLeGAdL4i4DNWYAk+86dyIrLA+5oNYXvt15
+         YjlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729533554; x=1730138354;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EvKRXFh670I33kQAOezgjUTcilQDzlgbUdaDIibWXsc=;
+        b=E1NYj7teEKbYQ4Xp+SAME9FTcCtKWk7CvCnTBY29PYHp986bXElGO/tjGL94uZWSQx
+         tsGcBQg/hg7yjmBTnSG+HKJuu2pFABRMq+9KOG/RixoufCSZ6bmmrqnYRdZBV5Et4WUq
+         1D4teOJuSMTc7EhNkAWQYehLP/JobAGd3EaY6M/g91NpmsMQUWq+VnLL13QXKvP5qo6G
+         3T9GX017SbzMJwGUqOeyXpV0KEkWln9KGpb9V+KQftIoDrTC99XA9QqhF0hwLOGnsSGi
+         x0DH9/lQvTwYAQbqpkEzSG9v9edk2ZCVCXCdwY48eNSvDV4ckJXYaLsxY6h1ai6ohG3H
+         w++A==
+X-Forwarded-Encrypted: i=1; AJvYcCV3BCBUl6LDigJgZtiJ/iguEWV80Rat0TlqRnsjRKhmj4bege+kCJwZBCNMJ7DXyaNHv6FXF5eG1WA/vwjD@lists.linux.dev
+X-Gm-Message-State: AOJu0YwNWNhtnkSGbFDSldysCANXqO7jX8gbPf5tXZeKmc6Oe/gYaY9f
+	7z5AAIz6Fx6hNvFUG+Mjr9OR0bcQd6LGWOELWtq1ciVY37AO/uBClBPK9OaSIiU/AtYwUkCeazt
+	A
+X-Google-Smtp-Source: AGHT+IEqdF36w84AIL9DGp2PjmsBi2+c4cwa4SuwVQPFm8W4VrEsvQKiJ2W2wr7gOatdjMMLouAh1g==
+X-Received: by 2002:a05:600c:5490:b0:431:5aea:95f with SMTP id 5b1f17b1804b1-4316165a78cmr112152615e9.16.1729533554534;
+        Mon, 21 Oct 2024 10:59:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317c623dd1sm549415e9.0.2024.10.21.10.59.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 10:59:14 -0700 (PDT)
+Date: Mon, 21 Oct 2024 20:59:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: kernel/trace/fgraph.c:1317 register_ftrace_graph() warn:
+ inconsistent returns '&ftrace_lock'.
+Message-ID: <0152510c-a9ac-4990-b062-c56204e42c1a@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,123 +68,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 22599f9f53faee0e993fc4ae321de5ee3e95299a [2167/2444] irqlatency: add irq latency monitor support
-reproduce: (https://download.01.org/0day-ci/archive/20241022/202410220101.aQV2umSi-lkp@intel.com/reproduce)
+Hi Steven,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   42f7652d3eb527d03665b09edac47f85fb600924
+commit: 2c02f7375e658ae93d57a31a66f91b62754ef8f1 fgraph: Use CPU hotplug mechanism to initialize idle shadow stacks
+config: x86_64-randconfig-161-20241020 (https://download.01.org/0day-ci/archive/20241022/202410220121.wxg0olfd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410220101.aQV2umSi-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410220121.wxg0olfd-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 16 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 54 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c: 4719: need linux/version.h
-   ./drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.c: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.h: 13 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/huawei/hinic/hinic_ethtool.c: 2728: need linux/version.h
-   ./drivers/net/ethernet/huawei/hinic/hinic_main.c: 3394: need linux/version.h
-   ./drivers/net/ethernet/huawei/hinic/hinic_tx.c: 1368: need linux/version.h
-   ./drivers/net/ethernet/huawei/hinic/ossl_knl_linux.c: 497: need linux/version.h
-   ./drivers/net/ethernet/intel/i40e/kcompat.c: 2759: need linux/version.h
-   ./drivers/net/ethernet/intel/iavf/kcompat.c: 2495: need linux/version.h
-   ./drivers/net/ethernet/intel/ice/kcompat.c: 1360: need linux/version.h
-   ./drivers/net/ethernet/intel/ice/kcompat_sles_defs.h: 152: need linux/version.h
-   ./drivers/net/ethernet/intel/ice/kcompat_std_defs.h: 127: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbe/kcompat.c: 2964: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbe/kcompat_ethtool.c: 1148: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbevf/kcompat.c: 2719: need linux/version.h
-   ./drivers/net/ethernet/intel/ixgbevf/kcompat_ethtool.c: 1148: need linux/version.h
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 35 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/ath/ath9k/ath9k_pci_owl_loader.c: 15 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/lpfc/lpfc.h: 25 linux/version.h not needed.
-   ./drivers/scsi/lpfc/lpfc_attr.c: 8282: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_auth.c: 2296: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_crtn.h: 719: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_ct.c: 3782: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_els.c: 11238: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_hbadisc.c: 7236: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_init.c: 16102: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_scsi.c: 7667: need linux/version.h
-   ./drivers/scsi/lpfc/lpfc_sli.c: 22519: need linux/version.h
-   ./drivers/scsi/mpt3sas/mpt3sas_base.h: 2490: need linux/version.h
-   ./drivers/scsi/mpt3sas/mpt3sas_config.c: 46 linux/version.h not needed.
-   ./drivers/scsi/mpt3sas/mpt3sas_debugfs.c: 43 linux/version.h not needed.
-   ./drivers/scsi/mpt3sas/mpt3sas_transport.c: 2654: need linux/version.h
-   ./drivers/scsi/mpt3sas/mpt3sas_trigger_diag.c: 47 linux/version.h not needed.
-   ./drivers/scsi/mpt3sas/mpt3sas_warpdrive.c: 615: need linux/version.h
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
->> ./kernel/tkernel/irqlatency/irqlatency.c: 25 linux/version.h not needed.
-   ./net/toa/toa.h: 7 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+smatch warnings:
+kernel/trace/fgraph.c:1317 register_ftrace_graph() warn: inconsistent returns '&ftrace_lock'.
+
+vim +1317 kernel/trace/fgraph.c
+
+688f7089d8851b1 Steven Rostedt (VMware    2018-11-15  1247) int register_ftrace_graph(struct fgraph_ops *gops)
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1248) {
+2c02f7375e658ae Steven Rostedt            2024-10-18  1249  	static bool fgraph_initialized;
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1250) 	int command = 0;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1251) 	int ret = 0;
+6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1252) 	int i = -1;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1253) 
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1254) 	mutex_lock(&ftrace_lock);
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1255) 
+2c02f7375e658ae Steven Rostedt            2024-10-18  1256  	if (!fgraph_initialized) {
+2c02f7375e658ae Steven Rostedt            2024-10-18  1257  		ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "fgraph_idle_init",
+2c02f7375e658ae Steven Rostedt            2024-10-18  1258  					fgraph_cpu_init, NULL);
+2c02f7375e658ae Steven Rostedt            2024-10-18  1259  		if (ret < 0) {
+2c02f7375e658ae Steven Rostedt            2024-10-18  1260  			pr_warn("fgraph: Error to init cpu hotplug support\n");
+2c02f7375e658ae Steven Rostedt            2024-10-18  1261  			return ret;
+
+goto out;
+
+2c02f7375e658ae Steven Rostedt            2024-10-18  1262  		}
+2c02f7375e658ae Steven Rostedt            2024-10-18  1263  		fgraph_initialized = true;
+2c02f7375e658ae Steven Rostedt            2024-10-18  1264  		ret = 0;
+2c02f7375e658ae Steven Rostedt            2024-10-18  1265  	}
+2c02f7375e658ae Steven Rostedt            2024-10-18  1266  
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1267) 	if (!fgraph_array[0]) {
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1268) 		/* The array must always have real data on it */
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1269) 		for (i = 0; i < FGRAPH_ARRAY_SIZE; i++)
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1270) 			fgraph_array[i] = &fgraph_stub;
+6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1271) 		fgraph_lru_init();
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1272) 	}
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1273) 
+6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1274) 	i = fgraph_lru_alloc_index();
+6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1275) 	if (i < 0 || WARN_ON_ONCE(fgraph_array[i] != &fgraph_stub)) {
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1276) 		ret = -ENOSPC;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1277) 		goto out;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1278) 	}
+7aa1eaef9f4282c Steven Rostedt (VMware    2024-06-03  1279) 	gops->idx = i;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1280) 
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1281) 	ftrace_graph_active++;
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1282) 
+cc60ee813b50334 Steven Rostedt (Google    2024-06-03  1283) 	if (ftrace_graph_active == 2)
+cc60ee813b50334 Steven Rostedt (Google    2024-06-03  1284) 		ftrace_graph_disable_direct(true);
+cc60ee813b50334 Steven Rostedt (Google    2024-06-03  1285) 
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1286) 	if (ftrace_graph_active == 1) {
+a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1287) 		ftrace_graph_enable_direct(false, gops);
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1288) 		register_pm_notifier(&ftrace_suspend_notifier);
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1289) 		ret = start_graph_tracing();
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1290) 		if (ret)
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1291) 			goto error;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1292) 		/*
+2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1293) 		 * Some archs just test to see if these are not
+2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1294) 		 * the default function
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1295) 		 */
+2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1296) 		ftrace_graph_return = return_run;
+2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1297) 		ftrace_graph_entry = entry_run;
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1298) 		command = FTRACE_START_FUNC_RET;
+4497412a1f7b5d9 Steven Rostedt (VMware    2024-06-03  1299) 	} else {
+4497412a1f7b5d9 Steven Rostedt (VMware    2024-06-03  1300) 		init_task_vars(gops->idx);
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1301) 	}
+df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1302) 	/* Always save the function, and reset at unregistering */
+df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1303) 	gops->saved_func = gops->entryfunc;
+df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1304) 
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1305) 	ret = ftrace_startup_subops(&graph_ops, &gops->ops, command);
+a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1306) 	if (!ret)
+a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1307) 		fgraph_array[i] = gops;
+a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1308) 
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1309) error:
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1310) 	if (ret) {
+c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1311) 		ftrace_graph_active--;
+df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1312) 		gops->saved_func = NULL;
+6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1313) 		fgraph_lru_release_index(i);
+518d6804a865772 Steven Rostedt (VMware    2024-06-03  1314) 	}
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1315) out:
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1316) 	mutex_unlock(&ftrace_lock);
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15 @1317) 	return ret;
+e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1318) }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
