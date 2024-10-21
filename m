@@ -1,171 +1,181 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681201F80CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 17:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16C079CF;
+	Mon, 21 Oct 2024 18:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729533560; cv=none; b=FBEilAERXDXGBI2/tuu2xTooN8GB1hUvKrwhxBREiI+IsZeciy2qyXO4uL7phdWLnjgO5GR7IAIbpgREYALaAPRG65TtXqlqBQap2erbm5MKm0DfU/jPBb5S1Mm1RN74v84tvPgPgUwEReP9dqBrRbMV2LUpYgOt7vkop23HV7Q=
+	t=1729534546; cv=none; b=H1EZE/N6/ZylZRyxiXIxGtpG0iozVlY0JXJVc4Vm9N0M5qZF/42Y/3tSzaabwrcqMAx4b86YDUDRbAUp1ZBLxl4Et1vySovazdiyO7nBI3O7ofAgXUSqLSiw/irtwnen/M9OPyxx3DYh3vL9G1aJNm3SPcpPlllLv4ahyeKBXd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729533560; c=relaxed/simple;
-	bh=zBxOz2PKiAMcUdIlDQcdTkv9bm2UiCEpiRRjP6g7cig=;
+	s=arc-20240116; t=1729534546; c=relaxed/simple;
+	bh=FlpkijglSgVuC2Z+6337urZOgx8AgafrheNkzB+MCZI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e/wqTKAV36wu89A/5kJ4SjDPAyx8XtjDu6GBBIL9BDhwnKC2Flir09MU5gxiO39F6tmBW0odrQbbDbHuaE34jjveu1QHqHU64ZdrdedB4oJrEkUDsNW4jVK7ByFvDVpt6Et5FT76yKKb0+f6hcgvTIne9lK1i98kfG6Gf/4wml4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gtq54ESS; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=QWfSD7rH4DMQcGf0UuaQVVNnXzXc+17ZSEJgb1nHlZch500uxavieCUS663z/ZHZcxY4j7LM+iAlATKN84P5m136egHiE/A3JvI1BmANzpmwlSKozlKYklhahzh9MYufsJRDsLkb1E6mvaD/GGW2TaOxcvHDs1toT/n+H4iYxSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFSiv+zd; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gtq54ESS"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-431548bd1b4so46531465e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Oct 2024 10:59:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729533554; x=1730138354; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EvKRXFh670I33kQAOezgjUTcilQDzlgbUdaDIibWXsc=;
-        b=gtq54ESStFEsfPu68dJNrzvXQhzIslsTcqIkwR+BcU8D6XWbo/RhhSv2fH7HbC7v9F
-         f+9EYedDzr+Hw/fW4zQpdwAejteoR+5tclM6YGCSZCnN1dZb7Xaa+akg43S6jYfI2D9q
-         qWIv472aCr8Vd+kZ6+hy1ripU8NaOFlqmiG+pXHzKuRVp7Bj9Qs0lxC6lbcH33YSUlKj
-         UZM3fVWTTH6QlZ4B5/m2wBruC9N69dL0wLBcVLGUB7ys8eAC3dGlVbdcpWu2UijroBuR
-         CwmIito85UUMEOQd5gZxbZio0OSMakF8UGLeGAdL4i4DNWYAk+86dyIrLA+5oNYXvt15
-         YjlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729533554; x=1730138354;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EvKRXFh670I33kQAOezgjUTcilQDzlgbUdaDIibWXsc=;
-        b=E1NYj7teEKbYQ4Xp+SAME9FTcCtKWk7CvCnTBY29PYHp986bXElGO/tjGL94uZWSQx
-         tsGcBQg/hg7yjmBTnSG+HKJuu2pFABRMq+9KOG/RixoufCSZ6bmmrqnYRdZBV5Et4WUq
-         1D4teOJuSMTc7EhNkAWQYehLP/JobAGd3EaY6M/g91NpmsMQUWq+VnLL13QXKvP5qo6G
-         3T9GX017SbzMJwGUqOeyXpV0KEkWln9KGpb9V+KQftIoDrTC99XA9QqhF0hwLOGnsSGi
-         x0DH9/lQvTwYAQbqpkEzSG9v9edk2ZCVCXCdwY48eNSvDV4ckJXYaLsxY6h1ai6ohG3H
-         w++A==
-X-Forwarded-Encrypted: i=1; AJvYcCV3BCBUl6LDigJgZtiJ/iguEWV80Rat0TlqRnsjRKhmj4bege+kCJwZBCNMJ7DXyaNHv6FXF5eG1WA/vwjD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwNWNhtnkSGbFDSldysCANXqO7jX8gbPf5tXZeKmc6Oe/gYaY9f
-	7z5AAIz6Fx6hNvFUG+Mjr9OR0bcQd6LGWOELWtq1ciVY37AO/uBClBPK9OaSIiU/AtYwUkCeazt
-	A
-X-Google-Smtp-Source: AGHT+IEqdF36w84AIL9DGp2PjmsBi2+c4cwa4SuwVQPFm8W4VrEsvQKiJ2W2wr7gOatdjMMLouAh1g==
-X-Received: by 2002:a05:600c:5490:b0:431:5aea:95f with SMTP id 5b1f17b1804b1-4316165a78cmr112152615e9.16.1729533554534;
-        Mon, 21 Oct 2024 10:59:14 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317c623dd1sm549415e9.0.2024.10.21.10.59.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 10:59:14 -0700 (PDT)
-Date: Mon, 21 Oct 2024 20:59:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: kernel/trace/fgraph.c:1317 register_ftrace_graph() warn:
- inconsistent returns '&ftrace_lock'.
-Message-ID: <0152510c-a9ac-4990-b062-c56204e42c1a@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFSiv+zd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729534544; x=1761070544;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=FlpkijglSgVuC2Z+6337urZOgx8AgafrheNkzB+MCZI=;
+  b=YFSiv+zdBe502ApdbbAuYrFKq0wdQalDDsEUPxBL/66ikdHZm3ZrvCgN
+   Hhta2F5/AwIWxez6fe6drjTqK/LqsOJquYeAvbuxa/gCub+9iGsc9jNbV
+   iuTWA3+0t3nQojRbCu0v1ySuasImE9k7eFTVlx2Zs/ZS0Obgy5M7WEI7r
+   6N7NuPMvacX8z6damhPnzjf3benx73Tu5U5CxEu0biqRe1yQ0/xoWbF3a
+   5YfKYRn0rtQwf2wwyTAtbF020kUeiUHOF51hplKBsY1ekc/CL9CcltgTM
+   uJOqBSJYunXNQkOWgwCi27/Bf1eEr4vLfR3IRsD6HI0+2FupTI6RAkEyM
+   Q==;
+X-CSE-ConnectionGUID: T67F6ot9S36S2xBN/isVvg==
+X-CSE-MsgGUID: BHPkjEvXRTaQe+YcI1ECFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="54442098"
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
+   d="scan'208";a="54442098"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 11:15:43 -0700
+X-CSE-ConnectionGUID: nC4EtSatRIWbp2zXE4xYTQ==
+X-CSE-MsgGUID: YPICkMjTR0er2/oZZTcpfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
+   d="scan'208";a="84206630"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 21 Oct 2024 11:15:41 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t2wwN-000SVO-1G;
+	Mon, 21 Oct 2024 18:15:39 +0000
+Date: Tue, 22 Oct 2024 02:15:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Ricardo B. Marliere" <ricardo@marliere.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devel@driverdev.osuosl.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [driver-core:const_work 31/40]
+ drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct
+ device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *'
+ (aka 'const struct device_type *') discards qualifiers
+Message-ID: <202410220209.WYSCnfNH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Steven,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   42f7652d3eb527d03665b09edac47f85fb600924
-commit: 2c02f7375e658ae93d57a31a66f91b62754ef8f1 fgraph: Use CPU hotplug mechanism to initialize idle shadow stacks
-config: x86_64-randconfig-161-20241020 (https://download.01.org/0day-ci/archive/20241022/202410220121.wxg0olfd-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.git const_work
+head:   b7bbe168fc896538357a88d4b7de1a4d41958bfe
+commit: cfd1974cbf0023d6d6de9e410aa1860d5a34c132 [31/40] bus: fsl-mc: constify the struct device_type usage
+config: i386-buildonly-randconfig-003-20241021 (https://download.01.org/0day-ci/archive/20241022/202410220209.WYSCnfNH-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220209.WYSCnfNH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410220121.wxg0olfd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410220209.WYSCnfNH-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/fgraph.c:1317 register_ftrace_graph() warn: inconsistent returns '&ftrace_lock'.
+All errors (new ones prefixed by >>):
 
-vim +1317 kernel/trace/fgraph.c
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:409:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     409 |                 { &fsl_mc_bus_dprc_type, "dprc" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:410:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpni_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     410 |                 { &fsl_mc_bus_dpni_type, "dpni" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:411:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpio_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     411 |                 { &fsl_mc_bus_dpio_type, "dpio" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:412:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpsw_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     412 |                 { &fsl_mc_bus_dpsw_type, "dpsw" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:413:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpbp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     413 |                 { &fsl_mc_bus_dpbp_type, "dpbp" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:414:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpcon_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     414 |                 { &fsl_mc_bus_dpcon_type, "dpcon" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:415:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmcp_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     415 |                 { &fsl_mc_bus_dpmcp_type, "dpmcp" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:416:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpmac_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     416 |                 { &fsl_mc_bus_dpmac_type, "dpmac" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:417:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dprtc_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     417 |                 { &fsl_mc_bus_dprtc_type, "dprtc" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:418:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpseci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     418 |                 { &fsl_mc_bus_dpseci_type, "dpseci" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:419:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmux_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     419 |                 { &fsl_mc_bus_dpdmux_type, "dpdmux" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:420:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdcei_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     420 |                 { &fsl_mc_bus_dpdcei_type, "dpdcei" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:421:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpaiop_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     421 |                 { &fsl_mc_bus_dpaiop_type, "dpaiop" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:422:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpci_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     422 |                 { &fsl_mc_bus_dpci_type, "dpci" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:423:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdmai_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     423 |                 { &fsl_mc_bus_dpdmai_type, "dpdmai" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/bus/fsl-mc/fsl-mc-bus.c:424:5: error: initializing 'struct device_type *' with an expression of type 'typeof (fsl_mc_bus_dpdbg_type) *' (aka 'const struct device_type *') discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     424 |                 { &fsl_mc_bus_dpdbg_type, "dpdbg" },
+         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   16 errors generated.
 
-688f7089d8851b1 Steven Rostedt (VMware    2018-11-15  1247) int register_ftrace_graph(struct fgraph_ops *gops)
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1248) {
-2c02f7375e658ae Steven Rostedt            2024-10-18  1249  	static bool fgraph_initialized;
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1250) 	int command = 0;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1251) 	int ret = 0;
-6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1252) 	int i = -1;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1253) 
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1254) 	mutex_lock(&ftrace_lock);
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1255) 
-2c02f7375e658ae Steven Rostedt            2024-10-18  1256  	if (!fgraph_initialized) {
-2c02f7375e658ae Steven Rostedt            2024-10-18  1257  		ret = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN, "fgraph_idle_init",
-2c02f7375e658ae Steven Rostedt            2024-10-18  1258  					fgraph_cpu_init, NULL);
-2c02f7375e658ae Steven Rostedt            2024-10-18  1259  		if (ret < 0) {
-2c02f7375e658ae Steven Rostedt            2024-10-18  1260  			pr_warn("fgraph: Error to init cpu hotplug support\n");
-2c02f7375e658ae Steven Rostedt            2024-10-18  1261  			return ret;
 
-goto out;
+vim +409 drivers/bus/fsl-mc/fsl-mc-bus.c
 
-2c02f7375e658ae Steven Rostedt            2024-10-18  1262  		}
-2c02f7375e658ae Steven Rostedt            2024-10-18  1263  		fgraph_initialized = true;
-2c02f7375e658ae Steven Rostedt            2024-10-18  1264  		ret = 0;
-2c02f7375e658ae Steven Rostedt            2024-10-18  1265  	}
-2c02f7375e658ae Steven Rostedt            2024-10-18  1266  
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1267) 	if (!fgraph_array[0]) {
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1268) 		/* The array must always have real data on it */
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1269) 		for (i = 0; i < FGRAPH_ARRAY_SIZE; i++)
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1270) 			fgraph_array[i] = &fgraph_stub;
-6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1271) 		fgraph_lru_init();
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1272) 	}
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1273) 
-6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1274) 	i = fgraph_lru_alloc_index();
-6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1275) 	if (i < 0 || WARN_ON_ONCE(fgraph_array[i] != &fgraph_stub)) {
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1276) 		ret = -ENOSPC;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1277) 		goto out;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1278) 	}
-7aa1eaef9f4282c Steven Rostedt (VMware    2024-06-03  1279) 	gops->idx = i;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1280) 
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1281) 	ftrace_graph_active++;
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1282) 
-cc60ee813b50334 Steven Rostedt (Google    2024-06-03  1283) 	if (ftrace_graph_active == 2)
-cc60ee813b50334 Steven Rostedt (Google    2024-06-03  1284) 		ftrace_graph_disable_direct(true);
-cc60ee813b50334 Steven Rostedt (Google    2024-06-03  1285) 
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1286) 	if (ftrace_graph_active == 1) {
-a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1287) 		ftrace_graph_enable_direct(false, gops);
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1288) 		register_pm_notifier(&ftrace_suspend_notifier);
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1289) 		ret = start_graph_tracing();
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1290) 		if (ret)
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1291) 			goto error;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1292) 		/*
-2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1293) 		 * Some archs just test to see if these are not
-2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1294) 		 * the default function
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1295) 		 */
-2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1296) 		ftrace_graph_return = return_run;
-2fbb549983763b2 Steven Rostedt (VMware    2024-06-03  1297) 		ftrace_graph_entry = entry_run;
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1298) 		command = FTRACE_START_FUNC_RET;
-4497412a1f7b5d9 Steven Rostedt (VMware    2024-06-03  1299) 	} else {
-4497412a1f7b5d9 Steven Rostedt (VMware    2024-06-03  1300) 		init_task_vars(gops->idx);
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1301) 	}
-df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1302) 	/* Always save the function, and reset at unregistering */
-df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1303) 	gops->saved_func = gops->entryfunc;
-df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1304) 
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1305) 	ret = ftrace_startup_subops(&graph_ops, &gops->ops, command);
-a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1306) 	if (!ret)
-a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1307) 		fgraph_array[i] = gops;
-a069a22f391019e Masami Hiramatsu (Google  2024-08-18  1308) 
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1309) error:
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1310) 	if (ret) {
-c132be2c4fcc115 Steven Rostedt (VMware    2024-06-03  1311) 		ftrace_graph_active--;
-df3ec5da6a1e7f6 Steven Rostedt (Google    2024-06-03  1312) 		gops->saved_func = NULL;
-6d4786592ac88aa Masami Hiramatsu (Google  2024-06-03  1313) 		fgraph_lru_release_index(i);
-518d6804a865772 Steven Rostedt (VMware    2024-06-03  1314) 	}
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1315) out:
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1316) 	mutex_unlock(&ftrace_lock);
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15 @1317) 	return ret;
-e73e679f656e678 Steven Rostedt (VMware    2018-11-15  1318) }
+e70ba1b06c26cdd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08  402  
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  403  static struct device_type *fsl_mc_get_device_type(const char *type)
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  404  {
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  405  	static const struct {
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  406  		struct device_type *dev_type;
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  407  		const char *type;
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  408  	} dev_types[] = {
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @409  		{ &fsl_mc_bus_dprc_type, "dprc" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @410  		{ &fsl_mc_bus_dpni_type, "dpni" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @411  		{ &fsl_mc_bus_dpio_type, "dpio" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @412  		{ &fsl_mc_bus_dpsw_type, "dpsw" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @413  		{ &fsl_mc_bus_dpbp_type, "dpbp" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @414  		{ &fsl_mc_bus_dpcon_type, "dpcon" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @415  		{ &fsl_mc_bus_dpmcp_type, "dpmcp" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @416  		{ &fsl_mc_bus_dpmac_type, "dpmac" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17 @417  		{ &fsl_mc_bus_dprtc_type, "dprtc" },
+e9158b35ef9afb3 drivers/bus/fsl-mc/fsl-mc-bus.c         Horia Geantă    2018-09-12 @418  		{ &fsl_mc_bus_dpseci_type, "dpseci" },
+a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @419  		{ &fsl_mc_bus_dpdmux_type, "dpdmux" },
+a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @420  		{ &fsl_mc_bus_dpdcei_type, "dpdcei" },
+a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @421  		{ &fsl_mc_bus_dpaiop_type, "dpaiop" },
+a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @422  		{ &fsl_mc_bus_dpci_type, "dpci" },
+a3b7a581823857f drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2020-07-17 @423  		{ &fsl_mc_bus_dpdmai_type, "dpdmai" },
+e70ba1b06c26cdd drivers/bus/fsl-mc/fsl-mc-bus.c         Ioana Ciornei   2021-02-08 @424  		{ &fsl_mc_bus_dpdbg_type, "dpdbg" },
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  425  		{ NULL, NULL }
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  426  	};
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  427  	int i;
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  428  
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  429  	for (i = 0; dev_types[i].dev_type; i++)
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  430  		if (!strcmp(dev_types[i].type, type))
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  431  			return dev_types[i].dev_type;
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  432  
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  433  	return NULL;
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  434  }
+47433b630b7b30d drivers/staging/fsl-mc/bus/fsl-mc-bus.c Laurentiu Tudor 2017-11-17  435  
+
+:::::: The code at line 409 was first introduced by commit
+:::::: 47433b630b7b30d0daa360c64308c0f4c9632986 staging: fsl-mc: add support for device type
+
+:::::: TO: Laurentiu Tudor <laurentiu.tudor@nxp.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
