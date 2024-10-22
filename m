@@ -1,68 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E0E21537D9;
-	Tue, 22 Oct 2024 00:26:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D242E1E51D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 00:47:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729556765; cv=none; b=dinhSMGhi7PVXmDysapx5CHo4tIvIDKYJw8CvpjJ86vdYrN5dG9z75CdmhyShM0RTi4E+tZivjorbDmCwaUfzsVA0+tJcVK1v2c1pRLG7u+56c4wYqAZnckTLgPimM9vko32cvP7PsA4WRUZwNUpJXiCU9Q4G5A4UZahHFT+SZo=
+	t=1729558025; cv=none; b=mk8Kbyy27CepN9Aw2W8NADRPRJH1NTumaifBFsiN10xjQf/8XVrePLL3SoX4FF4W78HSH/RbcNMBqx5vYLaCCgscRCnKzyIzbaMld92Mh9yE1lBqqKQWSDOJoC1szaajqRQewa7+loO15XvOf07jQpcN/ykQ1gCxfsUvwHHi40c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729556765; c=relaxed/simple;
-	bh=J5A1HHH1wdAgcXygyy9cFAqqFrJtZl89Cf0UB6VqlTM=;
+	s=arc-20240116; t=1729558025; c=relaxed/simple;
+	bh=vbFuTYjjAQ0TvYgntMtH52VUEhpkcz61eBePH1uZ9d4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FZRPYUixTvDTjPRNQQtYG/Q5PviP6Qb0JY4Zru3c4mfkdC1OsLUXAu89N2Sqw3/FoEmsSrJ7zUKYfT6akEFHwdlDb7EfCkGIum5yYLBG4+J3mkimGzQqJ1xX9P5DkKI9VEWkKDyMEC/6Wmkp8x8wjaWQq+SKX+dUO2IfKrmmD+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtQ53y6q; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=JhQK29pmF8SOuXW6tbHGEfbNKxz+gQz14YE8c7UTfOS6zxMfxCp0HmT3msgGZZnAclABa1KmGKhcgYHVf4eXbxVfVKv5DB9ocYJyTHl/EyiHLZM4BkVcUZN1fMIURxKp2pydrLurAoYWH1DY/KC262oEeWAHFEzUS7CXY6GOxkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auCu8i+p; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtQ53y6q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auCu8i+p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729556764; x=1761092764;
+  t=1729558024; x=1761094024;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J5A1HHH1wdAgcXygyy9cFAqqFrJtZl89Cf0UB6VqlTM=;
-  b=JtQ53y6qHi+JpLCHDU24UPJQvQ+PV5nu1ydVl6O+N0QyemetVzLnJ7DN
-   vnjbZW9Bx84Q/yi03mkinRyjbWki4GfxdTm8CHOfl8M1tFAGMY9bMfDqk
-   RPTMhJEUoa0iL88sQeaiBYZXx1184OzIpPOgsjFgz5hpzBi3Qxal8955o
-   bTmKPm/4KApcRnMWj8VDizP4Xb9XA5tqtcZgKr9QqzKdidyUwRerbdQ7X
-   PMHHWjnEUE+EXj+taOsBhGAyhqIfkDXwVKnKqaYzwLIFyvuKIc8d2YmwU
-   JWIfiCpK9IEVj84Ve+VfyQV+mJqKgl/UzV+z90RLb5F5qYYq2ozE/PXib
+  bh=vbFuTYjjAQ0TvYgntMtH52VUEhpkcz61eBePH1uZ9d4=;
+  b=auCu8i+p2gGZQXgbWH6YCqdfje7tH6FVgxfR+9CO5jj8ZIcb+ebDtIwg
+   PxCsURKIiLC07mERmhmaxsI9PGKO0yU5CmrZ8BbVIU0tshSGeZTj6yNY9
+   QgZMoYmlVPOnuHuUTZWWvoIovIozVQeDL1clf0nqhWnVqdwk9B5mIiN64
+   mwC1audzrXFV8oVC9AbHg/w1Wkos+9YUI7oGRnqivb/a7hvVOLLk8tRTF
+   dK48ydSFpzGCoiNleykQ8vJzEnsBKw/2kFi2b/mmUO0ArA7S2dAtSmbYN
+   JXEHCs/BNIMgjYVA+RmkcMiDyvplRAWbb9uWxZE8SZmJ/yvVfMaSvrKJf
    A==;
-X-CSE-ConnectionGUID: +MqsnYCxSz24VGS1wSbTJQ==
-X-CSE-MsgGUID: T0ZXjhjTTFGFkPhi9gp2gw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46535672"
+X-CSE-ConnectionGUID: /hHFdlSXQCCPxjLgyHcw2Q==
+X-CSE-MsgGUID: aIMMCyI1RHal9YkXJFKsFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29226652"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="46535672"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 17:26:03 -0700
-X-CSE-ConnectionGUID: GQNY5enJTfOn0akRNtmLbg==
-X-CSE-MsgGUID: hXTttgOsQsuwrNS3GLfDeA==
+   d="scan'208";a="29226652"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 17:47:03 -0700
+X-CSE-ConnectionGUID: QEbf8TR5RNGSaIrRtB69Tg==
+X-CSE-MsgGUID: Ydf4D+qTQYmUv2ErVF60Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,221,1725346800"; 
-   d="scan'208";a="79772055"
+   d="scan'208";a="84298082"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 17:25:59 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Oct 2024 17:47:00 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t32ij-000Soc-1l;
-	Tue, 22 Oct 2024 00:25:57 +0000
-Date: Tue, 22 Oct 2024 08:24:57 +0800
+	id 1t3334-000Sqe-1j;
+	Tue, 22 Oct 2024 00:46:58 +0000
+Date: Tue, 22 Oct 2024 08:46:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Zhao <yuzhao@google.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Muchun Song <muchun.song@linux.dev>,
-	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Douglas Anderson <dianders@chromium.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Nanyong Sun <sunnanyong@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Yu Zhao <yuzhao@google.com>
-Subject: Re: [PATCH v1 3/6] irqchip/gic-v3: support SGI broadcast
-Message-ID: <202410221026.yJKHaGWA-lkp@intel.com>
-References: <20241021042218.746659-4-yuzhao@google.com>
+To: Pawel Dembicki <paweldembicki@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
+	Pawel Dembicki <paweldembicki@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] net: dsa: vsc73xx: implement transmit via
+ control interface
+Message-ID: <202410220836.TtUmbpFx-lkp@intel.com>
+References: <20241020205452.2660042-1-paweldembicki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,51 +70,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021042218.746659-4-yuzhao@google.com>
+In-Reply-To: <20241020205452.2660042-1-paweldembicki@gmail.com>
 
-Hi Yu,
+Hi Pawel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yu-Zhao/mm-hugetlb_vmemmap-batch-update-PTEs/20241021-122330
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241021042218.746659-4-yuzhao%40google.com
-patch subject: [PATCH v1 3/6] irqchip/gic-v3: support SGI broadcast
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20241022/202410221026.yJKHaGWA-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221026.yJKHaGWA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Dembicki/net-dsa-vsc73xx-implement-packet-reception-via-control-interface/20241021-050041
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241020205452.2660042-1-paweldembicki%40gmail.com
+patch subject: [PATCH net-next 1/3] net: dsa: vsc73xx: implement transmit via control interface
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241022/202410220836.TtUmbpFx-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410220836.TtUmbpFx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410221026.yJKHaGWA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410220836.TtUmbpFx-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/irqchip/irq-gic-v3.c:1401:8: warning: shift count >= width of type [-Wshift-count-overflow]
-           val = BIT(ICC_SGI1R_IRQ_ROUTING_MODE_BIT) | (irq << ICC_SGI1R_SGI_ID_SHIFT);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-   #define BIT(nr)                 (UL(1) << (nr))
-                                          ^  ~~~~
-   1 warning generated.
+   In file included from include/linux/string.h:64,
+                    from include/linux/bitmap.h:13,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/net/dsa/vitesse-vsc73xx-core.c:18:
+   drivers/net/dsa/vitesse-vsc73xx-core.c: In function 'vsc73xx_inject_frame':
+>> drivers/net/dsa/vitesse-vsc73xx-core.c:766:30: warning: argument to 'sizeof' in '__builtin_memset' call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
+     766 |         memset(buf, 0, sizeof(buf));
+         |                              ^
+   arch/m68k/include/asm/string.h:49:48: note: in definition of macro 'memset'
+      49 | #define memset(d, c, n) __builtin_memset(d, c, n)
+         |                                                ^
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +1401 drivers/irqchip/irq-gic-v3.c
+vim +766 drivers/net/dsa/vitesse-vsc73xx-core.c
 
-  1396	
-  1397	static void gic_broadcast_sgi(unsigned int irq)
-  1398	{
-  1399		u64 val;
-  1400	
-> 1401		val = BIT(ICC_SGI1R_IRQ_ROUTING_MODE_BIT) | (irq << ICC_SGI1R_SGI_ID_SHIFT);
-  1402	
-  1403		pr_devel("CPU %d: broadcasting SGI %u\n", smp_processor_id(), irq);
-  1404		gic_write_sgi1r(val);
-  1405	}
-  1406	
+   750	
+   751	static int
+   752	vsc73xx_inject_frame(struct vsc73xx *vsc, int port, struct sk_buff *skb)
+   753	{
+   754		struct vsc73xx_ifh *ifh;
+   755		u32 length, i, count;
+   756		u32 *buf;
+   757		int ret;
+   758	
+   759		if (skb->len + VSC73XX_IFH_SIZE < 64)
+   760			length = 64;
+   761		else
+   762			length = skb->len + VSC73XX_IFH_SIZE;
+   763	
+   764		count = DIV_ROUND_UP(length, 8);
+   765		buf = kzalloc(count * 8, GFP_KERNEL);
+ > 766		memset(buf, 0, sizeof(buf));
+   767	
+   768		ifh = (struct vsc73xx_ifh *)buf;
+   769		ifh->frame_length = skb->len;
+   770		ifh->magic = VSC73XX_IFH_MAGIC;
+   771	
+   772		skb_copy_and_csum_dev(skb, (u8 *)(buf + 2));
+   773	
+   774		for (i = 0; i < count; i++) {
+   775			ret = vsc73xx_write_tx_fifo(vsc, port, buf[2 * i],
+   776						    buf[2 * i + 1]);
+   777			if (ret) {
+   778				/* Clear buffer after error */
+   779				vsc73xx_update_bits(vsc, VSC73XX_BLOCK_MAC, port,
+   780						    VSC73XX_MISCFIFO,
+   781						    VSC73XX_MISCFIFO_REWIND_CPU_TX,
+   782						    VSC73XX_MISCFIFO_REWIND_CPU_TX);
+   783				goto err;
+   784			}
+   785		}
+   786	
+   787		vsc73xx_write(vsc, VSC73XX_BLOCK_MAC, port, VSC73XX_MISCFIFO,
+   788			      VSC73XX_MISCFIFO_CPU_TX);
+   789	
+   790		skb_tx_timestamp(skb);
+   791	
+   792		skb->dev->stats.tx_packets++;
+   793		skb->dev->stats.tx_bytes += skb->len;
+   794	err:
+   795		kfree(buf);
+   796		return ret;
+   797	}
+   798	
 
 -- 
 0-DAY CI Kernel Test Service
