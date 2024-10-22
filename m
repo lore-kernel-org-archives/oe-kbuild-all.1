@@ -1,113 +1,99 @@
-Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E39C158DAC
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 09:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.194.8.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22F6198E93
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 09:42:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729588164; cv=none; b=rR2toFrlszmexkjBl5O7R8Uqp5TORS32C85Ame3blsANwqiaWA99QiD8mW12qwxrMk4PAp/iqBUKDtPQs3bfKVpOTxVq6/1aFk0t0gHNbpZn6bPOF5cNvWjx9DVShoLH5LtyP5jTTrP4m6vUQG0azn0zst3MXA/LHyZZQOyTAT4=
+	t=1729590153; cv=none; b=c+5aqeGmWzmNwuC329R27Qe5OCvwfNomZ8lDoNnHxsx6wd/bOAlymXn2G7V7UGtqUh2U8zbxBi2LOZuXZCvl6BUhC7vapvTJFUxCDNohpf9Sq6t55j16wwVekkOb5Z9UxENpxTgciyCWfILoUuJzLEKQ5AXoBsSLyk9rGUSZni0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729588164; c=relaxed/simple;
-	bh=1nV6HF2pnjxCw8PHd/o2089tWcV0CMkkJpSWJvVt2g8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eMTOMhMD+IweDz43XcRrtnrrkELOTtmG4yi8gngOZXQPjIefeDnGhRCtY5eh9q0hqpi46jkAFcjbPPTcG3j3ICaTqakSu36MbuvMFlJ9L6IP+YaHkkLdfP52BxJ1Qlu9vd4+pLYYeRmWTXEIIqjENoedh7Nbq41G/ivRfc9O5bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=jAKciuGF; arc=none smtp.client-ip=217.194.8.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dolcini.it
+	s=arc-20240116; t=1729590153; c=relaxed/simple;
+	bh=aI6REviTskds6Vq3gwwfNgoKTyHWyS3XhMMKXYz44RI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jBkq3mDYMMhMr2K6WcMoB+twfQkhbQcphc7f6XrTtgBS2YS9aFE/PIIYgr5L/1ewRJlI78nuH3KEZoFhoU2m1PGNvM/N8LdNRSwox+EhwMA4WdlUZhhJAu3iouHUt7gOm9eCI2CayPCzZoYU0nZM4+wQ1yy7MrF/fHnHmxDFxqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8vb6/Yl; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b="jAKciuGF"
-Received: from francesco-nb (93-49-2-63.ip317.fastwebnet.it [93.49.2.63])
-	by mail11.truemail.it (Postfix) with ESMTPA id 1F2B41F92C;
-	Tue, 22 Oct 2024 11:09:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
-	s=default; t=1729588159;
-	bh=/oFOcSQ7VXXRHgCbTmfLYmU9DYujrbyLguV17IB9J7w=; h=From:To:Subject;
-	b=jAKciuGFFZCcyMzhQLDQ/LfE5Ee7E/9bNJWxevFoJxnva3QuMbCKzdHRLiqAokVC4
-	 +rVCdX3B5d0ukBv3QCOO72Y+dUgbG/0TtvXpVnhpTBSWOSquXP3bSOJgPgUSbvmNkR
-	 llCv037jxp2XQZ2MHwIyCRAi+FLwCMErCQibBglQfbgE3TAs7JAYeKSt4NDdYd1qCQ
-	 +aC36ZgTxv0FBRmzHIELyrP9NuwDWNEMl+IRNU6iVoWTALXJRLcGNBqjsJ1Glme8VT
-	 Co5V/dJQ7sS1xiAo9TRlT5LLWHwzOwnzvSgtWmMtRYg2CX2rsM6ZpMe8XI2j5OouXi
-	 XnjxkJX6ueDug==
-Date: Tue, 22 Oct 2024 11:09:14 +0200
-From: Francesco Dolcini <francesco@dolcini.it>
-To: Shawn Guo <shawnguo2@yeah.net>
-Cc: kernel test robot <lkp@intel.com>,
-	=?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <joao.goncalves@toradex.com>,
-	oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
-	Francesco Dolcini <francesco.dolcini@toradex.com>
-Subject: Re: [linux-next:master 5228/5686]
- arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds:
- compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05',
- 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2',
- 'hydis,hv070wx2-1e0', 'tbs,a711-pa...
-Message-ID: <20241022090914.GA22546@francesco-nb>
-References: <202410190235.VogdBzI8-lkp@intel.com>
- <ZxdiZ2yjsfbnRN0v@dragon>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8vb6/Yl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729590151; x=1761126151;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aI6REviTskds6Vq3gwwfNgoKTyHWyS3XhMMKXYz44RI=;
+  b=D8vb6/YlnR9482a/2Ytg2SN1MHdTQeFWjXy9EiVsaPVxU2kKJoF/i7pV
+   hgYh72u/cypp1sWxrj8vZmfL1pM7aTEPgJ/zEaMBKuqUl7dE7Jurreqr9
+   wF6A1RXR/Iyy8YhLKauWn3OSuedS1FSodlLZmprcPP7NJyzqeg9zKtaZs
+   JvMX63AyOGWTZnpNi2fIrlYwJSbhXhcZp2l8hvrJI6maWXwyXZIQqUy3m
+   wP0Bfxl01Dmv37sFhcfHiLX4NCvdWQYl+7izapM5BecED5QHuu52cSG1/
+   Ys0J0je2egw295Z9nI77LRCyM7shDCeh9bEh+1KYsEKYFUoWAF6twd6sG
+   A==;
+X-CSE-ConnectionGUID: OlYTmxkfQG6lYdyI0Ijq+Q==
+X-CSE-MsgGUID: 07MB3+z6SGuHgc8b4css6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29003704"
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="29003704"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 02:42:30 -0700
+X-CSE-ConnectionGUID: I19jqvx8Tu+At5o7DNf4Iw==
+X-CSE-MsgGUID: vLWl0IRYSsW6UNPtarwrHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="84892359"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 22 Oct 2024 02:42:29 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3BPG-000TOo-2Y;
+	Tue, 22 Oct 2024 09:42:26 +0000
+Date: Tue, 22 Oct 2024 17:41:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.11-esp32 25/53] versioncheck:
+ ./drivers/net/wireless/espressif/esp32-ng/esp_bt.c: 253: need
+ linux/version.h
+Message-ID: <202410221711.rs0Wtt41-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZxdiZ2yjsfbnRN0v@dragon>
 
-On Tue, Oct 22, 2024 at 04:29:27PM +0800, Shawn Guo wrote:
-> On Sat, Oct 19, 2024 at 02:45:02AM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> > head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
-> > commit: adca46171ff7b3613cd7975f81870ae9025a34cf [5228/5686] arm64: dts: freescale: imx8mm-verdin: Add Ivy carrier board
-> > config: arm64-randconfig-052-20241018 (https://download.01.org/0day-ci/archive/20241019/202410190235.VogdBzI8-lkp@intel.com/config)
-> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-> > dtschema version: 2024.10.dev6+g12c3cd5
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190235.VogdBzI8-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410190235.VogdBzI8-lkp@intel.com/
-> > 
-> > dtcheck warnings: (new ones prefixed by >>)
-> >    	'tq,imx6dl-tqma6dl-b' was expected
-> >    	'phytec,imx6ul-pcl063' was expected
-> >    	'phytec,imx6ull-pcl063' was expected
-> >    	'fsl,imx6ulz' was expected
-> >    	'avnet,sm2s-imx8mp' was expected
-> >    	'toradex,verdin-imx8mp' was expected
-> >    	'toradex,verdin-imx8mm' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
-> >    	'fsl,vf500' was expected
-> >    	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
-> >    arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx8mm-nonwifi-ivy', 'toradex,verdin-imx8mm-nonwifi', 'toradex,verdin-imx8mm', 'fsl,imx8mm']
-> > >> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'tbs,a711-panel']
-> >    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-> > >> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
-> >    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-> > --
-> >    	'tq,imx6dl-tqma6dl-b' was expected
-> >    	'phytec,imx6ul-pcl063' was expected
-> >    	'phytec,imx6ull-pcl063' was expected
-> >    	'fsl,imx6ulz' was expected
-> >    	'avnet,sm2s-imx8mp' was expected
-> >    	'toradex,verdin-imx8mp' was expected
-> >    	'toradex,verdin-imx8mm' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
-> >    	'fsl,vf500' was expected
-> >    	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
-> >    arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx8mm-wifi-ivy', 'toradex,verdin-imx8mm-wifi', 'toradex,verdin-imx8mm', 'fsl,imx8mm']
-> > >> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'tbs,a711-panel']
-> >    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-> > >> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
-> >    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
-> 
-> João,
-> 
-> Could you check these issues?
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.11-esp32
+head:   3b01ad2a1f71b72b27fefa08e4bf6acbe1de874f
+commit: 23f7320d9509bb531e2adca756611547493bfce2 [25/53] drivers/net/wireless/espressif/esp32-ng: initial import
+reproduce: (https://download.01.org/0day-ci/archive/20241022/202410221711.rs0Wtt41-lkp@intel.com/reproduce)
 
-The issue is not about Ivy, but about the SOM dtsi that it includes.
-No immediate solution, discussion in progress here
-https://lore.kernel.org/all/ZxK1yAZkJOTQN++s@lizhi-Precision-Tower-5810/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410221711.rs0Wtt41-lkp@intel.com/
 
-Francesco
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+>> ./drivers/net/wireless/espressif/esp32-ng/esp_bt.c: 253: need linux/version.h
+>> ./drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.h: 11 linux/version.h not needed.
+>> ./drivers/net/wireless/espressif/esp32-ng/esp_cmd.c: 1596: need linux/version.h
+>> ./drivers/net/wireless/espressif/esp32-ng/esp_spi.c: 697: need linux/version.h
+>> ./drivers/net/wireless/espressif/esp32-ng/main.c: 921: need linux/version.h
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 423: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
