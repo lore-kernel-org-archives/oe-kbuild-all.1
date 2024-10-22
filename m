@@ -1,110 +1,160 @@
-Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 067BE1E51D;
-	Tue, 22 Oct 2024 01:54:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104DE1E51D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 02:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729562086; cv=none; b=OAi6fm6ZlHaBzGOs2D7sooSs9GPZxRD0aiBNmYJcPIxnjPGs/71E3ftqfGIiWAK7xGVIUEnEufDa/tsgtb0VzqS7axNK7AeLO/8syhby1swtF1J/hIUr6X5fIkUFpL4sRwwtwiqKm51UEdVxBS8nvGMxXpw5T9QsC/X3lbmpMvs=
+	t=1729562794; cv=none; b=CFW34O4BMRFcuNb72I2NmpjX7vQTaSmio2AtaB9xh/PmKaQBA9565F+fJIirPQOhnjg9vPPl/Td6ZFoTA5eXOv6Rbr7UG1vk0u4wcPqKh85jFqw1hfuv2wqBCPwXn4FNvZGLih0hifwLqpUnu6fusxfbQZZGoR7i1j7jXNeJnsE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729562086; c=relaxed/simple;
-	bh=LfEOqGm0ls6BIYjVb+4/LvIwf6YOWxWIxcy5uf+hnGA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UM4YLdpxZ1YMb40/fyltFe0XAehZUMKc4R2m03/+OsxpCLo3hLNke2IulKDTDrNaxNQ3VUWl8gpoejgom54rcNZ9H7R/U1s80x0uckIr4jPeWFWaZBnYu8K67pEr1DOOALgKHfzdmAHNjit81rQuQkDtHxP/08KVRMNSi0UJmJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=g7qMAmvi; arc=none smtp.client-ip=115.124.30.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1729562794; c=relaxed/simple;
+	bh=PNIltwnlCrNlvx/cqCtQf8MS/w9dn8TLt4AhGxXbJYY=;
+	h=Message-ID:Date:MIME-Version:Cc:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=cMwT+2ColwbMYS2eP6eygB2v26gYuQcNmKu5RPhOitreyY1MVBWNw+fDqqJWRq1tCoDHAfXQGYQ7q8jI1mFoP8FEkgz78zW4HNnmdyAROR9lZ0SiqqbXmKIH4O1bL74jz95XN2QntlcZnZ4yKRWX7YWv21CORdoneAzjUfjlYFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1ItRPl3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="g7qMAmvi"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1729562074; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=O13sI1AHb9SVp0WIrZBCnG4QTD1a8k/+2urAePRh+BE=;
-	b=g7qMAmvijD5fANZZ+Jk//1BhRA1GMn+IX/2UJcKmhwiN35GaIuSpdFk9oFy1LKwdoxc0A4HfEhDIZ8ybyoNNhI26gwPkXT/vegiRxGqqqY8KTlnlsmtoVAJbwHPsEwc6OO5XyW92lgvl87Mw5xIpk4zy4OMHDt0yea5Ewj1/pgQ=
-Received: from 30.178.82.41(mailfrom:kanie@linux.alibaba.com fp:SMTPD_---0WHg1zHf_1729562072 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 22 Oct 2024 09:54:34 +0800
-Message-ID: <56519e26-029d-46a1-b7cf-9391775da5bc@linux.alibaba.com>
-Date: Tue, 22 Oct 2024 09:54:32 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1ItRPl3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C190CC4CEC3;
+	Tue, 22 Oct 2024 02:06:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1729562793;
+	bh=PNIltwnlCrNlvx/cqCtQf8MS/w9dn8TLt4AhGxXbJYY=;
+	h=Date:Cc:Subject:To:References:From:In-Reply-To:From;
+	b=F1ItRPl3ez0J24oFE11BCD24do3du9vJ23Ilia1451tpS7gnl28gdjIHuaB8Xjuz1
+	 3HBnJy9AVvAHGtm2+cSu3M6jlvsnrMOXBcQ/Bqp1b0yaUPKKimi5v4RV+CDK6WHWqm
+	 UONJstIrtRvO4pJHau+042VAIYTtC8bbguOq6mZLiV7QElrT/uJB4tQ7Ra42nJ7pa5
+	 Qov5AS/qbXGX0kfxcyHXPlKibMAyWVXms1CEBG1WyWY+fcL9HQR07ai6Sly+6qP65R
+	 ZBE/kdfUb5QB9DPUX1wflS665K6xzsOEzbnGsJI0aUOnMR+2FfsxBICJiCGIYuM70E
+	 R2z+CeQ67DpAQ==
+Message-ID: <b44fe738-bc30-4828-8ea8-5fa19e5c7d18@kernel.org>
+Date: Tue, 22 Oct 2024 10:06:30 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-Subject: Re: [PATCH] PCI: optimize proc sequential file read
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- bhelgaas@google.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org
-References: <206eef75-bd2b-43ef-a324-6556c47c9b93@stanley.mountain>
-From: Guixin Liu <kanie@linux.alibaba.com>
-In-Reply-To: <206eef75-bd2b-43ef-a324-6556c47c9b93@stanley.mountain>
+User-Agent: Mozilla Thunderbird
+Cc: Chao Yu <chao@kernel.org>, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v7] f2fs: zone: don't block IO if there is remained open
+ zone
+To: kernel test robot <lkp@intel.com>
+References: <20241017081421.2213743-1-chao@kernel.org>
+ <202410181756.J4ldjRr4-lkp@intel.com>
+Content-Language: en-US
+From: Chao Yu <chao@kernel.org>
+In-Reply-To: <202410181756.J4ldjRr4-lkp@intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-在 2024/10/21 15:17, Dan Carpenter 写道:
-> Hi Guixin,
->
+Thanks for the report, I rebased this patch on top of
+https://lore.kernel.org/linux-f2fs-devel/20241017012932.1570038-1-chao@kernel.org,
+so there will be dependency in between these two patch.
+
+Thanks,
+
+On 2024/10/18 17:55, kernel test robot wrote:
+> Hi Chao,
+> 
 > kernel test robot noticed the following build warnings:
->
+> 
+> [auto build test WARNING on jaegeuk-f2fs/dev-test]
+> [also build test WARNING on jaegeuk-f2fs/dev linus/master v6.12-rc3 next-20241018]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
 > https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Guixin-Liu/PCI-optimize-proc-sequential-file-read/20241018-135026
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-> patch link:    https://lore.kernel.org/r/20241018054728.116519-1-kanie%40linux.alibaba.com
-> patch subject: [PATCH] PCI: optimize proc sequential file read
-> config: i386-randconfig-141-20241019 (https://download.01.org/0day-ci/archive/20241019/202410190659.9MCI8EyL-lkp@intel.com/config)
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Chao-Yu/f2fs-zone-don-t-block-IO-if-there-is-remained-open-zone/20241017-162658
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
+> patch link:    https://lore.kernel.org/r/20241017081421.2213743-1-chao%40kernel.org
+> patch subject: [PATCH v7] f2fs: zone: don't block IO if there is remained open zone
+> config: x86_64-buildonly-randconfig-004-20241018 (https://download.01.org/0day-ci/archive/20241018/202410181756.J4ldjRr4-lkp@intel.com/config)
 > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241018/202410181756.J4ldjRr4-lkp@intel.com/reproduce)
+> 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202410190659.9MCI8EyL-lkp@intel.com/
->
-> smatch warnings:
-> drivers/pci/proc.c:365 pci_seq_tree_remove_dev() warn: variable dereferenced before check 'dev' (see line 361)
->
-> vim +/dev +365 drivers/pci/proc.c
->
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  359  void pci_seq_tree_remove_dev(struct pci_dev *dev)
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  360  {
-> 4ca256d9a0e58a Guixin Liu 2024-10-18 @361  	unsigned long idx = dev->proc_seq_idx;
->                                                                      ^^^^^^^^^^^^^^^^^
-> Dereferenced
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410181756.J4ldjRr4-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>     fs/f2fs/data.c: In function 'f2fs_blkzoned_submit_merged_write':
+>>> fs/f2fs/data.c:666:69: warning: passing argument 1 of 'f2fs_get_segment_temp' makes integer from pointer without a cast [-Wint-conversion]
+>       666 |         io = sbi->write_io[PAGE_TYPE(type)] + f2fs_get_segment_temp(sbi, type);
+>           |                                                                     ^~~
+>           |                                                                     |
+>           |                                                                     struct f2fs_sb_info *
+>     In file included from fs/f2fs/data.c:24:
+>     fs/f2fs/f2fs.h:3762:31: note: expected 'int' but argument is of type 'struct f2fs_sb_info *'
+>      3762 | int f2fs_get_segment_temp(int seg_type);
+>           |                           ~~~~^~~~~~~~
+>     fs/f2fs/data.c:666:47: error: too many arguments to function 'f2fs_get_segment_temp'
+>       666 |         io = sbi->write_io[PAGE_TYPE(type)] + f2fs_get_segment_temp(sbi, type);
+>           |                                               ^~~~~~~~~~~~~~~~~~~~~
+>     fs/f2fs/f2fs.h:3762:5: note: declared here
+>      3762 | int f2fs_get_segment_temp(int seg_type);
+>           |     ^~~~~~~~~~~~~~~~~~~~~
+> --
+>     fs/f2fs/segment.c: In function 'restore_curseg_summaries':
+>>> fs/f2fs/segment.c:4324:54: warning: passing argument 1 of 'f2fs_get_segment_temp' makes integer from pointer without a cast [-Wint-conversion]
+>      4324 |                         temp = f2fs_get_segment_temp(sbi, type);
+>           |                                                      ^~~
+>           |                                                      |
+>           |                                                      struct f2fs_sb_info *
+>     fs/f2fs/segment.c:3610:31: note: expected 'int' but argument is of type 'struct f2fs_sb_info *'
+>      3610 | int f2fs_get_segment_temp(int seg_type)
+>           |                           ~~~~^~~~~~~~
+>     fs/f2fs/segment.c:4324:32: error: too many arguments to function 'f2fs_get_segment_temp'
+>      4324 |                         temp = f2fs_get_segment_temp(sbi, type);
+>           |                                ^~~~~~~~~~~~~~~~~~~~~
+>     fs/f2fs/segment.c:3610:5: note: declared here
+>      3610 | int f2fs_get_segment_temp(int seg_type)
+>           |     ^~~~~~~~~~~~~~~~~~~~~
+>     fs/f2fs/segment.c: In function 'destroy_curseg':
+>     fs/f2fs/segment.c:5666:69: warning: passing argument 1 of 'f2fs_get_segment_temp' makes integer from pointer without a cast [-Wint-conversion]
+>      5666 |                         enum temp_type temp = f2fs_get_segment_temp(sbi, i);
+>           |                                                                     ^~~
+>           |                                                                     |
+>           |                                                                     struct f2fs_sb_info *
+>     fs/f2fs/segment.c:3610:31: note: expected 'int' but argument is of type 'struct f2fs_sb_info *'
+>      3610 | int f2fs_get_segment_temp(int seg_type)
+>           |                           ~~~~^~~~~~~~
+>     fs/f2fs/segment.c:5666:47: error: too many arguments to function 'f2fs_get_segment_temp'
+>      5666 |                         enum temp_type temp = f2fs_get_segment_temp(sbi, i);
+>           |                                               ^~~~~~~~~~~~~~~~~~~~~
+>     fs/f2fs/segment.c:3610:5: note: declared here
+>      3610 | int f2fs_get_segment_temp(int seg_type)
+>           |     ^~~~~~~~~~~~~~~~~~~~~
+> 
+> 
+> vim +/f2fs_get_segment_temp +666 fs/f2fs/data.c
+> 
+>     657	
+>     658	void f2fs_blkzoned_submit_merged_write(struct f2fs_sb_info *sbi, int type)
+>     659	{
+>     660	#ifdef CONFIG_BLK_DEV_ZONED
+>     661		struct f2fs_bio_info *io;
+>     662	
+>     663		if (!f2fs_sb_has_blkzoned(sbi))
+>     664			return;
+>     665	
+>   > 666		io = sbi->write_io[PAGE_TYPE(type)] + f2fs_get_segment_temp(sbi, type);
+>     667	
+>     668		f2fs_down_write(&io->io_rwsem);
+>     669		if (io->zone_opened) {
+>     670			if (io->bio) {
+>     671				io->close_zone = true;
+>     672				__submit_merged_bio(io);
+>     673			} else {
+>     674				up(&sbi->available_open_zones);
+>     675				io->zone_opened = false;
+>     676			}
+>     677		}
+>     678		f2fs_up_write(&io->io_rwsem);
+>     679	#endif
+>     680	
+> 
 
-Thanks, changed in v2.
-
-Best Regards,
-
-Guixin Liu
-
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  362  	struct pci_dev *latest_dev = NULL;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  363  	struct pci_dev *ret;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  364
-> 4ca256d9a0e58a Guixin Liu 2024-10-18 @365  	if (!dev)
->                                                      ^^^^
-> Checked too late
->
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  366  		return;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  367
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  368  	xa_lock(&pci_seq_tree);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  369  	__xa_erase(&pci_seq_tree, idx);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  370  	pci_dev_put(dev);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  371  	/*
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  372  	 * Move the latest pci_dev to this idx to keep the continuity.
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  373  	 */
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  374  	if (idx != pci_max_idx - 1) {
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  375  		latest_dev = __xa_erase(&pci_seq_tree, pci_max_idx - 1);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  376  		ret = __xa_cmpxchg(&pci_seq_tree, idx, NULL, latest_dev,
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  377  				GFP_KERNEL);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  378  		if (!ret)
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  379  			latest_dev->proc_seq_idx = idx;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  380  		WARN_ON(ret);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  381  	}
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  382  	pci_max_idx--;
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  383  	xa_unlock(&pci_seq_tree);
-> 4ca256d9a0e58a Guixin Liu 2024-10-18  384  }
->
