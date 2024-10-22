@@ -1,83 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773301C9DC9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 18:10:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FEE91A2658;
+	Tue, 22 Oct 2024 19:31:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729620603; cv=none; b=jynbTDQU8jia/NUyprr5Vy5p56WOsm/6NIxj/gIaucLRU4prC1oxoN3ogiHs+lsGVb79S0GhKFlfDVOVTzaLz6Ft7GApbKX/5m7f0oxrtQl2rtE0mqve1BXx7jXLcekWgB4rYowzZaJHtY2a+owoVPdH1hC7wYbv/oiJfUGJgL8=
+	t=1729625467; cv=none; b=tHFbiLbtKbm3ptpLAmuXXiEDnppZ9mZhWBq9BELLF0/tUs1FrLdz4b4meqIxTBNZfgHsY/8rhuTbzaGPuKq7WIe73Pk1I49EdZM+U909svKWA0klLIzhgFza3SQ05xU28ojViMEaASUi9SR9GR+o1oKhScRCGABzNL8uWPhPeYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729620603; c=relaxed/simple;
-	bh=Nq8Jdmiwq7WCGmATlFb2otP/fjTsQuLclZaTiLGwKYY=;
+	s=arc-20240116; t=1729625467; c=relaxed/simple;
+	bh=5IQ/ppc7+JlLPx+hkAOzlEt+fDBk4swp5GV5ul9evFw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N+7CAxZBvGT61roI+yIXKnkNPMGZTWse8xzbriIMCB/GwQEZQ2U5n1oA+wgREob+hX+q+Pv55LqyCBMa6OMMgn5ALsunwEP5Ud6XidgJJSk2CjlPotnF7GcuZfD8IOukCOnuOmrfoDYrzip3dsduOlIP7SqWcg4iiWE7uwFlUgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKCnXBZt; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=c7wT/mIGIuBORfaY8hhBOqFMXO42I6drniPGdp24FubjhLQ2Lum6SsQih7yKcksg1ZAlaauWE0gB0vp6sMXrVZZ8GMm18WyUi6V3t6zEm4Ya6iZewjap51ZvnzYrMJQUKAL3mOH2A4IhUER5/IFKCGBDPVB9dhCcT8d1wBCgesA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rl3E10eC; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKCnXBZt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rl3E10eC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729620601; x=1761156601;
+  t=1729625465; x=1761161465;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Nq8Jdmiwq7WCGmATlFb2otP/fjTsQuLclZaTiLGwKYY=;
-  b=XKCnXBZtpLTHZT8jq+00LbbLAWqqk2rI9fJycfUj1G+ez+6Wsb9Uhgkr
-   yWH17FvdI8cYE8556sjVdk67z3JOp74LPin2beUgfF1+hyuikIiP8NNQO
-   ovkr4uGZTsyP2LPsAOwQZipnSiyWMzy7nABCOFzhOUwVUP8Rl5oSJvRSa
-   qbLUxTMTd3Riz3ybGJtTN0otvKkSE7EkUljc1GdIaN3J4RUAOVGz52PO/
-   kcJPOL5kLyI1QlHjnDkZ/JKsTHXKGnWz8N0NMbUXiNIr7tIhAJOSXKa7f
-   xTdk4O0fSjRALpR8TO5W8mnx1gdAbV3hhVB+ZbQSAuTf4jGeM+Hmi9qyK
-   w==;
-X-CSE-ConnectionGUID: bgL4iGO5RLmeIkTrs/2hZQ==
-X-CSE-MsgGUID: mx2RzBZxRYWPKdfQu7B8sw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="32869502"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="32869502"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 11:10:01 -0700
-X-CSE-ConnectionGUID: GwlngA8XStyXbJqz5y0+2w==
-X-CSE-MsgGUID: Ol9EXL3fTwC9YvdVrBc0Mg==
+  bh=5IQ/ppc7+JlLPx+hkAOzlEt+fDBk4swp5GV5ul9evFw=;
+  b=Rl3E10eCSE/nLyu/Yy8eOzyi8CfHymf6ixmVBA1FIsROIuwNqQ1GCmIF
+   f5dFwvdDexDYsSAiqVbq2tZTklDvLsl7Z4tHQJv8zsdVZs8aljRBDjMdl
+   MIbyD5YByyml0EXo7jm3zITJzkXf6bWhkYtZngJdyFucXrk68S4g1Dgjz
+   GkTttgQ7KNSkrNPR87/xTpU5Xd0PWp4ctbYsLImg2vA3IfJbGGvd4BO//
+   4JV33Ou323065+LtdpfInt/oPXdzSWUEyp9nERc6npO84UdwWJ8CF5LAk
+   hYm+KPrPY+Qekcsqzks93HfB9lUygqbEw1TtvDzOBcXM65TEKNCnOqz6h
+   g==;
+X-CSE-ConnectionGUID: xBx7U7aTTf68nbfiPwc5aw==
+X-CSE-MsgGUID: vRLigxo9Taq1dVBs6Pqg3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="29077387"
+X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
+   d="scan'208";a="29077387"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 12:31:04 -0700
+X-CSE-ConnectionGUID: Pwm7nuaRS+OM+Ao/bzXSFQ==
+X-CSE-MsgGUID: VwQ5hbwkRxu5oP8/NSHLAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="80363724"
+   d="scan'208";a="84759782"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2024 11:09:54 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 Oct 2024 12:31:00 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3JKJ-000TvD-1K;
-	Tue, 22 Oct 2024 18:09:51 +0000
-Date: Wed, 23 Oct 2024 02:09:06 +0800
+	id 1t3Kan-000U0d-2J;
+	Tue, 22 Oct 2024 19:30:57 +0000
+Date: Wed, 23 Oct 2024 03:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Puranjay Mohan <puranjay@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Eric Dumazet <edumazet@google.com>, Hao Luo <haoluo@google.com>,
-	Helge Deller <deller@gmx.de>, Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mykola Lysenko <mykolal@fb.com>,
+To: Samuel Holland <samuel.holland@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Puranjay Mohan <puranjay12@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next 2/5] bpf: bpf_csum_diff: optimize and homogenize
- for all archs
-Message-ID: <202410230122.BYZLEUHz-lkp@intel.com>
-References: <20241021122112.101513-3-puranjay@kernel.org>
+	linux-riscv@lists.infradead.org,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Alexander Potapenko <glider@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Vincenzo Frascino <vincenzo.frascino@arm.com>,
+	kasan-dev@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Will Deacon <will@kernel.org>,
+	Evgenii Stepanov <eugenis@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-arm-kernel@lists.infradead.org,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH v2 4/9] kasan: sw_tags: Support tag widths less than 8
+ bits
+Message-ID: <202410230354.sjewoFxA-lkp@intel.com>
+References: <20241022015913.3524425-5-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,194 +79,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021122112.101513-3-puranjay@kernel.org>
+In-Reply-To: <20241022015913.3524425-5-samuel.holland@sifive.com>
 
-Hi Puranjay,
+Hi Samuel,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on arm64/for-next/core masahiroy-kbuild/for-next masahiroy-kbuild/fixes linus/master v6.12-rc4 next-20241022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/net-checksum-move-from32to16-to-generic-header/20241021-202707
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241021122112.101513-3-puranjay%40kernel.org
-patch subject: [PATCH bpf-next 2/5] bpf: bpf_csum_diff: optimize and homogenize for all archs
-config: x86_64-randconfig-122-20241022 (https://download.01.org/0day-ci/archive/20241023/202410230122.BYZLEUHz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410230122.BYZLEUHz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/kasan-sw_tags-Use-arithmetic-shift-for-shadow-computation/20241022-100129
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241022015913.3524425-5-samuel.holland%40sifive.com
+patch subject: [PATCH v2 4/9] kasan: sw_tags: Support tag widths less than 8 bits
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241023/202410230354.sjewoFxA-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410230354.sjewoFxA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410230122.BYZLEUHz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410230354.sjewoFxA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/filter.c:1423:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1423:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1423:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:1501:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1501:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1501:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:2321:45: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] daddr @@     got unsigned int [usertype] ipv4_nh @@
-   net/core/filter.c:2321:45: sparse:     expected restricted __be32 [usertype] daddr
-   net/core/filter.c:2321:45: sparse:     got unsigned int [usertype] ipv4_nh
-   net/core/filter.c:10993:31: sparse: sparse: symbol 'sk_filter_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11000:27: sparse: sparse: symbol 'sk_filter_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11004:31: sparse: sparse: symbol 'tc_cls_act_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11013:27: sparse: sparse: symbol 'tc_cls_act_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11017:31: sparse: sparse: symbol 'xdp_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11029:31: sparse: sparse: symbol 'cg_skb_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11035:27: sparse: sparse: symbol 'cg_skb_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11039:31: sparse: sparse: symbol 'lwt_in_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11045:27: sparse: sparse: symbol 'lwt_in_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11049:31: sparse: sparse: symbol 'lwt_out_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11055:27: sparse: sparse: symbol 'lwt_out_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11059:31: sparse: sparse: symbol 'lwt_xmit_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11066:27: sparse: sparse: symbol 'lwt_xmit_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11070:31: sparse: sparse: symbol 'lwt_seg6local_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11076:27: sparse: sparse: symbol 'lwt_seg6local_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11079:31: sparse: sparse: symbol 'cg_sock_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11085:27: sparse: sparse: symbol 'cg_sock_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11088:31: sparse: sparse: symbol 'cg_sock_addr_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11094:27: sparse: sparse: symbol 'cg_sock_addr_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11097:31: sparse: sparse: symbol 'sock_ops_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11103:27: sparse: sparse: symbol 'sock_ops_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11106:31: sparse: sparse: symbol 'sk_skb_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11113:27: sparse: sparse: symbol 'sk_skb_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11116:31: sparse: sparse: symbol 'sk_msg_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11123:27: sparse: sparse: symbol 'sk_msg_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11126:31: sparse: sparse: symbol 'flow_dissector_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11132:27: sparse: sparse: symbol 'flow_dissector_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11460:31: sparse: sparse: symbol 'sk_reuseport_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11466:27: sparse: sparse: symbol 'sk_reuseport_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11668:27: sparse: sparse: symbol 'sk_lookup_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11672:31: sparse: sparse: symbol 'sk_lookup_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:1931:43: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1931:43: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1931:43: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1934:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be16 [usertype] old @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1934:36: sparse:     expected restricted __be16 [usertype] old
-   net/core/filter.c:1934:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1934:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] new @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1934:42: sparse:     expected restricted __be16 [usertype] new
-   net/core/filter.c:1934:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1937:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1937:36: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1937:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1937:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1937:42: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1937:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1982:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1982:59: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1982:59: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1985:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1985:52: sparse:     expected restricted __be16 [usertype] from
-   net/core/filter.c:1985:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1985:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be16 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1985:58: sparse:     expected restricted __be16 [usertype] to
-   net/core/filter.c:1985:58: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1988:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1988:52: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1988:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1988:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1988:58: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1988:58: sparse:     got unsigned long long [usertype] to
->> net/core/filter.c:2023:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __sum16 @@
-   net/core/filter.c:2023:39: sparse:     expected unsigned long long
-   net/core/filter.c:2023:39: sparse:     got restricted __sum16
-   net/core/filter.c:2026:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __sum16 @@
-   net/core/filter.c:2026:39: sparse:     expected unsigned long long
-   net/core/filter.c:2026:39: sparse:     got restricted __sum16
-   net/core/filter.c:2029:39: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __sum16 @@
-   net/core/filter.c:2029:39: sparse:     expected unsigned long long
-   net/core/filter.c:2029:39: sparse:     got restricted __sum16
->> net/core/filter.c:2031:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [usertype] seed @@
-   net/core/filter.c:2031:16: sparse:     expected unsigned long long
-   net/core/filter.c:2031:16: sparse:     got restricted __wsum [usertype] seed
-   net/core/filter.c:2053:35: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [usertype] csum @@
-   net/core/filter.c:2053:35: sparse:     expected unsigned long long
-   net/core/filter.c:2053:35: sparse:     got restricted __wsum [usertype] csum
+All errors (new ones prefixed by >>):
 
-vim +2023 net/core/filter.c
+   In file included from include/linux/kasan.h:7,
+                    from include/linux/mm.h:31,
+                    from arch/sh/kernel/asm-offsets.c:14:
+>> include/linux/kasan-tags.h:5:10: fatal error: asm/kasan.h: No such file or directory
+       5 | #include <asm/kasan.h>
+         |          ^~~~~~~~~~~~~
+   compilation terminated.
+   make[3]: *** [scripts/Makefile.build:102: arch/sh/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1203: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-  1956	
-  1957	BPF_CALL_5(bpf_l4_csum_replace, struct sk_buff *, skb, u32, offset,
-  1958		   u64, from, u64, to, u64, flags)
-  1959	{
-  1960		bool is_pseudo = flags & BPF_F_PSEUDO_HDR;
-  1961		bool is_mmzero = flags & BPF_F_MARK_MANGLED_0;
-  1962		bool do_mforce = flags & BPF_F_MARK_ENFORCE;
-  1963		__sum16 *ptr;
-  1964	
-  1965		if (unlikely(flags & ~(BPF_F_MARK_MANGLED_0 | BPF_F_MARK_ENFORCE |
-  1966				       BPF_F_PSEUDO_HDR | BPF_F_HDR_FIELD_MASK)))
-  1967			return -EINVAL;
-  1968		if (unlikely(offset > 0xffff || offset & 1))
-  1969			return -EFAULT;
-  1970		if (unlikely(bpf_try_make_writable(skb, offset + sizeof(*ptr))))
-  1971			return -EFAULT;
-  1972	
-  1973		ptr = (__sum16 *)(skb->data + offset);
-  1974		if (is_mmzero && !do_mforce && !*ptr)
-  1975			return 0;
-  1976	
-  1977		switch (flags & BPF_F_HDR_FIELD_MASK) {
-  1978		case 0:
-  1979			if (unlikely(from != 0))
-  1980				return -EINVAL;
-  1981	
-  1982			inet_proto_csum_replace_by_diff(ptr, skb, to, is_pseudo);
-  1983			break;
-  1984		case 2:
-> 1985			inet_proto_csum_replace2(ptr, skb, from, to, is_pseudo);
-  1986			break;
-  1987		case 4:
-  1988			inet_proto_csum_replace4(ptr, skb, from, to, is_pseudo);
-  1989			break;
-  1990		default:
-  1991			return -EINVAL;
-  1992		}
-  1993	
-  1994		if (is_mmzero && !*ptr)
-  1995			*ptr = CSUM_MANGLED_0;
-  1996		return 0;
-  1997	}
-  1998	
-  1999	static const struct bpf_func_proto bpf_l4_csum_replace_proto = {
-  2000		.func		= bpf_l4_csum_replace,
-  2001		.gpl_only	= false,
-  2002		.ret_type	= RET_INTEGER,
-  2003		.arg1_type	= ARG_PTR_TO_CTX,
-  2004		.arg2_type	= ARG_ANYTHING,
-  2005		.arg3_type	= ARG_ANYTHING,
-  2006		.arg4_type	= ARG_ANYTHING,
-  2007		.arg5_type	= ARG_ANYTHING,
-  2008	};
-  2009	
-  2010	BPF_CALL_5(bpf_csum_diff, __be32 *, from, u32, from_size,
-  2011		   __be32 *, to, u32, to_size, __wsum, seed)
-  2012	{
-  2013		/* This is quite flexible, some examples:
-  2014		 *
-  2015		 * from_size == 0, to_size > 0,  seed := csum --> pushing data
-  2016		 * from_size > 0,  to_size == 0, seed := csum --> pulling data
-  2017		 * from_size > 0,  to_size > 0,  seed := 0    --> diffing data
-  2018		 *
-  2019		 * Even for diffing, from_size and to_size don't need to be equal.
-  2020		 */
-  2021	
-  2022		if (from_size && to_size)
-> 2023			return csum_from32to16(csum_sub(csum_partial(to, to_size, seed),
-  2024							csum_partial(from, from_size, 0)));
-  2025		if (to_size)
-  2026			return csum_from32to16(csum_partial(to, to_size, seed));
-  2027	
-  2028		if (from_size)
-  2029			return csum_from32to16(~csum_partial(from, from_size, ~seed));
-  2030	
-> 2031		return seed;
-  2032	}
-  2033	
+
+vim +5 include/linux/kasan-tags.h
+
+     4	
+   > 5	#include <asm/kasan.h>
+     6	
 
 -- 
 0-DAY CI Kernel Test Service
