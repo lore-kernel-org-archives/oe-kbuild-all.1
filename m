@@ -1,187 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE52161310
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 08:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+Received: from mail-m16.yeah.net (mail-m16.yeah.net [1.95.21.15])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC58116E886
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 08:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=1.95.21.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729585169; cv=none; b=XnWe8I8Jfk06TyfTbrntkvMapA034xlgY1TxW6cgO1++vxFn6wUQlITzR3mSdkNiRziBnxZPmpa5XjRfD0nU0HcCi4/H1WPsjjw7Jm0Th5gBpqzSFQ2NIUG1QDlSEntBEYQ+LK9d8udB4Wh0hESGsrys/N00qMPVcQ00MrQa7Tk=
+	t=1729585800; cv=none; b=kdAmGpcV/d4GX7HcFLoHEnqlzNp508R/UghZlk8Dv7lKMN44HSbGteqpr6ECK+BxrOy1fvxHELxi6yg31r4Wrn6PZzrRQn9MGpSAVCXKmqgcWFByPxfAyOlsZy8BXoYwqwsly+nRjxZxxq/1vQdz9InhAhhnd0E4lBGYQlwxZVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729585169; c=relaxed/simple;
-	bh=rWojlmF9uqY832qw2BFfBjpjd9urFCzse7K42Knm8sQ=;
+	s=arc-20240116; t=1729585800; c=relaxed/simple;
+	bh=SdzKl7zOLE6WDOX80QCJfPvw1r7tgfg0no+c7bZy2tI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bwJxghaK3bqT/d28aqcZubhzcXoYGnJxwnJ80RlDaxLChj3ItTzLZPfmfRen87Y+34aI+MwtoVzgPLmZrOlHxsI7UJYQqD03N14cUhQqNDj3RegjDyj9mxWbbQeVA/Du9/pA2eUjECF4iky4UZf23QvYlkJGsccpm7xV4VNGXXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcqvT+Xv; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=A72V1lEhTvATrvZlwGpuzZ5BpRWM0Bu6Ns4zoOF5pol9xXu35vveU4ld+r6MhzyCeEftFAjbZXVAU0x/h1K5nkC8IT+QX/ASzsR86xSTpc7AckgQSH538bXXjQdtgiyV28lX9ih9/y2O/GpWYg1r9lFHSGAbHHaUspCZwH/8UpA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net; spf=pass smtp.mailfrom=yeah.net; dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b=VnkYGGrG; arc=none smtp.client-ip=1.95.21.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yeah.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yeah.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcqvT+Xv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729585167; x=1761121167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rWojlmF9uqY832qw2BFfBjpjd9urFCzse7K42Knm8sQ=;
-  b=dcqvT+XvGdJ/UHuOtiNILstJVXwT96zjDSipFqH9rk4/j3AlR00kD7cG
-   Clgt9eObcMr/a3W/XUZllfJG7RXCTgcyvR9lpvFfciuGxSx/H3cbgw6gc
-   kSlLEuAidyAl0t/1AX1T+4oWiFQQIYpatYQ2A0tVleIiT5XJVaKBGpQCv
-   WzL3VXyRX9/azIoqiu+3G8mXaUD2b/mo7F0iOyWYH5Sf+38ikmdAaBQoJ
-   O5P8PxM8f2026thYJ0vumGwzmQSAXMlmjUrrnlz710HvnAhZAw3HVmS81
-   7WP4z58u285bvaL2LCdabuM07EBGXA6TH0vY+ZyEiUut6PzPqf31aYiiz
-   w==;
-X-CSE-ConnectionGUID: hYq8uDy6RXCfSWQ0cUhGEg==
-X-CSE-MsgGUID: LKCfRx/yTT2L8GzCB89pmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40224368"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40224368"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 01:19:27 -0700
-X-CSE-ConnectionGUID: CmbChcUrRsuE4QRMaPpOKg==
-X-CSE-MsgGUID: JM69lcaGSO6hCXFknq0ezQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="117215837"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Oct 2024 01:19:23 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3A6q-000TIQ-2g;
-	Tue, 22 Oct 2024 08:19:20 +0000
-Date: Tue, 22 Oct 2024 16:19:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sai Krishna <saikrishnag@marvell.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sgoutham@marvell.com, gakula@marvell.com, lcherian@marvell.com,
-	jerinj@marvell.com, hkelam@marvell.com, sbhatta@marvell.com
-Cc: oe-kbuild-all@lists.linux.dev, Sai Krishna <saikrishnag@marvell.com>
-Subject: Re: [net-next PATCH 6/6] octeontx2-pf: CN20K mbox implementation
- between PF-VF
-Message-ID: <202410221614.07o9QVjo-lkp@intel.com>
-References: <20241018203058.3641959-7-saikrishnag@marvell.com>
+	dkim=pass (1024-bit key) header.d=yeah.net header.i=@yeah.net header.b="VnkYGGrG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yeah.net;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=FmfVkbikhNVx2HgUhuWEXAwyz/VCsh3wgwS62j3qrPc=;
+	b=VnkYGGrGMQ89VEsqi3oUhzoBcedGzvasTaAh1hysNsiKbMxLrj4Om4ng6jIUdJ
+	iXwTu+clsXMGnOoFnlGwvNykfqoNjVTxo4ZZ3nz9otxggqXBG/03dWRGGf4wvg4w
+	PeEBSvoHGEOjVtRUR6vtF5+tAmCqp6Ga6N1C7JcZR+a+c=
+Received: from dragon (unknown [])
+	by gzsmtp3 (Coremail) with SMTP id M88vCgB3NZpnYhdn4eqXAA--.5350S3;
+	Tue, 22 Oct 2024 16:29:29 +0800 (CST)
+Date: Tue, 22 Oct 2024 16:29:27 +0800
+From: Shawn Guo <shawnguo2@yeah.net>
+To: kernel test robot <lkp@intel.com>
+Cc: =?iso-8859-1?Q?Jo=E3o_Paulo_Gon=E7alves?= <joao.goncalves@toradex.com>,
+	oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
+	Francesco Dolcini <francesco.dolcini@toradex.com>
+Subject: Re: [linux-next:master 5228/5686]
+ arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds:
+ compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05',
+ 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2',
+ 'hydis,hv070wx2-1e0', 'tbs,a711-pa...
+Message-ID: <ZxdiZ2yjsfbnRN0v@dragon>
+References: <202410190235.VogdBzI8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241018203058.3641959-7-saikrishnag@marvell.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202410190235.VogdBzI8-lkp@intel.com>
+X-CM-TRANSID:M88vCgB3NZpnYhdn4eqXAA--.5350S3
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCw17tw43GF15Kw15Xr4DXFb_yoWrJw45pa
+	4xtF9rX3WSgF1xu3y7G3Z7GrsxJw4fXr1a93ZxGrW2ka45uFy3KF1fKr4DWw129rnY9a4S
+	9F48Xr17Ww1rZaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jhwIDUUUUU=
+X-CM-SenderInfo: pvkd40hjxrjqh1hdxhhqhw/1tbiCx6AZWcXFXLo6AAAsn
 
-Hi Sai,
+On Sat, Oct 19, 2024 at 02:45:02AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   f2493655d2d3d5c6958ed996b043c821c23ae8d3
+> commit: adca46171ff7b3613cd7975f81870ae9025a34cf [5228/5686] arm64: dts: freescale: imx8mm-verdin: Add Ivy carrier board
+> config: arm64-randconfig-052-20241018 (https://download.01.org/0day-ci/archive/20241019/202410190235.VogdBzI8-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
+> dtschema version: 2024.10.dev6+g12c3cd5
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190235.VogdBzI8-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410190235.VogdBzI8-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>    	'tq,imx6dl-tqma6dl-b' was expected
+>    	'phytec,imx6ul-pcl063' was expected
+>    	'phytec,imx6ull-pcl063' was expected
+>    	'fsl,imx6ulz' was expected
+>    	'avnet,sm2s-imx8mp' was expected
+>    	'toradex,verdin-imx8mp' was expected
+>    	'toradex,verdin-imx8mm' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
+>    	'fsl,vf500' was expected
+>    	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+>    arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx8mm-nonwifi-ivy', 'toradex,verdin-imx8mm-nonwifi', 'toradex,verdin-imx8mm', 'fsl,imx8mm']
+> >> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'tbs,a711-panel']
+>    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+> >> arch/arm64/boot/dts/freescale/imx8mm-verdin-nonwifi-ivy.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+>    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+> --
+>    	'tq,imx6dl-tqma6dl-b' was expected
+>    	'phytec,imx6ul-pcl063' was expected
+>    	'phytec,imx6ull-pcl063' was expected
+>    	'fsl,imx6ulz' was expected
+>    	'avnet,sm2s-imx8mp' was expected
+>    	'toradex,verdin-imx8mp' was expected
+>    	'toradex,verdin-imx8mm' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
+>    	'fsl,vf500' was expected
+>    	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+>    arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: /: failed to match any schema with compatible: ['toradex,verdin-imx8mm-wifi-ivy', 'toradex,verdin-imx8mm-wifi', 'toradex,verdin-imx8mm', 'fsl,imx8mm']
+> >> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: panel-lvds: compatible:0: 'panel-lvds' is not one of ['admatec,9904379', 'auo,b101ew05', 'chunghwa,claa070wp03xg', 'edt,etml0700z9ndha', 'hannstar,hsd101pww2', 'hydis,hv070wx2-1e0', 'tbs,a711-panel']
+>    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
+> >> arch/arm64/boot/dts/freescale/imx8mm-verdin-wifi-ivy.dtb: panel-lvds: compatible: ['panel-lvds'] is too short
+>    	from schema $id: http://devicetree.org/schemas/display/panel/panel-lvds.yaml#
 
-kernel test robot noticed the following build warnings:
+João,
 
-[auto build test WARNING on net-next/main]
+Could you check these issues?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Krishna/octeontx2-Set-appropriate-PF-VF-masks-and-shifts-based-on-silicon/20241019-043511
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241018203058.3641959-7-saikrishnag%40marvell.com
-patch subject: [net-next PATCH 6/6] octeontx2-pf: CN20K mbox implementation between PF-VF
-config: alpha-randconfig-r122-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221614.07o9QVjo-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20241022/202410221614.07o9QVjo-lkp@intel.com/reproduce)
+Shawn
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410221614.07o9QVjo-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:611:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *hwbase @@     got void * @@
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:611:24: sparse:     expected void [noderef] __iomem *hwbase
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:611:24: sparse:     got void *
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:620:56: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:671:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got void *hwbase @@
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:671:35: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:671:35: sparse:     got void *hwbase
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1344:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1344:21: sparse:     expected unsigned long long [usertype] *ptr
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1344:21: sparse:     got void [noderef] __iomem *
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1383:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __iomem * @@
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1383:21: sparse:     expected unsigned long long [usertype] *ptr
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c:1383:21: sparse:     got void [noderef] __iomem *
-   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c: note: in included file (through drivers/net/ethernet/marvell/octeontx2/af/mbox.h, drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.h):
->> drivers/net/ethernet/marvell/octeontx2/af/common.h:61:26: sparse: sparse: cast truncates bits from constant value (10000 becomes 0)
-
-vim +611 drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c
-
-   584	
-   585	static int otx2_pfvf_mbox_init(struct otx2_nic *pf, int numvfs)
-   586	{
-   587		void __iomem *hwbase;
-   588		struct mbox *mbox;
-   589		int err, vf;
-   590		u64 base;
-   591	
-   592		if (!numvfs)
-   593			return -EINVAL;
-   594	
-   595		pf->mbox_pfvf = devm_kcalloc(&pf->pdev->dev, numvfs,
-   596					     sizeof(struct mbox), GFP_KERNEL);
-   597		if (!pf->mbox_pfvf)
-   598			return -ENOMEM;
-   599	
-   600		pf->mbox_pfvf_wq = alloc_workqueue("otx2_pfvf_mailbox",
-   601						   WQ_UNBOUND | WQ_HIGHPRI |
-   602						   WQ_MEM_RECLAIM, 0);
-   603		if (!pf->mbox_pfvf_wq)
-   604			return -ENOMEM;
-   605	
-   606		/* For CN20K, PF allocates mbox memory in DRAM and writes PF/VF
-   607		 * regions/offsets in RVU_PF_VF_MBOX_ADDR, the RVU_PFX_FUNC_PFAF_MBOX
-   608		 * gives the aliased address to access PF/VF mailbox regions.
-   609		 */
-   610		if (is_cn20k(pf->pdev)) {
- > 611			hwbase = cn20k_pfvf_mbox_alloc(pf, numvfs);
-   612		} else {
-   613			/* On CN10K platform, PF <-> VF mailbox region follows after
-   614			 * PF <-> AF mailbox region.
-   615			 */
-   616			if (test_bit(CN10K_MBOX, &pf->hw.cap_flag))
-   617				base = pci_resource_start(pf->pdev, PCI_MBOX_BAR_NUM) +
-   618							  MBOX_SIZE;
-   619			else
-   620				base = readq((void __iomem *)((u64)pf->reg_base +
-   621						      RVU_PF_VF_BAR4_ADDR));
-   622	
-   623			hwbase = ioremap_wc(base, MBOX_SIZE * pf->total_vfs);
-   624			if (!hwbase) {
-   625				err = -ENOMEM;
-   626				goto free_wq;
-   627			}
-   628		}
-   629	
-   630		mbox = &pf->mbox_pfvf[0];
-   631		err = otx2_mbox_init(&mbox->mbox, hwbase, pf->pdev, pf->reg_base,
-   632				     MBOX_DIR_PFVF, numvfs);
-   633		if (err)
-   634			goto free_iomem;
-   635	
-   636		err = otx2_mbox_init(&mbox->mbox_up, hwbase, pf->pdev, pf->reg_base,
-   637				     MBOX_DIR_PFVF_UP, numvfs);
-   638		if (err)
-   639			goto free_iomem;
-   640	
-   641		for (vf = 0; vf < numvfs; vf++) {
-   642			mbox->pfvf = pf;
-   643			INIT_WORK(&mbox->mbox_wrk, otx2_pfvf_mbox_handler);
-   644			INIT_WORK(&mbox->mbox_up_wrk, otx2_pfvf_mbox_up_handler);
-   645			mbox++;
-   646		}
-   647	
-   648		return 0;
-   649	
-   650	free_iomem:
-   651		if (hwbase && !(is_cn20k(pf->pdev)))
-   652			iounmap(hwbase);
-   653	free_wq:
-   654		destroy_workqueue(pf->mbox_pfvf_wq);
-   655		return err;
-   656	}
-   657	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
