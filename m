@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 896EA157487
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 09:42:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A98419992E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 09:53:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729590155; cv=none; b=sClVFgcDxydke2PFHfg2nXqZu+ZO4bAmv2lA1blqKslNSHoqCqvkqMAWN2m+Pc+D6FOgbjwR+W86rHByRxbCX529dRntlvVmuHfo/kycAw2Ye+U6996QXf4s8FeUo9Es+o8dex/GMqCcA0m4/FidrkLkvptujWlRND+YJ4JuV/A=
+	t=1729590830; cv=none; b=jinm5JVfdAkNVk2PmPvNomyMlO4Xdn4GpPLoZXGUlTtFFjYDslh72/BRxQSzPid+rbjj16oaklZ2GhXKpWRM5CGhcob6ZKhkjmuTTv7o4AEU91s2Sr1ro+u7r+xbb6zK9nB1FswoTHXcbCf1b1yZr1yG+v55CNhCICBKZ90ZCiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729590155; c=relaxed/simple;
-	bh=jul31kOHUhPAblfAaUln6WewDrEML5rbTym5IdM6yLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=czqM8QqAUs/05AAGuXyHwTnacOvfVihkhm5EuCDYKf20FtsX1wja/nPqaJ5XvVbEmHKE9ji7SBwGYMT8VRqp5FjbOmiqN9Z9q2dynIt5WW6wbIwPsIAVa2VjhjY0WKTvlSfdJNAT+e8J2mIoB85+TMqALqG/HCTuc4D6enZCSzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TD+p5y6t; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1729590830; c=relaxed/simple;
+	bh=scM++PRarp/aL6EIAnPspEEa4tB6O8OVUGdyT5ywHWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=egR5cyjj2Qqy1Isy0JvuqAxNzEDtnj1Rn1nsYzFCbUEVMFdyjWlDhdoiBtsEuiIfNfhCsvsj784YWODnAz7qo5wAF/NOXD/8JtGkZt0BGHadToJsTw6Kmfc62/aTeAk8SU8FbZxATP8Qn5gBQleSol/HPB/84oxXy0UpSrawqlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LTiIXQ1K; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TD+p5y6t"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LTiIXQ1K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729590153; x=1761126153;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jul31kOHUhPAblfAaUln6WewDrEML5rbTym5IdM6yLM=;
-  b=TD+p5y6tWnJMtkHsVqeZj8MUzL2dHQRuAiuo9ztSv/JrwIAVIgRkykOV
-   k1iEiW6wYg6pa2yuVCHWKFXuLR1+E5yGE6XCDGkDNAyFd8PlmTdIanigu
-   syprDmkEG6wFAKS8/FZS/EHpsNAMK+Dcbd8afLkbUZhzB2GcMljBUDOrw
-   hGZqLnHhT8FAe2SiPYZ0QpzjuMFpFOq+AUx7v5HWFu9osWCfYakUFEnQa
-   HCt4U6sso0tX36uO/8NWODB4Il3UJNSnC20ge3rMTpqrBWYe3fZ5A67L6
-   EK1ldd3nzfdY8zFz+NGQuPSsvSylgIryvnz7w6gQGW+pO/6LFiMUxtil9
+  t=1729590828; x=1761126828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=scM++PRarp/aL6EIAnPspEEa4tB6O8OVUGdyT5ywHWg=;
+  b=LTiIXQ1Kpf+rmkDaM0fto+TwgK/u9b91yRJA2ZBkk68rtYsPpUR/0YZu
+   Djb7WevTFs3VUHmQGVTTidC19R/wUfvpCxexV2RUqhcpfTns36i66nPUp
+   7nvlTXJpZwW5/VoD9Wb03vrmIB/GmX6nc2raOq/JRBoK6bRXtRftEqSH9
+   yMD+8Y4BZeCNibh3zG4RVKurEXHZ+4B1SMJBGFtfyKNlJ09sMBGLPVOkB
+   D/Bpd+bWacfUY9ygVe2lB+wX/xspwVgBt+KoiZEqjLDDyW0D6+Qo/vlH5
+   girwBXr7rLHpHwMRJW+yfBpcdJqIIrDnzxx0lrmzElJ7dLe0j0lpeZadJ
    w==;
-X-CSE-ConnectionGUID: MT5bmFphRNOosAr8cR4OEw==
-X-CSE-MsgGUID: 5yLCZuC1S3CNXUh/LQ6fiA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46577796"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="46577796"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 02:42:32 -0700
-X-CSE-ConnectionGUID: cL1s5IDQS0a/14YDxAdnAA==
-X-CSE-MsgGUID: F5IXtFZWRZmeRoFqFENCQg==
+X-CSE-ConnectionGUID: gXTD0fnORdW5iCpE/cD4aQ==
+X-CSE-MsgGUID: 2FNUs+gXR4ab4RIxsMpZOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29320771"
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="29320771"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 02:52:34 -0700
+X-CSE-ConnectionGUID: dtMF4WWlS2enATM/z7NnNw==
+X-CSE-MsgGUID: V81PCzHpTli7AWTOne9nsw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="84624981"
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="110635030"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2024 02:42:29 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 Oct 2024 02:52:31 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3BPG-000TOq-2c;
-	Tue, 22 Oct 2024 09:42:26 +0000
-Date: Tue, 22 Oct 2024 17:41:52 +0800
+	id 1t3BYy-000TPr-0b;
+	Tue, 22 Oct 2024 09:52:28 +0000
+Date: Tue, 22 Oct 2024 17:52:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:virtio-mem-s390x 14/14] crash_dump.c:undefined
- reference to `vmcore_get_device_ram_ranges'
-Message-ID: <202410221735.zkxnds1K-lkp@intel.com>
+To: Matt Johnston <matt@codeconstruct.com.au>,
+	Jeremy Kerr <jk@codeconstruct.com.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	Dung Cao <dung@os.amperecomputing.com>
+Subject: Re: [PATCH net v2] mctp i2c: handle NULL header address
+Message-ID: <202410221734.IWc5paM1-lkp@intel.com>
+References: <20241021-mctp-i2c-null-dest-v2-1-4503e478517c@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +70,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241021-mctp-i2c-null-dest-v2-1-4503e478517c@codeconstruct.com.au>
 
-tree:   https://github.com/davidhildenbrand/linux virtio-mem-s390x
-head:   5b48126cb1d985f75946d2a7e2e1d1f008489770
-commit: 9f9732a9a04b8623dfd458cc40f05a50538add7e [14/14] s390/crash_dump: consider device RAM ranges when building elfcore hdr
-config: s390-randconfig-001-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221735.zkxnds1K-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221735.zkxnds1K-lkp@intel.com/reproduce)
+Hi Matt,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on cb560795c8c2ceca1d36a95f0d1b2eafc4074e37]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/mctp-i2c-handle-NULL-header-address/20241021-123741
+base:   cb560795c8c2ceca1d36a95f0d1b2eafc4074e37
+patch link:    https://lore.kernel.org/r/20241021-mctp-i2c-null-dest-v2-1-4503e478517c%40codeconstruct.com.au
+patch subject: [PATCH net v2] mctp i2c: handle NULL header address
+config: alpha-randconfig-r122-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221734.IWc5paM1-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20241022/202410221734.IWc5paM1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410221735.zkxnds1K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410221734.IWc5paM1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/mctp/mctp-i2c.c:599:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [assigned] [usertype] llsrc @@     got unsigned char const *dev_addr @@
+   drivers/net/mctp/mctp-i2c.c:599:23: sparse:     expected unsigned char [assigned] [usertype] llsrc
+   drivers/net/mctp/mctp-i2c.c:599:23: sparse:     got unsigned char const *dev_addr
+   drivers/net/mctp/mctp-i2c.c: note: in included file (through include/linux/module.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   s390-linux-ld: arch/s390/kernel/crash_dump.o: in function `elfcorehdr_alloc':
->> crash_dump.c:(.text+0xf0c): undefined reference to `vmcore_get_device_ram_ranges'
->> s390-linux-ld: crash_dump.c:(.text+0x103e): undefined reference to `vmcore_free_device_ram_ranges'
-   s390-linux-ld: crash_dump.c:(.text+0x1e6a): undefined reference to `vmcore_free_device_ram_ranges'
+vim +599 drivers/net/mctp/mctp-i2c.c
+
+   579	
+   580	static int mctp_i2c_header_create(struct sk_buff *skb, struct net_device *dev,
+   581					  unsigned short type, const void *daddr,
+   582					  const void *saddr, unsigned int len)
+   583	{
+   584		struct mctp_i2c_hdr *hdr;
+   585		struct mctp_hdr *mhdr;
+   586		u8 lldst, llsrc;
+   587	
+   588		if (len > MCTP_I2C_MAXMTU)
+   589			return -EMSGSIZE;
+   590	
+   591		if (daddr)
+   592			lldst = *((u8 *)daddr);
+   593		else
+   594			return -EINVAL;
+   595	
+   596		if (saddr)
+   597			llsrc = *((u8 *)saddr);
+   598		else
+ > 599			llsrc = dev->dev_addr;
+   600	
+   601		skb_push(skb, sizeof(struct mctp_i2c_hdr));
+   602		skb_reset_mac_header(skb);
+   603		hdr = (void *)skb_mac_header(skb);
+   604		mhdr = mctp_hdr(skb);
+   605		hdr->dest_slave = (lldst << 1) & 0xff;
+   606		hdr->command = MCTP_I2C_COMMANDCODE;
+   607		hdr->byte_count = len + 1;
+   608		hdr->source_slave = ((llsrc << 1) & 0xff) | 0x01;
+   609		mhdr->ver = 0x01;
+   610	
+   611		return sizeof(struct mctp_i2c_hdr);
+   612	}
+   613	
 
 -- 
 0-DAY CI Kernel Test Service
