@@ -1,59 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539E584A32
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 03:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B4A7450E2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 03:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729566134; cv=none; b=QKOcom41RH1fKC8Pxx/zt7VZOndMzk8UbWW3e7SPPMsQtI3V7g4kvXMBi/9YH/zpUbWYiwIAHaJnro7b3nlvASWJW9pNG5XhvQPY2EQRrxcGwK86ZzuXqcnI9btHuZ42uzv2xegUW/ALoYI246yG357tgQmomc7yvYcl4i4hQco=
+	t=1729566734; cv=none; b=XUxj2yoX+iA4382rZExWHIiyOsCUurKY5RD3WKPo7Fuwo/39sRzZrOq5tUFxqwlk8/wXJUuYu9pR7JaQcr2AaTqtqrEigRCeCCAyDyuZQFvtVcEqKaliI6WKfJUWg8s2Y26WdtX1D63T08nVk7q2ToneDWnXwVucaEO1nTo3svA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729566134; c=relaxed/simple;
-	bh=N9l9zNb/8MSV45PfrLECOSl+X5LnMoB/4F07bBuXYHg=;
+	s=arc-20240116; t=1729566734; c=relaxed/simple;
+	bh=3YHkXyk0hl2jqIBCwCWhBOAYI/fCkzb2NdRgpLLCU5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKyrzV4u9Ea2At45NCvNJOIwVN9Pg/EuKl+icPYc1sfqwHSx0/YVFBihHGl1BHgwbQbeMvdrh7L6SeRXMzVALW1aIZwZaAnrQhXuIw9yPB7cwzLjOtKJWfsQ45j1R3qHeoMjnD1shys6k3LKEjc4u+uV74k38YtlS1x9FERFQxw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DThMXdFb; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=HMj75lPwmzJRePg7m/Xod5WXBe7i9KOLCOiu1bjKwI0c5l5hhzZz+fTWoB8tb6mcUkbglHn6QUUPVwdBs5FQxevABBblBFkCIqBCnjAx043dE8l+v38jWEUICgh+vgEhIgem+qQP5WRN8rE8BLbzkKcBaYwL6afzLuu+UuFyflA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLcX4Qe3; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DThMXdFb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLcX4Qe3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729566132; x=1761102132;
+  t=1729566733; x=1761102733;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=N9l9zNb/8MSV45PfrLECOSl+X5LnMoB/4F07bBuXYHg=;
-  b=DThMXdFbMVSG/BBOr58coeqMBmZk1CB5vU4HmG5rBOw5Faoc2i2STbQc
-   u5dJpBOBYt/ZZHpYMcl1+qhgMigGK/Gt298kPuyTtm8tnzW26GM1+9KEF
-   o4iiF45a/WzzhpVCexX4OrlhRvUzB5rrFCs92B9oq/gyFwUTwFXhC4eFR
-   z16y2Zy+qUwKvm58DS+e1dizqeazt9gGEHEt2cqrzsvBv14MF76BXog8Y
-   55KbuFnvObcGWswwKY6Fhz9gfFgPHWolYrc7w1gHcmYvP5MyoR1FiOWrD
-   LD7xceSTJO+i/QgL0YYfpy3gwutFZdjbkuVFq0en1Ubag0uyngCeOLxvP
+  bh=3YHkXyk0hl2jqIBCwCWhBOAYI/fCkzb2NdRgpLLCU5Q=;
+  b=dLcX4Qe3T27mS9qDsMSyWCHuafBfO1MN0ORHc/1Pub+B/MyvtIzdBnL2
+   78pkaG/ig8KbTCgPPVZDc5eW4f2xXqDHfT/h+dL/OGP4FQ0xu4YD4FCdZ
+   ix6xxTXogC81uUkqM3MbtD8IiAxGQhXM5lfTQ+BxZTvtR6ZKL2vD0mzAh
+   B6xCc4upQfOxS3eJpuuSPrgcKfO/iasVqwefhI7e3/2v58X8W/CPTfWTI
+   RJQ0UOn3J+Nw5RURHIEzbHKTAbmh8I5/85xMWAKsGq7u3VMvLPd0OzXZE
+   DWyE9A+9qlH2D3kaF8/A6aHOuUHerVbrcrTTRBqRy3aTYgX9Z8fzvG0T2
    g==;
-X-CSE-ConnectionGUID: 5rf5nEGDSEap0Uc903rBuw==
-X-CSE-MsgGUID: ygsRWwn6RoW7gDQB/dGVHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="32885579"
+X-CSE-ConnectionGUID: l7jIrHAGQmuG++AHfxTxLw==
+X-CSE-MsgGUID: xAuNuCJcQwyp8VtL9FaJNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="40466011"
 X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="32885579"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 20:02:09 -0700
-X-CSE-ConnectionGUID: PCU+A86/RsWkggCGLFIv0Q==
-X-CSE-MsgGUID: L8VBlMHBTkyvOBN4PBEunw==
+   d="scan'208";a="40466011"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 20:12:12 -0700
+X-CSE-ConnectionGUID: zsn6Wc6LS9eHXrxUcRxjlg==
+X-CSE-MsgGUID: r+4nQiC/R4m76eLBFmS8XA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="79799434"
+   d="scan'208";a="80082482"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Oct 2024 20:02:08 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 21 Oct 2024 20:12:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t359p-000SyC-36;
-	Tue, 22 Oct 2024 03:02:05 +0000
-Date: Tue, 22 Oct 2024 11:01:06 +0800
+	id 1t35JW-000Syw-2R;
+	Tue, 22 Oct 2024 03:12:06 +0000
+Date: Tue, 22 Oct 2024 11:11:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Denis Kenzior <denkenz@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v1 03/10] net: qrtr: support identical node ids
-Message-ID: <202410221040.w67ud4O6-lkp@intel.com>
-References: <20241018181842.1368394-4-denkenz@gmail.com>
+To: Pawel Dembicki <paweldembicki@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
+	Pawel Dembicki <paweldembicki@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/3] net: dsa: vsc73xx: implement transmit via
+ control interface
+Message-ID: <202410221001.KrzTEU3A-lkp@intel.com>
+References: <20241020205452.2660042-1-paweldembicki@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,76 +70,92 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241018181842.1368394-4-denkenz@gmail.com>
+In-Reply-To: <20241020205452.2660042-1-paweldembicki@gmail.com>
 
-Hi Denis,
+Hi Pawel,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.12-rc4 next-20241021]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Denis-Kenzior/net-qrtr-ns-validate-msglen-before-ctrl_pkt-use/20241019-022353
-base:   net/main
-patch link:    https://lore.kernel.org/r/20241018181842.1368394-4-denkenz%40gmail.com
-patch subject: [RFC PATCH v1 03/10] net: qrtr: support identical node ids
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241022/202410221040.w67ud4O6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221040.w67ud4O6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pawel-Dembicki/net-dsa-vsc73xx-implement-packet-reception-via-control-interface/20241021-050041
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241020205452.2660042-1-paweldembicki%40gmail.com
+patch subject: [PATCH net-next 1/3] net: dsa: vsc73xx: implement transmit via control interface
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241022/202410221001.KrzTEU3A-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221001.KrzTEU3A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410221040.w67ud4O6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410221001.KrzTEU3A-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   net/qrtr/af_qrtr.c: In function 'qrtr_node_assign':
->> net/qrtr/af_qrtr.c:429:43: warning: left shift count >= width of type [-Wshift-count-overflow]
-     429 |         key = (unsigned long)node->ep->id << 32 | nid;
-         |                                           ^~
+   drivers/net/dsa/vitesse-vsc73xx-core.c: In function 'vsc73xx_inject_frame':
+>> drivers/net/dsa/vitesse-vsc73xx-core.c:766:30: warning: argument to 'sizeof' in 'memset' call is the same expression as the destination; did you mean to dereference it? [-Wsizeof-pointer-memaccess]
+     766 |         memset(buf, 0, sizeof(buf));
+         |                              ^
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for GET_FREE_REGION
    Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +429 net/qrtr/af_qrtr.c
+vim +766 drivers/net/dsa/vitesse-vsc73xx-core.c
 
-   412	
-   413	/* Assign node id to node.
-   414	 *
-   415	 * This is mostly useful for automatic node id assignment, based on
-   416	 * the source id in the incoming packet.
-   417	 */
-   418	static void qrtr_node_assign(struct qrtr_node *node, unsigned int nid)
-   419	{
-   420		unsigned long flags;
-   421		unsigned long key;
-   422	
-   423		if (nid == QRTR_EP_NID_AUTO)
-   424			return;
-   425	
-   426		spin_lock_irqsave(&qrtr_nodes_lock, flags);
-   427	
-   428		/* Always insert with the endpoint_id + node_id */
- > 429		key = (unsigned long)node->ep->id << 32 | nid;
-   430		radix_tree_insert(&qrtr_nodes, key, node);
-   431	
-   432		if (!radix_tree_lookup(&qrtr_nodes, nid))
-   433			radix_tree_insert(&qrtr_nodes, nid, node);
-   434	
-   435		if (node->nid == QRTR_EP_NID_AUTO)
-   436			node->nid = nid;
-   437		spin_unlock_irqrestore(&qrtr_nodes_lock, flags);
-   438	}
-   439	
+   750	
+   751	static int
+   752	vsc73xx_inject_frame(struct vsc73xx *vsc, int port, struct sk_buff *skb)
+   753	{
+   754		struct vsc73xx_ifh *ifh;
+   755		u32 length, i, count;
+   756		u32 *buf;
+   757		int ret;
+   758	
+   759		if (skb->len + VSC73XX_IFH_SIZE < 64)
+   760			length = 64;
+   761		else
+   762			length = skb->len + VSC73XX_IFH_SIZE;
+   763	
+   764		count = DIV_ROUND_UP(length, 8);
+   765		buf = kzalloc(count * 8, GFP_KERNEL);
+ > 766		memset(buf, 0, sizeof(buf));
+   767	
+   768		ifh = (struct vsc73xx_ifh *)buf;
+   769		ifh->frame_length = skb->len;
+   770		ifh->magic = VSC73XX_IFH_MAGIC;
+   771	
+   772		skb_copy_and_csum_dev(skb, (u8 *)(buf + 2));
+   773	
+   774		for (i = 0; i < count; i++) {
+   775			ret = vsc73xx_write_tx_fifo(vsc, port, buf[2 * i],
+   776						    buf[2 * i + 1]);
+   777			if (ret) {
+   778				/* Clear buffer after error */
+   779				vsc73xx_update_bits(vsc, VSC73XX_BLOCK_MAC, port,
+   780						    VSC73XX_MISCFIFO,
+   781						    VSC73XX_MISCFIFO_REWIND_CPU_TX,
+   782						    VSC73XX_MISCFIFO_REWIND_CPU_TX);
+   783				goto err;
+   784			}
+   785		}
+   786	
+   787		vsc73xx_write(vsc, VSC73XX_BLOCK_MAC, port, VSC73XX_MISCFIFO,
+   788			      VSC73XX_MISCFIFO_CPU_TX);
+   789	
+   790		skb_tx_timestamp(skb);
+   791	
+   792		skb->dev->stats.tx_packets++;
+   793		skb->dev->stats.tx_bytes += skb->len;
+   794	err:
+   795		kfree(buf);
+   796		return ret;
+   797	}
+   798	
 
 -- 
 0-DAY CI Kernel Test Service
