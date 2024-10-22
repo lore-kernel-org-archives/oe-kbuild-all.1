@@ -1,165 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f202.google.com (mail-yw1-f202.google.com [209.85.128.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11BC1A3038;
-	Tue, 22 Oct 2024 17:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4F81BDA99
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 17:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729616814; cv=none; b=buXAO7oWOwiWYKjVNpOXqu+COuzoWZC/1YTCQTh+3DQ1ZJlDs1VnW+hzEbg9Qp+R6CORj0uxZ/NlY54FrE1edC7yoOdPUN8hJQHSB3AAPWRFdo3jZ6vlkzauSq/Up+xtgk/CvuWaUJjfkH4tvGxk5ywIRaFM0PqNGKV0Cd85b0Q=
+	t=1729618141; cv=none; b=gM4Fw3wHW0UNJApiry9Qr28aM7PvB234J5POob497RaDyFP0vw8/fsFxS22w4jOxiM+Gz/cyGviTXpbbdUbvCIbpB+ECU1BqjxYSoK7QeUF1SKbYPMIesVVk7kOYMrRQJQlXnQYkEZHaTulvuWmwVX5ihyWEuI7Zqii7feQi9mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729616814; c=relaxed/simple;
-	bh=eZz3c8jyWFY02L7STapf35SqajK6ifYXf+OOiBQz2vo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GjDFxKLUNBfcnYt+pFgC0UmOBepdcZyuQ4uwFAw0xhMUa0VBBqmN6VCzaUqYPISKSCgV53DatJA4VCNHgmVHH1VmyWq0gN3NVbpzMHXGPzshf2ndHg18zXNYeUdfMqqXgnM0aeB3PGmewtOMyqz/liMZJqzhulNIt5W1dLhdrs8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCHL/qY0; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729618141; c=relaxed/simple;
+	bh=VV6QKVF0gjjf8hHfaPPcTEmbDgUc5yY0WnBeyT5UWGA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=kSQ1EU+lLjy7DXHwDXFKjrPyRzRB8CYEBnZzp1UJTkRrmQQnZZqMQxV+6grUgb6+P7nBzRhl4bGR8lT6Vn3stvWyVn6K0RhuYqyN+ToNND9xkcgvQazVA+/hkp4U9YX2HvPb9lwBhzCiMNyjZMdznxnysfbj5mQy0vHuLIj0+1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NJtCalYr; arc=none smtp.client-ip=209.85.128.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCHL/qY0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729616812; x=1761152812;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eZz3c8jyWFY02L7STapf35SqajK6ifYXf+OOiBQz2vo=;
-  b=eCHL/qY0qdCJLnQk50gRaaU1eBqWTfJOertkhkaeOiMJGdV24YZmFz/k
-   Xh+VG17gNWveNHnun7w8H0W98crY+wLrun6DQeGdOw4VoIABtToviimwC
-   kB92GfBeCvWu8w3zyot8S6hdXKph246aUsrLOa2r2GIYgA3wuI7OwlFHa
-   oulfxeedGFBl8EzECQJaSMDGDYibn4IBDJt0/DSF2MWiT7NBxveDQuBJE
-   3vzKAxpSSK5hZtOiG3ptaRI5TYqa1lWF4n7dcsGHEoyAu+lPgCsbnEy0y
-   IKLbIqZjnLQSweHCg6W1+1c8A+yJVXjmYbX5ChE1UcOuPoJqG/NKqPIKe
-   w==;
-X-CSE-ConnectionGUID: edscFUiSQKm6xwjjW4Zt3g==
-X-CSE-MsgGUID: 4KgE+8qrQmq9iFWKqRQkmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39717919"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="39717919"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 10:06:51 -0700
-X-CSE-ConnectionGUID: Y8RDGjnlReCT0dQ/Bbr53w==
-X-CSE-MsgGUID: O/8fPeCdQou+T3L9uSeezg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="84745613"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Oct 2024 10:06:50 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3ILH-000TqU-1W;
-	Tue, 22 Oct 2024 17:06:47 +0000
-Date: Wed, 23 Oct 2024 01:06:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Tejun Heo <tj@kernel.org>
-Subject: [linux-next:master 5847/6080] kernel/sched/ext.c:6741:38: error: use
- of undeclared identifier 'fmt'
-Message-ID: <202410230109.19U7hK4a-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NJtCalYr"
+Received: by mail-yw1-f202.google.com with SMTP id 00721157ae682-6e321d26b38so94087807b3.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 10:28:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1729618139; x=1730222939; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=88wx3+4q+1K9X5I+DhSnOFWj6qOcMcVFHAzwKhzigV8=;
+        b=NJtCalYrEzaVUyAm/iP/cVGjTlvX4FAyOfjrHF4s0pwnx6qLHFhpW1bjbPREbMJ4pR
+         QydL+m4rEfOdimNne/7XB5OWfULI+/Puqe8MrUZbLpb2Tk9Y8jmPxSPbd7Z/o1DBN1xS
+         F0uy++AUjKyFfVoX+sd48/4Kvg2/MF97cZ3jmnXIRAfAv4mBnQ7A1cq/et2VgYhFJt5G
+         BfTPCeZyFvCPyTyFZYpM4sILh0Kbky4m5nn1FB7m706Mwz6RxGjhTLpK6MPVFGu7zywd
+         rIn1ZVV90mqnEPFqGu+UQRgE7LCxwyuyxApj5z58I+7cOBxI/xc+UZxoqhbLnkZkroZH
+         9igg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729618139; x=1730222939;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=88wx3+4q+1K9X5I+DhSnOFWj6qOcMcVFHAzwKhzigV8=;
+        b=MSWfc1veUYz1HZtdQPshRbH05WPnUE7K1NkJ+PqUf2RyIcw7+hEgEoGB838i4oclDN
+         l6obzUR7/JIzCWvmIcsOqv8R04LzKLufqVoAdF5xUjMWUWc7NpkSdsNjN1hNZ58unBj6
+         aEwfN61o+639q3GhAtxKSTogheod1gLWww/6QpL/QhWslNYHkrAjdzknTn6ode3lGZxT
+         DYQR2HLJFXmE4fqPKpo7XPXhH7KKRMANAdwDwUiOLbTW2WiPuMFtl/RQS8V2OTuJTlVm
+         Bb56Lb3jryd7rlKOTbD/5R1VwnZCYAdJdNc0kCUiiueZISoErwofzlQJr4E2xS5LFedq
+         GXZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUgbdWmyp8d/HeqAewbVStIle/VIqc1qh7hSB+XWjVLqDFm4Zdju/xarg7TYXOM95wZ3fI1wOOjh5bSSqj+@lists.linux.dev
+X-Gm-Message-State: AOJu0YwCPC6nGgnJnMRuZ83LgW4dfdiUp2RZxAw8xjaUSSuWZakuch3H
+	cPYI1d9Hl2zINixZ/o0Y2EAksBJQ9CBP4cblFxqlBJu7qHjLzQMypylUOtnmStURb64BsaOl5Ic
+	HTw==
+X-Google-Smtp-Source: AGHT+IFdc0ZQv7mh7e81tsPtMekWG2+yIBem7weGPBwgYcNYPCIjb5/j3ncVZ+x2Nweve08TuyHo7YHd8LQ=
+X-Received: from zagreus.c.googlers.com ([fda3:e722:ac3:cc00:9d:3983:ac13:c240])
+ (user=seanjc job=sendgmr) by 2002:a05:690c:23c6:b0:6de:19f:34d7 with SMTP id
+ 00721157ae682-6e5bfbd6b2cmr1234057b3.2.1729618138968; Tue, 22 Oct 2024
+ 10:28:58 -0700 (PDT)
+Date: Tue, 22 Oct 2024 10:28:57 -0700
+In-Reply-To: <148feb5b-cdd8-4065-8570-d0304383cc62@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+References: <148feb5b-cdd8-4065-8570-d0304383cc62@stanley.mountain>
+Message-ID: <Zxfg2bTkTgObpexL@google.com>
+Subject: Re: arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error
+ code 'ret'
+From: Sean Christopherson <seanjc@google.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, Brijesh Singh <brijesh.singh@amd.com>, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Alexey Kardashevskiy <aik@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Liam Merwick <liam.merwick@oracle.com>, 
+	Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="us-ascii"
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   7436324ebd147598f940dde1335b7979dbccc339
-commit: 3e99aee7ce48f504c4a7b0e3c46656c8c55731f4 [5847/6080] sched-ext: Use correct annotation for strings in kfuncs
-config: arm64-randconfig-004-20241022 (https://download.01.org/0day-ci/archive/20241023/202410230109.19U7hK4a-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project bfe84f7085d82d06d61c632a7bad1e692fd159e4)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410230109.19U7hK4a-lkp@intel.com/reproduce)
+On Mon, Oct 21, 2024, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
+> commit: 88caf544c9305313e1c48ac1a437faa5df8fff06 KVM: SEV: Provide support for SNP_GUEST_REQUEST NAE event
+> config: x86_64-randconfig-161-20241016 (https://download.01.org/0day-ci/archive/20241019/202410192220.MeTyHPxI-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410192220.MeTyHPxI-lkp@intel.com/
+> 
+> New smatch warnings:
+> arch/x86/kvm/svm/sev.c:454 __sev_guest_init() warn: missing error code 'ret'
+> 
+> 88caf544c93053 Brijesh Singh         2024-07-01  452  	/* This needs to happen after SEV/SNP firmware initialization. */
+> 88caf544c93053 Brijesh Singh         2024-07-01  453  	if (vm_type == KVM_X86_SNP_VM && snp_guest_req_init(kvm))
+> 88caf544c93053 Brijesh Singh         2024-07-01 @454  		goto e_free;
+> 
+> Hard to tell if this is an error path or not.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410230109.19U7hK4a-lkp@intel.com/
+It's an error path.  Luckily, the fallout is only that userspace will be confused,
+e.g. KVM doesn't continue configuring state thinking that pervious steps succeeded.
 
-All errors (new ones prefixed by >>):
+I'll send a patch.
 
-   In file included from kernel/sched/build_policy.c:19:
-   In file included from include/linux/sched/isolation.h:5:
-   In file included from include/linux/cpuset.h:17:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/build_policy.c:63:
-   kernel/sched/ext.c:5329:35: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
-    5329 |                 info->reg_type = PTR_MAYBE_NULL | PTR_TO_BTF_ID | PTR_TRUSTED;
-         |                                  ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   kernel/sched/ext.c:5825:31: warning: bitwise operation between different enumeration types ('enum scx_enq_flags' and 'enum scx_deq_flags') [-Wenum-enum-conversion]
-    5825 |         WRITE_ONCE(v, SCX_ENQ_WAKEUP | SCX_DEQ_SLEEP | SCX_KICK_PREEMPT |
-         |                       ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
-      61 |         __WRITE_ONCE(x, val);                                           \
-         |                         ^~~
-   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
-      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
-         |                                        ^~~
-   In file included from kernel/sched/build_policy.c:63:
->> kernel/sched/ext.c:6741:38: error: use of undeclared identifier 'fmt'
-    6741 |         if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
-         |                                             ^
-   kernel/sched/ext.c:6762:38: error: use of undeclared identifier 'fmt'
-    6762 |         if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
-         |                                             ^
-   kernel/sched/ext.c:6794:40: error: use of undeclared identifier 'fmt'
-    6794 |                             sizeof(buf->line) - dd->cursor, fmt, data, data__sz);
-         |                                                             ^
-   kernel/sched/ext.c:6797:18: error: use of undeclared identifier 'fmt'
-    6797 |                           dd->prefix, fmt, data, data__sz, ret);
-         |                                       ^
-   6 warnings and 4 errors generated.
-
-
-vim +/fmt +6741 kernel/sched/ext.c
-
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6724  
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6725  /**
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6726   * scx_bpf_exit_bstr - Gracefully exit the BPF scheduler.
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6727   * @exit_code: Exit value to pass to user space via struct scx_exit_info.
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6728   * @fmt: error message format string
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6729   * @data: format string parameters packaged using ___bpf_fill() macro
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6730   * @data__sz: @data len, must end in '__sz' for the verifier
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6731   *
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6732   * Indicate that the BPF scheduler wants to exit gracefully, and initiate ops
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6733   * disabling.
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6734   */
-3e99aee7ce48f50 Kumar Kartikeya Dwivedi 2024-10-21  6735  __bpf_kfunc void scx_bpf_exit_bstr(s64 exit_code, char *fmt__str,
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6736  				   unsigned long long *data, u32 data__sz)
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6737  {
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6738  	unsigned long flags;
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6739  
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6740  	raw_spin_lock_irqsave(&scx_exit_bstr_buf_lock, flags);
-f0e1a0643a59bf1 Tejun Heo               2024-06-18 @6741  	if (bstr_format(&scx_exit_bstr_buf, fmt, data, data__sz) >= 0)
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6742  		scx_ops_exit_kind(SCX_EXIT_UNREG_BPF, exit_code, "%s",
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6743  				  scx_exit_bstr_buf.line);
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6744  	raw_spin_unlock_irqrestore(&scx_exit_bstr_buf_lock, flags);
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6745  }
-f0e1a0643a59bf1 Tejun Heo               2024-06-18  6746  
-
-:::::: The code at line 6741 was first introduced by commit
-:::::: f0e1a0643a59bf1f922fa209cec86a170b784f3f sched_ext: Implement BPF extensible scheduler class
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks!
