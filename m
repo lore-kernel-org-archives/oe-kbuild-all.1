@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22F6198E93
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 09:42:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D95F1991C2
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 09:42:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729590153; cv=none; b=c+5aqeGmWzmNwuC329R27Qe5OCvwfNomZ8lDoNnHxsx6wd/bOAlymXn2G7V7UGtqUh2U8zbxBi2LOZuXZCvl6BUhC7vapvTJFUxCDNohpf9Sq6t55j16wwVekkOb5Z9UxENpxTgciyCWfILoUuJzLEKQ5AXoBsSLyk9rGUSZni0=
+	t=1729590154; cv=none; b=LjzpuQBvcmzb+LJhLNamahHF0JCpERtyQOXkxHKGPClpW0cDmvfKokuS/STq5jkWXtgzZ+fBRHrbwiBfoi57MOJKEYCb6j1dZ22TjoNPVLK3xXw+E4BoyKj9l9EXxDS4DK+dtF4htFn/RiCOfylcSUt+l7Tq6ymFJB5vpH2wT4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729590153; c=relaxed/simple;
-	bh=aI6REviTskds6Vq3gwwfNgoKTyHWyS3XhMMKXYz44RI=;
+	s=arc-20240116; t=1729590154; c=relaxed/simple;
+	bh=bCw9iW9efPlgkZvHH0z2vRIhvQrQ+8J7/c25WRRNtp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jBkq3mDYMMhMr2K6WcMoB+twfQkhbQcphc7f6XrTtgBS2YS9aFE/PIIYgr5L/1ewRJlI78nuH3KEZoFhoU2m1PGNvM/N8LdNRSwox+EhwMA4WdlUZhhJAu3iouHUt7gOm9eCI2CayPCzZoYU0nZM4+wQ1yy7MrF/fHnHmxDFxqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D8vb6/Yl; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Esz1s6sirmwe35i1zFhwRN66A5/q0nRdzu5uihlnVreKdNDF6YYmG4Ik6FvPbXCCOD/TDu3PfWoRVJROeXO8H+/fbMCfdIuwdp7YD2uB6zsLvGkMJjqrxMfM1epwfwZPhQWzPM1nZCAm50oTZkweuvxUibmsV7i8R8z6fQyaAU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GfVISCFB; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D8vb6/Yl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfVISCFB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729590151; x=1761126151;
+  t=1729590153; x=1761126153;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=aI6REviTskds6Vq3gwwfNgoKTyHWyS3XhMMKXYz44RI=;
-  b=D8vb6/YlnR9482a/2Ytg2SN1MHdTQeFWjXy9EiVsaPVxU2kKJoF/i7pV
-   hgYh72u/cypp1sWxrj8vZmfL1pM7aTEPgJ/zEaMBKuqUl7dE7Jurreqr9
-   wF6A1RXR/Iyy8YhLKauWn3OSuedS1FSodlLZmprcPP7NJyzqeg9zKtaZs
-   JvMX63AyOGWTZnpNi2fIrlYwJSbhXhcZp2l8hvrJI6maWXwyXZIQqUy3m
-   wP0Bfxl01Dmv37sFhcfHiLX4NCvdWQYl+7izapM5BecED5QHuu52cSG1/
-   Ys0J0je2egw295Z9nI77LRCyM7shDCeh9bEh+1KYsEKYFUoWAF6twd6sG
-   A==;
-X-CSE-ConnectionGUID: OlYTmxkfQG6lYdyI0Ijq+Q==
-X-CSE-MsgGUID: 07MB3+z6SGuHgc8b4css6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29003704"
+  bh=bCw9iW9efPlgkZvHH0z2vRIhvQrQ+8J7/c25WRRNtp8=;
+  b=GfVISCFBJgTTzbxZf+EbAjXtnz3wbHMjTT3kaajpcSe/FlkrLwW98Aa7
+   Dh7h1FOZ0PQz1OsoYS7AjdW2puwt5koTCYvt0Kf7YPFToVr7Q3yHjVVLB
+   tQCKfPOCHoLlutdfD601/4dT4eJMHFLRZ9lozYFb/KO1x0UFkpx9Af4/2
+   MRG6D9F6W0fEbf9kKSKzIneVBD6msMlfI6N1X4eOFp1QGkzAqjMDiOqOF
+   xMyda5++Yx7ClivqmNRKlk7LF1MiD4MZF39Tmq7BjTkFfbigtMKwnQaTR
+   KFtv4E7ESoSwWyup6sAAGLeYRTRofB/mCJlvIPnpQrsc/28ADer016L0L
+   Q==;
+X-CSE-ConnectionGUID: aogIyUKDTjmTFnUgsx3tUA==
+X-CSE-MsgGUID: nnmwQAGATOKNON9x5bOOYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="29003711"
 X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="29003704"
+   d="scan'208";a="29003711"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 02:42:30 -0700
-X-CSE-ConnectionGUID: I19jqvx8Tu+At5o7DNf4Iw==
-X-CSE-MsgGUID: vLWl0IRYSsW6UNPtarwrHg==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 02:42:32 -0700
+X-CSE-ConnectionGUID: AFYfNRTOT56IdO90qVZC8w==
+X-CSE-MsgGUID: GtOTYv1TTtK6kKvZ/tcl7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="84892359"
+   d="scan'208";a="84892366"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 22 Oct 2024 02:42:29 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3BPG-000TOo-2Y;
+	id 1t3BPG-000TOt-2g;
 	Tue, 22 Oct 2024 09:42:26 +0000
-Date: Tue, 22 Oct 2024 17:41:51 +0800
+Date: Tue, 22 Oct 2024 17:41:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Max Filippov <jcmvbkbc@gmail.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jcmvbkbc-xtensa:xtensa-6.11-esp32 25/53] versioncheck:
- ./drivers/net/wireless/espressif/esp32-ng/esp_bt.c: 253: need
- linux/version.h
-Message-ID: <202410221711.rs0Wtt41-lkp@intel.com>
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1917/2444]
+ include/linux/compiler.h:417:45: error: call to '__compiletime_assert_137'
+ declared with attribute error: BUILD_BUG failed
+Message-ID: <202410221756.RqH1lQKg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,36 +67,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.11-esp32
-head:   3b01ad2a1f71b72b27fefa08e4bf6acbe1de874f
-commit: 23f7320d9509bb531e2adca756611547493bfce2 [25/53] drivers/net/wireless/espressif/esp32-ng: initial import
-reproduce: (https://download.01.org/0day-ci/archive/20241022/202410221711.rs0Wtt41-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
+commit: d2b5823df5a5f45c7a047fba7eb5def6af0f8279 [1917/2444] IDXD: claim device to support HugePage/THP segment size
+config: x86_64-buildonly-randconfig-005-20241022 (https://download.01.org/0day-ci/archive/20241022/202410221756.RqH1lQKg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221756.RqH1lQKg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410221711.rs0Wtt41-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410221756.RqH1lQKg-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
->> ./drivers/net/wireless/espressif/esp32-ng/esp_bt.c: 253: need linux/version.h
->> ./drivers/net/wireless/espressif/esp32-ng/esp_cfg80211.h: 11 linux/version.h not needed.
->> ./drivers/net/wireless/espressif/esp32-ng/esp_cmd.c: 1596: need linux/version.h
->> ./drivers/net/wireless/espressif/esp32-ng/esp_spi.c: 697: need linux/version.h
->> ./drivers/net/wireless/espressif/esp32-ng/main.c: 921: need linux/version.h
-   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
-   ./tools/lib/bpf/bpf_helpers.h: 423: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/init.h:5,
+                    from drivers/dma/idxd/dma.c:3:
+   drivers/dma/idxd/dma.c: In function 'idxd_register_dma_device':
+>> include/linux/compiler.h:417:45: error: call to '__compiletime_assert_137' declared with attribute error: BUILD_BUG failed
+     417 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler.h:398:25: note: in definition of macro '__compiletime_assert'
+     398 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler.h:417:9: note: in expansion of macro '_compiletime_assert'
+     417 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:59:21: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      59 | #define BUILD_BUG() BUILD_BUG_ON_MSG(1, "BUILD_BUG failed")
+         |                     ^~~~~~~~~~~~~~~~
+   include/linux/huge_mm.h:287:27: note: in expansion of macro 'BUILD_BUG'
+     287 | #define HPAGE_PMD_SIZE ({ BUILD_BUG(); 0; })
+         |                           ^~~~~~~~~
+   drivers/dma/idxd/dma.c:394:48: note: in expansion of macro 'HPAGE_PMD_SIZE'
+     394 |         idxd_dma->dma_parms.max_segment_size = HPAGE_PMD_SIZE;
+         |                                                ^~~~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_137 +417 include/linux/compiler.h
+
+9a8ab1c39970a4 Daniel Santos 2013-02-21  403  
+9a8ab1c39970a4 Daniel Santos 2013-02-21  404  #define _compiletime_assert(condition, msg, prefix, suffix) \
+9a8ab1c39970a4 Daniel Santos 2013-02-21  405  	__compiletime_assert(condition, msg, prefix, suffix)
+9a8ab1c39970a4 Daniel Santos 2013-02-21  406  
+9a8ab1c39970a4 Daniel Santos 2013-02-21  407  /**
+9a8ab1c39970a4 Daniel Santos 2013-02-21  408   * compiletime_assert - break build and emit msg if condition is false
+9a8ab1c39970a4 Daniel Santos 2013-02-21  409   * @condition: a compile-time constant condition to check
+9a8ab1c39970a4 Daniel Santos 2013-02-21  410   * @msg:       a message to emit if condition is false
+9a8ab1c39970a4 Daniel Santos 2013-02-21  411   *
+9a8ab1c39970a4 Daniel Santos 2013-02-21  412   * In tradition of POSIX assert, this macro will break the build if the
+9a8ab1c39970a4 Daniel Santos 2013-02-21  413   * supplied condition is *false*, emitting the supplied error message if the
+9a8ab1c39970a4 Daniel Santos 2013-02-21  414   * compiler has support to do so.
+9a8ab1c39970a4 Daniel Santos 2013-02-21  415   */
+9a8ab1c39970a4 Daniel Santos 2013-02-21  416  #define compiletime_assert(condition, msg) \
+c62d6b571d573c Jianping Liu  2024-06-11 @417  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+9a8ab1c39970a4 Daniel Santos 2013-02-21  418  
+
+:::::: The code at line 417 was first introduced by commit
+:::::: c62d6b571d573c73ac756831dea55ebcb7921dd1 ock: sync codes to ock 5.4.119-20.0009.21
+
+:::::: TO: Jianping Liu <frankjpliu@tencent.com>
+:::::: CC: Jianping Liu <frankjpliu@tencent.com>
 
 -- 
 0-DAY CI Kernel Test Service
