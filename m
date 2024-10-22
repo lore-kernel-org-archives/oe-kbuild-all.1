@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68E6313A89B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 12:18:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E54B19DF40
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 12:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729599521; cv=none; b=GYDWWhy+zqraVknx0Oo6msdoFNjVjrhiWzI/Y63ocXfiIXtsVe2+N1JcnJjQ5aujF+ZpZPMdgi84xzpfqzTSt/kOrxp0jArf4pwtuqy6pnsxMXrY92oIKz7dLKuoPHL43AcKHt5w3eDkV8yhjXOiZ+crsbcpe/qEEKKHOqQ9CbM=
+	t=1729601981; cv=none; b=P0VQ7/CMi1Uix0X8iF/yRYInsgkScu6BlPVXj6sJMZdduhrTCH7iAmc0GgpHXwPaYZpq2BggA9T5P8LWgmkHIaeUAK44VxdFqMP/rpsRGbyIUj0Vn3oCAXTG+v/aFNxeRiuo8KyXtmONfdF/+yZk/zI2zg9lsAy5/GWC80WURB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729599521; c=relaxed/simple;
-	bh=SXeVUfAlj7hbKusjdOmca52nvnTR1J2o8DeVLgBTJhs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tcNrsmo6CHuq9gNHLHuABtbtslOP9ugQ6pQXT9QcFH1BP4Zp44V1YgysjFThlbF65NB8N3YUvobPieMp4l1/HBq0D+UIRq9kF5XHqJUZ/yZMQ1/CfOpxGlh2dtIttMstFd2OaHbAxoFRftrZnCdUoNa+brnuKE/epxeHZ2gH/vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XncRKz3h; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1729601981; c=relaxed/simple;
+	bh=ag4Wq4v+6OftkIVeeXDYFwwuXXilPEH4BI9PwlNBx0g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OlGtBV0wdineXKO4NLhCsfWWJ+9LBLTZiNwgBgf2sAPjo9bccHCh442u+iIZOpAWsu0BI0JxecCLq3FH51MNgRMDPaGqVpA4McdBZfJZ5B+zEMtrPJusotEh9Z0YqJBbDbz/rEY/JIC0RwXJl7ywdAUU2edCYrSEL9jKegzoZ4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3aA0gCW; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XncRKz3h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3aA0gCW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729599518; x=1761135518;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SXeVUfAlj7hbKusjdOmca52nvnTR1J2o8DeVLgBTJhs=;
-  b=XncRKz3hEmb8yvVo6Rj2i77XyU2iFgJjjLL53Uj3eNlQm8G02LdBIMCg
-   jdxLAC/KZWzQXluX/HAPS2kH3pR28CyaSlDkmlCa4pw9xNNlJIz9i8ZS9
-   giijWcdmMpeURYAcCO/mzFlC8dTwVQyJBCyaRoRzxj7C7ozqIQJeZ8atu
-   W2RQmF/GyRGamsXC9Xz6B7nCv07l3o6K1y62AeKaD3l6nEt4kE9ZwKf2p
-   ZXb7bZtzGFDqKNFwsptBkWEv/YV3aaYe0VtO7I7K0IlVCpccjT8km7Und
-   wk2gpG+Eu9JifARcqM4oGXHgVy25VCCWHnKIi5Pig7MKBq5EbQebreWAE
-   g==;
-X-CSE-ConnectionGUID: 8v8GF+1AQmmgVhcpAH5tlw==
-X-CSE-MsgGUID: 7NX+uQU4T1CsgqVWdshPOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="32940159"
-X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="32940159"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 05:18:38 -0700
-X-CSE-ConnectionGUID: wEVM4qEcR/GEgCPChR7LHA==
-X-CSE-MsgGUID: w54+uPc6T5m3H2v+ehz+Ow==
+  t=1729601980; x=1761137980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ag4Wq4v+6OftkIVeeXDYFwwuXXilPEH4BI9PwlNBx0g=;
+  b=T3aA0gCW+5Slaw24V0Mwk7FdbE1TB8jUDd/duJUi0Ji9zPU7o4IhiSv3
+   7/OL5IeT5JclkVTTd6ohB6aryfDrAi2o8oq3i9jNXKlk/MyZxqmvOtK7F
+   4U6i2PbdvQkybWYBxuzqUQxz6+0wMZX1Dc8sRO66ryj474o/UzHptqo+0
+   QUaJcjqzlpVwAidtu/cc9Cqlt1FkYmUIDxXQihyAzmZbYqSqLPjwS07Y1
+   Lza8NNLu6dDmBCFoTRES6k5aMqpahSMgrcz9o1onApjrOw/SMKfdPb9AF
+   Py4jvWpj46+Ro3soxpQJtvZGbI8cDCHyAC+ZbzCnHzuPvyqj6ir0ezOSu
+   A==;
+X-CSE-ConnectionGUID: PVOkSERiSTiFviRVwx1fFw==
+X-CSE-MsgGUID: jamkDJbuRE2Icf2ENQDhfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29008863"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29008863"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 05:59:39 -0700
+X-CSE-ConnectionGUID: Z3uW2xWzSOa/5fcKg4i2Xg==
+X-CSE-MsgGUID: sB11bFZ/QOatpkbuf1+V6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="117287590"
+   d="scan'208";a="84469418"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 22 Oct 2024 05:18:36 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Oct 2024 05:59:37 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3DqL-000TYk-28;
-	Tue, 22 Oct 2024 12:18:33 +0000
-Date: Tue, 22 Oct 2024 20:17:36 +0800
+	id 1t3EU3-000Tb8-0p;
+	Tue, 22 Oct 2024 12:59:35 +0000
+Date: Tue, 22 Oct 2024 20:58:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michael Chan <michael.chan@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Vasundhara Volam <vasundhara-v.volam@broadcom.com>,
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>,
-	Pavan Chebbi <pavan.chebbi@broadcom.com>,
-	Simon Horman <horms@kernel.org>
-Subject: drivers/net/ethernet/broadcom/bnxt/bnxt.c:5333:6-25: WARNING:
- atomic_dec_and_test variation before object free at line 5336.
-Message-ID: <202410222004.wyOjgwYT-lkp@intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: Re: [PATCH v2 5/5] drm/xe/pt: Add an additional check for dmabuf BOs
+ while updating PTEs
+Message-ID: <202410222048.8IhSS8iE-lkp@intel.com>
+References: <20241021052236.1820329-6-vivek.kasireddy@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,39 +65,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241021052236.1820329-6-vivek.kasireddy@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: 1f6e77cb9b328f2ec145e73be97cab6fec838678 bnxt_en: Add bnxt_l2_filter hash table.
-date:   10 months ago
-config: arc-randconfig-r052-20241022 (https://download.01.org/0day-ci/archive/20241022/202410222004.wyOjgwYT-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
+Hi Vivek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm/drm-next drm-exynos/exynos-drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc4 next-20241022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vivek-Kasireddy/PCI-P2PDMA-Don-t-enforce-ACS-check-for-functions-of-same-device/20241021-134804
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20241021052236.1820329-6-vivek.kasireddy%40intel.com
+patch subject: [PATCH v2 5/5] drm/xe/pt: Add an additional check for dmabuf BOs while updating PTEs
+config: i386-buildonly-randconfig-003-20241022 (https://download.01.org/0day-ci/archive/20241022/202410222048.8IhSS8iE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410222048.8IhSS8iE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410222004.wyOjgwYT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410222048.8IhSS8iE-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/broadcom/bnxt/bnxt.c:5333:6-25: WARNING: atomic_dec_and_test variation before object free at line 5336.
+All errors (new ones prefixed by >>):
 
-vim +5333 drivers/net/ethernet/broadcom/bnxt/bnxt.c
+   drivers/gpu/drm/xe/xe_pt.c: In function 'xe_pt_stage_bind':
+>> drivers/gpu/drm/xe/xe_pt.c:682:25: error: implicit declaration of function 'xe_res_first_dma'; did you mean 'xe_res_first_sg'? [-Werror=implicit-function-declaration]
+     682 |                         xe_res_first_dma(bo->dma_addr, xe_vma_bo_offset(vma),
+         |                         ^~~~~~~~~~~~~~~~
+         |                         xe_res_first_sg
+   cc1: some warnings being treated as errors
 
-  5330	
-  5331	void bnxt_del_l2_filter(struct bnxt *bp, struct bnxt_l2_filter *fltr)
-  5332	{
-> 5333		if (!atomic_dec_and_test(&fltr->refcnt))
-  5334			return;
-  5335		spin_lock_bh(&bp->ntp_fltr_lock);
-> 5336		hlist_del_rcu(&fltr->base.hash);
-  5337		if (fltr->base.flags) {
-  5338			clear_bit(fltr->base.sw_id, bp->ntp_fltr_bmap);
-  5339			bp->ntp_fltr_count--;
-  5340		}
-  5341		spin_unlock_bh(&bp->ntp_fltr_lock);
-  5342		kfree_rcu(fltr, base.rcu);
-  5343	}
-  5344	
+
+vim +682 drivers/gpu/drm/xe/xe_pt.c
+
+   583	
+   584	/**
+   585	 * xe_pt_stage_bind() - Build a disconnected page-table tree for a given address
+   586	 * range.
+   587	 * @tile: The tile we're building for.
+   588	 * @vma: The vma indicating the address range.
+   589	 * @entries: Storage for the update entries used for connecting the tree to
+   590	 * the main tree at commit time.
+   591	 * @num_entries: On output contains the number of @entries used.
+   592	 *
+   593	 * This function builds a disconnected page-table tree for a given address
+   594	 * range. The tree is connected to the main vm tree for the gpu using
+   595	 * xe_migrate_update_pgtables() and for the cpu using xe_pt_commit_bind().
+   596	 * The function builds xe_vm_pgtable_update structures for already existing
+   597	 * shared page-tables, and non-existing shared and non-shared page-tables
+   598	 * are built and populated directly.
+   599	 *
+   600	 * Return 0 on success, negative error code on error.
+   601	 */
+   602	static int
+   603	xe_pt_stage_bind(struct xe_tile *tile, struct xe_vma *vma,
+   604			 struct xe_vm_pgtable_update *entries, u32 *num_entries)
+   605	{
+   606		struct xe_device *xe = tile_to_xe(tile);
+   607		struct xe_bo *bo = xe_vma_bo(vma);
+   608		bool is_devmem = !xe_vma_is_userptr(vma) && bo &&
+   609			(xe_bo_is_vram(bo) || xe_bo_is_stolen_devmem(bo));
+   610		struct xe_res_cursor curs;
+   611		struct xe_pt_stage_bind_walk xe_walk = {
+   612			.base = {
+   613				.ops = &xe_pt_stage_bind_ops,
+   614				.shifts = xe_normal_pt_shifts,
+   615				.max_level = XE_PT_HIGHEST_LEVEL,
+   616			},
+   617			.vm = xe_vma_vm(vma),
+   618			.tile = tile,
+   619			.curs = &curs,
+   620			.va_curs_start = xe_vma_start(vma),
+   621			.vma = vma,
+   622			.wupd.entries = entries,
+   623			.needs_64K = (xe_vma_vm(vma)->flags & XE_VM_FLAG_64K) && is_devmem,
+   624		};
+   625		struct xe_pt *pt = xe_vma_vm(vma)->pt_root[tile->id];
+   626		int ret;
+   627	
+   628		/**
+   629		 * Default atomic expectations for different allocation scenarios are as follows:
+   630		 *
+   631		 * 1. Traditional API: When the VM is not in LR mode:
+   632		 *    - Device atomics are expected to function with all allocations.
+   633		 *
+   634		 * 2. Compute/SVM API: When the VM is in LR mode:
+   635		 *    - Device atomics are the default behavior when the bo is placed in a single region.
+   636		 *    - In all other cases device atomics will be disabled with AE=0 until an application
+   637		 *      request differently using a ioctl like madvise.
+   638		 */
+   639		if (vma->gpuva.flags & XE_VMA_ATOMIC_PTE_BIT) {
+   640			if (xe_vm_in_lr_mode(xe_vma_vm(vma))) {
+   641				if (bo && xe_bo_has_single_placement(bo))
+   642					xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+   643				/**
+   644				 * If a SMEM+LMEM allocation is backed by SMEM, a device
+   645				 * atomics will cause a gpu page fault and which then
+   646				 * gets migrated to LMEM, bind such allocations with
+   647				 * device atomics enabled.
+   648				 */
+   649				else if (is_devmem && !xe_bo_has_single_placement(bo))
+   650					xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+   651			} else {
+   652				xe_walk.default_pte |= XE_USM_PPGTT_PTE_AE;
+   653			}
+   654	
+   655			/**
+   656			 * Unset AE if the platform(PVC) doesn't support it on an
+   657			 * allocation
+   658			 */
+   659			if (!xe->info.has_device_atomics_on_smem && !is_devmem)
+   660				xe_walk.default_pte &= ~XE_USM_PPGTT_PTE_AE;
+   661		}
+   662	
+   663		if (is_devmem || bo->is_devmem_external)
+   664			xe_walk.default_pte |= XE_PPGTT_PTE_DM;
+   665	
+   666		if (is_devmem)
+   667			xe_walk.dma_offset = vram_region_gpu_offset(bo->ttm.resource);
+   668	
+   669		if (!xe_vma_has_no_bo(vma) && xe_bo_is_stolen(bo))
+   670			xe_walk.dma_offset = xe_ttm_stolen_gpu_offset(xe_bo_device(bo));
+   671	
+   672		xe_bo_assert_held(bo);
+   673	
+   674		if (!xe_vma_is_null(vma)) {
+   675			if (xe_vma_is_userptr(vma))
+   676				xe_res_first_sg(to_userptr_vma(vma)->userptr.sg, 0,
+   677						xe_vma_size(vma), &curs);
+   678			else if (xe_bo_is_vram(bo) || xe_bo_is_stolen(bo))
+   679				xe_res_first(bo->ttm.resource, xe_vma_bo_offset(vma),
+   680					     xe_vma_size(vma), &curs);
+   681			else if (bo->is_devmem_external)
+ > 682				xe_res_first_dma(bo->dma_addr, xe_vma_bo_offset(vma),
+   683						xe_vma_size(vma), &curs);
+   684			else
+   685				xe_res_first_sg(xe_bo_sg(bo), xe_vma_bo_offset(vma),
+   686						xe_vma_size(vma), &curs);
+   687		} else {
+   688			curs.size = xe_vma_size(vma);
+   689		}
+   690	
+   691		ret = xe_pt_walk_range(&pt->base, pt->level, xe_vma_start(vma),
+   692				       xe_vma_end(vma), &xe_walk.base);
+   693	
+   694		*num_entries = xe_walk.wupd.num_used_entries;
+   695		return ret;
+   696	}
+   697	
 
 -- 
 0-DAY CI Kernel Test Service
