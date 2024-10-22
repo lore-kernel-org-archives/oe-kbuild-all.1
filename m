@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B36F13211C;
-	Tue, 22 Oct 2024 05:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502E0C8FE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Oct 2024 06:47:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729575322; cv=none; b=IRcydg6nUWlOFly4DiNgwLXzRssJQ2g5DFye3LWkxMcRme7b3uUup1nY3jlAsDqWnirLDRb4+pZORP5XQ6y9aWobKRW1e+bz3Q5CTZH1V0wyPDMw8Aep2ymuxqPmSLvKSugJixs4poh7V5kVw2wr+ScmCWrgs1dw8Dxzlajy+Cw=
+	t=1729579643; cv=none; b=S+u/Z210T9B/Ap3eta5qZBwmIGhQcCfjjtBO83XqPAEhgJUa3yCnvKlWmAs2Br6z8lXA5BBASZYz4+1bioQqFUILwsiR57vw0pwfC8pJGQHQ9zkBFpIEweLfQ4BSN5M7f0hs8lm83OzAjS5gEiDLp7BXqr+gK/wXQf5IPHmTHLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729575322; c=relaxed/simple;
-	bh=meA9jqJFq7R1V+kv/Z3qNiGP17F+ReXJwGKUUOr0S4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jGDThuDu5UwM//3muUUjwH/00d5F5G3N7neB9QqxPO+EP9T3mAXmwTT2mCKXCg4ILkqYdZI/MQdZPfQ0HPYqLQH+nLHfXOASGpbxt1nwGBpZzcjvTS358vY79T6LPyYWJI8Dw3LW7FF5ac4vp1U/3AQLJY1CcwTIhU3KnCXrvZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GNckA/ba; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1729579643; c=relaxed/simple;
+	bh=OK4fxMM5p3n1r6HdZM4zUzLCAylXWE4HnP1VZBVc4e4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uEkC4Xeo/rJxdOMNbUJov6zNw/WcEewS0XofFi3ZmlP/478z7SdTs01UlnJwpat/J+A+4m2hDoIr2Qqq3r9du59gId0OJ9GQbfqWdedVhAJW/ZceY+BqzHaV03jeh709eR/QEd0fZYXZ9yzEarC/3jEaWwdLLEicCq5cpdVAxto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mg/qx7NT; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GNckA/ba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mg/qx7NT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729575320; x=1761111320;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=meA9jqJFq7R1V+kv/Z3qNiGP17F+ReXJwGKUUOr0S4U=;
-  b=GNckA/bac15WBp2MNYW+pen1R0FVcdrsJFMk9HRQsg3+dyqDOa2Me3rb
-   fg+RR35oJ/bTIjNbfQBdYumVREXnA3u7wurA4nl24WWcF5QCAVIDM+VEK
-   6nY85Oyc7icDhDVI1bSSXC4fY/xL2zf6zqNJBOF7SLqujMhHw/GH+CnfY
-   szCcmQK2X/qPt0ormjj6bqukwePVUI0BhbPgeGeqdYyxMRPOZtdQzmx8q
-   F/1zOwrpYUlmUZA7ZEPAl+cEyAlA1OGYBmhlVeEKGkkSZw8tHjESsffom
-   GElFr4QM5Du52qO8psraEEnIM61GBYN1ei5vOscStZa2P3Kndrf0IdUp8
+  t=1729579641; x=1761115641;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OK4fxMM5p3n1r6HdZM4zUzLCAylXWE4HnP1VZBVc4e4=;
+  b=mg/qx7NT5DP047kScoCTyPIEp0BboIN+mwaK5J1wYPNCy3KktpkFuQZh
+   1FEq7xLipCn52F+UZoIHQpETXn25FT3hXzruIHIYhlkfmcB1cxaTXT3zy
+   kOrjXCzW58pV03Xhae5XJ8zNfcQXAWhBzGgmyJ22CXRK+8EKuVR0T9+yC
+   +TFlM78TFDdHEhnChOt1X+u2yif5XY5YiXkLYM6F+bVE5bXEjxwmVC1EE
+   WDYTx4m0YWno26eQm4G2a2gcituxhAUeky26eoIgl9SBTmETKy8kjrOTf
+   vMamru60hPeE+qjCEkMqxpSVK6x/AC/OeShKHdOon5qGp+sEzZBjiIcNP
    g==;
-X-CSE-ConnectionGUID: tqM7/tL4RU+e5Wbj1tlETQ==
-X-CSE-MsgGUID: 2ULUIJPAQJKibsMddDKQjQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11232"; a="33015277"
-X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
-   d="scan'208";a="33015277"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 22:35:19 -0700
-X-CSE-ConnectionGUID: CRADIpniR3azeKhOMX+utw==
-X-CSE-MsgGUID: qhdp/qqsRgKIjfc8p6I17w==
-X-ExtLoop1: 1
+X-CSE-ConnectionGUID: ZwBnRJCCRiqrhELblVYgjQ==
+X-CSE-MsgGUID: bs/5sCXQQjSFOb7koljiyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46561661"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="84557530"
+   d="scan'208";a="46561661"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2024 23:47:20 -0700
+X-CSE-ConnectionGUID: 1U59FcVwTGyDsqKerE5/ZA==
+X-CSE-MsgGUID: Yfc73CsUT0SZTgziwQRE2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,222,1725346800"; 
+   d="scan'208";a="110579226"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 21 Oct 2024 22:35:15 -0700
+  by orviesa002.jf.intel.com with ESMTP; 21 Oct 2024 23:47:20 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t37Y0-000T6z-2D;
-	Tue, 22 Oct 2024 05:35:12 +0000
-Date: Tue, 22 Oct 2024 13:34:51 +0800
+	id 1t38fl-000TCW-14;
+	Tue, 22 Oct 2024 06:47:17 +0000
+Date: Tue, 22 Oct 2024 14:46:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefan Eichenberger <eichest@gmail.com>, hongxing.zhu@nxp.com,
-	l.stach@pengutronix.de, lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	bhelgaas@google.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com,
-	francesco.dolcini@toradex.com, Frank.li@nxp.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: Re: [PATCH v3] PCI: imx6: Add suspend/resume support for i.MX6QDL
-Message-ID: <202410221309.BXeJNrxw-lkp@intel.com>
-References: <20241021124922.5361-1-eichest@gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [freescale-fslc:6.6-2.1.x-imx 185/17818]
+ sound/soc/codecs/rpmsg_wm8960.c:595: warning: Function parameter or member
+ 'wm8960' not described in 'wm8960_configure_sysclk'
+Message-ID: <202410221448.Tj2a1GL2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,55 +62,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021124922.5361-1-eichest@gmail.com>
 
-Hi Stefan,
+Hi Shengjiu,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.12-rc4 next-20241021]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefan-Eichenberger/PCI-imx6-Add-suspend-resume-support-for-i-MX6QDL/20241021-205155
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20241021124922.5361-1-eichest%40gmail.com
-patch subject: [PATCH v3] PCI: imx6: Add suspend/resume support for i.MX6QDL
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241022/202410221309.BXeJNrxw-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221309.BXeJNrxw-lkp@intel.com/reproduce)
+tree:   https://github.com/Freescale/linux-fslc 6.6-2.1.x-imx
+head:   096cd0432b03805f49c86684dafb9ced4511a714
+commit: 82d769d141173f3d89471170e876234d5a8d2e94 [185/17818] MLK-17156-4: ASoC: rpmsg_wm8960: add rpmsg_wm8960 codec
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241022/202410221448.Tj2a1GL2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241022/202410221448.Tj2a1GL2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410221309.BXeJNrxw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410221448.Tj2a1GL2-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pci/controller/dwc/pci-imx6.c:86: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * Because of ERR005723 (PCIe does not support L2 power down) we need to
+>> sound/soc/codecs/rpmsg_wm8960.c:595: warning: Function parameter or member 'wm8960' not described in 'wm8960_configure_sysclk'
+>> sound/soc/codecs/rpmsg_wm8960.c:595: warning: Excess function parameter 'wm8960_priv' description in 'wm8960_configure_sysclk'
 
 
-vim +86 drivers/pci/controller/dwc/pci-imx6.c
+vim +595 sound/soc/codecs/rpmsg_wm8960.c
 
-    75	
-    76	#define IMX_PCIE_FLAG_IMX_PHY			BIT(0)
-    77	#define IMX_PCIE_FLAG_IMX_SPEED_CHANGE		BIT(1)
-    78	#define IMX_PCIE_FLAG_SUPPORTS_SUSPEND		BIT(2)
-    79	#define IMX_PCIE_FLAG_HAS_PHYDRV		BIT(3)
-    80	#define IMX_PCIE_FLAG_HAS_APP_RESET		BIT(4)
-    81	#define IMX_PCIE_FLAG_HAS_PHY_RESET		BIT(5)
-    82	#define IMX_PCIE_FLAG_HAS_SERDES		BIT(6)
-    83	#define IMX_PCIE_FLAG_SUPPORT_64BIT		BIT(7)
-    84	#define IMX_PCIE_FLAG_CPU_ADDR_FIXUP		BIT(8)
-    85	/**
-  > 86	 * Because of ERR005723 (PCIe does not support L2 power down) we need to
-    87	 * workaround suspend resume on some devices which are affected by this errata.
-    88	 */
-    89	#define IMX_PCIE_FLAG_BROKEN_SUSPEND		BIT(9)
-    90	
+   573	
+   574	/**
+   575	 * wm8960_configure_sysclk - checks if there is a sysclk frequency available
+   576	 *	The sysclk must be chosen such that:
+   577	 *		- sysclk     = MCLK / sysclk_divs
+   578	 *		- lrclk      = sysclk / dac_divs
+   579	 *		- 10 * bclk  = sysclk / bclk_divs
+   580	 *
+   581	 * @wm8960_priv: wm8960 codec private data
+   582	 * @mclk: MCLK used to derive sysclk
+   583	 * @sysclk_idx: sysclk_divs index for found sysclk
+   584	 * @dac_idx: dac_divs index for found lrclk
+   585	 * @bclk_idx: bclk_divs index for found bclk
+   586	 *
+   587	 * Returns:
+   588	 *  -1, in case no sysclk frequency available found
+   589	 * >=0, in case we could derive bclk and lrclk from sysclk using
+   590	 *      (@sysclk_idx, @dac_idx, @bclk_idx) dividers
+   591	 */
+   592	static
+   593	int wm8960_configure_sysclk(struct rpmsg_wm8960_priv *wm8960, int mclk,
+   594				    int *sysclk_idx, int *dac_idx, int *bclk_idx)
+ > 595	{
+   596		int sysclk, bclk, lrclk;
+   597		int i, j, k;
+   598		int diff;
+   599	
+   600		/* marker for no match */
+   601		*bclk_idx = -1;
+   602	
+   603		bclk = wm8960->bclk;
+   604		lrclk = wm8960->lrclk;
+   605	
+   606		/* check if the sysclk frequency is available. */
+   607		for (i = 0; i < ARRAY_SIZE(sysclk_divs); ++i) {
+   608			if (sysclk_divs[i] == -1)
+   609				continue;
+   610			sysclk = mclk / sysclk_divs[i];
+   611			for (j = 0; j < ARRAY_SIZE(dac_divs); ++j) {
+   612				if (sysclk != dac_divs[j] * lrclk)
+   613					continue;
+   614				for (k = 0; k < ARRAY_SIZE(bclk_divs); ++k) {
+   615					diff = sysclk - bclk * bclk_divs[k] / 10;
+   616					if (diff == 0) {
+   617						*sysclk_idx = i;
+   618						*dac_idx = j;
+   619						*bclk_idx = k;
+   620						break;
+   621					}
+   622				}
+   623				if (k != ARRAY_SIZE(bclk_divs))
+   624					break;
+   625			}
+   626			if (j != ARRAY_SIZE(dac_divs))
+   627				break;
+   628		}
+   629		return *bclk_idx;
+   630	}
+   631	
 
 -- 
 0-DAY CI Kernel Test Service
