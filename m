@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8736B49652;
-	Wed, 23 Oct 2024 11:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02911AAE3F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 11:48:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729684133; cv=none; b=UzFrzAHUkXOsRnne2muh9OZPS8qAwJJNcd+rNfrUMOk8FujTkz57oPJAQsNBbQOGTRkRtw3oUtiNjdh0muzTtQ3C/lyZ+snv6l9QOhd79E6n3kSgygouKoZxQKrDV/IdtjadErWFewdrRESn1z21FIBETe8E0rOg2froYW/CkMo=
+	t=1729684135; cv=none; b=s0TFw0jyDGIOtL+ISGJ3B+tFLcDxOUVMy0eDVw3O80sLj2vp6fnSSQIRATBCB2vTBP1rN9B9NPPm2GseERM0j5Duljgoe2zx4BAP14jbbfF/W1A0YR7V2WZSSd53kurGSc/l7CeTQUVxal8xJW1M5wS5iWJZclpFkJ2GiU2DW1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729684133; c=relaxed/simple;
-	bh=43Zf78XEYRR4k7/eivlulsx8Vgz7uNU007UyUijKV6A=;
+	s=arc-20240116; t=1729684135; c=relaxed/simple;
+	bh=M7eKdv95aVVVxR3IvuAXd69pq5auXaZTG4VRnDXqIxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dt1UySLxiBzLlFhbMH4UB4NQKHosFUjNl0bUiU30X/AhtNuejOlx/0WZ7VJToJIh+Gah2nhCMhUeRO/ql+U8Crf6jirgWWmYaE6EwbDBcfq4bqly86MWrHv8AYmiOsjfqA4dP6c1YPX+xJ0gB3XlGDL3IGBs/FKyPugqUlpV7TU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cIjI4zHh; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=RQI1c3WBZ7b+mamPtvt2Ar4m0XbE/hx3H9MF7F/QSxXF9GvuQCua1o8UboKB5JBtV68f+jt35oYniO1bwwzFWs2mjGmQ9eiBSO1F1jKOgOBfED4npDWjfTvv3J3Rw4YDjx99zv2qtlygZqHu/1sia0L996OaQO2bmpI0H9GOiTo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMi9knTY; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cIjI4zHh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMi9knTY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729684130; x=1761220130;
+  t=1729684133; x=1761220133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=43Zf78XEYRR4k7/eivlulsx8Vgz7uNU007UyUijKV6A=;
-  b=cIjI4zHh90U58iPCcX+Q5FftU+CG5wtFxqmfM+JDuIuGdUgJSOV+K88N
-   7TUYAtNDZ0nH0Ep3sXMqpM3S2aZILXuF7nS0t0ey5B/aOG41+piwRlLqy
-   WWfjQqcFtT/ERDhLkO1X6czRARYoVheGzD1VjB4sULrF4pSWarAdH1ynx
-   aMfhRRendKtJxyH/JGBWfdQKhG1rmJepn9gao4HnjtLRsYLYLmq2r13AX
-   X7WXaZjo/d2t5QO8ro67tjeE9Hdm0KYaCjaEZe3CphrELUaXw+ezA/VD5
-   Obj5lXcNb/TmIJPncAjzCQam3Y9nfVnnAXeZfILOHz8OtAhlQColnMb61
+  bh=M7eKdv95aVVVxR3IvuAXd69pq5auXaZTG4VRnDXqIxU=;
+  b=ZMi9knTY8ctuWiO/Wz56fV/RN1iV2waThnqntih+Uc8vXQVfZoR+TRdW
+   0pSS2bET4X77ZeA/+ktpXEMwuwQpvwMXCrAgxbr991Le2QLnIFy8DijWV
+   zjm4+z7Jt06NtEOcu6dRrUYpDlhtxgq5juoU5SuRsZIMwcGHBgWNENc07
+   VTYyyC9AmpMpuYVNbleSnpxjho5D/KgsR/lMbbbnNxCUfpT+x3taNLPUT
+   oPJpWcXjbymwr5ehnyYzQQDOZ4gFmsmGYJRl5Ld91QWKPwshy15Ru79YR
+   TGS1VqagVBGA2KQZk/XxEyOe8RgQrZ+8Kh6+jwcnz4ldlghqpbAO+qj1j
    Q==;
-X-CSE-ConnectionGUID: LeKxApGmQdS64frMnilHzQ==
-X-CSE-MsgGUID: SjX74kyHQ6Scz5XyzNCP0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="54669106"
+X-CSE-ConnectionGUID: ZNrIW/TURlyttkI9f5T5SA==
+X-CSE-MsgGUID: MRNuarTZT8mLoO9H8iSyQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="54669108"
 X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="54669106"
+   d="scan'208";a="54669108"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 04:48:50 -0700
-X-CSE-ConnectionGUID: U9c1UnrmR0O+JY3TdDs5UQ==
-X-CSE-MsgGUID: J5yzbSQ7RNCRnwzzayLOow==
+X-CSE-ConnectionGUID: YDvfa/R8QXyuu+fsgTGXFA==
+X-CSE-MsgGUID: FKtA3PCfTSWFHymPZTYKCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="80358817"
+   d="scan'208";a="80358816"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 23 Oct 2024 04:48:48 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3Zr4-000UrW-1L;
+	id 1t3Zr4-000UrY-1O;
 	Wed, 23 Oct 2024 11:48:46 +0000
-Date: Wed, 23 Oct 2024 19:48:44 +0800
+Date: Wed, 23 Oct 2024 19:48:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:trampoline_multi_10 17/21]
- kernel/trace/bpf_trace.c:3501:2: error: call to undeclared function
- 'bpf_trampoline_multi_detach'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202410231955.T13VLcJ9-lkp@intel.com>
+To: Dirk Behme <dirk.behme@de.bosch.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>
+Subject: rust/helpers/mutex.c:11:6: sparse: sparse: symbol
+ 'rust_helper___mutex_init' was not declared. Should it be static?
+Message-ID: <202410231939.DXitQG7R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,141 +63,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git trampoline_multi_10
-head:   48132820c5a21b82d1a4507a86a67b3742fb110e
-commit: c19eedd8a81d51880a58e66419820e592292cb95 [17/21] bpf: Add support to create tracing multi link
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241023/202410231955.T13VLcJ9-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231955.T13VLcJ9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: d065cc76054d21e48a839a2a19ba99dbc51a4d11 rust: mutex: fix __mutex_init() usage in case of PREEMPT_RT
+date:   4 weeks ago
+config: um-randconfig-r133-20241023 (https://download.01.org/0day-ci/archive/20241023/202410231939.DXitQG7R-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231939.DXitQG7R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410231955.T13VLcJ9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410231939.DXitQG7R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+>> rust/helpers/mutex.c:11:6: sparse: sparse: symbol 'rust_helper___mutex_init' was not declared. Should it be static?
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/spinlock.c:16:6: sparse: sparse: context imbalance in 'rust_helper_spin_lock' - wrong count at exit
+   rust/helpers/spinlock.c:21:6: sparse: sparse: context imbalance in 'rust_helper_spin_unlock' - unexpected unlock
 
-   In file included from kernel/trace/bpf_trace.c:8:
-   include/linux/bpf.h:1393:51: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1393 | static inline int bpf_trampoline_link_prog(struct bpf_tramp_link *link,
-         |                                                   ^
-   include/linux/bpf.h:1399:53: warning: declaration of 'struct bpf_tramp_link' will not be visible outside of this function [-Wvisibility]
-    1399 | static inline int bpf_trampoline_unlink_prog(struct bpf_tramp_link *link,
-         |                                                     ^
->> kernel/trace/bpf_trace.c:3501:2: error: call to undeclared function 'bpf_trampoline_multi_detach'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3501 |         bpf_trampoline_multi_detach(link->prog, tr_link);
-         |         ^
-   kernel/trace/bpf_trace.c:3501:2: note: did you mean 'bpf_tracing_multi_attach'?
-   include/linux/trace_events.h:781:5: note: 'bpf_tracing_multi_attach' declared here
-     781 | int bpf_tracing_multi_attach(struct bpf_prog *prog, const union bpf_attr *attr);
-         |     ^
->> kernel/trace/bpf_trace.c:3589:8: error: call to undeclared function 'bpf_trampoline_multi_attach'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    3589 |         err = bpf_trampoline_multi_attach(prog, ids, link);
-         |               ^
-   kernel/trace/bpf_trace.c:3589:8: note: did you mean 'bpf_tracing_multi_attach'?
-   kernel/trace/bpf_trace.c:3538:5: note: 'bpf_tracing_multi_attach' declared here
-    3538 | int bpf_tracing_multi_attach(struct bpf_prog *prog,
-         |     ^
-   2 warnings and 2 errors generated.
+vim +/rust_helper___mutex_init +11 rust/helpers/mutex.c
 
-
-vim +/bpf_trampoline_multi_detach +3501 kernel/trace/bpf_trace.c
-
-  3495	
-  3496	static void bpf_tracing_multi_link_release(struct bpf_link *link)
-  3497	{
-  3498		struct bpf_tracing_multi_link *tr_link =
-  3499			container_of(link, struct bpf_tracing_multi_link, link);
-  3500	
-> 3501		bpf_trampoline_multi_detach(link->prog, tr_link);
-  3502	}
-  3503	
-  3504	static void bpf_tracing_multi_link_dealloc(struct bpf_link *link)
-  3505	{
-  3506		struct bpf_tracing_multi_link *tr_link =
-  3507			container_of(link, struct bpf_tracing_multi_link, link);
-  3508	
-  3509		kfree(tr_link);
-  3510	}
-  3511	
-  3512	static void bpf_tracing_multi_link_show_fdinfo(const struct bpf_link *link,
-  3513						       struct seq_file *seq)
-  3514	{
-  3515		struct bpf_tracing_multi_link *tr_link =
-  3516			container_of(link, struct bpf_tracing_multi_link, link);
-  3517	
-  3518		seq_printf(seq, "attach_type:\t%d\n", tr_link->attach_type);
-  3519	}
-  3520	
-  3521	static int bpf_tracing_multi_link_fill_link_info(const struct bpf_link *link,
-  3522							 struct bpf_link_info *info)
-  3523	{
-  3524		struct bpf_tracing_multi_link *tr_link =
-  3525			container_of(link, struct bpf_tracing_multi_link, link);
-  3526	
-  3527		info->tracing.attach_type = tr_link->attach_type;
-  3528		return 0;
-  3529	}
-  3530	
-  3531	static const struct bpf_link_ops bpf_tracing_multi_link_lops = {
-  3532		.release = bpf_tracing_multi_link_release,
-  3533		.dealloc = bpf_tracing_multi_link_dealloc,
-  3534		.show_fdinfo = bpf_tracing_multi_link_show_fdinfo,
-  3535		.fill_link_info = bpf_tracing_multi_link_fill_link_info,
-  3536	};
-  3537	
-  3538	int bpf_tracing_multi_attach(struct bpf_prog *prog,
-  3539				     const union bpf_attr *attr)
-  3540	{
-  3541		struct bpf_attach_target_info tgt_info = {};
-  3542		struct bpf_tracing_multi_link *link = NULL;
-  3543		struct bpf_link_primer link_primer;
-  3544		u32 i, j, cnt, *ids = NULL;
-  3545		u32 __user *uids;
-  3546		int err;
-  3547	
-  3548		if (check_multi_prog_type(prog))
-  3549			return -EINVAL;
-  3550	
-  3551		uids = u64_to_user_ptr(attr->link_create.tracing_multi.btf_ids);
-  3552		cnt = attr->link_create.tracing_multi.btf_ids_cnt;
-  3553	
-  3554		if (!cnt || !uids)
-  3555			return -EINVAL;
-  3556	
-  3557		ids = kvmalloc_array(cnt, sizeof(*ids), GFP_KERNEL);
-  3558		if (!ids)
-  3559			return -ENOMEM;
-  3560	
-  3561		if (copy_from_user(ids, uids, cnt * sizeof(*ids))) {
-  3562			err = -EFAULT;
-  3563			goto error;
-  3564		}
-  3565	
-  3566		link = kzalloc(struct_size(link, nodes, cnt), GFP_KERNEL);
-  3567		if (!link) {
-  3568			err = -ENOMEM;
-  3569			goto error;
-  3570		}
-  3571	
-  3572		bpf_link_init(&link->link, BPF_LINK_TYPE_TRACING_MULTI,
-  3573			      &bpf_tracing_multi_link_lops, prog);
-  3574		link->attach_type = prog->expected_attach_type;
-  3575	
-  3576		err = bpf_link_prime(&link->link, &link_primer);
-  3577		if (err)
-  3578			goto error;
-  3579	
-  3580		for (i = 0, j = 0; i < cnt; i++) {
-  3581			err = bpf_check_attach_target(NULL, prog, NULL, ids[i], &tgt_info);
-  3582			if (err)
-  3583				continue;
-  3584			ids[j++] = ids[i];
-  3585		}
-  3586	
-  3587		link->nodes_cnt = j;
-  3588	
-> 3589		err = bpf_trampoline_multi_attach(prog, ids, link);
+    10	
+  > 11	void rust_helper___mutex_init(struct mutex *mutex, const char *name,
 
 -- 
 0-DAY CI Kernel Test Service
