@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02911AAE3F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 11:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338731AB6F1;
+	Wed, 23 Oct 2024 12:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729684135; cv=none; b=s0TFw0jyDGIOtL+ISGJ3B+tFLcDxOUVMy0eDVw3O80sLj2vp6fnSSQIRATBCB2vTBP1rN9B9NPPm2GseERM0j5Duljgoe2zx4BAP14jbbfF/W1A0YR7V2WZSSd53kurGSc/l7CeTQUVxal8xJW1M5wS5iWJZclpFkJ2GiU2DW1Q=
+	t=1729685395; cv=none; b=KDwOGiM8Ue86ybLRP5QvT5rAem9OjlLXbi4pjhzyPwBBkIUPZfNFNBWG5mG1kNofVvfHRgM4priBAHvYL4Urcn2kZdqE23ftR0QPMkob701ToBiyrWWAKGh2gQ11Q/Pie0iu5pStChQfkQRumG3L4/rT+gXlqLrdgn4vPkc041o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729684135; c=relaxed/simple;
-	bh=M7eKdv95aVVVxR3IvuAXd69pq5auXaZTG4VRnDXqIxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RQI1c3WBZ7b+mamPtvt2Ar4m0XbE/hx3H9MF7F/QSxXF9GvuQCua1o8UboKB5JBtV68f+jt35oYniO1bwwzFWs2mjGmQ9eiBSO1F1jKOgOBfED4npDWjfTvv3J3Rw4YDjx99zv2qtlygZqHu/1sia0L996OaQO2bmpI0H9GOiTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZMi9knTY; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1729685395; c=relaxed/simple;
+	bh=6kj6BGenSC46bCxZoBZ/KzUyflxUD6U1Ai0wmuCiTQ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L3JzaTJ55sC7miUGkXywTqJQpSypTHe/6NVw4gdWsg+LmHqZhNDukbLhewpT3AxuB0Y+nGCjzayuiG17d6Ib+8XIh8Mv1qzQ85R3QMdBOcVNN/0Zqdsp3StBmzf4dc+zZXLY6K3rPzhB4ZkrsGLSq9ol5ggNbRKEtT2QCVDEpjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T4TrJn14; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZMi9knTY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T4TrJn14"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729684133; x=1761220133;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M7eKdv95aVVVxR3IvuAXd69pq5auXaZTG4VRnDXqIxU=;
-  b=ZMi9knTY8ctuWiO/Wz56fV/RN1iV2waThnqntih+Uc8vXQVfZoR+TRdW
-   0pSS2bET4X77ZeA/+ktpXEMwuwQpvwMXCrAgxbr991Le2QLnIFy8DijWV
-   zjm4+z7Jt06NtEOcu6dRrUYpDlhtxgq5juoU5SuRsZIMwcGHBgWNENc07
-   VTYyyC9AmpMpuYVNbleSnpxjho5D/KgsR/lMbbbnNxCUfpT+x3taNLPUT
-   oPJpWcXjbymwr5ehnyYzQQDOZ4gFmsmGYJRl5Ld91QWKPwshy15Ru79YR
-   TGS1VqagVBGA2KQZk/XxEyOe8RgQrZ+8Kh6+jwcnz4ldlghqpbAO+qj1j
-   Q==;
-X-CSE-ConnectionGUID: ZNrIW/TURlyttkI9f5T5SA==
-X-CSE-MsgGUID: MRNuarTZT8mLoO9H8iSyQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="54669108"
+  t=1729685394; x=1761221394;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6kj6BGenSC46bCxZoBZ/KzUyflxUD6U1Ai0wmuCiTQ4=;
+  b=T4TrJn14j/NecK89FiwQmLnlUxP9aLB+xhIuB7fsx57qk7jMFDSu570/
+   /QbE08+bXeRGUtrzvW/i8R1xYM/S0xrkJGiTeJUipVoQFn8npnInUs36J
+   0/jz30dpAfH+GrK7502b6OY+P/HGAQKhGeb/BkotQqwV1e4SCip3Jhx+N
+   y8oOAvpJco4c1Zxv4gIg+ay+Phiq1EY8uW6KpZivgNKHfmGR5J85veFyS
+   GrfQZr/IEqk9pKfPWbinbfV5djmYvdC2Iq6dm7czMqYrBrdNnakXuEWzv
+   nr8BmIbzZYXGphbNQW0pagqkEgho1+hDcUJqpKcZ3pPlRgjLH6iClHMHR
+   A==;
+X-CSE-ConnectionGUID: HsnY2FXdSDSiY66UYOlCtg==
+X-CSE-MsgGUID: TcouzDi8TcGU5INBy5nP8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="29376756"
 X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="54669108"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 04:48:50 -0700
-X-CSE-ConnectionGUID: YDvfa/R8QXyuu+fsgTGXFA==
-X-CSE-MsgGUID: FKtA3PCfTSWFHymPZTYKCQ==
+   d="scan'208";a="29376756"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 05:09:54 -0700
+X-CSE-ConnectionGUID: OS2OaXAFR1OqMcN3P32kEg==
+X-CSE-MsgGUID: 9oVqrhNlQq2/IC1iIecNEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="80358816"
+   d="scan'208";a="117651569"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 23 Oct 2024 04:48:48 -0700
+  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2024 05:09:51 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3Zr4-000UrY-1O;
-	Wed, 23 Oct 2024 11:48:46 +0000
-Date: Wed, 23 Oct 2024 19:48:45 +0800
+	id 1t3aBR-000Uso-0U;
+	Wed, 23 Oct 2024 12:09:49 +0000
+Date: Wed, 23 Oct 2024 20:09:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dirk Behme <dirk.behme@de.bosch.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>
-Subject: rust/helpers/mutex.c:11:6: sparse: sparse: symbol
- 'rust_helper___mutex_init' was not declared. Should it be static?
-Message-ID: <202410231939.DXitQG7R-lkp@intel.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>,
+	Jeff Johnson <jjohnson@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Kalle Valo <kvalo@kernel.org>, Kees Cook <kees@kernel.org>,
+	linux-hardening@vger.kernel.org, linux-wireless@vger.kernel.org,
+	lvc-project@linuxtesting.org, Dmitry Antipov <dmantipov@yandex.ru>
+Subject: Re: [PATCH 2/2] wifi: ath12k: annotate channel of struct
+ ath12k_wmi_scan_chan_list_arg with __counted_by
+Message-ID: <202410231916.Wjn5HeB6-lkp@intel.com>
+References: <20241021143419.587716-2-dmantipov@yandex.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +67,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241021143419.587716-2-dmantipov@yandex.ru>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: d065cc76054d21e48a839a2a19ba99dbc51a4d11 rust: mutex: fix __mutex_init() usage in case of PREEMPT_RT
-date:   4 weeks ago
-config: um-randconfig-r133-20241023 (https://download.01.org/0day-ci/archive/20241023/202410231939.DXitQG7R-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231939.DXitQG7R-lkp@intel.com/reproduce)
+Hi Dmitry,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ath/ath-next]
+[also build test ERROR on wireless-next/main wireless/main linus/master v6.12-rc4 next-20241022]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Antipov/wifi-ath12k-annotate-channel-of-struct-ath12k_wmi_scan_chan_list_arg-with-__counted_by/20241021-223544
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+patch link:    https://lore.kernel.org/r/20241021143419.587716-2-dmantipov%40yandex.ru
+patch subject: [PATCH 2/2] wifi: ath12k: annotate channel of struct ath12k_wmi_scan_chan_list_arg with __counted_by
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241023/202410231916.Wjn5HeB6-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231916.Wjn5HeB6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410231939.DXitQG7R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410231916.Wjn5HeB6-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
->> rust/helpers/mutex.c:11:6: sparse: sparse: symbol 'rust_helper___mutex_init' was not declared. Should it be static?
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/helpers.c: note: in included file:
-   rust/helpers/spinlock.c:16:6: sparse: sparse: context imbalance in 'rust_helper_spin_lock' - wrong count at exit
-   rust/helpers/spinlock.c:21:6: sparse: sparse: context imbalance in 'rust_helper_spin_unlock' - unexpected unlock
+All errors (new ones prefixed by >>):
 
-vim +/rust_helper___mutex_init +11 rust/helpers/mutex.c
+   In file included from drivers/net/wireless/ath/ath12k/core.c:12:
+   In file included from drivers/net/wireless/ath/ath12k/core.h:20:
+>> drivers/net/wireless/ath/ath12k/wmi.h:3749:55: error: use of undeclared identifier 'nallchains'; did you mean 'nallchans'?
+    3749 |         struct ath12k_wmi_channel_arg channel[] __counted_by(nallchains);
+         |                                                              ^~~~~~~~~~
+         |                                                              nallchans
+   include/linux/compiler_attributes.h:105:62: note: expanded from macro '__counted_by'
+     105 | # define __counted_by(member)           __attribute__((__counted_by__(member)))
+         |                                                                       ^
+   drivers/net/wireless/ath/ath12k/wmi.h:3748:6: note: 'nallchans' declared here
+    3748 |         u16 nallchans;
+         |             ^
+   1 error generated.
 
-    10	
-  > 11	void rust_helper___mutex_init(struct mutex *mutex, const char *name,
+
+vim +3749 drivers/net/wireless/ath/ath12k/wmi.h
+
+  3745	
+  3746	struct ath12k_wmi_scan_chan_list_arg {
+  3747		u32 pdev_id;
+  3748		u16 nallchans;
+> 3749		struct ath12k_wmi_channel_arg channel[] __counted_by(nallchains);
+  3750	};
+  3751	
 
 -- 
 0-DAY CI Kernel Test Service
