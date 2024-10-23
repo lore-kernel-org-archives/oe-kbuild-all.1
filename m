@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11FD142623;
-	Wed, 23 Oct 2024 06:35:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2A3154C04
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 07:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729665339; cv=none; b=ghQLBReTwo3DA43qInoVOZPcuIZVLA2zkPl+f0oOqj0VhsaffsHaVbtIwtzeFr7I4gj9Jq9FlEV1MsUVTIPnIFLMzl7VpAfzj+bfpKuUNfVYXdcz5YDUCucb/tC90vc4hYNE/CJU4wt/KdYXgsQydmdKBz88O83UgiL6uv9YQ44=
+	t=1729669098; cv=none; b=m3vqLCbKChGN3xeNJm+Guvc5A4GSKcFnnGq+bXgjCXPIvaadwIbsZ8es8mG+ARhmR7PofeEp7HA7GB3BqOJ/tGyULz8vWoiNvH1LWEd/SrDIdEyNMFWYzMyRaFKvT+A/2XXIuV0JFpB6jGIsgKAynY9V0cm9hWvXHZFtSii81h0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729665339; c=relaxed/simple;
-	bh=JCd5CSidKTxinXr/kmIB4aixmRXuKAiR+oKl2jOHSGg=;
+	s=arc-20240116; t=1729669098; c=relaxed/simple;
+	bh=nXPzMclz3nXaozUblDi+1q2LpZPAFo82Yk8wKHOx4RA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GtDxZOU/CUx3G2WNvxhKrQmXWrSmcPxOssBYD7SjCAujeYhaS74G+d3i1PUWdZeO4k8hoWfwAXh7FFfEpzZ/KfTeba/4PvorVsCZHU4UT7pZKO5MUCgr+3JsCh3ujpNnJvsrtHsJgPeJQ53N32MXuu0FMOWYZJJjgN4BWjI5eTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BaweMt1z; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=TYHgnVCSmriuT50XuA8BB4s103awq/8cp370/tG6+rUDzlGJWn4gAIByBkMkFtOp9rWTG3n3Ip+NsUwPwZE9vvKZfDOY3tZCvj3EEyU9uuHI9hA685sZNZiJQiynb7wrCYvx/eVQCf0k/+/Mjr+swGqM+KsnzzXna85n6E1xOvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tQ+AmG20; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BaweMt1z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729665337; x=1761201337;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JCd5CSidKTxinXr/kmIB4aixmRXuKAiR+oKl2jOHSGg=;
-  b=BaweMt1zaH2SZxgwBv7e1nr1WOaI4m1FSbq3qQwcVmGG4FKkUNMAnt3a
-   oG5VpgdEpGo6/WK3IQX3h3CS1w5iJGqbB5i6X+zGhIIl+YbkrdrX+NNxv
-   l/kciASmwQ/ovy5U5z3Prfkw6MqVrYM/OE/JRp1WUL97u8LKkCogWI7Fv
-   QN0zbU+Ghy/rQ4i09Mul8IecGlQYCaSxYnge4uen758pzqZH+Aa1e0xEE
-   XoTgVrxyDcJolXTd3EJOKCIYynu3PhGM00fMP9sSaaxLB2szqwRl7MwCz
-   0/Hb1Qfg7DsVMNuFroM1XWYF7vsbk1mCIA6F56kyGyES5XAkVVgNi+/18
-   g==;
-X-CSE-ConnectionGUID: W2vCJzQbRxOUSLUEPV3YEg==
-X-CSE-MsgGUID: KyJS4HHVQaOmLFKdVCBOdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29394926"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29394926"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 23:35:34 -0700
-X-CSE-ConnectionGUID: guZbrTsTQhmxgJ/PuOjO7g==
-X-CSE-MsgGUID: nPuuhLPKRwazOHhgL0cEDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="80903242"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 22 Oct 2024 23:35:33 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3Uxu-000UZQ-1F;
-	Wed, 23 Oct 2024 06:35:30 +0000
-Date: Wed, 23 Oct 2024 14:34:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:trampoline_multi_10 9/21] kernel/trace/ftrace.c:6001:
- warning: Function parameter or struct member 'hash' not described in
- 'unregister_ftrace_direct_hash'
-Message-ID: <202410231448.tshoLbjZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tQ+AmG20"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43162cf1eaaso67738365e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 00:38:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729669095; x=1730273895; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Izd4rZebQ7y8hQL9rGqqYb2xqbH/AuKR6LjqM8RIkOU=;
+        b=tQ+AmG20mVV5t0sttU8B9rYuExmus+amRjiE2M5nAFuaqVEbyFaSr890rAoupta9+J
+         zyXoX1gh29MNRKEixsh9688Tcqg++B0xVG1QtjloRwzoehvv4rH5kUPB4WCLWip4gVyM
+         k4jTeH+ObHc49a8qB9RqdR8XCY70EGxarUnT5O3PoT+KpE+4jjWheMF3I4QnDcmExQiW
+         fyl8H0LnEl+NpCR4vePT0e3hljfU4XosrwFcMJUVr7RYG/huq7a144Gmk2a4zoh0/IU8
+         HTwxiYiFfAtCQilpKDt/MJMw1bkLjKoC6L/QphTkk6bUCxW4cyTyUbJ6PzcKw/8EQCSl
+         DO8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729669095; x=1730273895;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Izd4rZebQ7y8hQL9rGqqYb2xqbH/AuKR6LjqM8RIkOU=;
+        b=UOpUwfYg4F8pz1LJ6t5tkAG9VG7rfIjDELdIoliR5n+8iszgHIy+tCDGV/CIMUBqFN
+         sS/IHVTtKKNp32ApBNccBLKDj/fBYCSIm6iosuVAdotum0ykIwt2CIRQe9eAZPjkRRAB
+         V+70vuQlwwrbSl5Z9Sa27hC3VftopVdTNllWdeKVVs9jXPsIlKmsvTNLZt4JfOfc0XD+
+         rIhmpfkE6QraIuxcKD0fa2ufjvv9G9PMkfXvHv2iPmqMBEoN7UtPl8BhXPGswn4bs6pV
+         2DUEuIEghDiDnQW0+G2lC81rJFPridLuoZ/XM7kxqM2ULewUtIj2HuOwqyCfKpo1ISmP
+         VE8w==
+X-Forwarded-Encrypted: i=1; AJvYcCXHTzdf6mprN2SGky+5EbuLpNk+oscw6xP+QePICMx0XODIuoSJayp/EZigoXi25RtdMfbtFCImm1cp76wq@lists.linux.dev
+X-Gm-Message-State: AOJu0YxaNqlSoY6tcU9ad1dW1IXVf6sGsRZNsc1h91ZwxO4yoyflOQlW
+	gNlHRRqHF/oFV+KJUnM4cQAumXRrw/Q9j2DQrDREUv0+gR19VG4o/Vq3l8w/Hok=
+X-Google-Smtp-Source: AGHT+IGVfOx2MFMafq++3ld4fk//SAc9KA8h9Cp96SGBaQB1n47UMGfxDyD9GlwfkRyJYxaS8onAXQ==
+X-Received: by 2002:adf:f7c2:0:b0:37d:5318:bf0a with SMTP id ffacd0b85a97d-37efcee59ffmr1250154f8f.1.1729669094492;
+        Wed, 23 Oct 2024 00:38:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b943fasm8288253f8f.69.2024.10.23.00.38.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 00:38:13 -0700 (PDT)
+Date: Wed, 23 Oct 2024 10:38:10 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Lu Baolu <baolu.lu@linux.intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Lyude Paul <lyude@redhat.com>
+Subject: drivers/gpu/drm/tegra/drm.c:1155 host1x_drm_probe() warn:
+ 'tegra->domain' is an error pointer or valid
+Message-ID: <0671f92b-915d-4089-acbc-81249f3423fe@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,118 +67,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git trampoline_multi_10
-head:   48132820c5a21b82d1a4507a86a67b3742fb110e
-commit: 122145c00eae844a9c5f48a3c5604554a8b9a377 [9/21] ftrace: Add unregister_ftrace_direct_hash function
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241023/202410231448.tshoLbjZ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231448.tshoLbjZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 45c690aea8ee5b7d012cd593bd288540a4bfdbf0 drm/tegra: Use iommu_paging_domain_alloc()
+config: arc-randconfig-r073-20241023 (https://download.01.org/0day-ci/archive/20241023/202410231515.U2XBsu6b-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410231448.tshoLbjZ-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410231515.U2XBsu6b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/tegra/drm.c:1155 host1x_drm_probe() warn: 'tegra->domain' is an error pointer or valid
 
-   kernel/trace/ftrace.c:5887: warning: Function parameter or struct member 'hash' not described in 'register_ftrace_direct_hash'
-   kernel/trace/ftrace.c:5887: warning: expecting prototype for register_ftrace_direct(). Prototype was for register_ftrace_direct_hash() instead
->> kernel/trace/ftrace.c:6001: warning: Function parameter or struct member 'hash' not described in 'unregister_ftrace_direct_hash'
->> kernel/trace/ftrace.c:6001: warning: expecting prototype for unregister_ftrace_direct(). Prototype was for unregister_ftrace_direct_hash() instead
+vim +1155 drivers/gpu/drm/tegra/drm.c
 
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1136  static int host1x_drm_probe(struct host1x_device *dev)
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1137  {
+45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1138  	struct device *dma_dev = dev->dev.parent;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1139  	struct tegra_drm *tegra;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1140  	struct drm_device *drm;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1141  	int err;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1142  
+70a59dd82959f8 drivers/gpu/drm/tegra/drm.c  Daniel Vetter     2020-11-04  1143  	drm = drm_dev_alloc(&tegra_drm_driver, &dev->dev);
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1144  	if (IS_ERR(drm))
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1145  		return PTR_ERR(drm);
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1146  
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1147  	tegra = kzalloc(sizeof(*tegra), GFP_KERNEL);
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1148  	if (!tegra) {
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1149  		err = -ENOMEM;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1150  		goto put;
+2d9384ff91770a drivers/gpu/drm/tegra/drm.c  Thierry Reding    2020-02-04  1151  	}
+fa6661b7aa0b52 drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1152  
+45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1153  	if (host1x_drm_wants_iommu(dev) && device_iommu_mapped(dma_dev)) {
+45c690aea8ee5b drivers/gpu/drm/tegra/drm.c  Lu Baolu          2024-09-02  1154  		tegra->domain = iommu_paging_domain_alloc(dma_dev);
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28 @1155  		if (!tegra->domain) {
 
-vim +6001 kernel/trace/ftrace.c
+I already sent a patch for this a month back:
+https://lore.kernel.org/all/ba31cf3a-af3d-4ff1-87a8-f05aaf8c780b@stanley.mountain/
 
-5081acd5f53163 Jiri Olsa         2024-10-14  5982  
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5983  /**
-da8bdfbd422333 Florent Revest    2023-03-21  5984   * unregister_ftrace_direct - Remove calls to custom trampoline
-da8bdfbd422333 Florent Revest    2023-03-21  5985   * previously registered by register_ftrace_direct for @ops object.
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5986   * @ops: The address of the struct ftrace_ops object
-c488fe4b50d896 Jiri Olsa         2024-09-30  5987   * @ip: The address of the function to attach
-9b5a45eb639c46 Marilene A Garcia 2024-06-06  5988   * @addr: The address of the direct function that is called by the @ops functions
-9b5a45eb639c46 Marilene A Garcia 2024-06-06  5989   * @free_filters: Set to true to remove all filters for the ftrace_ops, false otherwise
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5990   *
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5991   * This is used to remove a direct calls to @addr from the nop locations
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5992   * of the functions registered in @ops (with by ftrace_set_filter_ip
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5993   * function).
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5994   *
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5995   * Returns:
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5996   *  0 on success
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5997   *  -EINVAL - The @ops object was not properly registered.
-f64dd4627ec6ed Jiri Olsa         2021-10-08  5998   */
-122145c00eae84 Jiri Olsa         2024-10-14  5999  int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash,
-59495740f79524 Florent Revest    2023-03-21  6000  				  bool free_filters)
-f64dd4627ec6ed Jiri Olsa         2021-10-08 @6001  {
-122145c00eae84 Jiri Olsa         2024-10-14  6002  	struct ftrace_func_entry *del, *entry;
-c488fe4b50d896 Jiri Olsa         2024-09-30  6003  	struct ftrace_hash *new_hash = NULL;
-122145c00eae84 Jiri Olsa         2024-10-14  6004  	unsigned long size, i;
-c488fe4b50d896 Jiri Olsa         2024-09-30  6005  	int err = -EINVAL;
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6006  
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6007  	if (check_direct_multi(ops))
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6008  		return -EINVAL;
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6009  	if (!(ops->flags & FTRACE_OPS_FL_ENABLED))
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6010  		return -EINVAL;
-c488fe4b50d896 Jiri Olsa         2024-09-30  6011  	if (direct_functions == EMPTY_HASH)
-c488fe4b50d896 Jiri Olsa         2024-09-30  6012  		return -EINVAL;
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6013  
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6014  	mutex_lock(&direct_mutex);
-c488fe4b50d896 Jiri Olsa         2024-09-30  6015  
-122145c00eae84 Jiri Olsa         2024-10-14  6016  	/* Make sure requested entries are already registered.. */
-122145c00eae84 Jiri Olsa         2024-10-14  6017  	size = 1 << hash->size_bits;
-122145c00eae84 Jiri Olsa         2024-10-14  6018  	for (i = 0; i < size; i++) {
-122145c00eae84 Jiri Olsa         2024-10-14  6019  		hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-122145c00eae84 Jiri Olsa         2024-10-14  6020  			del = __ftrace_lookup_ip(direct_functions, entry->ip);
-122145c00eae84 Jiri Olsa         2024-10-14  6021  			if (!del || del->direct != entry->direct)
-c488fe4b50d896 Jiri Olsa         2024-09-30  6022  				goto out_unlock;
-122145c00eae84 Jiri Olsa         2024-10-14  6023  		}
-122145c00eae84 Jiri Olsa         2024-10-14  6024  	}
-c488fe4b50d896 Jiri Olsa         2024-09-30  6025  
-c488fe4b50d896 Jiri Olsa         2024-09-30  6026  	new_hash = alloc_and_copy_ftrace_hash(FTRACE_HASH_DEFAULT_BITS, direct_functions);
-c488fe4b50d896 Jiri Olsa         2024-09-30  6027  	if (!new_hash)
-c488fe4b50d896 Jiri Olsa         2024-09-30  6028  		goto out_unlock;
-c488fe4b50d896 Jiri Olsa         2024-09-30  6029  
-122145c00eae84 Jiri Olsa         2024-10-14  6030  	for (i = 0; i < size; i++) {
-122145c00eae84 Jiri Olsa         2024-10-14  6031  		hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-122145c00eae84 Jiri Olsa         2024-10-14  6032  			del = __ftrace_lookup_ip(new_hash, entry->ip);
-122145c00eae84 Jiri Olsa         2024-10-14  6033  			remove_hash_entry(new_hash, del);
-122145c00eae84 Jiri Olsa         2024-10-14  6034  			kfree(del);
-122145c00eae84 Jiri Olsa         2024-10-14  6035  		}
-122145c00eae84 Jiri Olsa         2024-10-14  6036  	}
-c488fe4b50d896 Jiri Olsa         2024-09-30  6037  
-c488fe4b50d896 Jiri Olsa         2024-09-30  6038  	if (ftrace_hash_empty(new_hash)) {
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6039  		err = unregister_ftrace_function(ops);
-c488fe4b50d896 Jiri Olsa         2024-09-30  6040  		ftrace_free_filter(ops);
-c488fe4b50d896 Jiri Olsa         2024-09-30  6041  	} else {
-c488fe4b50d896 Jiri Olsa         2024-09-30  6042  		err = ftrace_update_ops(ops, new_hash, EMPTY_HASH);
-c488fe4b50d896 Jiri Olsa         2024-09-30  6043  	}
-c488fe4b50d896 Jiri Olsa         2024-09-30  6044  
-c488fe4b50d896 Jiri Olsa         2024-09-30  6045  	free_ftrace_hash(new_hash);
-fea3ffa48c6d42 Jiri Olsa         2021-12-06  6046  
-c488fe4b50d896 Jiri Olsa         2024-09-30  6047  	if (!err) {
-122145c00eae84 Jiri Olsa         2024-10-14  6048  		for (i = 0; i < size; i++) {
-122145c00eae84 Jiri Olsa         2024-10-14  6049  			hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
-122145c00eae84 Jiri Olsa         2024-10-14  6050  				del = __ftrace_lookup_ip(direct_functions, entry->ip);
-122145c00eae84 Jiri Olsa         2024-10-14  6051  				remove_hash_entry(direct_functions, del);
-122145c00eae84 Jiri Olsa         2024-10-14  6052  				kfree(del);
-122145c00eae84 Jiri Olsa         2024-10-14  6053  			}
-122145c00eae84 Jiri Olsa         2024-10-14  6054  		}
-c488fe4b50d896 Jiri Olsa         2024-09-30  6055  	}
-59495740f79524 Florent Revest    2023-03-21  6056  
-c488fe4b50d896 Jiri Olsa         2024-09-30  6057   out_unlock:
-c488fe4b50d896 Jiri Olsa         2024-09-30  6058  	mutex_unlock(&direct_mutex);
-59495740f79524 Florent Revest    2023-03-21  6059  	if (free_filters)
-59495740f79524 Florent Revest    2023-03-21  6060  		ftrace_free_filter(ops);
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6061  	return err;
-f64dd4627ec6ed Jiri Olsa         2021-10-08  6062  }
-da8bdfbd422333 Florent Revest    2023-03-21  6063  EXPORT_SYMBOL_GPL(unregister_ftrace_direct);
-ccf5a89efd6f0a Jiri Olsa         2021-10-08  6064  
-
-:::::: The code at line 6001 was first introduced by commit
-:::::: f64dd4627ec6edc39bf1430fe6dbc923d2300a88 ftrace: Add multi direct register/unregister interface
-
-:::::: TO: Jiri Olsa <jolsa@redhat.com>
-:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1156  			err = -ENOMEM;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1157  			goto free;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1158  		}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1159  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1160  		err = iova_cache_get();
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1161  		if (err < 0)
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1162  			goto domain;
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1163  	}
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1164  
+a7303f7735717c drivers/gpu/drm/tegra/drm.c  Thierry Reding    2019-10-28  1165  	mutex_init(&tegra->clients_lock);
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
