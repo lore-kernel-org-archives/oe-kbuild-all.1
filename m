@@ -1,63 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3674113AA2B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 20:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2FC1E2611
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 20:54:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729716859; cv=none; b=bPvgW1B2MnqxftlsvPIycLMjA2BcMB+conf7H9lQIN5Qkgelewe7+jZJDa/3Ww3CGk3ldPtEF6Fi7hk7Ry/fsLEe2Q6alh8gFgVdAJONECsKMPPkcEtNTvWLun7wp43RFRGcTZWZOdc5OkV/MI7mghyzsqJ9JvTASAkHmjfzzCg=
+	t=1729716860; cv=none; b=Zt4wTYgvmhMx2OiOFn32Eh9pQKiDZlN7gFsnbCTthNZ1l4QmetKNwZlw/lHy+4nRPGPKrNt5RjhyPFbeD/ncNOAwdcGOhO/AZfVyLOMqOmshGlDomLb37s4zdVMPqbt20tZ1TUU7lSKc0XEh49N5N8Lg/WvRJ/H5Scl94/n+2Y0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729716859; c=relaxed/simple;
-	bh=W4YzhFK1Av6LmMfuQvFPl4iIpOl2UiEbxEMPC2Q0tDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A8HdIQAhL/GtSqD5g5MLxyf8OVIWo9WFCkaMl53B5V/YdotNTMWsCZHdDViUD0Zr0J4pckxCAwigUpbDul2UeADhowrFk7836BzK85myMO9Py7ydbV0H50kIghP+Txwf/M+TdjparBG+JRUTR1t6ZLKaaX2+wT49PQHCAjsdmE4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nPspkYZn; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1729716860; c=relaxed/simple;
+	bh=0ZJH1tg6Y1edCRrqp9Sf6DHWEh8mb9yux+PSI5k4boY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OlgQ0n8mvTG4JhvxtIXFn32Iki83KUOecMmfdahJ59C4ki2rTCz53bZnTBnejb7DNBP5S3xfQZMblzFmmtDEtpCPJP4MPX0iJ+DBOkKw1oFi/5UCKSSKHKm9BoNTDqT9gqFMYeCWaBkK5kJvw+hr8T+EoL+0xr6QLqy8Ncj2qoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXv8bIUK; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nPspkYZn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXv8bIUK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729716857; x=1761252857;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W4YzhFK1Av6LmMfuQvFPl4iIpOl2UiEbxEMPC2Q0tDg=;
-  b=nPspkYZnZfkbnP/Hr3koG65ubcVOwHjsZhp7VNLXbmoYzyp1x65AHX7/
-   +2IQMJWEhYZuR6ve0/Y8oCXy6Kk1lmUtk0z75vWoR6KbmhXx69ft4iIYu
-   E2hEct3mocCxdDasDeBuJN95i2whzI6wwIrS/s3Wx8oE5N69GTOdrBXqQ
-   2hdSc9PI/Zb4Ur9Wdn+Y7V/zQtQHpjGi2Oa6F9ZiNkxiswFj8DFQ1F70c
-   LIELBJO0bpekUbY3iQnKSsJQqf++6BqpszxZqF8XDjph96DIysGn4gunb
-   GRDxa82M0r86xe3aS8+0vg66mi3eCG5wBx2y1h4awRhIrSTvmYcCh0chx
-   w==;
-X-CSE-ConnectionGUID: g6rGMSGdRia24hpOinTuwA==
-X-CSE-MsgGUID: IpFPG6c8QI2qeu0glGC8lQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29489444"
+  t=1729716859; x=1761252859;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0ZJH1tg6Y1edCRrqp9Sf6DHWEh8mb9yux+PSI5k4boY=;
+  b=RXv8bIUKvGLtDERR7MKLg9eFWubbJM/OEf+cqY8cQLxVW6PMFF/p8tA/
+   rPT/NIDl5bYz5r2mGJ8OfjD716SF/TIzlThs6l4RFnlcZnVQ7Pn+RevQK
+   9bqHPx/FK6vJmpSYfjnNSZ2MK8D+hPcpX7dkcR+DaLxsmDszvnvds5/nx
+   Dfp/p+LPPcwzquDhnWTtsIUjD0tYFPCHa6BYOrX+g3aM6/HqVNRKqGv8F
+   VvOkGvBhmTyff8gvm4bB857np2nk1qRGY1au4cZI92WfM6ZhOXO9MjW38
+   h+AS6ZZ/xNMq0OjMWwCITwcDyhGb93FstWRbjyFBVb6atPhtnvROwyXJC
+   Q==;
+X-CSE-ConnectionGUID: LQm4tSuFRByovHw5YIE5kQ==
+X-CSE-MsgGUID: FPKIqQ/SRFSyQlDYhAFgkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29489447"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29489444"
+   d="scan'208";a="29489447"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 13:54:17 -0700
-X-CSE-ConnectionGUID: lsgeIvwXQjyA5GngevnSmA==
-X-CSE-MsgGUID: M3231IwfTDi6BOm3EaJf7Q==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 13:54:19 -0700
+X-CSE-ConnectionGUID: MKv2nNyiQKCvJu/RCWVqSQ==
+X-CSE-MsgGUID: 3drdinVSRfmhXjb2/4zFKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,227,1725346800"; 
-   d="scan'208";a="80691795"
+   d="scan'208";a="80691801"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 23 Oct 2024 13:54:13 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3iMs-000VYQ-31;
-	Wed, 23 Oct 2024 20:54:10 +0000
-Date: Thu, 24 Oct 2024 04:53:15 +0800
+	id 1t3iMt-000VYU-01;
+	Wed, 23 Oct 2024 20:54:11 +0000
+Date: Thu, 24 Oct 2024 04:53:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 6945/13046]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:721:43: warning:
- 'hclge_dbg_tqp_reg' defined but not used
-Message-ID: <202410240416.BVbVUSco-lkp@intel.com>
+To: Daniel Machon <daniel.machon@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	andrew@lunn.ch, Lars Povlsen <lars.povlsen@microchip.com>,
+	Steen Hegelund <Steen.Hegelund@microchip.com>,
+	horatiu.vultur@microchip.com,
+	jensemil.schulzostergaard@microchip.com,
+	Parthiban.Veerasooran@microchip.com, Raju.Lakkaraju@microchip.com,
+	UNGLinuxDriver@microchip.com,
+	Richard Cochran <richardcochran@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, jacob.e.keller@intel.com,
+	ast@fiberby.net, maxime.chevallier@bootlin.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 06/15] net: lan969x: add match data for lan969x
+Message-ID: <202410240405.kPh7im63-lkp@intel.com>
+References: <20241021-sparx5-lan969x-switch-driver-2-v1-6-c8c49ef21e0f@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,158 +78,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241021-sparx5-lan969x-switch-driver-2-v1-6-c8c49ef21e0f@microchip.com>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: 80e44dd85d0746f2749a9fec5466eb9a4f2a1d9a [6945/13046] net: hns3: dump more reg info based on ras mod
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241024/202410240416.BVbVUSco-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240416.BVbVUSco-lkp@intel.com/reproduce)
+Hi Daniel,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 30d9d8f6a2d7e44a9f91737dd409dbc87ac6f6b7]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Machon/net-sparx5-add-support-for-lan969x-SKU-s-and-core-clock/20241021-220557
+base:   30d9d8f6a2d7e44a9f91737dd409dbc87ac6f6b7
+patch link:    https://lore.kernel.org/r/20241021-sparx5-lan969x-switch-driver-2-v1-6-c8c49ef21e0f%40microchip.com
+patch subject: [PATCH net-next 06/15] net: lan969x: add match data for lan969x
+config: arm64-randconfig-002-20241024 (https://download.01.org/0day-ci/archive/20241024/202410240405.kPh7im63-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240405.kPh7im63-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410240416.BVbVUSco-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410240405.kPh7im63-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_err.h:8,
-                    from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:26:
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:721:43: warning: 'hclge_dbg_tqp_reg' defined but not used [-Wunused-const-variable=]
-     721 | static const struct hclge_dbg_dfx_message hclge_dbg_tqp_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:649:43: warning: 'hclge_dbg_rcb_reg' defined but not used [-Wunused-const-variable=]
-     649 | static const struct hclge_dbg_dfx_message hclge_dbg_rcb_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:493:43: warning: 'hclge_dbg_ppp_reg' defined but not used [-Wunused-const-variable=]
-     493 | static const struct hclge_dbg_dfx_message hclge_dbg_ppp_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:463:43: warning: 'hclge_dbg_rtc_reg' defined but not used [-Wunused-const-variable=]
-     463 | static const struct hclge_dbg_dfx_message hclge_dbg_rtc_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:391:43: warning: 'hclge_dbg_ncsi_reg' defined but not used [-Wunused-const-variable=]
-     391 | static const struct hclge_dbg_dfx_message hclge_dbg_ncsi_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:375:43: warning: 'hclge_dbg_rpu_reg_1' defined but not used [-Wunused-const-variable=]
-     375 | static const struct hclge_dbg_dfx_message hclge_dbg_rpu_reg_1[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:366:43: warning: 'hclge_dbg_rpu_reg_0' defined but not used [-Wunused-const-variable=]
-     366 | static const struct hclge_dbg_dfx_message hclge_dbg_rpu_reg_0[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:301:43: warning: 'hclge_dbg_igu_egu_reg' defined but not used [-Wunused-const-variable=]
-     301 | static const struct hclge_dbg_dfx_message hclge_dbg_igu_egu_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:292:43: warning: 'hclge_dbg_ssu_reg_2' defined but not used [-Wunused-const-variable=]
-     292 | static const struct hclge_dbg_dfx_message hclge_dbg_ssu_reg_2[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:185:43: warning: 'hclge_dbg_ssu_reg_1' defined but not used [-Wunused-const-variable=]
-     185 | static const struct hclge_dbg_dfx_message hclge_dbg_ssu_reg_1[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:113:43: warning: 'hclge_dbg_ssu_reg_0' defined but not used [-Wunused-const-variable=]
-     113 | static const struct hclge_dbg_dfx_message hclge_dbg_ssu_reg_0[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h:97:43: warning: 'hclge_dbg_bios_common_reg' defined but not used [-Wunused-const-variable=]
-      97 | static const struct hclge_dbg_dfx_message hclge_dbg_bios_common_reg[] = {
-         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/microchip/sparx5/sparx5_fdma.c: In function 'sparx5_fdma_rx_get_frame':
+>> drivers/net/ethernet/microchip/sparx5/sparx5_fdma.c:178:20: error: 'struct sk_buff' has no member named 'offload_fwd_mark'
+     178 |                 skb->offload_fwd_mark = 1;
+         |                    ^~
+--
+   drivers/net/ethernet/microchip/sparx5/sparx5_packet.c: In function 'sparx5_xtr_grp':
+>> drivers/net/ethernet/microchip/sparx5/sparx5_packet.c:154:20: error: 'struct sk_buff' has no member named 'offload_fwd_mark'
+     154 |                 skb->offload_fwd_mark = 1;
+         |                    ^~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SPARX5_SWITCH
+   Depends on [n]: NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y] && NET_SWITCHDEV [=n] && HAS_IOMEM [=y] && OF [=y] && (ARCH_SPARX5 [=y] || COMPILE_TEST [=y]) && PTP_1588_CLOCK_OPTIONAL [=m] && (BRIDGE [=m] || BRIDGE [=m]=n [=n])
+   Selected by [m]:
+   - LAN969X_SWITCH [=m] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y]
 
 
-vim +/hclge_dbg_tqp_reg +721 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_debugfs.h
+vim +178 drivers/net/ethernet/microchip/sparx5/sparx5_fdma.c
 
-27cf979a15841e liuzhongzhu      2018-12-15  648  
-e4b9146849f246 Rikard Falkeborn 2020-09-22 @649  static const struct hclge_dbg_dfx_message hclge_dbg_rcb_reg[] = {
-27cf979a15841e liuzhongzhu      2018-12-15  650  	{false, "Reserved"},
-27cf979a15841e liuzhongzhu      2018-12-15  651  	{true,	"FSM_DFX_ST0"},
-27cf979a15841e liuzhongzhu      2018-12-15  652  	{true,	"FSM_DFX_ST1"},
-27cf979a15841e liuzhongzhu      2018-12-15  653  	{true,	"FSM_DFX_ST2"},
-27cf979a15841e liuzhongzhu      2018-12-15  654  	{true,	"FIFO_DFX_ST0"},
-27cf979a15841e liuzhongzhu      2018-12-15  655  	{true,	"FIFO_DFX_ST1"},
-27cf979a15841e liuzhongzhu      2018-12-15  656  
-27cf979a15841e liuzhongzhu      2018-12-15  657  	{true,	"FIFO_DFX_ST2"},
-27cf979a15841e liuzhongzhu      2018-12-15  658  	{true,	"FIFO_DFX_ST3"},
-27cf979a15841e liuzhongzhu      2018-12-15  659  	{true,	"FIFO_DFX_ST4"},
-27cf979a15841e liuzhongzhu      2018-12-15  660  	{true,	"FIFO_DFX_ST5"},
-27cf979a15841e liuzhongzhu      2018-12-15  661  	{true,	"FIFO_DFX_ST6"},
-27cf979a15841e liuzhongzhu      2018-12-15  662  	{true,	"FIFO_DFX_ST7"},
-27cf979a15841e liuzhongzhu      2018-12-15  663  
-27cf979a15841e liuzhongzhu      2018-12-15  664  	{true,	"FIFO_DFX_ST8"},
-27cf979a15841e liuzhongzhu      2018-12-15  665  	{true,	"FIFO_DFX_ST9"},
-27cf979a15841e liuzhongzhu      2018-12-15  666  	{true,	"FIFO_DFX_ST10"},
-27cf979a15841e liuzhongzhu      2018-12-15  667  	{true,	"FIFO_DFX_ST11"},
-27cf979a15841e liuzhongzhu      2018-12-15  668  	{true,	"Q_CREDIT_VLD_0"},
-27cf979a15841e liuzhongzhu      2018-12-15  669  	{true,	"Q_CREDIT_VLD_1"},
-27cf979a15841e liuzhongzhu      2018-12-15  670  
-27cf979a15841e liuzhongzhu      2018-12-15  671  	{true,	"Q_CREDIT_VLD_2"},
-27cf979a15841e liuzhongzhu      2018-12-15  672  	{true,	"Q_CREDIT_VLD_3"},
-27cf979a15841e liuzhongzhu      2018-12-15  673  	{true,	"Q_CREDIT_VLD_4"},
-27cf979a15841e liuzhongzhu      2018-12-15  674  	{true,	"Q_CREDIT_VLD_5"},
-27cf979a15841e liuzhongzhu      2018-12-15  675  	{true,	"Q_CREDIT_VLD_6"},
-27cf979a15841e liuzhongzhu      2018-12-15  676  	{true,	"Q_CREDIT_VLD_7"},
-27cf979a15841e liuzhongzhu      2018-12-15  677  
-27cf979a15841e liuzhongzhu      2018-12-15  678  	{true,	"Q_CREDIT_VLD_8"},
-27cf979a15841e liuzhongzhu      2018-12-15  679  	{true,	"Q_CREDIT_VLD_9"},
-27cf979a15841e liuzhongzhu      2018-12-15  680  	{true,	"Q_CREDIT_VLD_10"},
-27cf979a15841e liuzhongzhu      2018-12-15  681  	{true,	"Q_CREDIT_VLD_11"},
-27cf979a15841e liuzhongzhu      2018-12-15  682  	{true,	"Q_CREDIT_VLD_12"},
-27cf979a15841e liuzhongzhu      2018-12-15  683  	{true,	"Q_CREDIT_VLD_13"},
-27cf979a15841e liuzhongzhu      2018-12-15  684  
-27cf979a15841e liuzhongzhu      2018-12-15  685  	{true,	"Q_CREDIT_VLD_14"},
-27cf979a15841e liuzhongzhu      2018-12-15  686  	{true,	"Q_CREDIT_VLD_15"},
-27cf979a15841e liuzhongzhu      2018-12-15  687  	{true,	"Q_CREDIT_VLD_16"},
-27cf979a15841e liuzhongzhu      2018-12-15  688  	{true,	"Q_CREDIT_VLD_17"},
-27cf979a15841e liuzhongzhu      2018-12-15  689  	{true,	"Q_CREDIT_VLD_18"},
-27cf979a15841e liuzhongzhu      2018-12-15  690  	{true,	"Q_CREDIT_VLD_19"},
-27cf979a15841e liuzhongzhu      2018-12-15  691  
-27cf979a15841e liuzhongzhu      2018-12-15  692  	{true,	"Q_CREDIT_VLD_20"},
-27cf979a15841e liuzhongzhu      2018-12-15  693  	{true,	"Q_CREDIT_VLD_21"},
-27cf979a15841e liuzhongzhu      2018-12-15  694  	{true,	"Q_CREDIT_VLD_22"},
-27cf979a15841e liuzhongzhu      2018-12-15  695  	{true,	"Q_CREDIT_VLD_23"},
-27cf979a15841e liuzhongzhu      2018-12-15  696  	{true,	"Q_CREDIT_VLD_24"},
-27cf979a15841e liuzhongzhu      2018-12-15  697  	{true,	"Q_CREDIT_VLD_25"},
-27cf979a15841e liuzhongzhu      2018-12-15  698  
-27cf979a15841e liuzhongzhu      2018-12-15  699  	{true,	"Q_CREDIT_VLD_26"},
-27cf979a15841e liuzhongzhu      2018-12-15  700  	{true,	"Q_CREDIT_VLD_27"},
-27cf979a15841e liuzhongzhu      2018-12-15  701  	{true,	"Q_CREDIT_VLD_28"},
-27cf979a15841e liuzhongzhu      2018-12-15  702  	{true,	"Q_CREDIT_VLD_29"},
-27cf979a15841e liuzhongzhu      2018-12-15  703  	{true,	"Q_CREDIT_VLD_30"},
-27cf979a15841e liuzhongzhu      2018-12-15  704  	{true,	"Q_CREDIT_VLD_31"},
-27cf979a15841e liuzhongzhu      2018-12-15  705  
-27cf979a15841e liuzhongzhu      2018-12-15  706  	{true,	"GRO_BD_SERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  707  	{true,	"GRO_CONTEXT_SERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  708  	{true,	"RX_STASH_CFG_SERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  709  	{true,	"AXI_RD_FBD_SERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  710  	{true,	"GRO_BD_MERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  711  	{true,	"GRO_CONTEXT_MERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  712  
-27cf979a15841e liuzhongzhu      2018-12-15  713  	{true,	"RX_STASH_CFG_MERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  714  	{true,	"AXI_RD_FBD_MERR_CNT"},
-27cf979a15841e liuzhongzhu      2018-12-15  715  	{false, "Reserved"},
-27cf979a15841e liuzhongzhu      2018-12-15  716  	{false, "Reserved"},
-27cf979a15841e liuzhongzhu      2018-12-15  717  	{false, "Reserved"},
-27cf979a15841e liuzhongzhu      2018-12-15  718  	{false, "Reserved"},
-27cf979a15841e liuzhongzhu      2018-12-15  719  };
-27cf979a15841e liuzhongzhu      2018-12-15  720  
-e4b9146849f246 Rikard Falkeborn 2020-09-22 @721  static const struct hclge_dbg_dfx_message hclge_dbg_tqp_reg[] = {
-27cf979a15841e liuzhongzhu      2018-12-15  722  	{true, "q_num"},
-27cf979a15841e liuzhongzhu      2018-12-15  723  	{true, "RCB_CFG_RX_RING_TAIL"},
-27cf979a15841e liuzhongzhu      2018-12-15  724  	{true, "RCB_CFG_RX_RING_HEAD"},
-27cf979a15841e liuzhongzhu      2018-12-15  725  	{true, "RCB_CFG_RX_RING_FBDNUM"},
-27cf979a15841e liuzhongzhu      2018-12-15  726  	{true, "RCB_CFG_RX_RING_OFFSET"},
-27cf979a15841e liuzhongzhu      2018-12-15  727  	{true, "RCB_CFG_RX_RING_FBDOFFSET"},
-27cf979a15841e liuzhongzhu      2018-12-15  728  
-27cf979a15841e liuzhongzhu      2018-12-15  729  	{true, "RCB_CFG_RX_RING_PKTNUM_RECORD"},
-27cf979a15841e liuzhongzhu      2018-12-15  730  	{true, "RCB_CFG_TX_RING_TAIL"},
-27cf979a15841e liuzhongzhu      2018-12-15  731  	{true, "RCB_CFG_TX_RING_HEAD"},
-27cf979a15841e liuzhongzhu      2018-12-15  732  	{true, "RCB_CFG_TX_RING_FBDNUM"},
-27cf979a15841e liuzhongzhu      2018-12-15  733  	{true, "RCB_CFG_TX_RING_OFFSET"},
-27cf979a15841e liuzhongzhu      2018-12-15  734  	{true, "RCB_CFG_TX_RING_EBDNUM"},
-27cf979a15841e liuzhongzhu      2018-12-15  735  };
-27cf979a15841e liuzhongzhu      2018-12-15  736  
-
-:::::: The code at line 721 was first introduced by commit
-:::::: e4b9146849f246e77da4787657a3a95c1b6d2833 net: hns3: Constify static structs
-
-:::::: TO: Rikard Falkeborn <rikard.falkeborn@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+10615907e9b51c Steen Hegelund 2021-08-19  141  
+10615907e9b51c Steen Hegelund 2021-08-19  142  static bool sparx5_fdma_rx_get_frame(struct sparx5 *sparx5, struct sparx5_rx *rx)
+10615907e9b51c Steen Hegelund 2021-08-19  143  {
+e8218f7a9f4425 Daniel Machon  2024-09-02  144  	struct fdma *fdma = &rx->fdma;
+10615907e9b51c Steen Hegelund 2021-08-19  145  	struct sparx5_port *port;
+8fec1cea941d32 Daniel Machon  2024-09-02  146  	struct fdma_db *db_hw;
+10615907e9b51c Steen Hegelund 2021-08-19  147  	struct frame_info fi;
+10615907e9b51c Steen Hegelund 2021-08-19  148  	struct sk_buff *skb;
+10615907e9b51c Steen Hegelund 2021-08-19  149  
+10615907e9b51c Steen Hegelund 2021-08-19  150  	/* Check if the DCB is done */
+4ff58c394715ee Daniel Machon  2024-09-02  151  	db_hw = fdma_db_next_get(fdma);
+4ff58c394715ee Daniel Machon  2024-09-02  152  	if (unlikely(!fdma_db_is_done(db_hw)))
+10615907e9b51c Steen Hegelund 2021-08-19  153  		return false;
+e8218f7a9f4425 Daniel Machon  2024-09-02  154  	skb = rx->skb[fdma->dcb_index][fdma->db_index];
+4ff58c394715ee Daniel Machon  2024-09-02  155  	skb_put(skb, fdma_db_len_get(db_hw));
+10615907e9b51c Steen Hegelund 2021-08-19  156  	/* Now do the normal processing of the skb */
+aa7dfc6611fae2 Daniel Machon  2024-10-21  157  	sparx5_ifh_parse(sparx5, (u32 *)skb->data, &fi);
+10615907e9b51c Steen Hegelund 2021-08-19  158  	/* Map to port netdev */
+3f9e46347a466a Daniel Machon  2024-10-04  159  	port = fi.src_port < sparx5->data->consts->n_ports ?
+3f9e46347a466a Daniel Machon  2024-10-04  160  		       sparx5->ports[fi.src_port] :
+3f9e46347a466a Daniel Machon  2024-10-04  161  		       NULL;
+10615907e9b51c Steen Hegelund 2021-08-19  162  	if (!port || !port->ndev) {
+10615907e9b51c Steen Hegelund 2021-08-19  163  		dev_err(sparx5->dev, "Data on inactive port %d\n", fi.src_port);
+10615907e9b51c Steen Hegelund 2021-08-19  164  		sparx5_xtr_flush(sparx5, XTR_QUEUE);
+10615907e9b51c Steen Hegelund 2021-08-19  165  		return false;
+10615907e9b51c Steen Hegelund 2021-08-19  166  	}
+10615907e9b51c Steen Hegelund 2021-08-19  167  	skb->dev = port->ndev;
+10615907e9b51c Steen Hegelund 2021-08-19  168  	skb_pull(skb, IFH_LEN * sizeof(u32));
+10615907e9b51c Steen Hegelund 2021-08-19  169  	if (likely(!(skb->dev->features & NETIF_F_RXFCS)))
+10615907e9b51c Steen Hegelund 2021-08-19  170  		skb_trim(skb, skb->len - ETH_FCS_LEN);
+70dfe25cd8666d Horatiu Vultur 2022-03-04  171  
+70dfe25cd8666d Horatiu Vultur 2022-03-04  172  	sparx5_ptp_rxtstamp(sparx5, skb, fi.timestamp);
+10615907e9b51c Steen Hegelund 2021-08-19  173  	skb->protocol = eth_type_trans(skb, skb->dev);
+10615907e9b51c Steen Hegelund 2021-08-19  174  	/* Everything we see on an interface that is in the HW bridge
+10615907e9b51c Steen Hegelund 2021-08-19  175  	 * has already been forwarded
+10615907e9b51c Steen Hegelund 2021-08-19  176  	 */
+10615907e9b51c Steen Hegelund 2021-08-19  177  	if (test_bit(port->portno, sparx5->bridge_mask))
+10615907e9b51c Steen Hegelund 2021-08-19 @178  		skb->offload_fwd_mark = 1;
+10615907e9b51c Steen Hegelund 2021-08-19  179  	skb->dev->stats.rx_bytes += skb->len;
+10615907e9b51c Steen Hegelund 2021-08-19  180  	skb->dev->stats.rx_packets++;
+10615907e9b51c Steen Hegelund 2021-08-19  181  	rx->packets++;
+10615907e9b51c Steen Hegelund 2021-08-19  182  	netif_receive_skb(skb);
+10615907e9b51c Steen Hegelund 2021-08-19  183  	return true;
+10615907e9b51c Steen Hegelund 2021-08-19  184  }
+10615907e9b51c Steen Hegelund 2021-08-19  185  
 
 -- 
 0-DAY CI Kernel Test Service
