@@ -1,77 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBCD7339A8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 01:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FC2381B9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 01:53:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729647204; cv=none; b=sqDIaeFfGUoNu7gyWV6cPKmVRjUQ91sJndbdt1PxC8+U0rUe6gqp3RltuR7occMj+zcONg0/BRbg72hKl1ZnZswLfQCi3Q8WwiaTLPfJl4oDg5pXjKCYVEYa2OKp5mMhCw3ZN473uIoZUHqY9RMGqOkhydUQiPl0rPqeWrt+5Nk=
+	t=1729648404; cv=none; b=kqP3MiHdM3G6GDHSChPKDExpqs80FYWS6sW64ZtE2jkrppbXDWrQRHXSPXJezfizQAfCDugZKrOxRMp5NROGxvzFKqaLsyNmNR/XQ8tzp117zmyrAcBL7bCVZqMzCQGuY5d03/BV0dC2tvXtE/08Z/1Se1mdvNvwLk56CaKPvBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729647204; c=relaxed/simple;
-	bh=XRoAf6X2HyEqZxmQMc4DBFsVl4VgzjUS4h7DQliqcC8=;
+	s=arc-20240116; t=1729648404; c=relaxed/simple;
+	bh=etsXsaSJkfi6ykKki7PupjthMRYjma2o0HVhuLjg5gs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FEuVMoOvDx67vHMpTTSDbFmYwdV2qepaZnwQulDn1Hb4hC/sQzeBC79gB5Meol6ekWF3UHQn/yAx5DhcrTLGkECbPIq5NLu5IDFSoQdqeI3ELU7sotsetXyj2xmsnTnpeDXR5qfXT4V2NpOmmWclPv1t4ohEMNfFIEsJ3xuQ2ss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R+PCe2ow; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=jiRuwZwln4x3SJGOmLW1DVkwf5lt0RBNkibVHv2qzsNOdrV+cGHJoiQg8eg1coIlKYNy79GyGskWYKd4+SSyQKSGyOzv0OzbfpyZuhpvmI4rqVyoGXKP7eo+NSlXPXEJ5Cnokh4rvDPjDPTM0I0t38JHzo7a4emabqcuDLnWArw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqqRpl2G; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R+PCe2ow"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqqRpl2G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729647203; x=1761183203;
+  t=1729648402; x=1761184402;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XRoAf6X2HyEqZxmQMc4DBFsVl4VgzjUS4h7DQliqcC8=;
-  b=R+PCe2owkva4+zSiSqRC3097pavFR9RFFkLg5mPw0B/2NWC46BIwsBSV
-   Ha/ZFxlARl/MLSREs0inhvNYXPSQyeuXConCINhkHjEnO7GZaTwgHNpYX
-   nlz//2uUKfNQSU9KxSafkRhJmWxxVrbFeRZfxnvno5thmeecMN/2WhITC
-   SXUyDar9IefOv2p/nqgZw5rvwtGr4hzWo4eBGct5X7g384UPCfRqkeYt1
-   CJbPDs/iS6SVCuRtb2LQkkoGO8rPmzJMHlntfMFK1GjapPaqVwCZnso6r
-   rGj+2D9NHcogg6QmFLA50l6eSZY9rG9yvly4/xngPKNzfu9SwYFkWqyDh
+  bh=etsXsaSJkfi6ykKki7PupjthMRYjma2o0HVhuLjg5gs=;
+  b=SqqRpl2Gu9GnZtqIGlBLzZkwWCG/+yynI7pCzy3du++8mT7vJzYlzh69
+   HTdLOZeixSYKV7Flw2Uc0FjHl15m7MpqqzvYwx4yCA/lhDrAFfATztl4x
+   s8pm7qh+N9k1wBEmiCY8X54i80lyDdz7juB/bGH/E6hCyNLPF96uPJEJj
+   fAfcg+3AKAGT1T9+gO0kDramRHhXtuV378qr7rU+AOX5Wg4F2Diqi9Vu2
+   e0VsZpnGXJFFlkU4k2cCGjbICwyyguxHkTNzdCj2Qb5xAtWMGsbGXXe+b
+   +bQUlc1woOXjVMyOjfZSDMMC6ELWjsC9JVctUIUPirVSwxJsyvrUhiykw
    Q==;
-X-CSE-ConnectionGUID: ZnbdVLk/ToOS915hHGeBmg==
-X-CSE-MsgGUID: D+kVhB+8SyqDlk75sZEwhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="40586853"
+X-CSE-ConnectionGUID: vQDujfgwT+20gQKaTK23NQ==
+X-CSE-MsgGUID: DrajQxP0Q2iQrHM0Hpb3Jg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="29444000"
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="40586853"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 18:33:22 -0700
-X-CSE-ConnectionGUID: CFYRJcb6TlSCw5Cngg1KKA==
-X-CSE-MsgGUID: aDemVyNTRCi/J/CTKuvRgA==
+   d="scan'208";a="29444000"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 18:53:22 -0700
+X-CSE-ConnectionGUID: 1rUas4VXTvCndk6pYVkyDQ==
+X-CSE-MsgGUID: kJjo80jtRDidq+9fhhITJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="80233140"
+   d="scan'208";a="80460390"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Oct 2024 18:33:16 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2024 18:53:18 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3QFN-000UK6-39;
-	Wed, 23 Oct 2024 01:33:13 +0000
-Date: Wed, 23 Oct 2024 09:32:44 +0800
+	id 1t3QYl-000UL8-1V;
+	Wed, 23 Oct 2024 01:53:15 +0000
+Date: Wed, 23 Oct 2024 09:53:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Machon <daniel.machon@microchip.com>,
-	"David S. Miller" <davem@davemloft.net>,
+To: Marek Vasut <marex@denx.de>, linux-wireless@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Marek Vasut <marex@denx.de>,
+	Adham Abozaeid <adham.abozaeid@microchip.com>,
+	Ajay Singh <ajay.kathat@microchip.com>,
+	Alexis =?iso-8859-1?Q?Lothor=E9?= <alexis.lothore@bootlin.com>,
+	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	andrew@lunn.ch, Lars Povlsen <lars.povlsen@microchip.com>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	horatiu.vultur@microchip.com,
-	jensemil.schulzostergaard@microchip.com,
-	Parthiban.Veerasooran@microchip.com, Raju.Lakkaraju@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	Richard Cochran <richardcochran@gmail.com>,
-	Rob Herring <robh@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, jacob.e.keller@intel.com,
-	ast@fiberby.net, maxime.chevallier@bootlin.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 06/15] net: lan969x: add match data for lan969x
-Message-ID: <202410230843.lGLDpveC-lkp@intel.com>
-References: <20241021-sparx5-lan969x-switch-driver-2-v1-6-c8c49ef21e0f@microchip.com>
+	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
+	devicetree@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH] wifi: wilc1000: Rework bus locking
+Message-ID: <202410230937.zWSJkSuE-lkp@intel.com>
+References: <20241022013855.284783-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,32 +72,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021-sparx5-lan969x-switch-driver-2-v1-6-c8c49ef21e0f@microchip.com>
+In-Reply-To: <20241022013855.284783-1-marex@denx.de>
 
-Hi Daniel,
+Hi Marek,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 30d9d8f6a2d7e44a9f91737dd409dbc87ac6f6b7]
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on next-20241022]
+[cannot apply to wireless/main linus/master v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Machon/net-sparx5-add-support-for-lan969x-SKU-s-and-core-clock/20241021-220557
-base:   30d9d8f6a2d7e44a9f91737dd409dbc87ac6f6b7
-patch link:    https://lore.kernel.org/r/20241021-sparx5-lan969x-switch-driver-2-v1-6-c8c49ef21e0f%40microchip.com
-patch subject: [PATCH net-next 06/15] net: lan969x: add match data for lan969x
-config: nios2-kismet-CONFIG_SPARX5_SWITCH-CONFIG_LAN969X_SWITCH-0-0 (https://download.01.org/0day-ci/archive/20241023/202410230843.lGLDpveC-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241023/202410230843.lGLDpveC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/wifi-wilc1000-Rework-bus-locking/20241022-093954
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20241022013855.284783-1-marex%40denx.de
+patch subject: [PATCH] wifi: wilc1000: Rework bus locking
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241023/202410230937.zWSJkSuE-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410230937.zWSJkSuE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410230843.lGLDpveC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410230937.zWSJkSuE-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SPARX5_SWITCH when selected by LAN969X_SWITCH
-   WARNING: unmet direct dependencies detected for SPARX5_SWITCH
-     Depends on [n]: NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y] && NET_SWITCHDEV [=n] && HAS_IOMEM [=y] && OF [=y] && (ARCH_SPARX5 || COMPILE_TEST [=n]) && PTP_1588_CLOCK_OPTIONAL [=y] && (BRIDGE [=n] || BRIDGE [=n]=n [=n])
-     Selected by [y]:
-     - LAN969X_SWITCH [=y] && NETDEVICES [=y] && ETHERNET [=y] && NET_VENDOR_MICROCHIP [=y]
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/notifier.h:14,
+                    from include/linux/clk.h:14,
+                    from drivers/net/wireless/microchip/wilc1000/spi.c:7:
+   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_claim':
+>> drivers/net/wireless/microchip/wilc1000/spi.c:1113:25: error: 'struct wilc' has no member named 'hif_cs'
+    1113 |         mutex_lock(&wilc->hif_cs);
+         |                         ^~
+   include/linux/mutex.h:166:44: note: in definition of macro 'mutex_lock'
+     166 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                                            ^~~~
+   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_release':
+   drivers/net/wireless/microchip/wilc1000/spi.c:1118:27: error: 'struct wilc' has no member named 'hif_cs'
+    1118 |         mutex_unlock(&wilc->hif_cs);
+         |                           ^~
+   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_deinit':
+   drivers/net/wireless/microchip/wilc1000/spi.c:1147:28: error: 'struct wilc' has no member named 'hif_cs'
+    1147 |         mutex_destroy(&wilc->hif_cs);
+         |                            ^~
+   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_init':
+>> drivers/net/wireless/microchip/wilc1000/spi.c:1156:21: error: 'spi' undeclared (first use in this function)
+    1156 |         mutex_init(&spi->hif_cs);
+         |                     ^~~
+   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
+   drivers/net/wireless/microchip/wilc1000/spi.c:1156:21: note: each undeclared identifier is reported only once for each function it appears in
+    1156 |         mutex_init(&spi->hif_cs);
+         |                     ^~~
+   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
+      64 |         __mutex_init((mutex), #mutex, &__key);                          \
+         |                       ^~~~~
+   drivers/net/wireless/microchip/wilc1000/spi.c: At top level:
+>> drivers/net/wireless/microchip/wilc1000/spi.c:1116:13: warning: 'wilc_spi_release' defined but not used [-Wunused-function]
+    1116 | static void wilc_spi_release(struct wilc *wilc)
+         |             ^~~~~~~~~~~~~~~~
+>> drivers/net/wireless/microchip/wilc1000/spi.c:1111:13: warning: 'wilc_spi_claim' defined but not used [-Wunused-function]
+    1111 | static void wilc_spi_claim(struct wilc *wilc)
+         |             ^~~~~~~~~~~~~~
+
+
+vim +1113 drivers/net/wireless/microchip/wilc1000/spi.c
+
+  1105	
+  1106	/********************************************
+  1107	 *
+  1108	 *      Bus interfaces
+  1109	 *
+  1110	 ********************************************/
+> 1111	static void wilc_spi_claim(struct wilc *wilc)
+  1112	{
+> 1113		mutex_lock(&wilc->hif_cs);
+  1114	}
+  1115	
+> 1116	static void wilc_spi_release(struct wilc *wilc)
+  1117	{
+  1118		mutex_unlock(&wilc->hif_cs);
+  1119	}
+  1120	
+  1121	static int wilc_spi_reset(struct wilc *wilc)
+  1122	{
+  1123		struct spi_device *spi = to_spi_device(wilc->dev);
+  1124		struct wilc_spi *spi_priv = wilc->bus_data;
+  1125		int result;
+  1126	
+  1127		result = wilc_spi_special_cmd(wilc, CMD_RESET);
+  1128		if (result && !spi_priv->probing_crc)
+  1129			dev_err(&spi->dev, "Failed cmd reset\n");
+  1130	
+  1131		return result;
+  1132	}
+  1133	
+  1134	static bool wilc_spi_is_init(struct wilc *wilc)
+  1135	{
+  1136		struct wilc_spi *spi_priv = wilc->bus_data;
+  1137	
+  1138		return spi_priv->isinit;
+  1139	}
+  1140	
+  1141	static int wilc_spi_deinit(struct wilc *wilc)
+  1142	{
+  1143		struct wilc_spi *spi_priv = wilc->bus_data;
+  1144	
+  1145		spi_priv->isinit = false;
+  1146		wilc_wlan_power(wilc, false);
+  1147		mutex_destroy(&wilc->hif_cs);
+  1148		return 0;
+  1149	}
+  1150	
+  1151	static int wilc_spi_init(struct wilc *wilc, bool resume)
+  1152	{
+  1153		struct wilc_spi *spi_priv = wilc->bus_data;
+  1154		int ret;
+  1155	
+> 1156		mutex_init(&spi->hif_cs);
+  1157	
+  1158		if (spi_priv->isinit) {
+  1159			/* Confirm we can read chipid register without error: */
+  1160			if (wilc_validate_chipid(wilc) == 0)
+  1161				return 0;
+  1162		}
+  1163	
+  1164		wilc_wlan_power(wilc, true);
+  1165	
+  1166		ret = wilc_spi_configure_bus_protocol(wilc);
+  1167		if (ret) {
+  1168			wilc_wlan_power(wilc, false);
+  1169			return ret;
+  1170		}
+  1171	
+  1172		spi_priv->isinit = true;
+  1173	
+  1174		return 0;
+  1175	}
+  1176	
 
 -- 
 0-DAY CI Kernel Test Service
