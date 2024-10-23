@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FC2381B9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 01:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A84661FE9;
+	Wed, 23 Oct 2024 02:04:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729648404; cv=none; b=kqP3MiHdM3G6GDHSChPKDExpqs80FYWS6sW64ZtE2jkrppbXDWrQRHXSPXJezfizQAfCDugZKrOxRMp5NROGxvzFKqaLsyNmNR/XQ8tzp117zmyrAcBL7bCVZqMzCQGuY5d03/BV0dC2tvXtE/08Z/1Se1mdvNvwLk56CaKPvBw=
+	t=1729649062; cv=none; b=aWeZyhcXx1y0aFr6/v6a1LPFRJJy2pJFdcuncl7gvipjgXGXUy1FfoJURu0L4RB1EB0H3GFrAsdIClj2GiuHzF4pqegHA/E4xO1Z/c2IWQjJlpTKF84Ih8c2kZBbyCNt9pbGRVSB890+GctYN68zrlGKIF17Ogpv0/r6opidCS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729648404; c=relaxed/simple;
-	bh=etsXsaSJkfi6ykKki7PupjthMRYjma2o0HVhuLjg5gs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jiRuwZwln4x3SJGOmLW1DVkwf5lt0RBNkibVHv2qzsNOdrV+cGHJoiQg8eg1coIlKYNy79GyGskWYKd4+SSyQKSGyOzv0OzbfpyZuhpvmI4rqVyoGXKP7eo+NSlXPXEJ5Cnokh4rvDPjDPTM0I0t38JHzo7a4emabqcuDLnWArw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqqRpl2G; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1729649062; c=relaxed/simple;
+	bh=VZtPWwAnDnUOpZZFl5UEeMy6a7Ay3ailL7WqcSORjQE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=smHVHH4fCAT16VG0H6t/apu9qLm675BgfrQqDup2aFyP1tiOm7bc2v6sNjnQqTeQOAwa3Hxi/R9cAmgV9ixRFkD6IKv7ntO7eUtojkBlAwTYAwHxryNXqT4ZMGXInGLDNl7unDXFsSk/cf2UgofJ9C8hn8D15n6c+44MaUdTR5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AFw5ssya; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqqRpl2G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AFw5ssya"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729648402; x=1761184402;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=etsXsaSJkfi6ykKki7PupjthMRYjma2o0HVhuLjg5gs=;
-  b=SqqRpl2Gu9GnZtqIGlBLzZkwWCG/+yynI7pCzy3du++8mT7vJzYlzh69
-   HTdLOZeixSYKV7Flw2Uc0FjHl15m7MpqqzvYwx4yCA/lhDrAFfATztl4x
-   s8pm7qh+N9k1wBEmiCY8X54i80lyDdz7juB/bGH/E6hCyNLPF96uPJEJj
-   fAfcg+3AKAGT1T9+gO0kDramRHhXtuV378qr7rU+AOX5Wg4F2Diqi9Vu2
-   e0VsZpnGXJFFlkU4k2cCGjbICwyyguxHkTNzdCj2Qb5xAtWMGsbGXXe+b
-   +bQUlc1woOXjVMyOjfZSDMMC6ELWjsC9JVctUIUPirVSwxJsyvrUhiykw
-   Q==;
-X-CSE-ConnectionGUID: vQDujfgwT+20gQKaTK23NQ==
-X-CSE-MsgGUID: DrajQxP0Q2iQrHM0Hpb3Jg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="29444000"
+  t=1729649060; x=1761185060;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VZtPWwAnDnUOpZZFl5UEeMy6a7Ay3ailL7WqcSORjQE=;
+  b=AFw5ssyavutKAVX2o1Ps94FXivgXRvX/S2LiQqiYHq1x76H4L8FJk7tK
+   sUaMkLpzat8PQ6+K35XIV0pd4Z5LeMHbqamQXXpucW6JphbmeaX+BBdzP
+   ukUPZcD5csHLyhM9/me5MVNfSxAI0AoikKAyGE4vYJxa3VV/ZJTArGjCY
+   +hXF6mHfrVZ512vkbGoulkooZ2cDZiA38N1zyi9QeoEKS+79EPeiLT9AW
+   KzcmTDYitkfA9AAjjxbrWPm14HoSb1faVsGnZXvf5jmkNy7sLuut+s4Tb
+   pSNb7k93IaLTuU5SC1IyQwAJgGd6DHqKXd0PRhenpfa8tczH6c/sArfZ/
+   A==;
+X-CSE-ConnectionGUID: ACFt6wvcSfCo8fePPqr+Bw==
+X-CSE-MsgGUID: 24TJB9ZrSzGxIwHmAmc63w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="28681180"
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="29444000"
+   d="scan'208";a="28681180"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 18:53:22 -0700
-X-CSE-ConnectionGUID: 1rUas4VXTvCndk6pYVkyDQ==
-X-CSE-MsgGUID: kJjo80jtRDidq+9fhhITJg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2024 19:04:19 -0700
+X-CSE-ConnectionGUID: IenJ2A+GQtGbki1oFmk3Gw==
+X-CSE-MsgGUID: d6eSH1oCTJSX4Z/bmYeNDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,223,1725346800"; 
-   d="scan'208";a="80460390"
+   d="scan'208";a="80463774"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2024 18:53:18 -0700
+  by orviesa007.jf.intel.com with ESMTP; 22 Oct 2024 19:04:18 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3QYl-000UL8-1V;
-	Wed, 23 Oct 2024 01:53:15 +0000
-Date: Wed, 23 Oct 2024 09:53:14 +0800
+	id 1t3QjP-000ULg-2w;
+	Wed, 23 Oct 2024 02:04:15 +0000
+Date: Wed, 23 Oct 2024 10:03:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marex@denx.de>, linux-wireless@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Marek Vasut <marex@denx.de>,
-	Adham Abozaeid <adham.abozaeid@microchip.com>,
-	Ajay Singh <ajay.kathat@microchip.com>,
-	Alexis =?iso-8859-1?Q?Lothor=E9?= <alexis.lothore@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-	devicetree@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH] wifi: wilc1000: Rework bus locking
-Message-ID: <202410230937.zWSJkSuE-lkp@intel.com>
-References: <20241022013855.284783-1-marex@denx.de>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:dma-split-wip 11/26] mm/hmm.c:642:12: error: no member
+ named 'dma_skip_sync' in 'struct device'
+Message-ID: <202410230948.5HQG0Vem-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,148 +61,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241022013855.284783-1-marex@denx.de>
 
-Hi Marek,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on next-20241022]
-[cannot apply to wireless/main linus/master v6.12-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/wifi-wilc1000-Rework-bus-locking/20241022-093954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20241022013855.284783-1-marex%40denx.de
-patch subject: [PATCH] wifi: wilc1000: Rework bus locking
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241023/202410230937.zWSJkSuE-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410230937.zWSJkSuE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-wip
+head:   c651d2118e26e1ac43db75c53cc4b4a51c41984b
+commit: 8beafe484c79bce5de4807d390d93250449fecee [11/26] mm/hmm: generalize managing PFN and DMA lists
+config: i386-buildonly-randconfig-002-20241023 (https://download.01.org/0day-ci/archive/20241023/202410230948.5HQG0Vem-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410230948.5HQG0Vem-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410230937.zWSJkSuE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410230948.5HQG0Vem-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/notifier.h:14,
-                    from include/linux/clk.h:14,
-                    from drivers/net/wireless/microchip/wilc1000/spi.c:7:
-   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_claim':
->> drivers/net/wireless/microchip/wilc1000/spi.c:1113:25: error: 'struct wilc' has no member named 'hif_cs'
-    1113 |         mutex_lock(&wilc->hif_cs);
-         |                         ^~
-   include/linux/mutex.h:166:44: note: in definition of macro 'mutex_lock'
-     166 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-         |                                            ^~~~
-   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_release':
-   drivers/net/wireless/microchip/wilc1000/spi.c:1118:27: error: 'struct wilc' has no member named 'hif_cs'
-    1118 |         mutex_unlock(&wilc->hif_cs);
-         |                           ^~
-   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_deinit':
-   drivers/net/wireless/microchip/wilc1000/spi.c:1147:28: error: 'struct wilc' has no member named 'hif_cs'
-    1147 |         mutex_destroy(&wilc->hif_cs);
-         |                            ^~
-   drivers/net/wireless/microchip/wilc1000/spi.c: In function 'wilc_spi_init':
->> drivers/net/wireless/microchip/wilc1000/spi.c:1156:21: error: 'spi' undeclared (first use in this function)
-    1156 |         mutex_init(&spi->hif_cs);
-         |                     ^~~
-   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
-      64 |         __mutex_init((mutex), #mutex, &__key);                          \
-         |                       ^~~~~
-   drivers/net/wireless/microchip/wilc1000/spi.c:1156:21: note: each undeclared identifier is reported only once for each function it appears in
-    1156 |         mutex_init(&spi->hif_cs);
-         |                     ^~~
-   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
-      64 |         __mutex_init((mutex), #mutex, &__key);                          \
-         |                       ^~~~~
-   drivers/net/wireless/microchip/wilc1000/spi.c: At top level:
->> drivers/net/wireless/microchip/wilc1000/spi.c:1116:13: warning: 'wilc_spi_release' defined but not used [-Wunused-function]
-    1116 | static void wilc_spi_release(struct wilc *wilc)
-         |             ^~~~~~~~~~~~~~~~
->> drivers/net/wireless/microchip/wilc1000/spi.c:1111:13: warning: 'wilc_spi_claim' defined but not used [-Wunused-function]
-    1111 | static void wilc_spi_claim(struct wilc *wilc)
-         |             ^~~~~~~~~~~~~~
+>> mm/hmm.c:642:12: error: no member named 'dma_skip_sync' in 'struct device'
+     642 |         if (!dev->dma_skip_sync || dma_addressing_limited(dev))
+         |              ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                    ^~~~
+>> mm/hmm.c:642:12: error: no member named 'dma_skip_sync' in 'struct device'
+     642 |         if (!dev->dma_skip_sync || dma_addressing_limited(dev))
+         |              ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                             ^~~~
+>> mm/hmm.c:642:12: error: no member named 'dma_skip_sync' in 'struct device'
+     642 |         if (!dev->dma_skip_sync || dma_addressing_limited(dev))
+         |              ~~~  ^
+   include/linux/compiler.h:55:47: note: expanded from macro 'if'
+      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+         |                                               ^~~~
+   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
+      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
+         |                                                                                      ^~~~
+   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
+      68 |         (cond) ?                                        \
+         |          ^~~~
+   3 errors generated.
 
 
-vim +1113 drivers/net/wireless/microchip/wilc1000/spi.c
+vim +642 mm/hmm.c
 
-  1105	
-  1106	/********************************************
-  1107	 *
-  1108	 *      Bus interfaces
-  1109	 *
-  1110	 ********************************************/
-> 1111	static void wilc_spi_claim(struct wilc *wilc)
-  1112	{
-> 1113		mutex_lock(&wilc->hif_cs);
-  1114	}
-  1115	
-> 1116	static void wilc_spi_release(struct wilc *wilc)
-  1117	{
-  1118		mutex_unlock(&wilc->hif_cs);
-  1119	}
-  1120	
-  1121	static int wilc_spi_reset(struct wilc *wilc)
-  1122	{
-  1123		struct spi_device *spi = to_spi_device(wilc->dev);
-  1124		struct wilc_spi *spi_priv = wilc->bus_data;
-  1125		int result;
-  1126	
-  1127		result = wilc_spi_special_cmd(wilc, CMD_RESET);
-  1128		if (result && !spi_priv->probing_crc)
-  1129			dev_err(&spi->dev, "Failed cmd reset\n");
-  1130	
-  1131		return result;
-  1132	}
-  1133	
-  1134	static bool wilc_spi_is_init(struct wilc *wilc)
-  1135	{
-  1136		struct wilc_spi *spi_priv = wilc->bus_data;
-  1137	
-  1138		return spi_priv->isinit;
-  1139	}
-  1140	
-  1141	static int wilc_spi_deinit(struct wilc *wilc)
-  1142	{
-  1143		struct wilc_spi *spi_priv = wilc->bus_data;
-  1144	
-  1145		spi_priv->isinit = false;
-  1146		wilc_wlan_power(wilc, false);
-  1147		mutex_destroy(&wilc->hif_cs);
-  1148		return 0;
-  1149	}
-  1150	
-  1151	static int wilc_spi_init(struct wilc *wilc, bool resume)
-  1152	{
-  1153		struct wilc_spi *spi_priv = wilc->bus_data;
-  1154		int ret;
-  1155	
-> 1156		mutex_init(&spi->hif_cs);
-  1157	
-  1158		if (spi_priv->isinit) {
-  1159			/* Confirm we can read chipid register without error: */
-  1160			if (wilc_validate_chipid(wilc) == 0)
-  1161				return 0;
-  1162		}
-  1163	
-  1164		wilc_wlan_power(wilc, true);
-  1165	
-  1166		ret = wilc_spi_configure_bus_protocol(wilc);
-  1167		if (ret) {
-  1168			wilc_wlan_power(wilc, false);
-  1169			return ret;
-  1170		}
-  1171	
-  1172		spi_priv->isinit = true;
-  1173	
-  1174		return 0;
-  1175	}
-  1176	
+   618	
+   619	/**
+   620	 * hmm_map_alloc - Allocate HMM map structure
+   621	 * @dev: device to allocate structure for
+   622	 * @map: HMM map to allocate
+   623	 * @nr_entries: number of entries in the map
+   624	 * @dma_entry_size: size of the DMA entry in the map
+   625	 *
+   626	 * Allocate the HMM map structure and all the lists it contains.
+   627	 * Return 0 on success, -ENOMEM on failure.
+   628	 */
+   629	int hmm_map_alloc(struct device *dev, struct hmm_map *map, size_t nr_entries,
+   630			  size_t dma_entry_size)
+   631	{
+   632		bool use_iova;
+   633	
+   634		if (!(nr_entries * PAGE_SIZE / dma_entry_size))
+   635			return -EINVAL;
+   636	
+   637		/*
+   638		 * The HMM API violates our normal DMA buffer ownership rules and can't
+   639		 * transfer buffer ownership.  The dma_addressing_limited() check is a
+   640		 * best approximation to ensure no swiotlb buffering happens.
+   641		 */
+ > 642		if (!dev->dma_skip_sync || dma_addressing_limited(dev))
+   643			return -EOPNOTSUPP;
+   644	
+   645		map->dma_entry_size = dma_entry_size;
+   646		map->pfn_list =
+   647			kvcalloc(nr_entries, sizeof(*map->pfn_list), GFP_KERNEL);
+   648		if (!map->pfn_list)
+   649			return -ENOMEM;
+   650	
+   651		use_iova = dma_iova_try_alloc(dev, &map->state, 0,
+   652				nr_entries * PAGE_SIZE);
+   653		if (!use_iova && dma_need_unmap(dev)) {
+   654			map->dma_list = kvcalloc(nr_entries, sizeof(*map->dma_list),
+   655						 GFP_KERNEL);
+   656			if (!map->dma_list)
+   657				goto err_dma;
+   658		}
+   659		return 0;
+   660	
+   661	err_dma:
+   662		kfree(map->pfn_list);
+   663		return -ENOMEM;
+   664	}
+   665	EXPORT_SYMBOL_GPL(hmm_map_alloc);
+   666	
 
 -- 
 0-DAY CI Kernel Test Service
