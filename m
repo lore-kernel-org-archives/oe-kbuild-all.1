@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8840216F8E5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 23:48:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F029B1553AB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 23:59:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729727307; cv=none; b=DFNpPuYqIL6OWxGNvxDjC1Hn3DL6nLw4HJJ6r2UZs51Z/KuY7SywoB6s8jbTMxiudxutzSF7ZcUQFznNxo+jyds67BLSx0iWnXf3O7lrfikOA+sxPF63BmW8i5q9ridBPbbvZ+y+xqVvzynqPq8sHt/QXmbcLxcWTIWCyZ8lmNI=
+	t=1729727967; cv=none; b=tkKfPfagr9ybGPobVHnLF1kzbQBT6mr03oT0lXXeUbgZal7QR8N7krGxVAnLmdS0/w/na859KR2cC/555qP37PZW7tr/r7dJ5EKHsAt8DBa6LOg0UaoQ/BscIp5BqW23df+suFZM16TfKALj6x5zXFQJjIkG/0e60k1il3+lVMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729727307; c=relaxed/simple;
-	bh=y63XEFdjY+TcJNmOtHzbIKOQO821oraPpluJZsLd+Tw=;
+	s=arc-20240116; t=1729727967; c=relaxed/simple;
+	bh=VBGce5OnJLMW+mTNNeh6DdUZuWmw5dnJpVoUZHKMWq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a5w9dKdlcy9tnGfNPk+GwzHlzF7jawoUEcz2WGEMJTGBMilLT8DSmp4o3tsmZRCcgNp3MZQSzGJl/b7SJuioyY4oxL0/tbkZM5R0POLko3aodq9ExjWYmVXjDM5ocG7KwAuQ828a9fsE+hIls9EiwBpciXyZTRIFC4PFAvB9Kb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZCyS/74r; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=OA4roS/y6hQEWMavY1wcH3WHyn8F1hBE65i6UXK9JYKCZKwXNbGKborGAwYnWefkGad5Dq9Br7KiQ3f5Fy607+JGDqzfaptnWGyqIL/dqJ7kAgI6S7b8UnK8vSLEsVy+wRfhGK2VbaCCC2rO/cDWssB8V9nsTcTfJvwt5Dx33oE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHti5Rwi; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZCyS/74r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHti5Rwi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729727305; x=1761263305;
+  t=1729727965; x=1761263965;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y63XEFdjY+TcJNmOtHzbIKOQO821oraPpluJZsLd+Tw=;
-  b=ZCyS/74rh0Pi36rFue8WZm983zLkmj9m3sCMq2TOeTZ9VRiTagqCvVar
-   6LiWeH+A94d6e8VZYIcPRX5LuZgFN5W95U4LH3nezNFoojbNpq6DrC94a
-   3siCMlGuWu6cmMCPRP7PxQOPyNPXHAgLF5BZE/B3cMOyEDvz+ZGSMGvho
-   bebqBRbS/52gJrHd5A79LDl2eEbZ4DCv1idl4PHjrPQEK85XuhpWu7xrQ
-   ugd0jHQGGoGAHlkBRILcdJEAJs00iPYB0OK1/nRQ2HB6Nxhu9YB31a9wc
-   ntP0hTQ0p97uSan2ObylHzpbo1V15pVKhGw+SzCGncCwJAEi24o2nUK3m
-   w==;
-X-CSE-ConnectionGUID: x8KNKj8mTReFae8szzs8TQ==
-X-CSE-MsgGUID: oQmLzKgGST6uFH+ZYdMTIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="51882457"
+  bh=VBGce5OnJLMW+mTNNeh6DdUZuWmw5dnJpVoUZHKMWq8=;
+  b=OHti5RwiPneEiYDJHcsgjaBpQWcyl2ouGaNkVM6QpBJOuIWgdiZV+xfZ
+   Dzz5Z2LYV3m+qZZOek3eOfh2nz7maEZ78KTfwty3gBu5ceXo/eNDq7yxG
+   icaVanE+G2Hn5wUh3cLAa9QLYClqrYm3K73+rthNYScyF4AVjlkUaG7P0
+   i8Wb+U8PMJf6kX4nneNSGEQC0eXgGpIMP76aicc7jopwvJkNE1CPsi/GM
+   1Q8+y1UVCKjIdKi7tKUhIm/ogY4Ko1F/avUpzvrz0GrmzxPT9phl5WIHP
+   NB3Ho30gXYqjuDdnp3BguABsS5tp8xsjdrOjAEqsUF5IZGHZ2u9OzSTBe
+   g==;
+X-CSE-ConnectionGUID: 8zNLYq5qS4qHayZeU/ALxQ==
+X-CSE-MsgGUID: 0n2Bu16fT5WT8nb+LSAMFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29462514"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="51882457"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 16:48:24 -0700
-X-CSE-ConnectionGUID: yudnGd3dT4OmsEeAbzGKeQ==
-X-CSE-MsgGUID: kP6CwpBtTne4lDxPeWbs8g==
+   d="scan'208";a="29462514"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 16:59:25 -0700
+X-CSE-ConnectionGUID: xMlBiPFiQ/ehN8Zu9WypxA==
+X-CSE-MsgGUID: lBtzYXOSSFWRMu4pY13yIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,227,1725346800"; 
-   d="scan'208";a="103744762"
+   d="scan'208";a="85209896"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 23 Oct 2024 16:48:23 -0700
+  by orviesa005.jf.intel.com with ESMTP; 23 Oct 2024 16:59:23 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3l5Q-000Via-2B;
-	Wed, 23 Oct 2024 23:48:20 +0000
-Date: Thu, 24 Oct 2024 07:48:11 +0800
+	id 1t3lG4-000Vj4-38;
+	Wed, 23 Oct 2024 23:59:20 +0000
+Date: Thu, 24 Oct 2024 07:58:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:gpio-no-irq-core 2/3] drivers/gpio/gpio-mpfs.c:49:45: error:
- duplicate member 'regs'
-Message-ID: <202410240701.18mxAzZa-lkp@intel.com>
+Subject: [hch-misc:dma-split-wip 8/26] drivers/iommu/dma-iommu.c:2052:3:
+ error: call to undeclared function '__iommu_dma_free_iova'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202410240716.I77qQFr3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,174 +63,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git gpio-no-irq-core
-head:   56933542ce1c4bc98ea9e701609ac91333414944
-commit: 2c03ad1dfd8418ab768c325b93217bb7ef70d7ce [2/3] gpio: mpfs: add CoreGPIO support
-config: loongarch-randconfig-r073-20241024 (https://download.01.org/0day-ci/archive/20241024/202410240701.18mxAzZa-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240701.18mxAzZa-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/misc.git dma-split-wip
+head:   6a0b0963ff9e2d8940218c63f0a3ff794bcd09d3
+commit: d35bb33120e529c39ab215445ba649c32985ab29 [8/26] dma-mapping: Implement link/unlink ranges API
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241024/202410240716.I77qQFr3-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240716.I77qQFr3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410240701.18mxAzZa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410240716.I77qQFr3-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpio/gpio-mpfs.c:49:45: error: duplicate member 'regs'
-      49 |         const struct mpfs_gpio_reg_offsets *regs;
-         |                                             ^~~~
-   drivers/gpio/gpio-mpfs.c: In function 'mpfs_gpio_direction_output':
->> drivers/gpio/gpio-mpfs.c:75:60: error: invalid use of undefined type 'struct regmap'
-      75 |         regmap_update_bits(mpfs_gpio->regs, mpfs_gpio->regs->outp, BIT(gpio_index),
-         |                                                            ^~
-   drivers/gpio/gpio-mpfs.c: In function 'mpfs_gpio_get':
-   drivers/gpio/gpio-mpfs.c:99:73: error: invalid use of undefined type 'struct regmap'
-      99 |                 return regmap_test_bits(mpfs_gpio->regs, mpfs_gpio->regs->outp, BIT(gpio_index));
-         |                                                                         ^~
-   drivers/gpio/gpio-mpfs.c:101:73: error: invalid use of undefined type 'struct regmap'
-     101 |                 return regmap_test_bits(mpfs_gpio->regs, mpfs_gpio->regs->inp, BIT(gpio_index));
-         |                                                                         ^~
-   drivers/gpio/gpio-mpfs.c: In function 'mpfs_gpio_set':
-   drivers/gpio/gpio-mpfs.c:110:60: error: invalid use of undefined type 'struct regmap'
-     110 |         regmap_update_bits(mpfs_gpio->regs, mpfs_gpio->regs->outp, BIT(gpio_index),
-         |                                                            ^~
-   drivers/gpio/gpio-mpfs.c: In function 'mpfs_gpio_probe':
->> drivers/gpio/gpio-mpfs.c:128:25: warning: assignment discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     128 |         mpfs_gpio->regs = of_device_get_match_data(&pdev->dev);
-         |                         ^
-   drivers/gpio/gpio-mpfs.c: In function 'mpfs_gpio_get':
->> drivers/gpio/gpio-mpfs.c:102:1: warning: control reaches end of non-void function [-Wreturn-type]
-     102 | }
-         | ^
+>> drivers/iommu/dma-iommu.c:2052:3: error: call to undeclared function '__iommu_dma_free_iova'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2052 |                 __iommu_dma_free_iova(cookie, addr, size, &iotlb_gather);
+         |                 ^
+   drivers/iommu/dma-iommu.c:2052:3: note: did you mean 'iommu_dma_free_iova'?
+   drivers/iommu/dma-iommu.c:809:13: note: 'iommu_dma_free_iova' declared here
+     809 | static void iommu_dma_free_iova(struct iommu_dma_cookie *cookie,
+         |             ^
+   1 error generated.
 
 
-vim +/regs +49 drivers/gpio/gpio-mpfs.c
+vim +/__iommu_dma_free_iova +2052 drivers/iommu/dma-iommu.c
 
-    45	
-    46	struct mpfs_gpio_chip {
-    47		struct clk *clk;
-    48		struct regmap *regs;
-  > 49		const struct mpfs_gpio_reg_offsets *regs;
-    50		struct gpio_chip gc;
-    51	};
-    52	
-    53	static const struct regmap_config mpfs_gpio_regmap_config = {
-    54		.reg_bits = 32,
-    55		.reg_stride = 4,
-    56		.val_bits = 32,
-    57	};
-    58	
-    59	static int mpfs_gpio_direction_input(struct gpio_chip *gc, unsigned int gpio_index)
-    60	{
-    61		struct mpfs_gpio_chip *mpfs_gpio = gpiochip_get_data(gc);
-    62	
-    63		regmap_update_bits(mpfs_gpio->regs, MPFS_GPIO_CTRL(gpio_index),
-    64				   MPFS_GPIO_DIR_MASK, MPFS_GPIO_EN_IN);
-    65	
-    66		return 0;
-    67	}
-    68	
-    69	static int mpfs_gpio_direction_output(struct gpio_chip *gc, unsigned int gpio_index, int value)
-    70	{
-    71		struct mpfs_gpio_chip *mpfs_gpio = gpiochip_get_data(gc);
-    72	
-    73		regmap_update_bits(mpfs_gpio->regs, MPFS_GPIO_CTRL(gpio_index),
-    74				   MPFS_GPIO_DIR_MASK, MPFS_GPIO_EN_IN);
-  > 75		regmap_update_bits(mpfs_gpio->regs, mpfs_gpio->regs->outp, BIT(gpio_index),
-    76				   value << gpio_index);
-    77	
-    78		return 0;
-    79	}
-    80	
-    81	static int mpfs_gpio_get_direction(struct gpio_chip *gc,
-    82					   unsigned int gpio_index)
-    83	{
-    84		struct mpfs_gpio_chip *mpfs_gpio = gpiochip_get_data(gc);
-    85		unsigned int gpio_cfg;
-    86	
-    87		regmap_read(mpfs_gpio->regs, MPFS_GPIO_CTRL(gpio_index), &gpio_cfg);
-    88		if (gpio_cfg & MPFS_GPIO_EN_IN)
-    89			return GPIO_LINE_DIRECTION_IN;
-    90	
-    91		return GPIO_LINE_DIRECTION_OUT;
-    92	}
-    93	
-    94	static int mpfs_gpio_get(struct gpio_chip *gc, unsigned int gpio_index)
-    95	{
-    96		struct mpfs_gpio_chip *mpfs_gpio = gpiochip_get_data(gc);
-    97	
-    98		if (mpfs_gpio_get_direction(gc, gpio_index) == GPIO_LINE_DIRECTION_OUT)
-    99			return regmap_test_bits(mpfs_gpio->regs, mpfs_gpio->regs->outp, BIT(gpio_index));
-   100		else
-   101			return regmap_test_bits(mpfs_gpio->regs, mpfs_gpio->regs->inp, BIT(gpio_index));
- > 102	}
-   103	
-   104	static void mpfs_gpio_set(struct gpio_chip *gc, unsigned int gpio_index, int value)
-   105	{
-   106		struct mpfs_gpio_chip *mpfs_gpio = gpiochip_get_data(gc);
-   107	
-   108		mpfs_gpio_get(gc, gpio_index);
-   109	
-   110		regmap_update_bits(mpfs_gpio->regs, mpfs_gpio->regs->outp, BIT(gpio_index),
-   111				   value << gpio_index);
-   112	
-   113		mpfs_gpio_get(gc, gpio_index);
-   114	}
-   115	
-   116	static int mpfs_gpio_probe(struct platform_device *pdev)
-   117	{
-   118		struct device *dev = &pdev->dev;
-   119		struct mpfs_gpio_chip *mpfs_gpio;
-   120		struct clk *clk;
-   121		void __iomem *base;
-   122		int ret, ngpios;
-   123	
-   124		mpfs_gpio = devm_kzalloc(dev, sizeof(*mpfs_gpio), GFP_KERNEL);
-   125		if (!mpfs_gpio)
-   126			return -ENOMEM;
-   127	
- > 128		mpfs_gpio->regs = of_device_get_match_data(&pdev->dev);
-   129	
-   130		base = devm_platform_ioremap_resource(pdev, 0);
-   131		if (IS_ERR(base))
-   132			return dev_err_probe(dev, PTR_ERR(base), "failed to ioremap memory resource\n");
-   133	
-   134		mpfs_gpio->regs = devm_regmap_init_mmio(dev, base, &mpfs_gpio_regmap_config);
-   135		if (IS_ERR(mpfs_gpio->regs))
-   136			return dev_err_probe(dev, PTR_ERR(mpfs_gpio->regs), "failed to initialise regmap\n");
-   137	
-   138		clk = devm_clk_get_enabled(dev, NULL);
-   139		if (IS_ERR(clk))
-   140			return dev_err_probe(dev, PTR_ERR(clk), "failed to get and enable clock\n");
-   141	
-   142		mpfs_gpio->clk = clk;
-   143	
-   144		ngpios = MAX_NUM_GPIO;
-   145		device_property_read_u32(dev, "ngpios", &ngpios);
-   146		if (ngpios > MAX_NUM_GPIO)
-   147			ngpios = MAX_NUM_GPIO;
-   148	
-   149		mpfs_gpio->gc.direction_input = mpfs_gpio_direction_input;
-   150		mpfs_gpio->gc.direction_output = mpfs_gpio_direction_output;
-   151		mpfs_gpio->gc.get_direction = mpfs_gpio_get_direction;
-   152		mpfs_gpio->gc.get = mpfs_gpio_get;
-   153		mpfs_gpio->gc.set = mpfs_gpio_set;
-   154		mpfs_gpio->gc.base = -1;
-   155		mpfs_gpio->gc.ngpio = ngpios;
-   156		mpfs_gpio->gc.label = dev_name(dev);
-   157		mpfs_gpio->gc.parent = dev;
-   158		mpfs_gpio->gc.owner = THIS_MODULE;
-   159	
-   160		ret = gpiochip_add_data(&mpfs_gpio->gc, mpfs_gpio);
-   161		if (ret)
-   162			return ret;
-   163	
-   164		platform_set_drvdata(pdev, mpfs_gpio);
-   165	
-   166		return 0;
-   167	}
-   168	
+  2023	
+  2024	static void __iommu_dma_iova_unlink(struct device *dev,
+  2025			struct dma_iova_state *state, size_t offset, size_t size,
+  2026			enum dma_data_direction dir, unsigned long attrs,
+  2027			bool free_iova)
+  2028	{
+  2029		struct iommu_domain *domain = iommu_get_dma_domain(dev);
+  2030		struct iommu_dma_cookie *cookie = domain->iova_cookie;
+  2031		struct iova_domain *iovad = &cookie->iovad;
+  2032		dma_addr_t addr = state->addr + offset;
+  2033		size_t iova_start_pad = iova_offset(iovad, addr);
+  2034		struct iommu_iotlb_gather iotlb_gather;
+  2035		size_t unmapped;
+  2036	
+  2037		if ((state->__size & DMA_IOVA_USE_SWIOTLB) ||
+  2038		    (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))
+  2039			iommu_dma_iova_unlink_range_slow(dev, addr, size, dir, attrs);
+  2040	
+  2041		iommu_iotlb_gather_init(&iotlb_gather);
+  2042		iotlb_gather.queued = free_iova && READ_ONCE(cookie->fq_domain);
+  2043	
+  2044		size = iova_align(iovad, size + iova_start_pad);
+  2045		addr -= iova_start_pad;
+  2046		unmapped = iommu_unmap_fast(domain, addr, size, &iotlb_gather);
+  2047		WARN_ON(unmapped != size);
+  2048	
+  2049		if (!iotlb_gather.queued)
+  2050			iommu_iotlb_sync(domain, &iotlb_gather);
+  2051		if (free_iova)
+> 2052			__iommu_dma_free_iova(cookie, addr, size, &iotlb_gather);
+  2053	}
+  2054	
 
 -- 
 0-DAY CI Kernel Test Service
