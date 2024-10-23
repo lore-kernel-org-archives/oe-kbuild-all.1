@@ -1,340 +1,283 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3D9156F3F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 09:43:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244931A0AF1;
+	Wed, 23 Oct 2024 09:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729676628; cv=none; b=TNb29nkptlk6OAugI7qbIhUvJt7jVKpSM21NZazkDhPlUTKc/HCu6mXWyQ6X0lbrBg+dt/OvrFSLGDX/DmPk63EUB78fSCGwlkw+3newy9YC29UtFtGNPKjPAEcnthPuLH9RVfjE8VDRrR2xSZd13N2Wwkw9jUV7ZhLW6zsYSHg=
+	t=1729677348; cv=none; b=Je20Z33NxBrh9/ZE7i59TMYUWqR+qV7WSTE1+w5NmqOtS23Tni5Owq+hTfMaDfPXtZ7DzsB0OBkipEF995PcXjml5ekwNtEz8SZsOTHhjVnC6cSgurbWHFf5Z4CM4ltmNRrR8hhTIqLpZSs1x+c+hjIXOqoF+uCMtbQ8Lugj2wA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729676628; c=relaxed/simple;
-	bh=1fqhEqyOpHLCe24j3LS8kDQp7IykeTdRQBak+xtmqhs=;
+	s=arc-20240116; t=1729677348; c=relaxed/simple;
+	bh=8nJT2Vi2aPwTYWaqeGP38ZyTQ1UGqTBIrxSnAW3FT/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V2IXDuDw5dwaI2eYouuJ3BZMBHqNV8HUE6nX0+DNqAisG/y77DsgusvMbE0Oly0aZEvq+j/s/5BVCLnelfNJZAzcTmTt3R1Rvt2IhWsuCB4uSn2ZkTvrdTaiZbCrrYpUVlCICw2YjwNdoPE4ncnAMFX3qU2qoz60LpzPrDeiGik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkHkyRt/; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=qrh2hPBZoW32zDFI6vWgSgEBB99gUVNh4UhIBXEgfgr5wsqaS1jwRkZzTq4Lp5fbLRqjMW+CzWJ+s+Ns0Vbu+i4Q6aDqH6vYtdWqZHl1+cmiqdmUDQFTqB8F3pl0IOBU9g8+fKIQ+TZHFW0iO29fLGHswc/hV7I27rG+ZlJCBtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyh/lsO+; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkHkyRt/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyh/lsO+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729676626; x=1761212626;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1fqhEqyOpHLCe24j3LS8kDQp7IykeTdRQBak+xtmqhs=;
-  b=mkHkyRt/GDpDgnxT2HPgjs7G5T5kl+hL+axIQKg1NtqcObfqG333DIVW
-   5IKbkwifjK2a68zUyVhRnpovzQMMoYYKne9LYR0PF4OT0LdIRvouV03J2
-   ogIyDg1ZII1sTIYsEmRGqmaoFXlN2TlgAxxvcQwDx7ZcX+Tymnq14PtST
-   YRH/lDRFhCDjTuYr+X7Rb5RhTqCI7o4NxxuYbVeBpcE5orXvO63UZXpdd
-   DHAOt2TsTv+rcZG0Ag/qZxAAccBKYmgIcAdLIs96aLYBC6V47GEiWSiZU
-   9ZrBg7k7gTKKME4IpvrqTjmzt/hrafwJrzng3lbi76AeMMoPNx71BDG/m
-   g==;
-X-CSE-ConnectionGUID: gda/WvxgTNyUdAcSJbPE2Q==
-X-CSE-MsgGUID: PkJVi8ovSGScjcJIwY83Ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="39868869"
-X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="39868869"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 02:43:45 -0700
-X-CSE-ConnectionGUID: 4H6m2++RQkeTeZoISaf/iA==
-X-CSE-MsgGUID: wKhXhpzHSCKa3cVfVJTjzQ==
+  t=1729677346; x=1761213346;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8nJT2Vi2aPwTYWaqeGP38ZyTQ1UGqTBIrxSnAW3FT/w=;
+  b=kyh/lsO+braE1NGdgLJFie3mOzwOh4yzKvGmXLNSzMJ0GJNMLAly9bSf
+   RocN3/drV8OnWG0UvLiSwkQ3EYDmOW94vY4YoS8THRkn79mHDrSAQlaEY
+   PB3Yf1IjOLtQuOs680TAoxCdH2nwZg24nPJ4NKHyDCfyQOCBy0T0TIC5d
+   Z5iWCvYLOJABaXASqnLRt9eqz66+IJXVlSJkAAOEOZq7RpqhiIv7nbMGy
+   yx7XlMlV9LgC1tinOrvuJOtzwDIXOgIAGf3o3m2F3Fwqc7//C05TqW9mH
+   QARYLhWQpfrRurSXMqltZ8m5KLUUuAinI0Q90FNCd/6quqUVvepYioo92
+   w==;
+X-CSE-ConnectionGUID: FvnETj+gTgaqYG5ssQiR+w==
+X-CSE-MsgGUID: f2KcBAkGRXSiE65oLosnmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29036137"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29036137"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 02:55:46 -0700
+X-CSE-ConnectionGUID: peiPcwBCQ2CGYzDPh13eXg==
+X-CSE-MsgGUID: 1H6X1Oq9T9KAlRXGupze/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="117621209"
+   d="scan'208";a="79819787"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Oct 2024 02:43:44 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 23 Oct 2024 02:55:44 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3Xu1-000Ul2-0r;
-	Wed, 23 Oct 2024 09:43:41 +0000
-Date: Wed, 23 Oct 2024 17:42:58 +0800
+	id 1t3Y5d-000UlO-23;
+	Wed, 23 Oct 2024 09:55:41 +0000
+Date: Wed, 23 Oct 2024 17:54:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>
-Subject: [linux-next:master 6325/6433] security/lsm_audit.c:356:undefined
- reference to `lockdown_reasons'
-Message-ID: <202410231710.JZfAVMt3-lkp@intel.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jcmvbkbc-xtensa:xtensa-6.11-esp32 50/53]
+ kernel/events/core.c:6492:15: warning: variable 'flags' set but not used
+Message-ID: <202410231726.jdjpxZSU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-Hi Mickaël,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ceab669fdf7b7510b4e4997b33d6f66e433a96db
-commit: 762ebdee0cea1245e19ceb3d40e877532475b7b0 [6325/6433] lsm: Only build lsm_audit.c if CONFIG_AUDIT is set
-config: sh-magicpanelr2_defconfig (https://download.01.org/0day-ci/archive/20241023/202410231710.JZfAVMt3-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231710.JZfAVMt3-lkp@intel.com/reproduce)
+tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.11-esp32
+head:   3b01ad2a1f71b72b27fefa08e4bf6acbe1de874f
+commit: 45c61e979c95928370efa03921af750bcc394f18 [50/53] WIP: perf: support mmapping event on noMMU
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241023/202410231726.jdjpxZSU-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231726.jdjpxZSU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410231710.JZfAVMt3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410231726.jdjpxZSU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sh4-linux-ld: security/lsm_audit.o: in function `dump_common_audit_data':
->> security/lsm_audit.c:356:(.text+0x4e8): undefined reference to `lockdown_reasons'
+>> kernel/events/core.c:6492:15: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
+    6492 |         int ret = 0, flags = 0;
+         |                      ^
+>> kernel/events/core.c:6708:15: warning: no previous prototype for function 'perf_get_unmapped_area' [-Wmissing-prototypes]
+    6708 | unsigned long perf_get_unmapped_area(struct file *file,
+         |               ^
+   kernel/events/core.c:6708:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    6708 | unsigned long perf_get_unmapped_area(struct file *file,
+         | ^
+         | static 
+   kernel/events/core.c:6764:17: warning: unused function 'perf_mmap_capabilities' [-Wunused-function]
+    6764 | static unsigned perf_mmap_capabilities(struct file *file)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+   3 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ESP32_IPC
+   Depends on [n]: OF [=n] && HAS_IOMEM [=y]
+   Selected by [y]:
+   - ESP32_WIFI_SHMEM [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_ESPRESSIF [=y]
 
 
-vim +356 security/lsm_audit.c
+vim +/flags +6492 kernel/events/core.c
 
-6e837fb152410e Etienne Basset     2009-04-08  190  
-6e837fb152410e Etienne Basset     2009-04-08  191  /**
-6e837fb152410e Etienne Basset     2009-04-08  192   * dump_common_audit_data - helper to dump common audit data
-610b17b05c5c68 Bo Liu             2022-10-25  193   * @ab : the audit buffer
-6e837fb152410e Etienne Basset     2009-04-08  194   * @a : common audit data
-6e837fb152410e Etienne Basset     2009-04-08  195   *
-6e837fb152410e Etienne Basset     2009-04-08  196   */
-6e837fb152410e Etienne Basset     2009-04-08  197  static void dump_common_audit_data(struct audit_buffer *ab,
-6e837fb152410e Etienne Basset     2009-04-08  198  				   struct common_audit_data *a)
-6e837fb152410e Etienne Basset     2009-04-08  199  {
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  200  	char comm[sizeof(current->comm)];
-6e837fb152410e Etienne Basset     2009-04-08  201  
-07f62eb66c6626 Eric Paris         2012-04-04  202  	/*
-4432b507445acf Paul Moore         2023-05-24  203  	 * To keep stack sizes in check force programmers to notice if they
-07f62eb66c6626 Eric Paris         2012-04-04  204  	 * start making this union too large!  See struct lsm_network_audit
-07f62eb66c6626 Eric Paris         2012-04-04  205  	 * as an example of how to deal with large data.
-07f62eb66c6626 Eric Paris         2012-04-04  206  	 */
-07f62eb66c6626 Eric Paris         2012-04-04  207  	BUILD_BUG_ON(sizeof(a->u) > sizeof(void *)*2);
-07f62eb66c6626 Eric Paris         2012-04-04  208  
-fa2bea2f5cca5b Paul Moore         2016-08-30  209  	audit_log_format(ab, " pid=%d comm=", task_tgid_nr(current));
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  210  	audit_log_untrustedstring(ab, memcpy(comm, current->comm, sizeof(comm)));
-6e837fb152410e Etienne Basset     2009-04-08  211  
-6e837fb152410e Etienne Basset     2009-04-08  212  	switch (a->type) {
-cb84aa9b42b506 Eric Paris         2010-04-27  213  	case LSM_AUDIT_DATA_NONE:
-2bf49690325b62 Thomas Liu         2009-07-14  214  		return;
-6e837fb152410e Etienne Basset     2009-04-08  215  	case LSM_AUDIT_DATA_IPC:
-8e71168e2cc760 Ondrej Mosnacek    2021-09-14  216  		audit_log_format(ab, " ipc_key=%d ", a->u.ipc_id);
-6e837fb152410e Etienne Basset     2009-04-08  217  		break;
-6e837fb152410e Etienne Basset     2009-04-08  218  	case LSM_AUDIT_DATA_CAP:
-6e837fb152410e Etienne Basset     2009-04-08  219  		audit_log_format(ab, " capability=%d ", a->u.cap);
-6e837fb152410e Etienne Basset     2009-04-08  220  		break;
-f48b7399840b45 Eric Paris         2011-04-25  221  	case LSM_AUDIT_DATA_PATH: {
-f48b7399840b45 Eric Paris         2011-04-25  222  		struct inode *inode;
-f48b7399840b45 Eric Paris         2011-04-25  223  
-f48b7399840b45 Eric Paris         2011-04-25  224  		audit_log_d_path(ab, " path=", &a->u.path);
-a269434d2fb48a Eric Paris         2011-04-25  225  
-c6f493d631c4d4 David Howells      2015-03-17  226  		inode = d_backing_inode(a->u.path.dentry);
-41fdc3054e23e3 Kees Cook          2012-01-07  227  		if (inode) {
-41fdc3054e23e3 Kees Cook          2012-01-07  228  			audit_log_format(ab, " dev=");
-41fdc3054e23e3 Kees Cook          2012-01-07  229  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-41fdc3054e23e3 Kees Cook          2012-01-07  230  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-41fdc3054e23e3 Kees Cook          2012-01-07  231  		}
-a269434d2fb48a Eric Paris         2011-04-25  232  		break;
-6e837fb152410e Etienne Basset     2009-04-08  233  	}
-43af5de74288a7 Vivek Goyal        2016-09-09  234  	case LSM_AUDIT_DATA_FILE: {
-43af5de74288a7 Vivek Goyal        2016-09-09  235  		struct inode *inode;
-43af5de74288a7 Vivek Goyal        2016-09-09  236  
-43af5de74288a7 Vivek Goyal        2016-09-09  237  		audit_log_d_path(ab, " path=", &a->u.file->f_path);
-43af5de74288a7 Vivek Goyal        2016-09-09  238  
-43af5de74288a7 Vivek Goyal        2016-09-09  239  		inode = file_inode(a->u.file);
-43af5de74288a7 Vivek Goyal        2016-09-09  240  		if (inode) {
-43af5de74288a7 Vivek Goyal        2016-09-09  241  			audit_log_format(ab, " dev=");
-43af5de74288a7 Vivek Goyal        2016-09-09  242  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-43af5de74288a7 Vivek Goyal        2016-09-09  243  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-43af5de74288a7 Vivek Goyal        2016-09-09  244  		}
-43af5de74288a7 Vivek Goyal        2016-09-09  245  		break;
-43af5de74288a7 Vivek Goyal        2016-09-09  246  	}
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  247  	case LSM_AUDIT_DATA_IOCTL_OP: {
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  248  		struct inode *inode;
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  249  
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  250  		audit_log_d_path(ab, " path=", &a->u.op->path);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  251  
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  252  		inode = a->u.op->path.dentry->d_inode;
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  253  		if (inode) {
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  254  			audit_log_format(ab, " dev=");
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  255  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  256  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  257  		}
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  258  
-8b31f456c72e53 William Roberts    2016-08-08  259  		audit_log_format(ab, " ioctlcmd=0x%hx", a->u.op->cmd);
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  260  		break;
-671a2781ff01ab Jeff Vander Stoep  2015-07-10  261  	}
-a269434d2fb48a Eric Paris         2011-04-25  262  	case LSM_AUDIT_DATA_DENTRY: {
-a269434d2fb48a Eric Paris         2011-04-25  263  		struct inode *inode;
-a269434d2fb48a Eric Paris         2011-04-25  264  
-a269434d2fb48a Eric Paris         2011-04-25  265  		audit_log_format(ab, " name=");
-d36a1dd9f77ae1 Al Viro            2021-01-05  266  		spin_lock(&a->u.dentry->d_lock);
-a269434d2fb48a Eric Paris         2011-04-25  267  		audit_log_untrustedstring(ab, a->u.dentry->d_name.name);
-d36a1dd9f77ae1 Al Viro            2021-01-05  268  		spin_unlock(&a->u.dentry->d_lock);
-a269434d2fb48a Eric Paris         2011-04-25  269  
-c6f493d631c4d4 David Howells      2015-03-17  270  		inode = d_backing_inode(a->u.dentry);
-41fdc3054e23e3 Kees Cook          2012-01-07  271  		if (inode) {
-41fdc3054e23e3 Kees Cook          2012-01-07  272  			audit_log_format(ab, " dev=");
-41fdc3054e23e3 Kees Cook          2012-01-07  273  			audit_log_untrustedstring(ab, inode->i_sb->s_id);
-41fdc3054e23e3 Kees Cook          2012-01-07  274  			audit_log_format(ab, " ino=%lu", inode->i_ino);
-41fdc3054e23e3 Kees Cook          2012-01-07  275  		}
-f48b7399840b45 Eric Paris         2011-04-25  276  		break;
-f48b7399840b45 Eric Paris         2011-04-25  277  	}
-f48b7399840b45 Eric Paris         2011-04-25  278  	case LSM_AUDIT_DATA_INODE: {
-6e837fb152410e Etienne Basset     2009-04-08  279  		struct dentry *dentry;
-f48b7399840b45 Eric Paris         2011-04-25  280  		struct inode *inode;
-f48b7399840b45 Eric Paris         2011-04-25  281  
-23d8f5b684fc30 Al Viro            2021-01-05  282  		rcu_read_lock();
-f48b7399840b45 Eric Paris         2011-04-25  283  		inode = a->u.inode;
-23d8f5b684fc30 Al Viro            2021-01-05  284  		dentry = d_find_alias_rcu(inode);
-6e837fb152410e Etienne Basset     2009-04-08  285  		if (dentry) {
-6e837fb152410e Etienne Basset     2009-04-08  286  			audit_log_format(ab, " name=");
-d36a1dd9f77ae1 Al Viro            2021-01-05  287  			spin_lock(&dentry->d_lock);
-d36a1dd9f77ae1 Al Viro            2021-01-05  288  			audit_log_untrustedstring(ab, dentry->d_name.name);
-d36a1dd9f77ae1 Al Viro            2021-01-05  289  			spin_unlock(&dentry->d_lock);
-6e837fb152410e Etienne Basset     2009-04-08  290  		}
-41fdc3054e23e3 Kees Cook          2012-01-07  291  		audit_log_format(ab, " dev=");
-41fdc3054e23e3 Kees Cook          2012-01-07  292  		audit_log_untrustedstring(ab, inode->i_sb->s_id);
-41fdc3054e23e3 Kees Cook          2012-01-07  293  		audit_log_format(ab, " ino=%lu", inode->i_ino);
-23d8f5b684fc30 Al Viro            2021-01-05  294  		rcu_read_unlock();
-6e837fb152410e Etienne Basset     2009-04-08  295  		break;
-f48b7399840b45 Eric Paris         2011-04-25  296  	}
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  297  	case LSM_AUDIT_DATA_TASK: {
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  298  		struct task_struct *tsk = a->u.tsk;
-f1dc4867ff41b7 Richard Guy Briggs 2013-12-11  299  		if (tsk) {
-fa2bea2f5cca5b Paul Moore         2016-08-30  300  			pid_t pid = task_tgid_nr(tsk);
-f1dc4867ff41b7 Richard Guy Briggs 2013-12-11  301  			if (pid) {
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  302  				char comm[sizeof(tsk->comm)];
-5c5bc97e2fc819 Richard Guy Briggs 2015-04-15  303  				audit_log_format(ab, " opid=%d ocomm=", pid);
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  304  				audit_log_untrustedstring(ab,
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  305  				    memcpy(comm, tsk->comm, sizeof(comm)));
-6e837fb152410e Etienne Basset     2009-04-08  306  			}
-f1dc4867ff41b7 Richard Guy Briggs 2013-12-11  307  		}
-6e837fb152410e Etienne Basset     2009-04-08  308  		break;
-5deeb5cece3f9b Richard Guy Briggs 2015-04-14  309  	}
-6e837fb152410e Etienne Basset     2009-04-08  310  	case LSM_AUDIT_DATA_NET:
-48c62af68a403e Eric Paris         2012-04-02  311  		if (a->u.net->sk) {
-41dd9596d6b239 Florian Westphal   2020-11-30  312  			const struct sock *sk = a->u.net->sk;
-b064ba9c3cfaf3 Eric Dumazet       2023-03-17  313  			const struct unix_sock *u;
-ae3b564179bfd0 Al Viro            2019-02-15  314  			struct unix_address *addr;
-6e837fb152410e Etienne Basset     2009-04-08  315  			int len = 0;
-6e837fb152410e Etienne Basset     2009-04-08  316  			char *p = NULL;
-6e837fb152410e Etienne Basset     2009-04-08  317  
-6e837fb152410e Etienne Basset     2009-04-08  318  			switch (sk->sk_family) {
-6e837fb152410e Etienne Basset     2009-04-08  319  			case AF_INET: {
-abc17a11ed29b0 Eric Dumazet       2023-03-16  320  				const struct inet_sock *inet = inet_sk(sk);
-6e837fb152410e Etienne Basset     2009-04-08  321  
-c720c7e8383aff Eric Dumazet       2009-10-15  322  				print_ipv4_addr(ab, inet->inet_rcv_saddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  323  						inet->inet_sport,
-6e837fb152410e Etienne Basset     2009-04-08  324  						"laddr", "lport");
-c720c7e8383aff Eric Dumazet       2009-10-15  325  				print_ipv4_addr(ab, inet->inet_daddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  326  						inet->inet_dport,
-6e837fb152410e Etienne Basset     2009-04-08  327  						"faddr", "fport");
-6e837fb152410e Etienne Basset     2009-04-08  328  				break;
-6e837fb152410e Etienne Basset     2009-04-08  329  			}
-c2bb06db59eaf9 Eric Dumazet       2013-10-09  330  #if IS_ENABLED(CONFIG_IPV6)
-6e837fb152410e Etienne Basset     2009-04-08  331  			case AF_INET6: {
-abc17a11ed29b0 Eric Dumazet       2023-03-16  332  				const struct inet_sock *inet = inet_sk(sk);
-6e837fb152410e Etienne Basset     2009-04-08  333  
-efe4208f47f907 Eric Dumazet       2013-10-03  334  				print_ipv6_addr(ab, &sk->sk_v6_rcv_saddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  335  						inet->inet_sport,
-6e837fb152410e Etienne Basset     2009-04-08  336  						"laddr", "lport");
-efe4208f47f907 Eric Dumazet       2013-10-03  337  				print_ipv6_addr(ab, &sk->sk_v6_daddr,
-c720c7e8383aff Eric Dumazet       2009-10-15  338  						inet->inet_dport,
-6e837fb152410e Etienne Basset     2009-04-08  339  						"faddr", "fport");
-6e837fb152410e Etienne Basset     2009-04-08  340  				break;
-6e837fb152410e Etienne Basset     2009-04-08  341  			}
-c2bb06db59eaf9 Eric Dumazet       2013-10-09  342  #endif
-6e837fb152410e Etienne Basset     2009-04-08  343  			case AF_UNIX:
-6e837fb152410e Etienne Basset     2009-04-08  344  				u = unix_sk(sk);
-ae3b564179bfd0 Al Viro            2019-02-15  345  				addr = smp_load_acquire(&u->addr);
-ae3b564179bfd0 Al Viro            2019-02-15  346  				if (!addr)
-ae3b564179bfd0 Al Viro            2019-02-15  347  					break;
-40ffe67d2e89c7 Al Viro            2012-03-14  348  				if (u->path.dentry) {
-40ffe67d2e89c7 Al Viro            2012-03-14  349  					audit_log_d_path(ab, " path=", &u->path);
-6e837fb152410e Etienne Basset     2009-04-08  350  					break;
-6e837fb152410e Etienne Basset     2009-04-08  351  				}
-ae3b564179bfd0 Al Viro            2019-02-15  352  				len = addr->len-sizeof(short);
-ae3b564179bfd0 Al Viro            2019-02-15  353  				p = &addr->name->sun_path[0];
-6e837fb152410e Etienne Basset     2009-04-08  354  				audit_log_format(ab, " path=");
-6e837fb152410e Etienne Basset     2009-04-08  355  				if (*p)
-6e837fb152410e Etienne Basset     2009-04-08 @356  					audit_log_untrustedstring(ab, p);
-6e837fb152410e Etienne Basset     2009-04-08  357  				else
-6e837fb152410e Etienne Basset     2009-04-08  358  					audit_log_n_hex(ab, p, len);
-6e837fb152410e Etienne Basset     2009-04-08  359  				break;
-6e837fb152410e Etienne Basset     2009-04-08  360  			}
-6e837fb152410e Etienne Basset     2009-04-08  361  		}
-6e837fb152410e Etienne Basset     2009-04-08  362  
-48c62af68a403e Eric Paris         2012-04-02  363  		switch (a->u.net->family) {
-6e837fb152410e Etienne Basset     2009-04-08  364  		case AF_INET:
-48c62af68a403e Eric Paris         2012-04-02  365  			print_ipv4_addr(ab, a->u.net->v4info.saddr,
-48c62af68a403e Eric Paris         2012-04-02  366  					a->u.net->sport,
-6e837fb152410e Etienne Basset     2009-04-08  367  					"saddr", "src");
-48c62af68a403e Eric Paris         2012-04-02  368  			print_ipv4_addr(ab, a->u.net->v4info.daddr,
-48c62af68a403e Eric Paris         2012-04-02  369  					a->u.net->dport,
-6e837fb152410e Etienne Basset     2009-04-08  370  					"daddr", "dest");
-6e837fb152410e Etienne Basset     2009-04-08  371  			break;
-6e837fb152410e Etienne Basset     2009-04-08  372  		case AF_INET6:
-48c62af68a403e Eric Paris         2012-04-02  373  			print_ipv6_addr(ab, &a->u.net->v6info.saddr,
-48c62af68a403e Eric Paris         2012-04-02  374  					a->u.net->sport,
-6e837fb152410e Etienne Basset     2009-04-08  375  					"saddr", "src");
-48c62af68a403e Eric Paris         2012-04-02  376  			print_ipv6_addr(ab, &a->u.net->v6info.daddr,
-48c62af68a403e Eric Paris         2012-04-02  377  					a->u.net->dport,
-6e837fb152410e Etienne Basset     2009-04-08  378  					"daddr", "dest");
-6e837fb152410e Etienne Basset     2009-04-08  379  			break;
-6e837fb152410e Etienne Basset     2009-04-08  380  		}
-48c62af68a403e Eric Paris         2012-04-02  381  		if (a->u.net->netif > 0) {
-6e837fb152410e Etienne Basset     2009-04-08  382  			struct net_device *dev;
-6e837fb152410e Etienne Basset     2009-04-08  383  
-6e837fb152410e Etienne Basset     2009-04-08  384  			/* NOTE: we always use init's namespace */
-48c62af68a403e Eric Paris         2012-04-02  385  			dev = dev_get_by_index(&init_net, a->u.net->netif);
-6e837fb152410e Etienne Basset     2009-04-08  386  			if (dev) {
-6e837fb152410e Etienne Basset     2009-04-08  387  				audit_log_format(ab, " netif=%s", dev->name);
-6e837fb152410e Etienne Basset     2009-04-08  388  				dev_put(dev);
-6e837fb152410e Etienne Basset     2009-04-08  389  			}
-6e837fb152410e Etienne Basset     2009-04-08  390  		}
-6e837fb152410e Etienne Basset     2009-04-08  391  		break;
-6e837fb152410e Etienne Basset     2009-04-08  392  #ifdef CONFIG_KEYS
-6e837fb152410e Etienne Basset     2009-04-08  393  	case LSM_AUDIT_DATA_KEY:
-6e837fb152410e Etienne Basset     2009-04-08  394  		audit_log_format(ab, " key_serial=%u", a->u.key_struct.key);
-6e837fb152410e Etienne Basset     2009-04-08  395  		if (a->u.key_struct.key_desc) {
-6e837fb152410e Etienne Basset     2009-04-08  396  			audit_log_format(ab, " key_desc=");
-6e837fb152410e Etienne Basset     2009-04-08  397  			audit_log_untrustedstring(ab, a->u.key_struct.key_desc);
-6e837fb152410e Etienne Basset     2009-04-08  398  		}
-6e837fb152410e Etienne Basset     2009-04-08  399  		break;
-6e837fb152410e Etienne Basset     2009-04-08  400  #endif
-dd8dbf2e6880e3 Eric Paris         2009-11-03  401  	case LSM_AUDIT_DATA_KMOD:
-dd8dbf2e6880e3 Eric Paris         2009-11-03  402  		audit_log_format(ab, " kmod=");
-dd8dbf2e6880e3 Eric Paris         2009-11-03  403  		audit_log_untrustedstring(ab, a->u.kmod_name);
-dd8dbf2e6880e3 Eric Paris         2009-11-03  404  		break;
-cfc4d882d41780 Daniel Jurgens     2017-05-19  405  	case LSM_AUDIT_DATA_IBPKEY: {
-cfc4d882d41780 Daniel Jurgens     2017-05-19  406  		struct in6_addr sbn_pfx;
-cfc4d882d41780 Daniel Jurgens     2017-05-19  407  
-cfc4d882d41780 Daniel Jurgens     2017-05-19  408  		memset(&sbn_pfx.s6_addr, 0,
-cfc4d882d41780 Daniel Jurgens     2017-05-19  409  		       sizeof(sbn_pfx.s6_addr));
-cfc4d882d41780 Daniel Jurgens     2017-05-19  410  		memcpy(&sbn_pfx.s6_addr, &a->u.ibpkey->subnet_prefix,
-cfc4d882d41780 Daniel Jurgens     2017-05-19  411  		       sizeof(a->u.ibpkey->subnet_prefix));
-cfc4d882d41780 Daniel Jurgens     2017-05-19  412  		audit_log_format(ab, " pkey=0x%x subnet_prefix=%pI6c",
-cfc4d882d41780 Daniel Jurgens     2017-05-19  413  				 a->u.ibpkey->pkey, &sbn_pfx);
-cfc4d882d41780 Daniel Jurgens     2017-05-19  414  		break;
-cfc4d882d41780 Daniel Jurgens     2017-05-19  415  	}
-ab861dfca1652a Daniel Jurgens     2017-05-19  416  	case LSM_AUDIT_DATA_IBENDPORT:
-ab861dfca1652a Daniel Jurgens     2017-05-19  417  		audit_log_format(ab, " device=%s port_num=%u",
-ab861dfca1652a Daniel Jurgens     2017-05-19  418  				 a->u.ibendport->dev_name,
-ab861dfca1652a Daniel Jurgens     2017-05-19  419  				 a->u.ibendport->port);
-ab861dfca1652a Daniel Jurgens     2017-05-19  420  		break;
-59438b46471ae6 Stephen Smalley    2019-11-27  421  	case LSM_AUDIT_DATA_LOCKDOWN:
-f1d9b23cabc61e Richard Guy Briggs 2020-07-13  422  		audit_log_format(ab, " lockdown_reason=\"%s\"",
-f1d9b23cabc61e Richard Guy Briggs 2020-07-13  423  				 lockdown_reasons[a->u.reason]);
-59438b46471ae6 Stephen Smalley    2019-11-27  424  		break;
-c29722fad4aabb Christian Göttsche 2022-03-08  425  	case LSM_AUDIT_DATA_ANONINODE:
-c29722fad4aabb Christian Göttsche 2022-03-08  426  		audit_log_format(ab, " anonclass=%s", a->u.anonclass);
-c29722fad4aabb Christian Göttsche 2022-03-08  427  		break;
-6e837fb152410e Etienne Basset     2009-04-08  428  	} /* switch (a->type) */
-6e837fb152410e Etienne Basset     2009-04-08  429  }
-6e837fb152410e Etienne Basset     2009-04-08  430  
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6480  
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6481  static int perf_mmap(struct file *file, struct vm_area_struct *vma)
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6482  {
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6483  	struct perf_event *event = file->private_data;
+22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  6484  	unsigned long user_locked, user_lock_limit;
+789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6485  	struct user_struct *user = current_user();
+2ab9d830262c13 kernel/events/core.c  Peter Zijlstra          2024-09-02  6486  	struct mutex *aux_mutex = NULL;
+56de4e8f914668 kernel/events/core.c  Steven Rostedt (VMware  2019-12-13  6487) 	struct perf_buffer *rb = NULL;
+22a4f650d686ee kernel/perf_counter.c Ingo Molnar             2009-06-01  6488  	unsigned long locked, lock_limit;
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6489  	unsigned long vma_size;
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6490  	unsigned long nr_pages;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6491  	long user_extra = 0, extra = 0;
+d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28 @6492  	int ret = 0, flags = 0;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6493  
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6494  	/*
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6495  	 * Don't allow mmap() of inherited per-task counters. This would
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6496  	 * create a performance issue due to all children writing to the
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6497  	 * same rb.
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6498  	 */
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6499  	if (event->cpu == -1 && event->attr.inherit)
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6500  		return -EINVAL;
+c7920614cebbf2 kernel/perf_event.c   Peter Zijlstra          2010-05-18  6501  
+43a21ea81a2400 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6502  	if (!(vma->vm_flags & VM_SHARED))
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6503  		return -EINVAL;
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6504  
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6505) 	ret = security_perf_event_read(event);
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6506) 	if (ret)
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6507) 		return ret;
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6508) 
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6509  	vma_size = vma->vm_end - vma->vm_start;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6510  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6511  	if (vma->vm_pgoff == 0) {
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6512  		nr_pages = (vma_size / PAGE_SIZE) - 1;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6513  	} else {
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6514  		/*
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6515  		 * AUX area mapping: if rb->aux_nr_pages != 0, it's already
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6516  		 * mapped, all subsequent mappings should have the same size
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6517  		 * and offset. Must be above the normal perf buffer.
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6518  		 */
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6519  		u64 aux_offset, aux_size;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6520  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6521  		if (!event->rb)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6522  			return -EINVAL;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6523  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6524  		nr_pages = vma_size / PAGE_SIZE;
+dbc48c8f41c208 kernel/events/core.c  Adrian Hunter           2024-06-24  6525  		if (nr_pages > INT_MAX)
+dbc48c8f41c208 kernel/events/core.c  Adrian Hunter           2024-06-24  6526  			return -ENOMEM;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6527  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6528  		mutex_lock(&event->mmap_mutex);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6529  		ret = -EINVAL;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6530  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6531  		rb = event->rb;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6532  		if (!rb)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6533  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6534  
+2ab9d830262c13 kernel/events/core.c  Peter Zijlstra          2024-09-02  6535  		aux_mutex = &rb->aux_mutex;
+2ab9d830262c13 kernel/events/core.c  Peter Zijlstra          2024-09-02  6536  		mutex_lock(aux_mutex);
+2ab9d830262c13 kernel/events/core.c  Peter Zijlstra          2024-09-02  6537  
+6aa7de059173a9 kernel/events/core.c  Mark Rutland            2017-10-23  6538  		aux_offset = READ_ONCE(rb->user_page->aux_offset);
+6aa7de059173a9 kernel/events/core.c  Mark Rutland            2017-10-23  6539  		aux_size = READ_ONCE(rb->user_page->aux_size);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6540  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6541  		if (aux_offset < perf_data_size(rb) + PAGE_SIZE)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6542  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6543  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6544  		if (aux_offset != vma->vm_pgoff << PAGE_SHIFT)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6545  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6546  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6547  		/* already mapped with a different offset */
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6548  		if (rb_has_aux(rb) && rb->aux_pgoff != vma->vm_pgoff)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6549  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6550  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6551  		if (aux_size != vma_size || aux_size != nr_pages * PAGE_SIZE)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6552  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6553  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6554  		/* already mapped with a different size */
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6555  		if (rb_has_aux(rb) && rb->aux_nr_pages != nr_pages)
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6556  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6557  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6558  		if (!is_power_of_2(nr_pages))
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6559  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6560  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6561  		if (!atomic_inc_not_zero(&rb->mmap_count))
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6562  			goto aux_unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6563  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6564  		if (rb_has_aux(rb)) {
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6565  			atomic_inc(&rb->aux_mmap_count);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6566  			ret = 0;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6567  			goto unlock;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6568  		}
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6569  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6570  		atomic_set(&rb->aux_mmap_count, 1);
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6571  		user_extra = nr_pages;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6572  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6573  		goto accounting;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6574  	}
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6575  
+7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6576  	/*
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6577  	 * If we have rb pages ensure they're a power-of-two number, so we
+7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6578  	 * can do bitmasks instead of modulo.
+7730d8655880f4 kernel/perf_counter.c Peter Zijlstra          2009-03-25  6579  	 */
+2ed11312eb1950 kernel/events/core.c  Kan Liang               2015-03-02  6580  	if (nr_pages != 0 && !is_power_of_2(nr_pages))
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6581  		return -EINVAL;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6582  
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6583  	if (vma_size != PAGE_SIZE * (1 + nr_pages))
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6584  		return -EINVAL;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6585  
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6586  	WARN_ON_ONCE(event->ctx->parent_ctx);
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6587  again:
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6588  	mutex_lock(&event->mmap_mutex);
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6589  	if (event->rb) {
+60490e7966659b kernel/events/core.c  Zhipeng Xie             2022-02-09  6590  		if (data_page_nr(event->rb) != nr_pages) {
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6591  			ret = -EINVAL;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6592  			goto unlock;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6593  		}
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6594  
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6595  		if (!atomic_inc_not_zero(&event->rb->mmap_count)) {
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6596  			/*
+68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6597  			 * Raced against perf_mmap_close(); remove the
+68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6598  			 * event and try again.
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6599  			 */
+68e3c69803dada kernel/events/core.c  Peter Zijlstra          2022-07-05  6600  			ring_buffer_attach(event, NULL);
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6601  			mutex_unlock(&event->mmap_mutex);
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6602  			goto again;
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6603  		}
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6604  
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6605  		goto unlock;
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6606  	}
+9bb5d40cd93c9d kernel/events/core.c  Peter Zijlstra          2013-06-04  6607  
+789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6608  	user_extra = nr_pages + 1;
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6609  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6610  accounting:
+cdd6c482c9ff9c kernel/perf_event.c   Ingo Molnar             2009-09-21  6611  	user_lock_limit = sysctl_perf_event_mlock >> (PAGE_SHIFT - 10);
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6612  
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6613  	/*
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6614  	 * Increase the limit linearly with more CPUs:
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6615  	 */
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6616  	user_lock_limit *= num_online_cpus();
+a3862d3f814ce7 kernel/perf_counter.c Ingo Molnar             2009-05-24  6617  
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6618  	user_locked = atomic_long_read(&user->locked_vm);
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6619  
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6620  	/*
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6621  	 * sysctl_perf_event_mlock may have changed, so that
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6622  	 *     user->locked_vm > user_lock_limit
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6623  	 */
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6624  	if (user_locked > user_lock_limit)
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6625  		user_locked = user_lock_limit;
+003461559ef7a9 kernel/events/core.c  Song Liu                2020-01-23  6626  	user_locked += user_extra;
+c5078f78b455fb kernel/perf_counter.c Peter Zijlstra          2009-05-05  6627  
+c4b75479741c9c kernel/events/core.c  Alexander Shishkin      2019-11-20  6628  	if (user_locked > user_lock_limit) {
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6629  		/*
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6630  		 * charge locked_vm until it hits user_lock_limit;
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6631  		 * charge the rest from pinned_vm
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6632  		 */
+789f90fcf6b0b5 kernel/perf_counter.c Peter Zijlstra          2009-05-15  6633  		extra = user_locked - user_lock_limit;
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6634  		user_extra -= extra;
+d44248a4133773 kernel/events/core.c  Song Liu                2019-09-04  6635  	}
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6636  
+78d7d407b62a02 kernel/perf_event.c   Jiri Slaby              2010-03-05  6637  	lock_limit = rlimit(RLIMIT_MEMLOCK);
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6638  	lock_limit >>= PAGE_SHIFT;
+70f8a3ca68d3e1 kernel/events/core.c  Davidlohr Bueso         2019-02-06  6639  	locked = atomic64_read(&vma->vm_mm->pinned_vm) + extra;
+37d81828385f8f kernel/perf_counter.c Paul Mackerras          2009-03-23  6640  
+da97e18458fb42 kernel/events/core.c  Joel Fernandes (Google  2019-10-14  6641) 	if ((locked > lock_limit) && perf_is_paranoid() &&
+459ec28ab404d7 kernel/perf_counter.c Ingo Molnar             2009-09-13  6642  		!capable(CAP_IPC_LOCK)) {
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6643  		ret = -EPERM;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6644  		goto unlock;
+ebb3c4c4cb81d6 kernel/perf_counter.c Peter Zijlstra          2009-04-06  6645  	}
+7b732a75047738 kernel/perf_counter.c Peter Zijlstra          2009-03-23  6646  
+45bfb2e50471ab kernel/events/core.c  Peter Zijlstra          2015-01-14  6647  	WARN_ON(!rb && event->rb);
+906010b2134e14 kernel/perf_event.c   Peter Zijlstra          2009-09-21  6648  
+d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  6649  	if (vma->vm_flags & VM_WRITE)
+76369139ceb955 kernel/events/core.c  Frederic Weisbecker     2011-05-19  6650  		flags |= RING_BUFFER_WRITABLE;
+d57e34fdd60be7 kernel/perf_event.c   Peter Zijlstra          2010-05-28  6651  
 
-:::::: The code at line 356 was first introduced by commit
-:::::: 6e837fb152410e571a81aaadbd9884f0bc46a55e smack: implement logging V3
+:::::: The code at line 6492 was first introduced by commit
+:::::: d57e34fdd60be7ffd0b1d86bfa1a553df86b7172 perf: Simplify the ring-buffer logic: make perf_buffer_alloc() do everything needed
 
-:::::: TO: Etienne Basset <etienne.basset@numericable.fr>
-:::::: CC: James Morris <jmorris@namei.org>
+:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
+:::::: CC: Ingo Molnar <mingo@elte.hu>
 
 -- 
 0-DAY CI Kernel Test Service
