@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE18156883
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 08:08:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9950D1714BC;
+	Wed, 23 Oct 2024 08:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729670923; cv=none; b=lKeT1Td0RhoTYs+aKZ28zO6FUayac1W0gHDYZZ3uWo83Z+5dkATbs2AoG2N6kX2AZUa958kdHfNkWiqPQD6IGNrJNcYfnf8hQJlRN02BNbknsgjBuLjaSi7Azykd+sZWx8rB+8de+QelyrjbjF3fp0BPg/wLfojScv6t8h8Kf+0=
+	t=1729672901; cv=none; b=Wwfy9K/D2PXU5bu3uLNufKI5Km+Rs9fRlBQ7l2QBIurKVotgDIQUYvVUFQaEhtFOkg6BmFqeAfmo7VtCO3kLdpypsV9qLQaed+fg39jtCQFNqm2fq11PlTh0yYDYWnKfyTKMNcvWMZVy8yFY2r3qLhhWtVPa+/84ULtoSvQMY60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729670923; c=relaxed/simple;
-	bh=mDy39ZxG25L5qsIUfd7+IcnWlTQit9qetunEpWEh/xg=;
+	s=arc-20240116; t=1729672901; c=relaxed/simple;
+	bh=NvPcw3vWcCoq12LWQUYQ/PNpZynu5vLXZK1socIG4Pg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BnX2yzwFU8NLmrHx+iSUVS7i/w8bycC49M5yqP7SWquZ3otaWbXvsoUKOan1zEh+a/hsHOcNFsijdMxC+beRwWJfygiDoJGwDU2CTGZ1pIzybYbcgQF7vkR4pVC8p43mFGXeQnfuBdb2NJjr+nelr+K+uwicKABJIXJq4/B2BOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jidGR8z9; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=jez8+4r6UiViBLBCMxl/3RVarMdPTG5cDp9nVOsgauF/srO+X0j1nocQwPbjCOCuX4jBv/HCCnsWsjeJBdgqweELMvg1z/PAI1udvdC1piVdNdFIfprX65p3F9Vr1+fVVMuxvfy9y38PoPfmpApes59A+lXI+xNcr3ujnpGfBp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVCN8N63; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jidGR8z9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVCN8N63"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729670921; x=1761206921;
+  t=1729672900; x=1761208900;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mDy39ZxG25L5qsIUfd7+IcnWlTQit9qetunEpWEh/xg=;
-  b=jidGR8z9aYkk8YCKFReyQHRvTTwgp4jnzIRpX8jItTCODWrUwkQVEord
-   wtNWX+rr+cibOTlRfyMBC0eWph805P0RruCclvAY6Jh9mbYiIrO3yfYIh
-   sbVZJkYc/R6ktLI/9jbEIRYnZrh+a3eOMd8+imch/7ta/AkQ57IE+G7yR
-   Pv90JCxeDCg9SHkmaDKdZf/UurImasxIpp/OlRPYsz9o3NJVdmxU7akvs
-   xhg0XFRTm2szhM+AYWgIf5v03AjLsGxnwBXb7HtkMylRZVCABps3mi1kp
-   2ZyyJhPaMqYCd3OkuPViRyseGRgh43cYIQdO/1OI1CqWhl7nSohopy3sL
+  bh=NvPcw3vWcCoq12LWQUYQ/PNpZynu5vLXZK1socIG4Pg=;
+  b=MVCN8N63xdKfblvV6KV5LW1LalbuPdED7D59YLS6oUD19VO6d33pwhWB
+   L+LwOGmHdNuY9+L2HrFKcRhxbVMl9vsgAuo+OtKJ8o0i3c4qVmN2bJEvu
+   upDNdXEI5oDK5iclDSBMHYcY8SriU0N5LomulnoAXrK/t613dPklouC0E
+   tiIZKLbMuj3SVOusdpfqRsZhvAi1Pt7nBlQqNNjQ+qoS3ieRzqNpW81fT
+   6v7zXLdqj4KChcYaVIoc7GAfixBhpyNGsIbzPy8DZ+OuAWIjwmN8Peg/w
+   CAuW0DolXafO6NcTy+dUHAUr7bLLITl7uXrbZocKNl3lhZjWKpP8qmqAF
    A==;
-X-CSE-ConnectionGUID: OwrQ0ZuaTNeJBbBD7org9w==
-X-CSE-MsgGUID: 20DmacjwSryMQNGFtH3Q/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="33166233"
+X-CSE-ConnectionGUID: AwRKcffhRaine32LEJP17Q==
+X-CSE-MsgGUID: 3Jwe7yszTX+RM/1iUcWaKw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11233"; a="39822736"
 X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="33166233"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 01:08:38 -0700
-X-CSE-ConnectionGUID: mmBDuv/ZQxuLqlVcAMoqSQ==
-X-CSE-MsgGUID: /WORf5o5Q/OZ03PirRSOsQ==
+   d="scan'208";a="39822736"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 01:41:39 -0700
+X-CSE-ConnectionGUID: 9a5RDeXwTmWjw2EUNQXMcQ==
+X-CSE-MsgGUID: y1UZPSSeQRqoKYabr0Ka3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,225,1725346800"; 
-   d="scan'208";a="84915110"
+   d="scan'208";a="80056356"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Oct 2024 01:08:37 -0700
+  by orviesa010.jf.intel.com with ESMTP; 23 Oct 2024 01:41:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3WPy-000Udq-03;
-	Wed, 23 Oct 2024 08:08:34 +0000
-Date: Wed, 23 Oct 2024 16:07:34 +0800
+	id 1t3Wvv-000Ufu-17;
+	Wed, 23 Oct 2024 08:41:35 +0000
+Date: Wed, 23 Oct 2024 16:41:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: Max Filippov <jcmvbkbc@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
 Subject: [jcmvbkbc-xtensa:xtensa-6.11-esp32 35/53]
- drivers/misc/esp32-ipc.c:152:20: warning: cast to pointer from integer of
- different size
-Message-ID: <202410231644.nbRjS6dw-lkp@intel.com>
+ drivers/misc/esp32-ipc.c:152:13: warning: cast to 'void *' from smaller
+ integer type 'unsigned int'
+Message-ID: <202410231611.SpkBpD0E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,25 +70,24 @@ First bad commit (maybe != root cause):
 tree:   https://github.com/jcmvbkbc/linux-xtensa xtensa-6.11-esp32
 head:   3b01ad2a1f71b72b27fefa08e4bf6acbe1de874f
 commit: c10968c5b4327b1c4ad9b901192f78349104ef59 [35/53] esp_wifi: add IPC transport
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241023/202410231644.nbRjS6dw-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231644.nbRjS6dw-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241023/202410231611.SpkBpD0E-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241023/202410231611.SpkBpD0E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410231644.nbRjS6dw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410231611.SpkBpD0E-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/misc/esp32-ipc.c: In function 'init_hw':
->> drivers/misc/esp32-ipc.c:152:20: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+>> drivers/misc/esp32-ipc.c:152:13: warning: cast to 'void *' from smaller integer type 'unsigned int' [-Wint-to-void-pointer-cast]
      152 |         hw->hw_q = (void *)readl(p);
-         |                    ^
-   drivers/misc/esp32-ipc.c: At top level:
->> drivers/misc/esp32-ipc.c:228:34: warning: 'esp32_ipc_match' defined but not used [-Wunused-const-variable=]
+         |                    ^~~~~~~~~~~~~~~~
+>> drivers/misc/esp32-ipc.c:228:34: warning: unused variable 'esp32_ipc_match' [-Wunused-const-variable]
      228 | static const struct of_device_id esp32_ipc_match[] = {
          |                                  ^~~~~~~~~~~~~~~
+   2 warnings generated.
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for ESP32_IPC
