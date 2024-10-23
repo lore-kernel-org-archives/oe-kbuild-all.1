@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418CB1AB6FF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Oct 2024 14:23:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF9F20A5D9;
+	Wed, 23 Oct 2024 14:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729693423; cv=none; b=t3Huhh98MvpChaRkq+I7UgAm3bl0oZF3M0LdJzZ1iRHVLvoPdPCrI3VOb9W/gRycrcfAir+KrWTGYAK584IDnTxBC41UIdrSadRO2OTQiIkfZ+bQnwt+e46StvQu5Wvch85b1Pxe3jD73k7yUoWJKHWY9xjsdtvMUrs4gSDD+hE=
+	t=1729693931; cv=none; b=g/yLeKAEtgLxsFiiQ3DESlaJ7Vc7vOntlBpsh556m4Ue4Uv0h7HPelg8KxVe3myuQMnOeyNgdIDyUmuGXDxel3TXA6neRB+iQFaNRTwCJaD25WHY8obhgYDa/RqihWseQGsQ4y+QfAdHtAFdng1SmXzDQmMZeMvgObW7USbA5X8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729693423; c=relaxed/simple;
-	bh=M56st4XR3iiBFn4KaV1V9SU7mWjjl32KE3MXcdR8aEI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SoMxdIUMmpPaKwJSbmfRDUGVOmhoDHg5e6yoXEBvbnqW86R5HsHH1LaT9y2Q9QN73dq4+1GbqXVQMiF+IWbUr/fKIlpIcM+jfdEbeD9v4b1jhnALcYvIAxaMeeNISFQzmj6cC/z6yhGss0H52dk5tKK4pKn4d6mapc3xI3RqqJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJ6J2qXf; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729693931; c=relaxed/simple;
+	bh=1Aw1YYPKTor8fa/AfSMAmhwcPTIkzDMwkYyZMzB41TI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aokVn7TqOTSRJCAaDr5KZQEM5jxqkbANV6+zAvuxfsqj+rUYjSh53stYAXNZuSt3dge595chtTMnAljfH82+hwcJQJAWRLU88gM/fPmmxKsSl9jEOg+pynMU+3qvt4ufEClK8+0Fn8C1aE+szrpclbYEffHAg035EGatM7qgFQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J/W2RePC; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJ6J2qXf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729693421; x=1761229421;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M56st4XR3iiBFn4KaV1V9SU7mWjjl32KE3MXcdR8aEI=;
-  b=HJ6J2qXfyKGabXou3m8MiY3OhZUxXH/fHj1R5jcqTHcq6kpJSniCXhp3
-   nogaTtcx1spvYuhy5ep9XDuvEsvKSCS4zu0iS71dEDjf/a3NLtggiiW4v
-   F99ei14RMBzecZuLvmq6JggSJEmVJw9MJ83/KDLmvq6LMTXI9XwoIMm9q
-   0AONl23CwJXLH+w5n6BIuzAeIml9OW90+enkk4/f5IemeaWbk7HPSsXrO
-   eDf2XO6GqGCvd9aDPZ2u3kB8pQgpTeq0x9Alr3+hYhgnFFrl7HN1Af+5n
-   W8Oab0SFWmE+GGYflh8Rqt5ldK/Kc+9XbxzHdcDAYiB8+5T9yAu57BlIr
-   Q==;
-X-CSE-ConnectionGUID: 81ADyWVpS/29RY/Ws6hDYw==
-X-CSE-MsgGUID: 7s6/YIO5TIiW5xVlMoUR9g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="32139578"
-X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="32139578"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 07:23:40 -0700
-X-CSE-ConnectionGUID: EDhuSORASVeWt5fL4N3ySg==
-X-CSE-MsgGUID: ZWF78SqDRzqtlqf6LY5bVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,226,1725346800"; 
-   d="scan'208";a="80244451"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Oct 2024 07:23:39 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t3cGv-000V1S-17;
-	Wed, 23 Oct 2024 14:23:37 +0000
-Date: Wed, 23 Oct 2024 22:22:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@google.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:crc32-lib-v1 27/30] kismet: WARNING: unmet direct
- dependencies detected for CRYPTO_CHACHA20 when selected by BCACHEFS_FS
-Message-ID: <202410232254.ogS6Em2d-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J/W2RePC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=st7qu5UokEHEesgocAQ0zrKfe0DY+ZCXHcQUXHppVyc=; b=J/W2RePCyEXPdnI/0AJZRR5WiN
+	r0oBCbMIAklsx4C5xn11SRlOSe97Oujl40j1YK5m3iJd5SNq4RcQqa4fdunqSptv72FLIF5uLHa0m
+	dIXiAPWJ0OEm0bgPTJDGnn3Z+6X2ZSRto5PARw0XboxrNK8aFglYeJePhs/W+oyaN6+Uwj2gloDfL
+	C6HrBWDYhMP52Q4gnajdRHQW9SF/Ot3Umhhk91i/owUIRjeCXwXJgQUpKlUf60M9u5B82U1Hr1sCA
+	+skwx1OUVBZKhOSCKrYr9wJ71tSEa0DMOJFHI4LcdTh61e42X5/+6OAjacUjCqpeMGIL83Tp5gHvV
+	cIQ0lM7A==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98 #2 (Red Hat Linux))
+	id 1t3cP7-00000008QA7-1az4;
+	Wed, 23 Oct 2024 14:32:05 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 7CD6330073F; Wed, 23 Oct 2024 16:32:04 +0200 (CEST)
+Date: Wed, 23 Oct 2024 16:32:04 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
+Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, amadeuszx.slawinski@linux.intel.com,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	nex.sw.ncis.osdt.itp.upstreaming@intel.com, netdev@vger.kernel.org,
+	Markus Elfring <Markus.Elfring@web.de>,
+	Kees Cook <keescook@chromium.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Andy Shevchenko <andriy.shevchenko@intel.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v3] cleanup: adjust scoped_guard() macros to avoid
+ potential warning
+Message-ID: <20241023143204.GB9767@noisy.programming.kicks-ass.net>
+References: <20241011121535.28049-1-przemyslaw.kitszel@intel.com>
+ <202410131151.SBnGQot0-lkp@intel.com>
+ <20241018105054.GB36494@noisy.programming.kicks-ass.net>
+ <a7eec76f-1fbc-4fef-9b6d-15b588eacecb@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <a7eec76f-1fbc-4fef-9b6d-15b588eacecb@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crc32-lib-v1
-head:   df44c9de0d037caccc2bce95125af64a941c4419
-commit: 7290ac04d052de4256b4089db93f26194018aa81 [27/30] lib/crc32: make crc32c() go directly to lib
-config: nios2-kismet-CONFIG_CRYPTO_CHACHA20-CONFIG_BCACHEFS_FS-0-0 (https://download.01.org/0day-ci/archive/20241023/202410232254.ogS6Em2d-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241023/202410232254.ogS6Em2d-lkp@intel.com/reproduce)
+On Wed, Oct 23, 2024 at 03:43:22PM +0200, Przemek Kitszel wrote:
+> On 10/18/24 12:50, Peter Zijlstra wrote:
+> > On Sun, Oct 13, 2024 at 12:01:24PM +0800, kernel test robot wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410232254.ogS6Em2d-lkp@intel.com/
+> > --- a/include/linux/cleanup.h
+> > +++ b/include/linux/cleanup.h
+> > @@ -323,7 +323,7 @@ static __maybe_unused const bool class_#
+> >    */
+> >   #define __scoped_guard(_name, _fail, _label, args...)				\
+> >   	for (CLASS(_name, scope)(args);	true; ({ goto _label; }))		\
+> > -		if (!__guard_ptr(_name)(&scope) && __is_cond_ptr(_name)) {	\
+> > +		if (__is_cond_ptr(_name) && !__guard_ptr(_name)(&scope)) {	\
+> 
+> but this will purge the attempt to call __guard_ptr(), and thus newer
+> lock ;) good that there is at least some comment above
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_CHACHA20 when selected by BCACHEFS_FS
-   WARNING: unmet direct dependencies detected for CRYPTO_CHACHA20
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - BCACHEFS_FS [=y] && BLOCK [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_SHA256
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - BCACHEFS_FS [=y] && BLOCK [=y]
-   
-   WARNING: unmet direct dependencies detected for CRYPTO_POLY1305
-     Depends on [n]: CRYPTO [=n]
-     Selected by [y]:
-     - BCACHEFS_FS [=y] && BLOCK [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+No, __guard_ptr() will only return a pointer, it has no action. The lock
+callback is in CLASS(_name, scope)(args).
