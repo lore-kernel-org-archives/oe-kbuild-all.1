@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C63156C74
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 20:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779E61FBF5E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 20:45:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729802125; cv=none; b=vF7iaL12DA+TtT2rMN1b6IoXiHbyPpxM/RpUvw8us8cWhbbcuz+2sx1msHwrACxRbM06sQRhu+QY6TduWFXhpdlb+CtvSH7L1wA1kc6PeYGMTZY2wRXcWwthbccDg95KcJxP2EM+azlYVh3rmQHpEMtQhbA4aF1EV+2IeyCVpu4=
+	t=1729802728; cv=none; b=JozKRJYVzip0k3eWIfcsg14B99CfYRSFgPHa5pgZbkwg+8wII9YvtJMYjRSqoKXP1YUY2xflRKxjtSMMtANi6ebCyq0+eAAqh9B9oudTF9rSOzOEa+TtqlM93BOYv6bDdwg9K1ajLKg3WuL1DaRn6s5Kak6O7+AwO18wwdRAv2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729802125; c=relaxed/simple;
-	bh=lu4rn28L1RW9eZl2pMqeyfnPnDDAUfTZcMTDNRE3mtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hVUyfZMaOaM7VfOy0FPLiBxS8Us6VQTa6/BiS38NKLb+vCx+yoYexQuuQR1ZeK1ebe68VWKN9LivhEhIfEWcfcSDAijD9+NDxoQ1jFHqAGmygW6noJz5bDSnYScklyJKU5HzFqXYpudYUf8DO5a9wCFo9EQ+C+2y0W/WhXSHArA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AYRFkB4C; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1729802728; c=relaxed/simple;
+	bh=ucJbwvBiLsWRpla8htTc6H7ChqcVCWNJxbQadeAGzmY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gsyGr2ugJPd6S8sCRUpwiUdV2q4iNxlan6AS2EjuouEUc46VQaFuVBGqKIRJPkYRrNIGrAdf1x5NVfQ50G/9qFByBwBQawDm6PIS/uMt6B/+zN8IoTwpjTh1sGGA/irkq610CnnZUqxsdePpGoXp1Vncxlato7TvqKHOIRuHtO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TVinYR4s; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AYRFkB4C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TVinYR4s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729802122; x=1761338122;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lu4rn28L1RW9eZl2pMqeyfnPnDDAUfTZcMTDNRE3mtw=;
-  b=AYRFkB4C0PRvC30zDPewQzUIPOmbDB5Qnz7Z8kIrIaMqU6m6EuHVSBGl
-   Wg73RgrvHu5608+I1pUAAu1iNQGDFwMlrNYM1FWmagEIovK1JzZivc4Xo
-   g+g4YHHsKPVhg55rfGiNUsSxW9qOpEJaV+56Z/B3ZWciWuSB1izum6oRk
-   DVFuwPvstNeudT3L53JDL1dFYNCTk1L61bjlBag0uKIIBR/8c0c6vlGlH
-   D9TaHrvsFNWLLVLDOn6Wsf5bJwGJLt2uTRzeoPOl3YaeMk182bssB4r/d
-   eqg+GugQoLr/M/tEfCXkJoQeDQMchPBN9bcZa0Ma+cDrlttBYf9wnjM0a
+  t=1729802727; x=1761338727;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ucJbwvBiLsWRpla8htTc6H7ChqcVCWNJxbQadeAGzmY=;
+  b=TVinYR4s/DVqyj1gfF8k2dw3Td54e+NUZx7QsmcMSxdp2tpbq98qYFZH
+   BZMbB/6yWEkB4f+Jqt1MYd6o76dbhvm5Vz43LxQp9G5B2HdDzNEovTmFB
+   KPepVEv8DpXYE7l0ryRvHRIweSuQYVgLJ33wLhTqkn7ZPNZHweIyGdUlC
+   5OkrQDk1dqbEJgRjndQ6nOKzoWyUxTGwvdBGsRs2nPklmME922/cmz8Kj
+   Y78VmkT6La0yhiIzzx/8OxQ4ddKmhtib+eqv0ct4/cULeid5lCeqeKvj0
+   TaSZ8xBrKHuGV+VyL2VXtV1fNHFeb++kmCWjB7ZzY8iLub2gPwEfWDtIe
    Q==;
-X-CSE-ConnectionGUID: s7l+CEnPTGK1E1ub1VHilQ==
-X-CSE-MsgGUID: bzzBoUVZT1C8k4JmbmCbfQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="33260126"
+X-CSE-ConnectionGUID: OcNfauvdRtGCLGYjh0X+dw==
+X-CSE-MsgGUID: YY6R0gnwSHyGVBnW3Mx/IQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40076653"
 X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="33260126"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 13:35:22 -0700
-X-CSE-ConnectionGUID: vCSxoWGnSO2RWeWohMPHtg==
-X-CSE-MsgGUID: daxuC6KhSo2K5eJTHtFZUA==
+   d="scan'208";a="40076653"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 13:45:26 -0700
+X-CSE-ConnectionGUID: a80PQk+CTeWoZxyfSaCU0Q==
+X-CSE-MsgGUID: A2lUjMM7QYCvJ0mjQUtLcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="80696527"
+   d="scan'208";a="84668190"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Oct 2024 13:35:20 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 13:45:22 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t44Y9-000X4k-2I;
-	Thu, 24 Oct 2024 20:35:17 +0000
-Date: Fri, 25 Oct 2024 04:34:37 +0800
+	id 1t44hr-000X8a-2u;
+	Thu, 24 Oct 2024 20:45:19 +0000
+Date: Fri, 25 Oct 2024 04:44:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but not
- used
-Message-ID: <202410250459.EJe6PJI5-lkp@intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, lee@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@codeconstruct.com.au, mturquette@baylibre.com,
+	sboyd@kernel.org, p.zabel@pengutronix.de,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, dmitry.baryshkov@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 3/3] clk: aspeed: add AST2700 clock driver.
+Message-ID: <202410250433.GvMiJrDV-lkp@intel.com>
+References: <20241023090153.1395220-4-ryan_chen@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +68,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241023090153.1395220-4-ryan_chen@aspeedtech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-commit: d8fccd9ca5f905533dc6c26cfd1f91beb8691c95 arm64: Allow to enable PREEMPT_RT.
-date:   5 weeks ago
-config: arm64-randconfig-004-20241025 (https://download.01.org/0day-ci/archive/20241025/202410250459.EJe6PJI5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250459.EJe6PJI5-lkp@intel.com/reproduce)
+Hi Ryan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on pza/reset/next lee-mfd/for-mfd-next lee-leds/for-leds-next linus/master lee-mfd/for-mfd-fixes v6.12-rc4 next-20241024]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-mfd-aspeed-support-for-AST2700/20241023-170434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20241023090153.1395220-4-ryan_chen%40aspeedtech.com
+patch subject: [PATCH v6 3/3] clk: aspeed: add AST2700 clock driver.
+config: loongarch-randconfig-r054-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250433.GvMiJrDV-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250433.GvMiJrDV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410250459.EJe6PJI5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410250433.GvMiJrDV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/seqlock.h:19,
-                    from include/linux/dcache.h:11,
-                    from include/linux/fs.h:8,
-                    from include/linux/highmem.h:5,
-                    from kernel/sched/core.c:10:
->> kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but not used [-Wunused-variable]
-    1361 | static DEFINE_MUTEX(uclamp_mutex);
-         |                     ^~~~~~~~~~~~
-   include/linux/mutex.h:101:22: note: in definition of macro 'DEFINE_MUTEX'
-     101 |         struct mutex mutexname = __MUTEX_INITIALIZER(mutexname)
-         |                      ^~~~~~~~~
+   In file included from drivers/clk/clk-ast2700.c:17:
+>> include/soc/aspeed/reset-aspeed.h:14:5: warning: no previous prototype for 'aspeed_reset_controller_register' [-Wmissing-prototypes]
+      14 | int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/uclamp_mutex +1361 kernel/sched/core.c
+vim +/aspeed_reset_controller_register +14 include/soc/aspeed/reset-aspeed.h
 
-71f8bd4600521fe kernel/sched.c      Ingo Molnar     2007-07-09  1349  
-69842cba9ace848 kernel/sched/core.c Patrick Bellasi 2019-06-21  1350  #ifdef CONFIG_UCLAMP_TASK
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1351  /*
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1352   * Serializes updates of utilization clamp values
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1353   *
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1354   * The (slow-path) user-space triggers utilization clamp value updates which
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1355   * can require updates on (fast-path) scheduler's data structures used to
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1356   * support enqueue/dequeue operations.
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1357   * While the per-CPU rq lock protects fast-path update operations, user-space
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1358   * requests are serialized using a mutex to reduce the risk of conflicting
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1359   * updates or API abuses.
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1360   */
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22 @1361  static DEFINE_MUTEX(uclamp_mutex);
-2480c093130f64a kernel/sched/core.c Patrick Bellasi 2019-08-22  1362  
-
-:::::: The code at line 1361 was first introduced by commit
-:::::: 2480c093130f64ac3a410504fa8b3db1fc4b87ce sched/uclamp: Extend CPU's cgroup controller
-
-:::::: TO: Patrick Bellasi <patrick.bellasi@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+1476d29e4461f6 Ryan Chen 2024-10-23   9  
+1476d29e4461f6 Ryan Chen 2024-10-23  10  #if IS_ENABLED(CONFIG_RESET_ASPEED)
+1476d29e4461f6 Ryan Chen 2024-10-23  11  int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+1476d29e4461f6 Ryan Chen 2024-10-23  12  				     const char *adev_name);
+1476d29e4461f6 Ryan Chen 2024-10-23  13  #else
+1476d29e4461f6 Ryan Chen 2024-10-23 @14  int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+1476d29e4461f6 Ryan Chen 2024-10-23  15  				     const char *adev_name)
+1476d29e4461f6 Ryan Chen 2024-10-23  16  {
+1476d29e4461f6 Ryan Chen 2024-10-23  17  	return -ENODEV;
+1476d29e4461f6 Ryan Chen 2024-10-23  18  }
+1476d29e4461f6 Ryan Chen 2024-10-23  19  #endif /* if IS_ENABLED(CONFIG_RESET_ASPEED) */
+1476d29e4461f6 Ryan Chen 2024-10-23  20  
 
 -- 
 0-DAY CI Kernel Test Service
