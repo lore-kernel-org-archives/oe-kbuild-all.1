@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BAABA4B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 03:16:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E824B1714C9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 05:18:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729739797; cv=none; b=EF9VluIruy5PBq5hZ0G0NDJgpoJMXKuhim58ZSL/4JWKbKuiDMOxaoS49YjNiP1Ya+Zu5UmJfY1hdUwwQvz/hD5FALzLv8ptpqNks+5nV8v5b+oJhv2ljP8AbEkmdGWZaizzlMVen/5Eo881x2MQE9aBUKNeIVWDEHVK0gls+fQ=
+	t=1729747119; cv=none; b=UKVf32IRGXtaYV4I/v+wHQkJEtOcgsgCjDbTOwLcdf6TT4cj3tKuEYiC/K+j8y2KpSKNAOxLQxRDTQ8cpRmTPPTAz4Z/oK/YvPs8hegRANWEBtghay1IDivE7I0NKDoNVs5T/xJIbOat+fsQ85Sb5/TJyenLWtbjz87WKnqe+fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729739797; c=relaxed/simple;
-	bh=Qu9fJLr1v+5Xli+b+8NmPG2n7sMJcxBwfFrqbYFjku4=;
+	s=arc-20240116; t=1729747119; c=relaxed/simple;
+	bh=nW5lVy7pEyDkY7mM4WORR8ASNiP5YKNEm0GJyRfIYc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oERcwtRdPqFQpyweNy196WOTUBXZbbTOQtZY4UH13OB3aPiHbbwsyVzGwUEZbGF1n/oSzlTs669W6xXUANDSWCtAtywEI8wGY65ZehucuS167QJ92V0qZX2AQRZydYPmEcwsU3zvxI0sO9P0sjKAi8l7i81gJRGzZsQSqoIKL4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7ISqEoP; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=XBSihrhzmwkOlhujH9Qon+P+pMoyWQmIR5M19U00wdwh7P1YAlrV3UoDKuuSyb93ZdiQ6xHEloYkO+Gq27PJp/YynLvZF9+7VlRZlRwcNO7QBSB7CethKXUNaDSvwJW30ThYSCLXagvug+CcXhPp9xAMhwfI14J3FB0wgvQnTuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V/eUu7ya; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7ISqEoP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V/eUu7ya"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729739796; x=1761275796;
+  t=1729747117; x=1761283117;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qu9fJLr1v+5Xli+b+8NmPG2n7sMJcxBwfFrqbYFjku4=;
-  b=I7ISqEoPe7oh172mziBXfiIvFVpZRYMTDeAqmmqIAEJNnwviKzgOIG5D
-   +cy83A4XgBL+3e0vfjlCiU94nvSegza//aslNUBtagO4hVR4hZHQzjWUi
-   HaCi3gHAV/+eivlcskwOILUDV5zD0yMZltUdijdb7l6X6ORBq4Di61HHD
-   YBVyhrpbYYWRH35mAg9uLWW3BoG5zl9z2lIj/ukn6uLUYvK7ItKUAPs5j
-   9tDQvplZesJMr9HpN5gY71rcSipFfXDY7iVjVsgwsTdialwOY/hz36bRm
-   rbvJXdA/b3AQJGgK/35trDOR5ges1QR9fxb2OLK5hsCwQN1GxAW2xbGHv
-   A==;
-X-CSE-ConnectionGUID: Q22PZGKgTpWCE3c1+Fx9gQ==
-X-CSE-MsgGUID: xyBO40iaTZWhEzb7QgtH/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="54753893"
-X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; 
-   d="scan'208";a="54753893"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 20:16:35 -0700
-X-CSE-ConnectionGUID: hoy4CYCsQRKlfHSguLtwgw==
-X-CSE-MsgGUID: NOmV4ql1T069AUcR2ibO/g==
+  bh=nW5lVy7pEyDkY7mM4WORR8ASNiP5YKNEm0GJyRfIYc8=;
+  b=V/eUu7yahGfX0L9niOlt0J5Cfve0AES8MpADKSICvxhofM1XZ9TfR78W
+   2NPF2m/2j+PEpGxpH8I15EX03vwFopFYznqEhj4amxRDTACcqkH5zW68W
+   4uYGldiqvfzdcMCoMORaeon1JOY36s5atL38Tj1FuPWak7mBZFNzFL2G8
+   mX5/yvycTzVMv1tIIssepb/lTcUjvw/sFXx7sO2OAe7yD++Aaa0qvHHFe
+   Fw4k3VMP+dm0qg6JGl0US2qoL77/ZfsIVucXZyE8Zw3diMv9Gm12JwX6v
+   GAX8dQPqj4qjPli1RU8PmkHArVrRQ6PPciTbtv2YPAGW7IDbslz0eq7c9
+   w==;
+X-CSE-ConnectionGUID: 5owH8AnKTfmF3RFfjAVB5g==
+X-CSE-MsgGUID: r0GiwggUSHm2akjH2qOPFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33048287"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="33048287"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 22:18:37 -0700
+X-CSE-ConnectionGUID: Pohe58VXTaaySUbuBZeAVg==
+X-CSE-MsgGUID: m7YeAdbzRreUrEF/oBoBUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,228,1725346800"; 
-   d="scan'208";a="85569884"
+   d="scan'208";a="84452831"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Oct 2024 20:16:32 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Oct 2024 22:18:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3oKr-000VsM-0w;
-	Thu, 24 Oct 2024 03:16:29 +0000
-Date: Thu, 24 Oct 2024 11:16:13 +0800
+	id 1t3qEz-000Vy0-0C;
+	Thu, 24 Oct 2024 05:18:33 +0000
+Date: Thu, 24 Oct 2024 13:18:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 7228/13046]
- drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:37: error: 'NR_syscalls'
- undeclared; did you mean 'si_syscall'?
-Message-ID: <202410241109.88USiTaE-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 21492/30000] arch/arm64/kvm/reset.c:102:34:
+ error: implicit declaration of function 'sve_max_virtualisable_vl'
+Message-ID: <202410241303.wTIeIXFm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,76 +62,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: ba47bd6dc7b834ca6a02ad51205a862009981bfa [7228/13046] newfeature:crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
-config: x86_64-buildonly-randconfig-005-20241024 (https://download.01.org/0day-ci/archive/20241024/202410241109.88USiTaE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410241109.88USiTaE-lkp@intel.com/reproduce)
+Hi Mark,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   5faf5aae71283199f69c2a60ed91ab2847f3ffd8
+commit: 68da302c8ae30331c8917f1dc7b0f1682f696d71 [21492/30000] arm64/sve: Put system wide vector length information into structs
+config: arm64-randconfig-003-20241024 (https://download.01.org/0day-ci/archive/20241024/202410241303.wTIeIXFm-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410241303.wTIeIXFm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410241109.88USiTaE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410241303.wTIeIXFm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for 'tdm_service_run' [-Wmissing-prototypes]
-     151 | int tdm_service_run(struct tdm_security_enhance *data)
-         |     ^~~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for 'tdm_service_exit' [-Wmissing-prototypes]
-     212 | int tdm_service_exit(struct tdm_security_enhance *data)
-         |     ^~~~~~~~~~~~~~~~
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c: In function 'kernel_security_enhance_init':
->> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:37: error: 'NR_syscalls' undeclared (first use in this function); did you mean 'si_syscall'?
-     308 |                 eh_objs[SCT].size = NR_syscalls * sizeof(char *);
-         |                                     ^~~~~~~~~~~
-         |                                     si_syscall
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:308:37: note: each undeclared identifier is reported only once for each function it appears in
+   arch/arm64/kvm/reset.c: In function 'kvm_arm_init_sve':
+>> arch/arm64/kvm/reset.c:102:34: error: implicit declaration of function 'sve_max_virtualisable_vl' [-Werror=implicit-function-declaration]
+     102 |                 kvm_sve_max_vl = sve_max_virtualisable_vl();
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +308 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
+vim +/sve_max_virtualisable_vl +102 arch/arm64/kvm/reset.c
 
-   286	
-   287		sct_addr = (unsigned long *)kallsyms_lookup_name("sys_call_table");
-   288	#endif
-   289		if (!sct_addr) {
-   290			ret = -DYN_ERR_API;
-   291			pr_err("kallsyms_lookup_name for sys_call_table failed!");
-   292			goto end;
-   293		}
-   294	
-   295		asm("sidt %0":"=m"(idtr));
-   296	
-   297		if (!psp_check_tdm_support())
-   298			return 0;
-   299	
-   300		for (i = 0; i < MAX_OBJ; i++) {
-   301			memset(&eh_objs[i], 0, sizeof(eh_objs[i]));
-   302			eh_objs[i].context = CONTEXT_CHECK_MODNAME;
-   303			eh_objs[i].obj_name = obj_names[i];
-   304		}
-   305	
-   306		if ((eh_obj == -1) || (eh_obj & (1 << SCT))) {
-   307			eh_objs[SCT].vaddr = (uint64_t)sct_addr;
- > 308			eh_objs[SCT].size = NR_syscalls * sizeof(char *);
-   309		}
-   310		if ((eh_obj == -1) || (eh_obj & (1 << IDT))) {
-   311			eh_objs[IDT].vaddr = idtr.address;
-   312			eh_objs[IDT].size = idtr.size;
-   313		}
-   314	
-   315		for (i = 0; i < MAX_OBJ; i++) {
-   316			if (eh_objs[i].vaddr)
-   317				tdm_service_run(&eh_objs[i]);
-   318		}
-   319	
-   320		pr_info("Hygon TDM guard load successfully!\n");
-   321	
-   322	end:
-   323		return ret;
-   324	}
-   325	
+    98	
+    99	int kvm_arm_init_sve(void)
+   100	{
+   101		if (system_supports_sve()) {
+ > 102			kvm_sve_max_vl = sve_max_virtualisable_vl();
+   103	
+   104			/*
+   105			 * The get_sve_reg()/set_sve_reg() ioctl interface will need
+   106			 * to be extended with multiple register slice support in
+   107			 * order to support vector lengths greater than
+   108			 * SVE_VL_ARCH_MAX:
+   109			 */
+   110			if (WARN_ON(kvm_sve_max_vl > SVE_VL_ARCH_MAX))
+   111				kvm_sve_max_vl = SVE_VL_ARCH_MAX;
+   112	
+   113			/*
+   114			 * Don't even try to make use of vector lengths that
+   115			 * aren't available on all CPUs, for now:
+   116			 */
+   117			if (kvm_sve_max_vl < sve_max_vl())
+   118				pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
+   119					kvm_sve_max_vl);
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
 
 -- 
 0-DAY CI Kernel Test Service
