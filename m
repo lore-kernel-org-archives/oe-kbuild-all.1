@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAA1145B0B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B400E1E0DB0
 	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 14:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729781402; cv=none; b=tjDgXOsNgGm4aZzVX6UHMMUsr5LJOfilIrwvxrsSIJq2k3I4YeQVrazUgDzvx2Kbmsd4s2+StdK1q6bUF/ceMZmI9kzpIP/CswKgsBqlDIePZaW8bFSZ6HzN6kf2BCF05xQNPIMd8I2W93rZoO9BnSszUhWII/tj+CqTouuMYlk=
+	t=1729781403; cv=none; b=JMk0pm4YMadrGKV2yTJLV181CngxmD1hhoGpj3Io6NanY6YDPyYkroXuFy3GLzQenqueFi2lCPtRtA7/4XDGRmYHGQHOZnsYm8Vo17ejatSeGAqPrAZdRpyGgkKB8F4XhmaSkt8l2yS+eVJT37RfyzCfolsqhNUsNw0/qc7oidE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729781402; c=relaxed/simple;
-	bh=8nq6hQAU0GCCOfi4zt2xO+5aWx8e+5vtF1efULp4Ehw=;
+	s=arc-20240116; t=1729781403; c=relaxed/simple;
+	bh=fbpmUaG5PQXkXdeTo+Nx+jxIQqnmKKxeG1Do7MPZTqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s5jQq6zihrd7svccO1xhPEr+SE067zEZ5EnrwWirSVcO47jOptDp0hD6D7XF7Abee/tfUF3gOoBy536WYlgdgebpP9BiJPe+NE2yyzrkYsP5oLvAD/RUEK5vkDHpvgCwjmjCfIqzpFz4WiA7PiQBMwalHjz6fPKQ1gzrBGxT5mM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NVTyTZdV; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=r4EzNiiNCgpnzRBiawsJzuGXDXEFU4kI8hEvSLEnJWEavonYtWCk66D7ww0txlOKI+r5P8Yi3gWS0rFKtcgZj/Z1IleQ5AUd+wbPfS4Wc7y+fONyePmP+o8eTHrJWAmcciQIjAOo38JcSsO15LXFlZfX4bm+h2jALA8zgDzO7Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMF2C7TY; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NVTyTZdV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMF2C7TY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729781399; x=1761317399;
+  t=1729781400; x=1761317400;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8nq6hQAU0GCCOfi4zt2xO+5aWx8e+5vtF1efULp4Ehw=;
-  b=NVTyTZdVzH7c+hEuxL9+c9JQ0LD19I3YFA2J8xD4y+izRUSg01JU0Hvl
-   hsKJBayoQN7lEV3V9IweY0ovPW8k0INlkMA2T3spUXm3q4ctTEeQ68Xcu
-   GT758iJhw0slrcIHfxedPhS/yAMcGjArDJrR8CNKybsCRuf+NvCGOCFfN
-   M4XORwl+c2oNdO8/bBgQnheiU7CkAEovLIMUah1OTgxuopi711uYNPnzP
-   EbuSUcdk5y4Do8NxtG7UZ9S1qP9+4mwueziTKRcZUcCkq1+W8WhvVByqI
-   pUFn8M/U8Mjme90knfwIiyw0ps7F9YYDBIfahSPpXLZdD3z9z+yCYY0NB
-   g==;
-X-CSE-ConnectionGUID: N7ZIIjTnS5SNBWnRBGMy+g==
-X-CSE-MsgGUID: Hj9dOVj2TnOFPuPxxckwuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40808053"
-X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="40808053"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 07:49:59 -0700
-X-CSE-ConnectionGUID: JnOHHdobQuSN7E+A7fl2Iw==
-X-CSE-MsgGUID: /wIoAijBQKGTmbkwK3Ydsg==
+  bh=fbpmUaG5PQXkXdeTo+Nx+jxIQqnmKKxeG1Do7MPZTqc=;
+  b=VMF2C7TYrCNArJERqIY6kjvfk3HIG4pNItssayXVqLRi4aQFRb2dwiiJ
+   6dmJ91L7bWoaGFHsocB6sP9fWMpFk5MgvCismS7offMYwoggYSViRboN+
+   vYURW5CBbYQSvpREuNWP0P8p/Cg2bWc0/P3/h7eKc9Yp3u613Bu9tXM3N
+   QpNS+RlEo2qeOn+2KSKq/PkNzh49boqLk0v83JIxepNmIgOuNwUvXCeEV
+   0Nyt5TY3if1Lo/3iKqaDGIBiT4FLZk+H62/EwWiWW8L30JzKnjqwmvzzp
+   /ooQPCjXP1fKfZSKAmjgMiKEk0ZnX13MTfxi8Ww/wfXMaOGDwPwu4N/9d
+   Q==;
+X-CSE-ConnectionGUID: 1Ol2wRGSQ5Otx26T/iZcsg==
+X-CSE-MsgGUID: lMFExJgNTxupm6oL9qWMFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29538730"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29538730"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 07:49:59 -0700
+X-CSE-ConnectionGUID: DIeOXk5SR1+Y8Qj5xKBOcA==
+X-CSE-MsgGUID: 2KYtrKOdRs6GANknDvP2bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="80262572"
+   d="scan'208";a="84588817"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2024 07:49:57 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 07:49:58 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3z9v-000WXQ-2Y;
+	id 1t3z9v-000WXU-2l;
 	Thu, 24 Oct 2024 14:49:55 +0000
-Date: Thu, 24 Oct 2024 22:49:21 +0800
+Date: Thu, 24 Oct 2024 22:49:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 7453/15273] mm/kasan/shadow.c:90:undefined
- reference to `__memcpy_mc'
-Message-ID: <202410242202.olRfrxYG-lkp@intel.com>
+To: Chen Wang <unicorn_wang@outlook.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/clk/sophgo/clk-sg2042-pll.c:217:1-7: WARNING: do_div() does
+ a 64-by-32 division, please consider using div64_ul instead.
+Message-ID: <202410242248.o7XIZVqz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,45 +62,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tong,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ed7fbeaf3f3511bb3db6134d07f614d513c4273f
-commit: b991780c836ceb9a479c6c6e385e914b487e353a [7453/15273] arm64: introduce copy_mc_to_kernel() implementation
-config: arm64-randconfig-003-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242202.olRfrxYG-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242202.olRfrxYG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 48cf7e01386e7e35ea12255bc401bdd484c34e7d clk: sophgo: Add SG2042 clock driver
+date:   4 months ago
+config: loongarch-randconfig-r054-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242248.o7XIZVqz-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410242202.olRfrxYG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410242248.o7XIZVqz-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/sophgo/clk-sg2042-pll.c:217:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+>> drivers/clk/sophgo/clk-sg2042-pll.c:160:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_u64 instead.
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: mm/kasan/shadow.o: in function `memcpy_mc':
->> mm/kasan/shadow.c:90:(.text+0x6bc): undefined reference to `__memcpy_mc'
+vim +217 drivers/clk/sophgo/clk-sg2042-pll.c
 
-
-vim +90 mm/kasan/shadow.c
-
-    81	
-    82	#ifdef __HAVE_ARCH_MEMCPY_MC
-    83	#undef memcpy_mc
-    84	int memcpy_mc(void *dest, const void *src, size_t len)
-    85	{
-    86		if (!kasan_check_range(src, len, false, _RET_IP_) ||
-    87		    !kasan_check_range(dest, len, true, _RET_IP_))
-    88			return (int)len;
-    89	
-  > 90		return __memcpy_mc(dest, src, len);
-    91	}
-    92	#endif
-    93	
+   138	
+   139	/**
+   140	 * sg2042_pll_recalc_rate() - Calculate rate for plls
+   141	 * @reg_value: current register value
+   142	 * @parent_rate: parent frequency
+   143	 *
+   144	 * This function is used to calculate below "rate" in equation
+   145	 * rate = (parent_rate/REFDIV) x FBDIV/POSTDIV1/POSTDIV2
+   146	 *      = (parent_rate x FBDIV) / (REFDIV x POSTDIV1 x POSTDIV2)
+   147	 *
+   148	 * Return: The rate calculated.
+   149	 */
+   150	static unsigned long sg2042_pll_recalc_rate(unsigned int reg_value,
+   151						    unsigned long parent_rate)
+   152	{
+   153		struct sg2042_pll_ctrl ctrl_table;
+   154		u64 numerator, denominator;
+   155	
+   156		sg2042_pll_ctrl_decode(reg_value, &ctrl_table);
+   157	
+   158		numerator = parent_rate * ctrl_table.fbdiv;
+   159		denominator = ctrl_table.refdiv * ctrl_table.postdiv1 * ctrl_table.postdiv2;
+ > 160		do_div(numerator, denominator);
+   161		return numerator;
+   162	}
+   163	
+   164	/**
+   165	 * sg2042_pll_get_postdiv_1_2() - Based on input rate/prate/fbdiv/refdiv,
+   166	 * look up the postdiv1_2 table to get the closest postdiiv combination.
+   167	 * @rate: FOUTPOSTDIV
+   168	 * @prate: parent rate, i.e. FREF
+   169	 * @fbdiv: FBDIV
+   170	 * @refdiv: REFDIV
+   171	 * @postdiv1: POSTDIV1, output
+   172	 * @postdiv2: POSTDIV2, output
+   173	 *
+   174	 * postdiv1_2 contains all the possible combination lists of POSTDIV1 and POSTDIV2
+   175	 * for example:
+   176	 * postdiv1_2[0] = {2, 4, 8}, where div1 = 2, div2 = 4 , div1 * div2 = 8
+   177	 *
+   178	 * See TRM:
+   179	 * FOUTPOSTDIV = FREF * FBDIV / REFDIV / (POSTDIV1 * POSTDIV2)
+   180	 * So we get following formula to get POSTDIV1 and POSTDIV2:
+   181	 * POSTDIV = (prate/REFDIV) x FBDIV/rate
+   182	 * above POSTDIV = POSTDIV1*POSTDIV2
+   183	 *
+   184	 * Return:
+   185	 * %0 - OK
+   186	 * %-EINVAL - invalid argument, which means Failed to get the postdivs.
+   187	 */
+   188	static int sg2042_pll_get_postdiv_1_2(unsigned long rate,
+   189					      unsigned long prate,
+   190					      unsigned int fbdiv,
+   191					      unsigned int refdiv,
+   192					      unsigned int *postdiv1,
+   193					      unsigned int *postdiv2)
+   194	{
+   195		int index;
+   196		u64 tmp0;
+   197	
+   198		/* POSTDIV_RESULT_INDEX point to 3rd element in the array postdiv1_2 */
+   199		#define	POSTDIV_RESULT_INDEX	2
+   200	
+   201		static const int postdiv1_2[][3] = {
+   202			{2, 4,  8}, {3, 3,  9}, {2, 5, 10}, {2, 6, 12},
+   203			{2, 7, 14}, {3, 5, 15}, {4, 4, 16}, {3, 6, 18},
+   204			{4, 5, 20}, {3, 7, 21}, {4, 6, 24}, {5, 5, 25},
+   205			{4, 7, 28}, {5, 6, 30}, {5, 7, 35}, {6, 6, 36},
+   206			{6, 7, 42}, {7, 7, 49}
+   207		};
+   208	
+   209		/* prate/REFDIV and result save to tmp0 */
+   210		tmp0 = prate;
+   211		do_div(tmp0, refdiv);
+   212	
+   213		/* ((prate/REFDIV) x FBDIV) and result save to tmp0 */
+   214		tmp0 *= fbdiv;
+   215	
+   216		/* ((prate/REFDIV) x FBDIV)/rate and result save to tmp0 */
+ > 217		do_div(tmp0, rate);
+   218	
+   219		/* tmp0 is POSTDIV1*POSTDIV2, now we calculate div1 and div2 value */
+   220		if (tmp0 <= 7) {
+   221			/* (div1 * div2) <= 7, no need to use array search */
+   222			*postdiv1 = tmp0;
+   223			*postdiv2 = 1;
+   224			return 0;
+   225		}
+   226	
+   227		/* (div1 * div2) > 7, use array search */
+   228		for (index = 0; index < ARRAY_SIZE(postdiv1_2); index++) {
+   229			if (tmp0 > postdiv1_2[index][POSTDIV_RESULT_INDEX]) {
+   230				continue;
+   231			} else {
+   232				/* found it */
+   233				*postdiv1 = postdiv1_2[index][1];
+   234				*postdiv2 = postdiv1_2[index][0];
+   235				return 0;
+   236			}
+   237		}
+   238		pr_warn("%s can not find in postdiv array!\n", __func__);
+   239		return -EINVAL;
+   240	}
+   241	
 
 -- 
 0-DAY CI Kernel Test Service
