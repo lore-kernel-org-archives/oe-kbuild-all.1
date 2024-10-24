@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7B817277F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 12:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C45B14A0AA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 13:14:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729774440; cv=none; b=hnbqTNXYpSS0F1IxIwBnZ8366qKWZRCXi2Fv7uEuIoA+LNLh22tWOOjPxvR61yJc/Yo4lYKnrAU+AaHHCzv5hSH5j52TTzHXWJJSM6VRZASjZSqEaA62X3fFXXBt/O7aX72Q9FcCXt8XBWlY50ZoTUHA4eyt5Ml8541fgXhSwjQ=
+	t=1729775698; cv=none; b=Cxp7F4YgwK2aqAYPoK2OE7s/PDTOFVFowRu62Gtn96xS6MuiyZ87W2HzxC5yuRoQAycheFepzumQ7/tdAFMGedZUsJohQU1JB/X09Lkvppi8bPUoq16xmbgLdDXZSxuVESXqCE3uVhX/ELut0h0Pk3yXu4iF29Rq3e9Qpap2SNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729774440; c=relaxed/simple;
-	bh=HUuhAWk3dXLnQPMq/6w0jxdCVg118X9Z6g0zogfDEU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ffc6no0lYjuf6yT4sFYmSaLA5Lnl6tFUu4Y6JOnAusH4VQ/hdkr+tnTq2UxYEzY1c8wOjvv5CxzH4HLHYsGa3n1qMlG76MLevcmNDVKZk3MxqqaP/j/fdmmEFiH0bTP3RtPV5YnCC9wQR4cK14YLkuORpXGt1LN+eiPrO/by2bw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/twMj9i; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1729775698; c=relaxed/simple;
+	bh=yBZxuhtvtoN4Gpai5Rl9XV7yJTicWyNcHZm7Lk94yBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UUY/lpdrp63zKBUc6MvrhRi4Wlyppc+4aduCrzwG8QwtU9xB0EQeuc8+md2Jq0aqkxcGbXPNuhePOB116C1JvrPv4bvPIKzjAKFc5bllWkcYGvb2bB2hYStgyfUbx8NP3XXW7aLU9zhWyMp0m78wOIpwbB9fC8W/VM/SiHHFuw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SxpM45KK; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/twMj9i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SxpM45KK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729774439; x=1761310439;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HUuhAWk3dXLnQPMq/6w0jxdCVg118X9Z6g0zogfDEU8=;
-  b=h/twMj9iyxDgIK1xNShcTxbYu34r8LmGLfm78Ks2T3pYSuMebxGYtMut
-   r4YtSw4giXhKLSOnDnoihWQ3nYgMT5QYkKJ6CBmajl36rEzOSK/GUkqgn
-   R80HQtXBoI0/XBP7sw6ZHwKbWDO1UUUjExtwnSRr1PCebc+iL7ko2n3Uc
-   BhcvOev7c7HJsul3W9/4rlvU96o5Eh2QJOHxpbKMOhisBagPLYxibqL63
-   HIAZYWOEprFpgrzdGbzgM9pictpkfYIbHoiBJsW8TwK1ijuEzjkLlUHMJ
-   ZYp/kpfE+Z0sWadNVBgKldd1RVciw8QpBSgvKPUU86j8+hXHn/PM6xsp/
-   Q==;
-X-CSE-ConnectionGUID: oVasWWa0RXaeTl80t1NVgQ==
-X-CSE-MsgGUID: eDLbg60HQh6K6fpDmNoR0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="33305516"
-X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="33305516"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 05:53:58 -0700
-X-CSE-ConnectionGUID: CYQhb0LyQ/O314nR33NJFw==
-X-CSE-MsgGUID: T60QwaPzQhGgKJLZPt2oiA==
+  t=1729775696; x=1761311696;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yBZxuhtvtoN4Gpai5Rl9XV7yJTicWyNcHZm7Lk94yBQ=;
+  b=SxpM45KKFkGFWl/z6vdqFaBg0XItSSYLRlSQjBAZgeM2vyS3RsbtAKzq
+   f12WmmoW+kwvM+0cCzJUPwh1ziofIR6+gNG9urMm9t6wkNeLQmw9FgRKv
+   kLaTYzWtcKO0wP6rsntAMdUv72k/xF18GsEZmqgVKirTdvZFgY17qJjxO
+   l6ECCurQhKei8jF7TDQvr1OEFOUombFztlXZlLYzusP7vhnHTeagSSg7L
+   bD/C2N/RX/tynpSTZB1gqIKS+jg+VV+Ehyh4dNoJp1Zvz7trdCfgQl7Ym
+   i8RsMLu2rqKAT7f3qQ5E9UMzCsWXaHnhD8dgiMCEUmI6MWzcCSkf/JMWW
+   g==;
+X-CSE-ConnectionGUID: Caeq0xHDT/aMe8gOS+4psg==
+X-CSE-MsgGUID: oDbVidcGQBGI17lfg+o/kA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="39944430"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="39944430"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 06:14:56 -0700
+X-CSE-ConnectionGUID: e9l6M7ORT42WYe6lHhufOA==
+X-CSE-MsgGUID: G1Xx+qBlTZOv+7V3GSB83Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="84560553"
+   d="scan'208";a="85146320"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 05:53:54 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2024 06:14:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3xLc-000WRA-04;
-	Thu, 24 Oct 2024 12:53:52 +0000
-Date: Thu, 24 Oct 2024 20:53:28 +0800
+	id 1t3xfw-000WRs-1X;
+	Thu, 24 Oct 2024 13:14:52 +0000
+Date: Thu, 24 Oct 2024 21:13:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Chen <ryan_chen@aspeedtech.com>, lee@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
-	andrew@codeconstruct.com.au, mturquette@baylibre.com,
-	sboyd@kernel.org, p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, dmitry.baryshkov@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 3/3] clk: aspeed: add AST2700 clock driver.
-Message-ID: <202410242017.1valHJUC-lkp@intel.com>
-References: <20241023090153.1395220-4-ryan_chen@aspeedtech.com>
+To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>
+Subject: [linux-next:master 6523/6766] lsm_audit.c:undefined reference to
+ `init_net'
+Message-ID: <202410242132.k5ZsxBPq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,59 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023090153.1395220-4-ryan_chen@aspeedtech.com>
 
-Hi Ryan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on pza/reset/next lee-mfd/for-mfd-next lee-leds/for-leds-next linus/master lee-mfd/for-mfd-fixes v6.12-rc4 next-20241024]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-mfd-aspeed-support-for-AST2700/20241023-170434
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20241023090153.1395220-4-ryan_chen%40aspeedtech.com
-patch subject: [PATCH v6 3/3] clk: aspeed: add AST2700 clock driver.
-config: arm64-randconfig-r133-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242017.1valHJUC-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce: (https://download.01.org/0day-ci/archive/20241024/202410242017.1valHJUC-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fd21fa4a912ebbf8a6a341c31d8456f61e7d4170
+commit: 6d2eccb70d100b9f5405714a469d39fd9195af21 [6523/6766] lsm: Add audit_log_lsm_data() helper
+config: i386-buildonly-randconfig-004-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242132.k5ZsxBPq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242132.k5ZsxBPq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410242017.1valHJUC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410242132.k5ZsxBPq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/clk/clk-ast2700.c:17:
->> include/soc/aspeed/reset-aspeed.h:14:5: warning: no previous prototype for function 'aspeed_reset_controller_register' [-Wmissing-prototypes]
-      14 | int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
-         |     ^
-   include/soc/aspeed/reset-aspeed.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      14 | int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/aspeed_reset_controller_register +14 include/soc/aspeed/reset-aspeed.h
-
-1476d29e4461f6 Ryan Chen 2024-10-23   9  
-1476d29e4461f6 Ryan Chen 2024-10-23  10  #if IS_ENABLED(CONFIG_RESET_ASPEED)
-1476d29e4461f6 Ryan Chen 2024-10-23  11  int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
-1476d29e4461f6 Ryan Chen 2024-10-23  12  				     const char *adev_name);
-1476d29e4461f6 Ryan Chen 2024-10-23  13  #else
-1476d29e4461f6 Ryan Chen 2024-10-23 @14  int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
-1476d29e4461f6 Ryan Chen 2024-10-23  15  				     const char *adev_name)
-1476d29e4461f6 Ryan Chen 2024-10-23  16  {
-1476d29e4461f6 Ryan Chen 2024-10-23  17  	return -ENODEV;
-1476d29e4461f6 Ryan Chen 2024-10-23  18  }
-1476d29e4461f6 Ryan Chen 2024-10-23  19  #endif /* if IS_ENABLED(CONFIG_RESET_ASPEED) */
-1476d29e4461f6 Ryan Chen 2024-10-23  20  
+   ld: security/lsm_audit.o: in function `audit_log_lsm_data':
+>> lsm_audit.c:(.text+0x141): undefined reference to `init_net'
+>> ld: lsm_audit.c:(.text+0x146): undefined reference to `dev_get_by_index'
 
 -- 
 0-DAY CI Kernel Test Service
