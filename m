@@ -1,185 +1,148 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06EF1E7C00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 15:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5E19DFB4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 15:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729783376; cv=none; b=IuafYPdfgeRRvUM1UvmZYfPsWYyOWphfgfXyZ/VWhzWEw/xl3e9ouaYPqcs5CI6N9MA4kdNQd1wDOGpLSvVJyZ/iwUYM7NbE/wq5Tn6ff81hOR7mnQEVx7gebu/NLcH/iCVC6Th5XrVdvBMNTcXWVT06gw7B7NUENnvBMTuAbW4=
+	t=1729783924; cv=none; b=pZJYo3r2aZxIKoJlEPUxmG5X0yKLI7/QYDsdQnvzr17Aa71x1pghyGKt3iXjYZMEQBfsjWQHUup7ywJASOnoh8aj0SHkOrexRzSUqlwwCVg+CpMmRx1Eas1rVMMQ3yhmSxr+6XQQ9FgEP1VQW0DIBFLfd9K1E/mtV+uqtxIIvSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729783376; c=relaxed/simple;
-	bh=7vyiOk9NcMWxxwkpWi6QNDWjhLXtPLplr7yA4Q7pO9w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rscan781qhYXe0VTUAOt+xnsXk39tPP33logfbgeG8BHBz+zJyRJxrj4I0eRjOwHIb6CYzZeKyi+4gkSn3e8MCutHffWUQueRf7DThhceGepTUzLWAVX2i8VzafR3jFyMW73k3D6NR4sLc1Seh5vFhRclZohHk8eSc8geXPL278=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rmzjr1GD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=umD1zxiq; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=rmzjr1GD; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=umD1zxiq; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1729783924; c=relaxed/simple;
+	bh=jiAglY022TxIzOFWR4Cs+um+qbTZOcvrs36WPTEPrpY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X1JC54aXoZapJ8M/nCsOW6WBuIE1DjsIpdi6Ep5bRG5pJORghnTlw34OhjtC92YeOradeWbP+1oHdWZlvU3ST8vAmmuuj+V5t2d2a7MB7tBdOGqIiIM72+F3hIq8L9S50ISO7v3RhlI2PDwb/895LUYPZhhu0bU/342uFhNc8tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KuczX+ch; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rmzjr1GD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="umD1zxiq";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="rmzjr1GD";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="umD1zxiq"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D91EB1FFF7;
-	Thu, 24 Oct 2024 15:22:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729783371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=R6JIM2VnPConJOPMUvY8+vROVEwAtQQqnCG4fdedpiw=;
-	b=rmzjr1GDsv4w4V89VgzzNJTMNLiwwYp0MDKg4lM3I5jbWHjcXUhLjMgPTtv2cGLmUDoFcG
-	ctScUpsBlP+bkWvl+FKaEUHkTHyJg6CgZCKa5oTRrxUyPzxo/uEauTilqwJOtgv7wqfC/J
-	nSuSbqpYUC8dPBH23wUYHTunApv3Wws=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729783371;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=R6JIM2VnPConJOPMUvY8+vROVEwAtQQqnCG4fdedpiw=;
-	b=umD1zxiq49tXPgwtRHi3nA7LyfxXXnI4+euSpUgut8QKFKJ54ecJ4tyxkbh+EfL1JM8BWO
-	S1Du7HkEK9BtL5BA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=rmzjr1GD;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=umD1zxiq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1729783371; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=R6JIM2VnPConJOPMUvY8+vROVEwAtQQqnCG4fdedpiw=;
-	b=rmzjr1GDsv4w4V89VgzzNJTMNLiwwYp0MDKg4lM3I5jbWHjcXUhLjMgPTtv2cGLmUDoFcG
-	ctScUpsBlP+bkWvl+FKaEUHkTHyJg6CgZCKa5oTRrxUyPzxo/uEauTilqwJOtgv7wqfC/J
-	nSuSbqpYUC8dPBH23wUYHTunApv3Wws=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1729783371;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=R6JIM2VnPConJOPMUvY8+vROVEwAtQQqnCG4fdedpiw=;
-	b=umD1zxiq49tXPgwtRHi3nA7LyfxXXnI4+euSpUgut8QKFKJ54ecJ4tyxkbh+EfL1JM8BWO
-	S1Du7HkEK9BtL5BA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id CD88F1368E;
-	Thu, 24 Oct 2024 15:22:51 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fJPGMUtmGmdsQgAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Thu, 24 Oct 2024 15:22:51 +0000
-Message-ID: <72f5ff15-0e15-4368-a080-6223eeb63f8e@suse.cz>
-Date: Thu, 24 Oct 2024 17:22:51 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuczX+ch"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729783923; x=1761319923;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jiAglY022TxIzOFWR4Cs+um+qbTZOcvrs36WPTEPrpY=;
+  b=KuczX+chDSKnehd7PDXnIqDeKKcm6XSWvl4++dRpA6JzOV44V6wg77CN
+   NedGF2vyJA3lC5YIvIMXyCSo4xenc9Mw9zt7h9wCZBQ8Ot8X/UY5oxV/w
+   egBZgNWninnrG6cScWvO1Bbu2sJRZ+n5z4KCbZU+1Unrx5TQMgHYx+O0i
+   /llGLPkLzmvzd8IqiIq4QbmVqlWPbVEWqJYLs0GRsPjCOv32y9eI5vGKV
+   1YFq0jV1d3l+cYu2EyIx05698lzPr37RqiBEZPJ3zmqeRu5MRcOIIXrcd
+   dVM96Pl3FuuR/O+EE82JzRtzzm6XuGQPuI2uN1HaAwv5Z2oEJpMya4LHK
+   A==;
+X-CSE-ConnectionGUID: tuquyiHEQd2wcozNiEKWYw==
+X-CSE-MsgGUID: XrjmFZQhQa6rREOvQ8mh2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32277208"
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
+   d="scan'208";a="32277208"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 08:32:02 -0700
+X-CSE-ConnectionGUID: RH3n7ADjRveXbenpho5Y5Q==
+X-CSE-MsgGUID: 63IU82PCQEG8kuO0lbc41A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
+   d="scan'208";a="103943670"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Oct 2024 08:32:01 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t3zod-000Wam-0z;
+	Thu, 24 Oct 2024 15:31:59 +0000
+Date: Thu, 24 Oct 2024 23:31:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 158/176]
+ arch/arm64/kvm/hyp_events.c:134:6: warning: no previous prototype for
+ 'hyp_trace_init_event_early'
+Message-ID: <202410242324.Qc5JoLZQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hotfix 6.12] mm, mmap: limit THP aligment of anonymous
- mappings to PMD-aligned sizes
-Content-Language: en-US
-To: kernel test robot <lkp@intel.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-References: <ZxpkJzLe_iZ1LXp7@0218aad26cb2>
-From: Vlastimil Babka <vbabka@suse.cz>
-Autocrypt: addr=vbabka@suse.cz; keydata=
- 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
- EP+ylKVEKb0Q2A==
-In-Reply-To: <ZxpkJzLe_iZ1LXp7@0218aad26cb2>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: D91EB1FFF7
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.cz:dkim,suse.cz:mid];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.51
-X-Spam-Flag: NO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 10/24/24 17:13, kernel test robot wrote:
-> Hi,
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   7f1ad2ebaa24958e3b0527f36d96e58f42cf3f0e
+commit: 898e4d2aa33bd70705040b7c2f485c968cc3d594 [158/176] ANDROID: KVM: arm64: add support for early enablement nVHE hyp events
+config: arm64-randconfig-002-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242324.Qc5JoLZQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242324.Qc5JoLZQ-lkp@intel.com/reproduce)
 
-Hi,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410242324.Qc5JoLZQ-lkp@intel.com/
 
-> Thanks for your patch.
-> 
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
-> 
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+All warnings (new ones prefixed by >>):
 
-But this submission follows Option 1, which the check probably didn't recognize?
+   In file included from arch/arm64/kvm/hyp_events.c:9:
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
+      14 | HYP_EVENT(hyp_enter,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
+      23 | HYP_EVENT(hyp_exit,
+         | ^~~~~~~~~
+>> arch/arm64/kvm/hyp_events.c:134:6: warning: no previous prototype for 'hyp_trace_init_event_early' [-Wmissing-prototypes]
+     134 | bool hyp_trace_init_event_early(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:169:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     169 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:199:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
+     199 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:212:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
+     212 | int hyp_trace_init_events(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
 
-Vlastimil
 
-> Rule: The upstream commit ID must be specified with a separate line above the commit text.
-> Subject: [PATCH hotfix 6.12] mm, mmap: limit THP aligment of anonymous mappings to PMD-aligned sizes
-> Link: https://lore.kernel.org/stable/20241024151228.101841-2-vbabka%40suse.cz
-> 
-> Please ignore this mail if the patch is not relevant for upstream.
-> 
+vim +/hyp_trace_init_event_early +134 arch/arm64/kvm/hyp_events.c
 
+   133	
+ > 134	bool hyp_trace_init_event_early(void)
+   135	{
+   136		char *token, *buf = early_events;
+   137		bool enabled = false;
+   138	
+   139		while (true) {
+   140			token = strsep(&buf, ",");
+   141	
+   142			if (!token)
+   143				break;
+   144	
+   145			if (*token) {
+   146				struct hyp_event *event;
+   147				int ret;
+   148	
+   149				event = find_hyp_event(token);
+   150				if (event) {
+   151					ret = enable_hyp_event(event, true);
+   152					if (ret)
+   153						pr_warn("Couldn't enable hyp event %s:%d\n",
+   154							token, ret);
+   155					else
+   156						enabled = true;
+   157				} else {
+   158					pr_warn("Couldn't find hyp event %s\n", token);
+   159				}
+   160			}
+   161	
+   162			if (buf)
+   163				*(buf - 1) = ',';
+   164		}
+   165	
+   166		return enabled;
+   167	}
+   168	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
