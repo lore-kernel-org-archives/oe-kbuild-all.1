@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4C8A4C7E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 00:51:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E427F1CF96
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 01:02:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729731096; cv=none; b=E871CXP0YwBCE5FoF8P16TkjYGNgV+vsLfBuVqhhPIJmNzjTQNxw84FWUbItJBLqhYfle4lhEr+Ucmr/YfTCvc2hWBHmikBk4381OXhI9pkXkJQ1lytpRwoCvXiGMKijjyAckQ4qHNeMeIQGZktaWacg6C/MvYpCr89Tb+sE4qE=
+	t=1729731752; cv=none; b=QiULEGNSdAc9nwm0SCW+qqJufB6TWuw9jV+tNQDI5JqoMSp++pH+3bHm3resZaYPQBqKE3WlNfpqKoshhouC6s3h4LHdPGMHBy6U1u0k+m8S5QNbR/Vji0C2WrXelKC0/FihYZGT2yEfJM7T5tRIrlXzqbNsI64jtzUXMdBnl3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729731096; c=relaxed/simple;
-	bh=5vLXSIrcndBZm+yPOiB7pHnOPT4cbR0bvF2+J/RxhR4=;
+	s=arc-20240116; t=1729731752; c=relaxed/simple;
+	bh=e54OxNMQhSnmXCxOMZYQywrgbKqE9kcqjwlT8PlLV2M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u9c2OyElYBBzBe4mKYeq5C9+pDDKpbJPDuvY7DWzpbjCW/m+Hb4gKLzmCsXRvzkdDuZJig5n5qeFsxojPbakNWYcyOHUaYrWeeDQKAuyMRC/bplZwWr0FfZnzJEvD0X9bPIPTh42VTXB44StOhCp1TzF5EvhowGUIugH80Uai2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hUQI8xZx; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=b8A9J/Ls8sC74awCkxpEbADwov7vSKdk5lUnV7Pjc5LYpveLjzeWqUpHig1b5+5a77HMqONZyGFjl6/FwLcgdtmQh9ZrfxdMVdSL82gVgWYlfbMsuwX5TZF/ddIdKtayYI/StTz/jfm2PMJN3Q8NYJSCYiYKR6ZAlSIfHZjqkUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IOyACg0M; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hUQI8xZx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IOyACg0M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729731094; x=1761267094;
+  t=1729731750; x=1761267750;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5vLXSIrcndBZm+yPOiB7pHnOPT4cbR0bvF2+J/RxhR4=;
-  b=hUQI8xZxyQGoLTWfMts5jZftN+yfKvdH88riMbOaz8APM7KUbussFtzI
-   nopSph7Dtj4VjskI+YYHir0w8cLiPskzNC9aXrXMwsSFj6OlKiKgSgojK
-   w/60AK8jP/dlgYgq7acwt/BQB0tZ4fI6QtkKB+VGgEOjh2TX6LDAnCViL
-   ySQ5lyiwtZ6Y0gnulz/8eWKODGtTZ7pXXFnpYvXY8d9Z95Ts1DPNKxV9B
-   vtcT4Xf+Jtjpi5sL7ShiMIvc9lNt812L/taOky/c6JQmnde0VlukwO4g1
-   JsYA/e4u04MYugAQx6Ix0xC4VSA4WY294cULc7pWFDLzMpqsNkS+fPCzr
-   Q==;
-X-CSE-ConnectionGUID: e8udiVvKTHynRFmqsMX2YA==
-X-CSE-MsgGUID: GxhaDaZkRNqrAztPGlRROw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="28806838"
+  bh=e54OxNMQhSnmXCxOMZYQywrgbKqE9kcqjwlT8PlLV2M=;
+  b=IOyACg0MFW4af9PRMWpZ7gKQw0sp3eOvX31Jz2j4tXCE3c2efVIDbhKd
+   iWxwB33O5ZvGlq+EGZbPSyGg+QnibrKyhQDguxXfWiYoSQcK9ojSmlLYt
+   NUfeCn71wpIayicX//moMsFDyreSE+zfZUYSvqF3p/vjvgKobE/p3cHBl
+   gWasC+M5noMBgKyHrBuMf1KZUAQVtaY/HveB7gQs2eHAzV9UH5d654V80
+   zLL329s620bmOaoN9KaRJyMSPx7fEYEI7FFw840oytXmvOVUKHGXaOhnS
+   hv0sl/v+qqtYaN2h+Yre7w1s15OTvJbJnQ/CZo3mWSE+dfZ8f6pZGeYJr
+   w==;
+X-CSE-ConnectionGUID: miC5NfsfQb2F00AUcxfnOw==
+X-CSE-MsgGUID: Ns3ejbilTWWUihPKL44HSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="39959187"
 X-IronPort-AV: E=Sophos;i="6.11,227,1725346800"; 
-   d="scan'208";a="28806838"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 17:51:31 -0700
-X-CSE-ConnectionGUID: TO5brBt6TK6+VP3syRuASg==
-X-CSE-MsgGUID: b3apz7VJRSSCEuW1y7eaJQ==
+   d="scan'208";a="39959187"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2024 18:02:29 -0700
+X-CSE-ConnectionGUID: zuW+3gBnQ1e6M1GfKw8upg==
+X-CSE-MsgGUID: ud+S7w6tSxuQRieNzJar9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,227,1725346800"; 
-   d="scan'208";a="85039796"
+   d="scan'208";a="80535784"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Oct 2024 17:51:27 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 23 Oct 2024 18:02:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3m4T-000VlS-1r;
-	Thu, 24 Oct 2024 00:51:25 +0000
-Date: Thu, 24 Oct 2024 08:50:48 +0800
+	id 1t3mF7-000VmC-3A;
+	Thu, 24 Oct 2024 01:02:25 +0000
+Date: Thu, 24 Oct 2024 09:01:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, Yuntao Liu <liuyuntao12@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1421/2444]
- drivers/xen/swiotlb-xen.c:406:17: error: too many arguments to function
- 'swiotlb_tbl_unmap_single'
-Message-ID: <202410240857.Jjb6qKJX-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2431/15255] arch/x86/events/amd/iommu.c:441:64:
+ warning: '%u' directive output may be truncated writing between 1 and 10
+ bytes into a region of size 6
+Message-ID: <202410240834.gfaxos6R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,104 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: c7e40421dde68ff33b73cd415d944efef8cfef61 [1421/2444] swiotlb: remove the alloc_size parameter to swiotlb_tbl_unmap_single
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241024/202410240857.Jjb6qKJX-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   e7bc79687a034a22f94328123d5cf8c4d4436c35
+commit: f04c0f3eb9b49427c273cd3e4d5a2ff895855b4b [2431/15255] make OPTIMIZE_INLINING config editable
+config: x86_64-buildonly-randconfig-004-20241024 (https://download.01.org/0day-ci/archive/20241024/202410240834.gfaxos6R-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240857.Jjb6qKJX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410240834.gfaxos6R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410240857.Jjb6qKJX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410240834.gfaxos6R-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_map_page':
->> drivers/xen/swiotlb-xen.c:406:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     406 |                 swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/swiotlb.h:5,
-                    from arch/x86/include/asm/dma-mapping.h:13,
-                    from include/linux/dma-mapping.h:202,
-                    from include/linux/dma-direct.h:9,
-                    from drivers/xen/swiotlb-xen.c:30:
-   include/linux/swiotlb.h:56:13: note: declared here
-      56 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_unmap_page':
-   drivers/xen/swiotlb-xen.c:437:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     437 |                 swiotlb_tbl_unmap_single(hwdev, paddr, size, size, dir, attrs);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/swiotlb.h:56:13: note: declared here
-      56 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/iommu.c: In function 'amd_iommu_pc_init':
+>> arch/x86/events/amd/iommu.c:441:64: warning: '%u' directive output may be truncated writing between 1 and 10 bytes into a region of size 6 [-Wformat-truncation=]
+     441 |         snprintf(perf_iommu->name, IOMMU_NAME_SIZE, "amd_iommu_%u", idx);
+         |                                                                ^~
+   In function 'init_one_iommu',
+       inlined from 'amd_iommu_pc_init' at arch/x86/events/amd/iommu.c:474:9:
+   arch/x86/events/amd/iommu.c:441:53: note: directive argument in the range [0, 4294967294]
+     441 |         snprintf(perf_iommu->name, IOMMU_NAME_SIZE, "amd_iommu_%u", idx);
+         |                                                     ^~~~~~~~~~~~~~
+   arch/x86/events/amd/iommu.c:441:9: note: 'snprintf' output between 12 and 21 bytes into a destination of size 16
+     441 |         snprintf(perf_iommu->name, IOMMU_NAME_SIZE, "amd_iommu_%u", idx);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/swiotlb_tbl_unmap_single +406 drivers/xen/swiotlb-xen.c
+vim +441 arch/x86/events/amd/iommu.c
 
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  362  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  363  /*
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  364   * Map a single buffer of the indicated size for DMA in streaming mode.  The
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  365   * physical address to use is returned.
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  366   *
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  367   * Once the device is given the dma address, the device owns this memory until
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  368   * either xen_swiotlb_unmap_page or xen_swiotlb_dma_sync_single is performed.
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  369   */
-dceb1a6819ab2c8 Christoph Hellwig     2017-05-21  370  static dma_addr_t xen_swiotlb_map_page(struct device *dev, struct page *page,
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  371  				unsigned long offset, size_t size,
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  372  				enum dma_data_direction dir,
-00085f1efa387a8 Krzysztof Kozlowski   2016-08-03  373  				unsigned long attrs)
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  374  {
-e05ed4d1fad9e73 Alexander Duyck       2012-10-15  375  	phys_addr_t map, phys = page_to_phys(page) + offset;
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  376  	dma_addr_t dev_addr = xen_phys_to_bus(phys);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  377  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  378  	BUG_ON(dir == DMA_NONE);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  379  	/*
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  380  	 * If the address happens to be in the device's DMA window,
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  381  	 * we can safely return the device addr and not worry about bounce
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  382  	 * buffering it.
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  383  	 */
-09c2bd36f1c2d8d Christoph Hellwig     2019-11-19  384  	if (dma_capable(dev, dev_addr, size, true) &&
-a4dba1308912710 Stefano Stabellini    2014-11-21  385  	    !range_straddles_page_boundary(phys, size) &&
-291be10fd751110 Julien Grall          2015-09-09  386  		!xen_arch_need_swiotlb(dev, phys, dev_addr) &&
-063b8271ec8f706 Christoph Hellwig     2019-04-11  387  		swiotlb_force != SWIOTLB_FORCE)
-063b8271ec8f706 Christoph Hellwig     2019-04-11  388  		goto done;
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  389  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  390  	/*
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  391  	 * Oh well, have to allocate and map a bounce buffer.
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  392  	 */
-2b2b614dd24e4e6 Zoltan Kiss           2013-09-04  393  	trace_swiotlb_bounced(dev, dev_addr, size, swiotlb_force);
-2b2b614dd24e4e6 Zoltan Kiss           2013-09-04  394  
-48c5d3c955de4f1 Christoph Hellwig     2020-02-03  395  	map = swiotlb_tbl_map_single(dev, phys, size, size, dir, attrs);
-9c106119f6538f6 Arnd Bergmann         2019-06-17  396  	if (map == (phys_addr_t)DMA_MAPPING_ERROR)
-a4abe0ad10654b1 Christoph Hellwig     2018-11-21  397  		return DMA_MAPPING_ERROR;
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  398  
-b4dca1512941aa8 Christoph Hellwig     2019-09-05  399  	phys = map;
-f1225ee4c8fcf09 Stefano Stabellini    2017-01-19  400  	dev_addr = xen_phys_to_bus(map);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  401  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  402  	/*
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  403  	 * Ensure that the address returned is DMA'ble
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  404  	 */
-09c2bd36f1c2d8d Christoph Hellwig     2019-11-19  405  	if (unlikely(!dma_capable(dev, dev_addr, size, true))) {
-3fc1ca00653db63 Lu Baolu              2019-09-06 @406  		swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-063b8271ec8f706 Christoph Hellwig     2019-04-11  407  				attrs | DMA_ATTR_SKIP_CPU_SYNC);
-a4abe0ad10654b1 Christoph Hellwig     2018-11-21  408  		return DMA_MAPPING_ERROR;
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  409  	}
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  410  
-063b8271ec8f706 Christoph Hellwig     2019-04-11  411  done:
-b4dca1512941aa8 Christoph Hellwig     2019-09-05  412  	if (!dev_is_dma_coherent(dev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-09c789996bc487d Christoph Hellwig     2019-11-07  413  		xen_dma_sync_for_device(dev_addr, phys, size, dir);
-063b8271ec8f706 Christoph Hellwig     2019-04-11  414  	return dev_addr;
-063b8271ec8f706 Christoph Hellwig     2019-04-11  415  }
-063b8271ec8f706 Christoph Hellwig     2019-04-11  416  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  417  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  418  static __init int init_one_iommu(unsigned int idx)
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  419  {
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  420  	struct perf_amd_iommu *perf_iommu;
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  421  	int ret;
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  422  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  423  	perf_iommu = kzalloc(sizeof(struct perf_amd_iommu), GFP_KERNEL);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  424  	if (!perf_iommu)
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  425  		return -ENOMEM;
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  426  
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  427  	raw_spin_lock_init(&perf_iommu->lock);
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  428  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  429  	perf_iommu->pmu          = iommu_pmu;
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  430  	perf_iommu->iommu        = get_amd_iommu(idx);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  431  	perf_iommu->max_banks    = amd_iommu_pc_get_max_banks(idx);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  432  	perf_iommu->max_counters = amd_iommu_pc_get_max_counters(idx);
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  433  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  434  	if (!perf_iommu->iommu ||
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  435  	    !perf_iommu->max_banks ||
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  436  	    !perf_iommu->max_counters) {
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  437  		kfree(perf_iommu);
+f5863a00e73c43 arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-02-24  438  		return -EINVAL;
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  439  	}
+f5863a00e73c43 arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-02-24  440  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22 @441  	snprintf(perf_iommu->name, IOMMU_NAME_SIZE, "amd_iommu_%u", idx);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  442  
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  443  	ret = perf_pmu_register(&perf_iommu->pmu, perf_iommu->name, -1);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  444  	if (!ret) {
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  445  		pr_info("Detected AMD IOMMU #%d (%d banks, %d counters/bank).\n",
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  446  			idx, perf_iommu->max_banks, perf_iommu->max_counters);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  447  		list_add_tail(&perf_iommu->list, &perf_amd_iommu_list);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  448  	} else {
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  449  		pr_warn("Error initializing IOMMU %d.\n", idx);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  450  		kfree(perf_iommu);
+25df39f2cfd06a arch/x86/events/amd/iommu.c                Suravee Suthikulpanit 2017-03-22  451  	}
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  452  	return ret;
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  453  }
+7be6296fdd75f7 arch/x86/kernel/cpu/perf_event_amd_iommu.c Suravee Suthikulpanit 2013-06-05  454  
 
-:::::: The code at line 406 was first introduced by commit
-:::::: 3fc1ca00653db6371585e3c21c4b873b2f20e60a swiotlb: Split size parameter to map/unmap APIs
+:::::: The code at line 441 was first introduced by commit
+:::::: 25df39f2cfd06a4b49ad592c5b7cba0cbf24e27f x86/events/amd/iommu: Enable support for multiple IOMMUs
 
-:::::: TO: Lu Baolu <baolu.lu@linux.intel.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+:::::: TO: Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
