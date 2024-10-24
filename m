@@ -1,69 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6951C2334
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 10:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464C13399F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 11:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729766153; cv=none; b=nfplgVKFdY1D5Br+ltkN+nZGPOrOzcmhdcGRxghsTJPdmR/UuRwirjtxGlhfy8lAQUDM4oBCqNLeIi+HZfmAShC3iWOEb1QzrnFHFUvPjUg8K1OQ8Wbo7Dtoed7N+oip6LLjl+0Ox4U1zJgKj0RHsquiYqFeo/u3ENLbumeU9Nc=
+	t=1729768615; cv=none; b=lMCYfM6gKeclQyEM64EmTAABMnFBdeCOFPS02cXrtnW7TlncN5L1AEBncWuJ+dLeARo0hVLUpBeImXBnEM5kijc2fgQbsobp4cwYQHkVxmFzDydHptEQAR4KyuNEDt6XNBaiNmNb9NY1wSGoGf1a0s9DJt07VJDbnkzSu2kZdXg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729766153; c=relaxed/simple;
-	bh=UW0hE31GGN8jgPgRZbodK9mIg08FV4Mhsd8DDDS0j2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rToAWf5EsrM4hZ8HMkR2sKEX+I2ErkELdko5mD/ArXE1g5llzkOL17179lovEcHqqCKqf03ykmDrpYFMq7AmmrLKstTqZHRoUHNEIYuQk4jfkID1levIF6Na7kq/KngsicO69re89uNQcXKsqSwjnjAmytSxG/1AiA9R1DSmOOw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AdsGpxf4; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1729768615; c=relaxed/simple;
+	bh=YaPpWC9+3mzbKqw/jeBYPZWvVWY+Qw95Cg9a4/OXdXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E8Ypov7dM+x8lGkCKDdn2uRe4w7iemVGqna7jyZ911s3J8c9SOLP7SWaw/howYkwoNohxz9vt1/KpwmwdnTdzEUUfA1CBIcW3AMgCAUkH0I+Cj+1W1QuzLAMO+iRYn49xScA1T0zJRAiK5Yaluj+8ReyLVde6gcUxgiYdx361NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i74xR2vS; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AdsGpxf4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i74xR2vS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729766151; x=1761302151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UW0hE31GGN8jgPgRZbodK9mIg08FV4Mhsd8DDDS0j2M=;
-  b=AdsGpxf4ETpoHfJG0s4EV38xRdSG9cCZlMUTeAit8bg3y2PSwhdN6aSa
-   4tjXzR6FX8I0o76n8mK4I9FqO7gccStWS3IEZtDcPlA349LKqYO0hEcgZ
-   S6DXdtSN72jsud0qNg9no5BCrjRhO6z/qi7F8DXJowjddnxzX96eQybma
-   Z+0WXxyKKfOrrkaIWeEkoGAb4Z2gY4q6T/OPoLBOCwUkx+LHOu8lEwELv
-   tF8ITRiypzNR2MTyMQs5l/2fHUNAZW6Y/Jqyn5ymSP2qGDdSMUq3OUivT
-   i6IuAxR8JRtmm6acgDEE9pl5Lbb4w1ztst3tDDGs8NCRZ+CK40UutrC8y
-   w==;
-X-CSE-ConnectionGUID: iofjVH5nRZqrzBnC7kBctw==
-X-CSE-MsgGUID: Bh6EJxZTTOeanh3iL02wSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="46879008"
+  t=1729768613; x=1761304613;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YaPpWC9+3mzbKqw/jeBYPZWvVWY+Qw95Cg9a4/OXdXg=;
+  b=i74xR2vSsEK8eYZEsGTdPfCQmYoTfr8TATFV288K0+fZsDFQjeOmZfdn
+   LewqLeJGPynUMK2RzkcKwjo3BBQpsZupLwTdQwieqlSdig9q5Xx/GXdt9
+   H93ZxUAkSin/s9f3kHknwKr1UsJkRUIB41lUWYSP8h+u7+zgbvjLJ6xto
+   zbsKrqSibe2w2GoN+SWZYxZTxuWGp7P8plizukNlmLRMgKBM6e4qBZMR7
+   nRh9B0BIgvUnPMDJWsUpyiaSkvTNLYkeBEkD8EtBh6bvNcEUiDFePi/Zz
+   pc3Cpyi6wzMdNGi2EVBau6PUeBFwx8O//SePnsmj+K49d82bcJtsZmMhz
+   Q==;
+X-CSE-ConnectionGUID: qbrEFINsSzS5sk6kf9HG+Q==
+X-CSE-MsgGUID: hy+CoizrSeycnt9oOdNxkQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11234"; a="17017947"
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="46879008"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 03:35:51 -0700
-X-CSE-ConnectionGUID: X7Jcr4c5Q3mLZGLgDfcadA==
-X-CSE-MsgGUID: ZHEPrOvDR4mIJDGgHS9iMQ==
+   d="scan'208";a="17017947"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 04:16:53 -0700
+X-CSE-ConnectionGUID: BhG0IL9oR5upbeoe7U1R+A==
+X-CSE-MsgGUID: wYrhvHOFRrqFCSeyumCqLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="111368091"
+   d="scan'208";a="84537243"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2024 03:35:48 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 04:16:50 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3vBx-000WH7-26;
-	Thu, 24 Oct 2024 10:35:45 +0000
-Date: Thu, 24 Oct 2024 18:35:27 +0800
+	id 1t3vpe-000WJs-2W;
+	Thu, 24 Oct 2024 11:16:46 +0000
+Date: Thu, 24 Oct 2024 19:16:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	intel-xe@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, Tejun Heo <tj@kernel.org>,
-	Zefan Li <lizefan.x@bytedance.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Friedrich Vock <friedrich.vock@gmx.de>, cgroups@vger.kernel.org,
-	Maxime Ripard <mripard@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: Re: [PATCH 2/7] drm/drv: Add drmm cgroup registration for dev
- cgroups.
-Message-ID: <202410241806.p6u3FcGS-lkp@intel.com>
-References: <20241023075302.27194-3-maarten.lankhorst@linux.intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 5561/13046] kismet: WARNING: unmet direct
+ dependencies detected for CRYPTO_LZ4HC when selected by EMM_ZRAM_CONF
+Message-ID: <202410241901.aSDY2uQR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,62 +65,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023075302.27194-3-maarten.lankhorst@linux.intel.com>
 
-Hi Maarten,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on drm-exynos/exynos-drm-next next-20241024]
-[cannot apply to tj-cgroup/for-next drm-xe/drm-xe-next akpm-mm/mm-everything drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip linus/master v6.12-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maarten-Lankhorst/kernel-cgroup-Add-dev-memory-accounting-cgroup/20241023-155504
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20241023075302.27194-3-maarten.lankhorst%40linux.intel.com
-patch subject: [PATCH 2/7] drm/drv: Add drmm cgroup registration for dev cgroups.
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241024/202410241806.p6u3FcGS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410241806.p6u3FcGS-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 5723adb73901b05640a72b59bfa6125a3a469cd3 [5561/13046] emm: configs: enabled EMM related configs
+config: x86_64-kismet-CONFIG_CRYPTO_LZ4HC-CONFIG_EMM_ZRAM_CONF-0-0 (https://download.01.org/0day-ci/archive/20241024/202410241901.aSDY2uQR-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241024/202410241901.aSDY2uQR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410241806.p6u3FcGS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410241901.aSDY2uQR-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/drm_drv.c:29:
->> include/linux/cgroup_dev.h:61:12: error: two or more data types in declaration specifiers
-      61 | static int int dev_cgroup_try_charge(struct dev_cgroup_device *cgdev,
-         |            ^~~
->> include/linux/cgroup_dev.h:65:1: error: expected identifier or '(' before '{' token
-      65 | {
-         | ^
->> include/linux/cgroup_dev.h:61:16: warning: 'dev_cgroup_try_charge' declared 'static' but never defined [-Wunused-function]
-      61 | static int int dev_cgroup_try_charge(struct dev_cgroup_device *cgdev,
-         |                ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +61 include/linux/cgroup_dev.h
-
-487073b1855ef4 Maarten Lankhorst 2024-10-23  60  
-487073b1855ef4 Maarten Lankhorst 2024-10-23 @61  static int int dev_cgroup_try_charge(struct dev_cgroup_device *cgdev,
-487073b1855ef4 Maarten Lankhorst 2024-10-23  62  				     u32 index, u64 size,
-487073b1855ef4 Maarten Lankhorst 2024-10-23  63  				     struct dev_cgroup_pool_state **ret_pool,
-487073b1855ef4 Maarten Lankhorst 2024-10-23  64  				     struct dev_cgroup_pool_state **ret_limit_pool);
-487073b1855ef4 Maarten Lankhorst 2024-10-23 @65  {
-487073b1855ef4 Maarten Lankhorst 2024-10-23  66  	*ret_pool = NULL;
-487073b1855ef4 Maarten Lankhorst 2024-10-23  67  
-487073b1855ef4 Maarten Lankhorst 2024-10-23  68  	if (ret_limit_pool)
-487073b1855ef4 Maarten Lankhorst 2024-10-23  69  		*ret_limit_pool = NULL;
-487073b1855ef4 Maarten Lankhorst 2024-10-23  70  
-487073b1855ef4 Maarten Lankhorst 2024-10-23  71  	return 0;
-487073b1855ef4 Maarten Lankhorst 2024-10-23  72  }
-487073b1855ef4 Maarten Lankhorst 2024-10-23  73  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_LZ4HC when selected by EMM_ZRAM_CONF
+   WARNING: unmet direct dependencies detected for CRYPTO_LZO
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
+     - EMM_ZRAM_CONF [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_ZSTD
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_LZ4
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_LZ4HC
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - EMM_ZRAM_CONF [=y]
 
 -- 
 0-DAY CI Kernel Test Service
