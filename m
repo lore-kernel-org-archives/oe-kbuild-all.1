@@ -1,64 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B341BD504
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 16:04:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA7E1F76A7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 16:14:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729785848; cv=none; b=Fc1ggUYNCcNJ4ry5IoLjt/621I7+GkzdTGHVe9XEgJqXjvt2CjoH7qXMNt73z5W+KXZ+7CnnaFqt6jMkf8Jvs5V6Uyhq8QndxXVQ/uRA2ZtlXFX9u1m9cahopwx0QetU7MfMrDU5ASvdS2KZGauaWfA8nhIFzszq3d4CZ4yuhZk=
+	t=1729786448; cv=none; b=dKjo+fHOSdriCemnSmXiSVKFfWyhdxnHYQ8C4AQVlqlocSz/NLFtThR/f8q9DgYEz/88Wy5FBok2xmba7iVI+RBVoyQ7fe9Vr+wo7EAkUUkkl9OhmhsqTyeg4Bop6ET2ItNcdm1cvowBIf7UcQQNqZzIROD1P290/GOhVZzbyOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729785848; c=relaxed/simple;
-	bh=DshxdLui4UCMqNIfKtfQInF+osEboBLrgMhfmBDtSfo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mv2ilSdaOB/Zjfi+Io71vn8H87RkR2iVLdW1jtulWwUyV16mnF4pnuaveflEN32D8h031laxWDlkR4QOdA197DdjEvmOLuoZd++uK1jtMHmdm8KFiz1T2vNcHEsjn3wTJ0+0xe9szKYnUCDhsJKejNoS8SWd2AAnuYQmwOQI8BU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P8PVm1Pr; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1729786448; c=relaxed/simple;
+	bh=m4fV8A4YW68V3zgf+WSVwRQpoCdBTw39PKGoit+1Mfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lfFmuURIsRR7wW0zoFHnAQKmfuq9TMkY89dBmxtPYmKaQkM+b1xAQ/bDwtvK3Ul+EyRCZAJuPS0vsL066pX00iKndOrxfMW4Jnqsrf35jHQWWl5H7kNVMLc3X/v0w+AXE7hMWfxJgxpfrxnyzKqd8tWIgcQrdABT2huAsYyZY+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D+E8OyRr; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P8PVm1Pr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D+E8OyRr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729785846; x=1761321846;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DshxdLui4UCMqNIfKtfQInF+osEboBLrgMhfmBDtSfo=;
-  b=P8PVm1Pr6wUAQttemRnf7ODXHalwN5FPdxZ3Y28HFhhXS++P+UrHMD2n
-   kXX5OqcTb8mg6Isqo9tx3hHc/MpcH2sCO70pNPhlhaUb4M4oe9iJujx2F
-   bU1HYzwI65oS1JFRCuabNgQFLbuGTReEw6rN8+RtjJryCPIj0RsSNSmn9
-   qSoag5HsDvH0HiD8lVS8LTdaho5u7hA4gD4P3xtcH3maFkF1gP/H0ehLv
-   YShuyySCJ1q095MEK8pbasXgJKKXIwuuspwDnZFbu0++HGLLsJSFU0I4R
-   A3WZPQZMqpQUMH8xBKI8c3ofTDCOJiWM3DFl9KjbGPg69f2nUFgLCWScM
-   A==;
-X-CSE-ConnectionGUID: WphBWfMdQwiKkiUEtH3kAA==
-X-CSE-MsgGUID: ZPD/mQCeRtGdtaZaa8of1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40538837"
+  t=1729786446; x=1761322446;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=m4fV8A4YW68V3zgf+WSVwRQpoCdBTw39PKGoit+1Mfc=;
+  b=D+E8OyRraUGAKlMJXJQmeCmANr6GnSA4QHU/beXH4pdil5/zW+3C7HvA
+   EXIlXzfOYHkEWYzyuQQZ4c5ixKZSc8+lZhPzhLyEGfHO0Y3iwf88wNLky
+   AKLcR8YJaPspT59icHaAj+V1BNdqCEqJ1TznwIQtVslVNZFn/ii82R12W
+   wVwsEK6sare+MKOHuGq/cZ6WmSXK/xhv/Mj8QzYtels6vBDpQu29saH99
+   9WBCrulKs/7ktfRT8VSh6acrcu2+KhUP+018q9xaUFbdgBaaQGcgC1Vxr
+   ifCGtq9x9mvvXI0+XSYN+xpHM1viKDHpwOAlqNO4IP+uNO8oSiVUi4BHx
+   Q==;
+X-CSE-ConnectionGUID: 39jrawSJT/mII5rIQ5l0WA==
+X-CSE-MsgGUID: 9Ox3hp/ES7+aX6s2EfM/DA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40541445"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40538837"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 09:04:05 -0700
-X-CSE-ConnectionGUID: B0+VuX2iQoGxoHOiRqwLyw==
-X-CSE-MsgGUID: aCmnxg6HRUihFP5sZIm/9g==
+   d="scan'208";a="40541445"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 09:14:06 -0700
+X-CSE-ConnectionGUID: S7c6529sQZqxdjoCBlcWnA==
+X-CSE-MsgGUID: 5zbmAo8eQFCiT2VDjxxpqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="80285946"
+   d="scan'208";a="80941083"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2024 09:04:03 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2024 09:14:04 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t40Jc-000Wdb-34;
-	Thu, 24 Oct 2024 16:04:00 +0000
-Date: Fri, 25 Oct 2024 00:03:01 +0800
+	id 1t40TK-000Wfi-1C;
+	Thu, 24 Oct 2024 16:14:02 +0000
+Date: Fri, 25 Oct 2024 00:13:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/2] bpf: add bpf_get_hw_counter kfunc
-Message-ID: <202410242353.krjd8d6t-lkp@intel.com>
-References: <20241023210437.2266063-1-vadfed@meta.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 5421/23857]
+ arch/arm64/kernel/smp.c:1217:14: error: 'pmu_nmi_enable' undeclared; did you
+ mean 'perf_pmu_enable'?
+Message-ID: <202410250017.rJYuRb99-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,44 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023210437.2266063-1-vadfed@meta.com>
 
-Hi Vadim,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/selftests-bpf-add-selftest-to-check-rdtsc-jit/20241024-050747
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241023210437.2266063-1-vadfed%40meta.com
-patch subject: [PATCH bpf-next 1/2] bpf: add bpf_get_hw_counter kfunc
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241024/202410242353.krjd8d6t-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242353.krjd8d6t-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   fc5b1a61061cb6d640f3336024fb616182ef2614
+commit: 71e217e85c3dff8a9151707ed3afc7b4b054a2d4 [5421/23857] selinux: use kernel linux/socket.h for genheaders and mdp
+config: arm64-randconfig-004-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250017.rJYuRb99-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250017.rJYuRb99-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410242353.krjd8d6t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410250017.rJYuRb99-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/bpf/helpers.c:26:
->> arch/powerpc/include/asm/vdso/gettimeofday.h:97:63: warning: 'struct vdso_data' declared inside parameter list will not be visible outside of this definition or declaration
-      97 |                                                  const struct vdso_data *vd)
-         |                                                               ^~~~~~~~~
+   arch/arm64/kernel/smp.c:840:6: warning: no previous prototype for 'arch_irq_work_raise' [-Wmissing-prototypes]
+     840 | void arch_irq_work_raise(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/smp.c: In function 'hw_nmi_get_sample_period':
+>> arch/arm64/kernel/smp.c:1217:14: error: 'pmu_nmi_enable' undeclared (first use in this function); did you mean 'perf_pmu_enable'?
+    1217 |         if (!pmu_nmi_enable)
+         |              ^~~~~~~~~~~~~~
+         |              perf_pmu_enable
+   arch/arm64/kernel/smp.c:1217:14: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/kernel.h:14,
+                    from include/linux/list.h:9,
+                    from include/linux/resource_ext.h:17,
+                    from include/linux/acpi.h:26,
+                    from arch/arm64/kernel/smp.c:20:
+   arch/arm64/kernel/smp.c: In function '__cpu_up':
+   include/linux/printk.h:346:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     346 |         printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/smp.c:169:25: note: in expansion of macro 'pr_crit'
+     169 |                         pr_crit("CPU%u: may not have shut down cleanly\n", cpu);
+         |                         ^~~~~~~
+   arch/arm64/kernel/smp.c:170:17: note: here
+     170 |                 case CPU_STUCK_IN_KERNEL:
+         |                 ^~~~
 
 
-vim +97 arch/powerpc/include/asm/vdso/gettimeofday.h
+vim +1217 arch/arm64/kernel/smp.c
 
-ce7d8056e38b77 Christophe Leroy 2020-11-27   95  
-ce7d8056e38b77 Christophe Leroy 2020-11-27   96  static __always_inline u64 __arch_get_hw_counter(s32 clock_mode,
-ce7d8056e38b77 Christophe Leroy 2020-11-27  @97  						 const struct vdso_data *vd)
-ce7d8056e38b77 Christophe Leroy 2020-11-27   98  {
-ce7d8056e38b77 Christophe Leroy 2020-11-27   99  	return get_tb();
-ce7d8056e38b77 Christophe Leroy 2020-11-27  100  }
-ce7d8056e38b77 Christophe Leroy 2020-11-27  101  
+c17272c92d2ee1 Wei Li         2019-03-28  1212  
+5bffbe2174676c Wei Li         2019-03-20  1213  u64 hw_nmi_get_sample_period(int watchdog_thresh)
+5bffbe2174676c Wei Li         2019-03-20  1214  {
+c17272c92d2ee1 Wei Li         2019-03-28  1215  	u64 cpu_freq;
+c17272c92d2ee1 Wei Li         2019-03-28  1216  
+9f05210dfee3a2 Yang Yingliang 2019-03-23 @1217  	if (!pmu_nmi_enable)
+
+:::::: The code at line 1217 was first introduced by commit
+:::::: 9f05210dfee3a2319a61302f9bfd7317b522fa96 arm64: perf: add pmu_nmi_enable to control pmu nmi support
+
+:::::: TO: Yang Yingliang <yangyingliang@huawei.com>
+:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
