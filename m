@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5E19DFB4
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 15:32:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26E321D5176
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 15:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729783924; cv=none; b=pZJYo3r2aZxIKoJlEPUxmG5X0yKLI7/QYDsdQnvzr17Aa71x1pghyGKt3iXjYZMEQBfsjWQHUup7ywJASOnoh8aj0SHkOrexRzSUqlwwCVg+CpMmRx1Eas1rVMMQ3yhmSxr+6XQQ9FgEP1VQW0DIBFLfd9K1E/mtV+uqtxIIvSc=
+	t=1729784586; cv=none; b=ONNaLw0Dq2a9m1Gu4d8b2ZdX0iWdPcPxPKml1aS9qpGbVITpdXSIOrReTOVeNAN7KIsPByECBXkA3Ibk7ogbUig+Y7gsvLea8ecMDhmF3Nx1arOHS+Uxt80UAaSjmKmwrbzN4RXyWV313H9Y+RpPm6H9af9am/EWFbzR/FZ9i3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729783924; c=relaxed/simple;
-	bh=jiAglY022TxIzOFWR4Cs+um+qbTZOcvrs36WPTEPrpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X1JC54aXoZapJ8M/nCsOW6WBuIE1DjsIpdi6Ep5bRG5pJORghnTlw34OhjtC92YeOradeWbP+1oHdWZlvU3ST8vAmmuuj+V5t2d2a7MB7tBdOGqIiIM72+F3hIq8L9S50ISO7v3RhlI2PDwb/895LUYPZhhu0bU/342uFhNc8tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KuczX+ch; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1729784586; c=relaxed/simple;
+	bh=sXIWJuCM3B05K3xwawfQCC05ekSGnw0R8Xe+3AFiv/Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VXMO+G6gj+3iXrGFB/dIn9C9ruGL97xNEBlCOWPakI+5TmHDQjdl0TS8GMd3mF+jgGXCV7ArgO7VLdBYN9TNh9yncnmTbaQgGh2kCLUflySUMnSjhrhZbaTKJMOt9/twoa6+EIdlS49UOZ6NOXLiqXxfLtpWNLsCIZZTMotITqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HWzSo+h7; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuczX+ch"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HWzSo+h7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729783923; x=1761319923;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jiAglY022TxIzOFWR4Cs+um+qbTZOcvrs36WPTEPrpY=;
-  b=KuczX+chDSKnehd7PDXnIqDeKKcm6XSWvl4++dRpA6JzOV44V6wg77CN
-   NedGF2vyJA3lC5YIvIMXyCSo4xenc9Mw9zt7h9wCZBQ8Ot8X/UY5oxV/w
-   egBZgNWninnrG6cScWvO1Bbu2sJRZ+n5z4KCbZU+1Unrx5TQMgHYx+O0i
-   /llGLPkLzmvzd8IqiIq4QbmVqlWPbVEWqJYLs0GRsPjCOv32y9eI5vGKV
-   1YFq0jV1d3l+cYu2EyIx05698lzPr37RqiBEZPJ3zmqeRu5MRcOIIXrcd
-   dVM96Pl3FuuR/O+EE82JzRtzzm6XuGQPuI2uN1HaAwv5Z2oEJpMya4LHK
+  t=1729784584; x=1761320584;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sXIWJuCM3B05K3xwawfQCC05ekSGnw0R8Xe+3AFiv/Q=;
+  b=HWzSo+h78oqamvE01t27+VGF8uafpPNDvTdBu1I8rjj9sLhq38RpHOQY
+   GwIbLKc0PcCbHqickBCOouxH74gOu08IIV4qnHKDNbqDlMif3QUCZlY++
+   WPGHa++GcvD/Z07piOeyH7QVEPnVy4DXzzMhPW25P8zA+lRB/O+C5OrrT
+   +3ajOWwDTx8OEEQdOD3yF9ILhKg1Yt5XINUCXevHvxnF/x77vKN/vea3A
+   U426nolxuMEpfa2WFDNYfGI056nsqBEpU9gEtok6giOLaFTnRjx0FzKeU
+   FeUVIvLtQvF24GBqlc+CyASMHN4fytSzXd/XYiGXcuLdxuu19/gqGVCdU
    A==;
-X-CSE-ConnectionGUID: tuquyiHEQd2wcozNiEKWYw==
-X-CSE-MsgGUID: XrjmFZQhQa6rREOvQ8mh2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32277208"
+X-CSE-ConnectionGUID: C9E9KWxLSSKlva/veGYy6w==
+X-CSE-MsgGUID: JyP6bY1pTPmsBfxHTIbhGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="29641265"
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="32277208"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 08:32:02 -0700
-X-CSE-ConnectionGUID: RH3n7ADjRveXbenpho5Y5Q==
-X-CSE-MsgGUID: 63IU82PCQEG8kuO0lbc41A==
+   d="scan'208";a="29641265"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 08:43:03 -0700
+X-CSE-ConnectionGUID: mB5x8fa1TMWuG411Uhzjag==
+X-CSE-MsgGUID: k6cQkmjlSmKkHWD2sSJ+nQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="103943670"
+   d="scan'208";a="85735960"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Oct 2024 08:32:01 -0700
+  by orviesa004.jf.intel.com with ESMTP; 24 Oct 2024 08:43:02 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3zod-000Wam-0z;
-	Thu, 24 Oct 2024 15:31:59 +0000
-Date: Thu, 24 Oct 2024 23:31:34 +0800
+	id 1t3zzH-000Wbw-35;
+	Thu, 24 Oct 2024 15:42:59 +0000
+Date: Thu, 24 Oct 2024 23:42:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Johannes Berg <johannes@sipsolutions.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 158/176]
- arch/arm64/kvm/hyp_events.c:134:6: warning: no previous prototype for
- 'hyp_trace_init_event_early'
-Message-ID: <202410242324.Qc5JoLZQ-lkp@intel.com>
+Subject: Re: [RFC PATCH 1/2] net: netlink: add nla_get_*_default() accessors
+Message-ID: <202410242345.2HEJkySu-lkp@intel.com>
+References: <20241024131807.0a6c07355832.I3df6aac71d38a5baa1c0a03d0c7e82d4395c030e@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,86 +62,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241024131807.0a6c07355832.I3df6aac71d38a5baa1c0a03d0c7e82d4395c030e@changeid>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   7f1ad2ebaa24958e3b0527f36d96e58f42cf3f0e
-commit: 898e4d2aa33bd70705040b7c2f485c968cc3d594 [158/176] ANDROID: KVM: arm64: add support for early enablement nVHE hyp events
-config: arm64-randconfig-002-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242324.Qc5JoLZQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242324.Qc5JoLZQ-lkp@intel.com/reproduce)
+Hi Johannes,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main netfilter-nf/main linus/master horms-ipvs/master nf-next/master v6.12-rc4 next-20241024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Berg/net-convert-to-nla_get_-_default/20241024-191943
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20241024131807.0a6c07355832.I3df6aac71d38a5baa1c0a03d0c7e82d4395c030e%40changeid
+patch subject: [RFC PATCH 1/2] net: netlink: add nla_get_*_default() accessors
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241024/202410242345.2HEJkySu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242345.2HEJkySu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410242324.Qc5JoLZQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410242345.2HEJkySu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp_events.c:9:
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
-      14 | HYP_EVENT(hyp_enter,
-         | ^~~~~~~~~
-   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
-      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
-         |              ^~~~~~~~~~~~~~~~
-   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
-      23 | HYP_EVENT(hyp_exit,
-         | ^~~~~~~~~
->> arch/arm64/kvm/hyp_events.c:134:6: warning: no previous prototype for 'hyp_trace_init_event_early' [-Wmissing-prototypes]
-     134 | bool hyp_trace_init_event_early(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:169:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
-     169 | void hyp_trace_init_event_tracefs(struct dentry *parent)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:199:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
-     199 | struct hyp_event *hyp_trace_find_event(int id)
-         |                   ^~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp_events.c:212:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
-     212 | int hyp_trace_init_events(void)
-         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/net/rtnetlink.h:6,
+                    from include/net/neighbour.h:31,
+                    from include/net/dst.h:20,
+                    from include/net/sock.h:66,
+                    from include/linux/tcp.h:19,
+                    from include/linux/ipv6.h:102,
+                    from include/net/gro.h:8,
+                    from net/8021q/vlan_core.c:7:
+   include/net/netlink.h: In function 'nla_get_u8_default':
+>> include/net/netlink.h:1878:16: error: implicit declaration of function 'n' [-Werror=implicit-function-declaration]
+    1878 |         return n(nla);                                  \
+         |                ^
+   include/net/netlink.h:1881:1: note: in expansion of macro 'MAKE_NLA_GET_DEFAULT'
+    1881 | MAKE_NLA_GET_DEFAULT(u8, nla_get_u8);
+         | ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+--
+   In file included from include/net/rtnetlink.h:6,
+                    from include/net/neighbour.h:31,
+                    from include/net/arp.h:8,
+                    from net/8021q/vlan.c:27:
+   include/net/netlink.h: In function 'nla_get_u8_default':
+>> include/net/netlink.h:1878:16: error: implicit declaration of function 'n' [-Werror=implicit-function-declaration]
+    1878 |         return n(nla);                                  \
+         |                ^
+   include/net/netlink.h:1881:1: note: in expansion of macro 'MAKE_NLA_GET_DEFAULT'
+    1881 | MAKE_NLA_GET_DEFAULT(u8, nla_get_u8);
+         | ^~~~~~~~~~~~~~~~~~~~
+   net/8021q/vlan.c: In function 'register_vlan_device':
+   net/8021q/vlan.c:247:46: warning: '%i' directive output may be truncated writing between 1 and 4 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
+     247 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
+         |                                              ^~
+   net/8021q/vlan.c:247:42: note: directive argument in the range [0, 4094]
+     247 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
+         |                                          ^~~~~~~
+   net/8021q/vlan.c:247:17: note: 'snprintf' output between 3 and 21 bytes into a destination of size 16
+     247 |                 snprintf(name, IFNAMSIZ, "%s.%i", real_dev->name, vlan_id);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/8021q/vlan.c:235:46: warning: '%.4i' directive output may be truncated writing 4 bytes into a region of size between 0 and 15 [-Wformat-truncation=]
+     235 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
+         |                                              ^~~~
+   net/8021q/vlan.c:235:42: note: directive argument in the range [0, 4094]
+     235 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
+         |                                          ^~~~~~~~~
+   net/8021q/vlan.c:235:17: note: 'snprintf' output between 6 and 21 bytes into a destination of size 16
+     235 |                 snprintf(name, IFNAMSIZ, "%s.%.4i", real_dev->name, vlan_id);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/hyp_trace_init_event_early +134 arch/arm64/kvm/hyp_events.c
+vim +/n +1878 include/net/netlink.h
 
-   133	
- > 134	bool hyp_trace_init_event_early(void)
-   135	{
-   136		char *token, *buf = early_events;
-   137		bool enabled = false;
-   138	
-   139		while (true) {
-   140			token = strsep(&buf, ",");
-   141	
-   142			if (!token)
-   143				break;
-   144	
-   145			if (*token) {
-   146				struct hyp_event *event;
-   147				int ret;
-   148	
-   149				event = find_hyp_event(token);
-   150				if (event) {
-   151					ret = enable_hyp_event(event, true);
-   152					if (ret)
-   153						pr_warn("Couldn't enable hyp event %s:%d\n",
-   154							token, ret);
-   155					else
-   156						enabled = true;
-   157				} else {
-   158					pr_warn("Couldn't find hyp event %s\n", token);
-   159				}
-   160			}
-   161	
-   162			if (buf)
-   163				*(buf - 1) = ',';
-   164		}
-   165	
-   166		return enabled;
-   167	}
-   168	
+  1871	
+  1872	#define MAKE_NLA_GET_DEFAULT(tp, fn)			\
+  1873	static inline tp fn##_default(const struct nlattr *nla,	\
+  1874				      tp defvalue)		\
+  1875	{							\
+  1876		if (!nla)					\
+  1877			return defvalue;			\
+> 1878		return n(nla);					\
+  1879	}
+  1880	
 
 -- 
 0-DAY CI Kernel Test Service
