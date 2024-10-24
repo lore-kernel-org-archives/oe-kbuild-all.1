@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E72B1B3937
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 14:38:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B76914F12F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 14:40:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729780741; cv=none; b=LUlsVUKG3TeaIjN2UfqwRoAC6Rj4w4yG+YGasX3CL8bKDoSSvyCZ7gCagxRbx8EYZPKFMVy4ZWsIrEoDvYvsRknfmJDWQNUnyFV31UW+gL4VQQQMr1tgKlP+apWYQDZoth2C/uld1QBvt2GhLQPbzQl727l3k+OFUiPlIwNfbeQ=
+	t=1729780803; cv=none; b=bPo/k3Iz7EaCx0WNJ5VaY8c33BccwB2G+ghAKJExPbEaMPnafHOLJnyNlNwTFt9AeOwozQTr5bDKXigo69MRmm0u+Qw3hvK//ADUjaeWHm3ousPxGN8Ps09j84vHKTW3MEcjDSWteCJU4YXRritM/rf54ia4PqPyktlMqxFS3/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729780741; c=relaxed/simple;
-	bh=UOhI2z8bUD1H8XPNqw8r8CcHu55ylmwLfgFW8p34T0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KymByZYlv7LBSaZFY2jSneRSPJgrpyTaOsmhDBPV3LUHatkfXNMfXrCSku1wld4EUamejGQkDD2D3dYTAYS5QamSOjNnWA4hpP0IMPvVonTggY/KkdxGfrodzn8QnFbaZPFrN1z09sC/oRaJGbPBLLIn5RqaYAT67g9TEm8JjKg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I72LaHE5; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1729780803; c=relaxed/simple;
+	bh=CwDIeWvKEXr+2d1rKwezVrTpPVEyQZ6689gB7M1gT6o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OaqnZARkzQaU4ICM554mEHSGu5fHvCEnwR9HWv7tFAhJ/p3z4rEGgR70yrS/wBg1mLKBjRZibDujx0z5LFDj0CexHkZYuvmaOILDm+O17mS/aHEibfot1HJsTBkpGM0s2T2XOhP2O8VOn/sr5BoCj1w5JFJ2o2Ogb2ban9dt9c4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2eNlRja; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I72LaHE5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2eNlRja"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729780739; x=1761316739;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UOhI2z8bUD1H8XPNqw8r8CcHu55ylmwLfgFW8p34T0Y=;
-  b=I72LaHE5Hck4YlUahIAsnHep8nSKb2ndQuq/1qu8ZqBuBVAnVEQ08iuY
-   dTQe0xgQXZhr4ScONEzf89ZoI0JzslpPAjqt9i9Li69e5rSaMeBvjKt+z
-   xiQECOMdgYuyd/mzJXq53/QSJl4uv9BB49lMSxCwE5R3c2gM1pG4MrTNF
-   lIO7UwmfDDvjdXNEQy5tcbb7KsCkTovMNstn5Ngl7ehaaiUozy56rpPEy
-   6pOF9CgltheGbBcxxVXB9T7CAKrSSo++AbFljbNvsXjIUIxxyooCtRRmg
-   Tc7/9Ldxdi6RieFWHOCk0rc2P/RQGXbyBdTrwaA+/GGotvDh4z2LCZHWH
-   Q==;
-X-CSE-ConnectionGUID: Ow9WG3+bTYCuyr/PaX8xQg==
-X-CSE-MsgGUID: +Pq1EVICQ4yCcjKWUvIqOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="17042075"
+  t=1729780801; x=1761316801;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CwDIeWvKEXr+2d1rKwezVrTpPVEyQZ6689gB7M1gT6o=;
+  b=U2eNlRjaUqxZUCYwCrkkB/tonvbXGqigIuyJGrm+Ba2K6K2TBQyf49de
+   dfC5E43zuLTohn/5adrl/+rljSP4uT7ndSg9Bc3v1PrIi9AHLyF/AdQFl
+   +BqLOuN6SDVgMiNhDwUc+nsL94/8bacmsWfDmQjB8PgxLo4sWSqZH8P9E
+   imknYLejjIOsZMx93rJ9lhTgnmRADNKEaWraNjc3SPNCD1sm4cWg+BIdn
+   7L4q1LEpPw71KOAFZ9aWsQK7FSLeLzoYyp45NZG9jMuVyydM7zS+6BgCy
+   8jyl+iTMg4dhDLed83NwiHT2Fx/xuhhvoeF4O4Ah41djW8vDzIvLMu1oZ
+   w==;
+X-CSE-ConnectionGUID: Z5BFCmkMT+a/eDROOS2M5g==
+X-CSE-MsgGUID: RVoLx0BERh+0QrNlbaygDA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32269832"
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="17042075"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 07:38:59 -0700
-X-CSE-ConnectionGUID: /pt0RsxpSbiesuSAeUBIqw==
-X-CSE-MsgGUID: GDg+ccIcQkytvgpjaSNG8g==
+   d="scan'208";a="32269832"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 07:40:01 -0700
+X-CSE-ConnectionGUID: xexQNmJqT7yir1q2qsBndg==
+X-CSE-MsgGUID: LlcM0ZhDQ9+I2UtSTrHkQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="80191661"
+   d="scan'208";a="111421541"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 24 Oct 2024 07:38:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 24 Oct 2024 07:39:58 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3yzH-000WX4-23;
-	Thu, 24 Oct 2024 14:38:55 +0000
-Date: Thu, 24 Oct 2024 22:38:49 +0800
+	id 1t3z0F-000WXA-28;
+	Thu, 24 Oct 2024 14:39:55 +0000
+Date: Thu, 24 Oct 2024 22:38:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Foster <bfoster@redhat.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH] iomap: elide zero range flush from partial eof zeroing
-Message-ID: <202410242220.ZfBg7XEr-lkp@intel.com>
-References: <20241023143029.11275-1-bfoster@redhat.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 6278/13046] vmlinux.o: warning: objtool:
+ rep_xcrypt.isra.0+0x39: return with modified stack frame
+Message-ID: <202410242227.Q48yML1T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +65,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023143029.11275-1-bfoster@redhat.com>
 
-Hi Brian,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on linus/master v6.12-rc4 next-20241024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Brian-Foster/iomap-elide-zero-range-flush-from-partial-eof-zeroing/20241023-223311
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20241023143029.11275-1-bfoster%40redhat.com
-patch subject: [PATCH] iomap: elide zero range flush from partial eof zeroing
-config: powerpc-allnoconfig (https://download.01.org/0day-ci/archive/20241024/202410242220.ZfBg7XEr-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242220.ZfBg7XEr-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 07428127920a146709701a1cc907ba297b9f4141 [6278/13046] Add support for Zhaoxin GMI SM4 Block Cipher algorithm
+config: x86_64-buildonly-randconfig-003-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242227.Q48yML1T-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242227.Q48yML1T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410242220.ZfBg7XEr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410242227.Q48yML1T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   powerpc-linux-ld: fs/iomap/buffered-io.o: in function `iomap_zero_iter':
->> buffered-io.c:(.text+0x3f5c): undefined reference to `__moddi3'
+   vmlinux.o: warning: objtool: sm3_generic_block_fn.part.0+0x1d: BP used as a scratch register
+>> vmlinux.o: warning: objtool: rep_xcrypt.isra.0+0x39: return with modified stack frame
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x4e2: call without frame pointer save/setup
 
 -- 
 0-DAY CI Kernel Test Service
