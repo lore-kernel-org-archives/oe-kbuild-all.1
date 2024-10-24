@@ -1,60 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E76301D0171;
-	Thu, 24 Oct 2024 12:22:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7B817277F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Oct 2024 12:53:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729772577; cv=none; b=JDALBwxnaUr66JIo4dyjMaUcBQJM9uIaQuTi1R3RD5yAtSOYwW3tvpI9oBKfL418u8wDvyKBzfjsMQLVBWxC2QA+6mfvVa7sVupFZhnvllMBB9ZEngvykjxMl/NwbDnCC7CAM6HioezKYRvf4dg5YElBswhfbQaq1I8ul+rMRmc=
+	t=1729774440; cv=none; b=hnbqTNXYpSS0F1IxIwBnZ8366qKWZRCXi2Fv7uEuIoA+LNLh22tWOOjPxvR61yJc/Yo4lYKnrAU+AaHHCzv5hSH5j52TTzHXWJJSM6VRZASjZSqEaA62X3fFXXBt/O7aX72Q9FcCXt8XBWlY50ZoTUHA4eyt5Ml8541fgXhSwjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729772577; c=relaxed/simple;
-	bh=u0qeBrjunPpjPjWjVQqJqOwh1kAmoJK+Dg9zjRHT7L4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BhVt6E9aMTN2xBjxR86XLO41Qv4WqaLa8HdY5FeZ9PR3omnsAOgdnsvz7Q71BmgM96Yti+FJMdVhymhlDADfOOl85lKEfG2+BodBd/6ZrX0+BWvQJyq5QWkLxyTdE2VF/G48KAvut1xypAXvKSuTLKahr0aQyH5i1PG98i6fUZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i6wplX49; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1729774440; c=relaxed/simple;
+	bh=HUuhAWk3dXLnQPMq/6w0jxdCVg118X9Z6g0zogfDEU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ffc6no0lYjuf6yT4sFYmSaLA5Lnl6tFUu4Y6JOnAusH4VQ/hdkr+tnTq2UxYEzY1c8wOjvv5CxzH4HLHYsGa3n1qMlG76MLevcmNDVKZk3MxqqaP/j/fdmmEFiH0bTP3RtPV5YnCC9wQR4cK14YLkuORpXGt1LN+eiPrO/by2bw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/twMj9i; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i6wplX49"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/twMj9i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729772575; x=1761308575;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u0qeBrjunPpjPjWjVQqJqOwh1kAmoJK+Dg9zjRHT7L4=;
-  b=i6wplX49SJBhWy8K3Khzs2KWqOylJ5U3f4zJ+/RgWy1IpUazKtTzJ3ql
-   o1tMvvmFo68SMYOfjdCWGwaFUOviSNu/visVf7aiBbWi/X8xpOUA2XSn5
-   ryXdf0gaGAY4XCLQdbqYY37BiQLYeIEgFE4Kx9wzuXs8QeEVM3bKY77mR
-   zqiGIwY9S8HhOh6teX73bq0NN4GfnNOyL1X/QJumCdWsPtrbHSJP2P7/l
-   Y4m9iHsIAz0cYOpzG4KWEpOPo+7WzoD7fngjnC/Kt66+UOig3X+lQeKwc
-   UHS5APp09nxvAsxArAI8Q3juTARiQa+YmPsZ0vGSN/gs+x8sgCOlk7kb/
-   w==;
-X-CSE-ConnectionGUID: dhbdyJtuSXy4LlGlqS0aSg==
-X-CSE-MsgGUID: 0lESNFcEQYelwcVFN6QP0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="33303084"
+  t=1729774439; x=1761310439;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HUuhAWk3dXLnQPMq/6w0jxdCVg118X9Z6g0zogfDEU8=;
+  b=h/twMj9iyxDgIK1xNShcTxbYu34r8LmGLfm78Ks2T3pYSuMebxGYtMut
+   r4YtSw4giXhKLSOnDnoihWQ3nYgMT5QYkKJ6CBmajl36rEzOSK/GUkqgn
+   R80HQtXBoI0/XBP7sw6ZHwKbWDO1UUUjExtwnSRr1PCebc+iL7ko2n3Uc
+   BhcvOev7c7HJsul3W9/4rlvU96o5Eh2QJOHxpbKMOhisBagPLYxibqL63
+   HIAZYWOEprFpgrzdGbzgM9pictpkfYIbHoiBJsW8TwK1ijuEzjkLlUHMJ
+   ZYp/kpfE+Z0sWadNVBgKldd1RVciw8QpBSgvKPUU86j8+hXHn/PM6xsp/
+   Q==;
+X-CSE-ConnectionGUID: oVasWWa0RXaeTl80t1NVgQ==
+X-CSE-MsgGUID: eDLbg60HQh6K6fpDmNoR0A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="33305516"
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="33303084"
+   d="scan'208";a="33305516"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 05:22:54 -0700
-X-CSE-ConnectionGUID: glurziePSfuiVFUNVLSsOQ==
-X-CSE-MsgGUID: HlGe346nRfminLWyPagaqw==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 05:53:58 -0700
+X-CSE-ConnectionGUID: CYQhb0LyQ/O314nR33NJFw==
+X-CSE-MsgGUID: T60QwaPzQhGgKJLZPt2oiA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,229,1725346800"; 
-   d="scan'208";a="84554608"
+   d="scan'208";a="84560553"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 05:22:53 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Oct 2024 05:53:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t3wra-000WP4-30;
-	Thu, 24 Oct 2024 12:22:50 +0000
-Date: Thu, 24 Oct 2024 20:22:19 +0800
+	id 1t3xLc-000WRA-04;
+	Thu, 24 Oct 2024 12:53:52 +0000
+Date: Thu, 24 Oct 2024 20:53:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Philipp Stanner <pstanner@redhat.com>
-Subject: [rust:staging/rust-pci 9/13] error[E0425]: cannot find function
- `ioremap` in crate `bindings`
-Message-ID: <202410242055.aHPu0LUJ-lkp@intel.com>
+To: Ryan Chen <ryan_chen@aspeedtech.com>, lee@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, joel@jms.id.au,
+	andrew@codeconstruct.com.au, mturquette@baylibre.com,
+	sboyd@kernel.org, p.zabel@pengutronix.de,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-aspeed@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	linux-clk@vger.kernel.org, dmitry.baryshkov@linaro.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v6 3/3] clk: aspeed: add AST2700 clock driver.
+Message-ID: <202410242017.1valHJUC-lkp@intel.com>
+References: <20241023090153.1395220-4-ryan_chen@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +68,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241023090153.1395220-4-ryan_chen@aspeedtech.com>
 
-tree:   https://github.com/Rust-for-Linux/linux staging/rust-pci
-head:   c13795fe4557999937eba6854f92761cfba8446f
-commit: ec5f6bae35fa8db1243ff88be9565d717598beb5 [9/13] rust: add `io::Io` base type
-config: riscv-randconfig-001-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242055.aHPu0LUJ-lkp@intel.com/config)
+Hi Ryan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on pza/reset/next lee-mfd/for-mfd-next lee-leds/for-leds-next linus/master lee-mfd/for-mfd-fixes v6.12-rc4 next-20241024]
+[cannot apply to pza/imx-drm/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chen/dt-bindings-mfd-aspeed-support-for-AST2700/20241023-170434
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20241023090153.1395220-4-ryan_chen%40aspeedtech.com
+patch subject: [PATCH v6 3/3] clk: aspeed: add AST2700 clock driver.
+config: arm64-randconfig-r133-20241024 (https://download.01.org/0day-ci/archive/20241024/202410242017.1valHJUC-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241024/202410242055.aHPu0LUJ-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20241024/202410242017.1valHJUC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410242055.aHPu0LUJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410242017.1valHJUC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find function `ioremap` in crate `bindings`
-   --> rust/doctests_kernel_generated.rs:3322:39
-   |
-   3322  |         let addr = unsafe { bindings::ioremap(paddr as _, SIZE.try_into().unwrap()) };
-   |                                       ^^^^^^^ help: a function with a similar name exists: `iounmap`
-   |
-   ::: rust/bindings/bindings_generated.rs:40183:5
-   |
-   40183 |     pub fn iounmap(addr: *mut core::ffi::c_void);
-   |     -------------------------------------------- similarly named function `iounmap` defined here
+   In file included from drivers/clk/clk-ast2700.c:17:
+>> include/soc/aspeed/reset-aspeed.h:14:5: warning: no previous prototype for function 'aspeed_reset_controller_register' [-Wmissing-prototypes]
+      14 | int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+         |     ^
+   include/soc/aspeed/reset-aspeed.h:14:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      14 | int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/aspeed_reset_controller_register +14 include/soc/aspeed/reset-aspeed.h
+
+1476d29e4461f6 Ryan Chen 2024-10-23   9  
+1476d29e4461f6 Ryan Chen 2024-10-23  10  #if IS_ENABLED(CONFIG_RESET_ASPEED)
+1476d29e4461f6 Ryan Chen 2024-10-23  11  int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+1476d29e4461f6 Ryan Chen 2024-10-23  12  				     const char *adev_name);
+1476d29e4461f6 Ryan Chen 2024-10-23  13  #else
+1476d29e4461f6 Ryan Chen 2024-10-23 @14  int aspeed_reset_controller_register(struct device *clk_dev, void __iomem *base,
+1476d29e4461f6 Ryan Chen 2024-10-23  15  				     const char *adev_name)
+1476d29e4461f6 Ryan Chen 2024-10-23  16  {
+1476d29e4461f6 Ryan Chen 2024-10-23  17  	return -ENODEV;
+1476d29e4461f6 Ryan Chen 2024-10-23  18  }
+1476d29e4461f6 Ryan Chen 2024-10-23  19  #endif /* if IS_ENABLED(CONFIG_RESET_ASPEED) */
+1476d29e4461f6 Ryan Chen 2024-10-23  20  
 
 -- 
 0-DAY CI Kernel Test Service
