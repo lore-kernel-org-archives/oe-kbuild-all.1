@@ -1,70 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B07E1B81DC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 23:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638001DD0C9;
+	Fri, 25 Oct 2024 23:42:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729899106; cv=none; b=QZCy6dL4larA0XIZfM8mCG74LQrNrh4yKnNUAiczt8ADoZ9UrhS0vO0DEiIQTyGsyS8UxkruFuS7kSR9/hTykULJ942ZrR+cqq5oh+cRs1jrJFEy7bGtPRqCn92S1a1imoCAP7McFHs3uLQmJfii7SFu4u6haiC6r7K7WyVVrK0=
+	t=1729899762; cv=none; b=jnsH7radV9jBBu1J3YA79WiTEo0J25RbVMz1AQyPxrmGQKSNYLQEWRbziSEEFWnlPlHHXHyJPsU1P+ytXAFwVzHRfNMyJVzaQyG7Z7lJVaKGs7JFH4NJyU+DdBkzRkVI2PSAwAnAj7tzOpRm0EPr8J1V02u7pvVye00PID7qjds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729899106; c=relaxed/simple;
-	bh=u4xiOrgzFrMQGY1E5QjpVZEvO5RqKSATtrfHUuQma7Q=;
+	s=arc-20240116; t=1729899762; c=relaxed/simple;
+	bh=9AUHJ52vhcnHhpIsDcydmIMZD0WvaKeVjZTBF2tdN1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c0JfLyFSCVgIXtQQnPR2oQx9oouAcnGf24zQL8TdXqWooTKb7cqx3ffKCeCzzAaetUDNLVve0KFPyzoi+Id5+sokvHrE1TEP3+QY71IEACvaTPCV538mmjulNULXbNQYNZWm7ybo/XpWypfOfbvaQec3o/UKFLMPmMUOA4j4nns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d623BiNv; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=jo2A9mISBBCm3LgkL8DHG1MxKALjqQeyDxG72uXy0bExc0DmbfjvRQL/wI1RJHPujw7n0jw8MJ7QAjwbjeIsocLtRthmkb79gdJfHVtB++6hNjUloAv5a2h06UeHOA8JG7FixpUPrek6NCr75zb1Cpls9nmglfJrWl9Ly1PqaO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ghqLW+EV; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d623BiNv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ghqLW+EV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729899104; x=1761435104;
+  t=1729899761; x=1761435761;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=u4xiOrgzFrMQGY1E5QjpVZEvO5RqKSATtrfHUuQma7Q=;
-  b=d623BiNviPxMGSSc69bBZHGjHgq3hKfJTYNzNfOYuYarsGgP9Pa/8t5s
-   6E7vF3fVp+dJrECYWr+lqKjKUHn/8jg0MG/9LJ8onTEsaseJtyaA4kpD5
-   o5jv78sCxaf87dQBEcWyb11ScuQ1t/VTfxXgzVjxVAJ7AHgKkU2I3+GPA
-   2VuA146yvxD4ZQbu1Wpe3Ibi3El0dRX+SIKfZLp38LM3Kr+kNwZ2vKQM/
-   kE9XkrtbnDBF/7CoH7NjMue83CE3orBYJrrQKfaOj77k+cQWgcB0U4KfF
-   eJ0OU1JKg/EQCj8AQ5IRCf51n9AyMjAw0VmCD/Pf4ulcNM7z/iuBe4oCb
-   w==;
-X-CSE-ConnectionGUID: Xql6KI2zQmKUyXeklk6C/g==
-X-CSE-MsgGUID: yRjaRLfiRZq+JoNwdpCceA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47041244"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47041244"
+  bh=9AUHJ52vhcnHhpIsDcydmIMZD0WvaKeVjZTBF2tdN1w=;
+  b=ghqLW+EVezZ1eHfk+z7fnD7z5IaI9LmUDQr/oxnKMyQzMbf7qB9PqErj
+   fKC9oQq3L7eI+4NP5WwT5Fd3kWLpDbhAP95qz1lRSKhLxaMx5rRxBtWgy
+   0oqqGSBxJKfb9aNWmYx6l3X+8fn0HSxQX7vvxYAFBAfuAPwtcSn5b0fyr
+   Ks09bsP4WGjVJWUNqAKjMNn7dda5iEihSkbRlwkBS06ywvCEQ2bNkmTvv
+   2b/wC/65j7+Z3oU74kBsId5S1nVoseD3eu4oGAJLnVog+ta8kimBXCvZF
+   Elim5Crt56L3BY1FuCgIqvmpkYi5GFFvzYhkstlu35yb0MoRq7ZxbbyXK
+   A==;
+X-CSE-ConnectionGUID: CZhSZpo3Rie8N+ijdEHsYg==
+X-CSE-MsgGUID: lFx7JU+PS1mZUlVA6yeCug==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40199498"
+X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
+   d="scan'208";a="40199498"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 16:31:43 -0700
-X-CSE-ConnectionGUID: bxTqJhq4TWC3gPnARMzMzA==
-X-CSE-MsgGUID: bcWwe4LAR9eUK2EAfOP44g==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 16:42:40 -0700
+X-CSE-ConnectionGUID: +TbfiPdVR+uv+a8H55sVeg==
+X-CSE-MsgGUID: GjZIWSRLSlOzrUCDDGJ/xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
-   d="scan'208";a="80989606"
+   d="scan'208";a="80992565"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Oct 2024 16:31:37 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Oct 2024 16:42:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4TmI-000Z1i-0o;
-	Fri, 25 Oct 2024 23:31:34 +0000
-Date: Sat, 26 Oct 2024 07:31:28 +0800
+	id 1t4Tww-000Z2j-2p;
+	Fri, 25 Oct 2024 23:42:34 +0000
+Date: Sat, 26 Oct 2024 07:41:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ming Yu <a0282524688@gmail.com>, tmyu0@nuvoton.com, lee@kernel.org,
-	linus.walleij@linaro.org, brgl@bgdev.pl, andi.shyti@kernel.org,
-	mkl@pengutronix.de, mailhol.vincent@wanadoo.fr,
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, wim@linux-watchdog.org,
-	linux@roeck-us.net, jdelvare@suse.com, jic23@kernel.org,
-	lars@metafoo.de, ukleinek@kernel.org, alexandre.belloni@bootlin.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-can@vger.kernel.org, netdev@vger.kernel.org,
-	linux-watchdog@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org,
-	linux-rtc@vger.kernel.org
-Subject: Re: [PATCH v1 4/9] can: Add Nuvoton NCT6694 CAN support
-Message-ID: <202410260755.TBWkI6Jh-lkp@intel.com>
-References: <20241024085922.133071-5-tmyu0@nuvoton.com>
+To: Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	brendan.higgins@linux.dev, davidgow@google.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Luis Felipe Hernandez <luis.hernandez093@gmail.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
+	skhan@linuxfoundation.org, ricardo@marliere.net,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	andriy.shevchenko@linux.intel.com
+Subject: Re: [PATCH v2] lib/math: Add int_sqrt test suite
+Message-ID: <202410260709.2XVfASBv-lkp@intel.com>
+References: <20241024195511.72674-1-luis.hernandez093@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,35 +68,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024085922.133071-5-tmyu0@nuvoton.com>
+In-Reply-To: <20241024195511.72674-1-luis.hernandez093@gmail.com>
 
-Hi Ming,
+Hi Luis,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on lee-mfd/for-mfd-next]
-[also build test ERROR on brgl/gpio/for-next andi-shyti/i2c/i2c-host mkl-can-next/testing groeck-staging/hwmon-next jic23-iio/togreg abelloni/rtc-next linus/master lee-mfd/for-mfd-fixes v6.12-rc4 next-20241025]
+[auto build test ERROR on v6.12-rc4]
+[also build test ERROR on linus/master]
+[cannot apply to akpm-mm/mm-nonmm-unstable next-20241025]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Yu/mfd-Add-core-driver-for-Nuvoton-NCT6694/20241024-170528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20241024085922.133071-5-tmyu0%40nuvoton.com
-patch subject: [PATCH v1 4/9] can: Add Nuvoton NCT6694 CAN support
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241026/202410260755.TBWkI6Jh-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260755.TBWkI6Jh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luis-Felipe-Hernandez/lib-math-Add-int_sqrt-test-suite/20241025-035643
+base:   v6.12-rc4
+patch link:    https://lore.kernel.org/r/20241024195511.72674-1-luis.hernandez093%40gmail.com
+patch subject: [PATCH v2] lib/math: Add int_sqrt test suite
+config: i386-buildonly-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260709.2XVfASBv-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260709.2XVfASBv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410260755.TBWkI6Jh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410260709.2XVfASBv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> make[6]: *** No rule to make target 'drivers/net/can/nct6604_canfd.o', needed by 'drivers/net/can/'.
-   make[6]: Target 'drivers/net/can/' not remade because of errors.
+>> lib/math/tests/int_sqrt_kunit.c:7:10: fatal error: 'limits.h' file not found
+       7 | #include <limits.h>
+         |          ^~~~~~~~~~
+   1 error generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +7 lib/math/tests/int_sqrt_kunit.c
+
+     2	
+     3	#include <kunit/test.h>
+     4	#include <linux/math.h>
+     5	#include <linux/module.h>
+     6	#include <linux/string.h>
+   > 7	#include <limits.h>
+     8	
 
 -- 
 0-DAY CI Kernel Test Service
