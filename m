@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69BE7175A6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 09:25:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFD91D27A4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 09:25:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729848357; cv=none; b=E7ZZu0Vugzd484IgyXIAihPwt3OXG86KHiuWyACsl6W17tgX7st4fTSWn3wjy42RsB2Ag3L3QXha0uDSFCWVgl20ZN4O7Xl0olHMEz6ri0l60V9fW0inCa+oTSJrMdWZkMgvDBThLkMVr/kJCPtGnfRzjsLkfAmrnb/TdL2Hf7Y=
+	t=1729848361; cv=none; b=OIH7IP5ACDbtfksHrotYWwOFzzb1rlL59Dr/tYaZ+wUSLGCiLM6MdUF5sBdehT75Ch8FRhyWiBMB51N2Rq0XvZOlbd5O9moECSxcVilsWS8gngA8kVj+JdBiwJRW3cb516KIa34cTNm3Un3g0mGZ0U1LiUjO976bTadCQrh9JVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729848357; c=relaxed/simple;
-	bh=zevIMvxwkG/4NSYXVpdr9cizqW/LkoCAuW6zVdC6OkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JEDLCEToDWiIHu5vHeB3FaGjsowpFfcMs9V65iY6IGigUBTf4YQgQV0ZbmGwmkShPkMh4IGJrDyO5Ecv5b7L/odczNDEWl4eIb/wjB5v9PSNhjVHeFwyWItm63mojNsHrjydeHQRV7GP6ndy+JGnkd/9cSKtXOPSQdH+OSvRXeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ll2MCI08; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1729848361; c=relaxed/simple;
+	bh=BhMfZ/Qr3xfxsyNGBewyG61lKCjGfrP4CAs7Bh9O61A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QAY5X7mHE08SGphI5nQjSoZn4UWGLqAhk2oiCF33ebVObBa+yrXKMynr90ZrqtvrAtqN+0dZm3RbV/p8h+kyzT0C5+BFsb4AbfX5xAe/yhUq0CUMo2LGvORSlJL5xZSUCdveUvK7Gt0hmT2Qlbgc3t0k632xFuTCXHqrhh5OZsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTDBUfUt; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ll2MCI08"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTDBUfUt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729848355; x=1761384355;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zevIMvxwkG/4NSYXVpdr9cizqW/LkoCAuW6zVdC6OkE=;
-  b=ll2MCI08yElmtqR5K02LpMp/tDe2n2IjreMAY39Yju8+9oWHA5jcqr2h
-   2+LWCuOVbpnHSOv4TzdSa0rGinY6edS70HAayt9tcNpwJlImYGjL401F5
-   dohbumvx9TeJAIE5+n0ypbGZy07dUi3Blx3bDTKAZ2hKEUg1ySDt7Jsyo
-   i/68ikaw7QN0EYk1dkPK0kj7Jl2NgleCFNgUwWhse2ISzDnAiiN7Nu7v+
-   15m5J44qRtUAWh8THRsQTk5bc+rkiWd//E19+ZptWyA+v9vL7HNrBImsz
-   csc6xHLrzp3lwWQZNlNXjjqVYG/bikaNmN90DH+ZAaiAJ/egFsWX19tza
-   A==;
-X-CSE-ConnectionGUID: 2zttH1+uTv64tD2GwK+FUQ==
-X-CSE-MsgGUID: TNUCCEukTnm9Ahxny2M0BQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40127756"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="40127756"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:25:55 -0700
-X-CSE-ConnectionGUID: AAq1wKhyRGG6Exjn9wv4ug==
-X-CSE-MsgGUID: DX9OLNrWRsazBrV9vj/Z4A==
+  t=1729848359; x=1761384359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BhMfZ/Qr3xfxsyNGBewyG61lKCjGfrP4CAs7Bh9O61A=;
+  b=UTDBUfUtWaAPHa12Pk4NndilIzX4V2ZFWzSjbVJ0Y4Xu1KR8AWR8Lnxx
+   PDcUX7qgBjXdQIM1BXOA1PJoXOENXRqrmeZb8t3WuiMnCgW2JhAujHRnm
+   4If2ZeW6/ruZYzkmk3ZTE+nEWD9yZMJWkBgt5Hh0y47Zgfj3g3RhNiPWh
+   7Kn7FAQ2456Pq0UwJ4SIeJxv36io04oGKyxcJ3/ZbOz2oVtgdR3Jfvqkj
+   qm6bwbkXj3i2rj3bxKABKs+HSLKSgZbfqoKEhAMgzdLvM259RgxcnG+J2
+   Sh0gpuHXgI7E+iYZDVTI26aOoB+2JjyJO1Vx1TvKv7kdiFg41MBb4FCQT
+   Q==;
+X-CSE-ConnectionGUID: yBtyPxYLQmCv21QsV8alug==
+X-CSE-MsgGUID: 7mfR1lDZQWeDDhXujTsTRQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46976032"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="46976032"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:25:59 -0700
+X-CSE-ConnectionGUID: pangIxHsQ+ShqJtRmCy2FA==
+X-CSE-MsgGUID: CfxRfQ4PRX+iuMy4db0xHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="118324764"
+   d="scan'208";a="81288958"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 25 Oct 2024 02:25:54 -0700
+  by orviesa007.jf.intel.com with ESMTP; 25 Oct 2024 02:25:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4GZr-000Xys-1p;
+	id 1t4GZr-000Xyv-1t;
 	Fri, 25 Oct 2024 09:25:51 +0000
 Date: Fri, 25 Oct 2024 17:25:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dyndbg_trace_v4_5e 74/102] lib/dynamic_debug.c:1773:27: error:
- 'struct ddebug_table' has no member named 'num_ddebugs'
-Message-ID: <202410251739.UyYA2tQB-lkp@intel.com>
+To: Jijie Shao <shaojijie@huawei.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, shenjian15@huawei.com,
+	wangpeiyang1@huawei.com, liuyonglong@huawei.com,
+	chenhao418@huawei.com, sudongming1@huawei.com,
+	xujunsheng@huawei.com, shiyongbang@huawei.com, libaihan@huawei.com,
+	jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com,
+	salil.mehta@huawei.com, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, shaojijie@huawei.com
+Subject: Re: [PATCH net-next 4/7] net: hibmcge: Add register dump supported
+ in this module
+Message-ID: <202410251738.mRleD5uf-lkp@intel.com>
+References: <20241023134213.3359092-5-shaojijie@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +71,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241023134213.3359092-5-shaojijie@huawei.com>
 
-tree:   https://github.com/jimc/linux.git dyndbg_trace_v4_5e
-head:   95ff6ff44a0206ea02936387ab66f6c39cfd20c7
-commit: 02dffe3046c29ba88fdcb6767e037a75ad4aaac9 [74/102] dyndbg: don't close trace instance when in use
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241025/202410251739.UyYA2tQB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251739.UyYA2tQB-lkp@intel.com/reproduce)
+Hi Jijie,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jijie-Shao/net-hibmcge-Add-dump-statistics-supported-in-this-module/20241023-215222
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241023134213.3359092-5-shaojijie%40huawei.com
+patch subject: [PATCH net-next 4/7] net: hibmcge: Add register dump supported in this module
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251738.mRleD5uf-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251738.mRleD5uf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251739.UyYA2tQB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251738.mRleD5uf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   lib/dynamic_debug.c: In function 'ddebug_table_free':
->> lib/dynamic_debug.c:1773:27: error: 'struct ddebug_table' has no member named 'num_ddebugs'
-    1773 |         for (i = 0; i < dt->num_ddebugs; i++) {
-         |                           ^~
->> lib/dynamic_debug.c:1774:40: error: 'struct ddebug_table' has no member named 'ddebugs'
-    1774 |                 dst = get_trace_dst(&dt->ddebugs[i]);
-         |                                        ^~
+   drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c: In function 'hbg_ethtool_get_regs':
+>> drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c:322:20: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 31 [-Wformat-truncation=]
+     322 |                  "[%s] %s", type_info->name, reg_map->name);
+         |                    ^~
+   In function 'hbg_get_reg_info',
+       inlined from 'hbg_ethtool_get_regs' at drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c:338:14:
+   drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c:321:9: note: 'snprintf' output between 4 and 154 bytes into a destination of size 32
+     321 |         snprintf(info->name, sizeof(info->name),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     322 |                  "[%s] %s", type_info->name, reg_map->name);
+         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1773 lib/dynamic_debug.c
+vim +322 drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c
 
-  1768	
-  1769	static void ddebug_table_free(struct ddebug_table *dt)
-  1770	{
-  1771		int dst, i;
-  1772	
-> 1773		for (i = 0; i < dt->num_ddebugs; i++) {
-> 1774			dst = get_trace_dst(&dt->ddebugs[i]);
-  1775			if (dst)
-  1776				trc_tbl.buf[dst].use_cnt--;
-  1777		}
-  1778	
-  1779		list_del_init(&dt->link);
-  1780		kfree(dt);
-  1781	}
-  1782	
+   313	
+   314	static u32 hbg_get_reg_info(struct hbg_priv *priv,
+   315				    const struct hbg_reg_type_info *type_info,
+   316				    const struct hbg_reg_offset_name_map *reg_map,
+   317				    struct hbg_reg_info *info)
+   318	{
+   319		info->val = hbg_reg_read(priv, reg_map->reg_offset);
+   320		info->offset = reg_map->reg_offset - type_info->offset_base;
+   321		snprintf(info->name, sizeof(info->name),
+ > 322			 "[%s] %s", type_info->name, reg_map->name);
+   323	
+   324		return sizeof(*info);
+   325	}
+   326	
 
 -- 
 0-DAY CI Kernel Test Service
