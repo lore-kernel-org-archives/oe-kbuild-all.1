@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F14199221
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40B119993F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 08:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729842592; cv=none; b=LkN7j/Ls/Y0QFfkxHqf3YiZoBg+x8M3oPOlwbXDggcTsmp5HIrx94kVnRL8djlqjOIFrhl5WLrbWEXbCC0GrJ9EJrxiUm0vFDWtaUkQDHrX3WHrTkzhjkCeLm4OcNLhZ3MEC/dX2LIkzs4LflW+jiHRScMz43IJ+aRHtv8fL8Fw=
+	t=1729843251; cv=none; b=f8bTSGPV7cXWV8piyAhoQxpiutS576tl3wZyxVCfg4oJS7wgH5biaCaYHlyiZMNiA3EM7pI1TmcDshFa6o/JVoH/rkrhsAyq5KRXK5ufUwUOXr7tZ1RNHGkFxQ1RRiVLjDhriPewvCr8OWvlG0UqtLxHyJ+gYdYKmwAJG+nXnxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729842592; c=relaxed/simple;
-	bh=952y0NPkhwarQKxJG1f+kljQakJhI+T6e79joVRiUcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CvQxSwv24BBv4Iaf9W2Y67FodQMn3GKfwyhfprR4FQTb9YRaMUAlYtfNrWHTLxH9/4xEKGoJrYpLMMmPIhSjg9D+z76rg1JdVGJp6yeRacfiXwRRRueugzuQjOzbSWoK+FwbBoYnKUlLdFSkUlaQn5GMShAOV0r0auVTQSjhHT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlE9BJ6g; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1729843251; c=relaxed/simple;
+	bh=rFAwolJMpJ1SwKwjYr1TiKR+ucT4qvtHaHzzebkgTX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MUo4ZcEJiHj0JDgTxl/58FJuVD8KlbRsvI9mT9ZZiH4uIdT9/TzEidnDmQro231AKhKxD7VL2dPsApG9Ri9HcDbJUzEV6BviplrqFUM0enOGj45L6ynBwVT1fnh8Hgi7naqqMGX6XiFRgTe4HrR/zKtiShFa1W2x6O/oW6Y1+90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDn+8Kqf; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlE9BJ6g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDn+8Kqf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729842590; x=1761378590;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=952y0NPkhwarQKxJG1f+kljQakJhI+T6e79joVRiUcg=;
-  b=dlE9BJ6gs0n1UBEtIr2AFy+VYd12dRolotRoOGvadNXWg4oFT0mqxMDV
-   O3m64Czms3d+YJhQrzW4H8QAsIXYHFjDcN3D56B9OIvVvzjFFUJBdk5fZ
-   Z5s/qEYl9Z9cT1ngWqMraTqLQ5towQFKfGuzyQBqPbxVHaxyIsB3ABYpg
-   tetbBNg75GQXceMJSKPQZQ7PUBwCZMdtsIkvDIFQK/OOqy7OWunvHtjbP
-   mf9Nsj/gitET/KBcu+7zuPplNBNcJ93oZjmLRMubh0NBziBsyfGc6wiV2
-   FBVoIEZdjsOqfC46dC4HDKh06cKvdt2kGvBmUBQafcsU/rdywjsZMTkU7
-   A==;
-X-CSE-ConnectionGUID: nDGpy7IUS5mg9jexObvEbw==
-X-CSE-MsgGUID: H0t+W2dxQM609bfBQnaTag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40090470"
+  t=1729843250; x=1761379250;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rFAwolJMpJ1SwKwjYr1TiKR+ucT4qvtHaHzzebkgTX8=;
+  b=gDn+8KqfmQKW0Anfpqn/32f0J1LIjgsEg4rSNW0zferpN7xP0b6tWWa8
+   s7dYp/O1FzDBhVJp4JqetTIHkoizl66NOBio2/1l936+bp8OMCJi5TnC2
+   e7vzYPVILaE/WqqJWFkHLarwWa0IqwqZZelrywI6HvW8oGLn9tXekOoYH
+   0qacSEqDxlfHM/Xgqf2IrtFK4XxEEYS15oI80vamMCipPaa7uIsXPsbwV
+   ZXv0FxqJnFdyvXem/rg5dCggZINgN2XRZw14yohOvlCjQDJveChqJ9Hmg
+   +3ZOW1uEXmC44qfMIKWr846eUnv4YlbBDTdFuNTW4fHXhYmOsODXBi20r
+   w==;
+X-CSE-ConnectionGUID: dlHy7tJKQ0KGMRg3BLDZaA==
+X-CSE-MsgGUID: QZGjre5+TZ2D7cQ5MONNSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32365094"
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="40090470"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 00:49:50 -0700
-X-CSE-ConnectionGUID: 5CsphyJ0QgaztpFi6nXfbw==
-X-CSE-MsgGUID: YazC/HHFR3Cepcl9LasKHQ==
+   d="scan'208";a="32365094"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 01:00:49 -0700
+X-CSE-ConnectionGUID: R0WGeVnWSr68I6XKX+dP0A==
+X-CSE-MsgGUID: 6mf3HSc+RaW96+bu2y9cZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="80848388"
+   d="scan'208";a="80760182"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 25 Oct 2024 00:49:48 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Oct 2024 01:00:48 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4F4r-000XnR-2f;
-	Fri, 25 Oct 2024 07:49:45 +0000
-Date: Fri, 25 Oct 2024 15:49:16 +0800
+	id 1t4FFW-000XoJ-0n;
+	Fri, 25 Oct 2024 08:00:46 +0000
+Date: Fri, 25 Oct 2024 15:59:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Chung <tony467913@gmail.com>, johan@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tony Chung <tony467913@gmail.com>
-Subject: Re: [PATCH] usb: serial: mos7840: Fix coding style warnings
-Message-ID: <202410251501.9hTgSYCH-lkp@intel.com>
-References: <20241023091414.18098-1-tony467913@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned-rebase 34/58] ERROR: modpost: "__umoddi3"
+ [fs/xfs/xfs.ko] undefined!
+Message-ID: <202410251534.CzHNSTd7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,101 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023091414.18098-1-tony467913@gmail.com>
 
-Hi Tony,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on johan-usb-serial/usb-next]
-[also build test ERROR on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v6.12-rc4 next-20241024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Chung/usb-serial-mos7840-Fix-coding-style-warnings/20241023-171615
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
-patch link:    https://lore.kernel.org/r/20241023091414.18098-1-tony467913%40gmail.com
-patch subject: [PATCH] usb: serial: mos7840: Fix coding style warnings
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251501.9hTgSYCH-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251501.9hTgSYCH-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
+head:   405a6c19506c51256fe1eafd41128b98ffe566b3
+commit: 7d0ae5c0dcfc39db9e13893a83d1947d042b3d4a [34/58] xfs: support zoned RT devices
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251534.CzHNSTd7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251534.CzHNSTd7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251501.9hTgSYCH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251534.CzHNSTd7-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   drivers/usb/serial/mos7840.c: In function 'mos7840_write':
->> drivers/usb/serial/mos7840.c:923:39: warning: missing terminating " character
-     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
-         |                                       ^
-   drivers/usb/serial/mos7840.c:924:43: warning: missing terminating " character
-     924 |                         with status = %d\n", __func__, status);
-         |                                           ^
->> drivers/usb/serial/mos7840.c:1832:23: error: unterminated argument list invoking macro "dev_err_console"
-    1832 | MODULE_LICENSE("GPL");
-         |                       ^
->> drivers/usb/serial/mos7840.c:923:17: error: 'dev_err_console' undeclared (first use in this function); did you mean 'dev_err_probe'?
-     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
-         |                 ^~~~~~~~~~~~~~~
-         |                 dev_err_probe
-   drivers/usb/serial/mos7840.c:923:17: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/usb/serial/mos7840.c:923:32: error: expected ';' at end of input
-     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
-         |                                ^
-         |                                ;
-   ......
->> drivers/usb/serial/mos7840.c:923:17: error: expected declaration or statement at end of input
-     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
-         |                 ^~~~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:923:17: error: expected declaration or statement at end of input
->> drivers/usb/serial/mos7840.c:887:25: error: label 'exit' used but not defined
-     887 |                         goto exit;
-         |                         ^~~~
->> drivers/usb/serial/mos7840.c:856:13: warning: variable 'bytes_sent' set but not used [-Wunused-but-set-variable]
-     856 |         int bytes_sent = 0;
-         |             ^~~~~~~~~~
-   drivers/usb/serial/mos7840.c: At top level:
->> drivers/usb/serial/mos7840.c:849:12: warning: 'mos7840_write' defined but not used [-Wunused-function]
-     849 | static int mos7840_write(struct tty_struct *tty, struct usb_serial_port *port,
-         |            ^~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:820:21: warning: 'mos7840_write_room' defined but not used [-Wunused-function]
-     820 | static unsigned int mos7840_write_room(struct tty_struct *tty)
-         |                     ^~~~~~~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:795:12: warning: 'mos7840_break' defined but not used [-Wunused-function]
-     795 | static int mos7840_break(struct tty_struct *tty, int break_state)
-         |            ^~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:764:13: warning: 'mos7840_close' defined but not used [-Wunused-function]
-     764 | static void mos7840_close(struct usb_serial_port *port)
-         |             ^~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:737:21: warning: 'mos7840_chars_in_buffer' defined but not used [-Wunused-function]
-     737 | static unsigned int mos7840_chars_in_buffer(struct tty_struct *tty)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:516:12: warning: 'mos7840_open' defined but not used [-Wunused-function]
-     516 | static int mos7840_open(struct tty_struct *tty, struct usb_serial_port *port)
-         |            ^~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:410:13: warning: 'mos7840_led_flag_off' defined but not used [-Wunused-function]
-     410 | static void mos7840_led_flag_off(struct timer_list *t)
-         |             ^~~~~~~~~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:400:13: warning: 'mos7840_led_off' defined but not used [-Wunused-function]
-     400 | static void mos7840_led_off(struct timer_list *t)
-         |             ^~~~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:391:13: warning: 'mos7840_set_led_sync' defined but not used [-Wunused-function]
-     391 | static void mos7840_set_led_sync(struct usb_serial_port *port, __u16 reg,
-         |             ^~~~~~~~~~~~~~~~~~~~
->> drivers/usb/serial/mos7840.c:337:13: warning: 'mos7840_dump_serial_port' defined but not used [-Wunused-function]
-     337 | static void mos7840_dump_serial_port(struct usb_serial_port *port,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+>> ERROR: modpost: "__umoddi3" [fs/xfs/xfs.ko] undefined!
 
-
-vim +/dev_err_console +1832 drivers/usb/serial/mos7840.c
-
-3f5429746d91f2 Paul B Schroeder 2006-08-31  1830  
-3f5429746d91f2 Paul B Schroeder 2006-08-31  1831  MODULE_DESCRIPTION(DRIVER_DESC);
-3f5429746d91f2 Paul B Schroeder 2006-08-31 @1832  MODULE_LICENSE("GPL");
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 -- 
 0-DAY CI Kernel Test Service
