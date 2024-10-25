@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0516217F56
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 22:09:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28BD61D9A46
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 22:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729894179; cv=none; b=SZ5zudbRFxTSP7KcGfmrErsGja1ioO6vsNcnIbKa4kUzYXq3kXuTYEeau0sEBozWDgHJ/6BXIMa8/k7QsSae6ZgUagg0z/dQAXvjvFfw+uOmQYgqtIkyHT7PZJXWT9v+b1uLQ7H/qHucyuhel+2fXAbQLFCh/txBtDDk2+gwifI=
+	t=1729894779; cv=none; b=h7qUfdh4O03jpUS2kB5ZtJQzf5Mz97Zrt5qLQXpuFjlW01bX03lCN6RxAvMU3H0mmSx23/0jgGnI0n4LsXHbS2dONBHgGUdyYH2xFiqUtdzRWK3MxJUEcOiTpA3X64xybA18OOCQxmeUfV7sYggV6Z2mFXOeu/GVR5gh00DDhRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729894179; c=relaxed/simple;
-	bh=HY3xtNeqWMaBRmTszqLtfs7cyknzMNkOyaTqFd4hO+k=;
+	s=arc-20240116; t=1729894779; c=relaxed/simple;
+	bh=0/459/syNSQRNBZgjUqEy7WtBIAbvR/sS0pAvu33TJA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U60Tbi7fPW+5elIw9Mh4/BRw4UTFXRsL3LFgi6FSVM+vkWq6Q/iltGs0D3y7XBTA4qoaLAD3ca2Jsv9yeGyfjKRqVXOEJ2GZBGGYSM1hBgx35fTUHBeXdL4+bzDWgGkZEY1oW7iEZceBJCp1JEFGNSIjzfpLkOobfjcmCdWMj68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irc/D/hW; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=K98xpZ9CB/y7pB0j4cKH2mqRqjWrIIjI2FLuuYjrwLWj7kDF3P7NkJj5M7cfDfzrS+WpATyUvhsW6mgAEXSHf8O39NNgw3ao1z7p51luzW5jDoQoCb95Ieol7UR4wu57pedmWNEIaIzDFd32e3YRJVq22kL/m2N4MYBiTbleKgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPTAydZB; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irc/D/hW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPTAydZB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729894177; x=1761430177;
+  t=1729894777; x=1761430777;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HY3xtNeqWMaBRmTszqLtfs7cyknzMNkOyaTqFd4hO+k=;
-  b=irc/D/hWm+lZZ3jPndKIUeOf7xlU+anZl3po9RsOTslNocmA+oJOi0hj
-   TktBp8Zef/jhc6kIzo27Vu7h+5N1NDLMwovBFKCE1l4aNRYalngvVpAxI
-   j7CZSzYWs8/6bqvF86fyRgMaJi9+JZbGG9yIDGWV8eZljL8uazRBLD2D/
-   93kSDdpy0e2v7hA+U6yOSDc41fUqgxJg57nvrik5AjhClsvy5Jhwf5u/j
-   rDNVEFgShiTgfQpHvAIKGSWVdbwYwHBYV9HJYJVyKCb6sNnKlojDBhopx
-   Sld41IahSqFwzwy4d1wMOB1gpZiJjMiNt1S2YO8l+ifLxXfO2KH4ILSIv
-   g==;
-X-CSE-ConnectionGUID: PhjZ+g+gTQOOnp4NMnHCVw==
-X-CSE-MsgGUID: PJKU1fbsTlGslO6WWSSTfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29706037"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29706037"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 15:09:37 -0700
-X-CSE-ConnectionGUID: qDLT/0N9QTCWRR1DwFwjfA==
-X-CSE-MsgGUID: fNX5QZcqRjGiORH5TKL2xA==
+  bh=0/459/syNSQRNBZgjUqEy7WtBIAbvR/sS0pAvu33TJA=;
+  b=JPTAydZBsOY6EMHlRiUt/8Jo4hW8OYskvse9MqHmN+sSXA47FFRpgSFQ
+   yHPVfgmvOmRtXT1BvMzFa6M7pbMR53pSxdpP+rZjXyFyRuducavjFIjYJ
+   cFVx1HoWyPEt0Dxq3KnfMRS6YtSttaPyWEgOzYbCqAyzeauw9tWT1/FAJ
+   zybefJDXqEf1SrbBNm/Bld4lMw6rtkhLaSH72qExTFFyH1wUgGZwmXZT4
+   Pik9VK8YqwCweOL7aUrrP2v/7zRhnmXiHtG3fvFeBOhamhWebAEmsD0ts
+   2eR1kTDEXfJDLKSVJlhYBryd+3QXnUjsrNuV28zxj3JctWOzzicbSmKjF
+   w==;
+X-CSE-ConnectionGUID: y2M16dMOQXaeq8HCtEoafA==
+X-CSE-MsgGUID: rj1muTX6SnqQtTcscGACcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40967557"
+X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
+   d="scan'208";a="40967557"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 15:19:36 -0700
+X-CSE-ConnectionGUID: WwN45uqAQmeE6oZOF6gk7g==
+X-CSE-MsgGUID: umcbQBlpR9m5MlOgF0AitQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
-   d="scan'208";a="111857672"
+   d="scan'208";a="85650534"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 25 Oct 2024 15:09:32 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 25 Oct 2024 15:19:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4SUs-000Yx5-0J;
-	Fri, 25 Oct 2024 22:09:30 +0000
-Date: Sat, 26 Oct 2024 06:08:54 +0800
+	id 1t4SeY-000YyI-1h;
+	Fri, 25 Oct 2024 22:19:30 +0000
+Date: Sat, 26 Oct 2024 06:19:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Qi Xi <xiqi2@huawei.com>, kernel@openeuler.org,
 	bobo.shaobowang@huawei.com, mingo@redhat.com, peterz@infradead.org,
@@ -57,7 +57,7 @@ To: Qi Xi <xiqi2@huawei.com>, kernel@openeuler.org,
 	mkoutny@suse.com, tj@kernel.org
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
 Subject: Re: [PATCH] sched: Fix compile warning about variable 'uclamp_mutex'
-Message-ID: <202410260511.Ky8AtElD-lkp@intel.com>
+Message-ID: <202410260638.VpY4j0AB-lkp@intel.com>
 References: <20241025034740.546570-1-xiqi2@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -83,23 +83,33 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Qi-Xi/sched-Fix-compile-w
 base:   tip/sched/core
 patch link:    https://lore.kernel.org/r/20241025034740.546570-1-xiqi2%40huawei.com
 patch subject: [PATCH] sched: Fix compile warning about variable 'uclamp_mutex'
-config: i386-randconfig-052-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260511.Ky8AtElD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260511.Ky8AtElD-lkp@intel.com/reproduce)
+config: i386-randconfig-053-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260638.VpY4j0AB-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260638.VpY4j0AB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410260511.Ky8AtElD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410260638.VpY4j0AB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/core.c: In function 'sysctl_sched_uclamp_handler':
->> kernel/sched/core.c:1865:23: error: 'uclamp_mutex' undeclared (first use in this function); did you mean 'uclamp_none'?
+   In file included from kernel/sched/core.c:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/sched/core.c:1865:16: error: use of undeclared identifier 'uclamp_mutex'; did you mean 'uclamp_none'?
     1865 |         guard(mutex)(&uclamp_mutex);
          |                       ^~~~~~~~~~~~
          |                       uclamp_none
-   kernel/sched/core.c:1865:23: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/sched/sched.h:3377:28: note: 'uclamp_none' declared here
+    3377 | static inline unsigned int uclamp_none(enum uclamp_id clamp_id)
+         |                            ^
+   1 warning and 1 error generated.
 
 
 vim +1865 kernel/sched/core.c
