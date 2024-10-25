@@ -1,62 +1,61 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C141F80AD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 12:35:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D6B91F7551
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 12:42:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729859741; cv=none; b=u/cyBBYZsnECNrVOuCGJD0lD1/Zlwt5gzNY4aytNGAN0lDHYcBFw5MiI7GnpJKNynSPxQPaThAbgcax7c9zX1YFOn48MAtS+JEVM2BjXs3oX0gBhUbZvFxgVg8vkt8sowahd5PXITlm7wI4iwN60XRkt3Y4k1DCWG5DF1nk8dfM=
+	t=1729860134; cv=none; b=KvhbIukzgSFEnTFpHZgp9oV+y9LNHpTwOpcvrXGyHSR5xAvCZhI1NrwMyWAPRKH3edQ1EaMNgA32IqPidyw/EZgkq2GOJQhBCAonmqP8lzcE/4XnsyBGDH/FyC7JycfLpq63ITlgoC82sXY4Bh/oaDuWfmtUGO5xPcYFjPlbpAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729859741; c=relaxed/simple;
-	bh=4HTabHm6uq2U9kuy/FX+DhWo0MKtiWH7xXMbmFYZPfE=;
+	s=arc-20240116; t=1729860134; c=relaxed/simple;
+	bh=4qC8VeQFiv8AcyfaDtxTy4ZO3PMC7CmNZApUdznbTAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o+QbGSbBPGhndUJHn22MrfyjHPyQb7Du+B7mtx/CHA81of5PLlLbKBXAe0+cY8+yhnUF/5UpUVWRVar2SVfR/s6RVOViVp+P1qbx426rDXGfCsi95jPamC0UHy6FffM7GwCrhqwdslz+eygypU4NRzjMD5kPMuelPYx/QXOlSTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lTLVIN09; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=SAdmSgQdad1VhIwTddCJnOEfEssEz+lsWlxPcpHgsHI+GAjn5wj5TVOaUrNg78Fs+gHxNTr5H3KZ4FtXsx8+1CkSsOyMX+puvvPkYKDab9FAbC+fzzQcIx/nvWMbeEzkExk/2ipfKHGhcVEg3U8Dne1muqONmsakAzunjaxCRfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAOtF1vt; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lTLVIN09"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4314b316495so18363495e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 05:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729859737; x=1730464537; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Zsi0HlGorCdhFNoZKJKnZhVtYZ+RxTZZw6H3FS+EvDI=;
-        b=lTLVIN09Jxtack9u6nFLDnAzWhsA/kFR8R+qTgEQMl9wPC8XyLRb3WUha9uazrEaxt
-         Wyy2h9pe0pDc72k8Fs9TT0eNG0gsSMzKdnjVgqupB7VlR0zlmU2tz0C8Jipg4hc1zQLL
-         0ZySEDVS7qjAX3S49+OA7kZynPYrlAXZqgkY54d6UKl/bgUQ8bvePF2J4/eeaFp5/rUr
-         aNtB7r9v2dG6BUPRHdyIe0tV2JWB2zPzJk+YKZ204IhQDq7QfdYWrHm9rlC1EtIRHNSo
-         ObfFDYPU3amegNuGpPr74QmdAqG9N+UdKvLDJsIxugWTDsolpl7SItdxtNVqvlSIWGg0
-         2isw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729859737; x=1730464537;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zsi0HlGorCdhFNoZKJKnZhVtYZ+RxTZZw6H3FS+EvDI=;
-        b=eyenGO5vHsk4WdZt+jBbiLHFoEzNOWrnSPni+ax2ETV/UUgle/v6+MjgoBY2qvU5SX
-         ow2cvkTIgk+djbggoLKxynGoGQpAlmuXOUEX0OuTvuZaF4lABHm0VHkmfoxUAtoUwmtS
-         b3jMbsgNn7tgQw4zqVgT6jZnRs4tQFc2uLgjkxD3+h2nzMW9p26nufxHjBQ9zn/Bfg47
-         KVGIsgywJiiGMuMgi01jCcLMlX/H3DN29+8S10WC+BciwAnbZEULKn8+MFy2vDsUKQ9O
-         L3RMeVsqvwn1YqkTpciI/UdfCw8jOihNYAT4nX3mkeX+HGydDZKLCwzFqeBfQADypKu6
-         YViA==
-X-Forwarded-Encrypted: i=1; AJvYcCVlWhSWFylWiOFnUq2FzCWieiwXCfb/CTwNA3WtcemjnTQxJsv7AiEJwCvEoPcDZY+EuoaV4r/NIxuqeEfi@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqHNvDbP3mlQUXXbv96k7Our5z3p2UbrzQT99uYgdkoB9tx5SG
-	ktpBEURQEXoHzoMO1AKG2gOWwU9/ZJTwhXO9IdfVQfzDbNioEfD2FMcLvNYuW6I=
-X-Google-Smtp-Source: AGHT+IFI0XXiX/oiuZ2raUpET+Y0yapjTM7Z/v2ZlaNNFoJzvokopxF2WuPgjexVfb9DGfu/LWhe3Q==
-X-Received: by 2002:a05:600c:4f11:b0:431:5ce4:bcf0 with SMTP id 5b1f17b1804b1-4318415a851mr73131645e9.15.1729859737247;
-        Fri, 25 Oct 2024 05:35:37 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b579613sm46540545e9.38.2024.10.25.05.35.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 05:35:36 -0700 (PDT)
-Date: Fri, 25 Oct 2024 15:35:33 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, David Howells <dhowells@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 27/30] fs/afs/file.c:357
- afs_issue_read() warn: passing a valid pointer to 'PTR_ERR'
-Message-ID: <35a3ef96-c550-4792-bd32-0b3eae11a3eb@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAOtF1vt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729860128; x=1761396128;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4qC8VeQFiv8AcyfaDtxTy4ZO3PMC7CmNZApUdznbTAc=;
+  b=SAOtF1vtJ0wFREy8mYyHIr02FN2ectgLmMSyvJIP6gmHk5xK0W+xbFuS
+   56aDdKeSWG94g9CvCrdtyThRGZGmHKHD1qxY83u2fFEQ1Ud18eLmdNUAR
+   kz5zd+9VORwSEfl6NMbihxcnWmKJrEZgi7LRosah5ygZHYz2rlwbkOTje
+   BaP3fAtTMIUAaYYYCtjiLtweEawJ9pFQMjEWl7M/LqSLn36vNvF6J0fFS
+   d6lpfWf6/vjCJmxhQF53ISAOqskz46HSGXkunY4HgU9Mo8+8/TTKrOdT9
+   EKzqSDaxtgK2uCmKqjmtG4fp13PApXLZsYesuz0QpS/KgBTc7WVAnUgyO
+   A==;
+X-CSE-ConnectionGUID: 1/VWqWt0QrC3a4U6jlbwQQ==
+X-CSE-MsgGUID: CNXKWSJHR/e2ktK+azMMOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46992158"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="46992158"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 05:42:07 -0700
+X-CSE-ConnectionGUID: fbdYlGDbTYCRjEp3B1OcQw==
+X-CSE-MsgGUID: 81in2H+VS8KlnKcMjZ3ZTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="80921681"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Oct 2024 05:42:05 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4Jdi-000YGG-2W;
+	Fri, 25 Oct 2024 12:42:02 +0000
+Date: Fri, 25 Oct 2024 20:41:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andreas Kemnade <andreas@kemnade.info>
+Cc: oe-kbuild-all@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>
+Subject: [linux-next:master 5065/6766]
+ arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb:
+ clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not
+ allow 2
+Message-ID: <202410252030.8B2JoTuq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,78 +65,372 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   d206dc1726472ebe2d929cc1ee51e4c272707977
-commit: 5d3a97d9f8785ae6e48b12908966f4b82c054f06 [27/30] afs: Make {Y,}FS.FetchData an asynchronous operation
-config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251654.LD7CMJ6p-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   fd21fa4a912ebbf8a6a341c31d8456f61e7d4170
+commit: 0fcd58492f066ad0b0d2a82ce0e3466dd3d1f981 [5065/6766] dt-bindings: clock: ti: Convert divider.txt to json-schema
+config: arm-randconfig-054-20241023 (https://download.01.org/0day-ci/archive/20241025/202410252030.8B2JoTuq-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410252030.8B2JoTuq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410251654.LD7CMJ6p-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410252030.8B2JoTuq-lkp@intel.com/
 
-smatch warnings:
-fs/afs/file.c:357 afs_issue_read() warn: passing a valid pointer to 'PTR_ERR'
-
-vim +/PTR_ERR +357 fs/afs/file.c
-
-5d3a97d9f8785ae David Howells  2024-10-10  325  static void afs_issue_read(struct netfs_io_subrequest *subreq)
-d2ddc776a4581d9 David Howells  2017-11-02  326  {
-e49c7b2f6de7ff8 David Howells  2020-04-10  327  	struct afs_operation *op;
-007b0b9c4879d02 David Howells  2024-10-10  328  	struct afs_vnode *vnode = AFS_FS_I(subreq->rreq->inode);
-007b0b9c4879d02 David Howells  2024-10-10  329  	struct key *key = subreq->rreq->netfs_priv;
-d2ddc776a4581d9 David Howells  2017-11-02  330  
-3b6492df4153b85 David Howells  2018-10-20  331  	_enter("%s{%llx:%llu.%u},%x,,,",
-d2ddc776a4581d9 David Howells  2017-11-02  332  	       vnode->volume->name,
-d2ddc776a4581d9 David Howells  2017-11-02  333  	       vnode->fid.vid,
-d2ddc776a4581d9 David Howells  2017-11-02  334  	       vnode->fid.vnode,
-d2ddc776a4581d9 David Howells  2017-11-02  335  	       vnode->fid.unique,
-007b0b9c4879d02 David Howells  2024-10-10  336  	       key_serial(key));
-d2ddc776a4581d9 David Howells  2017-11-02  337  
-007b0b9c4879d02 David Howells  2024-10-10  338  	op = afs_alloc_operation(key, vnode->volume);
-5cbf03985c67c7f David Howells  2020-02-06  339  	if (IS_ERR(op)) {
-007b0b9c4879d02 David Howells  2024-10-10  340  		subreq->error = PTR_ERR(op);
-007b0b9c4879d02 David Howells  2024-10-10  341  		netfs_read_subreq_terminated(subreq);
-007b0b9c4879d02 David Howells  2024-10-10  342  		return;
-5cbf03985c67c7f David Howells  2020-02-06  343  	}
-d2ddc776a4581d9 David Howells  2017-11-02  344  
-e49c7b2f6de7ff8 David Howells  2020-04-10  345  	afs_op_set_vnode(op, 0, vnode);
-76a5cb6fc1e22a2 David Howells  2018-04-06  346  
-007b0b9c4879d02 David Howells  2024-10-10  347  	op->fetch.subreq = subreq;
-e49c7b2f6de7ff8 David Howells  2020-04-10  348  	op->ops		= &afs_fetch_data_operation;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  349  
-ee4cdf7ba857a89 David Howells  2024-07-02  350  	trace_netfs_sreq(subreq, netfs_sreq_trace_submit);
-5d3a97d9f8785ae David Howells  2024-10-10  351  
-5d3a97d9f8785ae David Howells  2024-10-10  352  	if (subreq->rreq->origin == NETFS_READAHEAD ||
-5d3a97d9f8785ae David Howells  2024-10-10  353  	    subreq->rreq->iocb) {
-5d3a97d9f8785ae David Howells  2024-10-10  354  		op->flags |= AFS_OPERATION_ASYNC;
-                                                                ^^^^^^^^^
-op is a valid pointer
-
-5d3a97d9f8785ae David Howells  2024-10-10  355  
-5d3a97d9f8785ae David Howells  2024-10-10  356  		if (!afs_begin_vnode_operation(op)) {
-5d3a97d9f8785ae David Howells  2024-10-10 @357  			subreq->error = PTR_ERR(op);
-                                                                                        ^^^^^^^^^^^
-
-5d3a97d9f8785ae David Howells  2024-10-10  358  			netfs_read_subreq_terminated(subreq);
-5d3a97d9f8785ae David Howells  2024-10-10  359  			afs_put_operation(op);
-5d3a97d9f8785ae David Howells  2024-10-10  360  			return;
-^1da177e4c3f415 Linus Torvalds 2005-04-16  361  		}
-9b3f26c9110dcea David Howells  2009-04-03  362  
-5d3a97d9f8785ae David Howells  2024-10-10  363  		if (!afs_select_fileserver(op)) {
-5d3a97d9f8785ae David Howells  2024-10-10  364  			afs_end_read(op);
-5d3a97d9f8785ae David Howells  2024-10-10  365  			return;
-5d3a97d9f8785ae David Howells  2024-10-10  366  		}
-5d3a97d9f8785ae David Howells  2024-10-10  367  
-5d3a97d9f8785ae David Howells  2024-10-10  368  		afs_issue_read_call(op);
-5d3a97d9f8785ae David Howells  2024-10-10  369  	} else {
-5d3a97d9f8785ae David Howells  2024-10-10  370  		afs_do_sync_operation(op);
-5d3a97d9f8785ae David Howells  2024-10-10  371  	}
-2e45b922977c07b David Howells  2024-06-13  372  }
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revb1.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-beagle-x15-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am5729-beagleboneai.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-cl-som-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-sbc-am57x.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am572x-idk.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am572x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am571x-idk.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am571x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am574x-idk.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am574x-idk.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/dra7-evm.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra7-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/dra72-evm.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra72-evm-revc.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/dra71-evm.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra71-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/dra76-evm.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/dra76-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm-reva3.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
+--
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: cm_core@0: $nodename:0: 'cm_core@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: cm_core@0: clocks: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: cm_core@0: clockdomains: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0: failed to match any schema with compatible: ['ti,dra7-cm-core', 'simple-bus']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@200: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-apll-pcie-in-clk-mux-7@4ae06118: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@21c: failed to match any schema with compatible: ['ti,dra7-apll-clock']
+>> arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: clock-optfclk-pciephy-div-8@4a00821c: ti,max-div: False schema does not allow 2
+   	from schema $id: http://devicetree.org/schemas/clock/ti/ti,divider-clock.yaml#
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@14c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@140: failed to match any schema with compatible: ['ti,omap4-dpll-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@18c/clock@23: failed to match any schema with compatible: ['ti,mux-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock@180: failed to match any schema with compatible: ['ti,omap4-dpll-j-type-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-dpll-per-x2: failed to match any schema with compatible: ['ti,omap4-dpll-x2-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-clkout2-8@6b0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-l3init-960m-gfclk-8@6c0: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy1-always-on-clk32k-8@640: failed to match any schema with compatible: ['ti,gate-clock']
+   arch/arm/boot/dts/ti/omap/am57xx-evm.dtb: /ocp/interconnect@4a000000/segment@0/target-module@8000/cm_core@0/clocks/clock-usb-phy2-always-on-clk32k-8@688: failed to match any schema with compatible: ['ti,gate-clock']
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
