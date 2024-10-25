@@ -1,63 +1,81 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D73531DFF5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 14:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B3E1DFF5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 14:37:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729867034; cv=none; b=lH0P9l04WPG1U8BYBYMnvUblD2oiaxmwNWkIs5NIraRo/hNwuqX8D4BzMVrxUz2xyTQs40RAwO65TmPDXMA71EWb9SeStUrjull+w2Hm3CF7iDkjlqmF1qIbFEx8jEyCvcqTE2LdMqHzobfTRvoGKvSAoN+sxcJw1pJ69z2PNKY=
+	t=1729867037; cv=none; b=buNPZzMf8iZKgmfAFSbJCO5Ok3y7tQDC/Bl5fndcPrJDqBn/BMpU7kkBcVvylytltTjiMhYyh1KlTi5/PIz2kCGhW74ixW0hHgiM4hW9aBCecLawC3r5+OiR1kGFp+qxkBYO/0wofgbC8DkJf2cXT6nV3RtOyWu9FDXS8sjV+Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729867034; c=relaxed/simple;
-	bh=gqMDayfIrvLFEM57Oe6CkRsGcgBEOG8dhHuuq7scUkI=;
+	s=arc-20240116; t=1729867037; c=relaxed/simple;
+	bh=wBK4Q5W4WJLNTzG1NF53EifkW/90VdiVn34zzoNQPnk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RAQv1jHTjXxxycznmVZGWDj39DXdOMuBHxnpNHTG2+9lMHV8WuJUrai7MI4J90lqzrlm8O1zkEqFdP9O6cZzl11Op8Y5FQdejsXlv3wVn7u0qIdhJkGOQcK79SueB7ucgiXO1PVt6OwRxByRLOplBNtaI+tVqhfnxQyvAeEEfkU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZCJnZog; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=dON2+p0JsM6nqgUcrUr6qR/ArIhdVH4dtJuM9n0VS9B4MTrNK0d6puGsIpsqd3cFfHWhKCeTnBpYewpXylA/TbpqCbeGuoa9PFTzhf98L6PsWy2L8G3Slsqa4Wqs8wwe7/b/QJvAAKgHC+s4zUiVGhdFH+vJipb5wKm6xA9ISMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Th5q2Kv4; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZCJnZog"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Th5q2Kv4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729867032; x=1761403032;
+  t=1729867035; x=1761403035;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gqMDayfIrvLFEM57Oe6CkRsGcgBEOG8dhHuuq7scUkI=;
-  b=QZCJnZogLRuEB0UAdwoKytvmM9ZQ7HmMcZnRGgKAVhJI4hh/v0t+uiG7
-   DIIc7WQjjxHR2kFwVhXBGetMhpITXNpFqIHBbTPBhMWGExICc56n66Drj
-   szGLR2+MrXHgz4xnNw9QiFBiehQF2kLKG4iYySwDXCYXWlQXBoydukNmi
-   k1BqNcZj0h+OhWZ/QclCLWI9bdtSVwiwVs5k2Yf8Y/WLUPaaIVZLAdYl6
-   KhzRRX+qED8T2q431OF0al4Yxm+bQwePfBmYVfcPoG6LvjCwyehScvkwR
-   Bd8v99PW+EgLF2Tv6xMF49dW6UQbB6ormU1bd97SNq9Nn1+xMp4KW6ds/
-   Q==;
-X-CSE-ConnectionGUID: BzzowKlRSrSHbub5PYe8pw==
-X-CSE-MsgGUID: 0DOtY9UhSB6gIQOMYBTyuw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="47021745"
+  bh=wBK4Q5W4WJLNTzG1NF53EifkW/90VdiVn34zzoNQPnk=;
+  b=Th5q2Kv49tkeXGLnAb5aYmkUCXTM2Y9P9j/tYSxLdhIXq16T09gOvrZi
+   B6X2ojy+BIWH+377hOS/Qo3UzGHIc3KzshyeGrrVkF52OHnHA3hLw3LcQ
+   x5zkNyEPwfz+i8NdGfFjBjJOeNy9ZKeRHc5NEdGrVVoR5BEopYTZq8F6W
+   oCvhBpluZI8OmyESRkGtWZRGB2+M5/BUFGAB4hqtg9l7jqL1xP60OTWAM
+   dfru0zySL5Aql0IGJ88CpJ54qmotnhAc2/EfSek2WXyQ9G2h9bOYTRela
+   WVfIK/TicYgAPQ18SNfVrevB89k4brRwhtLlynv1KpbrkBj98n9lNJHo1
+   w==;
+X-CSE-ConnectionGUID: r7ePjP+XSOOhNFFPYC9SWQ==
+X-CSE-MsgGUID: FB8rsFfLTsWPJMVt4uPeXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="47021764"
 X-IronPort-AV: E=Sophos;i="6.11,232,1725346800"; 
-   d="scan'208";a="47021745"
+   d="scan'208";a="47021764"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 07:37:11 -0700
-X-CSE-ConnectionGUID: JUaV6GZmQBm9b9HdS7LYfQ==
-X-CSE-MsgGUID: EzQEA9EjTVmyV7Vu3PBkiA==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 07:37:15 -0700
+X-CSE-ConnectionGUID: bCV38PoTTeCmNINXGqmYRA==
+X-CSE-MsgGUID: j5RovBWzSgW+deRdUluG6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="85699441"
+   d="scan'208";a="85699443"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 25 Oct 2024 07:37:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4LR4-000YMv-0N;
+	id 1t4LR4-000YMs-0J;
 	Fri, 25 Oct 2024 14:37:06 +0000
 Date: Fri, 25 Oct 2024 22:36:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grant Peltier <grantpeltier93@gmail.com>, robh@kernel.org,
-	linux@roeck-us.net, geert+renesas@glider.be, magnus.damm@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, grant.peltier.jg@renesas.com,
-	brandon.howell.jg@renesas.com, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 1/2] hwmon: (pmbus/isl68137) add support for voltage
- divider on Vout
-Message-ID: <202410252204.ut3IIrVm-lkp@intel.com>
-References: <7138f3c551ce201ddc9b5e3889ce969d1cd0ac57.1729812789.git.grantpeltier93@gmail.com>
+To: Inochi Amaoto <inochiama@gmail.com>,
+	Chen Wang <unicorn_wang@outlook.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Inochi Amaoto <inochiama@outlook.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Giuseppe Cavallaro <peppe.cavallaro@st.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Yixun Lan <dlan@gentoo.org>, Longbin Li <looong.bin@gmail.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org
+Subject: Re: [PATCH v2 4/4] net: stmmac: Add glue layer for Sophgo SG2044 SoC
+Message-ID: <202410252215.79396yyg-lkp@intel.com>
+References: <20241025011000.244350-5-inochiama@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,85 +84,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7138f3c551ce201ddc9b5e3889ce969d1cd0ac57.1729812789.git.grantpeltier93@gmail.com>
+In-Reply-To: <20241025011000.244350-5-inochiama@gmail.com>
 
-Hi Grant,
+Hi Inochi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.12-rc4 next-20241025]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on sophgo/for-next sophgo/fixes net-next/main net/main linus/master v6.12-rc4 next-20241025]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Grant-Peltier/hwmon-pmbus-isl68137-add-support-for-voltage-divider-on-Vout/20241025-084244
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/7138f3c551ce201ddc9b5e3889ce969d1cd0ac57.1729812789.git.grantpeltier93%40gmail.com
-patch subject: [PATCH v4 1/2] hwmon: (pmbus/isl68137) add support for voltage divider on Vout
-config: x86_64-randconfig-161-20241025 (https://download.01.org/0day-ci/archive/20241025/202410252204.ut3IIrVm-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410252204.ut3IIrVm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Inochi-Amaoto/dt-bindings-net-snps-dwmac-Add-dwmac-5-30a-version/20241025-091315
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241025011000.244350-5-inochiama%40gmail.com
+patch subject: [PATCH v2 4/4] net: stmmac: Add glue layer for Sophgo SG2044 SoC
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20241025/202410252215.79396yyg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410252215.79396yyg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410252204.ut3IIrVm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410252215.79396yyg-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/hwmon/pmbus/isl68137.c:12:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hwmon/pmbus/isl68137.c:233:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     233 |                 u64 temp = DIV_U64_ROUND_CLOSEST((u64)word *
-         |                 ^
-   2 warnings generated.
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c: In function 'sophgo_dwmac_fix_mac_speed':
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c:30:16: error: implicit declaration of function 'rgmii_clock' [-Werror=implicit-function-declaration]
+      30 |         rate = rgmii_clock(speed);
+         |                ^~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c: In function 'sophgo_sg2044_dwmac_init':
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c:46:13: warning: unused variable 'ret' [-Wunused-variable]
+      46 |         int ret;
+         |             ^~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c: In function 'sophgo_dwmac_fix_mac_speed':
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c:31:12: warning: 'ret' is used uninitialized [-Wuninitialized]
+      31 |         if (ret < 0) {
+         |            ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c:28:13: note: 'ret' was declared here
+      28 |         int ret;
+         |             ^~~
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +233 drivers/hwmon/pmbus/isl68137.c
+vim +/ret +31 drivers/net/ethernet/stmicro/stmmac/dwmac-sophgo.c
 
-   211	
-   212	static int raa_dmpvr2_write_word_data(struct i2c_client *client, int page,
-   213					      int reg, u16 word)
-   214	{
-   215		const struct pmbus_driver_info *info = pmbus_get_driver_info(client);
-   216		const struct isl68137_data *data = to_isl68137_data(info);
-   217		int ret;
-   218	
-   219		switch (reg) {
-   220		case PMBUS_VOUT_MAX:
-   221		case PMBUS_VOUT_MARGIN_HIGH:
-   222		case PMBUS_VOUT_MARGIN_LOW:
-   223		case PMBUS_VOUT_OV_FAULT_LIMIT:
-   224		case PMBUS_VOUT_UV_FAULT_LIMIT:
-   225		case PMBUS_VOUT_COMMAND:
-   226			/*
-   227			 * In cases where a voltage divider is attached to the target
-   228			 * rail between Vout and the Vsense pin, Vout related PMBus
-   229			 * commands should be scaled based on the expected voltage
-   230			 * at the Vsense pin.
-   231			 * I.e. Vsense = Vout * Rout / Rtotal
-   232			 */
- > 233			u64 temp = DIV_U64_ROUND_CLOSEST((u64)word *
-   234					data->channel[page].vout_voltage_divider[0],
-   235					data->channel[page].vout_voltage_divider[1]);
-   236			ret = clamp_val(temp, 0, 0xffff);
-   237			break;
-   238		default:
-   239			ret = -ENODATA;
-   240			break;
-   241		}
-   242		return ret;
-   243	}
-   244	
+    23	
+    24	static void sophgo_dwmac_fix_mac_speed(void *priv, unsigned int speed, unsigned int mode)
+    25	{
+    26		struct sophgo_dwmac *dwmac = priv;
+    27		long rate;
+    28		int ret;
+    29	
+    30		rate = rgmii_clock(speed);
+  > 31		if (ret < 0) {
+    32			dev_err(dwmac->dev, "invalid speed %u\n", speed);
+    33			return;
+    34		}
+    35	
+    36		ret = clk_set_rate(dwmac->clk_tx, rate);
+    37		if (ret)
+    38			dev_err(dwmac->dev, "failed to set tx rate %lu\n", rate);
+    39	}
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
