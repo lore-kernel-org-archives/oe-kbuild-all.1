@@ -1,83 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74921BAEDC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C757F1B2185
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:44:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729842003; cv=none; b=j6OEs3SuBIsPveWdR+MU0Kw4xYVYf0mcSd7TRMdS67igdYxnDW4rvu7Xw+8jcvpYVn1qQJK9lrvn3gTSSJjrgAEru5B2WPBlz1gr88EXdPh1OSQ5XBnQc0aFACTbzYRLH+5sZK238Lzhm940looz+YwVlkuWZDfPLYDBGe5xI3U=
+	t=1729842258; cv=none; b=eSnk6VyT/cYbt7Sj4GnCULLP3G9Z204wQzHd5w3OhoSwiwN0yOYgpFQJc/yAwmUKzCV6L6huNvNmXnBjscBHsXBB/vD9dMaZWMbmXsVeX6mW8884t8Nkv6UWqb+JhS2EHsbGMcs+28GabTjTIHBSiX25qvXMYEYct5zmuaDgj84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729842003; c=relaxed/simple;
-	bh=yBbBH9p6aqtBMVil5u+tl7Fqa8eFLhohsl5YWvv6Zaw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aqz7xADRBmuu/xxU2uzu3wwVeXvhnQUY27TKJ/98UT0Z99mHA/MuYNyGigX3bSbQTNM1axhYsPi+9ZhjajUbUhk+/XBCcRJAoV4K/inj0C2BbqEHonL+3kTSuXRIQh40vHLwhUlr2H9k+GILqzr3hJKU4msjfYvsdznDx0wT7Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Okr1Iu3V; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729842258; c=relaxed/simple;
+	bh=dJo0OCZTS17hWD5C48chC43bhuVPP74TT2WmtHdlfvE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=m1w+bpfzX/qUxSCNx5m1iWjdYKv0JF5kpK4n90SnzwKH/aTxYJw3EzlKLlKZZbei9nwPnPtYE3EZMo1h9TDQ5UghZQZ4jb6h6xPU4lVM54Mec2qVZ6SKteM5Si8krl5g37hkSsv0Nf3yyV16GwmtnV+iaKjFxeqiZwjyQCm4cBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LjQkGBWB; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Okr1Iu3V"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729842001; x=1761378001;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yBbBH9p6aqtBMVil5u+tl7Fqa8eFLhohsl5YWvv6Zaw=;
-  b=Okr1Iu3V9joiiWWWG5BYLSTo0bE1Aewu/40eu4h8ZV7CmEJx0625CAYv
-   T5FAlk/NTzmXtFzWN9oqX54t5VBqYiSlO2LB5wivszQt2RRvDynu7+sYb
-   0W6+FNn2x099QUxv1OXrz2F8BXFytNz50YrYvmmBoW7FGoO62ycE9m9aA
-   aykB64hqaaZxl0PpIfcL/lqMAIdhfbi08+jrv5moSbvKM471F838y4LXf
-   MRc74+17/zVtlzDk3xw1BB+lgrzgkowllPIspNz+gLiXmgV12jHj3vBko
-   JXuiWXdmQH/BtVwaAIaxupou2jyvwoV0Fo3k3uE8upfBwYyj2OJBKgVVK
-   A==;
-X-CSE-ConnectionGUID: nmnqU9YnR6G0c4mNCP9DEg==
-X-CSE-MsgGUID: rbz88yj7SkyIvrx9f5kOzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40610794"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40610794"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 00:40:01 -0700
-X-CSE-ConnectionGUID: +EtDZenqS3uQRCXmiEZu3w==
-X-CSE-MsgGUID: NtENei+HSruYwJ95nzTfEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85632621"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Oct 2024 00:39:48 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4EvB-000Xmi-1n;
-	Fri, 25 Oct 2024 07:39:45 +0000
-Date: Fri, 25 Oct 2024 15:38:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Puranjay Mohan <puranjay@kernel.org>, Albert Ou <aou@eecs.berkeley.edu>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Eric Dumazet <edumazet@google.com>, Hao Luo <haoluo@google.com>,
-	Helge Deller <deller@gmx.de>, Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Puranjay Mohan <puranjay12@gmail.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next v2 2/4] bpf: bpf_csum_diff: optimize and
- homogenize for all archs
-Message-ID: <202410251552.LR73LP4V-lkp@intel.com>
-References: <20241023153922.86909-3-puranjay@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LjQkGBWB"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-431616c23b5so12230065e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 00:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729842254; x=1730447054; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Shoxcp3h480bf/MaRlp7RFfSIiO1DRQ9b/G/3O5b+1c=;
+        b=LjQkGBWBsAY/leXy//qu5ltehnGPG4DQtbKaDX8pbAYekeR0XGN3IGndQAlKPK3Uek
+         2Qs11yx7geTa+4fZTOlh/lBO3kupO89ctjpHLziCnC82Q0UZ1kfOgYxXmIheg9QWNFOg
+         vPrZiZyN0NFdtQMVAZEYCCTQ4E5el5+I34RnUaT0p6F+C5SzHn5vlAoz/kZNXaHSf28r
+         41ELNRVfPnuczyRIaFHAT3GkeaeRnckzjRcMby+TRrSLQVvFvUcxi+qVVPsSWxSzRShe
+         Sy+uWKzVzoGej5Jb8lFIhFCh/s6sYS8q5EL6tF4HkHhnQqQ3MZ3Vk3hdB/kRuHlXDozK
+         jH5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729842254; x=1730447054;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Shoxcp3h480bf/MaRlp7RFfSIiO1DRQ9b/G/3O5b+1c=;
+        b=G8c6JGaK3rT3OCKTHHdJFvzYEeW79MWHH96xYlsBPr1SVrSIDksuRPWg0XvBqlVH+s
+         bup39gGt4iYWexePwakPdigE8TFb4ZW1koBbVeMsaJMFPiyKb6oWIqTegR43uMBMIPDY
+         jxxEnhSi6rnfG+ZdR6fN8yQyUKNHkf2p8kYJM9k31RV5YM1Qf+s5KmAEXg6Fvhn5OXmY
+         SWPpjBMZBVnWNp35PtygQZKd3bE6sbb3K20vIg/4WbIgXNsUNZox8zUGU3Y4rmZSK8vo
+         ESJrRu+BHTguBFk49oI4m3T2c5oX0xTZhBAMNyswIfZu179PhoJgbszHke4dyee8GgUt
+         b3SA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfVQWJPrFIj2b5e/C6sxzmaJJErUl7+tpsnEzE2n9ouNP88goyia6zVItGnzd55m8kymFa00EMDKHZa2pf@lists.linux.dev
+X-Gm-Message-State: AOJu0Yxg5TJ0NzdmrJyxNX1McQHOQSaEDtLckN92QI5C7OA7w5zG1BLi
+	mez9v/MzXVE/lNEOGlDFRl+NV7zzcSj9LUrv8wBagHdYW/t2pscIqARifA0i/S4=
+X-Google-Smtp-Source: AGHT+IHqGpEQ/vKDPecI19Mf9I/hj7pHAGWAj1QEt5pPdkx4Mu+LCIjrnm1o5CIW71lKN73l8P+HoA==
+X-Received: by 2002:a05:600c:4689:b0:42c:b826:a26c with SMTP id 5b1f17b1804b1-4318b5a561cmr32758465e9.8.1729842254093;
+        Fri, 25 Oct 2024 00:44:14 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4319360d318sm9865635e9.47.2024.10.25.00.44.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 00:44:13 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:44:09 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Remi Pommarel <repk@triplefau.lt>,
+	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+	Cedric Veilleux <veilleux.cedric@gmail.com>,
+	Vasanthakumar Thiagarajan <quic_vthiagar@quicinc.com>,
+	Remi Pommarel <repk@triplefau.lt>
+Subject: Re: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in
+ ath10k_flush()
+Message-ID: <60d579e2-5eb7-4239-9a23-95fa4b32f351@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,142 +72,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023153922.86909-3-puranjay@kernel.org>
+In-Reply-To: <0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk@triplefau.lt>
 
-Hi Puranjay,
+Hi Remi,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Puranjay-Mohan/net-checksum-move-from32to16-to-generic-header/20241023-234347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241023153922.86909-3-puranjay%40kernel.org
-patch subject: [PATCH bpf-next v2 2/4] bpf: bpf_csum_diff: optimize and homogenize for all archs
-config: i386-randconfig-061-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251552.LR73LP4V-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251552.LR73LP4V-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Pommarel/wifi-ath10k-Implement-ieee80211-flush_sta-callback/20241022-172038
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+patch link:    https://lore.kernel.org/r/0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk%40triplefau.lt
+patch subject: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in ath10k_flush()
+config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251152.A5axJliR-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251552.LR73LP4V-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410251152.A5axJliR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/core/filter.c:1423:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1423:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1423:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:1501:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sock_filter const *filter @@     got struct sock_filter [noderef] __user *filter @@
-   net/core/filter.c:1501:39: sparse:     expected struct sock_filter const *filter
-   net/core/filter.c:1501:39: sparse:     got struct sock_filter [noderef] __user *filter
-   net/core/filter.c:2321:45: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] daddr @@     got unsigned int [usertype] ipv4_nh @@
-   net/core/filter.c:2321:45: sparse:     expected restricted __be32 [usertype] daddr
-   net/core/filter.c:2321:45: sparse:     got unsigned int [usertype] ipv4_nh
-   net/core/filter.c:10993:31: sparse: sparse: symbol 'sk_filter_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11000:27: sparse: sparse: symbol 'sk_filter_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11004:31: sparse: sparse: symbol 'tc_cls_act_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11013:27: sparse: sparse: symbol 'tc_cls_act_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11017:31: sparse: sparse: symbol 'xdp_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11029:31: sparse: sparse: symbol 'cg_skb_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11035:27: sparse: sparse: symbol 'cg_skb_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11039:31: sparse: sparse: symbol 'lwt_in_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11045:27: sparse: sparse: symbol 'lwt_in_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11049:31: sparse: sparse: symbol 'lwt_out_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11055:27: sparse: sparse: symbol 'lwt_out_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11059:31: sparse: sparse: symbol 'lwt_xmit_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11066:27: sparse: sparse: symbol 'lwt_xmit_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11070:31: sparse: sparse: symbol 'lwt_seg6local_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11076:27: sparse: sparse: symbol 'lwt_seg6local_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11079:31: sparse: sparse: symbol 'cg_sock_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11085:27: sparse: sparse: symbol 'cg_sock_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11088:31: sparse: sparse: symbol 'cg_sock_addr_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11094:27: sparse: sparse: symbol 'cg_sock_addr_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11097:31: sparse: sparse: symbol 'sock_ops_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11103:27: sparse: sparse: symbol 'sock_ops_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11106:31: sparse: sparse: symbol 'sk_skb_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11113:27: sparse: sparse: symbol 'sk_skb_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11116:31: sparse: sparse: symbol 'sk_msg_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11123:27: sparse: sparse: symbol 'sk_msg_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11126:31: sparse: sparse: symbol 'flow_dissector_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11132:27: sparse: sparse: symbol 'flow_dissector_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11460:31: sparse: sparse: symbol 'sk_reuseport_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:11466:27: sparse: sparse: symbol 'sk_reuseport_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11668:27: sparse: sparse: symbol 'sk_lookup_prog_ops' was not declared. Should it be static?
-   net/core/filter.c:11672:31: sparse: sparse: symbol 'sk_lookup_verifier_ops' was not declared. Should it be static?
-   net/core/filter.c:1931:43: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1931:43: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1931:43: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1934:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be16 [usertype] old @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1934:36: sparse:     expected restricted __be16 [usertype] old
-   net/core/filter.c:1934:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1934:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] new @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1934:42: sparse:     expected restricted __be16 [usertype] new
-   net/core/filter.c:1934:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1937:36: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1937:36: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1937:36: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1937:42: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1937:42: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1937:42: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1982:59: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __wsum [usertype] diff @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1982:59: sparse:     expected restricted __wsum [usertype] diff
-   net/core/filter.c:1982:59: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1985:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be16 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1985:52: sparse:     expected restricted __be16 [usertype] from
-   net/core/filter.c:1985:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1985:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be16 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1985:58: sparse:     expected restricted __be16 [usertype] to
-   net/core/filter.c:1985:58: sparse:     got unsigned long long [usertype] to
-   net/core/filter.c:1988:52: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __be32 [usertype] from @@     got unsigned long long [usertype] from @@
-   net/core/filter.c:1988:52: sparse:     expected restricted __be32 [usertype] from
-   net/core/filter.c:1988:52: sparse:     got unsigned long long [usertype] from
-   net/core/filter.c:1988:58: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __be32 [usertype] to @@     got unsigned long long [usertype] to @@
-   net/core/filter.c:1988:58: sparse:     expected restricted __be32 [usertype] to
-   net/core/filter.c:1988:58: sparse:     got unsigned long long [usertype] to
->> net/core/filter.c:2023:48: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int sum @@     got restricted __wsum @@
-   net/core/filter.c:2023:48: sparse:     expected unsigned int sum
-   net/core/filter.c:2023:48: sparse:     got restricted __wsum
-   net/core/filter.c:2026:52: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int sum @@     got restricted __wsum @@
-   net/core/filter.c:2026:52: sparse:     expected unsigned int sum
-   net/core/filter.c:2026:52: sparse:     got restricted __wsum
-   net/core/filter.c:2029:40: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int sum @@     got restricted __wsum @@
-   net/core/filter.c:2029:40: sparse:     expected unsigned int sum
-   net/core/filter.c:2029:40: sparse:     got restricted __wsum
-   net/core/filter.c:2031:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [usertype] seed @@
-   net/core/filter.c:2031:16: sparse:     expected unsigned long long
-   net/core/filter.c:2031:16: sparse:     got restricted __wsum [usertype] seed
-   net/core/filter.c:2053:35: sparse: sparse: incorrect type in return expression (different base types) @@     expected unsigned long long @@     got restricted __wsum [usertype] csum @@
-   net/core/filter.c:2053:35: sparse:     expected unsigned long long
-   net/core/filter.c:2053:35: sparse:     got restricted __wsum [usertype] csum
+New smatch warnings:
+drivers/net/wireless/ath/ath10k/mac.c:8076 _ath10k_mac_wait_tx_complete() error: uninitialized symbol 'empty'.
 
-vim +2023 net/core/filter.c
+vim +/empty +8076 drivers/net/wireless/ath/ath10k/mac.c
 
-  2009	
-  2010	BPF_CALL_5(bpf_csum_diff, __be32 *, from, u32, from_size,
-  2011		   __be32 *, to, u32, to_size, __wsum, seed)
-  2012	{
-  2013		/* This is quite flexible, some examples:
-  2014		 *
-  2015		 * from_size == 0, to_size > 0,  seed := csum --> pushing data
-  2016		 * from_size > 0,  to_size == 0, seed := csum --> pulling data
-  2017		 * from_size > 0,  to_size > 0,  seed := 0    --> diffing data
-  2018		 *
-  2019		 * Even for diffing, from_size and to_size don't need to be equal.
-  2020		 */
-  2021	
-  2022		if (from_size && to_size)
-> 2023			return csum_from32to16(csum_sub(csum_partial(to, to_size, seed),
-  2024							csum_partial(from, from_size, 0)));
-  2025		if (to_size)
-  2026			return csum_from32to16(csum_partial(to, to_size, seed));
-  2027	
-  2028		if (from_size)
-  2029			return csum_from32to16(~csum_partial(from, from_size, ~seed));
-  2030	
-  2031		return seed;
-  2032	}
-  2033	
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8062  static void _ath10k_mac_wait_tx_complete(struct ath10k *ar,
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8063  					 unsigned long queues)
+5e3dd157d7e70f Kalle Valo        2013-06-12  8064  {
+affd321733eebc Michal Kazior     2013-07-16  8065  	bool skip;
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8066  	long time_left;
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8067  	unsigned int q;
+5e3dd157d7e70f Kalle Valo        2013-06-12  8068  
+5e3dd157d7e70f Kalle Valo        2013-06-12  8069  	/* mac80211 doesn't care if we really xmit queued frames or not
+d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8070  	 * we'll collect those frames either way if we stop/delete vdevs
+d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8071  	 */
+548db54cc1890b Michal Kazior     2013-07-05  8072  
+affd321733eebc Michal Kazior     2013-07-16  8073  	if (ar->state == ATH10K_STATE_WEDGED)
+828853ac58265c Wen Gong          2018-08-28  8074  		return;
+affd321733eebc Michal Kazior     2013-07-16  8075  
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15 @8076  	time_left = wait_event_timeout(ar->htt.empty_tx_wq, ({
+5e3dd157d7e70f Kalle Valo        2013-06-12  8077  			bool empty;
+affd321733eebc Michal Kazior     2013-07-16  8078  
+edb8236df4d042 Michal Kazior     2013-07-05  8079  			spin_lock_bh(&ar->htt.tx_lock);
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8080  			for_each_set_bit(q, &queues, ar->hw->queues) {
+
+Smatch is concerned that there might not be any set bits.  (You know that the
+compiler is automatically going to ininitialize empty to false so it costs
+nothing to initialize it to false explicitly and silence this warning).
+
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8081  				empty = (ar->htt.num_pending_per_queue[q] == 0);
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8082  				if (!empty)
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8083  					break;
+c4f7022f0ef0aa Remi Pommarel     2024-10-22  8084  			}
+edb8236df4d042 Michal Kazior     2013-07-05  8085  			spin_unlock_bh(&ar->htt.tx_lock);
+affd321733eebc Michal Kazior     2013-07-16  8086  
+7962b0d898accd Michal Kazior     2014-10-28  8087  			skip = (ar->state == ATH10K_STATE_WEDGED) ||
+7962b0d898accd Michal Kazior     2014-10-28  8088  			       test_bit(ATH10K_FLAG_CRASH_FLUSH,
+7962b0d898accd Michal Kazior     2014-10-28  8089  					&ar->dev_flags);
+affd321733eebc Michal Kazior     2013-07-16  8090  
+affd321733eebc Michal Kazior     2013-07-16  8091  			(empty || skip);
+5e3dd157d7e70f Kalle Valo        2013-06-12  8092  		}), ATH10K_FLUSH_TIMEOUT_HZ);
+affd321733eebc Michal Kazior     2013-07-16  8093  
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8094  	if (time_left == 0 || skip)
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8095  		ath10k_warn(ar, "failed to flush transmit queue (skip %i ar-state %i): %ld\n",
+d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8096  			    skip, ar->state, time_left);
+828853ac58265c Wen Gong          2018-08-28  8097  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
