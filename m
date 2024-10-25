@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38081B393A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:28:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36AC0156C40
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:35:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729841333; cv=none; b=KrcIzy4oqijd0oezwRbX46mzpJMTSeuw2I2C6k8yhrsKJhTT9tUHWx4ezyVL2xSwU6tRTJXTXMRSek7+kP0JiXNYfd8QALiQPJd4ZigU6RuBKuTK+fGDcQ3Dn25P3Cc1iEaLTn2rjBm/XCYKx3evRuiAYMOYmhoiQBzeBhDXgm8=
+	t=1729841755; cv=none; b=gV+AHkrWWKx1QGLeD3J/qZZotq58fY3oN3UleIuv5dh6+oaoSlwprHyR3iXJU/rZR/xJPdyLPvt9EiWvhMWGxuoMhfY2taMdgLJOlleG2VDjfH+yLsUly4ffNmpuIVz3EQlQC6Wp6u7SZjnwFOenC/VTSvCLKAM+EBcTgK48axI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729841333; c=relaxed/simple;
-	bh=pg9ba1x4F6Tj7UYQVAEHxdNNlZTh4LcfKKq6vlTN4WE=;
+	s=arc-20240116; t=1729841755; c=relaxed/simple;
+	bh=3vHEWOAoO3sunonStkvYOWjQXz7fiPqp+eVdjriQS4o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I1Wwy0dbLojmNoGI8q+qQOYY1V9LxQ9128g2qS0WLKS/mkFaIKVIjuQ7/OoUVDSp/XY5+tHD6Hq1Dh8mBOVf8BTMmwIZUb+Foepg6LxvUtLslApWtj35a92/zNZ95O8GI8oj1xqPz6RmynkaaZz3kBFwNqogA3NDkSeVyvJ3Ww4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZvcgLp0; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=uF9Fi1ZjKrsm5et13LyOVQbgNVKr3hudiR8w+EjNJIy7bdZZ9LpAMWAftJ/k4jpGoJbFbDTkw046qlgP9MRm2Rbtcj+L7fyg8GbRsEPS7xxtABNzuNhng+j6BHLybMBepBYHOB9CTq1QZd80SlhITFRcr7SgD1p0WOwE16wZIR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y1eAJJ4s; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZvcgLp0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729841331; x=1761377331;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pg9ba1x4F6Tj7UYQVAEHxdNNlZTh4LcfKKq6vlTN4WE=;
-  b=gZvcgLp061Q26sLQr11xprgc73Uy1laP5JmAlrrA7DG9PuCfsYb4QkZZ
-   LGX+Juxo/qk9cusDppmWtuUT3vW41PHnLopqDX1LEGHH40FcMU/EQj5BI
-   zOEiiC1f8RnUqqZNBny9XoqFZTnaI0T+QJSJAMRHzdYZ0Xz4Oa/FqSyri
-   7KsXknAhbDiWQcqqsHfzNA1VgdOPIjy6YB3Yv3fr8lqo8XKspJmbtJW4P
-   X59THBFhV5d45fhXLSqEu3/V3h1YkQJbBCkXdES2aioa7xNEiGhCRoOf4
-   aX925TRsdxQEHIyRtP2gfLpQdVqtjp5Df2Z1pycnlcM7P0HzDqcjx8TcS
-   A==;
-X-CSE-ConnectionGUID: YUbfba1kRjS3LTIvB4q05g==
-X-CSE-MsgGUID: lksXVqZEQ0CHgA+fh3Hu0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29280327"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29280327"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 00:28:48 -0700
-X-CSE-ConnectionGUID: angqMIt2Sr+3jcsyAFygwA==
-X-CSE-MsgGUID: mnXV2GSST5uxuNLjISnKQg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85392881"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Oct 2024 00:28:47 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4EkX-000Xlo-0d;
-	Fri, 25 Oct 2024 07:28:45 +0000
-Date: Fri, 25 Oct 2024 15:28:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 13350/23859] ld.lld: error: undefined
- symbol: kfree_skb
-Message-ID: <202410251513.0TgJ5Ukq-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y1eAJJ4s"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43193678216so3227205e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 00:35:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729841751; x=1730446551; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=iuRgl2F/xjk94GYb4B6pSkppT/5/2/+/g3oc7q99vZg=;
+        b=y1eAJJ4sEgmCngip0vHHQRyBse5TSJos51Wxyjh3kTe9GKQO48gucGXThSYcqjYQLt
+         cqM8Ynx3QK8aM4HygPvJIqdc+qL8IB3h5HVIZDigIkgVh+KXwF/MrI0jGHzYYJDgNm4c
+         K2lgPhRfofFBMHvHZedxaTkMoPeZC2k5DFxPcQeBrNER7u2ue6Owq2bEDrZV1yRQ1mXo
+         CVdryJtnIFo+5g0S8VmQkKxm2oX8LwRmh/RjUIGvaPJNqXfV0ENdJKW/6K9I2ySz4Zp0
+         ISINQmzaWRNpPt5bXbASpsvE0+chde7CX3uB6UMFc2lO/X5XJ6bdzBG1v/TrVbaQ+EB7
+         65Zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729841751; x=1730446551;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=iuRgl2F/xjk94GYb4B6pSkppT/5/2/+/g3oc7q99vZg=;
+        b=RH1eWJtM+GJRrh/kvv8+nHs3pgXJcZMSg54VbZGU5/taK77Jx2Rx8pPw9MMRyqDAc2
+         egNSulQ2OD/MQfZBVTuVz1iBtq6KTpX//GbDSzxfVOk7reZi1vT70ocLfSWuy3YVeh5g
+         W/t2ewpmuuuWdZeYjFWGs6iDZC0+iChY7+a30tsSTg78LpYNkoN3mw+mEpZ4FLcOFWN+
+         ORy5av78obDFyQR4ZV3+HCLGG2nN4+JD5evE+M8cx4Ylt1TzJ0xiAOfG2zcUEWmvughN
+         jgL+M/ABc5+ZGkJg9sV1PT/nH1aXhNAf8JZnd7qPrN0w1FL4K/HwO2q6TeXm+YfKvk27
+         R8BA==
+X-Forwarded-Encrypted: i=1; AJvYcCWIAj/ceEIV5ynOTi7tDqw3bsmzFh54E28BYy64QvDkLYDyLSUcQkp4da4u1tIVQ3/4VbatESNavna9bf2t@lists.linux.dev
+X-Gm-Message-State: AOJu0YwS6s+fKRxaOPoEQfMhrVNKfYTsiltvIFiF79MvhF2Bs65Y1ivX
+	847ZiPPgm/tFgQgzDkSLp3LKhIIbP9K3/9f7AoEKEXztBaGZBY0n83F6bD/fRI4=
+X-Google-Smtp-Source: AGHT+IFA0MpYO6p8LtVohkgtXalPje3I4kcSbExFnIgWpEgGOG/y0/xxVoo/UXawUg5OUEBPa1KxKw==
+X-Received: by 2002:a05:600c:45c6:b0:42c:bb10:7292 with SMTP id 5b1f17b1804b1-4318c6dd96cmr40125075e9.1.1729841751532;
+        Fri, 25 Oct 2024 00:35:51 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b92f11sm809687f8f.101.2024.10.25.00.35.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 00:35:51 -0700 (PDT)
+Date: Fri, 25 Oct 2024 10:35:47 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Heiko Carstens <hca@linux.ibm.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>
+Subject: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
+ inconsistent returns '&mm->mmap_lock'.
+Message-ID: <5e4a2c40-9fc4-439a-8166-3a694e705d8e@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +67,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d2a40c79ddef4b96b8a7a396bd7273121b1b4a5c
-commit: 6636f4434a9c5c9c645694db206188ee5a6626dd [13350/23859] ext4: report error to userspace by netlink
-config: x86_64-buildonly-randconfig-004-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251513.0TgJ5Ukq-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251513.0TgJ5Ukq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
+commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
+config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250552.XsMLl1sx-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251513.0TgJ5Ukq-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410250552.XsMLl1sx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
 
->> ld.lld: error: undefined symbol: __alloc_skb
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: kfree_skb
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: __nlmsg_put
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: netlink_broadcast
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_netlink_send_info) in archive built-in.a
---
->> ld.lld: error: undefined symbol: init_net
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_init_fs) in archive built-in.a
---
->> ld.lld: error: undefined symbol: __netlink_kernel_create
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_init_fs) in archive built-in.a
---
->> ld.lld: error: undefined symbol: netlink_kernel_release
-   >>> referenced by super.c
-   >>>               fs/ext4/super.o:(ext4_exit_fs) in archive built-in.a
+vim +566 arch/s390/mm/fault.c
+
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  498  void do_secure_storage_access(struct pt_regs *regs)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  499  {
+5be05c35e72f74 Heiko Carstens    2023-10-12  500  	union teid teid = { .val = regs->int_parm_long };
+9641613f48bbf8 Heiko Carstens    2023-10-12  501  	unsigned long addr = get_fault_address(regs);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  502  	struct vm_area_struct *vma;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  503  	struct mm_struct *mm;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  504  	struct page *page;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  505  	struct gmap *gmap;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  506  	int rc;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  507  
+85b18d7b5e7ffe Janosch Frank     2021-01-12  508  	/*
+3aad8c04429779 Heiko Carstens    2023-10-12  509  	 * Bit 61 indicates if the address is valid, if it is not the
+3aad8c04429779 Heiko Carstens    2023-10-12  510  	 * kernel should be stopped or SIGSEGV should be sent to the
+3aad8c04429779 Heiko Carstens    2023-10-12  511  	 * process. Bit 61 is not reliable without the misc UV feature,
+3aad8c04429779 Heiko Carstens    2023-10-12  512  	 * therefore this needs to be checked too.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  513  	 */
+5be05c35e72f74 Heiko Carstens    2023-10-12  514  	if (uv_has_feature(BIT_UV_FEAT_MISC) && !teid.b61) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  515  		/*
+85b18d7b5e7ffe Janosch Frank     2021-01-12  516  		 * When this happens, userspace did something that it
+85b18d7b5e7ffe Janosch Frank     2021-01-12  517  		 * was not supposed to do, e.g. branching into secure
+85b18d7b5e7ffe Janosch Frank     2021-01-12  518  		 * memory. Trigger a segmentation fault.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  519  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  520  		if (user_mode(regs)) {
+85b18d7b5e7ffe Janosch Frank     2021-01-12  521  			send_sig(SIGSEGV, current, 0);
+85b18d7b5e7ffe Janosch Frank     2021-01-12  522  			return;
+85b18d7b5e7ffe Janosch Frank     2021-01-12  523  		}
+85b18d7b5e7ffe Janosch Frank     2021-01-12  524  		/*
+3aad8c04429779 Heiko Carstens    2023-10-12  525  		 * The kernel should never run into this case and
+3aad8c04429779 Heiko Carstens    2023-10-12  526  		 * there is no way out of this situation.
+85b18d7b5e7ffe Janosch Frank     2021-01-12  527  		 */
+85b18d7b5e7ffe Janosch Frank     2021-01-12  528  		panic("Unexpected PGM 0x3d with TEID bit 61=0");
+85b18d7b5e7ffe Janosch Frank     2021-01-12  529  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  530  	switch (get_fault_type(regs)) {
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  531  	case GMAP_FAULT:
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  532  		mm = current->mm;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  533  		gmap = (struct gmap *)S390_lowcore.gmap;
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  534  		mmap_read_lock(mm);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  535  		addr = __gmap_translate(gmap, addr);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  536  		mmap_read_unlock(mm);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  537  		if (IS_ERR_VALUE(addr))
+7c194d84a9ce66 Heiko Carstens    2023-10-12  538  			return handle_fault_error_nolock(regs, SEGV_MAPERR);
+b108f7f0a29b24 Claudio Imbrenda  2022-06-28  539  		fallthrough;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
+7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
+7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
+
+mmap_read_unlock() before returning?
+
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  546  		page = follow_page(vma, addr, FOLL_WRITE | FOLL_GET);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  547  		if (IS_ERR_OR_NULL(page)) {
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  548  			mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  549  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  550  		}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  551  		if (arch_make_page_accessible(page))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  552  			send_sig(SIGSEGV, current, 0);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  553  		put_page(page);
+d8ed45c5dcd455 Michel Lespinasse 2020-06-08  554  		mmap_read_unlock(mm);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  555  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  556  	case KERNEL_FAULT:
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  557  		page = phys_to_page(addr);
+cd1adf1b63a112 Linus Torvalds    2021-09-07  558  		if (unlikely(!try_get_page(page)))
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  559  			break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  560  		rc = arch_make_page_accessible(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  561  		put_page(page);
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  562  		if (rc)
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  563  			BUG();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  564  		break;
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  565  	default:
+ae626f686351d2 Heiko Carstens    2023-10-12 @566  		unreachable();
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  567  	}
+084ea4d611a3d0 Vasily Gorbik     2020-01-21  568  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
