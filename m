@@ -1,73 +1,73 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0BA11D86C4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 10:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A1C1D2F5F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 10:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729850477; cv=none; b=SmeCjNAO2ZqoZ3q2svhLFx/+y+GyBPO/dlgklLRm1HPTRv2hikbXF2SfbrPFPKcf2mpO/B+sdr6bsTOFDl56v7GZiIanzIBSUqL9XntEsYsVZwOrlYENA1HNWfjWFEqoStNQYddapg+x2USq1Tz1CXf9rW2bIfQDOlvU6Yi2eqQ=
+	t=1729850622; cv=none; b=dc/3QyaSDpKffApZbXGHTgcx2NjL9AB4qtFkYU+GPoWGS/F8nwkkBd5/TN1VesjyaDSHUpkNaA9sJIXX8h8hu2Al+5q5/wcwhMGdUgRTaLXKyb9IETcawCOKbI+DZ0iH+OqV0qM9hPgJ00rUSiVikAut7gwtWJwx1kj+4g3LBjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729850477; c=relaxed/simple;
-	bh=PhhRQGAk7xkZb7McC5o/7fUc3tRZDZ4uAhMFlHJZs+A=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ufv7WaYAkFNb2slQjgLXDlV7tAX060GL2W63D2cVp1zpedjsA7EyBL2tRqpmxlyzKZHr8vkx4WCNJXtC/KFdd7gj5Ub1RtEG3hNLOzs+G81n9DQ1cE8oRq7bFq+SjHHH+6QSisDMv70rF68zYzCF2pghfx9oLDCjhAHIB4ZH2cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B818A339;
-	Fri, 25 Oct 2024 03:01:43 -0700 (PDT)
-Received: from [10.57.55.246] (unknown [10.57.55.246])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 24B9D3F73B;
-	Fri, 25 Oct 2024 03:01:10 -0700 (PDT)
-Message-ID: <087769c7-f8e7-4701-b6f1-4585570b8be8@arm.com>
-Date: Fri, 25 Oct 2024 11:01:08 +0100
+	s=arc-20240116; t=1729850622; c=relaxed/simple;
+	bh=4+vxGsmysunGnnkYtxuUqQYhqM5WPXzjRHuVc3vPOcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wwj9kUnu1zHDk6nKH9uvoMLzSZXdLWNC4EAUv+Dc8cEnAlrPX4XHlGOXD0hEd/m0iz7wWqw7VWDiSf1LKPSM487USGKRsmgTAcn9g6SNcAWe0iOA06dHTVPs8D9Us5K7oTpxsanaNthMRCVpVepqOPIiFyHiEcfyEb+zV1eU5GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=KUtg/VWk; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BvVK7662; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="KUtg/VWk";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BvVK7662"
+Date: Fri, 25 Oct 2024 12:03:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1729850618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kXnLbWg/pSVZEV+IncuH+B91U7YDz+CkkQf4woAq2oc=;
+	b=KUtg/VWksfxTKNYEfbebvQq9LHsbSxBlgZTqlEttnmEZGDXPoGvPjI4BsoGaaJRq4W8H7N
+	Z8qSUrTa9pfLYQ99G12OkMM6d0Qa4Sbjlgm+XxG3ESp55CREK3/Ua9e8CiEwtzjPEPkgOU
+	i9+e3Bja3UJyKhY0JkL0M0kGMWAEaab660knJUTqIJF8ljTn2wnMlce/KgQhD+9zMMdgQ4
+	WzWcXMwwy7aZFEhKvJ5FYNk1+eslTBUjoC+yYDP+UE5PTLP7inIiMT9reRRK3kCDHewqjx
+	QH+Ig/zBuJslNP/D48fb1V9ppl66EoMDesLXo5SDtcBkMSSmxxZRRtuEJGuWHg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1729850618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=kXnLbWg/pSVZEV+IncuH+B91U7YDz+CkkQf4woAq2oc=;
+	b=BvVK7662tRG0VOyCtbqk+pt5DehBLwAy9i5Gdl4zat6sGEhphwnxoImTKFlm1EYnUYkCS8
+	obmmUC3kwqlT3kBg==
+From: Sebastian Siewior <bigeasy@linutronix.de>
+To: Christian Loehle <christian.loehle@arm.com>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Thomas Gleixner <tglx@linutronix.de>, oe-kbuild-all@lists.linux.dev,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH] sched/uclamp: Fix unnused variable warning
+Message-ID: <20241025100335.urH9-GLU@linutronix.de>
+References: <b2ad1f31-21b9-42a5-a735-b9496470348a@arm.com>
+ <087769c7-f8e7-4701-b6f1-4585570b8be8@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] sched/uclamp: Fix unnused variable warning
-From: Christian Loehle <christian.loehle@arm.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Valentin Schneider <vschneid@redhat.com>, Juri Lelli
- <juri.lelli@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Sebastian Siewior <bigeasy@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>, oe-kbuild-all@lists.linux.dev,
- kernel test robot <lkp@intel.com>
-References: <b2ad1f31-21b9-42a5-a735-b9496470348a@arm.com>
-Content-Language: en-US
-In-Reply-To: <b2ad1f31-21b9-42a5-a735-b9496470348a@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <087769c7-f8e7-4701-b6f1-4585570b8be8@arm.com>
 
-On 10/8/24 09:23, Christian Loehle wrote:
-> uclamp_mutex is only used for CONFIG_SYSCTL or
-> CONFIG_UCLAMP_TASK_GROUP so ifdef that to fix the compile-time warning.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202410060258.bPl2ZoUo-lkp@intel.com/
-> Signed-off-by: Christian Loehle <christian.loehle@arm.com>
-> ---
->  kernel/sched/core.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 43e453ab7e20..18d9622eac8d 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -1394,7 +1394,9 @@ void set_load_weight(struct task_struct *p, bool update_load)
->   * requests are serialized using a mutex to reduce the risk of conflicting
->   * updates or API abuses.
->   */
-> +#if defined(CONFIG_UCLAMP_TASK_GROUP) || defined(CONFIG_SYSCTL)
->  static DEFINE_MUTEX(uclamp_mutex);
-> +#endif
->  
->  /* Max allowed minimum utilization */
->  static unsigned int __maybe_unused sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+On 2024-10-25 11:01:08 [+0100], Christian Loehle wrote:
+> Gentle ping and adding CCs
 
-Gentle ping and adding CCs
+Thank you.
+
+I poked Christian since the bot send another report
+	202410250459.EJe6PJI5-lkp@intel.com
+
+Sebastian
