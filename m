@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from e2i340.smtp2go.com (e2i340.smtp2go.com [103.2.141.84])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D40B119993F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 08:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 289171CC893
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 08:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.2.141.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729843251; cv=none; b=f8bTSGPV7cXWV8piyAhoQxpiutS576tl3wZyxVCfg4oJS7wgH5biaCaYHlyiZMNiA3EM7pI1TmcDshFa6o/JVoH/rkrhsAyq5KRXK5ufUwUOXr7tZ1RNHGkFxQ1RRiVLjDhriPewvCr8OWvlG0UqtLxHyJ+gYdYKmwAJG+nXnxc=
+	t=1729843355; cv=none; b=uC6kOGy7vhtq/9erDlKlxC58nKRZJ4fAYGlCPfKphWcf/DP9Ke/KsrU+/lapTZ/8rgHXjcGzSUf/2KL1SwKSBaEC8IWRHFrXZzh1klPdBt6f98JdelmCMJNfcySNg22+V6BC9JbhJcWiEE+T/+WWyZPLHpmJaGbBurchwwROk+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729843251; c=relaxed/simple;
-	bh=rFAwolJMpJ1SwKwjYr1TiKR+ucT4qvtHaHzzebkgTX8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MUo4ZcEJiHj0JDgTxl/58FJuVD8KlbRsvI9mT9ZZiH4uIdT9/TzEidnDmQro231AKhKxD7VL2dPsApG9Ri9HcDbJUzEV6BviplrqFUM0enOGj45L6ynBwVT1fnh8Hgi7naqqMGX6XiFRgTe4HrR/zKtiShFa1W2x6O/oW6Y1+90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gDn+8Kqf; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729843355; c=relaxed/simple;
+	bh=eFhDUENnS8zGkZbRU4y5LCpVMnWoZuLkbJIlmtBmFSU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HrLoQooiTGEmcSi2T7haw4PQT8KMQl0uvXQZUle7I2+oFlQCjnyj6nLzt5JFJi/OW5wGV0i+WOUMB2NMYYrHmDPiuf0epHYkYIZgoT11RwadVQLS6V50mkvDr8zLKm6CitPR0pxmTMQnXzfwlOpwQuWQ1OnJNVnHfSueqCqZoBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt; spf=pass smtp.mailfrom=em510616.triplefau.lt; dkim=fail (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b=f2zX3dEe reason="unknown key version"; dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b=cCD9HZmq; arc=none smtp.client-ip=103.2.141.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=triplefau.lt
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=em510616.triplefau.lt
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gDn+8Kqf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729843250; x=1761379250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rFAwolJMpJ1SwKwjYr1TiKR+ucT4qvtHaHzzebkgTX8=;
-  b=gDn+8KqfmQKW0Anfpqn/32f0J1LIjgsEg4rSNW0zferpN7xP0b6tWWa8
-   s7dYp/O1FzDBhVJp4JqetTIHkoizl66NOBio2/1l936+bp8OMCJi5TnC2
-   e7vzYPVILaE/WqqJWFkHLarwWa0IqwqZZelrywI6HvW8oGLn9tXekOoYH
-   0qacSEqDxlfHM/Xgqf2IrtFK4XxEEYS15oI80vamMCipPaa7uIsXPsbwV
-   ZXv0FxqJnFdyvXem/rg5dCggZINgN2XRZw14yohOvlCjQDJveChqJ9Hmg
-   +3ZOW1uEXmC44qfMIKWr846eUnv4YlbBDTdFuNTW4fHXhYmOsODXBi20r
-   w==;
-X-CSE-ConnectionGUID: dlHy7tJKQ0KGMRg3BLDZaA==
-X-CSE-MsgGUID: QZGjre5+TZ2D7cQ5MONNSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="32365094"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="32365094"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 01:00:49 -0700
-X-CSE-ConnectionGUID: R0WGeVnWSr68I6XKX+dP0A==
-X-CSE-MsgGUID: 6mf3HSc+RaW96+bu2y9cZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="80760182"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Oct 2024 01:00:48 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4FFW-000XoJ-0n;
-	Fri, 25 Oct 2024 08:00:46 +0000
-Date: Fri, 25 Oct 2024 15:59:49 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned-rebase 34/58] ERROR: modpost: "__umoddi3"
- [fs/xfs/xfs.ko] undefined!
-Message-ID: <202410251534.CzHNSTd7-lkp@intel.com>
+	dkim=fail reason="unknown key version" (0-bit key) header.d=smtpservice.net header.i=@smtpservice.net header.b="f2zX3dEe";
+	dkim=pass (2048-bit key) header.d=triplefau.lt header.i=@triplefau.lt header.b="cCD9HZmq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=smtpservice.net; s=maxzs0.a1-4.dyn; x=1729844253; h=Feedback-ID:
+	X-Smtpcorp-Track:Message-ID:Subject:To:From:Date:Reply-To:Sender:
+	List-Unsubscribe:List-Unsubscribe-Post;
+	bh=GvO/Y+A5F9D+Z7v2M3j3RiYz27Q9b0KXTCFNKhL41cQ=; b=f2zX3dEeY/Z6wVLIjZj2K7UIFR
+	CMr/Ryd72Xg1/rbpRsXfr1Yn28UaIyXNx8DAmhU5qifiGmEelKEUmvodYO5cuIo1goc249F/S2XPq
+	s0e+sjFUIfODHrk6wgdNXA4sfrU+DY+8a2lCoCE7ODNn7FMplZQ5LRGeUi79DSFgV/+EgUx6AOPCm
+	h6PI3X+IiT6uMGeWX/qnbuoZ0mryoo8/O6KD/brWuTHxU2mu1GS6E3L6Z9y0P4HYfK9mwpodnrX3u
+	oHENcDLBCD0HnuOJ1CoDW2xbehw/eXK5Gr2lfarYxyr/W4/GtWQxyPR/RcNnkYLp7rnZ7WA6Q26lY
+	1gb6RSlw==;
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=triplefau.lt;
+ i=@triplefau.lt; q=dns/txt; s=s510616; t=1729843353; h=from : subject
+ : to : message-id : date;
+ bh=GvO/Y+A5F9D+Z7v2M3j3RiYz27Q9b0KXTCFNKhL41cQ=;
+ b=cCD9HZmq9sIlsuAyqgMPyFFQmpoV+nC4Q9AFCo1X3lI87aGOphLvsP1exDwWr2Je3aQg5
+ uSBf4SHMWXKQjUsQUBxvwK+YmpRsWD4u6XqcZuNdAf4ibJV29iw3rZUherfOr/lSrZbsZgE
+ SjnOS60pPCwbu6cEfN4JAtZplwvsK90LyMFAAN6kawo+fCRF20MUXz1HYCrU+g7RqTz4N3T
+ zF+h+xtGU7bYt/g1uvIiQaH/MPfEW01JB/QKBwn7kHOt8MEu5uCzOCFiEXID3dGMGBxz584
+ ichk/waaWADqR9hQcZQId7pi3+egHNzGMFyuYr0GEinzfPMnttUV/wRtid/w==
+Received: from [10.172.233.58] (helo=SmtpCorp) by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.94.2-S2G) (envelope-from <repk@triplefau.lt>)
+ id 1t4FGg-TRjzcT-EX; Fri, 25 Oct 2024 08:01:58 +0000
+Received: from [10.12.239.196] (helo=localhost) by smtpcorp.com with esmtpsa
+ (TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+ (Exim 4.97.1-S2G) (envelope-from <repk@triplefau.lt>)
+ id 1t4FGg-FnQW0hQ1BVS-kG4P; Fri, 25 Oct 2024 08:01:58 +0000
+Date: Fri, 25 Oct 2024 10:01:52 +0200
+From: Remi Pommarel <repk@triplefau.lt>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, ath10k@lists.infradead.org,
+ linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+ Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
+ Cedric Veilleux <veilleux.cedric@gmail.com>,
+ Vasanthakumar Thiagarajan <quic_vthiagar@quicinc.com>
+Subject: Re: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in
+ ath10k_flush()
+Message-ID: <ZxtQcCZlQOfqkTEa@pilgrim>
+References: <0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk@triplefau.lt>
+ <60d579e2-5eb7-4239-9a23-95fa4b32f351@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +66,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <60d579e2-5eb7-4239-9a23-95fa4b32f351@stanley.mountain>
+X-Smtpcorp-Track: FV2aL0sgdtDF.6IN2ol56omxQ.eI6-IAVzHnB
+Feedback-ID: 510616m:510616apGKSTK:510616sqkavGCBqD
+X-Report-Abuse: Please forward a copy of this message, including all headers,
+ to <abuse-report@smtp2go.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned-rebase
-head:   405a6c19506c51256fe1eafd41128b98ffe566b3
-commit: 7d0ae5c0dcfc39db9e13893a83d1947d042b3d4a [34/58] xfs: support zoned RT devices
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251534.CzHNSTd7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251534.CzHNSTd7-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251534.CzHNSTd7-lkp@intel.com/
+On Fri, Oct 25, 2024 at 10:44:09AM +0300, Dan Carpenter wrote:
+> Hi Remi,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Pommarel/wifi-ath10k-Implement-ieee80211-flush_sta-callback/20241022-172038
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+> patch link:    https://lore.kernel.org/r/0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk%40triplefau.lt
+> patch subject: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in ath10k_flush()
+> config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251152.A5axJliR-lkp@intel.com/config)
+> compiler: hppa-linux-gcc (GCC) 14.1.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410251152.A5axJliR-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/net/wireless/ath/ath10k/mac.c:8076 _ath10k_mac_wait_tx_complete() error: uninitialized symbol 'empty'.
+> 
+> vim +/empty +8076 drivers/net/wireless/ath/ath10k/mac.c
+> 
+> c4f7022f0ef0aa Remi Pommarel     2024-10-22  8062  static void _ath10k_mac_wait_tx_complete(struct ath10k *ar,
+> c4f7022f0ef0aa Remi Pommarel     2024-10-22  8063  					 unsigned long queues)
+> 5e3dd157d7e70f Kalle Valo        2013-06-12  8064  {
+> affd321733eebc Michal Kazior     2013-07-16  8065  	bool skip;
+> d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8066  	long time_left;
+> c4f7022f0ef0aa Remi Pommarel     2024-10-22  8067  	unsigned int q;
+> 5e3dd157d7e70f Kalle Valo        2013-06-12  8068  
+> 5e3dd157d7e70f Kalle Valo        2013-06-12  8069  	/* mac80211 doesn't care if we really xmit queued frames or not
+> d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8070  	 * we'll collect those frames either way if we stop/delete vdevs
+> d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8071  	 */
+> 548db54cc1890b Michal Kazior     2013-07-05  8072  
+> affd321733eebc Michal Kazior     2013-07-16  8073  	if (ar->state == ATH10K_STATE_WEDGED)
+> 828853ac58265c Wen Gong          2018-08-28  8074  		return;
+> affd321733eebc Michal Kazior     2013-07-16  8075  
+> d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15 @8076  	time_left = wait_event_timeout(ar->htt.empty_tx_wq, ({
+> 5e3dd157d7e70f Kalle Valo        2013-06-12  8077  			bool empty;
+> affd321733eebc Michal Kazior     2013-07-16  8078  
+> edb8236df4d042 Michal Kazior     2013-07-05  8079  			spin_lock_bh(&ar->htt.tx_lock);
+> c4f7022f0ef0aa Remi Pommarel     2024-10-22  8080  			for_each_set_bit(q, &queues, ar->hw->queues) {
+> 
+> Smatch is concerned that there might not be any set bits.  (You know that the
+> compiler is automatically going to ininitialize empty to false so it costs
+> nothing to initialize it to false explicitly and silence this warning).
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+Actually I think empty should be true here, if there is no queue to
+wait for being drained then no need to wait at all. Will send a v3
+with that fixed.
 
->> ERROR: modpost: "__umoddi3" [fs/xfs/xfs.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+Thanks for the report and the analysis.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Remi
