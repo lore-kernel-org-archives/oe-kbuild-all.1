@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A73B18BC1C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 05:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8F818C347
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 05:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729832628; cv=none; b=bhnkSi9u2e+opyHHwIMD2vEqa80GGZ0XQDwJnVeDTQNBP3RtIsg7liTl+WIy6AEBTG0OMBM4TjnsDViEqp4wtgXspYLEoZTCwtLtJU4Yyk/UxYuOgml/Z1ZjnvicPN/T5oGvfjczxvHVPN9xaAv8SPtEKGMNb2/5jTkrj1b3Rmg=
+	t=1729833887; cv=none; b=kbquISkpiGu1Pnm+HboMwxYNcmB635i/lOf3au778cmnb6tA7uQtgtKpfdPqbEPe+5m5P98Ya5vzTGXwWc5cEAWKaOdNY6qAJQCPFgDXTY2+OuHnaPcGQTqdz63H1khJSCk09ykIjE7UsJz67yMsGHrv7RfJiRbDzfsWfVRtfJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729832628; c=relaxed/simple;
-	bh=k/3YIX2cJB3IDhrvzlIsnk9CNBlCnPkg+bpj8kp+nZQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gB/e8QA9dGNDHwk9O8i4L0La9Xuor9efejurkhzdj8Eq3/rZK2IgYDLzehIrVefPqwd6baqWaRgxYqjxcyATDMU7xyzVLtnpNzMMK7MhAQu0hBsptHTDMARO/kxvptehkkqWQWUhcOVU3NMMyaM89QdFF2h4HGQ614EL4ac2Wkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h1WAhLvf; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1729833887; c=relaxed/simple;
+	bh=7O+PAc7jzlRkpSk7zfa8ZdU6RCsqqDWvvq93s2fDMDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gjsf+b7dvLMJGXz5oebzhdf0fZ/9pszALQIOZhvCyImzt32tZV0u4w2ZfeMf0XuULbnWzHL3iCZBs0HRhc+z/tek4duXNYd+XvFOHjdLSkQiC0ajxKolJ8YFmciEqo4kD7BivRCXu1RZdtT+JSevE7etxtVkN0lv5K1kQVdChw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nH/n62WO; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h1WAhLvf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nH/n62WO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729832625; x=1761368625;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k/3YIX2cJB3IDhrvzlIsnk9CNBlCnPkg+bpj8kp+nZQ=;
-  b=h1WAhLvfDLaIt3QsO1x2Daw6unekOmNR5wm/auetvKEEhO1EMI1Y32sq
-   8zkHMkzpWzohP/tUWJ3+N8BuZDizZ9HStWGvyuYfu7VDHC7bbaqwN1j/3
-   c0gQ2bSwLuOW3/1MSfPTW2vs/qnovCJwa5qUjLYxWBtzfvlfXgA/Dh64+
-   AQGh3OtQtoX/5uetf1auodaYH/pQVqCRFSQsObIyVpuYI/9S5q6QxvZOU
-   yJYePm/fSTJ8/jB4+K00c2dELVq35iVf979fDb+TD43THBwvw/halW5CV
-   44kzFAMLOhAQ5buH1n18QFWTT4pQKEh6/f3B43kQfu8dnEw5pzbfiZ5oW
-   w==;
-X-CSE-ConnectionGUID: bvctRZPlROSBJJJUhaMQaQ==
-X-CSE-MsgGUID: 0kjykaQhQGWNEPcZ2Pv1eg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="29392906"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="29392906"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 22:03:44 -0700
-X-CSE-ConnectionGUID: hWcveicxSgGnL22dtfsTBw==
-X-CSE-MsgGUID: q5FeS5fsRbu3j/lMYyR0vg==
+  t=1729833884; x=1761369884;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7O+PAc7jzlRkpSk7zfa8ZdU6RCsqqDWvvq93s2fDMDc=;
+  b=nH/n62WOYCiUxdqLl/Lj6Cb/aku/GA6bhhj8YGmMUJ75kGLR5PzAQhDf
+   rTmPxWT8CB0YHPA2lyiW4zOu6SgGDXdEsumUFaO/uwGg4ntifY6hVMhKG
+   VHKUHAuo6ASdLF2wFRUuppMj9wLHof/798Wt0LyFs1adA4mxIBvfrQRGm
+   VEfsiuqKbmtiG6u1XUfYPNekr6MSz5JKM5/RpBcuWw3XI9AKT9wYGPb+S
+   CQHqZ8+6uNI6+FTkCm/RkxJtZOshWnZlWguYWJ4wfu0g81Usq5zlRKZMZ
+   KzOLLLGkq0qlIH7Swd4iTnNa2MZr0Sv+xmBY15H52z9lWdiolug+6vp6v
+   A==;
+X-CSE-ConnectionGUID: c42XsoaNQQ2IczV3TSx50w==
+X-CSE-MsgGUID: QcrdPWKbS9uJy4Lh/ZYH+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40600725"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40600725"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 22:24:44 -0700
+X-CSE-ConnectionGUID: IprcYdh9St6aZNvmvLUb5g==
+X-CSE-MsgGUID: J8nbkqLvT9eEUg1fYUM04g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="81123475"
+   d="scan'208";a="80983768"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2024 22:03:42 -0700
+  by orviesa006.jf.intel.com with ESMTP; 24 Oct 2024 22:24:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4CU7-000Xc2-2d;
-	Fri, 25 Oct 2024 05:03:39 +0000
-Date: Fri, 25 Oct 2024 13:03:22 +0800
+	id 1t4CoS-000Xcy-0T;
+	Fri, 25 Oct 2024 05:24:40 +0000
+Date: Fri, 25 Oct 2024 13:23:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zeng Heng <zengheng4@huawei.com>, bp@suse.de, javierm@redhat.com,
-	ardb@kernel.org, tzimmermann@suse.de, simona.vetter@ffwll.ch
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	bobo.shaobowang@huawei.com, linux-efi@vger.kernel.org
-Subject: Re: [PATCH] drivers/firmware: Fix unused const variable
- 'efifb_fwnode_ops'
-Message-ID: <202410251211.Jze0KkZR-lkp@intel.com>
-References: <20241024084435.165333-1-zengheng4@huawei.com>
+To: kernel@openeuler.org, Bennie Yan <bennie.yan@nebula-matrix.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 14224/15285] clang: warning: no such include
+ directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include'
+Message-ID: <202410251301.XRGNaOxp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,70 +61,183 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024084435.165333-1-zengheng4@huawei.com>
 
-Hi Zeng,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on efi/next]
-[also build test WARNING on linus/master v6.12-rc4 next-20241024]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zeng-Heng/drivers-firmware-Fix-unused-const-variable-efifb_fwnode_ops/20241024-163259
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
-patch link:    https://lore.kernel.org/r/20241024084435.165333-1-zengheng4%40huawei.com
-patch subject: [PATCH] drivers/firmware: Fix unused const variable 'efifb_fwnode_ops'
-config: x86_64-buildonly-randconfig-002-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251211.Jze0KkZR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251211.Jze0KkZR-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   f34aecb9a655b9ee24dc42a38d3bf4ebcaa9d479
+commit: bad535d287c9c1056d99de3666be7da84de4a8fc [14224/15285] Net:nbl_core: Add nbl_core-driver for nebula-matrix S1055AS series smart NIC.
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251301.XRGNaOxp-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251301.XRGNaOxp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251211.Jze0KkZR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251301.XRGNaOxp-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/firmware/efi/sysfb_efi.c:328:12: warning: 'efifb_add_links' defined but not used [-Wunused-function]
-     328 | static int efifb_add_links(struct fwnode_handle *fwnode)
-         |            ^~~~~~~~~~~~~~~
->> drivers/firmware/efi/sysfb_efi.c:94:19: warning: 'efifb_set_system' defined but not used [-Wunused-function]
-      94 | static int __init efifb_set_system(const struct dmi_system_id *id)
-         |                   ^~~~~~~~~~~~~~~~
-
-
-vim +/efifb_add_links +328 drivers/firmware/efi/sysfb_efi.c
-
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  320  
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  321  /*
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  322   * If the efifb framebuffer is backed by a PCI graphics controller, we have
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  323   * to ensure that this relation is expressed using a device link when
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  324   * running in DT mode, or the probe order may be reversed, resulting in a
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  325   * resource reservation conflict on the memory window that the efifb
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  326   * framebuffer steals from the PCIe host bridge.
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  327   */
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25 @328  static int efifb_add_links(struct fwnode_handle *fwnode)
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  329  {
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  330  	struct device_node *sup_np;
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  331  
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  332  	sup_np = find_pci_overlap_node();
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  333  
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  334  	/*
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  335  	 * If there's no PCI graphics controller backing the efifb, we are
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  336  	 * done here.
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  337  	 */
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  338  	if (!sup_np)
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  339  		return 0;
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  340  
-75cde56a5b504d Saravana Kannan          2024-03-04  341  	fwnode_link_add(fwnode, of_fwnode_handle(sup_np), 0);
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  342  	of_node_put(sup_np);
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  343  
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  344  	return 0;
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  345  }
-8633ef82f101c0 Javier Martinez Canillas 2021-06-25  346  
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c:7:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h:10:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error: 'nbl_product_base.h' file not found
+      10 | #include "nbl_product_base.h"
+         |          ^~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_queue_leonis.h:10:10: fatal error: 'nbl_resource.h' file not found
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h:10:10: fatal error: 'nbl_resource.h' file not found
+      10 | #include "nbl_resource.h"
+         |          ^~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:7:
+   In file included from include/linux/ip.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2243:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:13:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.h:10:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h:10:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h:10:10: fatal error: 'nbl_product_base.h' file not found
+      10 | #include "nbl_product_base.h"
+         |          ^~~~~~~~~~~~~~~~~~~~
+   5 warnings and 1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h:10:10: fatal error: 'nbl_core.h' file not found
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_event.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_event.h:10:10: fatal error: 'nbl_core.h' file not found
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h:10:10: fatal error: 'nbl_core.h' file not found
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.h:10:10: fatal error: 'nbl_core.h' file not found
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_flow_leonis.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_flow_leonis.h:9:10: fatal error: 'nbl_core.h' file not found
+       9 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c:7:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h:10:10: fatal error: 'nbl_core.h' file not found
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   1 error generated.
+--
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_include' [-Wmissing-include-dirs]
+>> clang: warning: no such include directory: 'drivers/net/ethernet/nebula-matrix/nbl/nbl_export' [-Wmissing-include-dirs]
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:7:
+   In file included from include/linux/ip.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/arm64/include/asm/cacheflush.h:11:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2243:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.c:13:
+   In file included from drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_txrx.h:10:
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h:10:10: fatal error: 'nbl_core.h' file not found
+      10 | #include "nbl_core.h"
+         |          ^~~~~~~~~~~~
+   5 warnings and 1 error generated.
+..
 
 -- 
 0-DAY CI Kernel Test Service
