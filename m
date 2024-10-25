@@ -1,61 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B748D1632E7
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 13:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44FAF212161;
+	Fri, 25 Oct 2024 13:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729861991; cv=none; b=FCSfRf2EwC8zSzghxh4lGB1ve6pmTCwpzwnSSER/Cg7T4X8oM0Okt/QnitMehrUu895+hfhkKVQJCwr9JsvzFH933Ohl6zMK87Rq7Kx6Vbxka2bPYaHyABNYut0jEccTBMlIGdxLcu0K4Uo6zs+E6o+mFY1YLqUSxzKmi6JSuNM=
+	t=1729862651; cv=none; b=WU48SLvNOZurA63fut64Y5OLnghSpCgpMvtI7XzKFnY3IIj9mj0F19Tcx8TqrBrp5EmQuF6mMn0iIjzf58H9j+mr6tghqMOWhHXsJ360N+LNizhUDrsjoELs52QrPEumvZrGMxbmYHz7aBWcQUJGnUIkBVCIlB5H4fGumZX/Aws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729861991; c=relaxed/simple;
-	bh=yQAk/wpUmRrW7Mp06J2PW0VykFEHTzigl9+EkXsWMeg=;
+	s=arc-20240116; t=1729862651; c=relaxed/simple;
+	bh=Hor68YZSrgtREs9BV4UZJPsDGWWfhfLQGQ5vSDwW8ws=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s+9e2N9GZeDhTuVjKLJyZAkVow72SX7o8IlRZj6sUciFOjPGGYdZbtx6Ci0muo+YWLCq3INFPGn7BnPfvuqaWxZG5Q+ubiUcWVyJMU78c2K+hDzzq4ScBiOv4g8LcMMwBp8RAXirgK374pgvLX6xxJD/oxoSm1wcBda4wNnYu2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnBZ6MGI; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=KYkqNtPuJkaYjixMHgGeaimR4nOYsHtOePtzROYm49KKdONETh7HSj4foO6dLmdv+ass+m5GDCC093XEzgrDIl4VuCe0RSThHTb/ArRTo8ky+Zq6WwCku8cYuN4U12ThBalknd54zZQ/49UZ1rxaY/qyrrl9s97TDlHAI3kYbOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C1d2zZ3R; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnBZ6MGI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C1d2zZ3R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729861989; x=1761397989;
+  t=1729862648; x=1761398648;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yQAk/wpUmRrW7Mp06J2PW0VykFEHTzigl9+EkXsWMeg=;
-  b=QnBZ6MGIp8FvUukeqgPDSMMLGaw/T3omjZaa0c412zQCcntDyjdf00EB
-   7h0DXAWtFFgQQExk+fCziAo6exsNERSJV8hO17e1Qb5DuILBN2wuQ/EOM
-   sQGCQmMH8HRzUZT3fC0vdkalL23nYtUGTUR0HS699JFiu3yYlpYKFPG+N
-   1MkO/x2R8XxooSHnJYDGjo731JGxXAYjogImyekszabvS5vy3CsRVGnMX
-   V5asNuFMFr6nrfLjHYvou8iu3hxKe3VK5XF5tNENbXC11LKFAdJgnfNWF
-   7dJMzl2YnVJRILjE7Wt0YYkkn0bj/XfmoQBrFjfmsaNgjo3mZeIeR52TV
-   w==;
-X-CSE-ConnectionGUID: DaWdfMk0TBectM0ony18hA==
-X-CSE-MsgGUID: 6Zhl3wq9RmOesAZRQ59HDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="17160049"
+  bh=Hor68YZSrgtREs9BV4UZJPsDGWWfhfLQGQ5vSDwW8ws=;
+  b=C1d2zZ3RVXQ/c6mIXf488cRsOqUaj1i3VgCOT6Jn6W0SUN+/J4a86uJ+
+   BIYQcgQ7JesgvLJMZc5/F7/fDaR57DvnPj5uRSatxJ9C6dhjbNZc54hWw
+   L3n57oszbTa660vAI7EdEv4ly2a0DQkSzK0FE2Svgew38uI/CjsjGt3Eb
+   qERVqnaDskAlpF2PETMfQmY2ejHOWAzpPLBoBPO2e7cDIpWT7S44e6usW
+   /eh5ub0epE/q8PwIRNs3CLOGX9sGpTbCOLunQh5qtTnFetvhEp+aodT47
+   f0oOdRvrWmxyBT4v9NrGjfj+5OICOKgdHqs/xUIW3tWLM743BcZBGTJSN
+   A==;
+X-CSE-ConnectionGUID: Hp8/DIE2SYSARrMudoN9uQ==
+X-CSE-MsgGUID: FFPywN0yTGqzxMlDWoAMRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="29648934"
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="17160049"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:13:07 -0700
-X-CSE-ConnectionGUID: QamcFYyxRhWs4C8YkAJMXg==
-X-CSE-MsgGUID: JcCIRCwrRDitcLtnoDhunQ==
+   d="scan'208";a="29648934"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 06:24:07 -0700
+X-CSE-ConnectionGUID: P8OW3Uv0TlGFUdkc1z6b2A==
+X-CSE-MsgGUID: wmxgfvbUSc63aX1H0DpZ5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="81222535"
+   d="scan'208";a="104222774"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Oct 2024 06:13:05 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Oct 2024 06:24:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4K7j-000YHY-1V;
-	Fri, 25 Oct 2024 13:13:03 +0000
-Date: Fri, 25 Oct 2024 21:12:37 +0800
+	id 1t4KIN-000YIG-2s;
+	Fri, 25 Oct 2024 13:24:03 +0000
+Date: Fri, 25 Oct 2024 21:23:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yu Zhao <yuzhao@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	James Houghton <jthoughton@google.com>
-Subject: [linux-next:pending-fixes 301/373] mm/vmscan.c:3498: undefined
- reference to `pmdp_test_and_clear_young'
-Message-ID: <202410252141.djLwbAYF-lkp@intel.com>
+To: Victor Shih <victor.shih@genesyslogic.com.tw>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ulf Hansson <ulf.hansson@linaro.org>,
+	Ben Chuang <ben.chuang@genesyslogic.com.tw>,
+	AKASHI Takahiro <takahiro.akashi@linaro.org>
+Subject: [linux-next:master 6772/7183] drivers/mmc/host/sdhci-uhs2.c:684:6:
+ warning: variable 'flags' set but not used
+Message-ID: <202410252107.y9EgrTbA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,107 +65,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   a06df994e3b96f0f6b97e5d2679c41f60d182bbe
-commit: 1ee09e54a76f75dcf5d59737d81bec1624bf4764 [301/373] mm: multi-gen LRU: use {ptep,pmdp}_clear_young_notify()
-config: i386-buildonly-randconfig-004-20241025 (https://download.01.org/0day-ci/archive/20241025/202410252141.djLwbAYF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410252141.djLwbAYF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a39230ecf6b3057f5897bc4744a790070cfbe7a8
+commit: 9cbb2358bb1f17b61bf75cbebc2c9746b3a29e32 [6772/7183] mmc: sdhci-uhs2: add request() and others
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410252107.y9EgrTbA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410252107.y9EgrTbA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410252141.djLwbAYF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410252107.y9EgrTbA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: mm/vmscan.o: in function `walk_pmd_range_locked':
->> mm/vmscan.c:3498: undefined reference to `pmdp_test_and_clear_young'
+   In file included from drivers/mmc/host/sdhci-uhs2.c:14:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/mmc/host/sdhci-uhs2.c:15:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/mmc/host/sdhci-uhs2.c:15:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/mmc/host/sdhci-uhs2.c:15:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/mmc/host/sdhci-uhs2.c:684:6: warning: variable 'flags' set but not used [-Wunused-but-set-variable]
+     684 |         int flags;
+         |             ^
+   17 warnings generated.
 
 
-vim +3498 mm/vmscan.c
+vim +/flags +684 drivers/mmc/host/sdhci-uhs2.c
 
-  3440	
-  3441	static void walk_pmd_range_locked(pud_t *pud, unsigned long addr, struct vm_area_struct *vma,
-  3442					  struct mm_walk *args, unsigned long *bitmap, unsigned long *first)
-  3443	{
-  3444		int i;
-  3445		pmd_t *pmd;
-  3446		spinlock_t *ptl;
-  3447		struct lru_gen_mm_walk *walk = args->private;
-  3448		struct mem_cgroup *memcg = lruvec_memcg(walk->lruvec);
-  3449		struct pglist_data *pgdat = lruvec_pgdat(walk->lruvec);
-  3450		DEFINE_MAX_SEQ(walk->lruvec);
-  3451		int old_gen, new_gen = lru_gen_from_seq(max_seq);
-  3452	
-  3453		VM_WARN_ON_ONCE(pud_leaf(*pud));
-  3454	
-  3455		/* try to batch at most 1+MIN_LRU_BATCH+1 entries */
-  3456		if (*first == -1) {
-  3457			*first = addr;
-  3458			bitmap_zero(bitmap, MIN_LRU_BATCH);
-  3459			return;
-  3460		}
-  3461	
-  3462		i = addr == -1 ? 0 : pmd_index(addr) - pmd_index(*first);
-  3463		if (i && i <= MIN_LRU_BATCH) {
-  3464			__set_bit(i - 1, bitmap);
-  3465			return;
-  3466		}
-  3467	
-  3468		pmd = pmd_offset(pud, *first);
-  3469	
-  3470		ptl = pmd_lockptr(args->mm, pmd);
-  3471		if (!spin_trylock(ptl))
-  3472			goto done;
-  3473	
-  3474		arch_enter_lazy_mmu_mode();
-  3475	
-  3476		do {
-  3477			unsigned long pfn;
-  3478			struct folio *folio;
-  3479	
-  3480			/* don't round down the first address */
-  3481			addr = i ? (*first & PMD_MASK) + i * PMD_SIZE : *first;
-  3482	
-  3483			if (pmd_present(pmd[i]) && !pmd_trans_huge(pmd[i])) {
-  3484				if (!walk->force_scan && should_clear_pmd_young() &&
-  3485				    !mm_has_notifiers(args->mm))
-  3486					pmdp_test_and_clear_young(vma, addr, pmd + i);
-  3487				goto next;
-  3488			}
-  3489	
-  3490			pfn = get_pmd_pfn(pmd[i], vma, addr, pgdat);
-  3491			if (pfn == -1)
-  3492				goto next;
-  3493	
-  3494			folio = get_pfn_folio(pfn, memcg, pgdat, walk->can_swap);
-  3495			if (!folio)
-  3496				goto next;
-  3497	
-> 3498			if (!pmdp_clear_young_notify(vma, addr, pmd + i))
-  3499				goto next;
-  3500	
-  3501			walk->mm_stats[MM_LEAF_YOUNG]++;
-  3502	
-  3503			if (pmd_dirty(pmd[i]) && !folio_test_dirty(folio) &&
-  3504			    !(folio_test_anon(folio) && folio_test_swapbacked(folio) &&
-  3505			      !folio_test_swapcache(folio)))
-  3506				folio_mark_dirty(folio);
-  3507	
-  3508			old_gen = folio_update_gen(folio, new_gen);
-  3509			if (old_gen >= 0 && old_gen != new_gen)
-  3510				update_batch_size(walk, folio, old_gen, new_gen);
-  3511	next:
-  3512			i = i > MIN_LRU_BATCH ? 0 : find_next_bit(bitmap, MIN_LRU_BATCH, i) + 1;
-  3513		} while (i <= MIN_LRU_BATCH);
-  3514	
-  3515		arch_leave_lazy_mmu_mode();
-  3516		spin_unlock(ptl);
-  3517	done:
-  3518		*first = -1;
-  3519	}
-  3520	
+   681	
+   682	static bool sdhci_uhs2_send_command(struct sdhci_host *host, struct mmc_command *cmd)
+   683	{
+ > 684		int flags;
+   685		u32 mask;
+   686		unsigned long timeout;
+   687	
+   688		WARN_ON(host->cmd);
+   689	
+   690		/* Initially, a command has no error */
+   691		cmd->error = 0;
+   692	
+   693		if (cmd->opcode == MMC_STOP_TRANSMISSION)
+   694			cmd->flags |= MMC_RSP_BUSY;
+   695	
+   696		mask = SDHCI_CMD_INHIBIT;
+   697	
+   698		if (sdhci_readl(host, SDHCI_PRESENT_STATE) & mask)
+   699			return false;
+   700	
+   701		host->cmd = cmd;
+   702		host->data_timeout = 0;
+   703		if (sdhci_data_line_cmd(cmd)) {
+   704			WARN_ON(host->data_cmd);
+   705			host->data_cmd = cmd;
+   706			__sdhci_uhs2_set_timeout(host);
+   707		}
+   708	
+   709		if (cmd->data)
+   710			sdhci_uhs2_prepare_data(host, cmd);
+   711	
+   712		sdhci_uhs2_set_transfer_mode(host, cmd);
+   713	
+   714		if ((cmd->flags & MMC_RSP_136) && (cmd->flags & MMC_RSP_BUSY)) {
+   715			WARN_ONCE(1, "Unsupported response type!\n");
+   716			/*
+   717			 * This does not happen in practice because 136-bit response
+   718			 * commands never have busy waiting, so rather than complicate
+   719			 * the error path, just remove busy waiting and continue.
+   720			 */
+   721			cmd->flags &= ~MMC_RSP_BUSY;
+   722		}
+   723	
+   724		if (!(cmd->flags & MMC_RSP_PRESENT))
+   725			flags = SDHCI_CMD_RESP_NONE;
+   726		else if (cmd->flags & MMC_RSP_136)
+   727			flags = SDHCI_CMD_RESP_LONG;
+   728		else if (cmd->flags & MMC_RSP_BUSY)
+   729			flags = SDHCI_CMD_RESP_SHORT_BUSY;
+   730		else
+   731			flags = SDHCI_CMD_RESP_SHORT;
+   732	
+   733		if (cmd->flags & MMC_RSP_CRC)
+   734			flags |= SDHCI_CMD_CRC;
+   735		if (cmd->flags & MMC_RSP_OPCODE)
+   736			flags |= SDHCI_CMD_INDEX;
+   737	
+   738		timeout = jiffies;
+   739		if (host->data_timeout)
+   740			timeout += nsecs_to_jiffies(host->data_timeout);
+   741		else if (!cmd->data && cmd->busy_timeout > 9000)
+   742			timeout += DIV_ROUND_UP(cmd->busy_timeout, 1000) * HZ + HZ;
+   743		else
+   744			timeout += 10 * HZ;
+   745		sdhci_mod_timer(host, cmd->mrq, timeout);
+   746	
+   747		__sdhci_uhs2_send_command(host, cmd);
+   748	
+   749		return true;
+   750	}
+   751	
 
 -- 
 0-DAY CI Kernel Test Service
