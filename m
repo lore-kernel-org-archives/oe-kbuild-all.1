@@ -1,53 +1,53 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B02433CE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 05:45:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D2FF191F83
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 05:45:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729835150; cv=none; b=b7V1c13kUxvhfZYdNC+25i1yYnaHN2MBdvDemMIZptiVeLkAeG9qipeUkdG85KrM4X7YwoOJfJ3fLYQ1tpJP7lPI/g4cNq1oEGnaFanPHrPGNopjKWhGXZra6zoesERzmqPEOrh+5vDT33LHcLtOjeJ/MLAmJbaWR+k8w+G7oIQ=
+	t=1729835152; cv=none; b=r26+QFPrWxlTDHo4JTgW9mUT8BwT9RvyNYxR+AAReuHZdqlutgA6S8FqG3Fh7UVZbj8CHXHIwYVJ9H368J49S1YWdS4BmKHdKBpXGhzd9pR+qQIQiuyiG+6WkGpZJlvrtNExH87jClFPIm6/f3sUiedTL0Q1X7QnFAI/yQQR9K0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729835150; c=relaxed/simple;
-	bh=d6JyXPx+kHE4nYoocbnftXCWw7YO4qfXOoYUCXuMLxA=;
+	s=arc-20240116; t=1729835152; c=relaxed/simple;
+	bh=+8YdKGr5Fv9UWaGPtsTURl32RwtbX08N+XEK40AZcHw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XahK2GKrOgkK/PW29gn8bVPehOYWDokrSyzsc32uMbfsp/rViEB35v6BYjSPND0oZhS7qzFiR623n0Cr4yipESPdqIUVIoFY/m9HIGCLHwO1v0L6m9Ysfwu8CIG5/1Vj9UwEU15ndC7poW5HHY4ihAkeD8Ptza817uSBQ8gEXjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gpoIeLzW; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=EnPK3egSUKWMNAfT6UEyn9/Nk3Wfk/g3u/ri56ah7RqDpepiZ1ufthBnpNdp1SyYnydkXApScNHDVhNOl4wlFzOdIqGCd/psZXGsr0sepquj4dNcHTKFAacaT0ciYuvDWrer/t4VXkLg1D40pLu3Nc6JdUMWKnVDVCc+GUT9yR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hwkb95E0; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gpoIeLzW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hwkb95E0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729835148; x=1761371148;
+  t=1729835151; x=1761371151;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=d6JyXPx+kHE4nYoocbnftXCWw7YO4qfXOoYUCXuMLxA=;
-  b=gpoIeLzWvBKJvYnYb1XQT6yavXZLwYwyyz1CJoeja+OernuGBc8DDkWZ
-   VtUtinHEmJgPSGQYTvqTTNQs6exeYlsqQvklKzL9WD+eipuYabt1EGGcy
-   Ppbm0WE1lHbxO99S8pHDTTp+nZdGVsfbupwCaeUgDCrplsO1MlPXahWEZ
-   brnx8o9N9Fk/nJRgoaQmK7l3TyJ04/RHKAPdbQnWQrMcZ9Vrx1k5RSxMK
-   P5L9bdKn6YZeTzLT5eRv/aKX5UPwh08t3WH1Etvxi/XMyvsI3p8PjM58h
-   eo8hf5y5f7eo43u7PttH9GexvFTBLdo0VuwQ9Uoobrwauc286cyCwJtyl
+  bh=+8YdKGr5Fv9UWaGPtsTURl32RwtbX08N+XEK40AZcHw=;
+  b=Hwkb95E0yOgy+mM0Odb0HN3BZKxRQnbiB6MyaWoXhKl68ajrYSDSJu+l
+   DeWuU+8VRwMgGuYwHEhaOB/HhcWPMBiziWSR2xEV1VEvYXViTAoS7m4BA
+   ScRneD4eDTiqHIClUFBV1woLOnYLDPvV9ZMenKvjeJJLfhPFLy2Y/DxUi
+   OAGyer3PY8wApCpaC4tvtx9VmbiEZfNP2PLiUGateGp9sayemJVryQEDQ
+   ff5jtrUswsfEYG+Z0cou45l5+jaZ7pFMzSsfs1QlFprVN6vwcYsRDo3Ma
+   FvmstzIKzKgUkZAGPSChyIco7yXuV4UGr82l6AvqYO+SxWvTe0JkT5zkF
    Q==;
-X-CSE-ConnectionGUID: k59+kl0cTcau8InRBGwfVA==
-X-CSE-MsgGUID: cV3Kc/Y1QBWfIzo2eAExvA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40868321"
+X-CSE-ConnectionGUID: 4rmC4JmAS+u1zjuxyZzkQA==
+X-CSE-MsgGUID: IApGYD4GT/S7rZCFq2Pl6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40868332"
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="40868321"
+   d="scan'208";a="40868332"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 22:45:47 -0700
-X-CSE-ConnectionGUID: 8RRHYjSZR/mmg5cNN9rESg==
-X-CSE-MsgGUID: j9kwpRVPQfu+hTcVUF9OoQ==
+X-CSE-ConnectionGUID: U+IhO4ZdSmukpojzOgMEog==
+X-CSE-MsgGUID: 57T+eSsTSUawMXHuyqKwcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="104136408"
+   d="scan'208";a="104136410"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 24 Oct 2024 22:45:43 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4D8m-000Xdu-1s;
+	id 1t4D8m-000Xds-1o;
 	Fri, 25 Oct 2024 05:45:40 +0000
-Date: Fri, 25 Oct 2024 13:44:57 +0800
+Date: Fri, 25 Oct 2024 13:44:59 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org
 Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
@@ -64,7 +64,7 @@ Cc: oe-kbuild-all@lists.linux.dev, jani.nikula@intel.com,
 	nouveau@lists.freedesktop.org, xen-devel@lists.xenproject.org
 Subject: Re: [PATCH 2/2] drm: remove driver date from struct drm_driver and
  all drivers
-Message-ID: <202410251351.r16zfufe-lkp@intel.com>
+Message-ID: <202410251306.cOs7w98U-lkp@intel.com>
 References: <20241024162240.2398664-2-jani.nikula@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -78,10 +78,10 @@ In-Reply-To: <20241024162240.2398664-2-jani.nikula@intel.com>
 
 Hi Jani,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on next-20241024]
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on next-20241024]
 [cannot apply to drm-exynos/exynos-drm-next shawnguo/for-next drm-xe/drm-xe-next linus/master v6.12-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -91,25 +91,25 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jani-Nikula/drm-remove-dr
 base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
 patch link:    https://lore.kernel.org/r/20241024162240.2398664-2-jani.nikula%40intel.com
 patch subject: [PATCH 2/2] drm: remove driver date from struct drm_driver and all drivers
-config: i386-buildonly-randconfig-004-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251351.r16zfufe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251351.r16zfufe-lkp@intel.com/reproduce)
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251306.cOs7w98U-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251306.cOs7w98U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251351.r16zfufe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251306.cOs7w98U-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/accel/qaic/qaic_drv.c:211:10: error: 'const struct drm_driver' has no member named 'date'
+>> drivers/accel/qaic/qaic_drv.c:211:10: error: 'const struct drm_driver' has no member named 'date'
      211 |         .date                   = "20190618",
          |          ^~~~
->> drivers/accel/qaic/qaic_drv.c:211:35: warning: initialization of 'unsigned int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+>> drivers/accel/qaic/qaic_drv.c:211:35: error: initialization of 'unsigned int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
      211 |         .date                   = "20190618",
          |                                   ^~~~~~~~~~
    drivers/accel/qaic/qaic_drv.c:211:35: note: (near initialization for 'qaic_accel_driver.driver_features')
-   drivers/accel/qaic/qaic_drv.c:211:35: warning: initialized field overwritten [-Woverride-init]
+>> drivers/accel/qaic/qaic_drv.c:211:35: error: initializer element is not computable at load time
    drivers/accel/qaic/qaic_drv.c:211:35: note: (near initialization for 'qaic_accel_driver.driver_features')
 
 
