@@ -1,69 +1,61 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C757F1B2185
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F14199221
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 07:49:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729842258; cv=none; b=eSnk6VyT/cYbt7Sj4GnCULLP3G9Z204wQzHd5w3OhoSwiwN0yOYgpFQJc/yAwmUKzCV6L6huNvNmXnBjscBHsXBB/vD9dMaZWMbmXsVeX6mW8884t8Nkv6UWqb+JhS2EHsbGMcs+28GabTjTIHBSiX25qvXMYEYct5zmuaDgj84=
+	t=1729842592; cv=none; b=LkN7j/Ls/Y0QFfkxHqf3YiZoBg+x8M3oPOlwbXDggcTsmp5HIrx94kVnRL8djlqjOIFrhl5WLrbWEXbCC0GrJ9EJrxiUm0vFDWtaUkQDHrX3WHrTkzhjkCeLm4OcNLhZ3MEC/dX2LIkzs4LflW+jiHRScMz43IJ+aRHtv8fL8Fw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729842258; c=relaxed/simple;
-	bh=dJo0OCZTS17hWD5C48chC43bhuVPP74TT2WmtHdlfvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=m1w+bpfzX/qUxSCNx5m1iWjdYKv0JF5kpK4n90SnzwKH/aTxYJw3EzlKLlKZZbei9nwPnPtYE3EZMo1h9TDQ5UghZQZ4jb6h6xPU4lVM54Mec2qVZ6SKteM5Si8krl5g37hkSsv0Nf3yyV16GwmtnV+iaKjFxeqiZwjyQCm4cBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LjQkGBWB; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1729842592; c=relaxed/simple;
+	bh=952y0NPkhwarQKxJG1f+kljQakJhI+T6e79joVRiUcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CvQxSwv24BBv4Iaf9W2Y67FodQMn3GKfwyhfprR4FQTb9YRaMUAlYtfNrWHTLxH9/4xEKGoJrYpLMMmPIhSjg9D+z76rg1JdVGJp6yeRacfiXwRRRueugzuQjOzbSWoK+FwbBoYnKUlLdFSkUlaQn5GMShAOV0r0auVTQSjhHT0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlE9BJ6g; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LjQkGBWB"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-431616c23b5so12230065e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 00:44:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729842254; x=1730447054; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Shoxcp3h480bf/MaRlp7RFfSIiO1DRQ9b/G/3O5b+1c=;
-        b=LjQkGBWBsAY/leXy//qu5ltehnGPG4DQtbKaDX8pbAYekeR0XGN3IGndQAlKPK3Uek
-         2Qs11yx7geTa+4fZTOlh/lBO3kupO89ctjpHLziCnC82Q0UZ1kfOgYxXmIheg9QWNFOg
-         vPrZiZyN0NFdtQMVAZEYCCTQ4E5el5+I34RnUaT0p6F+C5SzHn5vlAoz/kZNXaHSf28r
-         41ELNRVfPnuczyRIaFHAT3GkeaeRnckzjRcMby+TRrSLQVvFvUcxi+qVVPsSWxSzRShe
-         Sy+uWKzVzoGej5Jb8lFIhFCh/s6sYS8q5EL6tF4HkHhnQqQ3MZ3Vk3hdB/kRuHlXDozK
-         jH5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729842254; x=1730447054;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Shoxcp3h480bf/MaRlp7RFfSIiO1DRQ9b/G/3O5b+1c=;
-        b=G8c6JGaK3rT3OCKTHHdJFvzYEeW79MWHH96xYlsBPr1SVrSIDksuRPWg0XvBqlVH+s
-         bup39gGt4iYWexePwakPdigE8TFb4ZW1koBbVeMsaJMFPiyKb6oWIqTegR43uMBMIPDY
-         jxxEnhSi6rnfG+ZdR6fN8yQyUKNHkf2p8kYJM9k31RV5YM1Qf+s5KmAEXg6Fvhn5OXmY
-         SWPpjBMZBVnWNp35PtygQZKd3bE6sbb3K20vIg/4WbIgXNsUNZox8zUGU3Y4rmZSK8vo
-         ESJrRu+BHTguBFk49oI4m3T2c5oX0xTZhBAMNyswIfZu179PhoJgbszHke4dyee8GgUt
-         b3SA==
-X-Forwarded-Encrypted: i=1; AJvYcCVfVQWJPrFIj2b5e/C6sxzmaJJErUl7+tpsnEzE2n9ouNP88goyia6zVItGnzd55m8kymFa00EMDKHZa2pf@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxg5TJ0NzdmrJyxNX1McQHOQSaEDtLckN92QI5C7OA7w5zG1BLi
-	mez9v/MzXVE/lNEOGlDFRl+NV7zzcSj9LUrv8wBagHdYW/t2pscIqARifA0i/S4=
-X-Google-Smtp-Source: AGHT+IHqGpEQ/vKDPecI19Mf9I/hj7pHAGWAj1QEt5pPdkx4Mu+LCIjrnm1o5CIW71lKN73l8P+HoA==
-X-Received: by 2002:a05:600c:4689:b0:42c:b826:a26c with SMTP id 5b1f17b1804b1-4318b5a561cmr32758465e9.8.1729842254093;
-        Fri, 25 Oct 2024 00:44:14 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4319360d318sm9865635e9.47.2024.10.25.00.44.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 00:44:13 -0700 (PDT)
-Date: Fri, 25 Oct 2024 10:44:09 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Remi Pommarel <repk@triplefau.lt>,
-	ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Kalle Valo <kvalo@kernel.org>, Jeff Johnson <jjohnson@kernel.org>,
-	Cedric Veilleux <veilleux.cedric@gmail.com>,
-	Vasanthakumar Thiagarajan <quic_vthiagar@quicinc.com>,
-	Remi Pommarel <repk@triplefau.lt>
-Subject: Re: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in
- ath10k_flush()
-Message-ID: <60d579e2-5eb7-4239-9a23-95fa4b32f351@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlE9BJ6g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729842590; x=1761378590;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=952y0NPkhwarQKxJG1f+kljQakJhI+T6e79joVRiUcg=;
+  b=dlE9BJ6gs0n1UBEtIr2AFy+VYd12dRolotRoOGvadNXWg4oFT0mqxMDV
+   O3m64Czms3d+YJhQrzW4H8QAsIXYHFjDcN3D56B9OIvVvzjFFUJBdk5fZ
+   Z5s/qEYl9Z9cT1ngWqMraTqLQ5towQFKfGuzyQBqPbxVHaxyIsB3ABYpg
+   tetbBNg75GQXceMJSKPQZQ7PUBwCZMdtsIkvDIFQK/OOqy7OWunvHtjbP
+   mf9Nsj/gitET/KBcu+7zuPplNBNcJ93oZjmLRMubh0NBziBsyfGc6wiV2
+   FBVoIEZdjsOqfC46dC4HDKh06cKvdt2kGvBmUBQafcsU/rdywjsZMTkU7
+   A==;
+X-CSE-ConnectionGUID: nDGpy7IUS5mg9jexObvEbw==
+X-CSE-MsgGUID: H0t+W2dxQM609bfBQnaTag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="40090470"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="40090470"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 00:49:50 -0700
+X-CSE-ConnectionGUID: 5CsphyJ0QgaztpFi6nXfbw==
+X-CSE-MsgGUID: YazC/HHFR3Cepcl9LasKHQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="80848388"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 25 Oct 2024 00:49:48 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4F4r-000XnR-2f;
+	Fri, 25 Oct 2024 07:49:45 +0000
+Date: Fri, 25 Oct 2024 15:49:16 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tony Chung <tony467913@gmail.com>, johan@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Tony Chung <tony467913@gmail.com>
+Subject: Re: [PATCH] usb: serial: mos7840: Fix coding style warnings
+Message-ID: <202410251501.9hTgSYCH-lkp@intel.com>
+References: <20241023091414.18098-1-tony467913@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,75 +64,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk@triplefau.lt>
+In-Reply-To: <20241023091414.18098-1-tony467913@gmail.com>
 
-Hi Remi,
+Hi Tony,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on johan-usb-serial/usb-next]
+[also build test ERROR on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v6.12-rc4 next-20241024]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Pommarel/wifi-ath10k-Implement-ieee80211-flush_sta-callback/20241022-172038
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
-patch link:    https://lore.kernel.org/r/0f55986ebe34f2b5aa4ccbcb0bed445324099fbd.1729586267.git.repk%40triplefau.lt
-patch subject: [PATCH v2 2/2] wifi: ath10k: Flush only requested txq in ath10k_flush()
-config: parisc-randconfig-r071-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251152.A5axJliR-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Tony-Chung/usb-serial-mos7840-Fix-coding-style-warnings/20241023-171615
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
+patch link:    https://lore.kernel.org/r/20241023091414.18098-1-tony467913%40gmail.com
+patch subject: [PATCH] usb: serial: mos7840: Fix coding style warnings
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251501.9hTgSYCH-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251501.9hTgSYCH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410251152.A5axJliR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251501.9hTgSYCH-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/wireless/ath/ath10k/mac.c:8076 _ath10k_mac_wait_tx_complete() error: uninitialized symbol 'empty'.
+All error/warnings (new ones prefixed by >>):
 
-vim +/empty +8076 drivers/net/wireless/ath/ath10k/mac.c
+   drivers/usb/serial/mos7840.c: In function 'mos7840_write':
+>> drivers/usb/serial/mos7840.c:923:39: warning: missing terminating " character
+     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
+         |                                       ^
+   drivers/usb/serial/mos7840.c:924:43: warning: missing terminating " character
+     924 |                         with status = %d\n", __func__, status);
+         |                                           ^
+>> drivers/usb/serial/mos7840.c:1832:23: error: unterminated argument list invoking macro "dev_err_console"
+    1832 | MODULE_LICENSE("GPL");
+         |                       ^
+>> drivers/usb/serial/mos7840.c:923:17: error: 'dev_err_console' undeclared (first use in this function); did you mean 'dev_err_probe'?
+     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
+         |                 ^~~~~~~~~~~~~~~
+         |                 dev_err_probe
+   drivers/usb/serial/mos7840.c:923:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/usb/serial/mos7840.c:923:32: error: expected ';' at end of input
+     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
+         |                                ^
+         |                                ;
+   ......
+>> drivers/usb/serial/mos7840.c:923:17: error: expected declaration or statement at end of input
+     923 |                 dev_err_console(port, "%s - usb_submit_urb(write bulk) failed
+         |                 ^~~~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:923:17: error: expected declaration or statement at end of input
+>> drivers/usb/serial/mos7840.c:887:25: error: label 'exit' used but not defined
+     887 |                         goto exit;
+         |                         ^~~~
+>> drivers/usb/serial/mos7840.c:856:13: warning: variable 'bytes_sent' set but not used [-Wunused-but-set-variable]
+     856 |         int bytes_sent = 0;
+         |             ^~~~~~~~~~
+   drivers/usb/serial/mos7840.c: At top level:
+>> drivers/usb/serial/mos7840.c:849:12: warning: 'mos7840_write' defined but not used [-Wunused-function]
+     849 | static int mos7840_write(struct tty_struct *tty, struct usb_serial_port *port,
+         |            ^~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:820:21: warning: 'mos7840_write_room' defined but not used [-Wunused-function]
+     820 | static unsigned int mos7840_write_room(struct tty_struct *tty)
+         |                     ^~~~~~~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:795:12: warning: 'mos7840_break' defined but not used [-Wunused-function]
+     795 | static int mos7840_break(struct tty_struct *tty, int break_state)
+         |            ^~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:764:13: warning: 'mos7840_close' defined but not used [-Wunused-function]
+     764 | static void mos7840_close(struct usb_serial_port *port)
+         |             ^~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:737:21: warning: 'mos7840_chars_in_buffer' defined but not used [-Wunused-function]
+     737 | static unsigned int mos7840_chars_in_buffer(struct tty_struct *tty)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:516:12: warning: 'mos7840_open' defined but not used [-Wunused-function]
+     516 | static int mos7840_open(struct tty_struct *tty, struct usb_serial_port *port)
+         |            ^~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:410:13: warning: 'mos7840_led_flag_off' defined but not used [-Wunused-function]
+     410 | static void mos7840_led_flag_off(struct timer_list *t)
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:400:13: warning: 'mos7840_led_off' defined but not used [-Wunused-function]
+     400 | static void mos7840_led_off(struct timer_list *t)
+         |             ^~~~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:391:13: warning: 'mos7840_set_led_sync' defined but not used [-Wunused-function]
+     391 | static void mos7840_set_led_sync(struct usb_serial_port *port, __u16 reg,
+         |             ^~~~~~~~~~~~~~~~~~~~
+>> drivers/usb/serial/mos7840.c:337:13: warning: 'mos7840_dump_serial_port' defined but not used [-Wunused-function]
+     337 | static void mos7840_dump_serial_port(struct usb_serial_port *port,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
 
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8062  static void _ath10k_mac_wait_tx_complete(struct ath10k *ar,
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8063  					 unsigned long queues)
-5e3dd157d7e70f Kalle Valo        2013-06-12  8064  {
-affd321733eebc Michal Kazior     2013-07-16  8065  	bool skip;
-d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8066  	long time_left;
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8067  	unsigned int q;
-5e3dd157d7e70f Kalle Valo        2013-06-12  8068  
-5e3dd157d7e70f Kalle Valo        2013-06-12  8069  	/* mac80211 doesn't care if we really xmit queued frames or not
-d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8070  	 * we'll collect those frames either way if we stop/delete vdevs
-d6dfe25c8bb200 Marcin Rokicki    2017-02-20  8071  	 */
-548db54cc1890b Michal Kazior     2013-07-05  8072  
-affd321733eebc Michal Kazior     2013-07-16  8073  	if (ar->state == ATH10K_STATE_WEDGED)
-828853ac58265c Wen Gong          2018-08-28  8074  		return;
-affd321733eebc Michal Kazior     2013-07-16  8075  
-d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15 @8076  	time_left = wait_event_timeout(ar->htt.empty_tx_wq, ({
-5e3dd157d7e70f Kalle Valo        2013-06-12  8077  			bool empty;
-affd321733eebc Michal Kazior     2013-07-16  8078  
-edb8236df4d042 Michal Kazior     2013-07-05  8079  			spin_lock_bh(&ar->htt.tx_lock);
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8080  			for_each_set_bit(q, &queues, ar->hw->queues) {
 
-Smatch is concerned that there might not be any set bits.  (You know that the
-compiler is automatically going to ininitialize empty to false so it costs
-nothing to initialize it to false explicitly and silence this warning).
+vim +/dev_err_console +1832 drivers/usb/serial/mos7840.c
 
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8081  				empty = (ar->htt.num_pending_per_queue[q] == 0);
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8082  				if (!empty)
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8083  					break;
-c4f7022f0ef0aa Remi Pommarel     2024-10-22  8084  			}
-edb8236df4d042 Michal Kazior     2013-07-05  8085  			spin_unlock_bh(&ar->htt.tx_lock);
-affd321733eebc Michal Kazior     2013-07-16  8086  
-7962b0d898accd Michal Kazior     2014-10-28  8087  			skip = (ar->state == ATH10K_STATE_WEDGED) ||
-7962b0d898accd Michal Kazior     2014-10-28  8088  			       test_bit(ATH10K_FLAG_CRASH_FLUSH,
-7962b0d898accd Michal Kazior     2014-10-28  8089  					&ar->dev_flags);
-affd321733eebc Michal Kazior     2013-07-16  8090  
-affd321733eebc Michal Kazior     2013-07-16  8091  			(empty || skip);
-5e3dd157d7e70f Kalle Valo        2013-06-12  8092  		}), ATH10K_FLUSH_TIMEOUT_HZ);
-affd321733eebc Michal Kazior     2013-07-16  8093  
-d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8094  	if (time_left == 0 || skip)
-d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8095  		ath10k_warn(ar, "failed to flush transmit queue (skip %i ar-state %i): %ld\n",
-d4298a3a8c92a1 Nicholas Mc Guire 2015-06-15  8096  			    skip, ar->state, time_left);
-828853ac58265c Wen Gong          2018-08-28  8097  }
+3f5429746d91f2 Paul B Schroeder 2006-08-31  1830  
+3f5429746d91f2 Paul B Schroeder 2006-08-31  1831  MODULE_DESCRIPTION(DRIVER_DESC);
+3f5429746d91f2 Paul B Schroeder 2006-08-31 @1832  MODULE_LICENSE("GPL");
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
