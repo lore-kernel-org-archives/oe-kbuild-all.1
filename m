@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A9717C210
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 03:31:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E771581F3;
+	Fri, 25 Oct 2024 03:31:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729827103; cv=none; b=FuWctLgrGRAuY5gsG95ZKbkn2XGh4Vi5w9wpNsEB8AkfqFAxsHCeOCTqrXYyUALaXPTWUFWJNNVB/5ZfgpoBjXHHLqhji4AdK9d7feq24iSmP8uHAiLXJdH2amzXm9THiASsIV/nq7frBlStGnjWUxQBRH4P1JQI50ynUZNobAQ=
+	t=1729827104; cv=none; b=W6KSoSeqhL9eVo6DiRYhH3TTjYmYX1ozGz5IG05ba/xRMdUMZRbCq3vj/Oo555TTW0RJlChKVU3/WtpxKzBBNop86pBM1THOHhexd4wRFTCl7Uzl3aB83dxTD23CJfNjCVIOH+4jXUB5s+UWXgR0UbkfFK/6mIVviqNMI6mYDvs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729827103; c=relaxed/simple;
-	bh=U9fJwHFEPcJh6eUI44285Pa02YwhfTnoS+eLZx3hFBI=;
+	s=arc-20240116; t=1729827104; c=relaxed/simple;
+	bh=oyTUIedWaEwyYVgXdA6iVa/ob/1ziEas+tOA7cQjkZM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AkTDf8wJgN4XfdDx/LM331wNvuoKvLYMzA1ZBY7+XIcFc+EPsyull78iKzciI4tkK5bnF+Z5VTulUXBkQOC8b/uzaVAHeBGmpcaRvho0Q/+m8Z3TCEJzjVcff1nGyfkNw9C9RXzNuIo8j4rKdXAvYxAG0HjNTGCGZ73rDSybrZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MFR9vYUU; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=o2IHA4asvHAzv3puSe31k4/8buzm/yW4VhIlf1PzICwD8JJGEW5KLrymqhY0LksKBNNSDptDi2yFFmHBKSTYzf5AK8m227z3tK72WkjmOZ6Cv72/vuKoBt+TA//41YI6PyVfIadvYwH9l7Ev7PjYiksQe+L7pcCXBSmHNUqS5tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEdxSGLj; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFR9vYUU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEdxSGLj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729827101; x=1761363101;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U9fJwHFEPcJh6eUI44285Pa02YwhfTnoS+eLZx3hFBI=;
-  b=MFR9vYUU+CyluzNivmNTmd5DNdbhm7oz2fIcCuOs05tYI6PudM6gdC8J
-   pM5KSwJ6ySe0V/HTxUlV4eAXMTMV13kWeIxW34UpRs6066xSj19gzsU75
-   4oc5BUqanqeHNwitVITT5xoKSHdvNgF6gXdwgDzbUIHK2+Wl8YDcIfFPP
-   ueR3CvqHjJ57nrvRO+rFtMkv7oRpFId+EfxbFBIZn0vzo8z2dXtEvGJgR
-   3zC6tvHVJpBWIFRlMD1NTse3efR7TcOvUg7KWaF0EcDNxFETl/IJAZKoe
-   TPTj/6icz308NAqk/UYDZV5cHBZ6p0oCOH5uqlqHzYsjrQu2DMJEctP9f
-   A==;
-X-CSE-ConnectionGUID: p4xtUNY1SX+8k1CUGRevSQ==
-X-CSE-MsgGUID: l3bayr7sTaeNyYhPVjrs0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="17116469"
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="17116469"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 20:31:40 -0700
-X-CSE-ConnectionGUID: 1i6qQiTaTQSmcJRFzun4kg==
-X-CSE-MsgGUID: 6JHxb3y8Q0m5CPq+JgWmYw==
+  bh=oyTUIedWaEwyYVgXdA6iVa/ob/1ziEas+tOA7cQjkZM=;
+  b=FEdxSGLjRtT44Vy9Iuwpuxig+pFnpc3ETc+ch0fneGfEU4HGWJE405wB
+   JQLZdYLGLkKB+OOJcjj+2I6gO3giPILX13wMkfdezuWRFVh/9Gs0T3i58
+   l+a26/CUmOYZOERAhPmTRlO7N+HispKV4+kRtMWqGcQkvgmyw3sdin0X4
+   lecFQg5OPJJsteNi+mC6XjEVqPXK+sSPswWQ63NE9ztl74H/u2BolkM+1
+   AlZGZGsPgpCM0HVrinNDhZEX7FmyN+8RBVjj1B+Ykxd0JYnTQaV9ieUbB
+   07M5/Fg1/RBpoAjj+S7bR8hRUDFobWPpSf9hZFTwX9rsv8eC7kMYJsmqm
+   w==;
+X-CSE-ConnectionGUID: GbQLli8WSDuG/gRZeiyxkg==
+X-CSE-MsgGUID: Prk2fp5ETB+VwYsQHpx8HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40031836"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40031836"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 20:31:40 -0700
+X-CSE-ConnectionGUID: u359s/FBQSqNWITenwkZGQ==
+X-CSE-MsgGUID: ZJKNyryJRNCDRcPGtbEumQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="80452206"
+   d="scan'208";a="118257855"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2024 20:31:39 -0700
+  by orviesa001.jf.intel.com with ESMTP; 24 Oct 2024 20:31:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4B33-000XXK-0U;
-	Fri, 25 Oct 2024 03:31:37 +0000
-Date: Fri, 25 Oct 2024 11:30:42 +0800
+	id 1t4B31-000XX6-2t;
+	Fri, 25 Oct 2024 03:31:35 +0000
+Date: Fri, 25 Oct 2024 11:30:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 1/4]
- drivers/iommu/iommu-pages.h:32:40: error: use of undeclared identifier
- 'NR_IOMMU_PAGES'
-Message-ID: <202410251130.RhhDJt1B-lkp@intel.com>
+To: Johannes Berg <johannes.berg@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	David Gow <davidgow@google.com>
+Subject: [uml:next 28/45] InstrProfilingUtil.c:(.text.lprofAtExit+0x1):
+ undefined reference to `atexit'
+Message-ID: <202410251145.87HDtgK5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,151 +63,154 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   ee2881f331b2577bd0d275e7f713ad71147a2f77
-commit: 4cf63363a7649b5def11b6d6e40c08650981ae53 [1/4] Merge tag 'v6.10-rc1' into android-mainline
-config: arm64-randconfig-003-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251130.RhhDJt1B-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+head:   d61ac4a7496a7981947b8b894d40b0e35c316fa5
+commit: 14d4a7b516e993cf3926758a7ede569d8e119855 [28/45] um: make stub_exe _start() pure inline asm
+config: um-randconfig-001-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251145.87HDtgK5-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251130.RhhDJt1B-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251145.87HDtgK5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251130.RhhDJt1B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251145.87HDtgK5-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/iommu/io-pgtable-arm.c:14:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/iommu/io-pgtable-arm.c:24:
->> drivers/iommu/iommu-pages.h:32:40: error: use of undeclared identifier 'NR_IOMMU_PAGES'
-      32 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-         |                                               ^
-   drivers/iommu/iommu-pages.h:45:40: error: use of undeclared identifier 'NR_IOMMU_PAGES'
-      45 |         mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, -pgcnt);
-         |                                               ^
-   1 warning and 2 errors generated.
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x109): undefined reference to `fclose'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x110): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x11b): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x122): undefined reference to `strerror'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x139): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x16b): undefined reference to `strtol'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x17d): undefined reference to `calloc'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x198): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x1b0): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x1c7): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x1df): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x1f2): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_orderfile_write_file+0x20a): undefined reference to `fprintf'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingFile.c.o): in function `__llvm_profile_set_file_object':
+   InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x60): undefined reference to `free'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x73): undefined reference to `getenv'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0xb0): undefined reference to `fflush'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0xe1): undefined reference to `fileno'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0xf1): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0xfb): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x12e): undefined reference to `munmap'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x14b): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x163): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x186): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x18d): undefined reference to `strerror'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x198): undefined reference to `fileno'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x1ab): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x1b5): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x1cb): undefined reference to `strtol'
+   /usr/bin/ld: InstrProfilingFile.c:(.text.__llvm_profile_set_file_object+0x1dd): undefined reference to `calloc'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingMerge.c.o): in function `__llvm_profile_merge_from_buffer':
+   InstrProfilingMerge.c:(.text.__llvm_profile_merge_from_buffer+0x2f9): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingMerge.c:(.text.__llvm_profile_merge_from_buffer+0x311): undefined reference to `fprintf'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingWriter.c.o): in function `lprofBufferWriter':
+   InstrProfilingWriter.c:(.text.lprofBufferWriter+0x49): undefined reference to `memcpy'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingWriter.c.o): in function `lprofBufferIOWrite':
+   InstrProfilingWriter.c:(.text.lprofBufferIOWrite+0x9c): undefined reference to `memcpy'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingWriter.c.o): in function `writeOneValueProfData.constprop.0':
+   InstrProfilingWriter.c:(.text.writeOneValueProfData.constprop.0+0x4c): undefined reference to `memset'
+   /usr/bin/ld: InstrProfilingWriter.c:(.text.writeOneValueProfData.constprop.0+0x88): undefined reference to `memset'
+   /usr/bin/ld: InstrProfilingWriter.c:(.text.writeOneValueProfData.constprop.0+0x157): undefined reference to `memset'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingPlatformLinux.c.o): in function `__llvm_write_binary_ids':
+   InstrProfilingPlatformLinux.c:(.text.__llvm_write_binary_ids+0x5): undefined reference to `__ehdr_start'
+   /usr/bin/ld: InstrProfilingPlatformLinux.c:(.text.__llvm_write_binary_ids+0x18): undefined reference to `__ehdr_start'
+   /usr/bin/ld: InstrProfilingPlatformLinux.c:(.text.__llvm_write_binary_ids+0x1f): undefined reference to `__ehdr_start'
+   /usr/bin/ld: InstrProfilingPlatformLinux.c:(.text.__llvm_write_binary_ids+0x11e): undefined reference to `__ehdr_start'
+   /usr/bin/ld: InstrProfilingPlatformLinux.c:(.text.__llvm_write_binary_ids+0x1cb): undefined reference to `__ehdr_start'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `__llvm_profile_recursive_mkdir':
+   InstrProfilingUtil.c:(.text.__llvm_profile_recursive_mkdir+0x41): undefined reference to `mkdir'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofGetHostName':
+   InstrProfilingUtil.c:(.text.lprofGetHostName+0x12): undefined reference to `uname'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofGetHostName+0x34): undefined reference to `strncpy'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofLockFd':
+   InstrProfilingUtil.c:(.text.lprofLockFd+0x1c): undefined reference to `getpid'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofLockFd+0x31): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofLockFd+0x49): undefined reference to `fcntl'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofUnlockFd':
+   InstrProfilingUtil.c:(.text.lprofUnlockFd+0x1c): undefined reference to `getpid'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofUnlockFd+0x31): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofUnlockFd+0x49): undefined reference to `fcntl'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofLockFileHandle':
+   InstrProfilingUtil.c:(.text.lprofLockFileHandle+0x7): undefined reference to `fileno'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofLockFileHandle+0x21): undefined reference to `getpid'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofLockFileHandle+0x39): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofLockFileHandle+0x51): undefined reference to `fcntl'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofUnlockFileHandle':
+   InstrProfilingUtil.c:(.text.lprofUnlockFileHandle+0x7): undefined reference to `fileno'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofUnlockFileHandle+0x21): undefined reference to `getpid'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofUnlockFileHandle+0x39): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofUnlockFileHandle+0x51): undefined reference to `fcntl'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofOpenFileEx':
+   InstrProfilingUtil.c:(.text.lprofOpenFileEx+0x13): undefined reference to `open'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofOpenFileEx+0x35): undefined reference to `getpid'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofOpenFileEx+0x51): undefined reference to `__errno_location'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofOpenFileEx+0x69): undefined reference to `fcntl'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofOpenFileEx+0x98): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofOpenFileEx+0xb0): undefined reference to `fprintf'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofOpenFileEx+0x82): undefined reference to `fdopen'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofGetPathPrefix':
+   InstrProfilingUtil.c:(.text.lprofGetPathPrefix+0x12): undefined reference to `getenv'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofGetPathPrefix+0x21): undefined reference to `getenv'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofGetPathPrefix+0x4f): undefined reference to `strtol'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofGetPathPrefix+0x62): undefined reference to `strlen'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofApplyPathPrefix':
+   InstrProfilingUtil.c:(.text.lprofApplyPathPrefix+0x4f): undefined reference to `memcpy'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofApplyPathPrefix+0x68): undefined reference to `strlen'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofApplyPathPrefix+0x82): undefined reference to `memcpy'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofFindFirstDirSeparator':
+   InstrProfilingUtil.c:(.text.lprofFindFirstDirSeparator+0x6): undefined reference to `strchr'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofFindLastDirSeparator':
+   InstrProfilingUtil.c:(.text.lprofFindLastDirSeparator+0x6): undefined reference to `strrchr'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofSuspendSigKill':
+   InstrProfilingUtil.c:(.text.lprofSuspendSigKill+0x19): undefined reference to `prctl'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofSuspendSigKill+0x4a): undefined reference to `prctl'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofRestoreSigKill':
+   InstrProfilingUtil.c:(.text.lprofRestoreSigKill+0xd): undefined reference to `prctl'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofReleaseMemoryPagesToOS':
+   InstrProfilingUtil.c:(.text.lprofReleaseMemoryPagesToOS+0xd): undefined reference to `getpagesize'
+   /usr/bin/ld: InstrProfilingUtil.c:(.text.lprofReleaseMemoryPagesToOS+0x4a): undefined reference to `madvise'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingUtil.c.o): in function `lprofAtExit':
+>> InstrProfilingUtil.c:(.text.lprofAtExit+0x1): undefined reference to `atexit'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfiling.c.o): in function `__llvm_profile_reset_counters':
+   InstrProfiling.c:(.text.__llvm_profile_reset_counters+0x3d): undefined reference to `memset'
+>> /usr/bin/ld: InstrProfiling.c:(.text.__llvm_profile_reset_counters+0x5a): undefined reference to `memset'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `InstProfPopcountll':
+   InstrProfilingValue.c:(.text.InstProfPopcountll+0x5): undefined reference to `__popcountdi2'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `InstrProfGetRangeRepValue':
+   InstrProfilingValue.c:(.text.InstrProfGetRangeRepValue+0x14): undefined reference to `__popcountdi2'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `InstrProfIsSingleValRange':
+   InstrProfilingValue.c:(.text.InstrProfIsSingleValRange+0xb): undefined reference to `__popcountdi2'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `lprofSetupValueProfiler':
+   InstrProfilingValue.c:(.text.lprofSetupValueProfiler+0xc): undefined reference to `getenv'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.lprofSetupValueProfiler+0x4b): undefined reference to `strtol'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `__llvm_profile_instrument_target':
+   InstrProfilingValue.c:(.text.__llvm_profile_instrument_target+0x17e): undefined reference to `calloc'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target+0x1bc): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target+0x1ee): undefined reference to `calloc'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target+0x13c): undefined reference to `free'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target+0x1d8): undefined reference to `fprintf'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `__llvm_profile_instrument_target_value':
+   InstrProfilingValue.c:(.text.__llvm_profile_instrument_target_value+0x178): undefined reference to `calloc'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target_value+0x1fb): undefined reference to `stderr'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target_value+0x22c): undefined reference to `calloc'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target_value+0x13d): undefined reference to `free'
+   /usr/bin/ld: InstrProfilingValue.c:(.text.__llvm_profile_instrument_target_value+0x21d): undefined reference to `fprintf'
+   /usr/bin/ld: /opt/cross/clang-5886454669/lib/clang/20/lib/x86_64-unknown-linux-gnu/libclang_rt.profile.a(InstrProfilingValue.c.o): in function `__llvm_profile_instrument_memop':
+   InstrProfilingValue.c:(.text.__llvm_profile_instrument_memop+0x1d): undefined reference to `__popcountdi2'
+   clang: error: linker command failed with exit code 1 (use -v to see invocation)
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for USB_PHY
-   Depends on [n]: USB_SUPPORT [=n]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
    Selected by [y]:
-   - GKI_HIDDEN_USB_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for NET_DEVLINK
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PAGE_POOL
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
-   Depends on [n]: NET [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_NET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for PHYLINK
-   Depends on [n]: NETDEVICES [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
-   Depends on [n]: X86 && PCI [=y]
-   Selected by [m]:
-   - INTEL_MEI_PXP [=m] && (DRM_I915 [=n] || DRM_XE [=m])
-   WARNING: unmet direct dependencies detected for VIDEO_V4L2_SUBDEV_API
-   Depends on [n]: MEDIA_SUPPORT [=y] && VIDEO_DEV [=n] && MEDIA_CONTROLLER [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_MEDIA_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for IOMMU_IO_PGTABLE_LPAE
-   Depends on [n]: IOMMU_SUPPORT [=n] && (ARM || ARM64 [=y] || COMPILE_TEST [=y]) && !GENERIC_ATOMIC64 [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_QCOM_CONFIGS [=y] && ARCH_QCOM [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-
-
-vim +/NR_IOMMU_PAGES +32 drivers/iommu/iommu-pages.h
-
-06c375053cefc3a Pasha Tatashin 2024-04-13  13  
-06c375053cefc3a Pasha Tatashin 2024-04-13  14  /*
-06c375053cefc3a Pasha Tatashin 2024-04-13  15   * All page allocations that should be reported to as "iommu-pagetables" to
-06c375053cefc3a Pasha Tatashin 2024-04-13  16   * userspace must use one of the functions below.  This includes allocations of
-06c375053cefc3a Pasha Tatashin 2024-04-13  17   * page-tables and other per-iommu_domain configuration structures.
-06c375053cefc3a Pasha Tatashin 2024-04-13  18   *
-06c375053cefc3a Pasha Tatashin 2024-04-13  19   * This is necessary for the proper accounting as IOMMU state can be rather
-06c375053cefc3a Pasha Tatashin 2024-04-13  20   * large, i.e. multiple gigabytes in size.
-06c375053cefc3a Pasha Tatashin 2024-04-13  21   */
-06c375053cefc3a Pasha Tatashin 2024-04-13  22  
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  23  /**
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  24   * __iommu_alloc_account - account for newly allocated page.
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  25   * @page: head struct page of the page.
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  26   * @order: order of the page
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  27   */
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  28  static inline void __iommu_alloc_account(struct page *page, int order)
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  29  {
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  30  	const long pgcnt = 1l << order;
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  31  
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13 @32  	mod_node_page_state(page_pgdat(page), NR_IOMMU_PAGES, pgcnt);
-212c5c078d83d78 Pasha Tatashin 2024-04-13  33  	mod_lruvec_page_state(page, NR_SECONDARY_PAGETABLE, pgcnt);
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  34  }
-bd3520a93a84cd8 Pasha Tatashin 2024-04-13  35  
-
-:::::: The code at line 32 was first introduced by commit
-:::::: bd3520a93a84cd8c3897283e5891a9106fcf5acc iommu: observability of the IOMMU allocations
-
-:::::: TO: Pasha Tatashin <pasha.tatashin@soleen.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
