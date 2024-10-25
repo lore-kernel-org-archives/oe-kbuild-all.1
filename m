@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFD91D27A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 09:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675351D26E7;
+	Fri, 25 Oct 2024 09:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729848361; cv=none; b=OIH7IP5ACDbtfksHrotYWwOFzzb1rlL59Dr/tYaZ+wUSLGCiLM6MdUF5sBdehT75Ch8FRhyWiBMB51N2Rq0XvZOlbd5O9moECSxcVilsWS8gngA8kVj+JdBiwJRW3cb516KIa34cTNm3Un3g0mGZ0U1LiUjO976bTadCQrh9JVI=
+	t=1729848957; cv=none; b=QNSkeuPmqJoLyqSgQ3FBXsf+A3dSS66YaNxr6bUYnBP1qIHBiKhNfRJFpJe3y60ldC4bbw4iCUsz1HG08pv1ZrvtPxSiEobqKMw73iwe2FTv8Itdv5XZC6zvO94slHjkldG5BbP7rmiUxPsCHWXc5OUQl1t53UqLNAhLNfUb0cA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729848361; c=relaxed/simple;
-	bh=BhMfZ/Qr3xfxsyNGBewyG61lKCjGfrP4CAs7Bh9O61A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QAY5X7mHE08SGphI5nQjSoZn4UWGLqAhk2oiCF33ebVObBa+yrXKMynr90ZrqtvrAtqN+0dZm3RbV/p8h+kyzT0C5+BFsb4AbfX5xAe/yhUq0CUMo2LGvORSlJL5xZSUCdveUvK7Gt0hmT2Qlbgc3t0k632xFuTCXHqrhh5OZsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTDBUfUt; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1729848957; c=relaxed/simple;
+	bh=Fmtq0gMkr811oR5AsOr2s9yUnbj3lGT3m5+PjVRdoxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RXdLShkZn4NZ7TzNCBL7LP3AkJMeqOkqCH+lmdOfjit7JNBMSdxN3n+jGKdHErp7UaUAvHayW+r+/KnwX9ilQc7sYGVG0pEshRV/Sqaw+rFGdBN0sHr2N8WQiSJEz38Uw0WiMaVzRvEDGx5jLv7Ufid+80vxMA4dMMKPgzdfw5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S8KF1Rzn; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTDBUfUt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S8KF1Rzn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729848359; x=1761384359;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BhMfZ/Qr3xfxsyNGBewyG61lKCjGfrP4CAs7Bh9O61A=;
-  b=UTDBUfUtWaAPHa12Pk4NndilIzX4V2ZFWzSjbVJ0Y4Xu1KR8AWR8Lnxx
-   PDcUX7qgBjXdQIM1BXOA1PJoXOENXRqrmeZb8t3WuiMnCgW2JhAujHRnm
-   4If2ZeW6/ruZYzkmk3ZTE+nEWD9yZMJWkBgt5Hh0y47Zgfj3g3RhNiPWh
-   7Kn7FAQ2456Pq0UwJ4SIeJxv36io04oGKyxcJ3/ZbOz2oVtgdR3Jfvqkj
-   qm6bwbkXj3i2rj3bxKABKs+HSLKSgZbfqoKEhAMgzdLvM259RgxcnG+J2
-   Sh0gpuHXgI7E+iYZDVTI26aOoB+2JjyJO1Vx1TvKv7kdiFg41MBb4FCQT
-   Q==;
-X-CSE-ConnectionGUID: yBtyPxYLQmCv21QsV8alug==
-X-CSE-MsgGUID: 7mfR1lDZQWeDDhXujTsTRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="46976032"
+  t=1729848956; x=1761384956;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Fmtq0gMkr811oR5AsOr2s9yUnbj3lGT3m5+PjVRdoxg=;
+  b=S8KF1RznC+IGS6oLtLfAL5DPJ33hu+7mjY8rCujja4F/E7OVYzHcGYO+
+   ejgZK5YZyJK684eXeOw/7vg80GzG0UfFplm4toYtMDNeiGZHudpPmE8D+
+   sKlTxqBKP0mtBCm6oeiOua9E0f9iFjtQzoiVKyn+1Kkek5I4vOz1ZvvsD
+   /QMuA6KS5rSJ3BxpqwjQDa/WBPR0hzHkAmuQ6TxGxgeYmswPG99ORY/q8
+   hA2LW7QTY1H5wlkFjlRnBZIs+WzGbI7bg6QsJlHQtlDBb1W/NpcqI/R7C
+   wzD7fTF4iRgYqrVugH2iZAd2gsrEDTn4Iipdm2/h7AtS5GedlJCHRvApp
+   w==;
+X-CSE-ConnectionGUID: akGeVYiHR8GkDuqeuDdDzw==
+X-CSE-MsgGUID: 6c4dcEydRbeq9jd/5eEkqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33204939"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="46976032"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:25:59 -0700
-X-CSE-ConnectionGUID: pangIxHsQ+ShqJtRmCy2FA==
-X-CSE-MsgGUID: CfxRfQ4PRX+iuMy4db0xHQ==
+   d="scan'208";a="33204939"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:35:55 -0700
+X-CSE-ConnectionGUID: 3CSNPN02RWKAx1eQOslrMA==
+X-CSE-MsgGUID: kFQXV+ZRRTmhAwbi6u+28w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="81288958"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="85627932"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Oct 2024 02:25:54 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Oct 2024 02:35:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4GZr-000Xyv-1t;
-	Fri, 25 Oct 2024 09:25:51 +0000
-Date: Fri, 25 Oct 2024 17:25:04 +0800
+	id 1t4GjX-000XzE-2E;
+	Fri, 25 Oct 2024 09:35:51 +0000
+Date: Fri, 25 Oct 2024 17:35:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jijie Shao <shaojijie@huawei.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, shenjian15@huawei.com,
-	wangpeiyang1@huawei.com, liuyonglong@huawei.com,
-	chenhao418@huawei.com, sudongming1@huawei.com,
-	xujunsheng@huawei.com, shiyongbang@huawei.com, libaihan@huawei.com,
-	jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com,
-	salil.mehta@huawei.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shaojijie@huawei.com
-Subject: Re: [PATCH net-next 4/7] net: hibmcge: Add register dump supported
- in this module
-Message-ID: <202410251738.mRleD5uf-lkp@intel.com>
-References: <20241023134213.3359092-5-shaojijie@huawei.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-ring-resize 5/5] io_uring/memmap.c:340:19:
+ error: incomplete definition of type 'struct io_uring_ctx'
+Message-ID: <202410251733.6jfoIXCQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,58 +61,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241023134213.3359092-5-shaojijie@huawei.com>
 
-Hi Jijie,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jijie-Shao/net-hibmcge-Add-dump-statistics-supported-in-this-module/20241023-215222
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241023134213.3359092-5-shaojijie%40huawei.com
-patch subject: [PATCH net-next 4/7] net: hibmcge: Add register dump supported in this module
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251738.mRleD5uf-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251738.mRleD5uf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-ring-resize
+head:   a33a9152eb06cc15d20dc9d1def2a33b3ff88d81
+commit: a33a9152eb06cc15d20dc9d1def2a33b3ff88d81 [5/5] io_uring/register: add IORING_REGISTER_RESIZE_RINGS
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241025/202410251733.6jfoIXCQ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251733.6jfoIXCQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251738.mRleD5uf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251733.6jfoIXCQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c: In function 'hbg_ethtool_get_regs':
->> drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c:322:20: warning: '%s' directive output may be truncated writing up to 127 bytes into a region of size 31 [-Wformat-truncation=]
-     322 |                  "[%s] %s", type_info->name, reg_map->name);
-         |                    ^~
-   In function 'hbg_get_reg_info',
-       inlined from 'hbg_ethtool_get_regs' at drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c:338:14:
-   drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c:321:9: note: 'snprintf' output between 4 and 154 bytes into a destination of size 32
-     321 |         snprintf(info->name, sizeof(info->name),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     322 |                  "[%s] %s", type_info->name, reg_map->name);
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from io_uring/memmap.c:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> io_uring/memmap.c:340:19: error: incomplete definition of type 'struct io_uring_ctx'
+     340 |         guard(mutex)(&ctx->resize_lock);
+         |                       ~~~^
+   io_uring/memmap.c:337:9: note: forward declaration of 'struct io_uring_ctx'
+     337 |         struct io_uring_ctx *ctx = file->private_data;
+         |                ^
+   1 warning and 1 error generated.
 
 
-vim +322 drivers/net/ethernet/hisilicon/hibmcge/hbg_ethtool.c
+vim +340 io_uring/memmap.c
 
-   313	
-   314	static u32 hbg_get_reg_info(struct hbg_priv *priv,
-   315				    const struct hbg_reg_type_info *type_info,
-   316				    const struct hbg_reg_offset_name_map *reg_map,
-   317				    struct hbg_reg_info *info)
-   318	{
-   319		info->val = hbg_reg_read(priv, reg_map->reg_offset);
-   320		info->offset = reg_map->reg_offset - type_info->offset_base;
-   321		snprintf(info->name, sizeof(info->name),
- > 322			 "[%s] %s", type_info->name, reg_map->name);
-   323	
-   324		return sizeof(*info);
-   325	}
-   326	
+   332	
+   333	unsigned long io_uring_get_unmapped_area(struct file *file, unsigned long addr,
+   334						 unsigned long len, unsigned long pgoff,
+   335						 unsigned long flags)
+   336	{
+   337		struct io_uring_ctx *ctx = file->private_data;
+   338		void *ptr;
+   339	
+ > 340		guard(mutex)(&ctx->resize_lock);
+   341	
+   342		ptr = io_uring_validate_mmap_request(file, pgoff, len);
+   343		if (IS_ERR(ptr))
+   344			return PTR_ERR(ptr);
+   345	
+   346		return (unsigned long) ptr;
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
