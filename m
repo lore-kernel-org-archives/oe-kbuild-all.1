@@ -1,59 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A3C61D5CE5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 09:15:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A981DB366;
+	Fri, 25 Oct 2024 09:15:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729847704; cv=none; b=HjyPQwoWIoDVfDIrIw/bDky25n27uTkg4M5HVQzXEuVtt7ED7oNGbFSlWd7OmYm3Re1KUlTe/nUN3S3V6q2Ma7oFmmSxhETb5O5AVZmpxkha70i3EDk8Sp3Jp4owH1Ps4y/w4uKENYle1C7iR2BosasTy1M/Feo96lRT3HyUS1Y=
+	t=1729847708; cv=none; b=NYQ8G+kNhxwFprT3xeOA4ziU6y+mmJBWY6YOeEKYfP6alQsyTTySf2VlKDCg5k4YGkLtB+egAE9hXu7E9P0P0xUTB3xBBa7G/c/ZdwP7msMpyDnjqf/NA8yKIKFAupVmtMQfnz8L72yDepfpGGJ973mvu5Z1ujy/fXCLhs/R0EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729847704; c=relaxed/simple;
-	bh=hSXrus4OLISP8b7zxrlj3Mj9ydw3It4+3hykh25u9fg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lxug7/ILl3UEp0o/2mThIAcFdQdS5nR5RvKQFuUaX6IgUUdevquVoywtqHfv3A+u6OyvoD0muQqRA66KoRjKBbhtWG9xpRvquvERwgtw+UNfoNjptsCInTwEKFEeyq8vSq9U4UvORNUggQ87Ew6d2dsPa39NZUAVQ8hN5T2hrQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PuIKHskX; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1729847708; c=relaxed/simple;
+	bh=4XMDoD+OeLfbg1UVKD38t5UItaObkTJ3EMHjIj5Uj94=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PDy3az4Rdp0KQgpSbg2rgGy0ktF06lKxeM//FG/aqIxqL3as9+PcUayKUK/kxz7GVdh945MnvEjulgZ5/8+/ZzAlxJTggSa2l+AQe3UVfr/9rKXLvlZsP3AZVEdRAJ8RNX1wPjV/mIacXpL6ECCd2kv69enWiB33zcE38v7hOio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMX2wLbv; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuIKHskX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMX2wLbv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729847702; x=1761383702;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hSXrus4OLISP8b7zxrlj3Mj9ydw3It4+3hykh25u9fg=;
-  b=PuIKHskXjeEKdefMVDTJ6RgErdTUmAW/kIGg07Tv0E/tqJGE/RsscP+B
-   mo5XpbsysJ6QZGM1E57JongEHf27ZkxRleZFxrt5HwZFMonNTN53z6+hf
-   TKrtZXDiAWdbvxAa2Ew/VSFT+tHWdMEhMWuVg0344yU2j8HF2u0pxlf5i
-   uslGQW867Fy5C2ukES+2iK+upGCaM+sI4vOTw9XaBzaSpCKi1y+i9fzi8
-   QOqNpe/5TpMI1vA9zCon1+zpuOM3UcpFPSR4RiLDMqeFw9HOsIg3pv/M5
-   8JS6jOeNlLInU9bB2sNL3GUaxwea9K0G6M6clS+XfkspN0iHXju8fhQFE
-   Q==;
-X-CSE-ConnectionGUID: bQkUm2lkSwOT+osoVUN9ZA==
-X-CSE-MsgGUID: VaszW/H8Sn+/dzzdN1Nj5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52066556"
+  t=1729847706; x=1761383706;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4XMDoD+OeLfbg1UVKD38t5UItaObkTJ3EMHjIj5Uj94=;
+  b=EMX2wLbvBL+z++EU8aXIWmakBrS2W6+gSnZQAcAFZhn1cchMcslEfDJM
+   0gs8jStoRqSzyz+tYMTXqBFY1UvzjZrP/kmkKnR9GUrFStk+P7QAVnsY7
+   53+WNxBpJiVXjl9oq1TO5ndG0iX8uToUjaFCrn0qL8n/0HzhO8wVdfejP
+   yga/DJ2GACQqzrUkE6PFJPdZKcLaoty0HQkclhxHY0215mTs9bnh23noK
+   /2IgkSCgLIDozP8JrIQ3nKP4fsbQdsCCbP3UmWFKcpjso6oT5vOq8Vm2S
+   xUgR6ZeJ4NuLcm/e0Tlov9RV+2bs0feDui7W7Xd+jAz0/+PAslb+Xs+5E
+   g==;
+X-CSE-ConnectionGUID: NRWyuNTJStetrHXomzarxw==
+X-CSE-MsgGUID: OciJWkb+TCGgLg+rCWOecQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52066582"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52066556"
+   d="scan'208";a="52066582"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:14:55 -0700
-X-CSE-ConnectionGUID: JxqMWnkLRaKm7OJEnz9lnw==
-X-CSE-MsgGUID: 60TwJY6WTQ6lVoj3KkR8Ow==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:15:00 -0700
+X-CSE-ConnectionGUID: UyiVqf9YRASFXPSsA9mn2Q==
+X-CSE-MsgGUID: HLEMjEXGRF62b6hBGS5IGA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85653618"
+   d="scan'208";a="85653620"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 25 Oct 2024 02:14:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4GPD-000XyK-0y;
+	id 1t4GPD-000XyP-17;
 	Fri, 25 Oct 2024 09:14:51 +0000
-Date: Fri, 25 Oct 2024 17:14:25 +0800
+Date: Fri, 25 Oct 2024 17:14:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/unfudge_irq_bypass 2/41]
- include/asm-generic/bitops/fls64.h:24:20: sparse: sparse: cast truncates
- bits from constant value (ffffffffff000 becomes fffff000)
-Message-ID: <202410251737.wKF9c3O3-lkp@intel.com>
+To: "D. Wythe" <alibuda@linux.alibaba.com>, kgraul@linux.ibm.com,
+	wenjia@linux.ibm.com, jaka@linux.ibm.com, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	pabeni@redhat.com, song@kernel.org, sdf@google.com,
+	haoluo@google.com, yhs@fb.com, edumazet@google.com,
+	john.fastabend@gmail.com, kpsingh@kernel.org, jolsa@kernel.org,
+	guwen@linux.alibaba.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
+	davem@davemloft.net, netdev@vger.kernel.org,
+	linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
+	bpf@vger.kernel.org, dtcccc@linux.alibaba.com
+Subject: Re: [PATCH bpf-next 2/4] bpf: allow to access bpf_prog during
+ bpf_struct_access
+Message-ID: <202410251600.4VOzw93J-lkp@intel.com>
+References: <1729737768-124596-3-git-send-email-alibuda@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +72,146 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1729737768-124596-3-git-send-email-alibuda@linux.alibaba.com>
 
-tree:   https://github.com/sean-jc/linux x86/unfudge_irq_bypass
-head:   d843694acf36ce387aa2bb77d0d290492d6870b8
-commit: 1a7d10e3e2f52c629b2957b331f206685f11d310 [2/41] KVM: SVM: Drop pointless masking of kernel page pa's with AVIC HPA masks
-config: i386-randconfig-r131-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251737.wKF9c3O3-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251737.wKF9c3O3-lkp@intel.com/reproduce)
+Hi Wythe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/bpf-export-necessary-sympols-for-modules/20241024-104903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/1729737768-124596-3-git-send-email-alibuda%40linux.alibaba.com
+patch subject: [PATCH bpf-next 2/4] bpf: allow to access bpf_prog during bpf_struct_access
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251600.4VOzw93J-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251600.4VOzw93J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251737.wKF9c3O3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251600.4VOzw93J-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kvm/svm/avic.c: note: in included file (through arch/x86/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
->> include/asm-generic/bitops/fls64.h:24:20: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
+All errors (new ones prefixed by >>):
 
-vim +24 include/asm-generic/bitops/fls64.h
+   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
+   In file included from include/linux/bpf_verifier.h:7:
+   In file included from include/linux/bpf.h:20:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
+   In file included from include/linux/bpf_verifier.h:9:
+   In file included from include/linux/filter.h:12:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:93:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/hid/bpf/hid_bpf_struct_ops.c:146:23: error: incompatible function pointer types initializing 'int (*)(struct bpf_verifier_log *, const struct bpf_reg_state *, const struct bpf_prog *, int, int)' with an expression of type 'int (struct bpf_verifier_log *, const struct bpf_reg_state *, int, int)' [-Wincompatible-function-pointer-types]
+     146 |         .btf_struct_access = hid_bpf_ops_btf_struct_access,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   16 warnings and 1 error generated.
 
-a54baa1487c51c8 Akinobu Mita           2006-03-26   6  
-d57594c203b1e7b Alexander van Heukelum 2008-03-15   7  /**
-d57594c203b1e7b Alexander van Heukelum 2008-03-15   8   * fls64 - find last set bit in a 64-bit word
-d57594c203b1e7b Alexander van Heukelum 2008-03-15   9   * @x: the word to search
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  10   *
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  11   * This is defined in a similar way as the libc and compiler builtin
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  12   * ffsll, but returns the position of the most significant set bit.
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  13   *
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  14   * fls64(value) returns 0 if value is 0 or the position of the last
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  15   * set bit if value is nonzero. The last (most significant) bit is
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  16   * at position 64.
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  17   */
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  18  #if BITS_PER_LONG == 32
-c8399943bdb70fe Andi Kleen             2009-01-12  19  static __always_inline int fls64(__u64 x)
-2dfc383ad587bbe Akinobu Mita           2006-03-26  20  {
-2dfc383ad587bbe Akinobu Mita           2006-03-26  21  	__u32 h = x >> 32;
-2dfc383ad587bbe Akinobu Mita           2006-03-26  22  	if (h)
-2dfc383ad587bbe Akinobu Mita           2006-03-26  23  		return fls(h) + 32;
-2dfc383ad587bbe Akinobu Mita           2006-03-26 @24  	return fls(x);
-2dfc383ad587bbe Akinobu Mita           2006-03-26  25  }
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  26  #elif BITS_PER_LONG == 64
-c8399943bdb70fe Andi Kleen             2009-01-12  27  static __always_inline int fls64(__u64 x)
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  28  {
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  29  	if (x == 0)
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  30  		return 0;
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  31  	return __fls(x) + 1;
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  32  }
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  33  #else
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  34  #error BITS_PER_LONG not 32 or 64
-d57594c203b1e7b Alexander van Heukelum 2008-03-15  35  #endif
-2dfc383ad587bbe Akinobu Mita           2006-03-26  36  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
-:::::: The code at line 24 was first introduced by commit
-:::::: 2dfc383ad587bbead84739a9ff9273df3eda983d [PATCH] bitops: generic fls64()
 
-:::::: TO: Akinobu Mita <mita@miraclelinux.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+vim +146 drivers/hid/bpf/hid_bpf_struct_ops.c
+
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  142  
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  143  static const struct bpf_verifier_ops hid_bpf_verifier_ops = {
+bd0747543b3d97 Benjamin Tissoires 2024-06-08  144  	.get_func_proto = bpf_base_func_proto,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  145  	.is_valid_access = hid_bpf_ops_is_valid_access,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08 @146  	.btf_struct_access = hid_bpf_ops_btf_struct_access,
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  147  };
+ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  148  
 
 -- 
 0-DAY CI Kernel Test Service
