@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 518FC13D53D;
-	Fri, 25 Oct 2024 02:18:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7699186AE3
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 02:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729822721; cv=none; b=IH8TuHXYu4pU4JpYfjdb5Kvu/T1vfmvR0GmBumLGerct8smmeMXsuaJrUd0Y/g9gzLe/ZNELd+E/6QIVlm5rtiP08nMlvbhW53ThmHjKPb7mYBEJ46ZdW3lnwcwesIA/BHGXz1PsX8oLDrfyXL/QmGjINPsnmLPBsUD3cgL0VmA=
+	t=1729823380; cv=none; b=YT3w7uA6+Lz249REMObpstl4VTEIYPHqD8SBJVQYg0rK60CZAD6JxOJRs5YQUpPt4ePJ+PeA+a+Y253KvnrRDDvVgT0UTCNB8803n9Ran7Y2gUNWuJExJ9LgtmH9m4ssNeHReFCQnRbXldUsV/Tvv0xN9+Yomvpw2MOEnVnvzKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729822721; c=relaxed/simple;
-	bh=azrymmLvhtuecaJkl4vkmJh88Vgz+F6cJb/5S7DEFMc=;
+	s=arc-20240116; t=1729823380; c=relaxed/simple;
+	bh=xW8ARBLS1vE5C4MCLMT354UqrSB1gbsLgV/b659sOdA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JaSg6bfPYcMiFlcbcOyhPTpZ216f/h1ws/l4Gps/sz6xXllsGHyTXg9NF7B3Hm70MmUtVxr0nQDTnNthbh01owPsbdU1fPekvQpV1B0n2QRHvA7NrOzeEtaDVc3Q3wY2nJYIzzLl7EOq6Kvpjdi48FpQRy2rM2U1hGCxvXY5JCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ejwfIm00; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=lTam5ElhQYAwl6IovS6bX9N5rJTCaLviOzr+rrKogAzDM1A3ZPapWqUwebbcAb/WoB21fBPsbOvO/M8N3fxLhEnVM3aERmuyJdEwb0Pe66Fw1WJkhiM0f5wEGVbjubBBFHRfV9cDMFvzQ/iT11r9uFl5g3RLBDuVgghhu8dbz14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmfN1SR5; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ejwfIm00"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmfN1SR5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729822719; x=1761358719;
+  t=1729823378; x=1761359378;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=azrymmLvhtuecaJkl4vkmJh88Vgz+F6cJb/5S7DEFMc=;
-  b=ejwfIm00F15nDbUGs0N52XgmyERVugSlbyjlbLMIrmnH7T04KWiL4aCI
-   b/xdRcPouCHm8nlCNjmlBKVACf74hvfAbFd745yJPtWuLhDrKQU2VBb4J
-   d0blwBis3rbi9EzfY5Dl8hC69xe96rj2Bn1GylA7X1VLdQQPKZNwMmChl
-   8DoeRr/biuFGmnAqTzkDnSsUflBrlxM8p1nLkQPeTi7jo85MXHYsv09nR
-   SA+cww9pzOQvSiYCpFq+SlYzOVsIU8TZIl9NVEkx6xYYuRn4OEebCeYZL
-   diN5NyYFUyODDzGTMuRH+Yu9Hx7zDsn77kPT4N5eoqsh5VfCYO/vsQnRQ
-   w==;
-X-CSE-ConnectionGUID: aVS3dMunTiWYw4/OZ3oNdQ==
-X-CSE-MsgGUID: 5ya4x1fcSSWbOEFHZkKDrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="54885884"
-X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="54885884"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 19:18:37 -0700
-X-CSE-ConnectionGUID: JdGZjimgRwC+oY7WlTVoIw==
-X-CSE-MsgGUID: j4Z/A1l8Qx2X/tnU2/n6TQ==
+  bh=xW8ARBLS1vE5C4MCLMT354UqrSB1gbsLgV/b659sOdA=;
+  b=XmfN1SR551vK8BvwAEmJrDJE5rfALWEb6W1/LdpHmWYAC7d5hERRZzJz
+   6gPSx5gmheHKKFdwZqMw8jOB0ritLTXw0GTI2eeSrDln2VarPy6qtBImS
+   8LO5HU6QDJIyJ0/+8kjjyymr+b75CpZnN46k2Ex2Up1Yn1Je+QWLqdfqr
+   lFdS5UUDYNhuVzFr0fSjU0da0P7biX3WgPQg3cXmJt28QDsXoO30RiKXi
+   Ldtva+9Ko505qqiQqS1P71Yw7Xiry1m71PnM88q+aXjPG6sLuFERZz6mE
+   TzkKTCSHvJQU3mTzjLo5LGRMyXr5UWeu1S052G38tXBgIX0ErhI/UJhnp
+   g==;
+X-CSE-ConnectionGUID: PWQppen4TwiYjdhpi6jXqQ==
+X-CSE-MsgGUID: 9jXHTyRSRCu185tsKMjq0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40591580"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40591580"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 19:29:37 -0700
+X-CSE-ConnectionGUID: qYfhYnCuTtCIfuMvMDOuxw==
+X-CSE-MsgGUID: HzvFpD7ZTqGY4eJnplvalA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,230,1725346800"; 
-   d="scan'208";a="81088912"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="80442728"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 24 Oct 2024 19:18:35 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 24 Oct 2024 19:29:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t49uL-000XSO-0Q;
-	Fri, 25 Oct 2024 02:18:33 +0000
-Date: Fri, 25 Oct 2024 10:17:55 +0800
+	id 1t4A4z-000XTE-20;
+	Fri, 25 Oct 2024 02:29:33 +0000
+Date: Fri, 25 Oct 2024 10:28:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jarkko Sakkinen <jarkko@kernel.org>
-Subject: [jarkko-tpmdd:lgp-v2 2/4] mm/madvise.c:1098:3: error: field
- designator 'install_pte' does not refer to any field in type 'const struct
- mm_walk_ops'
-Message-ID: <202410251055.UG8FVFhd-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 2/2]
+ arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous
+ prototype for 'hyp_event_trace_psci_mem_protect'
+Message-ID: <202410251033.q1N3MtEY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,117 +63,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git lgp-v2
-head:   7ed651841db9f18744191e575637d69239102a73
-commit: 94de21c76e54641539032105ccd3f36801fa9d85 [2/4] mm: madvise: implement lightweight guard page mechanism
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241025/202410251055.UG8FVFhd-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251055.UG8FVFhd-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   62a6e357a87f69fec728ecd9215da6b38b84c2e3
+commit: 455f1b852d3a3914611155c0219ce8f4285cec6d [2/2] ANDROID: KVM: arm64: Add psci_mem_protect hyp event
+config: arm64-randconfig-002-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251033.q1N3MtEY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251033.q1N3MtEY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251055.UG8FVFhd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251033.q1N3MtEY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/madvise.c:9:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/madvise.c:21:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/madvise.c:1098:3: error: field designator 'install_pte' does not refer to any field in type 'const struct mm_walk_ops'
-    1098 |         .install_pte            = guard_poison_install_pte,
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/madvise.c:1130:9: error: call to undeclared function 'walk_page_range_mm'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1130 |                 err = walk_page_range_mm(vma->vm_mm, start, end,
-         |                       ^
-   mm/madvise.c:1130:9: note: did you mean 'walk_page_range_vma'?
-   include/linux/pagewalk.h:124:5: note: 'walk_page_range_vma' declared here
-     124 | int walk_page_range_vma(struct vm_area_struct *vma, unsigned long start,
-         |     ^
-   6 warnings and 2 errors generated.
+   In file included from arch/arm64/kvm/hyp_events.c:14:
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_enter' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:14:1: note: in expansion of macro 'HYP_EVENT'
+      14 | HYP_EVENT(hyp_enter,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_hyp_exit' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:23:1: note: in expansion of macro 'HYP_EVENT'
+      23 | HYP_EVENT(hyp_exit,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_hcall' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:32:1: note: in expansion of macro 'HYP_EVENT'
+      32 | HYP_EVENT(host_hcall,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_smc' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:46:1: note: in expansion of macro 'HYP_EVENT'
+      46 | HYP_EVENT(host_smc,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_mem_abort' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:61:1: note: in expansion of macro 'HYP_EVENT'
+      61 | HYP_EVENT(host_mem_abort,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace___hyp_printk' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:75:1: note: in expansion of macro 'HYP_EVENT'
+      75 | HYP_EVENT(__hyp_printk,
+         | ^~~~~~~~~
+   arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_host_ffa_call' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:95:1: note: in expansion of macro 'HYP_EVENT'
+      95 | HYP_EVENT(host_ffa_call,
+         | ^~~~~~~~~
+>> arch/arm64/include/asm/kvm_define_hypevents.h:17:14: warning: no previous prototype for 'hyp_event_trace_psci_mem_protect' [-Wmissing-prototypes]
+      17 |         void hyp_event_trace_##__name(struct ht_iterator *iter)                 \
+         |              ^~~~~~~~~~~~~~~~
+   arch/arm64/include/asm/kvm_hypevents.h:120:1: note: in expansion of macro 'HYP_EVENT'
+     120 | HYP_EVENT(psci_mem_protect,
+         | ^~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:215:6: warning: no previous prototype for 'hyp_trace_init_event_early' [-Wmissing-prototypes]
+     215 | bool hyp_trace_init_event_early(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:265:19: warning: no previous prototype for 'hyp_trace_find_event' [-Wmissing-prototypes]
+     265 | struct hyp_event *hyp_trace_find_event(int id)
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:339:6: warning: no previous prototype for 'hyp_trace_init_event_tracefs' [-Wmissing-prototypes]
+     339 | void hyp_trace_init_event_tracefs(struct dentry *parent)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:361:5: warning: no previous prototype for 'hyp_trace_init_events' [-Wmissing-prototypes]
+     361 | int hyp_trace_init_events(void)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp_events.c:378:5: warning: no previous prototype for 'hyp_trace_init_mod_events' [-Wmissing-prototypes]
+     378 | int hyp_trace_init_mod_events(struct hyp_event *event,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1098 mm/madvise.c
+vim +/hyp_event_trace_psci_mem_protect +17 arch/arm64/include/asm/kvm_define_hypevents.h
 
-  1093	
-  1094	static const struct mm_walk_ops guard_poison_walk_ops = {
-  1095		.pud_entry		= guard_poison_pud_entry,
-  1096		.pmd_entry		= guard_poison_pmd_entry,
-  1097		.pte_entry		= guard_poison_pte_entry,
-> 1098		.install_pte		= guard_poison_install_pte,
-  1099		.walk_lock		= PGWALK_RDLOCK,
-  1100	};
-  1101	
-  1102	static long madvise_guard_poison(struct vm_area_struct *vma,
-  1103					 struct vm_area_struct **prev,
-  1104					 unsigned long start, unsigned long end)
-  1105	{
-  1106		long err;
-  1107	
-  1108		*prev = vma;
-  1109		if (!is_valid_guard_vma(vma, /* allow_locked = */false))
-  1110			return -EINVAL;
-  1111	
-  1112		/*
-  1113		 * If we install poison markers, then the range is no longer
-  1114		 * empty from a page table perspective and therefore it's
-  1115		 * appropriate to have an anon_vma.
-  1116		 *
-  1117		 * This ensures that on fork, we copy page tables correctly.
-  1118		 */
-  1119		err = anon_vma_prepare(vma);
-  1120		if (err)
-  1121			return err;
-  1122	
-  1123		/*
-  1124		 * Optimistically try to install the guard poison pages first. If any
-  1125		 * non-guard pages are encountered, give up and zap the range before
-  1126		 * trying again.
-  1127		 */
-  1128		while (true) {
-  1129			/* Returns < 0 on error, == 0 if success, > 0 if zap needed. */
-> 1130			err = walk_page_range_mm(vma->vm_mm, start, end,
-  1131						 &guard_poison_walk_ops, NULL);
-  1132			if (err <= 0)
-  1133				return err;
-  1134	
-  1135			/*
-  1136			 * OK some of the range have non-guard pages mapped, zap
-  1137			 * them. This leaves existing guard pages in place.
-  1138			 */
-  1139			zap_page_range_single(vma, start, end - start, NULL);
-  1140	
-  1141			if (fatal_signal_pending(current))
-  1142				return -EINTR;
-  1143			cond_resched();
-  1144		}
-  1145	}
-  1146	
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  14  
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  15  #define HYP_EVENT(__name, __proto, __struct, __assign, __printk)		\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  16  	HYP_EVENT_FORMAT(__name, __struct);					\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26 @17  	void hyp_event_trace_##__name(struct ht_iterator *iter)			\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  18  	{									\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  19  		struct trace_hyp_format_##__name __maybe_unused *__entry =	\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  20  			(struct trace_hyp_format_##__name *)iter->ent;		\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  21  		trace_seq_puts(&iter->seq, #__name);				\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  22  		trace_seq_putc(&iter->seq, ' ');				\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  23  		trace_seq_printf(&iter->seq, __printk);				\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  24  		trace_seq_putc(&iter->seq, '\n');				\
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  25  	}
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  26  #define HYP_EVENT_MULTI_READ
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  27  #include __HYP_EVENT_FILE
+f6dbfc683cf5fb Vincent Donnefort 2023-01-26  28  
+
+:::::: The code at line 17 was first introduced by commit
+:::::: f6dbfc683cf5fbbd37b6fdead1b5b08912cf6570 ANDROID: KVM: arm64: Add support for nVHE hyp events
+
+:::::: TO: Vincent Donnefort <vdonnefort@google.com>
+:::::: CC: Fuad Tabba <tabba@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
