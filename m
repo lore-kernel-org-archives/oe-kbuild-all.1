@@ -1,117 +1,70 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88D2A18BC1C;
-	Fri, 25 Oct 2024 10:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459891F818E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 10:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729851945; cv=none; b=uYFOqpzMwrQj4lZr757e8dnIyPcHiLSfWwSr4u8l38SmRIBeobPR50t5lhbGMWHDeoC8CYf+/MVhn2hBiQlaNETDDXrcXh511aqgCvAn6WXLvp1hul2OjKf8mVLGT4j3wCBC2aP8Ohus1eaP5ms+0aHUKnghYfgE6RPUkZyguqA=
+	t=1729853605; cv=none; b=Yg4ntyGX9s6C1uuIscIQJHe4dEOc23ePdxldyhlo0n2UBnjXA8xbhmp94fq01IKLLCEvefbKaA8durp+b6bp5LKPUUqoivsC1rCSG6lPyod7MKGleUChqs24c+FKB8SbOecP7D8y6aVLmtO9vWrpHv7wavinSrpltFUYw3bPUO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729851945; c=relaxed/simple;
-	bh=l6zYx3EpY8E06f6D9Nq2OmEIa8ymCnBBvQHwnns2fMU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nZAWKsSjSMEZ00hhHZT0IXNguBdzvUJ84GAE/S5wnPDjGE7q/31t9bFV5qVFcH7OWg1C1cXz9PZw1vee7QCGlmAFr9lz4rC8LqtEs0RcXQ4wLXmbWBHeZkDXVyf20oFXVvtUcRoWenUKn1tpXm9sJleDJ5XTRNbMbiqVdv+B5sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=stX288jr; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="stX288jr"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49P1v1M4032541;
-	Fri, 25 Oct 2024 10:25:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pp1; bh=u/wjAQliUeOUevukzQrFYo45PuDDJe
-	S43AJbPPaIqao=; b=stX288jrkgMtzuDZx2BjnKyCnDLhgKyFBIpSMqgmn1yDFW
-	kq3bAyzBp7zyBgiYqMEcQz/mmR37qn6gTErcnsXA4f/jFtKtD9wS/PehekNcxp5Q
-	3bMY2RJNbb/4ZQbBMPvdT3XPDrrgokvNcciZACc7V17M2nC0OZR6/Sua9ztcHwAN
-	ZktNKWdlEur4wL/aWoIEBV45GuygZEH82IwYCIQghSN9qHs16uUpc7FT8TnmAjAA
-	GJqCp+hl8/u7ss/x3kz1pFoOREThY6V8cOi4EHZ9p07D8RNp79b+5c9ut7WXyb53
-	9yYCB2NnQhhLUcnSLAcR+6E32gCjpIRnvttAGmiA==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 42g246su3s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Oct 2024 10:25:35 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 49PAGYUr001516;
-	Fri, 25 Oct 2024 10:25:34 GMT
-Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 42emk9n5xh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Oct 2024 10:25:34 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 49PAPWhE33292794
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 25 Oct 2024 10:25:33 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B3472202F9;
-	Fri, 25 Oct 2024 10:05:18 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 45FD8202F8;
-	Fri, 25 Oct 2024 10:05:18 +0000 (GMT)
-Received: from osiris (unknown [9.171.89.199])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTPS;
-	Fri, 25 Oct 2024 10:05:18 +0000 (GMT)
-Date: Fri, 25 Oct 2024 12:05:16 +0200
-From: Heiko Carstens <hca@linux.ibm.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-        linux-kernel@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>
-Subject: Re: arch/s390/mm/fault.c:566 do_secure_storage_access() warn:
- inconsistent returns '&mm->mmap_lock'.
-Message-ID: <20241025100516.7541-B-hca@linux.ibm.com>
-References: <5e4a2c40-9fc4-439a-8166-3a694e705d8e@stanley.mountain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5e4a2c40-9fc4-439a-8166-3a694e705d8e@stanley.mountain>
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: bGTE1v5lWVjbTpUNIiFH0Sm7m-1KdEOh
-X-Proofpoint-GUID: bGTE1v5lWVjbTpUNIiFH0Sm7m-1KdEOh
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+	s=arc-20240116; t=1729853605; c=relaxed/simple;
+	bh=4eplxcpNV43NDIMT6KvgLcMP8I99OwtVqevNRGtDvaE=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=hR0EBzpuhBXrfmfMSz3gCTIdTHTXv57DPDx0eUZDy9B6XZFaVgSOv6Pvsd8gKmUvDcFbP8cqo4syLVISM0Z94zez7aZq+p5s4E+6dobMzdhuTV2NLuXJ+W5YRXnSYzwglTJ5IcRoLQ9cjgBBds1f+W/y3Bu+iz4TKqq3BratEKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6AD94339;
+	Fri, 25 Oct 2024 03:53:52 -0700 (PDT)
+Received: from [10.57.55.246] (unknown [10.57.55.246])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 106F63F73B;
+	Fri, 25 Oct 2024 03:53:19 -0700 (PDT)
+Message-ID: <a1e9c342-01c9-44f0-a789-2c908e57942b@arm.com>
+Date: Fri, 25 Oct 2024 11:53:17 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-15_01,2024-10-11_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0
- mlxlogscore=749 clxscore=1011 impostorscore=0 mlxscore=0 phishscore=0
- bulkscore=0 lowpriorityscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2410250080
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Peter Zijlstra <peterz@infradead.org>,
+ Sebastian Siewior <bigeasy@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Juri Lelli <juri.lelli@redhat.com>,
+ Ingo Molnar <mingo@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Vincent Guittot <vincent.guittot@linaro.org>, oe-kbuild-all@lists.linux.dev,
+ kernel test robot <lkp@intel.com>, Valentin Schneider <vschneid@redhat.com>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, xiqi2@huawei.com
+From: Christian Loehle <christian.loehle@arm.com>
+Subject: [PATCHv2] sched/uclamp: Fix unnused variable warning
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 25, 2024 at 10:35:47AM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   c2ee9f594da826bea183ed14f2cc029c719bf4da
-> commit: 7c194d84a9ce662426b2ecb59da54bb80c6b1d91 s390/mm,fault: remove VM_FAULT_BADMAP and VM_FAULT_BADACCESS
-> config: s390-randconfig-r072-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250552.XsMLl1sx-lkp@intel.com/config)
-> compiler: s390-linux-gcc (GCC) 14.1.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202410250552.XsMLl1sx-lkp@intel.com/
-> 
-> smatch warnings:
-> arch/s390/mm/fault.c:566 do_secure_storage_access() warn: inconsistent returns '&mm->mmap_lock'.
-...
-> 084ea4d611a3d0 Vasily Gorbik     2020-01-21  540  	case USER_FAULT:
-> 084ea4d611a3d0 Vasily Gorbik     2020-01-21  541  		mm = current->mm;
-> d8ed45c5dcd455 Michel Lespinasse 2020-06-08  542  		mmap_read_lock(mm);
-> 084ea4d611a3d0 Vasily Gorbik     2020-01-21  543  		vma = find_vma(mm, addr);
-> 7c194d84a9ce66 Heiko Carstens    2023-10-12  544  		if (!vma)
-> 7c194d84a9ce66 Heiko Carstens    2023-10-12  545  			return handle_fault_error(regs, SEGV_MAPERR);
-> 
-> mmap_read_unlock() before returning?
+uclamp_mutex is only used for CONFIG_SYSCTL or
+CONFIG_UCLAMP_TASK_GROUP so declare it __maybe_unused.
 
-This is a false positive: handle_fault_error() contains an unconditional
-mmap_read_unlock() call. I would wish the __acquires() and __releases()
-annotations would work better (or maybe I just can't figure out to use them
-properly.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202410060258.bPl2ZoUo-lkp@intel.com/
+Closes: https://lore.kernel.org/oe-kbuild-all/202410250459.EJe6PJI5-lkp@intel.com/
+Signed-off-by: Christian Loehle <christian.loehle@arm.com>
+---
+v2: __maybe_unused instead of ifdef (Peter)
 
-In any case: do_secure_storage_access() will very likely go away with the next
-merge window and its functionality will be implemented differently.
+ kernel/sched/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+index 114adac5a9c8..9bad282e7950 100644
+--- a/kernel/sched/core.c
++++ b/kernel/sched/core.c
+@@ -1399,7 +1399,7 @@ void set_load_weight(struct task_struct *p, bool update_load)
+  * requests are serialized using a mutex to reduce the risk of conflicting
+  * updates or API abuses.
+  */
+-static DEFINE_MUTEX(uclamp_mutex);
++static __maybe_unused DEFINE_MUTEX(uclamp_mutex);
+
+ /* Max allowed minimum utilization */
+ static unsigned int __maybe_unused sysctl_sched_uclamp_util_min = SCHED_CAPACITY_SCALE;
+--
+2.34.1
