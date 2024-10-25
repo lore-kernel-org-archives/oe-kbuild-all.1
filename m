@@ -1,171 +1,130 @@
-Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A161B6CF8;
-	Fri, 25 Oct 2024 11:32:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBB42022E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 12:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729855975; cv=none; b=Hau5IKd4sPl3FEhGasU/nm8h9r2sFRk8cZQ2MDpSTZCp6P/uyrSYughLfD7Z3bZTf9DnoH/w6bcpzOjeHYJ4QFlyNqoCd5nO1N1h4BgmIDTKjDeknouSgNPI+4qF12BpXJ1+VR1vGloWMvUP2J/+g5KeDPsUjSu8IwnhrECirp4=
+	t=1729858212; cv=none; b=sIrREFiWmpSRV/uu2CFJD+998MOMCF+D3Pp3KDD0nMLYlGuTmmz+f2vdHCKi9YC+Oh8Yu2EhErHwGYa9u+7TcqkZjjv12uoSawuYSxlESn7+ahjhz+wZlDTkLB2UNTmidxSU4dG2nvL71sfwJJBmCgGDWAOmygjPWXyYS0/JwZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729855975; c=relaxed/simple;
-	bh=VtPLEbtgon+H4BAIG6FO0Ip2f0PyVl5P55NY3NhKkm8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eGyFgb36frvC1/ufJHgGkVSLn/FUdJlDsn0F+pOu//JhqRZa703XLmgIYzAhlqV6Oh90hoGMvzf/g637mQDtV1CWYLjt/lNqKDL0d8Fwuvz0kpjJw6z5Q5F+VlrkBUw1pCZgJ1mXFFLOkd726dxcotEL+scCJ87hck7SJHFJRrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=gEf/7YW1; arc=none smtp.client-ip=213.133.104.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
+	s=arc-20240116; t=1729858212; c=relaxed/simple;
+	bh=a0NkGOWfPXvuC0pRrY2V1xNhHthWDgHcKYifaYQcMuI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DAISP3deAT0U/QTgCCf2vlkC+dZKe47kf68+hCAc253VYT54fakcpDuGvb8BZigPNPAsoOGUCk2y4H97eomWTmwg+4xFGmMbWmc7S70AZChJEiOecAtqA3HT+lBFHcIipCY+MRjz9PhYcFsIpM+SebCwHyPig8/ZmFD4QkEAaK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=grndIlir; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="gEf/7YW1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=Ou8Xa/I0YBpA5T56l1O7WY5r2Zh0QPkuOkUMaRnLN1o=; b=gEf/7YW1rhhxsG10DvPAbrRuty
-	FPjfpgB/vTcJHUncG8OQJRctjeiOkD4n5+j4I0t9RazVZgBt65/Wd7FI2+qzxePkbaamQd/AVOjL9
-	NYX6GZSip3akvpYROQGi0U62jFkLfh3WMqAmE0PtEaVvlFRyrHHkWkcqQqodpR8+BqAZpsIneDI52
-	L5WsluJnCpcz7MweTb5mWO6ybw2wIi44aheoPq9g4RnZUGY6QqQtKnW52iV+wUFjRAIXs4D0x+f30
-	9WveP7ZklrblRRMas3RGofwtonmxg7EUQsrYiuoxzsnwSQGsY67aSQQd2s/2yNfSa7rGfugh5FvBc
-	lK99fQZQ==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1t4IYW-0001FB-AX; Fri, 25 Oct 2024 13:32:36 +0200
-Received: from [85.1.206.226] (helo=[192.168.1.114])
-	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <daniel@iogearbox.net>)
-	id 1t4IYU-000HsF-1h;
-	Fri, 25 Oct 2024 13:32:34 +0200
-Message-ID: <b9cdfee5-0df3-45c1-ac83-123c7b6c2955@iogearbox.net>
-Date: Fri, 25 Oct 2024 13:32:33 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="grndIlir"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729858211; x=1761394211;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a0NkGOWfPXvuC0pRrY2V1xNhHthWDgHcKYifaYQcMuI=;
+  b=grndIlirvwmJWQAfbj0CBCEvDKEt2cRMzFOmud3jEV+/q3q6JNn3tedq
+   YAUT+KvT4A80W6gqhuJ1+sPOj4u44TKBL8eMV1QrjUq7ipz4IKzEiJzFK
+   2Xbp9miwo1fprcOd8tllz0202o+r6DBoy5jcNERIs3yXOYo2W50y1eXGM
+   1hM5RwysnEzDj99nt/gw40PhO7JLp2zHuRy2jFowL5LQo6NamvtXr2C1G
+   JsZ/a32s4nERx/6npfu3lUBW9lEmSBHelAeit0YKvBnihrQphf0sYNVyl
+   wIH3xXHdMLQLnyQq3fHc/FluqnzI9CRj/zAuuRAMiI4yWtHrMAWL9Nprm
+   g==;
+X-CSE-ConnectionGUID: mH9HU1R4TUe384JtYoXDkQ==
+X-CSE-MsgGUID: +RszgE2rSXOzjIqfpTGbVA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29692401"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29692401"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 05:10:10 -0700
+X-CSE-ConnectionGUID: UO8b6M5ER5iqox+HpdnRPg==
+X-CSE-MsgGUID: g74Ybz18R9a361uG3aHnZg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
+   d="scan'208";a="111711060"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 25 Oct 2024 05:10:03 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4J8j-000YD2-0w;
+	Fri, 25 Oct 2024 12:10:01 +0000
+Date: Fri, 25 Oct 2024 20:09:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 22/37] drm/vc4: txp: Add BCM2712 MOPLET support
+Message-ID: <202410251938.rnvcIesU-lkp@intel.com>
+References: <20241023-drm-vc4-2712-support-v1-22-1cc2d5594907@raspberrypi.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next v2 2/4] bpf: bpf_csum_diff: optimize and
- homogenize for all archs
-To: Puranjay Mohan <puranjay@kernel.org>, kernel test robot <lkp@intel.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexei Starovoitov <ast@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Andrii Nakryiko <andrii@kernel.org>, bpf@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eduard Zingerman
- <eddyz87@gmail.com>, Eric Dumazet <edumazet@google.com>,
- Hao Luo <haoluo@google.com>, Helge Deller <deller@gmx.de>,
- Jakub Kicinski <kuba@kernel.org>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- Jiri Olsa <jolsa@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
- KP Singh <kpsingh@kernel.org>, linux-kernel@vger.kernel.org,
- linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- Martin KaFai Lau <martin.lau@linux.dev>, Mykola Lysenko <mykolal@fb.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Abeni <pabeni@redhat.com>,
- Paul Walmsley <paul.walmsley@sifive.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>
-Cc: oe-kbuild-all@lists.linux.dev,
- Linux Memory Management List <linux-mm@kvack.org>, netdev@vger.kernel.org
-References: <20241023153922.86909-3-puranjay@kernel.org>
- <202410251552.LR73LP4V-lkp@intel.com> <mb61po738bigw.fsf@kernel.org>
-Content-Language: en-US
-From: Daniel Borkmann <daniel@iogearbox.net>
-Autocrypt: addr=daniel@iogearbox.net; keydata=
- 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
-In-Reply-To: <mb61po738bigw.fsf@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authenticated-Sender: daniel@iogearbox.net
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27438/Fri Oct 25 10:32:52 2024)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241023-drm-vc4-2712-support-v1-22-1cc2d5594907@raspberrypi.com>
 
-On 10/25/24 12:11 PM, Puranjay Mohan wrote:
-[...]
-> This file has a lot of such sparse warnings. Specifically, to fix the
-> warning introduced by me, I can apply the following diff:
-> 
-> --- >8 ---
-> 
-> diff --git a/net/core/filter.c b/net/core/filter.c
-> index e00bec7de9ed..b94037f29b2a 100644
-> --- a/net/core/filter.c
-> +++ b/net/core/filter.c
-> @@ -2019,16 +2019,18 @@ BPF_CALL_5(bpf_csum_diff, __be32 *, from, u32, from_size,
->           * Even for diffing, from_size and to_size don't need to be equal.
->           */
-> 
-> +       __wsum ret = seed;
-> +
->          if (from_size && to_size)
-> -               return csum_from32to16(csum_sub(csum_partial(to, to_size, seed),
-> -                                               csum_partial(from, from_size, 0)));
-> +               ret = csum_sub(csum_partial(to, to_size, seed), csum_partial(from, from_size, 0));
+Hi Dave,
 
-Lets also pass ret into csum_partial() instead of seed given the arg
-is of type __wsum there too, otherwise lgtm and yes lets fix these.
+kernel test robot noticed the following build warnings:
 
-> +
->          if (to_size)
-> -               return csum_from32to16(csum_partial(to, to_size, seed));
-> +               ret =  csum_partial(to, to_size, seed);
-> 
->          if (from_size)
-> -               return csum_from32to16(~csum_partial(from, from_size, ~seed));
-> +               ret = ~csum_partial(from, from_size, ~seed);
-> 
-> -       return seed;
-> +       return csum_from32to16((__force unsigned int)ret);
->   }
-> 
-> --- 8< ---
-> 
-> If others feel that fixing these warnings is useful, I can send another
-> version with above diff. I will then also send a separate patch to fix
-> all other such warnings in this file.
+[auto build test WARNING on 91e21479c81dd4e9e22a78d7446f92f6b96a7284]
 
-That would be great, as separate patch, agree.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Stevenson/drm-vc4-Limit-max_bpc-to-8-on-Pi0-3/20241024-005239
+base:   91e21479c81dd4e9e22a78d7446f92f6b96a7284
+patch link:    https://lore.kernel.org/r/20241023-drm-vc4-2712-support-v1-22-1cc2d5594907%40raspberrypi.com
+patch subject: [PATCH 22/37] drm/vc4: txp: Add BCM2712 MOPLET support
+config: arc-randconfig-r111-20241025 (https://download.01.org/0day-ci/archive/20241025/202410251938.rnvcIesU-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241025/202410251938.rnvcIesU-lkp@intel.com/reproduce)
 
-Thanks,
-Daniel
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251938.rnvcIesU-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/vc4/vc4_txp.c:513:27: sparse: sparse: symbol 'bcm2712_mop_data' was not declared. Should it be static?
+>> drivers/gpu/drm/vc4/vc4_txp.c:527:27: sparse: sparse: symbol 'bcm2712_moplet_data' was not declared. Should it be static?
+
+vim +/bcm2712_moplet_data +527 drivers/gpu/drm/vc4/vc4_txp.c
+
+   526	
+ > 527	const struct vc4_txp_data bcm2712_moplet_data = {
+   528		.base = {
+   529			.name = "moplet",
+   530			.debugfs_name = "moplet_regs",
+   531			.hvs_available_channels = BIT(1),
+   532			.hvs_output = 4,
+   533		},
+   534		.encoder_type = VC4_ENCODER_TYPE_TXP1,
+   535		.high_addr_ptr_reg = TXP_DST_PTR_HIGH_MOPLET,
+   536		.size_minus_one = true,
+   537		.supports_40bit_addresses = true,
+   538	};
+   539	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
