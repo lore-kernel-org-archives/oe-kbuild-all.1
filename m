@@ -1,150 +1,145 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFFC800
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 18:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB2718BC0E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 18:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729880061; cv=none; b=E6+7WQyEStG8JXj/TR5OPku+atsXJz6D73HYaHAjObmfv8h4jfu5+hfh37PTHOZVcfq/0X46vrTxHSsO4sPEggD7A0G1hwW4pPk9qD4uScVmQrT7UWurgTd90xG/jgxweIZI4dM05fPM2wHXpKxY1B2aV+CUFBnIHDDFe80kpjA=
+	t=1729880065; cv=none; b=Dt0PAx5lEkpZWFmOvgscm8pWTceYt+um9HwbxBuDPZwZuBtP/ujpt9JgLHpRH6+EmjRsikmLSHsS8Ad6nNODXGWfRWv1toFtLDmC0P2UcjOpHGGLTcAyto+U7ishUEysaWOBE6+hODuiQlFpUZofmYg9IUHPvxJX9oRQ3zfjagI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729880061; c=relaxed/simple;
-	bh=RUBdo8xhWLnr4lmOrbAMcDyiq3wloM5129FHujLTsdk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EENg52ilmLIKtJUam61ZbQ4pLUvMWt02//C8EGVaXE0Xn+Pco/IJllsQfkdXSbkERLSn1D8upSyJ/yKmHeWzZZvBw/5aJ3leXyb4V0hoyoiroPKTyQCMtx0QGVWAwn4cVv6mVA++PHxq19fTGf3yZ9eAdyQDywrzct+zNYhr22E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ye69E4xJ; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1729880065; c=relaxed/simple;
+	bh=+D8EOBHbCUHNS8MlsDOj9MvEyvLWhiBdxbjFoUH3pOk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nP/kHAH2/0t87f3WxXmwdu1W8NPiGTOs8EMvK2XdoP8sgZWVfLwTONreU9roygHafMKu8pIDWQBdrnVjift24kicS1wgYinoEGpWnmRHJ4i3lE02AmmevCMrd5jZLdX9/w/xtkhjN9vyiT1O70dN+1sq0VFin2bHbFozmJPS1CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=erk4/iaR; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ye69E4xJ"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-460969c49f2so34031cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 11:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1729880057; x=1730484857; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lRQv+y2IqS7AxTEkkTnJFxtyxoD2fpd8WHbtE3K+zR0=;
-        b=ye69E4xJCqtN1+WX5+hnGn/je49nJb+EYJd9gvUtu2h4PbVNHa4evWFqQaKaz4hGfR
-         jelWiK0t/aAPkIw1iEvjd1Ljut08a5sVzQYiHpCIhKweh1k3OR8QD23GvXXqS86NiDwp
-         xbeer7Ag2/fPwbEQATLtu7o0y3x9ydOHMjeu2D9IxpGjlIgC+tSt1xm0y2RyZZLKg8S4
-         QaONr+/F9C+W6w+EgH2L/VkMUR5zjCJlxhDkeowt4aBnEf5fozlhPwSIVvTET+fSIOzW
-         wgJLuGCRjbZfpj7EIIgD5PFbuzgRz7wOFomDyYW3sU0q6cfsy4Clv3MmbpKry2xqhYXE
-         eCug==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="erk4/iaR"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49PC1fuD030354
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 18:14:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qrmL14AEOznY4BwbvXypNlUpeH4TrifR/CEAuIy6fto=; b=erk4/iaRuHTcy+02
+	jGCbVFUGsnmWbbgibLC3TSXMeqNMBukwzEGnpGm7SrwSm2Nn8hVkZnPir3Z3uaYN
+	GLTIqEV7rL8C06WcTAQPzqSCopbTjCUE8INWvRt+EtyA46/Z6Mh/1KPhBcjf4ips
+	tzKeOV2fIM9og34eoPsvJ+yBpuYcE2bLqJEuf3i4uPhCrqpH1o+u+jIldDeCCk6w
+	sQGZpa5c3tJKRJrkJF/nO5fI7pNBAZ7/QkSiKJJiFYqEzMLHQqzR8QE4WcvwAcCO
+	FzW7beAUJzunVvfxGGRObKBIrF9XhLnEL25xRnaSQ0jfIwYtJJ6isr+xlBY4P0Xk
+	VkIAIA==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42em3wa2jf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 18:14:23 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-6cbe91571easo6926796d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 11:14:22 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729880057; x=1730484857;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lRQv+y2IqS7AxTEkkTnJFxtyxoD2fpd8WHbtE3K+zR0=;
-        b=FuStosZCxyIBnCAEFAujK2kynkmdNpafTuHvtBC3T7qY5BihHnxke0IkJ9PeOsc7om
-         9qRxNz5uyxdqSERuh9AHiufasHJqgA9tL8LBzbw/ePJinD0R99irRS2EG2fpvPPChNDa
-         9rbFjeOxDVR8DSQIq0KLuuqRzqOpEGFkPH267veVFkksVsnu5vLpvaX3EH6ZjIIefeHf
-         GZNCFVtlH9BA1vXbpX0Jw1yfHiFyQSKgarT22mN9VWb60xkW31YQ22HhWoHbRIq7vyj/
-         xLP7QQJ0wT9fmdjxPw0ugoZDWRvJEwWmt/L80g71IvWy8TUt02qpJPBiUtfhhVdtZJ/c
-         Y8lA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBAbF7k8AwHGXSbXs0luskvITXq8XVXeM+J36iNWbNDRLIVO1iGHn0jidQwRI77NHj0czOxnT8dONKnK/N@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPBgLCUS5Q8q+etJYdzBqBrrkLML4GAKYuN4G7bfI2kUk8ynCf
-	KYGn0l2UnZ4q8yAs5a36pijGyJoI3sm8mjsW3ZkmLHuY3/4teuq8A8geLbyI1GJb+iWcUEe7yOE
-	pehKTEio2qeXfJX+XuV4yfriKKE/7iUatGwZz
-X-Google-Smtp-Source: AGHT+IFCW3snO8WDCQ5BeVi/grnTyWnYHJ2KPU63NjiD9zruPXeiJiTQ7RWvWm05eyfhy4acsLFvFYXWJJ/0LRjfv5E=
-X-Received: by 2002:a05:622a:1206:b0:461:2e49:f1f8 with SMTP id
- d75a77b69052e-4613c01fd6dmr200681cf.4.1729880056835; Fri, 25 Oct 2024
- 11:14:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729880061; x=1730484861;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qrmL14AEOznY4BwbvXypNlUpeH4TrifR/CEAuIy6fto=;
+        b=YQp0MAsN69PCaGjE+BZybnErwKb0iuN8qdG/g7DpAcQRjDhDuLnMPmB/PZfprnkwhp
+         k8d5CkmjjGeXdFnCK+xY7/hrD6Grdg8oOTwbx/8ZiS4xJVRl93+hZBZUI6bfvIsjQ3Ji
+         z9bYJJLt3MKp96eVfls5VSB1PMahDww/bGvvxKL3At/D3fPFkrOA49H2zQoBpW2MPCrQ
+         tLuipjhd58QcJQ06PXiUBOunPj7c5MkrOq8tAfqPZiAVBTNMZdFfUL1EcI26xnLNiANz
+         Gy8kyvtVttoBE7k39lJQJl8ygMaZ0iSz+WyND53FcC/0iHsVNb6Qn8GmWEuMgNKPX3aT
+         ReHQ==
+X-Gm-Message-State: AOJu0Yzr20Rx9dUMnAFHVy/3i51p7Ubes9/rbruckXdMVF4c9zzvAPf8
+	83ppm5SYI6NGgDmu50cLxDiJjlcDjeK+2XQmK4571Ow1Ir1gaR67WjCFK4+wIJLEi+iartdMhhC
+	LYS0rcBVpqvFLoMhpIurILzQiBGYSC6yTR1/5FTwlcNRmoH5WNKxppRjuE+d2XLx2
+X-Received: by 2002:a05:6214:1d0b:b0:6cb:e981:d7dc with SMTP id 6a1803df08f44-6d185862e6emr1909106d6.12.1729880061487;
+        Fri, 25 Oct 2024 11:14:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEXzk3TSC3Xw8NDVKHFxS1ilkakzcOocvD+KuNE8wkBN6jCTi7n2E4Li6yt8CN+Jb53ACok5A==
+X-Received: by 2002:a05:6214:1d0b:b0:6cb:e981:d7dc with SMTP id 6a1803df08f44-6d185862e6emr1908896d6.12.1729880061187;
+        Fri, 25 Oct 2024 11:14:21 -0700 (PDT)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb634737fsm850633a12.82.2024.10.25.11.14.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Oct 2024 11:14:20 -0700 (PDT)
+Message-ID: <5a98076f-f5ce-4400-b554-6593d51de9f2@oss.qualcomm.com>
+Date: Fri, 25 Oct 2024 20:14:17 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241023224409.201771-4-xur@google.com> <202410251411.eRNArTOZ-lkp@intel.com>
-In-Reply-To: <202410251411.eRNArTOZ-lkp@intel.com>
-From: Rong Xu <xur@google.com>
-Date: Fri, 25 Oct 2024 11:14:03 -0700
-Message-ID: <CAF1bQ=RmUbPGro2c+0mukG7PjP4OMgZEqjmfRnOudt_N12vzvA@mail.gmail.com>
-Subject: Re: [PATCH v5 3/7] Change the symbols order when --ffunction-sections
- is enabled
-To: kernel test robot <lkp@intel.com>, Masahiro Yamada <masahiroy@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Arnd Bergmann <arnd@arndb.de>, Bill Wendling <morbo@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Breno Leitao <leitao@debian.org>, Brian Gerst <brgerst@gmail.com>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, David Li <davidxl@google.com>, 
-	Han Shen <shenhan@google.com>, Heiko Carstens <hca@linux.ibm.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ingo Molnar <mingo@redhat.com>, Jann Horn <jannh@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Juergen Gross <jgross@suse.com>, 
-	Justin Stitt <justinstitt@google.com>, Kees Cook <kees@kernel.org>, 
-	"Mike Rapoport (IBM)" <rppt@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Nicolas Schier <nicolas@fjasle.eu>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Thomas Gleixner <tglx@linutronix.de>, 
-	oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 6/8] spi: spi-qpic: add driver for QCOM SPI NAND flash
+ Interface
+To: kernel test robot <lkp@intel.com>,
+        Md Sadre Alam
+ <quic_mdalam@quicinc.com>, broonie@kernel.org,
+        robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        andersson@kernel.org, konradybcio@kernel.org,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        manivannan.sadhasivam@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mtd@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+        quic_varada@quicinc.com
+References: <20241021115620.1616617-7-quic_mdalam@quicinc.com>
+ <202410252355.ZofaMeku-lkp@intel.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <202410252355.ZofaMeku-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: RfZmGLXmVOD_aj36p4Vfbj-A6KHY6tJS
+X-Proofpoint-GUID: RfZmGLXmVOD_aj36p4Vfbj-A6KHY6tJS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 impostorscore=0 bulkscore=0 lowpriorityscore=0
+ clxscore=1015 suspectscore=0 spamscore=0 malwarescore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410250139
 
-I can reproduce the build error.
-
-The reason for the error is because in CONFIG_SPARC64, the symbol
-swapper_tsb needs to have a fixed address of 0x0000000000408000.
-
-In arch/sparc/kernel/vmlinux.lds.S
- 37 #ifdef CONFIG_SPARC64
- 38 ASSERT((swapper_tsb =3D=3D 0x0000000000408000), "Error: sparc64 early
-assembler too large")
- 39 #endif
-
-This symbol resides in the .text section. The patch relocates "cold"
-functions (tagged by .text.unlikely) to precede other symbols within
-the .text section. This pushes swapper_tsb to a higher memory address,
-and we have the assertion.
-
-However, this sparc code appears incompatible with the original linker
-script. The original script prioritized .text.hot symbols, placing
-them before others in the .text section. Currently, no functions are
-marked as "hot" in the source code.  If a function were marked with
-__attribute__((hot)), the build would also fail.
-
-I don't know a good solution other than adding a branch to the
-include/asm-generic/vmlinux.lds.h.
-
-@Masahiro Yamada: I'd appreciate any further suggestions you might have.
-
-Best regards,
-
--Rong
-
-On Thu, Oct 24, 2024 at 11:47=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Rong,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on eb952c47d154ba2aac794b99c66c3c45eb4cc4ec]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Xu/Add-AutoFD=
-O-support-for-Clang-build/20241024-064725
-> base:   eb952c47d154ba2aac794b99c66c3c45eb4cc4ec
-> patch link:    https://lore.kernel.org/r/20241023224409.201771-4-xur%40go=
-ogle.com
-> patch subject: [PATCH v5 3/7] Change the symbols order when --ffunction-s=
-ections is enabled
-> config: sparc-sparc64_defconfig (https://download.01.org/0day-ci/archive/=
-20241025/202410251411.eRNArTOZ-lkp@intel.com/config)
-> compiler: sparc64-linux-gcc (GCC) 13.3.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241025/202410251411.eRNArTOZ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On 25.10.2024 6:08 PM, kernel test robot wrote:
+> Hi Md,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on mtd/nand/next]
+> [also build test WARNING on broonie-spi/for-next robh/for-next linus/master v6.12-rc4 next-20241025]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Md-Sadre-Alam/spi-dt-bindings-Introduce-qcom-spi-qpic-snand/20241021-200849
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git nand/next
+> patch link:    https://lore.kernel.org/r/20241021115620.1616617-7-quic_mdalam%40quicinc.com
+> patch subject: [PATCH v12 6/8] spi: spi-qpic: add driver for QCOM SPI NAND flash Interface
+> config: sparc64-randconfig-r073-20241023 (https://download.01.org/0day-ci/archive/20241025/202410252355.ZofaMeku-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 14.1.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410251411.eRNArTOZ-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> sparc64-linux-ld: Error: sparc64 early assembler too large
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410252355.ZofaMeku-lkp@intel.com/
+> 
+> smatch warnings:
+> drivers/spi/spi-qpic-snand.c:1260 qcom_spi_write_page() warn: unsigned 'cmd' is never less than zero.
+> drivers/spi/spi-qpic-snand.c:1279 qcom_spi_send_cmdaddr() warn: unsigned 'cmd' is never less than zero.
+> 
+> vim +/cmd +1260 drivers/spi/spi-qpic-snand.c
+> 
+>   1252	
+>   1253	static int qcom_spi_write_page(struct qcom_nand_controller *snandc,
+>   1254				       const struct spi_mem_op *op)
+>   1255	{
+>   1256		struct qpic_snand_op s_op = {};
+>   1257		u32 cmd;
+>   1258	
+>   1259		cmd = qcom_spi_cmd_mapping(snandc, op->cmd.opcode);
+>> 1260		if (cmd < 0)
+>   1261			return cmd;
+
+The robot is right, qcom_spi_cmd_mapping() should return an int, as you
+return a negative errno upon failure
+
+Konrad
