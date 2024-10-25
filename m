@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3F1821A4DC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 16:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5953421A4BF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 17:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729875021; cv=none; b=mp9avX/LU1e9jPlxx0IGH2Khcn+c1NPhKbIAfhK3+pl33xpYw2Fs0uuB397rKXKXtcblhSGVCKeQTskwBZs4hxY+7Ab8eyr2oDyFdW243dqry/QjnXYlO4aL0lG1o6qvG88B/ms2MCyhJ7x9+G0mYq5v4q3gK1s2XUR93aSBB8s=
+	t=1729875623; cv=none; b=WeMPuQordiXCeA3PYxkkj48zsgUlEMhq/kTFT3bAGTjpu7sYjYlY/cfRq+cfh/rc0hR8/nRQNe4g8yVEUJqBeZo9yp954IEDbxpLfwhpm1Q8DAmcSTNrm9HS1D1cgoXTJWBX0TLN9GSXOe65RgnS9mxuTqgKD/25RGqAa0W4Pjs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729875021; c=relaxed/simple;
-	bh=lWpe7KscOJHjHZ6R0iqD8IH76X4rramUvah6j6tvAdA=;
+	s=arc-20240116; t=1729875623; c=relaxed/simple;
+	bh=BxxJwS/mKssbWbyl/Rd9kUHBemtteh0nnUkSBFkxbmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UYM0AcRHKzZcAQcGoBjgS5o35OKD/SbvUOx4tg7kJs2Yuc2xbz+6tLdct1jIvdRWQ93frWQF5aKzq+S58lwm8LlxVXilnLXaBnlLwqWj9zey6Z24Yf6ZVfP3xjDFYctjIxtff/XwYBIHHR2ZMJhwFgEGPiHJE5JUHLsED2DylhQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kv7oJjiR; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=MAfL+xdkMALKrzmKulLCZUxcz41/cDckw60cjTXNmm5yYQB8JbFd/RwgYrIEHQ4fuDn+VKmDRsdXZXz39AYSk+o9eY1L396PQn+wmIu29wYVMWSw3Ir0n4ddp3Tk5YBEl759VjOIcoJ8YbDcx8MyQBB0wV6ZhscD2JBCwNagx7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i1u1B3DL; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kv7oJjiR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i1u1B3DL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729875020; x=1761411020;
+  t=1729875621; x=1761411621;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lWpe7KscOJHjHZ6R0iqD8IH76X4rramUvah6j6tvAdA=;
-  b=kv7oJjiRx4mJwro7SWN4P0Cofz7b6KDE6VdCxpOxxeRZyPizAWnYWbBu
-   P1JVYzeTD8oRtjs2fTe8J8V9/Pq6WshxyYfIyGPfqahq9RXDAlonq4R54
-   OsD0x1fkdk7Uc1ezVPj4rHF2R1Gs8m8X3c0y+B6V9KLtA+VIyPGoREI69
-   /GjqB7n6sknxVwVOP40p2tPHiiopWfJWVlrqshPVmpUeby/PgUaRn5rUq
-   wAwdZHSAD3d0ua+4/0xHvpiIpAXRj7+0B3IEDKq4H1MbOmlB52qvfgs3m
-   wwl4PyyXIuzgaBhN9NBXytubwHK5nizG7mracuvn/cozC7xRYiLxLAQJA
-   Q==;
-X-CSE-ConnectionGUID: 90dqRr16Thi9Flz1Rw3MzQ==
-X-CSE-MsgGUID: qD0XXITeSku2qLQxR2QecA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="47035008"
-X-IronPort-AV: E=Sophos;i="6.11,232,1725346800"; 
-   d="scan'208";a="47035008"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 09:50:19 -0700
-X-CSE-ConnectionGUID: +DhykwvKS2OOB+CwWnNBMw==
-X-CSE-MsgGUID: UOIRow/PQIe8WBJPRd8L3A==
+  bh=BxxJwS/mKssbWbyl/Rd9kUHBemtteh0nnUkSBFkxbmM=;
+  b=i1u1B3DLRqFCBZhBQLuevXZfl+qqZLct+TVIt5vzempE3nhtSEHDrLJ0
+   UnT9NG7LbD6jIkVm4s+YLphQqRcfNviJt77QPAsOuM8mZJDLc8AHOjd2i
+   MMuA24vChSWPRqfG4bDzgtxWJLYGToOofXfA9kdQapAEZ5+Mu5Bpfjc+9
+   2IKlGSINQ9K+IWs3RUHFpRLYY7+554tKj0PRvCLmMDTV685rZv5h0rBx9
+   k1y4cqU+Vi1bcjkDJTDbxOhlBWe+P2OnOxpVM7HxokauEM1K/YjBwVRf8
+   c550g6D+ThgNo+B3/zRlrvBYQasDIRbLYwCg9QcNEnZHDKQmbnG9vUVZC
+   A==;
+X-CSE-ConnectionGUID: j7q0MYC2TqiSaumtsu91Hg==
+X-CSE-MsgGUID: vz/yEDZNQ7CeM7V1LZDWrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40655868"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40655868"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 10:00:21 -0700
+X-CSE-ConnectionGUID: hpeAB6o/RFaDtA/SDuKxMg==
+X-CSE-MsgGUID: rDi5UjlISZCAV/IDjRGq9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,232,1725346800"; 
-   d="scan'208";a="85548269"
+   d="scan'208";a="111797513"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Oct 2024 09:50:18 -0700
+  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2024 10:00:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4NVw-000YdO-12;
-	Fri, 25 Oct 2024 16:50:16 +0000
-Date: Sat, 26 Oct 2024 00:49:31 +0800
+	id 1t4Nfc-000Ye3-2Q;
+	Fri, 25 Oct 2024 17:00:16 +0000
+Date: Sat, 26 Oct 2024 00:59:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mic:landlock-audit 12/22] WARNING: modpost: vmlinux: section
- mismatch in reference: test_init_once+0x4e (section: .text.unlikely) ->
- init_id (section: .init.text)
-Message-ID: <202410260031.vg8tZLhd-lkp@intel.com>
+Subject: [jpoimboe:sframe 16/17] traps.c:undefined reference to
+ `unwind_ctx_ctr'
+Message-ID: <202410260032.20kMKPsO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +62,30 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git landlock-audit
-head:   b3b217bbd19f28ca1b2d9f86cd12a7e590d98a39
-commit: 6d68ea6cbd868fb93342bfd6aa99ce6a5c33a817 [12/22] landlock: Add unique ID generator
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241026/202410260031.vg8tZLhd-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260031.vg8tZLhd-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git sframe
+head:   7f54f6a91246a746ba799c52c97effb41e28a88b
+commit: 7a409ba76d997448b80fddf0b3fc96f554aeff14 [16/17] ctx_ctr
+config: riscv-allnoconfig (https://download.01.org/0day-ci/archive/20241026/202410260032.20kMKPsO-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260032.20kMKPsO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410260031.vg8tZLhd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410260032.20kMKPsO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: test_init_once+0x4e (section: .text.unlikely) -> init_id (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: test_init_once+0x12c (section: .text.unlikely) -> init_id (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: test_init_max+0x56 (section: .text.unlikely) -> init_id (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: test_init_min+0x4e (section: .text.unlikely) -> init_id (section: .init.text)
+   riscv64-linux-ld: arch/riscv/kernel/traps.o: in function `do_trap_ecall_m':
+>> traps.c:(.noinstr.text+0x890): undefined reference to `unwind_ctx_ctr'
+   riscv64-linux-ld: kernel/fork.o: in function `mmput':
+   fork.c:(.text+0xbbc): undefined reference to `unwind_task_free'
+   riscv64-linux-ld: kernel/fork.o: in function `copy_process':
+   fork.c:(.text+0x16e2): undefined reference to `unwind_task_init'
+   riscv64-linux-ld: kernel/entry/common.o: in function `syscall_enter_from_user_mode_prepare':
+>> common.c:(.noinstr.text+0x40): undefined reference to `unwind_ctx_ctr'
+   riscv64-linux-ld: kernel/entry/common.o: in function `syscall_exit_to_user_mode':
+   common.c:(.noinstr.text+0x114): undefined reference to `unwind_ctx_ctr'
 
 -- 
 0-DAY CI Kernel Test Service
