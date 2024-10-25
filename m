@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52679189B9C;
-	Fri, 25 Oct 2024 19:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A245189B9C
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 19:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729885532; cv=none; b=sbZ+EgB4ZM+v+CQQDCjlusSAOO+317c/FPEjLvAkXyARyhE5dy/zLkOBrbUCrU+tuk7kvVwhiOAYb1ZGdiQNe53hkCQJWyYqae+KtjBX5yCCA5p99fiy+Hpc4oHFf2LXtdgoMiIZhS2jGY4TOxEtlOZsliyH/ikiL0NZH8gob9s=
+	t=1729885535; cv=none; b=IQw43yvAcLDLGBdTr6PL9BEDZXxcC2S5PWOH3Uc0ZL8xZ9wwXm8WXkRHkr89AzsXQcuPPGb4sQIvMMlYvPmhDYUgM6n4mdyopHCz9YHCUwdoOH3Z2pzVBUcVdDiuvRbn73QtnR/g6CgPN1Xa5ePIBky+jdzRF+uSrPJNOy0t9+Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729885532; c=relaxed/simple;
-	bh=35fKuFNjNFa4eOloH9WvX0CjkQRbk1EB+qm/4oXIadY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tnBhNliLUFXsKGrr+F/ZF+b8Q8Uh5AqZ9ybCeYPzzju3BroomqwueLSn0r4lFSjA5u+JhCTwyd+fVDuiV3AjjhTfZMPBOSndCWU/9IH7L9DQ+Q8i4lbkig/ggkVGfhRnz0UlrLxv1OynsMIGEVGBBViDSGIqIt1Pj3f3ak2v+Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zg83DXN/; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1729885535; c=relaxed/simple;
+	bh=Odm8rM5oG6O35cTkBqAj/y5K/dJEj/4GZ5eaaAaoIhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NoT89M4EtKfbfNUOktovTsUOrlXlvW5CYjuM19yIgbgPu8EZi+pAJ4bMXcZja9DEB3wXiV7EQc7XEbBj16opo00klqkc6jjIcLm99L4NCrHgO48GvtEIWDlN/AGbVCWQb4Hbz/lrwtoPfYIGq7195e1klnuaaYshlf4Xs4efaCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlFixrc1; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zg83DXN/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlFixrc1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729885529; x=1761421529;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=35fKuFNjNFa4eOloH9WvX0CjkQRbk1EB+qm/4oXIadY=;
-  b=Zg83DXN/Ncigxt2F4wzo+dT18ggWMF3vYQrqAbMN3NZd6sQqNApG9MEj
-   6KNxbduKP/9sr56npUOO9PbfmfVshAvU8nbftYZulgbhAdgYpXtHrSbr1
-   Di6KpTr76UnXBFmvW0WHHDX20kMgzmXoCXMnawUMB/lo3q1CjphD7R34U
-   /BcM9KvWDWGrOUgmBgb4+Zi0xdlZ3zqGEvwaKD2EYOoC5QpNE6J72wsh8
-   504FDQX3/TbdnzKYY3y3jkNJ6yQOOX0Sji1FMLZZTRe7IZXSG9ck+jNXQ
-   dzmkF5ry1/QSmB69FbyXiLdOGHctu9B1Cbwtuk/BjLkNzIL/3/dsbVdi9
+  t=1729885533; x=1761421533;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Odm8rM5oG6O35cTkBqAj/y5K/dJEj/4GZ5eaaAaoIhE=;
+  b=ZlFixrc1o3OJ7LRpDkd/s4PR0nDS+pFK2bsOcV/8sd8jntlp0jXs/m3X
+   20/lpqhOpThrKb0aRvTLZbTpSy/tggdymoWNZ+xIN6dnGWPevA/u46M4h
+   lC3jwnE3k/3YGVzgrkvvMM2j2zZg370YnBqoP7ANMEGeVcBa147r+iRrH
+   2B29XwnR5yBPvpA5aK28sJeW7CY1jjWo3M5tp8x5NrY2Of9GILk1mh3Tr
+   agdET/RS+3sQpIRq7I+1ygaWBgS4Jz50239NxrEtVPBla66PDcFcRzNMJ
+   mdUVfQ7eN7NxD6Mck3MY8Yzj2lWkB8R7F4/NxvO1G6BB3Avx8saAcLdRd
    Q==;
-X-CSE-ConnectionGUID: mPCDVyebSBiowtZFXy/0UA==
-X-CSE-MsgGUID: ev1zdcGrT+iUUDJLLucDvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47027510"
+X-CSE-ConnectionGUID: Njqus8MKTOqeyO5wfpVcbA==
+X-CSE-MsgGUID: n1zxQhozTtGm0HK8piNLNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29432377"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47027510"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 12:45:29 -0700
-X-CSE-ConnectionGUID: v1xUbYt8TOmNZzcy5gZHqA==
-X-CSE-MsgGUID: oFy5VWnrTrOoSks9/ew0hQ==
+   d="scan'208";a="29432377"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 12:45:33 -0700
+X-CSE-ConnectionGUID: +xmLViUaSXaFuDaMWKK8sQ==
+X-CSE-MsgGUID: 2XwIh/TkTOmQovypF9PlIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,232,1725346800"; 
-   d="scan'208";a="81113764"
+   d="scan'208";a="104331697"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 25 Oct 2024 12:45:27 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Oct 2024 12:45:27 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4QFR-000Yp6-1U;
+	id 1t4QFR-000YpB-1b;
 	Fri, 25 Oct 2024 19:45:25 +0000
 Date: Sat, 26 Oct 2024 03:44:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:crc32-lib 19/33] lib/crc32.c:342:5: error: expected
- identifier or '('
-Message-ID: <202410260329.Irc7bUKL-lkp@intel.com>
+To: Huan Tang <tanghuan@vivo.com>, alim.akhtar@samsung.com,
+	avri.altman@wdc.com, bvanassche@acm.org,
+	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
+	beanhuo@micron.com, luhongfei@vivo.com, quic_cang@quicinc.com,
+	keosung.park@samsung.com, viro@zeniv.linux.org.uk,
+	quic_mnaresh@quicinc.com, peter.wang@mediatek.com,
+	manivannan.sadhasivam@linaro.org, ahalaney@redhat.com,
+	quic_nguyenb@quicinc.com, linux@weissschuh.net, ebiggers@google.com,
+	minwoo.im@samsung.com, linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
+	Huan Tang <tanghuan@vivo.com>
+Subject: Re: [PATCH] ufs: core: Add WB buffer resize support
+Message-ID: <202410260352.WRMItCze-lkp@intel.com>
+References: <20241025085924.4855-1-tanghuan@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,59 +72,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241025085924.4855-1-tanghuan@vivo.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git crc32-lib
-head:   173b25426b0584097e1e1a772bc09bf8c0780837
-commit: f7f6af3d9ab8c5e851046390ac3f9d67b67a1033 [19/33] lib/crc32: expose whether the lib is really optimized at runtime
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20241026/202410260329.Irc7bUKL-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260329.Irc7bUKL-lkp@intel.com/reproduce)
+Hi Huan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Tang/ufs-core-Add-WB-buffer-resize-support/20241025-170131
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20241025085924.4855-1-tanghuan%40vivo.com
+patch subject: [PATCH] ufs: core: Add WB buffer resize support
+config: arm-randconfig-004-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260352.WRMItCze-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260352.WRMItCze-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410260329.Irc7bUKL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410260352.WRMItCze-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> lib/crc32.c:342:5: error: expected identifier or '('
-     342 | u32 crc32_optimizations;
-         |     ^
-   include/linux/crc32.h:52:29: note: expanded from macro 'crc32_optimizations'
-      52 | #define crc32_optimizations 0
-         |                             ^
-   lib/crc32.c:343:15: error: expected identifier or '('
-     343 | EXPORT_SYMBOL(crc32_optimizations);
-         |               ^
-   include/linux/crc32.h:52:29: note: expanded from macro 'crc32_optimizations'
-      52 | #define crc32_optimizations 0
-         |                             ^
->> lib/crc32.c:343:1: error: cannot take the address of an rvalue of type 'int'
-     343 | EXPORT_SYMBOL(crc32_optimizations);
-         | ^             ~~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:68:29: note: expanded from macro 'EXPORT_SYMBOL'
-      68 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                         ^              ~~~
-   include/linux/export.h:65:38: note: expanded from macro '_EXPORT_SYMBOL'
-      65 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                         ^               ~~~
-   include/linux/export.h:57:2: note: expanded from macro '__EXPORT_SYMBOL'
-      57 |         __ADDRESSABLE(sym)                                      \
-         |         ^             ~~~
-   include/linux/compiler.h:229:2: note: expanded from macro '__ADDRESSABLE'
-     229 |         ___ADDRESSABLE(sym, __section(".discard.addressable"))
-         |         ^              ~~~
-   include/linux/compiler.h:227:64: note: expanded from macro '___ADDRESSABLE'
-     227 |         __UNIQUE_ID(__PASTE(__addressable_,sym)) = (void *)(uintptr_t)&sym;
-         |                                                                       ^~~~
-   3 errors generated.
+   drivers/ufs/core/ufs-sysfs.c: In function 'wb_toggle_buf_resize_store':
+>> drivers/ufs/core/ufs-sysfs.c:419:12: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+     419 |         u8 index;
+         |            ^~~~~
 
 
-vim +342 lib/crc32.c
+vim +/index +419 drivers/ufs/core/ufs-sysfs.c
 
-   341	
- > 342	u32 crc32_optimizations;
- > 343	EXPORT_SYMBOL(crc32_optimizations);
+   413	
+   414	static ssize_t wb_toggle_buf_resize_store(struct device *dev,
+   415			struct device_attribute *attr, const char *buf, size_t count)
+   416	{
+   417		struct ufs_hba *hba = dev_get_drvdata(dev);
+   418		unsigned int wb_buf_resize_op;
+ > 419		u8 index;
+   420		ssize_t res;
+   421	
+   422		if (!ufshcd_is_wb_allowed(hba) || !hba->dev_info.wb_enabled ||
+   423			!hba->dev_info.b_presrv_uspc_en) {
+   424			dev_err(dev, "The WB buf resize is not allowed!\n");
+   425			return -EOPNOTSUPP;
+   426		}
+   427	
+   428		if (kstrtouint(buf, 0, &wb_buf_resize_op))
+   429			return -EINVAL;
+   430	
+   431		if (wb_buf_resize_op != 0x01 && wb_buf_resize_op != 0x02) {
+   432			dev_err(dev, "The operation %u is invalid!\n", wb_buf_resize_op);
+   433			return -EINVAL;
+   434		}
+   435	
+   436		down(&hba->host_sem);
+   437		if (!ufshcd_is_user_access_allowed(hba)) {
+   438			res = -EBUSY;
+   439			goto out;
+   440		}
+   441	
+   442		index = ufshcd_wb_get_query_index(hba);
+   443		ufshcd_rpm_get_sync(hba);
+   444		res = ufshcd_wb_toggle_buf_resize(hba, wb_buf_resize_op);
+   445		ufshcd_rpm_put_sync(hba);
+   446	
+   447	out:
+   448		up(&hba->host_sem);
+   449		return res < 0 ? res : count;
+   450	}
+   451	
 
 -- 
 0-DAY CI Kernel Test Service
