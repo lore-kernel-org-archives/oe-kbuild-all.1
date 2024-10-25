@@ -1,83 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A76E54436A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 06:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFE261CF96
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 06:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729837607; cv=none; b=bxKDaky36NUJBP7h3vwGFYZVr7ZL8gUnGk322JEXD7+pgsvoYsfx+rSc9MH+X3UZ90S9NP67vmHTcNc14JR/FUdczip+/uatD8O4HM9pE9PZ+F2NFXYC5JLpz1OtfMmsCJNbhSPfZVwXhL1pxRwEp0+7RwRdSE65U0uofIlwNhY=
+	t=1729837975; cv=none; b=genP1rIzxe4TU5bvp/2r6EZe19RXdmu/MkFoXOq5YPktr9cTPug9z+2Zdox7h/qUfDdXju23mCqMKx9si0m9R2X0N9TduqGZvZbNlKfGLQdUFlIUNjUs+xf7hnDeK/WIBQk8SHnKD9L4YSC/Og1bVJglpqmfLjJl32EA/N59pVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729837607; c=relaxed/simple;
-	bh=BTMks1+qfw+bF/qyl2b5rLu3W6nf6dPAFvzbzObOxXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NZ8V8pjvMdcNe+WCgfD11PesEj7s3XbojaKmpmsXqs2z+uM6QQPCoJBjayYL9Y5rTG9H9eI7dCHv+nUVY4+iOu9EgSqh0Hs+V4R54egtmXxWYvG6ED+QqYCr3UUHHCVYK81HqWZvBnk9asYTq9sO+6lEuMQkEbVryyPQdJnDBqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJ0G2kvg; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729837975; c=relaxed/simple;
+	bh=YqdOTsrNJnrLbOZ1bSoMecZGviL4/R6yS/njjBxSJbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CYsB/X0g6BneXmmz4i5VaLzE2yB5gmO6n7Pf7YD7BLUnnB3MZ9NR9hbfaeaumKos3ExzhdqVZjFkqGhxMb/hTy4V7VxlsRMd3ppZjvRbDiF4z7XQYT9jTwv2zRSvbfZFd2OpFFUn5x8i0i7AjCbrN0KRdogIAjXT/cqLO6vwrf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=txjIyHVQ; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=h1ind8EL; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJ0G2kvg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729837605; x=1761373605;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BTMks1+qfw+bF/qyl2b5rLu3W6nf6dPAFvzbzObOxXo=;
-  b=PJ0G2kvggHRgQuaSvo+Ib+epAj6BVgWB07sLqHN1EyPSjXDiAErwwM/W
-   rjzSDMo/L1iMhvgrK+1onzLW58CO6986RfMCyuvpietZs3zajbB5DGpxB
-   JztbfRsvVnNMExbmTEm0iXp8QI1/cUg/0VYJvMJbAkWx0F27WEpM/1ul8
-   ZKdiDnD2HzMHRZLJNXHeN6QMFUAP0W1FyMIJMf3X7kR6DQsOUcTWdahfL
-   SlNdfDEPhsPAJH4ZZmR1UKMXcuFo9A/e+T6hCvn5VpKKHqyrFCfJYquRt
-   L1zttGvwKieMUh2M6hD8AFyG2InFVsvcuxuNwFWNQWRiM/F5+d8WJrfxL
-   A==;
-X-CSE-ConnectionGUID: VLMNtJ50Sj2+/6yMXVaqyw==
-X-CSE-MsgGUID: 5I3pkjaSSYWojv3qCbsRaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29437643"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29437643"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2024 23:26:45 -0700
-X-CSE-ConnectionGUID: bMIAmXE8Q3m/V2lx1dLNfg==
-X-CSE-MsgGUID: 6Rd6welYQ0O1cDVA2iKZVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85377577"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Oct 2024 23:26:44 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4DmT-000Xge-2t;
-	Fri, 25 Oct 2024 06:26:41 +0000
-Date: Fri, 25 Oct 2024 14:26:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 8162/23857] kernel/uid16.o: warning:
- objtool: __x64_sys_getuid16.cold()+0x0: unreachable instruction
-Message-ID: <202410251459.SDocFsSZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="txjIyHVQ";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="h1ind8EL"
+Date: Fri, 25 Oct 2024 08:32:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1729837970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xcjSBDDyZz7KjAQwhG9HZGIfUvUSzd5QasxiuiBOlmA=;
+	b=txjIyHVQ5Lw6Fu9Ugc40fQiuEXrY5MtkAY2/pOnYToWz/phPP5UsyRRsFDpO+TQ9fEtfdC
+	KeFytYXtUE5nJkRWgmUnhUtT5TtD8wRp2pbztgcWSAbF4B8DAFcwZO5kY3AqjD56hQQuYj
+	MYn3RdY9l4fvf/vzwl03wlAwc+RSupRdB/BnqNYJ4cR4L49AS2Yy04RqXbMayjSQA++BEP
+	eoRjYtLG9wHIY7f59msW+kHiz2cnNDcPwCRbzTUh5FD1wmsHjbIfOUaNiPF0SWL/S+ZIIv
+	HXbP3dcwSDPGVTxuH3UztQI3JpQpNdBe/QrN3XxYf998VAWt5xsIb78KtNC+Aw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1729837970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xcjSBDDyZz7KjAQwhG9HZGIfUvUSzd5QasxiuiBOlmA=;
+	b=h1ind8ELAn/B7hfiCrHD1u5D9KH03k889KlsJPiYyFn+T0ieGMClj6L+MQVmy3Pe0v+bIH
+	eNWZrKY9ryN9mNCQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Christian Loehle <christian.loehle@arm.com>
+Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: kernel/sched/core.c:1361:21: warning: 'uclamp_mutex' defined but
+ not used
+Message-ID: <20241025063249.Q3RPg_vY@linutronix.de>
+References: <202410060258.bPl2ZoUo-lkp@intel.com>
+ <7d19367b-a4ac-4c65-a543-9a4d614bec44@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <7d19367b-a4ac-4c65-a543-9a4d614bec44@arm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   fc5b1a61061cb6d640f3336024fb616182ef2614
-commit: 56bc1719652e7a937bc9856f76f0c0fbf8ce1b23 [8162/23857] objtool: Support GCC 9 cold subfunction naming scheme
-config: x86_64-randconfig-076-20241024 (https://download.01.org/0day-ci/archive/20241025/202410251459.SDocFsSZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251459.SDocFsSZ-lkp@intel.com/reproduce)
+On 2024-10-07 11:08:36 [+0100], Christian Loehle wrote:
+> Please allow me a day to walk through the code just to double-check, but
+> the obvious fixes are either letting UCLAMP_TASK depend on SYSCTL or:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251459.SDocFsSZ-lkp@intel.com/
+This does not look too bad. Meanwhile I got another report
+	https://lore.kernel.org/202410250459.EJe6PJI5-lkp@intel.com
 
-All warnings (new ones prefixed by >>):
+Mind to post this?
 
->> kernel/uid16.o: warning: objtool: __x64_sys_getuid16.cold()+0x0: unreachable instruction
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
