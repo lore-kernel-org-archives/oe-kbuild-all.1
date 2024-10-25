@@ -1,69 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A981DB366;
-	Fri, 25 Oct 2024 09:15:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1216D1D9A51
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Oct 2024 09:15:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729847708; cv=none; b=NYQ8G+kNhxwFprT3xeOA4ziU6y+mmJBWY6YOeEKYfP6alQsyTTySf2VlKDCg5k4YGkLtB+egAE9hXu7E9P0P0xUTB3xBBa7G/c/ZdwP7msMpyDnjqf/NA8yKIKFAupVmtMQfnz8L72yDepfpGGJ973mvu5Z1ujy/fXCLhs/R0EQ=
+	t=1729847708; cv=none; b=DJGT/Zt97o7dd+xZyjxv8PufbgeLjsptLmBSV7m3EnAa4F61vk72eSkd2vlj8GkmEQ/E3gXEAUTESmkDPr5bItqcdzn/cAWAZBlqOMHHASk5czVWrHenXjBoac7PnwXo08nR69e13sUxTaP6j2Lqf5R3sJHRM0i/U0cgM2fgLA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1729847708; c=relaxed/simple;
-	bh=4XMDoD+OeLfbg1UVKD38t5UItaObkTJ3EMHjIj5Uj94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PDy3az4Rdp0KQgpSbg2rgGy0ktF06lKxeM//FG/aqIxqL3as9+PcUayKUK/kxz7GVdh945MnvEjulgZ5/8+/ZzAlxJTggSa2l+AQe3UVfr/9rKXLvlZsP3AZVEdRAJ8RNX1wPjV/mIacXpL6ECCd2kv69enWiB33zcE38v7hOio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMX2wLbv; arc=none smtp.client-ip=198.175.65.9
+	bh=+YNZj4UIz5SqCIcEHAmF1MTos1odkQV8N0MppzByhpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=UCfdIQv1Kh0iNArztw9kbvH19R02Xu910Mn8SkYaP5Y6jZxh5DitCxRMmJgd5vQi9cR4CMiRh3X/R8Nvc88UeDiQQhnITtt4vGvOuuZ31aFkf0Yosnstpk+jwfgnA0vm8oSLqZ5PBVu0soMX8AfwfBq1qRvhm0kbnPwjYblgDtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kEDJvG71; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMX2wLbv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kEDJvG71"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729847706; x=1761383706;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4XMDoD+OeLfbg1UVKD38t5UItaObkTJ3EMHjIj5Uj94=;
-  b=EMX2wLbvBL+z++EU8aXIWmakBrS2W6+gSnZQAcAFZhn1cchMcslEfDJM
-   0gs8jStoRqSzyz+tYMTXqBFY1UvzjZrP/kmkKnR9GUrFStk+P7QAVnsY7
-   53+WNxBpJiVXjl9oq1TO5ndG0iX8uToUjaFCrn0qL8n/0HzhO8wVdfejP
-   yga/DJ2GACQqzrUkE6PFJPdZKcLaoty0HQkclhxHY0215mTs9bnh23noK
-   /2IgkSCgLIDozP8JrIQ3nKP4fsbQdsCCbP3UmWFKcpjso6oT5vOq8Vm2S
-   xUgR6ZeJ4NuLcm/e0Tlov9RV+2bs0feDui7W7Xd+jAz0/+PAslb+Xs+5E
+  t=1729847705; x=1761383705;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+YNZj4UIz5SqCIcEHAmF1MTos1odkQV8N0MppzByhpo=;
+  b=kEDJvG71AKmYFRJQ+7enQj5pnIHDprxdCS+iA2JW2kJAAxEox+0NaNO7
+   wsP5Wl8yoFurZnwmePPrtkt99gGv8aBYTvyMtjVIqsrGCvCOavAYZZvmR
+   uU2kE8WxnNVEpZZjlwI0D6/awYg6ddgm2LjdIcPC77nrJ2dO8wBmuobtO
+   VjyUNUvvBCXpfe4rROjYJd6kt5z5Oe1RsWdKGFySwQr6WSaQQ9yCzTT+P
+   kQRcK+uFr70gVJ2FEDiy049bHPZMRm3lDVviWTtVE4HF1gyWi1kyLViPT
+   xWLuDGiNoH4IFQuGd51dxTdeA5FjvTW1wE2nudnBfh0hadsvFM/ypW0Bf
    g==;
-X-CSE-ConnectionGUID: NRWyuNTJStetrHXomzarxw==
-X-CSE-MsgGUID: OciJWkb+TCGgLg+rCWOecQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52066582"
+X-CSE-ConnectionGUID: vxEYXyz8Q9e2a0NY+OSebw==
+X-CSE-MsgGUID: RiMQGRuXQmSBUVPzC+xUQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52066559"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52066582"
+   d="scan'208";a="52066559"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:15:00 -0700
-X-CSE-ConnectionGUID: UyiVqf9YRASFXPSsA9mn2Q==
-X-CSE-MsgGUID: HLEMjEXGRF62b6hBGS5IGA==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 02:14:55 -0700
+X-CSE-ConnectionGUID: M9K3cC2NSG6FEjjpYFQk4A==
+X-CSE-MsgGUID: X2NdxeCjSE6IMM1FAnWnpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,231,1725346800"; 
-   d="scan'208";a="85653620"
+   d="scan'208";a="85653617"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 25 Oct 2024 02:14:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4GPD-000XyP-17;
+	id 1t4GPD-000XyM-13;
 	Fri, 25 Oct 2024 09:14:51 +0000
-Date: Fri, 25 Oct 2024 17:14:26 +0800
+Date: Fri, 25 Oct 2024 17:14:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: "D. Wythe" <alibuda@linux.alibaba.com>, kgraul@linux.ibm.com,
-	wenjia@linux.ibm.com, jaka@linux.ibm.com, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-	pabeni@redhat.com, song@kernel.org, sdf@google.com,
-	haoluo@google.com, yhs@fb.com, edumazet@google.com,
-	john.fastabend@gmail.com, kpsingh@kernel.org, jolsa@kernel.org,
-	guwen@linux.alibaba.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, kuba@kernel.org,
-	davem@davemloft.net, netdev@vger.kernel.org,
-	linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org, dtcccc@linux.alibaba.com
-Subject: Re: [PATCH bpf-next 2/4] bpf: allow to access bpf_prog during
- bpf_struct_access
-Message-ID: <202410251600.4VOzw93J-lkp@intel.com>
-References: <1729737768-124596-3-git-send-email-alibuda@linux.alibaba.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:sound-pcmv2-2024-10-22 2/3] sound/soc/soc-utils.c:134:55:
+ error: initialization of 'struct snd_soc_dai_link1 *' from 'int' makes
+ pointer from integer without a cast
+Message-ID: <202410251732.tUllHWUv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,146 +62,381 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1729737768-124596-3-git-send-email-alibuda@linux.alibaba.com>
 
-Hi Wythe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/bpf-export-necessary-sympols-for-modules/20241024-104903
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/1729737768-124596-3-git-send-email-alibuda%40linux.alibaba.com
-patch subject: [PATCH bpf-next 2/4] bpf: allow to access bpf_prog during bpf_struct_access
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241025/202410251600.4VOzw93J-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251600.4VOzw93J-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux sound-pcmv2-2024-10-22
+head:   ad08834668b453f25c4d160e515f18b8f3d5fd39
+commit: 9c5ddaa0866d7901f7f8a0203fcf371ba5c67cde [2/3] rtd1 / dai_link1
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241025/202410251732.tUllHWUv-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410251732.tUllHWUv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410251600.4VOzw93J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410251732.tUllHWUv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-   In file included from include/linux/bpf_verifier.h:7:
-   In file included from include/linux/bpf.h:20:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-   In file included from include/linux/bpf_verifier.h:9:
-   In file included from include/linux/filter.h:12:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-   In file included from include/linux/bpf_verifier.h:9:
-   In file included from include/linux/filter.h:12:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/hid/bpf/hid_bpf_struct_ops.c:10:
-   In file included from include/linux/bpf_verifier.h:9:
-   In file included from include/linux/filter.h:12:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/hid/bpf/hid_bpf_struct_ops.c:146:23: error: incompatible function pointer types initializing 'int (*)(struct bpf_verifier_log *, const struct bpf_reg_state *, const struct bpf_prog *, int, int)' with an expression of type 'int (struct bpf_verifier_log *, const struct bpf_reg_state *, int, int)' [-Wincompatible-function-pointer-types]
-     146 |         .btf_struct_access = hid_bpf_ops_btf_struct_access,
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   16 warnings and 1 error generated.
+   sound/soc/soc-utils.c: In function 'dummy_dma_open':
+   sound/soc/soc-utils.c:134:55: error: implicit declaration of function 'snd_soc_dai_link_to_link1'; did you mean 'snd_soc_link_to_codec'? [-Wimplicit-function-declaration]
+     134 |                 struct snd_soc_dai_link1 *dai_link1 = snd_soc_dai_link_to_link1(rtd->dai_link);
+         |                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                                       snd_soc_link_to_codec
+>> sound/soc/soc-utils.c:134:55: error: initialization of 'struct snd_soc_dai_link1 *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   sound/soc/soc-utils.c:136:31: error: invalid use of undefined type 'struct snd_soc_dai_link1'
+     136 |                 if (!dai_link1->no_pcm)
+         |                               ^~
+--
+   sound/soc/amd/acp-da7219-max98357a.c:545:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     545 |                 .dpcm_playback = 1,
+         |                  ^~~~~~~~~~~~~
+>> sound/soc/amd/acp-da7219-max98357a.c:545:34: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     545 |                 .dpcm_playback = 1,
+         |                                  ^
+   sound/soc/amd/acp-da7219-max98357a.c:545:34: note: (near initialization for 'cz_dai_7219_98357[0].exit')
+   sound/soc/amd/acp-da7219-max98357a.c:555:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     555 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+>> sound/soc/amd/acp-da7219-max98357a.c:555:33: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     555 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/amd/acp-da7219-max98357a.c:555:33: note: (near initialization for 'cz_dai_7219_98357[1].init')
+   sound/soc/amd/acp-da7219-max98357a.c:565:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     565 |                 .dpcm_playback = 1,
+         |                  ^~~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:565:34: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     565 |                 .dpcm_playback = 1,
+         |                                  ^
+   sound/soc/amd/acp-da7219-max98357a.c:565:34: note: (near initialization for 'cz_dai_7219_98357[2].init')
+   sound/soc/amd/acp-da7219-max98357a.c:576:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     576 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:576:33: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     576 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/amd/acp-da7219-max98357a.c:576:33: note: (near initialization for 'cz_dai_7219_98357[3].init')
+   sound/soc/amd/acp-da7219-max98357a.c:587:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     587 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:587:33: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     587 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/amd/acp-da7219-max98357a.c:587:33: note: (near initialization for 'cz_dai_7219_98357[4].init')
+   sound/soc/amd/acp-da7219-max98357a.c:601:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     601 |                 .dpcm_playback = 1,
+         |                  ^~~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:601:34: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     601 |                 .dpcm_playback = 1,
+         |                                  ^
+   sound/soc/amd/acp-da7219-max98357a.c:601:34: note: (near initialization for 'cz_dai_5682_98357[0].exit')
+   sound/soc/amd/acp-da7219-max98357a.c:611:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     611 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:611:33: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     611 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/amd/acp-da7219-max98357a.c:611:33: note: (near initialization for 'cz_dai_5682_98357[1].init')
+   sound/soc/amd/acp-da7219-max98357a.c:621:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     621 |                 .dpcm_playback = 1,
+         |                  ^~~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:621:34: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     621 |                 .dpcm_playback = 1,
+         |                                  ^
+   sound/soc/amd/acp-da7219-max98357a.c:621:34: note: (near initialization for 'cz_dai_5682_98357[2].init')
+   sound/soc/amd/acp-da7219-max98357a.c:632:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     632 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:632:33: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     632 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/amd/acp-da7219-max98357a.c:632:33: note: (near initialization for 'cz_dai_5682_98357[3].init')
+   sound/soc/amd/acp-da7219-max98357a.c:643:18: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     643 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+   sound/soc/amd/acp-da7219-max98357a.c:643:33: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     643 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/amd/acp-da7219-max98357a.c:643:33: note: (near initialization for 'cz_dai_5682_98357[4].init')
+--
+   sound/soc/fsl/fsl-asoc-card.c:320:18: error: 'const struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     320 |                 .dpcm_playback = 1,
+         |                  ^~~~~~~~~~~~~
+   sound/soc/fsl/fsl-asoc-card.c:321:18: error: 'const struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     321 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+>> sound/soc/fsl/fsl-asoc-card.c:321:33: error: initialization of 'struct snd_soc_dai_link_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     321 |                 .dpcm_capture = 1,
+         |                                 ^
+   sound/soc/fsl/fsl-asoc-card.c:321:33: note: (near initialization for 'fsl_asoc_card_dai[1].cpus')
+   sound/soc/fsl/fsl-asoc-card.c:322:18: error: 'const struct snd_soc_dai_link' has no member named 'dynamic'
+     322 |                 .dynamic = 1,
+         |                  ^~~~~~~
+   sound/soc/fsl/fsl-asoc-card.c:329:18: error: 'const struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     329 |                 .dpcm_playback = 1,
+         |                  ^~~~~~~~~~~~~
+   sound/soc/fsl/fsl-asoc-card.c:330:18: error: 'const struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     330 |                 .dpcm_capture = 1,
+         |                  ^~~~~~~~~~~~
+   sound/soc/fsl/fsl-asoc-card.c:331:18: error: 'const struct snd_soc_dai_link' has no member named 'no_pcm'
+     331 |                 .no_pcm = 1,
+         |                  ^~~~~~
+   sound/soc/fsl/fsl-asoc-card.c: In function 'fsl_asoc_card_spdif_init':
+   sound/soc/fsl/fsl-asoc-card.c:507:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     507 |                 priv->dai_link[1].dpcm_capture = false;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:508:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     508 |                 priv->dai_link[2].dpcm_capture = false;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:512:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     512 |                 priv->dai_link[1].dpcm_playback = false;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:513:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_playback'
+     513 |                 priv->dai_link[2].dpcm_playback = false;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c: In function 'fsl_asoc_card_probe':
+   sound/soc/fsl/fsl-asoc-card.c:767:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     767 |                 priv->dai_link[1].dpcm_capture = 0;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:768:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     768 |                 priv->dai_link[2].dpcm_capture = 0;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:794:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     794 |                 priv->dai_link[1].dpcm_capture = 0;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:795:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     795 |                 priv->dai_link[2].dpcm_capture = 0;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:801:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     801 |                 priv->dai_link[1].dpcm_capture = 0;
+         |                                  ^
+   sound/soc/fsl/fsl-asoc-card.c:802:34: error: 'struct snd_soc_dai_link' has no member named 'dpcm_capture'
+     802 |                 priv->dai_link[2].dpcm_capture = 0;
+         |                                  ^
+--
+   sound/soc/samsung/speyside.c:222:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     222 |                 .c2c_params = &dsp_codec_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/speyside.c:222:31: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from incompatible pointer type 'const struct snd_soc_pcm_stream *' [-Wincompatible-pointer-types]
+     222 |                 .c2c_params = &dsp_codec_params,
+         |                               ^
+   sound/soc/samsung/speyside.c:222:31: note: (near initialization for 'speyside_dai[1].init')
+   sound/soc/samsung/speyside.c:222:31: warning: initialized field overwritten [-Woverride-init]
+   sound/soc/samsung/speyside.c:222:31: note: (near initialization for 'speyside_dai[1].init')
+   sound/soc/samsung/speyside.c:223:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     223 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+>> sound/soc/samsung/speyside.c:223:35: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     223 |                 .num_c2c_params = 1,
+         |                                   ^
+   sound/soc/samsung/speyside.c:223:35: note: (near initialization for 'speyside_dai[1].exit')
+--
+   sound/soc/samsung/lowland.c:126:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     126 |                 .c2c_params = &sub_params,
+         |                  ^~~~~~~~~~
+>> sound/soc/samsung/lowland.c:126:31: error: initialization of 'unsigned char:1' from 'const struct snd_soc_pcm_stream *' makes integer from pointer without a cast [-Wint-conversion]
+     126 |                 .c2c_params = &sub_params,
+         |                               ^
+   sound/soc/samsung/lowland.c:126:31: note: (near initialization for 'lowland_dai[2].symmetric_rate')
+   sound/soc/samsung/lowland.c:126:31: error: initializer element is not computable at load time
+   sound/soc/samsung/lowland.c:126:31: note: (near initialization for 'lowland_dai[2].symmetric_rate')
+   sound/soc/samsung/lowland.c:127:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     127 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+--
+   sound/soc/samsung/littlemill.c:170:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     170 |                 .c2c_params = &baseband_params,
+         |                  ^~~~~~~~~~
+>> sound/soc/samsung/littlemill.c:170:31: error: initialization of 'unsigned char:1' from 'const struct snd_soc_pcm_stream *' makes integer from pointer without a cast [-Wint-conversion]
+     170 |                 .c2c_params = &baseband_params,
+         |                               ^
+   sound/soc/samsung/littlemill.c:170:31: note: (near initialization for 'littlemill_dai[1].symmetric_rate')
+   sound/soc/samsung/littlemill.c:170:31: error: initializer element is not computable at load time
+   sound/soc/samsung/littlemill.c:170:31: note: (near initialization for 'littlemill_dai[1].symmetric_rate')
+   sound/soc/samsung/littlemill.c:171:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     171 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+--
+   sound/soc/samsung/bells.c:267:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     267 |                 .c2c_params = &sub_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/bells.c:267:31: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from incompatible pointer type 'const struct snd_soc_pcm_stream *' [-Wincompatible-pointer-types]
+     267 |                 .c2c_params = &sub_params,
+         |                               ^
+   sound/soc/samsung/bells.c:267:31: note: (near initialization for 'bells_dai_wm2200[1].init')
+   sound/soc/samsung/bells.c:268:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     268 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+>> sound/soc/samsung/bells.c:268:35: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     268 |                 .num_c2c_params = 1,
+         |                                   ^
+   sound/soc/samsung/bells.c:268:35: note: (near initialization for 'bells_dai_wm2200[1].exit')
+   sound/soc/samsung/bells.c:304:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     304 |                 .c2c_params = &sub_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/bells.c:304:31: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from incompatible pointer type 'const struct snd_soc_pcm_stream *' [-Wincompatible-pointer-types]
+     304 |                 .c2c_params = &sub_params,
+         |                               ^
+   sound/soc/samsung/bells.c:304:31: note: (near initialization for 'bells_dai_wm5102[1].init')
+   sound/soc/samsung/bells.c:305:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     305 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/samsung/bells.c:305:35: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     305 |                 .num_c2c_params = 1,
+         |                                   ^
+   sound/soc/samsung/bells.c:305:35: note: (near initialization for 'bells_dai_wm5102[1].exit')
+   sound/soc/samsung/bells.c:315:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     315 |                 .c2c_params = &baseband_params,
+         |                  ^~~~~~~~~~
+>> sound/soc/samsung/bells.c:315:31: error: initialization of 'unsigned char:1' from 'const struct snd_soc_pcm_stream *' makes integer from pointer without a cast [-Wint-conversion]
+     315 |                 .c2c_params = &baseband_params,
+         |                               ^
+   sound/soc/samsung/bells.c:315:31: note: (near initialization for 'bells_dai_wm5102[2].symmetric_rate')
+   sound/soc/samsung/bells.c:315:31: error: initializer element is not computable at load time
+   sound/soc/samsung/bells.c:315:31: note: (near initialization for 'bells_dai_wm5102[2].symmetric_rate')
+   sound/soc/samsung/bells.c:316:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     316 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/samsung/bells.c:325:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     325 |                 .c2c_params = &sub_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/bells.c:325:31: error: initialization of 'unsigned char:1' from 'const struct snd_soc_pcm_stream *' makes integer from pointer without a cast [-Wint-conversion]
+     325 |                 .c2c_params = &sub_params,
+         |                               ^
+   sound/soc/samsung/bells.c:325:31: note: (near initialization for 'bells_dai_wm5102[3].symmetric_rate')
+   sound/soc/samsung/bells.c:325:31: error: initializer element is not computable at load time
+   sound/soc/samsung/bells.c:325:31: note: (near initialization for 'bells_dai_wm5102[3].symmetric_rate')
+   sound/soc/samsung/bells.c:326:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     326 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/samsung/bells.c:362:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     362 |                 .c2c_params = &sub_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/bells.c:362:31: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *)' from incompatible pointer type 'const struct snd_soc_pcm_stream *' [-Wincompatible-pointer-types]
+     362 |                 .c2c_params = &sub_params,
+         |                               ^
+   sound/soc/samsung/bells.c:362:31: note: (near initialization for 'bells_dai_wm5110[1].init')
+   sound/soc/samsung/bells.c:363:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     363 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/samsung/bells.c:363:35: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     363 |                 .num_c2c_params = 1,
+         |                                   ^
+   sound/soc/samsung/bells.c:363:35: note: (near initialization for 'bells_dai_wm5110[1].exit')
+   sound/soc/samsung/bells.c:373:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     373 |                 .c2c_params = &baseband_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/bells.c:373:31: error: initialization of 'unsigned char:1' from 'const struct snd_soc_pcm_stream *' makes integer from pointer without a cast [-Wint-conversion]
+     373 |                 .c2c_params = &baseband_params,
+         |                               ^
+   sound/soc/samsung/bells.c:373:31: note: (near initialization for 'bells_dai_wm5110[2].symmetric_rate')
+   sound/soc/samsung/bells.c:373:31: error: initializer element is not computable at load time
+   sound/soc/samsung/bells.c:373:31: note: (near initialization for 'bells_dai_wm5110[2].symmetric_rate')
+   sound/soc/samsung/bells.c:374:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     374 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/samsung/bells.c:383:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     383 |                 .c2c_params = &sub_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/bells.c:383:31: error: initialization of 'unsigned char:1' from 'const struct snd_soc_pcm_stream *' makes integer from pointer without a cast [-Wint-conversion]
+     383 |                 .c2c_params = &sub_params,
+         |                               ^
+   sound/soc/samsung/bells.c:383:31: note: (near initialization for 'bells_dai_wm5110[3].symmetric_rate')
+   sound/soc/samsung/bells.c:383:31: error: initializer element is not computable at load time
+   sound/soc/samsung/bells.c:383:31: note: (near initialization for 'bells_dai_wm5110[3].symmetric_rate')
+   sound/soc/samsung/bells.c:384:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     384 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+--
+   sound/soc/samsung/aries_wm8994.c:485:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     485 |                 .c2c_params = &baseband_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/aries_wm8994.c:485:31: error: initialization of 'void (*)(struct snd_soc_pcm_runtime *)' from incompatible pointer type 'const struct snd_soc_pcm_stream *' [-Wincompatible-pointer-types]
+     485 |                 .c2c_params = &baseband_params,
+         |                               ^
+   sound/soc/samsung/aries_wm8994.c:485:31: note: (near initialization for 'aries_dai[1].exit')
+   sound/soc/samsung/aries_wm8994.c:486:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     486 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+>> sound/soc/samsung/aries_wm8994.c:486:35: error: initialization of 'int (*)(struct snd_soc_pcm_runtime *, struct snd_pcm_hw_params *)' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     486 |                 .num_c2c_params = 1,
+         |                                   ^
+   sound/soc/samsung/aries_wm8994.c:486:35: note: (near initialization for 'aries_dai[1].be_hw_params_fixup')
+   sound/soc/samsung/aries_wm8994.c:493:18: error: 'struct snd_soc_dai_link' has no member named 'c2c_params'
+     493 |                 .c2c_params = &bluetooth_params,
+         |                  ^~~~~~~~~~
+   sound/soc/samsung/aries_wm8994.c:493:31: error: incompatible types when initializing type 'enum snd_soc_link_version' using type 'const struct snd_soc_pcm_stream *'
+     493 |                 .c2c_params = &bluetooth_params,
+         |                               ^
+   sound/soc/samsung/aries_wm8994.c:494:18: error: 'struct snd_soc_dai_link' has no member named 'num_c2c_params'
+     494 |                 .num_c2c_params = 1,
+         |                  ^~~~~~~~~~~~~~
+   sound/soc/samsung/aries_wm8994.c:494:35: error: initialization of 'struct snd_soc_dai_link_component *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     494 |                 .num_c2c_params = 1,
+         |                                   ^
+   sound/soc/samsung/aries_wm8994.c:494:35: note: (near initialization for 'aries_dai[2].cpus')
+   In file included from sound/soc/samsung/aries_wm8994.c:12:
+   sound/soc/samsung/aries_wm8994.c:496:37: warning: initialized field overwritten [-Woverride-init]
+     496 |                 SND_SOC_DAILINK_REG(bluetooth),
+         |                                     ^~~~~~~~~
+   include/sound/soc.h:920:27: note: in definition of macro 'SND_SOC_DAILINK_REG3'
+     920 |         .cpus           = cpu,                          \
+         |                           ^~~
+   include/linux/args.h:25:24: note: in expansion of macro 'SND_SOC_DAILINK_REG1'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   sound/soc/samsung/aries_wm8994.c:496:17: note: in expansion of macro 'SND_SOC_DAILINK_REG'
+     496 |                 SND_SOC_DAILINK_REG(bluetooth),
+         |                 ^~~~~~~~~~~~~~~~~~~
+   sound/soc/samsung/aries_wm8994.c:496:37: note: (near initialization for 'aries_dai[2].cpus')
+     496 |                 SND_SOC_DAILINK_REG(bluetooth),
+         |                                     ^~~~~~~~~
+   include/sound/soc.h:920:27: note: in definition of macro 'SND_SOC_DAILINK_REG3'
+     920 |         .cpus           = cpu,                          \
+         |                           ^~~
+   include/linux/args.h:25:24: note: in expansion of macro 'SND_SOC_DAILINK_REG1'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   sound/soc/samsung/aries_wm8994.c:496:17: note: in expansion of macro 'SND_SOC_DAILINK_REG'
+     496 |                 SND_SOC_DAILINK_REG(bluetooth),
+         |                 ^~~~~~~~~~~~~~~~~~~
+..
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
+vim +134 sound/soc/soc-utils.c
 
-vim +146 drivers/hid/bpf/hid_bpf_struct_ops.c
-
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  142  
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  143  static const struct bpf_verifier_ops hid_bpf_verifier_ops = {
-bd0747543b3d97 Benjamin Tissoires 2024-06-08  144  	.get_func_proto = bpf_base_func_proto,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  145  	.is_valid_access = hid_bpf_ops_is_valid_access,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08 @146  	.btf_struct_access = hid_bpf_ops_btf_struct_access,
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  147  };
-ebc0d8093e8c97 Benjamin Tissoires 2024-06-08  148  
+   114	
+   115	static int dummy_dma_open(struct snd_soc_component *component,
+   116				  struct snd_pcm_substream *substream)
+   117	{
+   118		struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
+   119		int i;
+   120	
+   121		/*
+   122		 * If there are other components associated with rtd, we shouldn't
+   123		 * override their hwparams
+   124		 */
+   125		for_each_rtd_components(rtd, i, component) {
+   126			if (component->driver == &dummy_platform)
+   127				return 0;
+   128		}
+   129	
+   130		/* BE's dont need dummy params */
+   131		/* create the pcm */
+   132		switch (rtd->dai_link->version) {
+   133		case SND_SOC_LINK_VER1:
+ > 134			struct snd_soc_dai_link1 *dai_link1 = snd_soc_dai_link_to_link1(rtd->dai_link);
+   135	
+   136			if (!dai_link1->no_pcm)
+   137				snd_soc_set_runtime_hwparams(substream, &dummy_dma_hardware);
+   138			break;
+   139		default:
+   140			dev_err(rtd->dev, "unsupported link version is selected\n");
+   141		}
+   142	
+   143	
+   144		return 0;
+   145	}
+   146	
 
 -- 
 0-DAY CI Kernel Test Service
