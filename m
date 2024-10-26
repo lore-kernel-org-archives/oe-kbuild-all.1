@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0B61D1F76;
-	Sat, 26 Oct 2024 10:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4447A1632D8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729938126; cv=none; b=tebmQA5XtkrGHiGoy/BWt14ZtObcMSmadTFgI8omsNPmL228P2LcjX35eGbBuoRNqKsn13RevD9mX/srg9QMeEHqpR/l2K+dLGb4/6sLoDvwGQCQhga8ywD7b5C8nYwtP+tQG5RpndE6onWFvYrhS6vrvTaDhQ7e4M8YqcLL3vk=
+	t=1729938720; cv=none; b=hGFA/GiXV8R6Qfbn03UWF/tBgQG1io7zEX0QpwI+yrJXsZaVVEcU0MTttSkjYoPWS2Joz2S74xP5QmzyfxKsP9d8cefezSDItPIdCHCv3N33Ak9VvDJsfpWbZwtu+n6NJe2sO4vgkUBFuR7l4esZL1ebt3q7Cg2x4ubiejzyTQU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729938126; c=relaxed/simple;
-	bh=guKMtpxx0qM0j1Dl4we/Mt9T6SoqQOQJbdp1lVRh8gY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ost64FVtkZC7aQ8GMmH7IZn+EtmqMVWe45fQMqnCjLjK4Ji+2/fNExl1B73M1/dVow75aePhIIWQXOCau+T50lvsyESJA64KMAoCXSAwWt+8sMOn1vAhVcxF9eHu37/f16J/TiFLHbpDUAgPvhTxMlD0mEmPuUny0e3TjsMkfcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpA2cVhC; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1729938720; c=relaxed/simple;
+	bh=a/FRvCWJYJweqBNE7cM6iryp4mf5aEWsbrwDT+ZsRRc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dlSUzcMDI0Gpe2vUgbDl/FSLDPc/XNGPHH+K2QcbAaUaRFj4iA1+QMAo10ZlzRinValC5OB8f5q8cNT/tX0avgm/HJtE9yhtB517k4uj5lEQGlY4tV/ywJbrLFRwJhWoAZrV+IZL/FiEZbIDXOOviMT+XzC1a1zWWUVa5cU3meg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQAbh6Lf; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpA2cVhC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQAbh6Lf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729938125; x=1761474125;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=guKMtpxx0qM0j1Dl4we/Mt9T6SoqQOQJbdp1lVRh8gY=;
-  b=BpA2cVhC6rrilDW/lk5ReUUdmrMuB+O7A6ixYsL9+mojzPFcjeh0xZ0L
-   y+Yp9SPLC7my57wPnYLdcktV6rfQdXdZ+z3bxs2/KK4VKjJtSxUxU0Z/s
-   5CzsTEJu3vI8j/nUXGtpKE4e8PRPs2skkb+Su9L80VLqmNf+qrMZdoV/k
-   WJ4DYBuejBSsoD13XdT8Abo8EFfKvK3x5yJ0iAJruNMEz0gWtktKLFIeB
-   MbX5drnz3rOhmHZDnBTrgMiYZaMKO199jM8girmuIrStI+0PItpjUgPjy
-   GC0l4UjVdB9IYLnSdQCYce9Xn3rACsr4t3OCeBO7Bg5vs1CHF7JjrkCCa
-   g==;
-X-CSE-ConnectionGUID: F/A7zUiVR1iLy+ZuPq2pDQ==
-X-CSE-MsgGUID: kaHnR1m1RISp1nqTEjJLVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29557749"
+  t=1729938718; x=1761474718;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=a/FRvCWJYJweqBNE7cM6iryp4mf5aEWsbrwDT+ZsRRc=;
+  b=lQAbh6LfBD7/mSoTrut4PVqLeTTHMFknCx2A9eIbjBbmnjjJOyEmuj82
+   WfU2V45MF8OCPaGUW+S1pHp/mo93KlV7ojfAWdLRm2COdYIzTli4zWHIO
+   9eGKsFTlSVVSsbMMDRynUUcizTt7fVykEo3ZtmvMkPSdMMOzYusLbSA/7
+   /Dhu2YP0NYVfg1YAWb0fYYy2dvncwysGD4X87nsvyZyT/qe1//9zv1Ek1
+   CWd4/TIIHvdTyVhRtMQYCtNU7WU+NsMANjtakvulOJMkqC4CgD7EKWjUl
+   u2U6b8WCz2Xle3SgzSr2Xl9GG5R0NqPSGGcMHNhhmwim4Nj4t01ie8uut
+   A==;
+X-CSE-ConnectionGUID: hSVjBnGvSRyRPiAK6wgp9A==
+X-CSE-MsgGUID: qdUY6PZlT/G8aIWksdd8JA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29790332"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29557749"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:22:01 -0700
-X-CSE-ConnectionGUID: uh1SH1KMSAWR2mhw/qK58Q==
-X-CSE-MsgGUID: oCPlxs+WQKi5wUUrldX92A==
+   d="scan'208";a="29790332"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:31:58 -0700
+X-CSE-ConnectionGUID: vXpj8PmCSHuMAKfxMNoEkQ==
+X-CSE-MsgGUID: q0WJdw+PQgO12ADGqyLOAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="85720389"
+   d="scan'208";a="81318344"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Oct 2024 03:21:56 -0700
+  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2024 03:31:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4dve-000ZVa-1a;
-	Sat, 26 Oct 2024 10:21:54 +0000
-Date: Sat, 26 Oct 2024 18:21:15 +0800
+	id 1t4e5K-000ZW4-24;
+	Sat, 26 Oct 2024 10:31:54 +0000
+Date: Sat, 26 Oct 2024 18:31:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH v12 7/7] remoteproc: stm32: Add support of an OP-TEE TA
- to load the firmware
-Message-ID: <202410261837.eRmJAHKZ-lkp@intel.com>
-References: <20241025205924.2087768-8-arnaud.pouliquen@foss.st.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg 2/10] drivers/virtio/virtio_msg_mmio.c:57:37:
+ sparse: sparse: restricted __le32 degrades to integer
+Message-ID: <202410261806.fAEVVD8t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,150 +61,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025205924.2087768-8-arnaud.pouliquen@foss.st.com>
 
-Hi Arnaud,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 42f7652d3eb527d03665b09edac47f85fb600924]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20241026-050443
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241025205924.2087768-8-arnaud.pouliquen%40foss.st.com
-patch subject: [PATCH v12 7/7] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
-config: x86_64-buildonly-randconfig-004-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261837.eRmJAHKZ-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261837.eRmJAHKZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg
+head:   1ee7d4424b5fb877c9020b7426879470c2d47125
+commit: bea6928905ca9df686467ece8a8d226a11eeda75 [2/10] virtio: Add support for MMIO based channel bus
+config: powerpc64-randconfig-r123-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261806.fAEVVD8t-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241026/202410261806.fAEVVD8t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261837.eRmJAHKZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261806.fAEVVD8t-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virtio/virtio_msg_mmio.c:57:37: sparse: sparse: restricted __le32 degrades to integer
+>> drivers/virtio/virtio_msg_mmio.c:76:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *addr @@     got void [noderef] __iomem *base @@
+   drivers/virtio/virtio_msg_mmio.c:76:27: sparse:     expected unsigned long long [usertype] *addr
+   drivers/virtio/virtio_msg_mmio.c:76:27: sparse:     got void [noderef] __iomem *base
+>> drivers/virtio/virtio_msg_mmio.c:79:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long [usertype] * @@
+   drivers/virtio/virtio_msg_mmio.c:79:42: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/virtio/virtio_msg_mmio.c:79:42: sparse:     got unsigned long long [usertype] *
+>> drivers/virtio/virtio_msg_mmio.c:87:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned long long [usertype] * @@
+   drivers/virtio/virtio_msg_mmio.c:87:42: sparse:     expected void const volatile [noderef] __iomem *addr
+   drivers/virtio/virtio_msg_mmio.c:87:42: sparse:     got unsigned long long [usertype] *
+>> drivers/virtio/virtio_msg_mmio.c:163:25: sparse: sparse: symbol 'virtio_msg_mmio_pm_ops' was not declared. Should it be static?
 
-   In file included from drivers/remoteproc/stm32_rproc.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/remoteproc/stm32_rproc.c:904:7: error: incompatible pointer to integer conversion assigning to 'int' from 'struct rproc_tee *' [-Wint-conversion]
-     904 |                 ret = rproc_tee_register(dev, rproc, proc_id);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/remoteproc/stm32_rproc.c:963:23: error: incompatible pointer types passing 'struct rproc *' to parameter of type 'struct rproc_tee *' [-Werror,-Wincompatible-pointer-types]
-     963 |         rproc_tee_unregister(rproc);
-         |                              ^~~~~
-   include/linux/remoteproc_tee.h:59:58: note: passing argument to parameter 'trproc' here
-      59 | static inline int rproc_tee_unregister(struct rproc_tee *trproc)
-         |                                                          ^
-   drivers/remoteproc/stm32_rproc.c:986:23: error: incompatible pointer types passing 'struct rproc *' to parameter of type 'struct rproc_tee *' [-Werror,-Wincompatible-pointer-types]
-     986 |         rproc_tee_unregister(rproc);
-         |                              ^~~~~
-   include/linux/remoteproc_tee.h:59:58: note: passing argument to parameter 'trproc' here
-      59 | static inline int rproc_tee_unregister(struct rproc_tee *trproc)
-         |                                                          ^
-   1 warning and 3 errors generated.
+vim +57 drivers/virtio/virtio_msg_mmio.c
 
-
-vim +904 drivers/remoteproc/stm32_rproc.c
-
-   874	
-   875	static int stm32_rproc_probe(struct platform_device *pdev)
-   876	{
-   877		struct device *dev = &pdev->dev;
-   878		struct stm32_rproc *ddata;
-   879		struct device_node *np = dev->of_node;
-   880		struct rproc *rproc;
-   881		unsigned int state;
-   882		u32 proc_id;
-   883		int ret;
-   884	
-   885		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
-   886		if (ret)
-   887			return ret;
-   888	
-   889		if (of_device_is_compatible(np, "st,stm32mp1-m4-tee")) {
-   890			/*
-   891			 * Delegate the firmware management to the secure context.
-   892			 * The firmware loaded has to be signed.
-   893			 */
-   894			ret = of_property_read_u32(np, "st,proc-id", &proc_id);
-   895			if (ret) {
-   896				dev_err(dev, "failed to read st,rproc-id property\n");
-   897				return ret;
-   898			}
-   899	
-   900			rproc = devm_rproc_alloc(dev, np->name, &st_rproc_tee_ops, NULL, sizeof(*ddata));
-   901			if (!rproc)
-   902				return -ENOMEM;
-   903	
- > 904			ret = rproc_tee_register(dev, rproc, proc_id);
-   905			if (ret)
-   906				return dev_err_probe(dev, ret,  "signed firmware not supported by TEE\n");
-   907		} else {
-   908			rproc = devm_rproc_alloc(dev, np->name, &st_rproc_ops, NULL, sizeof(*ddata));
-   909			if (!rproc)
-   910				return -ENOMEM;
-   911		}
-   912	
-   913		ddata = rproc->priv;
-   914	
-   915		rproc_coredump_set_elf_info(rproc, ELFCLASS32, EM_NONE);
-   916	
-   917		ret = stm32_rproc_parse_dt(pdev, ddata, &rproc->auto_boot);
-   918		if (ret)
-   919			goto free_rproc;
-   920	
-   921		ret = stm32_rproc_of_memory_translations(pdev, ddata);
-   922		if (ret)
-   923			goto free_rproc;
-   924	
-   925		ret = stm32_rproc_get_m4_status(ddata, &state);
-   926		if (ret)
-   927			goto free_rproc;
-   928	
-   929		if (state == M4_STATE_CRUN)
-   930			rproc->state = RPROC_DETACHED;
-   931	
-   932		rproc->has_iommu = false;
-   933		ddata->workqueue = create_workqueue(dev_name(dev));
-   934		if (!ddata->workqueue) {
-   935			dev_err(dev, "cannot create workqueue\n");
-   936			ret = -ENOMEM;
-   937			goto free_resources;
-   938		}
-   939	
-   940		platform_set_drvdata(pdev, rproc);
-   941	
-   942		ret = stm32_rproc_request_mbox(rproc);
-   943		if (ret)
-   944			goto free_wkq;
-   945	
-   946		ret = rproc_add(rproc);
-   947		if (ret)
-   948			goto free_mb;
-   949	
-   950		return 0;
-   951	
-   952	free_mb:
-   953		stm32_rproc_free_mbox(rproc);
-   954	free_wkq:
-   955		destroy_workqueue(ddata->workqueue);
-   956	free_resources:
-   957		rproc_resource_cleanup(rproc);
-   958	free_rproc:
-   959		if (device_may_wakeup(dev)) {
-   960			dev_pm_clear_wake_irq(dev);
-   961			device_init_wakeup(dev, false);
-   962		}
- > 963		rproc_tee_unregister(rproc);
-   964	
-   965		return ret;
-   966	}
-   967	
+    35	
+    36	#define to_virtio_msg_mmio_device(_vmdev) \
+    37		container_of(_vmdev, struct virtio_msg_mmio_device, vmdev)
+    38	
+    39	static irqreturn_t vm_interrupt(int irq, void *opaque)
+    40	{
+    41		struct virtio_msg_mmio_device *vmmdev = opaque;
+    42		struct virtio_msg_vq *info;
+    43		struct virtio_msg msg;
+    44		bool handled = false;
+    45	
+    46		/* We don't have any msg here, lets create one to make it work */
+    47		memset(&msg, 0, sizeof(msg));
+    48		msg.id = VIRTIO_MSG_EVENT_USED;
+    49		msg.event_used.index = 0;
+    50	
+    51		/* Call the interrupt handler for each virtqueue */
+    52		list_for_each_entry(info, &vmmdev->vmdev.virtqueues, node) {
+    53			if (!virtio_msg_receive(&vmmdev->vmdev, &msg)) {
+    54				handled = true;
+    55				break;
+    56			}
+  > 57			msg.event_used.index++;
+    58		}
+    59	
+    60		/* Interrupt should belong to one of the virtqueues at least */
+    61		if (!handled) {
+    62			pr_err("%s: Failed to find virtqueue for message", __func__);
+    63			return IRQ_NONE;
+    64		}
+    65	
+    66		return IRQ_HANDLED;
+    67	}
+    68	
+    69	static int virtio_msg_mmio_send(struct virtio_msg_device *vmdev,
+    70					struct virtio_msg *request,
+    71					struct virtio_msg *response)
+    72	{
+    73		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+    74		int i, len = sizeof(*request) / sizeof(u64);
+    75		u64 *data = (u64 *) request;
+  > 76		u64 *addr = vmmdev->base;
+    77	
+    78		for (i = 0; i < len; i++)
+  > 79			writeq(*(data + i), addr + i);
+    80	
+    81		if (!response)
+    82			return 0;
+    83	
+    84		data = (u64 *) response;
+    85	
+    86		for (i = 0; i < len; i++)
+  > 87			*(data + i) = readq(addr + i);
+    88	
+    89		return 0;
+    90	}
+    91	
+    92	static const char *virtio_msg_mmio_bus_name(struct virtio_msg_device *vmdev)
+    93	{
+    94		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+    95	
+    96		return vmmdev->pdev->name;
+    97	}
+    98	
+    99	static void virtio_msg_mmio_synchronize_cbs(struct virtio_msg_device *vmdev)
+   100	{
+   101		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+   102	
+   103		synchronize_irq(platform_get_irq(vmmdev->pdev, 0));
+   104	}
+   105	
+   106	static void virtio_msg_mmio_release(struct virtio_msg_device *vmdev)
+   107	{
+   108		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+   109	
+   110		kfree(vmmdev);
+   111	}
+   112	
+   113	static int virtio_msg_mmio_vqs_prepare(struct virtio_msg_device *vmdev)
+   114	{
+   115		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+   116		int ret, irq = platform_get_irq(vmmdev->pdev, 0);
+   117	
+   118		if (irq < 0)
+   119			return irq;
+   120	
+   121		ret = request_irq(irq, vm_interrupt, IRQF_SHARED, dev_name(&vmdev->vdev.dev),
+   122				  vmmdev);
+   123		if (ret)
+   124			return ret;
+   125	
+   126		if (of_property_read_bool(vmmdev->pdev->dev.of_node, "wakeup-source"))
+   127			enable_irq_wake(irq);
+   128	
+   129		return 0;
+   130	}
+   131	
+   132	static void virtio_msg_mmio_vqs_release(struct virtio_msg_device *vmdev)
+   133	{
+   134		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+   135	
+   136		free_irq(platform_get_irq(vmmdev->pdev, 0), vmmdev);
+   137	}
+   138	
+   139	static struct virtio_msg_ops vmm_ops = {
+   140		.send = virtio_msg_mmio_send,
+   141		.bus_name = virtio_msg_mmio_bus_name,
+   142		.synchronize_cbs = virtio_msg_mmio_synchronize_cbs,
+   143		.release = virtio_msg_mmio_release,
+   144		.prepare_vqs = virtio_msg_mmio_vqs_prepare,
+   145		.release_vqs = virtio_msg_mmio_vqs_release,
+   146	};
+   147	
+   148	#ifdef CONFIG_PM_SLEEP
+   149	static int virtio_msg_mmio_freeze(struct device *dev)
+   150	{
+   151		struct virtio_msg_mmio_device *vmmdev = dev_get_drvdata(dev);
+   152	
+   153		return virtio_msg_freeze(&vmmdev->vmdev);
+   154	}
+   155	
+   156	static int virtio_msg_mmio_restore(struct device *dev)
+   157	{
+   158		struct virtio_msg_mmio_device *vmmdev = dev_get_drvdata(dev);
+   159	
+   160		return virtio_msg_restore(&vmmdev->vmdev);
+   161	}
+   162	
+ > 163	const struct dev_pm_ops virtio_msg_mmio_pm_ops = {
+   164		SET_SYSTEM_SLEEP_PM_OPS(virtio_msg_mmio_freeze, virtio_msg_mmio_restore)
+   165	};
+   166	#endif
+   167	
 
 -- 
 0-DAY CI Kernel Test Service
