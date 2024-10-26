@@ -1,63 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9288217F4D;
-	Sat, 26 Oct 2024 10:00:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFF51CBE8A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729936862; cv=none; b=DMmVhOAAyLwvWZ2v+P1vB3u2PLLiz2cMqCc0JsrJ7wqpVIbmeaMBv+E3ZgVHFvFZJfqGJJGRYlpNID6/B3E/Q9PEoeka+L8hQ7C+mYrsLZLX2QEg88Asp51+oKUGz92sC2G17IzUkiMhYa+av2DeMMvgQbDz8BXuxYY2e8y1XW0=
+	t=1729936864; cv=none; b=fCQQw/G55pp2X7vwawfvnrfPTGHsbwt+Xev+ugulaNsTIZ+3k2OLrDSUCrRj6nj12mHP/ojHPIT+/JjEHSo0amRXmszBhnGAqmhH18WPT/hFbk+3Z8XqJE7H1ThjRncUHEtwS7swVEWjIquf6Ni57txTImek/3jpDSxSKIqx2r8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729936862; c=relaxed/simple;
-	bh=MBEUluzwNl+8pJbFyxJ5uvx7Dtm3uc4YLf+WUTqJ1Fw=;
+	s=arc-20240116; t=1729936864; c=relaxed/simple;
+	bh=mIO9fjYoPv61naCUwAwP4LP9ukzdvV7EzEpcI1LlGIo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Aa4ozklKpMk5m/DEnV2EIBgI6uP78Z3+Yz3/O+j2ILQ/rv1sVPk4nQU6T95NDfVRTSVoqVYy/bef2V2fMIWx+5ZzYM1Hx9SMzesDxjx673JVxMgPBLGuiDDti1+4HjYaAQeLTN1Gt2EjEI7fKb2X8z5g7uGF/rojWj1x3a3Qqz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hAsw+Fq+; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=SPaEvT8mQbH8W/ePwJIjCorjjhZXbEIbscDBOv7jtaboCwWRsfLaCVvYoBKhw0ysAtQJ1ZbtBAjj+d40w2BjneuWFfQBcnJSmtsAlubLwakaDX/PzB9+kaYIXsPPZEC0LMt7KG8d9K0ShW6sZHMYtMo+QZNhYcJmmtt6Laa5CIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfEqWnEz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hAsw+Fq+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfEqWnEz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729936859; x=1761472859;
+  t=1729936862; x=1761472862;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MBEUluzwNl+8pJbFyxJ5uvx7Dtm3uc4YLf+WUTqJ1Fw=;
-  b=hAsw+Fq+BreraYOnQckkUCqUxwNcYBNvUZA6j8+BhAJ1DcN0YCtS/4zq
-   oZassY4pvforlBWd9doUnKajok7ozUdNo7EEhRSLoFaEY0ONIo00077ko
-   R4FKU/HR2tL4RWYcL75UOglNddiIHbNGo51fjJAtE8/gx6Slx17GBx57j
-   SGUu49C1p+zh4NHid6ZnqO7YDJbPvRWzp5ZzCXGQtie1xUc7jmOE4Xi+7
-   AVyOuXDSK72eEBiZnYCEJJUhQ5EQoWPpZGqQtc75X9iUMXbSN11aELDBH
-   KafxvC7D9PRnUpr/FuFxjnqfnkuQpxoq0B2eojN/QQbqyoSG6TQUXbRtM
-   w==;
-X-CSE-ConnectionGUID: fyT2dUGiSIetEESgM1dmwg==
-X-CSE-MsgGUID: Z6CMib/6SOKuQas4GhP3DQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40703395"
+  bh=mIO9fjYoPv61naCUwAwP4LP9ukzdvV7EzEpcI1LlGIo=;
+  b=XfEqWnEzilRUla5Fnko6aZ6fgWosZi62TVpsu0Y1erzSc/v73fj1HGd8
+   kdq8h0l5e8xRv8G4+5bxkMG0wx/V0E+H0fsRToWAeYApyE7UHaq2nDzuE
+   Bpsn5LlWIfde6Zlcdf8avKZOEwihOmtEr7cyZaA0lHtQza8694AJH7ufZ
+   UvZ9ElfNW6SAS02qAluS71AckNDK0rIWCpLO9VM9J8T3Vch3LFNWQgTYH
+   BeFmcagsHXkzR+dO1cr4HmUowEYm2KEBsle6rmWYMiOqkof+GnV3vqc6f
+   48rTxBTUtIFfhMhl2geX4BL1v41RnurmDjSJZwdOSol3/OJQ26xQcVge/
+   A==;
+X-CSE-ConnectionGUID: oPjrEMQAQnyJq6Bd0eODPQ==
+X-CSE-MsgGUID: CJHbmKcbRJa1rQDwVswVfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40703397"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40703395"
+   d="scan'208";a="40703397"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:00:59 -0700
-X-CSE-ConnectionGUID: YdIs7TC+R7OJP5dJsfe0mw==
-X-CSE-MsgGUID: hIe7ERXcQPCIWP/niYjG7Q==
+X-CSE-ConnectionGUID: k7HnwS/mTAC6GDASBmoYfA==
+X-CSE-MsgGUID: /3zSxkewT5SxS9d0jIDcxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="81314649"
+   d="scan'208";a="81314648"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa006.jf.intel.com with ESMTP; 26 Oct 2024 03:00:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4dbJ-000ZUc-2q;
+	id 1t4dbJ-000ZUa-2l;
 	Sat, 26 Oct 2024 10:00:53 +0000
 Date: Sat, 26 Oct 2024 18:00:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Justin Iurman <justin.iurman@uliege.be>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	davem@davemloft.net, dsahern@kernel.org, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
-	linux-kernel@vger.kernel.org, justin.iurman@uliege.be
-Subject: Re: [PATCH net-next 2/3] net: ipv6: seg6_iptunnel: mitigate
- 2-realloc issue
-Message-ID: <202410261713.GIaQEsJC-lkp@intel.com>
-References: <20241025133727.27742-3-justin.iurman@uliege.be>
+To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
+	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
+Subject: Re: [PATCH v12 7/7] remoteproc: stm32: Add support of an OP-TEE TA
+ to load the firmware
+Message-ID: <202410261701.jz99xF8B-lkp@intel.com>
+References: <20241025205924.2087768-8-arnaud.pouliquen@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,147 +73,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025133727.27742-3-justin.iurman@uliege.be>
+In-Reply-To: <20241025205924.2087768-8-arnaud.pouliquen@foss.st.com>
 
-Hi Justin,
+Hi Arnaud,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on net-next/main]
+[auto build test ERROR on 42f7652d3eb527d03665b09edac47f85fb600924]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Iurman/net-ipv6-ioam6_iptunnel-mitigate-2-realloc-issue/20241025-214849
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241025133727.27742-3-justin.iurman%40uliege.be
-patch subject: [PATCH net-next 2/3] net: ipv6: seg6_iptunnel: mitigate 2-realloc issue
-config: i386-buildonly-randconfig-004-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261713.GIaQEsJC-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261713.GIaQEsJC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20241026-050443
+base:   42f7652d3eb527d03665b09edac47f85fb600924
+patch link:    https://lore.kernel.org/r/20241025205924.2087768-8-arnaud.pouliquen%40foss.st.com
+patch subject: [PATCH v12 7/7] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20241026/202410261701.jz99xF8B-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261701.jz99xF8B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261713.GIaQEsJC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261701.jz99xF8B-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/ipv6/seg6_iptunnel.c:10:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/ipv6/seg6_iptunnel.c:130:9: error: call to undeclared function '__seg6_do_srh_encap'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     130 |         return __seg6_do_srh_encap(skb, osrh, proto, NULL);
-         |                ^
-   net/ipv6/seg6_iptunnel.c:130:9: note: did you mean 'seg6_do_srh_encap'?
-   net/ipv6/seg6_iptunnel.c:128:5: note: 'seg6_do_srh_encap' declared here
-     128 | int seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh, int proto)
-         |     ^
-     129 | {
-     130 |         return __seg6_do_srh_encap(skb, osrh, proto, NULL);
-         |                ~~~~~~~~~~~~~~~~~~~
-         |                seg6_do_srh_encap
->> net/ipv6/seg6_iptunnel.c:134:5: warning: no previous prototype for function '__seg6_do_srh_encap' [-Wmissing-prototypes]
-     134 | int __seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
-         |     ^
-   net/ipv6/seg6_iptunnel.c:134:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     134 | int __seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
-         | ^
-         | static 
->> net/ipv6/seg6_iptunnel.c:330:9: error: call to undeclared function '__seg6_do_srh_inline'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     330 |         return __seg6_do_srh_inline(skb, osrh, NULL);
-         |                ^
-   net/ipv6/seg6_iptunnel.c:330:9: note: did you mean 'seg6_do_srh_inline'?
-   net/ipv6/seg6_iptunnel.c:328:5: note: 'seg6_do_srh_inline' declared here
-     328 | int seg6_do_srh_inline(struct sk_buff *skb, struct ipv6_sr_hdr *osrh)
-         |     ^
-     329 | {
-     330 |         return __seg6_do_srh_inline(skb, osrh, NULL);
-         |                ~~~~~~~~~~~~~~~~~~~~
-         |                seg6_do_srh_inline
->> net/ipv6/seg6_iptunnel.c:334:5: warning: no previous prototype for function '__seg6_do_srh_inline' [-Wmissing-prototypes]
-     334 | int __seg6_do_srh_inline(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
-         |     ^
-   net/ipv6/seg6_iptunnel.c:334:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     334 | int __seg6_do_srh_inline(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
-         | ^
-         | static 
-   3 warnings and 2 errors generated.
+   drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_probe':
+>> drivers/remoteproc/stm32_rproc.c:904:21: error: assignment to 'int' from 'struct rproc_tee *' makes integer from pointer without a cast [-Wint-conversion]
+     904 |                 ret = rproc_tee_register(dev, rproc, proc_id);
+         |                     ^
+>> drivers/remoteproc/stm32_rproc.c:963:30: error: passing argument 1 of 'rproc_tee_unregister' from incompatible pointer type [-Wincompatible-pointer-types]
+     963 |         rproc_tee_unregister(rproc);
+         |                              ^~~~~
+         |                              |
+         |                              struct rproc *
+   In file included from drivers/remoteproc/stm32_rproc.c:21:
+   include/linux/remoteproc_tee.h:59:58: note: expected 'struct rproc_tee *' but argument is of type 'struct rproc *'
+      59 | static inline int rproc_tee_unregister(struct rproc_tee *trproc)
+         |                                        ~~~~~~~~~~~~~~~~~~^~~~~~
+   drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_remove':
+   drivers/remoteproc/stm32_rproc.c:986:30: error: passing argument 1 of 'rproc_tee_unregister' from incompatible pointer type [-Wincompatible-pointer-types]
+     986 |         rproc_tee_unregister(rproc);
+         |                              ^~~~~
+         |                              |
+         |                              struct rproc *
+   include/linux/remoteproc_tee.h:59:58: note: expected 'struct rproc_tee *' but argument is of type 'struct rproc *'
+      59 | static inline int rproc_tee_unregister(struct rproc_tee *trproc)
+         |                                        ~~~~~~~~~~~~~~~~~~^~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +/__seg6_do_srh_encap +130 net/ipv6/seg6_iptunnel.c
+vim +904 drivers/remoteproc/stm32_rproc.c
 
-   126	
-   127	/* encapsulate an IPv6 packet within an outer IPv6 header with a given SRH */
-   128	int seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh, int proto)
-   129	{
- > 130		return __seg6_do_srh_encap(skb, osrh, proto, NULL);
-   131	}
-   132	EXPORT_SYMBOL_GPL(seg6_do_srh_encap);
-   133	
- > 134	int __seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
-   135				int proto, struct dst_entry *dst)
-   136	{
-   137		struct net *net = dev_net(skb_dst(skb)->dev);
-   138		struct ipv6hdr *hdr, *inner_hdr;
-   139		struct ipv6_sr_hdr *isrh;
-   140		int hdrlen, tot_len, err;
-   141		__be32 flowlabel;
-   142	
-   143		hdrlen = (osrh->hdrlen + 1) << 3;
-   144		tot_len = hdrlen + sizeof(*hdr);
-   145	
-   146		err = skb_cow_head(skb, tot_len + (!dst ? skb->mac_len
-   147							: LL_RESERVED_SPACE(dst->dev)));
-   148		if (unlikely(err))
-   149			return err;
-   150	
-   151		inner_hdr = ipv6_hdr(skb);
-   152		flowlabel = seg6_make_flowlabel(net, skb, inner_hdr);
-   153	
-   154		skb_push(skb, tot_len);
-   155		skb_reset_network_header(skb);
-   156		skb_mac_header_rebuild(skb);
-   157		hdr = ipv6_hdr(skb);
-   158	
-   159		/* inherit tc, flowlabel and hlim
-   160		 * hlim will be decremented in ip6_forward() afterwards and
-   161		 * decapsulation will overwrite inner hlim with outer hlim
-   162		 */
-   163	
-   164		if (skb->protocol == htons(ETH_P_IPV6)) {
-   165			ip6_flow_hdr(hdr, ip6_tclass(ip6_flowinfo(inner_hdr)),
-   166				     flowlabel);
-   167			hdr->hop_limit = inner_hdr->hop_limit;
-   168		} else {
-   169			ip6_flow_hdr(hdr, 0, flowlabel);
-   170			hdr->hop_limit = ip6_dst_hoplimit(skb_dst(skb));
-   171	
-   172			memset(IP6CB(skb), 0, sizeof(*IP6CB(skb)));
-   173	
-   174			/* the control block has been erased, so we have to set the
-   175			 * iif once again.
-   176			 * We read the receiving interface index directly from the
-   177			 * skb->skb_iif as it is done in the IPv4 receiving path (i.e.:
-   178			 * ip_rcv_core(...)).
-   179			 */
-   180			IP6CB(skb)->iif = skb->skb_iif;
-   181		}
-   182	
-   183		hdr->nexthdr = NEXTHDR_ROUTING;
-   184	
-   185		isrh = (void *)hdr + sizeof(*hdr);
-   186		memcpy(isrh, osrh, hdrlen);
-   187	
-   188		isrh->nexthdr = proto;
-   189	
-   190		hdr->daddr = isrh->segments[isrh->first_segment];
-   191		set_tun_src(net, skb_dst(skb)->dev, &hdr->daddr, &hdr->saddr);
-   192	
+   874	
+   875	static int stm32_rproc_probe(struct platform_device *pdev)
+   876	{
+   877		struct device *dev = &pdev->dev;
+   878		struct stm32_rproc *ddata;
+   879		struct device_node *np = dev->of_node;
+   880		struct rproc *rproc;
+   881		unsigned int state;
+   882		u32 proc_id;
+   883		int ret;
+   884	
+   885		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
+   886		if (ret)
+   887			return ret;
+   888	
+   889		if (of_device_is_compatible(np, "st,stm32mp1-m4-tee")) {
+   890			/*
+   891			 * Delegate the firmware management to the secure context.
+   892			 * The firmware loaded has to be signed.
+   893			 */
+   894			ret = of_property_read_u32(np, "st,proc-id", &proc_id);
+   895			if (ret) {
+   896				dev_err(dev, "failed to read st,rproc-id property\n");
+   897				return ret;
+   898			}
+   899	
+   900			rproc = devm_rproc_alloc(dev, np->name, &st_rproc_tee_ops, NULL, sizeof(*ddata));
+   901			if (!rproc)
+   902				return -ENOMEM;
+   903	
+ > 904			ret = rproc_tee_register(dev, rproc, proc_id);
+   905			if (ret)
+   906				return dev_err_probe(dev, ret,  "signed firmware not supported by TEE\n");
+   907		} else {
+   908			rproc = devm_rproc_alloc(dev, np->name, &st_rproc_ops, NULL, sizeof(*ddata));
+   909			if (!rproc)
+   910				return -ENOMEM;
+   911		}
+   912	
+   913		ddata = rproc->priv;
+   914	
+   915		rproc_coredump_set_elf_info(rproc, ELFCLASS32, EM_NONE);
+   916	
+   917		ret = stm32_rproc_parse_dt(pdev, ddata, &rproc->auto_boot);
+   918		if (ret)
+   919			goto free_rproc;
+   920	
+   921		ret = stm32_rproc_of_memory_translations(pdev, ddata);
+   922		if (ret)
+   923			goto free_rproc;
+   924	
+   925		ret = stm32_rproc_get_m4_status(ddata, &state);
+   926		if (ret)
+   927			goto free_rproc;
+   928	
+   929		if (state == M4_STATE_CRUN)
+   930			rproc->state = RPROC_DETACHED;
+   931	
+   932		rproc->has_iommu = false;
+   933		ddata->workqueue = create_workqueue(dev_name(dev));
+   934		if (!ddata->workqueue) {
+   935			dev_err(dev, "cannot create workqueue\n");
+   936			ret = -ENOMEM;
+   937			goto free_resources;
+   938		}
+   939	
+   940		platform_set_drvdata(pdev, rproc);
+   941	
+   942		ret = stm32_rproc_request_mbox(rproc);
+   943		if (ret)
+   944			goto free_wkq;
+   945	
+   946		ret = rproc_add(rproc);
+   947		if (ret)
+   948			goto free_mb;
+   949	
+   950		return 0;
+   951	
+   952	free_mb:
+   953		stm32_rproc_free_mbox(rproc);
+   954	free_wkq:
+   955		destroy_workqueue(ddata->workqueue);
+   956	free_resources:
+   957		rproc_resource_cleanup(rproc);
+   958	free_rproc:
+   959		if (device_may_wakeup(dev)) {
+   960			dev_pm_clear_wake_irq(dev);
+   961			device_init_wakeup(dev, false);
+   962		}
+ > 963		rproc_tee_unregister(rproc);
+   964	
+   965		return ret;
+   966	}
+   967	
 
 -- 
 0-DAY CI Kernel Test Service
