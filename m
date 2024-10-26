@@ -1,60 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA94CA5A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 07:08:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5766270816;
+	Sat, 26 Oct 2024 07:47:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729926539; cv=none; b=W33UCNCK5fd8272jbyWOLxF9np8FZ8q2WVhPPq7CnoVDrxJVW6O33RxBtTwiyItHh1Wdo5l3cZC4lL/4/5+mFSFaSAn6QXF0IResQUhiTs/g9Zm6AVOmrZMUNs6n/Fv2N4qFlfgdwn6wUWzm0X6fIw0fm/O7ea2YuNSIWddE/D8=
+	t=1729928877; cv=none; b=cdM29Brvlwqk9ojnYsczTn/4DriUEgDivjg7HPEzs/WohOfYH5B1eXdBHocKvtBGLr45ngRK1NhvcLtmJADR1XciPIZfUVYxNzMwIedyPApYqVTL2+FnQCJu9yZdi1LJ8N6nywa34IsZFdmzWDlE2p5T8hIi88eFA3pJk3a6ZtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729926539; c=relaxed/simple;
-	bh=5blku/eVzKN/datqcVFyyHhM8Zd0Oo3mS7r9XSsRERw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e/F4H5EQd4LkOIAKwFFuE4ce0WwJO5sPW5APvbb4YgMnSbP3O2+O3XfkMauc0drrUw3DleBciT8soixBP15WlbrFGq8j4VlZujM1cFHFu1fvVvXV+SlW08L+PFFT1/xhZLk/0LtZX0eWn6EMNinG0ZqM6pPSZ4URhGQ9YNaBH0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6UPBURj; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1729928877; c=relaxed/simple;
+	bh=Nfa6c/0dFOh1MjW26Ru9LYvKZz9jbesyT02owl/pNb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TW1DLQcSy8fImeTjccM1uSlDTzz5JpBhn8uOs+pN5Xa4OMk+4LH8v/K43jtck2solsl+a4iKU14PtZWAxItGm/mFH+g6XgbTC7DETKEHJaLA7Ae27rihaC0JVLhPfa9VIHE5TB+GB5uQeHhsa2kS7i1svbG5r0vwBGSeJltNPqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUYXYkF7; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6UPBURj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUYXYkF7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729926537; x=1761462537;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5blku/eVzKN/datqcVFyyHhM8Zd0Oo3mS7r9XSsRERw=;
-  b=D6UPBURjgO1+bnirfxPwPQKwhPjbBPL2HyWDRPJUbMmvI/LEOYT2Bc5b
-   gk+1R3sxGgBAVLR6B1+isNQmTycFl+GTQk8BuvALILu0rJIf45dJQSfLp
-   ApfpMKRxsJ8n8E03yWbNUVF1RGkL5vudR2LUvpEPcHy1t8OY02WRoDAZx
-   sX9+SOH45vHczN99aWycCiY9adDS3GWKhhOFpMRjmYM7puA9F8YuxL4Wa
-   IwvhOSJRZaV/8QjWS5Me4qI3PC/ZffJhMtzYuEFKRFwbR2R6VQdex9X86
-   CDnzTvTnV2IPowmZZuUl/O1eQ8AsoOGoWslVq+tTFvLJTSHPYIvGCqEEC
+  t=1729928875; x=1761464875;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Nfa6c/0dFOh1MjW26Ru9LYvKZz9jbesyT02owl/pNb8=;
+  b=gUYXYkF73CwvTXrwyOPg7Y9a5QJIAw2qpPaoaZanEGvt4tU99X5B1u/y
+   aWjrN5Z8tOgJXZ8vl4+5K2aKnqsQcMiI8g5z6rTC4sMucu9M2wdCJSe+N
+   6I8LWxvDH3PTkpWMxDXhFKhqtsc1kRs0aHAt2kHEYIBveUbIrpIGUUGNC
+   v+hb4u03t/nMEYVo4Y9vee5NMbh6U+DLKwWUPKZXWMJmKIpqfpvjPTx5A
+   Lyjbqpn+y7eI9g8DaUM1yd8xabrd08TPMXD+rCsD5b317D4UT+iZ9eWKD
+   4g2E9BbD5j8CPIlQelpBND5rHhAjLuO5zIvRPx0zQaP5d0UjwWfsbGXcU
    A==;
-X-CSE-ConnectionGUID: SdxEdCdZQyWDN5xN+NqVLg==
-X-CSE-MsgGUID: Y6f3GXErSXiEN2hnStgI8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29375311"
+X-CSE-ConnectionGUID: YAnYh2UoSkGz+NFVLFcAnA==
+X-CSE-MsgGUID: DZI87RDsQlKXudJSImItvw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29376233"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29375311"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 00:08:57 -0700
-X-CSE-ConnectionGUID: etVRpX2tRgCK9VPW8tJeww==
-X-CSE-MsgGUID: 6bxTnVOcTvqgoMVmzVY+FA==
+   d="scan'208";a="29376233"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 00:47:55 -0700
+X-CSE-ConnectionGUID: HcvK5A2uTZ2zxPBsI1C0CA==
+X-CSE-MsgGUID: 0wejxHNoQVSaZ7WHcbKk8g==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="81957234"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="85902581"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 26 Oct 2024 00:08:55 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Oct 2024 00:47:53 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4ajA-000ZN6-2g;
-	Sat, 26 Oct 2024 06:56:48 +0000
-Date: Sat, 26 Oct 2024 14:55:51 +0800
+	id 1t4bWY-000ZPU-2Q;
+	Sat, 26 Oct 2024 07:47:50 +0000
+Date: Sat, 26 Oct 2024 15:47:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 35/45]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi:59.14-61.4:
- Warning (unit_address_vs_reg): /soc/i2c@11009000/touchpad@2c: node has a
- unit name, but no reg or ranges property
-Message-ID: <202410261429.6QcnXYw0-lkp@intel.com>
+To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andersson@kernel.org, konradybcio@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Eugen Hristev <eugen.hristev@linaro.org>
+Subject: Re: [PATCH] soc: qcom: Rework BCM_TCS_CMD macro
+Message-ID: <202410261552.E8TiGYdV-lkp@intel.com>
+References: <20241025084823.475199-1-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +65,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241025084823.475199-1-eugen.hristev@linaro.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   3f6ca9a14beff697ce0ae43cd742d5ee1ba03b97
-commit: 1e05dc8b4efeb06c4e55b28a2dfb5af82ca01625 [35/45] CHROMIUM: arm64: dts: mt8186: Disable trackpad node
-config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261429.6QcnXYw0-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261429.6QcnXYw0-lkp@intel.com/reproduce)
+Hi Eugen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/soc-qcom-Rework-BCM_TCS_CMD-macro/20241025-165212
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241025084823.475199-1-eugen.hristev%40linaro.org
+patch subject: [PATCH] soc: qcom: Rework BCM_TCS_CMD macro
+config: x86_64-buildonly-randconfig-004-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261552.E8TiGYdV-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261552.E8TiGYdV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261429.6QcnXYw0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261552.E8TiGYdV-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi:59.14-61.4: Warning (unit_address_vs_reg): /soc/i2c@11009000/touchpad@2c: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:379.16-385.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:387.16-390.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2255.30-2259.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2261.23-2265.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2267.35-2271.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2247.32-2364.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi:59.14-61.4: Warning (i2c_bus_reg): /soc/i2c@11009000/touchpad@2c: missing or empty reg property
+All errors (new ones prefixed by >>):
 
-vim +59 arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi
+>> drivers/clk/qcom/clk-rpmh.c:270:14: error: call to undeclared function 'u32_encode_bits'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     270 |                 cmd.data = BCM_TCS_CMD(1, enable, 0, cmd_state);
+         |                            ^
+   include/soc/qcom/tcs.h:71:3: note: expanded from macro 'BCM_TCS_CMD'
+      71 |         (u32_encode_bits(commit, BCM_TCS_CMD_COMMIT_MASK) |     \
+         |          ^
+   1 error generated.
 
-    57	
-    58	&i2c2 {
-  > 59		touchpad@2c {
-    60			status = "disabled";
-    61		};
-    62	
-    63		touchpad@68 {
-    64			compatible = "hid-over-i2c";
-    65			reg = <0x68>;
-    66			hid-descr-addr = <0x20>;
-    67			interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
-    68			vcc-supply = <&pp3300_s3>;
-    69			wakeup-source;
-    70		};
-    71	};
-    72	
+
+vim +/u32_encode_bits +270 drivers/clk/qcom/clk-rpmh.c
+
+9c7e47025a6b9a Taniya Das    2018-05-09  250  
+04053f4d23a41b David Dai     2019-01-24  251  static int clk_rpmh_bcm_send_cmd(struct clk_rpmh *c, bool enable)
+04053f4d23a41b David Dai     2019-01-24  252  {
+04053f4d23a41b David Dai     2019-01-24  253  	struct tcs_cmd cmd = { 0 };
+04053f4d23a41b David Dai     2019-01-24  254  	u32 cmd_state;
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  255  	int ret = 0;
+04053f4d23a41b David Dai     2019-01-24  256  
+04053f4d23a41b David Dai     2019-01-24  257  	mutex_lock(&rpmh_clk_lock);
+04053f4d23a41b David Dai     2019-01-24  258  	if (enable) {
+04053f4d23a41b David Dai     2019-01-24  259  		cmd_state = 1;
+04053f4d23a41b David Dai     2019-01-24  260  		if (c->aggr_state)
+04053f4d23a41b David Dai     2019-01-24  261  			cmd_state = c->aggr_state;
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  262  	} else {
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  263  		cmd_state = 0;
+04053f4d23a41b David Dai     2019-01-24  264  	}
+04053f4d23a41b David Dai     2019-01-24  265  
+a4e5af27e6f6a8 Mike Tipton   2024-08-09  266  	cmd_state = min(cmd_state, BCM_TCS_CMD_VOTE_MASK);
+a4e5af27e6f6a8 Mike Tipton   2024-08-09  267  
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  268  	if (c->last_sent_aggr_state != cmd_state) {
+04053f4d23a41b David Dai     2019-01-24  269  		cmd.addr = c->res_addr;
+6311b6521bcc80 Jordan Crouse 2019-08-05 @270  		cmd.data = BCM_TCS_CMD(1, enable, 0, cmd_state);
+04053f4d23a41b David Dai     2019-01-24  271  
+29f66b625281a3 Stephen Boyd  2022-05-17  272  		/*
+29f66b625281a3 Stephen Boyd  2022-05-17  273  		 * Send only an active only state request. RPMh continues to
+29f66b625281a3 Stephen Boyd  2022-05-17  274  		 * use the active state when we're in sleep/wake state as long
+29f66b625281a3 Stephen Boyd  2022-05-17  275  		 * as the sleep/wake state has never been set.
+29f66b625281a3 Stephen Boyd  2022-05-17  276  		 */
+dad4e7fda4bdc1 Mike Tipton   2020-02-14  277  		ret = clk_rpmh_send(c, RPMH_ACTIVE_ONLY_STATE, &cmd, enable);
+04053f4d23a41b David Dai     2019-01-24  278  		if (ret) {
+04053f4d23a41b David Dai     2019-01-24  279  			dev_err(c->dev, "set active state of %s failed: (%d)\n",
+04053f4d23a41b David Dai     2019-01-24  280  				c->res_name, ret);
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  281  		} else {
+04053f4d23a41b David Dai     2019-01-24  282  			c->last_sent_aggr_state = cmd_state;
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  283  		}
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  284  	}
+04053f4d23a41b David Dai     2019-01-24  285  
+04053f4d23a41b David Dai     2019-01-24  286  	mutex_unlock(&rpmh_clk_lock);
+04053f4d23a41b David Dai     2019-01-24  287  
+2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  288  	return ret;
+04053f4d23a41b David Dai     2019-01-24  289  }
+04053f4d23a41b David Dai     2019-01-24  290  
 
 -- 
 0-DAY CI Kernel Test Service
