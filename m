@@ -1,70 +1,58 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DA81465A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 08:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756E542A82
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 08:17:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729929857; cv=none; b=e8K0jonvjcbmS+kjIUnTJcpjcXH+i4aF4ENxqans9Lx9hUWWaiIcdY5ma2fUptLmamVr7n4Sy2OReefMiPoDuECDPJFAhtDDMj5g1U8Z8Ws4D5cNptXY8bZ3pST2tiY+Gh+6qe7MvG3NCqs7cyhZgV08PwKf25Fvg2a8jXWLIf4=
+	t=1729930678; cv=none; b=oTSUA3K/onreTqumRBYmFi1QQNYr4VsARHg2ORylp17FdzfLtrIf9X9ff9XyUpbg0KUXllk3zLSpx+cViBrQElEmu/Gu+JJgf/jZuRZH+dLiS8d5MKZm7lFUtMkP65ZlGNRZLC/J3gz3l1JcAjENJo7hmLmHUTW0KqEMvFJ95wg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729929857; c=relaxed/simple;
-	bh=7DAM3QTQfqt4ZqsjC1sViPiWw7XtXvpBR1s9SbVm6iQ=;
+	s=arc-20240116; t=1729930678; c=relaxed/simple;
+	bh=RA63VpqQ6KddRQwachzmmAZNQXwejqZUPCOJFUAp7ok=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=XaNiBHM7kZDq1UUkivGwyTi2qP6H5iRc4UthW3rdDexnDwRVF//oROXt7WWHkWuU/9C68iOfPXGoO5FWMMnQpRE/DR/1iLbhpVCaO5Q3JpYqNuuT7iAXVolh3bq/cad1xSu1HNYY4RyOQ6dP0aDhhVeC8XYvta1P98Kj3ipoobM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wV1bb0xE; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=jDN49R3v5Of7oqaYsuL3T+ZX2r86WZUyxZKLFCO3Hdg4cEUpOxEuU/uC4OPP7xBZDsnrK1IyzB3kaOunDjNtgFzrR9plYDoNw7w++ygiLda01+4G5FRsF9d+8qCpw1PNVhgcxKO5WWEn+ccAaAkZ4eKmPABUVbZyP9eaX8exrcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YwrsAJkL; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wV1bb0xE"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d447de11dso1918566f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 01:04:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729929852; x=1730534652; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q9IP5Ks08Nx+8LsSEs3sWLm5/UYKOm82d+7qFjkOfBU=;
-        b=wV1bb0xEq71tiIX1blvJn1riYc2hBs1HAP37Mx5vDwW46QyXwujXUj066m1GApcu/k
-         thx0B5+7m5mfuLA6w9AabLY5wnnwBdepQTb+3o7K5smLEVRCFBQ6X1+oc/cD3Tk2tzkN
-         EhtH6g10b4iq6o4QD8XDjz0ZKBmmczcElmZbNcuZ3k8A3mzebJ7kG8CG1k8q4d4eEZi1
-         S/7X3/oQLB0YUFwI4N0/4rkVrTev3Q2evBYMVWWWdOv7jrzO0Sbsuixi4BdrSWMvwKJG
-         t70HFT7rM03iXNw74odeQbptCDI3YmmIlaGwGzjFluBgz6CJr6Gyy+9JEMqvNJS06Edc
-         0aTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729929852; x=1730534652;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q9IP5Ks08Nx+8LsSEs3sWLm5/UYKOm82d+7qFjkOfBU=;
-        b=Ozfbxe5CagD8seObCnJl3u+xOYROK+QZ4VOA+4sV8AxlZCJ7Dq6gnqq/eM/kd2A7Wx
-         7PRRGYjVTjYh3FE1jUv9ufPPQ0b11qrmbuebYYoWcaL3uMOW6enSu2D4yule+fU0CLaz
-         RQ/F1vL7KQx3LufURBInqKv1Q26fYqCVumsf454z36fa4bIKEXreIR3wOnQBXDl9XKf+
-         YDZ82JwqnWR5tIHXLD1ieP+POJgLpuH42d13iNM/Y08xhJsYWOkm2fICk1j1sZulrzec
-         WNTUv+r12YqoXGTxapvBJU1ncwgaAPSd8anVu3axYOVqR5rXoHqc4VBqCR2xmkVk5F4z
-         BRvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVf98fMMvauRC9xApET+D8hBRBI4x+OEis0TrO0cIoqx0Y4pHxNB9Rufw2KazXNFOdHlbgfa+h2ogArDZxe@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy2ixM44gpWDty8hUt64bilgoYVvG0MHnHtyQCFuYAgz5phwdEs
-	lxy+R1UqTI5vKf8vX6sGtYlxK6ShPHoeH+kikKEOilzgpjvaPEFkWrQiWcMyk7I=
-X-Google-Smtp-Source: AGHT+IFBtZYIqFDauCbN9jhSI1Fy+ciwsZmKin1yR+P7ykifdTlGgXbI8GS95lLbS0DDPAHQJO/nog==
-X-Received: by 2002:adf:fe02:0:b0:368:3731:1613 with SMTP id ffacd0b85a97d-38061141c4cmr1389246f8f.13.1729929851968;
-        Sat, 26 Oct 2024 01:04:11 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b70bd8sm3626473f8f.87.2024.10.26.01.04.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Oct 2024 01:04:11 -0700 (PDT)
-Date: Sat, 26 Oct 2024 11:04:07 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Li Li <dualli@chromium.org>,
-	dualli@google.com, corbet@lwn.net, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
-	arve@android.com, tkjos@android.com, maco@android.com,
-	joel@joelfernandes.org, brauner@kernel.org, cmllamas@google.com,
-	surenb@google.com, arnd@arndb.de, masahiroy@kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel-team@android.com
-Subject: Re: [PATCH v3 1/1] report binder txn errors via generic netlink
-Message-ID: <3673df95-81d5-4d71-9b1b-9b233cfb77c0@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YwrsAJkL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729930676; x=1761466676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RA63VpqQ6KddRQwachzmmAZNQXwejqZUPCOJFUAp7ok=;
+  b=YwrsAJkL20GOm2RrbC2kvgAJ/Z278tdeUYsKrsb1Cg2Uz7W2duncGqHi
+   BOwW2IkFld/5+GQtqKeLpOzCgngzGQKudrNUwRRs8JzGsuIk/2EqrfcoY
+   IBwyOsMVYv5DLF7L0iXFWGXxs1jcVdpQ8RLJ8AnA0mMV/naeno8Cc8GIP
+   5EmqlEjF98pjHIRnAyCklCHPhqlqgldqOI1c5hr81geFprpZf3ce93tBE
+   WW0G6baw3wE0qY6kJoBNHVhwpe+//woZyRivxncu/sQg6HEIgTOLLpG4X
+   /kkipLikUV8BABhu34VDRAfVUNoVjyGIpyzg9wIueFY0Fm+YP3+HwF+PW
+   Q==;
+X-CSE-ConnectionGUID: wbEH+63+RIaDPRzUd9VB7w==
+X-CSE-MsgGUID: d8AKVVRiR0i5mbcpedvt8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40986383"
+X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
+   d="scan'208";a="40986383"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 01:17:55 -0700
+X-CSE-ConnectionGUID: F9pn3obcR8GtTXzEWl4rjA==
+X-CSE-MsgGUID: wxFwNWjlRDm9ZwCWOFt+RA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="85905746"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 26 Oct 2024 01:17:53 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4bzb-000ZQn-1f;
+	Sat, 26 Oct 2024 08:17:51 +0000
+Date: Sat, 26 Oct 2024 16:17:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, hanliyang <hanliyang@hygon.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 10553/15325] arch/x86/kvm/svm/sev.c:2200:24:
+ error: 'struct hygon_kvm_hooks_table' has no member named 'false'
+Message-ID: <202410261641.KwxLXwTB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,70 +61,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241021182821.1259487-3-dualli@chromium.org>
 
-Hi Li,
+Hi fangbaoshun,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/report-binder-txn-errors-via-generic-netlink/20241022-032903
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20241021182821.1259487-3-dualli%40chromium.org
-patch subject: [PATCH v3 1/1] report binder txn errors via generic netlink
-config: x86_64-randconfig-161-20241024 (https://download.01.org/0day-ci/archive/20241026/202410260847.NDByoPQo-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   86591467ffc7fadfd84e3f8769e8ba303cf7d2de
+commit: 1c3b1095a26ed8bc1aa7ac3d4e8dd3e65964a74b [10553/15325] KVM: SVM: Add KVM_CSV_COMMAND_BATCH command for applying CSV RING_BUFFER mode
+config: x86_64-randconfig-003-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261641.KwxLXwTB-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261641.KwxLXwTB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410260847.NDByoPQo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261641.KwxLXwTB-lkp@intel.com/
 
-New smatch warnings:
-drivers/android/binder.c:7204 init_binder_device() warn: '&binder_device->miscdev' from misc_register() not released on lines: 7204.
+All errors (new ones prefixed by >>):
 
-vim +7204 drivers/android/binder.c
+   arch/x86/kvm/svm/sev.c:2198:6: warning: no previous prototype for 'sev_install_hooks' [-Wmissing-prototypes]
+    2198 | void sev_install_hooks(void)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/sev.c: In function 'sev_install_hooks':
+>> arch/x86/kvm/svm/sev.c:2200:24: error: 'struct hygon_kvm_hooks_table' has no member named 'false'
+    2200 |         hygon_kvm_hooks.sev_enabled = &sev_enabled;
+         |                        ^
+>> arch/x86/kvm/svm/sev.c:2200:39: error: lvalue required as unary '&' operand
+    2200 |         hygon_kvm_hooks.sev_enabled = &sev_enabled;
+         |                                       ^
 
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7173  static int __init init_binder_device(const char *name)
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7174  {
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7175  	int ret;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7176  	struct binder_device *binder_device;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7177  
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7178  	binder_device = kzalloc(sizeof(*binder_device), GFP_KERNEL);
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7179  	if (!binder_device)
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7180  		return -ENOMEM;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7181  
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7182  	binder_device->miscdev.fops = &binder_fops;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7183  	binder_device->miscdev.minor = MISC_DYNAMIC_MINOR;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7184  	binder_device->miscdev.name = name;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7185  
-f0fe2c0f050d31 Christian Brauner 2020-03-03  7186  	refcount_set(&binder_device->ref, 1);
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7187  	binder_device->context.binder_context_mgr_uid = INVALID_UID;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7188  	binder_device->context.name = name;
-c44b1231ff1170 Todd Kjos         2017-06-29  7189  	mutex_init(&binder_device->context.context_mgr_node_lock);
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7190  
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7191  	ret = misc_register(&binder_device->miscdev);
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7192  	if (ret < 0) {
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7193  		kfree(binder_device);
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7194  		return ret;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7195  	}
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7196  
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7197  	hlist_add_head(&binder_device->hlist, &binder_devices);
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7198  
-39854ac9458c74 Li Li             2024-10-21  7199  	binder_device->context.report_seq = (atomic_t)ATOMIC_INIT(0);
-39854ac9458c74 Li Li             2024-10-21  7200  	ret = binder_genl_init(&binder_device->context.genl_family, name);
-39854ac9458c74 Li Li             2024-10-21  7201  	if (ret < 0)
 
-Needs a misc_unregister() as well to prevent a use after free.
+vim +2200 arch/x86/kvm/svm/sev.c
 
-39854ac9458c74 Li Li             2024-10-21  7202  		kfree(binder_device);
-39854ac9458c74 Li Li             2024-10-21  7203  
-ac4812c5ffbb88 Martijn Coenen    2017-02-03 @7204  	return ret;
-ac4812c5ffbb88 Martijn Coenen    2017-02-03  7205  }
+  2195	
+  2196	#ifdef CONFIG_HYGON_CSV
+  2197	/* Code to set all of the function and vaiable pointers */
+> 2198	void sev_install_hooks(void)
+  2199	{
+> 2200		hygon_kvm_hooks.sev_enabled = &sev_enabled;
+  2201		hygon_kvm_hooks.sev_issue_cmd = sev_issue_cmd;
+  2202		hygon_kvm_hooks.get_num_contig_pages = get_num_contig_pages;
+  2203		hygon_kvm_hooks.sev_pin_memory = sev_pin_memory;
+  2204		hygon_kvm_hooks.sev_unpin_memory = sev_unpin_memory;
+  2205	
+  2206		hygon_kvm_hooks.sev_hooks_installed = true;
+  2207	}
+  2208	#endif
+  2209	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
