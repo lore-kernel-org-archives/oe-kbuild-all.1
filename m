@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4447A1632D8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485DE217F48
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729938720; cv=none; b=hGFA/GiXV8R6Qfbn03UWF/tBgQG1io7zEX0QpwI+yrJXsZaVVEcU0MTttSkjYoPWS2Joz2S74xP5QmzyfxKsP9d8cefezSDItPIdCHCv3N33Ak9VvDJsfpWbZwtu+n6NJe2sO4vgkUBFuR7l4esZL1ebt3q7Cg2x4ubiejzyTQU=
+	t=1729939382; cv=none; b=c1PomO8ENlWe6eVxX8fLRyd3jd3Fu6Y4h7nWUA48O5mnyvcf47eqoJKDPoXl+uPidAzkx58okxzS9b+pNLnvGxngPKl8AwTcy3CO/GQwdWo4LYhaXe2S+mR4DWlV1ISZMco2wuyyuUu9CAMTcveVu4gNT2SfghYDJRc7WQpMSA0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729938720; c=relaxed/simple;
-	bh=a/FRvCWJYJweqBNE7cM6iryp4mf5aEWsbrwDT+ZsRRc=;
+	s=arc-20240116; t=1729939382; c=relaxed/simple;
+	bh=UZAsPXkh/HVa23+HTRlptTELiDoQeIwL1llkMeLgorE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dlSUzcMDI0Gpe2vUgbDl/FSLDPc/XNGPHH+K2QcbAaUaRFj4iA1+QMAo10ZlzRinValC5OB8f5q8cNT/tX0avgm/HJtE9yhtB517k4uj5lEQGlY4tV/ywJbrLFRwJhWoAZrV+IZL/FiEZbIDXOOviMT+XzC1a1zWWUVa5cU3meg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lQAbh6Lf; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=KUNSCZfJvvpkUYZw+sNbnSHbI+aT5qBZViWawR4qYa9bRRlIhiFWAzhx5DOD7d9SjSSVcpOZvqjdRLFpEFvSeNT+WnR4Qe0qo3G/DPd0c9HJUw/FBzC58/mVNhF5hLS0E0YZGQI57/f9If1wYZ4fgxsH9bykesCY4MT3SYX2Jd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btuH9bQK; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lQAbh6Lf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btuH9bQK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729938718; x=1761474718;
+  t=1729939379; x=1761475379;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=a/FRvCWJYJweqBNE7cM6iryp4mf5aEWsbrwDT+ZsRRc=;
-  b=lQAbh6LfBD7/mSoTrut4PVqLeTTHMFknCx2A9eIbjBbmnjjJOyEmuj82
-   WfU2V45MF8OCPaGUW+S1pHp/mo93KlV7ojfAWdLRm2COdYIzTli4zWHIO
-   9eGKsFTlSVVSsbMMDRynUUcizTt7fVykEo3ZtmvMkPSdMMOzYusLbSA/7
-   /Dhu2YP0NYVfg1YAWb0fYYy2dvncwysGD4X87nsvyZyT/qe1//9zv1Ek1
-   CWd4/TIIHvdTyVhRtMQYCtNU7WU+NsMANjtakvulOJMkqC4CgD7EKWjUl
-   u2U6b8WCz2Xle3SgzSr2Xl9GG5R0NqPSGGcMHNhhmwim4Nj4t01ie8uut
-   A==;
-X-CSE-ConnectionGUID: hSVjBnGvSRyRPiAK6wgp9A==
-X-CSE-MsgGUID: qdUY6PZlT/G8aIWksdd8JA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29790332"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29790332"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:31:58 -0700
-X-CSE-ConnectionGUID: vXpj8PmCSHuMAKfxMNoEkQ==
-X-CSE-MsgGUID: q0WJdw+PQgO12ADGqyLOAg==
+  bh=UZAsPXkh/HVa23+HTRlptTELiDoQeIwL1llkMeLgorE=;
+  b=btuH9bQKXlRj+nKpD48m3+xdEjvTSXRr63K99YrM1a3B14MH40RxW6k5
+   oGnypMgFHpmJCOLnqLhm97zghssybm91SaySEKgT+aTRwwtkDygcfowa/
+   YKGcJI73oeLfKRz4st2kxpiEWJsmn+V1FWrYemPeKFAn7iFar8KRHuVg2
+   ohNeI+VYHIvHzTe8waijltahTo5aUQn1xSsRJFabjBo207oo6yNv/Y8hb
+   b0JMiJJ12aGjWcv+vMmEFeeXpz4idIXeVexzHH3uFMQATtxuRzxC4UOcI
+   2cIAZCnr3wzqFlXkeZbXp1ZngpniH9DLoP9VbKDw+w9tepO0DRGA27FLI
+   Q==;
+X-CSE-ConnectionGUID: bTtfKp/lTJKzxCULl5W5gA==
+X-CSE-MsgGUID: dGmVleIgTEmCV7Pq5XfYVg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="29064883"
+X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
+   d="scan'208";a="29064883"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:42:58 -0700
+X-CSE-ConnectionGUID: HppFNPgXRiKAGg0Y5VvU+w==
+X-CSE-MsgGUID: MmkwOSiFTzujasgml6aUCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="81318344"
+   d="scan'208";a="81079533"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2024 03:31:56 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Oct 2024 03:42:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4e5K-000ZW4-24;
-	Sat, 26 Oct 2024 10:31:54 +0000
-Date: Sat, 26 Oct 2024 18:31:39 +0800
+	id 1t4eFz-000ZWq-0D;
+	Sat, 26 Oct 2024 10:42:55 +0000
+Date: Sat, 26 Oct 2024 18:42:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg 2/10] drivers/virtio/virtio_msg_mmio.c:57:37:
- sparse: sparse: restricted __le32 degrades to integer
-Message-ID: <202410261806.fAEVVD8t-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.12-rsslro 30/68]
+ drivers/net/phy/phylink.c:1139: warning: Function parameter or struct member
+ 'pl' not described in 'phylink_pcs_neg_mode'
+Message-ID: <202410261807.KYjrQfJy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,166 +63,122 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg
-head:   1ee7d4424b5fb877c9020b7426879470c2d47125
-commit: bea6928905ca9df686467ece8a8d226a11eeda75 [2/10] virtio: Add support for MMIO based channel bus
-config: powerpc64-randconfig-r123-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261806.fAEVVD8t-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241026/202410261806.fAEVVD8t-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.12-rsslro
+head:   e69a16d14d8d4acf315697413ca6d4b72938804a
+commit: 94b835dbea00af284bc4e77880675c828f3d7f80 [30/68] net: phylink: add support for disabling in-band-status for base-x
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241026/202410261807.KYjrQfJy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261807.KYjrQfJy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261806.fAEVVD8t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261807.KYjrQfJy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/virtio/virtio_msg_mmio.c:57:37: sparse: sparse: restricted __le32 degrades to integer
->> drivers/virtio/virtio_msg_mmio.c:76:27: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *addr @@     got void [noderef] __iomem *base @@
-   drivers/virtio/virtio_msg_mmio.c:76:27: sparse:     expected unsigned long long [usertype] *addr
-   drivers/virtio/virtio_msg_mmio.c:76:27: sparse:     got void [noderef] __iomem *base
->> drivers/virtio/virtio_msg_mmio.c:79:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned long long [usertype] * @@
-   drivers/virtio/virtio_msg_mmio.c:79:42: sparse:     expected void volatile [noderef] __iomem *addr
-   drivers/virtio/virtio_msg_mmio.c:79:42: sparse:     got unsigned long long [usertype] *
->> drivers/virtio/virtio_msg_mmio.c:87:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __iomem *addr @@     got unsigned long long [usertype] * @@
-   drivers/virtio/virtio_msg_mmio.c:87:42: sparse:     expected void const volatile [noderef] __iomem *addr
-   drivers/virtio/virtio_msg_mmio.c:87:42: sparse:     got unsigned long long [usertype] *
->> drivers/virtio/virtio_msg_mmio.c:163:25: sparse: sparse: symbol 'virtio_msg_mmio_pm_ops' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +57 drivers/virtio/virtio_msg_mmio.c
+>> drivers/net/phy/phylink.c:1139: warning: Function parameter or struct member 'pl' not described in 'phylink_pcs_neg_mode'
+>> drivers/net/phy/phylink.c:1139: warning: Excess function parameter 'mode' description in 'phylink_pcs_neg_mode'
 
-    35	
-    36	#define to_virtio_msg_mmio_device(_vmdev) \
-    37		container_of(_vmdev, struct virtio_msg_mmio_device, vmdev)
-    38	
-    39	static irqreturn_t vm_interrupt(int irq, void *opaque)
-    40	{
-    41		struct virtio_msg_mmio_device *vmmdev = opaque;
-    42		struct virtio_msg_vq *info;
-    43		struct virtio_msg msg;
-    44		bool handled = false;
-    45	
-    46		/* We don't have any msg here, lets create one to make it work */
-    47		memset(&msg, 0, sizeof(msg));
-    48		msg.id = VIRTIO_MSG_EVENT_USED;
-    49		msg.event_used.index = 0;
-    50	
-    51		/* Call the interrupt handler for each virtqueue */
-    52		list_for_each_entry(info, &vmmdev->vmdev.virtqueues, node) {
-    53			if (!virtio_msg_receive(&vmmdev->vmdev, &msg)) {
-    54				handled = true;
-    55				break;
-    56			}
-  > 57			msg.event_used.index++;
-    58		}
-    59	
-    60		/* Interrupt should belong to one of the virtqueues at least */
-    61		if (!handled) {
-    62			pr_err("%s: Failed to find virtqueue for message", __func__);
-    63			return IRQ_NONE;
-    64		}
-    65	
-    66		return IRQ_HANDLED;
-    67	}
-    68	
-    69	static int virtio_msg_mmio_send(struct virtio_msg_device *vmdev,
-    70					struct virtio_msg *request,
-    71					struct virtio_msg *response)
-    72	{
-    73		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-    74		int i, len = sizeof(*request) / sizeof(u64);
-    75		u64 *data = (u64 *) request;
-  > 76		u64 *addr = vmmdev->base;
-    77	
-    78		for (i = 0; i < len; i++)
-  > 79			writeq(*(data + i), addr + i);
-    80	
-    81		if (!response)
-    82			return 0;
-    83	
-    84		data = (u64 *) response;
-    85	
-    86		for (i = 0; i < len; i++)
-  > 87			*(data + i) = readq(addr + i);
-    88	
-    89		return 0;
-    90	}
-    91	
-    92	static const char *virtio_msg_mmio_bus_name(struct virtio_msg_device *vmdev)
-    93	{
-    94		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-    95	
-    96		return vmmdev->pdev->name;
-    97	}
-    98	
-    99	static void virtio_msg_mmio_synchronize_cbs(struct virtio_msg_device *vmdev)
-   100	{
-   101		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-   102	
-   103		synchronize_irq(platform_get_irq(vmmdev->pdev, 0));
-   104	}
-   105	
-   106	static void virtio_msg_mmio_release(struct virtio_msg_device *vmdev)
-   107	{
-   108		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-   109	
-   110		kfree(vmmdev);
-   111	}
-   112	
-   113	static int virtio_msg_mmio_vqs_prepare(struct virtio_msg_device *vmdev)
-   114	{
-   115		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-   116		int ret, irq = platform_get_irq(vmmdev->pdev, 0);
-   117	
-   118		if (irq < 0)
-   119			return irq;
-   120	
-   121		ret = request_irq(irq, vm_interrupt, IRQF_SHARED, dev_name(&vmdev->vdev.dev),
-   122				  vmmdev);
-   123		if (ret)
-   124			return ret;
-   125	
-   126		if (of_property_read_bool(vmmdev->pdev->dev.of_node, "wakeup-source"))
-   127			enable_irq_wake(irq);
-   128	
-   129		return 0;
-   130	}
-   131	
-   132	static void virtio_msg_mmio_vqs_release(struct virtio_msg_device *vmdev)
-   133	{
-   134		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-   135	
-   136		free_irq(platform_get_irq(vmmdev->pdev, 0), vmmdev);
-   137	}
-   138	
-   139	static struct virtio_msg_ops vmm_ops = {
-   140		.send = virtio_msg_mmio_send,
-   141		.bus_name = virtio_msg_mmio_bus_name,
-   142		.synchronize_cbs = virtio_msg_mmio_synchronize_cbs,
-   143		.release = virtio_msg_mmio_release,
-   144		.prepare_vqs = virtio_msg_mmio_vqs_prepare,
-   145		.release_vqs = virtio_msg_mmio_vqs_release,
-   146	};
-   147	
-   148	#ifdef CONFIG_PM_SLEEP
-   149	static int virtio_msg_mmio_freeze(struct device *dev)
-   150	{
-   151		struct virtio_msg_mmio_device *vmmdev = dev_get_drvdata(dev);
-   152	
-   153		return virtio_msg_freeze(&vmmdev->vmdev);
-   154	}
-   155	
-   156	static int virtio_msg_mmio_restore(struct device *dev)
-   157	{
-   158		struct virtio_msg_mmio_device *vmmdev = dev_get_drvdata(dev);
-   159	
-   160		return virtio_msg_restore(&vmmdev->vmdev);
-   161	}
-   162	
- > 163	const struct dev_pm_ops virtio_msg_mmio_pm_ops = {
-   164		SET_SYSTEM_SLEEP_PM_OPS(virtio_msg_mmio_freeze, virtio_msg_mmio_restore)
-   165	};
-   166	#endif
-   167	
+
+vim +1139 drivers/net/phy/phylink.c
+
+94b835dbea00af Eric Woudstra         2024-01-08  1116  
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1117) /**
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1118)  * phylink_pcs_neg_mode() - helper to determine PCS inband mode
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1119)  * @mode: one of %MLO_AN_FIXED, %MLO_AN_PHY, %MLO_AN_INBAND.
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1120)  * @interface: interface mode to be used
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1121)  * @advertising: adertisement ethtool link mode mask
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1122)  *
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1123)  * Determines the negotiation mode to be used by the PCS, and returns
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1124)  * one of:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1125)  *
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1126)  * - %PHYLINK_PCS_NEG_NONE: interface mode does not support inband
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1127)  * - %PHYLINK_PCS_NEG_OUTBAND: an out of band mode (e.g. reading the PHY)
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1128)  *   will be used.
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1129)  * - %PHYLINK_PCS_NEG_INBAND_DISABLED: inband mode selected but autoneg
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1130)  *   disabled
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1131)  * - %PHYLINK_PCS_NEG_INBAND_ENABLED: inband mode selected and autoneg enabled
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1132)  *
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1133)  * Note: this is for cases where the PCS itself is involved in negotiation
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1134)  * (e.g. Clause 37, SGMII and similar) not Clause 73.
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1135)  */
+94b835dbea00af Eric Woudstra         2024-01-08  1136  static void phylink_pcs_neg_mode(struct phylink *pl,
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1137) 				 phy_interface_t interface,
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1138) 				 const unsigned long *advertising)
+5e5401d6612ef5 Russell King (Oracle  2024-01-04 @1139) {
+94b835dbea00af Eric Woudstra         2024-01-08  1140  	if ((!!pl->phydev) && phylink_basex_no_inband(pl)) {
+94b835dbea00af Eric Woudstra         2024-01-08  1141  		switch (interface) {
+94b835dbea00af Eric Woudstra         2024-01-08  1142  		case PHY_INTERFACE_MODE_1000BASEX:
+94b835dbea00af Eric Woudstra         2024-01-08  1143  		case PHY_INTERFACE_MODE_2500BASEX:
+94b835dbea00af Eric Woudstra         2024-01-08  1144  			if (pl->cur_link_an_mode == MLO_AN_INBAND)
+94b835dbea00af Eric Woudstra         2024-01-08  1145  				pl->cur_link_an_mode = MLO_AN_PHY;
+94b835dbea00af Eric Woudstra         2024-01-08  1146  			break;
+94b835dbea00af Eric Woudstra         2024-01-08  1147  		default:
+94b835dbea00af Eric Woudstra         2024-01-08  1148  			/* restore mode if it was changed before */
+94b835dbea00af Eric Woudstra         2024-01-08  1149  			if (pl->cur_link_an_mode == MLO_AN_PHY &&
+94b835dbea00af Eric Woudstra         2024-01-08  1150  			    pl->cfg_link_an_mode == MLO_AN_INBAND)
+94b835dbea00af Eric Woudstra         2024-01-08  1151  				pl->cur_link_an_mode = pl->cfg_link_an_mode;
+94b835dbea00af Eric Woudstra         2024-01-08  1152  		}
+94b835dbea00af Eric Woudstra         2024-01-08  1153  	}
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1154) 
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1155) 	switch (interface) {
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1156) 	case PHY_INTERFACE_MODE_SGMII:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1157) 	case PHY_INTERFACE_MODE_QSGMII:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1158) 	case PHY_INTERFACE_MODE_QUSGMII:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1159) 	case PHY_INTERFACE_MODE_USXGMII:
+777b8afb817915 Vladimir Oltean       2024-06-15  1160  	case PHY_INTERFACE_MODE_10G_QXGMII:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1161) 		/* These protocols are designed for use with a PHY which
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1162) 		 * communicates its negotiation result back to the MAC via
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1163) 		 * inband communication. Note: there exist PHYs that run
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1164) 		 * with SGMII but do not send the inband data.
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1165) 		 */
+94b835dbea00af Eric Woudstra         2024-01-08  1166  		if (!phylink_autoneg_inband(pl->cur_link_an_mode))
+94b835dbea00af Eric Woudstra         2024-01-08  1167  			pl->pcs_neg_mode = PHYLINK_PCS_NEG_OUTBAND;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1168) 		else
+94b835dbea00af Eric Woudstra         2024-01-08  1169  			pl->pcs_neg_mode = PHYLINK_PCS_NEG_INBAND_ENABLED;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1170) 		break;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1171) 
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1172) 	case PHY_INTERFACE_MODE_1000BASEX:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1173) 	case PHY_INTERFACE_MODE_2500BASEX:
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1174) 		/* 1000base-X is designed for use media-side for Fibre
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1175) 		 * connections, and thus the Autoneg bit needs to be
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1176) 		 * taken into account. We also do this for 2500base-X
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1177) 		 * as well, but drivers may not support this, so may
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1178) 		 * need to override this.
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1179) 		 */
+94b835dbea00af Eric Woudstra         2024-01-08  1180  		if (!phylink_autoneg_inband(pl->cur_link_an_mode)) {
+94b835dbea00af Eric Woudstra         2024-01-08  1181  			pl->pcs_neg_mode = PHYLINK_PCS_NEG_OUTBAND;
+94b835dbea00af Eric Woudstra         2024-01-08  1182  		} else if (linkmode_test_bit(ETHTOOL_LINK_MODE_Autoneg_BIT,
+94b835dbea00af Eric Woudstra         2024-01-08  1183  					   advertising) &&
+94b835dbea00af Eric Woudstra         2024-01-08  1184  				!phylink_basex_no_inband(pl)) {
+94b835dbea00af Eric Woudstra         2024-01-08  1185  			pl->pcs_neg_mode = PHYLINK_PCS_NEG_INBAND_ENABLED;
+94b835dbea00af Eric Woudstra         2024-01-08  1186  		} else {
+94b835dbea00af Eric Woudstra         2024-01-08  1187  			pl->pcs_neg_mode = PHYLINK_PCS_NEG_INBAND_DISABLED;
+94b835dbea00af Eric Woudstra         2024-01-08  1188  			linkmode_clear_bit(ETHTOOL_LINK_MODE_Autoneg_BIT,
+94b835dbea00af Eric Woudstra         2024-01-08  1189  					   pl->link_config.advertising);
+94b835dbea00af Eric Woudstra         2024-01-08  1190  			pl->link_config.speed = (interface ==
+94b835dbea00af Eric Woudstra         2024-01-08  1191  						 PHY_INTERFACE_MODE_1000BASEX) ?
+94b835dbea00af Eric Woudstra         2024-01-08  1192  						 SPEED_1000 : SPEED_2500;
+94b835dbea00af Eric Woudstra         2024-01-08  1193  			pl->link_config.duplex = DUPLEX_FULL;
+94b835dbea00af Eric Woudstra         2024-01-08  1194  			pl->link_config.pause = MLO_PAUSE_NONE; /* ????? */
+94b835dbea00af Eric Woudstra         2024-01-08  1195  		}
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1196) 		break;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1197) 
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1198) 	default:
+94b835dbea00af Eric Woudstra         2024-01-08  1199  		pl->pcs_neg_mode = PHYLINK_PCS_NEG_NONE;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1200) 		break;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1201) 	}
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1202) 
+94b835dbea00af Eric Woudstra         2024-01-08  1203  	return;
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1204) }
+5e5401d6612ef5 Russell King (Oracle  2024-01-04  1205) 
+
+:::::: The code at line 1139 was first introduced by commit
+:::::: 5e5401d6612ef599ad45785b941eebda7effc90f net: phylink: move phylink_pcs_neg_mode() into phylink.c
+
+:::::: TO: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 -- 
 0-DAY CI Kernel Test Service
