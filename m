@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7518494
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 06:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA94CA5A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 07:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729923357; cv=none; b=rcBtVNGinR7V4g3eA5fgPgB7qXpitKchEJo6KK2p6Eqpv+GJTKIl/5CCjvfUmW6F0shjQ5xKl3bB1wWV01q8a/eg7bynPPTWtawA2LOzgPGCVW/ZJjtdKaCkzU6V3/leSLM1MfqeChomgoRCf17Ayfm9ztJm6L19ky3irP0JhEw=
+	t=1729926539; cv=none; b=W33UCNCK5fd8272jbyWOLxF9np8FZ8q2WVhPPq7CnoVDrxJVW6O33RxBtTwiyItHh1Wdo5l3cZC4lL/4/5+mFSFaSAn6QXF0IResQUhiTs/g9Zm6AVOmrZMUNs6n/Fv2N4qFlfgdwn6wUWzm0X6fIw0fm/O7ea2YuNSIWddE/D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729923357; c=relaxed/simple;
-	bh=oEaBYNcJrk/ITQT0R91Vz/7IFUW+pyPrKBWu5iHenPk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u5aGjkIoAJV400Z171gSndtLtxsqNR6Ygb3TRvxJX+mlU2R9Z+xXk/gKqcYFPC9vhzHA6892BT2HgXb30kIcXs9Iek0IU2cnakjO1TcldEZcUY6OntbUXnWh+GD+FQDTPAUS8pOlEFRj9t46bcPs5mQWO5WtjbAyU6cQR8nijqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImrgpjeS; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1729926539; c=relaxed/simple;
+	bh=5blku/eVzKN/datqcVFyyHhM8Zd0Oo3mS7r9XSsRERw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e/F4H5EQd4LkOIAKwFFuE4ce0WwJO5sPW5APvbb4YgMnSbP3O2+O3XfkMauc0drrUw3DleBciT8soixBP15WlbrFGq8j4VlZujM1cFHFu1fvVvXV+SlW08L+PFFT1/xhZLk/0LtZX0eWn6EMNinG0ZqM6pPSZ4URhGQ9YNaBH0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6UPBURj; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImrgpjeS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6UPBURj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729923355; x=1761459355;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oEaBYNcJrk/ITQT0R91Vz/7IFUW+pyPrKBWu5iHenPk=;
-  b=ImrgpjeSMuRnXfnNbFaYtRjcFVMAQx6lSmuA07bs43IYc7Nn4q8464mA
-   fHcEzq5A/YTzxu6pa8+M0qpuG4S5uyQ4ubr7iJigNfWReVOiLH9YmrcBU
-   LFCN9kxu3dyPRQxxEBx1hs2ke6T9WpLjv7EmgN5Sx1NcXE8Hfu1BlM1pZ
-   m3YRKfBToyUDSO4sUsPb7KbxIDI4RsnUSrITEX+tY40hgpKuZQvnbQ62M
-   NgfLk/RiUVJlqk4bbKnVYEm6Viz/wsauqau5UK1vef2scJdmNBZeYdMhK
-   97pS1m/5F12/oV/BpZJQnV9ru36kOEdZxrUucOPcI/ENDmAndLag4ETZy
-   g==;
-X-CSE-ConnectionGUID: tK7x/O/vRU2u1vcDYxDhgQ==
-X-CSE-MsgGUID: HdUokh2gRGu0dOe0rW47IA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40970217"
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="40970217"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 23:15:54 -0700
-X-CSE-ConnectionGUID: 1iyNi4DHRkuIYByTriMy4A==
-X-CSE-MsgGUID: XsfrFz6cQ5udSfg/LkgG3w==
+  t=1729926537; x=1761462537;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5blku/eVzKN/datqcVFyyHhM8Zd0Oo3mS7r9XSsRERw=;
+  b=D6UPBURjgO1+bnirfxPwPQKwhPjbBPL2HyWDRPJUbMmvI/LEOYT2Bc5b
+   gk+1R3sxGgBAVLR6B1+isNQmTycFl+GTQk8BuvALILu0rJIf45dJQSfLp
+   ApfpMKRxsJ8n8E03yWbNUVF1RGkL5vudR2LUvpEPcHy1t8OY02WRoDAZx
+   sX9+SOH45vHczN99aWycCiY9adDS3GWKhhOFpMRjmYM7puA9F8YuxL4Wa
+   IwvhOSJRZaV/8QjWS5Me4qI3PC/ZffJhMtzYuEFKRFwbR2R6VQdex9X86
+   CDnzTvTnV2IPowmZZuUl/O1eQ8AsoOGoWslVq+tTFvLJTSHPYIvGCqEEC
+   A==;
+X-CSE-ConnectionGUID: SdxEdCdZQyWDN5xN+NqVLg==
+X-CSE-MsgGUID: Y6f3GXErSXiEN2hnStgI8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29375311"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29375311"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 00:08:57 -0700
+X-CSE-ConnectionGUID: etVRpX2tRgCK9VPW8tJeww==
+X-CSE-MsgGUID: 6bxTnVOcTvqgoMVmzVY+FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="85084846"
+   d="scan'208";a="81957234"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 25 Oct 2024 23:15:50 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Oct 2024 00:08:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4a5T-000ZLI-28;
-	Sat, 26 Oct 2024 06:15:47 +0000
-Date: Sat, 26 Oct 2024 14:15:15 +0800
+	id 1t4ajA-000ZN6-2g;
+	Sat, 26 Oct 2024 06:56:48 +0000
+Date: Sat, 26 Oct 2024 14:55:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
-	lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
-	jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
-	lina@asahilina.net, michal.wajdeczko@intel.com,
-	christian.koenig@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	himal.prasad.ghimiray@intel.com, aravind.iddamsetty@linux.intel.com,
-	anshuman.gupta@intel.com, alexander.deucher@amd.com,
-	andrealmeid@igalia.com, amd-gfx@lists.freedesktop.org,
-	kernel-dev@igalia.com, Raag Jadav <raag.jadav@intel.com>
-Subject: Re: [PATCH v8 1/4] drm: Introduce device wedged event
-Message-ID: <202410261411.F8079SY8-lkp@intel.com>
-References: <20241025084817.144621-2-raag.jadav@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 35/45]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi:59.14-61.4:
+ Warning (unit_address_vs_reg): /soc/i2c@11009000/touchpad@2c: node has a
+ unit name, but no reg or ranges property
+Message-ID: <202410261429.6QcnXYw0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,65 +63,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025084817.144621-2-raag.jadav@intel.com>
 
-Hi Raag,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.12-rc4 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/drm-Introduce-device-wedged-event/20241025-165119
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241025084817.144621-2-raag.jadav%40intel.com
-patch subject: [PATCH v8 1/4] drm: Introduce device wedged event
-config: alpha-allmodconfig (https://download.01.org/0day-ci/archive/20241026/202410261411.F8079SY8-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261411.F8079SY8-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   3f6ca9a14beff697ce0ae43cd742d5ee1ba03b97
+commit: 1e05dc8b4efeb06c4e55b28a2dfb5af82ca01625 [35/45] CHROMIUM: arm64: dts: mt8186: Disable trackpad node
+config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261429.6QcnXYw0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261429.6QcnXYw0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261411.F8079SY8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261429.6QcnXYw0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi:59.14-61.4: Warning (unit_address_vs_reg): /soc/i2c@11009000/touchpad@2c: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:379.16-385.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:387.16-390.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2255.30-2259.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2261.23-2265.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2267.35-2271.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2247.32-2364.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi:59.14-61.4: Warning (i2c_bus_reg): /soc/i2c@11009000/touchpad@2c: missing or empty reg property
 
->> drivers/gpu/drm/drm_drv.c:81:10: error: nonconstant array index in initializer
-      81 |         [ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]    = "rebind",
-         |          ^~~
-   drivers/gpu/drm/drm_drv.c:81:10: note: (near initialization for 'drm_wedge_recovery_opts')
-   drivers/gpu/drm/drm_drv.c:82:10: error: nonconstant array index in initializer
-      82 |         [ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1] = "bus-reset",
-         |          ^~~
-   drivers/gpu/drm/drm_drv.c:82:10: note: (near initialization for 'drm_wedge_recovery_opts')
-   In file included from drivers/gpu/drm/drm_drv.c:30:
->> drivers/gpu/drm/drm_drv.c:84:51: error: expression in static assertion is not constant
-      84 | static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   drivers/gpu/drm/drm_drv.c:84:1: note: in expansion of macro 'static_assert'
-      84 | static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
-         | ^~~~~~~~~~~~~
+vim +59 arch/arm64/boot/dts/mediatek/mt8186-corsola-squirtle.dtsi
 
-
-vim +81 drivers/gpu/drm/drm_drv.c
-
-    75	
-    76	/*
-    77	 * Available recovery methods for wedged device. To be sent along with device
-    78	 * wedged uevent.
-    79	 */
-    80	static const char *const drm_wedge_recovery_opts[] = {
-  > 81		[ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]	= "rebind",
-    82		[ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1]	= "bus-reset",
-    83	};
-  > 84	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
-    85	
+    57	
+    58	&i2c2 {
+  > 59		touchpad@2c {
+    60			status = "disabled";
+    61		};
+    62	
+    63		touchpad@68 {
+    64			compatible = "hid-over-i2c";
+    65			reg = <0x68>;
+    66			hid-descr-addr = <0x20>;
+    67			interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
+    68			vcc-supply = <&pp3300_s3>;
+    69			wakeup-source;
+    70		};
+    71	};
+    72	
 
 -- 
 0-DAY CI Kernel Test Service
