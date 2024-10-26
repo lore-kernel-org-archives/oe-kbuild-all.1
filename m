@@ -1,71 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C60542A82
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 08:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5962BAEC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 08:38:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729930683; cv=none; b=CLrtUr6RvrFwh+ILbt+fUqm8up0hZi1ceIS922C5ggy1DafRAmPP3wK6MLgxq92gc4SST4/XC9xZzPICO4KgNHDo+b/g/al87C6+ggtqOp0tJ6CqRzGh0yro0rKXvGgTWIXVDE1Cjk6m6OIuDt8SWd88HSjlpmiCUwY+ozccFgE=
+	t=1729931939; cv=none; b=ZBy+RwzezlrOKdjCgKmeJYlzUDyW4UfvzbTjx/gr2dV3c/m/KzT1agd4U0CwjhvLAKQ/aSuC93ZYGrxZDQxKL7vXPCUBqbPCT6yPj3XyIG0a5lDU7u9A7hxer4TTgbX2XYLeIOrKO6PZESshex/k4YFyE77cAGiapxAPGho9KDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729930683; c=relaxed/simple;
-	bh=0moUX6xCOBO8b1FsiP5TF0dlX9fnw57X4sRy4i8oTPs=;
+	s=arc-20240116; t=1729931939; c=relaxed/simple;
+	bh=mR1Pe8yt+v+w7zNW/aUeOjuoEFziwbo0p077UFbOUjk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qq1dIuWdUUgIWD8sDChyxQmMb3RbiZXuVMCtFDD9Nxv7CBKVIsy6GjYf9ZX1QazeY7I7J1YY0ER1Jsb8iGsVmjOGwZdvOQzZ6oro8P0TUAx007YNmO2sXxusSLCKguhPWrawGijgEvhNgIcZaOSHgsygL7tNFxflbZlDtQh5OH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OS3d06Xa; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=GBXkUkHvFJaZMqSSJEaBkv4G2+dcGjzK9BBHAx8MGGKehlTOH6XhkIOsaPl/VTD/Lb5SI15ssVE3CoHGLOz6u5nLMtyyp1zmbA7u0xt7BUhwiO6DvAFaHL3Fa0O90XYcoSEKpOapiCt++BnRFcWvMoydSrhkLf22TntefqyV8Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpy20pHh; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OS3d06Xa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpy20pHh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729930681; x=1761466681;
+  t=1729931937; x=1761467937;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0moUX6xCOBO8b1FsiP5TF0dlX9fnw57X4sRy4i8oTPs=;
-  b=OS3d06XaloOa+NNsO0XGxpsnaUILb7FKgVDWfYvrbgC7DZq6G4ewPYFS
-   xI7gNwtR38fYpDmMWm0IbmYswh1KLwtleav+C41fbt2IcsycCTk0NpkSY
-   3AhRWhbzv/FEglgbRV8WZFx3Oe7zHPtebePWiJ9VNjr9auaeu9kgpOg4w
-   8qkCQTz5l9wofHgRZlF+J+mQ1Q5giQqxxPJYZVLGvpOAe0D9sth6Pd7jr
-   lY1jOqX3x+rtXaiyV/vvzqvV1MQoZCQZ/IpcdFsc7eNkwePeKeD8dkuBk
-   MPlautBQN9x5dn9OwiIEp4sF8Si3rEOmeJqzwj0iGZb63/4W+1g23NxAs
-   Q==;
-X-CSE-ConnectionGUID: isCJQ036QuOKxzgor0FhFA==
-X-CSE-MsgGUID: WIuhhwJCTBmNKObdM1cm4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40986391"
+  bh=mR1Pe8yt+v+w7zNW/aUeOjuoEFziwbo0p077UFbOUjk=;
+  b=lpy20pHhUonioPhKhsDu8bzLJkU6CkoxJgNsCldZxzC84pJJEBJobyxl
+   YZUYDVHbDMoNJmvsXx+Ei/rcH92xBms8VDmY0UGDBHqj8z4xQ0BMPbIzx
+   xjed6e315g5vFPT/EVmWB+SF2sLao3++QBZD76g02dFKBBS9MgKtsL9ot
+   runP9npfAaBUgI2uR9goRdFDfFT/Ke34U2G36F1UmdE9mvwJ7iU4dNWn2
+   v3tC4Wn/m0f/vlV4GkWrjgJeHtMigF3/2r1zVb++s51pADZMn0Pbh0+vo
+   8nvOFG27741qgR7yrH8xWyaScSoswbZvffyqafwV1IE0BmumfHCRPdZbo
+   A==;
+X-CSE-ConnectionGUID: 5WztXqSITSWbxYfwbmQImw==
+X-CSE-MsgGUID: fR8W6iayQdGGbOyY82Nv9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40180028"
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="40986391"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 01:18:01 -0700
-X-CSE-ConnectionGUID: SNYRKAddQNOoBz9NYYbvcA==
-X-CSE-MsgGUID: 0GcBeImAQk6OxkN9SGWjpQ==
+   d="scan'208";a="40180028"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 01:38:57 -0700
+X-CSE-ConnectionGUID: f6tmldosRFSxtWJoCpg8Lw==
+X-CSE-MsgGUID: p4QyqgnwQwy8/SiNtIG4vw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="85905747"
+X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
+   d="scan'208";a="81069942"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Oct 2024 01:17:53 -0700
+  by orviesa009.jf.intel.com with ESMTP; 26 Oct 2024 01:38:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4bzb-000ZQk-1b;
-	Sat, 26 Oct 2024 08:17:51 +0000
-Date: Sat, 26 Oct 2024 16:17:37 +0800
+	id 1t4cJv-000ZRM-2R;
+	Sat, 26 Oct 2024 08:38:51 +0000
+Date: Sat, 26 Oct 2024 16:38:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, oleg@redhat.com,
-	linux@armlinux.org.uk, will@kernel.org, mark.rutland@arm.com,
-	catalin.marinas@arm.com, sstabellini@kernel.org, maz@kernel.org,
-	tglx@linutronix.de, peterz@infradead.org, luto@kernel.org,
-	kees@kernel.org, wad@chromium.org, akpm@linux-foundation.org,
-	samitolvanen@google.com, arnd@arndb.de, ojeda@kernel.org,
-	rppt@kernel.org, hca@linux.ibm.com, aliceryhl@google.com,
-	samuel.holland@sifive.com, paulmck@kernel.org, aquini@redhat.com,
-	petr.pavlu@suse.com, viro@zeniv.linux.org.uk,
-	rmk+kernel@armlinux.org.uk, ardb@kernel.org,
-	wangkefeng.wang@huawei.com, surenb@google.com,
-	linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH -next v4 17/19] entry: Add syscall arch functions to use
- generic syscall for arm64
-Message-ID: <202410261801.FCY33zDQ-lkp@intel.com>
-References: <20241025100700.3714552-18-ruanjinjie@huawei.com>
+To: Justin Iurman <justin.iurman@uliege.be>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, dsahern@kernel.org,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, linux-kernel@vger.kernel.org,
+	justin.iurman@uliege.be
+Subject: Re: [PATCH net-next 2/3] net: ipv6: seg6_iptunnel: mitigate
+ 2-realloc issue
+Message-ID: <202410261651.MiKpheOT-lkp@intel.com>
+References: <20241025133727.27742-3-justin.iurman@uliege.be>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,177 +66,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025100700.3714552-18-ruanjinjie@huawei.com>
+In-Reply-To: <20241025133727.27742-3-justin.iurman@uliege.be>
 
-Hi Jinjie,
+Hi Justin,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on next-20241025]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jinjie-Ruan/arm64-ptrace-Replace-interrupts_enabled-with-regs_irqs_disabled/20241025-181420
-base:   next-20241025
-patch link:    https://lore.kernel.org/r/20241025100700.3714552-18-ruanjinjie%40huawei.com
-patch subject: [PATCH -next v4 17/19] entry: Add syscall arch functions to use generic syscall for arm64
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241026/202410261801.FCY33zDQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261801.FCY33zDQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Justin-Iurman/net-ipv6-ioam6_iptunnel-mitigate-2-realloc-issue/20241025-214849
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241025133727.27742-3-justin.iurman%40uliege.be
+patch subject: [PATCH net-next 2/3] net: ipv6: seg6_iptunnel: mitigate 2-realloc issue
+config: arc-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261651.MiKpheOT-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261651.MiKpheOT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261801.FCY33zDQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261651.MiKpheOT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> kernel/entry/syscall-common.c:30: warning: Function parameter or struct member 'regs' not described in 'arch_pre_report_syscall_entry'
->> kernel/entry/syscall-common.c:53: warning: Function parameter or struct member 'regs' not described in 'arch_post_report_syscall_entry'
->> kernel/entry/syscall-common.c:53: warning: Function parameter or struct member 'saved_reg' not described in 'arch_post_report_syscall_entry'
->> kernel/entry/syscall-common.c:53: warning: Function parameter or struct member 'ret' not described in 'arch_post_report_syscall_entry'
->> kernel/entry/syscall-common.c:130: warning: Function parameter or struct member 'regs' not described in 'arch_pre_report_syscall_exit'
->> kernel/entry/syscall-common.c:130: warning: Function parameter or struct member 'work' not described in 'arch_pre_report_syscall_exit'
->> kernel/entry/syscall-common.c:152: warning: Function parameter or struct member 'regs' not described in 'arch_post_report_syscall_exit'
->> kernel/entry/syscall-common.c:152: warning: Function parameter or struct member 'saved_reg' not described in 'arch_post_report_syscall_exit'
->> kernel/entry/syscall-common.c:152: warning: Function parameter or struct member 'work' not described in 'arch_post_report_syscall_exit'
+   net/ipv6/seg6_iptunnel.c: In function 'seg6_do_srh_encap':
+>> net/ipv6/seg6_iptunnel.c:130:16: error: implicit declaration of function '__seg6_do_srh_encap'; did you mean 'seg6_do_srh_encap'? [-Werror=implicit-function-declaration]
+     130 |         return __seg6_do_srh_encap(skb, osrh, proto, NULL);
+         |                ^~~~~~~~~~~~~~~~~~~
+         |                seg6_do_srh_encap
+   net/ipv6/seg6_iptunnel.c: At top level:
+>> net/ipv6/seg6_iptunnel.c:134:5: warning: no previous prototype for '__seg6_do_srh_encap' [-Wmissing-prototypes]
+     134 | int __seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
+         |     ^~~~~~~~~~~~~~~~~~~
+   net/ipv6/seg6_iptunnel.c: In function 'seg6_do_srh_inline':
+>> net/ipv6/seg6_iptunnel.c:330:16: error: implicit declaration of function '__seg6_do_srh_inline'; did you mean 'seg6_do_srh_inline'? [-Werror=implicit-function-declaration]
+     330 |         return __seg6_do_srh_inline(skb, osrh, NULL);
+         |                ^~~~~~~~~~~~~~~~~~~~
+         |                seg6_do_srh_inline
+   net/ipv6/seg6_iptunnel.c: At top level:
+>> net/ipv6/seg6_iptunnel.c:334:5: warning: no previous prototype for '__seg6_do_srh_inline' [-Wmissing-prototypes]
+     334 | int __seg6_do_srh_inline(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +30 kernel/entry/syscall-common.c
+vim +130 net/ipv6/seg6_iptunnel.c
 
-    19	
-    20	/**
-    21	 * arch_pre_report_syscall_entry - Architecture specific work before
-    22	 *				   report_syscall_entry().
-    23	 *
-    24	 * Invoked from syscall_trace_enter() to prepare for ptrace_report_syscall_entry().
-    25	 * Defaults to NOP.
-    26	 *
-    27	 * The main purpose is for saving a general purpose register clobbered
-    28	 * in the tracee.
-    29	 */
-  > 30	static inline unsigned long arch_pre_report_syscall_entry(struct pt_regs *regs);
-    31	
-    32	#ifndef arch_pre_report_syscall_entry
-    33	static inline unsigned long arch_pre_report_syscall_entry(struct pt_regs *regs)
-    34	{
-    35		return 0;
-    36	}
-    37	#endif
-    38	
-    39	/**
-    40	 * arch_post_report_syscall_entry - Architecture specific work after
-    41	 *			            report_syscall_entry().
-    42	 *
-    43	 * Invoked from syscall_trace_enter() after calling ptrace_report_syscall_entry().
-    44	 * Defaults to NOP.
-    45	 *
-    46	 * The main purpose is for restoring a general purpose register clobbered
-    47	 * in the trace saved in arch_pre_report_syscall_entry(), also it can
-    48	 * do something arch-specific according to the return value of
-    49	 * ptrace_report_syscall_entry().
-    50	 */
-    51	static inline void arch_post_report_syscall_entry(struct pt_regs *regs,
-    52							  unsigned long saved_reg,
-  > 53							  long ret);
-    54	
-    55	#ifndef arch_post_report_syscall_entry
-    56	static inline void arch_post_report_syscall_entry(struct pt_regs *regs,
-    57							  unsigned long saved_reg,
-    58							  long ret)
-    59	{
-    60	}
-    61	#endif
-    62	
-    63	long syscall_trace_enter(struct pt_regs *regs, long syscall,
-    64					unsigned long work)
-    65	{
-    66		long ret = 0;
-    67	
-    68		/*
-    69		 * Handle Syscall User Dispatch.  This must comes first, since
-    70		 * the ABI here can be something that doesn't make sense for
-    71		 * other syscall_work features.
-    72		 */
-    73		if (work & SYSCALL_WORK_SYSCALL_USER_DISPATCH) {
-    74			if (syscall_user_dispatch(regs))
-    75				return -1L;
-    76		}
-    77	
-    78		/* Handle ptrace */
-    79		if (work & (SYSCALL_WORK_SYSCALL_TRACE | SYSCALL_WORK_SYSCALL_EMU)) {
-    80			unsigned long saved_reg = arch_pre_report_syscall_entry(regs);
-    81			ret = ptrace_report_syscall_entry(regs);
-    82			arch_post_report_syscall_entry(regs, saved_reg, ret);
-    83			if (ret || (work & SYSCALL_WORK_SYSCALL_EMU))
-    84				return -1L;
-    85		}
-    86	
-    87		/* Do seccomp after ptrace, to catch any tracer changes. */
-    88		if (work & SYSCALL_WORK_SECCOMP) {
-    89			ret = __secure_computing(NULL);
-    90			if (ret == -1L)
-    91				return ret;
-    92		}
-    93	
-    94		/* Either of the above might have changed the syscall number */
-    95		syscall = syscall_get_nr(current, regs);
-    96	
-    97		if (unlikely(work & SYSCALL_WORK_SYSCALL_TRACEPOINT)) {
-    98			trace_sys_enter(regs, syscall);
-    99			/*
-   100			 * Probes or BPF hooks in the tracepoint may have changed the
-   101			 * system call number as well.
-   102			 */
-   103			syscall = syscall_get_nr(current, regs);
-   104		}
-   105	
-   106		syscall_enter_audit(regs, syscall);
-   107	
-   108		return ret ? : syscall;
-   109	}
-   110	
-   111	noinstr void syscall_enter_from_user_mode_prepare(struct pt_regs *regs)
-   112	{
-   113		enter_from_user_mode(regs);
-   114		instrumentation_begin();
-   115		local_irq_enable();
-   116		instrumentation_end();
-   117	}
-   118	
-   119	/**
-   120	 * arch_pre_report_syscall_exit - Architecture specific work before
-   121	 *				  report_syscall_exit().
-   122	 *
-   123	 * Invoked from syscall_exit_work() to prepare for ptrace_report_syscall_exit().
-   124	 * Defaults to NOP.
-   125	 *
-   126	 * The main purpose is for saving a general purpose register clobbered
-   127	 * in the trace.
-   128	 */
-   129	static inline unsigned long arch_pre_report_syscall_exit(struct pt_regs *regs,
- > 130								     unsigned long work);
-   131	
-   132	#ifndef arch_pre_report_syscall_exit
-   133	static inline unsigned long arch_pre_report_syscall_exit(struct pt_regs *regs,
-   134								     unsigned long work)
-   135	{
-   136		return 0;
-   137	}
-   138	#endif
-   139	
-   140	/**
-   141	 * arch_post_report_syscall_exit - Architecture specific work after
-   142	 *			           report_syscall_exit().
-   143	 *
-   144	 * Invoked from syscall_exit_work() after calling ptrace_report_syscall_exit().
-   145	 * Defaults to NOP.
-   146	 *
-   147	 * The main purpose is for restoring a general purpose register clobbered
-   148	 * in the trace saved in arch_pre_report_syscall_exit().
-   149	 */
-   150	static inline void arch_post_report_syscall_exit(struct pt_regs *regs,
-   151							 unsigned long saved_reg,
- > 152							 unsigned long work);
+   126	
+   127	/* encapsulate an IPv6 packet within an outer IPv6 header with a given SRH */
+   128	int seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh, int proto)
+   129	{
+ > 130		return __seg6_do_srh_encap(skb, osrh, proto, NULL);
+   131	}
+   132	EXPORT_SYMBOL_GPL(seg6_do_srh_encap);
+   133	
+ > 134	int __seg6_do_srh_encap(struct sk_buff *skb, struct ipv6_sr_hdr *osrh,
+   135				int proto, struct dst_entry *dst)
+   136	{
+   137		struct net *net = dev_net(skb_dst(skb)->dev);
+   138		struct ipv6hdr *hdr, *inner_hdr;
+   139		struct ipv6_sr_hdr *isrh;
+   140		int hdrlen, tot_len, err;
+   141		__be32 flowlabel;
+   142	
+   143		hdrlen = (osrh->hdrlen + 1) << 3;
+   144		tot_len = hdrlen + sizeof(*hdr);
+   145	
+   146		err = skb_cow_head(skb, tot_len + (!dst ? skb->mac_len
+   147							: LL_RESERVED_SPACE(dst->dev)));
+   148		if (unlikely(err))
+   149			return err;
+   150	
+   151		inner_hdr = ipv6_hdr(skb);
+   152		flowlabel = seg6_make_flowlabel(net, skb, inner_hdr);
    153	
+   154		skb_push(skb, tot_len);
+   155		skb_reset_network_header(skb);
+   156		skb_mac_header_rebuild(skb);
+   157		hdr = ipv6_hdr(skb);
+   158	
+   159		/* inherit tc, flowlabel and hlim
+   160		 * hlim will be decremented in ip6_forward() afterwards and
+   161		 * decapsulation will overwrite inner hlim with outer hlim
+   162		 */
+   163	
+   164		if (skb->protocol == htons(ETH_P_IPV6)) {
+   165			ip6_flow_hdr(hdr, ip6_tclass(ip6_flowinfo(inner_hdr)),
+   166				     flowlabel);
+   167			hdr->hop_limit = inner_hdr->hop_limit;
+   168		} else {
+   169			ip6_flow_hdr(hdr, 0, flowlabel);
+   170			hdr->hop_limit = ip6_dst_hoplimit(skb_dst(skb));
+   171	
+   172			memset(IP6CB(skb), 0, sizeof(*IP6CB(skb)));
+   173	
+   174			/* the control block has been erased, so we have to set the
+   175			 * iif once again.
+   176			 * We read the receiving interface index directly from the
+   177			 * skb->skb_iif as it is done in the IPv4 receiving path (i.e.:
+   178			 * ip_rcv_core(...)).
+   179			 */
+   180			IP6CB(skb)->iif = skb->skb_iif;
+   181		}
+   182	
+   183		hdr->nexthdr = NEXTHDR_ROUTING;
+   184	
+   185		isrh = (void *)hdr + sizeof(*hdr);
+   186		memcpy(isrh, osrh, hdrlen);
+   187	
+   188		isrh->nexthdr = proto;
+   189	
+   190		hdr->daddr = isrh->segments[isrh->first_segment];
+   191		set_tun_src(net, skb_dst(skb)->dev, &hdr->daddr, &hdr->saddr);
+   192	
 
 -- 
 0-DAY CI Kernel Test Service
