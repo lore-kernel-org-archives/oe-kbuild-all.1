@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD4321632F1;
-	Sat, 26 Oct 2024 10:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514941CC894
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:22:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729938123; cv=none; b=c2WkOUUCU/WjYDVjwT09Rvj5FK982xiz2MTq6h/pxKnMlhWh3gm4rF5MISJUBlp3iTv7zVY3Prab/nUf4ZdcUoIi5A0VcQOZuunKUstcSHfFmavYlVKBsIt7v/uqb0jMVEzHT/1I71zftzyaGlq8HXJQqfFmxSTOcivxVZfzRtc=
+	t=1729938124; cv=none; b=gSGOIm3HgAzZmOW8s5Jvl3bvhPMfEk2GHMtz3L0UUlWIlbwnpq1EJo1jVSznM8trs52PywjAP9ViLAQdZSGEC1+I4fVmeZeP63lhsW2Z57vBAWqz10PeR7FQWHSBtBpADuGR5GWDputyb1tNoV9A0nmqlI4xKCrl0p+39BvKUD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729938123; c=relaxed/simple;
-	bh=OPKuXPHv05CbANj4GSwIspH+ZPJUtxzHe4p1mP5dGuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rfKU9zaeAsWeFsDyYNC0tK0tYK4tbmbybSt2Gc8RlD05P+O4GABsaA/5HxxHgziYealu2GP1vSaEB9vpgqJNGsFJa3xQM1mhc61uOZMNAwJoFpyByEHmp4cP0PK0daHDzRqCDhOgbaCmfEI+fXXWfMil8O0tpqSkvdkht6TF6fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LyibKHAG; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1729938124; c=relaxed/simple;
+	bh=Q7km/9kLP8iIZM9QPYsDChCAcPdHYi4R4ZQ6c6NUmUc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uxUmaM55N7geKCglfvOsihi1s/EU+o4NFyTU2bU0WuQEvu9ko4hPDfSYJTh9Ih+HaEortZrb212osaQj0EGOXg5TBXG7yJ2KTwdgz2mSzN/pPju2Pow5ayBccSy9TQC23ChLRsEQT4dl3cbsY4+cjQaAtCmEsiRCK0AgcjwndkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxeyJU9T; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LyibKHAG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxeyJU9T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729938122; x=1761474122;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OPKuXPHv05CbANj4GSwIspH+ZPJUtxzHe4p1mP5dGuY=;
-  b=LyibKHAGWC1A2iJ0YHC5HzKcdU6DJ6mj8ADhr1Ow4B5k+vv34nT1PLd/
-   NRfMWS4JYLwkCAnbU500OIP5AvUpu55T0jJcwl7GBzbiA02dpvPTDxJfg
-   TvzT6JtHCk5l+UqHyPouNOMSgWPW2sO3mCq3jQPqmoWHiMtEaul7ihmzB
-   rpt0wlxK8M4IenGr/wI3NZyhqqXysfBM138wCoCGyymezuaqdGAifmll3
-   VNJtw6cG54xLnq/Ofd16k2VFjg5FX39Q8/iv1Qjt84ulHwA19Xwlsi9Pj
-   ZqT9a6e83GutNhOrD4zwdfWEDJgGn+Ed9wCQIcrk5hrrVorGWqAvzGbQG
-   A==;
-X-CSE-ConnectionGUID: nm9U1umCQbOKuSf3LHymmg==
-X-CSE-MsgGUID: IXfBM/FXRoKREkn3fVZKtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29557738"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29557738"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:22:01 -0700
-X-CSE-ConnectionGUID: SK9Ub1PSSvaVlfptiHZJig==
-X-CSE-MsgGUID: ciyX6KyqRYagVEcBlNXZWA==
+  t=1729938121; x=1761474121;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Q7km/9kLP8iIZM9QPYsDChCAcPdHYi4R4ZQ6c6NUmUc=;
+  b=BxeyJU9TpvNxjaJi3ZF8f8UWDuDGtSPGfQjxkKw2otDOwGLlHFWEHA/J
+   IrDUYVo4QOIlXMRy1XTrsxfZHbL258i+n4qJzuv6JrY5gpWr1eiWaj0mQ
+   uARrQfRAbrLnr7/c827imSpf8/PlHv2XUg0lCDG6k4QLJOJVo5/Vkfh7o
+   hTn7QIscUrI2srjEiCPlwPn+GmevhM/7xwiuHqZXpi6qnUV1tFlz8Lq8O
+   kSetgCDCglXE7aUgD7XmvaH+M8G+SiXvDBWbyTkUh7NQmBpJEe3lgQzeg
+   UWR5j7QGXkLU/DoHkZP/aoHTVjHqYqaXxusolA4egsTLiV396CtDBJVbW
+   w==;
+X-CSE-ConnectionGUID: 0/DXMFG+T9Wyimys0zX5CQ==
+X-CSE-MsgGUID: 3QTiq8pRThqOOHt9BgICnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="29717982"
+X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
+   d="scan'208";a="29717982"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:21:58 -0700
+X-CSE-ConnectionGUID: MSblvBdFQv20XlLBcwiCUA==
+X-CSE-MsgGUID: u+cL8WYGR2ek9Qk/ogmZRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="85720390"
+   d="scan'208";a="81192756"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 26 Oct 2024 03:21:56 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2024 03:21:57 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4dve-000ZVW-1T;
+	id 1t4dve-000ZVU-1O;
 	Sat, 26 Oct 2024 10:21:54 +0000
-Date: Sat, 26 Oct 2024 18:21:14 +0800
+Date: Sat, 26 Oct 2024 18:21:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Oliver Upton <oliver.upton@linux.dev>
-Subject: Re: [PATCH v4 10/18] KVM: arm64: nv: Describe trap behaviour of
- MDCR_EL2.HPMN
-Message-ID: <202410261855.fvLOtls9-lkp@intel.com>
-References: <20241025182354.3364124-11-oliver.upton@linux.dev>
+To: Victor Shih <victor.shih@genesyslogic.com.tw>
+Cc: oe-kbuild-all@lists.linux.dev, Ulf Hansson <ulf.hansson@linaro.org>,
+	Jason Lai <jason.lai@genesyslogic.com.tw>
+Subject: [ulfh-mmc:next 37/61] drivers/mmc/core/sd_uhs2.c:251:31: sparse:
+ sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202410261827.7h8YK8u2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,75 +62,249 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025182354.3364124-11-oliver.upton@linux.dev>
 
-Hi Oliver,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 8e929cb546ee42c9a61d24fae60605e9e3192354]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Upton/KVM-arm64-Extend-masking-facility-to-arbitrary-registers/20241026-023055
-base:   8e929cb546ee42c9a61d24fae60605e9e3192354
-patch link:    https://lore.kernel.org/r/20241025182354.3364124-11-oliver.upton%40linux.dev
-patch subject: [PATCH v4 10/18] KVM: arm64: nv: Describe trap behaviour of MDCR_EL2.HPMN
-config: arm64-randconfig-003-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261855.fvLOtls9-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261855.fvLOtls9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ulfh/mmc.git next
+head:   3c0946b6a378fb92658aabcda5c70ea3e83143bf
+commit: 9a9f7e13952b2638bc57bc9b34e6bdd106509836 [37/61] mmc: core: Support UHS-II card control and access
+config: arc-randconfig-r122-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261827.7h8YK8u2-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241026/202410261827.7h8YK8u2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261855.fvLOtls9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261827.7h8YK8u2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/mmc/core/sd_uhs2.c:183:37: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned long @@
+   drivers/mmc/core/sd_uhs2.c:183:37: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:183:37: sparse:     got unsigned long
+   drivers/mmc/core/sd_uhs2.c:250:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got int @@
+   drivers/mmc/core/sd_uhs2.c:250:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:250:29: sparse:     got int
+>> drivers/mmc/core/sd_uhs2.c:251:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:251:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:251:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:251:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:251:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:251:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:251:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:494:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got int @@
+   drivers/mmc/core/sd_uhs2.c:494:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:494:29: sparse:     got int
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:496:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:497:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:552:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got int @@
+   drivers/mmc/core/sd_uhs2.c:552:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:552:29: sparse:     got int
+   drivers/mmc/core/sd_uhs2.c:565:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got int @@
+   drivers/mmc/core/sd_uhs2.c:565:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:565:29: sparse:     got int
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:567:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:568:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:615:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned int @@
+   drivers/mmc/core/sd_uhs2.c:615:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:615:29: sparse:     got unsigned int
+   drivers/mmc/core/sd_uhs2.c:619:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned char [usertype] n_data_gap_set @@
+   drivers/mmc/core/sd_uhs2.c:619:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:619:29: sparse:     got unsigned char [usertype] n_data_gap_set
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:620:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:621:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:649:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 @@     got unsigned long @@
+   drivers/mmc/core/sd_uhs2.c:649:29: sparse:     expected restricted __be32
+   drivers/mmc/core/sd_uhs2.c:649:29: sparse:     got unsigned long
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:650:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 @@
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse:     expected unsigned int [usertype] val
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse:     got restricted __be32
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse: sparse: cast from restricted __be32
+   drivers/mmc/core/sd_uhs2.c:651:31: sparse: sparse: cast from restricted __be32
 
-   In file included from arch/arm64/kvm/emulate-nested.c:8:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> arch/arm64/kvm/emulate-nested.c:532:35: error: too many arguments to function call, expected single argument 'vcpu', have 2 arguments
-     532 |         if (kvm_pmu_counter_is_hyp(vcpu, idx))
-         |             ~~~~~~~~~~~~~~~~~~~~~~       ^~~
-   include/kvm/arm_pmu.h:191:20: note: 'kvm_pmu_counter_is_hyp' declared here
-     191 | static inline bool kvm_pmu_counter_is_hyp(struct kvm_vcpu *vcpu)
-         |                    ^                      ~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+vim +251 drivers/mmc/core/sd_uhs2.c
 
-
-vim +/vcpu +532 arch/arm64/kvm/emulate-nested.c
-
-   509	
-   510	static enum trap_behaviour check_mdcr_hpmn(struct kvm_vcpu *vcpu)
-   511	{
-   512		u32 sysreg = esr_sys64_to_sysreg(kvm_vcpu_get_esr(vcpu));
-   513		unsigned int idx;
-   514	
-   515	
-   516		switch (sysreg) {
-   517		case SYS_PMEVTYPERn_EL0(0) ... SYS_PMEVTYPERn_EL0(30):
-   518		case SYS_PMEVCNTRn_EL0(0) ... SYS_PMEVCNTRn_EL0(30):
-   519			idx = (sys_reg_CRm(sysreg) & 0x3) << 3 | sys_reg_Op2(sysreg);
-   520			break;
-   521		case SYS_PMXEVTYPER_EL0:
-   522		case SYS_PMXEVCNTR_EL0:
-   523			idx = SYS_FIELD_GET(PMSELR_EL0, SEL,
-   524					    __vcpu_sys_reg(vcpu, PMSELR_EL0));
-   525			break;
-   526		default:
-   527			/* Someone used this trap helper for something else... */
-   528			KVM_BUG_ON(1, vcpu->kvm);
-   529			return BEHAVE_HANDLE_LOCALLY;
-   530		}
-   531	
- > 532		if (kvm_pmu_counter_is_hyp(vcpu, idx))
-   533			return BEHAVE_FORWARD_RW | BEHAVE_IN_HOST_EL0;
-   534	
-   535		return BEHAVE_HANDLE_LOCALLY;
-   536	}
-   537	
+   136	
+   137	/*
+   138	 * Do the early initialization of the card, by sending the device init broadcast
+   139	 * command and wait for the process to be completed.
+   140	 */
+   141	static int sd_uhs2_dev_init(struct mmc_host *host)
+   142	{
+   143		struct mmc_command cmd = {0};
+   144		struct uhs2_command uhs2_cmd = {};
+   145		u32 cnt;
+   146		u32 dap, gap, resp_gap;
+   147		u8 gd = 0;
+   148		int err;
+   149	
+   150		dap = host->uhs2_caps.dap;
+   151		gap = host->uhs2_caps.gap;
+   152	
+   153		/*
+   154		 * Refer to UHS-II Addendum Version 1.02 Figure 6-21 to see DEVICE_INIT CCMD format.
+   155		 * Head:
+   156		 *      - Control Write(R/W=1) with 4-Byte payload(PLEN=01b).
+   157		 *      - IOADR = CMD_BASE + 002h
+   158		 * Payload:
+   159		 *      - bit [3:0]  : GAP(Group Allocated Power)
+   160		 *      - bit [7:4]  : GD(Group Descriptor)
+   161		 *      - bit [11]   : Complete Flag
+   162		 *      - bit [15:12]: DAP(Device Allocated Power)
+   163		 */
+   164		uhs2_cmd.header = UHS2_NATIVE_PACKET | UHS2_PACKET_TYPE_CCMD;
+   165		uhs2_cmd.arg = ((UHS2_DEV_CMD_DEVICE_INIT & 0xFF) << 8) |
+   166		       UHS2_NATIVE_CMD_WRITE |
+   167		       UHS2_NATIVE_CMD_PLEN_4B |
+   168		       (UHS2_DEV_CMD_DEVICE_INIT >> 8);
+   169	
+   170		/*
+   171		 * Refer to UHS-II Addendum Version 1.02 section 6.3.1.
+   172		 * Max. time from DEVICE_INIT CCMD EOP reception on Device
+   173		 * Rx to its SOP transmission on Device Tx(Tfwd_init_cmd) is
+   174		 * 1 second.
+   175		 */
+   176		cmd.busy_timeout = 1000;
+   177	
+   178		/*
+   179		 * Refer to UHS-II Addendum Version 1.02 section 6.2.6.3.
+   180		 * Let's retry the DEVICE_INIT command no more than 30 times.
+   181		 */
+   182		for (cnt = 0; cnt < 30; cnt++) {
+ > 183			uhs2_cmd.payload[0] = ((dap & 0xF) << 12) |
+   184					       UHS2_DEV_INIT_COMPLETE_FLAG |
+   185					       ((gd & 0xF) << 4) |
+   186					       (gap & 0xF);
+   187	
+   188			sd_uhs2_cmd_assemble(&cmd, &uhs2_cmd, UHS2_DEV_INIT_PAYLOAD_LEN,
+   189					     UHS2_DEV_INIT_RESP_LEN);
+   190	
+   191			err = mmc_wait_for_cmd(host, &cmd, 0);
+   192	
+   193			if (err) {
+   194				pr_err("%s: %s: UHS2 CMD send fail, err= 0x%x!\n",
+   195				       mmc_hostname(host), __func__, err);
+   196				continue;
+   197			}
+   198	
+   199			if (uhs2_cmd.uhs2_resp[3] != (UHS2_DEV_CMD_DEVICE_INIT & 0xFF)) {
+   200				pr_err("%s: DEVICE_INIT response is wrong!\n",
+   201				       mmc_hostname(host));
+   202				return -EIO;
+   203			}
+   204	
+   205			if (uhs2_cmd.uhs2_resp[5] & 0x8) {
+   206				host->uhs2_caps.group_desc = gd;
+   207				return 0;
+   208			}
+   209			resp_gap = uhs2_cmd.uhs2_resp[4] & 0x0F;
+   210			if (gap == resp_gap)
+   211				gd++;
+   212		}
+   213	
+   214		if (err) {
+   215			pr_err("%s: %s: UHS2 CMD send fail, err= 0x%x!\n",
+   216			       mmc_hostname(host), __func__, err);
+   217			return err;
+   218		}
+   219	
+   220		return 0;
+   221	}
+   222	
+   223	/*
+   224	 * Run the enumeration process by sending the enumerate command to the card.
+   225	 * Note that, we currently support only the point to point connection, which
+   226	 * means only one card can be attached per host/slot.
+   227	 */
+   228	static int sd_uhs2_enum(struct mmc_host *host, u32 *node_id)
+   229	{
+   230		struct mmc_command cmd = {0};
+   231		struct uhs2_command uhs2_cmd = {};
+   232		u8 id_f = 0xF, id_l = 0x0;
+   233		int err;
+   234	
+   235		/*
+   236		 * Refer to UHS-II Addendum Version 1.02 Figure 6-28 to see ENUMERATE CCMD format.
+   237		 * Header:
+   238		 *      - Control Write(R/W=1) with 4-Byte payload(PLEN=01b).
+   239		 *      - IOADR = CMD_BASE + 003h
+   240		 * Payload:
+   241		 *      - bit [3:0]: ID_L(Last Node ID)
+   242		 *      - bit [7:4]: ID_F(First Node ID)
+   243		 */
+   244		uhs2_cmd.header = UHS2_NATIVE_PACKET | UHS2_PACKET_TYPE_CCMD;
+   245		uhs2_cmd.arg = ((UHS2_DEV_CMD_ENUMERATE & 0xFF) << 8) |
+   246				UHS2_NATIVE_CMD_WRITE |
+   247				UHS2_NATIVE_CMD_PLEN_4B |
+   248				(UHS2_DEV_CMD_ENUMERATE >> 8);
+   249	
+   250		uhs2_cmd.payload[0] = (id_f << 4) | id_l;
+ > 251		uhs2_cmd.payload[0] = cpu_to_be32(uhs2_cmd.payload[0]);
+   252	
+   253		sd_uhs2_cmd_assemble(&cmd, &uhs2_cmd, UHS2_DEV_ENUM_PAYLOAD_LEN, UHS2_DEV_ENUM_RESP_LEN);
+   254	
+   255		err = mmc_wait_for_cmd(host, &cmd, 0);
+   256		if (err) {
+   257			pr_err("%s: %s: UHS2 CMD send fail, err= 0x%x!\n",
+   258			       mmc_hostname(host), __func__, err);
+   259			return err;
+   260		}
+   261	
+   262		if (uhs2_cmd.uhs2_resp[3] != (UHS2_DEV_CMD_ENUMERATE & 0xFF)) {
+   263			pr_err("%s: ENUMERATE response is wrong!\n",
+   264			       mmc_hostname(host));
+   265			return -EIO;
+   266		}
+   267	
+   268		id_f = (uhs2_cmd.uhs2_resp[4] >> 4) & 0xF;
+   269		id_l = uhs2_cmd.uhs2_resp[4] & 0xF;
+   270		*node_id = id_f;
+   271	
+   272		return 0;
+   273	}
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
