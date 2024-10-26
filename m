@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 039861D433F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 22:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 573EE18A6DF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 22:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729980391; cv=none; b=pzyOYntWl2IZYEXqg2txtLAkR4hdBNe1vqo+GGCMIcCgfiyDVoVYItqLy6vHBYl2LGL0Qap2Co/1E9+nWgkdHqHcaXOkDAMftNiQru0DoPbKbMdhf0XWZVZ0/GylIlQ4f/WD3b+r4lsuIfFJSr6j4gmWopzBZ7e9yybit45O0I0=
+	t=1729983455; cv=none; b=Q8ZG+mtnfbPIHvcNccHz92F02eC4RSqucM/tV+Gly+MBuGTgPyDgdNcDfetuQ+d3oAWYi64dEvHtaTGYPS8j+FklaNHJidO3Es3vailfPFS/is20DqqmlsBx3SJa8k959r+1aaeGwIGUmWhhs4eBWtwUufED5J4Q0L7sAgLwp6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729980391; c=relaxed/simple;
-	bh=wKzEuxNHY7t7577GxAlampdfmwLf2mc6oTtPfoGpAwg=;
+	s=arc-20240116; t=1729983455; c=relaxed/simple;
+	bh=zSsaUwdJRX2axeqvdEWey8cGpkLkWrqe5jrMuQmNqvE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g2m7uAAt6OSssc+ZrVhAgv5VV60FOtH7yAqIhIwhZxGGgmwNToZCKt/bz8JxZcSJ+w++HHDFiC+NSCG81AIxh0NlpQMnY74YMk94ai7pDk6f8+nK7mMnS6tPnhiyycWD6rl/VvbY5b8UFHNMAJJ3eh+TdKeskAoVDA73C2oB1fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaxxToEF; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Hk10Z3vYGgou+Gpr8TIwMjs9pDuSiQUpmj1btCeY+tV5KTthAIoAqCHINVUtrho66K/1vZ6cG+4xNhA0GQrcLOc/lFrVlk1slG1T+8mBc9891DrqDHTrzgN25B5zav3xrmh5u27p+wzpsgTVUy3gv+XMvDR3o72gr0uB1Zh6Cz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGwBQlBr; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaxxToEF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGwBQlBr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729980389; x=1761516389;
+  t=1729983453; x=1761519453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wKzEuxNHY7t7577GxAlampdfmwLf2mc6oTtPfoGpAwg=;
-  b=iaxxToEFRqFgb+4jep1QoF4u4w0oW2sro1Ti0W6jPMBx33NHgAjz6buu
-   qlm8yeyyGExlKyhCuR/tQHwgqBLl4egjpKDpKWX7idgsEgcZx1/p9rSfc
-   pG8z0ONyR5VGe0vY7y+27RODH8C0y1fKz9bog6TR0A69wnY4tuoOdUCD2
-   2Qcy7LVTVgzMu+aUk3KwTlWu5FWfTyo6E+vl9hBwVJLcu2npm+uGG2sku
-   upvIYZV3zyQMOWyVdDPIDuu+cyKI2AX/1yyRCkjINIUstGVk32l7H7ads
-   CPLXZighT6jJfSKzL92wgXd7OTFhA2nUUEXgr8PKKe9FGlJEMHCMbeAGP
-   A==;
-X-CSE-ConnectionGUID: KwJPjjUtRnuVJz35fIaTgQ==
-X-CSE-MsgGUID: StSVLWeUQ+mxkegYRNdC4A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="47111520"
-X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="47111520"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 15:06:26 -0700
-X-CSE-ConnectionGUID: iQwPpdwNTHa81xKyLFHJEA==
-X-CSE-MsgGUID: H44oO6gmRI6T/cjT4izP+g==
+  bh=zSsaUwdJRX2axeqvdEWey8cGpkLkWrqe5jrMuQmNqvE=;
+  b=QGwBQlBr6l7DDr9AnGTSgQaf5LNA3KnjMTllsUW9uCgA6I1odzNJtYn5
+   BaEU+Xa80ci2XZw89Z21hi6KU3PCg5aYpsGft8aFNADYnUHlgY2lbqp0v
+   EwiIfpyLbN5+6DTNvYsRLZHxkrnvY6OG8PKSJ83jq2v0pPlgxf1/B8AA6
+   1OpRAO0x+T1FW+P9hM2keULkWedlN3/iHL/phX040Q7WPgFtL+GDM4+qC
+   7wCyrIRYfAqQZfqMWT91Hp+j2t2+jhfkU3tu7eo+195phim2bbTVDA+5p
+   gfCc8bsZDojAvcMm1vRLhCSQW3fZDxpcTWCT2x3OTSKwRx6DZH16PPQ2Q
+   g==;
+X-CSE-ConnectionGUID: Ar3Q1ugXQROvaJcNXkShYw==
+X-CSE-MsgGUID: MRMM9UH0TiuboZpKCCHFGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="33424378"
+X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
+   d="scan'208";a="33424378"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 15:57:32 -0700
+X-CSE-ConnectionGUID: IK7GXzrfQ1abN7FN2wdT9A==
+X-CSE-MsgGUID: omeI2gYsRKmITdKpOMv4Ig==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="81287759"
+X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
+   d="scan'208";a="112095134"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2024 15:06:24 -0700
+  by orviesa002.jf.intel.com with ESMTP; 26 Oct 2024 15:57:28 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4ovO-000a5E-2S;
-	Sat, 26 Oct 2024 22:06:22 +0000
-Date: Sun, 27 Oct 2024 06:05:25 +0800
+	id 1t4pin-000a96-0A;
+	Sat, 26 Oct 2024 22:57:25 +0000
+Date: Sun, 27 Oct 2024 06:56:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wang Wensheng <wangwensheng4@huawei.com>
+To: kernel@openeuler.org, "gu.huiguang" <guhuiguang@mucse.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1359/15331] mm/share_pool.c:1226:21: error:
- implicit declaration of function 'huge_ptep_get'
-Message-ID: <202410270650.btnHpujZ-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 4037/15331]
+ drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:1008:35: error: 'struct
+ rnpm_tx_buffer' has no member named 'gso_need_padding'
+Message-ID: <202410270659.eFwieVWt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,94 +63,132 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Wang,
+Hi gu.huiguang,
 
 FYI, the error/warning still remains.
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   9d0af12b79bee784902822ddeec2e1a8cfc18524
-commit: 549b1f40b56511536196f7522ffa4d7b3da42337 [1359/15331] mm/sharepool: Implement mg_sp_make_share_u2k()
-config: arm64-randconfig-003-20241027 (https://download.01.org/0day-ci/archive/20241027/202410270650.btnHpujZ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270650.btnHpujZ-lkp@intel.com/reproduce)
+commit: 5deaf74c4b3edcf88f67f18aa352690deb9dc212 [4037/15331] drivers: initial support for rnpm drivers from Mucse Technology
+config: loongarch-randconfig-002-20241027 (https://download.01.org/0day-ci/archive/20241027/202410270659.eFwieVWt-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270659.eFwieVWt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410270650.btnHpujZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410270659.eFwieVWt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/share_pool.c: In function 'sp_hugetlb_entry':
->> mm/share_pool.c:1226:21: error: implicit declaration of function 'huge_ptep_get' [-Wimplicit-function-declaration]
-    1226 |         pte_t pte = huge_ptep_get(ptep);
-         |                     ^~~~~~~~~~~~~
->> mm/share_pool.c:1226:21: error: invalid initializer
-   mm/share_pool.c: At top level:
-   mm/share_pool.c:1005:13: warning: 'sp_area_put_locked' defined but not used [-Wunused-function]
-    1005 | static void sp_area_put_locked(struct sp_area *spa)
-         |             ^~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:944:24: warning: 'sp_area_get' defined but not used [-Wunused-function]
-     944 | static struct sp_area *sp_area_get(struct sp_group *spg,
-         |                        ^~~~~~~~~~~
-   mm/share_pool.c:791:24: warning: 'sp_area_alloc' defined but not used [-Wunused-function]
-     791 | static struct sp_area *sp_area_alloc(unsigned long size, unsigned long flags,
-         |                        ^~~~~~~~~~~~~
-   mm/share_pool.c:587:21: warning: 'spa_file' defined but not used [-Wunused-function]
-     587 | static struct file *spa_file(struct sp_area *spa)
-         |                     ^~~~~~~~
-   mm/share_pool.c:582:22: warning: 'spa_size' defined but not used [-Wunused-function]
-     582 | static unsigned long spa_size(struct sp_area *spa)
-         |                      ^~~~~~~~
-   mm/share_pool.c:497:13: warning: 'update_mem_usage_k2u' defined but not used [-Wunused-function]
-     497 | static void update_mem_usage_k2u(unsigned long size, bool inc,
-         |             ^~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:485:13: warning: 'update_mem_usage_alloc' defined but not used [-Wunused-function]
-     485 | static void update_mem_usage_alloc(unsigned long size, bool inc,
-         |             ^~~~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:438:12: warning: 'sp_group_setup_mapping_normal' defined but not used [-Wunused-function]
-     438 | static int sp_group_setup_mapping_normal(struct mm_struct *mm, struct sp_group *spg)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:380:13: warning: 'sp_mapping_detach' defined but not used [-Wunused-function]
-     380 | static void sp_mapping_detach(struct sp_group *spg, struct sp_mapping *spm)
-         |             ^~~~~~~~~~~~~~~~~
-   mm/share_pool.c:237:13: warning: 'meminfo_init' defined but not used [-Wunused-function]
-     237 | static void meminfo_init(struct sp_meminfo *meminfo)
-         |             ^~~~~~~~~~~~
-   In file included from mm/share_pool.c:26:
-   mm/share_pool.c:76:19: warning: 'sp_group_idr' defined but not used [-Wunused-variable]
-      76 | static DEFINE_IDR(sp_group_idr);
-         |                   ^~~~~~~~~~~~
-   include/linux/idr.h:56:44: note: in definition of macro 'DEFINE_IDR'
-      56 | #define DEFINE_IDR(name)        struct idr name = IDR_INIT(name)
-         |                                            ^~~~
-   mm/share_pool.c:73:12: warning: 'system_group_count' defined but not used [-Wunused-variable]
-      73 | static int system_group_count;
-         |            ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c: In function 'rnpm_maybe_tx_ctxtdesc':
+>> drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:1008:35: error: 'struct rnpm_tx_buffer' has no member named 'gso_need_padding'
+    1008 |                         if (!first->gso_need_padding)
+         |                                   ^~
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:1010:30: error: 'struct rnpm_tx_buffer' has no member named 'gso_need_padding'
+    1010 |                         first->gso_need_padding = false;
+         |                              ^~
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c: At top level:
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:1185:6: warning: no previous prototype for 'rnpm_setup_layer2_remapping' [-Wmissing-prototypes]
+    1185 | void rnpm_setup_layer2_remapping(struct rnpm_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:1209:6: warning: no previous prototype for 'rnpm_setup_tuple5_remapping' [-Wmissing-prototypes]
+    1209 | void rnpm_setup_tuple5_remapping(struct rnpm_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_lib.c:1280:6: warning: no previous prototype for 'rnpm_setup_tuple5_remapping_tcam' [-Wmissing-prototypes]
+    1280 | void rnpm_setup_tuple5_remapping_tcam(struct rnpm_hw *hw,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:256:6: warning: no previous prototype for 'rnpm_pf_service_event_schedule' [-Wmissing-prototypes]
+     256 | void rnpm_pf_service_event_schedule(struct rnpm_pf_adapter *pf_adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:1137:5: warning: no previous prototype for 'rnpm_rx_ring_reinit' [-Wmissing-prototypes]
+    1137 | int rnpm_rx_ring_reinit(struct rnpm_adapter *adapter, struct rnpm_ring *rx_ring)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: In function 'rnpm_clean_rx_irq':
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2015:14: warning: variable 'xdp_xmit' set but not used [-Wunused-but-set-variable]
+    2015 |         bool xdp_xmit = false;
+         |              ^~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: At top level:
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:2207:6: warning: no previous prototype for 'rnpm_write_eitr' [-Wmissing-prototypes]
+    2207 | void rnpm_write_eitr(struct rnpm_q_vector *q_vector, bool is_rxframe)
+         |      ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:3013:5: warning: no previous prototype for 'rnpm_xmit_nop_frame_ring' [-Wmissing-prototypes]
+    3013 | int rnpm_xmit_nop_frame_ring(struct rnpm_adapter *adapter,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:3037:5: warning: no previous prototype for 'rnpm_xmit_nop_frame_ring_temp' [-Wmissing-prototypes]
+    3037 | int rnpm_xmit_nop_frame_ring_temp(struct rnpm_adapter *adapter,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:3909:6: warning: no previous prototype for 'rnpm_vlan_stags_flag' [-Wmissing-prototypes]
+    3909 | void rnpm_vlan_stags_flag(struct rnpm_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:4031:6: warning: no previous prototype for 'control_mac_rx' [-Wmissing-prototypes]
+    4031 | void control_mac_rx(struct rnpm_adapter *adapter, bool on)
+         |      ^~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5803:6: warning: no previous prototype for 'rnpm_pf_service_timer' [-Wmissing-prototypes]
+    5803 | void rnpm_pf_service_timer(struct timer_list *t)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5821:6: warning: no previous prototype for 'rnpm_service_timer' [-Wmissing-prototypes]
+    5821 | void rnpm_service_timer(struct timer_list *t)
+         |      ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5962:21: warning: no previous prototype for 'wait_all_port_resetting' [-Wmissing-prototypes]
+    5962 | __maybe_unused void wait_all_port_resetting(struct rnpm_pf_adapter *pf_adapter)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:5974:21: warning: no previous prototype for 'clean_all_port_resetting' [-Wmissing-prototypes]
+    5974 | __maybe_unused void clean_all_port_resetting(struct rnpm_pf_adapter *pf_adapter)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:6185:5: warning: no previous prototype for 'rnpm_check_mc_addr' [-Wmissing-prototypes]
+    6185 | int rnpm_check_mc_addr(struct rnpm_adapter *adapter)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:6211:6: warning: no previous prototype for 'update_pf_vlan' [-Wmissing-prototypes]
+    6211 | void update_pf_vlan(struct rnpm_adapter *adapter)
+         |      ^~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:6262:6: warning: no previous prototype for 'rnpm_pf_service_task' [-Wmissing-prototypes]
+    6262 | void rnpm_pf_service_task(struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: In function 'rnpm_tso':
+>> drivers/net/ethernet/mucse/rnpm/rnpm_main.c:6449:38: error: 'struct rnpm_tx_buffer' has no member named 'gso_need_padding'
+    6449 |                                 first->gso_need_padding = !!gso_need_pad;
+         |                                      ^~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: In function 'rnpm_tx_csum':
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:6517:30: error: 'struct rnpm_tx_buffer' has no member named 'gso_need_padding'
+    6517 |                         first->gso_need_padding = true;
+         |                              ^~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c: At top level:
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:7528:6: warning: no previous prototype for 'rnpm_clear_udp_tunnel_port' [-Wmissing-prototypes]
+    7528 | void rnpm_clear_udp_tunnel_port(struct rnpm_adapter *adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:7692:6: warning: no previous prototype for 'rnpm_assign_netdev_ops' [-Wmissing-prototypes]
+    7692 | void rnpm_assign_netdev_ops(struct net_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:7785:6: warning: no previous prototype for 'rnpm_fix_queue_number' [-Wmissing-prototypes]
+    7785 | void rnpm_fix_queue_number(struct rnpm_hw *hw)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnpm/rnpm_main.c:8760:5: warning: no previous prototype for 'rnpm_can_rpu_start' [-Wmissing-prototypes]
+    8760 | int rnpm_can_rpu_start(struct rnpm_pf_adapter *pf_adapter)
+         |     ^~~~~~~~~~~~~~~~~~
 
 
-vim +/huge_ptep_get +1226 mm/share_pool.c
+vim +1008 drivers/net/ethernet/mucse/rnpm/rnpm_lib.c
 
-  1221	
-  1222	static int sp_hugetlb_entry(pte_t *ptep, unsigned long hmask,
-  1223				    unsigned long addr, unsigned long next,
-  1224				    struct mm_walk *walk)
-  1225	{
-> 1226		pte_t pte = huge_ptep_get(ptep);
-  1227		struct page *page = pte_page(pte);
-  1228		struct sp_walk_data *sp_walk_data;
-  1229	
-  1230		if (unlikely(!pte_present(pte))) {
-  1231			pr_debug("the page of addr %lx unexpectedly not in RAM\n", (unsigned long)addr);
-  1232			return -EFAULT;
-  1233		}
-  1234	
-  1235		sp_walk_data = walk->private;
-  1236		get_page(page);
-  1237		sp_walk_data->pages[sp_walk_data->page_count++] = page;
-  1238		return 0;
-  1239	}
-  1240	
+  1000	
+  1001	void rnpm_maybe_tx_ctxtdesc(struct rnpm_ring *tx_ring,
+  1002				    struct rnpm_tx_buffer *first, u32 type_tucmd)
+  1003	{
+  1004		struct rnpm_adapter *adapter = netdev_priv((tx_ring)->netdev);
+  1005		/* sriov mode pf use the last vf */
+  1006		if (first->ctx_flag) {
+  1007			if (adapter->priv_flags & RNPM_PRIV_FLAG_TX_PADDING) {
+> 1008				if (!first->gso_need_padding)
+  1009					type_tucmd |= RNPM_TXD_MTI_CRC_PAD_CTRL;
+  1010				first->gso_need_padding = false;
+  1011			}
+  1012	
+  1013			rnpm_tx_ctxtdesc(tx_ring, first->mss_len_vf_num,
+  1014					 first->inner_vlan_tunnel_len, type_tucmd);
+  1015		}
+  1016	}
+  1017	
 
 -- 
 0-DAY CI Kernel Test Service
