@@ -1,228 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFF51CBE8A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:01:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA2C1C6F41
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729936864; cv=none; b=fCQQw/G55pp2X7vwawfvnrfPTGHsbwt+Xev+ugulaNsTIZ+3k2OLrDSUCrRj6nj12mHP/ojHPIT+/JjEHSo0amRXmszBhnGAqmhH18WPT/hFbk+3Z8XqJE7H1ThjRncUHEtwS7swVEWjIquf6Ni57txTImek/3jpDSxSKIqx2r8=
+	t=1729937135; cv=none; b=WlR+ypW+KpBiaxGeou9oSptwKuyXptT7i9wQiiv6a0juvA70od4oIV8pfAgLlezU1ZSYmf5DpQdUUmjy7f7rft/CUTjtEo/QTBJzmW3A01UBzjJC+3GYoijSRcYEosfpIAChgfrrhm/hciCoKzBhQ2MWz5sDKaW0Jkc6BrusK+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729936864; c=relaxed/simple;
-	bh=mIO9fjYoPv61naCUwAwP4LP9ukzdvV7EzEpcI1LlGIo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SPaEvT8mQbH8W/ePwJIjCorjjhZXbEIbscDBOv7jtaboCwWRsfLaCVvYoBKhw0ysAtQJ1ZbtBAjj+d40w2BjneuWFfQBcnJSmtsAlubLwakaDX/PzB9+kaYIXsPPZEC0LMt7KG8d9K0ShW6sZHMYtMo+QZNhYcJmmtt6Laa5CIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XfEqWnEz; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729937135; c=relaxed/simple;
+	bh=JRDq1eouqRQ6dVU3EFp5yS+KoReTI1aJZRgZao2+yYk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VBPlHAirf5pP8M++2MnsA5ZKeOKHZVOPl8kseCq94/Slj8WHoi3hznR0JKkLjWeKGUJ6cxFaFSZSDkmE/LpweNBi8q58TN9KGvIh7Rc+EK1MXkOqsmiF2/FUkisVBJ+XqAWPyNjFcqOtshogn9NcvY3Uo3RSZAeYVsvG3pzqHok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iRvFE9Sy; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XfEqWnEz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729936862; x=1761472862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mIO9fjYoPv61naCUwAwP4LP9ukzdvV7EzEpcI1LlGIo=;
-  b=XfEqWnEzilRUla5Fnko6aZ6fgWosZi62TVpsu0Y1erzSc/v73fj1HGd8
-   kdq8h0l5e8xRv8G4+5bxkMG0wx/V0E+H0fsRToWAeYApyE7UHaq2nDzuE
-   Bpsn5LlWIfde6Zlcdf8avKZOEwihOmtEr7cyZaA0lHtQza8694AJH7ufZ
-   UvZ9ElfNW6SAS02qAluS71AckNDK0rIWCpLO9VM9J8T3Vch3LFNWQgTYH
-   BeFmcagsHXkzR+dO1cr4HmUowEYm2KEBsle6rmWYMiOqkof+GnV3vqc6f
-   48rTxBTUtIFfhMhl2geX4BL1v41RnurmDjSJZwdOSol3/OJQ26xQcVge/
-   A==;
-X-CSE-ConnectionGUID: oPjrEMQAQnyJq6Bd0eODPQ==
-X-CSE-MsgGUID: CJHbmKcbRJa1rQDwVswVfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40703397"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40703397"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:00:59 -0700
-X-CSE-ConnectionGUID: k7HnwS/mTAC6GDASBmoYfA==
-X-CSE-MsgGUID: /3zSxkewT5SxS9d0jIDcxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="81314648"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2024 03:00:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4dbJ-000ZUa-2l;
-	Sat, 26 Oct 2024 10:00:53 +0000
-Date: Sat, 26 Oct 2024 18:00:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	op-tee@lists.trustedfirmware.org, devicetree@vger.kernel.org,
-	Arnaud Pouliquen <arnaud.pouliquen@foss.st.com>
-Subject: Re: [PATCH v12 7/7] remoteproc: stm32: Add support of an OP-TEE TA
- to load the firmware
-Message-ID: <202410261701.jz99xF8B-lkp@intel.com>
-References: <20241025205924.2087768-8-arnaud.pouliquen@foss.st.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iRvFE9Sy"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49Q4F1Iu031145
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:05:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	HmnLmB7Z58PVjAcP88scYZXyrOOFTxtAMnjFZSQFAfc=; b=iRvFE9Syyhxp53Jb
+	uovXq/qGC49O65tQ43cSVpkm/EfgNtQ0tfzcLevyK9sngwYGzi6oh8x1R+ze27eD
+	ADUSEq893IjDyMM3u5q6zd340pDoBU6pYzTvvC9wesEj/DYVpe/0QITVDf/6tt84
+	aqFU95EQiTPdYem566SoGf/YZyqY7MvTZ0GeOZl0eBOazQKemKcOO6OYYL68io6S
+	z3x5ZcwqE2nVHglNlMCssFQ8TOqaOh/Uszl4qrtDZlzv4MxwX2VheSVBEtAT8m3f
+	Zs2uc1B6/+NqNBTF8P1uyFfLA9L6+XHYhuFUSBGsirAbuDaE/gCuVEKFw62gja8L
+	96h+4A==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gs6e0n8q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:05:25 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6cbe993f230so9330596d6.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 03:05:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729937124; x=1730541924;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HmnLmB7Z58PVjAcP88scYZXyrOOFTxtAMnjFZSQFAfc=;
+        b=l/X+kmFBbzUT26xx9xcNR4wwF59FqT5NEStkduqOf6xbVc9Ox3//ynRkUK4JazsXzU
+         86vnFX/uo4tDnsQ9P80pc3x4kCKG06URGgiGuiADRkh6RmSFwVS5iaBSNrJDQR0Dk6nU
+         CiwfJ4poMTjVyMH2d6WHHDF6cD1ib5i/CsZh2/n6+SIJtsIKoC2r1xqaeKVuIV9X4aUt
+         ap425YiOWMh35pucT3hdJxjuYYG2KCKiaQYJ9HeAihxZZpU/zgyIlF78DEG0Woiab3JE
+         nTcaItS16RWin78X/jpk1tH1zwzrLuZAxSCBkf3cY7JYz/fFOJ6KHruoNxNqGvL9V6D4
+         z3cw==
+X-Gm-Message-State: AOJu0Yy44hQk1lqR4g4IUHgbFcnkcW6Z/aVtJrohtHQ0tuxYNLVDp7e1
+	L+6lHg5BuO80w496rAWklX4ZmFylK94nLs+t7etaO/a75xoEHQy+63U9n0X3TCtOHJEUUSRX51h
+	gvgRfqh9KkXs1s3CZk0lbqDswt6WRr2ZWaHsPTF97xr8yHjMYA9Hs4pxsLMQtJTIY
+X-Received: by 2002:a05:6214:19c1:b0:6cb:e7e8:9e88 with SMTP id 6a1803df08f44-6d185885e9fmr16414396d6.10.1729937124657;
+        Sat, 26 Oct 2024 03:05:24 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEapbGj3Sfdlc6h7mBBc6DRy9QbRrJtdmLohS8bgyDq5d6FfQeVz9TdD9OYLquQ7Ttuo89WlA==
+X-Received: by 2002:a05:6214:19c1:b0:6cb:e7e8:9e88 with SMTP id 6a1803df08f44-6d185885e9fmr16414176d6.10.1729937124194;
+        Sat, 26 Oct 2024 03:05:24 -0700 (PDT)
+Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b307b5375sm158967966b.155.2024.10.26.03.05.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 26 Oct 2024 03:05:23 -0700 (PDT)
+Message-ID: <ca0137a6-3ffa-46ad-a970-7420520f09ae@oss.qualcomm.com>
+Date: Sat, 26 Oct 2024 12:05:19 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241025205924.2087768-8-arnaud.pouliquen@foss.st.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 6/7] arm64: dts: qcom: ipq9574: Add nsscc node
+To: kernel test robot <lkp@intel.com>,
+        Manikanta Mylavarapu <quic_mmanikan@quicinc.com>, andersson@kernel.org,
+        mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
+        krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
+        catalin.marinas@arm.com, will@kernel.org, p.zabel@pengutronix.de,
+        richardcochran@gmail.com, geert+renesas@glider.be,
+        dmitry.baryshkov@linaro.org, angelogioacchino.delregno@collabora.com,
+        neil.armstrong@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
+        quic_anusha@quicinc.com, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
+        quic_varada@quicinc.com
+References: <20241025035520.1841792-7-quic_mmanikan@quicinc.com>
+ <202410260742.a9vvkaEz-lkp@intel.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <202410260742.a9vvkaEz-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: a0IuPkl7-73hrfsdzV4hvxIiODZLDB0a
+X-Proofpoint-GUID: a0IuPkl7-73hrfsdzV4hvxIiODZLDB0a
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 phishscore=0
+ malwarescore=0 impostorscore=0 adultscore=0 spamscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410260084
 
-Hi Arnaud,
+On 26.10.2024 1:31 AM, kernel test robot wrote:
+> Hi Manikanta,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on clk/clk-next]
+> [also build test ERROR on robh/for-next arm64/for-next/core linus/master v6.12-rc4 next-20241025]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Mylavarapu/clk-qcom-clk-alpha-pll-Add-NSS-HUAYRA-ALPHA-PLL-support-for-ipq9574/20241025-121244
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+> patch link:    https://lore.kernel.org/r/20241025035520.1841792-7-quic_mmanikan%40quicinc.com
+> patch subject: [PATCH v8 6/7] arm64: dts: qcom: ipq9574: Add nsscc node
+> config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260742.a9vvkaEz-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260742.a9vvkaEz-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410260742.a9vvkaEz-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> Error: arch/arm64/boot/dts/qcom/ipq9574.dtsi:766.16-17 syntax error
+>    FATAL ERROR: Unable to parse input tree
 
-kernel test robot noticed the following build errors:
+I believe you also need to include <dt-bindings/clock/qcom,ipq-cmn-pll.h>
 
-[auto build test ERROR on 42f7652d3eb527d03665b09edac47f85fb600924]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnaud-Pouliquen/remoteproc-core-Introduce-rproc_pa_to_va-helper/20241026-050443
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241025205924.2087768-8-arnaud.pouliquen%40foss.st.com
-patch subject: [PATCH v12 7/7] remoteproc: stm32: Add support of an OP-TEE TA to load the firmware
-config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20241026/202410261701.jz99xF8B-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261701.jz99xF8B-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261701.jz99xF8B-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_probe':
->> drivers/remoteproc/stm32_rproc.c:904:21: error: assignment to 'int' from 'struct rproc_tee *' makes integer from pointer without a cast [-Wint-conversion]
-     904 |                 ret = rproc_tee_register(dev, rproc, proc_id);
-         |                     ^
->> drivers/remoteproc/stm32_rproc.c:963:30: error: passing argument 1 of 'rproc_tee_unregister' from incompatible pointer type [-Wincompatible-pointer-types]
-     963 |         rproc_tee_unregister(rproc);
-         |                              ^~~~~
-         |                              |
-         |                              struct rproc *
-   In file included from drivers/remoteproc/stm32_rproc.c:21:
-   include/linux/remoteproc_tee.h:59:58: note: expected 'struct rproc_tee *' but argument is of type 'struct rproc *'
-      59 | static inline int rproc_tee_unregister(struct rproc_tee *trproc)
-         |                                        ~~~~~~~~~~~~~~~~~~^~~~~~
-   drivers/remoteproc/stm32_rproc.c: In function 'stm32_rproc_remove':
-   drivers/remoteproc/stm32_rproc.c:986:30: error: passing argument 1 of 'rproc_tee_unregister' from incompatible pointer type [-Wincompatible-pointer-types]
-     986 |         rproc_tee_unregister(rproc);
-         |                              ^~~~~
-         |                              |
-         |                              struct rproc *
-   include/linux/remoteproc_tee.h:59:58: note: expected 'struct rproc_tee *' but argument is of type 'struct rproc *'
-      59 | static inline int rproc_tee_unregister(struct rproc_tee *trproc)
-         |                                        ~~~~~~~~~~~~~~~~~~^~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-
-
-vim +904 drivers/remoteproc/stm32_rproc.c
-
-   874	
-   875	static int stm32_rproc_probe(struct platform_device *pdev)
-   876	{
-   877		struct device *dev = &pdev->dev;
-   878		struct stm32_rproc *ddata;
-   879		struct device_node *np = dev->of_node;
-   880		struct rproc *rproc;
-   881		unsigned int state;
-   882		u32 proc_id;
-   883		int ret;
-   884	
-   885		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(32));
-   886		if (ret)
-   887			return ret;
-   888	
-   889		if (of_device_is_compatible(np, "st,stm32mp1-m4-tee")) {
-   890			/*
-   891			 * Delegate the firmware management to the secure context.
-   892			 * The firmware loaded has to be signed.
-   893			 */
-   894			ret = of_property_read_u32(np, "st,proc-id", &proc_id);
-   895			if (ret) {
-   896				dev_err(dev, "failed to read st,rproc-id property\n");
-   897				return ret;
-   898			}
-   899	
-   900			rproc = devm_rproc_alloc(dev, np->name, &st_rproc_tee_ops, NULL, sizeof(*ddata));
-   901			if (!rproc)
-   902				return -ENOMEM;
-   903	
- > 904			ret = rproc_tee_register(dev, rproc, proc_id);
-   905			if (ret)
-   906				return dev_err_probe(dev, ret,  "signed firmware not supported by TEE\n");
-   907		} else {
-   908			rproc = devm_rproc_alloc(dev, np->name, &st_rproc_ops, NULL, sizeof(*ddata));
-   909			if (!rproc)
-   910				return -ENOMEM;
-   911		}
-   912	
-   913		ddata = rproc->priv;
-   914	
-   915		rproc_coredump_set_elf_info(rproc, ELFCLASS32, EM_NONE);
-   916	
-   917		ret = stm32_rproc_parse_dt(pdev, ddata, &rproc->auto_boot);
-   918		if (ret)
-   919			goto free_rproc;
-   920	
-   921		ret = stm32_rproc_of_memory_translations(pdev, ddata);
-   922		if (ret)
-   923			goto free_rproc;
-   924	
-   925		ret = stm32_rproc_get_m4_status(ddata, &state);
-   926		if (ret)
-   927			goto free_rproc;
-   928	
-   929		if (state == M4_STATE_CRUN)
-   930			rproc->state = RPROC_DETACHED;
-   931	
-   932		rproc->has_iommu = false;
-   933		ddata->workqueue = create_workqueue(dev_name(dev));
-   934		if (!ddata->workqueue) {
-   935			dev_err(dev, "cannot create workqueue\n");
-   936			ret = -ENOMEM;
-   937			goto free_resources;
-   938		}
-   939	
-   940		platform_set_drvdata(pdev, rproc);
-   941	
-   942		ret = stm32_rproc_request_mbox(rproc);
-   943		if (ret)
-   944			goto free_wkq;
-   945	
-   946		ret = rproc_add(rproc);
-   947		if (ret)
-   948			goto free_mb;
-   949	
-   950		return 0;
-   951	
-   952	free_mb:
-   953		stm32_rproc_free_mbox(rproc);
-   954	free_wkq:
-   955		destroy_workqueue(ddata->workqueue);
-   956	free_resources:
-   957		rproc_resource_cleanup(rproc);
-   958	free_rproc:
-   959		if (device_may_wakeup(dev)) {
-   960			dev_pm_clear_wake_irq(dev);
-   961			device_init_wakeup(dev, false);
-   962		}
- > 963		rproc_tee_unregister(rproc);
-   964	
-   965		return ret;
-   966	}
-   967	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Konrad
