@@ -1,69 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BB4168BE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 17:04:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68B613CA8D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 17:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729962263; cv=none; b=gAgr6/eIsSisCG81oX5WzBR+TS8T9j/2iqXCCn4wOh07ZlnlDKg2YKIjUUYwk/Ffk5IFHCDRU7meiA12f13Kc6U2lumduOHq4cgfb1ZhC5omPHuJ1zIzvTbMOuWghqknTRYVQOlAhakff0SdeAVub+8iehMKLf9cEcFIdAryZBU=
+	t=1729963459; cv=none; b=EwpaT2YJYQe9QRPP2DPogYmUzGYaBzRkf0QamdK7TcJNpLoVgqUayQTMiKHrYVYcNbV5iQX2PLR+h1wGTWsL1a7GCq+gsPOzYRxQNGVrlLE+Kx+NvZDf6IK2JI8lKvOgtDki95sIRmBKir1FvtNIAqpERrYmdjntMWE9d1IUX3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729962263; c=relaxed/simple;
-	bh=wnSkEhmUEgW3X1vsBPM9gY4j2B1BaolcQuzXoGqR2B4=;
+	s=arc-20240116; t=1729963459; c=relaxed/simple;
+	bh=PTmHaILYsAwilqS/hZZgOcih1/Rs6s3SWbbYVTuO7p0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WndU/PeI6bmf2j7cgAsPA8tow/pRvDzJbk4K/0XqOWuh5qQOUotNk3hhEJqfh0YMSPpZcqIhpKQViTeF/4rhZsLpDbV3uCR+iXKr8JiIxd2RwONt5I/s5lyuNWHldA0vl3/jvEtmxfOQTh53dWrWQEvze6uWv3wXJzh5v+qyaUE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MNXbCJ/8; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=UVH9BbyCe68h7rW6eHcYPZpX9oxp0HU252w6Qp8fYF6Dj6J9lKCyG1P/yiyCrAihErEA9OSVWwXgAVsSTqaRkjt+sCpuvUeq1kkbBcxtzwohu/3BTHXoLFi9wOuzlasG323ZDxX6fIFTPCvhA88KH/R76XvSWUWA8CyegZwCWVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4rYhU/J; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MNXbCJ/8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4rYhU/J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729962260; x=1761498260;
+  t=1729963456; x=1761499456;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wnSkEhmUEgW3X1vsBPM9gY4j2B1BaolcQuzXoGqR2B4=;
-  b=MNXbCJ/8xxDaRobf+SN1LzAna7pp0RmuDGIE9SQQPxwcWjBsGwB/zhzX
-   vDGt9qbOLKQHK30PcJCAxnIfUdepu5reD+w294Eccm/k0fz+l6re/dDp+
-   0kYJ+ZjU6m4DAUSnJPM9JilNIm205ks0MoZbnLjzrAfy4AK1hbH6omQ0S
-   Bn1OCnv73yPtuZROP4lnuTFMP+WmuXVIQfaVQynYuMsDvOoE2CtrCo8NA
-   jqYr4V1OhrM+/15E5QDA7DA9VFU/i9hEZhGdmlMW1DKhdOr1Ril6hawRQ
-   u49HuW/AxzX7vAbfpsmeAs84jh54HLaSNMawtCR8uUIoYlMLaJYYo3GnZ
-   w==;
-X-CSE-ConnectionGUID: HUmM+zkdTUK/sqqNbolanw==
-X-CSE-MsgGUID: ZlO5/IAZQHe5l1Tv+tWAYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="29717503"
-X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="29717503"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 10:04:20 -0700
-X-CSE-ConnectionGUID: v2KZdODNSbaxkJyy4S/XOA==
-X-CSE-MsgGUID: hB856hY6RmSThGOH82GxXA==
+  bh=PTmHaILYsAwilqS/hZZgOcih1/Rs6s3SWbbYVTuO7p0=;
+  b=J4rYhU/J07nF1g2iKE4Q/1HKPXV49qBJehmERXo60B2UCIRi7rg/Eamr
+   /26wFoRhwchm/NJ9TvaOPXD/99E5uAP9Tbp+JSaGEItO/juASHI6uu18R
+   o7O1sa91KdfRa5qxP0MC3L+mp3GOJwFlnOXzNtCqfr11fINkMd772yL2M
+   7IyGSM+aKqRZ/GsOyYjGyOqxwkXQfZ9DVvXkhJc0NORiOdIy+ZurArkY7
+   RKMeaTKHRVmJZu04JUfsGhVJZ5rTJBL/1njt2onUue/VwdvaKPG6m6vbk
+   9GMnt4nj8Wamvc3pdgtsvgpTSFbpTEIFqUqI6iiodRPvJykSHyqeGUjqp
+   A==;
+X-CSE-ConnectionGUID: CyUTmAv4Qw6H+RyKLuUZIA==
+X-CSE-MsgGUID: 7mTVdOy4QRu0D+bu2sNu7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29396769"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29396769"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 10:24:16 -0700
+X-CSE-ConnectionGUID: 0uorn6DtSqidOYI8dtQiaw==
+X-CSE-MsgGUID: jjZQgiM/T7qQ526j4KVy/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
-   d="scan'208";a="81369676"
+   d="scan'208";a="85983381"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2024 10:04:14 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Oct 2024 10:24:15 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4kCx-000ZsF-2D;
-	Sat, 26 Oct 2024 17:04:11 +0000
-Date: Sun, 27 Oct 2024 01:03:20 +0800
+	id 1t4kWK-000Zsy-0E;
+	Sat, 26 Oct 2024 17:24:12 +0000
+Date: Sun, 27 Oct 2024 01:23:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huan Tang <tanghuan@vivo.com>, alim.akhtar@samsung.com,
-	avri.altman@wdc.com, bvanassche@acm.org,
-	James.Bottomley@hansenpartnership.com, martin.petersen@oracle.com,
-	beanhuo@micron.com, luhongfei@vivo.com, quic_cang@quicinc.com,
-	keosung.park@samsung.com, viro@zeniv.linux.org.uk,
-	quic_mnaresh@quicinc.com, peter.wang@mediatek.com,
-	manivannan.sadhasivam@linaro.org, ahalaney@redhat.com,
-	quic_nguyenb@quicinc.com, linux@weissschuh.net, ebiggers@google.com,
-	minwoo.im@samsung.com, linux-kernel@vger.kernel.org,
-	linux-scsi@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, opensource.kernel@vivo.com,
-	Huan Tang <tanghuan@vivo.com>
-Subject: Re: [PATCH v2] ufs: core: Add WB buffer resize support
-Message-ID: <202410270024.rwb7xAgC-lkp@intel.com>
-References: <20241026004423.135-1-tanghuan@vivo.com>
+To: Bartosz Golaszewski <brgl@bgdev.pl>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Subject: Re: [PATCH] gpio: relax the Kconfig dependency on OF_GPIO in drivers
+Message-ID: <202410270016.f3oIhZ0P-lkp@intel.com>
+References: <20241024192758.91748-1-brgl@bgdev.pl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,86 +65,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241026004423.135-1-tanghuan@vivo.com>
+In-Reply-To: <20241024192758.91748-1-brgl@bgdev.pl>
 
-Hi Huan,
+Hi Bartosz,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next linus/master v6.12-rc4 next-20241025]
+[auto build test ERROR on brgl/gpio/for-next]
+[also build test ERROR on linus/master v6.12-rc4 next-20241025]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Huan-Tang/ufs-core-Add-WB-buffer-resize-support/20241026-084545
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20241026004423.135-1-tanghuan%40vivo.com
-patch subject: [PATCH v2] ufs: core: Add WB buffer resize support
-config: i386-randconfig-141-20241026 (https://download.01.org/0day-ci/archive/20241027/202410270024.rwb7xAgC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270024.rwb7xAgC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-relax-the-Kconfig-dependency-on-OF_GPIO-in-drivers/20241025-032925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
+patch link:    https://lore.kernel.org/r/20241024192758.91748-1-brgl%40bgdev.pl
+patch subject: [PATCH] gpio: relax the Kconfig dependency on OF_GPIO in drivers
+config: m68k-randconfig-r051-20241026 (https://download.01.org/0day-ci/archive/20241027/202410270016.f3oIhZ0P-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270016.f3oIhZ0P-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410270024.rwb7xAgC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410270016.f3oIhZ0P-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   drivers/ufs/core/ufs-sysfs.c: In function 'wb_toggle_buf_resize_store':
->> drivers/ufs/core/ufs-sysfs.c:441:9: error: 'index' undeclared (first use in this function)
-     441 |         index = ufshcd_wb_get_query_index(hba);
-         |         ^~~~~
-   drivers/ufs/core/ufs-sysfs.c:441:9: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_of_xlate':
+>> drivers/gpio/gpio-brcmstb.c:406:15: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     406 |         if (gc->of_gpio_n_cells != 2) {
+         |               ^~
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/irq.h:14,
+                    from include/linux/irqchip/chained_irq.h:10,
+                    from include/linux/gpio/driver.h:8,
+                    from drivers/gpio/gpio-brcmstb.c:5:
+   drivers/gpio/gpio-brcmstb.c:411:46: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     411 |         if (WARN_ON(gpiospec->args_count < gc->of_gpio_n_cells))
+         |                                              ^~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   drivers/gpio/gpio-brcmstb.c: In function 'brcmstb_gpio_probe':
+   drivers/gpio/gpio-brcmstb.c:689:19: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     689 |                 gc->of_gpio_n_cells = 2;
+         |                   ^~
+>> drivers/gpio/gpio-brcmstb.c:690:19: error: 'struct gpio_chip' has no member named 'of_xlate'
+     690 |                 gc->of_xlate = brcmstb_gpio_of_xlate;
+         |                   ^~
+--
+   drivers/gpio/gpio-lpc32xx.c: In function 'lpc32xx_gpio_probe':
+>> drivers/gpio/gpio-lpc32xx.c:517:49: error: 'struct gpio_chip' has no member named 'of_xlate'
+     517 |                         lpc32xx_gpiochip[i].chip.of_xlate = lpc32xx_of_xlate;
+         |                                                 ^
+>> drivers/gpio/gpio-lpc32xx.c:518:49: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     518 |                         lpc32xx_gpiochip[i].chip.of_gpio_n_cells = 3;
+         |                                                 ^
+--
+   drivers/gpio/gpio-mt7621.c: In function 'mediatek_gpio_bank_probe':
+>> drivers/gpio/gpio-mt7621.c:246:17: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     246 |         rg->chip.of_gpio_n_cells = 2;
+         |                 ^
+>> drivers/gpio/gpio-mt7621.c:247:17: error: 'struct gpio_chip' has no member named 'of_xlate'
+     247 |         rg->chip.of_xlate = mediatek_gpio_xlate;
+         |                 ^
+--
+   In file included from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/irq.h:14,
+                    from include/linux/irqchip/chained_irq.h:10,
+                    from include/linux/gpio/driver.h:8,
+                    from drivers/gpio/gpio-tegra186.c:9:
+   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_of_xlate':
+>> drivers/gpio/gpio-tegra186.c:469:25: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     469 |         if (WARN_ON(chip->of_gpio_n_cells < 2))
+         |                         ^~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   drivers/gpio/gpio-tegra186.c:472:44: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     472 |         if (WARN_ON(spec->args_count < chip->of_gpio_n_cells))
+         |                                            ^~
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   drivers/gpio/gpio-tegra186.c: In function 'tegra186_gpio_irq_domain_translate':
+   drivers/gpio/gpio-tegra186.c:676:31: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     676 |         if (WARN_ON(gpio->gpio.of_gpio_n_cells < 2))
+         |                               ^
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   drivers/gpio/gpio-tegra186.c:679:53: error: 'struct gpio_chip' has no member named 'of_gpio_n_cells'
+     679 |         if (WARN_ON(fwspec->param_count < gpio->gpio.of_gpio_n_cells))
+         |                                                     ^
+   include/asm-generic/bug.h:123:32: note: in definition of macro 'WARN_ON'
+     123 |         int __ret_warn_on = !!(condition);                              \
+         |                                ^~~~~~~~~
+   drivers/gpio/gpio-tegra186.c: At top level:
+>> drivers/gpio/gpio-tegra186.c:462:12: warning: 'tegra186_gpio_of_xlate' defined but not used [-Wunused-function]
+     462 | static int tegra186_gpio_of_xlate(struct gpio_chip *chip,
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 Kconfig warnings: (for reference only)
    WARNING: unmet direct dependencies detected for GET_FREE_REGION
    Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +/index +441 drivers/ufs/core/ufs-sysfs.c
+vim +406 drivers/gpio/gpio-brcmstb.c
 
-   413	
-   414	static ssize_t wb_toggle_buf_resize_store(struct device *dev,
-   415			struct device_attribute *attr, const char *buf, size_t count)
-   416	{
-   417		struct ufs_hba *hba = dev_get_drvdata(dev);
-   418		unsigned int wb_buf_resize_op;
-   419		ssize_t res;
-   420	
-   421		if (!ufshcd_is_wb_allowed(hba) || !hba->dev_info.wb_enabled ||
-   422			!hba->dev_info.b_presrv_uspc_en) {
-   423			dev_err(dev, "The WB buf resize is not allowed!\n");
-   424			return -EOPNOTSUPP;
-   425		}
-   426	
-   427		if (kstrtouint(buf, 0, &wb_buf_resize_op))
-   428			return -EINVAL;
-   429	
-   430		if (wb_buf_resize_op != 0x01 && wb_buf_resize_op != 0x02) {
-   431			dev_err(dev, "The operation %u is invalid!\n", wb_buf_resize_op);
-   432			return -EINVAL;
-   433		}
-   434	
-   435		down(&hba->host_sem);
-   436		if (!ufshcd_is_user_access_allowed(hba)) {
-   437			res = -EBUSY;
-   438			goto out;
-   439		}
-   440	
- > 441		index = ufshcd_wb_get_query_index(hba);
-   442		ufshcd_rpm_get_sync(hba);
-   443		res = ufshcd_wb_toggle_buf_resize(hba, wb_buf_resize_op);
-   444		ufshcd_rpm_put_sync(hba);
-   445	
-   446	out:
-   447		up(&hba->host_sem);
-   448		return res < 0 ? res : count;
-   449	}
-   450	
+3b0213d56eb7f7 Gregory Fong  2015-05-28  398  
+3b0213d56eb7f7 Gregory Fong  2015-05-28  399  static int brcmstb_gpio_of_xlate(struct gpio_chip *gc,
+3b0213d56eb7f7 Gregory Fong  2015-05-28  400  		const struct of_phandle_args *gpiospec, u32 *flags)
+3b0213d56eb7f7 Gregory Fong  2015-05-28  401  {
+3b0213d56eb7f7 Gregory Fong  2015-05-28  402  	struct brcmstb_gpio_priv *priv = brcmstb_gpio_gc_to_priv(gc);
+0f4630f3720e7e Linus Walleij 2015-12-04  403  	struct brcmstb_gpio_bank *bank = gpiochip_get_data(gc);
+3b0213d56eb7f7 Gregory Fong  2015-05-28  404  	int offset;
+3b0213d56eb7f7 Gregory Fong  2015-05-28  405  
+3b0213d56eb7f7 Gregory Fong  2015-05-28 @406  	if (gc->of_gpio_n_cells != 2) {
+3b0213d56eb7f7 Gregory Fong  2015-05-28  407  		WARN_ON(1);
+3b0213d56eb7f7 Gregory Fong  2015-05-28  408  		return -EINVAL;
+3b0213d56eb7f7 Gregory Fong  2015-05-28  409  	}
+3b0213d56eb7f7 Gregory Fong  2015-05-28  410  
+3b0213d56eb7f7 Gregory Fong  2015-05-28  411  	if (WARN_ON(gpiospec->args_count < gc->of_gpio_n_cells))
+3b0213d56eb7f7 Gregory Fong  2015-05-28  412  		return -EINVAL;
+3b0213d56eb7f7 Gregory Fong  2015-05-28  413  
+ec37529e544c59 Doug Berger   2024-04-23  414  	offset = gpiospec->args[0] - bank->gc.offset;
+19a7b6940b7812 Gregory Fong  2015-07-31  415  	if (offset >= gc->ngpio || offset < 0)
+3b0213d56eb7f7 Gregory Fong  2015-05-28  416  		return -EINVAL;
+3b0213d56eb7f7 Gregory Fong  2015-05-28  417  
+3b0213d56eb7f7 Gregory Fong  2015-05-28  418  	if (unlikely(offset >= bank->width)) {
+3b0213d56eb7f7 Gregory Fong  2015-05-28  419  		dev_warn_ratelimited(&priv->pdev->dev,
+3b0213d56eb7f7 Gregory Fong  2015-05-28  420  			"Received request for invalid GPIO offset %d\n",
+3b0213d56eb7f7 Gregory Fong  2015-05-28  421  			gpiospec->args[0]);
+3b0213d56eb7f7 Gregory Fong  2015-05-28  422  	}
+3b0213d56eb7f7 Gregory Fong  2015-05-28  423  
+3b0213d56eb7f7 Gregory Fong  2015-05-28  424  	if (flags)
+3b0213d56eb7f7 Gregory Fong  2015-05-28  425  		*flags = gpiospec->args[1];
+3b0213d56eb7f7 Gregory Fong  2015-05-28  426  
+3b0213d56eb7f7 Gregory Fong  2015-05-28  427  	return offset;
+3b0213d56eb7f7 Gregory Fong  2015-05-28  428  }
+3b0213d56eb7f7 Gregory Fong  2015-05-28  429  
 
 -- 
 0-DAY CI Kernel Test Service
