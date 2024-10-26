@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3298123A0;
-	Sat, 26 Oct 2024 01:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F400C217F33
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 01:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729906490; cv=none; b=kzACvYf5UpKmPjYtFclCuhrXRR65Ff4r8uwEhElBivhHaPP9SBcBzdlvDr+LDU3R3Aojj4tM+U2Y+++6+seZQ0h5PJKqb3Q5Rs3zkjvvMxrZRPIHRtrPzflppaomJjjeHqj7Xq7042Nes1vpCjjp+9mTVNz8sQUCJmJVxIOjYzY=
+	t=1729907805; cv=none; b=DIkmETitgsEmCGZa+OM22MCpanO7zOpC2csBuh6g894ESvYx4VgOuKZb/QsfEJbb4SYcEMRSV7m0oZbPzCbB56bdfBkk401IlpFExyDq28Gt4OhDr4QvNgnR3uwaTg5Cvp2ipFhymb7Tmm7p82oM7w8i4YAJHGwV6q/2lXcQmrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729906490; c=relaxed/simple;
-	bh=AvdnhwNRiXKf7G4bRAt5xJWxJrdRaqp5+mhlW0iRbJo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XAL/sF/TSUyG2FkKJE3BI4pF38sHO+AcFss1GDTtyKpn1bZtOSuxv7Q7Yqi6TH2kfvq4DmqfOkBvo5EouzTB85H/DoqHC0uuDrQEYXFQlq8Bg/IYlRR5FH8oijieGsIIjomqOckVjILpC/Pa3j7gYJZwAFXxTyD4/w0o684RFeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wq7WzRrR; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1729907805; c=relaxed/simple;
+	bh=nQLd/XJsG1ZyFmk77iFxKrpRnBNMb6E59kLMSa1oYWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=alRjEkXVIFBVWiy6vvjHybluqZYtCa8rzXqXo2tIP5q+3KxMBlIJ/WSfDaBRUMkAfKzLr4xKSUV+2Y4qm3F8/fe1ZF2U0qzER3ZxRF3Pt/rj7RauLuMxYKR3BeVB4QxcdGyGj3eCP91wTHHShJjInuhdL10c7iF1av74miFKkyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TOsz077g; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wq7WzRrR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TOsz077g"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729906487; x=1761442487;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AvdnhwNRiXKf7G4bRAt5xJWxJrdRaqp5+mhlW0iRbJo=;
-  b=Wq7WzRrRZOXME271vy48jIpUUW/IrhcI+rjbnGTGmnm4NnBJhZYkZCum
-   1RZlAGvZRCFn3MeLh9wjPWFXPQjSp9sQQXLHMmLOaxSGSkoBd/qyAD08a
-   fNnuwq0UTbDwimFLlCvk/16xXnbjd9ZLu6/BeARopus98t53DuBd6rO0R
-   TKAakvo319Hl6i6Qnvx5Mj8bcDEuk+LHaseyXhsoBcWaQq1do9rTe1AI6
-   AZtG0NjtbACdFlA84UVhq36pq7r2Mv67cs8UGsNWalUaNJekNEWmEt6OC
-   d0nnNRJZGbdynOAx9+auYYA0ID7sou98NZIhW/cqtj/RF0l80WJcnWVmd
+  t=1729907803; x=1761443803;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nQLd/XJsG1ZyFmk77iFxKrpRnBNMb6E59kLMSa1oYWg=;
+  b=TOsz077gTgcGVWFICJDxdTCaif1kL+EpiDT2btOQ0k975hWBEApWQefA
+   UcDZ4hjRv96w1zFFt7K1ADTcrLsfctzVLkfDeyM5xH40CHHMkCtVCuiC1
+   3dHvRIOg1YWRgrR33W2LFMMoJfM0s1spuhXoRmO7/kU8K1nmCM8OHOXJT
+   s45cFm+ysKqPRu3tL1a8BdcjGgO3TLFuL54G0RSQqcgF2jruQFk89YOPI
+   tyS2vRlqtLJNezHbXz5rU4juOloEwIjxAait4eqg3LJ7XMg/RGpjF8a+y
+   eL4A27Wx2rjiAW6Lx0etI1YW1LFKIz/aVYlUzkeaFmq0X6V49yMzFumCb
    Q==;
-X-CSE-ConnectionGUID: TP8m4ChvSrixf53g5lS1vA==
-X-CSE-MsgGUID: ytCTuTxhTUiwvpYNZRI8WQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29536589"
+X-CSE-ConnectionGUID: J1EPrdrPRhSh1NY0DoZgZQ==
+X-CSE-MsgGUID: juq44z/ATOejmVI0Qi0Vxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29717971"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29536589"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 18:34:46 -0700
-X-CSE-ConnectionGUID: 70ikL1t/Sde4q68jIS/rvg==
-X-CSE-MsgGUID: SbfZrTSgSn69iYeE81rvuA==
+   d="scan'208";a="29717971"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 18:56:43 -0700
+X-CSE-ConnectionGUID: 39zEc/r6RsaWn55ykITGFw==
+X-CSE-MsgGUID: FcJLBdsDT0+VE/adxlZflw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,233,1725346800"; 
-   d="scan'208";a="111925452"
+   d="scan'208";a="86197310"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Oct 2024 18:34:41 -0700
+  by orviesa004.jf.intel.com with ESMTP; 25 Oct 2024 18:56:42 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4VhO-000Z8C-1i;
-	Sat, 26 Oct 2024 01:34:38 +0000
-Date: Sat, 26 Oct 2024 09:34:36 +0800
+	id 1t4W2h-000Z9R-1q;
+	Sat, 26 Oct 2024 01:56:39 +0000
+Date: Sat, 26 Oct 2024 09:55:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wei Fang <wei.fang@nxp.com>, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, vladimir.oltean@nxp.com,
-	claudiu.manoil@nxp.com, xiaoning.wang@nxp.com, Frank.Li@nxp.com,
-	christophe.leroy@csgroup.eu, linux@armlinux.org.uk,
-	bhelgaas@google.com, horms@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	imx@lists.linux.dev, netdev@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org, alexander.stein@ew.tq-group.com
-Subject: Re: [PATCH v5 net-next 05/13] net: enetc: extract common ENETC PF
- parts for LS1028A and i.MX95 platforms
-Message-ID: <202410260911.fvWnX8cx-lkp@intel.com>
-References: <20241024065328.521518-6-wei.fang@nxp.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline 2/5] ERROR: modpost:
+ "v4l2_m2m_init" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko]
+ undefined!
+Message-ID: <202410260949.3JrbxBM6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,85 +62,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241024065328.521518-6-wei.fang@nxp.com>
 
-Hi Wei,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Fang/dt-bindings-net-add-compatible-string-for-i-MX95-EMDIO/20241024-151502
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241024065328.521518-6-wei.fang%40nxp.com
-patch subject: [PATCH v5 net-next 05/13] net: enetc: extract common ENETC PF parts for LS1028A and i.MX95 platforms
-config: x86_64-buildonly-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260911.fvWnX8cx-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260911.fvWnX8cx-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline
+head:   592a281e889da4339e27811acf7d5e960a6371b2
+commit: 558762106d6e6e046ab9af372b9cadf4222893d7 [2/5] Merge 8afc66e8d43b ("Merge tag 'kbuild-v6.1' of git://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild") into android-mainline
+config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260949.3JrbxBM6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260949.3JrbxBM6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410260911.fvWnX8cx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410260949.3JrbxBM6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/net/ethernet/freescale/enetc/enetc_pf.c:7:
-   In file included from include/linux/of_net.h:9:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/net/ethernet/freescale/enetc/enetc_pf.c:906:14: error: call to undeclared function 'of_find_compatible_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     906 |         ierb_node = of_find_compatible_node(NULL, NULL,
-         |                     ^
->> drivers/net/ethernet/freescale/enetc/enetc_pf.c:906:12: error: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
-     906 |         ierb_node = of_find_compatible_node(NULL, NULL,
-         |                   ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     907 |                                             "fsl,ls1028a-enetc-ierb");
-         |                                             ~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/freescale/enetc/enetc_pf.c:908:21: error: call to undeclared function 'of_device_is_available'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     908 |         if (!ierb_node || !of_device_is_available(ierb_node))
-         |                            ^
->> drivers/net/ethernet/freescale/enetc/enetc_pf.c:912:2: error: call to undeclared function 'of_node_put'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     912 |         of_node_put(ierb_node);
-         |         ^
-   drivers/net/ethernet/freescale/enetc/enetc_pf.c:1115:14: error: call to undeclared function 'of_device_is_available'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1115 |         if (node && of_device_is_available(node))
-         |                     ^
-   1 warning and 5 errors generated.
+ERROR: modpost: "devm_usb_get_phy" [drivers/power/supply/rt9455_charger.ko] undefined!
+ERROR: modpost: "devm_usb_get_phy" [drivers/power/supply/bq25890_charger.ko] undefined!
+ERROR: modpost: "devm_usb_get_phy" [drivers/power/supply/bq256xx_charger.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_init" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_next_buf" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_ctx_release" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_ioctl_stateless_try_decoder_cmd" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_buf_remove" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_buf_done_and_job_finish" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+>> ERROR: modpost: "v4l2_m2m_ioctl_expbuf" [drivers/staging/media/sunxi/cedrus/sunxi-cedrus.ko] undefined!
+WARNING: modpost: suppressed 41 unresolved symbol warnings because there were too many)
 
-
-vim +/of_find_compatible_node +906 drivers/net/ethernet/freescale/enetc/enetc_pf.c
-
-07bf34a50e3279 Vladimir Oltean 2021-02-04  900  
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  901  static int enetc_pf_register_with_ierb(struct pci_dev *pdev)
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  902  {
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  903  	struct platform_device *ierb_pdev;
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  904  	struct device_node *ierb_node;
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  905  
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17 @906  	ierb_node = of_find_compatible_node(NULL, NULL,
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  907  					    "fsl,ls1028a-enetc-ierb");
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17 @908  	if (!ierb_node || !of_device_is_available(ierb_node))
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  909  		return -ENODEV;
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  910  
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  911  	ierb_pdev = of_find_device_by_node(ierb_node);
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17 @912  	of_node_put(ierb_node);
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  913  
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  914  	if (!ierb_pdev)
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  915  		return -EPROBE_DEFER;
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  916  
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  917  	return enetc_ierb_register_pf(ierb_pdev, pdev);
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  918  }
-e7d48e5fbf30f8 Vladimir Oltean 2021-04-17  919  
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=m] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=m] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
