@@ -1,62 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0694E18B484;
-	Sat, 26 Oct 2024 08:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68064189916
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 09:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729933139; cv=none; b=Zo/L3zGMXSaQl2Llx32BtkBQ2DXy7jUqTCtzLg73G1Ycxk3ueb1mOToFYZKnDYk0K/oDJKBzlCbJZdq70Kj5f9hByIwPLHhq8HCzqQXyhMHQK8YqwCLkrLHQWHkWfEWmQhDT+gsHCs9AIEB1cUICkYXK6g20oqQz8Tjey2G9Qhs=
+	t=1729934406; cv=none; b=EwWRuolf9K9Pz3pjrPglstm96DUJSfCPNbdcS2SCWZeXmGQI9tm4WCiferKv1tCZ5SvogbSrBXWhYXLhWHw5V60lGjSPn2RPFbE2MLl7ugShcQ5CB5CrIvcyj6O3EFsDmv1wYOTLTOkyvCzK3szvoy0lvK7GI2AumCMykYMfC10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729933139; c=relaxed/simple;
-	bh=J+ELgtFmzSshLRV2f9HM0tnB/bx/8I6tiy7m+oqGKfc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qqoWDNkcUoa6OeKzWRuq9HNYQzQXGlWb08TJ9Th9xEX0pegaSvjzK1FLRDMccDw2mBadNFDoPYK8XHu0wxFRkcrB2FRvFuGNGq/8JUf7TPcmsQX17HGTPj4oYYkeG+WnwIriyAclADt4VtocLSLdayZDRV2xQwXk7AIz8W5Zgus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G2PAcNQv; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1729934406; c=relaxed/simple;
+	bh=10Q0HTxapRuroNftzlAwfnnmV8FtywyCht+84Buc/bo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BXwxFv7SZIwP0cJd6F2G/ajoL+TQrnSVUtyZ60EvzVcQsZkIAc7uXpIHmq0MCTMyIys6mNCDKtJfjs5wHpSJl4iBC5zvX4mKJY/9vehkBl77NiGPiRoEikGfpaVXcsAK3yHMKBtchhXwSFOJG7tZexO5XsoIbJNJLXNwFNczwik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kosw6vO5; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G2PAcNQv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kosw6vO5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729933137; x=1761469137;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J+ELgtFmzSshLRV2f9HM0tnB/bx/8I6tiy7m+oqGKfc=;
-  b=G2PAcNQvGkRnUwPhpMhZ7ky4cFIJUeMSAJP5Ux/WZu31pMyHPhnHKuU6
-   I93xZ1MYy+TEHqKmp/M9QY+xaXlQuJ2qJ+S2H/1A6X006oPFEwaT+y6gr
-   Oc5K/dBjJomdrNTIHMP3YMNa3lMXPd/o0M03FoAVyP5TJi0flhg5tUoGR
-   zuPSWcpdGknOswv/G5R29UmWu98GDj4wfz+0qI507IrH1wF4rKUzzzfJz
-   aSKojBKgY1KQXNY6U0UUbEQbYR5znsI7HQymuJNdapFK0yGvOCShyBl8/
-   2marJK15qoJ4/DqT6MoTc7Wfka+f2Ky7hl3uoREpd/j5HfeeMNCpAeV/r
-   A==;
-X-CSE-ConnectionGUID: +tcEEhMlTEm5Js3WDUEzVw==
-X-CSE-MsgGUID: KPOrz20bS+GEbVDGiS1ZDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29788353"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29788353"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 01:58:57 -0700
-X-CSE-ConnectionGUID: eZgeNzm5SUKJCnzFYA0sdQ==
-X-CSE-MsgGUID: sFu8TJmdRgWXHmvQdOyp7A==
+  t=1729934403; x=1761470403;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=10Q0HTxapRuroNftzlAwfnnmV8FtywyCht+84Buc/bo=;
+  b=kosw6vO5+l5hU93aIXk/lznD1LQESYJTlneKN4vRZqNY4bZesUsR1gBY
+   3yv55SgX2lAYB0/LkQPb4kHilDyFVLvFyxpw8WuLHXs6Qx3odsmKpvtm4
+   Y0ZSx79gq1olR3R89GCcOid5u1FtNEV/DnGKD69zYL8G4nbLywQ7liDI1
+   k052ItvkWB6BmQKquOU/TFguAAFeLDkaO0ORn04QhxXCCvNTGandTGqyV
+   HCsx/LkFfs/orZtx0TFgcRoRTC6JpcHK6vHpVPk8LdmRIarNWEdI5h+On
+   mkQcj/ZKoMLEK4U3W3YjSYdIXWKhphxVGguxVwe9PZcgRbErg1qBoqeUz
+   w==;
+X-CSE-ConnectionGUID: 1JYjO0JgQ7eg38wCps5xXA==
+X-CSE-MsgGUID: k/ur1G/XQj+54pPpVlAHWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11236"; a="40181210"
+X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
+   d="scan'208";a="40181210"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 02:20:02 -0700
+X-CSE-ConnectionGUID: UUYp0zKATxul9nb+G/K1XQ==
+X-CSE-MsgGUID: 8WPtDW1qQ6uodo7Tr5GRxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
-   d="scan'208";a="81295909"
+   d="scan'208";a="85920356"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Oct 2024 01:58:54 -0700
+  by orviesa005.jf.intel.com with ESMTP; 26 Oct 2024 02:19:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4cdI-000ZS4-0d;
-	Sat, 26 Oct 2024 08:58:52 +0000
-Date: Sat, 26 Oct 2024 16:58:45 +0800
+	id 1t4cxc-000ZT6-2l;
+	Sat, 26 Oct 2024 09:19:52 +0000
+Date: Sat, 26 Oct 2024 17:19:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wende Tan <twd2.me@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@rivosinc.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: ld.lld: error: Function Import: link error: linking module flags
- 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)'
- and 'vmlinux.a(trace.o at 1385932)'
-Message-ID: <202410261627.2m4hohFx-lkp@intel.com>
+To: Ming Yu <a0282524688@gmail.com>, tmyu0@nuvoton.com, lee@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl, andi.shyti@kernel.org,
+	mkl@pengutronix.de, mailhol.vincent@wanadoo.fr,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, wim@linux-watchdog.org,
+	linux@roeck-us.net, jdelvare@suse.com, jic23@kernel.org,
+	lars@metafoo.de, ukleinek@kernel.org, alexandre.belloni@bootlin.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-can@vger.kernel.org, netdev@vger.kernel.org,
+	linux-watchdog@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-pwm@vger.kernel.org,
+	linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v1 5/9] watchdog: Add Nuvoton NCT6694 WDT support
+Message-ID: <202410261752.lUVTJO2Y-lkp@intel.com>
+References: <20241024085922.133071-6-tmyu0@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,43 +73,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241024085922.133071-6-tmyu0@nuvoton.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
-commit: 021d23428bdbae032294e8f4a29cb53cb50ae71c RISC-V: build: Allow LTO to be selected
-date:   9 months ago
-config: riscv-randconfig-002-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261627.2m4hohFx-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261627.2m4hohFx-lkp@intel.com/reproduce)
+Hi Ming,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on brgl/gpio/for-next andi-shyti/i2c/i2c-host mkl-can-next/testing groeck-staging/hwmon-next jic23-iio/togreg abelloni/rtc-next linus/master lee-mfd/for-mfd-fixes v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Yu/mfd-Add-core-driver-for-Nuvoton-NCT6694/20241024-170528
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20241024085922.133071-6-tmyu0%40nuvoton.com
+patch subject: [PATCH v1 5/9] watchdog: Add Nuvoton NCT6694 WDT support
+config: arc-randconfig-r132-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261752.lUVTJO2Y-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241026/202410261752.lUVTJO2Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261627.2m4hohFx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261752.lUVTJO2Y-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/watchdog/nct6694_wdt.c:133:42: sparse: sparse: cast to restricted __le32
+>> drivers/watchdog/nct6694_wdt.c:133:42: sparse: sparse: cast to restricted __le32
+>> drivers/watchdog/nct6694_wdt.c:133:42: sparse: sparse: cast to restricted __le32
+>> drivers/watchdog/nct6694_wdt.c:133:42: sparse: sparse: cast to restricted __le32
+>> drivers/watchdog/nct6694_wdt.c:133:42: sparse: sparse: cast to restricted __le32
+>> drivers/watchdog/nct6694_wdt.c:133:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:134:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:134:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:134:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:134:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:134:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:134:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:166:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:166:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:166:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:166:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:166:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:166:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:167:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:167:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:167:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:167:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:167:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:167:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:220:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:220:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:220:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:220:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:220:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:220:42: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:221:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:221:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:221:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:221:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:221:45: sparse: sparse: cast to restricted __le32
+   drivers/watchdog/nct6694_wdt.c:221:45: sparse: sparse: cast to restricted __le32
 
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(trace.o at 1385932)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(mballoc.o at 1403092)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(skbuff.o at 1611352)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(tcp.o at 1616452)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(ipr.o at 1522612)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(raid5.o at 1566652)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(filter.o at 1612432)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(io_uring.o at 1460452)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(segment.o at 1441492)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(super.o at 1441132)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(advansys.o at 1519012)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(super.o at 1435732)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(md.o at 1567792)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(file.o at 1440892)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(e1000_main.o at 1530892)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(inode.o at 1436332)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(mpt3sas_base.o at 1521592)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(volumes.o at 1436872)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(slub.o at 1390792)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1376452)' and 'vmlinux.a(data.o at 1441372)'
-   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+vim +133 drivers/watchdog/nct6694_wdt.c
+
+   115	
+   116	static int nct6694_wdt_set_timeout(struct watchdog_device *wdev,
+   117					   unsigned int timeout)
+   118	{
+   119		struct nct6694_wdt_data *data = watchdog_get_drvdata(wdev);
+   120		struct nct6694 *nct6694 = data->nct6694;
+   121		unsigned int timeout_fmt, pretimeout_fmt;
+   122		unsigned char buf[REQUEST_WDT_CMD0_LEN];
+   123		int ret;
+   124	
+   125		if (timeout < wdev->pretimeout) {
+   126			pr_err("%s: 'timeout' must be greater than 'pre timeout'!\n",
+   127			       __func__);
+   128			return -EINVAL;
+   129		}
+   130	
+   131		timeout_fmt = timeout * 1000 | (WDT_TIMEOUT_ACT << 24);
+   132		pretimeout_fmt = wdev->pretimeout * 1000 | (WDT_PRETIMEOUT_ACT << 24);
+ > 133		set_buf32(&buf[WDT_TIMEOUT_IDX], le32_to_cpu(timeout_fmt));
+   134		set_buf32(&buf[WDT_PRETIMEOUT_IDX], le32_to_cpu(pretimeout_fmt));
+   135	
+   136		ret = nct6694_write_msg(nct6694, REQUEST_WDT_MOD,
+   137					REQUEST_WDT_CMD0_OFFSET(data->wdev_idx),
+   138					REQUEST_WDT_CMD0_LEN, buf);
+   139		if (ret) {
+   140			pr_err("%s: Don't write the setup command in Start stage!\n",
+   141			       __func__);
+   142			return ret;
+   143		}
+   144	
+   145		wdev->timeout = timeout;
+   146	
+   147		return 0;
+   148	}
+   149	
 
 -- 
 0-DAY CI Kernel Test Service
