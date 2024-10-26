@@ -1,142 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3FC013B2A8;
-	Sat, 26 Oct 2024 18:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDFE6FB9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 18:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729966246; cv=none; b=qogH9CIXu4Md1gwLeSkmiq4BFFOCI6dzSQOxGfG2ycAY15zxD+NplGEpsdLLAtiaVyEejCrhfgFvETPtbF4nMod2IqnSZQy2VC9NQjIEEn0G4pMXCgLEt8Fv9hl9RJMPj8Iy+kmbvsqjzGWpsITuabps+ehuT6u8tLBysQbd6wU=
+	t=1729967301; cv=none; b=m1c6Mp7ZJ9aGXOX1oACWTNXhyrHFgdMd0HvQFYwOrEWQ3Kru42HmUj1ExCVap/J3dbZMkcliav0Ts84ZfaDU46OUC6Tsl3KWHCcr9Q6FtAl4aq+qV5j27Rf2CSag+DZjVQcTMFs1pNkUSurMoz8Hh14+/CfArPbFXFfJL5UQaCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729966246; c=relaxed/simple;
-	bh=sqTmSUJazM7nhjfb4jtbIvz0Z/sA3IyEDRELq86/kVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RzkuXudl8A12OqxltWZqemCisQgaRAX/8ioIFp8CoT1tYmQmcqtxWXd11cwyfALtAXqAuJmRkhw9NMftxqeI6IYcrcO5Lg9/FwygpM6vjAWSLJtclBdvcnNdq0zibRRfr/765eKxOzsziZHzAqu0U3Ba0G0lZ0peAXGP6ziMV2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fR2PgP0w; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1729967301; c=relaxed/simple;
+	bh=KwRdfoEBq1pYdoaq8OKtn/dYtxekIo3gMVWqP/1JyBs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WaGcbzrqyguMBMJeMAv4BzFH4WPm2Jnp14NgWhKO0zA59r/M1N/9n+nGBJnLs1pFM42nf3Df8x8jKa7g/Ur1vZ7wqs/qvdkLAS+mEZN6KBWpTWGHhumTaJUkSOPeL/pfr14xT+P5j3oQTo+PbvUovgPQGO7NVNxf59QcTg0kaIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BC7xcujn; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fR2PgP0w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54683C4CEC6;
-	Sat, 26 Oct 2024 18:10:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1729966245;
-	bh=sqTmSUJazM7nhjfb4jtbIvz0Z/sA3IyEDRELq86/kVE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fR2PgP0wqA4/c4qLzwYX49undL34eOeNtT1hCUeujeKS00SbzC5K5SrVnY+ssRDoU
-	 8gO88OSBlal6lPGvHOm4jGw+QSWuSmwa4Ktm5b2ztM298RORHsumt13RstGWkln+9Q
-	 5CXtyrbzz3P09C46gSmphTXrYhH8cvI5VwRj4DRr1KBALhNUNkweh/g0OcvSWV9MsV
-	 1SXhIHjA3KM2b2XHL0rp+qmOi0B9cujN5o3NMzkMHJkFVijn20MB8tLQTkVQmIV2ot
-	 k8oiX4EtR0A5c1L3Du/dNABclExSh0bFsdpmjKm45LJLFTYsPfab7dhdTj/mlI88pF
-	 X++RfNYdy/5WQ==
-Date: Sat, 26 Oct 2024 19:10:01 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Javier Carrasco <javier.carrasco.cruz@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, Lars-Peter Clausen <lars@metafoo.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Rishi Gupta <gupt21@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] iio: light: add support for veml3235
-Message-ID: <20241026191001.10acd773@jic23-huawei>
-In-Reply-To: <19c8e07f-4b9b-4d4b-aa18-f6766b65b33e@gmail.com>
-References: <20241023-veml3235-v3-2-8490f2622f9a@gmail.com>
-	<202410251610.kB7u6xMJ-lkp@intel.com>
-	<19c8e07f-4b9b-4d4b-aa18-f6766b65b33e@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BC7xcujn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729967298; x=1761503298;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KwRdfoEBq1pYdoaq8OKtn/dYtxekIo3gMVWqP/1JyBs=;
+  b=BC7xcujnuHKrACIpu7tb/0e9tR79Zva0s3rAxIJkFaOQhCl/tjdRyyd6
+   E/5fw/cOtUY5ndeI0QQhFy7J952hOhZVKsPo4TlIIHhLlqxAW4TwPv/GD
+   HdjYqi0V/u/1kmmG70zCdMJG94xqoadp8JgOlv/XkguneVueBignKiRdC
+   5SS/vJKEn76UrVG0U3beQOsKZM3pgSBQK2S0YX8swoD7uehaO6LODuZr5
+   160lL7hmFYZpugZU8EzXVMFKDP9ryZCOU7ctgKwdFML5g7wQtkE1mUo9H
+   1NXmLseLclIQTbBsXw1cbnNV/tswrPWfi0WX4xSQvtghtfaKDNTE9XnE5
+   Q==;
+X-CSE-ConnectionGUID: fG849qVeQ2y9PokvqKGVjQ==
+X-CSE-MsgGUID: BgMFdit5Qk+Ji4D6yQYAJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="55027536"
+X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
+   d="scan'208";a="55027536"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 11:28:18 -0700
+X-CSE-ConnectionGUID: oaqJzP7eQVGuLrwgMeKoyg==
+X-CSE-MsgGUID: yQh1uhgARo6N7pH/6xdsYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,235,1725346800"; 
+   d="scan'208";a="85178288"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2024 11:28:16 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4lWI-000Zvq-0w;
+	Sat, 26 Oct 2024 18:28:14 +0000
+Date: Sun, 27 Oct 2024 02:28:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 8428/23866]
+ arch/arm64/kernel/acpi.c:266:5: warning: no previous prototype for
+ 'acpi_map_cpu'
+Message-ID: <202410270248.Ne5SK2Qt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Javier,
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   22c50245e8025b0c6beee13d0df238987b98e6f8
+commit: 2875d85b7ff5a4f1350595c92305314f0ac07657 [8428/23866] arm64: Add CPU hotplug support
+config: arm64-randconfig-002-20241026 (https://download.01.org/0day-ci/archive/20241027/202410270248.Ne5SK2Qt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270248.Ne5SK2Qt-lkp@intel.com/reproduce)
 
-> >    222	
-> >    223		return 0;
-> >    224	}
-> >    225	
-> >   
-> 
-> 
-> Unused as there is no processed values anymore. I will drop them for v4.
-Given I didn't have any other comments I just fixed these up whilst applying.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410270248.Ne5SK2Qt-lkp@intel.com/
 
-Series applied to the togreg branch of iio.git and initially pushed out as
-testing for 0-day to take a first look at it.
-Thanks,
+All warnings (new ones prefixed by >>):
 
-Jonathan
-
-p.s. Diff was as follows, shout if I mess it up.
-
-diff --git a/drivers/iio/light/veml3235.c b/drivers/iio/light/veml3235.c
-index 18ab73f4377c..66361c3012a3 100644
---- a/drivers/iio/light/veml3235.c
-+++ b/drivers/iio/light/veml3235.c
-@@ -145,7 +145,7 @@ static int veml3235_get_it(struct veml3235_data *data, int *val, int *val2)
- static int veml3235_set_it(struct iio_dev *indio_dev, int val, int val2)
- {
-        struct veml3235_data *data = iio_priv(indio_dev);
--       int ret, new_it, it_idx;
-+       int ret, new_it;
- 
-        if (val)
-                return -EINVAL;
-@@ -153,23 +153,18 @@ static int veml3235_set_it(struct iio_dev *indio_dev, int val, int val2)
-        switch (val2) {
-        case 50000:
-                new_it = 0x00;
--               it_idx = 4;
-                break;
-        case 100000:
-                new_it = 0x01;
--               it_idx = 3;
-                break;
-        case 200000:
-                new_it = 0x02;
--               it_idx = 2;
-                break;
-        case 400000:
-                new_it = 0x03;
--               it_idx = 1;
-                break;
-        case 800000:
-                new_it = 0x04;
--               it_idx = 0;
-                break;
-        default:
-                return -EINVAL;
-@@ -188,7 +183,7 @@ static int veml3235_set_it(struct iio_dev *indio_dev, int val, int val2)
- static int veml3235_set_gain(struct iio_dev *indio_dev, int val, int val2)
- {
-        struct veml3235_data *data = iio_priv(indio_dev);
--       int ret, new_gain, gain_idx;
-+       int ret, new_gain;
- 
-        if (val2 != 0)
-                return -EINVAL;
-@@ -196,19 +191,15 @@ static int veml3235_set_gain(struct iio_dev *indio_dev, int val, int val2)
-        switch (val) {
-        case 1:
-                new_gain = 0x00;
--               gain_idx = 3;
-                break;
-        case 2:
-                new_gain = 0x01;
--               gain_idx = 2;
-                break;
-        case 4:
-                new_gain = 0x03;
--               gain_idx = 1;
-                break;
-        case 8:
-                new_gain = 0x07;
--               gain_idx = 0;
-                break;
-        default:
-                return -EINVAL;
+>> arch/arm64/kernel/acpi.c:266:5: warning: no previous prototype for 'acpi_map_cpu' [-Wmissing-prototypes]
+     266 | int acpi_map_cpu(acpi_handle handle, phys_cpuid_t physid, u32 acpi_id,
+         |     ^~~~~~~~~~~~
+   arch/arm64/kernel/acpi.c: In function 'acpi_map_cpu':
+   arch/arm64/kernel/acpi.c:275:17: error: implicit declaration of function 'numa_add_cpu'; did you mean 'be64_add_cpu'? [-Werror=implicit-function-declaration]
+     275 |                 numa_add_cpu(cpu);
+         |                 ^~~~~~~~~~~~
+         |                 be64_add_cpu
+   arch/arm64/kernel/acpi.c: At top level:
+>> arch/arm64/kernel/acpi.c:285:5: warning: no previous prototype for 'acpi_unmap_cpu' [-Wmissing-prototypes]
+     285 | int acpi_unmap_cpu(int cpu)
+         |     ^~~~~~~~~~~~~~
+   arch/arm64/kernel/acpi.c: In function 'acpi_unmap_cpu':
+   arch/arm64/kernel/acpi.c:288:9: error: implicit declaration of function 'numa_clear_node' [-Werror=implicit-function-declaration]
+     288 |         numa_clear_node(cpu);
+         |         ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-> 
+vim +/acpi_map_cpu +266 arch/arm64/kernel/acpi.c
 
+   265	
+ > 266	int acpi_map_cpu(acpi_handle handle, phys_cpuid_t physid, u32 acpi_id,
+   267			 int *pcpu)
+   268	{
+   269		int cpu, nid;
+   270	
+   271		cpu = acpi_map_cpuid(physid, acpi_id);
+   272		nid = acpi_get_node(handle);
+   273		if (nid != NUMA_NO_NODE) {
+   274			set_cpu_numa_node(cpu, nid);
+   275			numa_add_cpu(cpu);
+   276		}
+   277	
+   278		*pcpu = cpu;
+   279		set_cpu_present(cpu, true);
+   280	
+   281		return 0;
+   282	}
+   283	EXPORT_SYMBOL(acpi_map_cpu);
+   284	
+ > 285	int acpi_unmap_cpu(int cpu)
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
