@@ -1,62 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5766270816;
-	Sat, 26 Oct 2024 07:47:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DA81465A0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 08:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729928877; cv=none; b=cdM29Brvlwqk9ojnYsczTn/4DriUEgDivjg7HPEzs/WohOfYH5B1eXdBHocKvtBGLr45ngRK1NhvcLtmJADR1XciPIZfUVYxNzMwIedyPApYqVTL2+FnQCJu9yZdi1LJ8N6nywa34IsZFdmzWDlE2p5T8hIi88eFA3pJk3a6ZtI=
+	t=1729929857; cv=none; b=e8K0jonvjcbmS+kjIUnTJcpjcXH+i4aF4ENxqans9Lx9hUWWaiIcdY5ma2fUptLmamVr7n4Sy2OReefMiPoDuECDPJFAhtDDMj5g1U8Z8Ws4D5cNptXY8bZ3pST2tiY+Gh+6qe7MvG3NCqs7cyhZgV08PwKf25Fvg2a8jXWLIf4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729928877; c=relaxed/simple;
-	bh=Nfa6c/0dFOh1MjW26Ru9LYvKZz9jbesyT02owl/pNb8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TW1DLQcSy8fImeTjccM1uSlDTzz5JpBhn8uOs+pN5Xa4OMk+4LH8v/K43jtck2solsl+a4iKU14PtZWAxItGm/mFH+g6XgbTC7DETKEHJaLA7Ae27rihaC0JVLhPfa9VIHE5TB+GB5uQeHhsa2kS7i1svbG5r0vwBGSeJltNPqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUYXYkF7; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1729929857; c=relaxed/simple;
+	bh=7DAM3QTQfqt4ZqsjC1sViPiWw7XtXvpBR1s9SbVm6iQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=XaNiBHM7kZDq1UUkivGwyTi2qP6H5iRc4UthW3rdDexnDwRVF//oROXt7WWHkWuU/9C68iOfPXGoO5FWMMnQpRE/DR/1iLbhpVCaO5Q3JpYqNuuT7iAXVolh3bq/cad1xSu1HNYY4RyOQ6dP0aDhhVeC8XYvta1P98Kj3ipoobM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wV1bb0xE; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUYXYkF7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729928875; x=1761464875;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nfa6c/0dFOh1MjW26Ru9LYvKZz9jbesyT02owl/pNb8=;
-  b=gUYXYkF73CwvTXrwyOPg7Y9a5QJIAw2qpPaoaZanEGvt4tU99X5B1u/y
-   aWjrN5Z8tOgJXZ8vl4+5K2aKnqsQcMiI8g5z6rTC4sMucu9M2wdCJSe+N
-   6I8LWxvDH3PTkpWMxDXhFKhqtsc1kRs0aHAt2kHEYIBveUbIrpIGUUGNC
-   v+hb4u03t/nMEYVo4Y9vee5NMbh6U+DLKwWUPKZXWMJmKIpqfpvjPTx5A
-   Lyjbqpn+y7eI9g8DaUM1yd8xabrd08TPMXD+rCsD5b317D4UT+iZ9eWKD
-   4g2E9BbD5j8CPIlQelpBND5rHhAjLuO5zIvRPx0zQaP5d0UjwWfsbGXcU
-   A==;
-X-CSE-ConnectionGUID: YAnYh2UoSkGz+NFVLFcAnA==
-X-CSE-MsgGUID: DZI87RDsQlKXudJSImItvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29376233"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29376233"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 00:47:55 -0700
-X-CSE-ConnectionGUID: HcvK5A2uTZ2zxPBsI1C0CA==
-X-CSE-MsgGUID: 0wejxHNoQVSaZ7WHcbKk8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="85902581"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 26 Oct 2024 00:47:53 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t4bWY-000ZPU-2Q;
-	Sat, 26 Oct 2024 07:47:50 +0000
-Date: Sat, 26 Oct 2024 15:47:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eugen Hristev <eugen.hristev@linaro.org>, linux-arm-msm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	andersson@kernel.org, konradybcio@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Eugen Hristev <eugen.hristev@linaro.org>
-Subject: Re: [PATCH] soc: qcom: Rework BCM_TCS_CMD macro
-Message-ID: <202410261552.E8TiGYdV-lkp@intel.com>
-References: <20241025084823.475199-1-eugen.hristev@linaro.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wV1bb0xE"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-37d447de11dso1918566f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 01:04:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1729929852; x=1730534652; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q9IP5Ks08Nx+8LsSEs3sWLm5/UYKOm82d+7qFjkOfBU=;
+        b=wV1bb0xEq71tiIX1blvJn1riYc2hBs1HAP37Mx5vDwW46QyXwujXUj066m1GApcu/k
+         thx0B5+7m5mfuLA6w9AabLY5wnnwBdepQTb+3o7K5smLEVRCFBQ6X1+oc/cD3Tk2tzkN
+         EhtH6g10b4iq6o4QD8XDjz0ZKBmmczcElmZbNcuZ3k8A3mzebJ7kG8CG1k8q4d4eEZi1
+         S/7X3/oQLB0YUFwI4N0/4rkVrTev3Q2evBYMVWWWdOv7jrzO0Sbsuixi4BdrSWMvwKJG
+         t70HFT7rM03iXNw74odeQbptCDI3YmmIlaGwGzjFluBgz6CJr6Gyy+9JEMqvNJS06Edc
+         0aTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729929852; x=1730534652;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q9IP5Ks08Nx+8LsSEs3sWLm5/UYKOm82d+7qFjkOfBU=;
+        b=Ozfbxe5CagD8seObCnJl3u+xOYROK+QZ4VOA+4sV8AxlZCJ7Dq6gnqq/eM/kd2A7Wx
+         7PRRGYjVTjYh3FE1jUv9ufPPQ0b11qrmbuebYYoWcaL3uMOW6enSu2D4yule+fU0CLaz
+         RQ/F1vL7KQx3LufURBInqKv1Q26fYqCVumsf454z36fa4bIKEXreIR3wOnQBXDl9XKf+
+         YDZ82JwqnWR5tIHXLD1ieP+POJgLpuH42d13iNM/Y08xhJsYWOkm2fICk1j1sZulrzec
+         WNTUv+r12YqoXGTxapvBJU1ncwgaAPSd8anVu3axYOVqR5rXoHqc4VBqCR2xmkVk5F4z
+         BRvw==
+X-Forwarded-Encrypted: i=1; AJvYcCVf98fMMvauRC9xApET+D8hBRBI4x+OEis0TrO0cIoqx0Y4pHxNB9Rufw2KazXNFOdHlbgfa+h2ogArDZxe@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2ixM44gpWDty8hUt64bilgoYVvG0MHnHtyQCFuYAgz5phwdEs
+	lxy+R1UqTI5vKf8vX6sGtYlxK6ShPHoeH+kikKEOilzgpjvaPEFkWrQiWcMyk7I=
+X-Google-Smtp-Source: AGHT+IFBtZYIqFDauCbN9jhSI1Fy+ciwsZmKin1yR+P7ykifdTlGgXbI8GS95lLbS0DDPAHQJO/nog==
+X-Received: by 2002:adf:fe02:0:b0:368:3731:1613 with SMTP id ffacd0b85a97d-38061141c4cmr1389246f8f.13.1729929851968;
+        Sat, 26 Oct 2024 01:04:11 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b70bd8sm3626473f8f.87.2024.10.26.01.04.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Oct 2024 01:04:11 -0700 (PDT)
+Date: Sat, 26 Oct 2024 11:04:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Li Li <dualli@chromium.org>,
+	dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, brauner@kernel.org, cmllamas@google.com,
+	surenb@google.com, arnd@arndb.de, masahiroy@kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org, hridya@google.com, smoreland@google.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, kernel-team@android.com
+Subject: Re: [PATCH v3 1/1] report binder txn errors via generic netlink
+Message-ID: <3673df95-81d5-4d71-9b1b-9b233cfb77c0@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,86 +73,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025084823.475199-1-eugen.hristev@linaro.org>
+In-Reply-To: <20241021182821.1259487-3-dualli@chromium.org>
 
-Hi Eugen,
+Hi Li,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.12-rc4 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/soc-qcom-Rework-BCM_TCS_CMD-macro/20241025-165212
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241025084823.475199-1-eugen.hristev%40linaro.org
-patch subject: [PATCH] soc: qcom: Rework BCM_TCS_CMD macro
-config: x86_64-buildonly-randconfig-004-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261552.E8TiGYdV-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261552.E8TiGYdV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Li/report-binder-txn-errors-via-generic-netlink/20241022-032903
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20241021182821.1259487-3-dualli%40chromium.org
+patch subject: [PATCH v3 1/1] report binder txn errors via generic netlink
+config: x86_64-randconfig-161-20241024 (https://download.01.org/0day-ci/archive/20241026/202410260847.NDByoPQo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410261552.E8TiGYdV-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410260847.NDByoPQo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/android/binder.c:7204 init_binder_device() warn: '&binder_device->miscdev' from misc_register() not released on lines: 7204.
 
->> drivers/clk/qcom/clk-rpmh.c:270:14: error: call to undeclared function 'u32_encode_bits'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     270 |                 cmd.data = BCM_TCS_CMD(1, enable, 0, cmd_state);
-         |                            ^
-   include/soc/qcom/tcs.h:71:3: note: expanded from macro 'BCM_TCS_CMD'
-      71 |         (u32_encode_bits(commit, BCM_TCS_CMD_COMMIT_MASK) |     \
-         |          ^
-   1 error generated.
+vim +7204 drivers/android/binder.c
 
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7173  static int __init init_binder_device(const char *name)
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7174  {
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7175  	int ret;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7176  	struct binder_device *binder_device;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7177  
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7178  	binder_device = kzalloc(sizeof(*binder_device), GFP_KERNEL);
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7179  	if (!binder_device)
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7180  		return -ENOMEM;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7181  
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7182  	binder_device->miscdev.fops = &binder_fops;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7183  	binder_device->miscdev.minor = MISC_DYNAMIC_MINOR;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7184  	binder_device->miscdev.name = name;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7185  
+f0fe2c0f050d31 Christian Brauner 2020-03-03  7186  	refcount_set(&binder_device->ref, 1);
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7187  	binder_device->context.binder_context_mgr_uid = INVALID_UID;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7188  	binder_device->context.name = name;
+c44b1231ff1170 Todd Kjos         2017-06-29  7189  	mutex_init(&binder_device->context.context_mgr_node_lock);
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7190  
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7191  	ret = misc_register(&binder_device->miscdev);
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7192  	if (ret < 0) {
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7193  		kfree(binder_device);
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7194  		return ret;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7195  	}
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7196  
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7197  	hlist_add_head(&binder_device->hlist, &binder_devices);
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7198  
+39854ac9458c74 Li Li             2024-10-21  7199  	binder_device->context.report_seq = (atomic_t)ATOMIC_INIT(0);
+39854ac9458c74 Li Li             2024-10-21  7200  	ret = binder_genl_init(&binder_device->context.genl_family, name);
+39854ac9458c74 Li Li             2024-10-21  7201  	if (ret < 0)
 
-vim +/u32_encode_bits +270 drivers/clk/qcom/clk-rpmh.c
+Needs a misc_unregister() as well to prevent a use after free.
 
-9c7e47025a6b9a Taniya Das    2018-05-09  250  
-04053f4d23a41b David Dai     2019-01-24  251  static int clk_rpmh_bcm_send_cmd(struct clk_rpmh *c, bool enable)
-04053f4d23a41b David Dai     2019-01-24  252  {
-04053f4d23a41b David Dai     2019-01-24  253  	struct tcs_cmd cmd = { 0 };
-04053f4d23a41b David Dai     2019-01-24  254  	u32 cmd_state;
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  255  	int ret = 0;
-04053f4d23a41b David Dai     2019-01-24  256  
-04053f4d23a41b David Dai     2019-01-24  257  	mutex_lock(&rpmh_clk_lock);
-04053f4d23a41b David Dai     2019-01-24  258  	if (enable) {
-04053f4d23a41b David Dai     2019-01-24  259  		cmd_state = 1;
-04053f4d23a41b David Dai     2019-01-24  260  		if (c->aggr_state)
-04053f4d23a41b David Dai     2019-01-24  261  			cmd_state = c->aggr_state;
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  262  	} else {
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  263  		cmd_state = 0;
-04053f4d23a41b David Dai     2019-01-24  264  	}
-04053f4d23a41b David Dai     2019-01-24  265  
-a4e5af27e6f6a8 Mike Tipton   2024-08-09  266  	cmd_state = min(cmd_state, BCM_TCS_CMD_VOTE_MASK);
-a4e5af27e6f6a8 Mike Tipton   2024-08-09  267  
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  268  	if (c->last_sent_aggr_state != cmd_state) {
-04053f4d23a41b David Dai     2019-01-24  269  		cmd.addr = c->res_addr;
-6311b6521bcc80 Jordan Crouse 2019-08-05 @270  		cmd.data = BCM_TCS_CMD(1, enable, 0, cmd_state);
-04053f4d23a41b David Dai     2019-01-24  271  
-29f66b625281a3 Stephen Boyd  2022-05-17  272  		/*
-29f66b625281a3 Stephen Boyd  2022-05-17  273  		 * Send only an active only state request. RPMh continues to
-29f66b625281a3 Stephen Boyd  2022-05-17  274  		 * use the active state when we're in sleep/wake state as long
-29f66b625281a3 Stephen Boyd  2022-05-17  275  		 * as the sleep/wake state has never been set.
-29f66b625281a3 Stephen Boyd  2022-05-17  276  		 */
-dad4e7fda4bdc1 Mike Tipton   2020-02-14  277  		ret = clk_rpmh_send(c, RPMH_ACTIVE_ONLY_STATE, &cmd, enable);
-04053f4d23a41b David Dai     2019-01-24  278  		if (ret) {
-04053f4d23a41b David Dai     2019-01-24  279  			dev_err(c->dev, "set active state of %s failed: (%d)\n",
-04053f4d23a41b David Dai     2019-01-24  280  				c->res_name, ret);
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  281  		} else {
-04053f4d23a41b David Dai     2019-01-24  282  			c->last_sent_aggr_state = cmd_state;
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  283  		}
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  284  	}
-04053f4d23a41b David Dai     2019-01-24  285  
-04053f4d23a41b David Dai     2019-01-24  286  	mutex_unlock(&rpmh_clk_lock);
-04053f4d23a41b David Dai     2019-01-24  287  
-2cf7a4cbcb4e10 Stephen Boyd  2020-03-09  288  	return ret;
-04053f4d23a41b David Dai     2019-01-24  289  }
-04053f4d23a41b David Dai     2019-01-24  290  
+39854ac9458c74 Li Li             2024-10-21  7202  		kfree(binder_device);
+39854ac9458c74 Li Li             2024-10-21  7203  
+ac4812c5ffbb88 Martijn Coenen    2017-02-03 @7204  	return ret;
+ac4812c5ffbb88 Martijn Coenen    2017-02-03  7205  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
