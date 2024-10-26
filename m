@@ -1,135 +1,165 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA2C1C6F41
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0971A217F3F;
+	Sat, 26 Oct 2024 10:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729937135; cv=none; b=WlR+ypW+KpBiaxGeou9oSptwKuyXptT7i9wQiiv6a0juvA70od4oIV8pfAgLlezU1ZSYmf5DpQdUUmjy7f7rft/CUTjtEo/QTBJzmW3A01UBzjJC+3GYoijSRcYEosfpIAChgfrrhm/hciCoKzBhQ2MWz5sDKaW0Jkc6BrusK+g=
+	t=1729937464; cv=none; b=DqODFr05rts0/RkZuTT0ezWi8aR0OqUCZqxPSLWKR3Id3LQjB2DlrfaM2ygOkqAKEm/VWFIjZKsIDjJXo/0TyZDxg8q3fVJyn9cniHzi8kPfdWK6YZQMEFwaU6osR4U5F1rqEbuZzI2BMtAfVsO26nVx1Vxy7yzYDY4YK5fC9Ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729937135; c=relaxed/simple;
-	bh=JRDq1eouqRQ6dVU3EFp5yS+KoReTI1aJZRgZao2+yYk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VBPlHAirf5pP8M++2MnsA5ZKeOKHZVOPl8kseCq94/Slj8WHoi3hznR0JKkLjWeKGUJ6cxFaFSZSDkmE/LpweNBi8q58TN9KGvIh7Rc+EK1MXkOqsmiF2/FUkisVBJ+XqAWPyNjFcqOtshogn9NcvY3Uo3RSZAeYVsvG3pzqHok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=fail smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iRvFE9Sy; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1729937464; c=relaxed/simple;
+	bh=8DU14E5D0lWg600MwJ4URtFuPIv26XFVrn6CO/yON44=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bAyX/3T7BdrWWwOIpBYyLcQy+h0nQTfkqGCjYnICRp0nV2lKTMmKo8C3ZMzUMV6xykAaY956Nv03IeR1pSBrvFK/jfAF2uX4HC6bSgn/WuLYJqgbzqdZDGwoCrQSBAyvGnq1vFWlKwz9pwAMC++1NWuYX2bI1JJp8etg4lXn2bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cglk0D4Y; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iRvFE9Sy"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49Q4F1Iu031145
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:05:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HmnLmB7Z58PVjAcP88scYZXyrOOFTxtAMnjFZSQFAfc=; b=iRvFE9Syyhxp53Jb
-	uovXq/qGC49O65tQ43cSVpkm/EfgNtQ0tfzcLevyK9sngwYGzi6oh8x1R+ze27eD
-	ADUSEq893IjDyMM3u5q6zd340pDoBU6pYzTvvC9wesEj/DYVpe/0QITVDf/6tt84
-	aqFU95EQiTPdYem566SoGf/YZyqY7MvTZ0GeOZl0eBOazQKemKcOO6OYYL68io6S
-	z3x5ZcwqE2nVHglNlMCssFQ8TOqaOh/Uszl4qrtDZlzv4MxwX2VheSVBEtAT8m3f
-	Zs2uc1B6/+NqNBTF8P1uyFfLA9L6+XHYhuFUSBGsirAbuDaE/gCuVEKFw62gja8L
-	96h+4A==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gs6e0n8q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 10:05:25 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6cbe993f230so9330596d6.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Oct 2024 03:05:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729937124; x=1730541924;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HmnLmB7Z58PVjAcP88scYZXyrOOFTxtAMnjFZSQFAfc=;
-        b=l/X+kmFBbzUT26xx9xcNR4wwF59FqT5NEStkduqOf6xbVc9Ox3//ynRkUK4JazsXzU
-         86vnFX/uo4tDnsQ9P80pc3x4kCKG06URGgiGuiADRkh6RmSFwVS5iaBSNrJDQR0Dk6nU
-         CiwfJ4poMTjVyMH2d6WHHDF6cD1ib5i/CsZh2/n6+SIJtsIKoC2r1xqaeKVuIV9X4aUt
-         ap425YiOWMh35pucT3hdJxjuYYG2KCKiaQYJ9HeAihxZZpU/zgyIlF78DEG0Woiab3JE
-         nTcaItS16RWin78X/jpk1tH1zwzrLuZAxSCBkf3cY7JYz/fFOJ6KHruoNxNqGvL9V6D4
-         z3cw==
-X-Gm-Message-State: AOJu0Yy44hQk1lqR4g4IUHgbFcnkcW6Z/aVtJrohtHQ0tuxYNLVDp7e1
-	L+6lHg5BuO80w496rAWklX4ZmFylK94nLs+t7etaO/a75xoEHQy+63U9n0X3TCtOHJEUUSRX51h
-	gvgRfqh9KkXs1s3CZk0lbqDswt6WRr2ZWaHsPTF97xr8yHjMYA9Hs4pxsLMQtJTIY
-X-Received: by 2002:a05:6214:19c1:b0:6cb:e7e8:9e88 with SMTP id 6a1803df08f44-6d185885e9fmr16414396d6.10.1729937124657;
-        Sat, 26 Oct 2024 03:05:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEapbGj3Sfdlc6h7mBBc6DRy9QbRrJtdmLohS8bgyDq5d6FfQeVz9TdD9OYLquQ7Ttuo89WlA==
-X-Received: by 2002:a05:6214:19c1:b0:6cb:e7e8:9e88 with SMTP id 6a1803df08f44-6d185885e9fmr16414176d6.10.1729937124194;
-        Sat, 26 Oct 2024 03:05:24 -0700 (PDT)
-Received: from [192.168.212.120] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b307b5375sm158967966b.155.2024.10.26.03.05.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Oct 2024 03:05:23 -0700 (PDT)
-Message-ID: <ca0137a6-3ffa-46ad-a970-7420520f09ae@oss.qualcomm.com>
-Date: Sat, 26 Oct 2024 12:05:19 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cglk0D4Y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1729937463; x=1761473463;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8DU14E5D0lWg600MwJ4URtFuPIv26XFVrn6CO/yON44=;
+  b=Cglk0D4YFaDrFLiLRKfkDl+9gcOl7EyVR3sM5FeHjppMTgm+PumqTuf4
+   qMcA2HNUVeWnZCEWf45XGilNAwGSWsYxZ59wUnXvPMErK6JKoMCrSxiXn
+   +RWvCLwcptLwuuq4zvZRd0Z+4IwPdsSYl6SNSkRNg59I3MAT4WETKbCE5
+   SpkBy6QV3qvd9Av91em0D60GtfDAc4POxRj/jaKapnQ1B73Stqdv5Twa9
+   QINa/2zYyv9m8tbtlS4GYvf8q6m6V2bSQ/lFlNS1B1tDowuZBsGBpAdjX
+   boeeIaTjth8VMbL8cGCdp5pbMj6wL2KKJIEjigku2ieQ0ebtqTA2msf/P
+   g==;
+X-CSE-ConnectionGUID: 16YGj2hWRNuESH/+nSDrhQ==
+X-CSE-MsgGUID: Sk6B2uKESu+1onqpI+r6rQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29464302"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29464302"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 03:11:02 -0700
+X-CSE-ConnectionGUID: w7o/M5n7SL2VFBwPyocUFw==
+X-CSE-MsgGUID: r+fgvL8nRhaZ3YSCRxyh4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,234,1725346800"; 
+   d="scan'208";a="81113883"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 26 Oct 2024 03:10:56 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t4dkz-000ZUo-3D;
+	Sat, 26 Oct 2024 10:10:54 +0000
+Date: Sat, 26 Oct 2024 18:10:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Raag Jadav <raag.jadav@intel.com>, airlied@gmail.com, simona@ffwll.ch,
+	lucas.demarchi@intel.com, rodrigo.vivi@intel.com,
+	jani.nikula@linux.intel.com, andriy.shevchenko@linux.intel.com,
+	lina@asahilina.net, michal.wajdeczko@intel.com,
+	christian.koenig@amd.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	intel-xe@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+	aravind.iddamsetty@linux.intel.com, anshuman.gupta@intel.com,
+	alexander.deucher@amd.com, andrealmeid@igalia.com,
+	amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+	Raag Jadav <raag.jadav@intel.com>
+Subject: Re: [PATCH v8 1/4] drm: Introduce device wedged event
+Message-ID: <202410261754.enck8cc6-lkp@intel.com>
+References: <20241025084817.144621-2-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 6/7] arm64: dts: qcom: ipq9574: Add nsscc node
-To: kernel test robot <lkp@intel.com>,
-        Manikanta Mylavarapu <quic_mmanikan@quicinc.com>, andersson@kernel.org,
-        mturquette@baylibre.com, sboyd@kernel.org, robh@kernel.org,
-        krzk+dt@kernel.org, conor+dt@kernel.org, konradybcio@kernel.org,
-        catalin.marinas@arm.com, will@kernel.org, p.zabel@pengutronix.de,
-        richardcochran@gmail.com, geert+renesas@glider.be,
-        dmitry.baryshkov@linaro.org, angelogioacchino.delregno@collabora.com,
-        neil.armstrong@linaro.org, arnd@arndb.de, nfraprado@collabora.com,
-        quic_anusha@quicinc.com, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, quic_srichara@quicinc.com,
-        quic_varada@quicinc.com
-References: <20241025035520.1841792-7-quic_mmanikan@quicinc.com>
- <202410260742.a9vvkaEz-lkp@intel.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <202410260742.a9vvkaEz-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: a0IuPkl7-73hrfsdzV4hvxIiODZLDB0a
-X-Proofpoint-GUID: a0IuPkl7-73hrfsdzV4hvxIiODZLDB0a
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 mlxlogscore=999 phishscore=0
- malwarescore=0 impostorscore=0 adultscore=0 spamscore=0 suspectscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410260084
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241025084817.144621-2-raag.jadav@intel.com>
 
-On 26.10.2024 1:31 AM, kernel test robot wrote:
-> Hi Manikanta,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on clk/clk-next]
-> [also build test ERROR on robh/for-next arm64/for-next/core linus/master v6.12-rc4 next-20241025]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Mylavarapu/clk-qcom-clk-alpha-pll-Add-NSS-HUAYRA-ALPHA-PLL-support-for-ipq9574/20241025-121244
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-> patch link:    https://lore.kernel.org/r/20241025035520.1841792-7-quic_mmanikan%40quicinc.com
-> patch subject: [PATCH v8 6/7] arm64: dts: qcom: ipq9574: Add nsscc node
-> config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260742.a9vvkaEz-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260742.a9vvkaEz-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410260742.a9vvkaEz-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> Error: arch/arm64/boot/dts/qcom/ipq9574.dtsi:766.16-17 syntax error
->    FATAL ERROR: Unable to parse input tree
+Hi Raag,
 
-I believe you also need to include <dt-bindings/clock/qcom,ipq-cmn-pll.h>
+kernel test robot noticed the following build errors:
 
-Konrad
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/drm-Introduce-device-wedged-event/20241025-165119
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20241025084817.144621-2-raag.jadav%40intel.com
+patch subject: [PATCH v8 1/4] drm: Introduce device wedged event
+config: arm-randconfig-002-20241026 (https://download.01.org/0day-ci/archive/20241026/202410261754.enck8cc6-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410261754.enck8cc6-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410261754.enck8cc6-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/drm_drv.c:36:
+   In file included from include/linux/pseudo_fs.h:4:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/drm_drv.c:81:3: error: expression is not an integer constant expression
+      81 |         [ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]    = "rebind",
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/ffs.h:43:16: note: expanded from macro 'ffs'
+      43 | #define ffs(x) generic_ffs(x)
+         |                ^
+   drivers/gpu/drm/drm_drv.c:82:3: error: expression is not an integer constant expression
+      82 |         [ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1] = "bus-reset",
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/ffs.h:43:16: note: expanded from macro 'ffs'
+      43 | #define ffs(x) generic_ffs(x)
+         |                ^
+>> drivers/gpu/drm/drm_drv.c:84:15: error: invalid application of 'sizeof' to an incomplete type 'const char *const[]'
+      84 | static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
+         | ~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^
+   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   drivers/gpu/drm/drm_drv.c:528:32: error: invalid application of 'sizeof' to an incomplete type 'const char *const[]'
+     528 |         unsigned int len, opt, size = ARRAY_SIZE(drm_wedge_recovery_opts);
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:32: note: expanded from macro 'ARRAY_SIZE'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                ^~~~~
+   1 warning and 4 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+
+
+vim +81 drivers/gpu/drm/drm_drv.c
+
+    75	
+    76	/*
+    77	 * Available recovery methods for wedged device. To be sent along with device
+    78	 * wedged uevent.
+    79	 */
+    80	static const char *const drm_wedge_recovery_opts[] = {
+  > 81		[ffs(DRM_WEDGE_RECOVERY_REBIND) - 1]	= "rebind",
+    82		[ffs(DRM_WEDGE_RECOVERY_BUS_RESET) - 1]	= "bus-reset",
+    83	};
+  > 84	static_assert(ARRAY_SIZE(drm_wedge_recovery_opts) == ffs(DRM_WEDGE_RECOVERY_BUS_RESET));
+    85	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
