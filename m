@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BEC7DA67
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 11:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5565071747
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 12:01:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730029868; cv=none; b=N9J9GLmfORlJ9bQO+aOuPaJNRSnfaIl2QMoeo/jHcFTQzEu1D4fgTUfDplK4ysTj+uOri8MH9O5VpPvWzXQImJsBQ5EHu2YFGnZgowJ1YIlPsvRES555c42C+pZ7g01kCyPZdbX0JrMVIHWN2eX/sd5GY7wBx2mFDnBLtvS9nNQ=
+	t=1730030468; cv=none; b=psqdkniFPBVU7GrezSknmBruq9t6ne01VWsQ4SsnhOWtSvan+cJGCEBtAJ70NaPT7NxAN+DIa5DoNsp7lONaktEntKdlg4hcEmR3lQRW+Gmg5KyKihsTQoOq3UVmhJvQOTyJ1Is3FZnOcTIeOT6re7+M8BYjoKx+f75bQaMg5Us=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730029868; c=relaxed/simple;
-	bh=93a+bzAAuQnSuw3BpuxsbFo0GcVsOtQD0qc4q/nyqHo=;
+	s=arc-20240116; t=1730030468; c=relaxed/simple;
+	bh=4nPZMrtluGHNTPYya58gPauYxNHpBPyBGDUKo7VWS5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FQb5PSmzDSq+hY54wwJc08rJbuOMcoCDc5Yels8X9PXrkLgnPTX7cCtBQ7Vg5xgk5ou2Niq5/SnptM05hEaoRPv6g5hk/9QAL9W2G5ImtQ91sZKJDxmUHoCwCLaJSUtU4wkInn4KScuxBID4auhLuxWWp/G2wp9+1z1Babv1QDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YXikw6hi; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=BXoP9W8YC1JKZtg0dHKYPx8bDxrW1aN5lWMNvmBuKjhHw+c4tKhr2qcnCBXKcACwPLjoltl0sila+rGWhALwaqNUnITnfvTUxdiFezYX/f9fRUw9DVXS74M7O/tbEqRZHRTQqVVVQEBB6TQ/yB4ignvAwd4/j+cRsu9AY2z2ZZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PSbnYYjK; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YXikw6hi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PSbnYYjK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730029866; x=1761565866;
+  t=1730030466; x=1761566466;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=93a+bzAAuQnSuw3BpuxsbFo0GcVsOtQD0qc4q/nyqHo=;
-  b=YXikw6hiBxLoZoXCR1GPBFG8hXcoGc5npCHBXXQTz0J/rKQF57TFzdu6
-   qGCdOGhUf0/6WiZcbtetlKdmUj0F3+luL99vboV6qYKlJLF8EeJaYKU/7
-   4LadUkNCZc1vf6fZybcYRpNfHHa+9kNuk07eSEM0YcxtpboS7bkcoBte6
-   sYq4QFlZhuf5qdwiRDxE/qiPwoBasEwr0EO+NKOcgSPLlYsgnXUj3uCoJ
-   MHGh64MB2xPDgfbKEe0lkYTKbfdYPWcdOLjIdID+/Ye8B8bf8irjPGQaE
-   Nn2tXlMDpNbNQ8C4Q1yPQTts2vqyYbB69xosUaJfnf3UUJfNuJFa54RkM
-   g==;
-X-CSE-ConnectionGUID: srmzZDp5S3GjbfM2pMP5XA==
-X-CSE-MsgGUID: KU9F21V0TFe9X26MgWrayw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="32507739"
+  bh=4nPZMrtluGHNTPYya58gPauYxNHpBPyBGDUKo7VWS5Q=;
+  b=PSbnYYjK8Qx7P8OfawYdOA/Ns1CgARwyytZ2SQ5XNSFnU+XIyZmqxnzw
+   NFCxb8MTPIoPbnAE4ml4KSVIcpNihBFtc/ES2mrftSlHzc/zntO/KHh+c
+   4I3wrOkYq4oKl5Vas0RraQ/Z7jVQ+ANpsidM1VyVKxibtvpyU62xfVANA
+   12kZf9xYkdm3l3WU+KxNeEmhdxbPGVBWnBbSWpi1iugHcm4KIRhel7Xc2
+   gTLlK/CoXWaS84qHfR4LjG/v2F74dvMoIIeaqiMrUKgkyEKrviEIzjKhP
+   GTQUGfX1NgN+T93/e1bef9LiBePjnhxJ2+6+iR6fpt7w/e07IQzG6q955
+   Q==;
+X-CSE-ConnectionGUID: IfwXidr6SVe/uiVFdQ83gQ==
+X-CSE-MsgGUID: vXR/XMUdQqmOraaHf2SIAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="33442005"
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="32507739"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 04:51:05 -0700
-X-CSE-ConnectionGUID: 8B9nod4LQH24m/K25b6Y5Q==
-X-CSE-MsgGUID: hC8pkqbuQvi+wMq4qElxyQ==
+   d="scan'208";a="33442005"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 05:01:05 -0700
+X-CSE-ConnectionGUID: NbCbSKxjT+2ipaPR9Hvj/A==
+X-CSE-MsgGUID: iC3GAu3QQxeEBuJ70dYjLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="85963317"
+   d="scan'208";a="104686158"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 27 Oct 2024 04:51:05 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 05:01:04 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t51nS-000afk-0t;
-	Sun, 27 Oct 2024 11:51:02 +0000
-Date: Sun, 27 Oct 2024 19:50:36 +0800
+	id 1t51x8-000afs-15;
+	Sun, 27 Oct 2024 12:01:02 +0000
+Date: Sun, 27 Oct 2024 20:00:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Fengyan <mufengyan@hisilicon.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 19380/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11043:30: warning:
- unused variable 'ae_dev'
-Message-ID: <202410271950.sb0LbrDb-lkp@intel.com>
+To: Ashutosh Dixit <ashutosh.dixit@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+Subject: drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202410271916.ugChvDGA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +63,86 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Fengyan,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   412556141b3c12f2f160acc3a09a40c937837ee3
-commit: 2922b0712475ada00f0a0b601497415c58f18a3f [19380/30000] UNIC: Support changing MTU size in UB mode
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241027/202410271950.sb0LbrDb-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271950.sb0LbrDb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
+commit: cdf02fe1a94a768cbcd20f5c4e1a1d805f4a06c0 drm/xe/oa/uapi: Add/remove OA config perf ops
+date:   4 months ago
+config: arm-randconfig-r123-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271916.ugChvDGA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce: (https://download.01.org/0day-ci/archive/20241027/202410271916.ugChvDGA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271950.sb0LbrDb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271916.ugChvDGA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [usertype] *ptr @@     got void [noderef] __user * @@
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     expected unsigned long long [usertype] *ptr
+   drivers/gpu/drm/xe/xe_oa.c:388:25: sparse:     got void [noderef] __user *
+>> drivers/gpu/drm/xe/xe_oa.c:401:15: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected unsigned long long [noderef] __user *register __p @@     got unsigned long long [usertype] *ptr @@
+   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     expected unsigned long long [noderef] __user *register __p
+   drivers/gpu/drm/xe/xe_oa.c:401:15: sparse:     got unsigned long long [usertype] *ptr
 
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_event':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4343:46: warning: implicit conversion from 'enum hnae3_reset_type' to 'enum hnae3_event_type_custom' [-Wenum-conversion]
-    4343 |         ret = hclge_ext_call_event(hdev, hdev->reset_level);
-         |                                          ~~~~^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_set_vport_mtu':
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11043:30: warning: unused variable 'ae_dev' [-Wunused-variable]
-   11043 |         struct hnae3_ae_dev *ae_dev = pci_get_drvdata(vport->nic.pdev);
-         |                              ^~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_strings':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:577:50: warning: '%s' directive output may be truncated writing up to 4895 bytes into a region of size 32 [-Wformat-truncation=]
-     577 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                                                  ^~
-   In function 'hclge_comm_get_strings',
-       inlined from 'hclge_get_strings' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:689:7:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:577:17: note: 'snprintf' output between 1 and 4896 bytes into a destination of size 32
-     577 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +401 drivers/gpu/drm/xe/xe_oa.c
 
-
-vim +/ae_dev +11043 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
-
- 11040	
- 11041	int hclge_set_vport_mtu(struct hclge_vport *vport, int new_mtu)
- 11042	{
- 11043		struct hnae3_ae_dev *ae_dev = pci_get_drvdata(vport->nic.pdev);
- 11044		int l2_hlen = ETH_HLEN + ETH_FCS_LEN + 2 * VLAN_HLEN;
- 11045		int default_size = HCLGE_MAC_DEFAULT_FRAME;
- 11046		int min_frm_size = HCLGE_MAC_MIN_FRAME;
- 11047		struct hclge_dev *hdev = vport->back;
- 11048		int i, max_frm_size, ret;
- 11049	
+   377	
+   378	/**
+   379	 * xe_oa_remove_config_ioctl - Removes one OA config
+   380	 * @dev: @drm_device
+   381	 * @data: pointer to struct @drm_xe_perf_param
+   382	 * @file: @drm_file
+   383	 */
+   384	int xe_oa_remove_config_ioctl(struct drm_device *dev, u64 data, struct drm_file *file)
+   385	{
+   386		struct xe_oa *oa = &to_xe_device(dev)->oa;
+   387		struct xe_oa_config *oa_config;
+   388		u64 arg, *ptr = u64_to_user_ptr(data);
+   389		int ret;
+   390	
+   391		if (!oa->xe) {
+   392			drm_dbg(&oa->xe->drm, "xe oa interface not available for this system\n");
+   393			return -ENODEV;
+   394		}
+   395	
+   396		if (xe_perf_stream_paranoid && !perfmon_capable()) {
+   397			drm_dbg(&oa->xe->drm, "Insufficient privileges to remove xe OA config\n");
+   398			return -EACCES;
+   399		}
+   400	
+ > 401		ret = get_user(arg, ptr);
+   402		if (XE_IOCTL_DBG(oa->xe, ret))
+   403			return ret;
+   404	
+   405		ret = mutex_lock_interruptible(&oa->metrics_lock);
+   406		if (ret)
+   407			return ret;
+   408	
+   409		oa_config = idr_find(&oa->metrics_idr, arg);
+   410		if (!oa_config) {
+   411			drm_dbg(&oa->xe->drm, "Failed to remove unknown OA config\n");
+   412			ret = -ENOENT;
+   413			goto err_unlock;
+   414		}
+   415	
+   416		WARN_ON(arg != oa_config->id);
+   417	
+   418		sysfs_remove_group(oa->metrics_kobj, &oa_config->sysfs_metric);
+   419		idr_remove(&oa->metrics_idr, arg);
+   420	
+   421		mutex_unlock(&oa->metrics_lock);
+   422	
+   423		drm_dbg(&oa->xe->drm, "Removed config %s id=%i\n", oa_config->uuid, oa_config->id);
+   424	
+   425		xe_oa_config_put(oa_config);
+   426	
+   427		return 0;
+   428	
+   429	err_unlock:
+   430		mutex_unlock(&oa->metrics_lock);
+   431		return ret;
+   432	}
+   433	
 
 -- 
 0-DAY CI Kernel Test Service
