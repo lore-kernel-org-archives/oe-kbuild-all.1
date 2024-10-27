@@ -1,63 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC29018EBF;
-	Sun, 27 Oct 2024 22:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6D7E17C61
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 22:32:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730067721; cv=none; b=em6MX9aoBc06p7wYw89sFlbusT0eOozbNl64bikAte8UK+qJT1IHPEGtcUhWylKxGf6j41YccM9YVFZhZ1tIfvJC2kBKVxYcLNf0s4nTZOr6KsjhTMXwg/2cTrxGNyiITYjC/k0rnp12q5+Dacs3RawShtlcCTKGMuIFkvAdBw0=
+	t=1730068379; cv=none; b=PTHsGna0Wjmv3ntdRH0IwFnpf7mak2f+J4xpqvK3qk26U4pvqBI6YEhKdC6OLYB1bNE6MQ/+Ju5lLY4PyGx6/ZIO+S0BUAqEXaVoIZk7KXWIZpdSQiJTkuJcSiNCEdwAxVUfbhnPG1YAU8BvKNAZpntgs6/5v+o+ED2fABldehs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730067721; c=relaxed/simple;
-	bh=sxgyCZvsGdDbokMrGqYRMsBz5Z+jS3XC8LLxod9zO7U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DiqPbtNm470F9cSRHa4teCnZEGy1+GOW2sX/Szp12WTA1Zdpt+ERhFZ8wZFRpK0iGvUf95QT+CcdZ7SrPNczgPpwrrOOUjqDcQWrvXSbspJSWcewr8VXd5l8/VFcHpRaeEKR5IgzUs+lRZdki+SaIYmh5S5vsVekDD6pDiBuP2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T/YKO3E0; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1730068379; c=relaxed/simple;
+	bh=Hey55qORF26W1six5P4do+iqHTBQGAZuvaQS3wjj2es=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RodQqpM0Lj6oVv97aV7rq/SSTavzrhgklSVoRU4UvzQbOH3eoztB4Yf6OFTrxc7N/0glEfoQTD4aOcOPCMDKEFiYCl0PrJwzQ6s5CzgxwO2a4ipmUo9VhwDqhwV0TM0FYCR+tHhcr7jPF5HVuYg0hhrYIOu701VmPXPOFfo6+tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ai4PoPe7; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T/YKO3E0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ai4PoPe7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730067718; x=1761603718;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sxgyCZvsGdDbokMrGqYRMsBz5Z+jS3XC8LLxod9zO7U=;
-  b=T/YKO3E06TwR6BszNTEF+iLAz/hgEeK7qJeZ0U8SJkPTdfraf31WBQ6e
-   D+Z0hEA/6d/R1F+WIhQYgKgcI2JN97DHCVpkGnshLhmaCARm2pgSlmofY
-   QewlnLfk2boAKHbBbKlHpfTXeVJ/iFb3fSGe7ooPw6ttJG1RjhPyPt90g
-   AzGpokdKnsMEq8VECV1kLpZcyifPEudFkBgg4/H0gbjZp//HSRPCfV6yu
-   0jxgetWg1y9An4jyP8S62p0dipNih3q3zsRTY4IR2WWNLv79K5GEltNwu
-   MdII0MlX3F2WYQmt2ECMaTwxMsTHHMV4We0uTEpgbjmmtokBAb9dhpUS2
-   Q==;
-X-CSE-ConnectionGUID: ZWmn2Ks4QSOSoryx/GwsLg==
-X-CSE-MsgGUID: /V1+hCnAT0+pdQ4j9zeD7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29621080"
+  t=1730068377; x=1761604377;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Hey55qORF26W1six5P4do+iqHTBQGAZuvaQS3wjj2es=;
+  b=ai4PoPe7XUT5AICthO3DdZmeTN84hhSOHmkMHeg3OgMlYF1gL427Ahqw
+   vX9H1SsCew7VItwQqJSo+hVQXPaP7beEs6y9eV0ZCqcV810Vi4eOIFXm7
+   XKo19aGXZXxoafy+/r38wazC8Xw9fLn9Ef2rnMpY/ftLwboD8MpVGw+O5
+   /kUZQLol8pQHxc+NcmgQTJD22B47BXffhWFMQQ5/ApIGQdsCjCNVXC/O+
+   TM48CwVHVMcAgcATNLne3EzECD8DA4LOh7X7nAnzaLjODdFlpVK49LJ3V
+   7WQBudnGBRteTaNUcpR6LOKPlmlwuThI6H+TW3ZbZMEogMCF7n+AUNZfK
+   A==;
+X-CSE-ConnectionGUID: HgJj70cmQtOZrERUBf3swQ==
+X-CSE-MsgGUID: UOQe5pdnTl+H0vadg5v5kA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29621387"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29621080"
+   d="scan'208";a="29621387"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 15:21:58 -0700
-X-CSE-ConnectionGUID: aqQQUgt+R6SMkbyDbnFpUQ==
-X-CSE-MsgGUID: eIXFp/HrQA+Fdeb+6Gj0lg==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 15:32:56 -0700
+X-CSE-ConnectionGUID: pLu5Ej4uSpuJvA8bOuqcDg==
+X-CSE-MsgGUID: hNE8jaLcQjWnCMY2HJmflw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="104760119"
+   d="scan'208";a="104762286"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 15:21:54 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 15:32:55 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Bdw-000b1v-2R;
-	Sun, 27 Oct 2024 22:21:52 +0000
-Date: Mon, 28 Oct 2024 06:21:36 +0800
+	id 1t5Bob-000b2o-1T;
+	Sun, 27 Oct 2024 22:32:53 +0000
+Date: Mon, 28 Oct 2024 06:32:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Kent Gibson <warthog618@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/5] gpio: sysfs: use cleanup guards for the
- sysfs_lock mutex
-Message-ID: <202410280514.EkyQpKfw-lkp@intel.com>
-References: <20241026-gpio-notify-sysfs-v3-2-ad8f127d12f5@linaro.org>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:timestats-hoist 91/260] fs/xfs/xfs_rtalloc.c:954:2-8:
+ WARNING: NULL check before some freeing functions is not needed.
+Message-ID: <202410280611.xn1J7FRq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,135 +61,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241026-gpio-notify-sysfs-v3-2-ad8f127d12f5@linaro.org>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a39230ecf6b3057f5897bc4744a790070cfbe7a8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-sysfs-use-cleanup-guards-for-gpiod_data-mutex/20241026-210033
-base:   a39230ecf6b3057f5897bc4744a790070cfbe7a8
-patch link:    https://lore.kernel.org/r/20241026-gpio-notify-sysfs-v3-2-ad8f127d12f5%40linaro.org
-patch subject: [PATCH v3 2/5] gpio: sysfs: use cleanup guards for the sysfs_lock mutex
-config: i386-buildonly-randconfig-004-20241028 (https://download.01.org/0day-ci/archive/20241028/202410280514.EkyQpKfw-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410280514.EkyQpKfw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git timestats-hoist
+head:   2792e4ed621f2c3f6ea732ee146797b27fa3b608
+commit: e0bdb91d92d21a1a237532f78549e172aad0021e [91/260] xfs: move RT bitmap and summary information to the rtgroup
+config: mips-randconfig-r061-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280611.xn1J7FRq-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410280514.EkyQpKfw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410280611.xn1J7FRq-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_rtalloc.c:954:2-8: WARNING: NULL check before some freeing functions is not needed.
 
->> drivers/gpio/gpiolib-sysfs.c:588:3: error: cannot jump from this goto statement to its label
-     588 |                 goto err_clear_bit;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:591:21: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     591 |         struct gpiod_data *data __free(kfree) = kzalloc(sizeof(*data),
-         |                            ^
-   drivers/gpio/gpiolib-sysfs.c:582:3: error: cannot jump from this goto statement to its label
-     582 |                 goto err_clear_bit;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:591:21: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     591 |         struct gpiod_data *data __free(kfree) = kzalloc(sizeof(*data),
-         |                            ^
-   2 errors generated.
+vim +954 fs/xfs/xfs_rtalloc.c
 
-
-vim +588 drivers/gpio/gpiolib-sysfs.c
-
-   534	
-   535	/**
-   536	 * gpiod_export - export a GPIO through sysfs
-   537	 * @desc: GPIO to make available, already requested
-   538	 * @direction_may_change: true if userspace may change GPIO direction
-   539	 * Context: arch_initcall or later
-   540	 *
-   541	 * When drivers want to make a GPIO accessible to userspace after they
-   542	 * have requested it -- perhaps while debugging, or as part of their
-   543	 * public interface -- they may use this routine.  If the GPIO can
-   544	 * change direction (some can't) and the caller allows it, userspace
-   545	 * will see "direction" sysfs attribute which may be used to change
-   546	 * the gpio's direction.  A "value" attribute will always be provided.
-   547	 *
-   548	 * Returns:
-   549	 * 0 on success, or negative errno on failure.
-   550	 */
-   551	int gpiod_export(struct gpio_desc *desc, bool direction_may_change)
-   552	{
-   553		struct gpio_device *gdev;
-   554		struct device *dev;
-   555		int status;
-   556	
-   557		/* can't export until sysfs is available ... */
-   558		if (!class_is_registered(&gpio_class)) {
-   559			pr_debug("%s: called too early!\n", __func__);
-   560			return -ENOENT;
-   561		}
-   562	
-   563		if (!desc) {
-   564			pr_debug("%s: invalid gpio descriptor\n", __func__);
-   565			return -EINVAL;
-   566		}
-   567	
-   568		CLASS(gpio_chip_guard, guard)(desc);
-   569		if (!guard.gc)
-   570			return -ENODEV;
-   571	
-   572		if (test_and_set_bit(FLAG_EXPORT, &desc->flags))
-   573			return -EPERM;
-   574	
-   575		gdev = desc->gdev;
-   576	
-   577		guard(mutex)(&sysfs_lock);
-   578	
-   579		/* check if chip is being removed */
-   580		if (!gdev->mockdev) {
-   581			status = -ENODEV;
-   582			goto err_clear_bit;
-   583		}
-   584	
-   585		if (!test_bit(FLAG_REQUESTED, &desc->flags)) {
-   586			gpiod_dbg(desc, "%s: unavailable (not requested)\n", __func__);
-   587			status = -EPERM;
- > 588			goto err_clear_bit;
-   589		}
-   590	
-   591		struct gpiod_data *data __free(kfree) = kzalloc(sizeof(*data),
-   592								GFP_KERNEL);
-   593		if (!data) {
-   594			status = -ENOMEM;
-   595			goto err_clear_bit;
-   596		}
-   597	
-   598		data->desc = desc;
-   599		mutex_init(&data->mutex);
-   600		if (guard.gc->direction_input && guard.gc->direction_output)
-   601			data->direction_can_change = direction_may_change;
-   602		else
-   603			data->direction_can_change = false;
-   604	
-   605		dev = device_create_with_groups(&gpio_class, &gdev->dev,
-   606						MKDEV(0, 0), data, gpio_groups,
-   607						"gpio%u", desc_to_gpio(desc));
-   608		if (IS_ERR(dev)) {
-   609			status = PTR_ERR(dev);
-   610			goto err_clear_bit;
-   611		}
-   612	
-   613		data = NULL;
-   614		return 0;
-   615	
-   616	err_clear_bit:
-   617		clear_bit(FLAG_EXPORT, &desc->flags);
-   618		gpiod_dbg(desc, "%s: status %d\n", __func__, status);
-   619		return status;
-   620	}
-   621	EXPORT_SYMBOL_GPL(gpiod_export);
-   622	
+   919	
+   920	static int
+   921	xfs_growfs_rtg(
+   922		struct xfs_mount	*mp,
+   923		xfs_rfsblock_t		nrblocks,
+   924		xfs_agblock_t		rextsize)
+   925	{
+   926		uint8_t			*old_rsum_cache = NULL;
+   927		xfs_extlen_t		bmblocks;
+   928		xfs_fileoff_t		bmbno;
+   929		struct xfs_rtgroup	*rtg;
+   930		int			error;
+   931	
+   932		rtg = xfs_rtgroup_grab(mp, 0);
+   933		if (!rtg)
+   934			return -EINVAL;
+   935	
+   936		error = xfs_growfs_rt_alloc_blocks(rtg, nrblocks, rextsize, &bmblocks);
+   937		if (error)
+   938			goto out_rele;
+   939	
+   940		if (bmblocks != rtg_mount(rtg)->m_sb.sb_rbmblocks) {
+   941			old_rsum_cache = rtg->rtg_rsum_cache;
+   942			error = xfs_alloc_rsum_cache(rtg, bmblocks);
+   943			if (error)
+   944				goto out_rele;
+   945		}
+   946	
+   947		for (bmbno = xfs_last_rt_bmblock(rtg); bmbno < bmblocks; bmbno++) {
+   948			error = xfs_growfs_rt_bmblock(rtg, nrblocks, rextsize, bmbno);
+   949			if (error)
+   950				goto out_error;
+   951		}
+   952	
+   953		if (old_rsum_cache)
+ > 954			kvfree(old_rsum_cache);
+   955		xfs_rtgroup_rele(rtg);
+   956		return 0;
+   957	
+   958	out_error:
+   959		/*
+   960		 * Reset rtg_extents to the old value if adding more blocks failed.
+   961		 */
+   962		rtg->rtg_extents = xfs_rtgroup_extents(rtg_mount(rtg), rtg_rgno(rtg));
+   963		if (old_rsum_cache) {
+   964			kvfree(rtg->rtg_rsum_cache);
+   965			rtg->rtg_rsum_cache = old_rsum_cache;
+   966		}
+   967	out_rele:
+   968		xfs_rtgroup_rele(rtg);
+   969		return error;
+   970	}
+   971	
 
 -- 
 0-DAY CI Kernel Test Service
