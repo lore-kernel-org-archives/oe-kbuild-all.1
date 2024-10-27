@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25809DF5C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 06:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A259FF9E6
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 07:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730008936; cv=none; b=YUTpkPROSW5vjdd7ZMHggMtNK9u2ywGpXWqgJPzkS7yMbxf70Heb9zgjyOldPWWhP8z9X0Sfj0tqIfZqJQnF6k8/bNCiho/pbY8X9WCSSRS5WJo3f7tJwh4EvkeuyFlXkMjnuPRlvxw8HX71WO5xjlGARevLYm12bNbLSDaz2og=
+	t=1730012611; cv=none; b=qaT/OacxQkn6d/tmFpwYB6bDhsRm/W867wK0V2ZHFT6V1+TgQs5zLlz+KbarfToVt7Pxtnblx/TYTRuePIjNNVing5R42Rb4GmQ/4jSv7Q5LP/rXPW7nG3lEP9p8CNJa5pVAZG3/egANPpYQjTJX0Au/bKvwvEjWf0cPUxGER7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730008936; c=relaxed/simple;
-	bh=cU1tcy8pjiC+d5aWR9At/yULBb6cwWvq+Q/Gv8X24bI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ihD9kv3umc40MvE9GKqgd8Z59HE7HKATwqLTGZ7fBAszUYBaCpoQbvZWhkGAaNx+4uS4Yjj3jWI3uqy+R8L5K0O7/z80+cP++FXvRYBram5XeN/olxklpKcvSL18hgWZ0R6xM7kRpVYSNrk54yVBaYWhpSTtE/i9tPBOa6UXaT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lml/Gwm4; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1730012611; c=relaxed/simple;
+	bh=1N4hHUZ8OJkAxw4w0pZLkCD3kkzbr6FsV2EpakV0ZYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bGS3hD8unrNdTlGmWzit4Az3IcG+Hvg3NdgcmRyllL+lyALri06ztq52gKLYQ3mv6J4ZCHc+SJiENgaDygcpGKi9R/3KtuyxTuzjc0rVbgHyjN9ax5MOFh/EehqTvTMV3wygklGGuKGaSQlRjpzUKc2k4EO0h6cbr3teXaMOo9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISRtGfWP; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lml/Gwm4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISRtGfWP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730008933; x=1761544933;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cU1tcy8pjiC+d5aWR9At/yULBb6cwWvq+Q/Gv8X24bI=;
-  b=lml/Gwm4Kb2XvmyKr2O30c3kPNVvhN0Nfeqi7q7Os+t14VlZpVCmMs7g
-   rxH63LdFDbC2EHypDzDV8gGZ50niat3YBG0y0DzqVolD0d+WeIlx/EjnX
-   ileboJGeNEG2nK5nUdhOKVwzKDdVwau4Y4oG4ZsOwkUXjQtaQ7if5G/M2
-   jT4U6LSpST9k86AHRqRRsc25ClEBMK268F+SbvDTtaTZGKUPy+ChJrPoB
-   YUHeuqdt+3aKhrDzOMMw+hXmS+DdCGa5+9MTlACU7m1zP7t4blYQSVPwX
-   2diRgTIQodnNXrAbq7FMDUeK1ieBOE2hO4wOap7qPi0rxyKK/rvXyhX2U
-   Q==;
-X-CSE-ConnectionGUID: XlP9Jcf5TDmJR0l3emeUuA==
-X-CSE-MsgGUID: Sp8TcAjiQb6/LNySYe1JIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29497488"
+  t=1730012609; x=1761548609;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1N4hHUZ8OJkAxw4w0pZLkCD3kkzbr6FsV2EpakV0ZYU=;
+  b=ISRtGfWP6RXmoupAiowtCMGVoD1wcA6TxgSw3phFbQOJkhLwcjBzNETh
+   6wdC95T1WgVrXmMobN8fz7d+ylH5MXd9akOPNquUzryBsHE+YH2iaoF+2
+   +9P0QOhmhDTHu9STgrPvyl3iEODB/c1HU6aTfcYM1tzvlgB9w2qSsPUFz
+   KKDlObj6it0M+LuASzbbTy5ZezrC4S6dhPQvNyDYscswqZVoMI8AJN/dy
+   jpU02r+vBHyO3lz1d7yYFHMmG+mSHLFj9n6IgUOZtDW2jCulcV93RLgGM
+   bRoGqGHgSrvTsRk0BWZ8JJbwZ1WR6VlJDp7kwVIV3MnbV5RLau66pjWFg
+   g==;
+X-CSE-ConnectionGUID: nuMStMDXQqGBHRP18EAvbQ==
+X-CSE-MsgGUID: 5xe7O+A1QX+y8A/1EqLCIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29770166"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29497488"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 23:02:13 -0700
-X-CSE-ConnectionGUID: bAbGkipWSo+oBs4amiuX3w==
-X-CSE-MsgGUID: /+ImSAgTTJGtbG2sb4uGvw==
+   d="scan'208";a="29770166"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 00:03:29 -0700
+X-CSE-ConnectionGUID: WBICmwCQTHSK66pyMy2i7w==
+X-CSE-MsgGUID: sG01+GfsSGWgaXgWOO3vNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="81212677"
+   d="scan'208";a="82135715"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Oct 2024 23:02:11 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Oct 2024 00:03:27 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4wLp-000aQ8-0L;
-	Sun, 27 Oct 2024 06:02:09 +0000
-Date: Sun, 27 Oct 2024 14:01:25 +0800
+	id 1t4xJ6-000aSQ-2h;
+	Sun, 27 Oct 2024 07:03:24 +0000
+Date: Sun, 27 Oct 2024 15:03:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, JiangShui <1175135535@qq.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 15679/30000]
- drivers/crypto/hisilicon/qm.c:2755:9: warning: 'strncpy' specified bound
- depends on the length of the source argument
-Message-ID: <202410271351.DRedn4gy-lkp@intel.com>
+Subject: Re: [RFC PATCH 3/3] memcg-v1: remove memcg move locking code
+Message-ID: <202410271408.tc8QGSge-lkp@intel.com>
+References: <20241024065712.1274481-4-shakeel.butt@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,83 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241024065712.1274481-4-shakeel.butt@linux.dev>
 
-Hi Weili,
+Hi Shakeel,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   412556141b3c12f2f160acc3a09a40c937837ee3
-commit: a1666f44c2250f7413e73e2f4c02cb2c01f9e3b0 [15679/30000] crypto: hisilicon/qm - support no-sva feature
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241027/202410271351.DRedn4gy-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271351.DRedn4gy-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20241025]
+[cannot apply to tj-cgroup/for-next brauner-vfs/vfs.all linus/master v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shakeel-Butt/memcg-v1-fully-deprecate-move_charge_at_immigrate/20241025-132623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241024065712.1274481-4-shakeel.butt%40linux.dev
+patch subject: [RFC PATCH 3/3] memcg-v1: remove memcg move locking code
+config: arc-randconfig-002-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271408.tc8QGSge-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271408.tc8QGSge-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271351.DRedn4gy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271408.tc8QGSge-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/crypto/hisilicon/qm.c: In function 'qm_alloc_uacce':
->> drivers/crypto/hisilicon/qm.c:2755:9: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-    2755 |         strncpy(interface.name, pdev->driver->name, name_len);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/hisilicon/qm.c:2748:20: note: length computed here
-    2748 |         name_len = strlen(pdev->driver->name);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c: In function 'walk_mm':
+>> mm/vmscan.c:3652:28: warning: unused variable 'memcg' [-Wunused-variable]
+    3652 |         struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+         |                            ^~~~~
 
 
-vim +/strncpy +2755 drivers/crypto/hisilicon/qm.c
+vim +/memcg +3652 mm/vmscan.c
 
-  2737	
-  2738	static int qm_alloc_uacce(struct hisi_qm *qm)
-  2739	{
-  2740		struct pci_dev *pdev = qm->pdev;
-  2741		struct uacce_interface interface;
-  2742		struct uacce_device *uacce;
-  2743		int name_len;
-  2744	
-  2745		if (!qm->use_uacce)
-  2746			return 0;
-  2747	
-  2748		name_len = strlen(pdev->driver->name);
-  2749		if (name_len >= UACCE_MAX_NAME_SIZE) {
-  2750			pci_err(pdev, "The driver name(%d) is longer than %d!\n",
-  2751				name_len, UACCE_MAX_NAME_SIZE);
-  2752			return -EINVAL;
-  2753		}
-  2754	
-> 2755		strncpy(interface.name, pdev->driver->name, name_len);
-  2756		interface.name[name_len] = '\0';
-  2757	
-  2758		interface.flags = qm->use_iommu ? UACCE_DEV_IOMMU : UACCE_DEV_NOIOMMU;
-  2759		if (qm->mode == UACCE_MODE_SVA) {
-  2760			if (!qm->use_iommu) {
-  2761				pci_err(pdev, "iommu not support sva!\n");
-  2762				return -EINVAL;
-  2763			}
-  2764	
-  2765			interface.flags |= UACCE_DEV_SVA;
-  2766		}
-  2767	
-  2768		interface.ops = &uacce_qm_ops;
-  2769		uacce = uacce_alloc(&pdev->dev, &interface);
-  2770		if (IS_ERR(uacce)) {
-  2771			pci_err(pdev, "fail to alloc uacce device\n!");
-  2772			return PTR_ERR(uacce);
-  2773		}
-  2774		qm->uacce = uacce;
-  2775	
-  2776		qm_uacce_base_init(qm);
-  2777		qm->uacce = uacce;
-  2778		INIT_LIST_HEAD(&qm->isolate_data.qm_hw_errs);
-  2779		mutex_init(&qm->isolate_data.isolate_lock);
-  2780	
-  2781		return 0;
-  2782	}
-  2783	
+bd74fdaea14602 Yu Zhao            2022-09-18  3641  
+2d823764fafa65 Kinsey Ho          2024-02-14  3642  static void walk_mm(struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+bd74fdaea14602 Yu Zhao            2022-09-18  3643  {
+bd74fdaea14602 Yu Zhao            2022-09-18  3644  	static const struct mm_walk_ops mm_walk_ops = {
+bd74fdaea14602 Yu Zhao            2022-09-18  3645  		.test_walk = should_skip_vma,
+bd74fdaea14602 Yu Zhao            2022-09-18  3646  		.p4d_entry = walk_pud_range,
+49b0638502da09 Suren Baghdasaryan 2023-08-04  3647  		.walk_lock = PGWALK_RDLOCK,
+bd74fdaea14602 Yu Zhao            2022-09-18  3648  	};
+bd74fdaea14602 Yu Zhao            2022-09-18  3649  
+bd74fdaea14602 Yu Zhao            2022-09-18  3650  	int err;
+2d823764fafa65 Kinsey Ho          2024-02-14  3651  	struct lruvec *lruvec = walk->lruvec;
+bd74fdaea14602 Yu Zhao            2022-09-18 @3652  	struct mem_cgroup *memcg = lruvec_memcg(lruvec);
+bd74fdaea14602 Yu Zhao            2022-09-18  3653  
+bd74fdaea14602 Yu Zhao            2022-09-18  3654  	walk->next_addr = FIRST_USER_ADDRESS;
+bd74fdaea14602 Yu Zhao            2022-09-18  3655  
+bd74fdaea14602 Yu Zhao            2022-09-18  3656  	do {
+7f63cf2d9b9bbe Kalesh Singh       2023-04-13  3657  		DEFINE_MAX_SEQ(lruvec);
+7f63cf2d9b9bbe Kalesh Singh       2023-04-13  3658  
+bd74fdaea14602 Yu Zhao            2022-09-18  3659  		err = -EBUSY;
+bd74fdaea14602 Yu Zhao            2022-09-18  3660  
+7f63cf2d9b9bbe Kalesh Singh       2023-04-13  3661  		/* another thread might have called inc_max_seq() */
+cc25bbe10a86a7 Kinsey Ho          2024-02-14  3662  		if (walk->seq != max_seq)
+7f63cf2d9b9bbe Kalesh Singh       2023-04-13  3663  			break;
+7f63cf2d9b9bbe Kalesh Singh       2023-04-13  3664  
+bd74fdaea14602 Yu Zhao            2022-09-18  3665  		/* the caller might be holding the lock for write */
+bd74fdaea14602 Yu Zhao            2022-09-18  3666  		if (mmap_read_trylock(mm)) {
+bd74fdaea14602 Yu Zhao            2022-09-18  3667  			err = walk_page_range(mm, walk->next_addr, ULONG_MAX, &mm_walk_ops, walk);
+bd74fdaea14602 Yu Zhao            2022-09-18  3668  
+bd74fdaea14602 Yu Zhao            2022-09-18  3669  			mmap_read_unlock(mm);
+bd74fdaea14602 Yu Zhao            2022-09-18  3670  		}
+bd74fdaea14602 Yu Zhao            2022-09-18  3671  
+bd74fdaea14602 Yu Zhao            2022-09-18  3672  		if (walk->batched) {
+bd74fdaea14602 Yu Zhao            2022-09-18  3673  			spin_lock_irq(&lruvec->lru_lock);
+2d823764fafa65 Kinsey Ho          2024-02-14  3674  			reset_batch_size(walk);
+bd74fdaea14602 Yu Zhao            2022-09-18  3675  			spin_unlock_irq(&lruvec->lru_lock);
+bd74fdaea14602 Yu Zhao            2022-09-18  3676  		}
+bd74fdaea14602 Yu Zhao            2022-09-18  3677  
+bd74fdaea14602 Yu Zhao            2022-09-18  3678  		cond_resched();
+bd74fdaea14602 Yu Zhao            2022-09-18  3679  	} while (err == -EAGAIN);
+bd74fdaea14602 Yu Zhao            2022-09-18  3680  }
+bd74fdaea14602 Yu Zhao            2022-09-18  3681  
 
 -- 
 0-DAY CI Kernel Test Service
