@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69F04204B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 08:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DD15538A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 08:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730016302; cv=none; b=PCdMF4wY221cI0mmNRI0AfjMtHCtjHhVlzapB6/Lza+XbmoUHHHdetcxyVGl8wfxbb0LRoc3oFcZUdaonz3OdvGgUaedfxsdnMER/e7fGHx7XeEFO5QxeDIp10qGVfVhg6hWKigsAm3F9FFWMn9khowangcYT4YXyqAwgtfz2mQ=
+	t=1730016963; cv=none; b=pCvqVaZRcckSiW+8XXepoKCEAwpIXV7cgdOLAZYs/cPMlaOpE56urd1aEcHD2/pQBHl4TPqESzznFNj8u2//eZoIsMuZ6aRAq6buUqTPJFNtvq0PpWqGls7EYmtg5lIK0in78st3o2Gd9y/2GOctNmhVRMej+RPgdm8PH9S2S+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730016302; c=relaxed/simple;
-	bh=J+T+n7inKapu5aC689clTpWSBFWfHk0wsks7SJDDLHE=;
+	s=arc-20240116; t=1730016963; c=relaxed/simple;
+	bh=msPchU1wkC7C4xcn9CKpb3rP/qhM778iv3m9ZN2QmIM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YAMPTKGBv3l7riJLQbEBku2JaG7cIJ9tEfP5cl1pVF0QI0fulCE57O+r5silrKK3hiwBh2/LoKbgNhrRkSaq/Liw3vcB6KQ2GKJJppwOhN5+JdsYie7+eKfF7+AKOK0L9kzIIE4DNKJ3dx99HsV2l4D/On62+Cpye1rcsDskzlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LF8mwl+s; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=I7DG+rKeuEaRaK4GMsE1DlmxY172PGr3ZfADOgHYssrcFdKaPueG7N5u++TpK7X7kEScERQmWnOzeMhsg4YXV2Vi4vf1K16siQ7OM0o6TFo0SRdKVCAFeuVFFVn/aMG5mtWWhe+AajxqMtRjrMfu/hy7z2LW6SlhLJgKB+wmI6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uhnrjmlk; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LF8mwl+s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uhnrjmlk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730016299; x=1761552299;
+  t=1730016960; x=1761552960;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J+T+n7inKapu5aC689clTpWSBFWfHk0wsks7SJDDLHE=;
-  b=LF8mwl+sv6+BtICLtTbQfgZhpsWb+mGaxkKAKBd5pAK1QEJj5bt4RoyD
-   UpZ/6UCdP+p+y0mLz1OTuD/UUDChUU6Vs+sYpb/33ljdo/Rb2V3PY3mdM
-   ZB+xgjRL1grAZD6u14WnsAiba3KWnWYeLJfL8J8qE/607i5xMfHJEDPp7
-   WNCJ7Nh194p0uztt6tgjFjdSNei8V4PBBCAMtImUKAGEgUF1n9aeCYCvi
-   D0bSOX+Noj463fe/ZWMQ1vAA1//u+xAcYVYoIbev6GUJCPHU/0ZVjMTeC
-   8Cch1Na0NsCHZclduL8vhooKC8meep2uTuiwE3+7JMisR7Tn1kWVfs4Hp
+  bh=msPchU1wkC7C4xcn9CKpb3rP/qhM778iv3m9ZN2QmIM=;
+  b=UhnrjmlksZMULY2rABmB67BaWAae3mgeyY2OCIlenbB2eMwAj5kucb8x
+   CQR96dJyENIkSuN49m8wnm5Ji4VcPLojP4Ww/Iez3UjVRgdP0A+BIuC51
+   gqvJn9X2qZwhH9gCbWwApQxPkYzYMXEHYQVerB5Qgyt/HtsCDWQ+r9sAX
+   0wemwEiPCje+HAYFVM4rXN+G6NHAQc2PquzxOQfCdZmD+JLi8uXFWMfT8
+   hf4z66u0dHK57Agl2XhDKUEu8/3Qzp6UBEILwe4H4ZGQz2QyKSnYPh1A0
+   8iVk4yxOAzdmgPu7uw3a+wwHzeS1I/TnODVTHUL7voepzjXL5Ak6rpUly
    g==;
-X-CSE-ConnectionGUID: Dsck81F0THu9bZnm/EETMw==
-X-CSE-MsgGUID: u7aHgk8GR8eVmQBvVU5Wqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="33435857"
+X-CSE-ConnectionGUID: kcfWRysXSvSN6mY0tBBZFg==
+X-CSE-MsgGUID: NWrtC7VqR0SfBc0pOn9Uwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="55044420"
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="33435857"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 01:04:59 -0700
-X-CSE-ConnectionGUID: mALzJcykTviHxwuifjv7kA==
-X-CSE-MsgGUID: hKbj7UUBQHK5m5Fiw1haSg==
+   d="scan'208";a="55044420"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 01:16:00 -0700
+X-CSE-ConnectionGUID: oKANRZioTnWILPULiGHpUQ==
+X-CSE-MsgGUID: +HdFOjRYRdmuUmjwj7dXNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="118789291"
+   d="scan'208";a="81359490"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Oct 2024 01:04:58 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 27 Oct 2024 01:15:58 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4yGd-000aVw-2i;
-	Sun, 27 Oct 2024 08:04:55 +0000
-Date: Sun, 27 Oct 2024 16:04:36 +0800
+	id 1t4yRI-000aWG-0u;
+	Sun, 27 Oct 2024 08:15:56 +0000
+Date: Sun, 27 Oct 2024 16:14:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast
- truncates bits from constant value (8000000000000000 becomes 0)
-Message-ID: <202410271522.2slPqExV-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: [amd-pstate:superm1/multiple-platform-profile-handlers-v2 12/15]
+ drivers/acpi/platform_profile.c:59:13: warning: variable 'err' set but not
+ used
+Message-ID: <202410271644.Rn7NUjO7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +63,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
-commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
-date:   10 months ago
-config: loongarch-randconfig-r133-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271522.2slPqExV-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241027/202410271522.2slPqExV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/multiple-platform-profile-handlers-v2
+head:   cca7df72a75a655ad552ae621054784b4a41c9ac
+commit: 543be2020cab67a5411906c96ce670b2f2ac3dab [12/15] ACPI: platform_profile: Make sure all profile handlers agree on profile
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20241027/202410271644.Rn7NUjO7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271644.Rn7NUjO7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271522.2slPqExV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271644.Rn7NUjO7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/afs/callback.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
->> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
---
-   fs/afs/rotate.c: note: in included file (through arch/loongarch/include/asm/atomic.h, include/linux/atomic.h, include/asm-generic/bitops/atomic.h, ...):
->> arch/loongarch/include/asm/cmpxchg.h:70:42: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
-   arch/loongarch/include/asm/cmpxchg.h:73:24: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+All warnings (new ones prefixed by >>):
 
-vim +70 arch/loongarch/include/asm/cmpxchg.h
+   drivers/acpi/platform_profile.c: In function 'platform_profile_get_active':
+>> drivers/acpi/platform_profile.c:59:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+      59 |         int err;
+         |             ^~~
+   drivers/acpi/platform_profile.c: In function 'platform_profile_show':
+>> drivers/acpi/platform_profile.c:115:42: warning: unused variable 'handler' [-Wunused-variable]
+     115 |         struct platform_profile_handler *handler;
+         |                                          ^~~~~~~
 
-720dc7ab252bbdf Huacai Chen   2022-08-25  63  
-ddf502717da029c Huacai Chen   2022-10-12  64  static __always_inline unsigned long
-068550631fbe0b7 Andrzej Hajda 2023-01-18  65  __arch_xchg(volatile void *ptr, unsigned long x, int size)
-5b0b14e550a006b Huacai Chen   2022-05-31  66  {
-5b0b14e550a006b Huacai Chen   2022-05-31  67  	switch (size) {
-720dc7ab252bbdf Huacai Chen   2022-08-25  68  	case 1:
-720dc7ab252bbdf Huacai Chen   2022-08-25  69  	case 2:
-720dc7ab252bbdf Huacai Chen   2022-08-25 @70  		return __xchg_small(ptr, x, size);
-720dc7ab252bbdf Huacai Chen   2022-08-25  71  
-5b0b14e550a006b Huacai Chen   2022-05-31  72  	case 4:
-5b0b14e550a006b Huacai Chen   2022-05-31  73  		return __xchg_asm("amswap_db.w", (volatile u32 *)ptr, (u32)x);
-5b0b14e550a006b Huacai Chen   2022-05-31  74  
-5b0b14e550a006b Huacai Chen   2022-05-31  75  	case 8:
-5b0b14e550a006b Huacai Chen   2022-05-31  76  		return __xchg_asm("amswap_db.d", (volatile u64 *)ptr, (u64)x);
-5b0b14e550a006b Huacai Chen   2022-05-31  77  
-5b0b14e550a006b Huacai Chen   2022-05-31  78  	default:
-5b0b14e550a006b Huacai Chen   2022-05-31  79  		BUILD_BUG();
-5b0b14e550a006b Huacai Chen   2022-05-31  80  	}
-5b0b14e550a006b Huacai Chen   2022-05-31  81  
-5b0b14e550a006b Huacai Chen   2022-05-31  82  	return 0;
-5b0b14e550a006b Huacai Chen   2022-05-31  83  }
-5b0b14e550a006b Huacai Chen   2022-05-31  84  
 
-:::::: The code at line 70 was first introduced by commit
-:::::: 720dc7ab252bbdf404cab7b909e26b31e602bf7e LoongArch: Add subword xchg/cmpxchg emulation
+vim +/err +59 drivers/acpi/platform_profile.c
 
-:::::: TO: Huacai Chen <chenhuacai@loongson.cn>
-:::::: CC: Huacai Chen <chenhuacai@loongson.cn>
+    52	
+    53	/* expected to be called under mutex */
+    54	static int platform_profile_get_active(enum platform_profile_option *profile)
+    55	{
+    56		struct platform_profile_handler *handler;
+    57		enum platform_profile_option active = PLATFORM_PROFILE_LAST;
+    58		enum platform_profile_option active2 = PLATFORM_PROFILE_LAST;
+  > 59		int err;
+    60	
+    61		list_for_each_entry(handler, &platform_profile_handler_list, list) {
+    62			if (active == PLATFORM_PROFILE_LAST)
+    63				err = handler->profile_get(handler, &active);
+    64			else
+    65				err = handler->profile_get(handler, &active2);
+    66	
+    67			if (WARN_ON(active == PLATFORM_PROFILE_LAST))
+    68				return -EINVAL;
+    69			if (active2 == PLATFORM_PROFILE_LAST)
+    70				continue;
+    71	
+    72			if (active != active2) {
+    73				pr_warn("Profile handlers don't agree on current profile\n");
+    74				return -EINVAL;
+    75			}
+    76			active = active2;
+    77		}
+    78	
+    79		/* Check that profile is valid index */
+    80		if (WARN_ON((active < 0) || (active >= ARRAY_SIZE(profile_names))))
+    81			return -EIO;
+    82	
+    83		*profile = active;
+    84	
+    85		return 0;
+    86	}
+    87	
+    88	static ssize_t platform_profile_choices_show(struct device *dev,
+    89						struct device_attribute *attr,
+    90						char *buf)
+    91	{
+    92		unsigned long choices;
+    93		int len = 0;
+    94		int i;
+    95	
+    96		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock)
+    97			choices = platform_profile_get_choices();
+    98	
+    99		for_each_set_bit(i, &choices, PLATFORM_PROFILE_LAST) {
+   100			if (len == 0)
+   101				len += sysfs_emit_at(buf, len, "%s", profile_names[i]);
+   102			else
+   103				len += sysfs_emit_at(buf, len, " %s", profile_names[i]);
+   104		}
+   105	
+   106		len += sysfs_emit_at(buf, len, "\n");
+   107		return len;
+   108	}
+   109	
+   110	static ssize_t platform_profile_show(struct device *dev,
+   111						struct device_attribute *attr,
+   112						char *buf)
+   113	{
+   114		enum platform_profile_option profile = PLATFORM_PROFILE_BALANCED;
+ > 115		struct platform_profile_handler *handler;
+   116		int err;
+   117	
+   118		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+   119			if (!platform_profile_is_registered())
+   120				return -ENODEV;
+   121			err = platform_profile_get_active(&profile);
+   122			if (err)
+   123				return err;
+   124		}
+   125	
+   126		return sysfs_emit(buf, "%s\n", profile_names[profile]);
+   127	}
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
