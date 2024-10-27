@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DF0B65C
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 00:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2232ECC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 00:30:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729988435; cv=none; b=Lx1L81zTHr69Lb1sDkaB65MlwOlQvUeuHkxetiLg/X6ZRAao3PVQQxqfxa3r7yHtCvmO3gUbieYbXXeqygEaAnIbnEtXKmXDqIGPQCL/f8m5rr0g2b2xmMrANgZCo0HPKAoqwHre6tWt7bkkA9nRcRXWTN4kTwhl6bdMY3tAsKY=
+	t=1729989037; cv=none; b=f0CJKHyQvQX+jrPkuXoHkMcGkXcM6OtUNlTPRjoELnlXifPllJE0Q2tMvPznjGilIjL1sQkNkKjk2SAIkuFUR8cl/IDP9HMHOTXuy/qOEQlgh8HDvRuk3IuyKQ+Yy9bWEBXXp8m0RJLzWFtFaFMtS7X+bJXVyoMGHI5TqpkV9e4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729988435; c=relaxed/simple;
-	bh=4pqTt0YrvNe8QGqFBYsKmb7RjzFcPux94D2CLXJBc68=;
+	s=arc-20240116; t=1729989037; c=relaxed/simple;
+	bh=bknUs8tlHqYeFPpEEOa5CMfNaapcgyqNzs0ccs5ipcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CUL89C+69ESpSRcR9bxeLJ1kzS92VhiEf/+xvVdsxB2cASBLYHgB8mpnH74QYIfZ2It6kA1EDOOtrZmhf6E+XAvDLYDJ9f87Vxdp0L87aXE1QnJC68dveXtzA0X15Du2sR3NaPXst7aSKyEMODJstlO+kIVG3DeDpTZjUVblzHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FNxvh1qU; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=Nplf1qD7v+XhvM5GYsRBhBf+LDz4HW2DC44I0k0seoeJQUVZULVFU7sFx1oVQNIN00rpI9qKdO3Zqgs9NjSVvT/3tUplchrNS3yIqmHHNOrB/EpofFm6Oh8NzAk26EkcNxyF6XE0/YUCbkP4E8o8bQD0BEAPlGrDcwBuslUcg3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBAQFZ4T; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FNxvh1qU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBAQFZ4T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1729988433; x=1761524433;
+  t=1729989035; x=1761525035;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4pqTt0YrvNe8QGqFBYsKmb7RjzFcPux94D2CLXJBc68=;
-  b=FNxvh1qU7Qe8SKjjxs2NrcADkPG6uB7xDpsGdvJ8IQWS8vkjJduVf5Dh
-   u4nIhmeFsvSfl0cfrWTWr2VcISQbO6QBrYAr1m76zbExObNvlWsUq0zYQ
-   csmCleYHNOKpmi3tdm0rwnifRLQF7WhF0syXdLKEAHyW/xqd/QmnfR4Eb
-   EswFPqStYg5yAfGBzUrWhxpqizjeTeBTdeOU5ZkP45RNf/kVQCEVGfQ4s
-   XVFTiuklZp9mI5fYKtDvumuWG4Ia1mUFDfMYGwNdiPVrs11MfbZbE3QXE
-   BCgjC8/28g7WZL8ufUIm2Z+gEaMKXxFxVRRmNdw7ObZWUY+V7jOYlHvAI
-   w==;
-X-CSE-ConnectionGUID: i1b+vqIWSt+v+UXdN1gYvw==
-X-CSE-MsgGUID: u0sNEuW7QMCEoVoqn55w3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="29840921"
-X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="29840921"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 17:20:32 -0700
-X-CSE-ConnectionGUID: HnrEjemoSE2OadafChIjsw==
-X-CSE-MsgGUID: xmZ5MewKRIWh+T4qRzv1mA==
+  bh=bknUs8tlHqYeFPpEEOa5CMfNaapcgyqNzs0ccs5ipcc=;
+  b=VBAQFZ4TVdX4naEQjw65p4lCaxUyoESgsPxuwQ2CPEv+vuy7iAUA2tH8
+   LVwjpZ9f1iQHIc1ckag8ma7XYXd5KsmbNfKUwhEcYwdy2MVWzp/PG0Doi
+   FCGibfClIRlFq0bEt5x5eJLCxlCL/B8tioRxbHt/3IIcYhOSnpAQg1vHV
+   sCxp1wZsNdXCddJsZ4LAJTeNm0g3J74eYdfbV8csvjruf5h/BDjXrg/yK
+   +M/cnFYIQytbvM2zNiPO0AiWGfr2EyWPvjNf78PqBLRtDwIPgDxHWxRED
+   CNcPlGAKG/OAi9Gj4G4zBsBXuYwXfT+FBarSBoYAfE4FMAIzoYGQ/Bkyu
+   A==;
+X-CSE-ConnectionGUID: arXYmN0fQE6OYpjYXlVSNQ==
+X-CSE-MsgGUID: 7sKOT+neRfWWyBRuT03CYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29812193"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29812193"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 17:30:33 -0700
+X-CSE-ConnectionGUID: cts8r3oSQ/SCda8meF1k4Q==
+X-CSE-MsgGUID: PmhAQy9zSEOZvrjgYHrbeQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="85866200"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="86018879"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Oct 2024 17:20:31 -0700
+  by orviesa003.jf.intel.com with ESMTP; 26 Oct 2024 17:30:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4r1B-000aCG-0w;
-	Sun, 27 Oct 2024 00:20:29 +0000
-Date: Sun, 27 Oct 2024 08:19:38 +0800
+	id 1t4rAr-000aCa-1h;
+	Sun, 27 Oct 2024 00:30:29 +0000
+Date: Sun, 27 Oct 2024 08:29:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jiantao Xiao <xiaojiantao1@h-partners.com>
+To: kernel@openeuler.org, Zhou Shuiqing <zhoushuiqing2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 14232/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4413:46: warning:
- implicit conversion from 'enum hnae3_reset_type' to 'enum
- hnae3_event_type_custom'
-Message-ID: <202410270825.dsHEmsVP-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 18534/30000]
+ security/integrity/ima/ima.h:381:51: warning: 'struct ima_digest' declared
+ inside parameter list will not be visible outside of this definition or
+ declaration
+Message-ID: <202410270809.Ptd8Ot1n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,91 +64,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tian,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   412556141b3c12f2f160acc3a09a40c937837ee3
-commit: 62aede9feaf6f4729af43df72be267a32bda43d1 [14232/30000] net: hns3: add support customized exception handling interfaces.
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241027/202410270825.dsHEmsVP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270825.dsHEmsVP-lkp@intel.com/reproduce)
+commit: e94df9b790f7ed9025c9321f16a77044f66b14a5 [18534/30000] ima: Add macros to isolate the IMA digest list
+config: x86_64-buildonly-randconfig-006-20241027 (https://download.01.org/0day-ci/archive/20241027/202410270809.Ptd8Ot1n-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410270809.Ptd8Ot1n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410270825.dsHEmsVP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410270809.Ptd8Ot1n-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_event':
->> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4413:46: warning: implicit conversion from 'enum hnae3_reset_type' to 'enum hnae3_event_type_custom' [-Wenum-conversion]
-    4413 |         ret = hclge_ext_call_event(hdev, hdev->reset_level);
-         |                                          ~~~~^~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_strings':
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:668:50: warning: '%s' directive output may be truncated writing up to 4895 bytes into a region of size 32 [-Wformat-truncation=]
-     668 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                                                  ^~
-   In function 'hclge_comm_get_strings',
-       inlined from 'hclge_get_strings' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:781:7:
-   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:668:17: note: 'snprintf' output between 1 and 4896 bytes into a destination of size 32
-     668 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from security/integrity/ima/ima_main.c:30:
+>> security/integrity/ima/ima.h:381:51: warning: 'struct ima_digest' declared inside parameter list will not be visible outside of this definition or declaration
+     381 |                                            struct ima_digest *found_digest)
+         |                                                   ^~~~~~~~~~
+   security/integrity/ima/ima_main.c: In function 'process_measurement':
+   security/integrity/ima/ima_main.c:433:30: error: too few arguments to function 'ima_appraise_measurement'
+     433 |                         rc = ima_appraise_measurement(func, iint, file,
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima.h:373:19: note: declared here
+     373 | static inline int ima_appraise_measurement(enum ima_hooks func,
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from security/integrity/ima/ima_api.c:18:
+>> security/integrity/ima/ima.h:381:51: warning: 'struct ima_digest' declared inside parameter list will not be visible outside of this definition or declaration
+     381 |                                            struct ima_digest *found_digest)
+         |                                                   ^~~~~~~~~~
+--
+   In file included from security/integrity/ima/ima_asymmetric_keys.c:13:
+>> security/integrity/ima/ima.h:381:51: warning: 'struct ima_digest' declared inside parameter list will not be visible outside of this definition or declaration
+     381 |                                            struct ima_digest *found_digest)
+         |                                                   ^~~~~~~~~~
+   security/integrity/ima/ima_asymmetric_keys.c:27:6: warning: no previous prototype for 'ima_post_key_create_or_update' [-Wmissing-prototypes]
+      27 | void ima_post_key_create_or_update(struct key *keyring, struct key *key,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +4413 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+vim +381 security/integrity/ima/ima.h
 
-  4374	
-  4375	void hclge_reset_event(struct pci_dev *pdev, struct hnae3_handle *handle)
-  4376	{
-  4377		struct hnae3_ae_dev *ae_dev = pci_get_drvdata(pdev);
-  4378		struct hclge_dev *hdev = ae_dev->priv;
-  4379		int ret;
-  4380	
-  4381		/* We might end up getting called broadly because of 2 below cases:
-  4382		 * 1. Recoverable error was conveyed through APEI and only way to bring
-  4383		 *    normalcy is to reset.
-  4384		 * 2. A new reset request from the stack due to timeout
-  4385		 *
-  4386		 * check if this is a new reset request and we are not here just because
-  4387		 * last reset attempt did not succeed and watchdog hit us again. We will
-  4388		 * know this if last reset request did not occur very recently (watchdog
-  4389		 * timer = 5*HZ, let us check after sufficiently large time, say 4*5*Hz)
-  4390		 * In case of new request we reset the "reset level" to PF reset.
-  4391		 * And if it is a repeat reset request of the most recent one then we
-  4392		 * want to make sure we throttle the reset request. Therefore, we will
-  4393		 * not allow it again before 3*HZ times.
-  4394		 */
-  4395	
-  4396		if (time_before(jiffies, (hdev->last_reset_time +
-  4397					  HCLGE_RESET_INTERVAL))) {
-  4398			mod_timer(&hdev->reset_timer, jiffies + HCLGE_RESET_INTERVAL);
-  4399			return;
-  4400		}
-  4401	
-  4402		if (hdev->default_reset_request) {
-  4403			hdev->reset_level =
-  4404				hclge_get_reset_level(ae_dev,
-  4405						      &hdev->default_reset_request);
-  4406		} else if (time_after(jiffies, (hdev->last_reset_time + 4 * 5 * HZ))) {
-  4407			hdev->reset_level = HNAE3_FUNC_RESET;
-  4408		}
-  4409	
-  4410		dev_info(&hdev->pdev->dev, "received reset event, reset type is %d\n",
-  4411			 hdev->reset_level);
-  4412	
-> 4413		ret = hclge_ext_call_event(hdev, hdev->reset_level);
-  4414		if (ret) {
-  4415			/* request reset & schedule reset task */
-  4416			set_bit(hdev->reset_level, &hdev->reset_request);
-  4417			hclge_reset_task_schedule(hdev);
-  4418		}
-  4419	
-  4420		if (hdev->reset_level < HNAE3_GLOBAL_RESET)
-  4421			hdev->reset_level++;
-  4422	}
-  4423	
+273df864cf7466 Nayna Jain            2019-10-30  372  
+4ad87a3d7444de Mimi Zohar            2016-01-14  373  static inline int ima_appraise_measurement(enum ima_hooks func,
+d79d72e02485c0 Mimi Zohar            2012-12-03  374  					   struct integrity_iint_cache *iint,
+2fe5d6def1672a Mimi Zohar            2012-02-13  375  					   struct file *file,
+d3634d0f426bde Dmitry Kasatkin       2013-04-25  376  					   const unsigned char *filename,
+d3634d0f426bde Dmitry Kasatkin       2013-04-25  377  					   struct evm_ima_xattr_data *xattr_value,
+39b07096364a42 Thiago Jung Bauermann 2019-06-27  378  					   int xattr_len,
+e94df9b790f7ed Zhou Shuiqing         2023-09-06  379  #ifndef CONFIG_IMA_DIGEST_LIST
+a44c2ae6cac55b Roberto Sassu         2021-03-03  380  					   const struct modsig *modsig,
+a44c2ae6cac55b Roberto Sassu         2021-03-03 @381  					   struct ima_digest *found_digest)
+e94df9b790f7ed Zhou Shuiqing         2023-09-06  382  #else
+e94df9b790f7ed Zhou Shuiqing         2023-09-06  383  					   const struct modsig *modsig)
+e94df9b790f7ed Zhou Shuiqing         2023-09-06  384  #endif
+2fe5d6def1672a Mimi Zohar            2012-02-13  385  {
+2fe5d6def1672a Mimi Zohar            2012-02-13  386  	return INTEGRITY_UNKNOWN;
+2fe5d6def1672a Mimi Zohar            2012-02-13  387  }
+2fe5d6def1672a Mimi Zohar            2012-02-13  388  
+
+:::::: The code at line 381 was first introduced by commit
+:::::: a44c2ae6cac55bdcc0d33f62600233ea0f3f6688 ima: Add support for appraisal with digest lists
+
+:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
+:::::: CC: Zheng Zengkai <zhengzengkai@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
