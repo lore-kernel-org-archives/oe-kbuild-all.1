@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57D41E493
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 13:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E60154BED;
+	Sun, 27 Oct 2024 15:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730034791; cv=none; b=QFx7LaYi8XzSy/20+ViGEX1YFC4YBqqmATapZxRe6wIh1hneSpNDuiStSD/5OZ+6hcGXnryu0Ee/TTPmLhrQ+MUtvNLd9MRtZFiAnYqQVZELHRTL1BkUzZVMrV5eAGYFoBbHJUOoyU8DQX4GnXgJJpb+Qn+VSUWgO8NA2fcBaog=
+	t=1730042114; cv=none; b=DI/Hn9WPis/Vaq2eq03qvmwpRyBnySE9iZErjiru4ywCAWLVNdl4oBPnxU4KUXNFgom/F7LmrUbJSNkjeecfO6mYpVUMI8j5z6A1n3ZGObjaKtJcLJELBU80TZicT6OmXg/c0QhXauaK6YQFeWLkghZ2tkhbaMurmhkdix7puTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730034791; c=relaxed/simple;
-	bh=qb1FMlWlQkOvXDky802VLW3ZjzOd6Arkb/HT0HK6Rv4=;
+	s=arc-20240116; t=1730042114; c=relaxed/simple;
+	bh=5u94Y7pa7BgsT3vqoEkK0FTH4Jud6+1xUFtegZSSdd4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=utucaJVnFhBHRYuW60EhEYVwxP41BfGkUbHmnXWanny2Uwq6+TODbmNgWqYrE7Kn6IjDLT5krKRA82D2lWuWK3+OAZSiyevagvUpxU5GXgmkPC4t8Tasm/0Pe1ePKCqQxVJvWYXp73e9lNTVREvTLfyVT5iGfyLiRUCI3GYUlgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=es7ISlzC; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=NlRDMIcuKUBiTGNF/EKZO+y5DHIkTNDRQGGv+cDD9up4p8VpOURUREowFz86WvjGkeniOMkp179TSOpJ+udzIGx/U95xhfk2wHxWEpJJWkXx2XBfQDEjRJkYQVlBTEcC1hPo8lW1KwI1vqC9HJ7x3R6c1iYxn0lKePXIwAclT0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fFO56Vpw; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="es7ISlzC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fFO56Vpw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730034789; x=1761570789;
+  t=1730042112; x=1761578112;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qb1FMlWlQkOvXDky802VLW3ZjzOd6Arkb/HT0HK6Rv4=;
-  b=es7ISlzClsCll3eLsHOp3s22kRmS+IV52Ai827HUmhqi1hPBw649kkSR
-   XOQx+vP02eT1xGVMausHWeBs1NY3YBaepK0XpnmPUi8iXfL4lxUKIVoof
-   JrpM+xM+l7jykdPvzQh1M1JOD2JqHuRR7tJMJVILzfrdkqZKkOTa8zJ9x
-   QiObtVpwSZOXqud4YKGc071HC5FtKZIYokrR/Ti3olnNgrwr2rK1iXiI0
-   4PanIQKg3CYAenO4LU+ejPu5CZ88XJyZ42rP06ZYZJcE0BWBpXnHCZqSS
-   85X81/zMlroAoUSEReRLHPDU/VK5KkoXme80wheZdUHIQLKwtV/G/9ILn
+  bh=5u94Y7pa7BgsT3vqoEkK0FTH4Jud6+1xUFtegZSSdd4=;
+  b=fFO56VpwwGAmvR5RczcM9t3ElgMT+h7QtogeF6zcY+yyKpWS1UPXHD0b
+   0aofagd38TRbo/H45FUKPl4x8VUpyvPsh77OCd91rRAGULuyvIcx056vf
+   8PCGNeu1FDAbNuSvrqogxOjhhBdCrihyu+Fn7c2hU1aVvYX1Df5k7Tos7
+   7nWcuLcSSQ+4Ty/q2lbezJsmN2xT698NpcASh/sJfmjd2cgPEifwtoApf
+   6qY5yuO6fUGFRJ4iPgqxohBhduIaX1uVB1oyJYQaosMXgM/XKqsc9WuAN
+   DYe5krJoxMapvobxq5XeJytiVu6NYpnWfOf1NLClJCMD9i1J84+ANi/mA
    A==;
-X-CSE-ConnectionGUID: IQ+6HLvpSnat13fuDzixHg==
-X-CSE-MsgGUID: UyKBYtnuTP6mufIDjKjg6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52201036"
+X-CSE-ConnectionGUID: pwdCn/m4RRq80+AUXqhtBw==
+X-CSE-MsgGUID: w1rdEd4/T/qy772cTV9YTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40188618"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52201036"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 06:13:08 -0700
-X-CSE-ConnectionGUID: 6ej6fChQSQeppfzG5Zl0bA==
-X-CSE-MsgGUID: EIn7O4PmRX+0txAYEWP+3g==
+   d="scan'208";a="40188618"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 08:15:11 -0700
+X-CSE-ConnectionGUID: mmVIbh3TSVWcWMgJ0F9Ydg==
+X-CSE-MsgGUID: wEho5RnrR1WwN5Mv73HKFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="104696213"
+   d="scan'208";a="81285453"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 06:13:06 -0700
+  by orviesa010.jf.intel.com with ESMTP; 27 Oct 2024 08:15:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t534q-000ahw-0K;
-	Sun, 27 Oct 2024 13:13:04 +0000
-Date: Sun, 27 Oct 2024 21:12:37 +0800
+	id 1t54yx-000amW-1g;
+	Sun, 27 Oct 2024 15:15:07 +0000
+Date: Sun, 27 Oct 2024 23:14:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2385/15331] kernel/cgroup/cgroup.c:3968:29:
- error: 'cgroup_psi_stat_show' undeclared here (not in a function); did you
- mean 'cgroup_stat_show'?
-Message-ID: <202410272152.5flmz7cD-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pm@vger.kernel.org
+Subject: [amd-pstate:superm1/multiple-platform-profile-handlers-v2 13/15]
+ drivers/acpi/platform_profile.c:209:29: error: incompatible integer to
+ pointer conversion passing 'unsigned long' to parameter of type 'const
+ unsigned long *'; take the address with &
+Message-ID: <202410272314.4WjSxBUJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,82 +65,81 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   9d0af12b79bee784902822ddeec2e1a8cfc18524
-commit: 4a69b56540f40550585b9f93c35e415ac90bdecc [2385/15331] sched/psi: Introduce pressure.stat in psi
-config: arm64-randconfig-003-20241027 (https://download.01.org/0day-ci/archive/20241027/202410272152.5flmz7cD-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410272152.5flmz7cD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/multiple-platform-profile-handlers-v2
+head:   cca7df72a75a655ad552ae621054784b4a41c9ac
+commit: e336433fe10fc421aeece46f2d67647e0c91931b [13/15] ACPI: platform_profile: Check all profile handler to calculate next
+config: x86_64-buildonly-randconfig-001-20241027 (https://download.01.org/0day-ci/archive/20241027/202410272314.4WjSxBUJ-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410272314.4WjSxBUJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410272152.5flmz7cD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410272314.4WjSxBUJ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup.c:3968:29: error: 'cgroup_psi_stat_show' undeclared here (not in a function); did you mean 'cgroup_stat_show'?
-    3968 |                 .seq_show = cgroup_psi_stat_show,
-         |                             ^~~~~~~~~~~~~~~~~~~~
-         |                             cgroup_stat_show
+   drivers/acpi/platform_profile.c:59:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+      59 |         int err;
+         |             ^
+   drivers/acpi/platform_profile.c:115:35: warning: unused variable 'handler' [-Wunused-variable]
+     115 |         struct platform_profile_handler *handler;
+         |                                          ^~~~~~~
+>> drivers/acpi/platform_profile.c:209:29: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const unsigned long *'; take the address with & [-Wint-conversion]
+     209 |                 next = find_next_bit_wrap(choices,
+         |                                           ^~~~~~~
+         |                                           &
+   include/linux/find.h:452:55: note: passing argument to parameter 'addr' here
+     452 | unsigned long find_next_bit_wrap(const unsigned long *addr,
+         |                                                       ^
+   2 warnings and 1 error generated.
 
 
-vim +3968 kernel/cgroup/cgroup.c
+vim +209 drivers/acpi/platform_profile.c
 
-  3929	
-  3930	struct cftype cgroup_v1_psi_files[] = {
-  3931		{
-  3932			.name = "io.pressure",
-  3933			.flags = CFTYPE_NO_PREFIX,
-  3934			.seq_show = cgroup_io_pressure_show,
-  3935			.write = cgroup_io_pressure_write,
-  3936			.poll = cgroup_pressure_poll,
-  3937			.release = cgroup_pressure_release,
-  3938		},
-  3939		{
-  3940			.name = "memory.pressure",
-  3941			.flags = CFTYPE_NO_PREFIX,
-  3942			.seq_show = cgroup_memory_pressure_show,
-  3943			.write = cgroup_memory_pressure_write,
-  3944			.poll = cgroup_pressure_poll,
-  3945			.release = cgroup_pressure_release,
-  3946		},
-  3947		{
-  3948			.name = "cpu.pressure",
-  3949			.flags = CFTYPE_NO_PREFIX,
-  3950			.seq_show = cgroup_cpu_pressure_show,
-  3951			.write = cgroup_cpu_pressure_write,
-  3952			.poll = cgroup_pressure_poll,
-  3953			.release = cgroup_pressure_release,
-  3954		},
-  3955	#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-  3956		{
-  3957			.name = "irq.pressure",
-  3958			.flags = CFTYPE_NO_PREFIX,
-  3959			.seq_show = cgroup_irq_pressure_show,
-  3960			.write = cgroup_irq_pressure_write,
-  3961			.poll = cgroup_pressure_poll,
-  3962			.release = cgroup_pressure_release,
-  3963		},
-  3964	#endif
-  3965		{
-  3966			.name = "pressure.stat",
-  3967			.flags = CFTYPE_NO_PREFIX,
-> 3968			.seq_show = cgroup_psi_stat_show,
-  3969		},
-  3970		{ }	/* terminate */
-  3971	};
-  3972	#endif
-  3973	#else /* CONFIG_PSI */
-  3974	bool cgroup_psi_enabled(void)
-  3975	{
-  3976		return false;
-  3977	}
-  3978	
+   192	
+   193	
+   194	int platform_profile_cycle(void)
+   195	{
+   196		enum platform_profile_option next = PLATFORM_PROFILE_LAST;
+   197		struct platform_profile_handler *handler;
+   198		enum platform_profile_option profile;
+   199		unsigned long choices;
+   200		int err;
+   201	
+   202		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+   203			err = platform_profile_get_active(&profile);
+   204			if (err)
+   205				return err;
+   206	
+   207			choices = platform_profile_get_choices();
+   208	
+ > 209			next = find_next_bit_wrap(choices,
+   210						  PLATFORM_PROFILE_LAST,
+   211						  profile + 1);
+   212	
+   213			list_for_each_entry(handler, &platform_profile_handler_list, list) {
+   214				err = handler->profile_set(handler, next);
+   215				if (err) {
+   216					pr_err("Failed to set profile for handler %s\n", handler->name);
+   217					break;
+   218				}
+   219			}
+   220			if (err) {
+   221				list_for_each_entry_continue_reverse(handler, &platform_profile_handler_list, list) {
+   222					err = handler->profile_set(handler, PLATFORM_PROFILE_BALANCED);
+   223					if (err)
+   224						pr_err("Failed to revert profile for handler %s\n", handler->name);
+   225				}
+   226			}
+   227		}
+   228	
+   229		sysfs_notify(acpi_kobj, NULL, "platform_profile");
+   230	
+   231		return 0;
+   232	}
+   233	EXPORT_SYMBOL_GPL(platform_profile_cycle);
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
