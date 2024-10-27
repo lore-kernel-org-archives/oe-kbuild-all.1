@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFDE433D0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 09:17:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 990645674D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 09:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730020625; cv=none; b=mAKLSXljrg6nuaVG65c4vcLCksbf74bbvy8n9lzWqn/vjkwr38YLupsprFpYyHdOi7BmMePPWa2fAoWj7DGEMgoJtSto1srhjwV0L5fD6m+H7ZcoycdeBZHTGGH0mNWyKtIPf6ZUH0co+2v27RQSpBdrUKS/QVDNdz8IQpqsEfc=
+	t=1730021825; cv=none; b=vBnY0UwY73GIldDq+mfOJXzo6rakB6c1YWOjjyD+C2aRXNmgZT6CFmkIs6OokLhncKv3MzVuQErAyS2N02x47QdQC/m9Baj/AnvPEXmIAf6IH7fC1QuSCwgOnLCoHC2o5pqgo7U8Q3joM87xTN82U3Ll7dwlBawxuacpc62V6NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730020625; c=relaxed/simple;
-	bh=6KbqJCtx+tLiCgXQwGIEE/seXUugVmeBLuLlkVX9uMY=;
+	s=arc-20240116; t=1730021825; c=relaxed/simple;
+	bh=OQsDUjoTHw3sJT/mORJAthkExOHHFdnrOACKO8dfofw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=elBqfOTN/Dt+FE4A/XnDDg61yIVnwfndcODjY49Oa3jTQBnJh1kiAncclkYzjlRvsudPHZA/im1oKE9dT+GMH2Y7RVlO6Qjj0llih3pcdt4gtnJBh3pKgObhbLI65QWVuEgcfy/U4C4rkzS7rwBi6WkzMfYJ6XQiQUjIgeUib/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brZvNMsg; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=eht962rqSEoMeHwBD4Ykgtj7aX2fud48D3nFMw6WTcm4HLUWoQnqUCyl9/ZqO+3R6D7MEbNIA7RSs50nrv7QLYu+EMayfD24CdvJVy99kzhCXtrb/PKyqGf5Eqlh0lVubQciwXbbtRpuj9cNazYZxWa05CdQudq8A82wlUMbhkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZFnbgBjD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brZvNMsg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZFnbgBjD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730020622; x=1761556622;
+  t=1730021823; x=1761557823;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6KbqJCtx+tLiCgXQwGIEE/seXUugVmeBLuLlkVX9uMY=;
-  b=brZvNMsgAJJ/ckp5pdU3ud4Ze0qb5MdAq26xJ1+RZagySqeOwWCzcifl
-   3unzpyR4E6z5C+kZzUffK5nIFl7R9v8GRckjn3Xuegplqcc2qT4F5VJ8m
-   RXNfWzlpL7XeU0NkX59WNEvKl9m4u/oSKkcckY5ewqlgMzWcvqyAoeLPF
-   L/MCjd8ouRl+E7hD6pKEzXZhfYiaQUBwg6nEE296C13GjGiKUSuf/1GFo
-   2PPIvJsB4mvOZQrCRMGI/5PcroqMqJAQKyPwIB07rgas505Z7Ifyh2RVF
-   lR+fST669etliV6HnHRP5Z95EKrThXH/eTdtAAgxaGt1Zn6dCwcAjR8Ri
-   w==;
-X-CSE-ConnectionGUID: 7uRgQnY0RNW2+H83RcoQNg==
-X-CSE-MsgGUID: yNqR1F3fSMa5Z5F7cS1EwA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29501897"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29501897"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 02:17:01 -0700
-X-CSE-ConnectionGUID: mHsUcGEHTc2XK0GP2P4nOA==
-X-CSE-MsgGUID: i31DVdboStib6TVMYSDHIQ==
+  bh=OQsDUjoTHw3sJT/mORJAthkExOHHFdnrOACKO8dfofw=;
+  b=ZFnbgBjDVJT523SrB+PNS/H90HUFw8p1eD96snQ9ABY/8XXY9lUIKG7v
+   gxQSW2IB8OqMLxpSjspyEi3MB9Ndo43lCZE2Sx0Dxjt1sEFotau8DB7u/
+   mAMJHKPSGCwPHYwfCZvrOvWTo/qUTsJ8iJzQIvPb64nRvDQMrLKV+VEj0
+   4a04mMRx3gvcQUW8xW8Y+TvCc5uWABljKPkW/jZmCPT9uI8sYZt5LQGr+
+   RNuHTQyOsLOuM4+2kK4neZnV7KjrmbI3Ax1COFwM6QO2EdGD549yMDVGL
+   DiHcfVEwNSsz4c08jJ9NHSIrq1YFhtmZpQa3fIUBMOtOIzPBfaE0qXXBJ
+   g==;
+X-CSE-ConnectionGUID: Eby7pVetTZqipTq/+Q0Qng==
+X-CSE-MsgGUID: bZ0bz2nyQpiQDyG5aqBgmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="40218813"
+X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
+   d="scan'208";a="40218813"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 02:37:02 -0700
+X-CSE-ConnectionGUID: HVmLfnKCQU+xhl+3jf2YMQ==
+X-CSE-MsgGUID: CnPJ4fuZS9SUbErVpG52Tg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="82159458"
+   d="scan'208";a="81657973"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Oct 2024 02:17:01 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Oct 2024 02:37:01 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4zOM-000aaE-2A;
-	Sun, 27 Oct 2024 09:16:58 +0000
-Date: Sun, 27 Oct 2024 17:16:22 +0800
+	id 1t4zhi-000aas-33;
+	Sun, 27 Oct 2024 09:36:58 +0000
+Date: Sun, 27 Oct 2024 17:36:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Fengyan <mufengyan@hisilicon.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 19377/30000]
- drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:2104:33: warning:
- 'hns3_unic_ethtool_ops' defined but not used
-Message-ID: <202410271746.Yz3z91T2-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pm@vger.kernel.org
+Subject: [amd-pstate:superm1/multiple-platform-profile-handlers-v2 13/15]
+ drivers/acpi/platform_profile.c:209:43: warning: passing argument 1 of
+ 'find_next_bit_wrap' makes pointer from integer without a cast
+Message-ID: <202410271730.5bm4L4Nm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,83 +63,235 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Fengyan,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   412556141b3c12f2f160acc3a09a40c937837ee3
-commit: 737ec46e963210dc3b856637e871fa5b0c91316e [19377/30000] UNIC: Adds the process of UNIC driver initializing
-config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241027/202410271746.Yz3z91T2-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271746.Yz3z91T2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/superm1/linux.git superm1/multiple-platform-profile-handlers-v2
+head:   cca7df72a75a655ad552ae621054784b4a41c9ac
+commit: e336433fe10fc421aeece46f2d67647e0c91931b [13/15] ACPI: platform_profile: Check all profile handler to calculate next
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive/20241027/202410271730.5bm4L4Nm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271730.5bm4L4Nm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271746.Yz3z91T2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271730.5bm4L4Nm-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:2104:33: warning: 'hns3_unic_ethtool_ops' defined but not used [-Wunused-const-variable=]
-    2104 | static const struct ethtool_ops hns3_unic_ethtool_ops = {
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c: In function 'hns3_get_strings':
-   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:588:58: warning: '%s' directive output may be truncated writing up to 119 bytes into a region of size 32 [-Wformat-truncation=]
-     588 |                         snprintf(buff, ETH_GSTRING_LEN, "%s",
-         |                                                          ^~
-   drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c:588:25: note: 'snprintf' output between 1 and 120 bytes into a destination of size 32
-     588 |                         snprintf(buff, ETH_GSTRING_LEN, "%s",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     589 |                                  hns3_priv_flags[i].name);
-         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/acpi/platform_profile.c: In function 'platform_profile_get_active':
+   drivers/acpi/platform_profile.c:59:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+      59 |         int err;
+         |             ^~~
+   drivers/acpi/platform_profile.c: In function 'platform_profile_show':
+   drivers/acpi/platform_profile.c:115:42: warning: unused variable 'handler' [-Wunused-variable]
+     115 |         struct platform_profile_handler *handler;
+         |                                          ^~~~~~~
+   drivers/acpi/platform_profile.c: In function 'platform_profile_cycle':
+>> drivers/acpi/platform_profile.c:209:43: warning: passing argument 1 of 'find_next_bit_wrap' makes pointer from integer without a cast [-Wint-conversion]
+     209 |                 next = find_next_bit_wrap(choices,
+         |                                           ^~~~~~~
+         |                                           |
+         |                                           long unsigned int
+   In file included from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/slab.h:16,
+                    from include/linux/resource_ext.h:11,
+                    from include/linux/acpi.h:13,
+                    from drivers/acpi/platform_profile.c:5:
+   include/linux/find.h:452:55: note: expected 'const long unsigned int *' but argument is of type 'long unsigned int'
+     452 | unsigned long find_next_bit_wrap(const unsigned long *addr,
+         |                                  ~~~~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +/hns3_unic_ethtool_ops +2104 drivers/net/ethernet/hisilicon/hns3/hns3_ethtool.c
+vim +/find_next_bit_wrap +209 drivers/acpi/platform_profile.c
 
-  2103	
-> 2104	static const struct ethtool_ops hns3_unic_ethtool_ops = {
-  2105		.supported_coalesce_params = HNS3_ETHTOOL_COALESCE,
-  2106		.supported_ring_params = HNS3_ETHTOOL_RING,
-  2107		.self_test = hns3_self_test,
-  2108		.get_drvinfo = hns3_get_drvinfo,
-  2109		.get_link = hns3_get_link,
-  2110		.get_ringparam = hns3_get_ringparam,
-  2111		.set_ringparam = hns3_set_ringparam,
-  2112		.get_strings = hns3_get_strings,
-  2113		.get_ethtool_stats = hns3_get_stats,
-  2114		.get_sset_count = hns3_get_sset_count,
-  2115		.get_channels = hns3_get_channels,
-  2116		.set_channels = hns3_set_channels,
-  2117		.get_rxnfc = hns3_get_rxnfc,
-  2118		.set_rxnfc = hns3_set_rxnfc,
-  2119		.get_rxfh_key_size = hns3_get_rss_key_size,
-  2120		.get_rxfh_indir_size = hns3_get_rss_indir_size,
-  2121		.get_rxfh = hns3_get_rss,
-  2122		.set_rxfh = hns3_set_rss,
-  2123		.get_link_ksettings = hns3_get_link_ksettings,
-  2124		.set_link_ksettings = hns3_set_link_ksettings,
-  2125		.nway_reset = hns3_nway_reset,
-  2126		.get_coalesce = hns3_get_coalesce,
-  2127		.set_coalesce = hns3_set_coalesce,
-  2128		.get_regs_len = hns3_get_regs_len,
-  2129		.get_regs = hns3_get_regs,
-  2130		.set_phys_id = hns3_set_phys_id,
-  2131		.get_msglevel = hns3_get_msglevel,
-  2132		.set_msglevel = hns3_set_msglevel,
-  2133		.get_fecparam = hns3_get_fecparam,
-  2134		.set_fecparam = hns3_set_fecparam,
-  2135		.get_module_info = hns3_get_module_info,
-  2136		.get_module_eeprom = hns3_get_module_eeprom,
-  2137		.get_priv_flags = hns3_get_priv_flags,
-  2138		.set_priv_flags = hns3_set_priv_flags,
-  2139		.get_ts_info = hns3_get_ts_info,
-  2140		.get_tunable = hns3_get_tunable,
-  2141		.set_tunable = hns3_set_tunable,
-  2142		.reset = hns3_set_reset,
-  2143		.get_link_ext_state = hns3_get_link_ext_state,
-  2144	};
-  2145	
+    52	
+    53	/* expected to be called under mutex */
+    54	static int platform_profile_get_active(enum platform_profile_option *profile)
+    55	{
+    56		struct platform_profile_handler *handler;
+    57		enum platform_profile_option active = PLATFORM_PROFILE_LAST;
+    58		enum platform_profile_option active2 = PLATFORM_PROFILE_LAST;
+  > 59		int err;
+    60	
+    61		list_for_each_entry(handler, &platform_profile_handler_list, list) {
+    62			if (active == PLATFORM_PROFILE_LAST)
+    63				err = handler->profile_get(handler, &active);
+    64			else
+    65				err = handler->profile_get(handler, &active2);
+    66	
+    67			if (WARN_ON(active == PLATFORM_PROFILE_LAST))
+    68				return -EINVAL;
+    69			if (active2 == PLATFORM_PROFILE_LAST)
+    70				continue;
+    71	
+    72			if (active != active2) {
+    73				pr_warn("Profile handlers don't agree on current profile\n");
+    74				return -EINVAL;
+    75			}
+    76			active = active2;
+    77		}
+    78	
+    79		/* Check that profile is valid index */
+    80		if (WARN_ON((active < 0) || (active >= ARRAY_SIZE(profile_names))))
+    81			return -EIO;
+    82	
+    83		*profile = active;
+    84	
+    85		return 0;
+    86	}
+    87	
+    88	static ssize_t platform_profile_choices_show(struct device *dev,
+    89						struct device_attribute *attr,
+    90						char *buf)
+    91	{
+    92		unsigned long choices;
+    93		int len = 0;
+    94		int i;
+    95	
+    96		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock)
+    97			choices = platform_profile_get_choices();
+    98	
+    99		for_each_set_bit(i, &choices, PLATFORM_PROFILE_LAST) {
+   100			if (len == 0)
+   101				len += sysfs_emit_at(buf, len, "%s", profile_names[i]);
+   102			else
+   103				len += sysfs_emit_at(buf, len, " %s", profile_names[i]);
+   104		}
+   105	
+   106		len += sysfs_emit_at(buf, len, "\n");
+   107		return len;
+   108	}
+   109	
+   110	static ssize_t platform_profile_show(struct device *dev,
+   111						struct device_attribute *attr,
+   112						char *buf)
+   113	{
+   114		enum platform_profile_option profile = PLATFORM_PROFILE_BALANCED;
+   115		struct platform_profile_handler *handler;
+   116		int err;
+   117	
+   118		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+   119			if (!platform_profile_is_registered())
+   120				return -ENODEV;
+   121			err = platform_profile_get_active(&profile);
+   122			if (err)
+   123				return err;
+   124		}
+   125	
+   126		return sysfs_emit(buf, "%s\n", profile_names[profile]);
+   127	}
+   128	
+   129	static ssize_t platform_profile_store(struct device *dev,
+   130				    struct device_attribute *attr,
+   131				    const char *buf, size_t count)
+   132	{
+   133		struct platform_profile_handler *handler;
+   134		unsigned long choices;
+   135		int err, i;
+   136	
+   137		/* Scan for a matching profile */
+   138		i = sysfs_match_string(profile_names, buf);
+   139		if (i < 0) {
+   140			return -EINVAL;
+   141		}
+   142	
+   143		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+   144			if (!platform_profile_is_registered())
+   145				return -ENODEV;
+   146	
+   147			/* Check that all handlers support this profile choice */
+   148			choices = platform_profile_get_choices();
+   149			if (!test_bit(i, &choices))
+   150				return -EOPNOTSUPP;
+   151	
+   152			list_for_each_entry(handler, &platform_profile_handler_list, list) {
+   153				err = handler->profile_set(handler, i);
+   154				if (err) {
+   155					pr_err("Failed to set profile for handler %s\n", handler->name);
+   156					break;
+   157				}
+   158			}
+   159			if (err) {
+   160				list_for_each_entry_continue_reverse(handler, &platform_profile_handler_list, list) {
+   161					if (handler->profile_set(handler, PLATFORM_PROFILE_BALANCED))
+   162						pr_err("Failed to revert profile for handler %s\n", handler->name);
+   163				}
+   164				return err;
+   165			}
+   166		}
+   167	
+   168		sysfs_notify(acpi_kobj, NULL, "platform_profile");
+   169		return count;
+   170	}
+   171	
+   172	static DEVICE_ATTR_RO(platform_profile_choices);
+   173	static DEVICE_ATTR_RW(platform_profile);
+   174	
+   175	static struct attribute *platform_profile_attrs[] = {
+   176		&dev_attr_platform_profile_choices.attr,
+   177		&dev_attr_platform_profile.attr,
+   178		NULL
+   179	};
+   180	
+   181	static const struct attribute_group platform_profile_group = {
+   182		.attrs = platform_profile_attrs
+   183	};
+   184	
+   185	void platform_profile_notify(void)
+   186	{
+   187		if (!cur_profile)
+   188			return;
+   189		sysfs_notify(acpi_kobj, NULL, "platform_profile");
+   190	}
+   191	EXPORT_SYMBOL_GPL(platform_profile_notify);
+   192	
+   193	
+   194	int platform_profile_cycle(void)
+   195	{
+   196		enum platform_profile_option next = PLATFORM_PROFILE_LAST;
+   197		struct platform_profile_handler *handler;
+   198		enum platform_profile_option profile;
+   199		unsigned long choices;
+   200		int err;
+   201	
+   202		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
+   203			err = platform_profile_get_active(&profile);
+   204			if (err)
+   205				return err;
+   206	
+   207			choices = platform_profile_get_choices();
+   208	
+ > 209			next = find_next_bit_wrap(choices,
+   210						  PLATFORM_PROFILE_LAST,
+   211						  profile + 1);
+   212	
+   213			list_for_each_entry(handler, &platform_profile_handler_list, list) {
+   214				err = handler->profile_set(handler, next);
+   215				if (err) {
+   216					pr_err("Failed to set profile for handler %s\n", handler->name);
+   217					break;
+   218				}
+   219			}
+   220			if (err) {
+   221				list_for_each_entry_continue_reverse(handler, &platform_profile_handler_list, list) {
+   222					err = handler->profile_set(handler, PLATFORM_PROFILE_BALANCED);
+   223					if (err)
+   224						pr_err("Failed to revert profile for handler %s\n", handler->name);
+   225				}
+   226			}
+   227		}
+   228	
+   229		sysfs_notify(acpi_kobj, NULL, "platform_profile");
+   230	
+   231		return 0;
+   232	}
+   233	EXPORT_SYMBOL_GPL(platform_profile_cycle);
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
