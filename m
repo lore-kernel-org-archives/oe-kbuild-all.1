@@ -1,60 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D28926ACC
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 04:38:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ED89282F1
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 04:38:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730003894; cv=none; b=AaQwj+ciRkAsjSMNISwqX7QDH8NPtxKcpD+jVS2PGc0f2P3bYCLPvOKdSSzNwZ344Ggi4OlCEZwLGKRpXRhOgjqMpgZhlj6SXKs2+tThD+iLd1fAloqAjoW00wVd47hDc5TYdtaLBeaZEGdcmb8YCjvpbzQ0H5Ncxg0hr/8u/5g=
+	t=1730003894; cv=none; b=fBDzwE8t+3Ghpc+17rILQwWn1ij8ICkDBwTPPYVIxwFHc4psI/JzKBbFwYq4B4pG/1Su/i5JNTtBQHto6x/sdXQ8Wi43cvBV7Xj0Dj8fT87ju56Mu+518jIa2u8HNT5K6tF7xO5VSo64sJryipN/6M6PBmu4lvVsYwlcs0YSxMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730003894; c=relaxed/simple;
-	bh=tVM2M1FGQEg6FRvfqtoP9wCLqdQ1Pc8YdUg/lXbeO3g=;
+	bh=ECxxFyhpO8qHRImcih3jeV1ktiIwqvcCsxWmhdKNxh4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fWvKj3SEA/2volvXgogy1e24Gh90Dm/gbmBb8X62+hViu7uDp91TCvuyMg6L5F47nT/pIurUcz5FrCkkCuQpZ79gG6qGHj4ORzy37NsbroDRA2p8SeLhIU4GDSb3q+FCZWi3X79vDT5tvH/nzQXaJVoQMTXnKkgNf6p3uj48mJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RVZ4PoUF; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=H/JWgRUweW36T21dAr/TYe0ZVl89DwfiiYWXJaGgwGEjpLZilP6Hc1fo8E5l5zfAi2ublSQnE3MxOViD4t/HJzbRRE3k+4o3B7u37Dq4d6vyi1WUwRQDcfiLg6osWtytPY2yFk9u8G+4zVkIMib2c32zo8bdSphrCMUUm/ohftQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ru49DLQW; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RVZ4PoUF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ru49DLQW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1730003892; x=1761539892;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tVM2M1FGQEg6FRvfqtoP9wCLqdQ1Pc8YdUg/lXbeO3g=;
-  b=RVZ4PoUFm5RM1OZiGpxjYQQDmHZAyuEcg6HhW0jIYlOBZC3N5+AR0WEo
-   6hY4npUwhYtcOEBOeq6rlKz4ukH7HkhMIW/yFAakCHnnNfZ/heJnGU0oX
-   3Hesnhax2zTNx/rI/LIosPan4DkiqWMjhwJrhBrywnrQkz8E6UpLfUDtZ
-   K8GDrUHplPcYVFQQoOzhT8fW9vXAI1zs9zDRJ4ES0F1dBb6pkrGuUhRQL
-   nGTP65csVNqzZFvoyPb1dCudX4Mvm/Q68YYTun0Yu3FONbHksIoJ8UPry
-   YLQm5IlICA916h+T6Fnvgrhbe42bp3qJaaxT+jgdm6kQUBMMj3FYprjSf
-   w==;
-X-CSE-ConnectionGUID: LrNLqdDvSRKE9yk4A3NRyg==
-X-CSE-MsgGUID: JJCwPAW4RPCjcvdM7kKHyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="32491946"
+  bh=ECxxFyhpO8qHRImcih3jeV1ktiIwqvcCsxWmhdKNxh4=;
+  b=Ru49DLQWBXeFYhCAHUsRzVZzMHhz4TYz2m9U4pKRHl8DbiKRH9R9tuCO
+   BpFQ8x2OPnHWAIq6oiZxO13SXXrG6b4Q8kX8LiKXbRAChiyQzeY+vdt7U
+   tjmLsqpAyHiaEuKVcvNaFhsI6IonZXP8fJ15bgRLnZM1qDfoBzP8DElR/
+   V5pO8GbQJhbPj4pIRlieFuLQ+bfEwaFQiy0OZxzcfP25HbrkegEQ2FV9m
+   UmAaPhWOsg0xkC3tindgRCm7hAqtkK06aK8OBiACMb/chxz+DF4eW0rQ0
+   AMg4vPiWPdUfDHvaAoT5SwBvqmb+6gvVA+zKer3ZRG/ebQvTcNlkmEVrV
+   A==;
+X-CSE-ConnectionGUID: DE6aV1SeSTaL1gw7Me+9Pg==
+X-CSE-MsgGUID: iieGfSzYRT+bh3HiZcvqJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="32491947"
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="32491946"
+   d="scan'208";a="32491947"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 21:38:09 -0700
-X-CSE-ConnectionGUID: +omFZIFiRgadSQh/NWWbfQ==
-X-CSE-MsgGUID: g/VU5udOQ6Kf1j3hJ/8r2g==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 21:38:11 -0700
+X-CSE-ConnectionGUID: TUJ2qrRORae0DfeeuQklgQ==
+X-CSE-MsgGUID: 8d3gP7ykRz+5Hpbrgjsbbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="112140443"
+   d="scan'208";a="112140445"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 26 Oct 2024 21:38:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4v2U-000aMe-0d;
+	id 1t4v2U-000aMc-0Z;
 	Sun, 27 Oct 2024 04:38:06 +0000
-Date: Sun, 27 Oct 2024 12:38:02 +0800
+Date: Sun, 27 Oct 2024 12:38:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Barry Song <21cnbao@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC] mm: mitigate large folios usage and swap thrashing
- for nearly full memcg
-Message-ID: <202410271232.sVI4Oc2G-lkp@intel.com>
-References: <20241027001444.3233-1-21cnbao@gmail.com>
+To: "Karl.Li" <karl.li@mediatek.com>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Chungying Lu <chungying.lu@mediatek.com>,
+	Project_Global_Chrome_Upstream_Group@mediatek.com
+Subject: Re: [PATCH 3/3] mailbox: mediatek: Add mtk-apu-mailbox driver
+Message-ID: <202410271207.42FIkHwC-lkp@intel.com>
+References: <20241024092608.431581-4-karl.li@mediatek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +71,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241027001444.3233-1-21cnbao@gmail.com>
+In-Reply-To: <20241024092608.431581-4-karl.li@mediatek.com>
 
-Hi Barry,
+Hi Karl.Li,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.12-rc4 next-20241025]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Barry-Song/mm-mitigate-large-folios-usage-and-swap-thrashing-for-nearly-full-memcg/20241027-081537
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241027001444.3233-1-21cnbao%40gmail.com
-patch subject: [PATCH RFC] mm: mitigate large folios usage and swap thrashing for nearly full memcg
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241027/202410271232.sVI4Oc2G-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271232.sVI4Oc2G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Karl-Li/dt-bindings-mailbox-mediatek-Add-apu-mailbox-document/20241024-173032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241024092608.431581-4-karl.li%40mediatek.com
+patch subject: [PATCH 3/3] mailbox: mediatek: Add mtk-apu-mailbox driver
+config: nios2-randconfig-r111-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271207.42FIkHwC-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241027/202410271207.42FIkHwC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271232.sVI4Oc2G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271207.42FIkHwC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mailbox/mtk-apu-mailbox.c:29:24: sparse: sparse: symbol 'g_mbox' was not declared. Should it be static?
 
->> mm/memcontrol.c:4543: warning: expecting prototype for mem_cgroup_swapin_precharge_large_folio(). Prototype was for mem_cgroup_precharge_large_folio() instead
+vim +/g_mbox +29 drivers/mailbox/mtk-apu-mailbox.c
 
-
-vim +4543 mm/memcontrol.c
-
-  4529	
-  4530	/**
-  4531	 * mem_cgroup_swapin_precharge_large_folio: Precharge large folios.
-  4532	 *
-  4533	 * @mm: mm context of the victim
-  4534	 * @entry: swap entry for which the folio will be allocated
-  4535	 *
-  4536	 * If we are arriving the edge of an almost full memcg, return error so that
-  4537	 * swap-in and anon faults can quickly fall back to small folios to avoid swap
-  4538	 * thrashing.
-  4539	 *
-  4540	 * Returns 0 on success, an error code on failure.
-  4541	 */
-  4542	int mem_cgroup_precharge_large_folio(struct mm_struct *mm, swp_entry_t *entry)
-> 4543	{
-  4544		struct mem_cgroup *memcg = NULL;
-  4545		unsigned short id;
-  4546		bool has_margin;
-  4547	
-  4548		if (mem_cgroup_disabled())
-  4549			return 0;
-  4550	
-  4551		rcu_read_lock();
-  4552		if (entry) {
-  4553			id = lookup_swap_cgroup_id(*entry);
-  4554			memcg = mem_cgroup_from_id(id);
-  4555		}
-  4556		if (!memcg || !css_tryget_online(&memcg->css))
-  4557			memcg = get_mem_cgroup_from_mm(mm);
-  4558		has_margin = mem_cgroup_has_margin(memcg);
-  4559		rcu_read_unlock();
-  4560	
-  4561		css_put(&memcg->css);
-  4562		return has_margin ? 0 : -ENOMEM;
-  4563	}
-  4564	
+    28	
+  > 29	struct mtk_apu_mailbox *g_mbox;
+    30	
 
 -- 
 0-DAY CI Kernel Test Service
