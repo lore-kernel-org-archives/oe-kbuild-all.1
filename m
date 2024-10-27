@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 850E113D890
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 10:09:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5BEC7DA67
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 11:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730023747; cv=none; b=HRlSTd2UaVq27ZPytUOoTDSeUJtE8hnqJxyTfngTG8ShgSPViNGM5p6Ve2xo6zZP0C+sYc+Abe+s2yJAm+0rhrnrmQq0McItj48jCZ+SFERfqD/1BgoMNJubD3P6laDmLtbh2FAkScbjy3EZW2uL5rEtTDeP+nj6hEq2DeFzSAI=
+	t=1730029868; cv=none; b=N9J9GLmfORlJ9bQO+aOuPaJNRSnfaIl2QMoeo/jHcFTQzEu1D4fgTUfDplK4ysTj+uOri8MH9O5VpPvWzXQImJsBQ5EHu2YFGnZgowJ1YIlPsvRES555c42C+pZ7g01kCyPZdbX0JrMVIHWN2eX/sd5GY7wBx2mFDnBLtvS9nNQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730023747; c=relaxed/simple;
-	bh=GOz8QzotD7a9ekpft+CXqT7PKOaw7+6PinQzImTEpPE=;
+	s=arc-20240116; t=1730029868; c=relaxed/simple;
+	bh=93a+bzAAuQnSuw3BpuxsbFo0GcVsOtQD0qc4q/nyqHo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EFS+03uGoLcgRZdL26ln+JnqwGNtVjZaeCshX6fqhz7mud+birIzV+Q0uOFdtbol6awBe/E54nl9jxGSGaJK5t/xYtC8pLln30b/k5RK5DlyzCSELLlAOoAeJWXSAWOAvS5gsQq0yZtBbfieuXAgfyRczlsJ94k6uqVrRkXIwGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkymNvJr; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=FQb5PSmzDSq+hY54wwJc08rJbuOMcoCDc5Yels8X9PXrkLgnPTX7cCtBQ7Vg5xgk5ou2Niq5/SnptM05hEaoRPv6g5hk/9QAL9W2G5ImtQ91sZKJDxmUHoCwCLaJSUtU4wkInn4KScuxBID4auhLuxWWp/G2wp9+1z1Babv1QDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YXikw6hi; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkymNvJr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YXikw6hi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730023744; x=1761559744;
+  t=1730029866; x=1761565866;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GOz8QzotD7a9ekpft+CXqT7PKOaw7+6PinQzImTEpPE=;
-  b=BkymNvJrivhZY/h1ugkzgKqV8Ojaa60gvWoVGr9vnrUHDKFOhq0nUHnG
-   gf96sauBEUu2XVeWzA0B7Rz9WuuMoTgPB6IVfnMgdQGzg+fGRjAGUIJns
-   PIE4xLqTAXCren3c0Hm0Pn5EcV6SX5JIpSSzi4lcxj5phJe4NERqL8tmX
-   vLc+IEzJ4Uwis28ORVIMI7XHF/bvTag9iKeWtxjQhVV38K7MmDcSHLIoX
-   jVqjQAdevqTAy2GnWijIDmEMCIz5MBrH5/ifsMhC5lXpwbrDM9a+BSz9L
-   brNy/r5ErWASsYdeMr0TRYasSfRswGkWjAlw5ngnDqa4bpjhqFwxB6Hdl
-   w==;
-X-CSE-ConnectionGUID: 6WFw1ayITXGNnXY1xk7ViA==
-X-CSE-MsgGUID: MhQsDvOpRiK3i0U4zqNs0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="17272745"
-X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="17272745"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 03:09:03 -0700
-X-CSE-ConnectionGUID: r/d4MIE8RP2Z8ntBExG8fQ==
-X-CSE-MsgGUID: jHs5NwQvTfi4055m8oY/yw==
+  bh=93a+bzAAuQnSuw3BpuxsbFo0GcVsOtQD0qc4q/nyqHo=;
+  b=YXikw6hiBxLoZoXCR1GPBFG8hXcoGc5npCHBXXQTz0J/rKQF57TFzdu6
+   qGCdOGhUf0/6WiZcbtetlKdmUj0F3+luL99vboV6qYKlJLF8EeJaYKU/7
+   4LadUkNCZc1vf6fZybcYRpNfHHa+9kNuk07eSEM0YcxtpboS7bkcoBte6
+   sYq4QFlZhuf5qdwiRDxE/qiPwoBasEwr0EO+NKOcgSPLlYsgnXUj3uCoJ
+   MHGh64MB2xPDgfbKEe0lkYTKbfdYPWcdOLjIdID+/Ye8B8bf8irjPGQaE
+   Nn2tXlMDpNbNQ8C4Q1yPQTts2vqyYbB69xosUaJfnf3UUJfNuJFa54RkM
+   g==;
+X-CSE-ConnectionGUID: srmzZDp5S3GjbfM2pMP5XA==
+X-CSE-MsgGUID: KU9F21V0TFe9X26MgWrayw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="32507739"
+X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
+   d="scan'208";a="32507739"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 04:51:05 -0700
+X-CSE-ConnectionGUID: 8B9nod4LQH24m/K25b6Y5Q==
+X-CSE-MsgGUID: hC8pkqbuQvi+wMq4qElxyQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="81374271"
+X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
+   d="scan'208";a="85963317"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Oct 2024 03:09:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Oct 2024 04:51:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t50Ch-000abw-1d;
-	Sun, 27 Oct 2024 10:08:59 +0000
-Date: Sun, 27 Oct 2024 18:08:00 +0800
+	id 1t51nS-000afk-0t;
+	Sun, 27 Oct 2024 11:51:02 +0000
+Date: Sun, 27 Oct 2024 19:50:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jie Liu <liujie375@h-partners.com>
+To: kernel@openeuler.org, Fengyan <mufengyan@hisilicon.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 15074/30000] kernel/sched/topology.c:1618:9:
- error: implicit declaration of function 'register_sysctl_init'; did you mean
- 'register_sysctl'?
-Message-ID: <202410271829.BwTi43vD-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 19380/30000]
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11043:30: warning:
+ unused variable 'ae_dev'
+Message-ID: <202410271950.sb0LbrDb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,43 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tim,
+Hi Fengyan,
 
 FYI, the error/warning still remains.
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   412556141b3c12f2f160acc3a09a40c937837ee3
-commit: 8ce3e706b31409147f035c037055caa68e450ce5 [15074/30000] scheduler: Add runtime knob sysctl_sched_cluster
-config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241027/202410271829.BwTi43vD-lkp@intel.com/config)
+commit: 2922b0712475ada00f0a0b601497415c58f18a3f [19380/30000] UNIC: Support changing MTU size in UB mode
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241027/202410271950.sb0LbrDb-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271829.BwTi43vD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271950.sb0LbrDb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271829.BwTi43vD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271950.sb0LbrDb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   kernel/sched/topology.c: In function 'sched_cluster_sysctl_init':
->> kernel/sched/topology.c:1618:9: error: implicit declaration of function 'register_sysctl_init'; did you mean 'register_sysctl'? [-Werror=implicit-function-declaration]
-    1618 |         register_sysctl_init("kernel", sched_cluster_sysctls);
-         |         ^~~~~~~~~~~~~~~~~~~~
-         |         register_sysctl
-   cc1: some warnings being treated as errors
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_event':
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4343:46: warning: implicit conversion from 'enum hnae3_reset_type' to 'enum hnae3_event_type_custom' [-Wenum-conversion]
+    4343 |         ret = hclge_ext_call_event(hdev, hdev->reset_level);
+         |                                          ~~~~^~~~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_set_vport_mtu':
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11043:30: warning: unused variable 'ae_dev' [-Wunused-variable]
+   11043 |         struct hnae3_ae_dev *ae_dev = pci_get_drvdata(vport->nic.pdev);
+         |                              ^~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_strings':
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:577:50: warning: '%s' directive output may be truncated writing up to 4895 bytes into a region of size 32 [-Wformat-truncation=]
+     577 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
+         |                                                  ^~
+   In function 'hclge_comm_get_strings',
+       inlined from 'hclge_get_strings' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:689:7:
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:577:17: note: 'snprintf' output between 1 and 4896 bytes into a destination of size 32
+     577 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +1618 kernel/sched/topology.c
+vim +/ae_dev +11043 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
 
-  1615	
-  1616	static int __init sched_cluster_sysctl_init(void)
-  1617	{
-> 1618		register_sysctl_init("kernel", sched_cluster_sysctls);
-  1619		return 0;
-  1620	}
-  1621	late_initcall(sched_cluster_sysctl_init);
-  1622	#endif
-  1623	
+ 11040	
+ 11041	int hclge_set_vport_mtu(struct hclge_vport *vport, int new_mtu)
+ 11042	{
+ 11043		struct hnae3_ae_dev *ae_dev = pci_get_drvdata(vport->nic.pdev);
+ 11044		int l2_hlen = ETH_HLEN + ETH_FCS_LEN + 2 * VLAN_HLEN;
+ 11045		int default_size = HCLGE_MAC_DEFAULT_FRAME;
+ 11046		int min_frm_size = HCLGE_MAC_MIN_FRAME;
+ 11047		struct hclge_dev *hdev = vport->back;
+ 11048		int i, max_frm_size, ret;
+ 11049	
 
 -- 
 0-DAY CI Kernel Test Service
