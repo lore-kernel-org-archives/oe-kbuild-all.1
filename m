@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15A8C29A1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 03:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8005A95C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 03:57:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730000773; cv=none; b=UoeJP/FS1zc4kxl8OyLcWTb2ZSUrvKmPULu4H5qUl8EkCq1tQGZHv30c11wGq2e7cy7nG4E3kp2+r2tEkOCo28RIIeZa2tGs8dd1mvDno/59MTrSqbcrqruT+yBnApfO2/hbsTbxGPDI9PAqBYMs6IMEjUEcfa0jKm0FrEFhCRg=
+	t=1730001431; cv=none; b=PTsKW0bydL7v6DmqmJDwqHTnBjSoQ+PQPfk+DGXtRVmMMD7iNRm0YEYD0WfWC4tVWqkYAuYMGk//oGkugKEp1e8L3RH0lvZllZBBBooiSlGr+bdQwa1LrzzpTlhatmnP+cgsVR4JknKVc2qjy15Hdm11wTAHEvK7GcRVUAyy9To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730000773; c=relaxed/simple;
-	bh=g3QdbvcVLACWZ0+DzoK2X8NaMKq0/Ni2vDXGwwq9Uy0=;
+	s=arc-20240116; t=1730001431; c=relaxed/simple;
+	bh=97B4MYwCrnDCFOe15LlSBYdD5uVkXpaNY3K7FvDtm+o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gU5SVNIeB4+Jgx4Amuqmad3IlqshIRFVllIU9uTMWuzt591FbGfUjjmBVQlq6KfAXXQZ9jh5OmERAEbThtqTIKkp4QdEegK4YcPYYhUdoKAt13Tu0MO+63r9Hmua6Z7orh65GJmO4O7AxeKW4Od621zWcGTh+10pharSP8dzl9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=POCBUEYs; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Ld6yEtYE6nqNE0rr9E7VOZ6zat25uwV4pdA+euiDYZBuT7Akh+jU5yCRJtX3PpYaONNjZZKIqlJ9FAeeO1/AksRQ39F29qlTPNEv0Bks/OMJIqSyrJd0L2ErCOOufIp6NynPH6zEjROiWIRIwaGXLuhP3xZ5soYGX+kFUcK/SQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIHAgb8N; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="POCBUEYs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIHAgb8N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730000771; x=1761536771;
+  t=1730001429; x=1761537429;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=g3QdbvcVLACWZ0+DzoK2X8NaMKq0/Ni2vDXGwwq9Uy0=;
-  b=POCBUEYs6ZSLKMqrmkcM6YQQoGQA2ILnBMY+oKlSW782DnXdkqdq9jUw
-   XWtx3S5IeHZCZuG96kHfWRJ4fXISVcQc3W68ll/uv6ZBLPqrPe7O8RoES
-   C3L8TX5bkesEuiEugLhYzKb6Ri3dZ+kcqx6UPDAyC+ZXxYRLf+7DzEWHw
-   OeImI1GFBeAgvkNUU4XnF/Wn4BWV8Rjzf0kxZCZthLMQZJd91KYcF2uwx
-   U3Ff4Ngh7EBDjtFuzP1vsklILE8tc8VOzkE6na65ZVVvRugM54kYfLYar
-   qrr5ptWAFqpZ1LuGyKKEY5RndwdMHmCTi/JqXQphqZLIQ7mMZMRICQZxc
-   g==;
-X-CSE-ConnectionGUID: W1ffMDbJRiinimxXmvtriw==
-X-CSE-MsgGUID: sIHCrgdRSlqLW50fyXZJSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29815971"
+  bh=97B4MYwCrnDCFOe15LlSBYdD5uVkXpaNY3K7FvDtm+o=;
+  b=BIHAgb8N11IdOpOF0p3garx395dny/vQ1l6GMcIEYYVFUYy1Z7Qhrm2J
+   G/8hRA9v5pOK6ZS/5kTkYOtFMQGPzgWzIvknWYEb8EWJ0LGNarlowiVvX
+   Ov6OXCX22lMwNQUGvFMBYREkug2LSRODcEu1/ba36nveAQ5ZJAnmAJLIZ
+   m8M36Kjyf3Lh12hxnG5mbbdmSr5QE5s19/dLfQqfzOwq2/K31CoLPoM4i
+   FwqYoSoSxgaVbP2Nm5y8rj81JO+JI1Nhep2x6WYLL3eRq5UMuXigG2adT
+   IHF0c2CgDKqShKxsvKNiEqsMlI9e2DEHrfd4K184E8tZ+62wPiIl1JQ0f
+   Q==;
+X-CSE-ConnectionGUID: YH+1nVIWQt2c4pU42iaIEg==
+X-CSE-MsgGUID: YcCeYV16SZqvHWcxIaFuiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29816149"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29815971"
+   d="scan'208";a="29816149"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 20:46:08 -0700
-X-CSE-ConnectionGUID: HAHKFlqsQNaR4cqfLG3RTw==
-X-CSE-MsgGUID: caca+UUHSYm9yFJL4jdYyQ==
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 20:57:09 -0700
+X-CSE-ConnectionGUID: 1WkfGEBdTWWNrt3Qlkc6xg==
+X-CSE-MsgGUID: CtRJwN8fRtyFo4k/6woxxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="85242922"
+   d="scan'208";a="85244352"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2024 20:46:07 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 26 Oct 2024 20:57:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4uE8-000aKe-2l;
-	Sun, 27 Oct 2024 03:46:04 +0000
-Date: Sun, 27 Oct 2024 11:45:34 +0800
+	id 1t4uOn-000aLC-0B;
+	Sun, 27 Oct 2024 03:57:05 +0000
+Date: Sun, 27 Oct 2024 11:56:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2208/30000] drivers/tty/tty_buffer.c:177:2:
- error: implicit declaration of function 'printk_safe_exit'
-Message-ID: <202410271126.TEOt1E2D-lkp@intel.com>
+Subject: [sean-jc:x86/unfudge_irq_bypass 2/51]
+ arch/s390/kvm/../../../virt/kvm/kvm_main.c:223:28: error: 'struct irq_data'
+ has no member named 'parent_data'
+Message-ID: <202410271116.ZSfCL3aY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +63,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Hongbo,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   412556141b3c12f2f160acc3a09a40c937837ee3
-commit: 923efc4dc37c1a7cc91f0dd5dbdc87e0943ad1ae [2208/30000] tty: fix possible deadlock in console_unlock
-config: x86_64-buildonly-randconfig-001-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271126.TEOt1E2D-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271126.TEOt1E2D-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/unfudge_irq_bypass
+head:   4aabe03fb639d226a7f54d30e5437e4865d88913
+commit: ef91e567b4bbcff2ac70badfa3aeb3622076428a [2/51] ***HACK*** KVM: Hack in an ioctl() to provide a dummy IRQ bypass producer
+config: s390-randconfig-001-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271116.ZSfCL3aY-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271116.ZSfCL3aY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271126.TEOt1E2D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271116.ZSfCL3aY-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/tty/tty_buffer.c:175:2: error: implicit declaration of function 'printk_safe_enter' [-Werror,-Wimplicit-function-declaration]
-     175 |         printk_safe_enter();
-         |         ^
-   drivers/tty/tty_buffer.c:175:2: note: did you mean 'printk_nmi_enter'?
-   include/linux/printk.h:158:20: note: 'printk_nmi_enter' declared here
-     158 | static inline void printk_nmi_enter(void) { }
-         |                    ^
->> drivers/tty/tty_buffer.c:177:2: error: implicit declaration of function 'printk_safe_exit' [-Werror,-Wimplicit-function-declaration]
-     177 |         printk_safe_exit();
-         |         ^
-   2 errors generated.
+   arch/s390/kvm/../../../virt/kvm/kvm_main.c: In function '__kvm_irq_producer_set_vcpu_affinity':
+   arch/s390/kvm/../../../virt/kvm/kvm_main.c:180:14: error: implicit declaration of function 'cpu_feature_enabled' [-Wimplicit-function-declaration]
+     180 |         if (!cpu_feature_enabled(X86_FEATURE_SVM)) {
+         |              ^~~~~~~~~~~~~~~~~~~
+   arch/s390/kvm/../../../virt/kvm/kvm_main.c:180:34: error: 'X86_FEATURE_SVM' undeclared (first use in this function); did you mean 'X86_FEATURE_ANY'?
+     180 |         if (!cpu_feature_enabled(X86_FEATURE_SVM)) {
+         |                                  ^~~~~~~~~~~~~~~
+         |                                  X86_FEATURE_ANY
+   arch/s390/kvm/../../../virt/kvm/kvm_main.c:180:34: note: each undeclared identifier is reported only once for each function it appears in
+   arch/s390/kvm/../../../virt/kvm/kvm_main.c: In function 'kvm_setup_dummy_iommu':
+>> arch/s390/kvm/../../../virt/kvm/kvm_main.c:223:28: error: 'struct irq_data' has no member named 'parent_data'
+     223 |                 data = data->parent_data;
+         |                            ^~
 
 
-vim +/printk_safe_exit +177 drivers/tty/tty_buffer.c
+vim +223 arch/s390/kvm/../../../virt/kvm/kvm_main.c
 
-   142	
-   143	/**
-   144	 *	tty_buffer_alloc	-	allocate a tty buffer
-   145	 *	@port: tty port
-   146	 *	@size: desired size (characters)
-   147	 *
-   148	 *	Allocate a new tty buffer to hold the desired number of characters.
-   149	 *	We round our buffers off in 256 character chunks to get better
-   150	 *	allocation behaviour.
-   151	 *	Return NULL if out of memory or the allocation would exceed the
-   152	 *	per device queue
-   153	 */
-   154	
-   155	static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, size_t size)
-   156	{
-   157		struct llist_node *free;
-   158		struct tty_buffer *p;
-   159	
-   160		/* Round the buffer size out */
-   161		size = __ALIGN_MASK(size, TTYB_ALIGN_MASK);
-   162	
-   163		if (size <= MIN_TTYB_SIZE) {
-   164			free = llist_del_first(&port->buf.free);
-   165			if (free) {
-   166				p = llist_entry(free, struct tty_buffer, free);
-   167				goto found;
-   168			}
-   169		}
-   170	
-   171		/* Should possibly check if this fails for the largest buffer we
-   172		   have queued and recycle that ? */
-   173		if (atomic_read(&port->buf.mem_used) > port->buf.mem_limit)
-   174			return NULL;
- > 175		printk_safe_enter();
-   176		p = kmalloc(sizeof(struct tty_buffer) + 2 * size, GFP_ATOMIC);
- > 177		printk_safe_exit();
-   178		if (p == NULL)
-   179			return NULL;
-   180	
-   181	found:
-   182		tty_buffer_reset(p, size);
-   183		atomic_add(size, &port->buf.mem_used);
-   184		return p;
-   185	}
-   186	
+   205	
+   206	static void kvm_setup_dummy_iommu(void)
+   207	{
+   208		unsigned long flags;
+   209		struct irq_desc *desc = irq_get_desc_lock(floppy_irq, &flags, 0);
+   210		struct irq_data *data;
+   211		struct irq_chip *chip;
+   212	
+   213		BUILD_BUG_ON(!IS_ENABLED(CONFIG_IRQ_DOMAIN_HIERARCHY));
+   214	
+   215		if (WARN_ON_ONCE(!desc))
+   216			return;
+   217	
+   218		data = irq_desc_get_irq_data(desc);
+   219		do {
+   220			chip = irq_data_get_irq_chip(data);
+   221			if (chip && chip->irq_set_vcpu_affinity)
+   222				break;
+ > 223			data = data->parent_data;
+   224		} while (data);
+   225	
+   226		if (data) {
+   227			pr_warn("Huh.  Floppy can post IRQs?\n");
+   228			goto out;
+   229		}
+   230	
+   231		data = irq_desc_get_irq_data(desc);
+   232		chip = irq_data_get_irq_chip(data);
+   233		if (!chip) {
+   234			pr_warn("Fudge.  There goes that idea\n");
+   235			goto out;
+   236		}
+   237	
+   238		chip->irq_set_vcpu_affinity = kvm_irq_producer_set_vcpu_affinity;
+   239		folly_chip = chip;
+   240	out:
+   241		irq_put_desc_unlock(desc, flags);
+   242	}
+   243	
 
 -- 
 0-DAY CI Kernel Test Service
