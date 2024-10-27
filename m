@@ -1,106 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C37B640
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 20:37:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6501DFE8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 21:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=85.214.62.61
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730061458; cv=none; b=eduEHbndZvVGX7x+IYSDolmjjcbvpp/SdOP8i9Ufjze+/hPSM3iusfHI2jvw4x/zidOOdugibLKp4Wh+oVZv8SWa7igy26XExvWogWYFCMhQluyJXiVoiybDanY7Ux6s47IGd1Hs3d7ovRCUcBFs3BsthT9UohrzNDFWX2KgYig=
+	t=1730062984; cv=none; b=NvS+8tunPTqs6khxXqlAwgdzVKC1hcr0hjo6FJy5+inU0ZiPchG9VHScPhFaaXwFCeNh197JaAuU+oMglMQk9prY0lTCRQz46XxhKbuKURPGCeOYyEaz/TZS/WLN0XIQgPRZp75Zcjh/8ElCq7QnlRkf2UzSrL3qh9Sz9hXQY8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730061458; c=relaxed/simple;
-	bh=t4dO+v14RIi6DPKHuTdNO6o/WnmT+QJdArEMdH1dugE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PFLNLNU2vhim/8sDY2XR/hLQ4GZspDopJdMEkNl1u1KPjK82TWZI1uGfq2hvOLQ72jiD5n9KTL3+kdEHaJDXoUfulVN7qQpi/rVnQCEAEBFoVWeZW64nBwUEk5XNspMagn82ZC7R5AtfaDbcdEVATDALcUJNiZduDeDNeAwdNlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SJKtFDWA; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730062984; c=relaxed/simple;
+	bh=cp5TtzUJVN3ywAd/IXdqAlQveZ1W8WmMmOTD+dwRjhs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hT+w1hJTKM9WhJYR0a4HRnTN1BwkodnEJBIYYiu4kOq0xmRcNFN2rarODi25uA7OtvkDl0pxJQc9FXw9Ui+4NcDptqSAozrxJEifaSJEOqax6SZod4dI/unkP4s/VawStALw3Od9xmWr6u+Pmp0NDNd5+TnnCHTIpUvXSP1hv/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de; spf=pass smtp.mailfrom=denx.de; dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b=LfFC1XgD; arc=none smtp.client-ip=85.214.62.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=denx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=denx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SJKtFDWA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730061456; x=1761597456;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t4dO+v14RIi6DPKHuTdNO6o/WnmT+QJdArEMdH1dugE=;
-  b=SJKtFDWAWawjAAhbWTGB4t/5qYpTFbOjBH7CQsI03LTHvPLx5/e1V6Au
-   2+rhEgshJSowJi80dhn+TVG569crRpt1QTyCg81Ehy+QrXGYItk5afIcI
-   nj0vix0w3DaqsYm2vaEWZPVKiTnBYzi0hON3Gcl18ynJAp72WrlgvISxv
-   vsaHeRaMXyXP+8fdia2+qSPXad6qEy4pmFsb0K2LRLNFXlXDvDvAv5QcL
-   16gjpqmsO/J6RbaOwLVc4fu1na5ZSYJ3RrNRkWqAO5DRHltCxQ3zBHFXi
-   n50DqbxMyeCy22ltcfca13PP7A2PwmiNqkOMs+Au1+jaA0VrM6w6oma8i
-   Q==;
-X-CSE-ConnectionGUID: msa14IUzSce8uwumWEoNFQ==
-X-CSE-MsgGUID: sCJXhIy+QZez5aocZYZAlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29519863"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29519863"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 13:37:35 -0700
-X-CSE-ConnectionGUID: v5YrGsXbSe6z45yVFznHiA==
-X-CSE-MsgGUID: WlmymRYrRu+drfTIZy+JqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="112250248"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Oct 2024 13:37:34 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5A0x-000aya-2i;
-	Sun, 27 Oct 2024 20:37:31 +0000
-Date: Mon, 28 Oct 2024 04:37:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liao Chen <liaochen4@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2392/15331] arch/arm64/kernel/ipi_nmi.c:39:9:
- error: implicit declaration of function '__printk_safe_enter'
-Message-ID: <202410280402.j2eHLE32-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=denx.de header.i=@denx.de header.b="LfFC1XgD"
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+	(No client certificate requested)
+	(Authenticated sender: marex@denx.de)
+	by phobos.denx.de (Postfix) with ESMTPSA id F178B88E31;
+	Sun, 27 Oct 2024 22:02:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+	s=phobos-20191101; t=1730062975;
+	bh=MmExOwajJ6SBkDdipBnKSESH84JasReo2tJ4VUVT0O0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LfFC1XgDiGkmHV7qzwzIys+z5m/qt2Om9vA3pKEYIhSjvfD9nf6OtBpmlq4H++NKt
+	 3NK1mG8gjz4Vd31mSxgian94LzgTXJ1jBKa1ZlPttR4ZOR9aduw+01F4/LZeIb5t8x
+	 PZVuMzOd8FtVj/zt7R18MmpzRNDuLzC/uJjaLgQzDkqnfwJ1x9FvRKl8FADfWOYD3q
+	 ThnQRbq585MMa7tPRGQF39T2MnGoICUqPFAiatg0ln+LgS8Duay7EdOwcvl4bylMn+
+	 t9jTQVl1/NxDWUAfjZBVmyCwZQ1wprcIAuaOjw8r1koZgKxD5aCeCSb5/Vnuv7Ub3D
+	 I5D8t2FOUmBuA==
+Message-ID: <4d989ac6-272a-470e-bed0-0229a13ba9a7@denx.de>
+Date: Sun, 27 Oct 2024 21:41:54 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 5515/7183]
+ arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /ldb: failed to match any
+ schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Shawn Guo <shawnguo@kernel.org>,
+ Christoph Niedermaier <cniedermaier@dh-electronics.com>
+References: <202410280343.WJE7GVzN-lkp@intel.com>
+Content-Language: en-US
+From: Marek Vasut <marex@denx.de>
+In-Reply-To: <202410280343.WJE7GVzN-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: clamav-milter 0.103.8 at phobos.denx.de
+X-Virus-Status: Clean
 
-Hi Li,
+On 10/27/24 8:24 PM, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   a39230ecf6b3057f5897bc4744a790070cfbe7a8
+> commit: c3f5d76a6e036b55cacf6489914aa7b82637843c [5515/7183] ARM: dts: imx6dl: Add support for i.MX6DL DHCOM SoM on PDK2 carrier board
+> config: arm-randconfig-051-20241023 (https://download.01.org/0day-ci/archive/20241028/202410280343.WJE7GVzN-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+> dtschema version: 2024.10.dev6+g12c3cd5
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410280343.WJE7GVzN-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410280343.WJE7GVzN-lkp@intel.com/
+> 
+> dtcheck warnings: (new ones prefixed by >>)
+>     	'phytec,imx6ul-pcl063' was expected
+>     	'phytec,imx6ull-pcl063' was expected
+>     	'fsl,imx6ulz' was expected
+>     	'toradex,verdin-imx8mm' was expected
+>     	'avnet,sm2s-imx8mp' was expected
+>     	'toradex,verdin-imx8mp' was expected
+>     	'fsl,imx6dl' is not one of ['fsl,imx8qxp', 'fsl,imx8dx']
+>     	'fsl,vf500' was expected
+>     	from schema $id: http://devicetree.org/schemas/arm/fsl.yaml#
+>     arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /: failed to match any schema with compatible: ['dh,imx6dl-dhcom-pdk2', 'dh,imx6dl-dhcom-som', 'fsl,imx6dl']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: iomuxc-gpr@20e0000: 'ipu1_csi0_mux', 'ipu1_csi1_mux' do not match any of the regexes: 'pinctrl-[0-9]+'
+>     	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /soc/bus@2000000/pinctrl@20e0000: failed to match any schema with compatible: ['fsl,imx6dl-iomuxc']
+>     arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /soc/bus@2100000/i2c@21a8000/pmic@3c: failed to match any schema with compatible: ['lltc,ltc3676']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /soc/bus@2100000/mipi@21dc000: failed to match any schema with compatible: ['fsl,imx6-mipi-csi2']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /soc/bus@2100000/vdoa@21e4000: failed to match any schema with compatible: ['fsl,imx6q-vdoa']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /soc/ipu@2400000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /capture-subsystem: failed to match any schema with compatible: ['fsl,imx-capture-subsystem']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /display-subsystem: failed to match any schema with compatible: ['fsl,imx-display-subsystem']
+>>> arch/arm/boot/dts/nxp/imx/imx6dl-dhcom-pdk2.dtb: /disp0: failed to match any schema with compatible: ['fsl,imx-parallel-display']
+No real surprise here , the IPs listed here do not have their DT schemas 
+converted from text yet.
 
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   9d0af12b79bee784902822ddeec2e1a8cfc18524
-commit: 5e3e94b1477ca3f6cb47ae8137a4a99fe0ef6147 [2392/15331] arm64: Add non nmi ipi backtrace support
-config: arm64-randconfig-003-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280402.j2eHLE32-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410280402.j2eHLE32-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410280402.j2eHLE32-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arm64/kernel/ipi_nmi.c: In function 'ipi_cpu_backtrace':
->> arch/arm64/kernel/ipi_nmi.c:39:9: error: implicit declaration of function '__printk_safe_enter' [-Wimplicit-function-declaration]
-      39 |         __printk_safe_enter();
-         |         ^~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/ipi_nmi.c:41:9: error: implicit declaration of function '__printk_safe_exit' [-Wimplicit-function-declaration]
-      41 |         __printk_safe_exit();
-         |         ^~~~~~~~~~~~~~~~~~
-
-
-vim +/__printk_safe_enter +39 arch/arm64/kernel/ipi_nmi.c
-
-    35	
-    36	#ifdef CONFIG_NON_NMI_IPI_BACKTRACE
-    37	static void ipi_cpu_backtrace(void *info)
-    38	{
-  > 39		__printk_safe_enter();
-    40		nmi_cpu_backtrace(get_irq_regs());
-  > 41		__printk_safe_exit();
-    42	}
-    43	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[PATCH v3 02/12] ARM: dts: imx35: Align pin config nodes with bindings
+and the rest of the series should at least help with the iomuxc .
