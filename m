@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E562125B9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F16D134AC
 	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 02:54:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1729997649; cv=none; b=JIWfkOQ7lodrxtTvE8aVfvXbpFEwLBOUIX3QuSvk+6eXl/rEjnu7Xd6o/MSnxv6qoU+rE84OwsFeYfe1CUlmKt6Jc7gq/G6WgtN9xfTqF+D+t+zZDSm71iQA/X9ic7F45t2UbhKrxZA6z4j3zSy9tfOyggua5ZtaiRh9j6ABPr0=
+	t=1729997650; cv=none; b=pZL+lpuLSJumTgcbu5LhEsgXivDJWJGZ6RpZkFMehYthlkhLxvzrfYBijeB3mJe0VVfrfykF897TitR/EAFvBBiifuqGPHUlv6lpGeX0surULuVH637XDczGIyWNMoX2Sks/ICCafKg4z+gJ2sW7qoe06KQ2UWM/eMexZx/Ru20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1729997649; c=relaxed/simple;
-	bh=ygHBhmuqNYiN9jeoaF6VwegnqjTIOOa+GD/EJkO2780=;
+	s=arc-20240116; t=1729997650; c=relaxed/simple;
+	bh=MBRnTKeKLSiErqNczL1v3sZnv6roZ5awZgeNqBBLtZg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NYaPmzEgZRgLSTy/iujrKNK3xkQWEknU+7M54a6LXwb0KvKI4tCDUzpbKVqnfcRuErIUtLreGGXBvBRx6ZDuRTUmUbt1Q2lmlucYIR/LoQ7hsO8QhDBHf32b4z9I2pZESMBpxnq8nGQIW+1qv3xz/+4fO/D4vzrQHxIfKpFv6JM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kboi2E7+; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=POGMiN5vAqQT7y+KkuCe9oqe6yv6nHsFLkrzgna8yZ0dYiFZ9jRCDgG2HGC5e8+bnEZ9kWoRr2UqPRze40FSChSp5897aB6ny/8CZRpDzfBxy1gP0GugHgFyElo8LG3VILoruxAn/j6nNNuGOuV7AXX7hSD+B/MTIgQ6jSDo6Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDK4uSdq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kboi2E7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDK4uSdq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1729997647; x=1761533647;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ygHBhmuqNYiN9jeoaF6VwegnqjTIOOa+GD/EJkO2780=;
-  b=kboi2E7+fGlgMQloWXC84vTZiQ+a0YgKNewx3aJ4Zo0AgNA4IwhLtd+8
-   jwDLpFG3YvCKuIGH6WFtGZ1MsxKGR56LqnakNiG8Gv35D8KOlvcVHJbYT
-   Cpvwzk9dFgJ5yfYPIEfTZN46vH08h9V+9Vvw6SJ7ziZuuI0gpYmV6MQFH
-   qHjGJBl84pVr5EpuJsc25Y94L5EAWr37I7ZB5kCBW3jQNwIDfYIlqjJuN
-   Lg5CSlNerT2NQFW9YwpDeazdAqp4s6tCd+HBCh5nhTNjN0o6Wyi5UfyD2
-   PMDqBck4sm08aTZ+g0qOGqCrnVM8W76XkCYXWCHVrzJau4sR6kosg/wso
+  bh=MBRnTKeKLSiErqNczL1v3sZnv6roZ5awZgeNqBBLtZg=;
+  b=ZDK4uSdqUoDZ0DlRCWIjd3hYYKK/CA94SIwasYVl/EOxrI01DgShAoH8
+   m6B35F/ncY1KxpnZmzYHvB3ASNUkV8cfKGRNyTq2FcWkC2jRkGqprMuQU
+   vfsbBeDY0vdQpcJmKWhUF/JASfhifa6pHYLmQEWQyJ+0QcSeNSF/988bH
+   e3Z0muWo0w75NNYu0dT934g4SemJFrjpD5SzcGaFToddtyVTi9dCqHINd
+   ZHENr7YD70Kqs9EuHuRNtNAX1V6qL6pu5MFs9JWCthb5Q2sQo++IAxBfP
+   BdTgKWI78OumBHJXOjdIw06TetHPNbniOd1K8kGCguehA+YCUoe4SRa6I
    g==;
-X-CSE-ConnectionGUID: mmXlnIXSS+i+QjLkWTxviw==
-X-CSE-MsgGUID: VNeHdef5R8GN86gHvTihBQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="17260876"
+X-CSE-ConnectionGUID: R9vFtxycTmmwwtoZpidc1w==
+X-CSE-MsgGUID: +45HQbJBTnGbwRTaYV6tYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11237"; a="29068413"
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="17260876"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 19:54:07 -0700
-X-CSE-ConnectionGUID: D6CoAu1bT7mQcNvqMfNBSQ==
-X-CSE-MsgGUID: VaQDH1TCS+ShfIR/iEV5XQ==
+   d="scan'208";a="29068413"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2024 19:54:07 -0700
+X-CSE-ConnectionGUID: 3KPbyinoR3CcEiSlmJv+Iw==
+X-CSE-MsgGUID: xpu0sIY6Rx+f6SkrfH60gQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,236,1725346800"; 
-   d="scan'208";a="81189909"
+   d="scan'208";a="82107351"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Oct 2024 19:54:05 -0700
+  by orviesa008.jf.intel.com with ESMTP; 26 Oct 2024 19:54:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t4tPn-000aI9-14;
+	id 1t4tPn-000aI6-0w;
 	Sun, 27 Oct 2024 02:54:03 +0000
 Date: Sun, 27 Oct 2024 10:53:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Sean Christopherson <seanjc@google.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 13850/23866]
- arch/arm64/mm/init.c:784:17: error: 'mem_sleep_current' undeclared
-Message-ID: <202410271033.v9jrl44I-lkp@intel.com>
+Subject: [sean-jc:svm/avic_max_vcpu_id 22/44] arch/x86/kvm/svm/avic.c:783:15:
+ error: 'struct <anonymous>' has no member named 'irq_bypass_data'
+Message-ID: <202410271013.ypozRXOd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,55 +62,147 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ding,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   22c50245e8025b0c6beee13d0df238987b98e6f8
-commit: fdda68feeca82610ccbcdcbda7250623a6d187d2 [13850/23866] arm64/ascend: Set mem_sleep_current to PM_SUSPEND_ON for ascend platform
-config: arm64-randconfig-003-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271033.v9jrl44I-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271033.v9jrl44I-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux svm/avic_max_vcpu_id
+head:   8aee5850df49b3f3a5bf57e55d4baf21dd389f1e
+commit: 8aec41b51cffe1cbdf3185e60947a78feab01097 [22/44] KVM: x86: Track IRTE data device posted interrupts in routing entry
+config: i386-buildonly-randconfig-002-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271013.ypozRXOd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241027/202410271013.ypozRXOd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410271033.v9jrl44I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410271013.ypozRXOd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/arm64/mm/init.c:469:13: warning: no previous prototype for 'arm64_memblock_init' [-Wmissing-prototypes]
-     469 | void __init arm64_memblock_init(void)
-         |             ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/mm/init.c: In function 'ascend_enable_setup':
->> arch/arm64/mm/init.c:784:17: error: 'mem_sleep_current' undeclared (first use in this function)
-     784 |                 mem_sleep_current = PM_SUSPEND_ON;
-         |                 ^~~~~~~~~~~~~~~~~
-   arch/arm64/mm/init.c:784:17: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kvm/svm/avic.c: In function 'svm_ir_list_del':
+>> arch/x86/kvm/svm/avic.c:783:15: error: 'struct <anonymous>' has no member named 'irq_bypass_data'
+     783 |         e->msi.irq_bypass_data = NULL;
+         |               ^
+   arch/x86/kvm/svm/avic.c: In function 'svm_ir_list_add':
+   arch/x86/kvm/svm/avic.c:841:15: error: 'struct <anonymous>' has no member named 'irq_bypass_data'
+     841 |         e->msi.irq_bypass_data = ir;
+         |               ^
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/hashtable.h:14,
+                    from arch/x86/kvm/svm/avic.c:18:
+   arch/x86/kvm/svm/avic.c: In function 'avic_pi_update_irte':
+   arch/x86/kvm/svm/avic.c:899:38: error: 'struct kvm' has no member named 'irq_routing'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                                      ^~
+   include/linux/rcupdate.h:538:17: note: in definition of macro '__rcu_dereference_check'
+     538 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                 ^
+   include/linux/srcu.h:217:34: note: in expansion of macro 'srcu_dereference_check'
+     217 | #define srcu_dereference(p, ssp) srcu_dereference_check((p), (ssp), 0)
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:18: note: in expansion of macro 'srcu_dereference'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                  ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:38: error: 'struct kvm' has no member named 'irq_routing'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                                      ^~
+   include/linux/rcupdate.h:538:38: note: in definition of macro '__rcu_dereference_check'
+     538 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                      ^
+   include/linux/srcu.h:217:34: note: in expansion of macro 'srcu_dereference_check'
+     217 | #define srcu_dereference(p, ssp) srcu_dereference_check((p), (ssp), 0)
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:18: note: in expansion of macro 'srcu_dereference'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                  ^~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/x86/kvm/svm/avic.c:899:38: error: 'struct kvm' has no member named 'irq_routing'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                                      ^~
+   include/linux/compiler_types.h:497:23: note: in definition of macro '__compiletime_assert'
+     497 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:538:50: note: in expansion of macro 'READ_ONCE'
+     538 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/srcu.h:204:9: note: in expansion of macro '__rcu_dereference_check'
+     204 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/srcu.h:217:34: note: in expansion of macro 'srcu_dereference_check'
+     217 | #define srcu_dereference(p, ssp) srcu_dereference_check((p), (ssp), 0)
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:18: note: in expansion of macro 'srcu_dereference'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                  ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:38: error: 'struct kvm' has no member named 'irq_routing'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                                      ^~
+   include/linux/compiler_types.h:497:23: note: in definition of macro '__compiletime_assert'
+     497 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:538:50: note: in expansion of macro 'READ_ONCE'
+     538 |         typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                                  ^~~~~~~~~
+   include/linux/srcu.h:204:9: note: in expansion of macro '__rcu_dereference_check'
+     204 |         __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/srcu.h:217:34: note: in expansion of macro 'srcu_dereference_check'
+     217 | #define srcu_dereference(p, ssp) srcu_dereference_check((p), (ssp), 0)
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:18: note: in expansion of macro 'srcu_dereference'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                  ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/svm/avic.c:899:38: error: 'struct kvm' has no member named 'irq_routing'
+     899 |         irq_rt = srcu_dereference(kvm->irq_routing, &kvm->irq_srcu);
+         |                                      ^~
+   include/linux/compiler_types.h:497:23: note: in definition of macro '__compiletime_assert'
+     497 |                 if (!(condition))                                       \
 
 
-vim +/mem_sleep_current +784 arch/arm64/mm/init.c
+vim +783 arch/x86/kvm/svm/avic.c
 
-   770	
-   771	#ifdef CONFIG_ASCEND_FEATURES
-   772	static int __init ascend_enable_setup(char *__unused)
-   773	{
-   774		if (IS_ENABLED(CONFIG_ASCEND_DVPP_MMAP))
-   775			enable_mmap_dvpp = 1;
-   776	
-   777		if (IS_ENABLED(CONFIG_ASCEND_IOPF_HIPRI))
-   778			enable_iopf_hipri = 1;
-   779	
-   780		if (IS_ENABLED(CONFIG_ASCEND_CHARGE_MIGRATE_HUGEPAGES))
-   781			enable_charge_mighp = 1;
+   765	
+   766	static void svm_ir_list_del(struct vcpu_svm *svm,
+   767				    struct kvm_kernel_irq_routing_entry *e,
+   768				    struct amd_iommu_pi_data *pi)
+   769	{
+   770		unsigned long flags;
+   771		struct amd_svm_iommu_ir *cur;
+   772	
+   773		spin_lock_irqsave(&svm->ir_list_lock, flags);
+   774		list_for_each_entry(cur, &svm->ir_list, node) {
+   775			if (cur->data != pi->ir_data)
+   776				continue;
+   777			list_del(&cur->node);
+   778			kfree(cur);
+   779			break;
+   780		}
+   781		spin_unlock_irqrestore(&svm->ir_list_lock, flags);
    782	
-   783		if (IS_ENABLED(CONFIG_SUSPEND))
- > 784			mem_sleep_current = PM_SUSPEND_ON;
+ > 783		e->msi.irq_bypass_data = NULL;
+   784	}
    785	
-   786		return 1;
-   787	}
-   788	
 
 -- 
 0-DAY CI Kernel Test Service
