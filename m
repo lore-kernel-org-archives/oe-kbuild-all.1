@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83D6A1741D1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Oct 2024 18:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CDA527466;
+	Sun, 27 Oct 2024 18:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730053287; cv=none; b=Ib3umK7aMuQ0K1gbGZpnqLBGR6ecL32WfYsnUc7kAqdpE2OWvATyQG0klKkrz9WiqDUy++d/RXCuU41I1iTbk7dycban3eAFLSh7qkSzQ4Ur4NvlFrJbslIuj+AX/yMOvYj9Fu7PzOIj5wAPyWxtS2K07CRZ9roWY13RVQufOKU=
+	t=1730055146; cv=none; b=WaylB6VAegE0HFH+0aEPasUSOotKp+T+dqrlmmD0oxIMJB0adC+8fpC0rwRlw8SRvf4gw9dpV5WHMZyI04rxHH65ZC5uE8z/YxRD3hlpU6xOLvk/4ExpriYKmMeSorp4E5Dnz6pFO0abXvoAz/Bv1s+Gw0MHWjFiIbPu0OSlHaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730053287; c=relaxed/simple;
-	bh=M0foY50M4HsUnWQT73wNT19qOzDjY/3ojUHdpCR2Au0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KRe0EVqO/NnC26DlRY6fd0jQqNVWZJ/G2gOCGnDMkKsjwTJXGdggmhx5nHAvSY9Du5AjZBw2dvG+KEGegAfRwrd3A1oKjb1HkyiUuJiYJWd9DaWmVEwXURXulWiUWNqNz9Y2c45ugdZcmCoY4XnKVcoHdOrxuFMKxJNcgyLsUtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRhhExUd; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1730055146; c=relaxed/simple;
+	bh=MAzTlAeSbbbrqINzQievmm7lwiQ9VHydEoOGLysHnRY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dgc8qtwnYiOv6HleXY8gsikayZ+bWxVecIa940DcbT4+m15I7bwTmXUBw/r+qQQH3y7C4SSJ5QrrSbE2wy4y7d4EI2YxrsFncdcsScTm1H3NXntLKJTKWvzt4F4KKUb17XlxkFRhYxT4Fp1duZJkJ/IlYtQDiDOlcmU3YOtbt0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Yo9m3X6f; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRhhExUd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Yo9m3X6f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730053283; x=1761589283;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M0foY50M4HsUnWQT73wNT19qOzDjY/3ojUHdpCR2Au0=;
-  b=HRhhExUdsQfWGThFvWPqGLDaBd4wU4nkbA6go/r6kVqGMV4uEtJltQzi
-   8zvc52N8b/VzN7NIIzwnM24cPVvV360YxTM5rxwPS5hZ0wRcuX46RKdEq
-   xDKVOHYQrGl83vsBGjv9CAaJ2Tyh7W1vs/Ay+dvHjXqtl2f7E6toIDnzS
-   I59P/GpCVqem5tYOVW802jzDAG9lfLqRlXtllpKGa6W8hG9/Highe1oIW
-   jBfzILvOS8UfDrXy2kuIq3hSjGVc9ZYpfddgtMGD0gfgnB7/F5xnHoRuB
-   ixiStx3BVZ5jKA3zZZSaMc5W2J19W4i6MDM7ntgOnRgen/vo86dlQawoM
-   g==;
-X-CSE-ConnectionGUID: M4wlsCCVSFSCQQ3K0c6FzQ==
-X-CSE-MsgGUID: vCIRafdcR7OpBbA5pu6/Vg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="33564712"
-X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="33564712"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 11:21:22 -0700
-X-CSE-ConnectionGUID: H1QstXZTRRS7jy5jDhNBEg==
-X-CSE-MsgGUID: IpKzxFHhSB6Dxzeg+K+IdA==
+  t=1730055143; x=1761591143;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MAzTlAeSbbbrqINzQievmm7lwiQ9VHydEoOGLysHnRY=;
+  b=Yo9m3X6fgzpD3iK2G5aZdCgaYvF2VUheXarMzm1JZB4NLO/8Xsn63Kct
+   L5ObYUKkoq+S6cQjhThHzQbYtfUn65SoI2t49B7xMNUM//6DZ1EMEvY4k
+   gdCussEiXOStKl9NWZnLM6597zEWcg8Y/VBHEb2C4QncA3ioCmRO6DVMv
+   HbZIXiUU6rgVJ9YRgiKAcrSFMcm629VzwSmq9pgqGbCpCEGZ5x4L/8/Lk
+   QTyP0cM/vr9tBJGbUMDi2zQ1sIfZTBSDeyJS0FZsWUtdUJoi9x8Bj5ll6
+   RpLVXV9riZTR4qsRO3nno+jtJjReSgKKks0jKw5auI/FlbTTmsOZuGhpq
+   w==;
+X-CSE-ConnectionGUID: M410K1+tToarPBlQzlcYIA==
+X-CSE-MsgGUID: WA9PT8OuTyKOM1Lwpqt1qA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40757587"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40757587"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 11:52:22 -0700
+X-CSE-ConnectionGUID: Q5XLXHwIQkyiC9w1OiuCng==
+X-CSE-MsgGUID: 3QM4EdtATPiH+UCuzy947A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,237,1725346800"; 
-   d="scan'208";a="81353158"
+   d="scan'208";a="104736174"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Oct 2024 11:21:20 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Oct 2024 11:52:21 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t57t7-000au5-2t;
-	Sun, 27 Oct 2024 18:21:17 +0000
-Date: Mon, 28 Oct 2024 02:20:29 +0800
+	id 1t58N9-000av6-18;
+	Sun, 27 Oct 2024 18:52:19 +0000
+Date: Mon, 28 Oct 2024 02:52:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: chang hao <ot_chhao.chang@mediatek.com>, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, sean.wang@kernel.org,
-	linus.walleij@linaro.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-mediatek@lists.infradead.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Chhao Chang <ot_chhao.chang@mediatek.com>
-Subject: Re: [PATCH] pinctrl: mediatek: add eint new design for mt8196
-Message-ID: <202410280230.KAMZK7aZ-lkp@intel.com>
-References: <20241025031814.21442-1-ot_chhao.chang@mediatek.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-rsrc 10/12] io_uring/rsrc.c:207:31: warning:
+ variable 'i' is uninitialized when used here
+Message-ID: <202410280250.jqKtTrSR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,152 +61,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025031814.21442-1-ot_chhao.chang@mediatek.com>
 
-Hi chang,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next linus/master v6.12-rc4 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/chang-hao/pinctrl-mediatek-add-eint-new-design-for-mt8196/20241025-111952
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241025031814.21442-1-ot_chhao.chang%40mediatek.com
-patch subject: [PATCH] pinctrl: mediatek: add eint new design for mt8196
-config: s390-randconfig-r131-20241027 (https://download.01.org/0day-ci/archive/20241028/202410280230.KAMZK7aZ-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce: (https://download.01.org/0day-ci/archive/20241028/202410280230.KAMZK7aZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-rsrc
+head:   6aea948dd2af540e0c9ffd392131e68be59de434
+commit: 78bb8a4ca9328c808a7b33955fbaad8e139c2a4a [10/12] io_uring/rsrc: use io_rsrc_node_lookup() consistently
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241028/202410280250.jqKtTrSR-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410280250.jqKtTrSR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410280230.KAMZK7aZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410280250.jqKtTrSR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pinctrl/mediatek/mtk-eint.c:14:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/pinctrl/mediatek/mtk-eint.c:14:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/pinctrl/mediatek/mtk-eint.c:14:
-   In file included from include/linux/gpio/driver.h:8:
-   In file included from include/linux/irqchip/chained_irq.h:10:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/pinctrl/mediatek/mtk-eint.c:588:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           dsb(sy);
-           ^
-   drivers/pinctrl/mediatek/mtk-eint.c:588:6: error: use of undeclared identifier 'sy'
-           dsb(sy);
-               ^
-   drivers/pinctrl/mediatek/mtk-eint.c:609:2: error: call to undeclared function 'dsb'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           dsb(sy);
-           ^
-   drivers/pinctrl/mediatek/mtk-eint.c:609:6: error: use of undeclared identifier 'sy'
-           dsb(sy);
-               ^
-   drivers/pinctrl/mediatek/mtk-eint.c:686:14: warning: no previous prototype for function 'mtk_eint_get_debounce_en' [-Wmissing-prototypes]
-   unsigned int mtk_eint_get_debounce_en(struct mtk_eint *eint,
-                ^
-   drivers/pinctrl/mediatek/mtk-eint.c:686:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   unsigned int mtk_eint_get_debounce_en(struct mtk_eint *eint,
-   ^
-   static 
-   drivers/pinctrl/mediatek/mtk-eint.c:709:14: warning: no previous prototype for function 'mtk_eint_get_debounce_value' [-Wmissing-prototypes]
-   unsigned int mtk_eint_get_debounce_value(struct mtk_eint *eint,
-                ^
-   drivers/pinctrl/mediatek/mtk-eint.c:709:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   unsigned int mtk_eint_get_debounce_value(struct mtk_eint *eint,
-   ^
-   static 
-   14 warnings and 4 errors generated.
+   In file included from io_uring/rsrc.c:6:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> io_uring/rsrc.c:207:31: warning: variable 'i' is uninitialized when used here [-Wuninitialized]
+     207 |                         ctx->file_table.data.nodes[i] = NULL;
+         |                                                    ^
+   io_uring/rsrc.c:180:11: note: initialize the variable 'i' to silence this warning
+     180 |         int fd, i, err = 0;
+         |                  ^
+         |                   = 0
+   2 warnings generated.
 
 
-vim +/dsb +588 drivers/pinctrl/mediatek/mtk-eint.c
+vim +/i +207 io_uring/rsrc.c
 
-   572	
-   573	int mtk_eint_do_suspend(struct mtk_eint *eint)
-   574	{
-   575		unsigned int i, j, port;
-   576	
-   577		for (i = 0; i < eint->instance_number; i++) {
-   578			struct mtk_eint_instance inst = eint->instances[i];
-   579	
-   580			for (j = 0; j < inst.number; j += MAX_BIT) {
-   581				port = j >> REG_GROUP;
-   582				writel_relaxed(~inst.wake_mask[port],
-   583					       inst.base + port*REG_OFSET + eint->comp->regs->mask_set);
-   584				writel_relaxed(inst.wake_mask[port],
-   585					       inst.base + port*REG_OFSET + eint->comp->regs->mask_clr);
-   586			}
-   587		}
- > 588		dsb(sy);
-   589	
-   590		return 0;
-   591	}
-   592	EXPORT_SYMBOL_GPL(mtk_eint_do_suspend);
-   593	
+73572984481907d Jens Axboe        2022-06-13  173  
+73572984481907d Jens Axboe        2022-06-13  174  static int __io_sqe_files_update(struct io_ring_ctx *ctx,
+73572984481907d Jens Axboe        2022-06-13  175  				 struct io_uring_rsrc_update2 *up,
+73572984481907d Jens Axboe        2022-06-13  176  				 unsigned nr_args)
+73572984481907d Jens Axboe        2022-06-13  177  {
+73572984481907d Jens Axboe        2022-06-13  178  	u64 __user *tags = u64_to_user_ptr(up->tags);
+73572984481907d Jens Axboe        2022-06-13  179  	__s32 __user *fds = u64_to_user_ptr(up->data);
+73572984481907d Jens Axboe        2022-06-13  180  	int fd, i, err = 0;
+73572984481907d Jens Axboe        2022-06-13  181  	unsigned int done;
+73572984481907d Jens Axboe        2022-06-13  182  
+195a2148900cc0b Jens Axboe        2024-10-26  183  	if (!ctx->file_table.data.nr)
+73572984481907d Jens Axboe        2022-06-13  184  		return -ENXIO;
+195a2148900cc0b Jens Axboe        2024-10-26  185  	if (up->offset + nr_args > ctx->file_table.data.nr)
+73572984481907d Jens Axboe        2022-06-13  186  		return -EINVAL;
+73572984481907d Jens Axboe        2022-06-13  187  
+73572984481907d Jens Axboe        2022-06-13  188  	for (done = 0; done < nr_args; done++) {
+78bb8a4ca9328c8 Jens Axboe        2024-10-27  189  		struct io_rsrc_node *node;
+73572984481907d Jens Axboe        2022-06-13  190  		u64 tag = 0;
+73572984481907d Jens Axboe        2022-06-13  191  
+73572984481907d Jens Axboe        2022-06-13  192  		if ((tags && copy_from_user(&tag, &tags[done], sizeof(tag))) ||
+73572984481907d Jens Axboe        2022-06-13  193  		    copy_from_user(&fd, &fds[done], sizeof(fd))) {
+73572984481907d Jens Axboe        2022-06-13  194  			err = -EFAULT;
+73572984481907d Jens Axboe        2022-06-13  195  			break;
+73572984481907d Jens Axboe        2022-06-13  196  		}
+73572984481907d Jens Axboe        2022-06-13  197  		if ((fd == IORING_REGISTER_FILES_SKIP || fd == -1) && tag) {
+73572984481907d Jens Axboe        2022-06-13  198  			err = -EINVAL;
+73572984481907d Jens Axboe        2022-06-13  199  			break;
+73572984481907d Jens Axboe        2022-06-13  200  		}
+73572984481907d Jens Axboe        2022-06-13  201  		if (fd == IORING_REGISTER_FILES_SKIP)
+73572984481907d Jens Axboe        2022-06-13  202  			continue;
+73572984481907d Jens Axboe        2022-06-13  203  
+78bb8a4ca9328c8 Jens Axboe        2024-10-27  204  		node = io_rsrc_node_lookup(&ctx->file_table.data, up->offset + done);
+78bb8a4ca9328c8 Jens Axboe        2024-10-27  205  		if (node) {
+78bb8a4ca9328c8 Jens Axboe        2024-10-27  206  			io_put_rsrc_node(node);
+195a2148900cc0b Jens Axboe        2024-10-26 @207  			ctx->file_table.data.nodes[i] = NULL;
+73572984481907d Jens Axboe        2022-06-13  208  			io_file_bitmap_clear(&ctx->file_table, i);
+73572984481907d Jens Axboe        2022-06-13  209  		}
+73572984481907d Jens Axboe        2022-06-13  210  		if (fd != -1) {
+4bfb0c9af832a18 Christoph Hellwig 2023-06-20  211  			struct file *file = fget(fd);
+fdc1774df944e63 Jens Axboe        2024-10-25  212  			struct io_rsrc_node *node;
+4bfb0c9af832a18 Christoph Hellwig 2023-06-20  213  
+73572984481907d Jens Axboe        2022-06-13  214  			if (!file) {
+73572984481907d Jens Axboe        2022-06-13  215  				err = -EBADF;
+73572984481907d Jens Axboe        2022-06-13  216  				break;
+73572984481907d Jens Axboe        2022-06-13  217  			}
+73572984481907d Jens Axboe        2022-06-13  218  			/*
+6e5e6d274956305 Jens Axboe        2023-12-19  219  			 * Don't allow io_uring instances to be registered.
+73572984481907d Jens Axboe        2022-06-13  220  			 */
+73572984481907d Jens Axboe        2022-06-13  221  			if (io_is_uring_fops(file)) {
+73572984481907d Jens Axboe        2022-06-13  222  				fput(file);
+73572984481907d Jens Axboe        2022-06-13  223  				err = -EBADF;
+73572984481907d Jens Axboe        2022-06-13  224  				break;
+73572984481907d Jens Axboe        2022-06-13  225  			}
+195a2148900cc0b Jens Axboe        2024-10-26  226  			node = io_rsrc_node_alloc(ctx, &ctx->file_table.data, i,
+195a2148900cc0b Jens Axboe        2024-10-26  227  						  IORING_RSRC_FILE);
+fdc1774df944e63 Jens Axboe        2024-10-25  228  			if (!node) {
+fdc1774df944e63 Jens Axboe        2024-10-25  229  				err = -ENOMEM;
+fdc1774df944e63 Jens Axboe        2024-10-25  230  				fput(file);
+fdc1774df944e63 Jens Axboe        2024-10-25  231  				break;
+fdc1774df944e63 Jens Axboe        2024-10-25  232  			}
+195a2148900cc0b Jens Axboe        2024-10-26  233  			ctx->file_table.data.nodes[i] = node;
+f329b544bf9dada Jens Axboe        2024-10-26  234  			if (tag)
+fdc1774df944e63 Jens Axboe        2024-10-25  235  				node->tag = tag;
+fdc1774df944e63 Jens Axboe        2024-10-25  236  			io_fixed_file_set(node, file);
+73572984481907d Jens Axboe        2022-06-13  237  			io_file_bitmap_set(&ctx->file_table, i);
+73572984481907d Jens Axboe        2022-06-13  238  		}
+73572984481907d Jens Axboe        2022-06-13  239  	}
+73572984481907d Jens Axboe        2022-06-13  240  	return done ? done : err;
+73572984481907d Jens Axboe        2022-06-13  241  }
+73572984481907d Jens Axboe        2022-06-13  242  
+
+:::::: The code at line 207 was first introduced by commit
+:::::: 195a2148900cc0be03bc1ca8c3c67ad48127cf10 io_uring/rsrc: unify file and buffer resource tables
+
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Jens Axboe <axboe@kernel.dk>
 
 -- 
 0-DAY CI Kernel Test Service
