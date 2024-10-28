@@ -1,57 +1,57 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A439D15FD13
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 08:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744EF1922DD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 08:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730105242; cv=none; b=Wvf6UR9W5rINxqgMXjkiZDwmxkFgO33W3NxAHJ7brCmSSt1jdytxLeoHAZHcu2u4U9n/6M08/BnVGBgOVDF84bqyKCWgsWjSC3Em6Vsra+OFkaHV0H7nnYNQ5IiVNtoU3dlR0M/CsM+TEd5TOzHoUhColA8LYKMCvebACB6AeuU=
+	t=1730105672; cv=none; b=ukwGl3HyGEn+OnLpll5jt5Y/2YktLzAb4lzxmv59vsPffbMo36D3lmHkXZJX4qVHA5iV2egc73m4AHY/zNCYaz4gDRndDmbG7CJUKvv2u3m4oh9Yfa+2WBYehZvUeYxqdkt3EUTNLPPcjZJI+1NcnqBtFVZf1AlLVz8eoKJ0Ih0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730105242; c=relaxed/simple;
-	bh=njnWG0K8KmElAsg3GtSVx4MGRnTG4hORKk/QVzoFZPg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rANFyWrrJaMLrdl8FGilJeJcQxNcrFIUQai4oSzYdRDfzDF2Yv8b5ceqXNRywIpcONoTDJGYFDv6K0EKW51Rv1EUyiJOTtw91IvM/3k2/DJGu4nQ+k850/eD+D7AeKB9fHCB1TwdMuiPsOc6T9d+QSEOSyXxgIA/C8st1FC84qQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=z7LHU0ld; arc=none smtp.client-ip=209.85.221.43
+	s=arc-20240116; t=1730105672; c=relaxed/simple;
+	bh=YUetvKzd46adoVApbL2fh+0ppPiQVBMI3J39BvdqVfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=COK4lEWSYgtai7cL8iLqXRia5N5/oXYivr4JQtsy1FHVsVppauIFvjVB2jDmXNJzyACgTPxpz+Dxltwbzuelv7ypkJ3BK95Ad8ajrXmwerUeVeslpanY4yz/bCWawazwqT+MZI5FG6prdLtjmlkP9glZbFdl40D+ktLO46Md2RA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FunJO1T/; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="z7LHU0ld"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d70df0b1aso3387318f8f.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 01:47:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FunJO1T/"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4315f24a6bbso39962575e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 01:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730105238; x=1730710038; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dQpxxEorCaC54I/E/d76w9ruRK2/NSSTmUB/SeU0xA0=;
-        b=z7LHU0ldDT2INYgvY7y4XzX5Q3nbGlh17vSsPCBsQWg2qQsLTJe6yjUOeDBSRoEcQ2
-         8dKQJczY5k8XnxqJf+VKsM3oW+0D5IAYTrLFuUFGOknUjcjQgFlme3GXoRksjL0PRtCg
-         Jmxn9wfa6VXtU+zY0qZa6eU06W5XxM3fD47wctSsjYA+frANlhYBYDurD9aEM9ZYaPrz
-         Xkjw3wPjTp6aFhG1i2tZVAmwbY8i1jmm/dW0PrWrbZpliMfUPQgPD8fL7eIiO/uH3kdA
-         oGV7tpbPwbp9Zk71nKIAR2CgVww1lnUe66KWXZIXQ4v3Wo+k9CgFbHJjOL94066NAIY/
-         NmnA==
+        d=linaro.org; s=google; t=1730105669; x=1730710469; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l/R6e74JyYvRc6gOjM1TEYninS6Et/kGOYELmgbhJKQ=;
+        b=FunJO1T/SLqsz2uNxGVouwv3uWM2cs0+iWcxWWeLPX+onrM4+KYIa1GA9PNAFWWvqu
+         QjxmyDO66ZVmgdwYaowvW7Hvb/K2nKnOo7qb+YInwWekcA8dmAlZSGCNvxkvw3Bs7d/j
+         UYAkSUbRcMDyGchJV7tKs4EmP9bIDsjiroTqj5tWe+FYEXkGoMrxNZSanT75xu1LUuku
+         gZZ04kp7hddjxSjFz5HqSLuUiPJRzAUkEvZw3wwyFQA5UMlbdYhDgphPaPOz3jnSfeK9
+         HdfQ2uPOcglm+2wovYGIGXhmdlRQnowW86M1w13FinMJH/Gu8FuvjYDdZ1RjEUfIUt0W
+         yj1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730105238; x=1730710038;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dQpxxEorCaC54I/E/d76w9ruRK2/NSSTmUB/SeU0xA0=;
-        b=Q5Y5BfKFnebSB5zfmvc/Tui+WMF0ZFvwTBgglQmOM2J3rL1TbBHyurFqMyLXe9je9W
-         /q1lEK7t218P7UQRvILR6r6GZzV3Ono+Vc6Z5MteKh9FuM8QGDsvxdUX5X87+ZHQPli0
-         wMEmm3+qOY3oCMXT28e6Q76Xql9zJX8qHw4YRO9aSFCQfix0vx5+TdNFaHETQnh4fMT+
-         8KhGpFuu02WdUXrnCArpWmqgotuGoVs4IQ/lC7XBVc59IUbq2KgY0oaKsazsTq8pLn1W
-         2Nk2lVXYMXtBJQWI3lgm2HHHwmJBM96gUkaVoNOy4NSI5zdjKPNNUBKv9H+x2ztam6Ju
-         XBeg==
-X-Forwarded-Encrypted: i=1; AJvYcCWDLZgpnCUrxFuwSMZHgpMF8o3H7RrAcxYBStaRv8WdLZXY4QLOS1g/ohcePAXHjTHgThd9/9J0OXLqvwPc@lists.linux.dev
-X-Gm-Message-State: AOJu0YwCN5gfwYLC+XdRqPR7+mvPpeth9YyhVa5gpiWruzhAGWJ///FU
-	NU46zKCjYHfKLngIx/zVhaQaFKZKVVfmyMt3LmpE2loMEXkj8JI8tGdbu9QAB78=
-X-Google-Smtp-Source: AGHT+IG2t0dSOV9asrka5oPrm2z358/r92i5q+Ouvdn8AKmm/swXDcwzRiW8ilfEO772hmMSoFc9yA==
-X-Received: by 2002:adf:a450:0:b0:37d:4ebe:1644 with SMTP id ffacd0b85a97d-380611e34b4mr4999920f8f.43.1730105237991;
-        Mon, 28 Oct 2024 01:47:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730105669; x=1730710469;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=l/R6e74JyYvRc6gOjM1TEYninS6Et/kGOYELmgbhJKQ=;
+        b=rDpcyrlkvIbPg4JmXxRo8sNcf1vXCpViCb7s/90JRHu3d/6wer/KwI4uKW9ZvjoVFW
+         iiPcmm/RZ2UK2dARSTfzzJZkFbMy/AJqzDPLh1iLF/l6yMzEyOzduIdUL5jbOQjFuxl6
+         arowxC2it5gPkRmFMDgFJ0hpBOPRRQbtTYlDdBJaJLKD4TWv7NXJoJIgA3di7ytH1frb
+         88KQ+KSfxT+CVmgpU1E1YJK9PwH5D+ZAyE+HB+7rzlG4tEibJizThlsDqbXRcdbzFTqG
+         EW+NSJTiEurgzHYa33uoaD4HtA7bwBDHWfZ0k0H92dkvHIGzjuBqPZ1j8iNuDMcKibrb
+         v7xg==
+X-Forwarded-Encrypted: i=1; AJvYcCX7+SrCnHgFlKYRnxkhQrK0zIlC5uZDzQu4JDNfLu0qS8pqVxOmlOLvgsRyScmEK1BOFdTgRsoxqTcIDoXd@lists.linux.dev
+X-Gm-Message-State: AOJu0YxkiNgINPWyknxILS8in7gDHJhe0UkvOCO06zZEfVyjXzas3FWG
+	IchOoMTQ3TVjHXAAMd4AgK+ueN9DE+0fj5ZFjTesZwzmpm1NehW/4utxnU1K7pw=
+X-Google-Smtp-Source: AGHT+IFAR7aw2P0zLeO2hMSdxBoiLLXBRMAWipIDAb/3G9chQY281aHj3wqQikEwOL/Sd7zLxykqDw==
+X-Received: by 2002:a05:600c:4f56:b0:431:52c4:1069 with SMTP id 5b1f17b1804b1-4319ac997c7mr67096825e9.8.1730105668837;
+        Mon, 28 Oct 2024 01:54:28 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b71231sm8824106f8f.66.2024.10.28.01.47.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b567e18sm131027405e9.26.2024.10.28.01.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 01:47:17 -0700 (PDT)
-Date: Mon, 28 Oct 2024 11:47:14 +0300
+        Mon, 28 Oct 2024 01:54:28 -0700 (PDT)
+Date: Mon, 28 Oct 2024 11:54:24 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>,
 	Herbert Xu <herbert@gondor.apana.org.au>,
@@ -72,7 +72,9 @@ To: oe-kbuild@lists.linux.dev, Christian Marangi <ansuelsmth@gmail.com>,
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
 	Richard van Schagen <vschagen@icloud.com>
 Subject: Re: [PATCH v4 3/3] crypto: Add Mediatek EIP-93 crypto engine support
-Message-ID: <8011818d-bdc1-433a-a348-648955c55535@stanley.mountain>
+Message-ID: <2347a34a-f82d-44bf-85fd-e220c45deb8d@stanley.mountain>
+References: <20241025094734.1614-3-ansuelsmth@gmail.com>
+ <8011818d-bdc1-433a-a348-648955c55535@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,94 +83,13 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025094734.1614-3-ansuelsmth@gmail.com>
+In-Reply-To: <8011818d-bdc1-433a-a348-648955c55535@stanley.mountain>
 
-Hi Christian,
+On Mon, Oct 28, 2024 at 11:47:14AM +0300, Dan Carpenter wrote:
+> drivers/crypto/inside-secure/eip93/eip93-hash.c:162 _eip93_hash_init() error: uninitialized symbol 'sa_record_hmac'.
 
-kernel test robot noticed the following build warnings:
+This one is a false positive.  Smatch doesn't understand bit flags very well.
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/dt-bindings-crypto-Add-Inside-Secure-SafeXcel-EIP-93-crypto-engine/20241025-175032
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20241025094734.1614-3-ansuelsmth%40gmail.com
-patch subject: [PATCH v4 3/3] crypto: Add Mediatek EIP-93 crypto engine support
-config: csky-randconfig-r071-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281155.jEN0wSbS-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410281155.jEN0wSbS-lkp@intel.com/
-
-New smatch warnings:
-drivers/crypto/inside-secure/eip93/eip93-cipher.c:118 eip93_skcipher_setkey() error: uninitialized symbol 'ret'.
-drivers/crypto/inside-secure/eip93/eip93-aead.c:125 eip93_aead_setkey() error: uninitialized symbol 'ret'.
-drivers/crypto/inside-secure/eip93/eip93-hash.c:26 eip93_hash_free_data_blocks() error: dereferencing freed memory 'block'
-drivers/crypto/inside-secure/eip93/eip93-hash.c:162 _eip93_hash_init() error: uninitialized symbol 'sa_record_hmac'.
-
-Old smatch warnings:
-drivers/crypto/inside-secure/eip93/eip93-hash.c:285 eip93_send_hash_req() error: uninitialized symbol 'crypto_async_idr'.
-
-vim +/ret +118 drivers/crypto/inside-secure/eip93/eip93-cipher.c
-
-883ad7684f17d2 Christian Marangi 2024-10-25   78  static int eip93_skcipher_setkey(struct crypto_skcipher *ctfm, const u8 *key,
-883ad7684f17d2 Christian Marangi 2024-10-25   79  				 unsigned int len)
-883ad7684f17d2 Christian Marangi 2024-10-25   80  {
-883ad7684f17d2 Christian Marangi 2024-10-25   81  	struct crypto_tfm *tfm = crypto_skcipher_tfm(ctfm);
-883ad7684f17d2 Christian Marangi 2024-10-25   82  	struct eip93_crypto_ctx *ctx = crypto_tfm_ctx(tfm);
-883ad7684f17d2 Christian Marangi 2024-10-25   83  	struct eip93_alg_template *tmpl = container_of(tfm->__crt_alg,
-883ad7684f17d2 Christian Marangi 2024-10-25   84  						     struct eip93_alg_template,
-883ad7684f17d2 Christian Marangi 2024-10-25   85  						     alg.skcipher.base);
-883ad7684f17d2 Christian Marangi 2024-10-25   86  	struct sa_record *sa_record = ctx->sa_record;
-883ad7684f17d2 Christian Marangi 2024-10-25   87  	unsigned int keylen = len;
-883ad7684f17d2 Christian Marangi 2024-10-25   88  	u32 flags = tmpl->flags;
-883ad7684f17d2 Christian Marangi 2024-10-25   89  	u32 nonce = 0;
-883ad7684f17d2 Christian Marangi 2024-10-25   90  	int ret;
-883ad7684f17d2 Christian Marangi 2024-10-25   91  
-883ad7684f17d2 Christian Marangi 2024-10-25   92  	if (!key || !keylen)
-883ad7684f17d2 Christian Marangi 2024-10-25   93  		return -EINVAL;
-883ad7684f17d2 Christian Marangi 2024-10-25   94  
-883ad7684f17d2 Christian Marangi 2024-10-25   95  	if (IS_RFC3686(flags)) {
-883ad7684f17d2 Christian Marangi 2024-10-25   96  		if (len < CTR_RFC3686_NONCE_SIZE)
-883ad7684f17d2 Christian Marangi 2024-10-25   97  			return -EINVAL;
-883ad7684f17d2 Christian Marangi 2024-10-25   98  
-883ad7684f17d2 Christian Marangi 2024-10-25   99  		keylen = len - CTR_RFC3686_NONCE_SIZE;
-883ad7684f17d2 Christian Marangi 2024-10-25  100  		memcpy(&nonce, key + keylen, CTR_RFC3686_NONCE_SIZE);
-883ad7684f17d2 Christian Marangi 2024-10-25  101  	}
-883ad7684f17d2 Christian Marangi 2024-10-25  102  
-883ad7684f17d2 Christian Marangi 2024-10-25  103  	if (flags & EIP93_ALG_DES) {
-883ad7684f17d2 Christian Marangi 2024-10-25  104  		ctx->blksize = DES_BLOCK_SIZE;
-883ad7684f17d2 Christian Marangi 2024-10-25  105  		ret = verify_skcipher_des_key(ctfm, key);
-883ad7684f17d2 Christian Marangi 2024-10-25  106  	}
-883ad7684f17d2 Christian Marangi 2024-10-25  107  	if (flags & EIP93_ALG_3DES) {
-883ad7684f17d2 Christian Marangi 2024-10-25  108  		ctx->blksize = DES3_EDE_BLOCK_SIZE;
-883ad7684f17d2 Christian Marangi 2024-10-25  109  		ret = verify_skcipher_des3_key(ctfm, key);
-883ad7684f17d2 Christian Marangi 2024-10-25  110  	}
-883ad7684f17d2 Christian Marangi 2024-10-25  111  
-883ad7684f17d2 Christian Marangi 2024-10-25  112  	if (flags & EIP93_ALG_AES) {
-883ad7684f17d2 Christian Marangi 2024-10-25  113  		struct crypto_aes_ctx aes;
-883ad7684f17d2 Christian Marangi 2024-10-25  114  
-883ad7684f17d2 Christian Marangi 2024-10-25  115  		ctx->blksize = AES_BLOCK_SIZE;
-883ad7684f17d2 Christian Marangi 2024-10-25  116  		ret = aes_expandkey(&aes, key, keylen);
-883ad7684f17d2 Christian Marangi 2024-10-25  117  	}
-
-What about if none the flags are set?
-
-883ad7684f17d2 Christian Marangi 2024-10-25 @118  	if (ret)
-883ad7684f17d2 Christian Marangi 2024-10-25  119  		return ret;
-883ad7684f17d2 Christian Marangi 2024-10-25  120  
-883ad7684f17d2 Christian Marangi 2024-10-25  121  	eip93_set_sa_record(sa_record, keylen, flags);
-883ad7684f17d2 Christian Marangi 2024-10-25  122  
-883ad7684f17d2 Christian Marangi 2024-10-25  123  	memcpy(sa_record->sa_key, key, keylen);
-883ad7684f17d2 Christian Marangi 2024-10-25  124  	ctx->sa_nonce = nonce;
-883ad7684f17d2 Christian Marangi 2024-10-25  125  	sa_record->sa_nonce = nonce;
-883ad7684f17d2 Christian Marangi 2024-10-25  126  
-883ad7684f17d2 Christian Marangi 2024-10-25  127  	return 0;
-883ad7684f17d2 Christian Marangi 2024-10-25  128  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
