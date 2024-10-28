@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BD81F4289
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 21:57:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC01C524C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 22:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730152652; cv=none; b=gJYzNHtdlFnNpMiM86rvLwiOhF8mWyRZJ2cP4hl+UUl84kmoKg0TtCf31x9x1/XCbTenbgJrt4Rko4KkEeqj4L39XH4Pg4SeRUhkx4YNz/UEWuLq1iN8Ak/+iQm8KJxjaGQe8qK8Ii1oGJ2UE5sMg2rydDJ9BWVIMzIerptQGac=
+	t=1730155172; cv=none; b=FlXOr+m+ZRy8zIz+o+i5D3RsaGCDRLq1xDubY0Dg/d9JBIYOB8ZN2Z1IUQi8OsbqegkCusVlgIUqfpIedDGDobLOh3imvYpAJTW2lIWO6sCyvKdRf7Rz8g681d7ncgoUDTj5bCY3X2VsjWrA1oHec+JRvKWRIHghibtQiGoFQGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730152652; c=relaxed/simple;
-	bh=OLxHCpDCMDZjyFYyaixlKrSnPnxCAHoGhH3TOznezUA=;
+	s=arc-20240116; t=1730155172; c=relaxed/simple;
+	bh=LVBsgicUnLTGSKX73yijwTXtX+6VUw55XXNYHHQk4y0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pK0k5ops9Udf3TihGhAL+bUR+H+2x0aBLo/NqKFXLbVv3TNW8CLKF6abR8jFXMKtCVqEg+vztIcv1DpP7oVws2vzlqbDf3U2JDhZIkVFTq+l3N3v0PvezD1dh+8iVNT1HsQyx2sbxxEgEaryu4rsMf3MGUmtlrP47E0UYXBVJaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6rFoDoK; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=FtK2+ArQACU2UaVgoBZ6vqDGkRPD5rcOufiyi5dMHjMQf3B0ZLbOYd0+NsBx5KXOee2Nd0hbs+8B1rHbV+3r2fqlBKtcUOtziVswb8fr2R3QhD4DgPKYHB6C12B4loXxHj+ww4657+oFIWY2rd3YtpK/Ngx0IW8at/4wt5Jvbws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a7PZ2jzN; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6rFoDoK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a7PZ2jzN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730152650; x=1761688650;
+  t=1730155170; x=1761691170;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OLxHCpDCMDZjyFYyaixlKrSnPnxCAHoGhH3TOznezUA=;
-  b=H6rFoDoKN5/TYFL4NHCSr2fbiTPuPLARfNkjz5y5uUf4yVsQy41sA+2a
-   1AXOwzl4QAB76gFZQeRY719cPD/O71dYVy/3ELLvun9G4eux/hmi8U3MD
-   fP0rzgOL3U4pd3dM4BNo6PQC4dPkfHg06ktIwtQ2F4NnDCBx9BtKWsfYR
-   hJkSSvbBi96ZV47e2IlN1YxVeFR1ElX3aV3HWXB3bKhV43GbZCw9y4LP0
-   d3Zp5bXZwqpw81clRbG7eIKrxuv/HnTUYpNEpN727FZhRzrd0934PwwSd
-   ljD4R8YHrgcOo/BdZfZEtoUqYGtuo0Kk4OxIJj78Tb8utaSZtRkIIEKvN
+  bh=LVBsgicUnLTGSKX73yijwTXtX+6VUw55XXNYHHQk4y0=;
+  b=a7PZ2jzNZebFBTrPAzB2sQU7iJ/Cocx3HtaqXsUYaFf5CU1zejJsvtA8
+   2Amr1RHV/7KhIEje8FUYLfJr8902qhmP+grHDEx1YAS8SMI1l4EPmvh3J
+   VSuV8CE8REX/koUYc5izpWdFe9Pd7/JL5Jlu7cbo2KXix07xvIUgtQ4Ti
+   vlk/b/e80XM+U+bRtWhHCo0p2KkTjzAq9PAnp+elflrrczQNMLSXUhXIa
+   MZwd5xEXpS8uHqnX1DTlWQ4gzFSbarHa05KiJKOBDZObMcsJeQtaqq+Fv
+   dro2AVXsALZlmP+e5JNqsIW9ypeMEHj7MhYq0JA+2hEMsJCFSoyPM8ohY
    w==;
-X-CSE-ConnectionGUID: qjyTbGHURhmAuGOMrrbU+Q==
-X-CSE-MsgGUID: HSfGqVXfQ2++8GqO1R/1HA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29955443"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29955443"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 14:57:30 -0700
-X-CSE-ConnectionGUID: LToZ9L4qRT6biO2wBWqOrg==
-X-CSE-MsgGUID: NyO0MeJMRxmC39XE+tLJPA==
+X-CSE-ConnectionGUID: BGGZFFcrR5uiCRUt5JfQ2g==
+X-CSE-MsgGUID: rjrtxFfrR3O+jWPPQ3NA+Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29982090"
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
+   d="scan'208";a="29982090"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 15:39:29 -0700
+X-CSE-ConnectionGUID: xPLhwp16T2qrHEuh7NXr6w==
+X-CSE-MsgGUID: PsNZPOAxR9CCyM84CuKk2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="86885716"
+   d="scan'208";a="112570204"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2024 14:57:26 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 28 Oct 2024 15:39:27 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Xjn-000cvQ-21;
-	Mon, 28 Oct 2024 21:57:23 +0000
-Date: Tue, 29 Oct 2024 05:57:00 +0800
+	id 1t5YOT-000cxo-0R;
+	Mon, 28 Oct 2024 22:39:25 +0000
+Date: Tue, 29 Oct 2024 06:38:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 5480/13046] kernel/sched/ext.c:89:25: sparse:
- sparse: symbol 'scx_has_op' was not declared. Should it be static?
-Message-ID: <202410290513.gEbODxkg-lkp@intel.com>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+	Arnd Bergmann <arnd@arndb.de>
+Subject: [tip:timers/vdso 11/13] include/vdso/page.h:15:39: error:
+ 'CONFIG_PAGE_SHIFT' undeclared here (not in a function); did you mean
+ 'CONFIG_LOG_BUF_SHIFT'?
+Message-ID: <202410290639.TBG289SO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,81 +65,204 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: f753802055302b65e113345663c62fa6809df669 [5480/13046] rue/scx/sched_ext: Implement BPF extensible scheduler class
-config: x86_64-randconfig-121-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290513.gEbODxkg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290513.gEbODxkg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
+head:   d4a65302dd849fade9e2ca712826c35b8d068ecb
+commit: efe8419ae78d65e83edc31aad74b605c12e7d60c [11/13] vdso: Introduce vdso/page.h
+config: m68k-alldefconfig (https://download.01.org/0day-ci/archive/20241029/202410290639.TBG289SO-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290639.TBG289SO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290513.gEbODxkg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290639.TBG289SO-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:965:70: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:965:70: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:965:70: sparse:    struct task_struct *
-   kernel/sched/rt.c:581:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:581:54: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:581:54: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1051:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1051:38: sparse:     expected struct task_struct *curr
-   kernel/sched/rt.c:1051:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:1596:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1596:31: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1596:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:1945:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1945:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1945:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1177:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1177:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1177:23: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1300:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1300:38: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:1300:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2651:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2651:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2651:22: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
->> kernel/sched/ext.c:89:25: sparse: sparse: symbol 'scx_has_op' was not declared. Should it be static?
-   kernel/sched/ext.c:456:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:805:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:815:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *from @@     got struct task_struct [noderef] __rcu *curr @@
->> kernel/sched/ext.c:1399:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
->> kernel/sched/ext.c:2489:31: sparse: sparse: symbol 'bpf_scx_verifier_ops' was not declared. Should it be static?
-   kernel/sched/ext.c:3083:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:3083:33: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext.c:3083:33: sparse:    struct task_struct const *
-   kernel/sched/build_policy.c: note: in included file (through include/linux/smp.h, include/linux/sched/clock.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
+All errors (new ones prefixed by >>):
 
-vim +/scx_has_op +89 kernel/sched/ext.c
+   In file included from arch/m68k/include/asm/page.h:9,
+                    from arch/m68k/include/asm/thread_info.h:6,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/processor.h:11,
+                    from include/linux/sched.h:13,
+                    from arch/m68k/kernel/asm-offsets.c:15:
+   arch/m68k/include/asm/page_mm.h: In function 'virt_to_pfn':
+   include/vdso/page.h:13:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+      13 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   arch/m68k/include/asm/page_mm.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
+     125 |         return __pa(kaddr) >> PAGE_SHIFT;
+         |                               ^~~~~~~~~~
+   include/vdso/page.h:13:25: note: each undeclared identifier is reported only once for each function it appears in
+      13 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   arch/m68k/include/asm/page_mm.h:125:31: note: in expansion of macro 'PAGE_SHIFT'
+     125 |         return __pa(kaddr) >> PAGE_SHIFT;
+         |                               ^~~~~~~~~~
+   arch/m68k/include/asm/page_mm.h: In function 'pfn_to_virt':
+   include/vdso/page.h:13:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+      13 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   arch/m68k/include/asm/page_mm.h:130:28: note: in expansion of macro 'PAGE_SHIFT'
+     130 |         return __va(pfn << PAGE_SHIFT);
+         |                            ^~~~~~~~~~
+   include/asm-generic/getorder.h: In function 'get_order':
+   include/vdso/page.h:13:25: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+      13 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   include/asm-generic/getorder.h:33:48: note: in expansion of macro 'PAGE_SHIFT'
+      33 |                         return BITS_PER_LONG - PAGE_SHIFT;
+         |                                                ^~~~~~~~~~
+   arch/m68k/include/asm/thread_info.h: At top level:
+   include/vdso/page.h:13:25: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      13 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   arch/m68k/include/asm/thread_info.h:13:5: note: in expansion of macro 'PAGE_SHIFT'
+      13 | #if PAGE_SHIFT < 13
+         |     ^~~~~~~~~~
+   arch/m68k/include/asm/thread_info.h: In function 'current_thread_info':
+   include/vdso/page.h:15:39: error: 'CONFIG_PAGE_SHIFT' undeclared (first use in this function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~~~~
+   arch/m68k/include/asm/thread_info.h:23:26: note: in expansion of macro 'PAGE_SIZE'
+      23 | #define THREAD_SIZE     (PAGE_SIZE << THREAD_SIZE_ORDER)
+         |                          ^~~~~~~~~
+   arch/m68k/include/asm/thread_info.h:51:27: note: in expansion of macro 'THREAD_SIZE'
+      51 |                 : "di" (~(THREAD_SIZE-1))
+         |                           ^~~~~~~~~~~
+   include/linux/mm_types_task.h: At top level:
+   include/vdso/page.h:15:39: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~~~~
+   include/linux/mm_types_task.h:37:30: note: in expansion of macro 'PAGE_SIZE'
+      37 | #if (BITS_PER_LONG > 32) || (PAGE_SIZE >= 65536)
+         |                              ^~~~~~~~~
+>> include/vdso/page.h:15:39: error: 'CONFIG_PAGE_SHIFT' undeclared here (not in a function); did you mean 'CONFIG_LOG_BUF_SHIFT'?
+      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~~~~
+   arch/m68k/include/asm/thread_info.h:23:26: note: in expansion of macro 'PAGE_SIZE'
+      23 | #define THREAD_SIZE     (PAGE_SIZE << THREAD_SIZE_ORDER)
+         |                          ^~~~~~~~~
+   include/linux/sched.h:1890:29: note: in expansion of macro 'THREAD_SIZE'
+    1890 |         unsigned long stack[THREAD_SIZE/sizeof(long)];
+         |                             ^~~~~~~~~~~
+   include/vdso/page.h:15:39: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~~~~
+   include/linux/mm_types.h:547:6: note: in expansion of macro 'PAGE_SIZE'
+     547 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+         |      ^~~~~~~~~
+   In file included from include/vdso/const.h:5,
+                    from include/linux/const.h:4,
+                    from include/linux/bits.h:5,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13:
+   include/vdso/page.h:15:39: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:49:50: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                  ^~~~
+   include/linux/mm_types.h:524:41: note: in expansion of macro '__ALIGN_MASK'
+     524 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                         ^~~~~~~~~~~~
+   include/vdso/page.h:27:28: note: in expansion of macro 'PAGE_SIZE'
+      27 | #define PAGE_MASK       (~(PAGE_SIZE - 1))
+         |                            ^~~~~~~~~
+   include/linux/mm_types.h:524:62: note: in expansion of macro 'PAGE_MASK'
+     524 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                                              ^~~~~~~~~
+   include/linux/mm_types.h:547:18: note: in expansion of macro 'PAGE_FRAG_CACHE_MAX_SIZE'
+     547 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/vdso/page.h:15:39: warning: "CONFIG_PAGE_SHIFT" is not defined, evaluates to 0 [-Wundef]
+      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
+         |                                       ^~~~~~~~~~~~~~~~~
+   include/uapi/linux/const.h:49:61: note: in definition of macro '__ALIGN_KERNEL_MASK'
+      49 | #define __ALIGN_KERNEL_MASK(x, mask)    (((x) + (mask)) & ~(mask))
+         |                                                             ^~~~
+   include/linux/mm_types.h:524:41: note: in expansion of macro '__ALIGN_MASK'
+     524 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                         ^~~~~~~~~~~~
+   include/vdso/page.h:27:28: note: in expansion of macro 'PAGE_SIZE'
+      27 | #define PAGE_MASK       (~(PAGE_SIZE - 1))
+         |                            ^~~~~~~~~
+   include/linux/mm_types.h:524:62: note: in expansion of macro 'PAGE_MASK'
+     524 | #define PAGE_FRAG_CACHE_MAX_SIZE        __ALIGN_MASK(32768, ~PAGE_MASK)
+         |                                                              ^~~~~~~~~
+   include/linux/mm_types.h:547:18: note: in expansion of macro 'PAGE_FRAG_CACHE_MAX_SIZE'
+     547 | #if (PAGE_SIZE < PAGE_FRAG_CACHE_MAX_SIZE)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/printk.h:6:
+>> include/vdso/page.h:13:25: error: expression in static assertion is not an integer
+      13 | #define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+         |                         ^~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/slab.h:695:1: note: in expansion of macro 'static_assert'
+     695 | static_assert(PAGE_SHIFT <= 20);
+         | ^~~~~~~~~~~~~
+   include/linux/slab.h:695:15: note: in expansion of macro 'PAGE_SHIFT'
+     695 | static_assert(PAGE_SHIFT <= 20);
+         |               ^~~~~~~~~~
+   In file included from include/linux/irq.h:21,
+                    from include/asm-generic/hardirq.h:17,
+                    from ./arch/m68k/include/generated/asm/hardirq.h:1,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/kernel_stat.h:8,
+                    from arch/m68k/kernel/asm-offsets.c:16:
+   include/linux/slab.h:809:33: warning: 'assume_aligned' attribute argument <erroneous-expression> is not an integer constant [-Wattributes]
+     809 |                                 __assume_page_alignment __alloc_size(1);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:812:33: warning: 'assume_aligned' attribute argument <erroneous-expression> is not an integer constant [-Wattributes]
+     812 |                                 __assume_page_alignment __alloc_size(1);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h: In function 'kmalloc_noprof':
+   include/linux/slab.h:879:78: error: subscripted value is neither array nor pointer nor vector
+     879 |                                 kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+         |                                                                              ^
+   include/linux/slab.h:872:30: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+     872 |                 unsigned int index;
+         |                              ^~~~~
+   include/linux/slab.h: In function 'kmalloc_node_noprof':
+   include/linux/slab.h:902:78: error: subscripted value is neither array nor pointer nor vector
+     902 |                                 kmalloc_caches[kmalloc_type(flags, _RET_IP_)][index],
+         |                                                                              ^
+   include/linux/slab.h:895:30: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+     895 |                 unsigned int index;
+         |                              ^~~~~
+   make[3]: *** [scripts/Makefile.build:102: arch/m68k/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1203: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-    88	
-  > 89	struct static_key_false scx_has_op[SCX_NR_ONLINE_OPS] =
-    90		{ [0 ... SCX_NR_ONLINE_OPS-1] = STATIC_KEY_FALSE_INIT };
-    91	
+
+vim +15 include/vdso/page.h
+
+     6	
+     7	/*
+     8	 * PAGE_SHIFT determines the page size.
+     9	 *
+    10	 * Note: This definition is required because PAGE_SHIFT is used
+    11	 * in several places throuout the codebase.
+    12	 */
+  > 13	#define PAGE_SHIFT      CONFIG_PAGE_SHIFT
+    14	
+  > 15	#define PAGE_SIZE	(_AC(1,UL) << CONFIG_PAGE_SHIFT)
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
