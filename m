@@ -1,63 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C622B1DE4DE
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 18:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6274918C922
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 19:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730141184; cv=none; b=pkEDIpP+5Tm5yJ5lnNFLBSCwT41IPMZJM0dMK/LkV8Pl77m5hwQFukAosG5oB3inrGHXLoUWPzu/1iVA2tJTtWCGN5FwVHTyz2cY/RVYbyfrw11kANc7QDGazgzqQNjTIFHwN1xPi6zQ64hdzXkJ+FkH55O/MtM3oRPnc7wTgC8=
+	t=1730143102; cv=none; b=lH3+cYzdka4EjEqMC+BsqOvoXCmOZCTZZsqFkiotVGLlec9yxM2v8DQUIs4aLsvvfnZnUYIUxYVW/7bAIqnxoBqeA/sH4B0ozxoxr9gNzT/bYPqt7jivQ9PgxkHAz292L6rNhO8F7J3BXkA0m16d3fHW7LQqnDuAZO7mwIgGbNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730141184; c=relaxed/simple;
-	bh=Mi2KXKb3PyhUWWozDIY/T8+M7BQ7ph3X6eml81ZMdqQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gdbaPVk9m1Mq5jFZuATtECyMvOBEtNGe7iC+OiyzcVgnO854avGrEcAyX4rbfZXx4PCPq9eIB8znKrzaJZwv5KTJrHLkC1YM3M1CmEtmqy5zkhK3c13enL5V+VwqeHiLMMtiFzKm4L0xNbPNWiDuN6XPzs8zQtv7XrXkz32jYF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QoyRPetv; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1730143102; c=relaxed/simple;
+	bh=wGO2mi1M3KsvWg+ZNP0bFR9hzfk8K8W5bRbvY5DiW40=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DP/L6Ir8xXFl894525HzCCjzZquuUkyf/wv/WWavRILxIPQimpPKdSXFwjjs1QQcyoAg0FMn7pz/A89aJO4VrPuiLAiLYsGIcvXcO8ZJZlQeEy/nogtMFf9DZ9AsK1nKNGv3+o9bf0r8Zn3ArRpx4VA+SIDwm2P62V9vSArVeZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObGLMPhQ; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QoyRPetv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObGLMPhQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730141182; x=1761677182;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Mi2KXKb3PyhUWWozDIY/T8+M7BQ7ph3X6eml81ZMdqQ=;
-  b=QoyRPetvQTrtgBKJAXvTpmDzBrPWyAgc2qAb1nApifGUfZsOr4JwO+5U
-   XxqPJ72BPz13DavLU4mTufNOkQ8Dk84KYgV2M3WReIUnjdrNtxLC1J+Mc
-   DObtlyfYmChfSwR3DZ1IyhVuP5d/9NfYuy0+PfpxMBZBmqPBTNTFstu9+
-   yq79fjwSUkX3AfwUk6Z+KiSm2lHb2rRcU6SIadDYkGe3MpdrJudXwyqxQ
-   j6Ci9xM5ZuoGu7FNvUcup7LF4c/roFpaKJThaBd8bnrVyPsNZsQ3OXV9x
-   KartYrpbzv8j3T60iFi8TiK3c19uXPPl+6Jfk1u506SIBojZCniU1pp9+
-   A==;
-X-CSE-ConnectionGUID: KkB1p1vWRpaglBBVkAzc2Q==
-X-CSE-MsgGUID: OW0/hijhS5OtNRAWMOaWkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29865607"
-X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="29865607"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 11:46:21 -0700
-X-CSE-ConnectionGUID: 67Om+RPEQxel+zdJYLzSaA==
-X-CSE-MsgGUID: rsY3TZVoQuugojYixRCiRQ==
+  t=1730143101; x=1761679101;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wGO2mi1M3KsvWg+ZNP0bFR9hzfk8K8W5bRbvY5DiW40=;
+  b=ObGLMPhQMxt/EMAr1+RpXUTgEV0/nsbXW9S50aYYJx6YqRufCiC+Nv6m
+   mMsFHeXKIv37+fumpTLZddq1H/V7bIBHuiLw/2oTTmjPtsgTPoxaiY2Qf
+   llmm5ki8oT5sBYhJ6uejmAaG/4w4YpCTtlSnZlbD9JDo8lSrT/h+dJXFk
+   aEi3AQ8gtsIsLFBETbR1XrMVHrr1F6xUj0yJrXV7TthWU+EYOlm4/CjsZ
+   swei1z93o0ILjbjkHmzIiKMoIuJec9f/vrXZG364HoeRhOf6p8QLQ/O/5
+   BEJNkZvl2OPU3U0VIeJGlGuQFkGmeHsVxMSAzndHbcqYO+s2ePXkqua/0
+   g==;
+X-CSE-ConnectionGUID: aghslvI/SI6CNA9oDApngA==
+X-CSE-MsgGUID: xNoqL/9FRNaAsHoMOwoFvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40295608"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40295608"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 12:18:20 -0700
+X-CSE-ConnectionGUID: f8ROc20FQ6+EjkdDunkTZQ==
+X-CSE-MsgGUID: GRSI4iWcSOaFZP1fWMctMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="86840968"
+   d="scan'208";a="85664042"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2024 11:46:18 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Oct 2024 12:18:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Ukp-000clE-1Y;
-	Mon, 28 Oct 2024 18:46:15 +0000
-Date: Tue, 29 Oct 2024 02:46:03 +0800
+	id 1t5VFo-000cn6-26;
+	Mon, 28 Oct 2024 19:18:16 +0000
+Date: Tue, 29 Oct 2024 03:17:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: ahaslam@baylibre.com, lars@metafoo.de, Michael.Hennerich@analog.com,
-	jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH 4/6] iio: dac: ad5791: Add reset, clr and ldac gpios
-Message-ID: <202410290242.TjrDXcKG-lkp@intel.com>
-References: <20241028071118.699951-5-ahaslam@baylibre.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 56/58]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:420.14-426.4: Warning
+ (unique_unit_address_if_enabled): /soc/i2c@11009000/trackpad@15: duplicate
+ unit-address (also used in node /soc/i2c@11009000/touchpad@15)
+Message-ID: <202410290314.MEKUe2HQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,76 +63,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028071118.699951-5-ahaslam@baylibre.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc5 next-20241028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ahaslam-baylibre-com/dt-bindings-iio-dac-ad5791-Add-optional-reset-clr-and-ldac-gpios/20241028-151319
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241028071118.699951-5-ahaslam%40baylibre.com
-patch subject: [PATCH 4/6] iio: dac: ad5791: Add reset, clr and ldac gpios
-config: parisc-randconfig-r071-20241028 (https://download.01.org/0day-ci/archive/20241029/202410290242.TjrDXcKG-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290242.TjrDXcKG-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   0b93d0278112df33c529cb89b1e37c1005d268d5
+commit: 4661184b2cadb7ec4436b55bd825edf1f0e9af1d [56/58] CHROMIUM: arm64: dts: mt8186: Remove duplicated properties for Kyogre
+config: arm64-randconfig-001-20241028 (https://download.01.org/0day-ci/archive/20241029/202410290314.MEKUe2HQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290314.MEKUe2HQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290242.TjrDXcKG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290314.MEKUe2HQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2244.30-2248.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2250.23-2254.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2256.35-2260.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2236.32-2353.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:420.14-426.4: Warning (unique_unit_address_if_enabled): /soc/i2c@11009000/trackpad@15: duplicate unit-address (also used in node /soc/i2c@11009000/touchpad@15)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-kyogre.dtsi:254.3-26: Warning (sound_dai_property): /sound/headset-codec:sound-dai: property size (4) too small for cell size 1
 
-   drivers/iio/dac/ad5791.c:72: warning: Function parameter or struct member 'name' not described in 'ad5791_chip_info'
-   drivers/iio/dac/ad5791.c:72: warning: Function parameter or struct member 'channel' not described in 'ad5791_chip_info'
->> drivers/iio/dac/ad5791.c:105: warning: Function parameter or struct member 'gpio_reset' not described in 'ad5791_state'
->> drivers/iio/dac/ad5791.c:105: warning: Function parameter or struct member 'gpio_clear' not described in 'ad5791_state'
->> drivers/iio/dac/ad5791.c:105: warning: Function parameter or struct member 'gpio_ldac' not described in 'ad5791_state'
+vim +420 arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi
 
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  408  
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  409  &i2c2 {
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  410  	pinctrl-names = "default";
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  411  	/*
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  412  	 * Trackpad pin put here to work around second source components
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  413  	 * sharing the pinmux in steelix designs.
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  414  	 */
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  415  	pinctrl-0 = <&i2c2_pins>, <&trackpad_pin>;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  416  	clock-frequency = <400000>;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  417  	i2c-scl-internal-delay-ns = <10000>;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  418  	status = "okay";
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  419  
+55a526935aeae0 Chen-Yu Tsai 2024-01-26 @420  	trackpad@15 {
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  421  		compatible = "elan,ekth3000";
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  422  		reg = <0x15>;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  423  		interrupts-extended = <&pio 11 IRQ_TYPE_LEVEL_LOW>;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  424  		vcc-supply = <&pp3300_s3>;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  425  		wakeup-source;
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  426  	};
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  427  };
+55a526935aeae0 Chen-Yu Tsai 2024-01-26  428  
 
-vim +105 drivers/iio/dac/ad5791.c
+:::::: The code at line 420 was first introduced by commit
+:::::: 55a526935aeae0dc41c7025a28c776c438e4ae82 UPSTREAM: arm64: dts: mediatek: Add MT8186 Krabby platform based Tentacruel / Tentacool
 
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   73  
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   74  /**
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   75   * struct ad5791_state - driver instance specific data
-ff96bf519acdb3 drivers/iio/dac/ad5791.c         Peter Meerwald     2014-12-06   76   * @spi:			spi_device
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   77   * @reg_vdd:		positive supply regulator
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   78   * @reg_vss:		negative supply regulator
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   79   * @chip_info:		chip model specific constants
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   80   * @vref_mv:		actual reference voltage used
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   81   * @vref_neg_mv:	voltage of the negative supply
-0071aa300271a4 drivers/iio/dac/ad5791.c         zuoqilin           2021-01-28   82   * @ctrl:		control register cache
-3b1c0b129590d7 drivers/iio/dac/ad5791.c         Lee Jones          2020-07-16   83   * @pwr_down_mode:	current power down mode
-3b1c0b129590d7 drivers/iio/dac/ad5791.c         Lee Jones          2020-07-16   84   * @pwr_down:		true if device is powered down
-3b1c0b129590d7 drivers/iio/dac/ad5791.c         Lee Jones          2020-07-16   85   * @data:		spi transfer buffers
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   86   */
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   87  struct ad5791_state {
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   88  	struct spi_device		*spi;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   89  	struct regulator		*reg_vdd;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   90  	struct regulator		*reg_vss;
-fcc5d80fd09f4c drivers/iio/dac/ad5791.c         Axel Haslam        2024-10-28   91  	struct gpio_desc		*gpio_reset;
-fcc5d80fd09f4c drivers/iio/dac/ad5791.c         Axel Haslam        2024-10-28   92  	struct gpio_desc		*gpio_clear;
-fcc5d80fd09f4c drivers/iio/dac/ad5791.c         Axel Haslam        2024-10-28   93  	struct gpio_desc		*gpio_ldac;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   94  	const struct ad5791_chip_info	*chip_info;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   95  	unsigned short			vref_mv;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   96  	unsigned int			vref_neg_mv;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   97  	unsigned			ctrl;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   98  	unsigned			pwr_down_mode;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04   99  	bool				pwr_down;
-791bb52a0cd2cc drivers/iio/dac/ad5791.c         Lars-Peter Clausen 2013-11-25  100  
-791bb52a0cd2cc drivers/iio/dac/ad5791.c         Lars-Peter Clausen 2013-11-25  101  	union {
-791bb52a0cd2cc drivers/iio/dac/ad5791.c         Lars-Peter Clausen 2013-11-25  102  		__be32 d32;
-791bb52a0cd2cc drivers/iio/dac/ad5791.c         Lars-Peter Clausen 2013-11-25  103  		u8 d8[4];
-b2d5e9de77c877 drivers/iio/dac/ad5791.c         Jonathan Cameron   2022-05-08  104  	} data[3] __aligned(IIO_DMA_MINALIGN);
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04 @105  };
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  106  
+:::::: TO: Chen-Yu Tsai <wenst@chromium.org>
+:::::: CC: Chromeos LUCI <chromeos-scoped@luci-project-accounts.iam.gserviceaccount.com>
 
 -- 
 0-DAY CI Kernel Test Service
