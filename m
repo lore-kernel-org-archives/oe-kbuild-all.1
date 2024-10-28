@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE47C1DE8B3
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 16:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC5013AD11
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 17:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730133583; cv=none; b=LgIEox2M+9Yq2fAP8UXiBhlFbghFFyh8IgvhXdC+8OtVZlHBm+HgXin/6oXd3Y2i2T6YNLs9YaEQRjf4rIl/4RCpvwwLeGEJ9/vHFilGUBeIZlixGla2eP9NFXabSpt41ePXMH6yy5OH46IOX6EuTdBc3UlVkVctwonxD4ObN1w=
+	t=1730135418; cv=none; b=uQNICDa672frD2ZTMqWpYc0d3bCyRK6kM259xh7ON+4gz/c14HcEeObRpV1AVR5D3blc2sr6v28s255zsCU0VQ6ILOcWzzhrZ1/hkqg9oU2PIxjJ1Ad0tbgKKKA/0vyfvXxyR8gCHnzevJtnUp+gG4dSHO5ELvwC12XIFejZwVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730133583; c=relaxed/simple;
-	bh=fiXY0vBhE6jws7H+dL2nxhmyZmqprXYvqHlCr/avfYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTP+oKxqsQbxTpYvjaQuegCH1VSaRuhDryUvEPdANiZmro0JjCQLWWhTDkdbsTeAj2okKLpIZWWMcH197a20hyZBhpVx+3s0j7vzk4rLxa1e6uQmoNFlMSaKopPshIq264pM/TY3L1BU5oa1g1e14dwklee29qnwrljXfFynsXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bLUX3CBN; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1730135418; c=relaxed/simple;
+	bh=2jTLjUobhcMgVteuPO6XO/GgoFdf3qKvYnGq3361Hcw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NhIcpjsRCeQhNSJ73g9FBDMdhEIR1cgAMQ+qQ1+hMYWAuUwsc7d0D4xNu9ZuDyWRKg+ntte7CCZQkeQ34A0vFF/55xzUzFxTq/OVqTXUs/lZxqf/rrB7DfSfmciIud+cRUeVFkoDUha2wZ4N8NJ70/GObe2C5Xqlu0xF/6KPxPw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kt241bMt; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bLUX3CBN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kt241bMt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730133580; x=1761669580;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fiXY0vBhE6jws7H+dL2nxhmyZmqprXYvqHlCr/avfYM=;
-  b=bLUX3CBNyqIyw25KAWaEJb6N4XuR9tosg0Q18GlNbrpsODh9ixZW/uH7
-   nJBEwxJ8xK4fDIywFkz5f75Wexn3iBk3zmSDzL0ZIZhIk4K4x7StbtmH6
-   wMeBdvdL/VyzM6Y2o6JBRt569vcFgrr5aGawA93laPkNJQAqty0FdoIJI
-   B/xB1uUYqfRGhhSQF2IjeagQOXjjiFd3S8gJYuN3tHl4G5hAlSb2QXmei
-   1xVvN4Qhi/eIJ9n1d9ZLVSMkwd5Asya4W5Dp0FDsf+MHtg18tbnn4+8FZ
-   eozeHMHDd0TOHQVAHSebvj/tQx8L5iGSnCK54FlYSsRBJa0b8GHEYUA9b
-   g==;
-X-CSE-ConnectionGUID: FqFL2C3lT5Gs7WHctU2nDQ==
-X-CSE-MsgGUID: bEx38MmrSC+LF6ipHcSJnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29847732"
-X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="29847732"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 09:39:16 -0700
-X-CSE-ConnectionGUID: ChGe4zLBS9qZI1XWNKWzOA==
-X-CSE-MsgGUID: sBwlz7ESR2C0kEEeyAkrTg==
+  t=1730135416; x=1761671416;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2jTLjUobhcMgVteuPO6XO/GgoFdf3qKvYnGq3361Hcw=;
+  b=kt241bMt+zHYLWgog0U5aIPlscds1nop1lL4AxyTs1+yqEtxKLuqY+pk
+   9yBXmNWBho3xkUwVODyDLu3nhebGkbH9x5FPKF9H7CrHf8FHtaX1h624z
+   FsijaMZJZcCEh3RAACua+55bZLnf1UUn6UKklF6cBUCud0XcUYUtv2Xhz
+   AUZI/QjXh5KHrkVxZsQjE7zsavTvUjqtE2xLQjwsOkAPY0a+rOVW2QuHm
+   0YtkjS8vX5i8PnI8Edgbs/pjMBEVZzOGJgH+plMtrXWhInCRABwepRZ19
+   /dnXD+TE971n/U1xTz36xHuyRyojmMGM/lhdxJm+PGExl71335WtA6wnx
+   Q==;
+X-CSE-ConnectionGUID: 4EIUKvGeR3GU+GoQtFKGKQ==
+X-CSE-MsgGUID: lorCnUjMQymB+kH5hH57AQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40281661"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40281661"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 10:10:15 -0700
+X-CSE-ConnectionGUID: ajmHetubR6ef8diA4gYrnA==
+X-CSE-MsgGUID: uuvMfKTqSamfKUUU5vry/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="112487136"
+   d="scan'208";a="81575184"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 28 Oct 2024 09:39:13 -0700
+  by orviesa010.jf.intel.com with ESMTP; 28 Oct 2024 10:10:13 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Slq-000cdw-21;
-	Mon, 28 Oct 2024 16:39:10 +0000
-Date: Tue, 29 Oct 2024 00:38:54 +0800
+	id 1t5TFr-000cfo-2q;
+	Mon, 28 Oct 2024 17:10:11 +0000
+Date: Tue, 29 Oct 2024 01:10:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: ahaslam@baylibre.com, lars@metafoo.de, Michael.Hennerich@analog.com,
-	jic23@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Axel Haslam <ahaslam@baylibre.com>
-Subject: Re: [PATCH 3/6] iio: dac: ad5791: Include chip_info in device match
- tables
-Message-ID: <202410282349.YFq0jd85-lkp@intel.com>
-References: <20241028071118.699951-4-ahaslam@baylibre.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 5599/30000]
+ arch/arm64/kernel/vdso/vgettimeofday.c:27:8: warning: no previous prototype
+ for '__kernel_time'
+Message-ID: <202410290158.HzO1ma3N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,51 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028071118.699951-4-ahaslam@baylibre.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc5 next-20241028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ahaslam-baylibre-com/dt-bindings-iio-dac-ad5791-Add-optional-reset-clr-and-ldac-gpios/20241028-151319
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241028071118.699951-4-ahaslam%40baylibre.com
-patch subject: [PATCH 3/6] iio: dac: ad5791: Include chip_info in device match tables
-config: parisc-randconfig-r071-20241028 (https://download.01.org/0day-ci/archive/20241028/202410282349.YFq0jd85-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410282349.YFq0jd85-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   ca48ea8b94307a011f58fdc6efa124ff7f5508f8
+commit: 7bbd50f11d3086fe75fac78882de0d42e27293fa [5599/30000] ANDROID: arch: arm64: vdso: export the symbols for time()
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20241029/202410290158.HzO1ma3N-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290158.HzO1ma3N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410282349.YFq0jd85-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290158.HzO1ma3N-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/dac/ad5791.c:71: warning: Function parameter or struct member 'name' not described in 'ad5791_chip_info'
->> drivers/iio/dac/ad5791.c:71: warning: Function parameter or struct member 'channel' not described in 'ad5791_chip_info'
+   arch/arm64/kernel/vdso/vgettimeofday.c:9:5: warning: no previous prototype for '__kernel_clock_gettime' [-Wmissing-prototypes]
+       9 | int __kernel_clock_gettime(clockid_t clock,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/vdso/vgettimeofday.c:15:5: warning: no previous prototype for '__kernel_gettimeofday' [-Wmissing-prototypes]
+      15 | int __kernel_gettimeofday(struct __kernel_old_timeval *tv,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/vdso/vgettimeofday.c:21:5: warning: no previous prototype for '__kernel_clock_getres' [-Wmissing-prototypes]
+      21 | int __kernel_clock_getres(clockid_t clock_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/vdso/vgettimeofday.c:27:8: warning: no previous prototype for '__kernel_time' [-Wmissing-prototypes]
+      27 | time_t __kernel_time(time_t *time)
+         |        ^~~~~~~~~~~~~
+--
+   arch/arm64/kernel/vdso/vgettimeofday.c:9:5: warning: no previous prototype for '__kernel_clock_gettime' [-Wmissing-prototypes]
+       9 | int __kernel_clock_gettime(clockid_t clock,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/vdso/vgettimeofday.c:15:5: warning: no previous prototype for '__kernel_gettimeofday' [-Wmissing-prototypes]
+      15 | int __kernel_gettimeofday(struct __kernel_old_timeval *tv,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/vdso/vgettimeofday.c:21:5: warning: no previous prototype for '__kernel_clock_getres' [-Wmissing-prototypes]
+      21 | int __kernel_clock_getres(clockid_t clock_id,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/vdso/vgettimeofday.c:27:8: warning: no previous prototype for '__kernel_time' [-Wmissing-prototypes]
+      27 | time_t __kernel_time(time_t *time)
+         |        ^~~~~~~~~~~~~
 
 
-vim +71 drivers/iio/dac/ad5791.c
+vim +/__kernel_time +27 arch/arm64/kernel/vdso/vgettimeofday.c
 
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  61  
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  62  /**
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  63   * struct ad5791_chip_info - chip specific information
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  64   * @get_lin_comp:	function pointer to the device specific function
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  65   */
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  66  
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  67  struct ad5791_chip_info {
-18e83b303d6e05 drivers/iio/dac/ad5791.c         Axel Haslam        2024-10-28  68  	const char *name;
-18e83b303d6e05 drivers/iio/dac/ad5791.c         Axel Haslam        2024-10-28  69  	const struct iio_chan_spec channel;
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  70  	int (*get_lin_comp)(unsigned int span);
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04 @71  };
-20374d1a36df3e drivers/staging/iio/dac/ad5791.c Lars-Peter Clausen 2012-06-04  72  
+   > 9	int __kernel_clock_gettime(clockid_t clock,
+    10				   struct __kernel_timespec *ts)
+    11	{
+    12		return __cvdso_clock_gettime(clock, ts);
+    13	}
+    14	
+    15	int __kernel_gettimeofday(struct __kernel_old_timeval *tv,
+    16				  struct timezone *tz)
+    17	{
+    18		return __cvdso_gettimeofday(tv, tz);
+    19	}
+    20	
+    21	int __kernel_clock_getres(clockid_t clock_id,
+    22				  struct __kernel_timespec *res)
+    23	{
+    24		return __cvdso_clock_getres(clock_id, res);
+    25	}
+    26	
+  > 27	time_t __kernel_time(time_t *time)
 
 -- 
 0-DAY CI Kernel Test Service
