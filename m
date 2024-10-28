@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C04C01DE2A7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 14:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37541DDA1B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 14:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730124910; cv=none; b=KBzzXkFXTtBU6aTxXAhCjHDkBe5hIAERj/8hx/8uneJLuRlr8yp9uc0xMtzY79UvquK+O82rRAnfGc+SRPrYDXFWvNNnzsoU1i3f2jCdHdZjrre5IxZ1dJ3PFT7j3bHg/wqBKd11A0SKtYzmsH9f2nILpPEolWPsJm8DORbp2zk=
+	t=1730126770; cv=none; b=Mke4uCiyLW1TB3ZtNVAWR4HEghbGEIrubHGXhA1Z28scC2Urw9YnSRm6aVvP+sz2FxE1xeh2CVfjhI229midOOSUIUt7jaxc188LlrVCzm+Cfb8CWvsoxiQvEgKC5G9ov9xmyesw5bzR9BRbc5YW8ydam+HbiA59sO/VreAmpxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730124910; c=relaxed/simple;
-	bh=KauFzW447yV1YygaFufYczwE3m1im87cT3aqIlvlSus=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pqm3Pm1jxAOzYQoi/EvlUiKfcPGFSY8SgM7ZOLLpx+qEusWFyZbGMELEfxvobJHJvqj/Qx9dh/UUK1Z2KhD1IjI5Y1xCf15S/1Qd9iIfvc6YMw8z8cx7D8A8xM7zoDizHXy09dhkuqwCNcxGu3O0HFbBgI0XfSszX+dsDSxSAXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/Cglwzm; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1730126770; c=relaxed/simple;
+	bh=oiWbTxbr607JEEL/haoo0eVwgDlrCty9VSeNUAhQ4KA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BCg3Z2vfmtJJ4Ws41vJlFxvsEjUR/hsItYCSx+cUPkVvzS7vPvQqyz05Ynp96VCCgds3Ji4AjKGninLmHeq0IkK8y5hFYt2a6ThXijrPlHcZ5+h95I9rRxXds9B/PLN1htnxISwCdSq9JrqQ0YLe6w/oa0N/rvrZF7krdi9/EcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJVdfHrj; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/Cglwzm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJVdfHrj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730124906; x=1761660906;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KauFzW447yV1YygaFufYczwE3m1im87cT3aqIlvlSus=;
-  b=K/CglwzmnRxql9YD/hxG0w2xEkDgPcZKGTflVPIGHzzS3bWA1FOd7lXB
-   RcBNq2xB4hTcE3IHbJULA4WcFeD1qR5jcGNxZb2mNZwcKF6F5r+lXI78T
-   39fY0qq1who8vg+joga9zqui3fO0WjnTpjTVP33lzmKFB9SM3r59uKgTK
-   YoOF7Hjupll70of4QHklOM4hsptRUQGdu0HDlvzDf+wH4q+YzygZq59Ge
-   1S69DQk+zvTnP1On2enX3fDqgPWxYMJKtla9kWvbmCGlwfsTpSTHjjj9O
-   dpAw7/Agxpq3vCUjLKFFQm48Gqwl3V2reNirMwnDwSQhvTaEHNvGEbJLH
-   w==;
-X-CSE-ConnectionGUID: VEyF97XnRnKo3E3lbQuD+Q==
-X-CSE-MsgGUID: J/lQFoFoR3mL122XbyAHiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="29827730"
+  t=1730126769; x=1761662769;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oiWbTxbr607JEEL/haoo0eVwgDlrCty9VSeNUAhQ4KA=;
+  b=PJVdfHrjY0q1DSSzsGBtm2/onwMo3tw0o8A+cp1qoJOMYluRRwAnzv10
+   gUJDDD8s0RO6EkML4Du1cSw/vqFJJAKAqQTIoj0lEjz9aglGyg04/6TpR
+   d/mSmpfY0Q6mbZSTEy3YRPwFzOrMkYTl3CrnR9BgAbLiRNyLJ/YlUB5sn
+   tGBx8CTeY11fSuu1a1aXn6ZLoFhY8MkwdoVHAfSMfCkOe5DkzNDR23GnS
+   4BE3GAdpSz4jRO62Bmxik7LMqA5vVpCt8n1NinazQjjz+N+Wm76mDPXp1
+   /p8RvSEY51VxVBjblVvTNiNv09AghWIctrqKmqfdxbxf4W7nwLLrWH71f
+   g==;
+X-CSE-ConnectionGUID: Ng4Rjn4XQTKnBG7No7U5dw==
+X-CSE-MsgGUID: HC25KveWQpyUCQBCFGA2dg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="29836319"
 X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="29827730"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 07:15:06 -0700
-X-CSE-ConnectionGUID: y2TPtzXrQHmVK0j7fB4TOA==
-X-CSE-MsgGUID: xQ4JiPp0Ram2dVoO9axa3g==
+   d="scan'208";a="29836319"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 07:46:08 -0700
+X-CSE-ConnectionGUID: lwki+7aaQ0KpELHWAk/0iA==
+X-CSE-MsgGUID: XFlaTFaBSCuUk+dWnWIz+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="81951815"
+   d="scan'208";a="86248964"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Oct 2024 07:15:04 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 28 Oct 2024 07:46:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5QWL-000cVw-2G;
-	Mon, 28 Oct 2024 14:15:01 +0000
-Date: Mon, 28 Oct 2024 22:14:25 +0800
+	id 1t5R0P-000cXu-1Q;
+	Mon, 28 Oct 2024 14:46:05 +0000
+Date: Mon, 28 Oct 2024 22:45:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Edward Adam Davis <eadavis@qq.com>,
-	syzbot+0c99c3f90699936c1e77@syzkaller.appspotmail.com
-Cc: oe-kbuild-all@lists.linux.dev, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com, tytso@mit.edu
-Subject: Re: [PATCH] ext4: Add a sanity check for next dentry when insert
-Message-ID: <202410282131.FBDMC1Gq-lkp@intel.com>
-References: <tencent_E4CFC65D09852ECE2EF28C83A7C3C6E41206@qq.com>
+To: Ian Rogers <irogers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Namhyung Kim <namhyung@kernel.org>
+Subject: [namhyung-perf:perf/hwmon-pmu 71/74] util/hwmon_pmu.c:176:9: error:
+ implicit declaration of function 'strlcpy'; did you mean 'strncpy'?
+Message-ID: <202410282254.yn5h8E0R-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,65 +61,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <tencent_E4CFC65D09852ECE2EF28C83A7C3C6E41206@qq.com>
 
-Hi Edward,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tytso-ext4/dev]
-[also build test WARNING on linus/master v6.12-rc5 next-20241028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Edward-Adam-Davis/ext4-Add-a-sanity-check-for-next-dentry-when-insert/20241027-191200
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-patch link:    https://lore.kernel.org/r/tencent_E4CFC65D09852ECE2EF28C83A7C3C6E41206%40qq.com
-patch subject: [PATCH] ext4: Add a sanity check for next dentry when insert
-config: x86_64-randconfig-121-20241028 (https://download.01.org/0day-ci/archive/20241028/202410282131.FBDMC1Gq-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410282131.FBDMC1Gq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/namhyung/linux-perf.git perf/hwmon-pmu
+head:   328b8ac129562cf42d1a7fc5379b78c345229052
+commit: 0a73106db83ac037945cb038c393ccdaa5225703 [71/74] perf hwmon_pmu: Add event aliases and descriptions
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410282254.yn5h8E0R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410282131.FBDMC1Gq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410282254.yn5h8E0R-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/ext4/namei.c:2087:5: sparse: sparse: symbol 'ext4_check_next_dentry' was not declared. Should it be static?
-   fs/ext4/namei.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   fs/ext4/namei.c: note: in included file:
-   fs/ext4/ext4.h:2429:9: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +/ext4_check_next_dentry +2087 fs/ext4/namei.c
-
-  2086	
-> 2087	int ext4_check_next_dentry(struct inode *dir,
-  2088				struct inode *inode,
-  2089				struct ext4_dir_entry_2 *de,
-  2090				int buf_size,
-  2091				struct ext4_filename *fname)
-  2092	{
-  2093		int nlen, rlen;
-  2094	
-  2095		nlen = ext4_dir_rec_len(de->name_len, dir);
-  2096		rlen = ext4_rec_len_from_disk(de->rec_len, buf_size);
-  2097		if (de->inode) {
-  2098			struct ext4_dir_entry_2 *nde =
-  2099				(struct ext4_dir_entry_2 *)((char *)de + nlen);
-  2100			nde->rec_len = ext4_rec_len_to_disk(rlen - nlen, buf_size);
-  2101			de->rec_len = ext4_rec_len_to_disk(nlen, buf_size);
-  2102			de = nde;
-  2103			rlen = ext4_rec_len_from_disk(de->rec_len, buf_size);
-  2104			return fname_len(fname) > rlen - EXT4_BASE_DIR_LEN;
-  2105		}
-  2106	
-  2107		return 0;
-  2108	}
-  2109	
+   Makefile.config:648: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
+     PERF_VERSION = 6.12.rc3.g0a73106db83a
+   util/hwmon_pmu.c: In function 'parse_hwmon_filename':
+>> util/hwmon_pmu.c:176:9: error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Werror=implicit-function-declaration]
+     176 |         strlcpy(fn_type, filename, sizeof(fn_type));
+         |         ^~~~~~~
+         |         strncpy
+   cc1: all warnings being treated as errors
+   make[7]: *** [tools/build/Makefile.build:105: tools/perf/util/hwmon_pmu.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[5]: *** [Makefile.perf:789: tools/perf/perf-util-in.o] Error 2
+   make[5]: *** Waiting for unfinished jobs....
+   make[4]: *** [Makefile.perf:292: sub-make] Error 2
+   make[3]: *** [Makefile:76: all] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
