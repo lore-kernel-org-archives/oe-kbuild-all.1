@@ -1,70 +1,53 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 312331D6DC5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 10:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555061D5CC6
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 10:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730112891; cv=none; b=kUvYjABD/+RUwZEcwpvqtJMrdisb0CCv9lFjb5m744RZ9vmRcnIMlJs27iPyx3yNzBreDqvaH5M8DLoG3f6+tKmDFQV/4PudUivSHUP1tWzWBVJmIejAnuCZrNU6rRsOmq283nSTfB9YWSPdZZOSQuLdJqyDtJzZUyvu3IACVVs=
+	t=1730113017; cv=none; b=JsVZCWUjOic+p9P6uoVcO7RLJsBvO373MmM9nf2PMFa4lrSrn3dYyfJ0XaFIY4YTTZ8S1UwVnJUSuTZHcbSQWh+voWDk+fXqklAg1KCkXl9zj1OOvI3vQvWsQa2guZ6IdmowjXOneECAIv/oS4gDibj+gZ4rqvAATKsxuKxDFt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730112891; c=relaxed/simple;
-	bh=FRT7cTeBL9rzdgEqPmoGx0xaa7VbGPuT/dkMIqKmKWY=;
+	s=arc-20240116; t=1730113017; c=relaxed/simple;
+	bh=/Qwr1pB2SeM8Epvx/jOrwL6hE/RVoOH1whZM56KgSOw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T8QFB3GXfSX1cKg1hroDpIUw3o1J1ltNUlG/qhwZhqEvhvnu1NMFdA/WQHcnmRY2DHHCGAH4nonfJN+FrXaeVkS5UQMHT7G2V+4rES0dXg/Pu9ARDTavXPvwDyvZbricJXV6pFgSRD/QI7XC5MbL0WkOt6F9zuW8wtP80rZcfMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=os8lmlqx; arc=none smtp.client-ip=209.85.167.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="os8lmlqx"
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-539fe02c386so4784620e87.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 03:54:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730112887; x=1730717687; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hIp8p1y9OYLmueWzt8+7yDMvWFfo7oDb41HmupTIZZA=;
-        b=os8lmlqxhLXbhmyRUc/zNp8/sbEvKdqX9AgE9qfGU6zI2UB+u8XOmLRWvY01pxmgX6
-         LXXkLrw7DU1vdFrKrRT09ULE1NBVfGYQ3krkOjfPFlyXKnsfv87ErSRkmBfgpn8NRAA6
-         y8vKI1TEs7fnvGG/emBuCT+NHNLV64DVDMNc3lSH6GTJMqjWJQFAFNq4vt1xzCtgn65M
-         leyDbaj72eunfuzdqzlaZFM6E09fu9D8aTvDIPNIEaYTeXRRhGYdDYMdGpyy71jcDpxG
-         BVNsJcJMQ3sBL9r57cWmKcw96BElHebAgOK0B9QgIs4ek+gzv81eDYcCEC3c6bf80hNS
-         iF6w==
+	 Content-Type:Content-Disposition:In-Reply-To; b=qttC3Qbypa6GyO2IUx5BS1zzHrZDEB5xChgQezaZqkYPlMZhj/gGTK1MhWKdhmPyBPCb5sqNuzuds7VZeg53qjN/wf+Jnnw343vWm864kbhE75CIv09+UP7wnfEP1+MFi3rYEEIzPZ/1i/VoaCgnqSKAJgHJamBcgrfzUadixbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a9a0472306cso568786566b.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 03:56:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730112887; x=1730717687;
+        d=1e100.net; s=20230601; t=1730113013; x=1730717813;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hIp8p1y9OYLmueWzt8+7yDMvWFfo7oDb41HmupTIZZA=;
-        b=aCaL7KJkczWJUzTxu6tMYjZqeSk6yV9aaiqTOU4gkl55Vf1wzaeU/TGynj7am0ERYA
-         xvmDfku5+D7lfY64gCbOap3vv4q5L3hS2r9hM7epGOEAhUq5LDZNy1BvaT36psfjbAB6
-         GET0pKjxPpcH+2xvnbaosQYj+N4bqIGcQ6sl9TCDpjc4d7uFvOakPYywfe6acNiP0yAD
-         vazH4nDFdi5JDbY4uI674R/DPs/p2Ig6nkYTGElIZcLG8VnoQSPZ22Ac2DadcceNyyg/
-         2207aNMdZD2YAu9MHIFvgWWlsad81SOMURMW1959kwYKDrETJEkXvVUeWiTvsmfWVq1L
-         /vwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWx/vMHEzXvIoairSsV0a8y/KoogmkMUrdf8yJSpDZRtT4hz9njmgR50kkspUxVzKDLCMbebtq+82w5cZWN@lists.linux.dev
-X-Gm-Message-State: AOJu0YxQDde+z1C63d5N+sqsGxlFx0ec8DCEUrne77bj88vfgQ6Dr+Y/
-	6xx5/4FobYq+g/fGzkDE15Vfjhy41VQQKRf90WJzgOwxk8Aeu2+FJJ1cUQ3yJWo=
-X-Google-Smtp-Source: AGHT+IEvzbs7iCzZXXfk6Ann3ZL3OW88AuVYQtULh9f4OSje5nI375zcEnnbchgjpRTSYmWkTUgo6Q==
-X-Received: by 2002:a05:6512:1107:b0:539:fbf8:5735 with SMTP id 2adb3069b0e04-53b33df7378mr2053614e87.8.1730112887274;
-        Mon, 28 Oct 2024 03:54:47 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53b2e10a7efsm1043915e87.56.2024.10.28.03.54.46
+        bh=WPxB9+Y6Dhx5f6Jz5TtPrWIreAq0S2BvQ8Yv7G3dcZw=;
+        b=wyDuJxu+0SNJ4P2/0og/lTBcDYpS7n7l8lpSIRcHZkgGCPL0HCsDUr2MlRJSUYX38H
+         iuZrb4eIhUAtF3SE64GV4uybcxhqFtKv6++mX14WgUUTrnmgBcm5HhuTPEQ2tCg9rnTm
+         iBYJ3mV1lEbbRr6/jOiYgevK2Shz82l20+m69mkMlaRmMiH1mWAMrp9GUHViaXBU7pHR
+         wjcpG0cZ9YDeozeKgCWBx5HgfOTt9Eeyd9Q35EhOTzACzcTOKxs1Kz8VWADkM9VAO7+L
+         Zm8T+nUAn4GpFHFCAJprxoPh97Azj5nqkNuKCzCweABAjlS8zo9y+zTT5RjIZLZMQrOG
+         2tgQ==
+X-Gm-Message-State: AOJu0YxQ1GrQ3xcHw3TQisxilnRu+bfXCmXgYXmTInLrr4bFA91SRy9i
+	pccR48VkTSYUt0AFiabYosNodtqEPUUz5etAYYV8gUoxkeEWzGCe
+X-Google-Smtp-Source: AGHT+IE6RuG3kBekrSkc3prrrW2VAIHSBMekPMPs4hCjBgnbG4uLZaBmaUvJsgxnw7vjH/8GA6BPCw==
+X-Received: by 2002:a17:907:9724:b0:a9a:5e3a:641d with SMTP id a640c23a62f3a-a9de61e0cd2mr631691166b.59.1730113013229;
+        Mon, 28 Oct 2024 03:56:53 -0700 (PDT)
+Received: from gmail.com (fwdproxy-lla-009.fbsv.net. [2a03:2880:30ff:9::face:b00c])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f02954esm366893466b.68.2024.10.28.03.56.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 03:54:46 -0700 (PDT)
-Date: Mon, 28 Oct 2024 12:54:45 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org, 
-	tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch, 
-	kong.kongxinwei@hisilicon.com, oe-kbuild-all@lists.linux.dev, liangjian010@huawei.com, 
-	chenjianmin@huawei.com, lidongming5@huawei.com, libaihan@huawei.com, 
-	shenjian15@huawei.com, shaojijie@huawei.com, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V2 drm-dp 1/4] drm/hisilicon/hibmc: add dp aux in hibmc
-Message-ID: <5sb3loc23nf45up3tx3z7nq2s4hvevhxdwhq7t6w5hrwnyw7vi@kjg4vshkuvjm>
-References: <20241022124148.1952761-2-shiyongbang@huawei.com>
- <202410250305.UHKDhtxy-lkp@intel.com>
+        Mon, 28 Oct 2024 03:56:52 -0700 (PDT)
+Date: Mon, 28 Oct 2024 03:56:50 -0700
+From: Breno Leitao <leitao@debian.org>
+To: kernel test robot <lkp@intel.com>,
+	Madalin Bucur <madalin.bucur@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vladimir Oltean <vladimir.oltean@nxp.com>
+Subject: Re: drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse:
+ sparse: cast to restricted __be32
+Message-ID: <20241028-sticky-refined-lionfish-b06c0c@leitao>
+References: <202410271721.jiVrriXD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,53 +56,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202410250305.UHKDhtxy-lkp@intel.com>
+In-Reply-To: <202410271721.jiVrriXD-lkp@intel.com>
 
-On Fri, Oct 25, 2024 at 03:52:49AM +0800, kernel test robot wrote:
-> Hi Yongbang,
+On Sun, Oct 27, 2024 at 05:36:56PM +0800, kernel test robot wrote:
+> Hi Breno,
 > 
-> kernel test robot noticed the following build errors:
+> First bad commit (maybe != root cause):
 > 
-> [auto build test ERROR on drm-misc/drm-misc-next]
-> [also build test ERROR on linus/master v6.12-rc4 next-20241024]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-add-dp-aux-in-hibmc/20241022-204925
-> base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-> patch link:    https://lore.kernel.org/r/20241022124148.1952761-2-shiyongbang%40huawei.com
-> patch subject: [PATCH V2 drm-dp 1/4] drm/hisilicon/hibmc: add dp aux in hibmc
-> config: arm64-randconfig-004-20241024 (https://download.01.org/0day-ci/archive/20241025/202410250305.UHKDhtxy-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241025/202410250305.UHKDhtxy-lkp@intel.com/reproduce)
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
+> commit: 782fe08e9861d00ce8aca370453dd9ceb9a23d50 soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
+> date:   3 months ago
+> config: arm-randconfig-r123-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271721.jiVrriXD-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+> reproduce: (https://download.01.org/0day-ci/archive/20241027/202410271721.jiVrriXD-lkp@intel.com/reproduce)
 > 
 > If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410250305.UHKDhtxy-lkp@intel.com/
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410271721.jiVrriXD-lkp@intel.com/
 > 
-> All errors (new ones prefixed by >>):
-> 
->    aarch64-linux-ld: drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.o: in function `dp_aux_init':
-> >> drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c:154: multiple definition of `dp_aux_init'; drivers/gpu/drm/msm/dp/dp_aux.o:dp_aux.c:(.text+0x8a0): first defined here
+> sparse warnings: (new ones prefixed by >>)
+> >> drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse: sparse: cast to restricted __be32
+>    drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file (through include/linux/module.h):
+>    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>    drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file:
+> >> include/soc/fsl/qman.h:245:16: sparse: sparse: cast to restricted __be32
+> >> include/soc/fsl/qman.h:245:16: sparse: sparse: cast from restricted __be16
 
-I think both of us should switch to a more generic names. I'll send a
-patchset for msm/dp, please use some less generic prefix for hibmc
-driver.
+Thanks. The commit above "782fe08e98 ("soc: fsl: qbman: FSL_DPAA depends
+on COMPILE_TEST") was created to detect problems like this, since it is
+not possible to compile-test dpaa driver. 
 
-> 
-> 
-> vim +154 drivers/gpu/drm/hisilicon/hibmc/dp/dp_aux.c
-> 
->    152	
->    153	void dp_aux_init(struct dp_dev *dp)
->  > 154	{
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
--- 
-With best wishes
-Dmitry
+Copying Madalin Bucur <madalin.bucur@nxp.com>, who currently maintains
+this driver.
