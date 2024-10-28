@@ -1,56 +1,58 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A81D1DD0C7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 15:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF041DED68
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 15:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730129055; cv=none; b=sJcq3bmKzlwWNEptheAAScWWfoG40k+euONk8cLEGBE2AtkEhKxtlFXP9DzFmpaMbPJedHCs63RtY/G7wwlP/DNGnz53tyc0P+04wJEIcWmY6X8/tFhvXATLHuwxTEarf8AneCtohJIkpMCdg9ZflHpcweYhrvRWQW4uGeiN/jc=
+	t=1730129292; cv=none; b=LLW1wFj2lR606cvzMUWZF+rM71I4TnZ9RNanoflZW6qTvut5egEsKaQ+hzAMzCt0Nn4buylVRZ7/bQBTMHHyZDINcjmrYt2PueR9AMM9swa72h/XmRZpxSjWljsWFRqeOI976VYiKoC4rolrG9aLz7Heekdk5Edhp5liLMotYPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730129055; c=relaxed/simple;
-	bh=JtTrG/4GdXbrMkhit+ETrpCvKaheVe6oGpgIVECq6WU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kOk1CNbBMVja8SZDLr0/UYLvJ1Aw/LCQf7Q45pjlhLPfsIciYoxjscrUegDkW+cZczZ1N4n879cn5LythirHngMzEY7GN6QoRWlS/IvqP4yM3gy1WnQiNjR+kt3Vzv5X8J5BmydFPbzSKflSYuPlN1a52i3qlvWWUSnFyX/WeKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a9aa8895facso718089466b.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 08:24:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730129052; x=1730733852;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=H87zT4Qpe727lS8z09w0nqgSuCfv7zoKQxxmfDjyp0c=;
-        b=q2DV/CwwIMVCGVp2i09SrL8Y2f808XHgwvjkFRXk8PMGrjlmq5AvdDgPeApT8Wrod+
-         3/4cqqGFrCyHwqMsngMRRczjKRQuz2lRyrgvwV3/2UYebjeRnYj3F+7nnraQnlNiftYp
-         MhSQl6B5p5KUjUtMf9obaRwvfpZd2sUJoXsScXGewVdInLJ2uFX6yEVpp2u9WN+4h6hw
-         FFmkBNB8c5iDNTWhv8rMNb7pGPmXF4LONLpNq+jYXkg3jYt4xRcgC4s41DVti9Z37FBJ
-         vqLmH19oIyzHiJSh9md2Qxm/SgLOx3xLUO9vxIkbPCnIweAkCXMRJKBlZVnp8h1HdMFO
-         zjiA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvqKtDilK50GLnfei9t/XD+PXwBNh80KnSX42EZ7TMTaJuKyEBAor2M5LUi3C8qMc28gT1U6IB156Wma9P@lists.linux.dev
-X-Gm-Message-State: AOJu0YyRE/mHN7mkfafX++mj0WmNt5XdzH/PtUuKQZbAIpOW4gswTYw3
-	pa0NAH/1NS0HPZ5TlPJV269Ys49zqg5r/8osH7sR456W7MCVRXr+Xow8TA==
-X-Google-Smtp-Source: AGHT+IGLTpe4Nm/jo2HXoxCW0nbU+K+ZCwgom9UexWOG2gLUtmI2+KkwT3n6NFXwlzLf7M18Z1if4A==
-X-Received: by 2002:a17:907:9729:b0:a9a:7f92:782 with SMTP id a640c23a62f3a-a9de61ea441mr761303866b.52.1730129051562;
-        Mon, 28 Oct 2024 08:24:11 -0700 (PDT)
-Received: from gmail.com (fwdproxy-lla-007.fbsv.net. [2a03:2880:30ff:7::face:b00c])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f029564sm387822166b.51.2024.10.28.08.24.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 08:24:11 -0700 (PDT)
-Date: Mon, 28 Oct 2024 08:24:09 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: kernel test robot <lkp@intel.com>,
-	Madalin Bucur <madalin.bucur@nxp.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>
-Subject: Re: drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse:
- sparse: cast to restricted __be32
-Message-ID: <20241028-silent-hissing-ant-aacb10@leitao>
-References: <202410271721.jiVrriXD-lkp@intel.com>
- <20241028-sticky-refined-lionfish-b06c0c@leitao>
- <20241028141051.eoltcyf37lf5dsyp@skbuf>
+	s=arc-20240116; t=1730129292; c=relaxed/simple;
+	bh=oY/YkoarWJv/FffyjVuQqBtS+ffbN4KoaV9mEuvx24c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=l8PIwgYq+VS+5J0MIgmnjqCUz70xf6BDnVqdCJqYZF4dp6XinYJ9umrGsPFvrvLHrGsrYAqGRLhWwJMywXk47NRaQRlV7GvQN6iTMugylQcwlvKVU4oRF/lj07XJEfRqcWJkeABEJLdP2cUlN94EE485BoYyHUperkswsxbS/sg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=em3FHkHE; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="em3FHkHE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730129290; x=1761665290;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oY/YkoarWJv/FffyjVuQqBtS+ffbN4KoaV9mEuvx24c=;
+  b=em3FHkHEElSX6PYhyUB8urGUbR6Am9n1y8wRonjZDRZtotmKt2VveT4z
+   Yv+brA1nlfbkJcZYHBPNWDl3iHH8Gkv93eZndPb0G0sD4KXHSa6W2BD4D
+   Sp5KlGnpZ0eaknTYPiCBJ3Oc5d7Zs2NRfB0zF3h5AtDH/RsBE15kJQ1K5
+   Va9sb0PWTgijvWOiUqdlzLLBym7MZl9tcwuODa0ecDY9+Q5oQ8XO8Hh/5
+   nNY7FWLFabhXefuewqWbsNucbaRLDZE7IDPgEAk5Ubb9MSZNx3igy/ikf
+   K7pYMSzwPYD89YpCUcUcXBNWIxhRmOUgMlJBblJ7I7ZyV1SCYI5RFnF8Q
+   w==;
+X-CSE-ConnectionGUID: 9vsetBC7RUubbjmWtArRwQ==
+X-CSE-MsgGUID: RyQFNQtrQQ2+kG9rPDiUQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40269320"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40269320"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 08:28:10 -0700
+X-CSE-ConnectionGUID: 457qTFUXRlmjY5no9b9IYQ==
+X-CSE-MsgGUID: C0543KVsQJWPXmFAluOSjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
+   d="scan'208";a="81224655"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2024 08:28:08 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5Rf4-000cZE-15;
+	Mon, 28 Oct 2024 15:28:06 +0000
+Date: Mon, 28 Oct 2024 23:27:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yu Zhang <yu.c.zhang@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 26477/30000] arch/x86/kvm/mmu/mmu.o: warning:
+ objtool: mmu_set_spte()+0x79d: unreachable instruction
+Message-ID: <202410282334.pOpu4nRk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -59,50 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028141051.eoltcyf37lf5dsyp@skbuf>
 
-Hello Vladimir,
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   8dcdd5a432518f8f8deb6ab608551ecda71bda40
+commit: 86d7f506e7147594712be20f0160b2e7f0b447f7 [26477/30000] KVM: x86: mmu: trace kvm_mmu_set_spte after the new SPTE was set
+config: x86_64-randconfig-014-20241028 (https://download.01.org/0day-ci/archive/20241028/202410282334.pOpu4nRk-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410282334.pOpu4nRk-lkp@intel.com/reproduce)
 
-On Mon, Oct 28, 2024 at 04:10:51PM +0200, Vladimir Oltean wrote:
-> Hi Breno,
-> 
-> On Mon, Oct 28, 2024 at 03:56:50AM -0700, Breno Leitao wrote:
-> > On Sun, Oct 27, 2024 at 05:36:56PM +0800, kernel test robot wrote:
-> > > Hi Breno,
-> > > 
-> > > First bad commit (maybe != root cause):
-> > > 
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
-> > > commit: 782fe08e9861d00ce8aca370453dd9ceb9a23d50 soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
-> > > date:   3 months ago
-> > > config: arm-randconfig-r123-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271721.jiVrriXD-lkp@intel.com/config)
-> > > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-> > > reproduce: (https://download.01.org/0day-ci/archive/20241027/202410271721.jiVrriXD-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202410271721.jiVrriXD-lkp@intel.com/
-> > > 
-> > > sparse warnings: (new ones prefixed by >>)
-> > > >> drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse: sparse: cast to restricted __be32
-> > >    drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file (through include/linux/module.h):
-> > >    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-> > >    drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file:
-> > > >> include/soc/fsl/qman.h:245:16: sparse: sparse: cast to restricted __be32
-> > > >> include/soc/fsl/qman.h:245:16: sparse: sparse: cast from restricted __be16
-> > 
-> > Thanks. The commit above "782fe08e98 ("soc: fsl: qbman: FSL_DPAA depends
-> > on COMPILE_TEST") was created to detect problems like this, since it is
-> > not possible to compile-test dpaa driver. 
-> > 
-> > Copying Madalin Bucur <madalin.bucur@nxp.com>, who currently maintains
-> > this driver.
-> 
-> I will handle the sparse warnings exposed by your COMPILE_TEST change,
-> there is nothing actionable for you, except review if you wish.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410282334.pOpu4nRk-lkp@intel.com/
 
-Awesome. Thank you!
+All warnings (new ones prefixed by >>):
 
---breno
+>> arch/x86/kvm/mmu/mmu.o: warning: objtool: mmu_set_spte()+0x79d: unreachable instruction
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
