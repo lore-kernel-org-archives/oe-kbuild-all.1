@@ -1,314 +1,139 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A541918DF84;
-	Mon, 28 Oct 2024 06:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AC64C83
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 06:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730095646; cv=none; b=lmweBiN0nqeqOhMbDezQUnDNX/obpvfgSsRncPGxpFsD767BQeEI/r6rCvn6WL7kiPIFixuxIUyg+FIxjsr0qzhxtL/Q9WVZ+TjMU442grhOUp9vouLGgF6D6R6tIJPI8Bmq8uv1Vz6FPt5p1gUuXViyK9b5Y2kFvgtHPx9IldI=
+	t=1730096238; cv=none; b=Cm1xMvVM2UlXkoU5lUuWsVW6gOW8SUahdniWKAgW5TOxA6mZdsRB89j3ijBIWAhhd/vSEGoFFvTTdHwVSguOfLRg1w+TXcQkIyOQQjuUQCCphT20yMRcbVW1fqPQpNFksRl2oQ3mElU78PivQGjzvpIaacCcVSOZ86jHQLbs5YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730095646; c=relaxed/simple;
-	bh=gBXNYcfzuL1+TOm6GW8YcL0Y1gBiJy/HmjEnY6NCbt4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=GNJkhXZ6rXr7AKDmYHzhT1wDz9HKZhi0IzAQIZU3Zdd0+M6r8Q7pwCAKZm9GNzbMmMdDtZQPvNdW/NKD6ZySYjs7ngsVQOcEWQ8r/RAJnbMW/iKnUp/M0DATItO91RUBSk5zNrjnFT04HeUVnkaJ+7IBl1WMRMA1MuMZ3mOrYfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pYDfGL39; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1730096238; c=relaxed/simple;
+	bh=oKywTvo10iJAaF9uBov18Cwp5Xc27wNcw1IBZW/aODc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r96ibKTelgRm4T1+x+nPS/jHGjsgQqGvVhA7ebnyNGK1leb3kuFXDd8XuW5IR3+JJR3FKV99AO9RwBc8eeT/afQWODKPak5c1yLrLRI83oERK4ViwMUF8nCqSZAA+YyAfdrr+bqn2NKjj2cYortBssfnTsJ/xx492ZSRpRZkbFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvhHrCMQ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pYDfGL39"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49RNukGH004754;
-	Mon, 28 Oct 2024 06:07:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jJ+7e7uLxKm1G1ZudNv4chOldlM2pFTeP8L9J0w6oGg=; b=pYDfGL39TLEqGlTk
-	Q8EmD21F6h45XDlNhuZMSMiwFOzsGkWKplSlwXYTCA3j3EPhn9YKjD2TVdKCUA9Q
-	PQ6Of4ub8ZfS5prmaaSFO0oZFDb9h2ACXxmOKLQpTa/ATgw7jyT0jRShvmyrtq6O
-	a+ZHxHb7qDqP4eQryNkUNgzVTwaBnILIEtg1MdPubF5oo0G858qLK1pKmW2hjmxv
-	ov2udT8+xJQMpAGIlIoQz+HfyBBb6cqPrJ5mi28dU5Kha6nAX1Qi+pwvPh3bxrZN
-	DBzeX8JdaVKTYdSeGoRikxsvwRoAUaX89Jgj4HLSJEFN+Qj41Aiwry80D7ba3Tpz
-	6ypXiw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gr0x3sf4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 06:07:14 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49S67DI4004525
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 06:07:13 GMT
-Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 27 Oct
- 2024 23:07:07 -0700
-Message-ID: <be5ecd90-040b-4853-9ffa-6512f16e64bc@quicinc.com>
-Date: Mon, 28 Oct 2024 11:37:04 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvhHrCMQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730096236; x=1761632236;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oKywTvo10iJAaF9uBov18Cwp5Xc27wNcw1IBZW/aODc=;
+  b=mvhHrCMQw/7kxhvt/WvxOiU2U3XPtdjDPPZ1arOupy1Me1KS1cV0lWSi
+   5Cu/32racCiuMfIXJwQz6emd/1e1Nt1o7s5BNvHGHsE8GA14kuqNgXt0+
+   +DkMo6udpHhaan1yG5gUwJO+ck4Vai7PFL8VBxcM1eemNEL4kJvzmQsft
+   hGYDlyss3XvWdV19xuOPZKF0kltF3bqIu6Cj8nCyPSQ9EpP7Q9i3duduG
+   hEHZb6yjHqm793zdYz6fkjCSYPQp3jzOw8aO7MdhIDhK7s79jhmCfxmr4
+   FfXOzmoOQOAN3OAjs9wO9QZvo8n7zG4MdqA3XkFFj+HMpm83rphwAwmW6
+   A==;
+X-CSE-ConnectionGUID: Wj+ERuRgQly5lDX8sH+0UA==
+X-CSE-MsgGUID: w7l8EB3QS2+5BiSEWlUWdA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29642548"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29642548"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 23:17:15 -0700
+X-CSE-ConnectionGUID: yqJX53/hTASjwQ050CzY/w==
+X-CSE-MsgGUID: BvJcEcXJTNexRGS1I+PkLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="86098080"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Oct 2024 23:17:13 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5J3u-000bKi-27;
+	Mon, 28 Oct 2024 06:17:10 +0000
+Date: Mon, 28 Oct 2024 14:16:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jesse Taube <jesse@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>,
+	Charlie Jenkins <charlie@rivosinc.com>
+Subject: [linux-next:master 4819/7183]
+ arch/riscv/kernel/traps.c:187:undefined reference to
+ `handle_misaligned_load'
+Message-ID: <202410281427.ETHk3U7B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-To: kernel test robot <lkp@intel.com>, Vinod Koul <vkoul@kernel.org>,
-        "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konradybcio@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-        <cros-qcom-dts-watchers@chromium.org>, <linux-arm-msm@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
-        <quic_vtanuku@quicinc.com>
-References: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
- <202410190549.hGAfByqg-lkp@intel.com>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <202410190549.hGAfByqg-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: oHeYzPZ4zvwZEKTYVwMbzBXzxD5G4-Gq
-X-Proofpoint-GUID: oHeYzPZ4zvwZEKTYVwMbzBXzxD5G4-Gq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
- clxscore=1011 bulkscore=0 adultscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410280050
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a39230ecf6b3057f5897bc4744a790070cfbe7a8
+commit: d1703dc7bc8ec7adb91f5ceaf1556ff1ed212858 [4819/7183] RISC-V: Detect unaligned vector accesses supported
+config: riscv-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281427.ETHk3U7B-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281427.ETHk3U7B-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410281427.ETHk3U7B-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   riscv32-linux-ld: arch/riscv/kernel/traps.o: in function `do_trap_insn_illegal':
+>> arch/riscv/kernel/traps.c:187:(.noinstr.text+0x35c): undefined reference to `handle_misaligned_load'
+>> riscv32-linux-ld: arch/riscv/kernel/traps.c:191:(.noinstr.text+0x380): undefined reference to `handle_misaligned_load'
+   riscv32-linux-ld: arch/riscv/kernel/traps.o: in function `do_trap_load_fault':
+>> arch/riscv/kernel/traps.c:198:(.noinstr.text+0x41c): undefined reference to `handle_misaligned_store'
+>> riscv32-linux-ld: arch/riscv/kernel/traps.c:198:(.noinstr.text+0x440): undefined reference to `handle_misaligned_store'
 
 
+vim +187 arch/riscv/kernel/traps.c
 
-On 10/19/2024 3:41 AM, kernel test robot wrote:
-> Hi Jyothi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on 55bcd2e0d04c1171d382badef1def1fd04ef66c5]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jyothi-Kumar-Seerapu/dt-bindings-dmaengine-qcom-gpi-Add-additional-arg-to-dma-cell-property/20241015-202637
-> base:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
-> patch link:    https://lore.kernel.org/r/20241015120750.21217-6-quic_jseerapu%40quicinc.com
-> patch subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
-> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241019/202410190549.hGAfByqg-lkp@intel.com/config)
-> compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410190549.hGAfByqg-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410190549.hGAfByqg-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> drivers/i2c/busses/i2c-qcom-geni.c:562:8: error: incompatible pointer to integer conversion passing 'dma_addr_t *' (aka 'unsigned long long *') to parameter of type 'dma_addr_t' (aka 'unsigned long long'); dereference with * [-Wint-conversion]
->       562 |                                    tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
->           |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->           |                                    *
->     drivers/i2c/busses/i2c-qcom-geni.c:519:36: note: passing argument to parameter 'tx_addr' here
->       519 |                                void *tx_buf, dma_addr_t tx_addr,
->           |                                                         ^
->>> drivers/i2c/busses/i2c-qcom-geni.c:562:47: error: incompatible pointer to integer conversion passing 'void *' to parameter of type 'dma_addr_t' (aka 'unsigned long long') [-Wint-conversion]
->       562 |                                    tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
->           |                                                                           ^~~~
->     include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
->         8 | #define NULL ((void *)0)
->           |              ^~~~~~~~~~~
->     drivers/i2c/busses/i2c-qcom-geni.c:520:36: note: passing argument to parameter 'rx_addr' here
->       520 |                                void *rx_buf, dma_addr_t rx_addr)
->           |                                                         ^
->>> drivers/i2c/busses/i2c-qcom-geni.c:586:7: error: incompatible pointer to integer conversion assigning to 'dma_addr_t' (aka 'unsigned long long') from 'dma_addr_t *' (aka 'unsigned long long *'); dereference with * [-Wint-conversion]
->       586 |         addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
->           |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->           |                *
->     3 errors generated.
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  162  
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  163  DO_ERROR_INFO(do_trap_unknown,
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  164  	SIGILL, ILL_ILLTRP, "unknown exception");
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  165  DO_ERROR_INFO(do_trap_insn_misaligned,
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  166  	SIGBUS, BUS_ADRALN, "instruction address misaligned");
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  167  DO_ERROR_INFO(do_trap_insn_fault,
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  168  	SIGSEGV, SEGV_ACCERR, "instruction access fault");
+cd054837243b5f Andy Chiu      2023-06-05  169  
+cd054837243b5f Andy Chiu      2023-06-05  170  asmlinkage __visible __trap_section void do_trap_insn_illegal(struct pt_regs *regs)
+cd054837243b5f Andy Chiu      2023-06-05  171  {
+26c38cd802c947 Andy Chiu      2023-06-25  172  	bool handled;
+26c38cd802c947 Andy Chiu      2023-06-25  173  
+cd054837243b5f Andy Chiu      2023-06-05  174  	if (user_mode(regs)) {
+cd054837243b5f Andy Chiu      2023-06-05  175  		irqentry_enter_from_user_mode(regs);
+cd054837243b5f Andy Chiu      2023-06-05  176  
+cd054837243b5f Andy Chiu      2023-06-05  177  		local_irq_enable();
+cd054837243b5f Andy Chiu      2023-06-05  178  
+26c38cd802c947 Andy Chiu      2023-06-25  179  		handled = riscv_v_first_use_handler(regs);
+26c38cd802c947 Andy Chiu      2023-06-25  180  
+26c38cd802c947 Andy Chiu      2023-06-25  181  		local_irq_disable();
+26c38cd802c947 Andy Chiu      2023-06-25  182  
+26c38cd802c947 Andy Chiu      2023-06-25  183  		if (!handled)
+cd054837243b5f Andy Chiu      2023-06-05  184  			do_trap_error(regs, SIGILL, ILL_ILLOPC, regs->epc,
+cd054837243b5f Andy Chiu      2023-06-05  185  				      "Oops - illegal instruction");
+cd054837243b5f Andy Chiu      2023-06-05  186  
+cd054837243b5f Andy Chiu      2023-06-05 @187  		irqentry_exit_to_user_mode(regs);
+cd054837243b5f Andy Chiu      2023-06-05  188  	} else {
+cd054837243b5f Andy Chiu      2023-06-05  189  		irqentry_state_t state = irqentry_nmi_enter(regs);
+cd054837243b5f Andy Chiu      2023-06-05  190  
+cd054837243b5f Andy Chiu      2023-06-05 @191  		do_trap_error(regs, SIGILL, ILL_ILLOPC, regs->epc,
+cd054837243b5f Andy Chiu      2023-06-05  192  			      "Oops - illegal instruction");
+cd054837243b5f Andy Chiu      2023-06-05  193  
+cd054837243b5f Andy Chiu      2023-06-05  194  		irqentry_nmi_exit(regs, state);
+cd054837243b5f Andy Chiu      2023-06-05  195  	}
+cd054837243b5f Andy Chiu      2023-06-05  196  }
+cd054837243b5f Andy Chiu      2023-06-05  197  
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10 @198  DO_ERROR_INFO(do_trap_load_fault,
+76d2a0493a17d4 Palmer Dabbelt 2017-07-10  199  	SIGSEGV, SEGV_ACCERR, "load access fault");
+956d705dd279f7 Damien Le Moal 2020-03-16  200  
 
-Fixed the reported issues which are comiltation warnings in V2 patch.
+:::::: The code at line 187 was first introduced by commit
+:::::: cd054837243b5f36ff395c21135ff153871180f1 riscv: Allocate user's vector context in the first-use trap
 
-> 
-> Kconfig warnings: (for reference only)
->     WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
->     Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
->     Selected by [y]:
->     - TI_K3_M4_REMOTEPROC [=y] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
-> 
-> 
-> vim +562 drivers/i2c/busses/i2c-qcom-geni.c
-> 
->     532	
->     533	/**
->     534	 * gpi_i2c_multi_desc_unmap() - unmaps the buffers post multi message TX transfers
->     535	 * @dev: pointer to the corresponding dev node
->     536	 * @gi2c: i2c dev handle
->     537	 * @msgs: i2c messages array
->     538	 * @peripheral: pointer to the gpi_i2c_config
->     539	 */
->     540	static void gpi_i2c_multi_desc_unmap(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[],
->     541					     struct gpi_i2c_config *peripheral)
->     542	{
->     543		u32 msg_xfer_cnt, wr_idx = 0;
->     544		struct gpi_multi_xfer *tx_multi_xfer = &peripheral->multi_xfer;
->     545	
->     546		/*
->     547		 * In error case, need to unmap all messages based on the msg_idx_cnt.
->     548		 * Non-error case unmap all the processed messages.
->     549		 */
->     550		if (gi2c->err)
->     551			msg_xfer_cnt = tx_multi_xfer->msg_idx_cnt;
->     552		else
->     553			msg_xfer_cnt = tx_multi_xfer->irq_cnt * NUM_MSGS_PER_IRQ;
->     554	
->     555		/* Unmap the processed DMA buffers based on the received interrupt count */
->     556		for (; tx_multi_xfer->unmap_msg_cnt < msg_xfer_cnt; tx_multi_xfer->unmap_msg_cnt++) {
->     557			if (tx_multi_xfer->unmap_msg_cnt == gi2c->num_msgs)
->     558				break;
->     559			wr_idx = tx_multi_xfer->unmap_msg_cnt % QCOM_GPI_MAX_NUM_MSGS;
->     560			geni_i2c_gpi_unmap(gi2c, &msgs[tx_multi_xfer->unmap_msg_cnt],
->     561					   tx_multi_xfer->dma_buf[wr_idx],
->   > 562					   tx_multi_xfer->dma_addr[wr_idx], NULL, NULL);
->     563			tx_multi_xfer->freed_msg_cnt++;
->     564		}
->     565	}
->     566	
->     567	static int geni_i2c_gpi(struct geni_i2c_dev *gi2c, struct i2c_msg msgs[], int cur_msg_idx,
->     568				struct dma_slave_config *config, dma_addr_t *dma_addr_p,
->     569				void **buf, unsigned int op, struct dma_chan *dma_chan)
->     570	{
->     571		struct gpi_i2c_config *peripheral;
->     572		unsigned int flags;
->     573		void *dma_buf;
->     574		dma_addr_t addr;
->     575		enum dma_data_direction map_dirn;
->     576		enum dma_transfer_direction dma_dirn;
->     577		struct dma_async_tx_descriptor *desc;
->     578		int ret;
->     579		struct gpi_multi_xfer *gi2c_gpi_xfer;
->     580		dma_cookie_t cookie;
->     581	
->     582		peripheral = config->peripheral_config;
->     583		gi2c_gpi_xfer = &peripheral->multi_xfer;
->     584		gi2c_gpi_xfer->msg_idx_cnt = cur_msg_idx;
->     585		dma_buf = gi2c_gpi_xfer->dma_buf[gi2c_gpi_xfer->buf_idx];
->   > 586		addr = gi2c_gpi_xfer->dma_addr[gi2c_gpi_xfer->buf_idx];
->     587	
->     588		dma_buf = i2c_get_dma_safe_msg_buf(&msgs[gi2c_gpi_xfer->msg_idx_cnt], 1);
->     589		if (!dma_buf) {
->     590			gi2c->err = -ENOMEM;
->     591			return -ENOMEM;
->     592		}
->     593	
->     594		if (op == I2C_WRITE)
->     595			map_dirn = DMA_TO_DEVICE;
->     596		else
->     597			map_dirn = DMA_FROM_DEVICE;
->     598	
->     599		addr = dma_map_single(gi2c->se.dev->parent,
->     600				      dma_buf, msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
->     601				      map_dirn);
->     602		if (dma_mapping_error(gi2c->se.dev->parent, addr)) {
->     603			i2c_put_dma_safe_msg_buf(dma_buf, &msgs[gi2c_gpi_xfer->msg_idx_cnt],
->     604						 false);
->     605			gi2c->err = -ENOMEM;
->     606			return -ENOMEM;
->     607		}
->     608	
->     609		if (gi2c->is_tx_multi_xfer) {
->     610			if (((gi2c_gpi_xfer->msg_idx_cnt + 1) % NUM_MSGS_PER_IRQ))
->     611				peripheral->flags |= QCOM_GPI_BLOCK_EVENT_IRQ;
->     612			else
->     613				peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
->     614	
->     615			/* BEI bit to be cleared for last TRE */
->     616			if (gi2c_gpi_xfer->msg_idx_cnt == gi2c->num_msgs - 1)
->     617				peripheral->flags &= ~QCOM_GPI_BLOCK_EVENT_IRQ;
->     618		}
->     619	
->     620		/* set the length as message for rx txn */
->     621		peripheral->rx_len = msgs[gi2c_gpi_xfer->msg_idx_cnt].len;
->     622		peripheral->op = op;
->     623	
->     624		ret = dmaengine_slave_config(dma_chan, config);
->     625		if (ret) {
->     626			dev_err(gi2c->se.dev, "dma config error: %d for op:%d\n", ret, op);
->     627			goto err_config;
->     628		}
->     629	
->     630		peripheral->set_config = 0;
->     631		peripheral->multi_msg = true;
->     632		flags = DMA_PREP_INTERRUPT | DMA_CTRL_ACK;
->     633	
->     634		if (op == I2C_WRITE)
->     635			dma_dirn = DMA_MEM_TO_DEV;
->     636		else
->     637			dma_dirn = DMA_DEV_TO_MEM;
->     638	
->     639		desc = dmaengine_prep_slave_single(dma_chan, addr,
->     640						   msgs[gi2c_gpi_xfer->msg_idx_cnt].len,
->     641						   dma_dirn, flags);
->     642		if (!desc) {
->     643			dev_err(gi2c->se.dev, "prep_slave_sg failed\n");
->     644			gi2c->err = -EIO;
->     645			goto err_config;
->     646		}
->     647	
->     648		desc->callback_result = i2c_gpi_cb_result;
->     649		desc->callback_param = gi2c;
->     650	
->     651		if (!((msgs[cur_msg_idx].flags & I2C_M_RD) && op == I2C_WRITE)) {
->     652			gi2c_gpi_xfer->msg_idx_cnt++;
->     653			gi2c_gpi_xfer->buf_idx = (cur_msg_idx + 1) % QCOM_GPI_MAX_NUM_MSGS;
->     654		}
->     655		cookie = dmaengine_submit(desc);
->     656		if (dma_submit_error(cookie)) {
->     657			dev_err(gi2c->se.dev,
->     658				"%s: dmaengine_submit failed (%d)\n", __func__, cookie);
->     659			return -EINVAL;
->     660		}
->     661	
->     662		if (gi2c->is_tx_multi_xfer) {
->     663			dma_async_issue_pending(gi2c->tx_c);
->     664			if ((cur_msg_idx == (gi2c->num_msgs - 1)) ||
->     665			    (gi2c_gpi_xfer->msg_idx_cnt >=
->     666			     QCOM_GPI_MAX_NUM_MSGS + gi2c_gpi_xfer->freed_msg_cnt)) {
->     667				ret = gpi_multi_desc_process(gi2c->se.dev, gi2c_gpi_xfer,
->     668							     gi2c->num_msgs, XFER_TIMEOUT,
->     669							     &gi2c->done);
->     670				if (ret) {
->     671					dev_dbg(gi2c->se.dev,
->     672						"I2C multi write msg transfer timeout: %d\n",
->     673						ret);
->     674					gi2c->err = -ETIMEDOUT;
->     675					goto err_config;
->     676				}
->     677			}
->     678		} else {
->     679			/* Non multi descriptor message transfer */
->     680			*buf = dma_buf;
->     681			*dma_addr_p = addr;
->     682		}
->     683		return 0;
->     684	
->     685	err_config:
->     686		dma_unmap_single(gi2c->se.dev->parent, addr,
->     687				 msgs[cur_msg_idx].len, map_dirn);
->     688		i2c_put_dma_safe_msg_buf(dma_buf, &msgs[cur_msg_idx], false);
->     689		return ret;
->     690	}
->     691	
-> 
+:::::: TO: Andy Chiu <andy.chiu@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
