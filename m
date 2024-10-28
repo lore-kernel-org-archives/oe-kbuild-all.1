@@ -1,187 +1,178 @@
-Received: from out203-205-221-149.mail.qq.com (out203-205-221-149.mail.qq.com [203.205.221.149])
+Received: from EUR02-AM0-obe.outbound.protection.outlook.com (mail-am0eur02on2074.outbound.protection.outlook.com [40.107.247.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723D01DDC15
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 14:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.149
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730124472; cv=none; b=auurvgRgPCZPAC208Nu287g/b+sFkLqtdcRNMMf8S2CtW6zDxS8T4G61+WvApqxplDAdmmY6rgnLCgKS8CIScJN9/LbyQU037qgBfpsE5luESzvwEsW1MeZ4/GNyAanBNMHPPskKxtYxBEHA3NDzPBSUSvixCTALmuLAyv3Bv64=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730124472; c=relaxed/simple;
-	bh=lccQNq4i918GrNwS9BdSkhhIpyUJbLYn74abYhsHJFE=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=trKwrU6FvAsSCYDLwLguLO7f5rIv7S5aukv7vBbUW7BM+EqJMtVJKi0CarjPYtxXtx73e9qDsHCCELJz1C2YTvJGklUT23ZnVu7PkUiWcn8jcVM23teLtUkl51wTksM7ylJC0ko11/7zdavVO0iiwzOdInMk8LAqiz64NwgW24Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=sFF4t2oB; arc=none smtp.client-ip=203.205.221.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB551DE2AB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 14:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.247.74
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730124660; cv=fail; b=t3D0GdWNnYGJLO8XCnNMc1TY9JgFP0W4AFmS1RJke9YH97zl8aS33C68ssU51kAvWKfgcigPb8BDNZz/Y6rMOYadMnsfq3St8qfgEYt1XAmmCV7SHR31nPSSdK+zHSysEy6p9g4pEJzvIXXd9ErkHIAF6qSK7mxbUWodipgEKSY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730124660; c=relaxed/simple;
+	bh=7yDdlr6W5WFN42r27WB813Ppg1AbvHGUvGhvxjQGs4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=m8YpecxYHh1c+G+26v+g53vg9iZbtE1Rd4LBBNCMtqfNLSxmLdYMNqvJdlbWEF6xjNh8FVUoSVqRv65QQeFCyflLJJnpn4G51mLSwFMKwzPify7QtfIewkHF7Amq2YB0LE279TKK64uOVpzSL5pMPw0ZGT4oZ3l/aKcs8h/GTvI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=b5G3wPDM; arc=fail smtp.client-ip=40.107.247.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="sFF4t2oB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1730124464; bh=8TiYbtAb8TSjmDOw3s6DVg04LEVW7YJKUVgJfIkaEFI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=sFF4t2oBjqFnI7/cy91fol0l2dULWKQZoMoxs+LgSQX6xcvknVnFA6F7e3/Yfddbg
-	 WEQtB8e7xQD+MeARertXZOAJPoAMYtQyC+CstdnOpF+rzWorMr8elwQeTzrZ6dtKw8
-	 62SlVojQ2mWs1nCrAl97utlJBtE+yJRtpAlFY0SQ=
-Received: from pek-lxu-l1.wrs.com ([111.198.227.254])
-	by newxmesmtplogicsvrszb21-0.qq.com (NewEsmtp) with SMTP
-	id 1DF06AA6; Mon, 28 Oct 2024 22:07:31 +0800
-X-QQ-mid: xmsmtpt1730124451twzhv6b4w
-Message-ID: <tencent_2EB5A7DB06DD92D88651C9B3EED8AEF38C06@qq.com>
-X-QQ-XMAILINFO: MesT5uKpDagV9MmQ/1zIYMmDM5OsVMyEIJJBXsbuqa/cDoqWdcIQT1WzWu/buD
-	 e3uixi1oYRILDJJA+KFUJ3yCjTcZ2CslVuBNaMEX1AVHHWa48Nc0PNfAXx3hmhPMQmGtm4oYeEvB
-	 9KxPrO3Lfdg4Yfsbi0EKQvUD5dEsvKaAynAVmTJ9Si6lDYjSG0mcg6hDElVT15sN4GCNcjQBCYy5
-	 u7329aVB5Ym+A+puHmCOtfzjiDz3dO4643HqPaF5d7UOjSNwVgo77coMzhGpoP0pJwde1YsgxQ0U
-	 S43CLAWVnS2WLkViObKPgMxgvPO4pqFDnIvUd7rSAzTJpktu1VUnjCqe0g253HtwevWyHQw136Tf
-	 RijRuhTLYvjfuewd9eardJ9YkvDKZTQGIcqpmWN0KFjsi8vMZ1oqtPB6guYUUhpp9hDRreC7i9Ns
-	 Tj48SI2Ye+WTMsSF3FGDGjr4LrEy/wZENgB2DtXG/5y8/gLPfg+T9TFj6cE1xyXLSo1ZucWOtJ+M
-	 od3OHPhSgaJq3YC8EPkasEWIZA338NUj767qq9gjp2Sg3bWkkoIOkb8ib+EPA0mWpIjrMgqhnDt3
-	 Wma8I6Q51ZvFmKQoFZNBt8H3GASyPw7yZioi6skfgpkEIUul+IDmN8vKxAGZNRbeAC78q1kH4mGp
-	 3PZF8QRZA/kuf376hMg2G80zxXusVuC1QkiWl9qc5FEuRn39U2DtHw/GXBSUw+EdaeEJV3Aom0RA
-	 XUy8mtSAT6zXTwfSghGfuZ86mY3yw8x7AIQDHyGLByBpODSAJLG5QJlKHTyjgsjBRNVnomm99fJI
-	 f+Rk8p3mrTq3Fz6FTheogCk0DBz47u6hlQDg445hL+yAPrsFgPHnAaI4REj5qAesGJMaJYmRqBrd
-	 3WvGrqO9UFJ5X2ER2FWFXwmJLER8ffxUBCIXeITf1iQX+wTuAzgHqWeFF0db4j970SMi4LuGS36w
-	 P2mXUyEVpywG0tz63YYKBY7ro4tIuRMA9WM2xokmQ=
-X-QQ-XMRINFO: NI4Ajvh11aEj8Xl/2s1/T8w=
-From: Edward Adam Davis <eadavis@qq.com>
-To: lkp@intel.com
-Cc: adilger.kernel@dilger.ca,
-	eadavis@qq.com,
-	linux-ext4@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	syzbot+0c99c3f90699936c1e77@syzkaller.appspotmail.com,
-	syzkaller-bugs@googlegroups.com,
-	tytso@mit.edu
-Subject: [PATCH V2] ext4: Add a sanity check for next dentry when insert
-Date: Mon, 28 Oct 2024 22:07:31 +0800
-X-OQ-MSGID: <20241028140730.2156701-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.47.0
-In-Reply-To: <202410272114.DrZ8huEU-lkp@intel.com>
-References: <202410272114.DrZ8huEU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="b5G3wPDM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K3rZtsu0vQm+JWz4wafKCBuY238PC2GgeZ9fh58UwZ/cxvk8zC2u/Iyto0cNTy6pY7vF75mGKB36JgpQuBguaBI1y1x97NsoH4AJF/HufagQe1MjQT2LIHPj2I8qdcqAjHwQxMnRgx8QzNYjO5RRKfKim0MzMXZOwbjuqlysncyJOK1Voax/RTzLga3ududrhCZCz1Fm9x1IzprSdUWdPYr0ymiLWcwkfF3E46JEM6flRTk9fqwjK2zz8bY6H3hV+RmDJ4ZKM/zJTWblsR/A1nzWartB793xRI1c9WQ7bKy7qKKZ8cQfZr82aqeRz/Cvmu6+7RFQiyqaqAYeNoAR/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=k4IVus9xsml9D4vHOnQtodqZqDSuVIIYgWQydMTPe3A=;
+ b=SXlQ0nVFYt2Vd+vhbswrjCGwPaTpaC4VQMxpdDib5fZ+G73y1MXXVNDDdgAcSU8NAXxkEZYIj9rI0DRgUusPG4vnVKN8VWApbRfKs87VhvDuFPW65cAgXgraZr/Ss+dA0IRb0AbgOsKmYUuK915dhKSXGH0GxSNdqHdUHHZk5Q+SCy/sgTiPJYbFGCnYYumBxnm2MNr5/2I7T4xFEFs8Bk09KLOD3T8N3SzOLpIY7s6uJWJ4PdKDdRewRvr6Ja7blcmW8cD4uWO3yMJ8ow7+tSpeM2lzPTzshSi4mPsCc+B6LTTydfu/qGG5yQyFC3vukzvkkvAtRiRXY5DSyj5QFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k4IVus9xsml9D4vHOnQtodqZqDSuVIIYgWQydMTPe3A=;
+ b=b5G3wPDMTh6Red9M7TzBSlAGUMx7ef9GxRAMmpXXmBSSshGLxJgnqpNomdgKyqYGCfpoGy0T9t8fZBpNH+GLjqXCTnprAi9ntUaLhgiV0Vv/vh/PDPAmsQaf6sHEPB6++KBw8v6M+h5Q+pf2zUSpqu3D+s5kZIGxDj8MgTzuGfjsSpYlY8hB3xWjiVu3HDnvW/gS4QJtKm+Y00860iSj5dDMU8vte15R6kkNzHCuyfCqclP46hsvmaD+neQm48a1lrt3CUg3PvCwU8MS67wHxFFWtDVl3yrojh97tJwZe9eYXLKuTS1Cpcjpu7QPN8ra0VktcMlttizJFwro5JaW0A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM8PR04MB7779.eurprd04.prod.outlook.com (2603:10a6:20b:24b::14)
+ by DB9PR04MB9578.eurprd04.prod.outlook.com (2603:10a6:10:305::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.24; Mon, 28 Oct
+ 2024 14:10:54 +0000
+Received: from AM8PR04MB7779.eurprd04.prod.outlook.com
+ ([fe80::7417:d17f:8d97:44d2]) by AM8PR04MB7779.eurprd04.prod.outlook.com
+ ([fe80::7417:d17f:8d97:44d2%3]) with mapi id 15.20.8093.024; Mon, 28 Oct 2024
+ 14:10:54 +0000
+Date: Mon, 28 Oct 2024 16:10:51 +0200
+From: Vladimir Oltean <vladimir.oltean@nxp.com>
+To: Breno Leitao <leitao@debian.org>
+Cc: kernel test robot <lkp@intel.com>,
+	Madalin Bucur <madalin.bucur@nxp.com>,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: Re: drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse:
+ sparse: cast to restricted __be32
+Message-ID: <20241028141051.eoltcyf37lf5dsyp@skbuf>
+References: <202410271721.jiVrriXD-lkp@intel.com>
+ <20241028-sticky-refined-lionfish-b06c0c@leitao>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241028-sticky-refined-lionfish-b06c0c@leitao>
+X-ClientProxiedBy: VE1PR08CA0033.eurprd08.prod.outlook.com
+ (2603:10a6:803:104::46) To AM8PR04MB7779.eurprd04.prod.outlook.com
+ (2603:10a6:20b:24b::14)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7779:EE_|DB9PR04MB9578:EE_
+X-MS-Office365-Filtering-Correlation-Id: adc95475-1dad-4f35-31ed-08dcf75a55de
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?BmCrSaeE8gDYCw8B7MlqDM3sf50v3e68egkMsdi4HsKYiZIvxBai4x3kI1VK?=
+ =?us-ascii?Q?NY/GvpHo98djCcwKSS0ZqcF3DTor8tuXdD4SmYBDmgq4BrTL0i7FChrSGvO0?=
+ =?us-ascii?Q?LZWzTxo0dZE2zV6PxMxtAHSj+0fPxuTK/TDCmphLI6X7DwgOCzr81ZdJczaA?=
+ =?us-ascii?Q?omD7R1RGWV++VLtQVbSH9tRuR5UXksIyDVewXx+c+V/D+yf+XJnbGLB6ROZ6?=
+ =?us-ascii?Q?HSo1vDxjes163wWN25W5s3dmHM9tdmmg6V+s6Sh+ZTpzJSBUnMPXsk0KoZml?=
+ =?us-ascii?Q?pv19230ta+iZ2eD014h8ts97lwD0Sf65qOkXDboictvafjN22RaWj73/DGB4?=
+ =?us-ascii?Q?TG/j/Ze0o69GSJCgc3QlDAsy8EOjtvtLh3kxFHTusJqMYSY9UE05pH+reEzv?=
+ =?us-ascii?Q?8R9t+huUKSvPdLLXo4C76XTjVbnA5h/Nhq1RvguzxVvZrRWG2ntvtvVMAVNI?=
+ =?us-ascii?Q?vyxgtor6HoeaSZsvTov7P3vqTZG4KduEtiWHdOuWeoWc3kZP22V/5nRh7rYg?=
+ =?us-ascii?Q?Dfk5JdaOOSTgpNjM6cpXzoHdbpYRd22WUC9h8IQZjf1sTZViIQ/a8qBzkxso?=
+ =?us-ascii?Q?ZNFhjX1Omo6aJ80EOJ3NVc4yYYwOdut3Td7X7Y1Y3DVrEFHYg9u/AKbatIxO?=
+ =?us-ascii?Q?A6eYEwl0t6jnddGZ4+7LQi9If94t/zhr32LsBPTxpRNM/0iWJB9gKCCV5Rtg?=
+ =?us-ascii?Q?Pcun0BoyNOQEZHopFCf8xtqIkyLc+a1FQk9t/ODz5XkdlALtiNaCp6FCa6Xf?=
+ =?us-ascii?Q?JJqIwk6MHQcSDD6k8AuWcNwaXy94vcL/i6x6tb+o5CYWDoOMr7doyXpBBhD3?=
+ =?us-ascii?Q?xyNWvO6RmcC1KxaYIBkTWA4rTFQfxSE/5DwpKMaRe8dCZhknNmSfN5d4luSh?=
+ =?us-ascii?Q?k0qg2ik2bATXA+07IsxR4FHowm6qW7kSUhk2E9RLRIARSs2VX9w5BhStTOGa?=
+ =?us-ascii?Q?0n1VKSldVkNV+dEX0l8qf9BivNGO73jCDXDzr7MvSp5oFt67rvmo5pDNOVwR?=
+ =?us-ascii?Q?KQQVkdTgiAKCthFm80ctgLoY93b5GcDzE/cz6lrTq7+I2FzwKUwO+yKZuzS0?=
+ =?us-ascii?Q?JKOxh1V8GnJ6JdRzluDmBdLEWNI+4gBAalnMkXBPwK3TBfPW20MOPB5BDqmK?=
+ =?us-ascii?Q?BPVpjhtoBV57TxgAOiD3m9/+2B6o8sqLDmjmgMisFO7GJHFtk96xwpaDshlg?=
+ =?us-ascii?Q?B4m6Ab6syWwiNCA7TvhSZswvkGp1YClvYchstIh9TIJAI/pSnznlinSjUktT?=
+ =?us-ascii?Q?GOAZBkOeVdBaamtOFJ7V?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7779.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2JA9FvnT9v5fbkej/ezArKrXo/YE8pUVg0JvQ9GHVx9MywPyjTTpskiK6zTk?=
+ =?us-ascii?Q?XvTx3udVFmnHsY37tA3iW1bxcEygHJj+1EjL3s3IcVQSvaVOoUhqY7rLcKYQ?=
+ =?us-ascii?Q?5QMThISCZOnpy/CRnwX7e/Wp3ddYgs0bB0bz+l6UxEnNsjEaJLOR+MWMtehF?=
+ =?us-ascii?Q?rbJIJiOhoCu37nOXLIGhbWus//BqWR7qw8PsApF0EPcg/l1gd57A6ViTpB1n?=
+ =?us-ascii?Q?5KQjZlG6Efj8AvZiNKvnBggtmolt/C9bzGbZU7eRGlT2u0Sm1of5wCpGSHCo?=
+ =?us-ascii?Q?fBlDZm+OviwicWwJ2ngIms7UGaKFwzAtrUkttKvot5mt4y2/7hBXh0HO5y0z?=
+ =?us-ascii?Q?V4qy3XftxnEYlPgcAmWSrpJjLDICelAFl+TfGV1PgPC1TXS39taKnRqOi6GS?=
+ =?us-ascii?Q?0Qi8IJni4AN1GYVCnX9JGevzYAlq1gZarLKtbntldHU97aNRsyXkcr/7mzp1?=
+ =?us-ascii?Q?c8Cp31W7jRXfoHxZe6LFB2AvxOkp/3QxvZ1kQiXyo0KtCK6KbfeFu06ERK+6?=
+ =?us-ascii?Q?nTDqbyNjYN4SCmgE8fsYMVJBrAL4DQaIeK47MCMeoQHbbhMyPVNECz4cVgur?=
+ =?us-ascii?Q?GlvRkhr0xUXRECPhm+7YcOpvQEZw/isffgO26/fJu4TELeNbY7k+GfbOpEtp?=
+ =?us-ascii?Q?vIBwwWa8OwrvSBLQvJvCOm4Xsx9L6VEqyW/g+uZ9A0Eg3subRMH2hT0FlLTW?=
+ =?us-ascii?Q?rACzrJBly+ekzkDwlsnAG7XvYJ12sqIgb3Ys8pc643syRQhR05q7MZ329tGN?=
+ =?us-ascii?Q?RsGMokMWMo2pV3PeZaOxhJxhLNQJZSKWHg0hs7ZDfpxtoUQSfcY7mQsbfRBD?=
+ =?us-ascii?Q?RsYNoLqjUDfsgskdqMq4gJcCsEgXG5sKhVMgAe40nUAPdfbEsrNyGa+MBB/r?=
+ =?us-ascii?Q?mtdxHEwZjqKf5XbHga6no22XpHJRYBGyBdBaGqyihaLJzQXBbDaKucnavyKe?=
+ =?us-ascii?Q?W/F6zqp/PcfZ6KAJxhkhYPmQGH1fJBbkim3bMJRvnZqOPBT6JTb0iHupcpKg?=
+ =?us-ascii?Q?zqATB6XAAbO6GE/pLohstPf4Joecrw/hh5X4sPqhfD0YnNo+7aigNXqOx4G8?=
+ =?us-ascii?Q?c+c3+MZVTVO6OYfda+8GBtHmtaRYfnHpc3P+z9j6ZegwrniLqWqvEfy6pjQO?=
+ =?us-ascii?Q?TSGVkOLl5b18HrRQGYsY4baPTy49OCLK/DBYbNA1znJNTe65B1Ixzy/2v/Ic?=
+ =?us-ascii?Q?eF2HhukM3c6lt3ERmzyn/ZbITapg9yO/W3368FfRo7OnrCD2aa0Um4G38S8b?=
+ =?us-ascii?Q?wIdGiWEyWoIYROjKeVB7C7ENXX4baZB1Rg9i16yaym0VRda7wCE2+E87pbdf?=
+ =?us-ascii?Q?ELDvmYkxBlJA44pTY+g8h+z2idD3u5xnAyTv33G3jbptr8zASLQv5Qc5dtiI?=
+ =?us-ascii?Q?x73IcI2d4xzWbqZoIzmN9NVnvzLLEyk6WnNj3Wu8yzdWY9ouooaVm/gdyxNb?=
+ =?us-ascii?Q?HYFwcL+ngQud4sPSbdARte84baNxfOj3VuRkMF2HPalizgnNgVryLNBB+nqI?=
+ =?us-ascii?Q?Z4ZqMiRYQfj85m/ZHgHPHmzMzvzUhi9MH3U/iAnnByUOcl85RZ1kSWw/Z4c9?=
+ =?us-ascii?Q?xEoHrC7jp8PcnKua5ptMtvHmjVL7n9LaFf8dLh6kmTP8uMOSvZH19CytFksV?=
+ =?us-ascii?Q?Pg=3D=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: adc95475-1dad-4f35-31ed-08dcf75a55de
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7779.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2024 14:10:54.0914
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: A3/Pc7+fcZ/vdq8IpFhEHPd7QFAIriylGp9LOky8a4HFbNaPtbEoyM2Fp64dLmATzqxyqc5TWa8sLkHM0vzQlg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9578
 
-Syzbot reported a use-after-free in ext4_insert_dentry.
+Hi Breno,
 
-Before copying the file name to the next directory entry, it is necessary to
-confirm whether there is enough space in the next directory entry.
-When the space is insufficient, it will not be inserted and an error code
--EINVAL will be returned.
+On Mon, Oct 28, 2024 at 03:56:50AM -0700, Breno Leitao wrote:
+> On Sun, Oct 27, 2024 at 05:36:56PM +0800, kernel test robot wrote:
+> > Hi Breno,
+> > 
+> > First bad commit (maybe != root cause):
+> > 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   850925a8133c73c4a2453c360b2c3beb3bab67c9
+> > commit: 782fe08e9861d00ce8aca370453dd9ceb9a23d50 soc: fsl: qbman: FSL_DPAA depends on COMPILE_TEST
+> > date:   3 months ago
+> > config: arm-randconfig-r123-20241027 (https://download.01.org/0day-ci/archive/20241027/202410271721.jiVrriXD-lkp@intel.com/config)
+> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+> > reproduce: (https://download.01.org/0day-ci/archive/20241027/202410271721.jiVrriXD-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202410271721.jiVrriXD-lkp@intel.com/
+> > 
+> > sparse warnings: (new ones prefixed by >>)
+> > >> drivers/net/ethernet/freescale/dpaa/dpaa_eth.c:2745:24: sparse: sparse: cast to restricted __be32
+> >    drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file (through include/linux/module.h):
+> >    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+> >    drivers/net/ethernet/freescale/dpaa/dpaa_eth.c: note: in included file:
+> > >> include/soc/fsl/qman.h:245:16: sparse: sparse: cast to restricted __be32
+> > >> include/soc/fsl/qman.h:245:16: sparse: sparse: cast from restricted __be16
+> 
+> Thanks. The commit above "782fe08e98 ("soc: fsl: qbman: FSL_DPAA depends
+> on COMPILE_TEST") was created to detect problems like this, since it is
+> not possible to compile-test dpaa driver. 
+> 
+> Copying Madalin Bucur <madalin.bucur@nxp.com>, who currently maintains
+> this driver.
 
-Reported-by: syzbot+0c99c3f90699936c1e77@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0c99c3f90699936c1e77
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
----
-V1 -> V2: change check_next_dentry to static and comments
-
- fs/ext4/ext4.h   |  2 +-
- fs/ext4/inline.c |  4 +++-
- fs/ext4/namei.c  | 32 ++++++++++++++++++++++++++------
- 3 files changed, 30 insertions(+), 8 deletions(-)
-
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index 44b0d418143c..e07ac540ed00 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -2834,7 +2834,7 @@ extern int ext4_find_dest_de(struct inode *dir, struct inode *inode,
- 			     void *buf, int buf_size,
- 			     struct ext4_filename *fname,
- 			     struct ext4_dir_entry_2 **dest_de);
--void ext4_insert_dentry(struct inode *dir, struct inode *inode,
-+int ext4_insert_dentry(struct inode *dir, struct inode *inode,
- 			struct ext4_dir_entry_2 *de,
- 			int buf_size,
- 			struct ext4_filename *fname);
-diff --git a/fs/ext4/inline.c b/fs/ext4/inline.c
-index 3536ca7e4fcc..e318b13459d1 100644
---- a/fs/ext4/inline.c
-+++ b/fs/ext4/inline.c
-@@ -1022,7 +1022,9 @@ static int ext4_add_dirent_to_inline(handle_t *handle,
- 					    EXT4_JTR_NONE);
- 	if (err)
- 		return err;
--	ext4_insert_dentry(dir, inode, de, inline_size, fname);
-+	err = ext4_insert_dentry(dir, inode, de, inline_size, fname);
-+	if (err)
-+		return err;
- 
- 	ext4_show_inline_dir(dir, iloc->bh, inline_start, inline_size);
- 
-diff --git a/fs/ext4/namei.c b/fs/ext4/namei.c
-index 790db7eac6c2..1c9fedf36fb0 100644
---- a/fs/ext4/namei.c
-+++ b/fs/ext4/namei.c
-@@ -2084,24 +2084,38 @@ int ext4_find_dest_de(struct inode *dir, struct inode *inode,
- 	return 0;
- }
- 
--void ext4_insert_dentry(struct inode *dir,
-+static int check_next_dentry(struct inode *dir,
- 			struct inode *inode,
- 			struct ext4_dir_entry_2 *de,
- 			int buf_size,
- 			struct ext4_filename *fname)
- {
--
- 	int nlen, rlen;
- 
- 	nlen = ext4_dir_rec_len(de->name_len, dir);
- 	rlen = ext4_rec_len_from_disk(de->rec_len, buf_size);
- 	if (de->inode) {
--		struct ext4_dir_entry_2 *de1 =
-+		struct ext4_dir_entry_2 *nde =
- 			(struct ext4_dir_entry_2 *)((char *)de + nlen);
--		de1->rec_len = ext4_rec_len_to_disk(rlen - nlen, buf_size);
-+		nde->rec_len = ext4_rec_len_to_disk(rlen - nlen, buf_size);
- 		de->rec_len = ext4_rec_len_to_disk(nlen, buf_size);
--		de = de1;
-+		de = nde;
-+		rlen = ext4_rec_len_from_disk(de->rec_len, buf_size);
-+		return fname_len(fname) > rlen - EXT4_BASE_DIR_LEN;
- 	}
-+
-+	return 0;
-+}
-+
-+int ext4_insert_dentry(struct inode *dir,
-+			struct inode *inode,
-+			struct ext4_dir_entry_2 *de,
-+			int buf_size,
-+			struct ext4_filename *fname)
-+{
-+	if (check_next_dentry(dir, inode, de, buf_size, fname))
-+		return -EINVAL;
-+
- 	de->file_type = EXT4_FT_UNKNOWN;
- 	de->inode = cpu_to_le32(inode->i_ino);
- 	ext4_set_de_type(inode->i_sb, de, inode->i_mode);
-@@ -2114,6 +2128,8 @@ void ext4_insert_dentry(struct inode *dir,
- 		EXT4_DIRENT_HASHES(de)->minor_hash =
- 						cpu_to_le32(hinfo->minor_hash);
- 	}
-+
-+	return 0;
- }
- 
- /*
-@@ -2151,7 +2167,11 @@ static int add_dirent_to_buf(handle_t *handle, struct ext4_filename *fname,
- 	}
- 
- 	/* By now the buffer is marked for journaling */
--	ext4_insert_dentry(dir, inode, de, blocksize, fname);
-+	err = ext4_insert_dentry(dir, inode, de, blocksize, fname);
-+	if (err) {
-+		ext4_std_error(dir->i_sb, err);
-+		return err;
-+	}
- 
- 	/*
- 	 * XXX shouldn't update any times until successful
--- 
-2.43.0
-
+I will handle the sparse warnings exposed by your COMPILE_TEST change,
+there is nothing actionable for you, except review if you wish.
