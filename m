@@ -1,332 +1,135 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BF5E156F5D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 05:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AB118E74C;
+	Mon, 28 Oct 2024 06:06:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730094977; cv=none; b=OyjjYp7QkcPz51Cf4DTUHkkaN4FNZQACjT+UbMdM2Ko1Wsgr4KhJojZCgtT9TCjzVEw/lsStTCIIAIenPZPN8xnRgq14PmBSCtLn3ivvlL5WYvNvXSbebyo1Fwt118i0L7uc58gQOqzPqbhRWd6SzVOrOY5zC5gfMz0idNYyLpM=
+	t=1730095595; cv=none; b=UTKogaWRMU0hZdwMisNGFMfLvV1ebz/652vpSICVif+LSRL9YdPCoyJGlHlrhPW+CfKiaUpt1F8YXVPDtNAZ1wEnsjsHb5w4fM4lY8+HMhLPwOvChJe/dBB7jCl91f5LIgBLIdvEC8/AgWDubgZ7rWx3+nxxNhpSl5JKr7bwk3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730094977; c=relaxed/simple;
-	bh=QBDLZpz+h+e5UehtO06ip2OGJXJ+vu2UmeJfqKj+pAw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YuI1kVxfWAXPjP441XHmre4vfAgihf5cdJOomcHrSer1f+vgClb777gfHKO73Horf/vAlPj0Z7+4CPg8adug1aKvSKGiLrF4+hDIjq8qtJ90RYf6+K2jZw9ZoYziEae5X7bOFC2YMGcQ+iNhiXlisu+eZX9obZE4bXMV+v7o62E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=buF4FvNe; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730095595; c=relaxed/simple;
+	bh=miIxxl5+U0i14SfV93WdmSgaguMjZukgbuvI8Med48Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=phdroc+fh6VeqgYUI7EI+tr1KgWqcqdpC185MPZznalGAeeuNaGPPyHUC7pE0wJM/n16BFyPEMFxAcjrBWYk4mg62pf1avViO5m5DlKAWqRhzx5+Sh/CuuSK89syaw5x6hTH9onLbypJ1WNiYB+Ja3p3ATuadj1KHQMSCVw9r/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Zf48rz3J; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="buF4FvNe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730094975; x=1761630975;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QBDLZpz+h+e5UehtO06ip2OGJXJ+vu2UmeJfqKj+pAw=;
-  b=buF4FvNe1kfF1KlnvAAJWTqd2nwFknXQhPVNa+Wo4vAwFkMcx/0eVCw5
-   6GZzzO2dn3VLMevTn+fnKtbcm/Z2PoDYA3hdQQ0gqrbM2Q/P32t04z0ZG
-   7CnfeBr3Ouj3ixFz4VVPdl8jmFwQq/MfBRlWB+klEIpvSgxpOe17QmOU8
-   YX4K22tD7uJAiwNaaYVKclO1WV4O6KHl04TRPHgJqMi+3caSdMl/2oNbv
-   O2bM/Dg+gwV/oDtrildp5lmj0pSeUHATpkkDWXFn5mPgcalzh7ztlgshz
-   J3JUPsFkr1DD7V/bl2K62bLyNoeYpGv/uv5zHVjmlGd56JCzLvOTjqALN
-   w==;
-X-CSE-ConnectionGUID: KGP2JoahSxy81uBFyUmoiA==
-X-CSE-MsgGUID: 0uG7vts7R+ifkv3+KrZ9xA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29817229"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29817229"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 22:56:15 -0700
-X-CSE-ConnectionGUID: KRcTFeykS82ZftaEE399aA==
-X-CSE-MsgGUID: uDvhalE3TxOqmYrkBlan2w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="86094628"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Oct 2024 22:56:12 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5Ija-000bJg-0V;
-	Mon, 28 Oct 2024 05:56:10 +0000
-Date: Mon, 28 Oct 2024 13:55:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Richard Guy Briggs <rgb@redhat.com>,
-	Linux-Audit Mailing List <linux-audit@lists.linux-audit.osci.io>,
-	LKML <linux-kernel@vger.kernel.org>, linux-modules@vger.kernel.org,
-	Linux Kernel Audit Mailing List <audit@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Moore <paul@paul-moore.com>,
-	Eric Paris <eparis@parisplace.org>, Steve Grubb <sgrubb@redhat.com>,
-	Richard Guy Briggs <rgb@redhat.com>
-Subject: Re: [PATCH v1] audit,module: restore audit logging in load failure
- case
-Message-ID: <202410281314.56S1Nfqd-lkp@intel.com>
-References: <999cdd694f951acd2f4ad665fe7ab97d0834e162.1729717542.git.rgb@redhat.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Zf48rz3J"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49RLw231016167;
+	Mon, 28 Oct 2024 06:06:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Em8Tc31dZKLc4ca5+0jW7wblgmsW9KumGOsBtyhqUj0=; b=Zf48rz3JrMv+eXeW
+	7NxyLXt1RbEYsE7eQHdg8jkV+sJyugz1NgtSGWuF+sOx8JR1WPJv1AOb/hPMbLEi
+	aS0bfpuJEJKbkRMlbC54xPNE5GCWpBrGmg8Z4x5NSjNpg76OyOKt5evh3FQgQtlr
+	1Q6BIppDcWi6/iSCi2WBnvuwXpLq1EJKlBug8droYx934izZrIsYaZEuzHziO4T+
+	0wIvdIAkxspLiOPmuw7u0rsLVCs4/NcgFepfGBsKjokEZ7eHtpRr1XMrJ0PdSFKM
+	vxNaOpIN5oDc67er1I3F1oTv0n0Mrxyx/hqm81RjufS5r62/cN5YGcp2sbZi27Lh
+	MNyRrA==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42gp4dv14w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Oct 2024 06:06:25 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49S66Om6020194
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 28 Oct 2024 06:06:24 GMT
+Received: from [10.217.219.62] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Sun, 27 Oct
+ 2024 23:06:18 -0700
+Message-ID: <e5405cc7-a748-4e6f-8128-9e271ccc462f@quicinc.com>
+Date: Mon, 28 Oct 2024 11:36:15 +0530
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <999cdd694f951acd2f4ad665fe7ab97d0834e162.1729717542.git.rgb@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+To: kernel test robot <lkp@intel.com>, Vinod Koul <vkoul@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konradybcio@kernel.org>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        "Sumit Semwal" <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>
+CC: <oe-kbuild-all@lists.linux.dev>, <cros-qcom-dts-watchers@chromium.org>,
+        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <quic_msavaliy@quicinc.com>, <quic_vtanuku@quicinc.com>
+References: <20241015120750.21217-6-quic_jseerapu@quicinc.com>
+ <202410191055.bi1pWTAY-lkp@intel.com>
+Content-Language: en-US
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <202410191055.bi1pWTAY-lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: fAQXcrvzG8ifnkoAE7cliPA5KgMYSabc
+X-Proofpoint-GUID: fAQXcrvzG8ifnkoAE7cliPA5KgMYSabc
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ priorityscore=1501 mlxlogscore=999 clxscore=1011 spamscore=0
+ lowpriorityscore=0 malwarescore=0 bulkscore=0 adultscore=0 phishscore=0
+ mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410280050
 
-Hi Richard,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mcgrof/modules-next]
-[also build test WARNING on linus/master v6.12-rc5 next-20241025]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Guy-Briggs/audit-module-restore-audit-logging-in-load-failure-case/20241024-051515
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git modules-next
-patch link:    https://lore.kernel.org/r/999cdd694f951acd2f4ad665fe7ab97d0834e162.1729717542.git.rgb%40redhat.com
-patch subject: [PATCH v1] audit,module: restore audit logging in load failure case
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241028/202410281314.56S1Nfqd-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281314.56S1Nfqd-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410281314.56S1Nfqd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   kernel/module/main.c: In function 'load_module':
->> kernel/module/main.c:3336:63: warning: passing argument 1 of 'audit_log_kern_module' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    3336 |                 audit_log_kern_module(info->name ? info->name : "(unavailable)");
-         |                                       ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   In file included from kernel/module/main.c:57:
-   include/linux/audit.h:522:48: note: expected 'char *' but argument is of type 'const char *'
-     522 | static inline void audit_log_kern_module(char *name)
-         |                                          ~~~~~~^~~~
 
 
-vim +3336 kernel/module/main.c
+On 10/19/2024 8:42 AM, kernel test robot wrote:
+> Hi Jyothi,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 55bcd2e0d04c1171d382badef1def1fd04ef66c5]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jyothi-Kumar-Seerapu/dt-bindings-dmaengine-qcom-gpi-Add-additional-arg-to-dma-cell-property/20241015-202637
+> base:   55bcd2e0d04c1171d382badef1def1fd04ef66c5
+> patch link:    https://lore.kernel.org/r/20241015120750.21217-6-quic_jseerapu%40quicinc.com
+> patch subject: [PATCH v1 5/5] i2c: i2c-qcom-geni: Add Block event interrupt support
+> config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241019/202410191055.bi1pWTAY-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241019/202410191055.bi1pWTAY-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410191055.bi1pWTAY-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+> 
+>>> ERROR: modpost: "gpi_multi_desc_process" [drivers/i2c/busses/i2c-qcom-geni.ko] undefined!
+> 
+> Kconfig warnings: (for reference only)
+>     WARNING: unmet direct dependencies detected for GET_FREE_REGION
+>     Depends on [n]: SPARSEMEM [=n]
+>     Selected by [m]:
+>     - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+>     WARNING: unmet direct dependencies detected for OMAP2PLUS_MBOX
+>     Depends on [n]: MAILBOX [=y] && (ARCH_OMAP2PLUS || ARCH_K3)
+>     Selected by [m]:
+>     - TI_K3_M4_REMOTEPROC [=m] && REMOTEPROC [=y] && (ARCH_K3 || COMPILE_TEST [=y])
+> 
 
-  3124	
-  3125	/*
-  3126	 * Allocate and load the module: note that size of section 0 is always
-  3127	 * zero, and we rely on this for optional sections.
-  3128	 */
-  3129	static int load_module(struct load_info *info, const char __user *uargs,
-  3130			       int flags)
-  3131	{
-  3132		struct module *mod;
-  3133		bool module_allocated = false;
-  3134		long err = 0;
-  3135		char *after_dashes;
-  3136	
-  3137		/*
-  3138		 * Do the signature check (if any) first. All that
-  3139		 * the signature check needs is info->len, it does
-  3140		 * not need any of the section info. That can be
-  3141		 * set up later. This will minimize the chances
-  3142		 * of a corrupt module causing problems before
-  3143		 * we even get to the signature check.
-  3144		 *
-  3145		 * The check will also adjust info->len by stripping
-  3146		 * off the sig length at the end of the module, making
-  3147		 * checks against info->len more correct.
-  3148		 */
-  3149		err = module_sig_check(info, flags);
-  3150		if (err)
-  3151			goto free_copy;
-  3152	
-  3153		/*
-  3154		 * Do basic sanity checks against the ELF header and
-  3155		 * sections. Cache useful sections and set the
-  3156		 * info->mod to the userspace passed struct module.
-  3157		 */
-  3158		err = elf_validity_cache_copy(info, flags);
-  3159		if (err)
-  3160			goto free_copy;
-  3161	
-  3162		err = early_mod_check(info, flags);
-  3163		if (err)
-  3164			goto free_copy;
-  3165	
-  3166		/* Figure out module layout, and allocate all the memory. */
-  3167		mod = layout_and_allocate(info, flags);
-  3168		if (IS_ERR(mod)) {
-  3169			err = PTR_ERR(mod);
-  3170			goto free_copy;
-  3171		}
-  3172	
-  3173		module_allocated = true;
-  3174	
-  3175		audit_log_kern_module(mod->name);
-  3176	
-  3177		/* Reserve our place in the list. */
-  3178		err = add_unformed_module(mod);
-  3179		if (err)
-  3180			goto free_module;
-  3181	
-  3182		/*
-  3183		 * We are tainting your kernel if your module gets into
-  3184		 * the modules linked list somehow.
-  3185		 */
-  3186		module_augment_kernel_taints(mod, info);
-  3187	
-  3188		/* To avoid stressing percpu allocator, do this once we're unique. */
-  3189		err = percpu_modalloc(mod, info);
-  3190		if (err)
-  3191			goto unlink_mod;
-  3192	
-  3193		/* Now module is in final location, initialize linked lists, etc. */
-  3194		err = module_unload_init(mod);
-  3195		if (err)
-  3196			goto unlink_mod;
-  3197	
-  3198		init_param_lock(mod);
-  3199	
-  3200		/*
-  3201		 * Now we've got everything in the final locations, we can
-  3202		 * find optional sections.
-  3203		 */
-  3204		err = find_module_sections(mod, info);
-  3205		if (err)
-  3206			goto free_unload;
-  3207	
-  3208		err = check_export_symbol_versions(mod);
-  3209		if (err)
-  3210			goto free_unload;
-  3211	
-  3212		/* Set up MODINFO_ATTR fields */
-  3213		setup_modinfo(mod, info);
-  3214	
-  3215		/* Fix up syms, so that st_value is a pointer to location. */
-  3216		err = simplify_symbols(mod, info);
-  3217		if (err < 0)
-  3218			goto free_modinfo;
-  3219	
-  3220		err = apply_relocations(mod, info);
-  3221		if (err < 0)
-  3222			goto free_modinfo;
-  3223	
-  3224		err = post_relocation(mod, info);
-  3225		if (err < 0)
-  3226			goto free_modinfo;
-  3227	
-  3228		flush_module_icache(mod);
-  3229	
-  3230		/* Now copy in args */
-  3231		mod->args = strndup_user(uargs, ~0UL >> 1);
-  3232		if (IS_ERR(mod->args)) {
-  3233			err = PTR_ERR(mod->args);
-  3234			goto free_arch_cleanup;
-  3235		}
-  3236	
-  3237		init_build_id(mod, info);
-  3238	
-  3239		/* Ftrace init must be called in the MODULE_STATE_UNFORMED state */
-  3240		ftrace_module_init(mod);
-  3241	
-  3242		/* Finally it's fully formed, ready to start executing. */
-  3243		err = complete_formation(mod, info);
-  3244		if (err)
-  3245			goto ddebug_cleanup;
-  3246	
-  3247		err = prepare_coming_module(mod);
-  3248		if (err)
-  3249			goto bug_cleanup;
-  3250	
-  3251		mod->async_probe_requested = async_probe;
-  3252	
-  3253		/* Module is ready to execute: parsing args may do that. */
-  3254		after_dashes = parse_args(mod->name, mod->args, mod->kp, mod->num_kp,
-  3255					  -32768, 32767, mod,
-  3256					  unknown_module_param_cb);
-  3257		if (IS_ERR(after_dashes)) {
-  3258			err = PTR_ERR(after_dashes);
-  3259			goto coming_cleanup;
-  3260		} else if (after_dashes) {
-  3261			pr_warn("%s: parameters '%s' after `--' ignored\n",
-  3262			       mod->name, after_dashes);
-  3263		}
-  3264	
-  3265		/* Link in to sysfs. */
-  3266		err = mod_sysfs_setup(mod, info, mod->kp, mod->num_kp);
-  3267		if (err < 0)
-  3268			goto coming_cleanup;
-  3269	
-  3270		if (is_livepatch_module(mod)) {
-  3271			err = copy_module_elf(mod, info);
-  3272			if (err < 0)
-  3273				goto sysfs_cleanup;
-  3274		}
-  3275	
-  3276		/* Get rid of temporary copy. */
-  3277		free_copy(info, flags);
-  3278	
-  3279		codetag_load_module(mod);
-  3280	
-  3281		/* Done! */
-  3282		trace_module_load(mod);
-  3283	
-  3284		return do_init_module(mod);
-  3285	
-  3286	 sysfs_cleanup:
-  3287		mod_sysfs_teardown(mod);
-  3288	 coming_cleanup:
-  3289		mod->state = MODULE_STATE_GOING;
-  3290		destroy_params(mod->kp, mod->num_kp);
-  3291		blocking_notifier_call_chain(&module_notify_list,
-  3292					     MODULE_STATE_GOING, mod);
-  3293		klp_module_going(mod);
-  3294	 bug_cleanup:
-  3295		mod->state = MODULE_STATE_GOING;
-  3296		/* module_bug_cleanup needs module_mutex protection */
-  3297		mutex_lock(&module_mutex);
-  3298		module_bug_cleanup(mod);
-  3299		mutex_unlock(&module_mutex);
-  3300	
-  3301	 ddebug_cleanup:
-  3302		ftrace_release_mod(mod);
-  3303		synchronize_rcu();
-  3304		kfree(mod->args);
-  3305	 free_arch_cleanup:
-  3306		module_arch_cleanup(mod);
-  3307	 free_modinfo:
-  3308		free_modinfo(mod);
-  3309	 free_unload:
-  3310		module_unload_free(mod);
-  3311	 unlink_mod:
-  3312		mutex_lock(&module_mutex);
-  3313		/* Unlink carefully: kallsyms could be walking list. */
-  3314		list_del_rcu(&mod->list);
-  3315		mod_tree_remove(mod);
-  3316		wake_up_all(&module_wq);
-  3317		/* Wait for RCU-sched synchronizing before releasing mod->list. */
-  3318		synchronize_rcu();
-  3319		mutex_unlock(&module_mutex);
-  3320	 free_module:
-  3321		mod_stat_bump_invalid(info, flags);
-  3322		/* Free lock-classes; relies on the preceding sync_rcu() */
-  3323		for_class_mod_mem_type(type, core_data) {
-  3324			lockdep_free_key_range(mod->mem[type].base,
-  3325					       mod->mem[type].size);
-  3326		}
-  3327	
-  3328		module_deallocate(mod, info);
-  3329	 free_copy:
-  3330		/*
-  3331		 * The info->len is always set. We distinguish between
-  3332		 * failures once the proper module was allocated and
-  3333		 * before that.
-  3334		 */
-  3335		if (!module_allocated) {
-> 3336			audit_log_kern_module(info->name ? info->name : "(unavailable)");
-  3337			mod_stat_bump_becoming(info, flags);
-  3338		}
-  3339		free_copy(info, flags);
-  3340		return err;
-  3341	}
-  3342	
+Fixed the reported issue in V2 patch.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+JyothiKumar
