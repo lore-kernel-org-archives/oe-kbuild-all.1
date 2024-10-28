@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 055C31D278C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 10:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5E215E8B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 10:47:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730111879; cv=none; b=Kij63Qj3+E3McxQVANYtAtKlEQ54kGFCWuJCdsJcFzTJFIfFUPWouidbVHRuZ3nW1tTaC06mwSNrzPprWD0rut1howEJ+uctHBjVOCE4SaMjPDfUXriXAZWbgYJDxbOKLDM08eVicuB9uGp6re0Tet/CWxkxk4GJDOKuUVJRUZU=
+	t=1730112476; cv=none; b=njW7ilV0qXOsxzlV3NrdzQ/dvrfKN0Ki7q8fyUZS/Tw1cngEBl5sm9sFiYvLXsjxfZgxKDZQeMQoQ6aZ9AIPp7boS9kH2KgG2jEQHorbK8/l/vXaemnWQBOmK4BJ80N9HIwDqm22OrTgaa20KL6JWLnYiuWFqNK70IE8WrWh/38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730111879; c=relaxed/simple;
-	bh=OZqeiRHNjswBoNxcdNfjRrc6avlkFgJezADNrf6WviQ=;
+	s=arc-20240116; t=1730112476; c=relaxed/simple;
+	bh=7WmzYj1DbTkG8ZWN1+SlUQOElREQDPzb7T0rppvt53M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WAdYF1d1X3tQOYxt1dFYsJNgE2hAzMeN8noFdjgoEWOT2QCnlW3q4F5osIdTg9uP0STtEofByhUoxs/zlOGsOaqO8aUgzjAF39LSsZ1GIC1RN17ifw/u2xMRBHte+R2psZ4Vf7/5BaSrVhPmdVx9Q9bIlu93v539plSX/WqpfJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DXO3stSK; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=MEQrhw5YYPGmnOAKvTPyqHhSnl0kJ9TtyM90Kd6NY/HyauIGd/pu61lm6dSdE8VCi+SLYodoWLdg+g7vyW+QvCTzVc527JGw7Z6b0eCKNhsONNw7yxS1kRRVCaXbnKeW+MoantgqP5i6vN3lLfqIqHFOWmPaM5Q/HwgyetB0hYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eF5FnKJQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DXO3stSK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eF5FnKJQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730111877; x=1761647877;
+  t=1730112474; x=1761648474;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OZqeiRHNjswBoNxcdNfjRrc6avlkFgJezADNrf6WviQ=;
-  b=DXO3stSKL+a837YJt/YK11a88kX+3KZmx0CANvXeB7xiiQQZO29Avmi8
-   U2/P0WCJCpaeb62bkrhntJDXLWR/EJIMhWVEBXQdJkK7oc3xtXIB7qTH2
-   S9YrcDPdQyhRhew/r6zKoNXUKBWl6hit0E83753vKjB86U0N7hcH42/pZ
-   2MDNQZlMm3XJSilNUziFWbL7sBjl5B1wxFWzLeXnKcokngLFG1AZZSS8C
-   VPeiVcILh5ox9og+ERu+2tgCcjfmZCe3j2gKqh7lVFkE0Prm2phuFrEc+
-   4veiGHtlA32RPsWnZztNgUfmgSVyZH9OYr7Fr2TVHyvXv2fyALpnMIe9n
-   w==;
-X-CSE-ConnectionGUID: 7yWyqWlmTKueHlTEppHIJQ==
-X-CSE-MsgGUID: nk0NV4liQm2OQrFOMJK7Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="47186776"
-X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="47186776"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 03:37:54 -0700
-X-CSE-ConnectionGUID: PNTgO5b6TeGTnu8z052RDQ==
-X-CSE-MsgGUID: H30g/l1uRL+5cBIINEJJpQ==
+  bh=7WmzYj1DbTkG8ZWN1+SlUQOElREQDPzb7T0rppvt53M=;
+  b=eF5FnKJQ6aNh/3D04GVsAuQr7FnszIRI0ySXSus3tFA+idoJ3zXoi7v2
+   aaf2lk67A87h15eW5dxNhLZEe4IAQc8xYRvXMdwnNbv3pgO5UbfIQqQZb
+   HzFGuZPDHDCfoLMwCmtlClEL63PM0Z6NqMVlKfydFeshH3JxNk3QeSwnF
+   24NDKkFU8P8jxN1unqLvXnxikjSA9mgLMYpVp1kC+/SRt5KII5q7YFvS7
+   gW7RCnfuXMLUF86J6q5y1bz6g8h/NbgngTGGLhG1qnevc5s/AG1wRIuEw
+   UQBJ1lAVxg77eiZ214KvIQOYLsWnqyAVfpi6AnyNhArHHFsF4AW5rlFys
+   g==;
+X-CSE-ConnectionGUID: Mi0p+yS8TjCwIalaIgai0w==
+X-CSE-MsgGUID: YLzcr8cfROugh7riegRXGw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47161602"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="47161602"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 03:47:53 -0700
+X-CSE-ConnectionGUID: Ng9mSJ3PTQ+MNpkRS+GHfA==
+X-CSE-MsgGUID: 5Bz5hm6MTPmGfQLHAF7eLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="82394474"
+   d="scan'208";a="81642116"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Oct 2024 03:37:53 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Oct 2024 03:47:52 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5N8A-000cJm-0B;
-	Mon, 28 Oct 2024 10:37:50 +0000
-Date: Mon, 28 Oct 2024 18:37:13 +0800
+	id 1t5NHq-000cKF-10;
+	Mon, 28 Oct 2024 10:47:50 +0000
+Date: Mon, 28 Oct 2024 18:47:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Berg <benjamin.berg@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
-Subject: [uml:next 44/50] arch/x86/um/ptrace.c:245:31: sparse: sparse: symbol
- 'user_uml_view' was not declared. Should it be static?
-Message-ID: <202410281821.WSPsAwq7-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_5 21/26] sound/pci/azt3328.c:226:12:
+ warning: 'index' defined but not used
+Message-ID: <202410281829.TIzh3j82-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +62,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
-head:   d3b08e5f3f2829943342b88d3e2b44fb0ccdccab
-commit: 3f17fed2149192c7d3b76a45a6a87b4ff22cd586 [44/50] um: switch to regset API and depend on XSTATE
-config: um-randconfig-r112-20241026 (https://download.01.org/0day-ci/archive/20241028/202410281821.WSPsAwq7-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281821.WSPsAwq7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_5
+head:   748f02be1adc50c8aea1e580791e8085f8713c07
+commit: 0ec2293dc6f5526b57f0f431643dbfbbddc5cd51 [21/26] uprobes: Add mapping for optimized uprobe trampolines
+config: arm64-randconfig-001-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281829.TIzh3j82-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281829.TIzh3j82-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410281821.WSPsAwq7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410281829.TIzh3j82-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/um/ptrace.c:245:31: sparse: sparse: symbol 'user_uml_view' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/mm_types.h:16,
+                    from include/linux/page-flags.h:13,
+                    from arch/arm64/include/asm/mte.h:15,
+                    from arch/arm64/include/asm/pgtable.h:12,
+                    from include/linux/pgtable.h:6,
+                    from arch/arm64/include/asm/io.h:12,
+                    from include/linux/io.h:14,
+                    from sound/pci/azt3328.c:168:
+   include/linux/uprobes.h:127:33: error: field 'tramp_mutex' has incomplete type
+     127 |         struct mutex            tramp_mutex;
+         |                                 ^~~~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/io.h:11:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:243:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     243 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
+     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
+     505 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/azt3328.c:227:1: note: in expansion of macro 'module_param_array'
+     227 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/azt3328.c:226:12: warning: 'index' defined but not used [-Wunused-variable]
+     226 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
+         |            ^~~~~
 --
->> arch/x86/um/signal.c:87:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct _xstate [noderef] __user *from_fp64 @@     got void * @@
-   arch/x86/um/signal.c:87:19: sparse:     expected struct _xstate [noderef] __user *from_fp64
-   arch/x86/um/signal.c:87:19: sparse:     got void *
-   arch/x86/um/signal.c:201:9: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/um/signal.c:201:9: sparse: sparse: cast removes address space '__user' of expression
->> arch/x86/um/signal.c:201:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile [noderef] __user *ptr @@     got int * @@
-   arch/x86/um/signal.c:201:9: sparse:     expected void const volatile [noderef] __user *ptr
-   arch/x86/um/signal.c:201:9: sparse:     got int *
-   arch/x86/um/signal.c:201:9: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/um/signal.c:201:9: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/um/signal.c:201:9: sparse: sparse: cast removes address space '__user' of expression
->> arch/x86/um/signal.c:201:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __user *ptr @@     got int * @@
-   arch/x86/um/signal.c:201:9: sparse:     expected void [noderef] __user *ptr
-   arch/x86/um/signal.c:201:9: sparse:     got int *
-   arch/x86/um/signal.c:387:16: sparse: sparse: Using plain integer as NULL pointer
-   arch/x86/um/signal.c:411:24: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/um/signal.c:411:24: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected char [noderef] __user *__x @@     got void * @@
-   arch/x86/um/signal.c:411:24: sparse:     expected char [noderef] __user *__x
-   arch/x86/um/signal.c:411:24: sparse:     got void *
+   In file included from include/linux/mm_types.h:16,
+                    from include/linux/page-flags.h:13,
+                    from arch/arm64/include/asm/mte.h:15,
+                    from arch/arm64/include/asm/pgtable.h:12,
+                    from include/linux/pgtable.h:6,
+                    from arch/arm64/include/asm/io.h:12,
+                    from include/linux/io.h:14,
+                    from sound/pci/es1968.c:83:
+   include/linux/uprobes.h:127:33: error: field 'tramp_mutex' has incomplete type
+     127 |         struct mutex            tramp_mutex;
+         |                                 ^~~~~~~~~~~
+   In file included from include/linux/init.h:5,
+                    from include/linux/io.h:11:
+   include/linux/build_bug.h:16:51: error: bit-field '<anonymous>' width not an integer constant
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:243:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     243 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
+      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+         |                                                           ^~~~~~~~~~~~~~~
+   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
+     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
+         |                    ^~~~~~~~~~
+   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
+     505 |         module_param_array_named(name, name, type, nump, perm)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   sound/pci/es1968.c:129:1: note: in expansion of macro 'module_param_array'
+     129 | module_param_array(index, int, NULL, 0444);
+         | ^~~~~~~~~~~~~~~~~~
+>> sound/pci/es1968.c:115:12: warning: 'index' defined but not used [-Wunused-variable]
+     115 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 1-MAX */
+         |            ^~~~~
 
-vim +/user_uml_view +245 arch/x86/um/ptrace.c
 
-   244	
- > 245	const struct user_regset_view user_uml_view = {
-   246	#ifdef CONFIG_X86_32
-   247		.name = "i386", .e_machine = EM_386,
-   248	#else
-   249		.name = "x86_64", .e_machine = EM_X86_64,
-   250	#endif
-   251		.regsets = uml_regsets, .n = ARRAY_SIZE(uml_regsets)
-   252	};
-   253	
+vim +/index +226 sound/pci/azt3328.c
+
+dfbf9511155d35 Andreas Mohr   2009-07-05  225  
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @226  static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;	/* Index 0-MAX */
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @227  module_param_array(index, int, NULL, 0444);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  228  MODULE_PARM_DESC(index, "Index value for AZF3328 soundcard.");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  229  
+
+:::::: The code at line 226 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
