@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5573118E35B;
-	Mon, 28 Oct 2024 19:18:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50B5F18B03
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 19:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730143105; cv=none; b=j4QHzYIZ41TISkSLwrvplcVM2QNbDSQl8TuFEF740KZxNdy0ZFRZTgRJLhljHG/+WQWP5NCH9Bjg/ohjTbzk4B3IrmHcuimknc214SyPfF3+WMACq826M4X/IqkoDdKeVgMF7VNqxXTkltIi2D1NtTdAVFo9w2JtNP79YtyUYGU=
+	t=1730144485; cv=none; b=FTOAT652qLOzlRcQYiBRFM2drc+TsIx0fCvsi36Op6FzQkiK0AW0qPepj7MUZqaQlVt6YVyuruRT1YGhChq4lXy/9JHaHMUrReaQ3fW6FKXn4oU3v28A3vaj0HVqqsO9qra2r9AT3XjPdBX8DwnDb/gY5ZPeuGqaQ9PoFob4kVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730143105; c=relaxed/simple;
-	bh=G2BYRckaH6OfB9BgxU2lNZ/wbqKUWYzaYH4eq9h3nT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XkTgxxcwYZcORyggcRhnHFrc5lXQURBabwdOGC0W/OOhhYd4MPHKEh2SygDCnu/lz1UijusXVkPAvoV5z7VGJJjhqOxJjAuerkHCcM+cSWDxKhS74PtM62zRCz0iYJI8+YOvNnZm32YzSaccBohXOU+Uu9UyyyvHYW/kQ/J6aR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyxQogQr; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1730144485; c=relaxed/simple;
+	bh=mlAgS1Xd+5Hzy7xKuMyhOQY3SV2j3vOzai9e4+QMLJM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b2keIv9as1I22+GvIZxNRj0Ga6DVUlLxY006hkISF+wjO5ODUhP+/r9jiKaNPkJrFXEKzzJ28hOTWgs/cdnvk3vdBu0NtbUTQ8RcjGgustJH4ygeg6svSAWr1Hwj74js4N5OnR/exKz21+JIi/NBrFRziljBU3IzTQoPQNXRMAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebTQfkVN; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyxQogQr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebTQfkVN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730143103; x=1761679103;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=G2BYRckaH6OfB9BgxU2lNZ/wbqKUWYzaYH4eq9h3nT8=;
-  b=AyxQogQr/DLsmheCmp03/3sUeDVWAk5BWgix/FSsJ8xAYX0V+IfCykc4
-   W0hkUDtVlcFiyxwVRx9j7Uaj+CkHB0npAXWNkTGmS7jXeJKEMWpNQMSAv
-   JFhMSjnDlKRLPMHbTYrJpFIxdDB/CaZVk7f3jle570skNmVrtk/jx5aCj
-   ylhSsqJAccFqeaKa2K33TnSXvoO67aMZYGXOkxLTclcefXCYRdG4+gMx7
-   S+671aqMFfeSznAvx6IMAb1KPGmwP31oygRNhjiPsv3pNldZ9yukfjho3
-   57B+ALuPfbE2y3BUQjtPFuIFqwZsmmEzO65XqucPh4XlaoNQTJ2nO1/3l
-   A==;
-X-CSE-ConnectionGUID: EEfmjb75RaGZPFSG+R9E6Q==
-X-CSE-MsgGUID: CwL9Q0W4SnONuhzrpgcVnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40295610"
+  t=1730144483; x=1761680483;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mlAgS1Xd+5Hzy7xKuMyhOQY3SV2j3vOzai9e4+QMLJM=;
+  b=ebTQfkVN7U+pHruoeL9qEAmS72cUDg0kytYtE4ueVjSoK1UYPCN5F9M7
+   2pFIZWl3KNKdU/CbjdbvjI++MCpCiJPRWdlgd4smKf4+bDqyrlO8OXeTz
+   al9n65Xyragw8jCbTF5nboFUdFoLGfHRfI09z1IebOT4yiLn+OgBRfCAF
+   8VN1RJWQZAvzRMN5mIuBlMAlYe6CtC15yPVKcZFzxEGjothwrodJdIVEu
+   lIPXNhn2kwVk8t7bKJ918ExdJg0vUC3S1UuHl6AjzacPJm8wE8RVaRFHC
+   D7Wt5QFWvg03xxFMG4C+5oy6uYkeK53Pv+AX3Vao8xG2gjJ0rpDgrujBh
+   g==;
+X-CSE-ConnectionGUID: Za/nPmmXTuKmENYdTPEY2w==
+X-CSE-MsgGUID: pg9qVz2oSgKAIZyIsbMwNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40857016"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40295610"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 12:18:22 -0700
-X-CSE-ConnectionGUID: 4d/BscNDRhimKOfdpZuXKw==
-X-CSE-MsgGUID: ACYiNxGXQaCxUnN8/Bm6sA==
+   d="scan'208";a="40857016"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 12:41:22 -0700
+X-CSE-ConnectionGUID: G/9yHliuQjmV8388GIbSSw==
+X-CSE-MsgGUID: AxG3CWVkTsmpW9IislDDBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,239,1725346800"; 
-   d="scan'208";a="85664044"
+   d="scan'208";a="81778847"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Oct 2024 12:18:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Oct 2024 12:41:20 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5VFo-000cnA-2T;
-	Mon, 28 Oct 2024 19:18:16 +0000
-Date: Tue, 29 Oct 2024 03:17:29 +0800
+	id 1t5Vc6-000co0-1h;
+	Mon, 28 Oct 2024 19:41:18 +0000
+Date: Tue, 29 Oct 2024 03:40:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Nam Cao <namcao@linutronix.de>,
-	Sean Christopherson <seanjc@google.com>
-Subject: Re: [PATCH 04/31] KVM: x86: Switch to use hrtimer_setup()
-Message-ID: <202410290239.urBaNd5D-lkp@intel.com>
-References: <8774212e6c10c550743219e00738492eb379227c.1729864823.git.namcao@linutronix.de>
+To: kernel@openeuler.org, chench00 <chench@hygon.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 13319/15358]
+ drivers/crypto/ccp/hygon/tdm-dev.c:340:84: error: invalid use of undefined
+ type 'struct module'
+Message-ID: <202410290303.9DGdQJBL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,226 +62,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8774212e6c10c550743219e00738492eb379227c.1729864823.git.namcao@linutronix.de>
 
-Hi Nam,
+Hi chench00,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on tip/sched/core perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools tip/timers/core axboe-block/for-next linus/master v6.12-rc5 next-20241028]
-[cannot apply to kvm/linux-next acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/KVM-MIPS-Switch-to-use-hrtimer_setup/20241028-154142
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/8774212e6c10c550743219e00738492eb379227c.1729864823.git.namcao%40linutronix.de
-patch subject: [PATCH 04/31] KVM: x86: Switch to use hrtimer_setup()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241029/202410290239.urBaNd5D-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290239.urBaNd5D-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   27e5d43e49e85d816bd05ffe8672ceea631a07e4
+commit: a1dd4972da4e66d9a9d1a89b3dfd8f742c20193b [13319/15358] crypto: tdm: Add Hygon TDM driver
+config: x86_64-buildonly-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290303.9DGdQJBL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290303.9DGdQJBL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290239.urBaNd5D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290303.9DGdQJBL-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kvm/lapic.c:20:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/lapic.c:2878:2: error: call to undeclared function 'hrtimer_setup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2878 |         hrtimer_setup(&apic->lapic_timer.timer, apic_timer_fn, CLOCK_MONOTONIC,
-         |         ^
-   arch/x86/kvm/lapic.c:2878:2: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:272:20: note: 'hrtimer_start' declared here
-     272 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-         |                    ^
-   4 warnings and 1 error generated.
---
-   In file included from arch/x86/kvm/i8254.c:35:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/i8254.c:693:2: error: call to undeclared function 'hrtimer_setup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     693 |         hrtimer_setup(&pit_state->timer, pit_timer_fn, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
-         |         ^
-   arch/x86/kvm/i8254.c:693:2: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:272:20: note: 'hrtimer_start' declared here
-     272 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-         |                    ^
-   4 warnings and 1 error generated.
---
-   In file included from arch/x86/kvm/hyperv.c:22:
-   In file included from arch/x86/kvm/x86.h:5:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/hyperv.c:955:2: error: call to undeclared function 'hrtimer_setup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     955 |         hrtimer_setup(&stimer->timer, stimer_timer_callback, CLOCK_MONOTONIC, HRTIMER_MODE_ABS);
-         |         ^
-   arch/x86/kvm/hyperv.c:955:2: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:272:20: note: 'hrtimer_start' declared here
-     272 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-         |                    ^
-   4 warnings and 1 error generated.
---
-   In file included from arch/x86/kvm/vmx/nested.c:8:
-   In file included from arch/x86/include/asm/mmu_context.h:8:
-   In file included from include/linux/pkeys.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kvm/vmx/nested.c:5278:2: error: call to undeclared function 'hrtimer_setup'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    5278 |         hrtimer_setup(&vmx->nested.preemption_timer, vmx_preemption_timer_fn, CLOCK_MONOTONIC,
-         |         ^
-   arch/x86/kvm/vmx/nested.c:5278:2: note: did you mean 'hrtimer_start'?
-   include/linux/hrtimer.h:272:20: note: 'hrtimer_start' declared here
-     272 | static inline void hrtimer_start(struct hrtimer *timer, ktime_t tim,
-         |                    ^
-   4 warnings and 1 error generated.
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'list_enqueue':
+   drivers/crypto/ccp/hygon/tdm-dev.c:94:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      94 |         int ret = 0;
+         |             ^~~
+   In file included from include/linux/string.h:294,
+                    from include/linux/bitmap.h:11,
+                    from include/linux/cpumask.h:12,
+                    from arch/x86/include/asm/cpumask.h:5,
+                    from arch/x86/include/asm/msr.h:11,
+                    from arch/x86/include/asm/processor.h:23,
+                    from arch/x86/include/asm/timex.h:5,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/crypto/ccp/hygon/tdm-dev.c:11:
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'tdm_get_cmd_context_hash':
+>> drivers/crypto/ccp/hygon/tdm-dev.c:340:84: error: invalid use of undefined type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                                                    ^~
+   include/linux/fortify-string.h:650:48: note: in definition of macro '__fortify_memcpy_chk'
+     650 |         const size_t __fortify_size = (size_t)(size);                   \
+         |                                                ^~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:25: note: in expansion of macro 'memcpy'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                         ^~~~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                             ^~
+   include/linux/fortify-string.h:652:34: note: in definition of macro '__fortify_memcpy_chk'
+     652 |         const size_t __q_size = (q_size);                               \
+         |                                  ^~~~~~
+   include/linux/fortify-string.h:708:35: note: in expansion of macro '__struct_size'
+     708 |                 __struct_size(p), __struct_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:25: note: in expansion of macro 'memcpy'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                         ^~~~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                             ^~
+   include/linux/fortify-string.h:654:40: note: in definition of macro '__fortify_memcpy_chk'
+     654 |         const size_t __q_size_field = (q_size_field);                   \
+         |                                        ^~~~~~~~~~~~
+   include/linux/fortify-string.h:709:35: note: in expansion of macro '__member_size'
+     709 |                 __member_size(p), __member_size(q),                     \
+         |                                   ^~~~~~~~~~~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:25: note: in expansion of macro 'memcpy'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                         ^~~~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:61: error: invalid use of undefined type 'struct module'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                                                             ^~
+   include/linux/fortify-string.h:662:30: note: in definition of macro '__fortify_memcpy_chk'
+     662 |         __underlying_##op(p, q, __fortify_size);                        \
+         |                              ^
+   drivers/crypto/ccp/hygon/tdm-dev.c:340:25: note: in expansion of macro 'memcpy'
+     340 |                         memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+         |                         ^~~~~~
+   drivers/crypto/ccp/hygon/tdm-dev.c: In function 'psp_create_measure_task':
+   drivers/crypto/ccp/hygon/tdm-dev.c:606:27: warning: variable 'head' set but not used [-Wunused-but-set-variable]
+     606 |         struct list_head *head = NULL;
+         |                           ^~~~
 
 
-vim +/hrtimer_setup +2878 arch/x86/kvm/lapic.c
+vim +340 drivers/crypto/ccp/hygon/tdm-dev.c
 
-  2847	
-  2848	int kvm_create_lapic(struct kvm_vcpu *vcpu)
-  2849	{
-  2850		struct kvm_lapic *apic;
-  2851	
-  2852		ASSERT(vcpu != NULL);
-  2853	
-  2854		if (!irqchip_in_kernel(vcpu->kvm)) {
-  2855			static_branch_inc(&kvm_has_noapic_vcpu);
-  2856			return 0;
-  2857		}
-  2858	
-  2859		apic = kzalloc(sizeof(*apic), GFP_KERNEL_ACCOUNT);
-  2860		if (!apic)
-  2861			goto nomem;
-  2862	
-  2863		vcpu->arch.apic = apic;
-  2864	
-  2865		if (kvm_x86_ops.alloc_apic_backing_page)
-  2866			apic->regs = kvm_x86_call(alloc_apic_backing_page)(vcpu);
-  2867		else
-  2868			apic->regs = (void *)get_zeroed_page(GFP_KERNEL_ACCOUNT);
-  2869		if (!apic->regs) {
-  2870			printk(KERN_ERR "malloc apic regs error for vcpu %x\n",
-  2871			       vcpu->vcpu_id);
-  2872			goto nomem_free_apic;
-  2873		}
-  2874		apic->vcpu = vcpu;
-  2875	
-  2876		apic->nr_lvt_entries = kvm_apic_calc_nr_lvt_entries(vcpu);
-  2877	
-> 2878		hrtimer_setup(&apic->lapic_timer.timer, apic_timer_fn, CLOCK_MONOTONIC,
-  2879			      HRTIMER_MODE_ABS_HARD);
-  2880		if (lapic_timer_advance)
-  2881			apic->lapic_timer.timer_advance_ns = LAPIC_TIMER_ADVANCE_NS_INIT;
-  2882	
-  2883		/*
-  2884		 * Stuff the APIC ENABLE bit in lieu of temporarily incrementing
-  2885		 * apic_hw_disabled; the full RESET value is set by kvm_lapic_reset().
-  2886		 */
-  2887		vcpu->arch.apic_base = MSR_IA32_APICBASE_ENABLE;
-  2888		static_branch_inc(&apic_sw_disabled.key); /* sw disabled at reset */
-  2889		kvm_iodevice_init(&apic->dev, &apic_mmio_ops);
-  2890	
-  2891		/*
-  2892		 * Defer evaluating inhibits until the vCPU is first run, as this vCPU
-  2893		 * will not get notified of any changes until this vCPU is visible to
-  2894		 * other vCPUs (marked online and added to the set of vCPUs).
-  2895		 *
-  2896		 * Opportunistically mark APICv active as VMX in particularly is highly
-  2897		 * unlikely to have inhibits.  Ignore the current per-VM APICv state so
-  2898		 * that vCPU creation is guaranteed to run with a deterministic value,
-  2899		 * the request will ensure the vCPU gets the correct state before VM-Entry.
-  2900		 */
-  2901		if (enable_apicv) {
-  2902			apic->apicv_active = true;
-  2903			kvm_make_request(KVM_REQ_APICV_UPDATE, vcpu);
-  2904		}
-  2905	
-  2906		return 0;
-  2907	nomem_free_apic:
-  2908		kfree(apic);
-  2909		vcpu->arch.apic = NULL;
-  2910	nomem:
-  2911		return -ENOMEM;
-  2912	}
-  2913	
+   323	
+   324		if (!hash) {
+   325			ret = -DYN_NULL_POINTER;
+   326			pr_err("Null pointer\n");
+   327			goto end;
+   328		}
+   329	
+   330		ctx_msg.flag = flag;
+   331		ctx_msg.pid = current->pid;
+   332		memcpy(ctx_msg.comm, current->comm, sizeof(current->comm));
+   333	
+   334		return_address = CALLER_ADDR1;
+   335		if (return_address) {
+   336	#if IS_BUILTIN(CONFIG_CRYPTO_DEV_CCP_DD)
+   337			p_module = __module_address(return_address);
+   338			// caller is module
+   339			if (p_module)
+ > 340				memcpy(ctx_msg.module_name, p_module->name, sizeof(p_module->name));
+   341			// caller is build-in
+   342			else
+   343				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   344	#elif IS_ENABLED(CONFIG_KALLSYMS)
+   345			symbol_len = sprint_symbol((char *)symbol_buf, return_address);
+   346			if (!symbol_len) {
+   347				ret = -DYN_ERR_API;
+   348				pr_err("sprint_symbol failed\n");
+   349				goto end;
+   350			}
+   351			symbol_begin = strchr((char *)symbol_buf, '[');
+   352			if (!symbol_begin) {
+   353				ret = -DYN_NULL_POINTER;
+   354				pr_err("module name is not exist\n");
+   355				goto end;
+   356			}
+   357			symbol_end = strchr((char *)symbol_buf, ']');
+   358			if (!symbol_end) {
+   359				ret = -DYN_NULL_POINTER;
+   360				pr_err("module name is not exist\n");
+   361				goto end;
+   362			}
+   363			symbol_begin++;
+   364			if (symbol_end - symbol_begin)
+   365				memcpy(ctx_msg.module_name, symbol_begin, symbol_end - symbol_begin);
+   366			else
+   367				memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   368	#else
+   369			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   370	#endif
+   371		} else
+   372			memset(ctx_msg.module_name, 0, sizeof(ctx_msg.module_name));
+   373	
+   374		ret = calc_task_context_hash(ctx_msg, hash);
+   375		if (ret) {
+   376			pr_err("calc_task_context_hash failed\n");
+   377			goto end;
+   378		}
+   379	
+   380	end:
+   381		return ret;
+   382	}
+   383	
 
 -- 
 0-DAY CI Kernel Test Service
