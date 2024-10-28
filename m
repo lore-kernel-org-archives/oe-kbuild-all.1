@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AC64C83
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 06:17:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89D218FC85
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 06:58:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730096238; cv=none; b=Cm1xMvVM2UlXkoU5lUuWsVW6gOW8SUahdniWKAgW5TOxA6mZdsRB89j3ijBIWAhhd/vSEGoFFvTTdHwVSguOfLRg1w+TXcQkIyOQQjuUQCCphT20yMRcbVW1fqPQpNFksRl2oQ3mElU78PivQGjzvpIaacCcVSOZ86jHQLbs5YA=
+	t=1730098718; cv=none; b=L/U5/qtIO7t/DJvhywlsF7LhT0I6/yTaxPuufvGqf8Qln7Wq+SmI+hpG0Wy2SaRafEfQbXpoJE14Zgp72m3yrkbNUgGKz6DU+Gim2UZa39K5vRMQIz9AD9nbndExZA+GXpNGdA2izqCsQUNspubW64LDMxy7KYZTKVbnmVdeIhM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730096238; c=relaxed/simple;
-	bh=oKywTvo10iJAaF9uBov18Cwp5Xc27wNcw1IBZW/aODc=;
+	s=arc-20240116; t=1730098718; c=relaxed/simple;
+	bh=iBtFal+VbXMv3skYB4e56SQ3UqidkU1gErX+/J1ZiLQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r96ibKTelgRm4T1+x+nPS/jHGjsgQqGvVhA7ebnyNGK1leb3kuFXDd8XuW5IR3+JJR3FKV99AO9RwBc8eeT/afQWODKPak5c1yLrLRI83oERK4ViwMUF8nCqSZAA+YyAfdrr+bqn2NKjj2cYortBssfnTsJ/xx492ZSRpRZkbFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mvhHrCMQ; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=Gbttyr//TnwAepFi1qIAv3ICOfMzGxGl+3w6NT0k43Uf7FXWN5Rkr5iJJoMXSmnOjHuVOGhyz42w+AuepdJAEICdxcD4VWLe5ZqHMjIx9cdyCYgFjhYfEcYRdtEohzc8Qq25raZP1IwE2onwWcfoL22bRJobERG8UOtFcJojiEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWjopX/E; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mvhHrCMQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWjopX/E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730096236; x=1761632236;
+  t=1730098715; x=1761634715;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oKywTvo10iJAaF9uBov18Cwp5Xc27wNcw1IBZW/aODc=;
-  b=mvhHrCMQw/7kxhvt/WvxOiU2U3XPtdjDPPZ1arOupy1Me1KS1cV0lWSi
-   5Cu/32racCiuMfIXJwQz6emd/1e1Nt1o7s5BNvHGHsE8GA14kuqNgXt0+
-   +DkMo6udpHhaan1yG5gUwJO+ck4Vai7PFL8VBxcM1eemNEL4kJvzmQsft
-   hGYDlyss3XvWdV19xuOPZKF0kltF3bqIu6Cj8nCyPSQ9EpP7Q9i3duduG
-   hEHZb6yjHqm793zdYz6fkjCSYPQp3jzOw8aO7MdhIDhK7s79jhmCfxmr4
-   FfXOzmoOQOAN3OAjs9wO9QZvo8n7zG4MdqA3XkFFj+HMpm83rphwAwmW6
-   A==;
-X-CSE-ConnectionGUID: Wj+ERuRgQly5lDX8sH+0UA==
-X-CSE-MsgGUID: w7l8EB3QS2+5BiSEWlUWdA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29642548"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29642548"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 23:17:15 -0700
-X-CSE-ConnectionGUID: yqJX53/hTASjwQ050CzY/w==
-X-CSE-MsgGUID: BvJcEcXJTNexRGS1I+PkLg==
+  bh=iBtFal+VbXMv3skYB4e56SQ3UqidkU1gErX+/J1ZiLQ=;
+  b=fWjopX/EE+7D9Tu6Im6xM2LNeZk1D0IyEbcBI+Pur6URAgnpcYcuR/fq
+   Fb7tXA5IQva7ps22Cqn35bxbez2P4Q6Re2MPZ6NDDPXhPSeLH+6Z6Uvo5
+   kGBDBS+iVBZYrJJb2tOgHfnqy1YzPHa2JUK2PCfsZfUbuKBc1X9Hqu4HU
+   25PDMRzn3lP8p/kG1eWmwR4p8JxildpsKMAWsO9fUe9qFbghM9lDmuZjw
+   w8Xay/BY3EPWNpLbus5kJqa4P08GTJBC+P4Zm9xMFUu/yQtxvksDavuyl
+   C+fWJbbz5E+yD08iseMzRFhWDchZsjX/I+6URnFwcdVcdFMJdBVDgTBkR
+   Q==;
+X-CSE-ConnectionGUID: n7NhE/ZTTN2F/L/WbeAFkg==
+X-CSE-MsgGUID: 69iKyRGbT0OjPSw50w8PaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="55092657"
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="55092657"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 23:58:34 -0700
+X-CSE-ConnectionGUID: bIHabTgwSOeWF4JSKoZpDw==
+X-CSE-MsgGUID: YjY/wKSIRsi8aN+mS9XCCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="86098080"
+   d="scan'208";a="118988087"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Oct 2024 23:17:13 -0700
+  by orviesa001.jf.intel.com with ESMTP; 27 Oct 2024 23:58:33 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5J3u-000bKi-27;
-	Mon, 28 Oct 2024 06:17:10 +0000
-Date: Mon, 28 Oct 2024 14:16:20 +0800
+	id 1t5Jhu-000bzg-1r;
+	Mon, 28 Oct 2024 06:58:30 +0000
+Date: Mon, 28 Oct 2024 14:58:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jesse Taube <jesse@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Palmer Dabbelt <palmer@rivosinc.com>,
-	Charlie Jenkins <charlie@rivosinc.com>
-Subject: [linux-next:master 4819/7183]
- arch/riscv/kernel/traps.c:187:undefined reference to
- `handle_misaligned_load'
-Message-ID: <202410281427.ETHk3U7B-lkp@intel.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kent Overstreet <kent.overstreet@linux.dev>
+Subject: fs/bcachefs/btree_cache.c:502:13-14: Unneeded semicolon
+Message-ID: <202410281421.V62F8rHI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,75 +62,137 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a39230ecf6b3057f5897bc4744a790070cfbe7a8
-commit: d1703dc7bc8ec7adb91f5ceaf1556ff1ed212858 [4819/7183] RISC-V: Detect unaligned vector accesses supported
-config: riscv-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241028/202410281427.ETHk3U7B-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281427.ETHk3U7B-lkp@intel.com/reproduce)
+Hi Guenter,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   81983758430957d9a5cb3333fe324fd70cf63e7e
+commit: 2007d28ec0095c6db0a24fd8bb8fe280c65446cd bcachefs: rename version -> bversion for big endian builds
+date:   4 weeks ago
+config: m68k-randconfig-r051-20241027 (https://download.01.org/0day-ci/archive/20241028/202410281421.V62F8rHI-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410281427.ETHk3U7B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410281421.V62F8rHI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/bcachefs/btree_cache.c:502:13-14: Unneeded semicolon
 
-   riscv32-linux-ld: arch/riscv/kernel/traps.o: in function `do_trap_insn_illegal':
->> arch/riscv/kernel/traps.c:187:(.noinstr.text+0x35c): undefined reference to `handle_misaligned_load'
->> riscv32-linux-ld: arch/riscv/kernel/traps.c:191:(.noinstr.text+0x380): undefined reference to `handle_misaligned_load'
-   riscv32-linux-ld: arch/riscv/kernel/traps.o: in function `do_trap_load_fault':
->> arch/riscv/kernel/traps.c:198:(.noinstr.text+0x41c): undefined reference to `handle_misaligned_store'
->> riscv32-linux-ld: arch/riscv/kernel/traps.c:198:(.noinstr.text+0x440): undefined reference to `handle_misaligned_store'
+vim +502 fs/bcachefs/btree_cache.c
 
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  441  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  442  static unsigned long bch2_btree_cache_scan(struct shrinker *shrink,
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  443  					   struct shrink_control *sc)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  444  {
+7a51608d012546 Kent Overstreet 2024-09-04  445  	struct btree_cache_list *list = shrink->private_data;
+7a51608d012546 Kent Overstreet 2024-09-04  446  	struct btree_cache *bc = container_of(list, struct btree_cache, live[list->idx]);
+7a51608d012546 Kent Overstreet 2024-09-04  447  	struct bch_fs *c = container_of(bc, struct bch_fs, btree_cache);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  448  	struct btree *b, *t;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  449  	unsigned long nr = sc->nr_to_scan;
+7c7e071d90ac27 Kent Overstreet 2022-04-03  450  	unsigned long can_free = 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  451  	unsigned long freed = 0;
+c36ff038fd3af6 Kent Overstreet 2022-09-25  452  	unsigned long touched = 0;
+97c0e19502549c Kent Overstreet 2020-10-15  453  	unsigned i, flags;
+c7ce813fe49a58 Kent Overstreet 2021-12-27  454  	unsigned long ret = SHRINK_STOP;
+7a51608d012546 Kent Overstreet 2024-09-04  455  	bool trigger_writes = atomic_long_read(&bc->nr_dirty) + nr >= list->nr * 3 / 4;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  456  
+29364f34530d30 Kent Overstreet 2020-11-02  457  	if (bch2_btree_shrinker_disabled)
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  458  		return SHRINK_STOP;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  459  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  460  	mutex_lock(&bc->lock);
+97c0e19502549c Kent Overstreet 2020-10-15  461  	flags = memalloc_nofs_save();
+97c0e19502549c Kent Overstreet 2020-10-15  462  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  463  	/*
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  464  	 * It's _really_ critical that we don't free too many btree nodes - we
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  465  	 * have to always leave ourselves a reserve. The reserve is how we
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  466  	 * guarantee that allocating memory for a new btree node can always
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  467  	 * succeed, so that inserting keys into the btree can always succeed and
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  468  	 * IO can always make forward progress:
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  469  	 */
+7a51608d012546 Kent Overstreet 2024-09-04  470  	can_free = btree_cache_can_free(list);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  471  	nr = min_t(unsigned long, nr, can_free);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  472  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  473  	i = 0;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  474  	list_for_each_entry_safe(b, t, &bc->freeable, list) {
+c043a3303c11cd Kent Overstreet 2021-12-27  475  		/*
+c043a3303c11cd Kent Overstreet 2021-12-27  476  		 * Leave a few nodes on the freeable list, so that a btree split
+c043a3303c11cd Kent Overstreet 2021-12-27  477  		 * won't have to hit the system allocator:
+c043a3303c11cd Kent Overstreet 2021-12-27  478  		 */
+c043a3303c11cd Kent Overstreet 2021-12-27  479  		if (++i <= 3)
+c043a3303c11cd Kent Overstreet 2021-12-27  480  			continue;
+c043a3303c11cd Kent Overstreet 2021-12-27  481  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  482  		touched++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  483  
+54b2db3d58eadb Kent Overstreet 2021-11-11  484  		if (touched >= nr)
+c36ff038fd3af6 Kent Overstreet 2022-09-25  485  			goto out;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  486  
+bceacfa97ec8b6 Daniel Hill     2022-09-30  487  		if (!btree_node_reclaim(c, b, true)) {
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  488  			btree_node_data_free(c, b);
+c43a6ef9a0747e Kent Overstreet 2020-06-06  489  			six_unlock_write(&b->c.lock);
+c43a6ef9a0747e Kent Overstreet 2020-06-06  490  			six_unlock_intent(&b->c.lock);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  491  			freed++;
+691f2cba229189 Kent Overstreet 2024-09-05  492  			bc->nr_freed++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  493  		}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  494  	}
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  495  restart:
+7a51608d012546 Kent Overstreet 2024-09-04  496  	list_for_each_entry_safe(b, t, &list->list, list) {
+c36ff038fd3af6 Kent Overstreet 2022-09-25  497  		touched++;
+c36ff038fd3af6 Kent Overstreet 2022-09-25  498  
+05a49d22750ec4 Kent Overstreet 2022-03-03  499  		if (btree_node_accessed(b)) {
+05a49d22750ec4 Kent Overstreet 2022-03-03  500  			clear_btree_node_accessed(b);
+3340dee2350954 Kent Overstreet 2024-09-01  501  			bc->not_freed[BCH_BTREE_CACHE_NOT_FREED_access_bit]++;
+ad5dbe3ce533ec Kent Overstreet 2024-09-04 @502  			--touched;;
+bceacfa97ec8b6 Daniel Hill     2022-09-30  503  		} else if (!btree_node_reclaim(c, b, true)) {
+91ddd7151000c0 Kent Overstreet 2024-09-05  504  			bch2_btree_node_hash_remove(bc, b);
+91ddd7151000c0 Kent Overstreet 2024-09-05  505  
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  506  			freed++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  507  			btree_node_data_free(c, b);
+691f2cba229189 Kent Overstreet 2024-09-05  508  			bc->nr_freed++;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  509  
+c43a6ef9a0747e Kent Overstreet 2020-06-06  510  			six_unlock_write(&b->c.lock);
+c43a6ef9a0747e Kent Overstreet 2020-06-06  511  			six_unlock_intent(&b->c.lock);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  512  
+c36ff038fd3af6 Kent Overstreet 2022-09-25  513  			if (freed == nr)
+c36ff038fd3af6 Kent Overstreet 2022-09-25  514  				goto out_rotate;
+c36ff038fd3af6 Kent Overstreet 2022-09-25  515  		} else if (trigger_writes &&
+c36ff038fd3af6 Kent Overstreet 2022-09-25  516  			   btree_node_dirty(b) &&
+c36ff038fd3af6 Kent Overstreet 2022-09-25  517  			   !btree_node_will_make_reachable(b) &&
+c36ff038fd3af6 Kent Overstreet 2022-09-25  518  			   !btree_node_write_blocked(b) &&
+c36ff038fd3af6 Kent Overstreet 2022-09-25  519  			   six_trylock_read(&b->c.lock)) {
+7a51608d012546 Kent Overstreet 2024-09-04  520  			list_move(&list->list, &b->list);
+c36ff038fd3af6 Kent Overstreet 2022-09-25  521  			mutex_unlock(&bc->lock);
+46fee692eebb85 Kent Overstreet 2022-10-28  522  			__bch2_btree_node_write(c, b, BTREE_WRITE_cache_reclaim);
+c36ff038fd3af6 Kent Overstreet 2022-09-25  523  			six_unlock_read(&b->c.lock);
+c36ff038fd3af6 Kent Overstreet 2022-09-25  524  			if (touched >= nr)
+c36ff038fd3af6 Kent Overstreet 2022-09-25  525  				goto out_nounlock;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  526  			mutex_lock(&bc->lock);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  527  			goto restart;
+05a49d22750ec4 Kent Overstreet 2022-03-03  528  		}
+05a49d22750ec4 Kent Overstreet 2022-03-03  529  
+c36ff038fd3af6 Kent Overstreet 2022-09-25  530  		if (touched >= nr)
+05a49d22750ec4 Kent Overstreet 2022-03-03  531  			break;
+05a49d22750ec4 Kent Overstreet 2022-03-03  532  	}
+c36ff038fd3af6 Kent Overstreet 2022-09-25  533  out_rotate:
+7a51608d012546 Kent Overstreet 2024-09-04  534  	if (&t->list != &list->list)
+7a51608d012546 Kent Overstreet 2024-09-04  535  		list_move_tail(&list->list, &t->list);
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  536  out:
+c36ff038fd3af6 Kent Overstreet 2022-09-25  537  	mutex_unlock(&bc->lock);
+c36ff038fd3af6 Kent Overstreet 2022-09-25  538  out_nounlock:
+7c7e071d90ac27 Kent Overstreet 2022-04-03  539  	ret = freed;
+e648448ca562af Kent Overstreet 2020-11-11  540  	memalloc_nofs_restore(flags);
+674cfc26240b78 Kent Overstreet 2022-08-27  541  	trace_and_count(c, btree_cache_scan, sc->nr_to_scan, can_free, ret);
+c7ce813fe49a58 Kent Overstreet 2021-12-27  542  	return ret;
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  543  }
+1c6fdbd8f2465d Kent Overstreet 2017-03-16  544  
 
-vim +187 arch/riscv/kernel/traps.c
+:::::: The code at line 502 was first introduced by commit
+:::::: ad5dbe3ce533ec13abacad78076050672e3d39eb bcachefs: Don't count "skipped access bit" as touched in btree cache scan
 
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  162  
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  163  DO_ERROR_INFO(do_trap_unknown,
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  164  	SIGILL, ILL_ILLTRP, "unknown exception");
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  165  DO_ERROR_INFO(do_trap_insn_misaligned,
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  166  	SIGBUS, BUS_ADRALN, "instruction address misaligned");
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  167  DO_ERROR_INFO(do_trap_insn_fault,
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  168  	SIGSEGV, SEGV_ACCERR, "instruction access fault");
-cd054837243b5f Andy Chiu      2023-06-05  169  
-cd054837243b5f Andy Chiu      2023-06-05  170  asmlinkage __visible __trap_section void do_trap_insn_illegal(struct pt_regs *regs)
-cd054837243b5f Andy Chiu      2023-06-05  171  {
-26c38cd802c947 Andy Chiu      2023-06-25  172  	bool handled;
-26c38cd802c947 Andy Chiu      2023-06-25  173  
-cd054837243b5f Andy Chiu      2023-06-05  174  	if (user_mode(regs)) {
-cd054837243b5f Andy Chiu      2023-06-05  175  		irqentry_enter_from_user_mode(regs);
-cd054837243b5f Andy Chiu      2023-06-05  176  
-cd054837243b5f Andy Chiu      2023-06-05  177  		local_irq_enable();
-cd054837243b5f Andy Chiu      2023-06-05  178  
-26c38cd802c947 Andy Chiu      2023-06-25  179  		handled = riscv_v_first_use_handler(regs);
-26c38cd802c947 Andy Chiu      2023-06-25  180  
-26c38cd802c947 Andy Chiu      2023-06-25  181  		local_irq_disable();
-26c38cd802c947 Andy Chiu      2023-06-25  182  
-26c38cd802c947 Andy Chiu      2023-06-25  183  		if (!handled)
-cd054837243b5f Andy Chiu      2023-06-05  184  			do_trap_error(regs, SIGILL, ILL_ILLOPC, regs->epc,
-cd054837243b5f Andy Chiu      2023-06-05  185  				      "Oops - illegal instruction");
-cd054837243b5f Andy Chiu      2023-06-05  186  
-cd054837243b5f Andy Chiu      2023-06-05 @187  		irqentry_exit_to_user_mode(regs);
-cd054837243b5f Andy Chiu      2023-06-05  188  	} else {
-cd054837243b5f Andy Chiu      2023-06-05  189  		irqentry_state_t state = irqentry_nmi_enter(regs);
-cd054837243b5f Andy Chiu      2023-06-05  190  
-cd054837243b5f Andy Chiu      2023-06-05 @191  		do_trap_error(regs, SIGILL, ILL_ILLOPC, regs->epc,
-cd054837243b5f Andy Chiu      2023-06-05  192  			      "Oops - illegal instruction");
-cd054837243b5f Andy Chiu      2023-06-05  193  
-cd054837243b5f Andy Chiu      2023-06-05  194  		irqentry_nmi_exit(regs, state);
-cd054837243b5f Andy Chiu      2023-06-05  195  	}
-cd054837243b5f Andy Chiu      2023-06-05  196  }
-cd054837243b5f Andy Chiu      2023-06-05  197  
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10 @198  DO_ERROR_INFO(do_trap_load_fault,
-76d2a0493a17d4 Palmer Dabbelt 2017-07-10  199  	SIGSEGV, SEGV_ACCERR, "load access fault");
-956d705dd279f7 Damien Le Moal 2020-03-16  200  
-
-:::::: The code at line 187 was first introduced by commit
-:::::: cd054837243b5f36ff395c21135ff153871180f1 riscv: Allocate user's vector context in the first-use trap
-
-:::::: TO: Andy Chiu <andy.chiu@sifive.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
