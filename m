@@ -1,141 +1,109 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57EE1DC046
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 07:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92CF718C90A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 07:50:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730101365; cv=none; b=d2l3pRnA4q4vz/n4XcCU20k8l2CChJAVlvPhDzNwQAjOn/F22FqZGbfVoDeOn6ckh7PjS5+NpG/k+e21WB/kaiphRas+nCNvH0NrDxA6t1/1/ncfi3I69UjO4K3ImpjNuIq8rEhCCVlHjDvO270bueSAJa4QRMbsMpSEAAUH3RM=
+	t=1730101842; cv=none; b=PRHIyKaVX6G4jtnb6snU+sfDzCwQrSN2ozJm7r2k5EsbhsrjWmJ+DcDwX/CIMimxZ7EDx6jmt31fmZoB0409ZaTDYGM2O4VHP8vfYPLv7lXET8/bRCzvOlntK1brIb7oV64NouGOS7yiwHVisnFaoWH5ZfN8cOhhEnrLdKXDR3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730101365; c=relaxed/simple;
-	bh=XyKhCSx50gEvdvngEQkA62Vax+WJspVF9VbFSm7JA2w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=sIJiiDKK2OG2tOQAF77gMKZzTZztEdp1PA/gXrLI9Xx94Yh2tHDj19ifD8fMvMcgUNepLFC8N8NWN9GVYNOhqyv0fdubnJBDkw73T+4ZV8ZA8G9fIiETYrspwX4oXRY9GF09vjHEBdQKZHh524qZQZQMhMPmFNg2rt+sqBx7Sso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LoG4/QTH; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1730101842; c=relaxed/simple;
+	bh=h9SlZrc4kfntcHB/dZzVdSpdWA2Am6XwFODO4QATLoQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O6+OQ1Vh8azgrmL6IENkZoF/AnzmOI+d7xKV5cBhizXY+FPewJGucwme+vOLUpE4l5UufYkTNIdO0N2amIO7W+QCTBAflPC6pe8V9Dgg5oKQ7gMPBCfKt/vkmBaiUetZOf78GiOvW2IdJxqM5gzoFqjRY8Cw9r6H/HguEtjcqSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cq3+tsrH; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LoG4/QTH"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49RNsGP1001875;
-	Mon, 28 Oct 2024 07:42:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vaZigNBo2RVkSqh17hX/fNf9EwxSZgXoO6QVDqK/VDY=; b=LoG4/QTHKKiAlJbP
-	/39ep79piwkx6RTtloUOqqYRIWd0ah9IN4zJ6y2Df7dHLEDhldIbqo9ChIXOmo0U
-	Qv9G+hAj8q6iJJFh4E6j2JoUwDOpocPLshHW8gkN+ATHrmBP6XiVluo7af9ZyvIi
-	zRlVSzbVAI6PK5dmoiD/xcTFbjYq54jW3R2lX4w7q3Gfm+C5IzMOUDz9z9cs3Pzb
-	YFHYm1LfHYtLdp9wUzfhmMDlfJ9WTSYIhfuLEG8WDwg86+BlkW+Dhe4RHekajWeR
-	Sf1thvUOfALsgGnAXz7Yqyfsa88Bx47d1+rUh5K7YYPepAteKiUFQ/ahuJwDTKSR
-	Qh1p0w==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42grn4v2m4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 07:42:18 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49S7gHFF014953
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Oct 2024 07:42:17 GMT
-Received: from [10.152.195.140] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 28 Oct
- 2024 00:42:08 -0700
-Message-ID: <b34cfd80-88de-4f7b-ae55-3b65abf8924a@quicinc.com>
-Date: Mon, 28 Oct 2024 13:12:04 +0530
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cq3+tsrH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730101840; x=1761637840;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h9SlZrc4kfntcHB/dZzVdSpdWA2Am6XwFODO4QATLoQ=;
+  b=cq3+tsrHEriHIKO17X4tM3a6VWmNntz+QnRlC9cebL87kTF04OmulEH8
+   VuN2Dp2bJ0GC/IBnrUfyLkGGaw7202rUIVD9BKO8kXVfSDuYZCeyasB9k
+   ncQqwhgUBQlCTka0t322HOds8ashBWzIghc5PIUdq20pyGkDemLz9i/jS
+   ufm0j1Niz/Y/C3yNm8rAiTsec/FPGrzRFdhU5mVg1CQvZz2KKJwZ31tsf
+   L7Q4Rah1waOkEPHEOzKA8Fdc7oQt7ONMZnsQcvMLdzg+hWqURGfxdvG3e
+   WfOnh+XTot6wZHqInE3iy112asLquBAonbd5vsCAKjnSDzXWadNMsNQFR
+   A==;
+X-CSE-ConnectionGUID: xUIBXm9JTA6mNE3Xsk0jDw==
+X-CSE-MsgGUID: mdXHHq/5QjuaTHlEomBGgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="33484099"
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="33484099"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 00:50:40 -0700
+X-CSE-ConnectionGUID: oMdBPahmTImyqph9q1rRRQ==
+X-CSE-MsgGUID: mqyLkb9RQ8yCisB8a6BjBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="86681052"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2024 00:50:38 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5KWJ-000c8U-1u;
+	Mon, 28 Oct 2024 07:50:35 +0000
+Date: Mon, 28 Oct 2024 15:49:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Shakeel Butt <shakeel.butt@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: [akpm-mm:mm-unstable 239/250] mm/workingset.c:598:38: error:
+ implicit declaration of function 'folio_memcg_charged'; did you mean
+ 'folio_memcg_check'?
+Message-ID: <202410281525.6Obl6WjL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 6/7] arm64: dts: qcom: ipq9574: Add nsscc node
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        kernel test robot
-	<lkp@intel.com>, <andersson@kernel.org>,
-        <mturquette@baylibre.com>, <sboyd@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <konradybcio@kernel.org>,
-        <catalin.marinas@arm.com>, <will@kernel.org>, <p.zabel@pengutronix.de>,
-        <richardcochran@gmail.com>, <geert+renesas@glider.be>,
-        <dmitry.baryshkov@linaro.org>,
-        <angelogioacchino.delregno@collabora.com>, <neil.armstrong@linaro.org>,
-        <arnd@arndb.de>, <nfraprado@collabora.com>, <quic_anusha@quicinc.com>,
-        <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <netdev@vger.kernel.org>
-CC: <oe-kbuild-all@lists.linux.dev>, <quic_srichara@quicinc.com>,
-        <quic_varada@quicinc.com>
-References: <20241025035520.1841792-7-quic_mmanikan@quicinc.com>
- <202410260742.a9vvkaEz-lkp@intel.com>
- <ca0137a6-3ffa-46ad-a970-7420520f09ae@oss.qualcomm.com>
-Content-Language: en-US
-From: Manikanta Mylavarapu <quic_mmanikan@quicinc.com>
-In-Reply-To: <ca0137a6-3ffa-46ad-a970-7420520f09ae@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 80t0sDpFzR-3V7TX7FzE5RGSxe_2be2y
-X-Proofpoint-ORIG-GUID: 80t0sDpFzR-3V7TX7FzE5RGSxe_2be2y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 phishscore=0
- impostorscore=0 lowpriorityscore=0 priorityscore=1501 mlxlogscore=999
- malwarescore=0 clxscore=1011 bulkscore=0 suspectscore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410280063
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   92409df3e00a17d6fd5bb27732fa186749725ed5
+commit: b4fa93fbd1dc5828d3a21ec45d9a6386058181de [239/250] memcg: workingset: remove folio_memcg_rcu usage
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20241028/202410281525.6Obl6WjL-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281525.6Obl6WjL-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410281525.6Obl6WjL-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   mm/workingset.c: In function 'workingset_activation':
+>> mm/workingset.c:598:38: error: implicit declaration of function 'folio_memcg_charged'; did you mean 'folio_memcg_check'? [-Wimplicit-function-declaration]
+     598 |         if (mem_cgroup_disabled() || folio_memcg_charged(folio))
+         |                                      ^~~~~~~~~~~~~~~~~~~
+         |                                      folio_memcg_check
 
 
+vim +598 mm/workingset.c
 
-On 10/26/2024 3:35 PM, Konrad Dybcio wrote:
-> On 26.10.2024 1:31 AM, kernel test robot wrote:
->> Hi Manikanta,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on clk/clk-next]
->> [also build test ERROR on robh/for-next arm64/for-next/core linus/master v6.12-rc4 next-20241025]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Manikanta-Mylavarapu/clk-qcom-clk-alpha-pll-Add-NSS-HUAYRA-ALPHA-PLL-support-for-ipq9574/20241025-121244
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
->> patch link:    https://lore.kernel.org/r/20241025035520.1841792-7-quic_mmanikan%40quicinc.com
->> patch subject: [PATCH v8 6/7] arm64: dts: qcom: ipq9574: Add nsscc node
->> config: arm64-randconfig-001-20241026 (https://download.01.org/0day-ci/archive/20241026/202410260742.a9vvkaEz-lkp@intel.com/config)
->> compiler: aarch64-linux-gcc (GCC) 14.1.0
->> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241026/202410260742.a9vvkaEz-lkp@intel.com/reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202410260742.a9vvkaEz-lkp@intel.com/
->>
->> All errors (new ones prefixed by >>):
->>
->>>> Error: arch/arm64/boot/dts/qcom/ipq9574.dtsi:766.16-17 syntax error
->>    FATAL ERROR: Unable to parse input tree
-> 
-> I believe you also need to include <dt-bindings/clock/qcom,ipq-cmn-pll.h>
-> 
-> Konrad
+   587	
+   588	/**
+   589	 * workingset_activation - note a page activation
+   590	 * @folio: Folio that is being activated.
+   591	 */
+   592	void workingset_activation(struct folio *folio)
+   593	{
+   594		/*
+   595		 * Filter non-memcg pages here, e.g. unmap can call
+   596		 * mark_page_accessed() on VDSO pages.
+   597		 */
+ > 598		if (mem_cgroup_disabled() || folio_memcg_charged(folio))
+   599			workingset_age_nonresident(folio_lruvec(folio), folio_nr_pages(folio));
+   600	}
+   601	
 
-The above build error is because kernel test robot didn't pick the
-dependent series [1] mentioned in cover letter. Not sure if that is
-because 'base-commit' & 'prerequisite-patch-id' tags were not present
-in the cover letter. Will include them and post a new version.
-
-Will that help the test robot to pick the correct dependency and
-resolve this build failure? If the dependencies are picked,
-<dt-bindings/clock/qcom,ipq-cmn-pll.h> would automatically get
-included.
-
-[1] https://lore.kernel.org/linux-arm-msm/20241015-qcom_ipq_cmnpll-v4-0-27817fbe3505@quicinc.com/
-
-Thanks & Regards,
-Manikanta.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
