@@ -1,54 +1,62 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9F11DED5D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 21:50:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BD81F4289
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 21:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730152219; cv=none; b=dNFOhZ7hBFeHjixeS0eFfDDxX0mrVPoViuEDrA2+CoXBnXW+fyFnntoyydQBlWIuZVn4Oao+SwXt9FN0RTr35RpaBrBmDWO9ohJfogIY8dF2o0y7fo9AMF8PqdThcgFmUUxvu9AHyex+NHLF8XzDl708Kp21klFAoNVhwbMELkM=
+	t=1730152652; cv=none; b=gJYzNHtdlFnNpMiM86rvLwiOhF8mWyRZJ2cP4hl+UUl84kmoKg0TtCf31x9x1/XCbTenbgJrt4Rko4KkEeqj4L39XH4Pg4SeRUhkx4YNz/UEWuLq1iN8Ak/+iQm8KJxjaGQe8qK8Ii1oGJ2UE5sMg2rydDJ9BWVIMzIerptQGac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730152219; c=relaxed/simple;
-	bh=V6Qcj3tOIGcSu35JwGeNx9+xFqxPBD8uIH+zjysOBNk=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lK0/DgukQSzk4+KXjMg5hAPpusaJkdhy+VuFjAq2E+1e9/WYbBx91Mh+AmTPJmgB05Ij6nfoHIST7IYQAZU4uxSNKO7iqVkyKpocx91GmPWlaa5otMaHcFHTx/MLfRHAe1PDFEc6wDrtQJr14RXBT1NIxgZN8XY5XbS9eiN5b+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1t5Xcc-0000Lv-3Y; Mon, 28 Oct 2024 22:49:58 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1t5Xca-000vCY-2y;
-	Mon, 28 Oct 2024 22:49:56 +0100
-Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1t5Xca-000sqw-2d;
-	Mon, 28 Oct 2024 22:49:56 +0100
-Date: Mon, 28 Oct 2024 22:49:56 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Matthias Kaehlcke <matthias@kaehlcke.net>,
-	kernel test robot <lkp@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	kernel@pengutronix.de, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev
- port features
-Message-ID: <20241028214956.gmefpvcvm3zrfout@pengutronix.de>
-References: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9@pengutronix.de>
- <202408081557.FiEe9Tzz-lkp@intel.com>
- <20240809093313.xn3x2p3st2b32g27@pengutronix.de>
- <wtvhsdo2zefehkgfcp2cfdl2uht4lcrytyjyhwjhnpcyvx4kd2@iurrw554aegh>
+	s=arc-20240116; t=1730152652; c=relaxed/simple;
+	bh=OLxHCpDCMDZjyFYyaixlKrSnPnxCAHoGhH3TOznezUA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pK0k5ops9Udf3TihGhAL+bUR+H+2x0aBLo/NqKFXLbVv3TNW8CLKF6abR8jFXMKtCVqEg+vztIcv1DpP7oVws2vzlqbDf3U2JDhZIkVFTq+l3N3v0PvezD1dh+8iVNT1HsQyx2sbxxEgEaryu4rsMf3MGUmtlrP47E0UYXBVJaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H6rFoDoK; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H6rFoDoK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730152650; x=1761688650;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OLxHCpDCMDZjyFYyaixlKrSnPnxCAHoGhH3TOznezUA=;
+  b=H6rFoDoKN5/TYFL4NHCSr2fbiTPuPLARfNkjz5y5uUf4yVsQy41sA+2a
+   1AXOwzl4QAB76gFZQeRY719cPD/O71dYVy/3ELLvun9G4eux/hmi8U3MD
+   fP0rzgOL3U4pd3dM4BNo6PQC4dPkfHg06ktIwtQ2F4NnDCBx9BtKWsfYR
+   hJkSSvbBi96ZV47e2IlN1YxVeFR1ElX3aV3HWXB3bKhV43GbZCw9y4LP0
+   d3Zp5bXZwqpw81clRbG7eIKrxuv/HnTUYpNEpN727FZhRzrd0934PwwSd
+   ljD4R8YHrgcOo/BdZfZEtoUqYGtuo0Kk4OxIJj78Tb8utaSZtRkIIEKvN
+   w==;
+X-CSE-ConnectionGUID: qjyTbGHURhmAuGOMrrbU+Q==
+X-CSE-MsgGUID: HSfGqVXfQ2++8GqO1R/1HA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29955443"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29955443"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 14:57:30 -0700
+X-CSE-ConnectionGUID: LToZ9L4qRT6biO2wBWqOrg==
+X-CSE-MsgGUID: NyO0MeJMRxmC39XE+tLJPA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
+   d="scan'208";a="86885716"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2024 14:57:26 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5Xjn-000cvQ-21;
+	Mon, 28 Oct 2024 21:57:23 +0000
+Date: Tue, 29 Oct 2024 05:57:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 5480/13046] kernel/sched/ext.c:89:25: sparse:
+ sparse: symbol 'scx_has_op' was not declared. Should it be static?
+Message-ID: <202410290513.gEbODxkg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -57,146 +65,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <wtvhsdo2zefehkgfcp2cfdl2uht4lcrytyjyhwjhnpcyvx4kd2@iurrw554aegh>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-Hi,
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: f753802055302b65e113345663c62fa6809df669 [5480/13046] rue/scx/sched_ext: Implement BPF extensible scheduler class
+config: x86_64-randconfig-121-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290513.gEbODxkg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290513.gEbODxkg-lkp@intel.com/reproduce)
 
-I found two mistakes I made in my v1. I would send a v2 if this series
-is interesting for upstream. The remaining open question is how the
-driver dependencies should be handled (see idea-1,2,3).
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290513.gEbODxkg-lkp@intel.com/
 
-Regards,
-  Marco
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/rt.c:965:70: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/rt.c:965:70: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/rt.c:965:70: sparse:    struct task_struct *
+   kernel/sched/rt.c:581:54: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:581:54: sparse:     expected struct task_struct *curr
+   kernel/sched/rt.c:581:54: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1051:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1051:38: sparse:     expected struct task_struct *curr
+   kernel/sched/rt.c:1051:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/rt.c:1596:31: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/rt.c:1596:31: sparse:     expected struct task_struct *p
+   kernel/sched/rt.c:1596:31: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/deadline.c:1945:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
+   kernel/sched/deadline.c:1945:42: sparse:     expected struct sched_dl_entity const *b
+   kernel/sched/deadline.c:1945:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
+   kernel/sched/deadline.c:1177:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1177:23: sparse:     expected struct task_struct *p
+   kernel/sched/deadline.c:1177:23: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:1300:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/deadline.c:1300:38: sparse:     expected struct task_struct *curr
+   kernel/sched/deadline.c:1300:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/deadline.c:2651:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/deadline.c:2651:22: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/deadline.c:2651:22: sparse:    struct task_struct *
+   kernel/sched/build_policy.c: note: in included file:
+>> kernel/sched/ext.c:89:25: sparse: sparse: symbol 'scx_has_op' was not declared. Should it be static?
+   kernel/sched/ext.c:456:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext.c:805:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext.c:815:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *from @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext.c:1399:35: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+>> kernel/sched/ext.c:2489:31: sparse: sparse: symbol 'bpf_scx_verifier_ops' was not declared. Should it be static?
+   kernel/sched/ext.c:3083:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/ext.c:3083:33: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/ext.c:3083:33: sparse:    struct task_struct const *
+   kernel/sched/build_policy.c: note: in included file (through include/linux/smp.h, include/linux/sched/clock.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
+   kernel/sched/sched.h:2215:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/sched.h:2215:25: sparse:    struct task_struct *
 
-On 24-09-23, Matthias Kaehlcke wrote:
-> El Fri, Aug 09, 2024 at 11:33:13AM GMT Marco Felsch ha dit:
-> 
-> > Hi all,
-> > 
-> > On 24-08-08, kernel test robot wrote:
-> > > Hi Marco,
-> > > 
-> > > kernel test robot noticed the following build errors:
-> > > 
-> > > [auto build test ERROR on 0c3836482481200ead7b416ca80c68a29cfdaabd]
-> > > 
-> > > url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/usb-hub-add-infrastructure-to-pass-onboard_dev-port-features/20240807-224100
-> > > base:   0c3836482481200ead7b416ca80c68a29cfdaabd
-> > > patch link:    https://lore.kernel.org/r/20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9%40pengutronix.de
-> > > patch subject: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev port features
-> > > config: i386-randconfig-141-20240808 (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/config)
-> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/reproduce)
-> > > 
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202408081557.FiEe9Tzz-lkp@intel.com/
-> > > 
-> > > All errors (new ones prefixed by >>):
-> > > 
-> > >    ld: drivers/usb/core/hub.o: in function `set_port_feature':
-> > > >> drivers/usb/core/hub.c:481: undefined reference to `onboard_dev_port_feature'
-> > >    ld: drivers/usb/core/hub.o: in function `usb_clear_port_feature':
-> > >    drivers/usb/core/hub.c:462: undefined reference to `onboard_dev_port_feature'
-> > 
-> > I understood the isse but have a few questions. Before continue the work
-> > on this topic I would like to ask if the patchset is okay in general?
-> > I'm open for alternatives if the patchset approach is not okay.
-> 
-> From the perspective of the onboard_usb_dev driver it seems sound to me.
-> 
-> So far the USB maintainers haven't raised objections, so I would say move
-> forward and we'll see if concerns arise and deal with them if needed.
-> 
-> > I have a few ideas in mind (see below) to fix the 0day build issue which
-> > was caused by the Kconfig selection:
-> > 
-> >  - CONFIG_USB=y
-> >  - CONFIG_USB_ONBOARD_DEV=m.
-> > 
-> > Idea-1:
-> > -------
-> > 
-> > Dropping the module support for CONFIG_USB_ONBOARD_DEV.
-> 
-> With that CONFIG_USB could not be 'm' when CONFIG_USB_ONBOARD_DEV
-> is set, which wouldn't be great.
-> 
-> > Idea-2:
-> > -------
-> > 
-> > CONFIG_USB_ONBOARD_DEV follows CONFIG_USB:
-> > 
-> > CONFIG_USB=y -> CONFIG_USB_ONBOARD_DEV=y,
-> > CONFIG_USB=m -> CONFIG_USB_ONBOARD_DEV=m.
-> > 
-> > and exporting usb_clear_port_feature().
-> > 
-> > I don't know to add such Kconfig dependency and also this idea require
-> > that the usbcore have to load the usb_onboard_dev module always,
-> > regardless if used.
-> > 
-> > So this idea is rather suboptimal.
-> > 
-> > Idea-3:
-> > -------
-> > 
-> > Adding a function to the hub.c usbcore which can be used by the
-> > usb-onboard-dev driver to register this function as hook. This removes
-> > the dependency from the core and the usb-onboard-dev module is only
-> > pulled if really required. Of course this require that the hub.c usbcore
-> > driver allows custom hooks.
-> 
-> This seems like the best approach IMO, if USB maintainers are onboard with
-> it.
-> 
-> Since this is about port features (only applicable to hubs) the function
-> should be associated with struct usb_hub, not struct usb_device. And we
-> probably want two functions, onboard_hub_set_port_feature() and
-> onboard_hub_clear_port_feature(), whose implementations may use shared
-> code.
-> 
-> > Idea-X:
-> > -------
-> > 
-> > I'm open for your input :)
-> > 
-> > 
-> > Regards,
-> >   Marco
-> > 
-> > PS: My favourite is Idea-3 followed by Idea-1.
-> > 
-> > > vim +481 drivers/usb/core/hub.c
-> > > 
-> > >    466	
-> > >    467	/*
-> > >    468	 * USB 2.0 spec Section 11.24.2.13
-> > >    469	 */
-> > >    470	static int set_port_feature(struct usb_device *hdev, int port1, int feature)
-> > >    471	{
-> > >    472		int ret;
-> > >    473	
-> > >    474		ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
-> > >    475			USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
-> > >    476			NULL, 0, 1000);
-> > >    477		if (ret)
-> > >    478			return ret;
-> > >    479	
-> > >    480		if (!is_root_hub(hdev))
-> > >  > 481			ret = onboard_dev_port_feature(hdev, true, feature, port1);
-> > >    482	
-> > >    483		return ret;
-> > >    484	}
-> > >    485	
-> > > 
-> > > -- 
-> > > 0-DAY CI Kernel Test Service
-> > > https://github.com/intel/lkp-tests/wiki
-> > > 
-> 
+vim +/scx_has_op +89 kernel/sched/ext.c
+
+    88	
+  > 89	struct static_key_false scx_has_op[SCX_NR_ONLINE_OPS] =
+    90		{ [0 ... SCX_NR_ONLINE_OPS-1] = STATIC_KEY_FALSE_INIT };
+    91	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
