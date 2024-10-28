@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A03618593B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 02:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC7B161
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 04:34:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730083813; cv=none; b=fDieN5YaqCemZrB05q54yQg474LrjudPdV5X/JeHf+M1S2AgChnvIG7MHDRUtQPuLJN5wjXzfae3RpgH1br9YoucTvon2W3hyXH9XPrN5gPT4f9WAgzaTkVf3j7+tRtxgEJU5p/7JJkKLV4rJeazeu2BVfVV8g9s5DKvXnkWw8k=
+	t=1730090054; cv=none; b=CmlbFSp31FEPZhah1YkBFypGRekBjXwjRIwF5sEJFNo1w9SmKOa74hZds97Wi5Fx86uufw/4WnD1CAfJca3oKVswsDnuN69CKY0sfPV/5Eo5Q/KfBoxvBlcHRm+M/JZ4Kw3GExsWjCSSl4NX61sx9DIy71+RjJyPSgteFwZiuU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730083813; c=relaxed/simple;
-	bh=OH4uFwiGOEJ548Ln8ricVAGR+i04ORCATe6JrxmW+1Y=;
+	s=arc-20240116; t=1730090054; c=relaxed/simple;
+	bh=gsrPzQY0Wa1mvNC1wbOOTrhrRt9bDwXUipZaSiUSjWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O0UIURMvmX991UBdSuMfcidKP8T8lIsjgjkd+kIyjtOWm9nKayFHD2lz+k7+65jF8WEcsw+T2LfWPw4tNNt5zG4hhtzqRmtS3pJx4n2kHfYXK+lB1TRGM7x5IHhxVyJOWeqpGn0Lut8S+nOkFNEB4mMEzo/6fG+38RSN9SXKqgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n87AFvj2; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=HIgrOp1ryuM2sY/oZuQlnhsq0TmXDJeYVZlEMS6VppkUgq663Y42pqx0BAjR8m5Ifg70r+9i2tqGIolhul0JvYq80W3cQdPWI36R1SV/thPrRhCX5XiNjmVx7/MtgItIV42p9EC1+JlrERwhLxUGxgm/5+KfmJ49hSdrP5f3vig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a91UCx+p; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n87AFvj2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a91UCx+p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730083809; x=1761619809;
+  t=1730090052; x=1761626052;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OH4uFwiGOEJ548Ln8ricVAGR+i04ORCATe6JrxmW+1Y=;
-  b=n87AFvj2YUEogqSQgfaKiqNtW3GDGMUbwb5dC0EjVsqMg6acwL7ims3z
-   4iD/2pFy99H/Yyi+aRpU6ajLGkhuPFjz+rLUYxpIvJINvM3PC0GNfMSJC
-   jiHcSqMvA9JzovS4HfH6aNJZUg145R0ecZmeycimUmCCDsa8zE5hOlTlM
-   eqPYaCUw8uuJsi+3Ba7u0aWU6/+U1lKN2WMZ1DrpckLysPLqdOM7YeRkp
-   ykSUMNi8IU0AgEZRodh7KHF/y20cPejHINOTYp+u9umwzjhwRf75kKiHg
-   TWdt3nPhlPgwem5UgKU5D6h41yRHoUU+V1uKOO5QzAjG22kY9uWaIUp6J
-   Q==;
-X-CSE-ConnectionGUID: ItBTVy0fTFmrdm557hdFIA==
-X-CSE-MsgGUID: Pjx3otSwRTaqWqTQWGWIqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33365835"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="33365835"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 19:50:08 -0700
-X-CSE-ConnectionGUID: aqnqPpjDSEOe4fBsEkiDsw==
-X-CSE-MsgGUID: OEYUI61TRhGnTLT0bHJm7A==
+  bh=gsrPzQY0Wa1mvNC1wbOOTrhrRt9bDwXUipZaSiUSjWE=;
+  b=a91UCx+pDS9yKaiOV4kgfH0/gWv++rjwQS7oIVTZgtqXENa8fs3GXltb
+   soxA2w6ymdrBhyFKeTQa6brG/ykzBfOkyZv3FhHasguqS/r/+Reuwi26m
+   KSqHzO2ZwwMnWdJqeSXlY0h4VN0TuFp9v9Oye3IXJge4iKvnCqfQ8gnYs
+   YMaGSziw2EKhZbadM9yPA+nk3wcwcZRJx/aAemG6qGC36GBhFhkwQCqra
+   b7+P+iQOIxD37EgchTOT0lbwhoj8PXsLdKxJ3Ssgy0WiW2OKgHelGpB0/
+   K5MFbySRviyJCfDQS5k3kpR9Jbpob/dHO1EdMvVD61j2TOUPJj4P4ZST+
+   w==;
+X-CSE-ConnectionGUID: seAv3jyuT0qpY7j4KDYfIQ==
+X-CSE-MsgGUID: lnzujpFYRHW6AcBcqqxx5Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11238"; a="41071074"
+X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
+   d="scan'208";a="41071074"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2024 21:34:11 -0700
+X-CSE-ConnectionGUID: 2MpUkCkvRuSzXW3fSZc39A==
+X-CSE-MsgGUID: O/d1vgmxSYauRlFAu0HdFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,238,1725346800"; 
-   d="scan'208";a="81384446"
+   d="scan'208";a="86624365"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 27 Oct 2024 19:50:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 27 Oct 2024 21:34:09 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5FpT-000bCW-3C;
-	Mon, 28 Oct 2024 02:50:03 +0000
-Date: Mon, 28 Oct 2024 10:49:55 +0800
+	id 1t5HSB-000bG4-1T;
+	Mon, 28 Oct 2024 04:34:07 +0000
+Date: Mon, 28 Oct 2024 12:33:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Hao Chen <chenhao418@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 18194/23866]
- include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used
- uninitialized
-Message-ID: <202410281052.z4Ng6x4J-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 29368/30000]
+ drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5484:43: warning:
+ implicit conversion from 'enum hclge_ext_opcode_type' to 'enum
+ hclge_opcode_type'
+Message-ID: <202410281233.wCUruwuw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,174 +64,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   22c50245e8025b0c6beee13d0df238987b98e6f8
-commit: 9469d1759c2905dcef49df7e6240ad5c32b66296 [18194/23866] ascend: share_pool: enable svm to use share pool memory
-config: arm64-randconfig-004-20241027 (https://download.01.org/0day-ci/archive/20241028/202410281052.z4Ng6x4J-lkp@intel.com/config)
+Hi Peiyang,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   74ea68658f1a67506799ac0e89ab3eba1b7e0ba1
+commit: 5008e61d36701b7908e5edae1dee581a40af6312 [29368/30000] net: hns3:support enable or disable pfc strom prevent
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241028/202410281233.wCUruwuw-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281052.z4Ng6x4J-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241028/202410281233.wCUruwuw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410281052.z4Ng6x4J-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410281233.wCUruwuw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/char/svm.c:249:21: warning: no previous prototype for 'svm_find_mem_reg_node' [-Wmissing-prototypes]
-     249 | struct device_node *svm_find_mem_reg_node(struct device *dev, const char *compat)
-         |                     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:419:6: warning: no previous prototype for 'sysrq_sched_debug_show_export' [-Wmissing-prototypes]
-     419 | void sysrq_sched_debug_show_export(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:1429:5: warning: no previous prototype for 'svm_get_pasid' [-Wmissing-prototypes]
-    1429 | int svm_get_pasid(pid_t vpid, int dev_id __maybe_unused)
-         |     ^~~~~~~~~~~~~
-   drivers/char/svm.c:1502:5: warning: no previous prototype for '__svm_get_mpam' [-Wmissing-prototypes]
-    1502 | int __svm_get_mpam(struct svm_mpam *mpam)
-         |     ^~~~~~~~~~~~~~
-   drivers/char/svm.c:2437:36: warning: 'svm_acpi_match' defined but not used [-Wunused-const-variable=]
-    2437 | static const struct acpi_device_id svm_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~
-   In file included from drivers/char/svm.c:29:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_sp_alloc_mem' at drivers/char/svm.c:2144:8:
->> include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:251,
-                    from arch/arm64/include/asm/memory.h:24,
-                    from arch/arm64/include/asm/esr.h:21,
-                    from drivers/char/svm.c:10:
-   include/linux/kasan-checks.h: In function 'svm_sp_alloc_mem':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:2135:24: note: 'spallocinfo' declared here
-    2135 |         struct spalloc spallocinfo;
-         |                        ^~~~~~~~~~~
-   In file included from arch/arm64/include/asm/atomic.h:34,
-                    from include/linux/atomic.h:7,
-                    from include/asm-generic/bitops/atomic.h:5,
-                    from arch/arm64/include/asm/bitops.h:37,
-                    from include/linux/bitops.h:19,
-                    from include/linux/kernel.h:11,
-                    from include/asm-generic/bug.h:18,
-                    from arch/arm64/include/asm/bug.h:37,
-                    from arch/arm64/include/asm/memory.h:27:
-   In function '__cmpxchg_case_mb_4',
-       inlined from '__cmpxchg_mb' at arch/arm64/include/asm/cmpxchg.h:143:1,
-       inlined from 'svm_proc_load_flag' at drivers/char/svm.c:1967:12:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
-     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
-         | ^~~~~~~~~~~~~~
-   drivers/char/svm.c: In function 'svm_proc_load_flag':
-   drivers/char/svm.c:1958:25: note: object 'l2buf_load_flag' of size 4
-    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
-         |                         ^~~~~~~~~~~~~~~
-   In function '__cmpxchg_case_mb_4',
-       inlined from '__cmpxchg_mb' at arch/arm64/include/asm/cmpxchg.h:143:1,
-       inlined from 'svm_proc_load_flag' at drivers/char/svm.c:1967:12:
-   arch/arm64/include/asm/atomic_lse.h:492:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'atomic_t[1]' [-Warray-bounds=]
-     492 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_lse.h:523:1: note: in expansion of macro '__CMPXCHG_CASE'
-     523 | __CMPXCHG_CASE(w,  ,  mb_4, al, "memory")
-         | ^~~~~~~~~~~~~~
-   drivers/char/svm.c: In function 'svm_proc_load_flag':
-   drivers/char/svm.c:1958:25: note: object 'l2buf_load_flag' of size 4
-    1958 |         static atomic_t l2buf_load_flag = ATOMIC_INIT(0);
-         |                         ^~~~~~~~~~~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_get_phy_memory_info' at drivers/char/svm.c:1805:6:
-   include/linux/uaccess.h:112:17: warning: 'para' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_get_phy_memory_info':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:1800:33: note: 'para' declared here
-    1800 |         struct phymeminfo_ioctl para;
-         |                                 ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_remap_proc' at drivers/char/svm.c:1863:8:
-   include/linux/uaccess.h:112:17: warning: 'pmem' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_remap_proc':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:1849:29: note: 'pmem' declared here
-    1849 |         struct svm_proc_mem pmem;
-         |                             ^~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_ioctl' at drivers/char/svm.c:2217:9:
-   include/linux/uaccess.h:112:17: warning: 'params' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:2209:33: note: 'params' declared here
-    2209 |         struct svm_bind_process params;
-         |                                 ^~~~~~
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'svm_sp_free_mem' at drivers/char/svm.c:2179:8,
-       inlined from 'svm_ioctl' at drivers/char/svm.c:2280:9:
->> include/linux/uaccess.h:112:17: warning: 'spallocinfo' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kasan-checks.h: In function 'svm_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/char/svm.c:2172:24: note: 'spallocinfo' declared here
-    2172 |         struct spalloc spallocinfo;
-         |                        ^~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_reset_event':
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4562:46: warning: implicit conversion from 'enum hnae3_reset_type' to 'enum hnae3_event_type_custom' [-Wenum-conversion]
+    4562 |         ret = hclge_ext_call_event(hdev, hdev->reset_level);
+         |                                          ~~~~^~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:23:
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_pfc_storm_prevent':
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5484:43: warning: implicit conversion from 'enum hclge_ext_opcode_type' to 'enum hclge_opcode_type' [-Wenum-conversion]
+    5484 |         hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_PAUSE_STORM_PARA, true);
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_cmd.h:24:47: note: in definition of macro 'hclge_cmd_setup_basic_desc'
+      24 |         hclge_comm_cmd_setup_basic_desc(desc, opcode, is_read)
+         |                                               ^~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_enable_pfc_storm_prevent':
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5525:43: warning: implicit conversion from 'enum hclge_ext_opcode_type' to 'enum hclge_opcode_type' [-Wenum-conversion]
+    5525 |         hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_PAUSE_STORM_PARA,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_cmd.h:24:47: note: in definition of macro 'hclge_cmd_setup_basic_desc'
+      24 |         hclge_comm_cmd_setup_basic_desc(desc, opcode, is_read)
+         |                                               ^~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_set_vport_mtu':
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:11407:30: warning: unused variable 'ae_dev' [-Wunused-variable]
+   11407 |         struct hnae3_ae_dev *ae_dev = pci_get_drvdata(vport->nic.pdev);
+         |                              ^~~~~~
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c: In function 'hclge_get_strings':
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:634:50: warning: '%s' directive output may be truncated writing up to 4895 bytes into a region of size 32 [-Wformat-truncation=]
+     634 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
+         |                                                  ^~
+   In function 'hclge_comm_get_strings',
+       inlined from 'hclge_get_strings' at drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:750:7:
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:634:17: note: 'snprintf' output between 1 and 4896 bytes into a destination of size 32
+     634 |                 snprintf(buff, ETH_GSTRING_LEN, "%s", strs[i].desc);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/spallocinfo +112 include/linux/uaccess.h
+vim +5484 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
 
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+  5476	
+  5477	static int
+  5478	hclge_get_pfc_storm_prevent(struct hclge_dev *hdev, int dir, bool *enable)
+  5479	{
+  5480		struct hclge_pfc_storm_para_cmd *para_cmd;
+  5481		struct hclge_desc desc;
+  5482		int ret;
+  5483	
+> 5484		hclge_cmd_setup_basic_desc(&desc, HCLGE_OPC_CFG_PAUSE_STORM_PARA, true);
+  5485		para_cmd = (struct hclge_pfc_storm_para_cmd *)desc.data;
+  5486		para_cmd->dir = cpu_to_le32(dir);
+  5487		ret = hclge_cmd_send(&hdev->hw, &desc, 1);
+  5488		if (ret)
+  5489			return ret;
+  5490	
+  5491		*enable = !!le32_to_cpu(para_cmd->enable);
+  5492		return 0;
+  5493	}
+  5494	
 
 -- 
 0-DAY CI Kernel Test Service
