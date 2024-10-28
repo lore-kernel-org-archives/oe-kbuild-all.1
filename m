@@ -1,130 +1,202 @@
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE5A5185B54;
-	Mon, 28 Oct 2024 21:49:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.148
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9F11DED5D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 21:50:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730152164; cv=none; b=IogheFSLe0i6UVLeV/L/yfWtSEJCU0uiU8BgbqSiomLVuID8hC5BAGWjoiU8HHNq/twibqKmKc0rep8zIJdLPwD4hYuo3Tg3uWviqzHzc45G8DzRvHcy4oxAEHbn9KHjxZTgKVn0iHlgfhIOEJBwLEJ6FTYTz8FfDO8Z3nfbEoI=
+	t=1730152219; cv=none; b=dNFOhZ7hBFeHjixeS0eFfDDxX0mrVPoViuEDrA2+CoXBnXW+fyFnntoyydQBlWIuZVn4Oao+SwXt9FN0RTr35RpaBrBmDWO9ohJfogIY8dF2o0y7fo9AMF8PqdThcgFmUUxvu9AHyex+NHLF8XzDl708Kp21klFAoNVhwbMELkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730152164; c=relaxed/simple;
-	bh=PCzfrCyAn1USlTYlC0D7NCX/Zih1P57LfgHFt/Wa2KA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=k6PKnD8g5PZ2iY6SJp1ONDXjWBHp7OOrd85hSNqXSTz6RaP/46ParX5xSXRYeGjI0JGMePfGLv2OUqIblnb3JtwYOar0fxnYtI4m0L952zGZo5TDPqlYNWmIVvqCZ1aC8nT6sVrXo35js3J6SGYfPxT/6VKXs8xbWa8ruUlri1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=FHfEQtgA; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oZ4N/NCk; arc=none smtp.client-ip=202.12.124.148
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="FHfEQtgA";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oZ4N/NCk"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id F0B8B1140149;
-	Mon, 28 Oct 2024 17:49:20 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Mon, 28 Oct 2024 17:49:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1730152160;
-	 x=1730238560; bh=xLLPqQtJaYi7ueH0VqsE3g/+OJvjtkRFF3i/MFHsu9w=; b=
-	FHfEQtgAgM8tIk+Yj25BW6pYoj962TNd0MmNMuAC2H+xx0hZA+Nf7zL1NV+SAvgn
-	HvwW0ESFG6+B/nuzfAdgP8TKyHpE5ZdShrjji4UOeYo5ue+JKp78UFDw2cf0qKWc
-	lI235EJjRH5Uz8GdMN80taeEYGWTKDyGKaXyNaD+R+GTvWd4oYovJdusxxLPts0z
-	bsgKg3cFGy/isNrjnDgjj8KrzjWQplACi+2DPtk2eltdC94cnUIvlyysZVW6zGME
-	G6YHiZeVDHCjfrJGlei96Z/6WQZ7ZZ2ZhaIOM5PZYpZjt+4OPhsaxlbUOTO5XWM8
-	3TzZillXIbbZ05XpZNKpNw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730152160; x=
-	1730238560; bh=xLLPqQtJaYi7ueH0VqsE3g/+OJvjtkRFF3i/MFHsu9w=; b=o
-	Z4N/NCk1gzTHv72e4ojEFsXUyMGC/UWJC0SYAtFj4Tl2YRtkHhVqdq9HZA9lilQS
-	g6PVQ+SdGcr2xgePR1q+Sa9b/3PVZ4xy21Nt+ht96K0Hrfiv3gdoWRs3NF8iHx0A
-	CLuLF0+/SLc/D6ppkIR2w9sF9OZelBZzBfMIhvxNKlBPDOXsj3QsecJrbHcK9DN4
-	OnKBl7K01N4BYTc/Zeyqvr8GjvdYKNF2CHLDI7HzM2eDqaD3JONkZi1tvHgi78kb
-	WbPypd2ljC5SaUAAaKh4fPmeh2CO9teVQzxI4YcgAkBnRNpPIRlmbIB/LmLu/q0N
-	YxIupHuAG0zU2+ws89HWw==
-X-ME-Sender: <xms:4AYgZ3SE7GUvPLohUNmdrNtKjHGIlwcZ55sZe5R5l0jNIxOEwMtMdA>
-    <xme:4AYgZ4y5mt9yzQwiEKaOGQmfKh1Jiy-1dfgq87GYpCzW-7hkVwNjeygO5m13AF5EO
-    ac5OSedkwTTgYRi7ek>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdejledguddviecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpeehkedtueetuefgveduvddtieekffdtveektedu
-    leejffffieekveeffeeifefhgeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpddtud
-    drohhrghdpghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
-    rghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtoh
-    epiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlhdrtgho
-    mhdprhgtphhtthhopehjvhgvthhtvghrsehkrghlrhgrhihinhgtrdgtohhmpdhrtghpth
-    htohephihsihhonhhnvggruheskhgrlhhrrgihihhntgdrtghomhdprhgtphhtthhopehl
-    lhhvmheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilh
-    guqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinhhugidq
-    rghrtghhsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:4AYgZ80gBaShwMU8DAn5SYLlBBezjTfv8UNb2NYwJ2V23_cPmJSMdg>
-    <xmx:4AYgZ3CRhrlwflb0sCItqQRivSM5VknVEk9ZBRHnFullErbS6fhGyg>
-    <xmx:4AYgZwhRelTbWGOfuS6Sht3sN3c6IE8Nd6lS8lr7i43jboNwhkuxAw>
-    <xmx:4AYgZ7pMKAETUnV7qh3juIRS90c8gMgQz02_335GoXdq4NzgP0nQdA>
-    <xmx:4AYgZ6ZHBCMvHrk-amXAG_tA4W-8huUab0Jym_ttSb_AENOYZK3Sc3Bc>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 66F2D2220072; Mon, 28 Oct 2024 17:49:20 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1730152219; c=relaxed/simple;
+	bh=V6Qcj3tOIGcSu35JwGeNx9+xFqxPBD8uIH+zjysOBNk=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lK0/DgukQSzk4+KXjMg5hAPpusaJkdhy+VuFjAq2E+1e9/WYbBx91Mh+AmTPJmgB05Ij6nfoHIST7IYQAZU4uxSNKO7iqVkyKpocx91GmPWlaa5otMaHcFHTx/MLfRHAe1PDFEc6wDrtQJr14RXBT1NIxgZN8XY5XbS9eiN5b+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1t5Xcc-0000Lv-3Y; Mon, 28 Oct 2024 22:49:58 +0100
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1t5Xca-000vCY-2y;
+	Mon, 28 Oct 2024 22:49:56 +0100
+Received: from mfe by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <mfe@pengutronix.de>)
+	id 1t5Xca-000sqw-2d;
+	Mon, 28 Oct 2024 22:49:56 +0100
+Date: Mon, 28 Oct 2024 22:49:56 +0100
+From: Marco Felsch <m.felsch@pengutronix.de>
+To: Matthias Kaehlcke <matthias@kaehlcke.net>,
+	kernel test robot <lkp@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Matthias Kaehlcke <mka@chromium.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Fabio Estevam <festevam@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	kernel@pengutronix.de, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev
+ port features
+Message-ID: <20241028214956.gmefpvcvm3zrfout@pengutronix.de>
+References: <20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9@pengutronix.de>
+ <202408081557.FiEe9Tzz-lkp@intel.com>
+ <20240809093313.xn3x2p3st2b32g27@pengutronix.de>
+ <wtvhsdo2zefehkgfcp2cfdl2uht4lcrytyjyhwjhnpcyvx4kd2@iurrw554aegh>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Mon, 28 Oct 2024 21:48:58 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Julian Vetter" <jvetter@kalrayinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- Linux-Arch <linux-arch@vger.kernel.org>,
- "Yann Sionneau" <ysionneau@kalrayinc.com>
-Message-Id: <52a1eda2-1daa-4f2f-b722-7dcc65c686b1@app.fastmail.com>
-In-Reply-To: <202410290137.rHycxdZj-lkp@intel.com>
-References: <202410290137.rHycxdZj-lkp@intel.com>
-Subject: Re: [arnd-asm-generic:master 14/17] lib/iomem_copy.c:10:10: fatal error:
- 'linux/unaligned.h' file not found
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <wtvhsdo2zefehkgfcp2cfdl2uht4lcrytyjyhwjhnpcyvx4kd2@iurrw554aegh>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: oe-kbuild-all@lists.linux.dev
 
-On Mon, Oct 28, 2024, at 17:20, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.git 
-> master
-> head:   e6a5255d009d8427b6609b25c729048f894e9d60
-> commit: 4030decf42ca0da176fc1d5c556fc3f0035df6c9 [14/17] New 
-> implementation for IO memcpy and IO memset
-> config: x86_64-kexec 
-> (https://download.01.org/0day-ci/archive/20241029/202410290137.rHycxdZj-lkp@intel.com/config)
-> compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 
-> 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-> reproduce (this is a W=1 build): 
-> (https://download.01.org/0day-ci/archive/20241029/202410290137.rHycxdZj-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202410290137.rHycxdZj-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> lib/iomem_copy.c:10:10: fatal error: 'linux/unaligned.h' file not found
->       10 | #include <linux/unaligned.h>
->          |          ^~~~~~~~~~~~~~~~~~~
->    1 error generated.
->
+Hi,
 
-Thanks for the report, the header only became avaialable in 6.12-rc2,
-so I now rebased the entire tree on top of that to avoid any
-backmerges or conflicts.
+I found two mistakes I made in my v1. I would send a v2 if this series
+is interesting for upstream. The remaining open question is how the
+driver dependencies should be handled (see idea-1,2,3).
 
-      Arnd
+Regards,
+  Marco
+
+On 24-09-23, Matthias Kaehlcke wrote:
+> El Fri, Aug 09, 2024 at 11:33:13AM GMT Marco Felsch ha dit:
+> 
+> > Hi all,
+> > 
+> > On 24-08-08, kernel test robot wrote:
+> > > Hi Marco,
+> > > 
+> > > kernel test robot noticed the following build errors:
+> > > 
+> > > [auto build test ERROR on 0c3836482481200ead7b416ca80c68a29cfdaabd]
+> > > 
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Marco-Felsch/usb-hub-add-infrastructure-to-pass-onboard_dev-port-features/20240807-224100
+> > > base:   0c3836482481200ead7b416ca80c68a29cfdaabd
+> > > patch link:    https://lore.kernel.org/r/20240807-b4-v6-10-topic-usb-onboard-dev-v1-1-f33ce21353c9%40pengutronix.de
+> > > patch subject: [PATCH 1/3] usb: hub: add infrastructure to pass onboard_dev port features
+> > > config: i386-randconfig-141-20240808 (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20240808/202408081557.FiEe9Tzz-lkp@intel.com/reproduce)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202408081557.FiEe9Tzz-lkp@intel.com/
+> > > 
+> > > All errors (new ones prefixed by >>):
+> > > 
+> > >    ld: drivers/usb/core/hub.o: in function `set_port_feature':
+> > > >> drivers/usb/core/hub.c:481: undefined reference to `onboard_dev_port_feature'
+> > >    ld: drivers/usb/core/hub.o: in function `usb_clear_port_feature':
+> > >    drivers/usb/core/hub.c:462: undefined reference to `onboard_dev_port_feature'
+> > 
+> > I understood the isse but have a few questions. Before continue the work
+> > on this topic I would like to ask if the patchset is okay in general?
+> > I'm open for alternatives if the patchset approach is not okay.
+> 
+> From the perspective of the onboard_usb_dev driver it seems sound to me.
+> 
+> So far the USB maintainers haven't raised objections, so I would say move
+> forward and we'll see if concerns arise and deal with them if needed.
+> 
+> > I have a few ideas in mind (see below) to fix the 0day build issue which
+> > was caused by the Kconfig selection:
+> > 
+> >  - CONFIG_USB=y
+> >  - CONFIG_USB_ONBOARD_DEV=m.
+> > 
+> > Idea-1:
+> > -------
+> > 
+> > Dropping the module support for CONFIG_USB_ONBOARD_DEV.
+> 
+> With that CONFIG_USB could not be 'm' when CONFIG_USB_ONBOARD_DEV
+> is set, which wouldn't be great.
+> 
+> > Idea-2:
+> > -------
+> > 
+> > CONFIG_USB_ONBOARD_DEV follows CONFIG_USB:
+> > 
+> > CONFIG_USB=y -> CONFIG_USB_ONBOARD_DEV=y,
+> > CONFIG_USB=m -> CONFIG_USB_ONBOARD_DEV=m.
+> > 
+> > and exporting usb_clear_port_feature().
+> > 
+> > I don't know to add such Kconfig dependency and also this idea require
+> > that the usbcore have to load the usb_onboard_dev module always,
+> > regardless if used.
+> > 
+> > So this idea is rather suboptimal.
+> > 
+> > Idea-3:
+> > -------
+> > 
+> > Adding a function to the hub.c usbcore which can be used by the
+> > usb-onboard-dev driver to register this function as hook. This removes
+> > the dependency from the core and the usb-onboard-dev module is only
+> > pulled if really required. Of course this require that the hub.c usbcore
+> > driver allows custom hooks.
+> 
+> This seems like the best approach IMO, if USB maintainers are onboard with
+> it.
+> 
+> Since this is about port features (only applicable to hubs) the function
+> should be associated with struct usb_hub, not struct usb_device. And we
+> probably want two functions, onboard_hub_set_port_feature() and
+> onboard_hub_clear_port_feature(), whose implementations may use shared
+> code.
+> 
+> > Idea-X:
+> > -------
+> > 
+> > I'm open for your input :)
+> > 
+> > 
+> > Regards,
+> >   Marco
+> > 
+> > PS: My favourite is Idea-3 followed by Idea-1.
+> > 
+> > > vim +481 drivers/usb/core/hub.c
+> > > 
+> > >    466	
+> > >    467	/*
+> > >    468	 * USB 2.0 spec Section 11.24.2.13
+> > >    469	 */
+> > >    470	static int set_port_feature(struct usb_device *hdev, int port1, int feature)
+> > >    471	{
+> > >    472		int ret;
+> > >    473	
+> > >    474		ret = usb_control_msg(hdev, usb_sndctrlpipe(hdev, 0),
+> > >    475			USB_REQ_SET_FEATURE, USB_RT_PORT, feature, port1,
+> > >    476			NULL, 0, 1000);
+> > >    477		if (ret)
+> > >    478			return ret;
+> > >    479	
+> > >    480		if (!is_root_hub(hdev))
+> > >  > 481			ret = onboard_dev_port_feature(hdev, true, feature, port1);
+> > >    482	
+> > >    483		return ret;
+> > >    484	}
+> > >    485	
+> > > 
+> > > -- 
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+> > > 
+> 
