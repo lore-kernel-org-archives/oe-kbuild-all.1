@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203651E0DDF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 20:32:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 640C118FC75
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 21:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730147569; cv=none; b=PwSm4x4cV2lFoMyBzXoS6VzFykMlL0F87Bn0XAVM8YMD7oiteIzB3ehbt1amwDlOv95vbWrNEEmRv5rnhBFD59s08igzTyA0SvehckNTP2tj2WjKb1RMshaEGOzdxVFUGdCA+g0WtXrDTnPzu7miR2cERY144MvRBZKLAijYxuA=
+	t=1730149527; cv=none; b=QOJjkYeExao+ECFgFmeorBkP22OKQh5RDuyWDSRj9eR2BChvgqlkh9ola0P1d1fRcKci0ZUU0l7hmoS92BvUTx9tm/0TX4bC1QrXwcTLgxcTkgnnZcNqQF6lazckSORYZ1hl5Lx3UjA62WMink9lL16VwTmMeXg+afM2UC2ey/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730147569; c=relaxed/simple;
-	bh=GXke4S11OGUxM+oXTk5LOHFA3kzYd2kP62er2e1iwlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6MGZQCzN23L9hXAJXiowWtAskLDd9Vx4KJQjwr8ElxjlE6WnOl5dNCF9Np8dpnD1EZctUq395CWAhQFR4A07nrrhElX9c0ivXeT1MgAtADdgI6+uSLcg9hyDVMuW0d+hnfaX3fvktMasN0CBmjnTggrsSPybK4OVGYx0OhRA6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hIzvF78S; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1730149527; c=relaxed/simple;
+	bh=VsypmxVAL2h8NVxSWhlAil6AZWoK2PL88rKjjLBcFZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OoFXIBvh0tkGkoz1ltSkZBD7pWkMH9OfTU9q/7D0E+e2FLrt50Edsrn95lHZza3Jkd1P2Cn7I2/Fa1nnZc5zhdhn5hvbZQlwAq1tZ/nrkaf3Ylh5p5P1DzwM0UnyXPZKjq3n7F3cYGDbqjJKTBzIDdzdmXPrOvdSjgvTl0wnOuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FZFMLRZ6; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hIzvF78S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FZFMLRZ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730147566; x=1761683566;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GXke4S11OGUxM+oXTk5LOHFA3kzYd2kP62er2e1iwlQ=;
-  b=hIzvF78SElDXVYqNZlOhXCaM33ATiRpnGqF6oOM5Nr8tyZEq+SpWO4I8
-   d3jK8rZDZ+NGakPAUSLeic8B+KuQshTGremNA23Mt5TkKvEeHnblZQ3BM
-   In59lB2QitSWXi3CDIwAYy2dV7M8UkuuZh+xPlch4KvA5DuBQRiK/GjwP
-   qtgG3EvdQWrxWOC9NmHdZX+drXynzFw5Ez0jdY4cudPuz9LI3C49gCIsH
-   Pz87JX9ZU4bJxCOhB4bJ7JgiuN+nXD+9M+IpmZchS5+rdDWIefyVNWHa+
-   EFs0WdpTCK7pLOdU2KE8Sc98cDE/cgG5uMogsEcZkDJjJ+SVyc04dkdk9
-   A==;
-X-CSE-ConnectionGUID: iJemlLibSn+ooiV350qZfQ==
-X-CSE-MsgGUID: U0IA+qauRgOypJlUi/wTAw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="41126945"
+  t=1730149525; x=1761685525;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VsypmxVAL2h8NVxSWhlAil6AZWoK2PL88rKjjLBcFZQ=;
+  b=FZFMLRZ6CoHICaO2YhZqJsS9O07Lnkv9m0wOCJhDuTQhMseICs9ogIO3
+   htTmMjUAfAT8hWXDS2yLfvRJDYBKP7WN+hV2gs7nYzPga/CuOsaexRh3m
+   MmikjCTdCjKzcw88IHYtOPHO7vke54/mRyV9vhrpMHWDzFjDnav8cR7g9
+   6OTGG5S/B3uQhsm8c5/bVdaGxldOfA9vc7bC/WD4qBIqHK1biJowocGgO
+   Za9vU1dESTX+uhRwlldfVPB+octB1G3nrdvOwVZ8uwofslCC+3g0mDOhv
+   NKMeEtLiHASX62REfzveDf+Ew+aw74lCRiqprDFiRXQ76QToF8dV59qcw
+   w==;
+X-CSE-ConnectionGUID: i0MRUxnUR5qLgCLoFO1dng==
+X-CSE-MsgGUID: /A1QIS4zRcSaE3L4A4oiJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29197695"
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="41126945"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 13:32:25 -0700
-X-CSE-ConnectionGUID: mq1v9KTKR4O+iffjbSkq9A==
-X-CSE-MsgGUID: 8efRSY0JSr+enrf6CYiT8A==
+   d="scan'208";a="29197695"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 14:05:25 -0700
+X-CSE-ConnectionGUID: 3/LfZSuARpi5hd4rsOVq5A==
+X-CSE-MsgGUID: MrnlnowrTzKs7L0oXlU2cA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="82148253"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="86486102"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Oct 2024 13:32:23 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 Oct 2024 14:05:24 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5WPU-000cqq-1O;
-	Mon, 28 Oct 2024 20:32:20 +0000
-Date: Tue, 29 Oct 2024 04:31:52 +0800
+	id 1t5WvR-000csa-0w;
+	Mon, 28 Oct 2024 21:05:21 +0000
+Date: Tue, 29 Oct 2024 05:04:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>,
-	linux-fbdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	thomas.zimmermann@suse.de,
-	Gonzalo Silvalde Blanco <gonzalo.silvalde@gmail.com>
-Subject: Re: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
-Message-ID: <202410290452.XKXQkwp1-lkp@intel.com>
-References: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
+To: Ian Rogers <irogers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Namhyung Kim <namhyung@kernel.org>
+Subject: [namhyung-perf:perf/hwmon-pmu 73/74] tests/hwmon_pmu.c:149:17:
+ error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'?
+Message-ID: <202410290409.OdeoQEfL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,75 +61,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241025092538.38339-1-gonzalo.silvalde@gmail.com>
 
-Hi Gonzalo,
+Hi Ian,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on drm-tip/drm-tip linus/master v6.12-rc5 next-20241028]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gonzalo-Silvalde-Blanco/fbdev-udl-Make-CONFIG_FB_DEVICE-optional/20241025-172653
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241025092538.38339-1-gonzalo.silvalde%40gmail.com
-patch subject: [PATCH] fbdev: udl: Make CONFIG_FB_DEVICE optional
-config: riscv-randconfig-r073-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290452.XKXQkwp1-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290452.XKXQkwp1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/namhyung/linux-perf.git perf/hwmon-pmu
+head:   328b8ac129562cf42d1a7fc5379b78c345229052
+commit: ca8adafcfc2495705fd11c9503894c6cbd05fc2c [73/74] perf test: Add hwmon "PMU" test
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290409.OdeoQEfL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290452.XKXQkwp1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290409.OdeoQEfL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/video/fbdev/udlfb.c:19:
-   In file included from include/linux/usb.h:16:
-   In file included from include/linux/interrupt.h:22:
-   In file included from arch/riscv/include/asm/sections.h:9:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/video/fbdev/udlfb.c:1485:35: warning: unused variable 'edid_attr' [-Wunused-const-variable]
-    1485 | static const struct bin_attribute edid_attr = {
-         |                                   ^~~~~~~~~
->> drivers/video/fbdev/udlfb.c:1493:38: warning: unused variable 'fb_device_attrs' [-Wunused-const-variable]
-    1493 | static const struct device_attribute fb_device_attrs[] = {
-         |                                      ^~~~~~~~~~~~~~~
-   3 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +/edid_attr +1485 drivers/video/fbdev/udlfb.c
-
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1484  
-598b2eedfc3fbe drivers/video/fbdev/udlfb.c   Bhumika Goyal      2017-08-18 @1485  static const struct bin_attribute edid_attr = {
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1486  	.attr.name = "edid",
-8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1487  	.attr.mode = 0666,
-b9f03a3cd06c6f drivers/video/udlfb.c         Paul Mundt         2011-01-06  1488  	.size = EDID_LENGTH,
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1489  	.read = edid_show,
-8ef8cc4fca4a92 drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-09-05  1490  	.write = edid_store
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1491  };
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1492  
-fa738a5c4b2a6b drivers/video/fbdev/udlfb.c   Ladislav Michl     2018-01-16 @1493  static const struct device_attribute fb_device_attrs[] = {
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1494  	__ATTR_RO(metrics_bytes_rendered),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1495  	__ATTR_RO(metrics_bytes_identical),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1496  	__ATTR_RO(metrics_bytes_sent),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1497  	__ATTR_RO(metrics_cpu_kcycles_used),
-926c11151e3b82 drivers/staging/udlfb/udlfb.c Greg Kroah-Hartman 2010-11-18  1498  	__ATTR(metrics_reset, S_IWUSR, NULL, metrics_reset_store),
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1499  };
-7d9485e2c53caa drivers/staging/udlfb/udlfb.c Bernie Thompson    2010-02-15  1500  
+   Makefile.config:648: No libunwind found. Please install libunwind-dev[el] >= 1.1 and/or set LIBUNWIND_DIR
+     PERF_VERSION = 6.12.rc3.gca8adafcfc24
+   tests/hwmon_pmu.c: In function 'do_test':
+>> tests/hwmon_pmu.c:149:17: error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Werror=implicit-function-declaration]
+     149 |                 strlcpy(str, test_event, sizeof(str));
+         |                 ^~~~~~~
+         |                 strncpy
+   cc1: all warnings being treated as errors
+   make[7]: *** [tools/build/Makefile.build:105: tools/perf/tests/hwmon_pmu.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   util/hwmon_pmu.c: In function 'parse_hwmon_filename':
+   util/hwmon_pmu.c:176:9: error: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Werror=implicit-function-declaration]
+     176 |         strlcpy(fn_type, filename, sizeof(fn_type));
+         |         ^~~~~~~
+         |         strncpy
+   make[6]: *** [tools/build/Makefile.build:158: tests] Error 2
+   make[5]: *** [Makefile.perf:777: tools/perf/perf-test-in.o] Error 2
+   make[5]: *** Waiting for unfinished jobs....
+   cc1: all warnings being treated as errors
+   make[7]: *** [tools/build/Makefile.build:105: tools/perf/util/hwmon_pmu.o] Error 1
+   make[7]: *** Waiting for unfinished jobs....
+   make[6]: *** [tools/build/Makefile.build:158: util] Error 2
+   make[5]: *** [Makefile.perf:789: tools/perf/perf-util-in.o] Error 2
+   make[4]: *** [Makefile.perf:292: sub-make] Error 2
+   make[3]: *** [Makefile:76: all] Error 2
 
 -- 
 0-DAY CI Kernel Test Service
