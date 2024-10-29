@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD94205E17
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 13:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482EE205143;
+	Tue, 29 Oct 2024 13:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730208607; cv=none; b=lntsZtAJvvtMQYB2AFUP/p6rZnRr9f6cE+qTfOg9wIwgexrdRgHN4eK4UiXUm7RkjGg54rUwTs7BzVYAzNlIVlEtIEaUOfRMaQlJGW3fir+eV3sZdTSL0MzzFvdmsuDBfTbvL4h/0LPw8MUWwvbXBxEpBUcrPYu8qIT1Eek+IyE=
+	t=1730209206; cv=none; b=DqtRWUDA4D4uazJniOZZN1zIV0KcaPAN8giK4p3tie3NG01vl/HIIu+7z7GDqXfGLpNeIzlV67ypicZuRCbr5C1O/rdP72oQO5vhFvW98JuHqfnAV06/KrJgqylch7GQnsmvfAFteqPuL6odvK5k/ta8wcfpXO60lnDVVhFHjJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730208607; c=relaxed/simple;
-	bh=qNJl2IVeUlc5NtF1gE7rTgMHREGW9x9INiAAorBfskU=;
+	s=arc-20240116; t=1730209206; c=relaxed/simple;
+	bh=RLccjtGN6LQZ2jfU2IbKJ1CDWSv+GSrEh8oSn1igHtA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CZ7fYCd4KK+/h8UQx8IVHoWVmkV+yGlU4WCIU9WwPVyapbGC50XVxb8F+OCC4ZX92EDQrh4QR1mRvRhLC+yXOv8/Jh1LlgfIAReLzGEFrrAio/JBAfR2RJfFnhD9/SS0Ik2ddlCZY9vUnXVEWO3lKuxsgiAjC2rtkSBWAQAqfjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S98hZO6U; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=eC/Er2pzyMijrFWZEuocsyVRhsbsZ4n+/6mk2vKBe49seLepQVLp8YBNY50cADiojUBtTFPo6Z/Jo8EbS2ij2QqbCLyMb2G1zQhJ7/A0c7J90mr1azIoYDgIdAWUMvdsN+O+EaoGQrLYHqGvpNAqAxZf4NakIxxSIQVfub5rMZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sgcg8p29; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S98hZO6U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sgcg8p29"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730208605; x=1761744605;
+  t=1730209203; x=1761745203;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qNJl2IVeUlc5NtF1gE7rTgMHREGW9x9INiAAorBfskU=;
-  b=S98hZO6UAa4w7CV9iv4yNOTmTdX65ws1mtj4c3dRGEmMXBGPJA7LQ64D
-   Gr0FKHL1zsqDoTItBUfJiiWexyYWnAOJjG0u6xq6wBnlqkHTQFAhkm2KU
-   2+OphzBxQpsKlFmc2R2lMghLUZF6A4CeFHcJo+9AQCj6NsCqbVgCmJtcm
-   bDFDACuRFdBIhpUHC7xOpeQrqs+5y3hrCsG3T1wiG9QZ/ZpMju81VlcXT
-   3/xEuG8P9aM/0tXxOTo1O0f9JZxPmzrq12/40h+2I2kKc6IbkA1jKL6tk
-   xBD/wz/HT5gXWFTC/nQ/ozhS2yUJEHlKWqGSj1KLvpo5iRzOGIMUz/xE0
-   g==;
-X-CSE-ConnectionGUID: TAj0DZfuSeyifmqB3uJO0Q==
-X-CSE-MsgGUID: 1ZTYMzLiR1eyD7FFonTwxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40945544"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40945544"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 06:30:05 -0700
-X-CSE-ConnectionGUID: vIV2u99OTKSAvGQkP5Ye+w==
-X-CSE-MsgGUID: mETn6cgIQsezEtSA0f+GMQ==
+  bh=RLccjtGN6LQZ2jfU2IbKJ1CDWSv+GSrEh8oSn1igHtA=;
+  b=Sgcg8p29Cj0DlnsCQZQ4t/u0tEG5HYRLgYeDXQSJj9S9ndHUI/Vps24r
+   9DUEmavGd++JMG5mf9U8C/t9G+BEvdEfgRqJfpXc4h3PpDH8XU/LMO7A2
+   /zbFUSVUwJLOm5ZZRgdciXAtvcMpe0VlIPm3i0Ft8+OAQEtuzXm6w2oaP
+   llPiA0WE+fdzlMmN0VHTX53Q+p+Dj9CsmVFZghwlPMRagl9eUuCkee1A/
+   1iKDk9V4LEnyDkyJuy9wL4GijFnHmOzCvp/lKcI+PoPqs9cWYZyKqsWFy
+   8E1CXqkruB5zt8bfX0dOoQjTjcftJF2yIvkympbujNAtAuMSC98b0KEtr
+   A==;
+X-CSE-ConnectionGUID: uMR2xikZSx6nSOexlVV9Xg==
+X-CSE-MsgGUID: itaqFQIjT4eZ3Yi7V1mCkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="30058406"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="30058406"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 06:40:02 -0700
+X-CSE-ConnectionGUID: 4fjVn0pnRjWCyQDNU3q9lw==
+X-CSE-MsgGUID: aP17PQGYSp+s4wzmIg7r1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="86719385"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="86577909"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Oct 2024 06:30:01 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 29 Oct 2024 06:40:01 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5mII-000dhQ-2R;
-	Tue, 29 Oct 2024 13:29:58 +0000
-Date: Tue, 29 Oct 2024 21:29:01 +0800
+	id 1t5mRz-000di8-0H;
+	Tue, 29 Oct 2024 13:39:59 +0000
+Date: Tue, 29 Oct 2024 21:39:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 10799/13046]
- arch/x86/kernel/zhaoxin_kh40000.c:320:26: sparse: sparse: symbol
- 'kh40000_dma_iommu_ops' was not declared. Should it be static?
-Message-ID: <202410292105.pGeWjpHf-lkp@intel.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [paulmckrcu:dev.2024.10.27b 30/35]
+ include/linux/rcupdate_wait.h:73:31: error: no member named 'rcu_node_entry'
+ in 'struct task_struct'
+Message-ID: <202410292150.GUBegikc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,49 +63,156 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: 4660502422ff4f7e39f046cf452584165531c5ae [10799/13046] Add kh40000_iommu_dma_ops for KH-40000 platform
-config: x86_64-randconfig-121-20241029 (https://download.01.org/0day-ci/archive/20241029/202410292105.pGeWjpHf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292105.pGeWjpHf-lkp@intel.com/reproduce)
+tree:   https://github.com/paulmckrcu/linux dev.2024.10.27b
+head:   452a4107123b99087cd0bed226f61436ca9fdd24
+commit: 0074845ef7cfbfe41a72bf5561edc18b90b67504 [30/35] rcutorture: Check preemption for failing reader
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241029/202410292150.GUBegikc-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292150.GUBegikc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410292105.pGeWjpHf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410292150.GUBegikc-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/kernel/zhaoxin_kh40000.c:33:15: sparse: sparse: symbol 'zhaoxin_patch_code' was not declared. Should it be static?
->> arch/x86/kernel/zhaoxin_kh40000.c:320:26: sparse: sparse: symbol 'kh40000_dma_iommu_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/kh40000_dma_iommu_ops +320 arch/x86/kernel/zhaoxin_kh40000.c
+   In file included from kernel/rcu/update.c:41:
+>> include/linux/rcupdate_wait.h:73:31: error: no member named 'rcu_node_entry' in 'struct task_struct'
+      73 |                 return list_empty(&current->rcu_node_entry);
+         |                                    ~~~~~~~  ^
+   In file included from kernel/rcu/update.c:42:
+   In file included from include/linux/sched/isolation.h:5:
+   In file included from include/linux/cpuset.h:17:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   1 warning and 1 error generated.
+--
+   In file included from kernel/rcu/srcutiny.c:14:
+>> include/linux/rcupdate_wait.h:73:31: error: no member named 'rcu_node_entry' in 'struct task_struct'
+      73 |                 return list_empty(&current->rcu_node_entry);
+         |                                    ~~~~~~~  ^
+   1 error generated.
+--
+   In file included from kernel/rcu/tiny.c:15:
+>> include/linux/rcupdate_wait.h:73:31: error: no member named 'rcu_node_entry' in 'struct task_struct'
+      73 |                 return list_empty(&current->rcu_node_entry);
+         |                                    ~~~~~~~  ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                         ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
+      98 |                 return (set->sig[3] | set->sig[2] |
+         |                                       ^        ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     115 |                         (set1->sig[2] == set2->sig[2]) &&
+         |                                          ^         ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
+     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
+     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
+         |                      ^      ~
+   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
+      17 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from kernel/rcu/tiny.c:26:
+   In file included from include/linux/mm.h:1120:
+   In file included from include/linux/huge_mm.h:8:
+   In file included from include/linux/fs.h:33:
 
-   319	
- > 320	const struct dma_map_ops kh40000_dma_iommu_ops = {
-   321		.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
-   322		.alloc			= kh40000_iommu_dma_alloc,
-   323		.free			= kh40000_iommu_dma_free,
-   324		.unmap_page		= kh40000_iommu_dma_unmap_page,
-   325		.alloc_pages		= kh40000_dma_common_alloc_pages,
-   326		.free_pages		= kh40000_dma_common_free_pages,
-   327		.alloc_noncontiguous	= kh40000_iommu_dma_alloc_noncontiguous,
-   328		.free_noncontiguous	= kh40000_iommu_dma_free_noncontiguous,
-   329		.mmap			= kh40000_iommu_dma_mmap,
-   330		.get_sgtable		= kh40000_iommu_dma_get_sgtable,
-   331		.map_page		= kh40000_iommu_dma_map_page,
-   332		.map_sg			= kh40000_iommu_dma_map_sg,
-   333		.unmap_sg		= kh40000_iommu_dma_unmap_sg,
-   334		.sync_single_for_cpu	= kh40000_iommu_dma_sync_single_for_cpu,
-   335		.sync_single_for_device	= kh40000_iommu_dma_sync_single_for_device,
-   336		.sync_sg_for_cpu	= kh40000_iommu_dma_sync_sg_for_cpu,
-   337		.sync_sg_for_device	= kh40000_iommu_dma_sync_sg_for_device,
-   338		.map_resource		= kh40000_iommu_dma_map_resource,
-   339		.unmap_resource		= kh40000_iommu_dma_unmap_resource,
-   340		.get_merge_boundary	= kh40000_iommu_dma_get_merge_boundary,
-   341		.opt_mapping_size	= kh40000_iommu_dma_opt_mapping_size,
-   342	};
-   343	
+
+vim +73 include/linux/rcupdate_wait.h
+
+    67	
+    68	// Has the current task blocked within its current RCU read-side
+    69	// critical section?
+    70	static inline bool has_rcu_reader_blocked(void)
+    71	{
+    72		if (IS_ENABLED(CONFIG_PREEMPT_RCU))
+  > 73			return list_empty(&current->rcu_node_entry);
+    74		else
+    75			return false;
+    76	}
+    77	
 
 -- 
 0-DAY CI Kernel Test Service
