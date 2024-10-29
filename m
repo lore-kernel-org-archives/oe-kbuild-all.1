@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6D018FC83
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 23:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83C823C9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 00:02:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730157694; cv=none; b=EtDOcsacvlvfCbjwb0Fnpz09VXS9sTpRadIv5toDxCcFdyPzTXFzktHQ5pIbPqV2u29kbgWVAUs5iOYrkrJoZoWo4gCZ/1x/fdIheoJ/BYKeAbOwvpXtje/XSUkz00ay7N5fO+PZWEfTJ4vmHv00rgu4k+TGWr3GTmoAwszUn5U=
+	t=1730160156; cv=none; b=ay2N2sqo59nPUW+QQWmTGwVMcPUZhqVdZ1CwjhWazMxkNb1aMBM7+vl4AEI+82aLq9zH4zkjiloQQ0hO3TFs89cj1YvoR0/v+DNf4YQvplUtF0MMNBxOh/uueEJtZ6vbKVSqs2WDoqaoHvUtITLj16vxle+j9umeAnSnopnuWM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730157694; c=relaxed/simple;
-	bh=JXH16YAzugCYjulE7Gi9WVaMnh3fhbhvwke+5qWPzJs=;
+	s=arc-20240116; t=1730160156; c=relaxed/simple;
+	bh=+9AGjHhrhfHhEHHoTvZ8NNXlzkYjL+tmTzMwiyGL7VQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mrihpaZRYBp9Pic3qaVPGVUG8zaSva2gVzE89IuKvLFq4/Sx4qRbA5Sjiw5KhCPngth/am0xURJiLdcSoREdagfbzZSZSFjoweRIVkfomNI386+8uie2hOd7i8GxL4hN80Mj2NF5zY3KRXg9WKrhthAOaQX8Kg+S4yq7b60qKDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQ0zu8BU; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=XHrhFyy/JahfSLhadz7Ngdg4qZfD4BtY2gu/Njf5OM4eibFKSf/A6WQRcpmTfT4bd/GGeM0IqZ4kxYJDxR+YTw/5LUP+7Mvtr4V8sbU1QCTwNlJqLCapq+9/zIoZXcX5Rb+8KxbZeJXiQzyD+hXfpPWaexNSCewInvLNqHBJKnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfPHUQot; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQ0zu8BU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfPHUQot"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730157692; x=1761693692;
+  t=1730160154; x=1761696154;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JXH16YAzugCYjulE7Gi9WVaMnh3fhbhvwke+5qWPzJs=;
-  b=PQ0zu8BUtNcxlXiSCPMplKf2xhoonFv3qHWluXVKPmC8TL1LSkshe9Dn
-   JUU2Nl8Nebda+ZuEXtyUj1CgUHu/ffhixx44YlWihP9OnWI0py6yvZC9J
-   ZYJsyRuvpghG/RCLnNPuu90hcEhUw3gCUGQSZG91RllkDhBjYPglQ2bGP
-   eibjyCL0ATjx1JrzwnbOoIeOVXVZNa4EaXdbzUhP4lua4+aJbJ7cMr4qW
-   ZUdx2LFuMQWBPFmALOwGcnwa3hyY/Uxj0RlIF33SBj+ce4J3y0q1iCy69
-   ySto6niaLsZ+ObkdXIBkI0yAWKbhj7/2AcU7Ohe9wdVA6p7ZYsndTWxAj
-   A==;
-X-CSE-ConnectionGUID: Wn5CIhjBQ0GMCGaI4MepyQ==
-X-CSE-MsgGUID: tAvalE4+QYOxieiMV98Kvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29549325"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29549325"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 16:21:32 -0700
-X-CSE-ConnectionGUID: JB9HfVjCQuWCtaJjhTZVbQ==
-X-CSE-MsgGUID: pWp1i0pyTNaWhPoOsS1PKw==
+  bh=+9AGjHhrhfHhEHHoTvZ8NNXlzkYjL+tmTzMwiyGL7VQ=;
+  b=hfPHUQotJfIPMCPHCpBvd2eoW/xCpYY5MmCbDmizkPyRsJ7v/mc40QPb
+   kN7TOzzfZqORkpiQXhdxurR4R70sfFrIWaC/hFniDvasj2My4v/aOZrI2
+   OW2TvF1sg+Kqb3HaK2SfX96XNFg9n6qKpNzsTxozCCn1/o/5Ul6xtPBIN
+   ZtjRxh3erEVJdWR+E1Z6R0Hts7Wbw4a9Tn/0su6NHWnZZyImm/0MaAjfB
+   JXnckJK4JrHAdzqOF66TYdfS+24PBtcmlkTxs0VnnhEwsV1JEsxa5EWaY
+   L75uZN8BEY/PeSUTk4gjDa2d0DooIPYfR6Oi0W5bIBStaGNWdyD25Ovvt
+   Q==;
+X-CSE-ConnectionGUID: q3QyFjMnSaKiXAE73VU8qg==
+X-CSE-MsgGUID: wPtIvdZwQTKSerYTvrjgXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29681969"
+X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
+   d="scan'208";a="29681969"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 17:02:33 -0700
+X-CSE-ConnectionGUID: 2gvfn4n7RoC3j73uKVi9lQ==
+X-CSE-MsgGUID: yi8hYY8qSgi1V/Nr0TlAzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="81922357"
+   d="scan'208";a="82105710"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Oct 2024 16:21:30 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Oct 2024 17:02:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Z39-000czY-2X;
-	Mon, 28 Oct 2024 23:21:27 +0000
-Date: Tue, 29 Oct 2024 07:20:53 +0800
+	id 1t5Zgs-000d2U-0f;
+	Tue, 29 Oct 2024 00:02:30 +0000
+Date: Tue, 29 Oct 2024 08:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
+To: David Howells <dhowells@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 7193/15358] mm/page_alloc.c:4110:9: error: call
- to undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202410290739.pk9x3tTN-lkp@intel.com>
+Subject: [dhowells-fs:netfs-writeback 31/34] fs/afs/dir_edit.c:423
+ afs_edit_dir_remove() warn: unsigned 'entry' is never less than zero.
+Message-ID: <202410291037.uzpw7XAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +62,160 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   27e5d43e49e85d816bd05ffe8672ceea631a07e4
-commit: fd855715f24e3eeadaa56de5fde21c55a14aeea0 [7193/15358] mm/mem_reliable: Fallback to dpool if reliable memory is not enough
-config: arm64-randconfig-004-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290739.pk9x3tTN-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5886454669c3c9026f7f27eab13509dd0241f2d6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290739.pk9x3tTN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
+head:   c7c0ac11bb2527f2257071bcbe4c5f9fd8fb1419
+commit: eadceef6daf592360873df4893b954620c991d08 [31/34] afs: Use the contained hashtable to search a directory
+config: i386-randconfig-r072-20241028 (https://download.01.org/0day-ci/archive/20241029/202410291037.uzpw7XAB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290739.pk9x3tTN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291037.uzpw7XAB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+fs/afs/dir_edit.c:423 afs_edit_dir_remove() warn: unsigned 'entry' is never less than zero.
+fs/afs/dir_search.c:155 afs_dir_search_bucket() warn: potential spectre issue 'block->dirents' [r] (local cap)
 
-   In file included from mm/page_alloc.c:19:
-   In file included from include/linux/mm.h:2204:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/page_alloc.c:43:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/page_alloc.c:2769:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2769 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/page_alloc.c:2886:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    2886 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
->> mm/page_alloc.c:4110:9: error: call to undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    4110 |         return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
-         |                ^
-   mm/page_alloc.c:4596:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    4596 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
-     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   10 warnings and 1 error generated.
+vim +/entry +423 fs/afs/dir_edit.c
 
-
-vim +/dynamic_pool_should_alloc +4110 mm/page_alloc.c
-
-  4101	
-  4102	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
-  4103	{
-  4104		if (!reliable_allow_fb_enabled())
-  4105			return false;
-  4106	
-  4107		if (!(gfp_mask & GFP_RELIABLE))
-  4108			return false;
-  4109	
-> 4110		return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
-  4111	}
-  4112	#else
-  4113	static inline struct zone *mem_reliable_fallback_zone(gfp_t gfp_mask,
-  4114							      struct alloc_context *ac)
-  4115	{
-  4116		return NULL;
-  4117	}
-  4118	static inline void mem_reliable_fallback_slowpath(gfp_t gfp_mask,
-  4119							  struct alloc_context *ac) {}
-  4120	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
-  4121	{
-  4122		return false;
-  4123	}
-  4124	#endif
-  4125	
+   385	
+   386	/*
+   387	 * Edit a directory's file data to remove a new directory entry.  Doing this
+   388	 * after unlink, rmdir or rename if the data version number is incremented by
+   389	 * exactly one avoids the need to re-download the entire directory contents.
+   390	 *
+   391	 * The caller must hold the inode locked.
+   392	 */
+   393	void afs_edit_dir_remove(struct afs_vnode *vnode,
+   394				 struct qstr *name, enum afs_edit_dir_reason why)
+   395	{
+   396		union afs_xdr_dir_block *meta, *block, *pblock;
+   397		union afs_xdr_dirent *de, *pde;
+   398		struct afs_dir_iter iter = { .dvnode = vnode };
+   399		struct afs_fid fid;
+   400		unsigned int b, slot, entry;
+   401		loff_t i_size;
+   402		__be16 next;
+   403	
+   404		_enter(",,{%d,%s},", name->len, name->name);
+   405	
+   406		i_size = i_size_read(&vnode->netfs.inode);
+   407		if (i_size < AFS_DIR_BLOCK_SIZE ||
+   408		    i_size > AFS_DIR_BLOCK_SIZE * AFS_DIR_MAX_BLOCKS ||
+   409		    (i_size & (AFS_DIR_BLOCK_SIZE - 1))) {
+   410			afs_invalidate_dir(vnode, afs_dir_invalid_edit_rem_bad_size);
+   411			return;
+   412		}
+   413	
+   414		if (!afs_dir_init_iter(&iter, name))
+   415			return;
+   416	
+   417		meta = afs_dir_find_block(&iter, 0);
+   418		if (!meta)
+   419			return;
+   420	
+   421		/* Find the entry in the blob. */
+   422		entry = afs_dir_search_bucket(&iter, name, &fid);
+ > 423		if (entry < 0) {
+   424			/* Didn't find the dirent to clobber.  Re-download. */
+   425			trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_noent,
+   426					   0, 0, 0, 0, name->name);
+   427			afs_invalidate_dir(vnode, afs_dir_invalid_edit_rem_wrong_name);
+   428			goto out_unmap;
+   429		}
+   430	
+   431		b    = entry / AFS_DIR_SLOTS_PER_BLOCK;
+   432		slot = entry % AFS_DIR_SLOTS_PER_BLOCK;
+   433	
+   434		block = afs_dir_find_block(&iter, b);
+   435		if (!block)
+   436			goto error;
+   437		if (!test_bit(AFS_VNODE_DIR_VALID, &vnode->flags))
+   438			goto already_invalidated;
+   439	
+   440		/* Check and clear the entry. */
+   441		de = &block->dirents[slot];
+   442		if (de->u.valid != 1)
+   443			goto error_unmap;
+   444	
+   445		trace_afs_edit_dir(vnode, why, afs_edit_dir_delete, b, slot,
+   446				   ntohl(de->u.vnode), ntohl(de->u.unique),
+   447				   name->name);
+   448	
+   449		/* Adjust the bitmap. */
+   450		afs_clear_contig_bits(block, slot, iter.nr_slots);
+   451	
+   452		/* Adjust the allocation counter. */
+   453		if (b < AFS_DIR_BLOCKS_WITH_CTR)
+   454			meta->meta.alloc_ctrs[b] += iter.nr_slots;
+   455	
+   456		/* Clear the constituent entries. */
+   457		next = de->u.hash_next;
+   458		memset(de, 0, sizeof(*de) * iter.nr_slots);
+   459		kunmap_local(block);
+   460	
+   461		/* Adjust the hash chain: if iter->prev_entry is 0, the hashtable head
+   462		 * index is previous; otherwise it's slot number of the previous entry.
+   463		 */
+   464		if (!iter.prev_entry) {
+   465			__be16 prev_next = meta->meta.hashtable[iter.bucket];
+   466	
+   467			if (unlikely(prev_next != htons(entry))) {
+   468				pr_warn("%llx:%llx:%x: not head of chain b=%x p=%x,%x e=%x %*s",
+   469					vnode->fid.vid, vnode->fid.vnode, vnode->fid.unique,
+   470					iter.bucket, iter.prev_entry, prev_next, entry,
+   471					name->len, name->name);
+   472				goto error;
+   473			}
+   474			meta->meta.hashtable[iter.bucket] = next;
+   475		} else {
+   476			unsigned int pb = iter.prev_entry / AFS_DIR_SLOTS_PER_BLOCK;
+   477			unsigned int ps = iter.prev_entry % AFS_DIR_SLOTS_PER_BLOCK;
+   478			__be16 prev_next;
+   479	
+   480			pblock = afs_dir_find_block(&iter, pb);
+   481			if (!pblock)
+   482				goto error;
+   483			pde = &pblock->dirents[ps];
+   484			prev_next = pde->u.hash_next;
+   485			if (prev_next != htons(entry)) {
+   486				kunmap_local(pblock);
+   487				pr_warn("%llx:%llx:%x: not prev in chain b=%x p=%x,%x e=%x %*s",
+   488					vnode->fid.vid, vnode->fid.vnode, vnode->fid.unique,
+   489					iter.bucket, iter.prev_entry, prev_next, entry,
+   490					name->len, name->name);
+   491				goto error;
+   492			}
+   493			pde->u.hash_next = next;
+   494			kunmap_local(pblock);
+   495		}
+   496	
+   497		netfs_single_mark_inode_dirty(&vnode->netfs.inode);
+   498	
+   499		inode_set_iversion_raw(&vnode->netfs.inode, vnode->status.data_version);
+   500		afs_stat_v(vnode, n_dir_rm);
+   501		_debug("Remove %s from %u[%u]", name->name, b, slot);
+   502	
+   503	out_unmap:
+   504		kunmap_local(meta);
+   505		_leave("");
+   506		return;
+   507	
+   508	already_invalidated:
+   509		kunmap_local(block);
+   510		trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_inval,
+   511				   0, 0, 0, 0, name->name);
+   512		goto out_unmap;
+   513	
+   514	error_unmap:
+   515		kunmap_local(block);
+   516	error:
+   517		trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_error,
+   518				   0, 0, 0, 0, name->name);
+   519		goto out_unmap;
+   520	}
+   521	
 
 -- 
 0-DAY CI Kernel Test Service
