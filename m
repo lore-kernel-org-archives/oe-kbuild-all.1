@@ -1,72 +1,62 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E415F2076A9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 19:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B4D1205ACD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 19:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730231376; cv=none; b=W6P/hla3rqusNKJrK3432CjuDkdjxFsZcmKanKcbrIrtDPXwqdiL64HDX8GI/cA2w6IT47JLv2Qvc2DeAwUtDH70LAVL8bBFBuUPhm0yB9UHiKbUHjuo2oDjSmKayh1yhn20EkYbogcvjTms6M1wyBqZFlDvjkbOp61uTKw8zrI=
+	t=1730231793; cv=none; b=bbO7+OJcZIuUquaOGcULtOqrD9DmLIrZIyNEUcq4L/0x8bMEN9BHyl6mr+FYzTGX5n2Ob0fnIUdBXEJ76LQvYR4OyMClVhjZ2d/FlpRXZ/8pD8ihqjssf5xz54xujf90Z+Z3XGYs2JGx9RAxhTCaQIABgecSvR7QtoI7dR6CpYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730231376; c=relaxed/simple;
-	bh=vhTJf7t7/X5EyRXlSrvjdYvaWcYE0wDuIRV2ChOwtlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kpiNnxhZYqdiobJn2BTHoQfMRi/eHqwT2uK60o79gNyhjkAqpKgECDaYbVKCcTDTcrNYKuQgf5pXaJY6iWVTrMyCcRsVfM+3UTpFf80CrEWCJD18M7aClYkb6za5pL8Zvme7Y/3qKrQ0vFKVv+pqE0Hh+qnnbwuOmcV7pHA3fuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BWf3Puse; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730231793; c=relaxed/simple;
+	bh=O3SyNavAYgHfqrP34bthEuGismgMjg2Ut/EVoAfYr6k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=owOVLYtp9VjoA2C2sjPuibX77KMk6bCkiazLxhx5Z+I5X8el1c5tpaw+T8uIOUiKDnGpcUKcyqgumd3e91fbpYTGHnfJ/MeFa2AC3OId2QPlUgdPXgOnZu+nU6XNS1KRPZxU1IrXWu9ktr2/j9QW3xBQIEczaY/9iNftV2g4WlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KEfkzs8u; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BWf3Puse"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9a26a5d6bfso897975966b.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 12:49:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730231372; x=1730836172; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6O2h4B66uPtz7k2AhjB1yCKpOLR6rksUesCzlHXhZIc=;
-        b=BWf3Puseh3RIg6RAaWMicEn8fQ1BDddYeF4ZjdhEMQ4/K4RSL3L6yVXWddCEfki/yP
-         j4upaEZBTb3tKXIRkSN1BWFGKfC2n/9UaVhvu69Nw6oeBa0RZQywjbvQf/3d/c4myj52
-         JJoLsyZNGDPbeiAgySAs2Yvu+y2XKgNUGClD9EhKiLAxEQQZwLzpdCHQ2p0nZwLhMdpv
-         gc1uT2yjj1ZVuqdV0r60BjH7WyqThS+Iu0dgoqTjNBdnIsfmFkM/W5VmiQCSM+FCE1Ro
-         sQEajp2KU7gUlOndRxvDGhCOvfA022N/fYFVhZnCV8oM7vTDLZjr13EDBEYRDwGXDJZa
-         XO6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730231372; x=1730836172;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6O2h4B66uPtz7k2AhjB1yCKpOLR6rksUesCzlHXhZIc=;
-        b=DSB8i/9RMTfne37CC+GpDrOhNXxtRMgtzmCLiHitRpvq6jVh/HVgB7N3prFdim3MNP
-         luTRpjJf6Z++o53qVVHx/WrOmu+ci6j/BsJEuCWzq0AELotvdVCye4uCE27gYCNHmDgP
-         heaa/Nie3mLfRmy2kUpHtBn/EhsUrVl6PPTPeQ75JET7jFA+8bfgftc9TQJfESCl6i3E
-         fo0IcBSAcwWMUrDf0Om3O3RHwUxYZ67+a6O9i3mSIkEpk9lSlRaDwhNcLLj0b+MZtt3U
-         jYZ6MnziaxK04NngGYBnx790Urgkidy4t/Ohl1CX7WkoOWwhgPWMXOQLmPdCK4P2BdLZ
-         0JQw==
-X-Forwarded-Encrypted: i=1; AJvYcCVDyVASdbF/mEJ43YddzqltcUJIOjSkpmub4+ImAYck0dR3FoyeVfx4Bdd0uez2KO2X/mdVPyBckixDqSD+@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBfLhRQzYgXwu1NoLE53CPt/zSHuXvlhmc2AtzGy0DLgO3LCiT
-	OVgB+r3zlJ+oDw+vjgmqgP0dJ20yUaCQlArCaQs7GPKmvbdT9J8dGt3sP7CKRyI=
-X-Google-Smtp-Source: AGHT+IEhcXXo9FaHfKPLm3VPezuDMVGoVPplP0GLW0T2t0EhbH/TJfxjJ3K5kbPv611l00iKJ7kASA==
-X-Received: by 2002:a17:907:9608:b0:a99:a9b6:2eb6 with SMTP id a640c23a62f3a-a9de5a4b829mr1265190566b.0.1730231372302;
-        Tue, 29 Oct 2024 12:49:32 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cbb62c392bsm4207800a12.50.2024.10.29.12.49.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 12:49:31 -0700 (PDT)
-Date: Tue, 29 Oct 2024 22:49:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Matthew Sakai <msakai@redhat.com>
-Cc: Philip Li <philip.li@intel.com>, oe-kbuild@lists.linux.dev,
-	Mike Snitzer <snitzer@kernel.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn:
- inconsistent returns '&pool->lock'.
-Message-ID: <a048daa6-ab57-4d06-a7d6-df119e2845c0@stanley.mountain>
-References: <717e8949-55c4-4461-8951-3e582e9b77ef@stanley.mountain>
- <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
- <ZyBQa45RTWXiXJke@rli9-mobl>
- <ZyCLo51ZyjxX7eQK@rli9-mobl>
- <13937d22-46ac-480a-8956-f89a0fd295ac@stanley.mountain>
- <68866f17-f327-4df8-ae17-dfcc50362d4a@stanley.mountain>
- <1c0beb9b-6b90-4c92-a4f3-f228dc0aa527@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KEfkzs8u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730231791; x=1761767791;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O3SyNavAYgHfqrP34bthEuGismgMjg2Ut/EVoAfYr6k=;
+  b=KEfkzs8u4cEjDpMA5X3Zq2LO6AgqnJE+sreerHDnCTO5Yun/dPOF00lT
+   LsDwTRHs6NtcpC170haSnkFtEDN/wJM2d4k6HLhr/E8yHiFMtbWAsZmOr
+   iK2N9H+98h2uAXES5al+aWPNlOYKyqfMTT+x9UkN+Ke+PbYYldeQcFd6h
+   aavTOJy9W951pXq/AL01wiyB3AJvzqkZfMJdYUlA6w2fjgtxRjQwQJaXZ
+   53jQUlQqeVDRNAStpgPeLbteadzRokiGvnS2hgx3alMn65vvCgwWlBB1y
+   MI5ojRfl36AjkJFPcXAqNwy9xiJzon/wdFRcAcx2hIjHgxnTp8mg5xVws
+   A==;
+X-CSE-ConnectionGUID: fdFx4om1SOW+RhR0KPRZKg==
+X-CSE-MsgGUID: QXf0YPCGSbqMHrayk5D//g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17539361"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="17539361"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 12:56:31 -0700
+X-CSE-ConnectionGUID: u+o1qwNiQne16kl3qnVkUQ==
+X-CSE-MsgGUID: KogJYq7gSii4XKAkUvExlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="82001089"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 29 Oct 2024 12:56:27 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5sKG-000e5O-37;
+	Tue, 29 Oct 2024 19:56:24 +0000
+Date: Wed, 30 Oct 2024 03:55:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 9265/13046] block/blk-mq.c:887:13: warning:
+ 'sli_iolat_stat_end_check' defined but not used
+Message-ID: <202410300329.wTRbr2aC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,31 +65,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1c0beb9b-6b90-4c92-a4f3-f228dc0aa527@redhat.com>
 
-On Tue, Oct 29, 2024 at 01:03:35PM -0400, Matthew Sakai wrote:
-> Okay. Just to restate, what I took away from this thread is
-> 1) The current code provokes a warning.
-> 2) When bisecting, the bot found a (different) warning from the patch
-> introducing this code, and so the mail points out that warning instead of
-> the warning in newer code.
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: aa493c7aa24a8bfeafb0e8a2b806c57e6b431ac4 [9265/13046] sli/io: backport iolat function from tk3
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300329.wTRbr2aC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300329.wTRbr2aC-lkp@intel.com/reproduce)
 
-Not a different warning.  It's same warning.  It's just that the code in the
-original commit was buggy and Smatch kept on warning about it even when it was
-fixed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300329.wTRbr2aC-lkp@intel.com/
 
-> 3) The warning is showing up now because new checking allows the bot to
-> notice problems it didn't notice before.
-> 
-> The commit I cited fixed warning from sparse, but I don't think we looked at
-> smatch. This particular code does not have a locking problem, but the way
-> it's spelled makes it difficult for static tools to understand that there is
-> not a problem. I'll take a look and see if there's anything further I can do
-> address the actual current warning.
+All warnings (new ones prefixed by >>):
 
-Don't invest a lot of time into this.  I'm re-working the locking check really
-heavily right now.  I know how to silence this warning when the cross function
-DB is enabled.  It's just that I'm trying to decide the best way to do it.
+>> block/blk-mq.c:887:13: warning: 'sli_iolat_stat_end_check' defined but not used [-Wunused-function]
+     887 | static void sli_iolat_stat_end_check(u64 rq_alloc_time_ns, u64 rq_io_start_time_ns,
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~
 
-regards,
-dan carpenter
+sparse warnings: (new ones prefixed by >>)
+>> kernel/cgroup/sli.c:549:12: sparse: sparse: symbol 'bio_devname' was not declared. Should it be static?
+   kernel/cgroup/sli.c:807:15: sparse: sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be static?
+   kernel/cgroup/sli.c:1491:27: sparse: sparse: dubious: !x & y
+   kernel/cgroup/sli.c:1491:29: sparse: sparse: restricted fmode_t degrades to integer
+   kernel/cgroup/sli.c:1584:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   kernel/cgroup/sli.c:1584:24: sparse:     expected restricted __poll_t
+   kernel/cgroup/sli.c:1584:24: sparse:     got int
+   kernel/cgroup/sli.c: note: in included file (through include/linux/mutex.h, include/linux/seq_file.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+
+vim +/sli_iolat_stat_end_check +887 block/blk-mq.c
+
+   885	
+   886	#ifdef CONFIG_CGROUP_SLI
+ > 887	static void sli_iolat_stat_end_check(u64 rq_alloc_time_ns, u64 rq_io_start_time_ns,
+   888			struct bio *bio, struct blkcg *blkcg)
+   889	{
+   890		struct cgroup *cgrp;
+   891		u64 sli_iolat_end_time = 0;
+   892		u64 bio_start = bio_issue_time(&bio->bi_issue);
+   893	
+   894		if (!bio_start || !rq_alloc_time_ns || !rq_io_start_time_ns || !blkcg ||
+   895			blkcg == &blkcg_root)
+   896			return;
+   897	
+   898		cgrp = blkcg->css.cgroup;
+   899		if (!cgrp || !cgroup_parent(cgrp))
+   900			return;
+   901	
+   902		sli_iolat_end_time = __bio_issue_time(ktime_get_ns());
+   903		if (sli_iolat_end_time <= bio_start)
+   904			return;
+   905	
+   906		sli_iolat_stat_end(IO_LAT_DELAY, bio_start, rq_alloc_time_ns, rq_io_start_time_ns,
+   907				sli_iolat_end_time, sli_iolat_end_time - bio_start, bio, cgrp);
+   908	}
+   909	#endif
+   910	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
