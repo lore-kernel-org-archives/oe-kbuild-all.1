@@ -1,124 +1,139 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814141953A1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 17:03:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6811D95BE;
+	Tue, 29 Oct 2024 17:06:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730221425; cv=none; b=ris2xlhGwzaJgurbWcnlEwHdHrjlirtuF+Dv0WtXMlWunwvS6vlWQAfITPJSQs4zfUvmxWA1jQSkVowdTi4VfW03wVAMW3kYr31U+N9s0r/OFhon2EYdvMQevmV+o3pSqoQpFuSqwvBy+dCO8jYD0MbG+G+OxARScTCgGCasPg0=
+	t=1730221586; cv=none; b=pWLsXy6JeAn8UD9v3j+Q3hNqL2VzC3i8+IKf6tWeqfbMRIW3NIZnWTJLfKLiWVLwISsgxGe38uxsweJMecxp48A1X+Dd7HUtruHcHuTpaC2vmjWRJEoZDoIk4xJs/dY4DZsJLf+3KOLbG7p+Wcw6/8O6r4Ff05+8nPC7B6MxlUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730221425; c=relaxed/simple;
-	bh=cndgThwCRKYDmkJ4IOysDIvGRup4a8wjPzQR9TPE9IM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ugj9oW66ow80Q6iPJWFBiDMNQD914oCT/QkAYq/6w5knYk3Lfo9yCVyyqspt7men2ZMgWRzVK96NI54bgt+T36FAvxhK5Cn9Q9QBeq2nyo1Xihf72Bjhr1Yd8Bjpj+ndjNDUIM2holRxOTnsVtYewd5BWelYL2OqfeXEfJgd4ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RhCRkzXv; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1730221586; c=relaxed/simple;
+	bh=GFsoyu+gSq/aSU9jlBlwuMAGi0F5EJzjk+vasvk+KMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lKbcyeAE+IA/xDpTnLMeC8ZKtOmh0k9hKNkgZHB2t0mtGMOB3cwcBxSR44sVxJawOREYaFFUO1JMOvCLvzmlTcx1lbqg2+8KHI+NnSClZObrpljC5mFUVG2AM0IQ5osXLVe/J4/dBpIaPS4GkL1aaY5AE17kLQP1wIyItQk7nn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoXb2OaQ; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RhCRkzXv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1730221422;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VgDDqHgwK2vnx9vpFandCAj8GwkYbm2fjxiXRjakfu0=;
-	b=RhCRkzXv+gi+by0bVyhNafGKI2HrecRoWFi+y0dU5J+RdUwmXhina/VJRZ21Vj7uucbNFo
-	nJDGWEz8y5A4TXiifvlwETBNvtM3/rMo4sAFycCUS8dHEPyzF85SyWMNvncjfEQ5fxaCmY
-	9gLYIbco4XgP7iE8FW2ToFtvbOHVG3w=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-683-BZJ5ChHtOFm1y-9nL02FQg-1; Tue, 29 Oct 2024 13:03:41 -0400
-X-MC-Unique: BZJ5ChHtOFm1y-9nL02FQg-1
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6cbe4fc0aa7so92326766d6.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 10:03:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730221421; x=1730826221;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VgDDqHgwK2vnx9vpFandCAj8GwkYbm2fjxiXRjakfu0=;
-        b=omZmey0iWoggvSsv8ervaMycgNjXdt41MZRMJdpVI1tZ+6suS334eAcanjn/QAFWBR
-         yCIkP26JcGi0KsLVrzD6whN7q86wAx2OtYANOvfTDW7P/OGn0PLahWPtULQTXqMzf0nS
-         FG8ozkD71H2AxpVo+0gT92YO7ZbtieqyHjAlHBU74gbUDXhhgAy44lYo4saQtrEj94nH
-         AtPG5CntOpunb3Mh6PFEQ2/ThWoE+LUAS0VFZPkM0oWT7kC1deV8n+hijWPirTnUVXtC
-         jIk4L4tAtfoUwhw/n9l9qamRBDov5WKb1GqT8+/DN8HCbZemCMfLu9CVe70vX+XuViDO
-         OsDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWzcutryXh+J5L64lXgamrG0R7LEwH3Tuj9ZEVOPZNtK+hu34U+IdFt2CYZQ2fwYicaij0Vc8l6blshpHQT@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjxZWX+TeLIo847TQiBq42UoayWWGvZHHMG4znr8wRD//2jfJk
-	5Hd5wd6QvJpTBcp+I8AUfQCcDq/3Om1Y8htXFYal3g9H1/nmvGmUSfQrL7TERE0NXjVucXeGemU
-	yJGZkl76BrMMz+vpd+SbvJkgG7HhnOK8x2pLTS8uQHFgyQyzhiNvbihayXExLbb4=
-X-Received: by 2002:a05:622a:199c:b0:460:9ec3:1b80 with SMTP id d75a77b69052e-4613c0305a2mr204013681cf.27.1730221419179;
-        Tue, 29 Oct 2024 10:03:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGFnEdmHELhucGC4RMoKvtlOdJj1FTZxMhoHHfkOL0T1MnusgnPAKgrKNr4PWgjCRPPI7Jvww==
-X-Received: by 2002:a05:622a:199c:b0:460:9ec3:1b80 with SMTP id d75a77b69052e-4613c0305a2mr204012071cf.27.1730221417287;
-        Tue, 29 Oct 2024 10:03:37 -0700 (PDT)
-Received: from [192.168.1.165] ([70.22.187.239])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4613213a2besm45942891cf.29.2024.10.29.10.03.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Oct 2024 10:03:37 -0700 (PDT)
-Message-ID: <1c0beb9b-6b90-4c92-a4f3-f228dc0aa527@redhat.com>
-Date: Tue, 29 Oct 2024 13:03:35 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoXb2OaQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730221585; x=1761757585;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GFsoyu+gSq/aSU9jlBlwuMAGi0F5EJzjk+vasvk+KMY=;
+  b=CoXb2OaQaPpPqBDVSyMgYWPwQ9fTd3SggvjSwEvEONIgmtUDK4EtUq1b
+   NFViL4olDbFpa5F8LWqXd+0v4S1kfs1Grqu1PpkyvhudtTCzfmh72AM/h
+   oh4h2Ey6qObreR9iHUj3YA9GYkufyi74TLDL2pd7iFYusrUwnWuqOC6EB
+   ajFPLpXhmIxUSLzySFF9/wfOfn24FvOoKzvraddmc8yJk7cm2Ob1t5FXn
+   M7BvU7p6G4YDBTEqN6ra/SID0MMIHPAdRtj96bc0XB3fB7vHYSK4tylIn
+   TJxRLK0FcXaoRhqrG/PuPoC4e+AI3g2bxeKwEqcxXTGW2dczJEQ16cA5F
+   Q==;
+X-CSE-ConnectionGUID: I1nNnle5Qlav62AGNyYzIA==
+X-CSE-MsgGUID: +JZ6TF74QcWz5hVXJ5fLlw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52435491"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52435491"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:06:23 -0700
+X-CSE-ConnectionGUID: 7q9ZxRnpTnuEDnhZdkCFQg==
+X-CSE-MsgGUID: WNsgyM8oS1ez1aK6WXHuiQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="81945398"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 29 Oct 2024 10:06:17 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5pfc-000dvO-0Q;
+	Tue, 29 Oct 2024 17:06:16 +0000
+Date: Wed, 30 Oct 2024 01:05:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: alice.guo@oss.nxp.com, wahrenst@gmx.net, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	"alice.guo" <alice.guo@nxp.com>
+Subject: Re: [PATCH v2] soc: imx: Add SoC device register for i.MX9
+Message-ID: <202410300019.uWGJaR4m-lkp@intel.com>
+References: <20241029083406.3888861-1-alice.guo@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn:
- inconsistent returns '&pool->lock'.
-To: Dan Carpenter <dan.carpenter@linaro.org>, Philip Li <philip.li@intel.com>
-Cc: oe-kbuild@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <717e8949-55c4-4461-8951-3e582e9b77ef@stanley.mountain>
- <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
- <ZyBQa45RTWXiXJke@rli9-mobl> <ZyCLo51ZyjxX7eQK@rli9-mobl>
- <13937d22-46ac-480a-8956-f89a0fd295ac@stanley.mountain>
- <68866f17-f327-4df8-ae17-dfcc50362d4a@stanley.mountain>
-From: Matthew Sakai <msakai@redhat.com>
-In-Reply-To: <68866f17-f327-4df8-ae17-dfcc50362d4a@stanley.mountain>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241029083406.3888861-1-alice.guo@oss.nxp.com>
 
-Okay. Just to restate, what I took away from this thread is
-1) The current code provokes a warning.
-2) When bisecting, the bot found a (different) warning from the patch 
-introducing this code, and so the mail points out that warning instead 
-of the warning in newer code.
-3) The warning is showing up now because new checking allows the bot to 
-notice problems it didn't notice before.
+Hi,
 
-The commit I cited fixed warning from sparse, but I don't think we 
-looked at smatch. This particular code does not have a locking problem, 
-but the way it's spelled makes it difficult for static tools to 
-understand that there is not a problem. I'll take a look and see if 
-there's anything further I can do address the actual current warning.
+kernel test robot noticed the following build warnings:
 
-Thanks for your explanation. I think I have a much better understanding 
-of what this bot it doing now, I'll keep it in mind when we get warning 
-in the future.
+[auto build test WARNING on shawnguo/for-next]
+[also build test WARNING on linus/master v6.12-rc5 next-20241029]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Matt
+url:    https://github.com/intel-lab-lkp/linux/commits/alice-guo-oss-nxp-com/soc-imx-Add-SoC-device-register-for-i-MX9/20241029-163718
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241029083406.3888861-1-alice.guo%40oss.nxp.com
+patch subject: [PATCH v2] soc: imx: Add SoC device register for i.MX9
+config: arm-randconfig-002-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300019.uWGJaR4m-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300019.uWGJaR4m-lkp@intel.com/reproduce)
 
-On 10/29/24 4:19 AM, Dan Carpenter wrote:
-> On Tue, Oct 29, 2024 at 11:07:07AM +0300, Dan Carpenter wrote:
->> 3) The kbuild bot detected the bug, but unfortunately the cross function DB
->>     doesn't scale well enough for the kbuild bot to use so it didn't detect the
->>     fix.
-> 
-> Aw crud.  It does still print a warning on linux-next actually.
-> Smatch says that we lock "&pool->lock" and unlocked
-> "&pool->discard_limiter->pool->lock".
-> 
-> Anyway.  Points 1 and 4 that we were running new checks on old code and that
-> the code in the email did have a bug are correct.
-> 
-> regards,
-> dan carpenter
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300019.uWGJaR4m-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arm/include/asm/bug.h:60,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from drivers/soc/imx/soc-imx9.c:8:
+   drivers/soc/imx/soc-imx9.c: In function 'imx9_soc_device_register':
+>> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/printk.h:462:25: note: in definition of macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:533:9: note: in expansion of macro 'printk'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:533:16: note: in expansion of macro 'KERN_ERR'
+     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/soc/imx/soc-imx9.c:48:17: note: in expansion of macro 'pr_err'
+      48 |                 pr_err("%s: SMC failed: %d\n", __func__, res.a0);
+         |                 ^~~~~~
+
+
+vim +5 include/linux/kern_levels.h
+
+314ba3520e513a7 Joe Perches 2012-07-30  4  
+04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
+04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
+04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
