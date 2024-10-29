@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88ECF197A9E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 19:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F76E206040
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 19:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730229326; cv=none; b=s1dkipvZzPmV+h/wi9mbQ8FMnPqhpDBmZPFRH2F6o4WlQ5R06e/7zvjvULcVC2lZTAyRYariQ9tgq/zMKqvyddRpVXpjQ4p9ewiyzkcWdpmCJfNSn/x+nEyp9eHv8VvC4O0DhKmVsH75sOMwq8qGNrggJJ71wVsgQGIvEDp77fI=
+	t=1730231193; cv=none; b=g9VxJrlrkCj2xZ9pmX7FWORevmPZx7qmhaaDqza/QyahbL0mgtcuMEQvTdcGPwjqyjUTLVsOmVVOss8WCj+y80aeYtxwG5UFGw/zjVHupTqymZHmy8aPENm0cgWaIGbDkFzJXdHkqH0AP1eZ8Cquw3wz03ZtMSl2jiKFVGAZ2XE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730229326; c=relaxed/simple;
-	bh=oyDp/GGNXgQqWPKx76wwzCYdIpGXiROkN80SRoPx6AQ=;
+	s=arc-20240116; t=1730231193; c=relaxed/simple;
+	bh=Z7QlXf2YU3N/KNxyJHoQ6XPPBlvNC7WVHOGloOqRUaA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MLMK0xJg20akVs9Dts/LdSIpj76ObMa3l6uf/WmXfH7GcIIK76JDNk+RjnmSB5bnqLpBUKKlAytLk+nxjA/HakiIB9atWDt7P3lEODr0wtk1vdGmrujb/t28Oa1Pe91r1yKhH2MjR/WyN7EPBY5LWfaX8RbhwBePBP4D1OCBS10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jBG/6c52; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=KtkPmy378uwJSUOGSJ9PnJKLP8zMOx4qjnAjHGsunZtBrgdGv6xowSdNShybw/V9Mwjtbv3yi9pKF25JckB7JMBYkzhJOhr6cdYsCqp/YuvBl+yy5irugz5ROZORi6rT/mBgsSipHbgfcjQSiyndMLFKVZaHYCUZwtR4If1eHNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fBfD9rLz; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jBG/6c52"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fBfD9rLz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730229325; x=1761765325;
+  t=1730231191; x=1761767191;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oyDp/GGNXgQqWPKx76wwzCYdIpGXiROkN80SRoPx6AQ=;
-  b=jBG/6c528dep+QQuyWj2Hd3mEZuy9M3Qh2WRPWDybWYEzg6/3/1JV/tY
-   FlJ6JfAzwQU2l042UXiDstxndmNLMHXrN7npp4JsZSjTfoIP7pWqBo4bx
-   CbOz+hTawfK17OvV1CiQ5S0hE0+hmvYDtb+aRl0RyNgFB6PPZ5wXV2BJl
-   BRew1i71f4liYF5A1ELIZp1F7b4SiA5s6T9DfSG6vFVT4kO4VJNdc9z8v
-   mU5w49guAHbCyysyWus8rW3VvU7eHoHf/ecEgVF07VnGiAXoifsDNmBQe
-   BG3iuoep/JCGFDFdK45cOeD866z3eaIP5/8t3h7fotfNNWkeFP7cy4Ybf
-   A==;
-X-CSE-ConnectionGUID: ZQsTDHFnQK2l6kEfpS8TAw==
-X-CSE-MsgGUID: 9NdC3LWlRMuY1HWzvSZOQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="33824685"
+  bh=Z7QlXf2YU3N/KNxyJHoQ6XPPBlvNC7WVHOGloOqRUaA=;
+  b=fBfD9rLzwGk3ZahM6JxnfCU+GIAhOIimlc4ubYfe4XDhmXY1A0YWdHdp
+   ClLtKmZ3QFNhNdRbOqQvXuDhiWdGZi7eIEyw36ncay1Y53GCqMhHOz7gF
+   GbmnU8kZsKh+/85G/w2tEVugSsyy/HCJ5hqPK/xW9sB8InopcNtFd4ljk
+   DMZJfMXxJJLNJIruXPL8n5pD34zw0/yuhNj7O7TnlGTK2CtbQ6PcdK5Ua
+   RuVzffDTiGgGcv5FMNAg6U0jM9oaZgK77XQegnZkBueT3l+0sWlP9wcVx
+   M+Virv05h5vLqhb/YeTtBOjbxI9WTetIuxotnVhK40Iz0wcIqTEZ13Ea2
+   w==;
+X-CSE-ConnectionGUID: N60smkb9QTuD/H6pqxg+eg==
+X-CSE-MsgGUID: mcARKnhzQJOcHMAGqX/zxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="33697674"
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="33824685"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 12:15:24 -0700
-X-CSE-ConnectionGUID: pFGx13TMRd+eB/Dv6w4Yxg==
-X-CSE-MsgGUID: GoWamREWQnS87ChQB3DYOw==
+   d="scan'208";a="33697674"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 12:46:28 -0700
+X-CSE-ConnectionGUID: CZSNQkzOR7qRKNbF0VjDDQ==
+X-CSE-MsgGUID: 3edRBEEIQ4m5jSHDhcTF3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="112869668"
+   d="scan'208";a="86630022"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 29 Oct 2024 12:15:22 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 29 Oct 2024 12:46:26 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5rgW-000e29-11;
-	Tue, 29 Oct 2024 19:15:20 +0000
-Date: Wed, 30 Oct 2024 03:14:53 +0800
+	id 1t5sAa-000e4k-1O;
+	Tue, 29 Oct 2024 19:46:24 +0000
+Date: Wed, 30 Oct 2024 03:45:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-shrink-4d 25/82] lib/dynamic_debug.c:1280:12: warning:
- 'ddebug_remove_module' used but never defined
-Message-ID: <202410300334.tcccCQR9-lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Frederic Weisbecker <frederic@kernel.org>
+Subject: [tip:timers/core 69/76] kernel/signal.c:1889:37: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202410300348.DgXPJOtf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,103 +63,172 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jimc/linux.git dd-shrink-4d
-head:   98a15f4b1948cdaabac1f0fc008c79870c4d4672
-commit: c70ec701d1c5650abf6fceaaf9a86f8dd3facff9 [25/82] ddebug: cleanup-range-overlap fails
-config: xtensa-xip_kc705_defconfig (https://download.01.org/0day-ci/archive/20241030/202410300334.tcccCQR9-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300334.tcccCQR9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/core
+head:   1550dde8a537b35dbf066c7f9cfe5f9b360bce0d
+commit: 2625b7efcee09ab43c108dfca6ea0b918897a1e8 [69/76] signal: Confine POSIX_TIMERS properly
+config: x86_64-randconfig-121-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300348.DgXPJOtf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300348.DgXPJOtf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300334.tcccCQR9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300348.DgXPJOtf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/signal.c: note: in included file (through arch/x86/include/uapi/asm/signal.h, arch/x86/include/asm/signal.h, include/uapi/linux/signal.h, ...):
+   include/uapi/asm-generic/signal-defs.h:83:29: sparse: sparse: multiple address spaces given
+   kernel/signal.c:188:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:188:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:188:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:191:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:191:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:191:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:473:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:473:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:473:9: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:477:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:477:34: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:477:34: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:499:53: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct k_sigaction *ka @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/signal.c:499:53: sparse:     expected struct k_sigaction *ka
+   kernel/signal.c:499:53: sparse:     got struct k_sigaction [noderef] __rcu *
+   include/uapi/asm-generic/signal-defs.h:83:29: sparse: sparse: multiple address spaces given
+   kernel/signal.c:595:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __rcu * @@
+   kernel/signal.c:595:9: sparse:     expected struct lockdep_map const *lock
+   kernel/signal.c:595:9: sparse:     got struct lockdep_map [noderef] __rcu *
+   kernel/signal.c:692:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __rcu * @@
+   kernel/signal.c:692:9: sparse:     expected struct lockdep_map const *lock
+   kernel/signal.c:692:9: sparse:     got struct lockdep_map [noderef] __rcu *
+   kernel/signal.c:817:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __rcu * @@
+   kernel/signal.c:817:9: sparse:     expected struct lockdep_map const *lock
+   kernel/signal.c:817:9: sparse:     got struct lockdep_map [noderef] __rcu *
+   kernel/signal.c:1012:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __rcu * @@
+   kernel/signal.c:1012:9: sparse:     expected struct lockdep_map const *lock
+   kernel/signal.c:1012:9: sparse:     got struct lockdep_map [noderef] __rcu *
+   kernel/signal.c:1264:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:1264:9: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1264:9: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:1265:16: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct k_sigaction *action @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/signal.c:1265:16: sparse:     expected struct k_sigaction *action
+   kernel/signal.c:1265:16: sparse:     got struct k_sigaction [noderef] __rcu *
+   kernel/signal.c:1286:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:1286:34: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1286:34: sparse:     got struct spinlock [noderef] __rcu *
+>> kernel/signal.c:1889:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *l @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:1889:37: sparse:     expected struct spinlock [usertype] *l
+   kernel/signal.c:1889:37: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:1901:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:1901:36: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:1901:36: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2036:44: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/signal.c:2055:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   kernel/signal.c:2055:65: sparse:     expected struct task_struct *tsk
+   kernel/signal.c:2055:65: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/signal.c:2056:40: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/signal.c:2074:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sighand_struct *psig @@     got struct sighand_struct [noderef] __rcu *[noderef] __rcu sighand @@
+   kernel/signal.c:2074:14: sparse:     expected struct sighand_struct *psig
+   kernel/signal.c:2074:14: sparse:     got struct sighand_struct [noderef] __rcu *[noderef] __rcu sighand
+   kernel/signal.c:2103:53: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *t @@     got struct task_struct [noderef] __rcu *parent @@
+   kernel/signal.c:2103:53: sparse:     expected struct task_struct *t
+   kernel/signal.c:2103:53: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/signal.c:2104:34: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
+   kernel/signal.c:2104:34: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2104:34: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/signal.c:2133:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *parent @@
+   kernel/signal.c:2133:24: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2133:24: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/signal.c:2136:24: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *parent @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/signal.c:2136:24: sparse:     expected struct task_struct *parent
+   kernel/signal.c:2136:24: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/signal.c:2169:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/signal.c:2169:17: sparse:     expected struct sighand_struct *sighand
+   kernel/signal.c:2169:17: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/signal.c:2209:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2209:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2209:41: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2211:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2211:39: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2211:39: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2268:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2268:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2268:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2326:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2326:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2326:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2366:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2366:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2366:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2368:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2368:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2368:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2466:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2466:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2466:41: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2550:41: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2550:41: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2550:41: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2562:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2562:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2562:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2605:52: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *parent @@
+   kernel/signal.c:2605:52: sparse:     expected struct task_struct *tsk
+   kernel/signal.c:2605:52: sparse:     got struct task_struct [noderef] __rcu *parent
+   kernel/signal.c:2607:49: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/signal.c:2645:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct sighand_struct *sighand @@     got struct sighand_struct [noderef] __rcu *sighand @@
+   kernel/signal.c:2645:49: sparse:     expected struct sighand_struct *sighand
+   kernel/signal.c:2645:49: sparse:     got struct sighand_struct [noderef] __rcu *sighand
+   kernel/signal.c:2978:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2978:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2978:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:2999:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:2999:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:2999:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3066:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3066:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3066:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3068:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3068:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3068:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3219:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3219:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3219:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3222:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3222:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3222:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3611:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3611:27: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3611:27: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3623:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3623:37: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3623:37: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3628:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3628:35: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3628:35: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:3633:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:3633:29: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:3633:29: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:4109:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:4109:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:4109:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:4121:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/signal.c:4121:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/signal.c:4121:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/signal.c:4139:11: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct k_sigaction *k @@     got struct k_sigaction [noderef] __rcu * @@
+   kernel/signal.c:4139:11: sparse:     expected struct k_sigaction *k
 
->> lib/dynamic_debug.c:1280:12: warning: 'ddebug_remove_module' used but never defined
-    1280 | static int ddebug_remove_module(const char *mod_name);
-         |            ^~~~~~~~~~~~~~~~~~~~
+vim +1889 kernel/signal.c
 
-
-vim +/ddebug_remove_module +1280 lib/dynamic_debug.c
-
-  1279	
-> 1280	static int ddebug_remove_module(const char *mod_name);
-  1281	/*
-  1282	 * Allocate a new ddebug_table for the given module
-  1283	 * and add it to the global list.
-  1284	 */
-  1285	static int ddebug_add_module(struct _ddebug_info *di, const char *modname)
-  1286	{
-  1287		struct ddebug_table *dt;
-  1288		struct ddebug_class_map *cm;
-  1289		struct ddebug_class_user *cli;
-  1290		u64 reserved_ids = 0;
-  1291		int rc, i;
-  1292	
-  1293		if (!di->descs.len)
-  1294			return 0;
-  1295	
-  1296		v3pr_info("add-module: %s %d sites\n", modname, di->descs.len);
-  1297	
-  1298		dt = kzalloc(sizeof(*dt), GFP_KERNEL);
-  1299		if (dt == NULL) {
-  1300			pr_err("error adding module: %s\n", modname);
-  1301			return -ENOMEM;
-  1302		}
-  1303		/*
-  1304		 * For built-in modules, name lives in .rodata and is
-  1305		 * immortal. For loaded modules, name points at the name[]
-  1306		 * member of struct module, which lives at least as long as
-  1307		 * this struct ddebug_table.
-  1308		 */
-  1309		dt->mod_name = modname;
-  1310		dt->info.descs = di->descs;
-  1311	
-  1312		INIT_LIST_HEAD(&dt->link);
-  1313		/*
-  1314		 * for builtin modules, ddebug_init() insures that the di
-  1315		 * cursor marks just the module's descriptors, but it doesn't
-  1316		 * do so for the builtin class _maps & _users.  find the
-  1317		 * start,len of the vectors by mod_name, save to dt.
-  1318		 */
-  1319		dd_mark_vector_subrange(i, dt, cm, di, maps);
-  1320		dd_mark_vector_subrange(i, dt, cli, di, users);
-  1321	
-  1322		for_subvec(i, cm, &dt->info, maps) {
-  1323			rc = ddebug_class_range_overlap(cm, &reserved_ids);
-  1324			if (rc)
-  1325				goto cleanup;
-  1326		}
-  1327		for_subvec(i, cli, &dt->info, users) {
-  1328			rc = ddebug_class_range_overlap(cli->map, &reserved_ids);
-  1329			if (rc)
-  1330				goto cleanup;
-  1331		}
-  1332	
-  1333		if (dt->info.maps.len) {
-  1334			rc = ddebug_module_apply_class_maps(dt, &reserved_ids);
-  1335			if (rc)
-  1336				goto cleanup;
-  1337		}
-  1338		mutex_lock(&ddebug_lock);
-  1339		list_add_tail(&dt->link, &ddebug_tables);
-  1340		mutex_unlock(&ddebug_lock);
-  1341	
-  1342		if (dt->info.users.len) {
-  1343			/* this needs to find the ref'd class on the ddebug-tables list */
-  1344			rc = ddebug_module_apply_class_users(dt, &reserved_ids);
-  1345			if (rc)
-  1346				return ddebug_remove_module(dt->mod_name);
-  1347		}
-  1348		vpr_info("%3u debug prints in module %s\n", di->descs.len, modname);
-  1349		return 0;
-  1350	cleanup:
-  1351		kfree(dt);
-  1352		return rc; /* tbd might conflict w notify chain */
-  1353	}
-  1354	
+  1884	
+  1885	void flush_itimer_signals(void)
+  1886	{
+  1887		struct task_struct *tsk = current;
+  1888	
+> 1889		guard(spinlock_irqsave)(&tsk->sighand->siglock);
+  1890		__flush_itimer_signals(&tsk->pending);
+  1891		__flush_itimer_signals(&tsk->signal->shared_pending);
+  1892	}
+  1893	
 
 -- 
 0-DAY CI Kernel Test Service
