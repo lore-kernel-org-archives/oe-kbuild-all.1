@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F7F4C8F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 14:01:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4805410E6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 14:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730210467; cv=none; b=B756a9gpHLICgo0btgvtC9/Up55iVn9KW5UGTmrUapjvJlzcLjgPYTUSNEefmQZ2IC4DThY26eRC3nWQHa759j8WP/Zt6JqBVd1hw7dieICBDpHeIl9o8dOJfIS4E28m7HyOrTOnLLEH7AJHiL/FgMvQSEp5uSUWfWTSQZDNQ4E=
+	t=1730211728; cv=none; b=QUH+mA/fAoOG9m+GADcVb7fRVF1VZ9fno1l9tjBBd21+WO4tUIeKeWeIF7PldbsQKKjWFcaO7r/JKXiB1JZkFE0NiGtXOj4DxjARnDom1Qub7MwgqAElLSU6Z8Bh8lr/rdrpWx5+UNqpI9WDtX/cH1SyVWI0iRvFU+AvZHa28fI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730210467; c=relaxed/simple;
-	bh=9ZJTsG8lRG8BvG9jQcA5w06trFne16YwpHIHqY8L2Tk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LsJAoS2f2KEn3GodL0HWf8hzWnC7/b+UboUxN7POPB9b+ii2tEsfVlzifJbo4cEGWa6BiPw4v8sfyIt5/chSqrfjPlk0/cT2Z0rAMeF3qK70TPPKJRnS28jlhwkj39qDm1LKDn4BwzLLRjuWshCnYDkwikrdmqLDk15zqBfZxbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bc44QJdV; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1730211728; c=relaxed/simple;
+	bh=tWBAT+Xqjs6O5Et/u84aFwL6Qnh6+l94NL4vhnorswA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jxl9rU3kIAmxKctp1GTvzgy6ZYbCEe1yRoFMjBYaNczStdWfCT4EbUEKkARFXiX4celpcy6PXcAZqqFVCJtINVVk7KigiDCfnSESim559p3MdIb6+Xj2OqvnoxTW1a6+HOV0K0+NSIKnLHUfP29UcLf11y4+pGpU9+dX1AcjC2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ev/zw+8r; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bc44QJdV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ev/zw+8r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730210466; x=1761746466;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9ZJTsG8lRG8BvG9jQcA5w06trFne16YwpHIHqY8L2Tk=;
-  b=Bc44QJdVe6puaK3Ey7X79Qnlc0j8AOyQE1TNGRl2X/ggCu9AVbfEs8Ex
-   tYcOgtkbfiiEMjzBMfLVLIuvewsMlCO0W4goQ9IuK6QLVlOxQ3o4zZUUU
-   9eN+Jb4MbuSDRUWbZgrffXHWC77XBj7y5LIgALVIYQkfO7UdkGDpdS81k
-   kQYwGHZoeRezxgJHhAuV+lOtcOCn2g1V6xlHXEgf5P3HKWFz2IBa3Pm3K
-   tSR1o3KDlBeH1+zk8rFxE7bTHt7ZBcx6w2ufIeYsNGlHWMNrNHmOzkMJH
-   VNKK7g5CXSxvzhcnz8iXMrhJ6pOI/dLg0TwPktdOMfV8qgWKhoD5p4I7O
-   g==;
-X-CSE-ConnectionGUID: gbUSrHUISaK2/OCPN7Eflw==
-X-CSE-MsgGUID: SX0/xD6RSUe4ompnEN2A4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="40434771"
+  t=1730211726; x=1761747726;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tWBAT+Xqjs6O5Et/u84aFwL6Qnh6+l94NL4vhnorswA=;
+  b=Ev/zw+8roMhQ9aYA49GUGRr1R26n7aO8ISn2LZTKuGIaX6kgWp/XsTU5
+   jnF/W3oTTVjyWL8yVi+2gTIKpd/KHmfO3Ege5woa/xuKyzZ4yHCngon6+
+   hQ9ALYmuN7D4WKkgN3sErPFv9dplzXYk9U4nxk75LajXKXia8Jndu8cnf
+   8WpOutREfP5dsx/LlR9SHO4h/EaSwAldKE+8d2rgeEXLX+i+2Gj6FdPT+
+   PGxHcz6WU1tvPrvKujbeolrAJtyT5RybBkrJt2vgCU+hncrrUO1yHXZ3b
+   w3jST8gUoRHJBu8L3mrRnH7kRxKcbKjHizwbL/LBhhjdt/Qvf2Yc3iLPg
+   Q==;
+X-CSE-ConnectionGUID: I7g7zzkUTnSyiTInfm1tFw==
+X-CSE-MsgGUID: HcogUK55T7GZukQN4X17aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="30064395"
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="40434771"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:01:05 -0700
-X-CSE-ConnectionGUID: 7ljc5z6CTV+p2ixm683YkQ==
-X-CSE-MsgGUID: 3P1/p2zzRWym7OK4v1yRFA==
+   d="scan'208";a="30064395"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:22:05 -0700
+X-CSE-ConnectionGUID: YtnGgNEhRFapAo3I/fOCiA==
+X-CSE-MsgGUID: vuaQZsj9QY++tpyh3VVc9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="82064223"
+   d="scan'208";a="105305979"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 29 Oct 2024 07:01:03 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Oct 2024 07:22:04 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5mmL-000djg-1n;
-	Tue, 29 Oct 2024 14:01:01 +0000
-Date: Tue, 29 Oct 2024 22:00:48 +0800
+	id 1t5n6g-000dlG-1j;
+	Tue, 29 Oct 2024 14:22:02 +0000
+Date: Tue, 29 Oct 2024 22:21:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
-Subject: Re: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
-Message-ID: <202410292151.ozZhCbRL-lkp@intel.com>
-References: <20241028213541.1529-13-ouster@cs.stanford.edu>
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 18678/30000]
+ drivers/ub/urma/uburma/uburma_dev_ops.c:32:5: warning: no previous prototype
+ for 'uburma_mmap'
+Message-ID: <202410292243.lj3Xa1zr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,78 +62,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028213541.1529-13-ouster@cs.stanford.edu>
 
-Hi John,
+Hi Yizhen,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241029-095137
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241028213541.1529-13-ouster%40cs.stanford.edu
-patch subject: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241029/202410292151.ozZhCbRL-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292151.ozZhCbRL-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ffc5791ca9102a55d29c6dea26de38d32f052b01
+commit: 7d130c6018dbfd09c6e1c5d91b347fdbf3924321 [18678/30000] ub: add mmap ops support in ubcore and uburma
+config: arm64-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241029/202410292243.lj3Xa1zr-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292243.lj3Xa1zr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410292151.ozZhCbRL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410292243.lj3Xa1zr-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/homa/homa_incoming.c: In function 'homa_incoming_sysctl_changed':
->> net/homa/homa_incoming.c:1078:22: error: 'cpu_khz' undeclared (first use in this function)
-    1078 |         tmp = (tmp * cpu_khz) / 1000;
-         |                      ^~~~~~~
-   net/homa/homa_incoming.c:1078:22: note: each undeclared identifier is reported only once for each function it appears in
---
-   net/homa/homa_outgoing.c: In function 'homa_outgoing_sysctl_changed':
->> net/homa/homa_outgoing.c:579:46: error: 'cpu_khz' undeclared (first use in this function)
-     579 |         homa->cycles_per_kbyte = (8 * (__u64)cpu_khz) / homa->link_mbps;
-         |                                              ^~~~~~~
-   net/homa/homa_outgoing.c:579:46: note: each undeclared identifier is reported only once for each function it appears in
---
-   net/homa/homa_peer.c: In function 'homa_dst_refresh':
->> net/homa/homa_peer.c:189:48: error: 'cpu_khz' undeclared (first use in this function)
-     189 |                         dead->gc_time = now + (cpu_khz << 7);
-         |                                                ^~~~~~~
-   net/homa/homa_peer.c:189:48: note: each undeclared identifier is reported only once for each function it appears in
---
-   net/homa/homa_plumbing.c: In function 'homa_softirq':
->> net/homa/homa_plumbing.c:712:61: error: 'cpu_khz' undeclared (first use in this function)
-     712 |                 int scaled_ms = (int)(10 * (start - last) / cpu_khz);
-         |                                                             ^~~~~~~
-   net/homa/homa_plumbing.c:712:61: note: each undeclared identifier is reported only once for each function it appears in
---
-   net/homa/homa_utils.c: In function 'homa_spin':
->> net/homa/homa_utils.c:122:36: error: 'cpu_khz' undeclared (first use in this function)
-     122 |         end = get_cycles() + (ns * cpu_khz) / 1000000;
-         |                                    ^~~~~~~
-   net/homa/homa_utils.c:122:36: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/ub/urma/uburma/uburma_dev_ops.c:32:5: warning: no previous prototype for 'uburma_mmap' [-Wmissing-prototypes]
+      32 | int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
+         |     ^~~~~~~~~~~
+   drivers/ub/urma/uburma/uburma_dev_ops.c:64:6: warning: no previous prototype for 'uburma_release_file' [-Wmissing-prototypes]
+      64 | void uburma_release_file(struct kref *ref)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/uburma/uburma_dev_ops.c:81:5: warning: no previous prototype for 'uburma_open' [-Wmissing-prototypes]
+      81 | int uburma_open(struct inode *inode, struct file *filp)
+         |     ^~~~~~~~~~~
+   drivers/ub/urma/uburma/uburma_dev_ops.c: In function 'uburma_open':
+   drivers/ub/urma/uburma/uburma_dev_ops.c:98:50: warning: the comparison will always evaluate as 'false' for the address of 'dev_name' will never be NULL [-Waddress]
+      98 |         if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
+         |                                                  ^~
+   In file included from drivers/ub/urma/uburma/uburma_dev_ops.c:25:
+   include/urma/ubcore_types.h:1589:14: note: 'dev_name' declared here
+    1589 |         char dev_name[UBCORE_MAX_DEV_NAME];
+         |              ^~~~~~~~
+   drivers/ub/urma/uburma/uburma_dev_ops.c: At top level:
+   drivers/ub/urma/uburma/uburma_dev_ops.c:134:5: warning: no previous prototype for 'uburma_close' [-Wmissing-prototypes]
+     134 | int uburma_close(struct inode *inode, struct file *filp)
+         |     ^~~~~~~~~~~~
 
 
-vim +/cpu_khz +1078 net/homa/homa_incoming.c
+vim +/uburma_mmap +32 drivers/ub/urma/uburma/uburma_dev_ops.c
 
-223bab41c36796 John Ousterhout 2024-10-28  1063  
-223bab41c36796 John Ousterhout 2024-10-28  1064  /**
-223bab41c36796 John Ousterhout 2024-10-28  1065   * homa_incoming_sysctl_changed() - Invoked whenever a sysctl value is changed;
-223bab41c36796 John Ousterhout 2024-10-28  1066   * any input-related parameters that depend on sysctl-settable values.
-223bab41c36796 John Ousterhout 2024-10-28  1067   * @homa:    Overall data about the Homa protocol implementation.
-223bab41c36796 John Ousterhout 2024-10-28  1068   */
-223bab41c36796 John Ousterhout 2024-10-28  1069  void homa_incoming_sysctl_changed(struct homa *homa)
-223bab41c36796 John Ousterhout 2024-10-28  1070  {
-223bab41c36796 John Ousterhout 2024-10-28  1071  	__u64 tmp;
-223bab41c36796 John Ousterhout 2024-10-28  1072  
-223bab41c36796 John Ousterhout 2024-10-28  1073  	/* Code below is written carefully to avoid integer underflow or
-223bab41c36796 John Ousterhout 2024-10-28  1074  	 * overflow under expected usage patterns. Be careful when changing!
-223bab41c36796 John Ousterhout 2024-10-28  1075  	 */
-223bab41c36796 John Ousterhout 2024-10-28  1076  
-223bab41c36796 John Ousterhout 2024-10-28  1077  	tmp = homa->busy_usecs;
-223bab41c36796 John Ousterhout 2024-10-28 @1078  	tmp = (tmp * cpu_khz) / 1000;
+    31	
+  > 32	int uburma_mmap(struct file *filp, struct vm_area_struct *vma)
+    33	{
+    34		struct uburma_file *file = filp->private_data;
+    35		struct uburma_device *ubu_dev;
+    36		struct ubcore_device *ubc_dev;
+    37		int srcu_idx;
+    38		int ret;
+    39	
+    40		if (file == NULL || file->ucontext == NULL) {
+    41			uburma_log_err("can not find ucontext.\n");
+    42			return -EINVAL;
+    43		}
+    44	
+    45		ubu_dev = file->ubu_dev;
+    46		uburma_cmd_inc(ubu_dev);
+    47	
+    48		srcu_idx = srcu_read_lock(&ubu_dev->ubc_dev_srcu);
+    49		ubc_dev = srcu_dereference(ubu_dev->ubc_dev, &ubu_dev->ubc_dev_srcu);
+    50		if (ubc_dev == NULL || ubc_dev->ops == NULL || ubc_dev->ops->mmap == NULL) {
+    51			uburma_log_err("can not find ubcore device.\n");
+    52			ret = -ENODEV;
+    53			goto out;
+    54		}
+    55	
+    56		ret = ubc_dev->ops->mmap(file->ucontext, vma);
+    57	
+    58	out:
+    59		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
+    60		uburma_cmd_dec(ubu_dev);
+    61		return ret;
+    62	}
+    63	
 
 -- 
 0-DAY CI Kernel Test Service
