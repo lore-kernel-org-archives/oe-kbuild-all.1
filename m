@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B64F14900E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 04:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87203219E0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 04:32:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730175765; cv=none; b=Ne17LqoLnMJTRqeC2NP7/DTrKQxUc+nWzCwWmBbFx1F87gMVTTo0pK+W5s6HmRBeRLRSrfCuzITVfFeQmDFZnytlRw96Yyd6+XeEt8gsM4s9rw2hiHDBhMvJa3hHmivSvjCT8rOawwJ3sZ2L1k90PmSyyT4prsY1llBJTJsX3tA=
+	t=1730176364; cv=none; b=O/Os8O40Np29ackPqdQUW917ssxzxYEuiUT+P8pYmio5LW0A87Ts+VnTsOEP/206DknDhf2/9e4CgxWbBiDFwIdG1/yoULACqR8IKq5UZEeBBm9cdShrWylBO90Uv4G0k9tlG4Ij008NVnPbbUd3dqimGL9r5njtcrGz8hddrDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730175765; c=relaxed/simple;
-	bh=j1CLOA9NkpmFEOzVGWHg2QqsOkrgxxP8vNf5oR1cZwM=;
+	s=arc-20240116; t=1730176364; c=relaxed/simple;
+	bh=bYV8sP4Y8Ap6HkQP560i/iME9Eqx3QN+SujNGA1+/aQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O2t1C5GdBaKqG3V0djrb2GmMZmySbmJA5FO2af6sIhmKRxu1xVm0ZMVPX9S/hANvpFo+FmMhe0KQVZjdNrn1TQI/hBBEzxKVJ3+QPikXYvGUeq/XmIjouW20TYISZrLKcAnE9kN24HPvXGTfraTiPXwy5c37H+SDVKd630wLm7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h8/xWMan; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=eVabj3mg08PxGiBsEKX8R6pzN0locT2LI20ct/ehWAWXYjr8UuerDEQTfRE6fmjPORw5lYdZF9YVp/aQ95WYj8dHSfejXHuChgSXp2hNf1a3LK/Qm4cI7SwjaiE1BpDoCJr082LMG07GSdRK8OL6lWLRHYEpWHDwOd3G6KL795U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Aqr8xO0Z; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h8/xWMan"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Aqr8xO0Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730175762; x=1761711762;
+  t=1730176362; x=1761712362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j1CLOA9NkpmFEOzVGWHg2QqsOkrgxxP8vNf5oR1cZwM=;
-  b=h8/xWMansLihdcwD/GKYamm93d59QwzJVLtHgUpSPODmpbBUiQteCsEM
-   w6bTLy3F4GKuSLzhjBWFmrLDxSeZnd97ODGpwcoOYapZW2PJiqxnEKFOY
-   JxSjofCDJaqqrVzPtcsQXsIG7GTHFkKVSFhun1Fxkf3sGUT/SmAMrlqbA
-   kvSW8bg3gK+dKVNceXiABg+0EVTC1A7HXXhGe+JdtB79B2Q1fN8W4jLVw
-   Asqq6vhEfvPRng6qAlWxkRGm8SRugdZs8eKPOvocdkGxKiqFSjPzN6n3E
-   QAaBR+Vvr7lZM/hyFDBJx3UaRF2VFTDeDJgXoW/QRhIwp/Jb8mcYB/+TK
+  bh=bYV8sP4Y8Ap6HkQP560i/iME9Eqx3QN+SujNGA1+/aQ=;
+  b=Aqr8xO0ZspJXUd3RcZFCn3v+BOmqTCP62gTgC1Ln6voNT3g8hcGfLbaE
+   ameFwW5/OncKvKbwBGT+Z5R/ArLl5SO2OGPQgcYxsqdDoe2dyScQvmM32
+   2IOWbslaiK+cMBhx7FqLIWVCuRFRqu2JSiagDXoOdfC9ZgSrrU/IftuzP
+   I8d4lRe05Z/uvLmZzPYZDYZadDWqOwC/MA2M3w0pXhrR26VJA1pyyTeQd
+   eUDW2tsCGBevqslyy5yze5djYjFyt8TcfQSNeUvF9mJjb0xbvjpvnmmwH
+   /eE9BMgYVVGTnWCxLPC/IEo2SeI8Q36QYlgN8pgrLnvzSC1pQ7J71TPUr
    A==;
-X-CSE-ConnectionGUID: fSUdWg27SMWTNrZtwUGQlw==
-X-CSE-MsgGUID: 0bmeELPuQIeFrQWbCBdrcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="30010079"
+X-CSE-ConnectionGUID: OkisjV1xRKaq8wKgPGWjSQ==
+X-CSE-MsgGUID: I4vtjy9HQp+BFS7QR4oPbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29906148"
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="30010079"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 21:22:41 -0700
-X-CSE-ConnectionGUID: 5NaWhoi9TZyDGysYZywEsg==
-X-CSE-MsgGUID: m4QT34e0SXuUlSAiEUfPWA==
+   d="scan'208";a="29906148"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 21:32:42 -0700
+X-CSE-ConnectionGUID: HpUqefYqQwSSHnc5WLKJNA==
+X-CSE-MsgGUID: NH7mpeb+QwCnbj3+NeHkSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="105171715"
+   d="scan'208";a="85787660"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Oct 2024 21:22:40 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Oct 2024 21:32:41 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5dkc-000dEg-2C;
-	Tue, 29 Oct 2024 04:22:38 +0000
-Date: Tue, 29 Oct 2024 12:22:05 +0800
+	id 1t5duJ-000dFQ-0U;
+	Tue, 29 Oct 2024 04:32:39 +0000
+Date: Tue, 29 Oct 2024 12:32:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>
-Subject: [boqun:lockdep-for-tip 5/5] error[E0599]: no method named `try_lock`
- found for struct `Lock` in the current scope
-Message-ID: <202410291211.4JnU6G41-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_5 21/26]
+ kernel/events/uprobes.c:680:16: sparse: sparse: incorrect type in return
+ expression (different base types)
+Message-ID: <202410291216.3265q3ob-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,71 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/boqun/linux.git lockdep-for-tip
-head:   0070c072c1b278f99047ab720e93406ad1359e73
-commit: 0070c072c1b278f99047ab720e93406ad1359e73 [5/5] rust: sync: Add global lock support
-config: x86_64-randconfig-101-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291211.4JnU6G41-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_5
+head:   748f02be1adc50c8aea1e580791e8085f8713c07
+commit: 0ec2293dc6f5526b57f0f431643dbfbbddc5cd51 [21/26] uprobes: Add mapping for optimized uprobe trampolines
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291216.3265q3ob-lkp@intel.com/config)
 compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291211.4JnU6G41-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291216.3265q3ob-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410291211.4JnU6G41-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291216.3265q3ob-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/events/uprobes.c:680:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int @@
+   kernel/events/uprobes.c:680:16: sparse:     expected restricted vm_fault_t
+   kernel/events/uprobes.c:680:16: sparse:     got int
+   kernel/events/uprobes.c:2215:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/events/uprobes.c:2215:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/events/uprobes.c:2215:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/events/uprobes.c:2217:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/events/uprobes.c:2217:35: sparse:     expected struct spinlock [usertype] *lock
+   kernel/events/uprobes.c:2217:35: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/events/uprobes.c:2596:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/events/uprobes.c:2596:31: sparse:     expected struct spinlock [usertype] *lock
+   kernel/events/uprobes.c:2596:31: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/events/uprobes.c:2598:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   kernel/events/uprobes.c:2598:33: sparse:     expected struct spinlock [usertype] *lock
+   kernel/events/uprobes.c:2598:33: sparse:     got struct spinlock [noderef] __rcu *
+   kernel/events/uprobes.c: note: in included file:
+   include/linux/rmap.h:703:28: sparse: sparse: context imbalance in '__replace_page' - unexpected unlock
+   kernel/events/uprobes.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   kernel/events/uprobes.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
+   include/linux/rbtree.h:74:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   include/linux/rbtree.h:74:9: sparse:    struct rb_node [noderef] __rcu *
+   include/linux/rbtree.h:74:9: sparse:    struct rb_node *
 
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning generated.
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning generated.
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   rust/core.o: warning: objtool: asan.module_ctor+0xd: call without frame pointer save/setup
-   rust/core.o: warning: objtool: asan.module_dtor+0xd: call without frame pointer save/setup
-   rust/compiler_builtins.o: warning: objtool: asan.module_ctor+0xd: call without frame pointer save/setup
-   rust/compiler_builtins.o: warning: objtool: asan.module_dtor+0xd: call without frame pointer save/setup
-   rust/alloc.o: warning: objtool: asan.module_ctor+0xd: call without frame pointer save/setup
-   rust/alloc.o: warning: objtool: asan.module_dtor+0xd: call without frame pointer save/setup
->> error[E0599]: no method named `try_lock` found for struct `Lock` in the current scope
-   --> rust/kernel/sync/lock/global.rs:90:31
-   |
-   90  |               inner: self.inner.try_lock()?,
-   |                                 ^^^^^^^^
-   |
-   ::: rust/kernel/init/macros.rs:822:9
-   |
-   822 | /         $vis struct $name <$($decl_generics)*>
-   823 | |         where $($whr)*
-   824 | |         {
-   825 | |             $($fields)*
-   826 | |         }
-   | |_________- method `try_lock` not found for this struct
-   |
-   help: there is a method `lock` with a similar name
-   |
-   90  |             inner: self.inner.lock()?,
-   |                               ~~~~
+vim +680 kernel/events/uprobes.c
+
+   665	
+   666	static vm_fault_t tramp_fault(const struct vm_special_mapping *sm,
+   667				      struct vm_area_struct *vma, struct vm_fault *vmf)
+   668	{
+   669		struct hlist_head *head = &vma->vm_mm->uprobes_state.tramp_head;
+   670		struct tramp_area *area;
+   671	
+   672		hlist_for_each_entry(area, head, node) {
+   673			if (vma->vm_start == area->vaddr) {
+   674				vmf->page = area->page;
+   675				get_page(vmf->page);
+   676				return 0;
+   677			}
+   678		}
+   679	
+ > 680		return -EINVAL;
+   681	}
+   682	
 
 -- 
 0-DAY CI Kernel Test Service
