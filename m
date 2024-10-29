@@ -1,43 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6845879F5
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 13:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3798E205E1A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 13:50:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730209260; cv=none; b=BmYa2d25rAIR15WliIHuqr31xuH7oOiISqe2+OEMeTFhlgoB/TYZA/LP2nIz0nZnzUDDfjKQ7hA/wFsUT3g9UFNvT8APZ+y8SKU8W3LkkHrtavE9oQou/pS94Vf0P7GRIGG3+KQmXiatL3A+gJXfNKBB3XLXuvqiXaMklVWUTYI=
+	t=1730209830; cv=none; b=QsTR9JiuYgKVWVQbBGUtyYCLFpNO1smN0GWqwqAwz8u3Gn1PRbp88rwW+0tBu2XaNNpXfePECS2xKvVM2/mZZQiSyVdN4rfZIGBtmRt4Nn8lYKbCw9+j7gO5GvnUrlwy5onjKOaWWjgjhPNqf9Y1KLdkFUMkegp8x6NdwMgMtfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730209260; c=relaxed/simple;
-	bh=+c/h6akvA6TvmQbw6cbZzllMdiCa5pVCV5JxnEmpmQE=;
+	s=arc-20240116; t=1730209830; c=relaxed/simple;
+	bh=G5Lw+FbqM7au682KXVrc4WENE/qBbvHLKc4qq77sEfw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KMtP9aRI80LdqKGRL0I+/WEr9W6esYjYQGqYULTKLOyfGdjnbqajpJj7iky2cl+oiJoBX3h25NPRNw6XbWNDMeZ3eBPh4ExrdDDOH/NFhGB3me803PoPSE06/qC5NEW6BmeNGO7mPaw+vjYnSDRTZsNJqtg0H0f23YPjnBU5Wws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e9a930S3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=patrMRYt6Zmo8mz4FSDmJ8/G+u+VjLw6ID6V8JcHjEqVQKgGNyNy20+Q1sQV1TbQRQqiY8aoiHgc/x16u8waG0lGDQ0VJdKvGyepVQUkYd1J5tKE6oDTATYbFCH31jT1OigHrdN5JQUIWVRixa1hO8qqyj0cswfBhOhBsuIcWek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E1nw2x+z; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e9a930S3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D24AC4CEE3;
-	Tue, 29 Oct 2024 13:41:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730209260;
-	bh=+c/h6akvA6TvmQbw6cbZzllMdiCa5pVCV5JxnEmpmQE=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=e9a930S3gk04m4Tcxqz7DgdFnEOR19VIPI7XG5/jKGJjoLGCOdFbGrV+IQkf2SDIx
-	 X15wafOvTmIuxRxYcu6piXQdYJ6bruEpStBL3v87a60CBqb8ja7K707R/X1lSqU7PC
-	 O7VLT+URAwF/AWyZYhCwY9h5r69PQGfGzju7g0UY1vHA+TUbL+LmgayvSjm512qHc6
-	 OMeRUW8I9BNwsKvBuj9si8MODc7R8goUakTSP+laTfoAMVKA4AyqeafQfSR0vmFmbo
-	 QiDeC5sN4Uy079qCoWuqIaYtWF12wRJkYRvWIqKnup8v/M8wlUWYydrjAKdGRzRzov
-	 BlqHiIberr3ww==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id D4093CE0A48; Tue, 29 Oct 2024 06:40:59 -0700 (PDT)
-Date: Tue, 29 Oct 2024 06:40:59 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [paulmckrcu:dev.2024.10.27b 30/35]
- include/linux/rcupdate_wait.h:73:43: error: 'struct task_struct' has no
- member named 'rcu_node_entry'
-Message-ID: <78daba3e-56b0-4081-a4ba-7e71936a387a@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <202410291131.mflSojdy-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E1nw2x+z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730209828; x=1761745828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G5Lw+FbqM7au682KXVrc4WENE/qBbvHLKc4qq77sEfw=;
+  b=E1nw2x+zL/TmvVLRCuCoYWO70pXWs/95DIavRQiQK8IhZQ9k/6EGRJLt
+   Ohm/0vLeOvZK95UojvSdUsKN5henrH5yqY7nzag5vYLoO+a9yHP8SP7x9
+   y+J9uL7FyfQHt5letSj8sIbJdPviiS6tAu3mbhmXXb74tF40gmtJq2I7l
+   U5MYe9rK99QmEY6jt1xe7jDIVMluPrRzpQlGA0K4VjZcHTQ/cFV4zEkII
+   7e830Q5B2OFqcpuMhjqo9vNROwxADiXTgryzXSE13uxn5ZBykJ/hniyEh
+   cpa+RW5vTSgpAfG0XaFUvdRss+GohetZKa3SgFE7ZoBhGvt11YKm/xPlh
+   w==;
+X-CSE-ConnectionGUID: yeDeFxfcSsCRXp0Gcqsacw==
+X-CSE-MsgGUID: 76VO6FumQu24Hv115ah3cA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="33773958"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="33773958"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 06:50:06 -0700
+X-CSE-ConnectionGUID: 4BQIEO7JSqOUynOWn5VCLg==
+X-CSE-MsgGUID: i3xMzVB2Q8W+C+U0bcf+6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="82111374"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2024 06:50:02 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5mbf-000dim-1H;
+	Tue, 29 Oct 2024 13:49:59 +0000
+Date: Tue, 29 Oct 2024 21:49:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jerome Brunet <jbrunet@baylibre.com>, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Patrick Rudolph <patrick.rudolph@9elements.com>,
+	Naresh Solanki <naresh.solanki@9elements.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-i2c@vger.kernel.org,
+	Vaishnav Achath <vaishnav.a@ti.com>
+Subject: Re: [PATCH v3 6/6] hwmon: (pmbus/tps25990): add initial support
+Message-ID: <202410292137.CftTdTLk-lkp@intel.com>
+References: <20241024-tps25990-v3-6-b6a6e9d4b506@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,69 +73,255 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202410291131.mflSojdy-lkp@intel.com>
+In-Reply-To: <20241024-tps25990-v3-6-b6a6e9d4b506@baylibre.com>
 
-On Tue, Oct 29, 2024 at 11:19:40AM +0800, kernel test robot wrote:
-> tree:   https://github.com/paulmckrcu/linux dev.2024.10.27b
-> head:   452a4107123b99087cd0bed226f61436ca9fdd24
-> commit: 0074845ef7cfbfe41a72bf5561edc18b90b67504 [30/35] rcutorture: Check preemption for failing reader
-> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241029/202410291131.mflSojdy-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291131.mflSojdy-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410291131.mflSojdy-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from mm/filemap.c:48:
->    include/linux/rcupdate_wait.h: In function 'has_rcu_reader_blocked':
-> >> include/linux/rcupdate_wait.h:73:43: error: 'struct task_struct' has no member named 'rcu_node_entry'
->       73 |                 return list_empty(&current->rcu_node_entry);
->          |                                           ^~
-> 
-> 
-> vim +73 include/linux/rcupdate_wait.h
-> 
->     67	
->     68	// Has the current task blocked within its current RCU read-side
->     69	// critical section?
->     70	static inline bool has_rcu_reader_blocked(void)
->     71	{
->     72		if (IS_ENABLED(CONFIG_PREEMPT_RCU))
->   > 73			return list_empty(&current->rcu_node_entry);
->     74		else
->     75			return false;
->     76	}
->     77	
+Hi Jerome,
 
-Ah, yes, ->rcu_nod_entry is not always defined.  Good catch, thank you!
+kernel test robot noticed the following build errors:
 
-Does the diff shown below fix things for you?
+[auto build test ERROR on 516ddbfef736c843866a0b2db559ce89b40ce378]
 
-							Thanx, Paul
+url:    https://github.com/intel-lab-lkp/linux/commits/Jerome-Brunet/hwmon-pmbus-core-allow-drivers-to-override-WRITE_PROTECT/20241025-021525
+base:   516ddbfef736c843866a0b2db559ce89b40ce378
+patch link:    https://lore.kernel.org/r/20241024-tps25990-v3-6-b6a6e9d4b506%40baylibre.com
+patch subject: [PATCH v3 6/6] hwmon: (pmbus/tps25990): add initial support
+config: i386-randconfig-061-20241029 (https://download.01.org/0day-ci/archive/20241029/202410292137.CftTdTLk-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292137.CftTdTLk-lkp@intel.com/reproduce)
 
-------------------------------------------------------------------------
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410292137.CftTdTLk-lkp@intel.com/
 
-diff --git a/include/linux/rcupdate_wait.h b/include/linux/rcupdate_wait.h
-index 5cfe7586a9f62..c51235d23ebdb 100644
---- a/include/linux/rcupdate_wait.h
-+++ b/include/linux/rcupdate_wait.h
-@@ -69,10 +69,11 @@ static inline void cond_resched_rcu(void)
- // critical section?
- static inline bool has_rcu_reader_blocked(void)
- {
--	if (IS_ENABLED(CONFIG_PREEMPT_RCU))
--		return list_empty(&current->rcu_node_entry);
--	else
--		return false;
-+#ifdef CONFIG_PREEMPT_RCU
-+	return list_empty(&current->rcu_node_entry);
-+#else
-+	return false;
-+#endif
- }
- 
- #endif /* _LINUX_SCHED_RCUPDATE_WAIT_H */
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/hwmon/pmbus/tps25990.c:9:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/tps25990.c:201:14: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     201 |                 ret = 1 << FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
+         |                            ^
+>> drivers/hwmon/pmbus/tps25990.c:260:11: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     260 |                                              FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
+         |                                              ^
+   1 warning and 2 errors generated.
+
+
+vim +/FIELD_GET +201 drivers/hwmon/pmbus/tps25990.c
+
+    85	
+    86	static int tps25990_read_word_data(struct i2c_client *client,
+    87					   int page, int phase, int reg)
+    88	{
+    89		int ret;
+    90	
+    91		switch (reg) {
+    92		case PMBUS_VIRT_READ_VIN_MAX:
+    93			ret = pmbus_read_word_data(client, page, phase,
+    94						   TPS25990_READ_VIN_PEAK);
+    95			break;
+    96	
+    97		case PMBUS_VIRT_READ_VIN_MIN:
+    98			ret = pmbus_read_word_data(client, page, phase,
+    99						   TPS25990_READ_VIN_MIN);
+   100			break;
+   101	
+   102		case PMBUS_VIRT_READ_VIN_AVG:
+   103			ret = pmbus_read_word_data(client, page, phase,
+   104						   TPS25990_READ_VIN_AVG);
+   105			break;
+   106	
+   107		case PMBUS_VIRT_READ_VOUT_MIN:
+   108			ret = pmbus_read_word_data(client, page, phase,
+   109						   TPS25990_READ_VOUT_MIN);
+   110			break;
+   111	
+   112		case PMBUS_VIRT_READ_VOUT_AVG:
+   113			ret = pmbus_read_word_data(client, page, phase,
+   114						   TPS25990_READ_VOUT_AVG);
+   115			break;
+   116	
+   117		case PMBUS_VIRT_READ_IIN_AVG:
+   118			ret = pmbus_read_word_data(client, page, phase,
+   119						   TPS25990_READ_IIN_AVG);
+   120			break;
+   121	
+   122		case PMBUS_VIRT_READ_IIN_MAX:
+   123			return TPS25990_READ_IIN_PEAK;
+   124			ret = pmbus_read_word_data(client, page, phase,
+   125						   TPS25990_READ_IIN_PEAK);
+   126			break;
+   127	
+   128		case PMBUS_VIRT_READ_TEMP_AVG:
+   129			ret = pmbus_read_word_data(client, page, phase,
+   130						   TPS25990_READ_TEMP_AVG);
+   131			break;
+   132	
+   133		case PMBUS_VIRT_READ_TEMP_MAX:
+   134			ret = pmbus_read_word_data(client, page, phase,
+   135						   TPS25990_READ_TEMP_PEAK);
+   136			break;
+   137	
+   138		case PMBUS_VIRT_READ_PIN_AVG:
+   139			ret = pmbus_read_word_data(client, page, phase,
+   140						   TPS25990_READ_PIN_AVG);
+   141			break;
+   142	
+   143		case PMBUS_VIRT_READ_PIN_MAX:
+   144			ret = pmbus_read_word_data(client, page, phase,
+   145						   TPS25990_READ_PIN_PEAK);
+   146			break;
+   147	
+   148		case PMBUS_VIRT_READ_VMON:
+   149			ret = pmbus_read_word_data(client, page, phase,
+   150						   TPS25990_READ_VAUX);
+   151			break;
+   152	
+   153		case PMBUS_VIN_UV_WARN_LIMIT:
+   154		case PMBUS_VIN_UV_FAULT_LIMIT:
+   155		case PMBUS_VIN_OV_WARN_LIMIT:
+   156		case PMBUS_VOUT_UV_WARN_LIMIT:
+   157		case PMBUS_IIN_OC_WARN_LIMIT:
+   158		case PMBUS_OT_WARN_LIMIT:
+   159		case PMBUS_OT_FAULT_LIMIT:
+   160		case PMBUS_PIN_OP_WARN_LIMIT:
+   161			/*
+   162			 * These registers provide an 8 bits value instead of a
+   163			 * 10bits one. Just shifting twice the register value is
+   164			 * enough to make the sensor type conversion work, even
+   165			 * if the datasheet provides different m, b and R for
+   166			 * those.
+   167			 */
+   168			ret = pmbus_read_word_data(client, page, phase, reg);
+   169			if (ret < 0)
+   170				break;
+   171			ret <<= TPS25990_8B_SHIFT;
+   172			break;
+   173	
+   174		case PMBUS_VIN_OV_FAULT_LIMIT:
+   175			ret = pmbus_read_word_data(client, page, phase, reg);
+   176			if (ret < 0)
+   177				break;
+   178			ret = DIV_ROUND_CLOSEST(ret * TPS25990_VIN_OVF_NUM,
+   179						TPS25990_VIN_OVF_DIV);
+   180			ret += TPS25990_VIN_OVF_OFF;
+   181			break;
+   182	
+   183		case PMBUS_IIN_OC_FAULT_LIMIT:
+   184			/*
+   185			 * VIREF directly sets the over-current limit at which the eFuse
+   186			 * will turn the FET off and trigger a fault. Expose it through
+   187			 * this generic property instead of a manufacturer specific one.
+   188			 */
+   189			ret = pmbus_read_byte_data(client, page, TPS25990_VIREF);
+   190			if (ret < 0)
+   191				break;
+   192			ret = DIV_ROUND_CLOSEST(ret * TPS25990_IIN_OCF_NUM,
+   193						TPS25990_IIN_OCF_DIV);
+   194			ret += TPS25990_IIN_OCF_OFF;
+   195			break;
+   196	
+   197		case PMBUS_VIRT_SAMPLES:
+   198			ret = pmbus_read_byte_data(client, page, TPS25990_PK_MIN_AVG);
+   199			if (ret < 0)
+   200				break;
+ > 201			ret = 1 << FIELD_GET(PK_MIN_AVG_AVG_CNT, ret);
+   202			break;
+   203	
+   204		case PMBUS_VIRT_RESET_TEMP_HISTORY:
+   205		case PMBUS_VIRT_RESET_VIN_HISTORY:
+   206		case PMBUS_VIRT_RESET_IIN_HISTORY:
+   207		case PMBUS_VIRT_RESET_PIN_HISTORY:
+   208		case PMBUS_VIRT_RESET_VOUT_HISTORY:
+   209			ret = 0;
+   210			break;
+   211	
+   212		default:
+   213			ret = -ENODATA;
+   214			break;
+   215		}
+   216	
+   217		return ret;
+   218	}
+   219	
+   220	static int tps25990_write_word_data(struct i2c_client *client,
+   221					    int page, int reg, u16 value)
+   222	{
+   223		int ret;
+   224	
+   225		switch (reg) {
+   226		case PMBUS_VIN_UV_WARN_LIMIT:
+   227		case PMBUS_VIN_UV_FAULT_LIMIT:
+   228		case PMBUS_VIN_OV_WARN_LIMIT:
+   229		case PMBUS_VOUT_UV_WARN_LIMIT:
+   230		case PMBUS_IIN_OC_WARN_LIMIT:
+   231		case PMBUS_OT_WARN_LIMIT:
+   232		case PMBUS_OT_FAULT_LIMIT:
+   233		case PMBUS_PIN_OP_WARN_LIMIT:
+   234			value >>= TPS25990_8B_SHIFT;
+   235			value = clamp_val(value, 0, 0xff);
+   236			ret = pmbus_write_word_data(client, page, reg, value);
+   237			break;
+   238	
+   239		case PMBUS_VIN_OV_FAULT_LIMIT:
+   240			value -= TPS25990_VIN_OVF_OFF;
+   241			value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_VIN_OVF_DIV,
+   242						  TPS25990_VIN_OVF_NUM);
+   243			value = clamp_val(value, 0, 0xf);
+   244			ret = pmbus_write_word_data(client, page, reg, value);
+   245			break;
+   246	
+   247		case PMBUS_IIN_OC_FAULT_LIMIT:
+   248			value -= TPS25990_IIN_OCF_OFF;
+   249			value = DIV_ROUND_CLOSEST(((unsigned int)value) * TPS25990_IIN_OCF_DIV,
+   250						TPS25990_IIN_OCF_NUM);
+   251			value = clamp_val(value, 0, 0x3f);
+   252			ret = pmbus_write_byte_data(client, page, TPS25990_VIREF, value);
+   253			break;
+   254	
+   255		case PMBUS_VIRT_SAMPLES:
+   256			value = clamp_val(value, 1, 1 << PK_MIN_AVG_AVG_CNT);
+   257			value = ilog2(value);
+   258			ret = pmbus_update_byte_data(client, page, TPS25990_PK_MIN_AVG,
+   259						     PK_MIN_AVG_AVG_CNT,
+ > 260						     FIELD_PREP(PK_MIN_AVG_AVG_CNT, value));
+   261			break;
+   262	
+   263		case PMBUS_VIRT_RESET_TEMP_HISTORY:
+   264		case PMBUS_VIRT_RESET_VIN_HISTORY:
+   265		case PMBUS_VIRT_RESET_IIN_HISTORY:
+   266		case PMBUS_VIRT_RESET_PIN_HISTORY:
+   267		case PMBUS_VIRT_RESET_VOUT_HISTORY:
+   268			/*
+   269			 * TPS25990 has history resets based on MIN/AVG/PEAK instead of per
+   270			 * sensor type. Exposing this quirk in hwmon is not desirable so
+   271			 * reset MIN, AVG and PEAK together. Even is there effectively only
+   272			 * one reset, which resets everything, expose the 5 entries so
+   273			 * userspace is not required map a sensor type to another to trigger
+   274			 * a reset
+   275			 */
+   276			ret = pmbus_update_byte_data(client, 0, TPS25990_PK_MIN_AVG,
+   277						     PK_MIN_AVG_RST_MASK,
+   278						     PK_MIN_AVG_RST_MASK);
+   279			break;
+   280	
+   281		default:
+   282			ret = -ENODATA;
+   283			break;
+   284		}
+   285	
+   286		return ret;
+   287	}
+   288	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
