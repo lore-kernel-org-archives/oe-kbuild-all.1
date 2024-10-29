@@ -1,180 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD3201922FA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 16:45:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 814141953A1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 17:03:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730220324; cv=none; b=r6KO11XxWu3XSHM3c39NbAHdf3V1/GoxxY+pq4/kE2V6axOKt7YIhEvzNlP9q3JnC4gHL9NjLF2NKP2g/e6xc/JkHqY5S077m1I2H7YmuVBxzKVrHOc1whFzzQp6Q/O3I8L/bI+jW6HF1e+bp2m3CRJdeJqnm6as6Hq4JZsF1DI=
+	t=1730221425; cv=none; b=ris2xlhGwzaJgurbWcnlEwHdHrjlirtuF+Dv0WtXMlWunwvS6vlWQAfITPJSQs4zfUvmxWA1jQSkVowdTi4VfW03wVAMW3kYr31U+N9s0r/OFhon2EYdvMQevmV+o3pSqoQpFuSqwvBy+dCO8jYD0MbG+G+OxARScTCgGCasPg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730220324; c=relaxed/simple;
-	bh=3irfHkvHkXOQpLdNnNWaQVftzhtNLXsttqyWNNzB0LQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M1W5m7kc7wwGCAxZX3D10t9ZNo4lzD4JzAHOJm6oTZ8HlYzj/5NN8W6PeyAxjJ5jaSB/gYYld8lGR2t0A2Cz2gfvhgwnWjeHJl0uhMs31QzMrZBfAEIcTDVJTns+uz/P2LuP29aINhsiWzfILONkv1/RDwvSHxMAvLd7JAQSU/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YX3/uLci; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730221425; c=relaxed/simple;
+	bh=cndgThwCRKYDmkJ4IOysDIvGRup4a8wjPzQR9TPE9IM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ugj9oW66ow80Q6iPJWFBiDMNQD914oCT/QkAYq/6w5knYk3Lfo9yCVyyqspt7men2ZMgWRzVK96NI54bgt+T36FAvxhK5Cn9Q9QBeq2nyo1Xihf72Bjhr1Yd8Bjpj+ndjNDUIM2holRxOTnsVtYewd5BWelYL2OqfeXEfJgd4ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RhCRkzXv; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YX3/uLci"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730220322; x=1761756322;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3irfHkvHkXOQpLdNnNWaQVftzhtNLXsttqyWNNzB0LQ=;
-  b=YX3/uLcif/cc0w9aLk6ZTJMgz7o/skk/hA+Jdr2jxrkKzJev9F7QBCNf
-   7/rPyJ/gQV1L1GHUbfYMEGijNNRUXSbYCzZbDooK2tSEPYmufMESzGtuc
-   sLYYPiDuw03TnOANGqi6wZVsCzSbt+1GYbkhCfW/cSOPTTaAsVAicX6jk
-   b1ShBiYXPH8ba19XozQ68jb4qjV6ei0F13elUFnDTsQSF5bznq3KSeTPp
-   Bx2AVq9TUJFsf50jfiHlH6p2avTfr/kIkwlkSJyZDnGA9ESywL8alH81y
-   x1cWqeouXHhh8BL3IQM94iKpTcvXhWHa7iV4PWDDaeSveBcd/sr26rQFs
-   w==;
-X-CSE-ConnectionGUID: bHWBh5IvQ2anBgH7D54Ihg==
-X-CSE-MsgGUID: Fkm6x1xETmqyC2LpfLG7Jg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40975629"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40975629"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 09:45:22 -0700
-X-CSE-ConnectionGUID: Zeoxrp/AQOm3Wlz33k756Q==
-X-CSE-MsgGUID: G5poxBjoSgSAl1FvvUyWGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81574627"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 29 Oct 2024 09:45:18 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5pLH-000duL-1w;
-	Tue, 29 Oct 2024 16:45:15 +0000
-Date: Wed, 30 Oct 2024 00:44:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1423/2444]
- drivers/xen/swiotlb-xen.c:450:17: error: implicit declaration of function
- 'swiotlb_tbl_sync_single'; did you mean 'swiotlb_tbl_map_single'?
-Message-ID: <202410300027.KeOEXbRZ-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RhCRkzXv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730221422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VgDDqHgwK2vnx9vpFandCAj8GwkYbm2fjxiXRjakfu0=;
+	b=RhCRkzXv+gi+by0bVyhNafGKI2HrecRoWFi+y0dU5J+RdUwmXhina/VJRZ21Vj7uucbNFo
+	nJDGWEz8y5A4TXiifvlwETBNvtM3/rMo4sAFycCUS8dHEPyzF85SyWMNvncjfEQ5fxaCmY
+	9gLYIbco4XgP7iE8FW2ToFtvbOHVG3w=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-683-BZJ5ChHtOFm1y-9nL02FQg-1; Tue, 29 Oct 2024 13:03:41 -0400
+X-MC-Unique: BZJ5ChHtOFm1y-9nL02FQg-1
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6cbe4fc0aa7so92326766d6.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 10:03:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730221421; x=1730826221;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VgDDqHgwK2vnx9vpFandCAj8GwkYbm2fjxiXRjakfu0=;
+        b=omZmey0iWoggvSsv8ervaMycgNjXdt41MZRMJdpVI1tZ+6suS334eAcanjn/QAFWBR
+         yCIkP26JcGi0KsLVrzD6whN7q86wAx2OtYANOvfTDW7P/OGn0PLahWPtULQTXqMzf0nS
+         FG8ozkD71H2AxpVo+0gT92YO7ZbtieqyHjAlHBU74gbUDXhhgAy44lYo4saQtrEj94nH
+         AtPG5CntOpunb3Mh6PFEQ2/ThWoE+LUAS0VFZPkM0oWT7kC1deV8n+hijWPirTnUVXtC
+         jIk4L4tAtfoUwhw/n9l9qamRBDov5WKb1GqT8+/DN8HCbZemCMfLu9CVe70vX+XuViDO
+         OsDw==
+X-Forwarded-Encrypted: i=1; AJvYcCWzcutryXh+J5L64lXgamrG0R7LEwH3Tuj9ZEVOPZNtK+hu34U+IdFt2CYZQ2fwYicaij0Vc8l6blshpHQT@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjxZWX+TeLIo847TQiBq42UoayWWGvZHHMG4znr8wRD//2jfJk
+	5Hd5wd6QvJpTBcp+I8AUfQCcDq/3Om1Y8htXFYal3g9H1/nmvGmUSfQrL7TERE0NXjVucXeGemU
+	yJGZkl76BrMMz+vpd+SbvJkgG7HhnOK8x2pLTS8uQHFgyQyzhiNvbihayXExLbb4=
+X-Received: by 2002:a05:622a:199c:b0:460:9ec3:1b80 with SMTP id d75a77b69052e-4613c0305a2mr204013681cf.27.1730221419179;
+        Tue, 29 Oct 2024 10:03:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGFnEdmHELhucGC4RMoKvtlOdJj1FTZxMhoHHfkOL0T1MnusgnPAKgrKNr4PWgjCRPPI7Jvww==
+X-Received: by 2002:a05:622a:199c:b0:460:9ec3:1b80 with SMTP id d75a77b69052e-4613c0305a2mr204012071cf.27.1730221417287;
+        Tue, 29 Oct 2024 10:03:37 -0700 (PDT)
+Received: from [192.168.1.165] ([70.22.187.239])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4613213a2besm45942891cf.29.2024.10.29.10.03.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Oct 2024 10:03:37 -0700 (PDT)
+Message-ID: <1c0beb9b-6b90-4c92-a4f3-f228dc0aa527@redhat.com>
+Date: Tue, 29 Oct 2024 13:03:35 -0400
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn:
+ inconsistent returns '&pool->lock'.
+To: Dan Carpenter <dan.carpenter@linaro.org>, Philip Li <philip.li@intel.com>
+Cc: oe-kbuild@lists.linux.dev, Mike Snitzer <snitzer@kernel.org>,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <717e8949-55c4-4461-8951-3e582e9b77ef@stanley.mountain>
+ <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
+ <ZyBQa45RTWXiXJke@rli9-mobl> <ZyCLo51ZyjxX7eQK@rli9-mobl>
+ <13937d22-46ac-480a-8956-f89a0fd295ac@stanley.mountain>
+ <68866f17-f327-4df8-ae17-dfcc50362d4a@stanley.mountain>
+From: Matthew Sakai <msakai@redhat.com>
+In-Reply-To: <68866f17-f327-4df8-ae17-dfcc50362d4a@stanley.mountain>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 87e67752254e20f1a1d6e1b928cba07916e739a9 [1423/2444] swiotlb: split swiotlb_tbl_sync_single
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241030/202410300027.KeOEXbRZ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300027.KeOEXbRZ-lkp@intel.com/reproduce)
+Okay. Just to restate, what I took away from this thread is
+1) The current code provokes a warning.
+2) When bisecting, the bot found a (different) warning from the patch 
+introducing this code, and so the mail points out that warning instead 
+of the warning in newer code.
+3) The warning is showing up now because new checking allows the bot to 
+notice problems it didn't notice before.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300027.KeOEXbRZ-lkp@intel.com/
+The commit I cited fixed warning from sparse, but I don't think we 
+looked at smatch. This particular code does not have a locking problem, 
+but the way it's spelled makes it difficult for static tools to 
+understand that there is not a problem. I'll take a look and see if 
+there's anything further I can do address the actual current warning.
 
-All errors (new ones prefixed by >>):
+Thanks for your explanation. I think I have a much better understanding 
+of what this bot it doing now, I'll keep it in mind when we get warning 
+in the future.
 
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_map_page':
-   drivers/xen/swiotlb-xen.c:406:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     406 |                 swiotlb_tbl_unmap_single(dev, map, size, size, dir,
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/include/asm/swiotlb.h:5,
-                    from arch/x86/include/asm/dma-mapping.h:13,
-                    from include/linux/dma-mapping.h:202,
-                    from include/linux/dma-direct.h:9,
-                    from drivers/xen/swiotlb-xen.c:30:
-   include/linux/swiotlb.h:48:13: note: declared here
-      48 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_unmap_page':
-   drivers/xen/swiotlb-xen.c:437:17: error: too many arguments to function 'swiotlb_tbl_unmap_single'
-     437 |                 swiotlb_tbl_unmap_single(hwdev, paddr, size, size, dir, attrs);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/swiotlb.h:48:13: note: declared here
-      48 | extern void swiotlb_tbl_unmap_single(struct device *hwdev,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_sync_single_for_cpu':
->> drivers/xen/swiotlb-xen.c:450:17: error: implicit declaration of function 'swiotlb_tbl_sync_single'; did you mean 'swiotlb_tbl_map_single'? [-Werror=implicit-function-declaration]
-     450 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 swiotlb_tbl_map_single
->> drivers/xen/swiotlb-xen.c:450:64: error: 'SYNC_FOR_CPU' undeclared (first use in this function)
-     450 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-         |                                                                ^~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:450:64: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/xen/swiotlb-xen.c: In function 'xen_swiotlb_sync_single_for_device':
->> drivers/xen/swiotlb-xen.c:460:64: error: 'SYNC_FOR_DEVICE' undeclared (first use in this function)
-     460 |                 swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-         |                                                                ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+Matt
 
+On 10/29/24 4:19 AM, Dan Carpenter wrote:
+> On Tue, Oct 29, 2024 at 11:07:07AM +0300, Dan Carpenter wrote:
+>> 3) The kbuild bot detected the bug, but unfortunately the cross function DB
+>>     doesn't scale well enough for the kbuild bot to use so it didn't detect the
+>>     fix.
+> 
+> Aw crud.  It does still print a warning on linux-next actually.
+> Smatch says that we lock "&pool->lock" and unlocked
+> "&pool->discard_limiter->pool->lock".
+> 
+> Anyway.  Points 1 and 4 that we were running new checks on old code and that
+> the code in the email did have a bug are correct.
+> 
+> regards,
+> dan carpenter
+> 
 
-vim +450 drivers/xen/swiotlb-xen.c
-
-063b8271ec8f706 Christoph Hellwig     2019-04-11  416  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  417  /*
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  418   * Unmap a single streaming mode DMA translation.  The dma_addr and size must
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  419   * match what was provided for in a previous xen_swiotlb_map_page call.  All
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  420   * other usages are undefined.
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  421   *
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  422   * After this call, reads by the cpu to the buffer are guaranteed to see
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  423   * whatever the device wrote there.
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  424   */
-bf7954e797cded8 Christoph Hellwig     2019-07-24  425  static void xen_swiotlb_unmap_page(struct device *hwdev, dma_addr_t dev_addr,
-bf7954e797cded8 Christoph Hellwig     2019-07-24  426  		size_t size, enum dma_data_direction dir, unsigned long attrs)
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  427  {
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  428  	phys_addr_t paddr = xen_bus_to_phys(dev_addr);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  429  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  430  	BUG_ON(dir == DMA_NONE);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  431  
-b4dca1512941aa8 Christoph Hellwig     2019-09-05  432  	if (!dev_is_dma_coherent(hwdev) && !(attrs & DMA_ATTR_SKIP_CPU_SYNC))
-09c789996bc487d Christoph Hellwig     2019-11-07  433  		xen_dma_sync_for_cpu(dev_addr, paddr, size, dir);
-6cf054636261ca5 Stefano Stabellini    2013-10-25  434  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  435  	/* NOTE: We use dev_addr here, not paddr! */
-68c608345cc569b Christoph Hellwig     2018-12-06  436  	if (is_xen_swiotlb_buffer(dev_addr))
-3fc1ca00653db63 Lu Baolu              2019-09-06 @437  		swiotlb_tbl_unmap_single(hwdev, paddr, size, size, dir, attrs);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  438  }
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  439  
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  440  static void
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  441  xen_swiotlb_sync_single_for_cpu(struct device *dev, dma_addr_t dma_addr,
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  442  		size_t size, enum dma_data_direction dir)
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  443  {
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  444  	phys_addr_t paddr = xen_bus_to_phys(dma_addr);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  445  
-b4dca1512941aa8 Christoph Hellwig     2019-09-05  446  	if (!dev_is_dma_coherent(dev))
-09c789996bc487d Christoph Hellwig     2019-11-07  447  		xen_dma_sync_for_cpu(dma_addr, paddr, size, dir);
-6cf054636261ca5 Stefano Stabellini    2013-10-25  448  
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  449  	if (is_xen_swiotlb_buffer(dma_addr))
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11 @450  		swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_CPU);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  451  }
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  452  
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  453  static void
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  454  xen_swiotlb_sync_single_for_device(struct device *dev, dma_addr_t dma_addr,
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  455  		size_t size, enum dma_data_direction dir)
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  456  {
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  457  	phys_addr_t paddr = xen_bus_to_phys(dma_addr);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  458  
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  459  	if (is_xen_swiotlb_buffer(dma_addr))
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11 @460  		swiotlb_tbl_sync_single(dev, paddr, size, dir, SYNC_FOR_DEVICE);
-2e12dceef3d3fb8 Christoph Hellwig     2019-04-11  461  
-b4dca1512941aa8 Christoph Hellwig     2019-09-05  462  	if (!dev_is_dma_coherent(dev))
-09c789996bc487d Christoph Hellwig     2019-11-07  463  		xen_dma_sync_for_device(dma_addr, paddr, size, dir);
-b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  464  }
-dceb1a6819ab2c8 Christoph Hellwig     2017-05-21  465  
-
-:::::: The code at line 450 was first introduced by commit
-:::::: 2e12dceef3d3fb8d796e384aa242062d1643cad4 swiotlb-xen: simplify the DMA sync method implementations
-
-:::::: TO: Christoph Hellwig <hch@lst.de>
-:::::: CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
