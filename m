@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12AAE1863F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 02:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38021863F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 02:07:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730167287; cv=none; b=XjLUM1OUvmohWidYkeGwOCM4Hxm/b0Jk+nq+ICCdQkn1AlCUnskkMosfbM18CBQTqMIBPimUX/FnDnaCwjPqpU8iBSHeX2+68I7hjfFUWkFURQZ9y6I/zTfSnUpri6jMl/3lTDEpxDXorVUDEK2/5XzvZu4sKHKdgyO00hXJhTk=
+	t=1730167660; cv=none; b=WOnFeibAD2ty+qfYFoaMfAfY0X5kxtefYc5km3A90tgHuqdpA5kK/UKks0lxKGvq74xYjx0VmRWbEo6bfVeQR+My7X+nrpoxGfVAaMgTXrzTdcBL0r8BU6hsjhq3n4htUpUl5HJzukhqqkZk4mNi1pX5dlrhTTiEtLf3qseCqQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730167287; c=relaxed/simple;
-	bh=BiiLUyj9t9Yas5MJU5WFh4TMJF+H7/x/UH/JQiZOAzk=;
+	s=arc-20240116; t=1730167660; c=relaxed/simple;
+	bh=4edhd8Ri8EAXoR1qpX9c9Z2D/i/DIvxr3vKL30EJQKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V9GCOPiL/T5MuyFt4VWd1TnJlO3yujfFjBoGE/rreCj0tloz9C98Sb1++CEFvaucVmyZsjMI4DhRnbHFxugdD36J1IvnYTQm+0O2rhgMQ8EEtJ5c/DDkQyZ9bB440ZtiYzREgJB/SUGiTP74NYHgWp9uA19tXo6DfNjta7rXdjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBCG7Lh3; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=HmsSUR13jwnPAkK55RmZS1kxJIkm4bRHmlXJVPCW7yLEzlDrfxraO/AYDfWgYWukb36I1q5JiotWzE1tbqPt4jzm9NoLDqHkecQXNyC5M4PhfX0cuu9lJD6pasq0BRcZenmnnyLk5KSq5vF8KsIQeVw6CYqSoaDSYEdMeyjcGw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fcRzWojK; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBCG7Lh3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcRzWojK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730167285; x=1761703285;
+  t=1730167659; x=1761703659;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BiiLUyj9t9Yas5MJU5WFh4TMJF+H7/x/UH/JQiZOAzk=;
-  b=VBCG7Lh3qCTPRV5xXCj1Ww9XJdvG/ZCx2jEyCevFj4UK8JVMT7rWjcCE
-   oYWzZR0IhfpykRCdXTtnbum2ORK9EBhvoLVjmo3Se+36r356ZHQAG6StW
-   YDsU9DBUdH8N0WUgRnxDwr3G0eAB/Ve31P0+5E/zDdWGUyWKIXcUdQREa
-   PStaEtxeZ5nQeCF2T1eDoSMNfePAhzUKSnbWqGs/4Ymnoi1fQPUzahaMf
-   kmNskONrzvDADRo6WMeTvFCzGHKwNHH8K5kv07VGe33MuWm+lAxXZXFh2
-   neUPTYZEGu3qeplgCfs1e3InpQhPWA296qWteHY8TWdkGnRLfVRn4yLwZ
-   Q==;
-X-CSE-ConnectionGUID: l87u8x4cRfOChZPLD9QTCQ==
-X-CSE-MsgGUID: x0e7TjE3QZ6+OO7Q3+loiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="33709342"
+  bh=4edhd8Ri8EAXoR1qpX9c9Z2D/i/DIvxr3vKL30EJQKc=;
+  b=fcRzWojKgIgD6QOVWWHkAA/W7c/iBJb9/J82r2gJaFfJMHCzWZiMqwsh
+   hHyJ7TMU78iv+63ee9uS1+aeySSIJTcDSr4cAI4mqcFZtFAS7W/xbEozW
+   4K6GHeGYXHSH/bwF545zA5SJl1QeY1hTE/1JT6BwNz8rsdCo26rJKoKYi
+   j5VXXrxDHlAjUY75mfmBtmpKQlOiHhn1vh9bIPK9uLLRA1u/KeVWVyDex
+   YJUzPRztoJzowqsBf0uXuO6YDdmhACqaVtPcZAUST9dlpsxLDN8Iw7w8C
+   a37nCSAT2eWwigruo3UmNvvWh4Vt7hf/HcpQw98V9va8ooMoVY1zTJtjN
+   w==;
+X-CSE-ConnectionGUID: oWF1AGv8TpmnWr2huoLYxw==
+X-CSE-MsgGUID: WuZ7K5aSS6y7glDAoK3Hrw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29220404"
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="33709342"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 19:01:24 -0700
-X-CSE-ConnectionGUID: dCUByb0kR4eOoJK8S9RvUA==
-X-CSE-MsgGUID: 4ArS2Hj2T9apDvNzCKeMpA==
+   d="scan'208";a="29220404"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 19:07:38 -0700
+X-CSE-ConnectionGUID: ZuBF2SUyTsKNVh6RIq8otw==
+X-CSE-MsgGUID: /u7UWeqkSayOJP7JV1lFSw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="82615229"
+   d="scan'208";a="82133688"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Oct 2024 18:56:37 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Oct 2024 19:07:37 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5bTG-000d8G-2j;
-	Tue, 29 Oct 2024 01:56:34 +0000
-Date: Tue, 29 Oct 2024 09:56:33 +0800
+	id 1t5bdv-000d8y-1B;
+	Tue, 29 Oct 2024 02:07:35 +0000
+Date: Tue, 29 Oct 2024 10:06:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 5435/23883]
- drivers/tty/serial/sc16is7xx.c:1501:1: warning: label 'err_i2c' defined but
- not used
-Message-ID: <202410290956.flJi6dhy-lkp@intel.com>
+Subject: [android-common:android14-kiwi-6.1 1/2] ld.lld: error: undefined
+ symbol: timekeeping_inject_sleeptime64
+Message-ID: <202410291002.DJsZTzAO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +62,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   27399521743732e65e7635fa93bd0cca53981c9e
-commit: 1c30433d9fa5c5b48039990ba214c0e8e199a22d [5435/23883] sc16is7xx: missing unregister/delete driver on error in sc16is7xx_init()
-config: x86_64-randconfig-071-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290956.flJi6dhy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290956.flJi6dhy-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
+head:   331c2794594ccea1f59042924a62d67527b2b228
+commit: bf3f6f01039f7f03350da296935c1f2e2fca7550 [1/2] ANDROID: virtio: virtio_pvclock: initial driver impl
+config: i386-randconfig-053-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291002.DJsZTzAO-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291002.DJsZTzAO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290956.flJi6dhy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291002.DJsZTzAO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/tty/serial/sc16is7xx.c: In function 'sc16is7xx_init':
->> drivers/tty/serial/sc16is7xx.c:1501:1: warning: label 'err_i2c' defined but not used [-Wunused-label]
-    1501 | err_i2c:
-         | ^~~~~~~
-   drivers/tty/serial/sc16is7xx.o: warning: objtool: sc16is7xx_gpio_get()+0x104: sibling call from callable instruction with modified stack frame
-   drivers/tty/serial/sc16is7xx.o: warning: objtool: sc16is7xx_gpio_direction_input()+0x13: sibling call from callable instruction with modified stack frame
-   drivers/tty/serial/sc16is7xx.o: warning: objtool: sc16is7xx_gpio_set()+0x105: sibling call from callable instruction with modified stack frame
-   drivers/tty/serial/sc16is7xx.o: warning: objtool: sc16is7xx_gpio_direction_output()+0x2ba: sibling call from callable instruction with modified stack frame
-   drivers/tty/serial/sc16is7xx.o: warning: objtool: sc16is7xx_set_baud()+0xdf: sibling call from callable instruction with modified stack frame
+>> ld.lld: error: undefined symbol: timekeeping_inject_sleeptime64
+   >>> referenced by virtio_pvclock.c:77 (drivers/virtio/virtio_pvclock.c:77)
+   >>>               drivers/virtio/virtio_pvclock.o:(update_suspend_time) in archive vmlinux.a
 
-
-vim +/err_i2c +1501 drivers/tty/serial/sc16is7xx.c
-
-  1487	
-  1488	#ifdef CONFIG_SERIAL_SC16IS7XX_SPI
-  1489		ret = spi_register_driver(&sc16is7xx_spi_uart_driver);
-  1490		if (ret < 0) {
-  1491			pr_err("failed to init sc16is7xx spi --> %d\n", ret);
-  1492			goto err_spi;
-  1493		}
-  1494	#endif
-  1495		return ret;
-  1496	
-  1497	err_spi:
-  1498	#ifdef CONFIG_SERIAL_SC16IS7XX_I2C
-  1499		i2c_del_driver(&sc16is7xx_i2c_uart_driver);
-  1500	#endif
-> 1501	err_i2c:
-  1502		uart_unregister_driver(&sc16is7xx_uart);
-  1503		return ret;
-  1504	}
-  1505	module_init(sc16is7xx_init);
-  1506	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for NETFILTER_FAMILY_BRIDGE
+   Depends on [n]: NET [=y] && INET [=y] && NETFILTER [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
