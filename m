@@ -1,277 +1,293 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A5E28E7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 06:59:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730185150; cv=none; b=Z5wvsHaCk5Dxn7HLAsYuQHjEPEiWre/77iuckdD1AbyhnVNs4eFQ1ZxScn88XMCaUQqRbc712DodSmKKU0knahqnvS27ZcNKKPXIOQA2jBndL+J5bno8jI2n1PeDL1FBDKhDR5eOHJqGYQ8YoVuReXxmBM6sj4e17kJPX60Ok7M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730185150; c=relaxed/simple;
-	bh=S6QXFoHqckET5JcYfj9TVv42zPNIPNVGx6HbMU2Zz4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cBldIVAKrJLJLq5WegeHC7UZKllrEml/s2KXTJYxvF1C+ilWdRrAmlXeO8eNoOCiUMcrIrhvr1nBhEwIQmVXepDayQ1do/2XYltjybihU6csXbdLO/5yvEN7cMBzKQcpqt2eoxn+L+8mMZY7ujclpxY4xWwY0757E+OMBypOiSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyzU+s+f; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D521DED68;
+	Tue, 29 Oct 2024 07:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730186165; cv=fail; b=GQseCKETjrZzASB+/VOlHXBpKLIjFci+IaLmGYCJvkK47oBPmBqvPpkryaGfxWjbS2/RMk9NMVpk8aCYLcEAyl+S9m5ukEgJzolnmU/wmzuRv7zKH4Vg+gyzAv9Kh/9S1MLYXMFTZ0ume20jQdqm5z3MhCccLV8n2C7cfo8n6Mk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730186165; c=relaxed/simple;
+	bh=Cpbw1b4M0PZTxS+fyZ+xSF+2JC5bkcGIWJ/DCt+16wQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KkpkrfzxidYE52UtoGMN91UdTMOp/r8iboBzkuMGDgE1Uf4DOMW7QLaX1PHTRXq6ahhvnhyhLzJSjXaTFYdEH86NjWmJyzI1UnMPsk32j7Baxf5VXrnZgY6csjknCvZLjiv7X+WDuhJbPXDsq1MXHSLjQVtwBf4lshf3uyPRwrY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTM0mwmr; arc=fail smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyzU+s+f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTM0mwmr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730185147; x=1761721147;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=S6QXFoHqckET5JcYfj9TVv42zPNIPNVGx6HbMU2Zz4Y=;
-  b=FyzU+s+fOCbaFyHmxBhUPVl59rlVZarU7j2B2z9Hy0eWeJ2i232tM5OH
-   chxANQYhdov1MLQYkYcq9LeplCTFg+c+8dZjdh1Kq/QJZLLgQhR2EUJOb
-   wTBQIf95pWLrkSwYTxyEyJUTw4DST5gZoyKAeISjyC+KJvk4Zh6H1hP0o
-   CpDEj6zWMwK40e1CfEKqGSwSi/k2MpGXPIOKSBJQwgOgiwhZ5JvSYN9MX
-   SQYVQ0ORYH3SzpFJvkdhXxWBKrIXL3kSZj7lqimT+acCjqhOzdLUSDhyw
-   o9vvCkU8sqYdfoily6dwS1Zd4jbIFqvJt/VkOBV6axv8u9NmyHiNnDE74
-   g==;
-X-CSE-ConnectionGUID: adMfWroPTd+DG8SVq40OQg==
-X-CSE-MsgGUID: uZGZglBMTM6K5oRAYSfUmg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="40426370"
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="40426370"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 23:59:03 -0700
-X-CSE-ConnectionGUID: g3GGvJfIR0W5HgxCSMzlgA==
-X-CSE-MsgGUID: utsAujZoQrOCrOrkRGVqRQ==
+  t=1730186162; x=1761722162;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=Cpbw1b4M0PZTxS+fyZ+xSF+2JC5bkcGIWJ/DCt+16wQ=;
+  b=nTM0mwmr0AVqy8msUOldoK7ZVhIQvzad6JKJOCTxB8Hd8Z/M+d0akN9u
+   TYhTUe2M2E6XOXbe+zv8rXO/SQCE4LbxQM0dBkEvZhdVMdkmnztN6mFQH
+   Aw74ODao3BTNFVGKSGgwUTUE0xlRSNca175JC4K1sF795oQuK5XBAfG6W
+   T87slNg5Wnh+hYYnXwFCTgqyDPD/ndCwUChO1adUpyOKYADoM8M1Pb49F
+   NYqf7ytTH4Ybhkh9y7qZognrBkZ1RV5X+VuUS6DAUoWz+NPTv7yV7La7D
+   yPUWt8cekej0S1TUv5cv9FkPkxm0zwotWG6teBiDRIz6DvjeUPQGOtaOb
+   w==;
+X-CSE-ConnectionGUID: T3r3Bu2MSoWBeP6z1r/cug==
+X-CSE-MsgGUID: fkEv92C/R8ibUo01vFfkAw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40907395"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40907395"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 00:16:02 -0700
+X-CSE-ConnectionGUID: Q4VoUcWlQv2w/Cywa+6RKg==
+X-CSE-MsgGUID: OK2WkEPtSeGkQJRxfm3KYw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="82283296"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 28 Oct 2024 23:58:46 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5gBf-000dLw-10;
-	Tue, 29 Oct 2024 06:58:43 +0000
-Date: Tue, 29 Oct 2024 14:58:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline 2/8] drivers/md/dm-bow.c:97:10:
- sparse: sparse: symbol 'range_top' was not declared. Should it be static?
-Message-ID: <202410291459.pczz2AmT-lkp@intel.com>
+   d="scan'208";a="82193498"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 29 Oct 2024 00:16:02 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 29 Oct 2024 00:16:00 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Tue, 29 Oct 2024 00:16:00 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Tue, 29 Oct 2024 00:16:00 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AFr6yx4yLY+5yYqTB1hPHom7S6HMS3Wutw7ZMyZT6+eH5Ct/PSc9WYUf2zCvlZ1YzXgStO2MyxEQY4/lPv/c+6THNTa82GsR75hGIu3w/H6KbV8L8ASxzprUsx5qT40fjIJxkjAbmdEbnXig8s7voHYA12d8xAJEVDoRRnBDMEDKf/e4fuDOqBeJseJ0RDgyuUeed9TpVV0KEtlHYzcRYfyMMtRiMcd15BKWTkT+Qy8fuooJ6CZEU2PoPEe7p+Eg35sgvDX82gzQZ5Qq0EJkmryl9pzuJEjheXdGqbASHCgDDeAvzMdoV0HsRjfm3u0QPZ/HXdbly+p0glEV6JOeFg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ffnY/4m1xLin8ocAG/7/eQJ3iwrAIT/XuDzkJ5XIquk=;
+ b=lIZzcjJZwK70TQVm6/POaoU3CsiO+ZpMiDNKFPludvDvXfGnRWJhLC28vyG8CS48EoiRlsY7P9TtnkiZdE6tPb6b0KfBh+4Sj2JqLUWWJkEws1zGVRvhphkuHdPFo2G8afGMVqmvyVnMLt7uJEjTkqAq/e3GYCeVU1Jyh/ej0apABBq3ojP5wRXSbRqzVw/pOXtwz1mEV70D0dgFQueRlelAy689zgNwQSohqH+9ZZQJB1rPn8qZTGvPOIO9FkqzWXOfHMjtZDIt/GhI0qL11cazKCKCP+7uIp1iizA9k/6IcMz909O7Ah6+Ht893QiOiZx4ErpdAHhRhD5UiiWDpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by MN0PR11MB6087.namprd11.prod.outlook.com (2603:10b6:208:3cd::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.24; Tue, 29 Oct
+ 2024 07:15:57 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8093.021; Tue, 29 Oct 2024
+ 07:15:57 +0000
+Date: Tue, 29 Oct 2024 15:15:47 +0800
+From: Philip Li <philip.li@intel.com>
+To: Matthew Sakai <msakai@redhat.com>, Dan Carpenter
+	<dan.carpenter@linaro.org>
+CC: Dan Carpenter <dan.carpenter@linaro.org>, <oe-kbuild@lists.linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>, <lkp@intel.com>,
+	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>
+Subject: Re: drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn:
+ inconsistent returns '&pool->lock'.
+Message-ID: <ZyCLo51ZyjxX7eQK@rli9-mobl>
+References: <717e8949-55c4-4461-8951-3e582e9b77ef@stanley.mountain>
+ <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
+ <ZyBQa45RTWXiXJke@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ZyBQa45RTWXiXJke@rli9-mobl>
+X-ClientProxiedBy: SG2PR04CA0171.apcprd04.prod.outlook.com (2603:1096:4::33)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|MN0PR11MB6087:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9380f3d-9b10-487e-26dc-08dcf7e9889c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?9+6aNpYQkamry7pme4li91s+uxQbvqRFIODciH3nkYB58RGAjoBc6gyij/+p?=
+ =?us-ascii?Q?Oeo39dX3L8ib81rGmm8jHkTiAvRbfBwJ/i96H9NHmYm+X5GZb8Rs0hqD0fqo?=
+ =?us-ascii?Q?F/XzVLG+2/iEzRAIEF/+h1moXNbdi+ceB2fzTGrNNsrjqzc6CaKnc/fGb/ut?=
+ =?us-ascii?Q?X13mqpBuyo7oS7eu5vfJEkazVV6kl90/BfThZPQSOG553wVqTGxS8dJp2+0j?=
+ =?us-ascii?Q?5JtOal3b58bgPqIrzazrSkg+oD5MnDb2EqvL+U2VMxfztBTfPevKvhdGopLU?=
+ =?us-ascii?Q?wfaF0fu7csb2SN0JXJtikQV6jtim5sTfafaMgG1khcLhS+fPGeFH8I7P2Jx2?=
+ =?us-ascii?Q?hPk2/BDpgJcM6IpX343GpDd0t+aAejCQGvfbE4vsOqTILyZ6y4jl2rQvEdxa?=
+ =?us-ascii?Q?CQ56ZBU5xFPrtR90tXcPoPe6zd1cKvhWcntt+boaXxrTTni0rzxDq9VYxTGE?=
+ =?us-ascii?Q?HOSg8Se1Fwxsp/mLMBhlteSuDIDAWhx1nUrQxca0e0K78amzRID3qU+iA74+?=
+ =?us-ascii?Q?3Tx0uF95yfb+n4K7QvR8cnjxuHMu/hQn3CuVZVIXVIYXkrBRFmf1FvfvMCz/?=
+ =?us-ascii?Q?hgsNIVHcb0ZtElTc+5WkrFJbJh6nmKRo3OS+oWsf1J6kgVSyn0On/YHn9e3y?=
+ =?us-ascii?Q?+DX1KwjQRmpRpaeo4ILjR+ldkhLMVTqMzOzsiTZYFaxaMr/OKmpI7vErhRBg?=
+ =?us-ascii?Q?yqiA96vj55UyTQp6CE4s1a6MilCARI2j1DAF9HVBydn8bF8fAIT+R9fpDOga?=
+ =?us-ascii?Q?LZOm12cOEYeR6xQ7ajoUcb5ns7XPApEpkRqToxxlVtnBi33GAc8lLX/8hr9l?=
+ =?us-ascii?Q?Q+ObLjpa6JbyLEWaEwct/9f70RHC09acsJVkUFdBEnCP+JEafYcRHXn9m2f6?=
+ =?us-ascii?Q?QEinfmuLl/zauxWPf28L53sj8JKWrXuXz6T9FQK1S2Jo+vzvD+I/x92xRaYn?=
+ =?us-ascii?Q?oXj+NUXsf9nCU1RXeGk9bmPN22UvPo2lP4SMFqnPT6b+2pv24+PTOHkD7sPL?=
+ =?us-ascii?Q?Xtp6PsdckCVhXyc3tlMOkoIP9ZqN+y7AY84mtVzd6ZaqNP6/ZFuJKm+gOw7W?=
+ =?us-ascii?Q?CnIGfdcNOQ81wlyjoigpL9QhpCE6ItBoKU8CAOVkPrpSQl6HGdJGMjVQzyrS?=
+ =?us-ascii?Q?MXID/id0tH9XUzuiVRm35TbdiC4BR+45aU1cELWwr/lXcrbrgD7tr247hNRX?=
+ =?us-ascii?Q?ZPcJ+HOJgfhzJ193sIl0nlnI4gfSNRp8KKvA+KxOdl2gXKvRZCTcogJnFNXd?=
+ =?us-ascii?Q?rdfTKlgD5lx2bIUP5F8c1aQA/N+LWYW1grgMMB8Q5A=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?rJ9dmYGaMOgq0RdaPccgiCHV/a5FNARTLtb0VUKzqA+Q+KKEGTdnwFlc2t2m?=
+ =?us-ascii?Q?qPsKAQLnir00APZkZz7uinFCMBxPnPf8+olSQxGdAx6LJZ/jS6v0ZDGe1RI9?=
+ =?us-ascii?Q?qKA5NJyKbIzbnpWXRezgu6OlHXegTTYZmh+5q7Plx8Oc/B8CMWbAXAd3iEgg?=
+ =?us-ascii?Q?FLJpRCr0WgDgvkCMnPwJ1xpyWi9GsKqdmjzpm9PhXa+LSSsLrAAIBFtAVXb9?=
+ =?us-ascii?Q?0XslJdK3lGS2T7GmIOkUgDlszjdPYcW6Tin79evgUCbuliNkz8VNNEii2dvH?=
+ =?us-ascii?Q?PtOEXamP9zicOQDIFyk3bm1lWRo+wKehzH0B2LGFYonumNHgZUsoPYT/vYn5?=
+ =?us-ascii?Q?xpqiLiLuYLsoJgDEkSz1wcVe/xnmI9VrjnFQ4JBafX/KS/WoADEUHJ4V1m2A?=
+ =?us-ascii?Q?cyU3iub1ZS1PCAFqHZmSml9CdJSY6YBilugau6msH4lNcog4rHO3K4HaxuY+?=
+ =?us-ascii?Q?75P/yYjdbx8caOsUzrOFyUbWHSUnVIULXFZK5yI5HlcQ/JFBFkw4pjUvL6KL?=
+ =?us-ascii?Q?bQrV+TZb4327tRshSCmXrd84GKA+4FzEmWkSfXdZrG4DhKfkXdQrDIJE//U3?=
+ =?us-ascii?Q?2k4SguLyDVctTRsS99oAxdwnL5/YeXbbebDRYgO2RR2ZY/vCZPGkKdZV0NiU?=
+ =?us-ascii?Q?UwvIT+acDlx4ocS7tQqZY3jIZFPnLeDKrk8Ge+g5kDg9VfnabEcaqaCSLvPh?=
+ =?us-ascii?Q?ySKRsfjOYr00rNoT5mv/U5k8LJeEByp7T8lHxhtN+MYMP2UCOuugcfl709D/?=
+ =?us-ascii?Q?j4xFbATBYdmhLJ2OOxmfw1ChLY7QgVBTeVUbb1aqtF0eOAEWp2gc5P0Ibl8c?=
+ =?us-ascii?Q?1afxC38BC5Q/5m5k4jwJsEXiPxvjI62kYYRFZvxwAYrSMP/2FCLimCdqOkjh?=
+ =?us-ascii?Q?1hEOb4DfNh3ERUrv606aoUL8p1s0kzXwJSnUBnkkF4UgUFcrN3PuDwxvGIZU?=
+ =?us-ascii?Q?tbEncYPr38H8jxeJRqiC1WBsBHEcrYR+xDatxHbbWLNUpeUA5WPf/MhdrX98?=
+ =?us-ascii?Q?WayPiqXg+A3ZG1YIobgZHr82CABCoXBZ+Rk+dUebOjf+LjeZrvTFn9abti6s?=
+ =?us-ascii?Q?cqr2CEcyw0DkxuWDrYu/yfCNsyeZquwAjklxyao/NJRon5Vti9La4Vd2j1fo?=
+ =?us-ascii?Q?elmkwyGcfWdHYED0VUroZmhTeGHNFwRlq5m0SMgrYq6K2VQRW/K5NHrD0F3V?=
+ =?us-ascii?Q?6tuf/nWMulhhDPul1j1vKdQUFVCOVa8mmUE2pEOCYIC+xLoOy/K8/voJcnw9?=
+ =?us-ascii?Q?ctzFKiYF1b4MwKJHXabU1IB4SFYJ8PICyHUYQH5teDZj11vb+po9xSRY4fwb?=
+ =?us-ascii?Q?ZOgkVc7NKy6MnxirhyWfqOuQaj+E0hO5tva16ytxSoKD33nfp6Iraq68irnq?=
+ =?us-ascii?Q?8uhZYLl8uFJ1cfD3JpxveE2v2FUGqH5Pxgg0Q84KAz8Ft2UCuKl1ywT7t1O6?=
+ =?us-ascii?Q?FJkruQtkwAXip4//5t1v0TGym/o/Qh07qn/pCz18RSf+hAwJD1lXrnrD+gv3?=
+ =?us-ascii?Q?ZqVBX2TqUUVpbT4rAdknpbXJr/FbTWEfStbghObOEbef9eyMquatsBMvcw8m?=
+ =?us-ascii?Q?w+kKEQaT/P1JssuiRn55YxYZd1cZHlC318O5u4at?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9380f3d-9b10-487e-26dc-08dcf7e9889c
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2024 07:15:57.4141
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: I3HRe5nSSXOc90B/qurAGtfpyT2G8TDX+bfa89KrLhlsLcKekouNxCf+r5ivLc248Nvhdov6ajmFNJDQa/MX4g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6087
+X-OriginatorOrg: intel.com
 
-Hi Paul,
+On Tue, Oct 29, 2024 at 11:03:07AM +0800, Philip Li wrote:
+> On Mon, Oct 28, 2024 at 07:00:40PM -0400, Matthew Sakai wrote:
+> > This should be addressed upstream by commit
+> > 872564c501b72ae0c84af51084753e8652e4a84b ("dm vdo data-vio: silence sparse
+> > warnings about locking context imbalances")
+> > 
+> > That commit is from February. Would it be possible for these checks to use a
+> > more up-to-date version of the code before warning us about things that have
+> > already been addressed?
+> 
+> Sorry about this Matt, the bot side will check why this happens and fix
+> the issue asap to avoid meaningless report.
 
-First bad commit (maybe != root cause):
+Hi Matt and Dan, would you mind do a further check of this, per the re-test,
+smatch warns as below on v6.12-rc3
 
-tree:   https://android.googlesource.com/kernel/common android-mainline
-head:   962c205e7ed308760a15b79cc7ccfd028a013022
-commit: 7a96549fc9ff33f14b4ed1b4c5f49a0fb51ce9c9 [2/8] ANDROID: dm-bow: Fix up revert remove dm-bow
-config: i386-randconfig-r111-20241028 (https://download.01.org/0day-ci/archive/20241029/202410291459.pczz2AmT-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291459.pczz2AmT-lkp@intel.com/reproduce)
+	drivers/md/dm-vdo/data-vio.c:982 vdo_launch_bio() warn: inconsistent returns '&pool->lock'.
+	  Locked on  : 972,977
+	  Unlocked on: 982
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410291459.pczz2AmT-lkp@intel.com/
+The corresponding code of drivers/md/dm-vdo/data-vio.c is below
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/md/dm-bow.c:97:10: sparse: sparse: symbol 'range_top' was not declared. Should it be static?
->> drivers/md/dm-bow.c:148:6: sparse: sparse: symbol 'add_before' was not declared. Should it be static?
->> drivers/md/dm-bow.c:178:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:178:24: sparse:     expected int
-   drivers/md/dm-bow.c:178:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:186:32: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:186:32: sparse:     expected int
-   drivers/md/dm-bow.c:186:32: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:205:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:205:24: sparse:     expected int
-   drivers/md/dm-bow.c:205:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:282:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:282:24: sparse:     expected int
-   drivers/md/dm-bow.c:282:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:395:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:395:24: sparse:     expected int
-   drivers/md/dm-bow.c:395:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:339:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:339:24: sparse:     expected int
-   drivers/md/dm-bow.c:339:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:344:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:344:24: sparse:     expected int
-   drivers/md/dm-bow.c:344:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:350:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:350:24: sparse:     expected int
-   drivers/md/dm-bow.c:350:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:358:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:358:24: sparse:     expected int
-   drivers/md/dm-bow.c:358:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:422:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:422:24: sparse:     expected int
-   drivers/md/dm-bow.c:422:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:427:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:427:24: sparse:     expected int
-   drivers/md/dm-bow.c:427:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:437:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:437:24: sparse:     expected int
-   drivers/md/dm-bow.c:437:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:443:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:443:24: sparse:     expected int
-   drivers/md/dm-bow.c:443:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:462:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:462:24: sparse:     expected int
-   drivers/md/dm-bow.c:462:24: sparse:     got restricted blk_status_t [usertype]
->> drivers/md/dm-bow.c:553:53: sparse: sparse: Using plain integer as NULL pointer
-   drivers/md/dm-bow.c:820:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:820:24: sparse:     expected int
-   drivers/md/dm-bow.c:820:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:839:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:839:24: sparse:     expected int
-   drivers/md/dm-bow.c:839:24: sparse:     got restricted blk_status_t [usertype]
-   drivers/md/dm-bow.c:932:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected int @@     got restricted blk_status_t [usertype] @@
-   drivers/md/dm-bow.c:932:24: sparse:     expected int
-   drivers/md/dm-bow.c:932:24: sparse:     got restricted blk_status_t [usertype]
->> drivers/md/dm-bow.c:968:32: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted blk_status_t [usertype] bi_status @@     got int [assigned] ret @@
-   drivers/md/dm-bow.c:968:32: sparse:     expected restricted blk_status_t [usertype] bi_status
-   drivers/md/dm-bow.c:968:32: sparse:     got int [assigned] ret
->> drivers/md/dm-bow.c:1096:5: sparse: sparse: symbol 'remap_unless_illegal_trim' was not declared. Should it be static?
->> drivers/md/dm-bow.c:1252:5: sparse: sparse: symbol 'dm_bow_prepare_ioctl' was not declared. Should it be static?
->> drivers/md/dm-bow.c:1284:12: sparse: sparse: symbol 'dm_bow_init' was not declared. Should it be static?
->> drivers/md/dm-bow.c:1293:6: sparse: sparse: symbol 'dm_bow_exit' was not declared. Should it be static?
-   drivers/md/dm-bow.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, drivers/md/dm.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+ 942 static void wait_permit(struct limiter *limiter, struct bio *bio)
+ 943         __releases(&limiter->pool->lock)
+ 944 {
+ 945         DEFINE_WAIT(wait);
+ 946
+ 947         bio_list_add(&limiter->new_waiters, bio);
+ 948         prepare_to_wait_exclusive(&limiter->blocked_threads, &wait,
+ 949                                   TASK_UNINTERRUPTIBLE);
+ 950         spin_unlock(&limiter->pool->lock);
+ 951         io_schedule();
+ 952         finish_wait(&limiter->blocked_threads, &wait);
+ 953 }
+ 954
+ 955 /**
+ 956  * vdo_launch_bio() - Acquire a data_vio from the pool, assign the bio to it, and launch it.
+ 957  *
+ 958  * This will block if data_vios or discard permits are not available.
+ 959  */
+ 960 void vdo_launch_bio(struct data_vio_pool *pool, struct bio *bio)
+ 961 {
+ 962         struct data_vio *data_vio;
+ 963
+ 964         VDO_ASSERT_LOG_ONLY(!vdo_is_state_quiescent(&pool->state),
+ 965                             "data_vio_pool not quiescent on acquire");
+ 966
+ 967         bio->bi_private = (void *) jiffies;
+ 968         spin_lock(&pool->lock);
+ 969         if ((bio_op(bio) == REQ_OP_DISCARD) &&
+ 970             !acquire_permit(&pool->discard_limiter)) {
+ 971                 wait_permit(&pool->discard_limiter, bio);
+ 972                 return;
+ 973         }
+ 974
+ 975         if (!acquire_permit(&pool->limiter)) {
+ 976                 wait_permit(&pool->limiter, bio);
+ 977                 return;
+ 978         }
+ 979
+ 980         data_vio = get_available_data_vio(pool);
+ 981         spin_unlock(&pool->lock);
+ 982         launch_bio(pool->completion.vdo, data_vio, bio);
+ 983 }
 
-vim +/range_top +97 drivers/md/dm-bow.c
+Thanks
 
-dcb994383d2b16 Paul Lawrence 2023-01-25   96  
-dcb994383d2b16 Paul Lawrence 2023-01-25  @97  sector_t range_top(struct bow_range *br)
-dcb994383d2b16 Paul Lawrence 2023-01-25   98  {
-dcb994383d2b16 Paul Lawrence 2023-01-25   99  	return container_of(rb_next(&br->node), struct bow_range, node)
-dcb994383d2b16 Paul Lawrence 2023-01-25  100  		->sector;
-dcb994383d2b16 Paul Lawrence 2023-01-25  101  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  102  
-dcb994383d2b16 Paul Lawrence 2023-01-25  103  u64 range_size(struct bow_range *br)
-dcb994383d2b16 Paul Lawrence 2023-01-25  104  {
-dcb994383d2b16 Paul Lawrence 2023-01-25  105  	return (range_top(br) - br->sector) * SECTOR_SIZE;
-dcb994383d2b16 Paul Lawrence 2023-01-25  106  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  107  
-dcb994383d2b16 Paul Lawrence 2023-01-25  108  static sector_t bvec_top(struct bvec_iter *bi_iter)
-dcb994383d2b16 Paul Lawrence 2023-01-25  109  {
-dcb994383d2b16 Paul Lawrence 2023-01-25  110  	return bi_iter->bi_sector + bi_iter->bi_size / SECTOR_SIZE;
-dcb994383d2b16 Paul Lawrence 2023-01-25  111  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  112  
-dcb994383d2b16 Paul Lawrence 2023-01-25  113  /*
-dcb994383d2b16 Paul Lawrence 2023-01-25  114   * Find the first range that overlaps with bi_iter
-dcb994383d2b16 Paul Lawrence 2023-01-25  115   * bi_iter is set to the size of the overlapping sub-range
-dcb994383d2b16 Paul Lawrence 2023-01-25  116   */
-dcb994383d2b16 Paul Lawrence 2023-01-25  117  static struct bow_range *find_first_overlapping_range(struct rb_root *ranges,
-dcb994383d2b16 Paul Lawrence 2023-01-25  118  						      struct bvec_iter *bi_iter)
-dcb994383d2b16 Paul Lawrence 2023-01-25  119  {
-dcb994383d2b16 Paul Lawrence 2023-01-25  120  	struct rb_node *node = ranges->rb_node;
-dcb994383d2b16 Paul Lawrence 2023-01-25  121  	struct bow_range *br;
-dcb994383d2b16 Paul Lawrence 2023-01-25  122  
-dcb994383d2b16 Paul Lawrence 2023-01-25  123  	while (node) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  124  		br = container_of(node, struct bow_range, node);
-dcb994383d2b16 Paul Lawrence 2023-01-25  125  
-dcb994383d2b16 Paul Lawrence 2023-01-25  126  		if (br->sector <= bi_iter->bi_sector
-dcb994383d2b16 Paul Lawrence 2023-01-25  127  		    && bi_iter->bi_sector < range_top(br))
-dcb994383d2b16 Paul Lawrence 2023-01-25  128  			break;
-dcb994383d2b16 Paul Lawrence 2023-01-25  129  
-dcb994383d2b16 Paul Lawrence 2023-01-25  130  		if (bi_iter->bi_sector < br->sector)
-dcb994383d2b16 Paul Lawrence 2023-01-25  131  			node = node->rb_left;
-dcb994383d2b16 Paul Lawrence 2023-01-25  132  		else
-dcb994383d2b16 Paul Lawrence 2023-01-25  133  			node = node->rb_right;
-dcb994383d2b16 Paul Lawrence 2023-01-25  134  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  135  
-dcb994383d2b16 Paul Lawrence 2023-01-25  136  	WARN_ON(!node);
-dcb994383d2b16 Paul Lawrence 2023-01-25  137  	if (!node)
-dcb994383d2b16 Paul Lawrence 2023-01-25  138  		return NULL;
-dcb994383d2b16 Paul Lawrence 2023-01-25  139  
-dcb994383d2b16 Paul Lawrence 2023-01-25  140  	if (range_top(br) - bi_iter->bi_sector
-dcb994383d2b16 Paul Lawrence 2023-01-25  141  	    < bi_iter->bi_size >> SECTOR_SHIFT)
-dcb994383d2b16 Paul Lawrence 2023-01-25  142  		bi_iter->bi_size = (range_top(br) - bi_iter->bi_sector)
-dcb994383d2b16 Paul Lawrence 2023-01-25  143  			<< SECTOR_SHIFT;
-dcb994383d2b16 Paul Lawrence 2023-01-25  144  
-dcb994383d2b16 Paul Lawrence 2023-01-25  145  	return br;
-dcb994383d2b16 Paul Lawrence 2023-01-25  146  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  147  
-dcb994383d2b16 Paul Lawrence 2023-01-25 @148  void add_before(struct rb_root *ranges, struct bow_range *new_br,
-dcb994383d2b16 Paul Lawrence 2023-01-25  149  		struct bow_range *existing)
-dcb994383d2b16 Paul Lawrence 2023-01-25  150  {
-dcb994383d2b16 Paul Lawrence 2023-01-25  151  	struct rb_node *parent = &(existing->node);
-dcb994383d2b16 Paul Lawrence 2023-01-25  152  	struct rb_node **link = &(parent->rb_left);
-dcb994383d2b16 Paul Lawrence 2023-01-25  153  
-dcb994383d2b16 Paul Lawrence 2023-01-25  154  	while (*link) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  155  		parent = *link;
-dcb994383d2b16 Paul Lawrence 2023-01-25  156  		link = &((*link)->rb_right);
-dcb994383d2b16 Paul Lawrence 2023-01-25  157  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  158  
-dcb994383d2b16 Paul Lawrence 2023-01-25  159  	rb_link_node(&new_br->node, parent, link);
-dcb994383d2b16 Paul Lawrence 2023-01-25  160  	rb_insert_color(&new_br->node, ranges);
-dcb994383d2b16 Paul Lawrence 2023-01-25  161  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  162  
-dcb994383d2b16 Paul Lawrence 2023-01-25  163  /*
-dcb994383d2b16 Paul Lawrence 2023-01-25  164   * Given a range br returned by find_first_overlapping_range, split br into a
-dcb994383d2b16 Paul Lawrence 2023-01-25  165   * leading range, a range matching the bi_iter and a trailing range.
-dcb994383d2b16 Paul Lawrence 2023-01-25  166   * Leading and trailing may end up size 0 and will then be deleted. The
-dcb994383d2b16 Paul Lawrence 2023-01-25  167   * new range matching the bi_iter is then returned and should have its type
-dcb994383d2b16 Paul Lawrence 2023-01-25  168   * and type specific fields populated.
-dcb994383d2b16 Paul Lawrence 2023-01-25  169   * If bi_iter runs off the end of the range, bi_iter is truncated accordingly
-dcb994383d2b16 Paul Lawrence 2023-01-25  170   */
-dcb994383d2b16 Paul Lawrence 2023-01-25  171  static int split_range(struct bow_context *bc, struct bow_range **br,
-dcb994383d2b16 Paul Lawrence 2023-01-25  172  		       struct bvec_iter *bi_iter)
-dcb994383d2b16 Paul Lawrence 2023-01-25  173  {
-dcb994383d2b16 Paul Lawrence 2023-01-25  174  	struct bow_range *new_br;
-dcb994383d2b16 Paul Lawrence 2023-01-25  175  
-dcb994383d2b16 Paul Lawrence 2023-01-25  176  	if (bi_iter->bi_sector < (*br)->sector) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  177  		WARN_ON(true);
-dcb994383d2b16 Paul Lawrence 2023-01-25 @178  		return BLK_STS_IOERR;
-dcb994383d2b16 Paul Lawrence 2023-01-25  179  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  180  
-dcb994383d2b16 Paul Lawrence 2023-01-25  181  	if (bi_iter->bi_sector > (*br)->sector) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  182  		struct bow_range *leading_br =
-dcb994383d2b16 Paul Lawrence 2023-01-25  183  			kzalloc(sizeof(*leading_br), GFP_KERNEL);
-dcb994383d2b16 Paul Lawrence 2023-01-25  184  
-dcb994383d2b16 Paul Lawrence 2023-01-25  185  		if (!leading_br)
-dcb994383d2b16 Paul Lawrence 2023-01-25  186  			return BLK_STS_RESOURCE;
-dcb994383d2b16 Paul Lawrence 2023-01-25  187  
-dcb994383d2b16 Paul Lawrence 2023-01-25  188  		*leading_br = **br;
-dcb994383d2b16 Paul Lawrence 2023-01-25  189  		if (leading_br->type == TRIMMED)
-dcb994383d2b16 Paul Lawrence 2023-01-25  190  			list_add(&leading_br->trimmed_list, &bc->trimmed_list);
-dcb994383d2b16 Paul Lawrence 2023-01-25  191  
-dcb994383d2b16 Paul Lawrence 2023-01-25  192  		add_before(&bc->ranges, leading_br, *br);
-dcb994383d2b16 Paul Lawrence 2023-01-25  193  		(*br)->sector = bi_iter->bi_sector;
-dcb994383d2b16 Paul Lawrence 2023-01-25  194  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  195  
-dcb994383d2b16 Paul Lawrence 2023-01-25  196  	if (bvec_top(bi_iter) >= range_top(*br)) {
-dcb994383d2b16 Paul Lawrence 2023-01-25  197  		bi_iter->bi_size = (range_top(*br) - (*br)->sector)
-dcb994383d2b16 Paul Lawrence 2023-01-25  198  					* SECTOR_SIZE;
-dcb994383d2b16 Paul Lawrence 2023-01-25  199  		return BLK_STS_OK;
-dcb994383d2b16 Paul Lawrence 2023-01-25  200  	}
-dcb994383d2b16 Paul Lawrence 2023-01-25  201  
-dcb994383d2b16 Paul Lawrence 2023-01-25  202  	/* new_br will be the beginning, existing br will be the tail */
-dcb994383d2b16 Paul Lawrence 2023-01-25  203  	new_br = kzalloc(sizeof(*new_br), GFP_KERNEL);
-dcb994383d2b16 Paul Lawrence 2023-01-25  204  	if (!new_br)
-dcb994383d2b16 Paul Lawrence 2023-01-25  205  		return BLK_STS_RESOURCE;
-dcb994383d2b16 Paul Lawrence 2023-01-25  206  
-dcb994383d2b16 Paul Lawrence 2023-01-25  207  	new_br->sector = (*br)->sector;
-dcb994383d2b16 Paul Lawrence 2023-01-25  208  	(*br)->sector = bvec_top(bi_iter);
-dcb994383d2b16 Paul Lawrence 2023-01-25  209  	add_before(&bc->ranges, new_br, *br);
-dcb994383d2b16 Paul Lawrence 2023-01-25  210  	*br = new_br;
-dcb994383d2b16 Paul Lawrence 2023-01-25  211  
-dcb994383d2b16 Paul Lawrence 2023-01-25  212  	return BLK_STS_OK;
-dcb994383d2b16 Paul Lawrence 2023-01-25  213  }
-dcb994383d2b16 Paul Lawrence 2023-01-25  214  
-
-:::::: The code at line 97 was first introduced by commit
-:::::: dcb994383d2b1641ebe7b518caab88d2d9dbfa72 Revert "ANDROID: dm-bow: remove dm-bow"
-
-:::::: TO: Paul Lawrence <paullawrence@google.com>
-:::::: CC: Treehugger Robot <android-test-infra-autosubmit@system.gserviceaccount.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> > 
+> > Matt
+> > 
+> > On 10/21/24 3:19 AM, Dan Carpenter wrote:
+> > > Hi Mike,
+> > > 
+> > > First bad commit (maybe != root cause):
+> > > 
+> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > > head:   3d5ad2d4eca337e80f38df77de89614aa5aaceb9
+> > > commit: f36b1d3ba533d21b5b793623f05761b0297d114e dm vdo: use a proper Makefile for dm-vdo
+> > > config: x86_64-randconfig-161-20241019 (https://download.01.org/0day-ci/archive/20241019/202410191209.osrd8z9H-lkp@intel.com/config)
+> > > compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+> > > 
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > > | Closes: https://lore.kernel.org/r/202410191209.osrd8z9H-lkp@intel.com/
+> > > 
+> > > smatch warnings:
+> > > drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn: inconsistent returns '&pool->lock'.
+> > > 
+> > > vim +976 drivers/md/dm-vdo/data-vio.c
+> > > 
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  958  void vdo_launch_bio(struct data_vio_pool *pool, struct bio *bio)
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  959  {
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  960  	struct data_vio *data_vio;
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  961
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  962  	ASSERT_LOG_ONLY(!vdo_is_state_quiescent(&pool->state),
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  963  			"data_vio_pool not quiescent on acquire");
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  964
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  965  	bio->bi_private = (void *) jiffies;
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  966  	spin_lock(&pool->lock);
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  967  	if ((bio_op(bio) == REQ_OP_DISCARD) &&
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  968  	    !acquire_permit(&pool->discard_limiter, bio))
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  969  		return;
+> > >                                                          ^^^^^^
+> > > 
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  970
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  971  	if (!acquire_permit(&pool->limiter, bio))
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  972  		return;
+> > >                                                          ^^^^^^
+> > > Still holding pool->lock on these paths.
+> > > 
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  973
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  974  	data_vio = get_available_data_vio(pool);
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  975  	spin_unlock(&pool->lock);
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16 @976  	launch_bio(pool->completion.vdo, data_vio, bio);
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  977  }
+> > > 79535a7881c0cb Matthew Sakai 2023-11-16  978
+> > > 
+> > 
+> > 
