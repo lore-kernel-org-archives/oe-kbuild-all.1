@@ -1,75 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA0B14900E;
-	Tue, 29 Oct 2024 05:04:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0927464
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 05:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730178289; cv=none; b=f4P0z3qFF+U4v8WvwQLWKK2kqEUbpg/Pju+SW0J5q40FCQ0YcatX0iVY4gCzoweVgyzgah3V+QnY/0rUZ6QKTG2FTyVto/WojOd1n4DdfZndXsTqkqSsqzcLiBpTJc07jD8QFArpuyNEhaSBRwEWeeIDJt521ctyZjYlBLUbSkU=
+	t=1730181350; cv=none; b=OF+bBp2mlIZ4NGmBfeXW+zcLW3STCOXeidtpelw+vsEEt1IJkU+VHSkor3stzxLyymViRovhfzS8DTN3InAkJkaY7wbzDj5kFjmicdM7ZyZo76dy5wFvOyonIN/hQjTOv95GoiJfbdm5+j0I2ENuoWHc/g9vwpuV0M/F2QWS/FY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730178289; c=relaxed/simple;
-	bh=eGsFmqlXjXC4FsEHXAfrFjTNhT0vyVCmz3/UORuqf6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JitLef0ST+1WY+f2bvy1CywTf5Pw2C6ougoP2xAmXa45jbUWCYrz0aFdlnXJoyypSE/D4rOiZfp7XIUB0Yw1XAnsh2IwFcAX+jb20tXt92Gyx+SDRvY2zSJYwNY7UMO5Elx75PJicXgEv3uRBY7OT+cIQdBk9QnPAMMBKfCG9yM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VRAHbiXc; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1730181350; c=relaxed/simple;
+	bh=TC/puzeigWq7hyXxIAW3A3niPvz+TwKGtFlk5ko/zoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YhxKOAOjtde510iChth3xOQkxh0556ap2r6oW/VJCmqlhEz/0WJPNB2qX3WwaMaTYj5EUzilLK+6SUU4y1vRpyVqeq9vzwisetl2tVCyXLiUG3hLYG22+ti3b5+f16sfLHd1eYr6JlI2QpyoQPZ2r0DISl1SKkKCz7ox4Ed73g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G0o4+7cu; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VRAHbiXc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G0o4+7cu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730178287; x=1761714287;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eGsFmqlXjXC4FsEHXAfrFjTNhT0vyVCmz3/UORuqf6U=;
-  b=VRAHbiXcvt6F1OXvjgROtvOUlzSWaCVxrA509a5WoRZSRpl5zE9mWpzU
-   R567pfl4qppW/bvj9D4TBN0Hc5mUVeUbC6TVm+1tj5Qyd55fWNAHr4K0e
-   hcxrY/vD4AuMe9//lj6sP2ssZNQ/LIrf+AL1qf9eTLUSkc3Mi2umB42p3
-   ru58yHo7qXlToWJgmke/i2jTxf66PVDuf2O83Jn4s3uias5M+4cysbJBj
-   uzulxD6vkcirbV0LKVZB56l1+fmu5eH2v9XwDVDxQ/Lc+/DGlt8diKpId
-   SK9D/OmsFnwAtSoS/RFNdC6aRVTEqB98YfWc9JReW7wkDeAZ5Py1lWxWX
-   w==;
-X-CSE-ConnectionGUID: aBMvyYf9QOSHtnj3IzcrOA==
-X-CSE-MsgGUID: HckYgevASt+VlrW9KF7s0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40336865"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40336865"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 22:04:47 -0700
-X-CSE-ConnectionGUID: sfkKswGJSqOzH3FBCbYCjQ==
-X-CSE-MsgGUID: e9zpuIaGT2elSMJfzcABGw==
+  t=1730181348; x=1761717348;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TC/puzeigWq7hyXxIAW3A3niPvz+TwKGtFlk5ko/zoM=;
+  b=G0o4+7cuK6YRIusR/+ox3iEMnOUHGBq853edx34caZAGsajRri6k3zuV
+   ogAi0L9SOlWt/p836hh6o0vcQfUmCJJ2+7rKhL4CY0DTjZ404UhATHjDj
+   NiPxxdZl+dNaqu7XD1mHACIOlpcPDrF6svs5gUn617sDeOubRB/yLcImh
+   Rm5aBbkHN7Nd7gNnwW8kXXbXg6SG4/WrK+C16qSS8ikO3tigxVE/n2KFo
+   6eYwuy8IWxBFha1BYL99NCCcfGZUGmybd7dRHZgKUD1mOmJmyo3SSiL2z
+   moYDm1Yw+j2bCUqsx8rRVPHcy3ucEcal4VEiLeUrGwZDVijkaKGI211Um
+   g==;
+X-CSE-ConnectionGUID: Gwxh5bJJTGa3vnvc2RAetw==
+X-CSE-MsgGUID: 83BK9AGDTjKqHYdLFyTBOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29259620"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="29259620"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 22:55:47 -0700
+X-CSE-ConnectionGUID: sYR8pFHaTlOyNG5V/kwrGw==
+X-CSE-MsgGUID: GH7VWfLHQK6wMcJw+4d91w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81926546"
+   d="scan'208";a="105191498"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Oct 2024 22:04:42 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 28 Oct 2024 22:55:44 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5ePH-000dGk-2w;
-	Tue, 29 Oct 2024 05:04:39 +0000
-Date: Tue, 29 Oct 2024 13:03:41 +0800
+	id 1t5fCf-000dIw-1x;
+	Tue, 29 Oct 2024 05:55:41 +0000
+Date: Tue, 29 Oct 2024 13:55:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Richard Zhu <hongxing.zhu@nxp.com>,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
-	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v6 2/7] PCI: dwc: Using parent_bus_addr in of_range to
- eliminate cpu_addr_fixup()
-Message-ID: <202410291248.Qc61mosK-lkp@intel.com>
-References: <20241028-pci_fixup_addr-v6-2-ebebcd8fd4ff@nxp.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 7865/13046] kernel/cgroup/sli.c:647:14: error:
+ 'cpuacct_cgrp_id' undeclared; did you mean 'cpu_cgrp_id'?
+Message-ID: <202410291305.mNaGPKIo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,154 +65,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028-pci_fixup_addr-v6-2-ebebcd8fd4ff@nxp.com>
 
-Hi Frank,
+Hi Chun,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on 9852d85ec9d492ebef56dc5f229416c925758edc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/of-address-Add-parent_bus_addr-to-struct-of_pci_range/20241029-030935
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241028-pci_fixup_addr-v6-2-ebebcd8fd4ff%40nxp.com
-patch subject: [PATCH v6 2/7] PCI: dwc: Using parent_bus_addr in of_range to eliminate cpu_addr_fixup()
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241029/202410291248.Qc61mosK-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291248.Qc61mosK-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 00423a80429a623a28227d306c3108e801dd0f6f [7865/13046] sli: backport sli function from tk3
+config: x86_64-randconfig-121-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291305.mNaGPKIo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291305.mNaGPKIo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410291248.Qc61mosK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291305.mNaGPKIo-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/dwc/pcie-designware-host.c: In function 'dw_pcie_iatu_setup':
->> drivers/pci/controller/dwc/pcie-designware-host.c:782:69: error: passing argument 3 of 'dw_pcie_get_untranslate_addr' from incompatible pointer type [-Wincompatible-pointer-types]
-     782 |                 if (dw_pcie_get_untranslate_addr(pci, atu.pci_addr, &atu.cpu_addr))
-         |                                                                     ^~~~~~~~~~~~~
-         |                                                                     |
-         |                                                                     u64 * {aka long long unsigned int *}
-   drivers/pci/controller/dwc/pcie-designware-host.c:422:58: note: expected 'resource_size_t *' {aka 'unsigned int *'} but argument is of type 'u64 *' {aka 'long long unsigned int *'}
-     422 |                                         resource_size_t *i_addr)
-         |                                         ~~~~~~~~~~~~~~~~~^~~~~~
+   kernel/cgroup/sli.c: In function 'sli_memlat_stat_end':
+   kernel/cgroup/sli.c:404:17: error: implicit declaration of function 'mem_cgroup_from_task'; did you mean 'get_cgroup_from_task'? [-Werror=implicit-function-declaration]
+     404 |         memcg = mem_cgroup_from_task(current);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 get_cgroup_from_task
+   kernel/cgroup/sli.c:404:15: warning: assignment to 'struct mem_cgroup *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     404 |         memcg = mem_cgroup_from_task(current);
+         |               ^
+   kernel/cgroup/sli.c:405:32: error: 'root_mem_cgroup' undeclared (first use in this function); did you mean 'parent_mem_cgroup'?
+     405 |         if (!memcg || memcg == root_mem_cgroup)
+         |                                ^~~~~~~~~~~~~~~
+         |                                parent_mem_cgroup
+   kernel/cgroup/sli.c:405:32: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/cgroup/sli.c:408:21: error: invalid use of undefined type 'struct mem_cgroup'
+     408 |         cgrp = memcg->css.cgroup;
+         |                     ^~
+   kernel/cgroup/sli.c: At top level:
+   kernel/cgroup/sli.c:642:16: warning: no previous prototype for 'get_cgroup_from_task_id' [-Wmissing-prototypes]
+     642 | struct cgroup *get_cgroup_from_task_id(struct task_struct *task, int event_nr)
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/cgroup/sli.c: In function 'get_cgroup_from_task_id':
+>> kernel/cgroup/sli.c:647:14: error: 'cpuacct_cgrp_id' undeclared (first use in this function); did you mean 'cpu_cgrp_id'?
+     647 |         id = cpuacct_cgrp_id;
+         |              ^~~~~~~~~~~~~~~
+         |              cpu_cgrp_id
+   cc1: some warnings being treated as errors
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
+vim +647 kernel/cgroup/sli.c
 
-vim +/dw_pcie_get_untranslate_addr +782 drivers/pci/controller/dwc/pcie-designware-host.c
-
-   745	
-   746	static int dw_pcie_iatu_setup(struct dw_pcie_rp *pp)
-   747	{
-   748		struct dw_pcie *pci = to_dw_pcie_from_pp(pp);
-   749		struct dw_pcie_ob_atu_cfg atu = { 0 };
-   750		struct resource_entry *entry;
-   751		int i, ret;
-   752	
-   753		/* Note the very first outbound ATU is used for CFG IOs */
-   754		if (!pci->num_ob_windows) {
-   755			dev_err(pci->dev, "No outbound iATU found\n");
-   756			return -EINVAL;
-   757		}
-   758	
-   759		/*
-   760		 * Ensure all out/inbound windows are disabled before proceeding with
-   761		 * the MEM/IO (dma-)ranges setups.
-   762		 */
-   763		for (i = 0; i < pci->num_ob_windows; i++)
-   764			dw_pcie_disable_atu(pci, PCIE_ATU_REGION_DIR_OB, i);
-   765	
-   766		for (i = 0; i < pci->num_ib_windows; i++)
-   767			dw_pcie_disable_atu(pci, PCIE_ATU_REGION_DIR_IB, i);
-   768	
-   769		i = 0;
-   770		resource_list_for_each_entry(entry, &pp->bridge->windows) {
-   771			if (resource_type(entry->res) != IORESOURCE_MEM)
-   772				continue;
-   773	
-   774			if (pci->num_ob_windows <= ++i)
-   775				break;
-   776	
-   777			atu.index = i;
-   778			atu.type = PCIE_ATU_TYPE_MEM;
-   779			atu.cpu_addr = entry->res->start;
-   780			atu.pci_addr = entry->res->start - entry->offset;
-   781	
- > 782			if (dw_pcie_get_untranslate_addr(pci, atu.pci_addr, &atu.cpu_addr))
-   783				return -EINVAL;
-   784	
-   785			/* Adjust iATU size if MSG TLP region was allocated before */
-   786			if (pp->msg_res && pp->msg_res->parent == entry->res)
-   787				atu.size = resource_size(entry->res) -
-   788						resource_size(pp->msg_res);
-   789			else
-   790				atu.size = resource_size(entry->res);
-   791	
-   792			ret = dw_pcie_prog_outbound_atu(pci, &atu);
-   793			if (ret) {
-   794				dev_err(pci->dev, "Failed to set MEM range %pr\n",
-   795					entry->res);
-   796				return ret;
-   797			}
-   798		}
-   799	
-   800		if (pp->io_size) {
-   801			if (pci->num_ob_windows > ++i) {
-   802				atu.index = i;
-   803				atu.type = PCIE_ATU_TYPE_IO;
-   804				atu.cpu_addr = pp->io_base;
-   805				atu.pci_addr = pp->io_bus_addr;
-   806				atu.size = pp->io_size;
-   807	
-   808				ret = dw_pcie_prog_outbound_atu(pci, &atu);
-   809				if (ret) {
-   810					dev_err(pci->dev, "Failed to set IO range %pr\n",
-   811						entry->res);
-   812					return ret;
-   813				}
-   814			} else {
-   815				pp->cfg0_io_shared = true;
-   816			}
-   817		}
-   818	
-   819		if (pci->num_ob_windows <= i)
-   820			dev_warn(pci->dev, "Ranges exceed outbound iATU size (%d)\n",
-   821				 pci->num_ob_windows);
-   822	
-   823		pp->msg_atu_index = i;
-   824	
-   825		i = 0;
-   826		resource_list_for_each_entry(entry, &pp->bridge->dma_ranges) {
-   827			if (resource_type(entry->res) != IORESOURCE_MEM)
-   828				continue;
-   829	
-   830			if (pci->num_ib_windows <= i)
-   831				break;
-   832	
-   833			ret = dw_pcie_prog_inbound_atu(pci, i++, PCIE_ATU_TYPE_MEM,
-   834						       entry->res->start,
-   835						       entry->res->start - entry->offset,
-   836						       resource_size(entry->res));
-   837			if (ret) {
-   838				dev_err(pci->dev, "Failed to set DMA range %pr\n",
-   839					entry->res);
-   840				return ret;
-   841			}
-   842		}
-   843	
-   844		if (pci->num_ib_windows <= i)
-   845			dev_warn(pci->dev, "Dma-ranges exceed inbound iATU size (%u)\n",
-   846				 pci->num_ib_windows);
-   847	
-   848		return 0;
-   849	}
-   850	
+   641	
+   642	struct cgroup *get_cgroup_from_task_id(struct task_struct *task, int event_nr)
+   643	{
+   644		int id;
+   645		struct cgroup *cgrp;
+   646	
+ > 647		id = cpuacct_cgrp_id;
+   648		switch (event_nr) {
+   649	#if IS_ENABLED(CONFIG_MEMCG)
+   650		case SLI_MEM_EVENT:
+   651			id = memory_cgrp_id;
+   652			break;
+   653	#endif
+   654		default:
+   655			break;
+   656		}
+   657	
+   658		/* First, try to get cpuacct/mem cgroup for V1*/
+   659		cgrp = task_cgroup(task, id);
+   660		if (cgrp && cgrp->level)
+   661			return cgrp;
+   662	
+   663		/*
+   664		 * If can not find cpuacct/mem cgroup or cpuacct/mem cgroup is root, just return
+   665		 * dfl_cgrp.
+   666		 */
+   667		cgrp = task_dfl_cgroup(task);
+   668	
+   669		return cgrp;
+   670	}
+   671	
 
 -- 
 0-DAY CI Kernel Test Service
