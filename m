@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9629F206076
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FB6206E65
 	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 14:22:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730211730; cv=none; b=ljP0gmxHcuBcI9iKxnSiijjLb9oEIRDuFdi7ZcORwNdxQHBl5oDaWa6cwFJRtu7G0dJcOmIdLKKG08E2KRWEIjwzl5kpR0gAfzMcLxYfO3dHGmOa/dZCYcHaT0r5XjI+4SL115TFOCpP2Vdw9ucXPaduth7OELqjMfG6GpxwXuA=
+	t=1730211731; cv=none; b=TQ0tapBDq1QTdxxDGqwWSFhForKIWCugw8557tN8n4xQs9KEpt+F1bLAIWiy299sFdC1DL11LG4SsVmzFRk/ZMFJzj203DpHjj3tVoUyTqzWC97BFPuXWDgv58hPSR1JC8PTxMfypkT5OOa9ELzsCV3xCUcrd7n3VUji1+OBsEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730211730; c=relaxed/simple;
-	bh=ZvEHviW0DTtLskOH7T8lU3YWg9ODydIfTbTz5FWhpT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GBTKgZ7H4E5iUfrVcxWh7TRC6r62aGlW5uQ477kgmVIPcyjG+I4SGgDBNU7TUi2Bn7WGDpjn5eUKFGgKbX1Ko+F8aC5XVxF/I0IRuss1dBLy9SJmZ3AnP/wdMp8mvhpJbVz3AJgsJjWxon3b9YcwvEfXMtrmqHXSNrU5flZ+Z94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ok63+BX7; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1730211731; c=relaxed/simple;
+	bh=hoP8lthClCTvY07np8MIZtNFmhg4zCIuure896N0Rr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mSTYGPQDzwC/ZxvuKK4auY8rutMO8kXWTx6ly5tIabiptHlXJbtwC5imzg2QPYkMHkzTedqx2Au0L60HXeD58xZ+vnhnkPSATem057hxb1AL6mHZJmnupuarS7L3pDl47w7svNz9YJLStGZGwAFCRMt9V72CJ6kg8gQUlv7QV8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H9I5j+Z9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ok63+BX7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H9I5j+Z9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1730211729; x=1761747729;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZvEHviW0DTtLskOH7T8lU3YWg9ODydIfTbTz5FWhpT4=;
-  b=Ok63+BX7lfJ+TyNzBf54dfAaBQ8NuQlEin9RtMN0W+UjR1NJYv2bMK5N
-   0BQ5x1XiiQjrIof2IEnlguuuuFzZsOHPlUKmbz8DAXKlbYzgnJCOub6C+
-   EBVZh1ixKwk8+LMhDx9pFL0zTrxqXNO105crIqpI3qP7wkxAdFSrD0ilF
-   AEQeB00O9xvXqasz+7QeMWb1nSjhKILvadzyeJC/WksWZNFvZFOzg/ZbY
-   CKIi8RMBtMW5an3Sc1plcNOo4h57l7i/nHZvpSPg8d18Xeg6LwYxMT2nr
-   GOYb9CQFwsYwDyPV+Srq4i/pIJyd2Egxo8lQBYpV0L5UtMIpSC1gmWFK2
-   w==;
-X-CSE-ConnectionGUID: 6fcHq6i7Q4KXuSiCqtGFUw==
-X-CSE-MsgGUID: cDRHO7GDTjCvb7etLJO39g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="33651417"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hoP8lthClCTvY07np8MIZtNFmhg4zCIuure896N0Rr8=;
+  b=H9I5j+Z9uKCacFliuSrVgSMKSWLX9N4Vqkwj6mP0J0heJuBBWASZUz5I
+   mSuTO5JHI9c7XqYEB0nPzNwiGtZCNuFVUmTiD3+ecdHvWIfxqmMT07DLg
+   EUDGZs5KG7j7mbK4H1iF6xiMEVwsC88OrCNaNIx8OgpOqYlsWYaJ/BRii
+   9dkMgc7gyprpIwohc2alHdQn9fOHuSOlbLRmW9dReH7nS1OwgvUo0dV9y
+   ZYsmAc4eFLr7RrSCM9p69YeZ5VBCRKALF6e029xg0ibNoNxJoeYMtHzB4
+   IltZG2cL6v+rZJBQeLuZVtXhxgzWjTUnCQG5yQS0l3TrKhmsfiAxPrcY7
+   g==;
+X-CSE-ConnectionGUID: /l4rzxtdSJ2wbcCZ9VOPjA==
+X-CSE-MsgGUID: VyniapHgR1S7MnbJB6p3Yw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="30064399"
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="33651417"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:22:08 -0700
-X-CSE-ConnectionGUID: YSpH/AWIS1eMWRkVgWwOtA==
-X-CSE-MsgGUID: y9AoVrYsTAiIaM9MwnplMg==
+   d="scan'208";a="30064399"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 07:22:06 -0700
+X-CSE-ConnectionGUID: R8QBtoiFRQO/gRj97Ckz1w==
+X-CSE-MsgGUID: +1QDqzUxTpGaxzpoCLWH7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="82787643"
+   d="scan'208";a="105305982"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Oct 2024 07:22:05 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 29 Oct 2024 07:22:04 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5n6g-000dlJ-1m;
+	id 1t5n6g-000dlN-1y;
 	Tue, 29 Oct 2024 14:22:02 +0000
-Date: Tue, 29 Oct 2024 22:21:28 +0800
+Date: Tue, 29 Oct 2024 22:21:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 6450/13046]
- arch/x86/events/zhaoxin/uncore.c:323:1: sparse: sparse: symbol
- '__pcpu_scope_zx_package_id' was not declared. Should it be static?
-Message-ID: <202410292204.J2knWjKy-lkp@intel.com>
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
+Message-ID: <202410292232.sT4alx5x-lkp@intel.com>
+References: <20241028213541.1529-13-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,101 +62,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241028213541.1529-13-ouster@cs.stanford.edu>
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: 64ed8094654cceec3ab5411352b161c6093b38e4 [6450/13046] x86/perf: Add PMU uncore support for Zhaoxin CPU
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241029/202410292204.J2knWjKy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292204.J2knWjKy-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241029-095137
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241028213541.1529-13-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241029/202410292232.sT4alx5x-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292232.sT4alx5x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410292204.J2knWjKy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410292232.sT4alx5x-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/events/zhaoxin/uncore.c:323:1: sparse: sparse: symbol '__pcpu_scope_zx_package_id' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:324:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_id' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:325:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_id' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:380:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_core_bits' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:381:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_core_bits' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2388:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2393:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2399:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2762:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2771:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2776:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2792:6: sparse: sparse: symbol 'kx8000_uncore_cpu_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2797:5: sparse: sparse: symbol 'kx8000_uncore_pci_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2805:6: sparse: sparse: symbol 'kx8000_uncore_mmio_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +/__pcpu_scope_zx_package_id +323 arch/x86/events/zhaoxin/uncore.c
+   net/homa/homa_pool.c: In function 'homa_pool_init':
+>> net/homa/homa_pool.c:55:14: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+      55 |         if (((__u64)region) & ~PAGE_MASK)
+         |              ^
 
-   322	
- > 323	DEFINE_PER_CPU(int, zx_package_id);
- > 324	DEFINE_PER_CPU(int, zx_subnode_id);
- > 325	DEFINE_PER_CPU(int, zx_cluster_id);
-   326	
-   327	static void get_topology_info(void)
-   328	{
-   329		int cpu;
-   330		int cluster_id;
-   331		int socket_id;
-   332		int die_id;
-   333		int subnode_id;
-   334	
-   335		int die_info;
-   336		int subnode_info;
-   337		int cluster_info;
-   338	
-   339		u64 config;
-   340	
-   341		for_each_present_cpu(cpu) {
-   342			smp_call_function_single(cpu, get_global_status_msr, &config, 1);
-   343			socket_id = (int)((config >> 3) & 0x1);
-   344			per_cpu(zx_package_id, cpu) = socket_id;
-   345	
-   346			/* only kh40000 needs cluster and subnode info */
-   347			if (boot_cpu_data.x86_model != ZHAOXIN_FAM7_KH40000)
-   348				continue;
-   349	
-   350			smp_call_function_single(cpu, get_hdw_config_msr, &config, 1);
-   351	
-   352			die_info = (int)((config >> 21) & 0x3);
-   353			die_id = socket_id * dies_per_socket + die_info;
-   354	
-   355			subnode_info = (int)((config >> 20) & 0x1);
-   356			subnode_id = die_id * subnodes_per_die + subnode_info;
-   357			per_cpu(zx_subnode_id, cpu) = subnode_id;
-   358	
-   359			cluster_info = (int)((config >> 18) & 0x3);
-   360			cluster_id = subnode_id * clusters_per_subnode + cluster_info;
-   361			per_cpu(zx_cluster_id, cpu) = cluster_id;
-   362		}
-   363	}
-   364	
-   365	static int zx_topology_cluster_id(int cpu)
-   366	{
-   367		return per_cpu(zx_cluster_id, cpu);
-   368	}
-   369	
-   370	static int zx_topology_subnode_id(int cpu)
-   371	{
-   372		return per_cpu(zx_subnode_id, cpu);
-   373	}
-   374	
-   375	static int zx_topology_package_id(int cpu)
-   376	{
-   377		return per_cpu(zx_package_id, cpu);
-   378	}
-   379	
- > 380	DEFINE_PER_CPU(cpumask_t, zx_cluster_core_bits);
- > 381	DEFINE_PER_CPU(cpumask_t, zx_subnode_core_bits);
-   382	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +55 net/homa/homa_pool.c
+
+2076aa7e789765 John Ousterhout 2024-10-28   40  
+2076aa7e789765 John Ousterhout 2024-10-28   41  /**
+2076aa7e789765 John Ousterhout 2024-10-28   42   * homa_pool_init() - Initialize a homa_pool; any previous contents of the
+2076aa7e789765 John Ousterhout 2024-10-28   43   * objects are overwritten.
+2076aa7e789765 John Ousterhout 2024-10-28   44   * @hsk:          Socket containing the pool to initialize.
+2076aa7e789765 John Ousterhout 2024-10-28   45   * @region:       First byte of the memory region for the pool, allocated
+2076aa7e789765 John Ousterhout 2024-10-28   46   *                by the application; must be page-aligned.
+2076aa7e789765 John Ousterhout 2024-10-28   47   * @region_size:  Total number of bytes available at @buf_region.
+2076aa7e789765 John Ousterhout 2024-10-28   48   * Return: Either zero (for success) or a negative errno for failure.
+2076aa7e789765 John Ousterhout 2024-10-28   49   */
+2076aa7e789765 John Ousterhout 2024-10-28   50  int homa_pool_init(struct homa_sock *hsk, void *region, __u64 region_size)
+2076aa7e789765 John Ousterhout 2024-10-28   51  {
+2076aa7e789765 John Ousterhout 2024-10-28   52  	struct homa_pool *pool = hsk->buffer_pool;
+2076aa7e789765 John Ousterhout 2024-10-28   53  	int i, result;
+2076aa7e789765 John Ousterhout 2024-10-28   54  
+2076aa7e789765 John Ousterhout 2024-10-28  @55  	if (((__u64)region) & ~PAGE_MASK)
+2076aa7e789765 John Ousterhout 2024-10-28   56  		return -EINVAL;
+2076aa7e789765 John Ousterhout 2024-10-28   57  	pool->hsk = hsk;
+2076aa7e789765 John Ousterhout 2024-10-28   58  	pool->region = (char *)region;
+2076aa7e789765 John Ousterhout 2024-10-28   59  	pool->num_bpages = region_size >> HOMA_BPAGE_SHIFT;
+2076aa7e789765 John Ousterhout 2024-10-28   60  	pool->descriptors = NULL;
+2076aa7e789765 John Ousterhout 2024-10-28   61  	pool->cores = NULL;
+2076aa7e789765 John Ousterhout 2024-10-28   62  	if (pool->num_bpages < MIN_POOL_SIZE) {
+2076aa7e789765 John Ousterhout 2024-10-28   63  		result = -EINVAL;
+2076aa7e789765 John Ousterhout 2024-10-28   64  		goto error;
+2076aa7e789765 John Ousterhout 2024-10-28   65  	}
+2076aa7e789765 John Ousterhout 2024-10-28   66  	pool->descriptors = kmalloc_array(pool->num_bpages,
+2076aa7e789765 John Ousterhout 2024-10-28   67  					  sizeof(struct homa_bpage), GFP_ATOMIC);
+2076aa7e789765 John Ousterhout 2024-10-28   68  	if (!pool->descriptors) {
+2076aa7e789765 John Ousterhout 2024-10-28   69  		result = -ENOMEM;
+2076aa7e789765 John Ousterhout 2024-10-28   70  		goto error;
+2076aa7e789765 John Ousterhout 2024-10-28   71  	}
+2076aa7e789765 John Ousterhout 2024-10-28   72  	for (i = 0; i < pool->num_bpages; i++) {
+2076aa7e789765 John Ousterhout 2024-10-28   73  		struct homa_bpage *bp = &pool->descriptors[i];
+2076aa7e789765 John Ousterhout 2024-10-28   74  
+2076aa7e789765 John Ousterhout 2024-10-28   75  		spin_lock_init(&bp->lock);
+2076aa7e789765 John Ousterhout 2024-10-28   76  		atomic_set(&bp->refs, 0);
+2076aa7e789765 John Ousterhout 2024-10-28   77  		bp->owner = -1;
+2076aa7e789765 John Ousterhout 2024-10-28   78  		bp->expiration = 0;
+2076aa7e789765 John Ousterhout 2024-10-28   79  	}
+2076aa7e789765 John Ousterhout 2024-10-28   80  	atomic_set(&pool->free_bpages, pool->num_bpages);
+2076aa7e789765 John Ousterhout 2024-10-28   81  	pool->bpages_needed = INT_MAX;
+2076aa7e789765 John Ousterhout 2024-10-28   82  
+2076aa7e789765 John Ousterhout 2024-10-28   83  	/* Allocate and initialize core-specific data. */
+2076aa7e789765 John Ousterhout 2024-10-28   84  	pool->cores = kmalloc_array(nr_cpu_ids, sizeof(struct homa_pool_core),
+2076aa7e789765 John Ousterhout 2024-10-28   85  				    GFP_ATOMIC);
+2076aa7e789765 John Ousterhout 2024-10-28   86  	if (!pool->cores) {
+2076aa7e789765 John Ousterhout 2024-10-28   87  		result = -ENOMEM;
+2076aa7e789765 John Ousterhout 2024-10-28   88  		goto error;
+2076aa7e789765 John Ousterhout 2024-10-28   89  	}
+2076aa7e789765 John Ousterhout 2024-10-28   90  	pool->num_cores = nr_cpu_ids;
+2076aa7e789765 John Ousterhout 2024-10-28   91  	for (i = 0; i < pool->num_cores; i++) {
+2076aa7e789765 John Ousterhout 2024-10-28   92  		pool->cores[i].page_hint = 0;
+2076aa7e789765 John Ousterhout 2024-10-28   93  		pool->cores[i].allocated = 0;
+2076aa7e789765 John Ousterhout 2024-10-28   94  		pool->cores[i].next_candidate = 0;
+2076aa7e789765 John Ousterhout 2024-10-28   95  	}
+2076aa7e789765 John Ousterhout 2024-10-28   96  	pool->check_waiting_invoked = 0;
+2076aa7e789765 John Ousterhout 2024-10-28   97  
+2076aa7e789765 John Ousterhout 2024-10-28   98  	return 0;
+2076aa7e789765 John Ousterhout 2024-10-28   99  
+2076aa7e789765 John Ousterhout 2024-10-28  100  error:
+2076aa7e789765 John Ousterhout 2024-10-28  101  	kfree(pool->descriptors);
+2076aa7e789765 John Ousterhout 2024-10-28  102  	kfree(pool->cores);
+2076aa7e789765 John Ousterhout 2024-10-28  103  	pool->region = NULL;
+2076aa7e789765 John Ousterhout 2024-10-28  104  	return result;
+2076aa7e789765 John Ousterhout 2024-10-28  105  }
+2076aa7e789765 John Ousterhout 2024-10-28  106  
 
 -- 
 0-DAY CI Kernel Test Service
