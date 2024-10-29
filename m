@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6811D95BE;
-	Tue, 29 Oct 2024 17:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570172107
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 17:16:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730221586; cv=none; b=pWLsXy6JeAn8UD9v3j+Q3hNqL2VzC3i8+IKf6tWeqfbMRIW3NIZnWTJLfKLiWVLwISsgxGe38uxsweJMecxp48A1X+Dd7HUtruHcHuTpaC2vmjWRJEoZDoIk4xJs/dY4DZsJLf+3KOLbG7p+Wcw6/8O6r4Ff05+8nPC7B6MxlUs=
+	t=1730222184; cv=none; b=aSy2y8xbRJyq074WRe/09Pohkyf4Dzgfdt2egAArCRr5EQ29TLdP5j0AGgGLr6RLOkapqB7NzzTpVy7nSZRUlCRJJImEEdiqqmuMrmyUoz/2R55oaRkDr2br5/yWikxi4Ryf77T0u6Awm1Tn0rE4qhpYr04En+Z0VqVdRfsd5EY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730221586; c=relaxed/simple;
-	bh=GFsoyu+gSq/aSU9jlBlwuMAGi0F5EJzjk+vasvk+KMY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lKbcyeAE+IA/xDpTnLMeC8ZKtOmh0k9hKNkgZHB2t0mtGMOB3cwcBxSR44sVxJawOREYaFFUO1JMOvCLvzmlTcx1lbqg2+8KHI+NnSClZObrpljC5mFUVG2AM0IQ5osXLVe/J4/dBpIaPS4GkL1aaY5AE17kLQP1wIyItQk7nn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoXb2OaQ; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1730222184; c=relaxed/simple;
+	bh=WNXAgwMx0qWnWqt9YNaVeIiO4YtAdP/OYZlOO61AVUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NmLtHftyD+WXRWNmzJL676kfCD2XUbYlheLI4ZSbLvB194/GJG1VKymaGCPwaLJo+Vfyf2SL9UzTxrrQKQ3I3EVbFMi0wdsL6mQNlHa//Yp2ndMtSDGBfqCoBVbRdu3JevLM+LxNzNNd3ZV5G5wiG488HjcOOjC76Y+6czh32bY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MRI3HxTz; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoXb2OaQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MRI3HxTz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730221585; x=1761757585;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GFsoyu+gSq/aSU9jlBlwuMAGi0F5EJzjk+vasvk+KMY=;
-  b=CoXb2OaQaPpPqBDVSyMgYWPwQ9fTd3SggvjSwEvEONIgmtUDK4EtUq1b
-   NFViL4olDbFpa5F8LWqXd+0v4S1kfs1Grqu1PpkyvhudtTCzfmh72AM/h
-   oh4h2Ey6qObreR9iHUj3YA9GYkufyi74TLDL2pd7iFYusrUwnWuqOC6EB
-   ajFPLpXhmIxUSLzySFF9/wfOfn24FvOoKzvraddmc8yJk7cm2Ob1t5FXn
-   M7BvU7p6G4YDBTEqN6ra/SID0MMIHPAdRtj96bc0XB3fB7vHYSK4tylIn
-   TJxRLK0FcXaoRhqrG/PuPoC4e+AI3g2bxeKwEqcxXTGW2dczJEQ16cA5F
+  t=1730222183; x=1761758183;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WNXAgwMx0qWnWqt9YNaVeIiO4YtAdP/OYZlOO61AVUU=;
+  b=MRI3HxTzp/uX3OjUIMDHuJnfHpM40JRhnKe4tRlZPtmjfTK7V2qdmtcz
+   gL7BESH7TxIXoZdRa5gYYrF7aRApQIuuFUqNr2L1bBfR11j3EP4imS0QV
+   x1OAhFym7gdGktdJnAovC5Uf+Bg/nmj/fApttnTRISsH9ckdGV+LLy6pc
+   POrd9OrA8ivvaNBPzRw0Z5Xi7O6glse5+tFR9m/IzdPEENKFPGU+L4vm2
+   YI5Q9XjSp+0b09mLAzGhXvsMCeH7cl19zoUDEPh45aKfmhIkErq2aDIWs
+   6ptX/v0aDUIQ9u+EAEoCxVHk+gP5ZnIzCTqyvVZEyVY+rU/xfndSaB1eI
    Q==;
-X-CSE-ConnectionGUID: I1nNnle5Qlav62AGNyYzIA==
-X-CSE-MsgGUID: +JZ6TF74QcWz5hVXJ5fLlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52435491"
+X-CSE-ConnectionGUID: nBomDc/ZTB2UJAGyPrMhtw==
+X-CSE-MsgGUID: c1dYe6WfR8KmtgWyfBKJjA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29843496"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52435491"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:06:23 -0700
-X-CSE-ConnectionGUID: 7q9ZxRnpTnuEDnhZdkCFQg==
-X-CSE-MsgGUID: WNsgyM8oS1ez1aK6WXHuiQ==
+   d="scan'208";a="29843496"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:16:22 -0700
+X-CSE-ConnectionGUID: IW4hrqR0Tbm0Xw6DgnoE3w==
+X-CSE-MsgGUID: Uj6/D11CS821Er09Y46NlQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="81945398"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="86782895"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Oct 2024 10:06:17 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Oct 2024 10:16:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5pfc-000dvO-0Q;
-	Tue, 29 Oct 2024 17:06:16 +0000
-Date: Wed, 30 Oct 2024 01:05:34 +0800
+	id 1t5ppI-000dvY-0a;
+	Tue, 29 Oct 2024 17:16:16 +0000
+Date: Wed, 30 Oct 2024 01:15:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: alice.guo@oss.nxp.com, wahrenst@gmx.net, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	"alice.guo" <alice.guo@nxp.com>
-Subject: Re: [PATCH v2] soc: imx: Add SoC device register for i.MX9
-Message-ID: <202410300019.uWGJaR4m-lkp@intel.com>
-References: <20241029083406.3888861-1-alice.guo@oss.nxp.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 7865/13046] kernel/cgroup/sli.c:642:15: sparse:
+ sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be
+ static?
+Message-ID: <202410300158.0rkAhJcg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,74 +66,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029083406.3888861-1-alice.guo@oss.nxp.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on linus/master v6.12-rc5 next-20241029]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alice-guo-oss-nxp-com/soc-imx-Add-SoC-device-register-for-i-MX9/20241029-163718
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241029083406.3888861-1-alice.guo%40oss.nxp.com
-patch subject: [PATCH v2] soc: imx: Add SoC device register for i.MX9
-config: arm-randconfig-002-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300019.uWGJaR4m-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300019.uWGJaR4m-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 00423a80429a623a28227d306c3108e801dd0f6f [7865/13046] sli: backport sli function from tk3
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300158.0rkAhJcg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300158.0rkAhJcg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300019.uWGJaR4m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300158.0rkAhJcg-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/cgroup/sli.c:642:15: sparse: sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be static?
+>> kernel/cgroup/sli.c:1247:27: sparse: sparse: dubious: !x & y
+>> kernel/cgroup/sli.c:1247:29: sparse: sparse: restricted fmode_t degrades to integer
+>> kernel/cgroup/sli.c:1337:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
+   kernel/cgroup/sli.c:1337:24: sparse:     expected restricted __poll_t
+   kernel/cgroup/sli.c:1337:24: sparse:     got int
+   kernel/cgroup/sli.c: note: in included file (through include/linux/mutex.h, include/linux/seq_file.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/umh.h:4,
-                    from include/linux/kmod.h:9,
-                    from include/linux/module.h:17,
-                    from drivers/soc/imx/soc-imx9.c:8:
-   drivers/soc/imx/soc-imx9.c: In function 'imx9_soc_device_register':
->> include/linux/kern_levels.h:5:25: warning: format '%d' expects argument of type 'int', but argument 3 has type 'long unsigned int' [-Wformat=]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/printk.h:462:25: note: in definition of macro 'printk_index_wrap'
-     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ^~~~
-   include/linux/printk.h:533:9: note: in expansion of macro 'printk'
-     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:533:16: note: in expansion of macro 'KERN_ERR'
-     533 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/soc/imx/soc-imx9.c:48:17: note: in expansion of macro 'pr_err'
-      48 |                 pr_err("%s: SMC failed: %d\n", __func__, res.a0);
-         |                 ^~~~~~
+vim +/get_cgroup_from_task_id +642 kernel/cgroup/sli.c
 
-
-vim +5 include/linux/kern_levels.h
-
-314ba3520e513a7 Joe Perches 2012-07-30  4  
-04d2c8c83d0e3ac Joe Perches 2012-07-30 @5  #define KERN_SOH	"\001"		/* ASCII Start Of Header */
-04d2c8c83d0e3ac Joe Perches 2012-07-30  6  #define KERN_SOH_ASCII	'\001'
-04d2c8c83d0e3ac Joe Perches 2012-07-30  7  
+   641	
+ > 642	struct cgroup *get_cgroup_from_task_id(struct task_struct *task, int event_nr)
+   643	{
+   644		int id;
+   645		struct cgroup *cgrp;
+   646	
+   647		id = cpuacct_cgrp_id;
+   648		switch (event_nr) {
+   649	#if IS_ENABLED(CONFIG_MEMCG)
+   650		case SLI_MEM_EVENT:
+   651			id = memory_cgrp_id;
+   652			break;
+   653	#endif
+   654		default:
+   655			break;
+   656		}
+   657	
+   658		/* First, try to get cpuacct/mem cgroup for V1*/
+   659		cgrp = task_cgroup(task, id);
+   660		if (cgrp && cgrp->level)
+   661			return cgrp;
+   662	
+   663		/*
+   664		 * If can not find cpuacct/mem cgroup or cpuacct/mem cgroup is root, just return
+   665		 * dfl_cgrp.
+   666		 */
+   667		cgrp = task_dfl_cgroup(task);
+   668	
+   669		return cgrp;
+   670	}
+   671	
 
 -- 
 0-DAY CI Kernel Test Service
