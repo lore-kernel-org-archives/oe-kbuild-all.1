@@ -1,151 +1,128 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F48D209677
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 21:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5E982076DA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 21:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730236743; cv=none; b=e86H44PUfTRPVrw7F4T9XmUWPG6/8mjMqo6hgwDK1rOTaBNVc7HjbKsDOxfRRfFsRdE5xCaCx03XLn0cG56E8i0cMRC95dNR2Zgln077sn74LCK17BvP5WTDnuW7lBJk23c3A747xBIm7mSudjnMd/85tXji6q/quvowEd2dbn4=
+	t=1730236834; cv=none; b=MwzZN4tzTQWVEz0Ix8AnjKigkQGXBTRRKW7sAOPrndPUsIU094QeGWnOR/vdKKo7VLN3Etnd2XwcLsaLaSR97vO3soeXePY/VX5PQZHbV5OCkztTF52a83g5QvcxSndjPPdQuKQVmxyXWQuXrWQVelkjB7SNYOcX4xXpYHlfzWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730236743; c=relaxed/simple;
-	bh=dv4bhimSyYfvrOi38m0XgZZxFgyEQwSEMbF7GlVQPaU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=uYuNig75dT5NhcqZ+5gqcqMEX2eegHQCbC8M84KoaIxJsamq/STRpK5Tmxe6U8U+msewJsTIffhfg4n0cAbNB3cDqI3wOZ2YLQsJm4dsHGS29wv5LpCZzHdzAfNjwajvPl+yJ5cNY+0SZkMoxW9vYiDamjh1kLomOzmb3lwMU3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=pJjV6oiU; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=RCxB9jQ3; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1730236834; c=relaxed/simple;
+	bh=xmq0G0NPZnmPLwm9hf7NzZqx3+QhW6WFXh/oqgG2jiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jEIeNcTRcE+zkLmhlNMDBcessaKnfOcvt8sZTrsV0UxkqmQyKCu+2bpfAKFJ5hS/1ZlifHMAMqrquwg9e0g/QazPfb1f5ldE2QzhwKZqfftYB/QjYYPH08YqMN5ftSCzLP2AQDVVYCFPw54JHLt/PESFx/lYEizv7IVypMGfgpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ea8oyPqq; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="pJjV6oiU";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="RCxB9jQ3"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1730236737;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfcGT3IOuRJChXP2bTvoVUa7Dcb57GbYFaja+I6Wrz0=;
-	b=pJjV6oiU4ankcM6KRlgfeK7AJY/YMi1noCW6Q3RfcmISc1YQPJBFfQDQQp/a4XKidj1alL
-	HiVTPP7hUj3/q29H7K8UBp0eaDrTP/wsPOdGOGR3FfxSmjZdiKC+lThXEgZvuc/NKbwSEZ
-	U07sBl4QRHN4Q0fV/SOZbgFb01LNwhHYqMAx2NBVZWH2lRtyvZwLoUb0gpeB5GMjxMrwTB
-	jb6IoRkN1atfg1P2mSS7+21d6ymywuRFrD9RXyfupLVPHtIfMxkFLBAEQkuy2YFUy/0WEF
-	b4vv3L5OhQYit7HGX1JjIukZzxLChzVZcX+Z7a9NGOc9cFwK8a5JqLUl+0RKoA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1730236737;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GfcGT3IOuRJChXP2bTvoVUa7Dcb57GbYFaja+I6Wrz0=;
-	b=RCxB9jQ3/FsneNC0xIdmxg0SVxjFj4boqFsEMVoUXnsqQR3gcIgRpdvNlF5XoknhO5tG/8
-	OCa21/U/cBtLs2BA==
-To: kernel test robot <lkp@intel.com>, Vincenzo Frascino
- <vincenzo.frascino@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- x86@kernel.org, Arnd Bergmann <arnd@arndb.de>, Geert Uytterhoeven
- <geert@linux-m68k.org>
-Subject: Re: [tip:timers/vdso 11/13] include/vdso/page.h:15:39: error:
- 'CONFIG_PAGE_SHIFT' undeclared here (not in a function); did you mean
- 'CONFIG_LOG_BUF_SHIFT'?
-In-Reply-To: <202410290639.TBG289SO-lkp@intel.com>
-References: <202410290639.TBG289SO-lkp@intel.com>
-Date: Tue, 29 Oct 2024 22:18:56 +0100
-Message-ID: <87ttcuzjy7.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ea8oyPqq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730236832; x=1761772832;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xmq0G0NPZnmPLwm9hf7NzZqx3+QhW6WFXh/oqgG2jiE=;
+  b=Ea8oyPqqG+ES3c5Y4pqr80TNDdRd8BVbF2GLSxHgerfUj6gEq3kkhfrn
+   MyuiLUBbQkH8cj7/ogSCcyIFLKabfQg+rNClOjwwW3xnDjsXlwMIwkraT
+   QrapcoAXDwxXHv62iZOWBKYN9pMDtTp2+FfhlKwZ+OVAIuEtQo3jkfqPA
+   1b+jb9CDCyz4hYdweudDuO81IDy4Kfho2NEY59H4lVqWxWaBV90jXyjBP
+   CifvGWmG5h1brwciSLFYyjjKb8hTZmgSK19yv4EFgqN/i52/+uupClsXx
+   csSRC7X2tf8KHKvB0Lpn3BttXTIOXzMvc/EPOPz+HQbEVBcbz4//Q+2zc
+   w==;
+X-CSE-ConnectionGUID: FCTCLVVwSWOcxQ42eeUDXw==
+X-CSE-MsgGUID: aeXP1N3iTL29+kEQpV4SCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="17547292"
+X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
+   d="scan'208";a="17547292"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 14:20:31 -0700
+X-CSE-ConnectionGUID: bnUTD2pnTw+RYTtz5vKixg==
+X-CSE-MsgGUID: WVHZsTaKQvOagpwnFJsmfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
+   d="scan'208";a="86705172"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 29 Oct 2024 14:20:30 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5tdb-000eAG-2o;
+	Tue, 29 Oct 2024 21:20:27 +0000
+Date: Wed, 30 Oct 2024 05:19:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jim Cromie <jim.cromie@gmail.com>,
+	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jimc:dd-shrink-4d 73/82] lib/dynamic_debug.c:94:2: error: call to
+ undeclared function 'mt_dump'; ISO C99 and later do not support implicit
+ function declarations
+Message-ID: <202410300522.Gk7rkYKK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Oct 29 2024 at 06:38, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-> head:   d4a65302dd849fade9e2ca712826c35b8d068ecb
-> commit: efe8419ae78d65e83edc31aad74b605c12e7d60c [11/13] vdso: Introduce vdso/page.h
-> config: m68k-alldefconfig (https://download.01.org/0day-ci/archive/20241029/202410290639.TBG289SO-lkp@intel.com/config)
-> compiler: m68k-linux-gcc (GCC) 14.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290639.TBG289SO-lkp@intel.com/reproduce)
+tree:   https://github.com/jimc/linux.git dd-shrink-4d
+head:   98a15f4b1948cdaabac1f0fc008c79870c4d4672
+commit: c3746eba32683abe010272527c9ef1aede38c68b [73/82] dyndbg: save _ddebug_site mod,file,func fields into maple-trees
+config: x86_64-buildonly-randconfig-001-20241030 (https://download.01.org/0day-ci/archive/20241030/202410300522.Gk7rkYKK-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300522.Gk7rkYKK-lkp@intel.com/reproduce)
 
->      6	
->      7	/*
->      8	 * PAGE_SHIFT determines the page size.
->      9	 *
->     10	 * Note: This definition is required because PAGE_SHIFT is used
->     11	 * in several places throuout the codebase.
->     12	 */
->   > 13	#define PAGE_SHIFT      CONFIG_PAGE_SHIFT
->     14	
->   > 15	#define PAGE_SIZE	(_AC(1,UL) << CONFIG_PAGE_SHIFT)
->     16	
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300522.Gk7rkYKK-lkp@intel.com/
 
-That's actually not the culprit. The problem exists in mainline too. The
-actual root cause is:
+All errors (new ones prefixed by >>):
 
-  5394f1e9b687 ("arch: define CONFIG_PAGE_SIZE_*KB on all architectures")
+   In file included from lib/dynamic_debug.c:19:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     504 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     511 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> lib/dynamic_debug.c:94:2: error: call to undeclared function 'mt_dump'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      94 |         mt_dump(mt, mt_dump_hex);
+         |         ^
+   lib/dynamic_debug.c:94:2: note: did you mean 'xa_dump'?
+   include/linux/xarray.h:1180:6: note: 'xa_dump' declared here
+    1180 | void xa_dump(const struct xarray *);
+         |      ^
+   lib/dynamic_debug.c:94:14: error: use of undeclared identifier 'mt_dump_hex'
+      94 |         mt_dump(mt, mt_dump_hex);
+         |                     ^
+   lib/dynamic_debug.c:1434:29: error: assigning to 'struct _ddebug *' from incompatible type 'struct _ddebug_descs'
+    1434 |         cur = funcp = filep = modp = di->descs;
+         |                                    ^ ~~~~~~~~~
+   lib/dynamic_debug.c:1435:22: error: no member named 'num_descs' in 'struct _ddebug_info'
+    1435 |         for (i = 0; i < di->num_descs; i++, cur++) {
+         |                         ~~  ^
+   3 warnings and 4 errors generated.
 
-The config has no CONFIG_PAGE_SHIFT because nothing selects a page size. The
-the original code had:
 
-if defined(CONFIG_SUN3) || defined(CONFIG_COLDFIRE)
-#define PAGE_SHIFT     13
-#else
-#define PAGE_SHIFT     12
-#endif                        
+vim +/mt_dump +94 lib/dynamic_debug.c
 
-But the Kconfig magic changes made this depend on various other things.
+    90	
+    91	static void ddebug_mt_scan(struct maple_tree *mt, const char *kind)
+    92	{
+    93		pr_info("mt-%s:\n", kind);
+  > 94		mt_dump(mt, mt_dump_hex);
+    95	}
+    96	
 
-The patch below cures it, but it needs an eyeball from Geert.
-
-Thanks,
-
-        tglx
----
-diff --git a/arch/m68k/Kconfig b/arch/m68k/Kconfig
-index cc26df907bfe..6f50fdc4dff2 100644
---- a/arch/m68k/Kconfig
-+++ b/arch/m68k/Kconfig
-@@ -85,15 +85,12 @@ config MMU
- 
- config MMU_MOTOROLA
- 	bool
--	select HAVE_PAGE_SIZE_4KB
- 
- config MMU_COLDFIRE
--	select HAVE_PAGE_SIZE_8KB
- 	bool
- 
- config MMU_SUN3
- 	bool
--	select HAVE_PAGE_SIZE_8KB
- 	depends on MMU && !MMU_MOTOROLA && !MMU_COLDFIRE
- 
- config ARCH_SUPPORTS_KEXEC
-diff --git a/arch/m68k/Kconfig.cpu b/arch/m68k/Kconfig.cpu
-index c777a129768a..4d16215e7e45 100644
---- a/arch/m68k/Kconfig.cpu
-+++ b/arch/m68k/Kconfig.cpu
-@@ -21,6 +21,8 @@ choice
- config M68KCLASSIC
- 	bool "Classic M68K CPU family support"
- 	select HAVE_ARCH_PFN_VALID
-+	select HAVE_PAGE_SIZE_4KB if !SUN3
-+	select HAVE_PAGE_SIZE_8KB if SUN3
- 
- config COLDFIRE
- 	bool "Coldfire CPU family support"
-@@ -30,7 +32,7 @@ config COLDFIRE
- 	select GENERIC_CSUM
- 	select GPIOLIB
- 	select HAVE_LEGACY_CLK
--	select HAVE_PAGE_SIZE_8KB if !MMU
-+	select HAVE_PAGE_SIZE_8KB
- 
- endchoice
- 
-@@ -46,7 +48,6 @@ config M68000
- 	select GENERIC_CSUM
- 	select CPU_NO_EFFICIENT_FFS
- 	select HAVE_ARCH_HASH
--	select HAVE_PAGE_SIZE_4KB
- 	select LEGACY_TIMER_TICK
- 	help
- 	  The Freescale (was Motorola) 68000 CPU is the first generation of
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
