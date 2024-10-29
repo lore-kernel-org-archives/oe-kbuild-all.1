@@ -1,96 +1,58 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A12261F4FA8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 04:42:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240742003BC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 04:42:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730176943; cv=none; b=C3oZicDi6zkVDgRGfRqcl0dP9vrwOj5n6ZTloJyBKRM2OW8+c8xw4gWOYgUVBpLMLnwzp2udY75Uh7EOvov9q7088mr3BM9pTQu8Q8acWSjI5izVVAsM+BM0mdNjMERAO4GaHFsivqkn+1G2w/W4+qG0TuApjZD7/Zc9E/OiVjo=
+	t=1730176967; cv=none; b=C+NUTkdAcMKDL1kvnYp3EP8AXu256xQx0Ntjp+YfTpO3+tJfJrgMjEu/dYfl9ILR45U27CN4RinY4uUwV+vZ6kV7dE/eTypPOhCR5pJY+mfErWV5M+L7t1imqMHXalA2MI+ddeG+fF690zDPuh9ndDo+nUCrg+QAgRZFxHmHgak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730176943; c=relaxed/simple;
-	bh=CiB8PdUxgE2SSWDDmPtzZYlJTn0oJ8d/Vqg4vuRgxGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CcHkAy796sAWpvepmg+uroNg5wPln0+OLraHtfTXYLv5buJEkTqs1FGda8ezSRIq5Laq++RxzfidfMN/gUN7/CfieAbzSZL354ZVwMWoe9gXqntFvGRol8qzLuYH6AY9f7XJzfG/KEZkRxYvkqhUaq7mhrIlEKG6o/GrtldMsw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IdZTrF+d; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730176967; c=relaxed/simple;
+	bh=KQCOZau7OhpQ2F+0qsuPTSSx8QMm6ThsnF5cs3MBbi0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=uvkGqqkgUAe1miaPSdimO+gq11CWATJ470hiO07+vrslM94G25CAt02ygpqaEqaVMr+jqT8LRKN6JANNHgv72KCzm1W45QeyYk6xl7om35F0KrE+ClQkKolBaGSGEgBKMwIq5zoj3w1xkkKBS0c7tfThMrKp1PagjEto4jdfzDQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y98DRVRO; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IdZTrF+d"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7b13bf566c0so306439985a.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Oct 2024 21:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730176940; x=1730781740; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SCDuYnGCVDfYfMTEaNcdXNBa6KERcUJLKMaVLvH9fgM=;
-        b=IdZTrF+dnTBRLKf3klR/23sp5YFWfWUj3NyJvIdxRzMoX+sYa4ENyalEZdYWoHttCo
-         b7eLjwDWGBbOz6fUnmuSlt7tFnuOHIlGvgMeyLiOayxdvooM2ucBTnKvwMRDu2shXlIc
-         2SbipOK+jXnCGj14vDmwYq/r1jcq2X/+L+thb+o9fxf7AxoreqpxmiJPhWpKMvGOYGpU
-         McruwFDxehlwtNj61dr4VrXxnXmfZNJIrJOl7I9/iudFMldeZpqADoQgnRL/3iVLlgNE
-         Rf5iphejT8+RuDiwL4TbHCkjiSx59PWLonEiR+0N7JgBgxTWoW2WZEcWFRMV6M2Rw5mn
-         3mww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730176940; x=1730781740;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:feedback-id:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SCDuYnGCVDfYfMTEaNcdXNBa6KERcUJLKMaVLvH9fgM=;
-        b=GLEFv9npsMQZIaD+pUFqvk/dBv1yuMS/htmvCQJ3uxfE8x3N/i534J9Vy4BRyPeK+6
-         PUqvntU+EwcwhvNOb1XfjPU9x6zs17bsdw41yzKplzGVqQuOEugmOwvLfVnfhzW4/Rxs
-         Q9c8Mt6d7uIS1q2iHw7fj+kl/LssQdYLv+3Zbl7Q5VwjRdU4BBC6ERvFOtb7zUUWXo+W
-         IcdcA0DhzWwB6mE++/s08ClHhdbg7ilU4uRn/Er8kdfjYj1wHrky63p4iayTcriWn0uG
-         MRLw3YVDQOm3n4A13pyMM1w7AjzcKqJWKGo0cmAKdEylWCZceZ4BDlD2EHlq3DG6sLMt
-         5UMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWMrLxtVLUCREc03oNN4JZdTeTWXM9y6j4kpfz6w7CN4QHMxvSUW3WP1OaBWgLwKV/V3uPOQnp3HRHtLr2F@lists.linux.dev
-X-Gm-Message-State: AOJu0YyVQ6ffC+pCNCQgVvEN+AZZsOREsR27LK4J2tkCYva7NkNPagFu
-	Sth8ki1p4HNbEqxLEKZxUjwE+xVahiaNwuvnDUW9MtYMS8YHzf+Q
-X-Google-Smtp-Source: AGHT+IH5Fuoo7UvhdyIn+/1zNRvGW32cGzgVo0mpYat+WhPhJk1+IO+WW4lGkFX1mNOHGQz1yEpL8w==
-X-Received: by 2002:a05:6214:448a:b0:6cb:f744:e3f1 with SMTP id 6a1803df08f44-6d1856f193bmr175571186d6.4.1730176940324;
-        Mon, 28 Oct 2024 21:42:20 -0700 (PDT)
-Received: from fauth-a1-smtp.messagingengine.com (fauth-a1-smtp.messagingengine.com. [103.168.172.200])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d1798b195esm38890326d6.42.2024.10.28.21.42.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Oct 2024 21:42:19 -0700 (PDT)
-Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 7A48D1200043;
-	Tue, 29 Oct 2024 00:42:19 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Tue, 29 Oct 2024 00:42:19 -0400
-X-ME-Sender: <xms:q2cgZ-JQEDYNhBmhP-4egJ2k4od9_4WhfIFaZl8B-kWB-cFQ9njR-Q>
-    <xme:q2cgZ2KY64FEVoZnBNxEB0U7667zJHTbD_EW1TP21XjHmi4qaGM_0d1Bh2NGVw0uo
-    tkPZ9CxEDx1xUE1Yw>
-X-ME-Received: <xmr:q2cgZ-tF8Gl9C7osvC67-8inYIAeGfImEx49JX9R_FsXywfdYjyfu7r1AImd2A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdektddgjeefucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvden
-    ucfhrhhomhepuehoqhhunhcuhfgvnhhguceosghoqhhunhdrfhgvnhhgsehgmhgrihhlrd
-    gtohhmqeenucggtffrrghtthgvrhhnpefftdeihfeigedtvdeuueffieetvedtgeejuefh
-    hffgudfgfeeggfeftdeigeehvdenucffohhmrghinhepghhithhhuhgsrdgtohhmnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdo
-    mhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqieelvdeghedtieegqddujeejke
-    ehheehvddqsghoqhhunhdrfhgvnhhgpeepghhmrghilhdrtghomhesfhhigihmvgdrnhgr
-    mhgvpdhnsggprhgtphhtthhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhg
-    lhgvrdgtohhmpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlh
-    hinhhugidruggvvhdprhgtphhtthhopegsohhquhhnsehfihigmhgvrdhnrghmvg
-X-ME-Proxy: <xmx:q2cgZzZTpn0UGN0Oe4nVQt4lpFJWinOhzrcvuL6uZ5ehI2sbR3Ukew>
-    <xmx:q2cgZ1a2n7Sr2USK7sKqPxAa11lMKvox_lPE4h5wsxY7k-lavcZd-w>
-    <xmx:q2cgZ_CCAJJhxDQZIbYxdDoUid7XqSfn8-K5DHUowdN7hmSofLGWaQ>
-    <xmx:q2cgZ7bxuOdXpwNXqY5ZuDEofyMQDMBTq4Vn4Xq7O0Fe-Fn1oJcBDg>
-    <xmx:q2cgZ1o7YYPs5yQVXtdDzzAdC0okMns-k0D_CQ6W996HEKINou70uWN1>
-Feedback-ID: iad51458e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 29 Oct 2024 00:42:19 -0400 (EDT)
-Date: Mon, 28 Oct 2024 21:41:17 -0700
-From: Boqun Feng <boqun.feng@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Alice Ryhl <aliceryhl@google.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [boqun:lockdep-for-tip 5/5] error[E0599]: no method named
- `try_lock` found for struct `Lock` in the current scope
-Message-ID: <ZyBnbZXDo8KlJ3vC@boqun-archlinux>
-References: <202410291211.4JnU6G41-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y98DRVRO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730176964; x=1761712964;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KQCOZau7OhpQ2F+0qsuPTSSx8QMm6ThsnF5cs3MBbi0=;
+  b=Y98DRVROx5mORXMmGZXri+TxmWn8VjbLpd3wYEiZvCqxqlIjfthZI60I
+   mFQGD/KLqfC2yAlshaj+nI9w+fK8OYC030u6rXCHDPQtVV5ISmhAFsD+o
+   bEuEtltMLPlmmeGYOPmS5DjeOquVCgj6Vw38WQwiHEY4Ng8mOAYqFEBmB
+   8OC6ZbUyn8nl1ivuxWG0yeQacP7ZZRWx16HeSPr6nDjF7XwnMjHogz8JR
+   9uaqf7pZ1uvm4vRptxBpajRlAM0L8Ebx+gC3Lgby/Tj8pT+Q41IJ1fWB6
+   YEMEatIHLmUnluNWtowzpamU82uhdN9p+povlac39u78t1cSQVWzPsdwo
+   Q==;
+X-CSE-ConnectionGUID: Ssk/r1x2S2yp6gce6ZBJvQ==
+X-CSE-MsgGUID: BlvFg2lnTEqCDDQfapfJKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52353814"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52353814"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 21:42:43 -0700
+X-CSE-ConnectionGUID: kWxdsO7xRlmf/e1KEoa5/g==
+X-CSE-MsgGUID: FQsoShHFRWGBxyzSZ7+McQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="81764511"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 28 Oct 2024 21:42:42 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5e3z-000dG4-1O;
+	Tue, 29 Oct 2024 04:42:39 +0000
+Date: Tue, 29 Oct 2024 12:42:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast
+ truncates bits from constant value (8000000000000000 becomes 0)
+Message-ID: <202410291254.6OenFxNK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -99,37 +61,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202410291211.4JnU6G41-lkp@intel.com>
 
-On Tue, Oct 29, 2024 at 12:22:05PM +0800, kernel test robot wrote:
-[...]
-> >> error[E0599]: no method named `try_lock` found for struct `Lock` in the current scope
->    --> rust/kernel/sync/lock/global.rs:90:31
->    |
->    90  |               inner: self.inner.try_lock()?,
->    |                                 ^^^^^^^^
->    |
->    ::: rust/kernel/init/macros.rs:822:9
->    |
->    822 | /         $vis struct $name <$($decl_generics)*>
->    823 | |         where $($whr)*
->    824 | |         {
->    825 | |             $($fields)*
->    826 | |         }
->    | |_________- method `try_lock` not found for this struct
->    |
->    help: there is a method `lock` with a similar name
->    |
->    90  |             inner: self.inner.lock()?,
->    |                               ~~~~
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e42b1a9a2557aa94fee47f078633677198386a52
+commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
+date:   10 months ago
+config: powerpc64-randconfig-r111-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291254.6OenFxNK-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241029/202410291254.6OenFxNK-lkp@intel.com/reproduce)
 
-Ok, I should have noticed this one depends on try_lock(), but it won't
-be a problem since I plan to rebase on v6.13-rc1.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291254.6OenFxNK-lkp@intel.com/
 
-Regards,
-Boqun
+sparse warnings: (new ones prefixed by >>)
+   fs/afs/callback.c: note: in included file (through arch/powerpc/include/asm/atomic.h, arch/powerpc/include/asm/paca.h, arch/powerpc/include/asm/current.h, ...):
+>> arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   arch/powerpc/include/asm/cmpxchg.h:243:48: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
+--
+   fs/afs/rotate.c: note: in included file (through arch/powerpc/include/asm/atomic.h, arch/powerpc/include/asm/paca.h, arch/powerpc/include/asm/current.h, ...):
+>> arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   arch/powerpc/include/asm/cmpxchg.h:243:48: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +241 arch/powerpc/include/asm/cmpxchg.h
+
+ae3a197e3d0bfe David Howells 2012-03-28  235  
+ae3a197e3d0bfe David Howells 2012-03-28  236  static __always_inline unsigned long
+26760fc19a7e66 Boqun Feng    2015-12-15  237  __xchg_relaxed(void *ptr, unsigned long x, unsigned int size)
+ae3a197e3d0bfe David Howells 2012-03-28  238  {
+ae3a197e3d0bfe David Howells 2012-03-28  239  	switch (size) {
+d0563a1297e234 Pan Xinhui    2016-04-27  240  	case 1:
+d0563a1297e234 Pan Xinhui    2016-04-27 @241  		return __xchg_u8_relaxed(ptr, x);
+d0563a1297e234 Pan Xinhui    2016-04-27  242  	case 2:
+d0563a1297e234 Pan Xinhui    2016-04-27  243  		return __xchg_u16_relaxed(ptr, x);
+ae3a197e3d0bfe David Howells 2012-03-28  244  	case 4:
+26760fc19a7e66 Boqun Feng    2015-12-15  245  		return __xchg_u32_relaxed(ptr, x);
+ae3a197e3d0bfe David Howells 2012-03-28  246  #ifdef CONFIG_PPC64
+ae3a197e3d0bfe David Howells 2012-03-28  247  	case 8:
+26760fc19a7e66 Boqun Feng    2015-12-15  248  		return __xchg_u64_relaxed(ptr, x);
+ae3a197e3d0bfe David Howells 2012-03-28  249  #endif
+ae3a197e3d0bfe David Howells 2012-03-28  250  	}
+068550631fbe0b Andrzej Hajda 2023-01-18  251  	BUILD_BUG_ON_MSG(1, "Unsupported size for __xchg_relaxed");
+ae3a197e3d0bfe David Howells 2012-03-28  252  	return x;
+ae3a197e3d0bfe David Howells 2012-03-28  253  }
+9eaa82935dccb7 Mark Rutland  2021-05-25  254  #define arch_xchg_local(ptr,x)						     \
+ae3a197e3d0bfe David Howells 2012-03-28  255    ({									     \
+ae3a197e3d0bfe David Howells 2012-03-28  256       __typeof__(*(ptr)) _x_ = (x);					     \
+26760fc19a7e66 Boqun Feng    2015-12-15  257       (__typeof__(*(ptr))) __xchg_local((ptr),				     \
+26760fc19a7e66 Boqun Feng    2015-12-15  258       		(unsigned long)_x_, sizeof(*(ptr))); 			     \
+ae3a197e3d0bfe David Howells 2012-03-28  259    })
+ae3a197e3d0bfe David Howells 2012-03-28  260  
+
+:::::: The code at line 241 was first introduced by commit
+:::::: d0563a1297e234ed37f6b51c2e9321accebd1839 powerpc: Implement {cmp}xchg for u8 and u16
+
+:::::: TO: Pan Xinhui <xinhui.pan@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
