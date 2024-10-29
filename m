@@ -1,308 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from fout-a7-smtp.messagingengine.com (fout-a7-smtp.messagingengine.com [103.168.172.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCBF1422AB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 21:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CC919258A
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 22:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730238096; cv=none; b=MABMrGYEg7BX4Dn8KSyhwvPsa07r0glQyaucqdSYVzMDTBw56QtabOnszOMZ0rJ3+wKI4wTMx+IEvMwlgi3prxf2xhUCXxH4oH6wZU3tRLj8joh0tHSSKyKaYfclyI+OiqowbZ65x+t4QQ5VpZONFYKUUgVLP++WHa8PzroJU0I=
+	t=1730239535; cv=none; b=AetvFMqNox84spjzKIoX5DPLXhB1V5zB0Gqw/JmFcKN/3cblZ0YncI9A8+NQyJXK8FWhfYAVFMYGg/CL75PkxhSBzwHgtyPhshIUvuyJwMfFCQlb0GsCnKVK8z8W11AP+v2IGzZYoqt9LevnNpEI+/8KNGCGth6ay+7Or4mEcr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730238096; c=relaxed/simple;
-	bh=OdvuBcJQOgLvBP7NS1Aqs8pZzW9KDUZClURBdr660jY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kQZT9nnVYaaZ61fB3uOzKMNaVpqSiIF6irk5Wgp/vY+b3pKmyOhE7N3Y77gVUZOSavQjwLhqWTJYKHETJQqla1RvkR3Fnxu+Wi6kIf2WI80BLAKL1XwqlMyinDtYIjHSUe3H7xek5XMA3cs1cOBp+bOV+TMHCc4yTN38dnniPSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=biiOxTlm; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730239535; c=relaxed/simple;
+	bh=FUzLpVk2SjmD7kYZP/f3grFAvpnpbJkbL/Twh/CuwK4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=c+Ejb7Gxua0+SDzyWvSao1Lfc3WibqdqkNFJZojYm+hj9pYzNh7hsz491BHByBq33iicFgKXec/xEzYYdjVDZrDQmmuHyi6BT+nbzHgy1XQz4m2D5fpe5M5M80i7R8aGwMbzLZ3+XDbB+fxHVuCfedREJkesef3HajjDBVD+T3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=meSvuq7I; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=EdICr+8A; arc=none smtp.client-ip=103.168.172.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="biiOxTlm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730238093; x=1761774093;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OdvuBcJQOgLvBP7NS1Aqs8pZzW9KDUZClURBdr660jY=;
-  b=biiOxTlmXjkQgu5nINjV1RyrvDQANZO8fOHPw4hLbC1qSc2WJkDqteac
-   X9hiksXecCw+kQapCJfrbP03cFG+K96+/7mdiUD7YylZSHXdca72LyP4G
-   UI9QO2u3Wod7IArcCAJ33xqAl5f8PZaVTDM4+iidIo0Rz0Moe3o80F1YZ
-   3QjyDiG6xoz0C43MHNWBx6vI80+XzyiWbNNY6CZUjj5f04LBvQOSFvpVY
-   NMESedex6EXHbCMnX7LoW4B7DTVdc4AOmARpOH4iei8bTqNWnpf+2DTeW
-   F6MIvWkWts2sV2N6MXF0f7ZJx9yuadPfc7D1NaF4SjGTGj3qHwkFNti+g
-   A==;
-X-CSE-ConnectionGUID: WHz+fgQwQNWXNPBSmeDI4w==
-X-CSE-MsgGUID: 9sN7a3+pS5WzFrDTcDxR1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41011475"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41011475"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 14:41:33 -0700
-X-CSE-ConnectionGUID: FrdVXEluQJSxwind/3KaYw==
-X-CSE-MsgGUID: GryT/Y8YROeaAXgW0e3q4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
-   d="scan'208";a="82247717"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2024 14:41:31 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t5txw-000eBY-1W;
-	Tue, 29 Oct 2024 21:41:28 +0000
-Date: Wed, 30 Oct 2024 05:40:37 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dyndbg_trace_v4_5e 71/102] drivers/mtd/mtdpstore.c:76:9:
- sparse: sparse: Initializer entry defined twice
-Message-ID: <202410300535.ENksi6nu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="meSvuq7I";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="EdICr+8A"
+Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
+	by mailfout.phl.internal (Postfix) with ESMTP id 8B53A13800E3;
+	Tue, 29 Oct 2024 18:05:31 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-10.internal (MEProxy); Tue, 29 Oct 2024 18:05:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1730239531;
+	 x=1730325931; bh=VoJG6qEfHgbubgRZ79e+rYNmNmfGfefqzVZlAcAw9EY=; b=
+	meSvuq7IuWaXueBYn2EGsdXgPfGwajLZ+aXFTY4OvUuxEq5r3JJiOG2IqEC4ppNb
+	13Q/VIIHEfHsYsCtSnUSdrip2jECD6v497BamHwccBXsLowYjREem/uqjXbkG2Zl
+	znHQdhlA4UP8HxWM1XB1eh9iMrYIPpTQ0v39UMybxJM1IZp6lZnSn8lJEyjRXXa6
+	y6kj7qRJ4b/L8Hnz3scNKRgBGv+QlSB3lvQECUVqMU9zqLYnfRMouI2VeOwz2xgc
+	/o8fudtHgOo7hAR5nqDj9EqmhXyrvI5GldW8zH/4fquYbRPVxJJ9k4QVbMR0DHcs
+	rMHh9Bau9tT/m9EDAG6n5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730239531; x=
+	1730325931; bh=VoJG6qEfHgbubgRZ79e+rYNmNmfGfefqzVZlAcAw9EY=; b=E
+	dICr+8Ay1syjWlGokR4DVLVi9J0MCkE84d++khjKuUPWjA0LDcDXs+gKITSwYOZr
+	rMUrLOZyMRpsw6H+/2xRyDjB8NMO3LRxXdLi0NEuuFJER2d0kByFsxapD6R87xdM
+	v82g6z6J19tndO5Png96CAJxWTcweqa8sibVYxU0n6sbkK9AEjJkIlZ5dgVrv7WU
+	x2hqjp6gULs9Pf5rSPQdB0deBgxl57FU5L+ZCFNgHOI86cBER7quJRtC4XNFbOY8
+	aMad/IUef6vviDs+ZRHKp+x1bcvLo43V0a4aye42bvk+hydP0foKxjAz14ZqBAL5
+	7To2sY09qsNh51AoZ1lhA==
+X-ME-Sender: <xms:K1whZ6n1jv5lq9Q6taVXu00TweQ12ybkkDByDkWdC5qVCPsehjNNRA>
+    <xme:K1whZx2LViHzQkkS97UUxN5quvB2Gs3oe6Audcr8EuNNmAI3Hvl66yWnI0LZ3_10F
+    1JBheg791I3ILaQDvQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdekuddgudehudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpeefhfehteffuddvgfeigefhjeetvdekteekjeef
+    keekleffjeetvedvgefhhfeihfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
+    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegr
+    rhhnuggsrdguvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
+    hpthhtohepvhhinhgtvghniihordhfrhgrshgtihhnohesrghrmhdrtghomhdprhgtphht
+    thhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepgiekieeskhgvrhhnvghlrd
+    horhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghpthht
+    ohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepohgvqdhksg
+    huihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhn
+    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:K1whZ4qh8U7tPvA8yl_y1xO1NVp1UxvJ6FyaEaHExiXIz02d6J68uQ>
+    <xmx:K1whZ-kvH5ADd7w1ytEd0fjQwM_36NqO9dZPqD1rAm9Fl8F5R-fNzg>
+    <xmx:K1whZ42AYtcVyV5YG4vqGikSotg2UnOf7KG3zDyBYLB6h72jY00PTg>
+    <xmx:K1whZ1sGUn1yesrsipqarP43R-D-Gv2qpO4yG9l0rEEM1CJlnUTPAg>
+    <xmx:K1whZyoXORwUOgyDK9d2GjAKx2UAWzqpVrhVQCyAaJHnopA0mWqZx2Tv>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 0ED7E2220071; Tue, 29 Oct 2024 18:05:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Date: Tue, 29 Oct 2024 22:05:10 +0000
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Thomas Gleixner" <tglx@linutronix.de>,
+ "kernel test robot" <lkp@intel.com>,
+ "Vincenzo Frascino" <vincenzo.frascino@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+ x86@kernel.org, "Geert Uytterhoeven" <geert@linux-m68k.org>
+Message-Id: <1d6a10ca-3d86-452a-bdba-03a1204dd232@app.fastmail.com>
+In-Reply-To: <87ttcuzjy7.ffs@tglx>
+References: <202410290639.TBG289SO-lkp@intel.com> <87ttcuzjy7.ffs@tglx>
+Subject: Re: [tip:timers/vdso 11/13] include/vdso/page.h:15:39: error:
+ 'CONFIG_PAGE_SHIFT' undeclared here (not in a function); did you mean
+ 'CONFIG_LOG_BUF_SHIFT'?
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://github.com/jimc/linux.git dyndbg_trace_v4_5e
-head:   95ff6ff44a0206ea02936387ab66f6c39cfd20c7
-commit: dc75936e9a1db05417181e3707b9179624d2b689 [71/102] dyndbg: move flags field to a new structure
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300535.ENksi6nu-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300535.ENksi6nu-lkp@intel.com/reproduce)
+On Tue, Oct 29, 2024, at 21:18, Thomas Gleixner wrote:
+> On Tue, Oct 29 2024 at 06:38, kernel test robot wrote:
+>
+> That's actually not the culprit. The problem exists in mainline too. The
+> actual root cause is:
+>
+>   5394f1e9b687 ("arch: define CONFIG_PAGE_SIZE_*KB on all architectures")
+>
+> The config has no CONFIG_PAGE_SHIFT because nothing selects a page size. The
+> the original code had:
+>
+> if defined(CONFIG_SUN3) || defined(CONFIG_COLDFIRE)
+> #define PAGE_SHIFT     13
+> #else
+> #define PAGE_SHIFT     12
+> #endif                        
+>
+> But the Kconfig magic changes made this depend on various other things.
+>
+> The patch below cures it, but it needs an eyeball from Geert.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300535.ENksi6nu-lkp@intel.com/
+I have previously suggested a similar but more extensive patch
+to address the problem:
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/mtd/mtdpstore.c:76:9: sparse: sparse: Initializer entry defined twice
-   drivers/mtd/mtdpstore.c:76:9: sparse:   also defined here
-   drivers/mtd/mtdpstore.c:66:9: sparse: sparse: Initializer entry defined twice
-   drivers/mtd/mtdpstore.c:66:9: sparse:   also defined here
-   drivers/mtd/mtdpstore.c:66:9: sparse: sparse: Initializer entry defined twice
-   drivers/mtd/mtdpstore.c:66:9: sparse:   also defined here
---
-   fs/affs/bitmap.c: note: in included file:
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
---
-   fs/affs/dir.c: note: in included file:
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
---
-   fs/affs/inode.c: note: in included file:
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:255:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:255:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
---
-   fs/affs/namei.c: note: in included file:
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
---
-   fs/affs/amigaffs.c: note: in included file:
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
---
-   fs/affs/super.c: note: in included file:
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
---
-   fs/affs/file.c: note: in included file:
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:255:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:255:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
-   fs/affs/affs.h:238:9: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:238:9: sparse:   also defined here
->> fs/affs/affs.h:283:17: sparse: sparse: Initializer entry defined twice
-   fs/affs/affs.h:283:17: sparse:   also defined here
---
-   fs/ext4/mballoc.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, fs/ext4/ext4_jbd2.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->> fs/ext4/mballoc.c:5662:9: sparse: sparse: Initializer entry defined twice
-   fs/ext4/mballoc.c:5662:9: sparse:   also defined here
-   fs/ext4/mballoc.c:5679:25: sparse: sparse: Initializer entry defined twice
-   fs/ext4/mballoc.c:5679:25: sparse:   also defined here
-   fs/ext4/mballoc.c:5683:17: sparse: sparse: Initializer entry defined twice
-   fs/ext4/mballoc.c:5683:17: sparse:   also defined here
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
-   drivers/dma/xilinx/xdma.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   drivers/dma/xilinx/xdma.c: note: in included file:
->> drivers/dma/xilinx/../virt-dma.h:105:9: sparse: sparse: Initializer entry defined twice
-   drivers/dma/xilinx/../virt-dma.h:105:9: sparse:   also defined here
-   drivers/dma/xilinx/xdma.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+https://lore.kernel.org/all/CAMuHMdVC-FUSA5C9aNrvP3=RaRWrchhUEC5UYcSGMz_ep1PEhg@mail.gmail.com/
 
-vim +76 drivers/mtd/mtdpstore.c
+I can rebase that one if Geert still wants it. I think I sent
+an updated version somewhere but can't find it now.
 
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  69  
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  70  static inline void mtdpstore_mark_unused(struct mtdpstore_context *cxt,
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  71  		loff_t off)
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  72  {
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  73  	struct mtd_info *mtd = cxt->mtd;
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  74  	u64 zonenum = div_u64(off, cxt->info.kmsg_size);
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  75  
-78c08247b9d3e0 WeiXiong Liao 2020-03-25 @76  	dev_dbg(&mtd->dev, "mark zone %llu unused\n", zonenum);
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  77  	clear_bit(zonenum, cxt->usedmap);
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  78  }
-78c08247b9d3e0 WeiXiong Liao 2020-03-25  79  
+> --- a/arch/m68k/Kconfig.cpu
+> +++ b/arch/m68k/Kconfig.cpu
+> @@ -21,6 +21,8 @@ choice
+>  config M68KCLASSIC
+>  	bool "Classic M68K CPU family support"
+>  	select HAVE_ARCH_PFN_VALID
+> +	select HAVE_PAGE_SIZE_4KB if !SUN3
+> +	select HAVE_PAGE_SIZE_8KB if SUN3
+> 
+>  config COLDFIRE
+>  	bool "Coldfire CPU family support"
+> @@ -30,7 +32,7 @@ config COLDFIRE
+>  	select GENERIC_CSUM
+>  	select GPIOLIB
+>  	select HAVE_LEGACY_CLK
+> -	select HAVE_PAGE_SIZE_8KB if !MMU
+> +	select HAVE_PAGE_SIZE_8KB
+> 
+>  endchoice
+> 
+> @@ -46,7 +48,6 @@ config M68000
+>  	select GENERIC_CSUM
+>  	select CPU_NO_EFFICIENT_FFS
+>  	select HAVE_ARCH_HASH
+> -	select HAVE_PAGE_SIZE_4KB
+>  	select LEGACY_TIMER_TICK
+>  	help
+>  	  The Freescale (was Motorola) 68000 CPU is the first generation of
 
-:::::: The code at line 76 was first introduced by commit
-:::::: 78c08247b9d3e03192f8b359aa079024e805a948 mtd: Support kmsg dumper based on pstore/blk
+Part of the problem here is that this simpler patch
+then just causes different build failures for the
+same configurations, since m68k kernels cannot successfully
+build when no platform is selected.
 
-:::::: TO: WeiXiong Liao <liaoweixiong@allwinnertech.com>
-:::::: CC: Kees Cook <keescook@chromium.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+     Arnd
