@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570172107
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 17:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F9D1D5CDB
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 17:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730222184; cv=none; b=aSy2y8xbRJyq074WRe/09Pohkyf4Dzgfdt2egAArCRr5EQ29TLdP5j0AGgGLr6RLOkapqB7NzzTpVy7nSZRUlCRJJImEEdiqqmuMrmyUoz/2R55oaRkDr2br5/yWikxi4Ryf77T0u6Awm1Tn0rE4qhpYr04En+Z0VqVdRfsd5EY=
+	t=1730222845; cv=none; b=JR1idtGLaKbsDzdSexNj9D+6FM+CSmlunmpUYIsgqkszp045d7sdDmgL1q4ewA6irqdghwtkTjviM+6aNX/Kq0UbCbe9CYE+NXwlslUwp142VvjDHj2ffxkv4G/CteixSNfUe3ZFuCoSTFiB6qs9OYr6NDZes72Tl6eIdQDLYPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730222184; c=relaxed/simple;
-	bh=WNXAgwMx0qWnWqt9YNaVeIiO4YtAdP/OYZlOO61AVUU=;
+	s=arc-20240116; t=1730222845; c=relaxed/simple;
+	bh=+yYYC7MjyKLbAJ4r5AKrCCgEFc/jFuv2gpGmabSMQ48=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NmLtHftyD+WXRWNmzJL676kfCD2XUbYlheLI4ZSbLvB194/GJG1VKymaGCPwaLJo+Vfyf2SL9UzTxrrQKQ3I3EVbFMi0wdsL6mQNlHa//Yp2ndMtSDGBfqCoBVbRdu3JevLM+LxNzNNd3ZV5G5wiG488HjcOOjC76Y+6czh32bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MRI3HxTz; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=n9f+JUclHV+YpEhr++QuZ1WLzAY54srr3Bdi4eHhb8HED2aNngvWrUKRhyiaUDWMD7uqo77f4Bi9zwYUWYSAsKnpMGNpfmH9SfDERLc3D7QAApkdZLfIbIE+XY1zjaryOUXFJz8AThJaLFMxAE+oDi1a7mgG0/VV9li45Oj1Pb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IVYFKMLr; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MRI3HxTz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IVYFKMLr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730222183; x=1761758183;
+  t=1730222843; x=1761758843;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WNXAgwMx0qWnWqt9YNaVeIiO4YtAdP/OYZlOO61AVUU=;
-  b=MRI3HxTzp/uX3OjUIMDHuJnfHpM40JRhnKe4tRlZPtmjfTK7V2qdmtcz
-   gL7BESH7TxIXoZdRa5gYYrF7aRApQIuuFUqNr2L1bBfR11j3EP4imS0QV
-   x1OAhFym7gdGktdJnAovC5Uf+Bg/nmj/fApttnTRISsH9ckdGV+LLy6pc
-   POrd9OrA8ivvaNBPzRw0Z5Xi7O6glse5+tFR9m/IzdPEENKFPGU+L4vm2
-   YI5Q9XjSp+0b09mLAzGhXvsMCeH7cl19zoUDEPh45aKfmhIkErq2aDIWs
-   6ptX/v0aDUIQ9u+EAEoCxVHk+gP5ZnIzCTqyvVZEyVY+rU/xfndSaB1eI
-   Q==;
-X-CSE-ConnectionGUID: nBomDc/ZTB2UJAGyPrMhtw==
-X-CSE-MsgGUID: c1dYe6WfR8KmtgWyfBKJjA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29843496"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29843496"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:16:22 -0700
-X-CSE-ConnectionGUID: IW4hrqR0Tbm0Xw6DgnoE3w==
-X-CSE-MsgGUID: Uj6/D11CS821Er09Y46NlQ==
+  bh=+yYYC7MjyKLbAJ4r5AKrCCgEFc/jFuv2gpGmabSMQ48=;
+  b=IVYFKMLrNo/U1jGYDlfcarghmgmHa+Su//9pjcjfDR5nUr3DL8gTSaVw
+   AMBztv5Qt/6pIszgEthbLRy2A01uD67L4Nn4k+V8COCiJVE6MkUG6r7CA
+   yhNg2Cfp8zHPDWp32FaaMvaOdnEi4excBEiE8D9MkHfvImjTg4ujo3eeO
+   678zOvjnum+JHGyUEDi9+GhCspoAnvI6rROehe9dKcte0cXI7K+phh/Ie
+   B0eD6WdFCm23/ePQDRrf0lOpHwL1uoFGmbuT3rqu50MF2C8fsXbjptSL4
+   361XaeB2r5HEUQ9NTyEP+reMFoDXls6GacAPKe+5WWdebmzIad/Ri3ZXW
+   A==;
+X-CSE-ConnectionGUID: WI5Up0N9Qa69OHW/XOfoVg==
+X-CSE-MsgGUID: KOsXFdJHTiyTWryVe0SrDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="40497749"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="40497749"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 10:27:20 -0700
+X-CSE-ConnectionGUID: ewuLS+M4SkeFd80q0DlfgQ==
+X-CSE-MsgGUID: 8psN9pHxQzapmkBSJbQQww==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="86782895"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="112834543"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Oct 2024 10:16:19 -0700
+  by orviesa002.jf.intel.com with ESMTP; 29 Oct 2024 10:27:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5ppI-000dvY-0a;
-	Tue, 29 Oct 2024 17:16:16 +0000
-Date: Wed, 30 Oct 2024 01:15:50 +0800
+	id 1t5pzw-000dwK-1f;
+	Tue, 29 Oct 2024 17:27:16 +0000
+Date: Wed, 30 Oct 2024 01:26:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 7865/13046] kernel/cgroup/sli.c:642:15: sparse:
- sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be
- static?
-Message-ID: <202410300158.0rkAhJcg-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 18707/30000]
+ drivers/ub/urma/ubcore/ubcore_dp.c:26:5: warning: no previous prototype for
+ 'ubcore_rearm_jfc'
+Message-ID: <202410300109.pSLkwgUF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,62 +63,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: 00423a80429a623a28227d306c3108e801dd0f6f [7865/13046] sli: backport sli function from tk3
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300158.0rkAhJcg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300158.0rkAhJcg-lkp@intel.com/reproduce)
+Hi Yizhen,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   ffc5791ca9102a55d29c6dea26de38d32f052b01
+commit: ad84f0a92e3fe282d8280d8c45f8d5b8aab1a2b4 [18707/30000] ub: ubcore add event api and add jetty and event api impls to compile
+config: arm64-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300109.pSLkwgUF-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300109.pSLkwgUF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300158.0rkAhJcg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300109.pSLkwgUF-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/cgroup/sli.c:642:15: sparse: sparse: symbol 'get_cgroup_from_task_id' was not declared. Should it be static?
->> kernel/cgroup/sli.c:1247:27: sparse: sparse: dubious: !x & y
->> kernel/cgroup/sli.c:1247:29: sparse: sparse: restricted fmode_t degrades to integer
->> kernel/cgroup/sli.c:1337:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __poll_t @@     got int @@
-   kernel/cgroup/sli.c:1337:24: sparse:     expected restricted __poll_t
-   kernel/cgroup/sli.c:1337:24: sparse:     got int
-   kernel/cgroup/sli.c: note: in included file (through include/linux/mutex.h, include/linux/seq_file.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All warnings (new ones prefixed by >>):
 
-vim +/get_cgroup_from_task_id +642 kernel/cgroup/sli.c
+>> drivers/ub/urma/ubcore/ubcore_dp.c:26:5: warning: no previous prototype for 'ubcore_rearm_jfc' [-Wmissing-prototypes]
+      26 | int ubcore_rearm_jfc(struct ubcore_jfc *jfc, bool solicited_only)
+         |     ^~~~~~~~~~~~~~~~
 
-   641	
- > 642	struct cgroup *get_cgroup_from_task_id(struct task_struct *task, int event_nr)
-   643	{
-   644		int id;
-   645		struct cgroup *cgrp;
-   646	
-   647		id = cpuacct_cgrp_id;
-   648		switch (event_nr) {
-   649	#if IS_ENABLED(CONFIG_MEMCG)
-   650		case SLI_MEM_EVENT:
-   651			id = memory_cgrp_id;
-   652			break;
-   653	#endif
-   654		default:
-   655			break;
-   656		}
-   657	
-   658		/* First, try to get cpuacct/mem cgroup for V1*/
-   659		cgrp = task_cgroup(task, id);
-   660		if (cgrp && cgrp->level)
-   661			return cgrp;
-   662	
-   663		/*
-   664		 * If can not find cpuacct/mem cgroup or cpuacct/mem cgroup is root, just return
-   665		 * dfl_cgrp.
-   666		 */
-   667		cgrp = task_dfl_cgroup(task);
-   668	
-   669		return cgrp;
-   670	}
-   671	
+
+vim +/ubcore_rearm_jfc +26 drivers/ub/urma/ubcore/ubcore_dp.c
+
+    25	
+  > 26	int ubcore_rearm_jfc(struct ubcore_jfc *jfc, bool solicited_only)
 
 -- 
 0-DAY CI Kernel Test Service
