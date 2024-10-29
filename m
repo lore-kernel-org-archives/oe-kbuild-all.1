@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA8D3207
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 00:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE9F717996
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 00:23:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730160757; cv=none; b=uwefPUcYzXo0dyXS1tFvV9g/W1ds1OEp5wKeXSijrRZZSDxmgLE2Ln7IJjMhr2SyJM1spvHXogrrnGADwu5CsbRoC0TEuXENGDRJE+8NAYZZQzQhuaU0CPrKydjukGXsWEWSNthy9vLL3rKGauerLTr+Lk22tYTJEzZ2Amh0LIM=
+	t=1730161424; cv=none; b=NXyCsr3MTBKz3dNxkOkhQl6OWub+QWoXbK8BopwpgMabzfK3uCMAZWtmWAw7V+QSgKKwMSSkm6Aya32rUxKMj462s8ksR2nuhVbRVM+ex1NLrGueq0LjrBd3dSqFbXqcs2VFJGvACWLjuuS3zdvsBnkJY2FTUfKBOweNg4T+Qok=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730160757; c=relaxed/simple;
-	bh=ioKV80Uqy8ffnpwuv+bo2temtWUnlZsZ04Od6tkSakQ=;
+	s=arc-20240116; t=1730161424; c=relaxed/simple;
+	bh=Q58bhlUA0qtXl5WBBzcDTZ+8w7DSzcDpUC1m7x9WUO4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cec22sXhzTKceVCIti3OvMWCpn9w+ssQPuRLWEXMLVNBI3wVEy57yRus4Me59J+XlJl9lIiwZtfcawFCqznmahO8HU8HHKgeIklc3eFtrkBSFCBJrT8BjjOvNGU2ToZJr4v933sKi++c0cwNEsVWdE5nmP9o+gZu3QSOspQVIHc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MgsZQB+a; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=G+hphOyakNQMNgxrnvyjNCTs34s2y0r6nSceFYQywm9/F30vlWTfyzYsAz2M+LaLqTOVCIHCf2PQiEV9ok6tGQHDAxtrczie2hCdzeeaFPtI/rIoZWmQz9M309+uD9JDW1MLYeSibaC0UOngXzrkS30xMLsuqxb5lPkndwfir9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FqdYGzJx; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MgsZQB+a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FqdYGzJx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730160754; x=1761696754;
+  t=1730161422; x=1761697422;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ioKV80Uqy8ffnpwuv+bo2temtWUnlZsZ04Od6tkSakQ=;
-  b=MgsZQB+a0ILPDDlSmDCQ44pMg0xWUksWRZZTEhWDnvP3zcG2mYC8QcDf
-   2DI50res4EWeeSoaud+ChwTYi3JEZVRQbYw90gyHFHkzAEqzMZYrPh9bF
-   fBsMkaQEuHK3D6Z9q47nh95mZH8k9Dfbx7kBS/0utpIcqBV9iAQ4cBETq
-   ALIHDx/msj0DvrGDPjlixMdeMTFpJT+jkxn2kWwmOcn6A4YIE+mpcJG+h
-   c0Bmdb7f7jQ64cOPaIEwsCodVKMPFwVya4WGxf7Ws7TKHGjFMlkI71heM
-   7yh/0GD/11wbhb+YZKH1O9U7+3wqGAgOoCqTR/t3bG3nRdX/ojzW5j4Rq
-   g==;
-X-CSE-ConnectionGUID: gR+nU6sqQsm4fmjldwxhvg==
-X-CSE-MsgGUID: LbyrcbFsQQa5/mk4sQFSDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="40360464"
+  bh=Q58bhlUA0qtXl5WBBzcDTZ+8w7DSzcDpUC1m7x9WUO4=;
+  b=FqdYGzJx5LWECndcpAvrR5rj+PRs+95vFIPzLfEWrUM63L9oKdmV0wzA
+   VPnhpb63ytm3qUtMSMySyDID/CzkPVSXNR/54JIPrXNHBB5i8kH/+qI9Q
+   HdVjHnxlvlu20gHF2e8dKh7kiHLlBf+b5CkSzamhJ3tmxNrxH4PaPkUde
+   qUUZEFcuYLxuZPQwKmPyEZvHH3+jZg+u4CQZMghLjjBigesujJm2x3IiF
+   LYZ2On2/meN+a8Lyb9y3sKKs+n6JicdRlQtWdgzV0nXR2ESAsZ73prCZS
+   zkPFpcWoW/s0BjA1YXxYHId+fsUTuuMmCMG4FvNYDSAUOLw8XgcXnMp3J
+   A==;
+X-CSE-ConnectionGUID: qepEoxBNR/CyExvVc2GYfg==
+X-CSE-MsgGUID: uc1GAb/cRqGe4OvDEaEclw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29684342"
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="40360464"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 17:12:34 -0700
-X-CSE-ConnectionGUID: Y6DCyJKhTgmo6vGXVOXS/Q==
-X-CSE-MsgGUID: 4xeJJUODRqCd7+C4WjOLEw==
+   d="scan'208";a="29684342"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 17:23:35 -0700
+X-CSE-ConnectionGUID: +f1FGEJoQ9y0YDt5IF9Xdg==
+X-CSE-MsgGUID: 1QSToqgATZOewWpVeT+Mgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="81343834"
+   d="scan'208";a="81880923"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Oct 2024 17:12:32 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Oct 2024 17:23:33 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5ZqY-000d2w-1V;
-	Tue, 29 Oct 2024 00:12:30 +0000
-Date: Tue, 29 Oct 2024 08:12:28 +0800
+	id 1t5a1C-000d3W-2U;
+	Tue, 29 Oct 2024 00:23:30 +0000
+Date: Tue, 29 Oct 2024 08:23:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ma Wupeng <mawupeng1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 15345/30000] mm/memcontrol.c:5402:40: error:
- implicit declaration of function 'ksm_process_profit'
-Message-ID: <202410290835.BHKldai7-lkp@intel.com>
+To: Mike Lockwood <lockwood@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Todd Kjos <tkjos@google.com>,
+	Amit Pundir <amit.pundir@linaro.org>,
+	Alistair Strachan <astrachan@google.com>
+Subject: drivers/usb/gadget/function/f_audio_source.c:1028: undefined
+ reference to `create_function_device'
+Message-ID: <202410290817.5sq6wpNT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,69 +64,96 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Nanyong,
+Hi Mike,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   8dcdd5a432518f8f8deb6ab608551ecda71bda40
-commit: 0f6fb3570be40b783d8c756d64297be1a8e3d2b3 [15345/30000] memcg: support ksm merge any mode per cgroup
-config: x86_64-buildonly-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290835.BHKldai7-lkp@intel.com/config)
+tree:   https://github.com/ambarus/linux-0day syzkaller-id-5ecbc557fcdb8a2864e876f690ef377db999c50f
+head:   caa714448992ba4eb583735a4acb26917fbc67a8
+commit: 1983276ceb62da2dda057c83fe676916b51fe939 ANDROID: usb: gadget: f_audio_source: New gadget driver for audio output
+date:   5 years ago
+config: x86_64-randconfig-071-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290817.5sq6wpNT-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290835.BHKldai7-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290817.5sq6wpNT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410290835.BHKldai7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290817.5sq6wpNT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   mm/memcontrol.c: In function 'memory_ksm_show':
->> mm/memcontrol.c:5402:40: error: implicit declaration of function 'ksm_process_profit' [-Werror=implicit-function-declaration]
-    5402 |                 ksm_process_profits += ksm_process_profit(mm);
-         |                                        ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
+   ld: drivers/usb/gadget/function/f_audio_source.o: in function `audio_source_alloc_inst':
+>> drivers/usb/gadget/function/f_audio_source.c:1028: undefined reference to `create_function_device'
 
 
-vim +/ksm_process_profit +5402 mm/memcontrol.c
+vim +1028 drivers/usb/gadget/function/f_audio_source.c
 
-  5379	
-  5380	static int memory_ksm_show(struct seq_file *m, void *v)
-  5381	{
-  5382		unsigned long ksm_merging_pages = 0;
-  5383		unsigned long ksm_rmap_items = 0;
-  5384		long ksm_process_profits = 0;
-  5385		unsigned int tasks = 0;
-  5386		struct task_struct *task;
-  5387		struct mm_struct *mm;
-  5388		struct css_task_iter it;
-  5389		struct mem_cgroup *memcg = mem_cgroup_from_seq(m);
-  5390	
-  5391		css_task_iter_start(&memcg->css, CSS_TASK_ITER_PROCS, &it);
-  5392		while ((task = css_task_iter_next(&it))) {
-  5393			mm = get_task_mm(task);
-  5394			if (!mm)
-  5395				continue;
-  5396	
-  5397			if (test_bit(MMF_VM_MERGE_ANY, &mm->flags))
-  5398				tasks++;
-  5399	
-  5400			ksm_rmap_items += mm->ksm_rmap_items;
-  5401			ksm_merging_pages += mm->ksm_merging_pages;
-> 5402			ksm_process_profits += ksm_process_profit(mm);
-  5403			mmput(mm);
-  5404		}
-  5405		css_task_iter_end(&it);
-  5406	
-  5407		seq_printf(m, "merge any state: %d\n", READ_ONCE(memcg->ksm_merge_any));
-  5408		seq_printf(m, "merge any tasks: %u\n", tasks);
-  5409		seq_printf(m, "ksm_rmap_items %lu\n", ksm_rmap_items);
-  5410		seq_printf(m, "ksm_merging_pages %lu\n", ksm_merging_pages);
-  5411		seq_printf(m, "ksm_process_profits %ld\n", ksm_process_profits);
-  5412		return 0;
-  5413	}
-  5414	
+  1002	
+  1003	static struct usb_function_instance *audio_source_alloc_inst(void)
+  1004	{
+  1005		struct audio_source_instance *fi_audio;
+  1006		struct device_attribute **attrs;
+  1007		struct device_attribute *attr;
+  1008		struct device *dev;
+  1009		void *err_ptr;
+  1010		int err = 0;
+  1011	
+  1012		fi_audio = kzalloc(sizeof(*fi_audio), GFP_KERNEL);
+  1013		if (!fi_audio)
+  1014			return ERR_PTR(-ENOMEM);
+  1015	
+  1016		fi_audio->func_inst.set_inst_name = audio_source_set_inst_name;
+  1017		fi_audio->func_inst.free_func_inst = audio_source_free_inst;
+  1018	
+  1019		fi_audio->config = kzalloc(sizeof(struct audio_source_config),
+  1020								GFP_KERNEL);
+  1021		if (!fi_audio->config) {
+  1022			err_ptr = ERR_PTR(-ENOMEM);
+  1023			goto fail_audio;
+  1024		}
+  1025	
+  1026		config_group_init_type_name(&fi_audio->func_inst.group, "",
+  1027							&audio_source_func_type);
+> 1028		dev = create_function_device("f_audio_source");
+  1029	
+  1030		if (IS_ERR(dev)) {
+  1031			err_ptr = dev;
+  1032			goto fail_audio_config;
+  1033		}
+  1034	
+  1035		fi_audio->config->card = -1;
+  1036		fi_audio->config->device = -1;
+  1037		fi_audio->audio_device = dev;
+  1038	
+  1039		attrs = audio_source_function_attributes;
+  1040		if (attrs) {
+  1041			while ((attr = *attrs++) && !err)
+  1042				err = device_create_file(dev, attr);
+  1043			if (err) {
+  1044				err_ptr = ERR_PTR(-EINVAL);
+  1045				goto fail_device;
+  1046			}
+  1047		}
+  1048	
+  1049		dev_set_drvdata(dev, fi_audio);
+  1050		_audio_dev.config = fi_audio->config;
+  1051	
+  1052		return  &fi_audio->func_inst;
+  1053	
+  1054	fail_device:
+  1055		device_destroy(dev->class, dev->devt);
+  1056	fail_audio_config:
+  1057		kfree(fi_audio->config);
+  1058	fail_audio:
+  1059		kfree(fi_audio);
+  1060		return err_ptr;
+  1061	
 
 -- 
 0-DAY CI Kernel Test Service
