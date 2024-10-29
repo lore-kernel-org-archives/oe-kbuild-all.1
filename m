@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C885204034
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 10:24:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDA02040A2;
+	Tue, 29 Oct 2024 10:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730197499; cv=none; b=kKm4ZBqw87emNsQP3QxRj2PKLtmEt1M3DR0XP1UkO7tFw4mzfw5oOse3vYoUp490g1frqVmQniEAvYIDmMqduvqYpAtXbkkYYaVRn3spAx1ckGQnaGft63uJztLfyM1EoyMXxKZEKR4Bz1JjBf5VSHD5cHX0CekXquKGu8gKofs=
+	t=1730197500; cv=none; b=mumHKoc/Ke1XfMaEho7eLWz1CH3UOY6iYU+j842hKCdOw8uUDFeFLvhbC8wWGUJSmoJ2i2V91jOLEcbyESAY/ELp84U+OQ5J0Sc656xaX5Ctfrz+yf3D4ntpBNKgfNHnjw7H4ZZNKvIYT0a0vhtoSlX4OuorSv7wVsmbFWMIytU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730197499; c=relaxed/simple;
-	bh=J3Qnn3rOTt9qXHwGKEsPJeaWb/jY7lbCu2mtWn0pxFk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=noavby1Kck5hk7Vbc6BlZHu0djpis9HL8bu0F8wgpcgxRMmDjscCruw+EWcCn1QjFmo7SfIJOWcFJcMHVD/vYswyc77f5OD73jtQtDQG9u1dSm1oKsf9Ltudf6cJ3lKzCaLCqJI7yJvtEyyLwAHSNyDZjipETVs19FIgE4cffds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLhAba9+; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1730197500; c=relaxed/simple;
+	bh=PjMN8UliST8cUxWYnYu6tMkq0bZKB9E+YnKhp/cEPNQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HJZlWgaCsEIAbCZOgdNSgmY4Tspa7/DzwBgiImDtruZ73lAs9/iNfQk/DQ1F0eRZ9Sw6a5jZYerT6tZ1dyORPJ/PY8nWPA4GpP4cMucS/lKvcuF5ezAUf/ipz7IQu0XN4D50KWPitef/xv47PtMw1p/4WoXocYk6HZVHeRFYNpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K9qv/qiw; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLhAba9+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K9qv/qiw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730197497; x=1761733497;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J3Qnn3rOTt9qXHwGKEsPJeaWb/jY7lbCu2mtWn0pxFk=;
-  b=QLhAba9+I8hwDrwd+9MWeZ9Pt/4vTXTQAGuTh0AjCyuKzOTOyFAa2wj7
-   U9Z9B5K7+Tx6Cs4kDsTWqeEOheX6U2nCf38tYr3hes6kpwBqvRX7lVSpl
-   YmnzikGU0UqgHRh6QiAMu2Y4JpLKX1+RmvNwInvQFTDxHQdtJc9toDTuR
-   Xo878eK0rLbgSBltN+CDxkOiAqZWv+p8oMmqMCOQtCdrNPMKbPoPTwO1Z
-   CVgsZPt0t/NrNVa40u5xMksvBEldYjgfJgo5YaW3tcZdgZYsBqvH7zQ7U
-   p59Kfd0Rbny/3FP6WX/hFQyM0QQItXG0dSpDbnqboPch773HVETzeFnTS
-   Q==;
-X-CSE-ConnectionGUID: pnHjIeArTDyIq9XkOZtqwQ==
-X-CSE-MsgGUID: KnERdXXWQ/eufn/14b+w2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29603837"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29603837"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 03:24:56 -0700
-X-CSE-ConnectionGUID: 7/X/wM1RR5aBrPGmRTvHIg==
-X-CSE-MsgGUID: gpsg2TQnQ7yj90RRO0OwOw==
+  t=1730197498; x=1761733498;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PjMN8UliST8cUxWYnYu6tMkq0bZKB9E+YnKhp/cEPNQ=;
+  b=K9qv/qiwGT9PgeXzziQODBDMpZmh0Yg76mQOsjNJz0NikEGqwEuyKnQ0
+   2XCduEetDjGopN8xubNytRXUxaPDOrjYOojuTjoqmoqNYLGF88Tg+oAFP
+   Jm7B9ZbHwQbLFrRAlgEa7Rw9qzgNxYtz5kSuum6Cf8LR2Stxk0otAkQzi
+   f8QXm5+9TtKkeVZcH5rfpFIvDfMSxezVn5SAId0+CwL5SUatqTtyvPBvg
+   u8dwo2IIYCMoUE66pzvcwvtc0LRlS7mVP1Pq0RW0zUoeT32Ue9bzHerPs
+   aCiFXj+iLViJHqF22B/tFPXVXlvqNLEb4bqCE2XiF3qWxDaEJ1vNHu/PI
+   w==;
+X-CSE-ConnectionGUID: P3HO2z8oQi2pzeZwAJbZDQ==
+X-CSE-MsgGUID: He+zfsYgRuKGHI3vETVJAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="55235005"
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="55235005"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 03:24:57 -0700
+X-CSE-ConnectionGUID: zOvFqdxtQWyzgAfG6eKYtw==
+X-CSE-MsgGUID: rmaqRUAPT4GR2XKBqvEiNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="82062227"
+   d="scan'208";a="82243549"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Oct 2024 03:24:54 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 29 Oct 2024 03:24:53 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5jP9-000dX4-0H;
+	id 1t5jP9-000dX2-0C;
 	Tue, 29 Oct 2024 10:24:51 +0000
 Date: Tue, 29 Oct 2024 18:24:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 18685/30000]
- drivers/ub/urma/uburma/uburma_dev_ops.c:32:6: warning: no previous prototype
- for 'uburma_release_file'
-Message-ID: <202410291823.s7QZPUJc-lkp@intel.com>
+To: Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Hugh Dickins <hughd@google.com>,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	David Hildenbrand <david@redhat.com>,
+	Yang Shi <yang@os.amperecomputing.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Yu Zhao <yuzhao@google.com>, John Hubbard <jhubbard@nvidia.com>,
+	linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v1 1/3] mm/huge_memory: buddy allocator like folio_split()
+Message-ID: <202410291853.lBOeTPTK-lkp@intel.com>
+References: <20241028180932.1319265-2-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +72,268 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241028180932.1319265-2-ziy@nvidia.com>
 
-Hi Yizhen,
+Hi Zi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   2d902497d466f0e7c448a2c6ad00878b549c2192
-commit: cd637a6dded9c0dce5f8d79898bb25be2edb927a [18685/30000] ub: uburma support open/release file ops
-config: arm64-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291823.s7QZPUJc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291823.s7QZPUJc-lkp@intel.com/reproduce)
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20241029]
+[cannot apply to linus/master v6.12-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_memory-buddy-allocator-like-folio_split/20241029-021200
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241028180932.1319265-2-ziy%40nvidia.com
+patch subject: [PATCH v1 1/3] mm/huge_memory: buddy allocator like folio_split()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241029/202410291853.lBOeTPTK-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291853.lBOeTPTK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410291823.s7QZPUJc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291853.lBOeTPTK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/ub/urma/uburma/uburma_dev_ops.c:32:6: warning: no previous prototype for 'uburma_release_file' [-Wmissing-prototypes]
-      32 | void uburma_release_file(struct kref *ref)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/uburma/uburma_dev_ops.c:49:5: warning: no previous prototype for 'uburma_open' [-Wmissing-prototypes]
-      49 | int uburma_open(struct inode *inode, struct file *filp)
-         |     ^~~~~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c: In function 'uburma_open':
->> drivers/ub/urma/uburma/uburma_dev_ops.c:66:50: warning: the comparison will always evaluate as 'false' for the address of 'dev_name' will never be NULL [-Waddress]
-      66 |         if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
-         |                                                  ^~
-   In file included from drivers/ub/urma/uburma/uburma_dev_ops.c:25:
-   include/urma/ubcore_types.h:1589:14: note: 'dev_name' declared here
-    1589 |         char dev_name[UBCORE_MAX_DEV_NAME];
-         |              ^~~~~~~~
-   drivers/ub/urma/uburma/uburma_dev_ops.c: At top level:
->> drivers/ub/urma/uburma/uburma_dev_ops.c:102:5: warning: no previous prototype for 'uburma_close' [-Wmissing-prototypes]
-     102 | int uburma_close(struct inode *inode, struct file *filp)
-         |     ^~~~~~~~~~~~
+   In file included from mm/huge_memory.c:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/huge_memory.c:18:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/huge_memory.c:3342:6: warning: variable 'nr_dropped' set but not used [-Wunused-but-set-variable]
+    3342 |         int nr_dropped = 0;
+         |             ^
+   mm/huge_memory.c:3806:12: warning: unused function 'folio_split' [-Wunused-function]
+    3806 | static int folio_split(struct folio *folio, unsigned int new_order,
+         |            ^~~~~~~~~~~
+   8 warnings generated.
 
 
-vim +/uburma_release_file +32 drivers/ub/urma/uburma/uburma_dev_ops.c
+vim +/nr_dropped +3342 mm/huge_memory.c
 
-    31	
-  > 32	void uburma_release_file(struct kref *ref)
-    33	{
-    34		struct uburma_file *file = container_of(ref, struct uburma_file, ref);
-    35		int srcu_idx;
-    36	
-    37		srcu_idx = srcu_read_lock(&file->ubu_dev->ubc_dev_srcu);
-    38		srcu_dereference(file->ubu_dev->ubc_dev, &file->ubu_dev->ubc_dev_srcu);
-    39	
-    40		srcu_read_unlock(&file->ubu_dev->ubc_dev_srcu, srcu_idx);
-    41	
-    42		if (atomic_dec_and_test(&file->ubu_dev->refcnt))
-    43			complete(&file->ubu_dev->comp);
-    44	
-    45		kobject_put(&file->ubu_dev->kobj);
-    46		kfree(file);
-    47	}
-    48	
-  > 49	int uburma_open(struct inode *inode, struct file *filp)
-    50	{
-    51		struct uburma_device *ubu_dev;
-    52		struct ubcore_device *ubc_dev;
-    53		struct uburma_file *file;
-    54		int srcu_idx;
-    55		int ret;
-    56	
-    57		ubu_dev = container_of(inode->i_cdev, struct uburma_device, cdev);
-    58		if (!atomic_inc_not_zero(&ubu_dev->refcnt)) {
-    59			uburma_log_err("device was not ready.\n");
-    60			return -ENXIO;
-    61		}
-    62	
-    63		srcu_idx = srcu_read_lock(&ubu_dev->ubc_dev_srcu);
-    64		mutex_lock(&ubu_dev->lists_mutex);
-    65		ubc_dev = srcu_dereference(ubu_dev->ubc_dev, &ubu_dev->ubc_dev_srcu);
-  > 66		if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
-    67			uburma_log_err("can not find ubcore device.\n");
-    68			ret = EIO;
-    69			goto err;
-    70		}
-    71	
-    72		file = kzalloc(sizeof(struct uburma_file), GFP_KERNEL);
-    73		if (!file) {
-    74			ret = -ENOMEM;
-    75			uburma_log_err("can not alloc memory.\n");
-    76			goto err;
-    77		}
-    78	
-    79		file->ubu_dev = ubu_dev;
-    80		file->ucontext = NULL;
-    81		kref_init(&file->ref);
-    82		mutex_init(&file->mutex);
-    83		filp->private_data = file;
-    84	
-    85		list_add_tail(&file->list, &ubu_dev->uburma_file_list);
-    86		kobject_get(&ubu_dev->kobj); // Increase reference count for file.
-    87	
-    88		mutex_unlock(&ubu_dev->lists_mutex);
-    89		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
-    90	
-    91		uburma_log_info("device: %s open succeed.\n", ubc_dev->dev_name);
-    92		return nonseekable_open(inode, filp);
-    93	
-    94	err:
-    95		mutex_unlock(&ubu_dev->lists_mutex);
-    96		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
-    97		if (atomic_dec_and_test(&ubu_dev->refcnt))
-    98			complete(&ubu_dev->comp);
-    99		return ret;
-   100	}
-   101	
- > 102	int uburma_close(struct inode *inode, struct file *filp)
+  3292	
+  3293	#define for_each_folio_until_end_safe(iter, iter2, start, end)	\
+  3294		for (iter = start, iter2 = folio_next(start);		\
+  3295		     iter != end;					\
+  3296		     iter = iter2, iter2 = folio_next(iter2))
+  3297	
+  3298	/*
+  3299	 * It splits a @folio (without mapping) to lower order smaller folios in two
+  3300	 * ways.
+  3301	 * 1. uniform split: the given @folio into multiple @new_order small folios,
+  3302	 *    where all small folios have the same order. This is done when
+  3303	 *    uniform_split is true.
+  3304	 * 2. buddy allocator like split: the given @folio is split into half and one
+  3305	 *    of the half (containing the given page) is split into half until the
+  3306	 *    given @page's order becomes @new_order. This is done when uniform_split is
+  3307	 *    false.
+  3308	 *
+  3309	 * The high level flow for these two methods are:
+  3310	 * 1. uniform split: a single __split_folio_to_order() is called to split the
+  3311	 *    @folio into @new_order, then we traverse all the resulting folios one by
+  3312	 *    one in PFN ascending order and perform stats, unfreeze, adding to list,
+  3313	 *    and file mapping index operations.
+  3314	 * 2. buddy allocator like split: in general, folio_order - @new_order calls to
+  3315	 *    __split_folio_to_order() are called in the for loop to split the @folio
+  3316	 *    to one lower order at a time. The resulting small folios are processed
+  3317	 *    like what is done during the traversal in 1, except the one containing
+  3318	 *    @page, which is split in next for loop.
+  3319	 *
+  3320	 * After splitting, the caller's folio reference will be transferred to the
+  3321	 * folio containing @page. The other folios may be freed if they are not mapped.
+  3322	 *
+  3323	 * In terms of locking, after splitting,
+  3324	 * 1. uniform split leaves @page (or the folio contains it) locked;
+  3325	 * 2. buddy allocator like split leaves @folio locked.
+  3326	 *
+  3327	 * If @list is null, tail pages will be added to LRU list, otherwise, to @list.
+  3328	 */
+  3329	static int __folio_split_without_mapping(struct folio *folio, int new_order,
+  3330			struct page *page, struct list_head *list, pgoff_t end,
+  3331			struct xa_state *xas, struct address_space *mapping,
+  3332			bool uniform_split)
+  3333	{
+  3334		struct lruvec *lruvec;
+  3335		struct address_space *swap_cache = NULL;
+  3336		struct folio *origin_folio = folio;
+  3337		struct folio *next_folio = folio_next(folio);
+  3338		struct folio *new_folio;
+  3339		struct folio *next;
+  3340		int order = folio_order(folio);
+  3341		int split_order = order - 1;
+> 3342		int nr_dropped = 0;
+  3343	
+  3344		if (folio_test_anon(folio) && folio_test_swapcache(folio)) {
+  3345			if (!uniform_split)
+  3346				return -EINVAL;
+  3347	
+  3348			swap_cache = swap_address_space(folio->swap);
+  3349			xa_lock(&swap_cache->i_pages);
+  3350		}
+  3351	
+  3352		if (folio_test_anon(folio))
+  3353			mod_mthp_stat(order, MTHP_STAT_NR_ANON, -1);
+  3354	
+  3355		/* lock lru list/PageCompound, ref frozen by page_ref_freeze */
+  3356		lruvec = folio_lruvec_lock(folio);
+  3357	
+  3358		/*
+  3359		 * split to new_order one order at a time. For uniform split,
+  3360		 * intermediate orders are skipped
+  3361		 */
+  3362		for (split_order = order - 1; split_order >= new_order; split_order--) {
+  3363			int old_order = folio_order(folio);
+  3364			struct folio *release;
+  3365			struct folio *end_folio = folio_next(folio);
+  3366			int status;
+  3367	
+  3368			if (folio_test_anon(folio) && split_order == 1)
+  3369				continue;
+  3370			if (uniform_split && split_order != new_order)
+  3371				continue;
+  3372	
+  3373			if (mapping) {
+  3374				/*
+  3375				 * uniform split has xas_split_alloc() called before
+  3376				 * irq is disabled, since xas_nomem() might not be
+  3377				 * able to allocate enough memory.
+  3378				 */
+  3379				if (uniform_split)
+  3380					xas_split(xas, folio, old_order);
+  3381				else {
+  3382					xas_set_order(xas, folio->index, split_order);
+  3383					xas_set_err(xas, -ENOMEM);
+  3384					if (xas_nomem(xas, 0))
+  3385						xas_split(xas, folio, old_order);
+  3386					else
+  3387						return -ENOMEM;
+  3388				}
+  3389			}
+  3390	
+  3391			split_page_memcg(&folio->page, old_order, split_order);
+  3392			split_page_owner(&folio->page, old_order, split_order);
+  3393			pgalloc_tag_split(folio, old_order, split_order);
+  3394	
+  3395			status = __split_folio_to_order(folio, split_order);
+  3396	
+  3397			if (status < 0)
+  3398				return status;
+  3399	
+  3400			/*
+  3401			 * Iterate through after-split folios and perform related
+  3402			 * operations. But in buddy allocator like split, the folio
+  3403			 * containing the specified page is skipped until its order
+  3404			 * is new_order, since the folio will be worked on in next
+  3405			 * iteration.
+  3406			 */
+  3407			for_each_folio_until_end_safe(release, next, folio, end_folio) {
+  3408				if (page_in_folio_offset(page, release) >= 0) {
+  3409					folio = release;
+  3410					if (split_order != new_order)
+  3411						continue;
+  3412				}
+  3413				if (folio_test_anon(release))
+  3414					mod_mthp_stat(folio_order(release),
+  3415							MTHP_STAT_NR_ANON, 1);
+  3416	
+  3417				/*
+  3418				 * Unfreeze refcount first. Additional reference from
+  3419				 * page cache.
+  3420				 */
+  3421				folio_ref_unfreeze(release,
+  3422					1 + ((!folio_test_anon(origin_folio) ||
+  3423					     folio_test_swapcache(origin_folio)) ?
+  3424						     folio_nr_pages(release) : 0));
+  3425	
+  3426				if (release != origin_folio)
+  3427					lru_add_page_tail(origin_folio, &release->page,
+  3428							lruvec, list);
+  3429	
+  3430				/* Some pages can be beyond EOF: drop them from page cache */
+  3431				if (release->index >= end) {
+  3432					if (shmem_mapping(origin_folio->mapping))
+  3433						nr_dropped++;
+  3434					else if (folio_test_clear_dirty(release))
+  3435						folio_account_cleaned(release,
+  3436							inode_to_wb(origin_folio->mapping->host));
+  3437					__filemap_remove_folio(release, NULL);
+  3438					folio_put(release);
+  3439				} else if (!folio_test_anon(release)) {
+  3440					__xa_store(&origin_folio->mapping->i_pages,
+  3441							release->index, &release->page, 0);
+  3442				} else if (swap_cache) {
+  3443					__xa_store(&swap_cache->i_pages,
+  3444							swap_cache_index(release->swap),
+  3445							&release->page, 0);
+  3446				}
+  3447			}
+  3448		}
+  3449	
+  3450		unlock_page_lruvec(lruvec);
+  3451	
+  3452		if (folio_test_anon(origin_folio)) {
+  3453			if (folio_test_swapcache(origin_folio))
+  3454				xa_unlock(&swap_cache->i_pages);
+  3455		} else
+  3456			xa_unlock(&mapping->i_pages);
+  3457	
+  3458		/* Caller disabled irqs, so they are still disabled here */
+  3459		local_irq_enable();
+  3460	
+  3461		remap_page(origin_folio, 1 << order,
+  3462				folio_test_anon(origin_folio) ?
+  3463					RMP_USE_SHARED_ZEROPAGE : 0);
+  3464	
+  3465		/*
+  3466		 * At this point, folio should contain the specified page, so that it
+  3467		 * will be left to the caller to unlock it.
+  3468		 */
+  3469		for_each_folio_until_end_safe(new_folio, next, origin_folio, next_folio) {
+  3470			if (uniform_split && new_folio == folio)
+  3471				continue;
+  3472			if (!uniform_split && new_folio == origin_folio)
+  3473				continue;
+  3474	
+  3475			folio_unlock(new_folio);
+  3476			/*
+  3477			 * Subpages may be freed if there wasn't any mapping
+  3478			 * like if add_to_swap() is running on a lru page that
+  3479			 * had its mapping zapped. And freeing these pages
+  3480			 * requires taking the lru_lock so we do the put_page
+  3481			 * of the tail pages after the split is complete.
+  3482			 */
+  3483			free_page_and_swap_cache(&new_folio->page);
+  3484		}
+  3485		return 0;
+  3486	}
+  3487	
 
 -- 
 0-DAY CI Kernel Test Service
