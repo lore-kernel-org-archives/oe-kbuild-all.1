@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC3FEAFA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 10:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED624203708
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 11:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730198768; cv=none; b=IwKpEwXQvbqh4iWcirdL/cuFLzuvxBj/WnpoedIaAKOu08U85UoPCdcq4hBqK0Y724qt4yTkNODhus4o34VVu0ZWgaXsSgbHcXl9tLfvll989u5aEpEJTtGwG4C8h6EMzi4Br08rgZMydpxu2vy8Y4jWUqtMPoP8ZHZl3Q959yo=
+	t=1730199960; cv=none; b=Ot6E8fQPIEsfVKgk0Y7zRODJLytll5p8fmSgWxDWmbYrAq6WCsTpvicS4NxaZXaGMkDLgIKCRFprLQLKnodYrRj0lWRLaiPgae70qD9A28JsPPtZ99mYNBPBwYTLrsnr3oOleDQJHh1x7LVbNIIjOv4kjBYiFy/5g+rrynsZEm4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730198768; c=relaxed/simple;
-	bh=3Guh5z+xy2l0twJFVKkHm+vp9MlTs0zDgdxgmmi521A=;
+	s=arc-20240116; t=1730199960; c=relaxed/simple;
+	bh=dZfJPNsaOj7N1jwJ0brSheLEia4pJuRz33OTvpGISCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dj1rYqfhhKyV5z5h05EoMCjnQk9Ph7cBXVodbsy9jW5h5lDM11Hc8FNGXErc6pNOuhA8czIpJWeqf37fFGp0JwidYl88C54StRkIfW6uKK0yyvwvEW/h+KrDmONSIchVL7+EhL1K43TnNkVmw6PqXUvhWaX5+sYeuDmXcQw/5Ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/H8CW0R; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=uQCWF/1i62KWxQRmS28Y69N9s+/VMSdDDn9x44YDJF8Jgaq15BPjgDuukrul5qEpmng9XOcOCHG87tnAjjaOz73KATLeQF6LLz4+On4eEpIt6AqDkbgLsmoGQeqDSg9ZKcKuEOZPHOociwsg4HNNirr5NZUj3nPgTBSXP0gsmOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nY6Sfl08; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/H8CW0R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nY6Sfl08"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730198766; x=1761734766;
+  t=1730199958; x=1761735958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3Guh5z+xy2l0twJFVKkHm+vp9MlTs0zDgdxgmmi521A=;
-  b=F/H8CW0ROu6uScMeGKfah3MVvjau4bGidVT/cgh7dhjlvL8BSSgbiNa0
-   n+zdwqFlK2u2S9UA+PaDXK8iCwJ4oEc5bu1etwpOvNAJYz5vq0eeNCYp8
-   F6J6n4JZ9k4AkrwGYfr2rlnWVBe3BFCggDMpJvcLj8xjXldQaA7OIf6cO
-   cnNQF5YplPGotJ8/wxu3q6KOselo9mabqUPm92pDjJMJPxsPMPrbWQ2aN
-   KMoqN8QHHF3bvts4USoFKngpTU9bCV8+jjr0eX2JRHiQFeEReukXc3tAQ
-   5dWfLFvhAFmyuu/8IrfEqM6ZIcnxCfSxOAIUxuOn5OrzGyBGM7O5MFSof
-   Q==;
-X-CSE-ConnectionGUID: XFvW6n25TgCLyH+6uhG/lw==
-X-CSE-MsgGUID: 2WWsT2zBQDyFCPp5e/P0tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="47309267"
+  bh=dZfJPNsaOj7N1jwJ0brSheLEia4pJuRz33OTvpGISCc=;
+  b=nY6Sfl08JEX8jU7tUZmX5Ve+RN0v7iZjeM5bkEfBEelhT/DnFr3fLY/i
+   UHQAkTD+I0F+GX4wbGr1OBt7ZfCDtxmogkzCEy3aOXXz+rNFb4v0N5B+H
+   UnR0Arp2k27nmq4lshFP5hpvtMiAB3B0/9vPRkEuk7zxGsrfCo7FpYGpS
+   SZ9KEqgkxxrq/oXYLUYN851JeqJeQy2Hm6WOf2o/LCh8zNf5hTgUfAelX
+   HTpQYmSW/2ynmPvmvJQv5ICBm4bMj2ZQYi0W4DHl8SinvU4+tYi74SHf8
+   abp9YnCgz2g+WQU/rUauxQcWcO7cCMXOKm3EktQyZ7D0SEpNEUMphGlGB
+   g==;
+X-CSE-ConnectionGUID: WicfdPiwS1a4mmfclteeeQ==
+X-CSE-MsgGUID: cjSQ1+5cQUC9kts2ahc3mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="32687295"
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="47309267"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 03:45:54 -0700
-X-CSE-ConnectionGUID: DDPnzQXYTwaKvrb1nn2vJQ==
-X-CSE-MsgGUID: fvDL3EzGSgaD21DHm4w2Og==
+   d="scan'208";a="32687295"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 04:05:58 -0700
+X-CSE-ConnectionGUID: 0lvUNuniQwSTfQ+soJu6sg==
+X-CSE-MsgGUID: k8uvnt5zS8qCx+RuWqQPIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
-   d="scan'208";a="86532652"
+   d="scan'208";a="82008602"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Oct 2024 03:45:55 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Oct 2024 04:05:54 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5jjT-000dYK-2C;
-	Tue, 29 Oct 2024 10:45:51 +0000
-Date: Tue, 29 Oct 2024 18:45:00 +0800
+	id 1t5k2q-000dZ4-0R;
+	Tue, 29 Oct 2024 11:05:52 +0000
+Date: Tue, 29 Oct 2024 19:05:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
-Subject: [peterz-queue:perf/core 21/21] kernel/events/uprobes.c:2040:17:
- sparse: sparse: incompatible types in comparison expression (different
- address spaces):
-Message-ID: <202410291813.K7U1SI4M-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 10798/13046]
+ arch/x86/kernel/zhaoxin_kh40000.c:33:15: sparse: sparse: symbol
+ 'zhaoxin_patch_code' was not declared. Should it be static?
+Message-ID: <202410291828.mmzplkby-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,90 +67,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
-head:   72a27524a4939fc0958796a46b51c1fab3729367
-commit: 72a27524a4939fc0958796a46b51c1fab3729367 [21/21] uprobes: SRCU-protect uretprobe lifetime (with timeout)
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291813.K7U1SI4M-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291813.K7U1SI4M-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: ab7f82d72290046790f10ac6f2bd8b6579899498 [10798/13046] Add kh40000_direct_dma_ops for KH-40000 platform
+config: x86_64-randconfig-121-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291828.mmzplkby-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291828.mmzplkby-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410291813.K7U1SI4M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291828.mmzplkby-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> kernel/events/uprobes.c:2040:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/uprobes.c:2040:17: sparse:    struct return_instance [noderef] __rcu *
-   kernel/events/uprobes.c:2040:17: sparse:    struct return_instance *
-   kernel/events/uprobes.c:2121:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/uprobes.c:2121:9: sparse:    struct return_instance [noderef] __rcu *
-   kernel/events/uprobes.c:2121:9: sparse:    struct return_instance *
-   kernel/events/uprobes.c:2180:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/uprobes.c:2180:9: sparse:    struct return_instance [noderef] __rcu *
-   kernel/events/uprobes.c:2180:9: sparse:    struct return_instance *
-   kernel/events/uprobes.c:2239:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/events/uprobes.c:2241:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/events/uprobes.c:2500:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/events/uprobes.c:2500:25: sparse:    struct return_instance [noderef] __rcu *
-   kernel/events/uprobes.c:2500:25: sparse:    struct return_instance *
-   kernel/events/uprobes.c:2628:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/events/uprobes.c:2630:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/events/uprobes.c: note: in included file:
-   include/linux/rmap.h:703:28: sparse: sparse: context imbalance in '__replace_page' - unexpected unlock
-   kernel/events/uprobes.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   kernel/events/uprobes.c:732:17: sparse: sparse: context imbalance in 'hprobe_finalize' - unexpected unlock
-   kernel/events/uprobes.c:800:25: sparse: sparse: context imbalance in 'hprobe_expire' - unexpected unlock
-   kernel/events/uprobes.c: note: in included file (through include/linux/mm_types.h, include/linux/mmzone.h, include/linux/gfp.h, ...):
-   include/linux/rbtree.h:74:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   include/linux/rbtree.h:74:9: sparse:    struct rb_node [noderef] __rcu *
-   include/linux/rbtree.h:74:9: sparse:    struct rb_node *
+>> arch/x86/kernel/zhaoxin_kh40000.c:33:15: sparse: sparse: symbol 'zhaoxin_patch_code' was not declared. Should it be static?
 
-vim +2040 kernel/events/uprobes.c
+vim +/zhaoxin_patch_code +33 arch/x86/kernel/zhaoxin_kh40000.c
 
-  2007	
-  2008	static int dup_utask(struct task_struct *t, struct uprobe_task *o_utask)
-  2009	{
-  2010		struct uprobe_task *n_utask;
-  2011		struct return_instance **p, *o, *n;
-  2012		struct uprobe *uprobe;
-  2013	
-  2014		n_utask = alloc_utask();
-  2015		if (!n_utask)
-  2016			return -ENOMEM;
-  2017		t->utask = n_utask;
-  2018	
-  2019		/* protect uprobes from freeing, we'll need try_get_uprobe() them */
-  2020		guard(srcu)(&uretprobes_srcu);
-  2021	
-  2022		p = &n_utask->return_instances;
-  2023		for (o = o_utask->return_instances; o; o = o->next) {
-  2024			n = dup_return_instance(o);
-  2025			if (!n)
-  2026				return -ENOMEM;
-  2027	
-  2028			/* if uprobe is non-NULL, we'll have an extra refcount for uprobe */
-  2029			uprobe = hprobe_expire(&o->hprobe, true);
-  2030	
-  2031			/*
-  2032			 * New utask will have stable properly refcounted uprobe or
-  2033			 * NULL. Even if we failed to get refcounted uprobe, we still
-  2034			 * need to preserve full set of return_instances for proper
-  2035			 * uretprobe handling and nesting in forked task.
-  2036			 */
-  2037			hprobe_init_stable(&n->hprobe, uprobe);
-  2038	
-  2039			n->next = NULL;
-> 2040			rcu_assign_pointer(*p, n);
-  2041			p = &n->next;
-  2042	
-  2043			n_utask->depth++;
-  2044		}
-  2045	
-  2046		return 0;
-  2047	}
-  2048	
+    32	
+  > 33	unsigned long zhaoxin_patch_code = ZHAOXIN_PATCH_CODE_DEFAULT;
+    34	
 
 -- 
 0-DAY CI Kernel Test Service
