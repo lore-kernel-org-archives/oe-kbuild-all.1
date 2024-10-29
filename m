@@ -1,70 +1,62 @@
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1602620371D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 08:19:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8485A1DE4D7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 08:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730189973; cv=none; b=KEF/cazo10be7KMNSbd2qAThuYJTxCOG+n9jMTBG9vMe20oF8zV9pR/qGLMch3x8CyyxV8tEmW6gtEkcWipznBDE1vVWQkS4oldFcbkX3SSCsi2dTriyZPZgch460T2+/VTQgUuD4vfY/UKsI1pPnseUiH/vmSuMCzhRWK/W6dY=
+	t=1730190775; cv=none; b=ANRxh9nT1Tmsm7R6c0y/gvU4OzPDzxn+PBZKDo2G8Gbvb7ughPl5o8NeIUyKZDX8udQZED6FL8lXeFv1I78ZhHImjfpR5wK99FcHOwwLQEyT0u6Tc9gYkrWc7eUFxH+T1GuQ9HpDNIIbvTXEsyqXS/GfGZZxGXpVMw2jcni0tG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730189973; c=relaxed/simple;
-	bh=tJx/bThf7RRPQy522W46SjHhmJvOpGhuopQdRLvGDtA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Elcc864eP8vvqa6tTaPv8KC730f7pfVR8IL3deKj42H498EG8v9yoD9lRwXTxbd/3TFlbD9o1E+hps+vzQuUFr1ciBBGFXiWile0k+7JeT0d968Qna+Xlr1fD9jH0BE9v9W0KEir8VvOxqaQ/IxacPo2zkhrHGXh9eranzpa464=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eldNifle; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1730190775; c=relaxed/simple;
+	bh=inSbF4SXeyZLDlzC27YVr59hBiJS+BwIGkvXtK2vPq8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=T7KcZ0KIzi7w7cGuYPMeIc6/lQWllkMunZeAdn+BF8TN/skv3DxNaTS92O+dNE2p4zF7LDaPeGnc+dvVTj3UaSkm1JVgL3GNT7UL1j7tih6Kl8R7AdhrxIE48B7fjNjy/ltxf8GKD+3DBXvHwpyhzNMK03pu5f3vZ74eVC9/9Bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TFSlBPus; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eldNifle"
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb51e00c05so75374451fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 01:19:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730189969; x=1730794769; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VVOexIS3SgllZm/pW9Ena+nrB8MLfcVMF764exL0AQM=;
-        b=eldNifleGOE7ho1Xnd/Vor1jC9kSOSbWKRkA/HrhZaE87tC7xI9aRJzEhJ8mcpYIcw
-         9MmeJ3pvDkm9m8kzhhta7KTXA2BegCQ5Q3HCZfd2PXax468hhJf9M2Z5n8bfku1uBauQ
-         UbK8GGBi/TX4OwZDOXUrF+cj0CWKRcbS0AVKWN8UTaswDfNdWJVOQsrRjWQCpnaqXqTT
-         S3c407wO/Ldq6jJHvMkjFwWqRtyt3zOarlt3Cc0pL9IS8aigT79Y4v9qEDwQnIl4Wzyj
-         RYxiBcfdrlYvQwBTcStdWdVgDr1tst5pcO6Sn8AvWlsxtvJobCdtYIzA7xrj+8V3pC2A
-         XAow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730189969; x=1730794769;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VVOexIS3SgllZm/pW9Ena+nrB8MLfcVMF764exL0AQM=;
-        b=GqRBqbJ8boDnhWDSLwu7lFI82jwZqc82Bgd9wILQtlCsoxt7Zz8Ad9GX/JrswvAVG4
-         e6oBdIHbiIkoQms+qvA6+8AyVMCFcJGgwehlQ/9aNgw2X+n85+9sevVOwwM7c2KvkvvK
-         L3B0llpU2IGTStni3l8PK8e/V2f+igHxIx5HbbngojThVBArgV7+9fueeNTE6kmHH4Gv
-         EVhxfiD6I1aC3thD+VLPE62HDgm2n6GVKs73JnSuTXaJHIHToPw9XEemILG3RIPmIrEw
-         qn/gaJXIaXCSP3emtKkpVXf/v9n/GK2JVcnhXvGCWYSkg9wMzEYy1fPbpwMo+epAPlT4
-         eNQg==
-X-Forwarded-Encrypted: i=1; AJvYcCUpfL8Eacs6z302+/QTLSuSkzwSVs6pE6ayQJcc6a0i8pHhANo+CPGBZCho6kyj76B018MUhcY0U2T/Qelg@lists.linux.dev
-X-Gm-Message-State: AOJu0YwaL3uc8Z0pq53vGMGl0BILuQEQCLLggmfMKDo7t/qmjdM/bbnF
-	fj+9vb/vXQoc4xzcCH4f0P99J5vK6eiumcHrcOnhrKqcEaKRwHJajc7ifXJODn8=
-X-Google-Smtp-Source: AGHT+IF3Rxjs9R/r0CPhhUw5+OUfR7VXHsix8wHKnE253K7lQLZZUQcp0acowwY53IIl/tZieH5Tmg==
-X-Received: by 2002:a05:6512:b8f:b0:539:8f3c:4586 with SMTP id 2adb3069b0e04-53b34a34602mr8913570e87.55.1730189969117;
-        Tue, 29 Oct 2024 01:19:29 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9b1f297204sm445856166b.116.2024.10.29.01.19.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 01:19:28 -0700 (PDT)
-Date: Tue, 29 Oct 2024 11:19:24 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Philip Li <philip.li@intel.com>
-Cc: Matthew Sakai <msakai@redhat.com>, oe-kbuild@lists.linux.dev,
-	Mike Snitzer <snitzer@kernel.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/md/dm-vdo/data-vio.c:976 vdo_launch_bio() warn:
- inconsistent returns '&pool->lock'.
-Message-ID: <68866f17-f327-4df8-ae17-dfcc50362d4a@stanley.mountain>
-References: <717e8949-55c4-4461-8951-3e582e9b77ef@stanley.mountain>
- <f074f848-5a26-473b-ae98-1932e9a8cbd1@redhat.com>
- <ZyBQa45RTWXiXJke@rli9-mobl>
- <ZyCLo51ZyjxX7eQK@rli9-mobl>
- <13937d22-46ac-480a-8956-f89a0fd295ac@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TFSlBPus"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730190773; x=1761726773;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=inSbF4SXeyZLDlzC27YVr59hBiJS+BwIGkvXtK2vPq8=;
+  b=TFSlBPuskBgnTLJ1QYK1YZLX4UbQP74a4wF9pIGCcQtwMlay823GFp3h
+   P4Vey9kCdLc4C8Xs8nv/uXMWIBxhC8yEokPz338xuvV4evA6IWsk6cC2W
+   TZmqk9VN9xgMTsuUGlQV3sHssovr7qK8Efhv9nR6bjnUaxlpbx+2Hxxic
+   6hXgmeB20Ml7s+QekuF3lLO+8F9LRj6535nwKQRlnFnvY1FeRJ8ftmRKK
+   +rY8zKodb2s6cMvSQqRaG0sHTDaMG7suWcX5k0DdqetWQeA+ZVP6Uog5k
+   rSGjolRzl6lRa23pE6eK8A+NRoXrzUmQsVlI6CW5Nl6Axq4D1JHrMpoKC
+   A==;
+X-CSE-ConnectionGUID: iGc/1raiQTCrLfTB8QRMtQ==
+X-CSE-MsgGUID: NLMCRh/CRk+zUyHEqKIQ2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30002829"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30002829"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 01:32:53 -0700
+X-CSE-ConnectionGUID: 1Z55dVRySe+5+i4KB2+PPg==
+X-CSE-MsgGUID: q93Ua0mnTDOPqooXwfcXDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,241,1725346800"; 
+   d="scan'208";a="81957001"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 29 Oct 2024 01:32:50 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t5heh-000dR4-33;
+	Tue, 29 Oct 2024 08:32:47 +0000
+Date: Tue, 29 Oct 2024 16:31:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 25/98] net/core/net-procfs.c:344:45: sparse:
+ sparse: cast removes address space '__percpu' of expression
+Message-ID: <202410291614.5UV1JF06-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,20 +65,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <13937d22-46ac-480a-8956-f89a0fd295ac@stanley.mountain>
 
-On Tue, Oct 29, 2024 at 11:07:07AM +0300, Dan Carpenter wrote:
-> 3) The kbuild bot detected the bug, but unfortunately the cross function DB
->    doesn't scale well enough for the kbuild bot to use so it didn't detect the
->    fix.
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: d9324ddd538a0b57dbee8623806ff9b9f7811202 [25/98] net: dev ipv4/v6 stat
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241029/202410291614.5UV1JF06-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410291614.5UV1JF06-lkp@intel.com/reproduce)
 
-Aw crud.  It does still print a warning on linux-next actually.
-Smatch says that we lock "&pool->lock" and unlocked
-"&pool->discard_limiter->pool->lock".
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410291614.5UV1JF06-lkp@intel.com/
 
-Anyway.  Points 1 and 4 that we were running new checks on old code and that
-the code in the email did have a bug are correct.
+sparse warnings: (new ones prefixed by >>)
+>> net/core/net-procfs.c:344:45: sparse: sparse: cast removes address space '__percpu' of expression
+>> net/core/net-procfs.c:344:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *mib @@     got void [noderef] __percpu ** @@
+   net/core/net-procfs.c:344:45: sparse:     expected void [noderef] __percpu *mib
+   net/core/net-procfs.c:344:45: sparse:     got void [noderef] __percpu **
 
-regards,
-dan carpenter
+vim +/__percpu +344 net/core/net-procfs.c
 
+   334	
+   335	static void dev_ext_seq_printf_stats(struct seq_file *seq, void *v)
+   336	{
+   337		struct net_device *dev = (struct net_device *)v;
+   338		int i;
+   339	
+   340		seq_printf(seq, "%10s  ", dev->name);
+   341	
+   342		for (i = 0; snmp_devstat_list[i].name; i++)
+   343			seq_printf(seq, " %12lu",
+ > 344				   snmp_fold_field((void __percpu **)
+   345						   dev->mib.dev_statistics,
+   346						   snmp_devstat_list[i].entry));
+   347		seq_putc(seq, '\n');
+   348	}
+   349	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
