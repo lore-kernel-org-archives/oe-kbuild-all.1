@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D83C823C9
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 00:02:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 930F023CE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Oct 2024 00:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730160156; cv=none; b=ay2N2sqo59nPUW+QQWmTGwVMcPUZhqVdZ1CwjhWazMxkNb1aMBM7+vl4AEI+82aLq9zH4zkjiloQQ0hO3TFs89cj1YvoR0/v+DNf4YQvplUtF0MMNBxOh/uueEJtZ6vbKVSqs2WDoqaoHvUtITLj16vxle+j9umeAnSnopnuWM8=
+	t=1730160157; cv=none; b=cjHrvOKHHAK1027f66NRJLzNDATZX1qR1PNo7nO+bfE6ieYoEd1fggwYCjbFV/M+zl9kFMbK0d0+FOi9KRbCJN70lmozc321Tin1SY/wMsvenACJ+YA5zzqFhjQgbhVI+VkDJDPc5JIFeALAcFOxYcHPNURpqpsLALcFg4upyWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730160156; c=relaxed/simple;
-	bh=+9AGjHhrhfHhEHHoTvZ8NNXlzkYjL+tmTzMwiyGL7VQ=;
+	s=arc-20240116; t=1730160157; c=relaxed/simple;
+	bh=elYLPw05jcIcUuMOor4QUg5qhCzTzNzEtyl1ukwpOGU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XHrhFyy/JahfSLhadz7Ngdg4qZfD4BtY2gu/Njf5OM4eibFKSf/A6WQRcpmTfT4bd/GGeM0IqZ4kxYJDxR+YTw/5LUP+7Mvtr4V8sbU1QCTwNlJqLCapq+9/zIoZXcX5Rb+8KxbZeJXiQzyD+hXfpPWaexNSCewInvLNqHBJKnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hfPHUQot; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=roo57G0EFIc6siKrpp/rdYue/opEY2dBH9qW8hvl7asKVmDrrsJjwyI+oXhemWdPCETLq6nIWndCQQaBt/sc3ShJZjwJPSt1ZFRTTDsqOSN8r4x1/1cIJkY7DEYOvIw7J0/l93BJct23+RNoasMWKCWHoXG0HhNd2z4LOG0zi/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqHMHYNo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hfPHUQot"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqHMHYNo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730160154; x=1761696154;
+  t=1730160155; x=1761696155;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+9AGjHhrhfHhEHHoTvZ8NNXlzkYjL+tmTzMwiyGL7VQ=;
-  b=hfPHUQotJfIPMCPHCpBvd2eoW/xCpYY5MmCbDmizkPyRsJ7v/mc40QPb
-   kN7TOzzfZqORkpiQXhdxurR4R70sfFrIWaC/hFniDvasj2My4v/aOZrI2
-   OW2TvF1sg+Kqb3HaK2SfX96XNFg9n6qKpNzsTxozCCn1/o/5Ul6xtPBIN
-   ZtjRxh3erEVJdWR+E1Z6R0Hts7Wbw4a9Tn/0su6NHWnZZyImm/0MaAjfB
-   JXnckJK4JrHAdzqOF66TYdfS+24PBtcmlkTxs0VnnhEwsV1JEsxa5EWaY
-   L75uZN8BEY/PeSUTk4gjDa2d0DooIPYfR6Oi0W5bIBStaGNWdyD25Ovvt
-   Q==;
-X-CSE-ConnectionGUID: q3QyFjMnSaKiXAE73VU8qg==
-X-CSE-MsgGUID: wPtIvdZwQTKSerYTvrjgXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11239"; a="29681969"
-X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="29681969"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 17:02:33 -0700
-X-CSE-ConnectionGUID: 2gvfn4n7RoC3j73uKVi9lQ==
-X-CSE-MsgGUID: yi8hYY8qSgi1V/Nr0TlAzw==
+  bh=elYLPw05jcIcUuMOor4QUg5qhCzTzNzEtyl1ukwpOGU=;
+  b=AqHMHYNoKm20NjSBUNmfWVhiNZZmYE8rVSX2DpX7hzNOQfwhUDgmttQl
+   TXYMVt6/83usEKrt1zSGUD1LQvy11dkV8gzCdwrJGREzqFDIivB0/eLE/
+   T/dhbOa6zSW1mg8mr1GHfBiDZiFze/w7jvIFqOkjrGM9BYSgMR2wK6CIB
+   JJqXaduYxoB8TnwALOgiU9ZN6D/aaCHNM+gzC7AVKYFiQ3ptdUHt9CCr3
+   EN19iPqWqKpAOtmvjKFi7ehYgwJA4LKVvCML9kuRdEAaPbUs5KCv0OWdD
+   jO/LryHWeb/nVzV4LY8qOB97+x4QLrwNI1vCTehu13k6N+66lYQBR69ZP
+   g==;
+X-CSE-ConnectionGUID: P10nisY7QwCgEJ8y86BxXA==
+X-CSE-MsgGUID: fm5jnUycSaWdQECSAelYGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29641270"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29641270"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2024 17:02:34 -0700
+X-CSE-ConnectionGUID: QgIiMU2hRje+Oe7edGiH0w==
+X-CSE-MsgGUID: 49tWLs3zTX6CBPi+KyS9Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,240,1725346800"; 
-   d="scan'208";a="82105710"
+   d="scan'208";a="81712667"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Oct 2024 17:02:32 -0700
+  by orviesa009.jf.intel.com with ESMTP; 28 Oct 2024 17:02:32 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5Zgs-000d2U-0f;
+	id 1t5Zgs-000d2X-0i;
 	Tue, 29 Oct 2024 00:02:30 +0000
-Date: Tue, 29 Oct 2024 08:02:15 +0800
+Date: Tue, 29 Oct 2024 08:02:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: kernel@openeuler.org, Xiongfeng Wang <wangxiongfeng2@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:netfs-writeback 31/34] fs/afs/dir_edit.c:423
- afs_edit_dir_remove() warn: unsigned 'entry' is never less than zero.
-Message-ID: <202410291037.uzpw7XAB-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2850/15358] kernel/sched/isolation.c:244:19:
+ error: invalid storage class for function 'enhanced_isolcpus_setup'
+Message-ID: <202410290700.Xq3inTZy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,160 +62,232 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git netfs-writeback
-head:   c7c0ac11bb2527f2257071bcbe4c5f9fd8fb1419
-commit: eadceef6daf592360873df4893b954620c991d08 [31/34] afs: Use the contained hashtable to search a directory
-config: i386-randconfig-r072-20241028 (https://download.01.org/0day-ci/archive/20241029/202410291037.uzpw7XAB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Xiongfeng,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   27e5d43e49e85d816bd05ffe8672ceea631a07e4
+commit: 5f20541757730418065c3ae77dfdbcde3f523394 [2850/15358] blk-mq: avoid housekeeping CPUs scheduling a worker on a non-housekeeping CPU
+config: loongarch-randconfig-002-20241029 (https://download.01.org/0day-ci/archive/20241029/202410290700.Xq3inTZy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410290700.Xq3inTZy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410291037.uzpw7XAB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410290700.Xq3inTZy-lkp@intel.com/
 
-smatch warnings:
-fs/afs/dir_edit.c:423 afs_edit_dir_remove() warn: unsigned 'entry' is never less than zero.
-fs/afs/dir_search.c:155 afs_dir_search_bucket() warn: potential spectre issue 'block->dirents' [r] (local cap)
+All errors (new ones prefixed by >>):
 
-vim +/entry +423 fs/afs/dir_edit.c
+      54 | EXPORT_SYMBOL_GPL(housekeeping_any_cpu);
+         | ^~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:39:5: note: previous definition of 'housekeeping_any_cpu' with type 'int(enum hk_type)'
+      39 | int housekeeping_any_cpu(enum hk_type type)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:63:19: error: non-static declaration of 'housekeeping_cpumask' follows static declaration
+      63 | EXPORT_SYMBOL_GPL(housekeeping_cpumask);
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   kernel/sched/isolation.c:63:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+      63 | EXPORT_SYMBOL_GPL(housekeeping_cpumask);
+         | ^~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:56:23: note: previous definition of 'housekeeping_cpumask' with type 'const struct cpumask *(enum hk_type)'
+      56 | const struct cpumask *housekeeping_cpumask(enum hk_type type)
+         |                       ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:71:19: error: non-static declaration of 'housekeeping_affine' follows static declaration
+      71 | EXPORT_SYMBOL_GPL(housekeeping_affine);
+         |                   ^~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   kernel/sched/isolation.c:71:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+      71 | EXPORT_SYMBOL_GPL(housekeeping_affine);
+         | ^~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:65:6: note: previous definition of 'housekeeping_affine' with type 'void(struct task_struct *, enum hk_type)'
+      65 | void housekeeping_affine(struct task_struct *t, enum hk_type type)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:80:19: error: non-static declaration of 'housekeeping_test_cpu' follows static declaration
+      80 | EXPORT_SYMBOL_GPL(housekeeping_test_cpu);
+         |                   ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:87:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      87 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   kernel/sched/isolation.c:80:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+      80 | EXPORT_SYMBOL_GPL(housekeeping_test_cpu);
+         | ^~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:73:6: note: previous definition of 'housekeeping_test_cpu' with type 'bool(int,  enum hk_type)' {aka '_Bool(int,  enum hk_type)'}
+      73 | bool housekeeping_test_cpu(int cpu, enum hk_type type)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:100:20: error: invalid storage class for function 'housekeeping_setup_type'
+     100 | static void __init housekeeping_setup_type(enum hk_type type,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:109:19: error: invalid storage class for function 'housekeeping_setup'
+     109 | static int __init housekeeping_setup(char *str, unsigned long flags)
+         |                   ^~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:180:19: error: invalid storage class for function 'housekeeping_nohz_full_setup'
+     180 | static int __init housekeeping_nohz_full_setup(char *str)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/linux/kernel.h:30:
+   kernel/sched/isolation.c:189:23: error: initializer element is not constant
+     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/isolation.c:189:1: note: in expansion of macro '__setup'
+     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
+         | ^~~~~~~
+   kernel/sched/isolation.c:189:23: note: (near initialization for '__setup_housekeeping_nohz_full_setup.setup_func')
+     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/isolation.c:189:1: note: in expansion of macro '__setup'
+     189 | __setup("nohz_full=", housekeeping_nohz_full_setup);
+         | ^~~~~~~
+   kernel/sched/isolation.c:191:19: error: invalid storage class for function 'housekeeping_isolcpus_setup'
+     191 | static int __init housekeeping_isolcpus_setup(char *str)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:241:22: error: initializer element is not constant
+     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/isolation.c:241:1: note: in expansion of macro '__setup'
+     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
+         | ^~~~~~~
+   kernel/sched/isolation.c:241:22: note: (near initialization for '__setup_housekeeping_isolcpus_setup.setup_func')
+     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/isolation.c:241:1: note: in expansion of macro '__setup'
+     241 | __setup("isolcpus=", housekeeping_isolcpus_setup);
+         | ^~~~~~~
+>> kernel/sched/isolation.c:244:19: error: invalid storage class for function 'enhanced_isolcpus_setup'
+     244 | static int __init enhanced_isolcpus_setup(char *str)
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/isolation.c:249:30: error: initializer element is not constant
+     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/isolation.c:249:1: note: in expansion of macro '__setup'
+     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
+         | ^~~~~~~
+   kernel/sched/isolation.c:249:30: note: (near initialization for '__setup_enhanced_isolcpus_setup.setup_func')
+     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
+         |                              ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/isolation.c:249:1: note: in expansion of macro '__setup'
+     249 | __setup("enhanced_isolcpus", enhanced_isolcpus_setup);
+         | ^~~~~~~
+   In file included from kernel/sched/build_utility.c:109:
+   kernel/sched/autogroup.c:7:28: error: section attribute cannot be specified for local variables
+       7 | unsigned int __read_mostly sysctl_sched_autogroup_enabled = 1;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:47:20: error: invalid storage class for function 'autogroup_destroy'
+      47 | static inline void autogroup_destroy(struct kref *kref)
+         |                    ^~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:60:20: error: invalid storage class for function 'autogroup_kref_put'
+      60 | static inline void autogroup_kref_put(struct autogroup *ag)
+         |                    ^~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:65:33: error: invalid storage class for function 'autogroup_kref_get'
+      65 | static inline struct autogroup *autogroup_kref_get(struct autogroup *ag)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:71:33: error: invalid storage class for function 'autogroup_task_get'
+      71 | static inline struct autogroup *autogroup_task_get(struct task_struct *p)
+         |                                 ^~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:85:33: error: invalid storage class for function 'autogroup_create'
+      85 | static inline struct autogroup *autogroup_create(void)
+         |                                 ^~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:158:1: error: invalid storage class for function 'autogroup_move_group'
+     158 | autogroup_move_group(struct task_struct *p, struct autogroup *ag)
+         | ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:202:15: error: non-static declaration of 'sched_autogroup_create_attach' follows static declaration
+     202 | EXPORT_SYMBOL(sched_autogroup_create_attach);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                         ^~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:202:1: note: in expansion of macro 'EXPORT_SYMBOL'
+     202 | EXPORT_SYMBOL(sched_autogroup_create_attach);
+         | ^~~~~~~~~~~~~
+   kernel/sched/autogroup.c:193:6: note: previous definition of 'sched_autogroup_create_attach' with type 'void(struct task_struct *)'
+     193 | void sched_autogroup_create_attach(struct task_struct *p)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:209:15: error: non-static declaration of 'sched_autogroup_detach' follows static declaration
+     209 | EXPORT_SYMBOL(sched_autogroup_detach);
+         |               ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:74:28: note: in definition of macro '__EXPORT_SYMBOL'
+      74 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:86:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      86 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                         ^~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:209:1: note: in expansion of macro 'EXPORT_SYMBOL'
+     209 | EXPORT_SYMBOL(sched_autogroup_detach);
+         | ^~~~~~~~~~~~~
+   kernel/sched/autogroup.c:205:6: note: previous definition of 'sched_autogroup_detach' with type 'void(struct task_struct *)'
+     205 | void sched_autogroup_detach(struct task_struct *p)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:221:19: error: invalid storage class for function 'setup_autogroup'
+     221 | static int __init setup_autogroup(char *str)
+         |                   ^~~~~~~~~~~~~~~
+   kernel/sched/autogroup.c:227:24: error: initializer element is not constant
+     227 | __setup("noautogroup", setup_autogroup);
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/autogroup.c:227:1: note: in expansion of macro '__setup'
+     227 | __setup("noautogroup", setup_autogroup);
+         | ^~~~~~~
+   kernel/sched/autogroup.c:227:24: note: (near initialization for '__setup_setup_autogroup.setup_func')
+     227 | __setup("noautogroup", setup_autogroup);
+         |                        ^~~~~~~~~~~~~~~
+   include/linux/init.h:343:46: note: in definition of macro '__setup_param'
+     343 |                 = { __setup_str_##unique_id, fn, early }
+         |                                              ^~
+   kernel/sched/autogroup.c:227:1: note: in expansion of macro '__setup'
+     227 | __setup("noautogroup", setup_autogroup);
+         | ^~~~~~~
+   kernel/sched/build_utility.c:110: error: expected declaration or statement at end of input
+     110 | #endif
+   kernel/sched/psi.c: At top level:
+   kernel/sched/psi.c:178:13: warning: 'psi_avgs_work' used but never defined
+     178 | static void psi_avgs_work(struct work_struct *work);
+         |             ^~~~~~~~~~~~~
+   kernel/sched/psi.c:180:13: warning: 'poll_timer_fn' used but never defined
 
-   385	
-   386	/*
-   387	 * Edit a directory's file data to remove a new directory entry.  Doing this
-   388	 * after unlink, rmdir or rename if the data version number is incremented by
-   389	 * exactly one avoids the need to re-download the entire directory contents.
-   390	 *
-   391	 * The caller must hold the inode locked.
-   392	 */
-   393	void afs_edit_dir_remove(struct afs_vnode *vnode,
-   394				 struct qstr *name, enum afs_edit_dir_reason why)
-   395	{
-   396		union afs_xdr_dir_block *meta, *block, *pblock;
-   397		union afs_xdr_dirent *de, *pde;
-   398		struct afs_dir_iter iter = { .dvnode = vnode };
-   399		struct afs_fid fid;
-   400		unsigned int b, slot, entry;
-   401		loff_t i_size;
-   402		__be16 next;
-   403	
-   404		_enter(",,{%d,%s},", name->len, name->name);
-   405	
-   406		i_size = i_size_read(&vnode->netfs.inode);
-   407		if (i_size < AFS_DIR_BLOCK_SIZE ||
-   408		    i_size > AFS_DIR_BLOCK_SIZE * AFS_DIR_MAX_BLOCKS ||
-   409		    (i_size & (AFS_DIR_BLOCK_SIZE - 1))) {
-   410			afs_invalidate_dir(vnode, afs_dir_invalid_edit_rem_bad_size);
-   411			return;
-   412		}
-   413	
-   414		if (!afs_dir_init_iter(&iter, name))
-   415			return;
-   416	
-   417		meta = afs_dir_find_block(&iter, 0);
-   418		if (!meta)
-   419			return;
-   420	
-   421		/* Find the entry in the blob. */
-   422		entry = afs_dir_search_bucket(&iter, name, &fid);
- > 423		if (entry < 0) {
-   424			/* Didn't find the dirent to clobber.  Re-download. */
-   425			trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_noent,
-   426					   0, 0, 0, 0, name->name);
-   427			afs_invalidate_dir(vnode, afs_dir_invalid_edit_rem_wrong_name);
-   428			goto out_unmap;
-   429		}
-   430	
-   431		b    = entry / AFS_DIR_SLOTS_PER_BLOCK;
-   432		slot = entry % AFS_DIR_SLOTS_PER_BLOCK;
-   433	
-   434		block = afs_dir_find_block(&iter, b);
-   435		if (!block)
-   436			goto error;
-   437		if (!test_bit(AFS_VNODE_DIR_VALID, &vnode->flags))
-   438			goto already_invalidated;
-   439	
-   440		/* Check and clear the entry. */
-   441		de = &block->dirents[slot];
-   442		if (de->u.valid != 1)
-   443			goto error_unmap;
-   444	
-   445		trace_afs_edit_dir(vnode, why, afs_edit_dir_delete, b, slot,
-   446				   ntohl(de->u.vnode), ntohl(de->u.unique),
-   447				   name->name);
-   448	
-   449		/* Adjust the bitmap. */
-   450		afs_clear_contig_bits(block, slot, iter.nr_slots);
-   451	
-   452		/* Adjust the allocation counter. */
-   453		if (b < AFS_DIR_BLOCKS_WITH_CTR)
-   454			meta->meta.alloc_ctrs[b] += iter.nr_slots;
-   455	
-   456		/* Clear the constituent entries. */
-   457		next = de->u.hash_next;
-   458		memset(de, 0, sizeof(*de) * iter.nr_slots);
-   459		kunmap_local(block);
-   460	
-   461		/* Adjust the hash chain: if iter->prev_entry is 0, the hashtable head
-   462		 * index is previous; otherwise it's slot number of the previous entry.
-   463		 */
-   464		if (!iter.prev_entry) {
-   465			__be16 prev_next = meta->meta.hashtable[iter.bucket];
-   466	
-   467			if (unlikely(prev_next != htons(entry))) {
-   468				pr_warn("%llx:%llx:%x: not head of chain b=%x p=%x,%x e=%x %*s",
-   469					vnode->fid.vid, vnode->fid.vnode, vnode->fid.unique,
-   470					iter.bucket, iter.prev_entry, prev_next, entry,
-   471					name->len, name->name);
-   472				goto error;
-   473			}
-   474			meta->meta.hashtable[iter.bucket] = next;
-   475		} else {
-   476			unsigned int pb = iter.prev_entry / AFS_DIR_SLOTS_PER_BLOCK;
-   477			unsigned int ps = iter.prev_entry % AFS_DIR_SLOTS_PER_BLOCK;
-   478			__be16 prev_next;
-   479	
-   480			pblock = afs_dir_find_block(&iter, pb);
-   481			if (!pblock)
-   482				goto error;
-   483			pde = &pblock->dirents[ps];
-   484			prev_next = pde->u.hash_next;
-   485			if (prev_next != htons(entry)) {
-   486				kunmap_local(pblock);
-   487				pr_warn("%llx:%llx:%x: not prev in chain b=%x p=%x,%x e=%x %*s",
-   488					vnode->fid.vid, vnode->fid.vnode, vnode->fid.unique,
-   489					iter.bucket, iter.prev_entry, prev_next, entry,
-   490					name->len, name->name);
-   491				goto error;
-   492			}
-   493			pde->u.hash_next = next;
-   494			kunmap_local(pblock);
-   495		}
-   496	
-   497		netfs_single_mark_inode_dirty(&vnode->netfs.inode);
-   498	
-   499		inode_set_iversion_raw(&vnode->netfs.inode, vnode->status.data_version);
-   500		afs_stat_v(vnode, n_dir_rm);
-   501		_debug("Remove %s from %u[%u]", name->name, b, slot);
-   502	
-   503	out_unmap:
-   504		kunmap_local(meta);
-   505		_leave("");
-   506		return;
-   507	
-   508	already_invalidated:
-   509		kunmap_local(block);
-   510		trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_inval,
-   511				   0, 0, 0, 0, name->name);
-   512		goto out_unmap;
-   513	
-   514	error_unmap:
-   515		kunmap_local(block);
-   516	error:
-   517		trace_afs_edit_dir(vnode, why, afs_edit_dir_delete_error,
-   518				   0, 0, 0, 0, name->name);
-   519		goto out_unmap;
-   520	}
-   521	
+
+vim +/enhanced_isolcpus_setup +244 kernel/sched/isolation.c
+
+   242	
+   243	bool enhanced_isolcpus;
+ > 244	static int __init enhanced_isolcpus_setup(char *str)
 
 -- 
 0-DAY CI Kernel Test Service
