@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974B41BD9E2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 20:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A069A1BD9E8
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 21:57:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730321137; cv=none; b=MNbesO0ei4HKtNXEiyH1AEoGmnC9QynVubM6LPwPOZKtHCUa9E/v/IruKDvB0npP4gwxapTw6Z8af9fwJPSijjTQaUaZc2zTqnb4NOAZ5viSaXwQh3vwjij1hArK8UVWAUPWEfQyGfOtYQXBmbq1Ij1+lUf8fqxqRne3UyIUa+I=
+	t=1730325463; cv=none; b=kxgqAdmw/j2DiiJSnzeLYCpWbB0zGAt2+88dKEIukq24IvxzQklXriFKxAg7MpqynfJExDvX+dEtkH9Am6YDj9LX75JU0fiotwSD6NJ/qPYHfZ+uBfYHas/Xxwhgr9sHA3JqfbNWQ1W9Qb9i1VKeU30ZkK6whxrTip7QoO1NtVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730321137; c=relaxed/simple;
-	bh=ex1Umbgo/+zilzOEJEI3WWMKyf3fD/IfnTV4Vfj6jzM=;
+	s=arc-20240116; t=1730325463; c=relaxed/simple;
+	bh=pmpsydG/KpSJxn9SnaLJUbD6bSXCkWe2yNquaGG16UI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MW3COZcHxFTg9mdNjVzIt3wRXEOzRtwDm9PCckeAi4xcoQddj1U+50q3s5y3E6xa2YWF9Vk8Yv9r3M9VOZAGzVCo+qgUqU81vv0vqzTP/RuxkNvYlsHdPyPVfSZBmayubG6MAxqGtqwEwjOq8GqHnyb2FqUlNN6xXxxqgAkNA6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SQ2wwrhr; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=Hry+dQ2IT0r12KrpyoxKogOC+w7OotGyP+MHKs85qgbDkJuPQR2gIwY2xMkVTYz/VylC13c3VGjaBf2vH716OhdfD5NT5KX2yztnNke7wbm4RmyrZPzSjM8PK4CXIYAmGMOXm+wY7e/3YKo+5tn0JDqDaubJ6aKNgQ1oaYI4gK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EZlXrWAO; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SQ2wwrhr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZlXrWAO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730321134; x=1761857134;
+  t=1730325462; x=1761861462;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ex1Umbgo/+zilzOEJEI3WWMKyf3fD/IfnTV4Vfj6jzM=;
-  b=SQ2wwrhrYv9YMuSPf5lSCoRuGVQg8UeF2VoohmSFCt2dX9d2sgtOU5ZZ
-   f70b0gdsRlZPeXDEfCl6iSk0yyAgcLpmnuS/hheu+bsspoHqkflHi0HBO
-   ir7MOrkNSdDc4Blhl10/LOMdR88VxA1uhO908ZtRLIzVcOaRs5xLOby9e
-   lsvnYvwNIsGSZMNuPNZWBn+yy6eaCA4/9Ne9uB1BZWaeuAYhbQL7O/Vud
-   yiBs1BDJ37eM3e+BZ7toZAJqDBpZtyTESxAiIhk0BN+1fvsTSZAUPwapf
-   3WG3OgCukatLO66bVt15De5UB1v1ltCIjavHBHafvxl0QzCzV4W5h5fhd
-   w==;
-X-CSE-ConnectionGUID: jFRejhMWSz6Mii2Z+VHDLA==
-X-CSE-MsgGUID: id1BtkEZTMaQVuYN0YwwDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47505586"
+  bh=pmpsydG/KpSJxn9SnaLJUbD6bSXCkWe2yNquaGG16UI=;
+  b=EZlXrWAOtmB0sFcVSC6wtAcu+aPwl25xpLnvaWt5eQmHsRtaoPVISyvY
+   2RBCXrRhviXYnxsLwkNADta73vYiPrGngsOfsTV6ld4ipI4GFCqEjKv2B
+   rpplrOV+NKngEPpIGgfIOFTLtODqR6E98fdchpdmPSZnhpBSwWWGpvyOX
+   a4KxiKkbOly/0vwTLEbAyMioNEFimCwUA55NwxjyQjh7c77A49k5WbI9w
+   7+m0GkO0IzGlCN+AZ7Dt+qB1bsASKpjVXrWvsk0Ecl5pUmrdu088635sI
+   UgYYv8rVUaEj4+7G4v27kS5y3b49N9UaoEVy+rsnm1x3bORx2DlOfZ39M
+   A==;
+X-CSE-ConnectionGUID: 2Voc7o89TOi6M1EePvcLnw==
+X-CSE-MsgGUID: xqos+v5ZSx2kE5fkyV+4Rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29907693"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47505586"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 13:45:34 -0700
-X-CSE-ConnectionGUID: QZYtxCLJSHOhio8L07SYqQ==
-X-CSE-MsgGUID: txMY9TdvQ4C6d0nYy1Avsw==
+   d="scan'208";a="29907693"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 14:57:41 -0700
+X-CSE-ConnectionGUID: vp6a1f6jRou9ieBFBSoObA==
+X-CSE-MsgGUID: hxAgZNkLRG6CRzQRS/Xdvg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="82589923"
+X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
+   d="scan'208";a="82094408"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Oct 2024 13:45:33 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Oct 2024 14:57:36 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6FZK-000fI0-2T;
-	Wed, 30 Oct 2024 20:45:30 +0000
-Date: Thu, 31 Oct 2024 04:45:02 +0800
+	id 1t6Gh4-000fM4-0E;
+	Wed, 30 Oct 2024 21:57:34 +0000
+Date: Thu, 31 Oct 2024 05:56:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-partner_predev 26/81]
- arch/x86/kvm/../../../virt/kvm/vfio.c:422:25: error: implicit declaration of
- function 'kvm_iommu_device_num_ids'
-Message-ID: <202410310406.XJezqtJ6-lkp@intel.com>
+Subject: [opencloudos:next 46/98] kernel/sysctl.c:878:5: sparse: sparse:
+ symbol 'proc_dointvec_max_map_count' was not declared. Should it be static?
+Message-ID: <202410310559.6hkmngur-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,98 +66,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
-head:   4f78c3d7bcf25a6712f168ec3e669c779412364f
-commit: af6fdeb325822ebc7fb32ed24751fc597d78c952 [26/81] ANDROID: kvm/vfio: pviommu: Add attr to probe device IOMMU info
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241031/202410310406.XJezqtJ6-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 89a8f0b629af6e892fe0541ed2d10fc5dc5daefc [46/98] vm: isolate max_map_count by pid namespace
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241031/202410310559.6hkmngur-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310406.XJezqtJ6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310559.6hkmngur-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410310406.XJezqtJ6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410310559.6hkmngur-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sysctl.c:891:47: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:891:47: sparse:     expected void *buffer
+   kernel/sysctl.c:891:47: sparse:     got void [noderef] __user *buffer
+>> kernel/sysctl.c:878:5: sparse: sparse: symbol 'proc_dointvec_max_map_count' was not declared. Should it be static?
+   kernel/sysctl.c:1051:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1051:45: sparse:     expected void *buffer
+   kernel/sysctl.c:1051:45: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:1809:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:1809:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:1809:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2186:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2186:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2186:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:312:66: sparse: sparse: self-comparison always evaluates to false
 
-   In file included from arch/x86/kvm/../../../virt/kvm/vfio.c:12:
-   include/linux/kvm_host.h:1575:6: warning: no previous prototype for 'kvm_arch_reclaim_device' [-Wmissing-prototypes]
-    1575 | void kvm_arch_reclaim_device(struct device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kvm_host.h:1579:6: warning: no previous prototype for 'kvm_arch_reclaim_group' [-Wmissing-prototypes]
-    1579 | void kvm_arch_reclaim_group(struct iommu_group *group)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/vfio.c: In function 'kvm_vfio_pviommu_attach':
-   arch/x86/kvm/../../../virt/kvm/vfio.c:394:15: error: implicit declaration of function 'kvm_call_hyp_nvhe' [-Werror=implicit-function-declaration]
-     394 |         ret = kvm_call_hyp_nvhe(__pkvm_pviommu_attach, dev->kvm, pviommu->fd);
-         |               ^~~~~~~~~~~~~~~~~
-   arch/x86/kvm/../../../virt/kvm/vfio.c:394:33: error: '__pkvm_pviommu_attach' undeclared (first use in this function); did you mean 'kvm_vfio_pviommu_attach'?
-     394 |         ret = kvm_call_hyp_nvhe(__pkvm_pviommu_attach, dev->kvm, pviommu->fd);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
-         |                                 kvm_vfio_pviommu_attach
-   arch/x86/kvm/../../../virt/kvm/vfio.c:394:33: note: each undeclared identifier is reported only once for each function it appears in
-   arch/x86/kvm/../../../virt/kvm/vfio.c: In function 'kvm_vfio_pviommu_get_info':
->> arch/x86/kvm/../../../virt/kvm/vfio.c:422:25: error: implicit declaration of function 'kvm_iommu_device_num_ids' [-Werror=implicit-function-declaration]
-     422 |         info->nr_sids = kvm_iommu_device_num_ids(device);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/proc_dointvec_max_map_count +878 kernel/sysctl.c
 
-
-vim +/kvm_iommu_device_num_ids +422 arch/x86/kvm/../../../virt/kvm/vfio.c
-
-   375	
-   376	static int kvm_vfio_pviommu_attach(struct kvm_device *dev)
-   377	{
-   378		int ret;
-   379		struct kvm_pviommu *pviommu;
-   380	
-   381		pviommu = kmalloc(sizeof(*pviommu), GFP_KERNEL);
-   382		if (!pviommu)
-   383			return -ENOMEM;
-   384	
-   385		pviommu->dev = dev;
-   386	
-   387		ret = anon_inode_getfd("kvm-pviommu", &pviommu_fops, pviommu, O_CLOEXEC);
-   388		if (ret < 0)
-   389			goto out_free;
-   390	
-   391		pviommu->fd = ret;
-   392	
-   393		/* Create pvIOMMU with this ID. */
- > 394		ret = kvm_call_hyp_nvhe(__pkvm_pviommu_attach, dev->kvm, pviommu->fd);
-   395		if (ret)
-   396			goto out_free;
-   397	
-   398		return pviommu->fd;
-   399	out_free:
-   400		kfree(pviommu);
-   401		return ret;
-   402	}
-   403	
-   404	static int kvm_vfio_pviommu_get_info(struct kvm_device *dev,
-   405					     struct kvm_vfio_iommu_info *info)
-   406	{
-   407		int vfio_dev_fd = info->device_fd;
-   408		int ret = 0;
-   409		struct file *filp;
-   410		struct device *device;
-   411	
-   412		filp = fget(vfio_dev_fd);
-   413		if (!filp)
-   414			return -EBADF;
-   415	
-   416		device = kvm_vfio_file_get_device(filp);
-   417		if (!device) {
-   418			ret = -ENODEV;
-   419			goto err_fput;
-   420		}
-   421	
- > 422		info->nr_sids = kvm_iommu_device_num_ids(device);
-   423	err_fput:
-   424		fput(filp);
-   425		return ret;
-   426	}
-   427	
+   877	
+ > 878	int proc_dointvec_max_map_count(struct ctl_table *table, int write,
+   879			     void __user *buffer, size_t *lenp, loff_t *ppos)
+   880	{
+   881	
+   882		struct do_proc_dointvec_minmax_conv_param param = {
+   883			.min = (int *) table->extra1,
+   884			.max = (int *) table->extra2,
+   885		};
+   886	
 
 -- 
 0-DAY CI Kernel Test Service
