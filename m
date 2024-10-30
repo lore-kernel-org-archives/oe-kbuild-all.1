@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE56383A2;
-	Wed, 30 Oct 2024 00:59:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0C984E0A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 01:09:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730249985; cv=none; b=ioCK/13Z47Doqu+EhG8fjO/fdD4Smt6PwxKOU+70DA//JgvwUFt7WwnNpiNs4TYmDsDz9zx15JEFiMfTtV7gk3reAe2xbVvo2hZFU1BTPacCROyk5LZBLon3ittpQEzKNJt1foQanyY4UwMweYBENbbH19QBhqq1YiDRBEDB8KE=
+	t=1730250582; cv=none; b=i7FcrtNB7VP1aag1xoFXVlAyDXoTD3KgfCQfEZYf/6oiL3vIZ6MhFLxuJt0Iiog5Ob7e9I80bitN1OhMsVq8WXFmAoW+HEzc9pcvnXZnIBBSvQqkq1KE5jbMwyBWX/b5ZAYGLF88uv2jWiwoJ7YC6FiDKzopP5gdAFytvGrEYWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730249985; c=relaxed/simple;
-	bh=CkfNHPdZ8Em68twMPV4BadtxlJ82QYihsPdOUY93riA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AByB0/RNvSSwDVYYuHr6VlWGgGV9aNFxwdfPpskMeyEazzyACfdtmMgYQpHTJUJwxkRaYnYiGJqxA5R05dlrOrIv/PYpbTkveItk5VC8YzhhLrP1aIyJlq30DG+sIa9M764F3If5Dpv/C+Y1CVcbLVAl1r+79nJFPzIFgELsn0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c7rmAmVB; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1730250582; c=relaxed/simple;
+	bh=kOpppAgcjKffUoV/4Sr67QwhaAVhvZ0Y3r860MP5374=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LOfJKmRiBN7i1lBpQZE3ODAOm3cuT7oZAVQmuTaMsclra2l4BKN6HOYkfUE384GQg+6x4uJ0Q07rziaokJqOc1vwE1/IeEzvk2ToL/JXwrbmyiR5+PVnB2IDsXeY7fw0BxVxUbyfVQ4BXCRrrqWcrER/UWSga0JSkZ4I5goGJ4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huQWjN89; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c7rmAmVB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huQWjN89"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730249982; x=1761785982;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CkfNHPdZ8Em68twMPV4BadtxlJ82QYihsPdOUY93riA=;
-  b=c7rmAmVBYx/ZcztvBLCgNRrBAbyybdzSOVP+NcO6Mpi2OE8LmX+foxdI
-   4Yzi+znpQQcqwLmMeCwhF0uql8jbFGrFmwBhKfYkR7Guz3cRD/l8aFX9W
-   liRUnpiq+/5Dl7nANgzmbAMuouZr72+Z+OJi7F8WQsep1iIaMDgPrgvFu
-   3Dp+L7M++ZDFEu9dDFGAXMZowsOVqzBcvztuztU6Wnnlu8K4/OAGgy6Bk
-   upR+TIH9UZvm8mWpA6pO442A94ElqloAvliRwv8XwsYsPH6Dw0FBy2hf5
-   +96fla8uYfjOFWTRyUdJNAb+y8i0TeE3c8ZcB7PGdJK6QQWmcM5JioC/k
-   g==;
-X-CSE-ConnectionGUID: Yb2vyHJGSXK7OYX3xMF4Tg==
-X-CSE-MsgGUID: Nh4sCcdLQreSoVhpPr62Wg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="33851842"
+  t=1730250581; x=1761786581;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kOpppAgcjKffUoV/4Sr67QwhaAVhvZ0Y3r860MP5374=;
+  b=huQWjN89MJlXhL0rUTv1y+7zLUxCb+F3EqntIIJB4/XNSLEIK6hsCgIJ
+   vxbpim1qsrNsUwLEeaAcsfxK4uC02RSakqeaDY+/j/Pw8g64Mxhr1kiBA
+   0waNu9UY1AF74C7GcQAKZDugnyPSOBi11WvuqEpcOfrSW0zRBBcWB+7rk
+   a1jT602fgzlHMzj+9oiuKbNmxjSEd0Wrx4Qrf2uZQNgFaMS9ABsnfVOOL
+   71yeeEN2cbya5j+QqVTTxp1WM1zB+CPVKaOy5tAjAkJkvLF1Emj1eJmKi
+   8ZnKooXwy3YkFSObZjDLmEIWaiQCnVYG3dab3bT9mlreAH71xBk2ZL7o5
+   w==;
+X-CSE-ConnectionGUID: yNW93xAuRJqQ/5yjJFVuSw==
+X-CSE-MsgGUID: p27U//e5QHy4bYnit3Llzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="30140058"
 X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
-   d="scan'208";a="33851842"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 17:59:40 -0700
-X-CSE-ConnectionGUID: p+lIIIKwQuCK5WXOuyYaZg==
-X-CSE-MsgGUID: NvDsEtCkT5KCn42RR60Myw==
+   d="scan'208";a="30140058"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 18:09:40 -0700
+X-CSE-ConnectionGUID: bPB/FKJoSwe4RFw9I7PRRw==
+X-CSE-MsgGUID: AHCtC4K4T6Kx8RtBf0029Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
-   d="scan'208";a="82058091"
+   d="scan'208";a="112979480"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 29 Oct 2024 17:59:38 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 29 Oct 2024 18:09:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5x3g-000eLR-0z;
-	Wed, 30 Oct 2024 00:59:36 +0000
-Date: Wed, 30 Oct 2024 08:58:47 +0800
+	id 1t5xDM-000eM2-1l;
+	Wed, 30 Oct 2024 01:09:36 +0000
+Date: Wed, 30 Oct 2024 09:09:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Will Deacon <will@kernel.org>
-Subject: [arm-perf:for-next/perf 6/12] drivers/perf/arm_pmuv3.c:779:3: error:
- implicit declaration of function 'write_pmuacr' is invalid in C99
-Message-ID: <202410300801.nBNrLtSn-lkp@intel.com>
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
+Message-ID: <202410300823.rFSVqCH5-lkp@intel.com>
+References: <20241028213541.1529-13-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,165 +62,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241028213541.1529-13-ouster@cs.stanford.edu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git for-next/perf
-head:   9643aaa194737b1ad73f9da6e51fc63d1c7a864a
-commit: 0bbff9ed81654d5f06bfca484681756ee407f924 [6/12] perf/arm_pmuv3: Add PMUv3.9 per counter EL0 access control
-config: arm-randconfig-004-20241030 (https://download.01.org/0day-ci/archive/20241030/202410300801.nBNrLtSn-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300801.nBNrLtSn-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241029-095137
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241028213541.1529-13-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
+config: arc-randconfig-r132-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300823.rFSVqCH5-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241030/202410300823.rFSVqCH5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300801.nBNrLtSn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300823.rFSVqCH5-lkp@intel.com/
 
-Note: the arm-perf/for-next/perf HEAD 9643aaa194737b1ad73f9da6e51fc63d1c7a864a builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+   net/homa/homa_rpc.c: note: in included file:
+>> net/homa/homa_impl.h:605:13: sparse: sparse: restricted __be32 degrades to integer
+   net/homa/homa_rpc.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   net/homa/homa_rpc.c:84:9: sparse: sparse: context imbalance in 'homa_rpc_new_client' - different lock contexts for basic block
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   net/homa/homa_rpc.c:104:17: sparse: sparse: context imbalance in 'homa_rpc_new_server' - wrong count at exit
+   net/homa/homa_rpc.c: note: in included file (through include/linux/rculist.h, include/linux/sched/signal.h, include/linux/ptrace.h, ...):
+   include/linux/rcupdate.h:881:9: sparse: sparse: context imbalance in 'homa_rpc_acked' - unexpected unlock
+   net/homa/homa_rpc.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   net/homa/homa_rpc.c:235:6: sparse: sparse: context imbalance in 'homa_rpc_free' - different lock contexts for basic block
+   net/homa/homa_rpc.c:311:5: sparse: sparse: context imbalance in 'homa_rpc_reap' - wrong count at exit
+   net/homa/homa_rpc.c:448:17: sparse: sparse: context imbalance in 'homa_find_client_rpc' - wrong count at exit
+   net/homa/homa_rpc.c:474:17: sparse: sparse: context imbalance in 'homa_find_server_rpc' - wrong count at exit
+--
+>> net/homa/homa_sock.c:85:39: sparse: sparse: cast removes address space '__rcu' of expression
+   net/homa/homa_sock.c:91:31: sparse: sparse: cast removes address space '__rcu' of expression
+   net/homa/homa_sock.c:165:6: sparse: sparse: context imbalance in 'homa_sock_shutdown' - wrong count at exit
+   net/homa/homa_sock.c:243:5: sparse: sparse: context imbalance in 'homa_sock_bind' - different lock contexts for basic block
+   net/homa/homa_sock.c:312:6: sparse: sparse: context imbalance in 'homa_sock_lock_slow' - wrong count at exit
+   net/homa/homa_sock.c:326:6: sparse: sparse: context imbalance in 'homa_bucket_lock_slow' - wrong count at exit
 
-All errors (new ones prefixed by >>):
+vim +605 net/homa/homa_impl.h
 
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
-   drivers/perf/arm_pmuv3.c:147:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:134:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
-   #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD                         0x004E
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
-   drivers/perf/arm_pmuv3.c:148:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
-                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:135:44: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
-   #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR                         0x004F
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
-   drivers/perf/arm_pmuv3.c:149:42: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [C(DTLB)][C(OP_READ)][C(RESULT_MISS)]   = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:132:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
-   #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD                  0x004C
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
-   drivers/perf/arm_pmuv3.c:150:43: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)]  = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:133:50: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
-   #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR                  0x004D
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
-   drivers/perf/arm_pmuv3.c:152:44: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
-                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:149:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
-   #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD                      0x0060
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
-   drivers/perf/arm_pmuv3.c:153:45: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-           [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
-                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmuv3.h:150:46: note: expanded from macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
-   #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR                      0x0061
-                                                                   ^~~~~~
-   drivers/perf/arm_pmuv3.c:140:2: note: previous initialization is here
-           PERF_CACHE_MAP_ALL_UNSUPPORTED,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:49:31: note: expanded from macro 'PERF_CACHE_MAP_ALL_UNSUPPORTED'
-                   [0 ... C(RESULT_MAX) - 1] = CACHE_OP_UNSUPPORTED,       \
-                                               ^~~~~~~~~~~~~~~~~~~~
-   include/linux/perf/arm_pmu.h:41:31: note: expanded from macro 'CACHE_OP_UNSUPPORTED'
-   #define CACHE_OP_UNSUPPORTED            0xFFFF
-                                           ^~~~~~
->> drivers/perf/arm_pmuv3.c:779:3: error: implicit declaration of function 'write_pmuacr' is invalid in C99 [-Werror,-Wimplicit-function-declaration]
-                   write_pmuacr(mask);
-                   ^
-   drivers/perf/arm_pmuv3.c:779:3: note: did you mean 'write_pmcr'?
-   arch/arm/include/asm/arm_pmuv3.h:136:20: note: 'write_pmcr' declared here
-   static inline void write_pmcr(u32 val)
-                      ^
-   55 warnings and 1 error generated.
-
-
-vim +/write_pmuacr +779 drivers/perf/arm_pmuv3.c
-
-   767	
-   768	static void armv8pmu_enable_user_access(struct arm_pmu *cpu_pmu)
-   769	{
-   770		int i;
-   771		struct pmu_hw_events *cpuc = this_cpu_ptr(cpu_pmu->hw_events);
-   772	
-   773		if (is_pmuv3p9(cpu_pmu->pmuver)) {
-   774			u64 mask = 0;
-   775			for_each_set_bit(i, cpuc->used_mask, ARMPMU_MAX_HWEVENTS) {
-   776				if (armv8pmu_event_has_user_read(cpuc->events[i]))
-   777					mask |= BIT(i);
-   778			}
- > 779			write_pmuacr(mask);
-   780		} else {
-   781			/* Clear any unused counters to avoid leaking their contents */
-   782			for_each_andnot_bit(i, cpu_pmu->cntr_mask, cpuc->used_mask,
-   783					    ARMPMU_MAX_HWEVENTS) {
-   784				if (i == ARMV8_PMU_CYCLE_IDX)
-   785					write_pmccntr(0);
-   786				else if (i == ARMV8_PMU_INSTR_IDX)
-   787					write_pmicntr(0);
-   788				else
-   789					armv8pmu_write_evcntr(i, 0);
-   790			}
-   791		}
-   792	
-   793		update_pmuserenr(ARMV8_PMU_USERENR_ER | ARMV8_PMU_USERENR_CR | ARMV8_PMU_USERENR_UEN);
-   794	}
-   795	
+1416f12d4ea455 John Ousterhout 2024-10-28  595  
+1416f12d4ea455 John Ousterhout 2024-10-28  596  /**
+1416f12d4ea455 John Ousterhout 2024-10-28  597   * Given an IPv4 address, return an equivalent IPv6 address (an IPv4-mapped
+1416f12d4ea455 John Ousterhout 2024-10-28  598   * one)
+1416f12d4ea455 John Ousterhout 2024-10-28  599   * @ip4: IPv4 address, in network byte order.
+1416f12d4ea455 John Ousterhout 2024-10-28  600   */
+1416f12d4ea455 John Ousterhout 2024-10-28  601  static inline struct in6_addr ipv4_to_ipv6(__be32 ip4)
+1416f12d4ea455 John Ousterhout 2024-10-28  602  {
+1416f12d4ea455 John Ousterhout 2024-10-28  603  	struct in6_addr ret = {};
+1416f12d4ea455 John Ousterhout 2024-10-28  604  
+1416f12d4ea455 John Ousterhout 2024-10-28 @605  	if (ip4 == INADDR_ANY)
+1416f12d4ea455 John Ousterhout 2024-10-28  606  		return in6addr_any;
+1416f12d4ea455 John Ousterhout 2024-10-28  607  	ret.in6_u.u6_addr32[2] = htonl(0xffff);
+1416f12d4ea455 John Ousterhout 2024-10-28  608  	ret.in6_u.u6_addr32[3] = ip4;
+1416f12d4ea455 John Ousterhout 2024-10-28  609  	return ret;
+1416f12d4ea455 John Ousterhout 2024-10-28  610  }
+1416f12d4ea455 John Ousterhout 2024-10-28  611  
 
 -- 
 0-DAY CI Kernel Test Service
