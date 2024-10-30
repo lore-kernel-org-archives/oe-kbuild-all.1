@@ -1,130 +1,233 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6703C1EE022
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 14:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730297475; cv=none; b=MFqraRWaxdHkuhY8vvDYLllMn9WP9Fzgi9hEeMo1ZzuByWRMsqCa0+QIdowjE3+tanaSL2F532OlISWedULJBca0BQvKGUkKyda6Umw45EnUdVzvYgOoJH6uRxpPXx6Lc3T5AH4GnbEJgpq4wM1h+Z2OMU7mdSKdfeXRCkFVBOk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730297475; c=relaxed/simple;
-	bh=f9noJD+cMYezjZAXGuV8FP1Wf0WcWRgKvLgMgSZdVZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q2UZ+nAx5l+MebqsO+pgNv2Eqo45kX0CB5l58PyiKy9CMOWBTg8cQkwE969fBfAeER8btqtTPC5huBn4NhI3G11lSBxZDT4b2W/FtNWaRnWQ46SkkruNVAi6wRVM3h1yHNumegoMEGHH+ZIAdqrsNmFqVdtoo2se78dA8kIM9Bk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFDiYyu3; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF73C1E47B2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 14:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730298046; cv=fail; b=IEkGb0Of6L59EIzYT0Vy7MQbs7U3VUUN83W8Ji3Fd4pzWnion3W6P8e4OVhrS2V6EdbahT565N0k5JXlCY3RXtSMhYVIuir1a53PT4vj/ViYQYVTh9DM5p+ku0ew4OUY7yl7x80E4rcmJ0inLnEzT6cciVZ4103Gs3c0Za3CbJY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730298046; c=relaxed/simple;
+	bh=pNFEs1AkDprLe8LBo3hM4KjjQIwQxp96eskW773uNjE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UvBM0Xrq971PX3ewmbDbwBqB5WpBIvXTreCB2jRe99XlJythaZh12xR7Gw1JcTxgkoB+DlvIkHs8ffUUWgatHxyLwecctw5gJHKs5ZXgKyGHYPCz3sQbmWsoPxo+mLILIOYZ3SW2fJ12t2ZRXZrd2Ddk4ZQRG9NcnbyMuVCd3q8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=jR/XCicU; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=Vub1ILLl; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFDiYyu3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730297474; x=1761833474;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f9noJD+cMYezjZAXGuV8FP1Wf0WcWRgKvLgMgSZdVZ8=;
-  b=KFDiYyu3sLe7hZoQksn8JD70J+b/6FeC4p21lT1+eKCzijzHyX6zBahL
-   GlJVciRT6Bw7+V3ciAypMs5MhmobHdNqra7XqcLXMUY0JcWDqaRq8taye
-   Fzlp2qToQ8nU5fDr3vEg526Gp94+HGxlZeE34Bn8lnhrrGjGUXSSUz5Ug
-   uufqLE/jddBR7gDXS0aO3D9jBjBWKD41P72KfTicDpLGob2J480rXqivy
-   WmU0uiKIIrn9rQwBbYf00Y1xef9iwPQG9D3N+3vGLzcYWW0LV7A4xDesF
-   Ovb4R/U6QMAGUrY8JxStQQCE8UUV9QLbiLftbr0+SXPVlla6mebiHMd8c
-   g==;
-X-CSE-ConnectionGUID: 7ssrfnKSQZWSanTaejX7XA==
-X-CSE-MsgGUID: rnrz3SdzTzq5CuYWslctyA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29959015"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29959015"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 07:11:13 -0700
-X-CSE-ConnectionGUID: yp+6+/0WQyWfUpaPaXJ3eQ==
-X-CSE-MsgGUID: +8svoB2aTDyU/UDMdv8aPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="83140535"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Oct 2024 07:11:12 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t69Ph-000evA-2T;
-	Wed, 30 Oct 2024 14:11:09 +0000
-Date: Wed, 30 Oct 2024 22:11:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michael Nemanov <michael.nemanov@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v4 17/17] wifi: cc33xx: Add Kconfig, Makefile
-Message-ID: <202410302116.Z9Ut9ZJd-lkp@intel.com>
-References: <20241029172354.4027886-18-michael.nemanov@ti.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="jR/XCicU";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="Vub1ILLl"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49UEF21b001732;
+	Wed, 30 Oct 2024 14:20:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2023-11-20; bh=bqri2neU/cC0+0jFgLYNtofB/Xm7MsdeejTyKVtm+Gc=; b=
+	jR/XCicUfnKY17C8r4PwR2qj/SqFaVpaONACTgap0YE+U9pcx/Aif97wlvocA1Ft
+	aZMKIs2PiRqWRHaIjhGKMR+2hHCWMS3N296JZZ+urPaUj6I+rQdpeLfVbKfATj1O
+	Zn0ngMLGIzQ40SetfBaO4MBbgpjeV87VavI7Vw3RC0/6zVvY4ISoQL7WgOQza2/n
+	ZUkCBYuyBVpDr+lC8meAry1eiI3oh4c7aNNCkHRlA1ZEOkD2egxIXcZRsqGtDnfb
+	2s6H+ZV/tPpDXcl1p418WpFaLfxgGUXAmJz/jwHxstBs+AuvlDy6tO5BiBGO9e9y
+	cDGE+GERlYxwVj0RckK4Ew==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 42grc2027e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Oct 2024 14:20:29 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 49UE5mSc040616;
+	Wed, 30 Oct 2024 14:20:28 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2045.outbound.protection.outlook.com [104.47.58.45])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 42hnaqm9qp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Oct 2024 14:20:28 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SO6b4YsoQW6HFFg28GgY6+rclAn3QYBjZKLcbiZEAHKzaiceU0xc+xoNTh25oWiXuaUk5Ia7mdPqj+/ppdUJO4gbZL2w2BGlWVzr1gyFTtv9wK+6NtXg1pzrQgAJK2kBTGAOn0c3RDKq36rkcdULmT2NIv2y0ODVKMHsSdqo567nQVEvdjL0A+PBNNtBo7OLqEFQv+F0C9Y4ebr7bdAhLKY4CveOgChC9Zy0MRjGw+4B1MEtXkxqB5PNq5uFMkaVX1zD4rJ1p5QzSBOFAVdaWwEuQTppgBjFbhjhMDTehgUq9dSgoSrYzc68NhSm1EYjKgA/A7BiWvuh10QEExwbFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bqri2neU/cC0+0jFgLYNtofB/Xm7MsdeejTyKVtm+Gc=;
+ b=bW5VNycpcIIWMU8HdfFD9zz6XHaO96KHabrEnIvfnkaK/JX1/PJtGvAsaxzkMAbe266mG+oejXQYDSVtfQx9jYmuDqpWmhTwyDwpymiuFi8zpoe5BMBjAxcKOQfgbBAkA+cGnbaYLQsKcgEPOExtTnsg22JQR/02s2aV4OcQBZizCIW12wrjT6A7IqNJZWHbiIKMRbIIyJSOrKzW36/feayZulnhvTu4i8s6Og71GTQjb9eFXIL3t/gUD0PTNYiPvjYMJ3PSZxpwpW5rxg220xFiewjWmLROk6EnXXNUudJ6bxsO5kqzDnfxqNRYIxb0dfKB9YU/6QJnmenjgQGpiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bqri2neU/cC0+0jFgLYNtofB/Xm7MsdeejTyKVtm+Gc=;
+ b=Vub1ILLlwW7DWJubdDD3vprTLg4O6XirdGm5jAv6bHI/BwRLGLAgUKpKwk1Ie9Yahh9O/tMXn6VPwGzydHvwKX1GocdYyy/9kZHGzJaJ6YR3OwHFPktYOl4nSaE025dQqvbwzmZJz5qevS5qcTgXGdolrhVL0X10iXSSi8/f41s=
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com (2603:10b6:5:212::20)
+ by IA1PR10MB7309.namprd10.prod.outlook.com (2603:10b6:208:3fe::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.25; Wed, 30 Oct
+ 2024 14:20:24 +0000
+Received: from DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::4f45:f4ab:121:e088]) by DM6PR10MB4313.namprd10.prod.outlook.com
+ ([fe80::4f45:f4ab:121:e088%5]) with mapi id 15.20.8093.027; Wed, 30 Oct 2024
+ 14:20:24 +0000
+Message-ID: <92ea9e18-6174-4619-84a1-2c55a1e86693@oracle.com>
+Date: Wed, 30 Oct 2024 14:20:20 +0000
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] btrfs: handle bio_split() error
+To: Johannes Thumshirn <Johannes.Thumshirn@wdc.com>,
+        kernel test robot <lkp@intel.com>, Johannes Thumshirn <jth@kernel.org>
+Cc: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+        "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+        "linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+        "axboe@kernel.dk" <axboe@kernel.dk>,
+        "song@kernel.org" <song@kernel.org>,
+        "yukuai3@huawei.com" <yukuai3@huawei.com>, hch <hch@lst.de>,
+        "martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+        "hare@suse.de" <hare@suse.de>
+References: <20241029091121.16281-1-jth@kernel.org>
+ <202410302118.6igPxwWv-lkp@intel.com>
+ <c9936883-d766-41f5-9a54-35702585ff6a@wdc.com>
+Content-Language: en-US
+From: John Garry <john.g.garry@oracle.com>
+Organization: Oracle Corporation
+In-Reply-To: <c9936883-d766-41f5-9a54-35702585ff6a@wdc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: AM0PR04CA0129.eurprd04.prod.outlook.com
+ (2603:10a6:208:55::34) To DM6PR10MB4313.namprd10.prod.outlook.com
+ (2603:10b6:5:212::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241029172354.4027886-18-michael.nemanov@ti.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR10MB4313:EE_|IA1PR10MB7309:EE_
+X-MS-Office365-Filtering-Correlation-Id: efb36038-008a-4bee-53fd-08dcf8edfec7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bDJrVjF5cXlsWFdxemZIczYxKzN2TVY2eFZQWFpDV3hPTzNRR0NydWRNOVpp?=
+ =?utf-8?B?SGxjd2IwQ0NQdnVFdGV5aW1ENk9YYTZNcjNibHh0Qk1lakdMSkZUWXZKNGVB?=
+ =?utf-8?B?aTA1clRpa3l4TGgrNXVLWWIvVzk0RWpYSUJHYTk4UXJNMlRyWnFacGhmMnkx?=
+ =?utf-8?B?VURPd01mOTRwU2VXZEhTOWVaempFSTJDNHdxdHFRL1VQRStSTlAxRmR0bitX?=
+ =?utf-8?B?S0ZvYm84VENralczazJ1dmE2RkxaQkNaeEVqdGdYbG90Y3JjeVZwM2wxWHI0?=
+ =?utf-8?B?RndXOFZkT252Ti9YSEV0R3pMM1R1cWcxK2NqbjJ2UHp0Wkl6Ry85eUNYMHBJ?=
+ =?utf-8?B?NGlvZUhJNlA4SWRUWEtLdlJNd0hJaDViM01TL3N3SEd3RUNFRzV5T2huUTF3?=
+ =?utf-8?B?RGFVWUR5dXpDdUhkYXZSQTZRQm1Xc3pMM0hIRjlPRjFLT2lOK1IwQjBpd21n?=
+ =?utf-8?B?MHlBdFpqRTJ5aGU2WkpENXl3SGE4OHNDV1d5bWZNa0N3WWppOEpBVFhkNlRv?=
+ =?utf-8?B?R052RXh6NHhqditNSGJvQXV0bDZDazV2SGRneWg5T3dnVHRmZVpLVjVtNStn?=
+ =?utf-8?B?cUJ3YXRESjNDM3J0WU1GZDZNc1c4T3FBd1ZZdXcrWjFsaDYrajdHVGJyUks2?=
+ =?utf-8?B?V2Y5bHdjWW5IWTFOYXphaGtEdEZac1hqVUpjSFYxR3lPbkQyVEtuMG5PT1hu?=
+ =?utf-8?B?Z3NldzhTdUtQNVd6R1EvTjZNZmJUaFFHQnl5YU16aGIwa3FTb21MclVEaFlC?=
+ =?utf-8?B?TWcrYStBRDZ4R3hyNUcxR0xWUFZFcEUrTU1sUWM1bms4Qk1mYWc4ZE9vZnpK?=
+ =?utf-8?B?Tm84c24xOXdpbVR4YkZFaVh4WUxEZERUSExoTFhveVVBdEVncmlWRVpQdXhN?=
+ =?utf-8?B?cTNMenlFRDhRdWZXdDVVdVNROEhZOVRmVVlRWWorV21CanIrN0h4RWZiU1Z5?=
+ =?utf-8?B?aTdHajl1ZjY0S3ZudkoyRW9wSUZiUFRLWld3alpHZFFRR25iNnMyRE5HWVFr?=
+ =?utf-8?B?WXdHTkV3Z2gzcGFIdVMwdzZBdFRBZ3ordlhUZ2hlcEF4QXlCbVN5L1Ivd29r?=
+ =?utf-8?B?dnVDMmZMckQvbjhoUG9BZTRXVTRjVkgwL0NWRHRTVE9BUXJLVkhTVTRUa3BG?=
+ =?utf-8?B?cGhBM0hBQ3lSS2RGOVd5anhhMFlWWDZmaTgxb0diWmo2dHZNTXd3WGhsQkov?=
+ =?utf-8?B?TFhBZVlXSGZ1OWZsT3MzcktlYk8yUWtLRmxHd3BhZ2V6VTNlOThvMHB1bFND?=
+ =?utf-8?B?bHh1bjNSb1VRcWtYUm9WUlppMUtUVUJyMGNYNklJbkxwdjQ4anNaWEJCNUt0?=
+ =?utf-8?B?RTk0VUllUEZIRWx1TFJydDdVemtacU1sdURMVVo1K29paC82Q3RKTGwrOHNS?=
+ =?utf-8?B?VlpIbGJhZHhKbWtIRGliQ0Y2QTBDOFYwSklJRzhuUUp6N2E2UmhYamZUZFJv?=
+ =?utf-8?B?NVljUE5MdGp1SUU3WHNLWXU5aFJUR0V4NTZQdTZEUlc3YWJZN25uU2hHVWVt?=
+ =?utf-8?B?RithZTV5KzBlOW9KYjJXSWFtbnN0NG1YbkI0cnRXNGUyYmZFY2F5QWNoWS9Y?=
+ =?utf-8?B?WUxWNSsrL0JzbFBZcFRzWnp5TlRmUUZLZjNabVZ1VUtTZW5MQm9qMnVVS0Vr?=
+ =?utf-8?B?WTg2WDdxeTB1V1g0UWNCaWVWdkFjSCtkTm1EUjBGS0tyeG5wemRDVWlyblFy?=
+ =?utf-8?B?eFV5WU5YSEhWMVd6S0orT2pMZ0NqTWVNTFJRTkNCRFBIWUVpVksvS2pXb3Qr?=
+ =?utf-8?Q?nLcKFmcrqu6klaY+b4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR10MB4313.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L0RsWHAyaHJQdk9hM0kwY0JSdThPY25aOFlwdlQyNUkxU1JsUWxocHE0ZEh3?=
+ =?utf-8?B?VFVWTTZIMjE0Nk00bFBreGgxSU9XWnFQWmx2THZnTHE4cXZGMnRLR0pJcFVu?=
+ =?utf-8?B?VWRaQzZUNG9RM1N5Undxam1aMXhrVTJMb25zKy9oWHcwTElyMnN3QTZ0bDkw?=
+ =?utf-8?B?QTlwdzRhdmlsaXROMFk3UTJIRmNiNDlpN3UyanRoMHlCaUtWUDFRRnlOVlg3?=
+ =?utf-8?B?WWp5azlwOG85ZmVmLzR5L0ZIMm9UalRrRDVSNE5JTVBlQTZ4eStwM1RrNVZC?=
+ =?utf-8?B?TWtwUGRqSUhjbkpVVUtVMHlPMmhZUFY2Z3g2YzZJUjRqTy9lQjNqcVpRNUp6?=
+ =?utf-8?B?NXc0c04zRmdwalBseFlQUFVCZURtY2J6WGxZNW5oVUtqVnN1NS9tSmFhZDI2?=
+ =?utf-8?B?bmRGYUpYK3pEdjNNZFZEYlp6Qm1rUTQvUm1iSy9xZm9KTnY1N1hBL0RQRDVM?=
+ =?utf-8?B?SWkwZEJtZWk2RWI5MWpRVXlzYmdhL25GRFJ3OS9KK0FpMlNIMGJTdHBSdEpH?=
+ =?utf-8?B?Z1N3UkllNjVxa3ROVkJrcHl1ZnJvdW5pNkZac21zTzlRRzlGYUNFZTVkVXRU?=
+ =?utf-8?B?VkI1MWJIMXZHR1FhTVJnSUdoa0VjQlhrUlkwMDdlTmlBRHN5R0wzRzVQY2V6?=
+ =?utf-8?B?YjlZMm5IdThXZGpVRUFpY2J0SjdRNXNCcFQ5NCs5UDhhaEhlTmtPRXJLNGNM?=
+ =?utf-8?B?cnRmaVBKMm45NDFIcHIvYjFvWEUzb1pXeVZESGxhK2RuQmgzUGdUUGV3aFFQ?=
+ =?utf-8?B?TkJYbTBTbzJvblRMamtHNHVVSDVqM0RDaGVpb0hsYXJkZjdXckg2WHdWR1pr?=
+ =?utf-8?B?T29mZ0JMTXZqYVpYemxDVFU0T0cyMUlNYmZuU1lNWXNxNkhLTzljWjJLNlBI?=
+ =?utf-8?B?TmtVTUhyVXhLcGVibkJoeVNSNTViVENJWVloNjZXK3B5b0RRU1ZDNFUyNnp6?=
+ =?utf-8?B?TXVCdTFuQUw5bWJOQ0ZhUmdDS0pXQnhWYi9tbjRTQzRHMjRYMWY1Z2pnZnFU?=
+ =?utf-8?B?c0RtMUxuVFczenhIazhHeWpKdXJsQkwrSUlxaDJZQWdaTjdoeGV1MkFLT1gx?=
+ =?utf-8?B?SGpzM0pyQitjT1I0bFRzVGFiUkRUcCtJblQ1TW5XVS80b1hVWUYvTGJIcDFy?=
+ =?utf-8?B?aEhzVVVQMFNGSlB1aGw0Z2tqNWZ1SUE5TFRBdmZWbHRjUFlBZVExbWpBMklq?=
+ =?utf-8?B?ZmtWOVZBUUgwclhERFM1cmtoYmpySjFqb29hbzI5YzRQZVdzeWY2bktCWGVk?=
+ =?utf-8?B?SktVMUYyRjZFYlBEZ243MXlYM2JibXRXVHUrbXJCNHBqdk9XWE52VjU1VzI2?=
+ =?utf-8?B?V3ZDSGUvSml1VHprYnh5aDFrM0hsNldldzMxdnZGbVlRTVJKTWQyUFBCaFlW?=
+ =?utf-8?B?M29ueVgzY0NwUWhxeWF4RWU4RVBLa3lTem5GbFJrb2JHOGwvNitiekxUQ290?=
+ =?utf-8?B?eTE5SDNVSy9VMW9pVHdNQnNXaUl4T2dTbUFvUEdaVExCQk9nWk9qbG5QZG03?=
+ =?utf-8?B?Q2kwbGtWM1V6ZFk5MDdlakRyQ1ZtTWYyV0ZjclZnT0tCNllod1A4MUVldElD?=
+ =?utf-8?B?TnIvOE9SQlhtMHZybWp1dkZlMUpzNEFsd1ZmN1MwZzdIZEc2MTJHR1ZObXVZ?=
+ =?utf-8?B?YjJWOE51RjVtQ0RCZGMzRzNaaXI2ZVMrN3lpdHBBZTV4VmpDNkVqTWZmMGpt?=
+ =?utf-8?B?OXVhZW5Wb21WeWRHR3A4QzFocjQ5TUZRd2Z2dGs3YlFzMFMvS3k4V0d1RUx4?=
+ =?utf-8?B?Z01uNXlYbnBjTnZVK2JMeithVGhPZkpPTmxXZ2V1Ym5iU2pQUDFpdHNFQnRu?=
+ =?utf-8?B?WGFSTW5UTXhuRU1rUlhmUUVEanl2QWQ5OVFqY0F0WVFjSDlWY0RvQUI0Qnov?=
+ =?utf-8?B?Z0M2NURiNFp6VHZuNEp4UUMyMVJQVExvaHJGa2ZIRm8rT1FQeG1Qa2pDM0JM?=
+ =?utf-8?B?aXBVcGxPOVc1Y1FxVlJ1dWttczZacXZMQlJBTE1JTGlzbWlvM2o0ZmxVaUZB?=
+ =?utf-8?B?MlZiM01xZmF4eE1ndXRNdHlpTTNKYzNaS3lJeE8ydXZKZzVYdjBvOHg1ZmN0?=
+ =?utf-8?B?Z2RCWmdtbnh0NU93R0NXclVUbjZFeXhrbjlLR3FqS3lSN0FnNmFQdzluN29u?=
+ =?utf-8?B?UHJIZVlEdWNJUWhtanBWUDZZUjJRc0FWMWVweVR4akd0c1Urb1RQNlN4NFpR?=
+ =?utf-8?B?dXc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	plSM6hKQoIpQnJ53g6nQ+eL18AJ+4xvCBxGaYia8UvA5d6cTDjBFvHu73Q15pU8CkvO1zZLfZHzGWE/msMfeeNOQCVAD5QpfRaqDffqyxvdizqN5QGXVMEENeLEpkOcJe11rOWJngqc2fNuSPnivO3adONx7nBxjAirBovPyXApXg3aHVRR03wM7OEvhsTBMMosOV30XdXtqVhoT/ij+CGPlf3IdInJP3GVo91i+pO2mNOXIZZPvL8KFXy4H5OYXxyb8JyiNLCUPBnWipHD6uTEWn1HDkuvl+OCwbBBrzYVPce/e3ACZhwqxJvm1zH7fpxI+xCZVmMZFZ7gf4dYikzEnbZu0dwK5q97e5Jnk46GdsVLVBDWf2tnvgSJcEgBoyzyWW/wkOLEmyGKGh3R/24+/gFL6ZiBkjimYqabkeQWtMijlxRproNtfdwgFo8hFnXOigBhs7Vah1+8FMnkckaWc4ifhOlZ/TjOg3LzH0awvggTYjy2DVWJZEiVba0FVMeSCCTSM0pyLSa/6QWtRpn6MGqpm8bweKqR06ruOukGcJM/Nrcd2/vKQmOrCMT5C0GWbuEC1D/UoCKU+Y+W98dn1Qp7qSaHMew4vX1W6kIk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: efb36038-008a-4bee-53fd-08dcf8edfec7
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB4313.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2024 14:20:24.7432
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: n0DBHt7e4pkPq+rbXBP+3b7Up8LTlbuyZ7MoLlLjdMWjGwXTxJPjOljRXdhC7CxKJJiR9GsHCGMXn3L1u+CtqA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR10MB7309
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-30_12,2024-10-30_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxscore=0 adultscore=0
+ mlxlogscore=999 phishscore=0 bulkscore=0 malwarescore=0 spamscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2409260000
+ definitions=main-2410300112
+X-Proofpoint-GUID: fmTafcWVlFMIjxfCbQlViAfF5LLXzT5A
+X-Proofpoint-ORIG-GUID: fmTafcWVlFMIjxfCbQlViAfF5LLXzT5A
 
-Hi Michael,
+On 30/10/2024 14:06, Johannes Thumshirn wrote:
+>>>> ret @@     got long @@
+> Yep that definitively needs to be:
+> 
+> diff --git a/fs/btrfs/bio.c b/fs/btrfs/bio.c
+> index 96cacd5c03a5..847af28ecff9 100644
+> --- a/fs/btrfs/bio.c
+> +++ b/fs/btrfs/bio.c
+> @@ -691,7 +691,7 @@ static bool btrfs_submit_chunk(struct btrfs_bio
+> *bbio, int mirror_num)
+>           if (map_length < length) {
+>                   bbio = btrfs_split_bio(fs_info, bbio, map_length);
+>                   if (IS_ERR(bbio)) {
+> -                       ret = PTR_ERR(bbio);
+> +                       ret = errno_to_blk_status(PTR_ERR(bbio));
+>                           goto fail;
+>                   }
+>                   bio = &bbio->bio;
+> 
+> Can you fold that in John or do you want me to send a new version?
 
-kernel test robot noticed the following build warnings:
+Sure, no problem.
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main net-next/main net/main robh/for-next linus/master v6.12-rc5 next-20241030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+But I would have suggested to not use variable name "ret" for holding a 
+blk_status_t in original code, especially when it is mixed with 
+PTR_ERR() usage ...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michael-Nemanov/dt-bindings-net-wireless-cc33xx-Add-ti-cc33xx-yaml/20241030-013401
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20241029172354.4027886-18-michael.nemanov%40ti.com
-patch subject: [PATCH v4 17/17] wifi: cc33xx: Add Kconfig, Makefile
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241030/202410302116.Z9Ut9ZJd-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410302116.Z9Ut9ZJd-lkp@intel.com/reproduce)
+Thanks,
+John
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410302116.Z9Ut9ZJd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/net/wireless/ti/cc33xx/event.c: In function 'deffer_event':
->> drivers/net/wireless/ti/cc33xx/event.c:91:14: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      91 |         bool ret;
-         |              ^~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +/ret +91 drivers/net/wireless/ti/cc33xx/event.c
-
-a34749533e99fd Michael Nemanov 2024-10-29   86  
-a34749533e99fd Michael Nemanov 2024-10-29   87  void deffer_event(struct cc33xx *cc,
-a34749533e99fd Michael Nemanov 2024-10-29   88  		  const void *event_payload, size_t event_length)
-a34749533e99fd Michael Nemanov 2024-10-29   89  {
-a34749533e99fd Michael Nemanov 2024-10-29   90  	struct event_node *event_node;
-a34749533e99fd Michael Nemanov 2024-10-29  @91  	bool ret;
-a34749533e99fd Michael Nemanov 2024-10-29   92  
-a34749533e99fd Michael Nemanov 2024-10-29   93  	if (WARN_ON(event_length != sizeof(event_node->event_data)))
-a34749533e99fd Michael Nemanov 2024-10-29   94  		return;
-a34749533e99fd Michael Nemanov 2024-10-29   95  
-a34749533e99fd Michael Nemanov 2024-10-29   96  	event_node = kzalloc(sizeof(*event_node), GFP_KERNEL);
-a34749533e99fd Michael Nemanov 2024-10-29   97  	if (WARN_ON(!event_node))
-a34749533e99fd Michael Nemanov 2024-10-29   98  		return;
-a34749533e99fd Michael Nemanov 2024-10-29   99  
-a34749533e99fd Michael Nemanov 2024-10-29  100  	memcpy(&event_node->event_data,
-a34749533e99fd Michael Nemanov 2024-10-29  101  	       event_payload, sizeof(event_node->event_data));
-a34749533e99fd Michael Nemanov 2024-10-29  102  
-a34749533e99fd Michael Nemanov 2024-10-29  103  	llist_add(&event_node->node, &cc->event_list);
-a34749533e99fd Michael Nemanov 2024-10-29  104  	ret = queue_work(cc->freezable_wq, &cc->irq_deferred_work);
-a34749533e99fd Michael Nemanov 2024-10-29  105  }
-a34749533e99fd Michael Nemanov 2024-10-29  106  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
