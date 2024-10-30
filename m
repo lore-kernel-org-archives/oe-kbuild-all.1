@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0C984E0A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 01:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F592126C09
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 01:09:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730250582; cv=none; b=i7FcrtNB7VP1aag1xoFXVlAyDXoTD3KgfCQfEZYf/6oiL3vIZ6MhFLxuJt0Iiog5Ob7e9I80bitN1OhMsVq8WXFmAoW+HEzc9pcvnXZnIBBSvQqkq1KE5jbMwyBWX/b5ZAYGLF88uv2jWiwoJ7YC6FiDKzopP5gdAFytvGrEYWI=
+	t=1730250585; cv=none; b=Z/jwzNes7pAasAn1fvoD8F4MP1qHl6ykuLuzJmXMPsTsM/oXIQZlNsJi5/pBtwBM+MVZR82CqCz0s1K31goxuUs33ptn3FRQjXQOn1o1Yous8lgz3DBHAc4H4gSkL8SyHryza3Cq1zhMvv44LJds+0hS0M8slrL3gnfOoEiJCnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730250582; c=relaxed/simple;
-	bh=kOpppAgcjKffUoV/4Sr67QwhaAVhvZ0Y3r860MP5374=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LOfJKmRiBN7i1lBpQZE3ODAOm3cuT7oZAVQmuTaMsclra2l4BKN6HOYkfUE384GQg+6x4uJ0Q07rziaokJqOc1vwE1/IeEzvk2ToL/JXwrbmyiR5+PVnB2IDsXeY7fw0BxVxUbyfVQ4BXCRrrqWcrER/UWSga0JSkZ4I5goGJ4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huQWjN89; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1730250585; c=relaxed/simple;
+	bh=qNVh6tpVEGIXWh8uZrqUmRKgJwCoPS5MV6EXQ9N349o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gg4CapZqSNQFHBx67Uc/i6Nlqlnyeq0GHiTBSbXz9cUIYM80XtLQ7kmvHW9ne85SDeyDkH3NU9HM5x2Kh7Kjw65klcCNBIFlqlJspcaZcx2QB18XWIf3egAMn4RM8KMz62dcOSe3S2hKyxX0/SojkRafHMv2VYRDGKwDc2uZJfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCexvoh9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huQWjN89"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCexvoh9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730250581; x=1761786581;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kOpppAgcjKffUoV/4Sr67QwhaAVhvZ0Y3r860MP5374=;
-  b=huQWjN89MJlXhL0rUTv1y+7zLUxCb+F3EqntIIJB4/XNSLEIK6hsCgIJ
-   vxbpim1qsrNsUwLEeaAcsfxK4uC02RSakqeaDY+/j/Pw8g64Mxhr1kiBA
-   0waNu9UY1AF74C7GcQAKZDugnyPSOBi11WvuqEpcOfrSW0zRBBcWB+7rk
-   a1jT602fgzlHMzj+9oiuKbNmxjSEd0Wrx4Qrf2uZQNgFaMS9ABsnfVOOL
-   71yeeEN2cbya5j+QqVTTxp1WM1zB+CPVKaOy5tAjAkJkvLF1Emj1eJmKi
-   8ZnKooXwy3YkFSObZjDLmEIWaiQCnVYG3dab3bT9mlreAH71xBk2ZL7o5
-   w==;
-X-CSE-ConnectionGUID: yNW93xAuRJqQ/5yjJFVuSw==
-X-CSE-MsgGUID: p27U//e5QHy4bYnit3Llzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="30140058"
+  t=1730250583; x=1761786583;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qNVh6tpVEGIXWh8uZrqUmRKgJwCoPS5MV6EXQ9N349o=;
+  b=lCexvoh9BPa6oz7wC8ILPK8CzzWBYiDidWZ+cViAK7XDifFybsSMiJUX
+   f2HWqAIOw4+pENzcOSg1ioxhvzIFJrtthmQB8/WarE8LFbugwKsmUd+gv
+   rUaf3/Xp9jXO3E5o9W557m9UWIszaagEKel9cqESReh6TF4qk8Y7PmDyJ
+   BXgpcpk973q6CjuKsQehXLvZixxm9b+XSP62+WBXwv79oPWL1BjXK8QQ7
+   B9S4odJVYj2AnjU6NoVVMCB69pUE3xxrICVYV/YLrQuBUasTHALWPepRX
+   rcXT+LLrAAfXX+USVk5BF9acBwWi3jsaJmzr5Imli2SboP/XD2fWhollX
+   A==;
+X-CSE-ConnectionGUID: IbMiQhhwSwS3mIOopzgjNA==
+X-CSE-MsgGUID: f9NBNjPSR5GMARbXs+cnsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="30140068"
 X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
-   d="scan'208";a="30140058"
+   d="scan'208";a="30140068"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 18:09:40 -0700
-X-CSE-ConnectionGUID: bPB/FKJoSwe4RFw9I7PRRw==
-X-CSE-MsgGUID: AHCtC4K4T6Kx8RtBf0029Q==
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2024 18:09:42 -0700
+X-CSE-ConnectionGUID: ME2mH3HbSHGVfvVW18qSGg==
+X-CSE-MsgGUID: aIMf6t3sSKC433IYHY7aWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,243,1725346800"; 
-   d="scan'208";a="112979480"
+   d="scan'208";a="112979487"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 29 Oct 2024 18:09:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t5xDM-000eM2-1l;
+	id 1t5xDM-000eLw-1b;
 	Wed, 30 Oct 2024 01:09:36 +0000
-Date: Wed, 30 Oct 2024 09:09:11 +0800
+Date: Wed, 30 Oct 2024 09:09:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
-Subject: Re: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
-Message-ID: <202410300823.rFSVqCH5-lkp@intel.com>
-References: <20241028213541.1529-13-ouster@cs.stanford.edu>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 10809/13046]
+ arch/x86/events/zhaoxin/uncore.c:2835:6: sparse: sparse: symbol
+ 'kx7000_uncore_cpu_init' was not declared. Should it be static?
+Message-ID: <202410300926.y5npHMg8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +66,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241028213541.1529-13-ouster@cs.stanford.edu>
 
-Hi John,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241029-095137
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241028213541.1529-13-ouster%40cs.stanford.edu
-patch subject: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
-config: arc-randconfig-r132-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300823.rFSVqCH5-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241030/202410300823.rFSVqCH5-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 008053bcdeaad929fa3f96b75eee49da15ab0a04 [10809/13046] perf/x86/zhaoxin/uncore: update KX-7000 support
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410300926.y5npHMg8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410300926.y5npHMg8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410300823.rFSVqCH5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410300926.y5npHMg8-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   net/homa/homa_rpc.c: note: in included file:
->> net/homa/homa_impl.h:605:13: sparse: sparse: restricted __be32 degrades to integer
-   net/homa/homa_rpc.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   arch/x86/events/zhaoxin/uncore.c:339:1: sparse: sparse: symbol '__pcpu_scope_zx_package_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:340:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:341:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_id' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:396:1: sparse: sparse: symbol '__pcpu_scope_zx_cluster_core_bits' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:397:1: sparse: sparse: symbol '__pcpu_scope_zx_subnode_core_bits' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2433:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2438:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2444:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2805:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2814:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2819:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2835:6: sparse: sparse: symbol 'kx7000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2850:5: sparse: sparse: symbol 'kx7000_uncore_pci_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2858:6: sparse: sparse: symbol 'kx7000_uncore_mmio_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   net/homa/homa_rpc.c:84:9: sparse: sparse: context imbalance in 'homa_rpc_new_client' - different lock contexts for basic block
    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   net/homa/homa_rpc.c:104:17: sparse: sparse: context imbalance in 'homa_rpc_new_server' - wrong count at exit
-   net/homa/homa_rpc.c: note: in included file (through include/linux/rculist.h, include/linux/sched/signal.h, include/linux/ptrace.h, ...):
-   include/linux/rcupdate.h:881:9: sparse: sparse: context imbalance in 'homa_rpc_acked' - unexpected unlock
-   net/homa/homa_rpc.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   net/homa/homa_rpc.c:235:6: sparse: sparse: context imbalance in 'homa_rpc_free' - different lock contexts for basic block
-   net/homa/homa_rpc.c:311:5: sparse: sparse: context imbalance in 'homa_rpc_reap' - wrong count at exit
-   net/homa/homa_rpc.c:448:17: sparse: sparse: context imbalance in 'homa_find_client_rpc' - wrong count at exit
-   net/homa/homa_rpc.c:474:17: sparse: sparse: context imbalance in 'homa_find_server_rpc' - wrong count at exit
---
->> net/homa/homa_sock.c:85:39: sparse: sparse: cast removes address space '__rcu' of expression
-   net/homa/homa_sock.c:91:31: sparse: sparse: cast removes address space '__rcu' of expression
-   net/homa/homa_sock.c:165:6: sparse: sparse: context imbalance in 'homa_sock_shutdown' - wrong count at exit
-   net/homa/homa_sock.c:243:5: sparse: sparse: context imbalance in 'homa_sock_bind' - different lock contexts for basic block
-   net/homa/homa_sock.c:312:6: sparse: sparse: context imbalance in 'homa_sock_lock_slow' - wrong count at exit
-   net/homa/homa_sock.c:326:6: sparse: sparse: context imbalance in 'homa_bucket_lock_slow' - wrong count at exit
 
-vim +605 net/homa/homa_impl.h
+vim +/kx7000_uncore_cpu_init +2835 arch/x86/events/zhaoxin/uncore.c
 
-1416f12d4ea455 John Ousterhout 2024-10-28  595  
-1416f12d4ea455 John Ousterhout 2024-10-28  596  /**
-1416f12d4ea455 John Ousterhout 2024-10-28  597   * Given an IPv4 address, return an equivalent IPv6 address (an IPv4-mapped
-1416f12d4ea455 John Ousterhout 2024-10-28  598   * one)
-1416f12d4ea455 John Ousterhout 2024-10-28  599   * @ip4: IPv4 address, in network byte order.
-1416f12d4ea455 John Ousterhout 2024-10-28  600   */
-1416f12d4ea455 John Ousterhout 2024-10-28  601  static inline struct in6_addr ipv4_to_ipv6(__be32 ip4)
-1416f12d4ea455 John Ousterhout 2024-10-28  602  {
-1416f12d4ea455 John Ousterhout 2024-10-28  603  	struct in6_addr ret = {};
-1416f12d4ea455 John Ousterhout 2024-10-28  604  
-1416f12d4ea455 John Ousterhout 2024-10-28 @605  	if (ip4 == INADDR_ANY)
-1416f12d4ea455 John Ousterhout 2024-10-28  606  		return in6addr_any;
-1416f12d4ea455 John Ousterhout 2024-10-28  607  	ret.in6_u.u6_addr32[2] = htonl(0xffff);
-1416f12d4ea455 John Ousterhout 2024-10-28  608  	ret.in6_u.u6_addr32[3] = ip4;
-1416f12d4ea455 John Ousterhout 2024-10-28  609  	return ret;
-1416f12d4ea455 John Ousterhout 2024-10-28  610  }
-1416f12d4ea455 John Ousterhout 2024-10-28  611  
+  2834	
+> 2835	void kx7000_uncore_cpu_init(void)
+  2836	{
+  2837		u64 val;
+  2838		int cpu;
+  2839	
+  2840		uncore_msr_uncores = kx7000_msr_uncores;
+  2841	
+  2842		/* clear bit 16 of MSR 0x1877 so that HIF can work normally */
+  2843		for_each_present_cpu(cpu) {
+  2844			rdmsrl_on_cpu(cpu, 0x1877, &val);
+  2845			val = val & 0xfffffffffffeffffULL;
+  2846			wrmsrl_on_cpu(cpu, 0x1877, val);
+  2847		}
+  2848	}
+  2849	
+> 2850	int kx7000_uncore_pci_init(void)
+  2851	{
+  2852		uncore_pci_uncores = kx7000_pci_uncores;
+  2853		uncore_pci_driver = &kx7000_uncore_pci_driver;
+  2854	
+  2855		return 0;
+  2856	}
+  2857	
+> 2858	void kx7000_uncore_mmio_init(void)
+  2859	{
+  2860		uncore_mmio_uncores = kx7000_mmio_uncores;
+  2861	}
+  2862	
 
 -- 
 0-DAY CI Kernel Test Service
