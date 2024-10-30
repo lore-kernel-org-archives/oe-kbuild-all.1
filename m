@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B5A1925AE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 22:38:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BDFC15B0F7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 22:49:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730327924; cv=none; b=WBHZhooe3aydMlJcwqtl7zavBIBcJnNssR3XlKd6TQv68x5eSr/E7W/NBKzId4JTGQ8elAqludXEieuPMgG79AprMyg1nLZ6T21lXQF+8qjh2w8V/v1oI/FJ05ONc16iRYgTKxPzh6Ijbh0jSCZVNhZJp28tt/+7Y4AmsHsjwzs=
+	t=1730328596; cv=none; b=GVffKI+Q2Tq57Z7km7XZT/E3X39qlZiRjdigzysWhGaJgOF3JJ56D7nIv5wDCClfOLnH6d/Ea2yn3xU/Ry7othtirKJ3TwMfg0QrVZkyO1GngzpWbSyAwiVQG1VQ8d+IVZejb98r9MjhQJe+7WbS7zs8gmIZ0odSYVHi1MP/CBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730327924; c=relaxed/simple;
-	bh=efev1ajDId2X/RSwWcKutHudEWtsFOm0zje75MYofoU=;
+	s=arc-20240116; t=1730328596; c=relaxed/simple;
+	bh=9UXr/q0bjhJbrXt8w75QGSOeDJWuUuTfPyIBKfiHt8c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ltJnuV57CC3zbyRgOwxcD8B6de7y0RlkrxIZTc/kMl3er765JNPpDthqJ6cuNBSj90twIkfi5pSeJ/ET5W3+vBFMkP4PE2Oad5Vw2lGmK9kkSJhpKohiX680A0C3qHCY2tqXRLTJis73Sd/2xa0hvV7xQIe4YilhJW4gQnQz/T8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEUaArU2; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=QJhfDxDj73GinWoWAy2aSWeH86PR1c5Ve4ZEyk47kdVb9OG0/SaI+FHajYe19AQy9ChaRR4S+8M2Z77gvjBQgFnqFkXGrjSoY1j+JLDp1x2Hdc1BVP2OZ+VUmUl327t00ua34eVxbKQRCQEOOYLbrsql3HN/Rh9WBno/aPTKT1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eYnlj6L2; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEUaArU2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eYnlj6L2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730327921; x=1761863921;
+  t=1730328594; x=1761864594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=efev1ajDId2X/RSwWcKutHudEWtsFOm0zje75MYofoU=;
-  b=FEUaArU2YwfDAhewUODvFKooUfrf3ebtrlWPc9NFl3my++RVmSAN/Z2Y
-   g/Mft+J/iSHmhRZvpiNEUZsCx1nKPhmLPWUYSh1maqZ7PDYk47FxJ7YPq
-   lyURiMZGJMBFMZWtdN+9jgeKdyqdBmTslbxj40dV4NfsEbzgRwcFt9E7C
-   wzpMBJoaeHJCx++RipFIJ6wsYE5ff40MjWltWo050iBKmqrhke4DOOAFo
-   oHlzjzaYSqQ6Nk631bi69BAzQAoxEEg18urqUBN9RbN/fFxD0jJxZTCWE
-   r/lKldcvFrGLQVI89sM0LR++vEn50g7avGV9pIXKSUB3u30zD3b3EgZMF
-   w==;
-X-CSE-ConnectionGUID: LaYB+8X8Rs6JDaD3tY3PKw==
-X-CSE-MsgGUID: /Vtsoi6qSkmK6mrpAFRiUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="30266142"
-X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
-   d="scan'208";a="30266142"
+  bh=9UXr/q0bjhJbrXt8w75QGSOeDJWuUuTfPyIBKfiHt8c=;
+  b=eYnlj6L2IJl2sWYejQdk9WW6N8ZnnpcoZvIoomXVx5KQsKCTA25cutem
+   7S9vNdaU3VkAYDyXvpgu1c2WWUDoBVlO5Mnmco/IgHkMee/N0VuKWLFTC
+   dJwbWwJ8oj23jZYIZsp5Df9KnUJac9qccDyJwPr/tqCLk8MxHR9t/Ihyo
+   u9wWhWRIoWc8WTZ4GSgTz9aokAR2Opy565MBsFmJb0APKlx16lsO+bB6h
+   gKz9UB8gWp249TtST97mThVInrXRsEWtx44IIq3WT3ov0iAUqpBUPgUBp
+   ObhzPwWMPcBcOGbw2uAsjui9wGg5sVor3Xr92mnrCqttMnxGne/obsPAb
+   A==;
+X-CSE-ConnectionGUID: 2mcTcDQ3Rvew5iuiI4rEqQ==
+X-CSE-MsgGUID: ie5MrTigTKeVQre+dwmaqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30207992"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30207992"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 15:38:39 -0700
-X-CSE-ConnectionGUID: bQAXuYkURrqUmSPAqbsrYw==
-X-CSE-MsgGUID: GmzEn74EQG2U14LHWye59A==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 15:49:53 -0700
+X-CSE-ConnectionGUID: y2/aN80aQ8CwxenLrdqMXw==
+X-CSE-MsgGUID: ULhoqxuNQma30vFvaeHiRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
-   d="scan'208";a="105774934"
+   d="scan'208";a="105776192"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2024 15:38:38 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2024 15:49:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6HKl-000fNk-2j;
-	Wed, 30 Oct 2024 22:38:35 +0000
-Date: Thu, 31 Oct 2024 06:38:29 +0800
+	id 1t6HVQ-000fOM-0i;
+	Wed, 30 Oct 2024 22:49:36 +0000
+Date: Thu, 31 Oct 2024 06:48:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 49/53] include/linux/blkdev.h:1390:18: error:
- 'struct gendisk' has no member named 'conv_zones_bitmap'
-Message-ID: <202410310625.mbht8XXR-lkp@intel.com>
+Subject: [android-common:android15-6.6-partner_predev 27/81]
+ arch/x86/kvm/../../../virt/kvm/vfio.c:363:2: error: use of undeclared
+ identifier 'pkvm_handle_t'
+Message-ID: <202410310639.1bJk4CEd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,159 +63,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   feb9371f18af51326c82c6d16cacb9db79717f98
-commit: 8b88887562ef99311b5d6846095076ef74d3870f [49/53] block: add a public bdev_zone_is_seq helper
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241031/202410310625.mbht8XXR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310625.mbht8XXR-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-partner_predev
+head:   4f78c3d7bcf25a6712f168ec3e669c779412364f
+commit: ef8dd7aa3457fd60fee7bd4e01dfb6a0bdd8d997 [27/81] ANDROID: kvm/vfio: pviommu: Add set config IOCTL
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241031/202410310639.1bJk4CEd-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310639.1bJk4CEd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410310625.mbht8XXR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410310639.1bJk4CEd-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from fs/f2fs/f2fs.h:23,
-                    from fs/f2fs/dir.c:13:
-   include/linux/blkdev.h: In function 'bdev_zone_is_seq':
->> include/linux/blkdev.h:1390:18: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1390 |         if (!disk->conv_zones_bitmap)
-         |                  ^~
-   In file included from include/linux/thread_info.h:27,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/f2fs/dir.c:9:
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:45:44: note: in definition of macro 'bitop'
-      45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
-         |                                            ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:46:23: note: in definition of macro 'bitop'
-      46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
-         |                       ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:47:57: note: in definition of macro 'bitop'
-      47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
-         |                                                         ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:48:24: note: in definition of macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                        ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:48:39: note: in definition of macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                                       ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
---
-   In file included from fs/f2fs/data.c:14:
-   include/linux/blkdev.h: In function 'bdev_zone_is_seq':
->> include/linux/blkdev.h:1390:18: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1390 |         if (!disk->conv_zones_bitmap)
-         |                  ^~
-   In file included from include/linux/thread_info.h:27,
-                    from include/linux/spinlock.h:60,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:6,
-                    from fs/f2fs/data.c:8:
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:45:44: note: in definition of macro 'bitop'
-      45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
-         |                                            ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:46:23: note: in definition of macro 'bitop'
-      46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
-         |                       ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:47:57: note: in definition of macro 'bitop'
-      47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
-         |                                                         ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:48:24: note: in definition of macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                        ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                          ^~
-   include/linux/bitops.h:48:39: note: in definition of macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                                       ^~~~
-   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                 ^~~~~~~~
-   fs/f2fs/data.c: In function 'f2fs_mpage_readpages':
-   fs/f2fs/data.c:2391:17: warning: variable 'index' set but not used [-Wunused-but-set-variable]
-    2391 |         pgoff_t index;
-         |                 ^~~~~
+   In file included from arch/x86/kvm/../../../virt/kvm/vfio.c:12:
+   In file included from include/linux/kvm_host.h:16:
+   In file included from include/linux/mm.h:2224:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from arch/x86/kvm/../../../virt/kvm/vfio.c:12:
+   include/linux/kvm_host.h:1575:6: warning: no previous prototype for function 'kvm_arch_reclaim_device' [-Wmissing-prototypes]
+    1575 | void kvm_arch_reclaim_device(struct device *dev)
+         |      ^
+   include/linux/kvm_host.h:1575:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1575 | void kvm_arch_reclaim_device(struct device *dev)
+         | ^
+         | static 
+   include/linux/kvm_host.h:1579:6: warning: no previous prototype for function 'kvm_arch_reclaim_group' [-Wmissing-prototypes]
+    1579 | void kvm_arch_reclaim_group(struct iommu_group *group)
+         |      ^
+   include/linux/kvm_host.h:1579:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1579 | void kvm_arch_reclaim_group(struct iommu_group *group)
+         | ^
+         | static 
+>> arch/x86/kvm/../../../virt/kvm/vfio.c:363:2: error: use of undeclared identifier 'pkvm_handle_t'
+     363 |         pkvm_handle_t iommu;
+         |         ^
+>> arch/x86/kvm/../../../virt/kvm/vfio.c:377:8: error: call to undeclared function 'kvm_iommu_device_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     377 |         ret = kvm_iommu_device_id(dev, config->sid_idx, &iommu, &phys_sid);
+         |               ^
+>> arch/x86/kvm/../../../virt/kvm/vfio.c:377:51: error: use of undeclared identifier 'iommu'; did you mean 'fiommu'?
+     377 |         ret = kvm_iommu_device_id(dev, config->sid_idx, &iommu, &phys_sid);
+         |                                                          ^~~~~
+         |                                                          fiommu
+   arch/x86/kvm/../../../virt/kvm/vfio.c:357:53: note: 'fiommu' declared here
+     357 | static int kvm_vfio_pviommu_set_config(struct file *fiommu, struct kvm_vfio_iommu_config *config)
+         |                                                     ^
+   arch/x86/kvm/../../../virt/kvm/vfio.c:381:8: error: call to undeclared function 'kvm_call_hyp_nvhe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     381 |         ret = kvm_call_hyp_nvhe(__pkvm_pviommu_add_vsid, pviommu->dev->kvm, pviommu->fd,
+         |               ^
+>> arch/x86/kvm/../../../virt/kvm/vfio.c:381:26: error: use of undeclared identifier '__pkvm_pviommu_add_vsid'
+     381 |         ret = kvm_call_hyp_nvhe(__pkvm_pviommu_add_vsid, pviommu->dev->kvm, pviommu->fd,
+         |                                 ^
+   arch/x86/kvm/../../../virt/kvm/vfio.c:382:5: error: use of undeclared identifier 'iommu'
+     382 |                                 iommu, phys_sid, config->vsid);
+         |                                 ^
+   arch/x86/kvm/../../../virt/kvm/vfio.c:436:8: error: call to undeclared function 'kvm_call_hyp_nvhe'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     436 |         ret = kvm_call_hyp_nvhe(__pkvm_pviommu_attach, dev->kvm, pviommu->fd);
+         |               ^
+   arch/x86/kvm/../../../virt/kvm/vfio.c:436:26: error: use of undeclared identifier '__pkvm_pviommu_attach'; did you mean 'kvm_vfio_pviommu_attach'?
+     436 |         ret = kvm_call_hyp_nvhe(__pkvm_pviommu_attach, dev->kvm, pviommu->fd);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                 kvm_vfio_pviommu_attach
+   arch/x86/kvm/../../../virt/kvm/vfio.c:418:12: note: 'kvm_vfio_pviommu_attach' declared here
+     418 | static int kvm_vfio_pviommu_attach(struct kvm_device *dev)
+         |            ^
+   arch/x86/kvm/../../../virt/kvm/vfio.c:464:18: error: call to undeclared function 'kvm_iommu_device_num_ids'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     464 |         info->nr_sids = kvm_iommu_device_num_ids(device);
+         |                         ^
+   7 warnings and 9 errors generated.
 
 
-vim +1390 include/linux/blkdev.h
+vim +/pkvm_handle_t +363 arch/x86/kvm/../../../virt/kvm/vfio.c
 
-  1378	
-  1379	/**
-  1380	 * bdev_zone_is_seq - check if a sector is on a sequential write zone
-  1381	 * @bdev:	block device to check
-  1382	 * @sector:	sector number
-  1383	 *
-  1384	 * Check if @sector on @bdev is on sequential write required zone.
-  1385	 */
-  1386	static inline bool bdev_zone_is_seq(struct block_device *bdev, sector_t sector)
-  1387	{
-  1388		struct gendisk *disk = bdev->bd_disk;
-  1389	
-> 1390		if (!disk->conv_zones_bitmap)
-  1391			return bdev_is_zoned(bdev);
-  1392		return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-  1393	}
-  1394	
+   356	
+   357	static int kvm_vfio_pviommu_set_config(struct file *fiommu, struct kvm_vfio_iommu_config *config)
+   358	{
+   359		int vfio_dev_fd = config->device_fd;
+   360		struct file *filp;
+   361		int ret;
+   362		u32 phys_sid;
+ > 363		pkvm_handle_t iommu;
+   364		struct kvm_pviommu *pviommu = fiommu->private_data;
+   365		struct device *dev;
+   366	
+   367		filp = fget(vfio_dev_fd);
+   368		if (!filp)
+   369			return -EBADF;
+   370	
+   371		dev = kvm_vfio_file_get_device(filp);
+   372		if (!dev) {
+   373			ret = -ENODEV;
+   374			goto err_fput;
+   375		}
+   376	
+ > 377		ret = kvm_iommu_device_id(dev, config->sid_idx, &iommu, &phys_sid);
+   378		if (ret)
+   379			goto err_fput;
+   380	
+ > 381		ret = kvm_call_hyp_nvhe(__pkvm_pviommu_add_vsid, pviommu->dev->kvm, pviommu->fd,
+   382					iommu, phys_sid, config->vsid);
+   383	
+   384	err_fput:
+   385		fput(filp);
+   386		return ret;
+   387	}
+   388	
 
 -- 
 0-DAY CI Kernel Test Service
