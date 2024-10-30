@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FE91C460C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 19:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2981BD9DB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 19:32:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730315496; cv=none; b=LmhGTNEuYktpYE2xiZzgpnq01f9dPbvaaKWWwl8JdCCEzGXjvrF/2NijvMtQa7rleeDjyKyNWmlPej/t9992BeY5AymIzWfu2pyEtwVrz4TEv7A0skGxTGQYOJsrUOsVP63EGQiCUJfP0jS/vFIkBZ2otEn5OvNaxx/JuyD8dGk=
+	t=1730316755; cv=none; b=qM2S13fw/IPQhXMWubYKofTO1HfcN9xXO5ETY86grLSNjnOfHROMGsAfzeA9XrD8bINT492kkXla/EskqJTzffux5EdXxwcYsypGREocCIRotJ7nwc+i2XIsoN9inJVQUrDEtTXtMkhDeOPXYUql0M8zzjvY+gQNAuMXPZZE0AE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730315496; c=relaxed/simple;
-	bh=uY16/0VoPuURsxYzoQrZ9/3vf6eGy6VBjTF9lB8TrFc=;
+	s=arc-20240116; t=1730316755; c=relaxed/simple;
+	bh=AfOtZ7kIluqU4q4WWWEi8/u+/+o1y+rhkRXigyugOUY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X5Zpf2+R0x8tfLSrurnIrMBLEHE6MNieGtUQUYr8vwpf18ydltQaQuKmjeiPD1eE26WvKN5RXm81OjB7JerQl5f1lmr3DFAYFMAku77gnjh45Z9w4O63qMM9DeS312xehy4yeeL+R9DeGFeAXXyOLmcXjWLIdeLqtU4jmILxIis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ivPOrlkF; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=BBGecbRmxGe9ILtlk7lFkspfxpTukRzcqt50ut7e2faGWSoaChUCNQeYznBYhkQCyHhB4v+lPPxqQgZI275BMFvqa1ZYA7W78zk776zgks8Tc+dGcz4N2dxfs2r1u8gyD3k0sQHshdCKwMRLYpPCT0n7AWRhn8xVB8FGQ45gKRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=flHjxmFS; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ivPOrlkF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="flHjxmFS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730315494; x=1761851494;
+  t=1730316753; x=1761852753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uY16/0VoPuURsxYzoQrZ9/3vf6eGy6VBjTF9lB8TrFc=;
-  b=ivPOrlkFPLJYY5M36jC1R5UIdFKKPu3PsU/pZAg381kFC9n4npbiXFX6
-   ir9N4nUiqS8z6hRGXigX6GdEY9KWGrFw8Vj3chAKJx/qMZGDKYPmTemw9
-   zk56vCxPam/0a50Log7TQZiTkOr7fTl7Wg/EdrIBB5eCVe9iqzBQJfMsi
-   xF1vb3mso/Oy6oXwuB8V+Fj1sPpZZNZzoa/f3dtVNVTFqhKLmZpR7N8wg
-   oIuE6nwku1LtdksduaiYOeUl0/8aBMJ8fFsQcX0g51/AKZFM4DQVTXPRN
-   U2Y/uKyv/5SreirY0mYkCUYWQkgXp3uUaJGYQRLlSAZakktwy0LynLDJN
-   w==;
-X-CSE-ConnectionGUID: 0lnCkF1iQF2XzheFQjdlzA==
-X-CSE-MsgGUID: +TfaUv9JSwu/tdqkkViW7A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="17679974"
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="17679974"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:11:34 -0700
-X-CSE-ConnectionGUID: R0c32UmdRbmATwUrbuuUhg==
-X-CSE-MsgGUID: OQyT51qIS/y06D+LVCeQPg==
+  bh=AfOtZ7kIluqU4q4WWWEi8/u+/+o1y+rhkRXigyugOUY=;
+  b=flHjxmFSRAgljxtVXxoAzJ+6rpYFEYwa6fOBoR5nVqJd6D/bmylKjDJy
+   S6bc2MGfMRFVrRRqASeaDwvJ7r3YRj2+HDNv+qbmdXGoRudeET1M4gJY8
+   rEwl5B9CIPvOHXifebbDmXC3Yc+kZ7pSAsQZIwOhjc7D0+UOTo87/LOKO
+   vf1RviTd6MdIurkC5QU6MyqkqvKH9fcD8zlGd/MmUoSRq2BXepvnjNnL1
+   p81olNcs+HJwEyPbpuhw3i7SzCrCkad+R76YVfkePcpIWLlPhjD7En1JZ
+   k1kvJqM2YNk91YoI/O8l5KXaHA2G+1Y5fdeGgmQ5nXsBmJqb5kCevIevu
+   g==;
+X-CSE-ConnectionGUID: sIzTPyCcSsGi3XTTewCrxA==
+X-CSE-MsgGUID: eWaLSW6WSc6rLolDvOil/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40573690"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40573690"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:32:33 -0700
+X-CSE-ConnectionGUID: uN4nm01tQWewpX79kCYUEQ==
+X-CSE-MsgGUID: ydUilZPORlqZC+JF6Qc8Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="82501764"
+   d="scan'208";a="83234140"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Oct 2024 12:11:30 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 Oct 2024 12:32:31 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6E6K-000fEC-1C;
-	Wed, 30 Oct 2024 19:11:28 +0000
-Date: Thu, 31 Oct 2024 03:11:02 +0800
+	id 1t6EQe-000fEw-2Q;
+	Wed, 30 Oct 2024 19:32:28 +0000
+Date: Thu, 31 Oct 2024 03:31:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 25/98] net/core/net-procfs.c:344:45: sparse:
- sparse: cast removes address space '__percpu' of expression
-Message-ID: <202410310318.WeKIPsO0-lkp@intel.com>
+Subject: [android-common:android14-6.1 6541/26413]
+ arch/arm64/kvm/hyp/nvhe/clock.c:39:undefined reference to
+ `__kvm_nvhe___lshrti3'
+Message-ID: <202410310347.NQunIQ3S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,42 +63,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: d9324ddd538a0b57dbee8623806ff9b9f7811202 [25/98] net: dev ipv4/v6 stat
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241031/202410310318.WeKIPsO0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310318.WeKIPsO0-lkp@intel.com/reproduce)
+Hi Vincent,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   19b68814b1cd60c40546f31f7cc5b7895c0b013b
+commit: 022b2198fc73b7b95231730eb944d74c7f1b253c [6541/26413] ANDROID: KVM: arm64: Add clock support in the nVHE hyp
+config: arm64-randconfig-002-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310347.NQunIQ3S-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310347.NQunIQ3S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410310318.WeKIPsO0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410310347.NQunIQ3S-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/core/net-procfs.c:344:45: sparse: sparse: cast removes address space '__percpu' of expression
->> net/core/net-procfs.c:344:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *mib @@     got void [noderef] __percpu ** @@
-   net/core/net-procfs.c:344:45: sparse:     expected void [noderef] __percpu *mib
-   net/core/net-procfs.c:344:45: sparse:     got void [noderef] __percpu **
+All errors (new ones prefixed by >>):
 
-vim +/__percpu +344 net/core/net-procfs.c
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+>> aarch64-linux-ld: ID map text too big or misaligned
+   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `trace_clock':
+>> arch/arm64/kvm/hyp/nvhe/clock.c:39:(.hyp.text+0x13b98): undefined reference to `__kvm_nvhe___lshrti3'
 
-   334	
-   335	static void dev_ext_seq_printf_stats(struct seq_file *seq, void *v)
-   336	{
-   337		struct net_device *dev = (struct net_device *)v;
-   338		int i;
-   339	
-   340		seq_printf(seq, "%10s  ", dev->name);
-   341	
-   342		for (i = 0; snmp_devstat_list[i].name; i++)
-   343			seq_printf(seq, " %12lu",
- > 344				   snmp_fold_field((void __percpu **)
-   345						   dev->mib.dev_statistics,
-   346						   snmp_devstat_list[i].entry));
-   347		seq_putc(seq, '\n');
-   348	}
-   349	
+
+vim +39 arch/arm64/kvm/hyp/nvhe/clock.c
+
+    21	
+    22	/*
+    23	 * This clock is relying on host provided slope and epoch values to return
+    24	 * something synchronized with the host. The downside is we can't trust the
+    25	 * output which must not be used for anything else than debugging.
+    26	 */
+    27	u64 trace_clock(void)
+    28	{
+    29		u64 cyc = __arch_counter_get_cntpct() - trace_clock_data.epoch_cyc;
+    30		__uint128_t ns;
+    31	
+    32		/*
+    33		 * The host kernel can avoid the 64-bits overflow of the multiplication
+    34		 * by updating the epoch value with a timer (see
+    35		 * kernel/time/clocksource.c). The hypervisor doesn't have that option,
+    36		 * so let's do a more costly 128-bits mult here.
+    37		 */
+    38		ns = (__uint128_t)cyc * trace_clock_data.mult;
+  > 39		ns >>= trace_clock_data.shift;
 
 -- 
 0-DAY CI Kernel Test Service
