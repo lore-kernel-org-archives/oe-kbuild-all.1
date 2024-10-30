@@ -1,125 +1,98 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6409F1DFE16
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 09:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A4447F69
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 09:49:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730279139; cv=none; b=m7axti1Dz886YV3abAdV/fhcNuKbMxn2VqqLvLjDD2qvgmsikqktmELXZKsvqS4mpHz2MlByECbYV3RzjFfijBi4wiDU5y0GWMcrb+Ub80sTA9nyaDIGBW2QA0jV3IEZsGI5/1g8+HPoYIfAo+aE1uamYdB9K2ra5wgK+BXLOsM=
+	t=1730281748; cv=none; b=I0WMWVhtWkB9pTOvjIEy8rRHSGWMhCXKFZaLFwIHbPwLPKXTMP9TYGYEi6lk2PaMEV4+rye4urB0mFKx/2ADecPP8iay/ipwW6QKzq/RA68pW424V79i6oYJTjcskKvELmAyB9pLhhN+uc3hBYlpWaQW6/NIKpn7QaMwggVlkpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730279139; c=relaxed/simple;
-	bh=bp+JgEDWs8OFuOoiA27PU0rAVpObcNn3SiyCddilbTQ=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=IgKI86jyPsQhcWoKYA63eAqbyzirP9bu/jeDqoGRUxD1jcy1GOT7Qc6VVAOC6eqa9vxlGpY5wddOZCvynKur1VvvZMNJ9xQloxdy/SGlwS+iTxGvXFmrQFdfzrQkGkzeDRcvTfIqMcag7tkpNDtMn4wdhqeXV/nf9+vD31Mpapw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Tjv0oTZ1; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=BWyDur+U; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1730281748; c=relaxed/simple;
+	bh=WnbbGTbi+YoHQvi8+eSxgnRAVgvqGIe+Bn1hg4tgcx4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jBBAK/5BPgRKudj1FK5tj9wUiWC5pZdRgwbEQbkYSyrIOxqHLmBoMAerKEwQzxFVccLeLn8RONBQ/i7Fy6CU0HHEqbVlIWd7N2Up9YN6cDUT2eyszqO5E42coqnXiUbmRy9OZptaBVQ7oQnM+LPeAllkM5nswOqoBcTiB5AW1ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEJ23Act; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Tjv0oTZ1";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="BWyDur+U"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.phl.internal (Postfix) with ESMTP id 758531380193;
-	Wed, 30 Oct 2024 05:05:36 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Wed, 30 Oct 2024 05:05:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1730279136;
-	 x=1730365536; bh=xC6fNzFRBF89Rad9OIH48BQaW5JzVFcqT4eOvVZneBY=; b=
-	Tjv0oTZ1iXbfBhgqdMTTv0JTDYnxm1uQJdCeyTlmfOP/jeOuOlf+dX+Nly3TcNVc
-	bEF/q2Rj6vC0bGcOFj41ZOq8fJetvwg4KmUCCDUbVGqyiUc4lOy+4wx/jEzMNJWW
-	6C3nnqM9YuSp1qkpsSF4vuBfdKM3T6iR41TYFAq8wZQnvftRM8xDRSApA8Ep2sOH
-	Xda8La/CFAieTDXcJsqXnzhQSbNLETfgRoQKfFiE0JSO1icFmII27hf6HVfRTR5O
-	s4rpv8voiGhDWO5q+UnL1cFlNkDIwFhpSRJ+q/YYydq0Ejxvfi7P+BXte5l4tMvl
-	Qj5VCaVQlSUilaLDJBDHnQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730279136; x=
-	1730365536; bh=xC6fNzFRBF89Rad9OIH48BQaW5JzVFcqT4eOvVZneBY=; b=B
-	WyDur+UWpv7g6TZkD+JJ4M43ix+eGvixguPKZdgRiK2dkkEaxc18LH4uLt7pkXnk
-	fr9+iXhrongkLAZv/Z2v5nNzTwPq7Ra1BOwAkmKza25Kj6SsdWwC0RrpgOobpZyr
-	FDA/09Q9dG/utLwtzFPgchxEVs+Gfki7e1XGb5zzCOx5PzUBHmiEYcp7GszD57uC
-	pWiFaYnA7EVl3wSlajJrF72CZzezBEZ/DxGCDA9vl0JhigcS+a6ldpRyJtbQCvEG
-	b5lGHVrq45yqQEVKy9C8cRl3OvKI7R9EGSATpzEM3nwigILCpoIKqMJdXw519oEB
-	Dob/8t5tJfntuJWiuexAg==
-X-ME-Sender: <xms:4PYhZ5uFN5LDK9admUv7vNYUAoY9xUkw10bKz72aWS4-x5dPWyft_g>
-    <xme:4PYhZydBhwAZzgfqm6AXc25f9-vmRkv1x8SYargAsCzSaCW0bk5vdZx0z1V-7m1U-
-    ZhxgaggRGk0ewromS4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdekvddguddvjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthhqredtredt
-    jeenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpeekvdeuhfeitdeuieejvedtieeijeefleevffef
-    leekieetjeffvdekgfetuefhgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuve
-    hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegr
-    rhhnuggsrdguvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhhtphhouhhtpdhrtg
-    hpthhtohepvhhinhgtvghniihordhfrhgrshgtihhnohesrghrmhdrtghomhdprhgtphht
-    thhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepgiekieeskhgvrhhnvghlrd
-    horhhgpdhrtghpthhtohepthhglhigsehlihhnuhhtrhhonhhigidruggvpdhrtghpthht
-    ohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepohgvqdhksg
-    huihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopehlihhn
-    uhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:4PYhZ8wfdJc0SWDeu7--3A3nMNtLR-LO8QoJa6dDoN0NuUv7zogTTQ>
-    <xmx:4PYhZwM-9k2RmwHgAiqtVzMouOZHAJOyb9FN7-qb9DVhAN2Y31u1qg>
-    <xmx:4PYhZ5_dlm5Q3Jszuy5_popYJ1PZ7ThJFtPNSvFFznNbjy5BkwasGA>
-    <xmx:4PYhZwXT01Le0RzRFuK7kbDkzcLPwYWRI0sMDKEXDE6pVb5CUNCTCQ>
-    <xmx:4PYhZ5yHzeT458mcgAdF9-mBQnkZUzicTd3z2BDLYuFxEcuKS6YpPhvq>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 061E72220071; Wed, 30 Oct 2024 05:05:35 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEJ23Act"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730281746; x=1761817746;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WnbbGTbi+YoHQvi8+eSxgnRAVgvqGIe+Bn1hg4tgcx4=;
+  b=oEJ23ActjG/shWgOVEibt5cqz1e0up5Nn+r9TFpzeY1Fsd55F3lWhfu2
+   X1qji5ruSER3V6ThYr4sxnm6kW0wn9oAFmVs4v+Ljk8oOwVuzfzyR8WDM
+   PgYLzCkHM2t4FRUIC85KvnRJSfCpk6CHGPBpbq43lGvVYni+9cVMnuNgP
+   UwrhkTyf8KIAVKn2PjFfVpPPxnIhkfebzz/PGKHI1PZsad3tvr5jJQW0E
+   GenWM+cmbyRYDROy1OrX6NcN2MDJA4onMmKmyiha39p/QhJX+yQmwbb98
+   JAjOaC0VvdcORBoQb3ou02sk+Beq7Aj3xioVXYniEuKJ9h1SBterwPSxO
+   A==;
+X-CSE-ConnectionGUID: Bud8h/uuTouth9iQyRyHrg==
+X-CSE-MsgGUID: +EePLxPaToqR5SDPCNwuRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="32812458"
+X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; 
+   d="scan'208";a="32812458"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 02:49:05 -0700
+X-CSE-ConnectionGUID: BZCvxGGiT7+EzpTk/BrSyQ==
+X-CSE-MsgGUID: sH2lUlcTTRmbiKptmOPwOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; 
+   d="scan'208";a="87400897"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2024 02:49:04 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t65K1-000eiG-2y;
+	Wed, 30 Oct 2024 09:49:01 +0000
+Date: Wed, 30 Oct 2024 17:48:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeffrey Hugo <quic_jhugo@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Carl Vanderlip <quic_carlv@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 6600/7771] drivers/accel/qaic/sahara.c:776:2-7:
+ WARNING: NULL check before some freeing functions is not needed.
+Message-ID: <202410301732.abF5Md4e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Wed, 30 Oct 2024 09:05:15 +0000
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Geert Uytterhoeven" <geert@linux-m68k.org>
-Cc: "Thomas Gleixner" <tglx@linutronix.de>,
- "kernel test robot" <lkp@intel.com>,
- "Vincenzo Frascino" <vincenzo.frascino@arm.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, x86@kernel.org
-Message-Id: <b2b3d30d-12ad-4022-a12b-e2d011952f0f@app.fastmail.com>
-In-Reply-To: 
- <CAMuHMdUAdV5Qv1AXKqLGi4xoM=9uiygSDKqhLnZ5YxzXsN6SxA@mail.gmail.com>
-References: <202410290639.TBG289SO-lkp@intel.com> <87ttcuzjy7.ffs@tglx>
- <1d6a10ca-3d86-452a-bdba-03a1204dd232@app.fastmail.com>
- <CAMuHMdUAdV5Qv1AXKqLGi4xoM=9uiygSDKqhLnZ5YxzXsN6SxA@mail.gmail.com>
-Subject: Re: [tip:timers/vdso 11/13] include/vdso/page.h:15:39: error:
- 'CONFIG_PAGE_SHIFT' undeclared here (not in a function); did you mean
- 'CONFIG_LOG_BUF_SHIFT'?
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Oct 30, 2024, at 08:49, Geert Uytterhoeven wrote:
-> On Tue, Oct 29, 2024 at 11:05=E2=80=AFPM Arnd Bergmann <arnd@arndb.de>=
- wrote:
->> On Tue, Oct 29, 2024, at 21:18, Thomas Gleixner wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
+commit: 93accc16a8d45a44e1f51fdf2c6014feedb13d27 [6600/7771] accel/qaic: Add crashdump to Sahara
+config: alpha-randconfig-r064-20241030 (https://download.01.org/0day-ci/archive/20241030/202410301732.abF5Md4e-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
 
->> I have previously suggested a similar but more extensive patch
->> to address the problem:
->>
->> https://lore.kernel.org/all/CAMuHMdVC-FUSA5C9aNrvP3=3DRaRWrchhUEC5UYc=
-SGMz_ep1PEhg@mail.gmail.com/
->>
->> I can rebase that one if Geert still wants it. I think I sent
->
-> I am still interested ;-)
->
->> an updated version somewhere but can't find it now.
->
-> AFAIK you haven't, so there are still outstanding review comments on
-> the last version you sent...
-> Thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410301732.abF5Md4e-lkp@intel.com/
 
-Ok, sorry it slipped through, I'll send an updated version
-later today then.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/accel/qaic/sahara.c:776:2-7: WARNING: NULL check before some freeing functions is not needed.
 
-       Arnd
+vim +776 drivers/accel/qaic/sahara.c
+
+   768	
+   769	static void sahara_mhi_remove(struct mhi_device *mhi_dev)
+   770	{
+   771		struct sahara_context *context = dev_get_drvdata(&mhi_dev->dev);
+   772	
+   773		cancel_work_sync(&context->fw_work);
+   774		cancel_work_sync(&context->dump_work);
+   775		if (context->mem_dump)
+ > 776			vfree(context->mem_dump);
+   777		sahara_release_image(context);
+   778		mhi_unprepare_from_transfer(mhi_dev);
+   779	}
+   780	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
