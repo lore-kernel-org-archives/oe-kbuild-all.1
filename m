@@ -1,62 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 488731E4AE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 12:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F8C1E884B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 12:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730291956; cv=none; b=MgOARnpf+OpXwZsjtdYzKQeXP9+e8FBF6Lxd48OAq/a/5EcesnwmroPRElmFsHbGFEIj7tuxR4RBMvggYPVcdpYVAuCn1NOKgWHcFyLC4X5lETxdYFs6c9ylTLQDUtXOmTUhBq6y1tz0xDR1BWVEup2NVbfV8JfnZMUIj5yYDYk=
+	t=1730292557; cv=none; b=Hk9zc7CxA2dXJY+qPS/5HhLRWUMBqofLrQWZfJQ0PU6Yej4dDf4rz6w2KmZceldCUcmjZj6gFxJ9l6KVgrDBhEDrYEYsHolzqtDjdAKEsM226a+XVLky0WEQnDKH78Lw3DQ3j4x6rlFROG+q9hKtvnMwwn5L38GG/uNLWhV7hsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730291956; c=relaxed/simple;
-	bh=Sl2pm+QR07UOlQdFyavDiQ8Wndxu02DUhJ1CSsYmHV4=;
+	s=arc-20240116; t=1730292557; c=relaxed/simple;
+	bh=nP//XpVCX40+VQoYogV2qVMx8Ts75iECOz9NAjXbez0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=leifHKsPx1EjXFAl6Uq5Js+wSXGQAMWUJkR2fTabwJvq4RXAKUuk2Om2lvbTAqzOcnmRRRZ3Jpd9YrvPk0niKa5YAJpfKqyGy/ph/ZN+1cBZyNm+oLTxjDsO5tG7Kvw1xVheESIGqblk8NUg0aI9ajGP12Z6VZXSn69NhVB7VNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P9TPY0em; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=H96jn29+/D3udFPi2MAxxqhXb810UqJBzZPQ9LQAqp1vcBiWi+3Wu8RPqAanQtvr4usyswgem3a9X7chzI39gbWpsn0nUiZRXgJLXd3kWZCYGlaudp0YhuBzU4dCwOl8USo44IEpJbyeyLpcIfWVDIvPGNbQ+HQZrgVhbrMWgC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vxkJC3fn; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P9TPY0em"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730291955; x=1761827955;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sl2pm+QR07UOlQdFyavDiQ8Wndxu02DUhJ1CSsYmHV4=;
-  b=P9TPY0emiXl74oLVseM2e1SX1iBO7ZlyqqU30zAUrGpPr67eJqZtNFkC
-   3V/LNJsHqer/B3Xv1MOeuLoFbvo6rD/ujHTXBsA7rDGltS0nkiRJQLp6U
-   Z7XYrCkrpYc9/ua+hLE3F/2ddP8Ytxhbr0Nb3YFo855gHP8FKxMLDDlgj
-   RzEHLSvH+uN1p3n6fpcscOmefxppomlgpbFxpV5oq7zCvhseVYi7oZk2T
-   0aYtjkMA9UjlXvzxWxYgXCQ6dOXtm2+HXKNegS6cfNMd5IyQcN/dZ4AWs
-   PIrVgt3ip3ZJ0yuspOJN6GvjqxCOMqGIV1TbawprCOLlT59ookb9JSKe3
-   A==;
-X-CSE-ConnectionGUID: Af+UHwbzQBSYhq08YFCEzA==
-X-CSE-MsgGUID: B9COo+dRQm+YnG86TbHRiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="33788107"
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="33788107"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 05:39:14 -0700
-X-CSE-ConnectionGUID: NCPjAIRSSZyzGBIRtT3CGQ==
-X-CSE-MsgGUID: 8AVHyf4oRfS/QuR0RIp7kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="119765432"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 30 Oct 2024 05:39:09 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t67yc-000eq8-2V;
-	Wed, 30 Oct 2024 12:39:06 +0000
-Date: Wed, 30 Oct 2024 20:39:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 13/98] kernel/sysctl.c:1033:45: sparse: sparse:
- incorrect type in argument 3 (different address spaces)
-Message-ID: <202410302050.XIoKsFjs-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vxkJC3fn"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4315e62afe0so66000855e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 05:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730292553; x=1730897353; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aLbWQuyOwSNbO6C9F9YvkyVw3+zNlZhq2daNiveAc9g=;
+        b=vxkJC3fnD1XxNCjmOHkU+HcRNE9NilD79cfePSETUJ64m8+YBlatJ4vi/DJXurjUlf
+         Zsjg4Dq8puy9D+kqIHfBB9lnmDXrsClTu3d4LBA87YXF+lajXU52NZhNSvwcmDMSv4g7
+         zNBsle5+NDtmGYtWjnYfpynJL6TzIeLbxuN+VRpdGCtIrWxZG5Lp6tf4DfCDwbUcdhjf
+         MSC9bqyQvy9pzOk4vU6PfZaR4RtCnHp5/k0gRtfsMx7Gt1MzRP4bM2qIY33GEmuf46gU
+         JYZoiYrsm5lRFaPe/5QVtmbzhAQCAAroZugRgjep2+Xs1gP6QkIqwmkJUUZ9IHiMahVm
+         +YIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730292553; x=1730897353;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aLbWQuyOwSNbO6C9F9YvkyVw3+zNlZhq2daNiveAc9g=;
+        b=bFA36yfBPvBiQmKNU46iUO5hG3dDc7wMlb38DDQMoWsvGdRToJ0t08OQDnSHOVzplZ
+         Z6nblU7drYjeRv+RZm/w2/OluUd+M2TVNwy76idfr4zqZ8BHfUO9c7lugjChs6ybtTuD
+         9B156l0Tg1cQoXPCzKrguYsnerXHK3iLEhSokBQq2XcgiG7kITM/DkfgBPWGg5cHUVb0
+         VSeX2kcI7HIIJ6XKXQUOOHYMD7acpl15krcId4llj7OHpQcEm6KhxqiCah7e1vwCL15X
+         hZjxFQhCnH3cMjW8Tv8VWxNr+30en+Pkl7Cp+FPTFBTd0WPVBipUlCjvdsnODUBunDa6
+         /kvg==
+X-Forwarded-Encrypted: i=1; AJvYcCWL2tqBd6+tT9Inj5FGxLA0TfR1TSGeECM5Z77eKz+jhhcQdHrc3g8bsrLtbQFE+X8SHgb6bP2SH16LtvuP@lists.linux.dev
+X-Gm-Message-State: AOJu0YwTh8ssQ6S89jy9v88gsPRvDFxszcw8pENA/N9DkRw5nbPiPJbZ
+	ZPPYy/qrL4a0I2N9zlavH4+p1faKUK2cvGuqHAODhilc5Solz5ckkyWyNHyitoo=
+X-Google-Smtp-Source: AGHT+IFX907nH/xWHWI0I4wgqakVQ2XLLy+4a571Ibgp7bsgSeK0HOLzfcIqBokzVap5alIYstqblQ==
+X-Received: by 2002:a05:600c:a085:b0:431:7ca6:57b1 with SMTP id 5b1f17b1804b1-4319ad2d1b4mr140416705e9.32.1730292552825;
+        Wed, 30 Oct 2024 05:49:12 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd9aa09fsm20557645e9.37.2024.10.30.05.49.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Oct 2024 05:49:12 -0700 (PDT)
+Date: Wed, 30 Oct 2024 15:49:08 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Andrii Nakryiko <andrii@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:perf/core 21/21] kernel/events/uprobes.c:718
+ hprobe_consume() error: uninitialized symbol 'state'.
+Message-ID: <56872672-ddd7-40fc-84a2-ee17ac817dbc@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,48 +67,45 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: 95c98461d1dce7fd1d25f055c88ad639b0e3b7d7 [13/98] sysrq: add ALT+LEFTCTRL to trigger crash dump
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410302050.XIoKsFjs-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
+head:   72a27524a4939fc0958796a46b51c1fab3729367
+commit: 72a27524a4939fc0958796a46b51c1fab3729367 [21/21] uprobes: SRCU-protect uretprobe lifetime (with timeout)
+config: i386-randconfig-141-20241030 (https://download.01.org/0day-ci/archive/20241030/202410302020.1jHBLfss-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410302050.XIoKsFjs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410302050.XIoKsFjs-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202410302020.1jHBLfss-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/sysctl.c:1033:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
-   kernel/sysctl.c:1033:45: sparse:     expected void *buffer
-   kernel/sysctl.c:1033:45: sparse:     got void [noderef] __user *buffer
-   kernel/sysctl.c:1791:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/sysctl.c:1791:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/sysctl.c:1791:35: sparse:     got int ( * )( ... )
-   kernel/sysctl.c:312:66: sparse: sparse: self-comparison always evaluates to false
+smatch warnings:
+kernel/events/uprobes.c:718 hprobe_consume() error: uninitialized symbol 'state'.
 
-vim +1033 kernel/sysctl.c
+vim +/state +718 kernel/events/uprobes.c
 
-  1026	
-  1027	static int sysrq_use_leftctrl_sysctl_handler(struct ctl_table *table, int write,
-  1028			void __user *buffer, size_t *lenp,
-  1029			loff_t *ppos)
-  1030	{
-  1031		int error;
-  1032	
-> 1033		error = proc_dointvec(table, write, buffer, lenp, ppos);
-  1034		if (error)
-  1035			return error;
-  1036	
-  1037		if (write)
-  1038			sysrq_toggle_sysrq_key(__sysrq_use_leftctrl);
-  1039	
-  1040		return 0;
-  1041	}
-  1042	#endif
-  1043	
+72a27524a4939f Andrii Nakryiko 2024-10-23  705  static inline struct uprobe *hprobe_consume(struct hprobe *hprobe, enum hprobe_state *hstate)
+72a27524a4939f Andrii Nakryiko 2024-10-23  706  {
+72a27524a4939f Andrii Nakryiko 2024-10-23  707  	enum hprobe_state state;
+72a27524a4939f Andrii Nakryiko 2024-10-23  708  
+72a27524a4939f Andrii Nakryiko 2024-10-23  709  	*hstate = xchg(&hprobe->state, HPROBE_CONSUMED);
+72a27524a4939f Andrii Nakryiko 2024-10-23  710  	switch (*hstate) {
+72a27524a4939f Andrii Nakryiko 2024-10-23  711  	case HPROBE_LEASED:
+72a27524a4939f Andrii Nakryiko 2024-10-23  712  	case HPROBE_STABLE:
+72a27524a4939f Andrii Nakryiko 2024-10-23  713  		return hprobe->uprobe;
+72a27524a4939f Andrii Nakryiko 2024-10-23  714  	case HPROBE_GONE:	/* uprobe is NULL, no SRCU */
+72a27524a4939f Andrii Nakryiko 2024-10-23  715  	case HPROBE_CONSUMED:	/* uprobe was finalized already, do nothing */
+72a27524a4939f Andrii Nakryiko 2024-10-23  716  		return NULL;
+72a27524a4939f Andrii Nakryiko 2024-10-23  717  	default:
+72a27524a4939f Andrii Nakryiko 2024-10-23 @718  		WARN(1, "hprobe invalid state %d", state);
+
+s/state/*hstate/?
+
+72a27524a4939f Andrii Nakryiko 2024-10-23  719  		return NULL;
+72a27524a4939f Andrii Nakryiko 2024-10-23  720  	}
+72a27524a4939f Andrii Nakryiko 2024-10-23  721  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
