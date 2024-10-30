@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07A4447F69
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 09:49:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1741E2854
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 10:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730281748; cv=none; b=I0WMWVhtWkB9pTOvjIEy8rRHSGWMhCXKFZaLFwIHbPwLPKXTMP9TYGYEi6lk2PaMEV4+rye4urB0mFKx/2ADecPP8iay/ipwW6QKzq/RA68pW424V79i6oYJTjcskKvELmAyB9pLhhN+uc3hBYlpWaQW6/NIKpn7QaMwggVlkpI=
+	t=1730282413; cv=none; b=eA0e+YsuMBqNhhdjfDtJVmZOZRGILNd9N2/yw/0QW9ayCGw3ln+vA2FpDwgzbXmAP4IEg7J1EmCdYQ5yWocN/Bww6xfklEFYzayQrtEtRPkLjlzAqAzPJnLGRAf8AogJks85piCKmgjGswmwa6bWpAslBqExLHrB9hAH/6e1wqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730281748; c=relaxed/simple;
-	bh=WnbbGTbi+YoHQvi8+eSxgnRAVgvqGIe+Bn1hg4tgcx4=;
+	s=arc-20240116; t=1730282413; c=relaxed/simple;
+	bh=+2rUC+oZodItjVLMgJHFowQV9oxa5BnxOdrQw0PuJ9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jBBAK/5BPgRKudj1FK5tj9wUiWC5pZdRgwbEQbkYSyrIOxqHLmBoMAerKEwQzxFVccLeLn8RONBQ/i7Fy6CU0HHEqbVlIWd7N2Up9YN6cDUT2eyszqO5E42coqnXiUbmRy9OZptaBVQ7oQnM+LPeAllkM5nswOqoBcTiB5AW1ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oEJ23Act; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=WqsOu2YvbEPE6e5+Va/+FqWdphPuPZ/cjec198Dh+yIHac+WFuj5nLd8FwkRrJ4Ynu92fWRxF+TKw8RS6v0XmL2x77dfbOrNzLReIMiXpha609YkGyZfV1XJldkSwfwDVOeBh4MnwkO86BINIBvRwI38DyGlsvR+h/sZy54tW9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrvRigsu; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEJ23Act"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrvRigsu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730281746; x=1761817746;
+  t=1730282408; x=1761818408;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WnbbGTbi+YoHQvi8+eSxgnRAVgvqGIe+Bn1hg4tgcx4=;
-  b=oEJ23ActjG/shWgOVEibt5cqz1e0up5Nn+r9TFpzeY1Fsd55F3lWhfu2
-   X1qji5ruSER3V6ThYr4sxnm6kW0wn9oAFmVs4v+Ljk8oOwVuzfzyR8WDM
-   PgYLzCkHM2t4FRUIC85KvnRJSfCpk6CHGPBpbq43lGvVYni+9cVMnuNgP
-   UwrhkTyf8KIAVKn2PjFfVpPPxnIhkfebzz/PGKHI1PZsad3tvr5jJQW0E
-   GenWM+cmbyRYDROy1OrX6NcN2MDJA4onMmKmyiha39p/QhJX+yQmwbb98
-   JAjOaC0VvdcORBoQb3ou02sk+Beq7Aj3xioVXYniEuKJ9h1SBterwPSxO
-   A==;
-X-CSE-ConnectionGUID: Bud8h/uuTouth9iQyRyHrg==
-X-CSE-MsgGUID: +EePLxPaToqR5SDPCNwuRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11240"; a="32812458"
-X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; 
-   d="scan'208";a="32812458"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 02:49:05 -0700
-X-CSE-ConnectionGUID: BZCvxGGiT7+EzpTk/BrSyQ==
-X-CSE-MsgGUID: sH2lUlcTTRmbiKptmOPwOQ==
+  bh=+2rUC+oZodItjVLMgJHFowQV9oxa5BnxOdrQw0PuJ9c=;
+  b=QrvRigsu0I3wi8CbbSSyArpPSYaFM8eZNdX8Npxvl8pj+4eviWweJMMq
+   BK9v9899YPJgNuo4MaUVwgOg8C6E6UeNGY7CfNRi93dxneSiWn6gO8qeQ
+   uLc1t1hVROOhdYalxWUOZeunyzqAnYEgYhr4rtK6mh/dT39noKAB9wFbI
+   Tp7S+qcVDIzJP6G6CcNb9ZtVCUdSmF+9UEcmXkTDhJpRPcHs74vvWxmxk
+   3aWL/gSJmRsp/I7hztnYIb/S/3qr6BqCfO5Fizt6u3R+QsEoqULlI90Ej
+   iS00cPwxsCtcZuWi1lwFgUrtj2zq33Omw8gPJLNBqPTDbN178xFgd4W2E
+   Q==;
+X-CSE-ConnectionGUID: yumSLLfXTdOC8eFGOm8a6w==
+X-CSE-MsgGUID: p0hsnMTvRAae8zUZgE9VrQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29739896"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="29739896"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 03:00:07 -0700
+X-CSE-ConnectionGUID: 9Kend+ssSSCoYdGXDqBClA==
+X-CSE-MsgGUID: TqjM95h8T/i5Eig/AByidg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,244,1725346800"; 
-   d="scan'208";a="87400897"
+   d="scan'208";a="82675779"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 30 Oct 2024 02:49:04 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2024 03:00:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t65K1-000eiG-2y;
-	Wed, 30 Oct 2024 09:49:01 +0000
-Date: Wed, 30 Oct 2024 17:48:32 +0800
+	id 1t65Ug-000eiq-1h;
+	Wed, 30 Oct 2024 10:00:02 +0000
+Date: Wed, 30 Oct 2024 17:59:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeffrey Hugo <quic_jhugo@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Carl Vanderlip <quic_carlv@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 6600/7771] drivers/accel/qaic/sahara.c:776:2-7:
- WARNING: NULL check before some freeing functions is not needed.
-Message-ID: <202410301732.abF5Md4e-lkp@intel.com>
+To: Andrey Konovalov <andreyknvl@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Marco Elver <elver@google.com>
+Subject: drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202410301756.eonkDCSy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +65,230 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
-commit: 93accc16a8d45a44e1f51fdf2c6014feedb13d27 [6600/7771] accel/qaic: Add crashdump to Sahara
-config: alpha-randconfig-r064-20241030 (https://download.01.org/0day-ci/archive/20241030/202410301732.abF5Md4e-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   c1e939a21eb111a6d6067b38e8e04b8809b64c4e
+commit: 2e577732e8d28b9183df701fb90cb7943aa4ed16 kasan, fortify: properly rename memintrinsics
+date:   5 months ago
+config: powerpc-randconfig-r122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410301756.eonkDCSy-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241030/202410301756.eonkDCSy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410301732.abF5Md4e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410301756.eonkDCSy-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/accel/qaic/sahara.c:776:2-7: WARNING: NULL check before some freeing functions is not needed.
+sparse warnings: (new ones prefixed by >>)
+   drivers/net/ethernet/freescale/ucc_geth.c:244:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:244:21: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:244:21: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:405:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:405:22: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:405:22: sparse:     got restricted __be16 [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:406:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:406:22: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:406:22: sparse:     got restricted __be16 [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:407:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:407:22: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:407:22: sparse:     got restricted __be16 [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:449:23: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be16 [noderef] [usertype] __iomem *reg @@     got unsigned short [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:449:23: sparse:     expected restricted __be16 [noderef] [usertype] __iomem *reg
+   drivers/net/ethernet/freescale/ucc_geth.c:449:23: sparse:     got unsigned short [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1317:26: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1317:26: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1317:26: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1344:19: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1344:19: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1344:19: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1390:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1390:9: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1390:9: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c:1390:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1390:9: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1390:9: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c:1391:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_ucce @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1391:22: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1391:22: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_ucce
+   drivers/net/ethernet/freescale/ucc_geth.c:1402:36: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_ucce @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1402:36: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1402:36: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_ucce
+   drivers/net/ethernet/freescale/ucc_geth.c:1571:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1571:38: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1571:38: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1636:35: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1636:35: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1636:35: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1824:41: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1824:41: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1824:41: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1839:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1839:50: sparse:     expected void const *objp
+   drivers/net/ethernet/freescale/ucc_geth.c:1839:50: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1864:33: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1864:33: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1864:33: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1876:42: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1876:42: sparse:     expected void const *objp
+   drivers/net/ethernet/freescale/ucc_geth.c:1876:42: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1965:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1965:17: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1965:17: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1965:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1965:17: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1965:17: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1967:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1967:17: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1967:17: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:1967:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:1967:17: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:1967:17: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2013:29: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2013:29: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:2013:29: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c:2016:29: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_ucce @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2016:29: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:2016:29: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_ucce
+   drivers/net/ethernet/freescale/ucc_geth.c:2160:40: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem * @@     got void *_res @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2160:40: sparse:     expected unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2160:40: sparse:     got void *_res
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse:     expected void const *
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse:     expected void const *
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse:     got unsigned char [noderef] [usertype] __iomem *
+>> drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse:     expected void *
+   drivers/net/ethernet/freescale/ucc_geth.c:2168:17: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2188:37: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2188:37: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:2188:37: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2221:40: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned char [noderef] [usertype] __iomem * @@     got void *_res @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2221:40: sparse:     expected unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2221:40: sparse:     got void *_res
+   drivers/net/ethernet/freescale/ucc_geth.c:2248:37: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2248:37: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:2248:37: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2310:32: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [noderef] [usertype] __iomem *upsmr_register @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2310:32: sparse:     expected unsigned int [noderef] [usertype] __iomem *upsmr_register
+   drivers/net/ethernet/freescale/ucc_geth.c:2310:32: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2316:57: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned int [noderef] [usertype] __iomem *upsmr_register @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2316:57: sparse:     expected unsigned int [noderef] [usertype] __iomem *upsmr_register
+   drivers/net/ethernet/freescale/ucc_geth.c:2316:57: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2328:35: sparse: sparse: incorrect type in argument 6 (different base types) @@     expected unsigned int [noderef] [usertype] __iomem *upsmr_register @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2328:35: sparse:     expected unsigned int [noderef] [usertype] __iomem *upsmr_register
+   drivers/net/ethernet/freescale/ucc_geth.c:2328:35: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2376:37: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected unsigned int [noderef] [usertype] __iomem *upsmr_register @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2376:37: sparse:     expected unsigned int [noderef] [usertype] __iomem *upsmr_register
+   drivers/net/ethernet/freescale/ucc_geth.c:2376:37: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2454:64: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *address @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2454:64: sparse:     expected void const volatile *address
+   drivers/net/ethernet/freescale/ucc_geth.c:2454:64: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2457:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *address @@     got unsigned char [noderef] [usertype] __iomem *[assigned] endOfRing @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2457:45: sparse:     expected void const volatile *address
+   drivers/net/ethernet/freescale/ucc_geth.c:2457:45: sparse:     got unsigned char [noderef] [usertype] __iomem *[assigned] endOfRing
+   drivers/net/ethernet/freescale/ucc_geth.c:2677:64: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *address @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2677:64: sparse:     expected void const volatile *address
+   drivers/net/ethernet/freescale/ucc_geth.c:2677:64: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:2944:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:2944:21: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:2944:21: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:3010:46: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] __iomem * @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3010:46: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3010:46: sparse:     got restricted __be32 [noderef] __iomem *
+   drivers/net/ethernet/freescale/ucc_geth.c:3138:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3138:17: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3138:17: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c:3138:17: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3138:17: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3138:17: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c:3159:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_ucce @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3159:34: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3159:34: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_ucce
+   drivers/net/ethernet/freescale/ucc_geth.c:3160:34: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3160:34: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3160:34: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c:3162:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_ucce @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3162:22: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3162:22: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_ucce
+   drivers/net/ethernet/freescale/ucc_geth.c:3168:38: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got restricted __be32 [noderef] [usertype] __iomem *p_uccm @@
+   drivers/net/ethernet/freescale/ucc_geth.c:3168:38: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   drivers/net/ethernet/freescale/ucc_geth.c:3168:38: sparse:     got restricted __be32 [noderef] [usertype] __iomem *p_uccm
+   drivers/net/ethernet/freescale/ucc_geth.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +776 drivers/accel/qaic/sahara.c
+vim +2168 drivers/net/ethernet/freescale/ucc_geth.c
 
-   768	
-   769	static void sahara_mhi_remove(struct mhi_device *mhi_dev)
-   770	{
-   771		struct sahara_context *context = dev_get_drvdata(&mhi_dev->dev);
-   772	
-   773		cancel_work_sync(&context->fw_work);
-   774		cancel_work_sync(&context->dump_work);
-   775		if (context->mem_dump)
- > 776			vfree(context->mem_dump);
-   777		sahara_release_image(context);
-   778		mhi_unprepare_from_transfer(mhi_dev);
-   779	}
-   780	
+728de4c927a354 drivers/net/ucc_geth.c                    Kim Phillips     2007-04-13  2138  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2139  static int ucc_geth_alloc_tx(struct ucc_geth_private *ugeth)
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2140  {
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2141  	struct ucc_geth_info *ug_info;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2142  	struct ucc_fast_info *uf_info;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2143  	int length;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2144  	u16 i, j;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2145  	u8 __iomem *bd;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2146  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2147  	ug_info = ugeth->ug_info;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2148  	uf_info = &ug_info->uf_info;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2149  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2150  	/* Allocate Tx bds */
+53f49d86ea2108 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2151  	for (j = 0; j < ucc_geth_tx_queues(ug_info); j++) {
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2152  		u32 align = max(UCC_GETH_TX_BD_RING_ALIGNMENT,
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2153  				UCC_GETH_TX_BD_RING_SIZE_MEMORY_ALIGNMENT);
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2154  		u32 alloc;
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2155  
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2156  		length = ug_info->bdRingLenTx[j] * sizeof(struct qe_bd);
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2157  		alloc = round_up(length, align);
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2158  		alloc = roundup_pow_of_two(alloc);
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2159  
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2160  		ugeth->p_tx_bd_ring[j] = kmalloc(alloc, GFP_KERNEL);
+64a99fe596f9cb drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2161  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2162  		if (!ugeth->p_tx_bd_ring[j]) {
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2163  			if (netif_msg_ifup(ugeth))
+c84d8055e0c997 drivers/net/ethernet/freescale/ucc_geth.c Joe Perches      2013-04-13  2164  				pr_err("Can not allocate memory for Tx bd rings\n");
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2165  			return -ENOMEM;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2166  		}
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2167  		/* Zero unused end of bd ring, according to spec */
+9b0dfef4755301 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19 @2168  		memset(ugeth->p_tx_bd_ring[j] + length, 0, alloc - length);
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2169  	}
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2170  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2171  	/* Init Tx bds */
+53f49d86ea2108 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2172  	for (j = 0; j < ucc_geth_tx_queues(ug_info); j++) {
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2173  		/* Setup the skbuff rings */
+6da2ec56059c3c drivers/net/ethernet/freescale/ucc_geth.c Kees Cook        2018-06-12  2174  		ugeth->tx_skbuff[j] =
+33deb13c87e561 drivers/net/ethernet/freescale/ucc_geth.c Rasmus Villemoes 2021-01-19  2175  			kcalloc(ugeth->ug_info->bdRingLenTx[j],
+6da2ec56059c3c drivers/net/ethernet/freescale/ucc_geth.c Kees Cook        2018-06-12  2176  				sizeof(struct sk_buff *), GFP_KERNEL);
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2177  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2178  		if (ugeth->tx_skbuff[j] == NULL) {
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2179  			if (netif_msg_ifup(ugeth))
+c84d8055e0c997 drivers/net/ethernet/freescale/ucc_geth.c Joe Perches      2013-04-13  2180  				pr_err("Could not allocate tx_skbuff\n");
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2181  			return -ENOMEM;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2182  		}
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2183  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2184  		ugeth->skb_curtx[j] = ugeth->skb_dirtytx[j] = 0;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2185  		bd = ugeth->confBd[j] = ugeth->txBd[j] = ugeth->p_tx_bd_ring[j];
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2186  		for (i = 0; i < ug_info->bdRingLenTx[j]; i++) {
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2187  			/* clear bd buffer */
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2188  			out_be32(&((struct qe_bd __iomem *)bd)->buf, 0);
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2189  			/* set bd status and length */
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2190  			out_be32((u32 __iomem *)bd, 0);
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2191  			bd += sizeof(struct qe_bd);
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2192  		}
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2193  		bd -= sizeof(struct qe_bd);
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2194  		/* set bd status and length */
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2195  		out_be32((u32 __iomem *)bd, T_W); /* for last BD set Wrap bit */
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2196  	}
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2197  
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2198  	return 0;
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2199  }
+e19a82c18f0e63 drivers/net/ethernet/freescale/ucc_geth.c Paul Gortmaker   2012-02-27  2200  
+
+:::::: The code at line 2168 was first introduced by commit
+:::::: 9b0dfef4755301d9f7fcef63e2f64d23649bebb4 ethernet: ucc_geth: simplify rx/tx allocations
+
+:::::: TO: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+:::::: CC: Jakub Kicinski <kuba@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
