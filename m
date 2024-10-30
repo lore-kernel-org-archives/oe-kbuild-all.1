@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13EB213EEE
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 15:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CB1D1F4737
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 15:44:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730302461; cv=none; b=ew/dP/zkjfN7E2teQZsTKcMEVpwTWjqp5GE6TJ+ijSBtvu3xaPRL5CFeJ+yWfuRkaZloNR7QNj7oCH5DywoBzNqBNxGwr5m3eaj11ffPhuW7Vs2DLCuKSnwXcTSX1TMV/7eYLGeRi2L5NtcavWUhWBFZ3CLgCZQuZ5auG9Zc+RY=
+	t=1730303065; cv=none; b=KZQ0va3DeqlSKGP1yD4exh7FwDzoHqawSWxVNPgmS7maFHTvxm4NELK9Z3Bgn+kpaMal+kSqXEDA8UoOvbsGbnVK9FsM/wNq/mvqFp223VEHJkA4fZQdnLEu7msMH3LVvBxefHues5flFk/9PUfk7D5/l7Iis194MUIMaN1D06E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730302461; c=relaxed/simple;
-	bh=GaAmRc3BwxxU1L5dvHUhCxSaSjaxPeqkKl8v+WTJAjE=;
+	s=arc-20240116; t=1730303065; c=relaxed/simple;
+	bh=TXpOI4ft9tJxiUsSquSOIdflo98HoXqetMHbcECat14=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l5LqY9kPaod1alr+mq+fnDkK/Jk0n17MK1XnRxNJVyaHf1jLFVWgsLh2OEwL7AzWwqOm/g4f7KjlttKTJoQD+KP9mbqAkgFh/ehhMRwLjlYzPsHSYTebNeP+VzIrPZJrfqk5U4sNXEEmRoIu9LptggBbhy7aKNe/UzssIqTSmg0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aB4Jn3x7; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=MfLMC41QpIhyId6nv14zzlGvjpntxutDvgM6PM95q59PDDdhRvOQAVZrKnVsizzxvLVLQIL7YED5dkeVUxnT98/yC7MURHNLTcB5F2qPd8AY9Cnihu8BqMf0vDvwURKFgUqrLwRSQcyWW5sHKM2llDL8ha9wLsXDxtQWwwsY1Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZXeacq7s; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aB4Jn3x7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZXeacq7s"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730302459; x=1761838459;
+  t=1730303062; x=1761839062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GaAmRc3BwxxU1L5dvHUhCxSaSjaxPeqkKl8v+WTJAjE=;
-  b=aB4Jn3x7Th7bh4yLKIfjeh/QsGBZswRs04kfB9MTfJumiFT8MdAo/Tp+
-   zQYcTT8s1AMKDovz4KT5Nq+mlumI+tOVVE6Ap6WC+fyfYwROb6cTPwnhP
-   3ehSGN3P143M4JXAPfD6xhY5S5KoPUQfJDKuMEcEVrWThFygUMDXP/GfR
-   am3yeq/npnUTvoTUN1kz9yktud7+b9teZ4xyOntlRyUBys/Q+Cg5d5D+8
-   DmHiYiKgjQ344p7XbvJ//oM8malnMinD9X+CskbBojF9CJgKscnmaWqaB
-   HAxSHRi5cg7256NDZqZtggAJJKSfbFwJ2w43fF5oTxF0U1ZaNk/Wn+1dp
-   A==;
-X-CSE-ConnectionGUID: R0ypVYkJS3WsoTtrqcfjCQ==
-X-CSE-MsgGUID: ApZBW28/T1aC707blissNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="41381002"
+  bh=TXpOI4ft9tJxiUsSquSOIdflo98HoXqetMHbcECat14=;
+  b=ZXeacq7snytkGKDgdXrlAPQh7Gi8poEKPCzN21TgDuC6PkZPMuxrzK6n
+   HaNVCYMSzBuwsVzOU/5qhEMX451Yv8liUh+3hakrcnwZf7mRg4xmhg3pJ
+   xhXyZgUi7vwhncWu1Eb+W1Evcmu8rXOV4/dr9D8tUPju9FydRVvld/2Xy
+   uaJfM3vU7/1BP82amd+aw69RIB1lr0RhR16AUzkBjwuAATmpOuZZWqP2x
+   wSYcJf85T9640yL3yztsVXCUyue4J3cX/CiS5OFGafef0nYh+5aBKA3cm
+   jatcGARUqOaVH/xp2FYuxenmBVD6j9iYt7uRFNVnC0B2XKh0rNHZPxrjK
+   w==;
+X-CSE-ConnectionGUID: 3H8qoeBcSJ611Tkw9dN9Mg==
+X-CSE-MsgGUID: OH2fg9R8Sc+MvMcHu39bXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="47488128"
 X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="41381002"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 08:34:18 -0700
-X-CSE-ConnectionGUID: +NtuYCp7RhG+V1JcwVDgNQ==
-X-CSE-MsgGUID: EC45ypDdRMeF0GHh531pRQ==
+   d="scan'208";a="47488128"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 08:44:22 -0700
+X-CSE-ConnectionGUID: FoZSwGcFQuy8tt6kY9dizQ==
+X-CSE-MsgGUID: P1RUMfTxS1mrwzK1wuq9SQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="86900275"
+   d="scan'208";a="82772196"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Oct 2024 08:34:17 -0700
+  by orviesa007.jf.intel.com with ESMTP; 30 Oct 2024 08:44:17 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6Ai7-000f0e-03;
-	Wed, 30 Oct 2024 15:34:15 +0000
-Date: Wed, 30 Oct 2024 23:33:37 +0800
+	id 1t6Arn-000f1E-0q;
+	Wed, 30 Oct 2024 15:44:15 +0000
+Date: Wed, 30 Oct 2024 23:44:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-kiwi-6.1 2277/26644] fs/incfs/verity.c:167
- incfs_calc_verity_digest_from_desc() warn: unsigned 'incfs_hash_alg' is
- never less than zero.
-Message-ID: <202410302318.9HhtWR63-lkp@intel.com>
+Subject: [opencloudos:next 18/98] net/toa/toa.c:122:33: sparse: sparse:
+ incorrect type in initializer (different address spaces)
+Message-ID: <202410302307.kyiYVfnp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +66,130 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-kiwi-6.1
-head:   cc3c1ec57c62cf6ce4db5d9a5e6f9980885c4fb3
-commit: ca9597811d3918855d51caf88f8e73c68fd6fe7c [2277/26644] ANDROID: Incremental fs: Add FS_IOC_ENABLE_VERITY
-config: i386-randconfig-141-20241029 (https://download.01.org/0day-ci/archive/20241030/202410302318.9HhtWR63-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 7384d821f268ce4c725e0f6649838794368ca071 [18/98] tkernel: net: add toa support
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241030/202410302307.kyiYVfnp-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241030/202410302307.kyiYVfnp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410302318.9HhtWR63-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410302307.kyiYVfnp-lkp@intel.com/
 
-smatch warnings:
-fs/incfs/verity.c:167 incfs_calc_verity_digest_from_desc() warn: unsigned 'incfs_hash_alg' is never less than zero.
-fs/incfs/verity.c:167 incfs_calc_verity_digest_from_desc() warn: error code type promoted to positive: 'incfs_hash_alg'
+sparse warnings: (new ones prefixed by >>)
+   net/toa/toa.c:28:24: sparse: sparse: symbol 'toa_stats' was not declared. Should it be static?
+>> net/toa/toa.c:122:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:122:33: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:122:33: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:126:47: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] sin_port @@     got unsigned short [addressable] [usertype] port @@
+   net/toa/toa.c:126:47: sparse:     expected restricted __be16 [usertype] sin_port
+   net/toa/toa.c:126:47: sparse:     got unsigned short [addressable] [usertype] port
+   net/toa/toa.c:127:54: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] s_addr @@     got unsigned int [addressable] [usertype] ip @@
+   net/toa/toa.c:127:54: sparse:     expected restricted __be32 [usertype] s_addr
+   net/toa/toa.c:127:54: sparse:     got unsigned int [addressable] [usertype] ip
+   net/toa/toa.c:129:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:129:33: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:129:33: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:134:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:134:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:134:25: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:137:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:137:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:137:17: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:162:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:162:33: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:162:33: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:163:48: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] sin6_port @@     got unsigned short [addressable] [usertype] port @@
+   net/toa/toa.c:163:48: sparse:     expected restricted __be16 [usertype] sin6_port
+   net/toa/toa.c:163:48: sparse:     got unsigned short [addressable] [usertype] port
+   net/toa/toa.c:164:94: sparse: sparse: incorrect type in argument 5 (different base types) @@     expected restricted __be32 [usertype] w4 @@     got unsigned int [addressable] [usertype] ip @@
+   net/toa/toa.c:164:94: sparse:     expected restricted __be32 [usertype] w4
+   net/toa/toa.c:164:94: sparse:     got unsigned int [addressable] [usertype] ip
+   net/toa/toa.c:166:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:166:33: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:166:33: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:169:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:169:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:169:25: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:172:17: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:172:17: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:172:17: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:206:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:206:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:206:25: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:208:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:208:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:208:25: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:234:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:234:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:234:25: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:236:25: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:236:25: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:236:25: sparse:     got struct toa_stat_mib *
+   net/toa/toa.c:342:65: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct toa_stat_mib * @@
+   net/toa/toa.c:342:65: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/toa/toa.c:342:65: sparse:     got struct toa_stat_mib *
+>> net/toa/toa.c:374:19: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct toa_stat_mib *[addressable] [toplevel] ext_stats @@     got struct toa_stat_mib [noderef] __percpu * @@
+   net/toa/toa.c:374:19: sparse:     expected struct toa_stat_mib *[addressable] [toplevel] ext_stats
+   net/toa/toa.c:374:19: sparse:     got struct toa_stat_mib [noderef] __percpu *
+>> net/toa/toa.c:389:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got struct toa_stat_mib *[addressable] [toplevel] ext_stats @@
+   net/toa/toa.c:389:29: sparse:     expected void [noderef] __percpu *__pdata
+   net/toa/toa.c:389:29: sparse:     got struct toa_stat_mib *[addressable] [toplevel] ext_stats
+>> net/toa/toa.c:404:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got struct toa_stat_mib *[addressable] [assigned] [toplevel] ext_stats @@
+   net/toa/toa.c:404:29: sparse:     expected void [noderef] __percpu *__pdata
+   net/toa/toa.c:404:29: sparse:     got struct toa_stat_mib *[addressable] [assigned] [toplevel] ext_stats
 
-vim +/incfs_hash_alg +167 fs/incfs/verity.c
+vim +122 net/toa/toa.c
 
-   151	
-   152	/*
-   153	 * Calculate the digest of the fsverity_descriptor. The signature (if present)
-   154	 * is also checked.
-   155	 */
-   156	static struct mem_range incfs_calc_verity_digest_from_desc(
-   157						const struct inode *inode,
-   158						struct fsverity_descriptor *desc,
-   159						u8 *signature, size_t sig_size)
-   160	{
-   161		enum incfs_hash_tree_algorithm incfs_hash_alg;
-   162		struct mem_range verity_file_digest;
-   163		int err;
-   164		struct incfs_hash_alg *hash_alg;
-   165	
-   166		incfs_hash_alg = incfs_convert_fsverity_hash_alg(desc->hash_algorithm);
- > 167		if (incfs_hash_alg < 0)
-   168			return range(ERR_PTR(incfs_hash_alg), 0);
-   169	
-   170		hash_alg = incfs_get_hash_alg(incfs_hash_alg);
-   171		if (IS_ERR(hash_alg))
-   172			return range((u8 *)hash_alg, 0);
-   173	
-   174		verity_file_digest = range(kzalloc(hash_alg->digest_size, GFP_KERNEL),
-   175					   hash_alg->digest_size);
-   176		if (!verity_file_digest.data)
-   177			return range(ERR_PTR(-ENOMEM), 0);
-   178	
-   179		err = incfs_compute_file_digest(hash_alg, desc,
-   180						verity_file_digest.data);
-   181		if (err) {
-   182			pr_err("Error %d computing file digest", err);
-   183			goto out;
-   184		}
-   185		pr_debug("Computed file digest: %s:%*phN\n",
-   186			 hash_alg->name, (int) verity_file_digest.len,
-   187			 verity_file_digest.data);
-   188	
-   189		err = __fsverity_verify_signature(inode, signature, sig_size,
-   190						  verity_file_digest.data,
-   191						  desc->hash_algorithm);
-   192	out:
-   193		if (err) {
-   194			kfree(verity_file_digest.data);
-   195			verity_file_digest = range(ERR_PTR(err), 0);
-   196		}
-   197		return verity_file_digest;
-   198	}
-   199	
+    96	
+    97	/* get client ip from socket
+    98	 * @param sock [in] the socket to getpeername() or getsockname()
+    99	 * @param uaddr [out] the place to put client ip, port
+   100	 * @param uaddr_len [out] lenth of @uaddr
+   101	 * @peer [in] if(peer), try to get remote address; if(!peer), try to get local address
+   102	 * @return return what the original inet_getname() returns.
+   103	 */
+   104	static int
+   105	inet_getname_toa(struct socket *sock, struct sockaddr *uaddr, int peer)
+   106	{
+   107		int retval = 0;
+   108		struct sock *sk = sock->sk;
+   109		struct sockaddr_in *sin = (struct sockaddr_in *)uaddr;
+   110		struct toa_data tdata;
+   111	
+   112		//TOA_DBG("inet_getname_toa called, sk->sk_user_data is %p\n", sk->sk_user_data);
+   113	
+   114		/* call orginal one */
+   115		retval = inet_getname(sock, uaddr, peer);
+   116	
+   117		/* set our value if need */
+   118		if (retval == 0 && NULL != sk->sk_user_data && peer) {
+   119			if (sock_def_readable == sk->sk_data_ready) {
+   120				memcpy(&tdata, &sk->sk_user_data, sizeof (tdata));
+   121				if (TCPOPT_TOA == tdata.opcode && TCPOLEN_TOA == tdata.opsize) {
+ > 122					TOA_INC_STATS(ext_stats, GETNAME_TOA_OK_CNT);
+   123					//TOA_DBG("inet_getname_toa: set new sockaddr, ip %u.%u.%u.%u -> %u.%u.%u.%u, port %u -> %u\n",
+   124					//		NIPQUAD(sin->sin_addr.s_addr), NIPQUAD(tdata.ip), ntohs(sin->sin_port),
+   125					//		ntohs(tdata.port));
+   126					sin->sin_port = tdata.port;
+   127					sin->sin_addr.s_addr = tdata.ip;
+   128				} else { /* sk_user_data doesn't belong to us */
+   129					TOA_INC_STATS(ext_stats, GETNAME_TOA_MISMATCH_CNT);
+   130					//TOA_DBG("inet_getname_toa: invalid toa data, ip %u.%u.%u.%u port %u opcode %u opsize %u\n",
+   131					//		NIPQUAD(tdata.ip), ntohs(tdata.port), tdata.opcode, tdata.opsize);
+   132				}
+   133			} else {
+   134				TOA_INC_STATS(ext_stats, GETNAME_TOA_BYPASS_CNT);
+   135			}
+   136		} else { /* no need to get client ip */
+   137			TOA_INC_STATS(ext_stats, GETNAME_TOA_EMPTY_CNT);
+   138		}
+   139	
+   140		return retval;
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
