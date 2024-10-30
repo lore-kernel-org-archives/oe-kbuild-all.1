@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C2981BD9DB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 19:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA581CFEB0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 19:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730316755; cv=none; b=qM2S13fw/IPQhXMWubYKofTO1HfcN9xXO5ETY86grLSNjnOfHROMGsAfzeA9XrD8bINT492kkXla/EskqJTzffux5EdXxwcYsypGREocCIRotJ7nwc+i2XIsoN9inJVQUrDEtTXtMkhDeOPXYUql0M8zzjvY+gQNAuMXPZZE0AE=
+	t=1730318016; cv=none; b=i3MFCgJ7xICXqNIY1FUt8pRnw298ExYonFI4g8LVcF2Je8u8pGpToe70zNLhvSeB2TtKZgYy8DuYNhov6Bars7zBBV89CaBM67ohwgmzjptg/WXVXeAjCMjO8ZhnNmvB1tdRADcaz+/zSfv+dXSbY6W/pAppxdWWeLnk/NZ+1Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730316755; c=relaxed/simple;
-	bh=AfOtZ7kIluqU4q4WWWEi8/u+/+o1y+rhkRXigyugOUY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BBGecbRmxGe9ILtlk7lFkspfxpTukRzcqt50ut7e2faGWSoaChUCNQeYznBYhkQCyHhB4v+lPPxqQgZI275BMFvqa1ZYA7W78zk776zgks8Tc+dGcz4N2dxfs2r1u8gyD3k0sQHshdCKwMRLYpPCT0n7AWRhn8xVB8FGQ45gKRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=flHjxmFS; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1730318016; c=relaxed/simple;
+	bh=wyt0dBMKgnMl5ZM1MfC4za/eAJFFeRWrQfZ8t4y/fYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TjetlmSKi/6ihwcsIRTJGNQ6aD330b2CCN1X+j7yImQ3nqxcXncKrkhKMvWvjXkmt7VmfmL11ZjRj5J0m/j2pj6eskM2UwpFhROsevMIZ20gdh0aVtB47hUZat/WgewlLJgUsHWJwXd5A7vOH0SgUEdHJFfL/0FIU8izg7hN7Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SCcvWB4X; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="flHjxmFS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SCcvWB4X"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730316753; x=1761852753;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AfOtZ7kIluqU4q4WWWEi8/u+/+o1y+rhkRXigyugOUY=;
-  b=flHjxmFSRAgljxtVXxoAzJ+6rpYFEYwa6fOBoR5nVqJd6D/bmylKjDJy
-   S6bc2MGfMRFVrRRqASeaDwvJ7r3YRj2+HDNv+qbmdXGoRudeET1M4gJY8
-   rEwl5B9CIPvOHXifebbDmXC3Yc+kZ7pSAsQZIwOhjc7D0+UOTo87/LOKO
-   vf1RviTd6MdIurkC5QU6MyqkqvKH9fcD8zlGd/MmUoSRq2BXepvnjNnL1
-   p81olNcs+HJwEyPbpuhw3i7SzCrCkad+R76YVfkePcpIWLlPhjD7En1JZ
-   k1kvJqM2YNk91YoI/O8l5KXaHA2G+1Y5fdeGgmQ5nXsBmJqb5kCevIevu
-   g==;
-X-CSE-ConnectionGUID: sIzTPyCcSsGi3XTTewCrxA==
-X-CSE-MsgGUID: eWaLSW6WSc6rLolDvOil/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40573690"
+  t=1730318014; x=1761854014;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wyt0dBMKgnMl5ZM1MfC4za/eAJFFeRWrQfZ8t4y/fYM=;
+  b=SCcvWB4XUSRxEwUrqgzbQDQ71Rb3PvuRQlNDZWTksqbQnOdJU63CY8o+
+   /KLmYB1ihHi33B6t2C/570auLuEFZVVSLMUXw+NPIHInHMqnCRKlcqLWg
+   gW7bwyMW0dhNrnCvxPwJhDyWYE+brAb40lJeuEQ90Pe/vATxgZx/506xa
+   YrqzblJSq/KfAXpyLuTGNqwKVhu4vO4OEfbvYkfpuYwYHBhr2g7H76wcY
+   gB3pqJ1h+XmSlVFSlmTnDxF7c/RedDaYN3JiH5PijwTN0Wcjl4B3E3qnn
+   gYwzOi4c9XEHG3Omf+teRYuKOuZwBwJ0jSN2wPWzigNn6ZBdyc4RxjurY
+   A==;
+X-CSE-ConnectionGUID: TRBDDE4uQTCBVCNv469zsg==
+X-CSE-MsgGUID: pMulfIFVQ0KP6jhzEAwohA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30232636"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40573690"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:32:33 -0700
-X-CSE-ConnectionGUID: uN4nm01tQWewpX79kCYUEQ==
-X-CSE-MsgGUID: ydUilZPORlqZC+JF6Qc8Og==
+   d="scan'208";a="30232636"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 12:53:34 -0700
+X-CSE-ConnectionGUID: vSzTMaDxR56N3mVuaCpRoA==
+X-CSE-MsgGUID: I+tDLQUZRwSJNEDQJmbdSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,245,1725346800"; 
-   d="scan'208";a="83234140"
+   d="scan'208";a="86358492"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Oct 2024 12:32:31 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 30 Oct 2024 12:53:31 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6EQe-000fEw-2Q;
-	Wed, 30 Oct 2024 19:32:28 +0000
-Date: Thu, 31 Oct 2024 03:31:34 +0800
+	id 1t6Ekz-000fFo-1b;
+	Wed, 30 Oct 2024 19:53:29 +0000
+Date: Thu, 31 Oct 2024 03:53:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1 6541/26413]
- arch/arm64/kvm/hyp/nvhe/clock.c:39:undefined reference to
- `__kvm_nvhe___lshrti3'
-Message-ID: <202410310347.NQunIQ3S-lkp@intel.com>
+To: Chris Packham <chris.packham@alliedtelesis.co.nz>, broonie@kernel.org,
+	miquel.raynal@bootlin.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	linux-mtd@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Chris Packham <chris.packham@alliedtelesis.co.nz>
+Subject: Re: [PATCH] spi: spi-mem: rtl-snand: Correctly handle DMA transfers
+Message-ID: <202410310358.GyKQwhxO-lkp@intel.com>
+References: <20241029215159.1975844-1-chris.packham@alliedtelesis.co.nz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +65,126 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241029215159.1975844-1-chris.packham@alliedtelesis.co.nz>
 
-Hi Vincent,
+Hi Chris,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1
-head:   19b68814b1cd60c40546f31f7cc5b7895c0b013b
-commit: 022b2198fc73b7b95231730eb944d74c7f1b253c [6541/26413] ANDROID: KVM: arm64: Add clock support in the nVHE hyp
-config: arm64-randconfig-002-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310347.NQunIQ3S-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310347.NQunIQ3S-lkp@intel.com/reproduce)
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on next-20241030]
+[cannot apply to linus/master v6.12-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Packham/spi-spi-mem-rtl-snand-Correctly-handle-DMA-transfers/20241030-055313
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20241029215159.1975844-1-chris.packham%40alliedtelesis.co.nz
+patch subject: [PATCH] spi: spi-mem: rtl-snand: Correctly handle DMA transfers
+config: nios2-randconfig-r131-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310358.GyKQwhxO-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241031/202410310358.GyKQwhxO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410310347.NQunIQ3S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410310358.GyKQwhxO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-realtek-rtl-snand.c:252:21: sparse: sparse: incorrect type in assignment (different modifiers) @@     expected void *[assigned] buf @@     got void const *const out @@
+   drivers/spi/spi-realtek-rtl-snand.c:252:21: sparse:     expected void *[assigned] buf
+   drivers/spi/spi-realtek-rtl-snand.c:252:21: sparse:     got void const *const out
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
->> aarch64-linux-ld: ID map text too big or misaligned
-   aarch64-linux-ld: arch/arm64/kvm/hyp/nvhe/kvm_nvhe.o: in function `trace_clock':
->> arch/arm64/kvm/hyp/nvhe/clock.c:39:(.hyp.text+0x13b98): undefined reference to `__kvm_nvhe___lshrti3'
+vim +252 drivers/spi/spi-realtek-rtl-snand.c
 
-
-vim +39 arch/arm64/kvm/hyp/nvhe/clock.c
-
-    21	
-    22	/*
-    23	 * This clock is relying on host provided slope and epoch values to return
-    24	 * something synchronized with the host. The downside is we can't trust the
-    25	 * output which must not be used for anything else than debugging.
-    26	 */
-    27	u64 trace_clock(void)
-    28	{
-    29		u64 cyc = __arch_counter_get_cntpct() - trace_clock_data.epoch_cyc;
-    30		__uint128_t ns;
-    31	
-    32		/*
-    33		 * The host kernel can avoid the 64-bits overflow of the multiplication
-    34		 * by updating the epoch value with a timer (see
-    35		 * kernel/time/clocksource.c). The hypervisor doesn't have that option,
-    36		 * so let's do a more costly 128-bits mult here.
-    37		 */
-    38		ns = (__uint128_t)cyc * trace_clock_data.mult;
-  > 39		ns >>= trace_clock_data.shift;
+   231	
+   232	static int rtl_snand_dma_xfer(struct rtl_snand *snand, int cs, const struct spi_mem_op *op)
+   233	{
+   234		unsigned int pos, nbytes;
+   235		int ret;
+   236		dma_addr_t buf_dma;
+   237		enum dma_data_direction dir;
+   238		u32 trig, len, maxlen;
+   239		void *buf;
+   240	
+   241		ret = rtl_snand_xfer_head(snand, cs, op);
+   242		if (ret)
+   243			goto out_deselect;
+   244	
+   245		if (op->data.dir == SPI_MEM_DATA_IN) {
+   246			maxlen = 2080;
+   247			buf = op->data.buf.in;
+   248			dir = DMA_FROM_DEVICE;
+   249			trig = 0;
+   250		} else if (op->data.dir == SPI_MEM_DATA_OUT) {
+   251			maxlen = 520;
+ > 252			buf = op->data.buf.out;
+   253			dir = DMA_TO_DEVICE;
+   254			trig = 1;
+   255		} else {
+   256			ret = -EOPNOTSUPP;
+   257			goto out_deselect;
+   258		}
+   259	
+   260		buf_dma = dma_map_single(snand->dev, buf, op->data.nbytes, dir);
+   261		ret = dma_mapping_error(snand->dev, buf_dma);
+   262		if (ret)
+   263			goto out_deselect;
+   264	
+   265		ret = regmap_write(snand->regmap, SNAFDIR, SNAFDIR_DMA_IP);
+   266		if (ret)
+   267			goto out_unmap;
+   268	
+   269		ret = regmap_update_bits(snand->regmap, SNAFCFR, SNAFCFR_DMA_IE, SNAFCFR_DMA_IE);
+   270		if (ret)
+   271			goto out_unmap;
+   272	
+   273		pos = 0;
+   274		len = op->data.nbytes;
+   275	
+   276		while (pos < len) {
+   277			nbytes = len - pos;
+   278			if (nbytes > maxlen)
+   279				nbytes = maxlen;
+   280	
+   281			reinit_completion(&snand->comp);
+   282	
+   283			ret = regmap_write(snand->regmap, SNAFDRSAR, buf_dma + pos);
+   284			if (ret)
+   285				goto out_disable_int;
+   286	
+   287			pos += nbytes;
+   288	
+   289			ret = regmap_write(snand->regmap, SNAFDLR,
+   290					CMR_WID(op->data.buswidth) | nbytes);
+   291			if (ret)
+   292				goto out_disable_int;
+   293	
+   294			ret = regmap_write(snand->regmap, SNAFDTR, trig);
+   295			if (ret)
+   296				goto out_disable_int;
+   297	
+   298			if (!wait_for_completion_timeout(&snand->comp, usecs_to_jiffies(20000)))
+   299				ret = -ETIMEDOUT;
+   300	
+   301			if (ret)
+   302				goto out_disable_int;
+   303		}
+   304	
+   305	out_disable_int:
+   306		regmap_update_bits(snand->regmap, SNAFCFR, SNAFCFR_DMA_IE, 0);
+   307	out_unmap:
+   308		dma_unmap_single(snand->dev, buf_dma, op->data.nbytes, dir);
+   309	out_deselect:
+   310		rtl_snand_xfer_tail(snand, cs);
+   311	
+   312		if (ret)
+   313			dev_err(snand->dev, "transfer failed %d\n", ret);
+   314	
+   315		return ret;
+   316	}
+   317	
 
 -- 
 0-DAY CI Kernel Test Service
