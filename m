@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80371DF739
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 22:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6B5A1925AE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 22:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730327323; cv=none; b=GUD38qm6U3TPWlYKWUcurKYNkm8UIoKZ3QOMczOmt3i5N/KycS0RMuQ9gkdD0hOLqysc4AtpV5A2Gmi8Tr3yE4W0xy81wLC0IxzF3/+Jcpdyg6dvE/WTfVWSv68M3ptw5Z49vDe9e2nPuOlZqQEOWYY+PQLEkKRR+1n5lVFFHew=
+	t=1730327924; cv=none; b=WBHZhooe3aydMlJcwqtl7zavBIBcJnNssR3XlKd6TQv68x5eSr/E7W/NBKzId4JTGQ8elAqludXEieuPMgG79AprMyg1nLZ6T21lXQF+8qjh2w8V/v1oI/FJ05ONc16iRYgTKxPzh6Ijbh0jSCZVNhZJp28tt/+7Y4AmsHsjwzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730327323; c=relaxed/simple;
-	bh=8oxlKsxxH/ENnQPhtfR4Rv3kgVo13eY4L7SQ2efkJM0=;
+	s=arc-20240116; t=1730327924; c=relaxed/simple;
+	bh=efev1ajDId2X/RSwWcKutHudEWtsFOm0zje75MYofoU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LDZ3GPPcZ1LPDCE4XZlG/bUY7AuJeHox475e0MXy3dGJRGaWo1BHc4/Xj4H/vofk71dRyrVeZQIpCvIZgGR2R5T01APUI7rbASlPCqyStB/MzNWO4RKzo80329pwsHGoWuX8o6B6l6wupxxSXYAEZtQxGnHLgxzo54UfzyJQjuY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZIzPCBOr; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ltJnuV57CC3zbyRgOwxcD8B6de7y0RlkrxIZTc/kMl3er765JNPpDthqJ6cuNBSj90twIkfi5pSeJ/ET5W3+vBFMkP4PE2Oad5Vw2lGmK9kkSJhpKohiX680A0C3qHCY2tqXRLTJis73Sd/2xa0hvV7xQIe4YilhJW4gQnQz/T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEUaArU2; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZIzPCBOr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEUaArU2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730327320; x=1761863320;
+  t=1730327921; x=1761863921;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8oxlKsxxH/ENnQPhtfR4Rv3kgVo13eY4L7SQ2efkJM0=;
-  b=ZIzPCBOrA8xa3l/7NU84NvDBzynX8lIEVsRr3XrNVCU/2YkDiNf6arh9
-   3hqDaqnGgWdxuGOG/NtKSwUhra1CNVlNCGteq7JEk3oaKhkeQBzU6bBQk
-   jWBurmRxZUscBgdjJLEs6/YvVXSKhDfArVghm/AN4UsJJboYLNEDUgJnn
-   TQLXnPZZf8m1aa9i7XhC35nu3zKfzBnurIO+/Og0vDNi1pYjKGIX6YhlI
-   SK7dDh2ZAdwNy4H6+/iUs5VKSBQ8b/dZY9kmWj8MNpOGRsn4E/1Q9EXgi
-   MURv1AU21lX0X5HE76Emxd/fTlS/HMrl/oEEQNVt0dDSmucE54l/gR8pS
+  bh=efev1ajDId2X/RSwWcKutHudEWtsFOm0zje75MYofoU=;
+  b=FEUaArU2YwfDAhewUODvFKooUfrf3ebtrlWPc9NFl3my++RVmSAN/Z2Y
+   g/Mft+J/iSHmhRZvpiNEUZsCx1nKPhmLPWUYSh1maqZ7PDYk47FxJ7YPq
+   lyURiMZGJMBFMZWtdN+9jgeKdyqdBmTslbxj40dV4NfsEbzgRwcFt9E7C
+   wzpMBJoaeHJCx++RipFIJ6wsYE5ff40MjWltWo050iBKmqrhke4DOOAFo
+   oHlzjzaYSqQ6Nk631bi69BAzQAoxEEg18urqUBN9RbN/fFxD0jJxZTCWE
+   r/lKldcvFrGLQVI89sM0LR++vEn50g7avGV9pIXKSUB3u30zD3b3EgZMF
    w==;
-X-CSE-ConnectionGUID: kbBzEnY6RxuvT1Tlw3cwiw==
-X-CSE-MsgGUID: +kVKDMvfRp+WGHWxFXG+0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="30157761"
+X-CSE-ConnectionGUID: LaYB+8X8Rs6JDaD3tY3PKw==
+X-CSE-MsgGUID: /Vtsoi6qSkmK6mrpAFRiUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="30266142"
 X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
-   d="scan'208";a="30157761"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 15:28:39 -0700
-X-CSE-ConnectionGUID: DLBIVnwcSKKy08ompBo0nQ==
-X-CSE-MsgGUID: bB0ZiBl/TfSjzQTePw17/Q==
+   d="scan'208";a="30266142"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 15:38:39 -0700
+X-CSE-ConnectionGUID: bQAXuYkURrqUmSPAqbsrYw==
+X-CSE-MsgGUID: GmzEn74EQG2U14LHWye59A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,246,1725346800"; 
-   d="scan'208";a="86390617"
+   d="scan'208";a="105774934"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 30 Oct 2024 15:28:37 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 30 Oct 2024 15:38:38 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6HB5-000fNQ-1v;
-	Wed, 30 Oct 2024 22:28:35 +0000
-Date: Thu, 31 Oct 2024 06:28:17 +0800
+	id 1t6HKl-000fNk-2j;
+	Wed, 30 Oct 2024 22:38:35 +0000
+Date: Thu, 31 Oct 2024 06:38:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 49/53] include/linux/blkdev.h:1390:13: error: no
- member named 'conv_zones_bitmap' in 'struct gendisk'
-Message-ID: <202410310648.GaLVqiXZ-lkp@intel.com>
+Subject: [hch-xfs:xfs-zoned 49/53] include/linux/blkdev.h:1390:18: error:
+ 'struct gendisk' has no member named 'conv_zones_bitmap'
+Message-ID: <202410310625.mbht8XXR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,360 +65,135 @@ Content-Disposition: inline
 tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
 head:   feb9371f18af51326c82c6d16cacb9db79717f98
 commit: 8b88887562ef99311b5d6846095076ef74d3870f [49/53] block: add a public bdev_zone_is_seq helper
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241031/202410310648.GaLVqiXZ-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310648.GaLVqiXZ-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241031/202410310625.mbht8XXR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410310625.mbht8XXR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410310648.GaLVqiXZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410310625.mbht8XXR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from mm/page-writeback.c:20:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/page-writeback.c:28:
->> include/linux/blkdev.h:1390:13: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   In file included from fs/f2fs/f2fs.h:23,
+                    from fs/f2fs/dir.c:13:
+   include/linux/blkdev.h: In function 'bdev_zone_is_seq':
+>> include/linux/blkdev.h:1390:18: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
     1390 |         if (!disk->conv_zones_bitmap)
-         |              ~~~~  ^
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+         |                  ^~
+   In file included from include/linux/thread_info.h:27,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/f2fs/dir.c:9:
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:45:37: note: expanded from macro 'bitop'
+         |                                                          ^~
+   include/linux/bitops.h:45:44: note: in definition of macro 'bitop'
       45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
          |                                            ^~~~
-   In file included from mm/page-writeback.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:46:16: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:46:23: note: in definition of macro 'bitop'
       46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
          |                       ^~~~
-   In file included from mm/page-writeback.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:47:50: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:47:57: note: in definition of macro 'bitop'
       47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
          |                                                         ^~~~
-   In file included from mm/page-writeback.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:17: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:48:24: note: in definition of macro 'bitop'
       48 |          const##op(nr, addr) : op(nr, addr))
          |                        ^~~~
-   In file included from mm/page-writeback.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:32: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:48:39: note: in definition of macro 'bitop'
       48 |          const##op(nr, addr) : op(nr, addr))
          |                                       ^~~~
-   In file included from mm/page-writeback.c:40:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   6 warnings and 6 errors generated.
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                 ^~~~~~~~
 --
-   In file included from mm/vmscan.c:15:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/vmscan.c:28:
->> include/linux/blkdev.h:1390:13: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   In file included from fs/f2fs/data.c:14:
+   include/linux/blkdev.h: In function 'bdev_zone_is_seq':
+>> include/linux/blkdev.h:1390:18: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
     1390 |         if (!disk->conv_zones_bitmap)
-         |              ~~~~  ^
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+         |                  ^~
+   In file included from include/linux/thread_info.h:27,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from fs/f2fs/data.c:8:
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:45:37: note: expanded from macro 'bitop'
+         |                                                          ^~
+   include/linux/bitops.h:45:44: note: in definition of macro 'bitop'
       45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
          |                                            ^~~~
-   In file included from mm/vmscan.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:46:16: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:46:23: note: in definition of macro 'bitop'
       46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
          |                       ^~~~
-   In file included from mm/vmscan.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:47:50: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:47:57: note: in definition of macro 'bitop'
       47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
          |                                                         ^~~~
-   In file included from mm/vmscan.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:17: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:48:24: note: in definition of macro 'bitop'
       48 |          const##op(nr, addr) : op(nr, addr))
          |                        ^~~~
-   In file included from mm/vmscan.c:28:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:32: note: expanded from macro 'bitop'
+         |                 ^~~~~~~~
+   include/linux/blkdev.h:1392:58: error: 'struct gendisk' has no member named 'conv_zones_bitmap'
+    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
+         |                                                          ^~
+   include/linux/bitops.h:48:39: note: in definition of macro 'bitop'
       48 |          const##op(nr, addr) : op(nr, addr))
          |                                       ^~~~
-   In file included from mm/vmscan.c:30:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:401:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     401 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
-   mm/vmscan.c:1729:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    1729 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
-     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   mm/vmscan.c:2234:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2234 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
-         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
-   mm/vmscan.c:2235:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2235 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
-         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
-   mm/vmscan.c:6250:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
-    6250 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:139:34: note: expanded from macro '__count_zid_vm_events'
-     139 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
-         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   11 warnings and 6 errors generated.
---
-   In file included from mm/madvise.c:9:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/madvise.c:21:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
-   In file included from mm/madvise.c:27:
->> include/linux/blkdev.h:1390:13: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1390 |         if (!disk->conv_zones_bitmap)
-         |              ~~~~  ^
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
+   include/linux/blkdev.h:1392:17: note: in expansion of macro 'test_bit'
     1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:45:37: note: expanded from macro 'bitop'
-      45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
-         |                                            ^~~~
-   In file included from mm/madvise.c:27:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:46:16: note: expanded from macro 'bitop'
-      46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
-         |                       ^~~~
-   In file included from mm/madvise.c:27:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:47:50: note: expanded from macro 'bitop'
-      47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
-         |                                                         ^~~~
-   In file included from mm/madvise.c:27:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:17: note: expanded from macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                        ^~~~
-   In file included from mm/madvise.c:27:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:32: note: expanded from macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                                       ^~~~
-   6 warnings and 6 errors generated.
---
-   In file included from mm/page_io.c:14:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/page_io.c:22:
->> include/linux/blkdev.h:1390:13: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1390 |         if (!disk->conv_zones_bitmap)
-         |              ~~~~  ^
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:45:37: note: expanded from macro 'bitop'
-      45 |           __builtin_constant_p((uintptr_t)(addr) != (uintptr_t)NULL) && \
-         |                                            ^~~~
-   In file included from mm/page_io.c:22:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:46:16: note: expanded from macro 'bitop'
-      46 |           (uintptr_t)(addr) != (uintptr_t)NULL &&                       \
-         |                       ^~~~
-   In file included from mm/page_io.c:22:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:47:50: note: expanded from macro 'bitop'
-      47 |           __builtin_constant_p(*(const unsigned long *)(addr))) ?       \
-         |                                                         ^~~~
-   In file included from mm/page_io.c:22:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:17: note: expanded from macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                        ^~~~
-   In file included from mm/page_io.c:22:
-   include/linux/blkdev.h:1392:53: error: no member named 'conv_zones_bitmap' in 'struct gendisk'
-    1392 |         return !test_bit(disk_zone_no(disk, sector), disk->conv_zones_bitmap);
-         |                                                      ~~~~  ^
-   include/linux/bitops.h:61:50: note: expanded from macro 'test_bit'
-      61 | #define test_bit(nr, addr)              bitop(_test_bit, nr, addr)
-         |                                                              ^~~~
-   include/linux/bitops.h:48:32: note: expanded from macro 'bitop'
-      48 |          const##op(nr, addr) : op(nr, addr))
-         |                                       ^~~~
-   4 warnings and 6 errors generated.
-..
+         |                 ^~~~~~~~
+   fs/f2fs/data.c: In function 'f2fs_mpage_readpages':
+   fs/f2fs/data.c:2391:17: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+    2391 |         pgoff_t index;
+         |                 ^~~~~
 
 
 vim +1390 include/linux/blkdev.h
