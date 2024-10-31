@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642404437
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 19:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6567713C677
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 19:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730401367; cv=none; b=u15kDY5Hj/rIsrUK+o4e1Mxkig37LKJiRvd3/98ZjCddb5QaxNP1241TSE9Wn5GdHV8De/mIhttJkSHL2Lx0I7Bl70cuxwR0ZJ2nPbl87dt8rqwzyp5ESE60HYQaebNSGrxGvxlQLH6aw+zy0M2YKc0hu618VdgN/2EayXobVtY=
+	t=1730401371; cv=none; b=WBymajMdN1KsFzLSO9exjOf7cnVP+EGLiGfLxavU5uZV0iPdbiJwQ/U/XAv5PShtBIAayhwS7EBeXlMcQWOFaLbPFlysfeGgRONEJ2RfMU1Naf0BBy8c2PYwIYwTxEwZUWSuEUQRu2KkI2OuJIf7oYVFZAq2c2VryYqopl5qkMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730401367; c=relaxed/simple;
-	bh=39D45KOypaWicSWyl8AqxdxtYMUYTE8cub6isDMAyWo=;
+	s=arc-20240116; t=1730401371; c=relaxed/simple;
+	bh=vYiTcLzvbtmn+5Cup80nGU51QeOBT6Gsb0GtnKlru2Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rXCdlZY0HmKT7k/xZ6yJinVeE5owEK2Kk1D4RdZ6dGklbKsTZYxgPDh2LSrvKauv3W+NEcNcCFW8qJJzEXtDayCE5YaQRYGxth1SKeOkfxQ7q6YLHL6IeJaofdDMaCooleWIGCxWtSD6Zs+UZH8RprUQb+VGF3J58clHMpeAuJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FUUwehmg; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=ukSVfD+w7rixJVGxTbWjAzsZKT6Kq1aMhuCyfv9AecrVPH2KbdNCZDY74/DeTfGfFeUhYCXR/bQsx1Q/HezMe4PSGcZgINn/hEtrV2OUmBj1/Y5JRt/H3UZDWSvXgFLyqUbn++eWF8JRsOKYeuwrmMYFz4X083TKU1nEvW26TbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IhqcGsO1; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FUUwehmg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IhqcGsO1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730401365; x=1761937365;
+  t=1730401368; x=1761937368;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=39D45KOypaWicSWyl8AqxdxtYMUYTE8cub6isDMAyWo=;
-  b=FUUwehmgELdF/z92+yhZoAVAIh9OYH+0hImceleZqnortQ0wn2dEcGsB
-   /uEU7jwHl7gNj1dXmf7lWl58JwS31eKOIyFc1kBOVW3mI7MbYP+xdq+Bt
-   +tJhAxUwMpOV2IKI4htRfn0lGAReDbUrYlBX6daKjwiOkkPGhijULoFC4
-   /K/ScrNL9A4WV5hhakBE5zPcTF8erqIDapsovxl7TaxpUAOh998iaM1Iq
-   1txFIrVijie9Ilp9F2TF0tn+IM2zyCpWTCY8p3mS4AxkVoBKVjEDfN81S
-   PTAKd/NLmti7Xje/4PWXtve/dCaYcmG7ROY3dgC37mQGf1CekdFAmPhL0
-   g==;
-X-CSE-ConnectionGUID: bF29CTXxRuC41i3dgKWkLg==
-X-CSE-MsgGUID: 26Yuf6kvScWdByySMjqT6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="40783779"
+  bh=vYiTcLzvbtmn+5Cup80nGU51QeOBT6Gsb0GtnKlru2Y=;
+  b=IhqcGsO1PfjZc4blEg3Gqr7odnbrr0PqbysJc9grZMlKLC3denfSHeXh
+   /i3YVx57VsB+9oGCAd6vP1nrIUIoC/eDno6t/mlZWOALyG1N+a5ihZ9gV
+   8mKQym4ZhdSwsj9emLcItvrlM9JIvek4JhIQimwTxjyShTd5V0yTIInNa
+   ULipnd9G51pBPTL8ydKBo5sRFbZA9JexqTFZ/yRJ4qoQoUnzuWIZ2JlpC
+   H/Ob6KZdkUytmv5rRMQColtQN9VSVuEFz5nzjZcU2TFb5KQAPaucRKGQY
+   6fqS+VhbEbtqFcGeODAAYWMaJXcqaUI4bI21DI0qs4PO9L2+i+EppQs6X
+   Q==;
+X-CSE-ConnectionGUID: 3CLn7Yh7Q0OPQAkd2pf9JQ==
+X-CSE-MsgGUID: NUYFZGZvS0ikC61T0JUL9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="33962773"
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="40783779"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 12:02:44 -0700
-X-CSE-ConnectionGUID: 5QENr7USReGaiHF8Ofs8Lw==
-X-CSE-MsgGUID: JLdvHD7BQqmcTAfXgqSE0w==
+   d="scan'208";a="33962773"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 12:02:47 -0700
+X-CSE-ConnectionGUID: wvWO/+/3QiizEg6nS1EqOA==
+X-CSE-MsgGUID: 60fLoktARw6Npx9enZVN9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="87265624"
+   d="scan'208";a="82844608"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Oct 2024 12:02:43 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 31 Oct 2024 12:02:42 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6aRM-000gd4-21;
+	id 1t6aRM-000gd6-2E;
 	Thu, 31 Oct 2024 19:02:40 +0000
-Date: Fri, 1 Nov 2024 03:02:05 +0800
+Date: Fri, 1 Nov 2024 03:02:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 8715/30000]
- arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:671.28-673.7: Warning
- (unit_address_vs_reg): /soc/i2c@ffd72000/adv7533@39/ports/port@0/endpoint@0:
- node has a unit name, but no reg property
-Message-ID: <202411010212.gnaTmiNW-lkp@intel.com>
+Subject: [opencloudos:next 11997/13046] kernel/sysctl.c:1964:5: sparse:
+ sparse: symbol 'memory_qos_sysctl_handler' was not declared. Should it be
+ static?
+Message-ID: <202411010254.NTeMfAlw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,107 +67,129 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   ca48ea8b94307a011f58fdc6efa124ff7f5508f8
-commit: 1d65a4b7a6b467a77712051466b33ba4a1c0cc8e [8715/30000] ANDROID: dts: hi3660: Fix duplicate adv7533 nodes
-config: arm64-randconfig-001-20241028 (https://download.01.org/0day-ci/archive/20241101/202411010212.gnaTmiNW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010212.gnaTmiNW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: db44c11cddf0fc44d68950c9a428511637445aa4 [11997/13046] rue/mm: add priority reclaim support
+config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010254.NTeMfAlw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010254.NTeMfAlw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411010212.gnaTmiNW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010254.NTeMfAlw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:671.28-673.7: Warning (unit_address_vs_reg): /soc/i2c@ffd72000/adv7533@39/ports/port@0/endpoint@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/hisilicon/hi3660.dtsi:1136.30-1140.8: Warning (unit_address_vs_reg): /soc/thermal-zones/cls0/trips/trip-point@0: node has a unit name, but no reg property
-   arch/arm64/boot/dts/hisilicon/hi3660.dtsi:1142.27-1146.8: Warning (unit_address_vs_reg): /soc/thermal-zones/cls0/trips/trip-point@1: node has a unit name, but no reg property
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:52.34-57.5: Warning (unit_address_vs_reg): /reserved-memory/fastboot-cma-mem: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:59.20-62.5: Warning (unit_address_vs_reg): /reserved-memory/uefi-reboot-mode: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:64.8-67.5: Warning (unit_address_vs_reg): /reserved-memory/bl31: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:78.13-83.5: Warning (unit_address_vs_reg): /reserved-memory/linux,cma: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts:253.19-262.4: Warning (unit_address_vs_reg): /hi3660_i2s: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/hisilicon/hi3660.dtsi:345.31-349.5: Warning (simple_bus_reg): /soc/crg_rst_controller: missing or empty reg/ranges property
-   arch/arm64/boot/dts/hisilicon/hi3660.dtsi:376.10-381.5: Warning (simple_bus_reg): /soc/reboot: missing or empty reg/ranges property
-   arch/arm64/boot/dts/hisilicon/hi3660.dtsi:390.20-394.5: Warning (simple_bus_reg): /soc/reset: missing or empty reg/ranges property
+sparse warnings: (new ones prefixed by >>)
+   kernel/sysctl.c:1003:47: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1003:47: sparse:     expected void *buffer
+   kernel/sysctl.c:1003:47: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:990:5: sparse: sparse: symbol 'proc_dointvec_max_map_count' was not declared. Should it be static?
+   kernel/sysctl.c:1163:45: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1163:45: sparse:     expected void *buffer
+   kernel/sysctl.c:1163:45: sparse:     got void [noderef] __user *buffer
+   kernel/sysctl.c:1976:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1976:52: sparse:     expected void *buffer
+   kernel/sysctl.c:1976:52: sparse:     got void [noderef] __user *buffer
+>> kernel/sysctl.c:1964:5: sparse: sparse: symbol 'memory_qos_sysctl_handler' was not declared. Should it be static?
+   kernel/sysctl.c:1997:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:1997:52: sparse:     expected void *buffer
+   kernel/sysctl.c:1997:52: sparse:     got void [noderef] __user *buffer
+>> kernel/sysctl.c:1991:5: sparse: sparse: symbol 'memory_qos_sysctl_highest_reclaim_prio_handler' was not declared. Should it be static?
+   kernel/sysctl.c:2015:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *buffer @@     got void [noderef] __user *buffer @@
+   kernel/sysctl.c:2015:52: sparse:     expected void *buffer
+   kernel/sysctl.c:2015:52: sparse:     got void [noderef] __user *buffer
+>> kernel/sysctl.c:2007:5: sparse: sparse: symbol 'memory_qos_sysctl_prio_reclaim_ratio_handler' was not declared. Should it be static?
+   kernel/sysctl.c:2267:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2267:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2267:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2736:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2736:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2736:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2902:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2902:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2902:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2911:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2911:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2911:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:2920:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   kernel/sysctl.c:2920:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   kernel/sysctl.c:2920:35: sparse:     got int ( * )( ... )
+   kernel/sysctl.c:353:66: sparse: sparse: self-comparison always evaluates to false
 
-vim +671 arch/arm64/boot/dts/hisilicon/hi3660-hikey960.dts
+vim +/memory_qos_sysctl_handler +1964 kernel/sysctl.c
 
-   607	
-   608	&i2c1 {
-   609		status = "okay";
-   610	
-   611		rt1711h: rt1711h@4e {
-   612			compatible = "richtek,rt1711h";
-   613			reg = <0x4e>;
-   614			status = "ok";
-   615			interrupt-parent = <&gpio27>;
-   616			interrupts = <3 IRQ_TYPE_LEVEL_LOW>;
-   617			pinctrl-names = "default";
-   618			pinctrl-0 = <&usb_cfg_func>;
-   619	
-   620			usb_con: connector {
-   621				compatible = "usb-c-connector";
-   622				label = "USB-C";
-   623				data-role = "dual";
-   624				power-role = "dual";
-   625				try-power-role = "sink";
-   626				source-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)>;
-   627				sink-pdos = <PDO_FIXED(5000, 500, PDO_FIXED_USB_COMM)
-   628					PDO_VAR(5000, 5000, 1000)>;
-   629				op-sink-microwatt = <10000000>;
-   630	
-   631				ports {
-   632					#address-cells = <1>;
-   633					#size-cells = <0>;
-   634					port@1 {
-   635						reg = <1>;
-   636						usb_con_ss: endpoint {
-   637							remote-endpoint = <&dwc3_ss>;
-   638						};
-   639					};
-   640				};
-   641			};
-   642			port {
-   643				#address-cells = <1>;
-   644				#size-cells = <0>;
-   645	
-   646				rt1711h_ep: endpoint@0 {
-   647					reg = <0>;
-   648					remote-endpoint = <&hikey_usb_ep1>;
-   649				};
-   650			};
-   651		};
-   652	
-   653		adv7533: adv7533@39 {
-   654			status = "ok";
-   655			compatible = "adi,adv7533";
-   656			reg = <0x39>;
-   657			v1p2-supply = <&ldo3>;
-   658			vdd-supply = <&ldo3>;
-   659			interrupt-parent = <&gpio1>;
-   660			interrupts = <1 2>;
-   661			pd-gpio = <&gpio5 1 0>;
-   662			sel-gpio = <&gpio2 4 0>;
-   663			adi,dsi-lanes = <4>;
-   664			adi,disable-timing-generator;
-   665			#sound-dai-cells = <0>;
-   666			ports {
-   667				#address-cells = <1>;
-   668				#size-cells = <0>;
-   669				port@0 {
-   670					reg = <0>;
- > 671					adv7533_in: endpoint@0 {
-   672						remote-endpoint = <&dsi_out0>;
-   673					};
-   674				};
-   675				port@1 {
-   676					reg = <1>;
-   677				};
-   678			};
-   679		};
-   680	
+  1962	
+  1963	#ifdef CONFIG_MEMCG
+> 1964	int memory_qos_sysctl_handler(struct ctl_table *table, int write,
+  1965			void __user *buffer, size_t *lenp, loff_t *ppos)
+  1966	{
+  1967		int error;
+  1968	
+  1969		mutex_lock(&rue_mutex);
+  1970		if (write && !READ_ONCE(rue_installed)) {
+  1971			error = -EBUSY;
+  1972			pr_info("RUE: rue kernel module is not enabled or installed.");
+  1973			goto out;
+  1974		}
+  1975	
+> 1976		error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+  1977		if (error)
+  1978			goto out;
+  1979	
+  1980		if (write)
+  1981			memory_qos_update();
+  1982	
+  1983		mutex_unlock(&rue_mutex);
+  1984		return 0;
+  1985	
+  1986	out:
+  1987		mutex_unlock(&rue_mutex);
+  1988		return error;
+  1989	}
+  1990	
+> 1991	int memory_qos_sysctl_highest_reclaim_prio_handler(struct ctl_table *table,
+  1992					int write, void __user *buffer,
+  1993					size_t *lenp, loff_t *ppos)
+  1994	{
+  1995		int error;
+  1996	
+  1997		error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+  1998		if (error)
+  1999			return error;
+  2000	
+  2001		if (write)
+  2002			memory_qos_update();
+  2003	
+  2004		return 0;
+  2005	}
+  2006	
+> 2007	int memory_qos_sysctl_prio_reclaim_ratio_handler(struct ctl_table *table,
+  2008					int write, void __user *buffer,
+  2009					size_t *lenp, loff_t *ppos)
+  2010	{
+  2011		int error;
+  2012		unsigned int old;
+  2013	
+  2014		old = sysctl_vm_qos_prio_reclaim_ratio;
+  2015		error = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+  2016		if (error)
+  2017			return error;
+  2018	
+  2019		if (old == sysctl_vm_qos_prio_reclaim_ratio)
+  2020			return 0;
+  2021	
+  2022		if (write) {
+  2023			error = memory_qos_prio_reclaim_ratio_update();
+  2024			if (error) {
+  2025				sysctl_vm_qos_prio_reclaim_ratio = old;
+  2026				return -EINVAL;
+  2027			}
+  2028		}
+  2029	
+  2030		return 0;
+  2031	}
+  2032	#endif
+  2033	
 
 -- 
 0-DAY CI Kernel Test Service
