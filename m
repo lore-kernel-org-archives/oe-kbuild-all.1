@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF754178370
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 11:47:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66FE7198E61
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 12:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730375237; cv=none; b=di7FBi8ojdS/LFYQkozsWdxEywsFU971MIdLvY1GIMKYv78071y/R0hc6UL3FLxhcilZiXxxevHvruRNchKOM6cUuMlHnzgETjT48Qd7s74MrEmib3gkrAXCiynKMkabVsWWeVMnGxsYgajZzB2+HmNh3a613TymAJSrwzk6ZtY=
+	t=1730376496; cv=none; b=St/5HppgWPZeFQROeq38Q/IiPC2eBPf0yis+dxE3FpEvnz2/ae5PT6V681AiWWkcd8TlmYRw7TcWksxAsQ7UdztQVefbR4B+Zv0kQWC8uyJEupUYDdsqTVhy57/LQAspJnhW6+/kAeE1T2NadhjBvjZ8TQ9vNlvPntdpX7F9TH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730375237; c=relaxed/simple;
-	bh=tQAhjuD6XraYLhlQEeJ31UaRObpRRUAvfmmoYCha3gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nkVn60kYCuKgPZjyKXMKjYpeX7nc4cCumy4cbrfyCRvzMmKZirOC+tPtW1UF5x4G/dHXJjBUaSg2MwjC8y4q36Jk0pKjcX/DS5HX6wDIRw0aXEEMK727dO60g6fw1qEyfV1vvvsL1g+4UkspaJ8JF+1zKVYSwIpB5BruGLLGZNY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CgvNDMgD; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1730376496; c=relaxed/simple;
+	bh=dhuekx2f/dbx0ym+W5EbZYH6ZsscotIqkoFXPxbEI34=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ghYQO695VdWb/EH+K6LRkqpoO0XqDglPtfwuX21J7g4eS+B+yEkGY5NNc1y7stASMuTSOrbLNuXrRDjE2ARAGDX+k09oXVViWiugxTukjo9I29FBrIb4BGtV+DGPkGueXYLDnMrXSRR4cyQLti80L5cJdKy+2oOeog8jH3wVTbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ig8x6ol6; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CgvNDMgD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ig8x6ol6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730375234; x=1761911234;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tQAhjuD6XraYLhlQEeJ31UaRObpRRUAvfmmoYCha3gw=;
-  b=CgvNDMgD10aW7V5tILvT4nVGxRUy1Picrnt9SZudAr2+1HtLeksAUc+S
-   AKmokhQmkvJj4h5HjN/7RDEUDbZkq+KXYYIiFHEsa3PVBbB74wvaPOMGC
-   hbURuM67ChQkftrkz8G5TYvxEKJ4fuox7eJV6zZiJWSijM6lzdLwgfpOE
-   A8luKNLZx6MPNVqk2kOYmRAArvaG/raNi+FrBxNHPOw2B8YqgME1HnW5R
-   P8wRO2nDpPlMwK6yD3eR5Haa4OuQQ2Mpy3Zy422jr8bDno/vgh8u0peRU
-   h1JxKQIVZQ5TvarpM4QamtBe+p2XifzWUhHDznXeSdGykwQQpE3SBh2xy
+  t=1730376494; x=1761912494;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dhuekx2f/dbx0ym+W5EbZYH6ZsscotIqkoFXPxbEI34=;
+  b=Ig8x6ol6mXRDlUN7LfS5QNvmgkLJmlkLzzmOU2pehv/HqJlN3lJ6LgWg
+   YPKWI2dIHCOyaVHx7VWqH5YLlMhkTtAqq8Ffmnl9ZyCvh6Miku8FvcNz7
+   bJXAIZmNASDYIBmS1z3CK8UG1EBXUF1CuWRH0rfFWiYhdZk/IGRGI7HsO
+   UP60s85sW1dc1e5fpbj4l3mWi404H7AzlGD6+xmx1jUki5mvoqgSkhIdt
+   JC7uBPjMIki3eKd1KeDIktByoLp7XABfCy9qJf1g1aRKF/7qSxmCUyGhq
+   l3X/1NiTriFSliw01yYBmGBxBwfsmQy6CKNZISu0QLoQiUcS3P36T7e7d
    g==;
-X-CSE-ConnectionGUID: GMsFxMfwRWqUhxRjh880tw==
-X-CSE-MsgGUID: ELLfhcQQQf+ufQHPLktqyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40653958"
+X-CSE-ConnectionGUID: NUAx+j63TIOypmMuz4NhMQ==
+X-CSE-MsgGUID: kcJb3tmkQtamqQAXlTU+wA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30275101"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40653958"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 04:47:14 -0700
-X-CSE-ConnectionGUID: Lc9cumRjTDag4RIbvnkHAQ==
-X-CSE-MsgGUID: r67rYK7dTI+RlvpphCsdMA==
+   d="scan'208";a="30275101"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 05:08:13 -0700
+X-CSE-ConnectionGUID: sUDqDOXuTkqYNQ6yStW34w==
+X-CSE-MsgGUID: JLuEjH3vQGKYGKre7xa27w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="113451514"
+   d="scan'208";a="113397106"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2024 04:47:11 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2024 05:08:12 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6Tds-000g32-2f;
-	Thu, 31 Oct 2024 11:47:08 +0000
-Date: Thu, 31 Oct 2024 19:47:05 +0800
+	id 1t6TyD-000g48-1I;
+	Thu, 31 Oct 2024 12:08:09 +0000
+Date: Thu, 31 Oct 2024 20:07:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Len Brown <lenb@kernel.org>,
-	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
-	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Ivan Shapovalov <intelfx@intelfx.name>,
-	Oleksandr Natalenko <oleksandr@natalenko.name>
-Subject: Re: [PATCH] ACPI: processor: Move arch_init_invariance_cppc() call
- later
-Message-ID: <202410311924.XtRR5d9M-lkp@intel.com>
-References: <20241029174910.600482-1-superm1@kernel.org>
+To: Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
+Subject: [cilium:pr/wg 5/5] drivers/net/wireguard/socket.c:47:22: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202410312046.GbR2BUGR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,82 +61,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029174910.600482-1-superm1@kernel.org>
 
-Hi Mario,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.12-rc5 next-20241031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-processor-Move-arch_init_invariance_cppc-call-later/20241030-015107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241029174910.600482-1-superm1%40kernel.org
-patch subject: [PATCH] ACPI: processor: Move arch_init_invariance_cppc() call later
-config: i386-randconfig-141-20241031 (https://download.01.org/0day-ci/archive/20241031/202410311924.XtRR5d9M-lkp@intel.com/config)
+tree:   https://github.com/cilium/linux.git pr/wg
+head:   9b148f25ed218ffbc73a3cdd9e91598c61082d32
+commit: 9b148f25ed218ffbc73a3cdd9e91598c61082d32 [5/5] sport hashing
+config: i386-randconfig-062-20241031 (https://download.01.org/0day-ci/archive/20241031/202410312046.GbR2BUGR-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311924.XtRR5d9M-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410312046.GbR2BUGR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410311924.XtRR5d9M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410312046.GbR2BUGR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireguard/socket.c:47:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] sport @@     got unsigned short [usertype] sport @@
+   drivers/net/wireguard/socket.c:47:22: sparse:     expected restricted __be16 [usertype] sport
+   drivers/net/wireguard/socket.c:47:22: sparse:     got unsigned short [usertype] sport
+   drivers/net/wireguard/socket.c:126:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] sport @@     got unsigned short [usertype] sport @@
+   drivers/net/wireguard/socket.c:126:22: sparse:     expected restricted __be16 [usertype] sport
+   drivers/net/wireguard/socket.c:126:22: sparse:     got unsigned short [usertype] sport
+--
+>> drivers/net/wireguard/send.c:174:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] sport @@     got restricted __be16 @@
+   drivers/net/wireguard/send.c:174:31: sparse:     expected unsigned short [usertype] sport
+   drivers/net/wireguard/send.c:174:31: sparse:     got restricted __be16
 
->> drivers/acpi/processor_driver.c:273:2: error: call to undeclared function 'arch_init_invariance_cppc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     273 |         arch_init_invariance_cppc();
-         |         ^
-   1 error generated.
+vim +47 drivers/net/wireguard/socket.c
 
-
-vim +/arch_init_invariance_cppc +273 drivers/acpi/processor_driver.c
-
-   239	
-   240	/*
-   241	 * We keep the driver loaded even when ACPI is not running.
-   242	 * This is needed for the powernow-k8 driver, that works even without
-   243	 * ACPI, but needs symbols from this driver
-   244	 */
-   245	static enum cpuhp_state hp_online;
-   246	static int __init acpi_processor_driver_init(void)
-   247	{
-   248		int result = 0;
-   249	
-   250		if (acpi_disabled)
-   251			return 0;
-   252	
-   253		if (!cpufreq_register_notifier(&acpi_processor_notifier_block,
-   254					       CPUFREQ_POLICY_NOTIFIER)) {
-   255			acpi_processor_cpufreq_init = true;
-   256			acpi_processor_ignore_ppc_init();
-   257		}
-   258	
-   259		result = driver_register(&acpi_processor_driver);
-   260		if (result < 0)
-   261			return result;
-   262	
-   263		result = cpuhp_setup_state(CPUHP_AP_ONLINE_DYN,
-   264					   "acpi/cpu-drv:online",
-   265					   acpi_soft_cpu_online, NULL);
-   266		if (result < 0)
-   267			goto err;
-   268		hp_online = result;
-   269		cpuhp_setup_state_nocalls(CPUHP_ACPI_CPUDRV_DEAD, "acpi/cpu-drv:dead",
-   270					  NULL, acpi_soft_cpu_dead);
-   271	
-   272		acpi_processor_throttling_init();
- > 273		arch_init_invariance_cppc();
-   274		return 0;
-   275	err:
-   276		driver_unregister(&acpi_processor_driver);
-   277		return result;
-   278	}
-   279	
+    20	
+    21	static int send4(struct wg_device *wg, struct sk_buff *skb,
+    22			 struct endpoint *endpoint, u8 ds, struct dst_cache *cache)
+    23	{
+    24		struct flowi4 fl = {
+    25			.saddr = endpoint->src4.s_addr,
+    26			.daddr = endpoint->addr4.sin_addr.s_addr,
+    27			.fl4_dport = endpoint->addr4.sin_port,
+    28			.flowi4_mark = wg->fwmark,
+    29			.flowi4_proto = IPPROTO_UDP
+    30		};
+    31		struct rtable *rt = NULL;
+    32		struct sock *sock;
+    33		int ret = 0;
+    34	
+    35		skb_mark_not_on_list(skb);
+    36		skb->dev = wg->dev;
+    37		skb->mark = wg->fwmark;
+    38	
+    39		rcu_read_lock_bh();
+    40		sock = rcu_dereference_bh(wg->sock4);
+    41	
+    42		if (unlikely(!sock)) {
+    43			ret = -ENONET;
+    44			goto err;
+    45		}
+    46	
+  > 47		fl.fl4_sport = PACKET_CB(skb)->sport;
+    48		if (cache)
+    49			rt = dst_cache_get_ip4(cache, &fl.saddr);
+    50	
+    51		if (!rt) {
+    52			security_sk_classify_flow(sock, flowi4_to_flowi_common(&fl));
+    53			if (unlikely(!inet_confirm_addr(sock_net(sock), NULL, 0,
+    54							fl.saddr, RT_SCOPE_HOST))) {
+    55				endpoint->src4.s_addr = 0;
+    56				endpoint->src_if4 = 0;
+    57				fl.saddr = 0;
+    58				if (cache)
+    59					dst_cache_reset(cache);
+    60			}
+    61			rt = ip_route_output_flow(sock_net(sock), &fl, sock);
+    62			if (unlikely(endpoint->src_if4 && ((IS_ERR(rt) &&
+    63				     PTR_ERR(rt) == -EINVAL) || (!IS_ERR(rt) &&
+    64				     rt->dst.dev->ifindex != endpoint->src_if4)))) {
+    65				endpoint->src4.s_addr = 0;
+    66				endpoint->src_if4 = 0;
+    67				fl.saddr = 0;
+    68				if (cache)
+    69					dst_cache_reset(cache);
+    70				if (!IS_ERR(rt))
+    71					ip_rt_put(rt);
+    72				rt = ip_route_output_flow(sock_net(sock), &fl, sock);
+    73			}
+    74			if (IS_ERR(rt)) {
+    75				ret = PTR_ERR(rt);
+    76				net_dbg_ratelimited("%s: No route to %pISpfsc, error %d\n",
+    77						    wg->dev->name, &endpoint->addr, ret);
+    78				goto err;
+    79			}
+    80			if (cache)
+    81				dst_cache_set_ip4(cache, &rt->dst, fl.saddr);
+    82		}
+    83	
+    84		skb->ignore_df = 1;
+    85		udp_tunnel_xmit_skb(rt, sock, skb, fl.saddr, fl.daddr, ds,
+    86				    ip4_dst_hoplimit(&rt->dst), 0, fl.fl4_sport,
+    87				    fl.fl4_dport, false, false);
+    88		goto out;
+    89	
+    90	err:
+    91		kfree_skb(skb);
+    92	out:
+    93		rcu_read_unlock_bh();
+    94		return ret;
+    95	}
+    96	
 
 -- 
 0-DAY CI Kernel Test Service
