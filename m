@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F6D136671;
-	Thu, 31 Oct 2024 17:48:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E971C9B95
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 18:10:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730396928; cv=none; b=eqtT5ul8q1Vc1WlxJ8XJnRq+F1uf7zdTzcypWvU2pmSZz/oen9k+2P5RsNp3beEumx/g7ZaJmOS68f/hGo+MBIyQp7IHOTe1evaGpJmRNZ7KRmDyfnpGY/zH8pK19iWSRHZWIh1jYCQMBJGSvSitZZ9Cvyx7yEusknG+0uRF29w=
+	t=1730398246; cv=none; b=ILaCZdxrh7LWDWTJNb8Pvn47bLwoRUM3hAs2WX3nm04RS4+e+L6onVdBLK0nNscHDKPIxMAKH6dGPwdhI3pxxaG4Gs6KjPK7s+QbptgFnNbwq0O4iSfomdPblc1k2NcHe+aKu5Eu1ogCfg4hTvNB4LUYAtvqZNPlaIjSh5+ENFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730396928; c=relaxed/simple;
-	bh=EQsz4wMN4QiZtsi4Zg/8jdCt8OMiHEVYS6OwYlU0tfs=;
+	s=arc-20240116; t=1730398246; c=relaxed/simple;
+	bh=a7cZp6KeMus2nUtq0llMkXWyezzYfoUYI1ZLVKUc1i0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S2PUwzj45HA7dMTCWH5zKS6bllrWEdpXyMXq7Uyw7BtMHHRsNL3UsIvpUHmDFYU1+t8G7WFHNkECT0KkeRRpkl2LhxQEA0ELXi8Gx+L+u2AKkNqdqcJcDS1fn8V738XKHPaG9w9SBOBfhTiBj+6h2Cu5Jpaqc7EMppE+AktKeZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=juUK7E0W; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=BcP9jWDKxUJcPi0td7yZeD08OQI6iuQoHxKTLp7NDcPMXkN/URNgqK2hA4A49wHHc0gkS59LJ4kHhRDPHE1k7/C46u/TEuUL4/FiMjGNxJZpCHNDeRDI7KhDo5S89jL4iL6IZTTyF/HAiPyRkM783tfjdJAEHh+91l0JFVcWWzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6JDxOaY; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="juUK7E0W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6JDxOaY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730396925; x=1761932925;
+  t=1730398243; x=1761934243;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EQsz4wMN4QiZtsi4Zg/8jdCt8OMiHEVYS6OwYlU0tfs=;
-  b=juUK7E0WZSk7qp3hAqGkbK9ObvBsluevJuq0hkRUbKm9Nlr2I7EGNgW/
-   tSglVCiGixxp/GAGrPDlIykVCQ26ruTaQNhjueMuHzf5wXAkukF5rvMVA
-   s/Od4eqjnpBNfaA8VWlDzUNXpt9D0hVXzpkUcevYw9GNf21pM6Uiojc3A
-   vblHIkjq1GUXUuAHHvW3Q33VZ6hotiw1iwXrFrLyhZ1UPWILq5PhSg//2
-   OEUBW2PiXA7+a0twvZ0ws/+nw+X9ZE9O4dXzNwxfS7qaDsfcAQhluT3g8
-   tOzWrRMs/R1Or+X1BhchHyymIKdwfa4G09f5nk4DPRsZaxnckNuWmqPa/
+  bh=a7cZp6KeMus2nUtq0llMkXWyezzYfoUYI1ZLVKUc1i0=;
+  b=l6JDxOaYAmK3B9J5U9+fXN92Elxn0lWQHEBphlz7NtLcRaWZ1qM4S9i1
+   gk8PSe3MaUqcyoAE8UlMb6ZXvt6+Q0S7r1zavgrfjB2Ev4Lc3uJqedVDA
+   BaF8o1HTOuFq+6X6MedSWchVodnW627NuL+PeatnnR9Ch2cxRrbkCayRt
+   JPcFubxdr5jry/GZEUPHmwJ38NKXhAgqDWS+6SjITYX+/L1/BjWSYByhY
+   fbeLIa4rrczz6JVh9zPtIwHkJ/Xy6+MlM+jOjcZdix3c1JIlWP8PCfsaz
+   cqn5wSZtMjvpT7Sew0dB2JzmZcrXRDgfhiY3TCMA6ev2OS5kNyLQ1V3U7
    g==;
-X-CSE-ConnectionGUID: bx3q7blFQMOhY8J3lSs/qQ==
-X-CSE-MsgGUID: FxtNoPLFTaeu9GmRlgMLDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29923349"
+X-CSE-ConnectionGUID: nNvZ6DUjRTKUueAQP4armQ==
+X-CSE-MsgGUID: kxNpqgEnTO6C9Lt3jglFzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30109528"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29923349"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 10:48:45 -0700
-X-CSE-ConnectionGUID: KA4ovIVZT4Cky8LchUQKIQ==
-X-CSE-MsgGUID: QgTEoIexTSe3SFMsgX3dUQ==
+   d="scan'208";a="30109528"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 11:10:43 -0700
+X-CSE-ConnectionGUID: HHJ9LgYARHqc8ge+P0Kd7A==
+X-CSE-MsgGUID: X0ogd0IqRfqJz7UddC6mkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="113546801"
+   d="scan'208";a="82381016"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Oct 2024 10:48:41 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 31 Oct 2024 11:10:41 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6ZHj-000gaK-0H;
-	Thu, 31 Oct 2024 17:48:39 +0000
-Date: Fri, 1 Nov 2024 01:48:24 +0800
+	id 1t6Zd1-000gao-1L;
+	Thu, 31 Oct 2024 18:10:39 +0000
+Date: Fri, 1 Nov 2024 02:09:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
-	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dmitry.baryshkov@linaro.org, jthies@google.com,
-	akuchynski@google.com, pmalani@chromium.org,
-	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 5/7] platform/chrome: cros_ec_typec: Displayport
- support
-Message-ID: <202411010134.yJIy0Z3P-lkp@intel.com>
-References: <20241030142833.v2.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
+To: Patrick Roy <roypat@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v3 2/6] kvm: gmem: add flag to remove memory from
+ kernel direct map
+Message-ID: <202411010141.4BXlxhG3-lkp@intel.com>
+References: <20241030134912.515725-3-roypat@amazon.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,223 +63,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030142833.v2.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800@changeid>
+In-Reply-To: <20241030134912.515725-3-roypat@amazon.co.uk>
 
-Hi Abhishek,
+Hi Patrick,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on chrome-platform/for-next]
-[also build test WARNING on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.12-rc5 next-20241031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 5cb1659f412041e4780f2e8ee49b2e03728a2ba6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20241031-053304
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241030142833.v2.5.I142fc0c09df58689b98f0cebf1c5e48b9d4fa800%40changeid
-patch subject: [PATCH v2 5/7] platform/chrome: cros_ec_typec: Displayport support
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20241101/202411010134.yJIy0Z3P-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010134.yJIy0Z3P-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Patrick-Roy/arch-introduce-set_direct_map_valid_noflush/20241030-215156
+base:   5cb1659f412041e4780f2e8ee49b2e03728a2ba6
+patch link:    https://lore.kernel.org/r/20241030134912.515725-3-roypat%40amazon.co.uk
+patch subject: [RFC PATCH v3 2/6] kvm: gmem: add flag to remove memory from kernel direct map
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241101/202411010141.4BXlxhG3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010141.4BXlxhG3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411010134.yJIy0Z3P-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010141.4BXlxhG3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/platform/chrome/cros_typec_altmode.c:40:13: warning: unused function 'cros_typec_altmode_work' [-Wunused-function]
-   static void cros_typec_altmode_work(struct work_struct *work)
-               ^
->> drivers/platform/chrome/cros_typec_altmode.c:212:39: warning: unused variable 'cros_typec_altmode_ops' [-Wunused-const-variable]
-   static const struct typec_altmode_ops cros_typec_altmode_ops = {
-                                         ^
-   2 warnings generated.
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_folio_configure_direct_map':
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:94:9: error: implicit declaration of function 'flush_tlb_kernel_range' [-Werror=implicit-function-declaration]
+      94 |         flush_tlb_kernel_range(start, start + folio_size(folio));
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/cros_typec_altmode_ops +212 drivers/platform/chrome/cros_typec_altmode.c
+vim +/flush_tlb_kernel_range +94 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
 
-    39	
-  > 40	static void cros_typec_altmode_work(struct work_struct *work)
-    41	{
-    42		struct cros_typec_altmode_data *data =
-    43			container_of(work, struct cros_typec_altmode_data, work);
-    44	
-    45		if (typec_altmode_vdm(data->alt, data->header, data->vdo_data,
-    46				      data->vdo_size))
-    47			dev_err(&data->alt->dev, "VDM 0x%x failed", data->header);
-    48	
-    49		data->header = 0;
-    50		data->vdo_data = NULL;
-    51		data->vdo_size = 0;
-    52	}
-    53	
-    54	static int cros_typec_altmode_enter(struct typec_altmode *alt, u32 *vdo)
-    55	{
-    56		struct cros_typec_altmode_data *data = typec_altmode_get_drvdata(alt);
-    57		struct ec_params_typec_control req = {
-    58			.port = data->port->port_num,
-    59			.command = TYPEC_CONTROL_COMMAND_ENTER_MODE,
-    60		};
-    61		int svdm_version;
-    62		int ret;
-    63	
-    64		if (!data->ap_mode_entry) {
-    65			const struct typec_altmode *partner =
-    66				typec_altmode_get_partner(alt);
-    67			dev_warn(&partner->dev,
-    68				 "EC does not support ap driven mode entry\n");
-    69			return -EOPNOTSUPP;
-    70		}
-    71	
-    72		if (data->sid == USB_TYPEC_DP_SID)
-    73			req.mode_to_enter = CROS_EC_ALTMODE_DP;
-    74		else
-    75			return -EOPNOTSUPP;
-    76	
-    77		ret = cros_ec_cmd(data->port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
-    78				  &req, sizeof(req), NULL, 0);
-    79		if (ret < 0)
-    80			return ret;
-    81	
-    82		svdm_version = typec_altmode_get_svdm_version(alt);
-    83		if (svdm_version < 0)
-    84			return svdm_version;
-    85	
-    86		data->header = VDO(data->sid, 1, svdm_version, CMD_ENTER_MODE);
-    87		data->header |= VDO_OPOS(data->mode);
-    88		data->header |= VDO_CMDT(CMDT_RSP_ACK);
-    89	
-    90		data->vdo_data = NULL;
-    91		data->vdo_size = 1;
-    92	
-    93		schedule_work(&data->work);
-    94	
-    95		return ret;
-    96	}
-    97	
-    98	static int cros_typec_altmode_exit(struct typec_altmode *alt)
-    99	{
-   100		struct cros_typec_altmode_data *data = typec_altmode_get_drvdata(alt);
-   101		struct ec_params_typec_control req = {
-   102			.port = data->port->port_num,
-   103			.command = TYPEC_CONTROL_COMMAND_EXIT_MODES,
-   104		};
-   105		int svdm_version;
-   106		int ret;
-   107	
-   108		if (!data->ap_mode_entry) {
-   109			const struct typec_altmode *partner =
-   110				typec_altmode_get_partner(alt);
-   111			dev_warn(&partner->dev,
-   112				 "EC does not support ap driven mode entry\n");
-   113			return -EOPNOTSUPP;
-   114		}
-   115	
-   116		ret = cros_ec_cmd(data->port->typec_data->ec, 0, EC_CMD_TYPEC_CONTROL,
-   117				  &req, sizeof(req), NULL, 0);
-   118	
-   119		if (ret < 0)
-   120			return ret;
-   121	
-   122		svdm_version = typec_altmode_get_svdm_version(alt);
-   123		if (svdm_version < 0)
-   124			return svdm_version;
-   125	
-   126		data->header = VDO(data->sid, 1, svdm_version, CMD_EXIT_MODE);
-   127		data->header |= VDO_OPOS(data->mode);
-   128		data->header |= VDO_CMDT(CMDT_RSP_ACK);
-   129	
-   130		data->vdo_data = NULL;
-   131		data->vdo_size = 1;
-   132	
-   133		schedule_work(&data->work);
-   134	
-   135		return ret;
-   136	}
-   137	
-   138	static int cros_typec_displayport_vdm(struct typec_altmode *alt, u32 header,
-   139					      const u32 *data, int count)
-   140	{
-   141		struct cros_typec_altmode_data *adata = typec_altmode_get_drvdata(alt);
-   142	
-   143		int cmd_type = PD_VDO_CMDT(header);
-   144		int cmd = PD_VDO_CMD(header);
-   145		int svdm_version;
-   146	
-   147		if (!adata->ap_mode_entry) {
-   148			const struct typec_altmode *partner =
-   149				typec_altmode_get_partner(alt);
-   150			dev_warn(&partner->dev,
-   151				 "EC does not support ap driven mode entry\n");
-   152			return -EOPNOTSUPP;
-   153		}
-   154	
-   155		svdm_version = typec_altmode_get_svdm_version(alt);
-   156		if (svdm_version < 0)
-   157			return svdm_version;
-   158	
-   159		switch (cmd_type) {
-   160		case CMDT_INIT:
-   161			if (PD_VDO_SVDM_VER(header) < svdm_version) {
-   162				typec_partner_set_svdm_version(adata->port->partner,
-   163							       PD_VDO_SVDM_VER(header));
-   164				svdm_version = PD_VDO_SVDM_VER(header);
-   165			}
-   166	
-   167			adata->header = VDO(adata->sid, 1, svdm_version, cmd);
-   168			adata->header |= VDO_OPOS(adata->mode);
-   169	
-   170			/*
-   171			 * DP_CMD_CONFIGURE: We can't actually do anything with the
-   172			 * provided VDO yet so just send back an ACK.
-   173			 *
-   174			 * DP_CMD_STATUS_UPDATE: We wait for Mux changes to send
-   175			 * DPStatus Acks.
-   176			 */
-   177			switch (cmd) {
-   178			case DP_CMD_CONFIGURE:
-   179				adata->am_data.dp.data.conf = *data;
-   180				adata->header |= VDO_CMDT(CMDT_RSP_ACK);
-   181				adata->am_data.dp.configured = true;
-   182				schedule_work(&adata->work);
-   183				break;
-   184			case DP_CMD_STATUS_UPDATE:
-   185				adata->am_data.dp.pending_status_update = true;
-   186				break;
-   187			default:
-   188				adata->header |= VDO_CMDT(CMDT_RSP_ACK);
-   189				schedule_work(&adata->work);
-   190				break;
-   191			}
-   192	
-   193			break;
-   194		default:
-   195			break;
-   196		}
-   197	
-   198		return 0;
-   199	}
-   200	
-   201	static int cros_typec_altmode_vdm(struct typec_altmode *alt, u32 header,
-   202					      const u32 *data, int count)
-   203	{
-   204		struct cros_typec_altmode_data *adata = typec_altmode_get_drvdata(alt);
-   205	
-   206		if (adata->sid == USB_TYPEC_DP_SID)
-   207			return cros_typec_displayport_vdm(alt, header, data, count);
-   208	
-   209		return -EINVAL;
-   210	}
-   211	
- > 212	static const struct typec_altmode_ops cros_typec_altmode_ops = {
-   213		.enter = cros_typec_altmode_enter,
-   214		.exit = cros_typec_altmode_exit,
-   215		.vdm = cros_typec_altmode_vdm,
-   216	};
-   217	
+    35	
+    36	/*
+    37	 * Configure the direct map present/not present state of @folio based on
+    38	 * the xarray stored in the associated inode's private data.
+    39	 *
+    40	 * Assumes the folio lock is held.
+    41	 */
+    42	static int kvm_gmem_folio_configure_direct_map(struct folio *folio)
+    43	{
+    44		struct inode *inode = folio_inode(folio);
+    45		struct kvm_gmem_inode_private *gmem_priv = inode->i_private;
+    46		bool default_state = gmem_priv->default_direct_map_state;
+    47	
+    48		pgoff_t start = folio_index(folio);
+    49		pgoff_t last = start + folio_nr_pages(folio) - 1;
+    50	
+    51		struct xarray *xa = &gmem_priv->direct_map_state;
+    52		unsigned long index;
+    53		void *entry;
+    54	
+    55		pgoff_t range_start = start;
+    56		unsigned long npages = 1;
+    57		int r = 0;
+    58	
+    59		if (!kvm_gmem_test_no_direct_map(gmem_priv))
+    60			goto out;
+    61	
+    62		r = set_direct_map_valid_noflush(folio_page(folio, 0), folio_nr_pages(folio),
+    63						 default_state);
+    64		if (r)
+    65			goto out;
+    66	
+    67		if (!xa_find_after(xa, &range_start, last, XA_PRESENT))
+    68			goto out_flush;
+    69	
+    70		xa_for_each_range(xa, index, entry, range_start, last) {
+    71			++npages;
+    72	
+    73			if (index == range_start + npages)
+    74				continue;
+    75	
+    76			r = set_direct_map_valid_noflush(folio_file_page(folio, range_start), npages - 1,
+    77							 !default_state);
+    78			if (r)
+    79				goto out_flush;
+    80	
+    81			range_start = index;
+    82			npages = 1;
+    83		}
+    84	
+    85		r = set_direct_map_valid_noflush(folio_file_page(folio, range_start), npages,
+    86						 !default_state);
+    87	
+    88	out_flush:
+    89		/*
+    90		 * Use PG_private to track that this folio has had potentially some of
+    91		 * its direct map entries modified, so that we can restore them in free_folio.
+    92		 */
+    93		folio_set_private(folio);
+  > 94		flush_tlb_kernel_range(start, start + folio_size(folio));
+    95	out:
+    96		return r;
+    97	}
+    98	
 
 -- 
 0-DAY CI Kernel Test Service
