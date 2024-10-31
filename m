@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4DB02E406
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 16:26:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8691BD027;
+	Thu, 31 Oct 2024 17:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730392005; cv=none; b=uZ82lAsfFXOZEvzBf86iK/RxjkewlqlXogVkwjgTRGViHDKYAsfJzD09odnI0d7nKaios1b97HXDNiCxHU295AJYqZnQt8c7ZZseUgyGC4xQ+8fxrJKSlWdfhgiLFgjUk+A6ijVMIqTkj/JJkjCasSa3CjQXrmtW3kSbGS2ItGE=
+	t=1730394463; cv=none; b=OrA1K4PwA91K+zeD2PfoNByMZUfFZzL2YmDvt+JyWSbbRjqdcb0rBvRXCHoUab2C0q7OPQiwY38hXQtL0uYCxztXKIeCVDEhkD5jqXTsyLFdJhsgUhLI2XZlv84IO8NOk6Jxpd7NVIOF+ToU52sjIpJ/S2+1b3yR6i4EkjpGppA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730392005; c=relaxed/simple;
-	bh=UjbrknZqSGAYErqzdaiolHdim1NeU7qg/PZav5yC4dc=;
+	s=arc-20240116; t=1730394463; c=relaxed/simple;
+	bh=DcnC6JXPAglQBQtZrEuqYjdyVGl/zg7nJfmo23aGIkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ooQ23aiQ4p9iMGcedLFZbtaRCFisXaQ1PLNqymaEkycjH/xHywq5CC49RubS1tRDQGruZK9xudg+QPN+GzbewReU3vux4oRNJvBnOv9oG1MkkEVeL4Lp5rw0kkq6yMN9MQlwYdVmiNlBCpJ1pmAVXUWnTAX5Wde0eymDxXEfJ6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WdGAOzYl; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=Ih28tYndd5Hwyrd5aN+tl52npdPMI7Jq4OnpCliwg8ZNoPZedUYCUe1tU8izC+/QO9nuB3iPgEdEwlel2zWpkHSipA0Jvk3tqEY8W+WKi9JxocJGjskJem1xMxro9eqtB+pHX8kAEBOhL5ltXcvPjgmWtInw9bhtvT1716uGWmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xc6/xL9D; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WdGAOzYl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xc6/xL9D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730392002; x=1761928002;
+  t=1730394461; x=1761930461;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UjbrknZqSGAYErqzdaiolHdim1NeU7qg/PZav5yC4dc=;
-  b=WdGAOzYluPR14PAHzafTtAX8DwI4Iym/GQWyrEgjCUdpdJKOXNBefzcJ
-   G6z4KnA164lEp68yWEUZ4IQXTDOe4OFNQNAfSSxjyQ0CuTDywKv3ECnvO
-   cNFkfTgKVfzghh21Kf4Ywce3kh7UcFuPKrLB9JJKjjao45oE4/p54tNzB
-   +YMv3V+clAIoS5SBWEZZYj8x6q+kze6tSd75GpzpptFZJrVY52UcP51rb
-   x9Ciao7Cu5Yc+BJFhivtEeBM5vUaLCmOJUlXdgdtvM7/iyD7P5+SQwRMH
-   Zw4ywfQKHBgEcUNQIOKH9zLOC0GUStp5ofVLffbtaqjLVouuQ8VtOc6QM
-   w==;
-X-CSE-ConnectionGUID: wlcyEqprRPShmuUVcplhOA==
-X-CSE-MsgGUID: RicVnCvbQlGddHfwDMSevg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30333486"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30333486"
+  bh=DcnC6JXPAglQBQtZrEuqYjdyVGl/zg7nJfmo23aGIkU=;
+  b=Xc6/xL9DWU96VtQlJdzVKBtdXnnN3BNL9lZbnIIXCGxMojkST0m2Svv5
+   uDXRAo2AN5pDU8AJW+HWlGc76QJ8TiqT2CFRGL/MIOcmNGcx9OwqBpX0B
+   qz5KN9+2agawLcK2Ay08MnC/lUFU+LnxQWTrvEFW5c94CAZ7Nfx8O5XUd
+   4IVhAMlJncO1NQ4aiiUSimjZFFGYOyQy/Fitix6zZndlSOZS0ggWQFyeo
+   xvPaFomLfIOjFBsuJbvRb2/xVuz/HBqdRD9TlCzwVSLdqRBDL4m1v5PwQ
+   F9j9pVNCuC36xwScidqJhmHTX1hoQ5EliOKh1EPfr0T35bsjEzFT/Jef+
+   Q==;
+X-CSE-ConnectionGUID: mqq41Tt6SoGgXYvYP55PVw==
+X-CSE-MsgGUID: XcbfUuO5Ro+nORapzkf5AQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="17787463"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="17787463"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 09:26:39 -0700
-X-CSE-ConnectionGUID: YxRVRfKfTH2kML/XA5XlzQ==
-X-CSE-MsgGUID: OQEjzvVCR9+dyI9bWLiM9g==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 10:07:41 -0700
+X-CSE-ConnectionGUID: O910B8opT4mDU8pNGyhgYA==
+X-CSE-MsgGUID: 9dBSr+KpSw6zkR9J4QOYuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="106000062"
+   d="scan'208";a="106014402"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2024 09:26:36 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2024 10:07:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6Y0I-000gWS-1J;
-	Thu, 31 Oct 2024 16:26:34 +0000
-Date: Fri, 1 Nov 2024 00:25:52 +0800
+	id 1t6Ye1-000gYE-19;
+	Thu, 31 Oct 2024 17:07:37 +0000
+Date: Fri, 1 Nov 2024 01:07:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:next 10819/13046]
- drivers/i2c/busses/i2c-zhaoxin.c:176:5: sparse: sparse: symbol
- 'zxi2c_fifo_irq_xfer' was not declared. Should it be static?
-Message-ID: <202411010035.lbpr8iap-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:sched/cleanup 20/22] kernel/sched/rt.c:2643:20: error:
+ use of undeclared identifier 'switched_from_rt'; did you mean
+ 'switched_to_rt'?
+Message-ID: <202411010109.9mDLbdzx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,184 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
-head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
-commit: 18e7175498c21442a65f86418ce83f2ca2c3cea1 [10819/13046] i2c/zhaoxin: I2C controller driver enhancement and optimization
-config: x86_64-randconfig-122-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010035.lbpr8iap-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010035.lbpr8iap-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/cleanup
+head:   4e3feca600aeb6b6cee07822faf7d1a8aa0564b2
+commit: 879c968b9feafb703c9b352fae0091b1c5b71bcc [20/22] sched: Fold sched_class::switch{ing,ed}_{to,from}() into the change pattern
+config: arm-randconfig-001-20241031 (https://download.01.org/0day-ci/archive/20241101/202411010109.9mDLbdzx-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010109.9mDLbdzx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411010035.lbpr8iap-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010109.9mDLbdzx-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/i2c/busses/i2c-zhaoxin.c:176:5: sparse: sparse: symbol 'zxi2c_fifo_irq_xfer' was not declared. Should it be static?
->> drivers/i2c/busses/i2c-zhaoxin.c:311:5: sparse: sparse: symbol 'zxi2c_xfer' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/zxi2c_fifo_irq_xfer +176 drivers/i2c/busses/i2c-zhaoxin.c
+   In file included from kernel/sched/build_policy.c:52:
+>> kernel/sched/rt.c:2643:20: error: use of undeclared identifier 'switched_from_rt'; did you mean 'switched_to_rt'?
+    2643 |         .switched_from          = switched_from_rt,
+         |                                   ^~~~~~~~~~~~~~~~
+         |                                   switched_to_rt
+   kernel/sched/rt.c:2454:13: note: 'switched_to_rt' declared here
+    2454 | static void switched_to_rt(struct rq *rq, struct task_struct *p)
+         |             ^
+   1 error generated.
 
-   174	
-   175	/* 'irq == true' means in interrupt context */
- > 176	int zxi2c_fifo_irq_xfer(struct zxi2c *i2c, bool irq)
-   177	{
-   178		u16 i;
-   179		u8 tmp;
-   180		struct i2c_msg *msg = i2c->msg;
-   181		void __iomem *base = i2c->base;
-   182		bool read = !!(msg->flags & I2C_M_RD);
-   183	
-   184		if (irq) {
-   185			/* get the received data */
-   186			if (read)
-   187				for (i = 0; i < i2c->xfer_len; i++)
-   188					msg->buf[i2c->xfered_len + i] = ioread8(base + ZXI2C_REG_HRDR);
-   189	
-   190			i2c->xfered_len += i2c->xfer_len;
-   191			if (i2c->xfered_len == msg->len)
-   192				return 1;
-   193		}
-   194	
-   195		/* reset fifo buffer */
-   196		tmp = ioread8(base + ZXI2C_REG_HCR);
-   197		iowrite8(tmp | ZXI2C_HCR_RST_FIFO, base + ZXI2C_REG_HCR);
-   198	
-   199		/* set xfer len */
-   200		i2c->xfer_len = min_t(u16, msg->len - i2c->xfered_len, ZXI2C_FIFO_SIZE);
-   201		if (read) {
-   202			iowrite8(i2c->xfer_len - 1, base + ZXI2C_REG_HRLR);
-   203		} else {
-   204			iowrite8(i2c->xfer_len - 1, base + ZXI2C_REG_HTLR);
-   205			/* set write data */
-   206			for (i = 0; i < i2c->xfer_len; i++)
-   207				iowrite8(msg->buf[i2c->xfered_len + i], base + ZXI2C_REG_HTDR);
-   208		}
-   209	
-   210		/* prepare to stop transmission */
-   211		if (i2c->hrv && msg->len == (i2c->xfered_len + i2c->xfer_len)) {
-   212			tmp = ioread8(base + ZXI2C_REG_CR);
-   213			tmp |= read ? ZXI2C_CR_RX_END : ZXI2C_CR_TX_END;
-   214			iowrite8(tmp, base + ZXI2C_REG_CR);
-   215		}
-   216	
-   217		if (irq) {
-   218			/* continue transmission */
-   219			tmp = ioread8(base + ZXI2C_REG_CR);
-   220			iowrite8(tmp |= ZXI2C_CR_CPU_RDY, base + ZXI2C_REG_CR);
-   221		} else {
-   222			u16 tcr_val = i2c->tcr;
-   223	
-   224			/* start transmission */
-   225			tcr_val |= read ? ZXI2C_TCR_READ : 0;
-   226			writew(tcr_val | msg->addr, base + ZXI2C_REG_TCR);
-   227		}
-   228	
-   229		return 0;
-   230	}
-   231	
-   232	static irqreturn_t zxi2c_isr(int irq, void *data)
-   233	{
-   234		struct zxi2c *i2c = data;
-   235		u8 status;
-   236	
-   237		/* save the status and write-clear it */
-   238		status = readw(i2c->base + ZXI2C_REG_ISR);
-   239		if (!status)
-   240			return IRQ_NONE;
-   241	
-   242		writew(status, i2c->base + ZXI2C_REG_ISR);
-   243	
-   244		i2c->ret = 0;
-   245		if (status & ZXI2C_ISR_NACK_ADDR)
-   246			i2c->ret = -EIO;
-   247	
-   248		if (!i2c->ret) {
-   249			if (i2c->mode == ZXI2C_BYTE_MODE)
-   250				i2c->ret = zxi2c_irq_xfer(i2c);
-   251			else
-   252				i2c->ret = zxi2c_fifo_irq_xfer(i2c, true);
-   253		}
-   254	
-   255		if (i2c->ret)
-   256			complete(&i2c->complete);
-   257	
-   258		return IRQ_HANDLED;
-   259	}
-   260	
-   261	static int zxi2c_write(struct zxi2c *i2c, struct i2c_msg *msg, int last)
-   262	{
-   263		u16 tcr_val = i2c->tcr;
-   264	
-   265		i2c->last = last;
-   266	
-   267		writew(msg->buf[0] & 0xFF, i2c->base + ZXI2C_REG_CDR);
-   268	
-   269		reinit_completion(&i2c->complete);
-   270	
-   271		tcr_val |= msg->addr & 0x7f;
-   272	
-   273		writew(tcr_val, i2c->base + ZXI2C_REG_TCR);
-   274	
-   275		if (!wait_for_completion_timeout(&i2c->complete, ZXI2C_TIMEOUT))
-   276			return -ETIMEDOUT;
-   277	
-   278		return i2c->ret;
-   279	}
-   280	
-   281	static int zxi2c_read(struct zxi2c *i2c, struct i2c_msg *msg, bool first)
-   282	{
-   283		u16 val, tcr_val = i2c->tcr;
-   284	
-   285		val = readw(i2c->base + ZXI2C_REG_CR);
-   286		val &= ~(ZXI2C_CR_TX_END | ZXI2C_CR_RX_END);
-   287	
-   288		if (msg->len == 1)
-   289			val |= ZXI2C_CR_RX_END;
-   290	
-   291		writew(val, i2c->base + ZXI2C_REG_CR);
-   292	
-   293		reinit_completion(&i2c->complete);
-   294	
-   295		tcr_val |= ZXI2C_TCR_READ | (msg->addr & 0x7f);
-   296	
-   297		writew(tcr_val, i2c->base + ZXI2C_REG_TCR);
-   298	
-   299		if (!first) {
-   300			val = readw(i2c->base + ZXI2C_REG_CR);
-   301			val |= ZXI2C_CR_CPU_RDY;
-   302			writew(val, i2c->base + ZXI2C_REG_CR);
-   303		}
-   304	
-   305		if (!wait_for_completion_timeout(&i2c->complete, ZXI2C_TIMEOUT))
-   306			return -ETIMEDOUT;
-   307	
-   308		return i2c->ret;
-   309	}
-   310	
- > 311	int zxi2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[], int num)
-   312	{
-   313		struct i2c_msg *msg;
-   314		int i;
-   315		int ret = 0;
-   316		struct zxi2c *i2c = i2c_get_adapdata(adap);
-   317	
-   318		i2c->mode = ZXI2C_BYTE_MODE;
-   319		for (i = 0; ret >= 0 && i < num; i++) {
-   320			i2c->msg = msg = &msgs[i];
-   321			i2c->xfered_len = 0;
-   322			if (msg->len == 0)
-   323				return -EIO;
-   324	
-   325			if (msg->flags & I2C_M_RD)
-   326				ret = zxi2c_read(i2c, msg, i == 0);
-   327			else
-   328				ret = zxi2c_write(i2c, msg, (i + 1) == num);
-   329		}
-   330	
-   331		return (ret < 0) ? ret : i;
-   332	}
-   333	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +2643 kernel/sched/rt.c
+
+  2638	
+  2639		.task_tick		= task_tick_rt,
+  2640	
+  2641		.get_rr_interval	= get_rr_interval_rt,
+  2642	
+> 2643		.switched_from		= switched_from_rt,
+  2644		.switched_to		= switched_to_rt,
+  2645		.prio_changed		= prio_changed_rt,
+  2646	
+  2647		.update_curr		= update_curr_rt,
+  2648	
 
 -- 
 0-DAY CI Kernel Test Service
