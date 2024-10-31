@@ -1,61 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE73F19D06A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 12:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091F119F111;
+	Thu, 31 Oct 2024 13:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730379023; cv=none; b=E8tgvL70iAd8hna4sB6ONXoBmnpB+vN8r3qZXqs54XMXZ0excvI5tv+lucrs2xAGJ0ikNANpxbBimKWJ1ShMG5TLJ5uK3vntwPdlLEvHRbgAjhP1Zwrs3nLeVIsQQG6sSGjsnRgpgJ35z2IrwUP6NrCkObq9prlVkf0d/OAf0tE=
+	t=1730380229; cv=none; b=iUPbDHvRuLyTntxktKu7Lvq8k3bzPtxKy96ES6J4asoNFtDWmNWCUELxncdzn0QF3Hmivz9tjjwrwdiAOJxOvmFAj8Rue97hifUhR4oVaFVMJLXQTdp9IQHAQp3gh3zjbR7+kKtHKJ8XGMKGmcOb2RZep4f4K+5gsRdnCsv+8KU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730379023; c=relaxed/simple;
-	bh=KgrT9gzJsrw9/tNeAkVtI+KmjUxOi5HWXxXHyw+9wMA=;
+	s=arc-20240116; t=1730380229; c=relaxed/simple;
+	bh=Ws4nFLQqfgbxQOnLOFS16yMCjEu3wZ5jnket4MtMOrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kZRgdS+saGOuQ6UsChY8f96Cg8v0gMqU3ophyl3/YYRBdeEQVmc2wpuG/0Hd5dUQbYOYwj+BHoYBWg72G4pHcbQbREWlFbeqLOXQ9L8/RrbOlpEWDuoF+XVlTaGr7iIKOx9gI2qj0HmRcpxLk1bDCKo5w17aqa3Ayfa3fWb9xcE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EaUCFnxV; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=hNzZT0Qb1/gDlOd/wdb11oqe4CT2d/2pF4vaMOBMe4jvy7LB3/kscKSrr5H3hr1uqq5fPMSqTdN/xP32KEkq48zllWN4fTePy804AmdjlchmW6fOzgln+kM4+mnuWHK4SCamrdiSNh4p5UgwF/JlJMI00CPZFk2WSxxv2NM81EE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZAcOYc0c; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EaUCFnxV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZAcOYc0c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730379021; x=1761915021;
+  t=1730380226; x=1761916226;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KgrT9gzJsrw9/tNeAkVtI+KmjUxOi5HWXxXHyw+9wMA=;
-  b=EaUCFnxV+HJ8CRYtp1fqdg/LyYzvAmzTjDdP8RAf/Ik6qCfkmCX54ajP
-   lngyagx3RcAhV/sw2Cw6Pd+0MzxOedA97/fhvIiaNzzkocWZIhHnML41b
-   w19WZXn0o7LbzOPJApmkhph7FAhEXpBaFU71XpyzBtX7QQlBIItNMuu2d
-   KjNVZKykDWTH8zcxVURu0OgdKWqapHB+FiayMBLeK8iVtkKlkKVczf4A4
-   TTQl0Y2pMEAzood+oRDVTSoBul1sa56SJgZabcR+w7TnSbQQdlAJRzlCh
-   nGFmDXlR66n4sNEHltbHO6/o3S0oJ2TOOxXYx3W9D8vPRsTCn92qNF6DA
-   g==;
-X-CSE-ConnectionGUID: NjTyjWvMQEmQuJwwdjaKnw==
-X-CSE-MsgGUID: PonkyWGSSy+DB7lIfBYXvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="29881012"
+  bh=Ws4nFLQqfgbxQOnLOFS16yMCjEu3wZ5jnket4MtMOrk=;
+  b=ZAcOYc0c/UIq7cr8jwg/O4uhM3NakieuvHdFO3NJ9IwYCiu7gk/sRPRD
+   MPMGsMsvo+1S5yLNb0BmsVGhYnQQ/hx4Vy3NmCMHYVrsmV3Mn/AB+Kouv
+   BTj/oYzCyZIv4pNYZSaPbin9UxPEbgC7NQrE2TS+Kw+JzctGVw+H9bPvX
+   Es29tw9lVd9ZMwnXxcK0RSzTWxb+n2X1AwLBzd/oUJPb8FYb4tqsrs33x
+   91TTsvoqcIAh63pxLFlNwmlLMaKSucSDlQYQZ32P3Y4KunHFEmGxXfBXk
+   caIqQeCds/hBwR95aPNAH5ej9Ca2CEgXGJ/PZixDu+ROsgu96VinTW2V5
+   Q==;
+X-CSE-ConnectionGUID: EKn5TXL7SIeUaTOCroaNrA==
+X-CSE-MsgGUID: 7PY4wHnMQxyo30OvwwOyTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47572639"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="29881012"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 05:50:17 -0700
-X-CSE-ConnectionGUID: oAS+hGlITdSR4zd7htEH9A==
-X-CSE-MsgGUID: EiZWJb+XTKminnwpxAY9wA==
+   d="scan'208";a="47572639"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 06:10:20 -0700
+X-CSE-ConnectionGUID: m3YLlGEcREuPMDz+uUjwbg==
+X-CSE-MsgGUID: PTzwQAYEQEG429s16g1aCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="87158095"
+   d="scan'208";a="82777249"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Oct 2024 05:50:15 -0700
+  by orviesa006.jf.intel.com with ESMTP; 31 Oct 2024 06:10:16 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6Ucu-000g6e-2Z;
-	Thu, 31 Oct 2024 12:50:12 +0000
-Date: Thu, 31 Oct 2024 20:49:13 +0800
+	id 1t6UwH-000g7S-0y;
+	Thu, 31 Oct 2024 13:10:13 +0000
+Date: Thu, 31 Oct 2024 21:09:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hilda Wu <hildawu@realtek.com>, marcel@holtmann.org
-Cc: oe-kbuild-all@lists.linux.dev, luiz.dentz@gmail.com,
-	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
-	max.chou@realtek.com, alex_lu@realsil.com.cn, kidman@realtek.com
-Subject: Re: [PATCH] bluetooth: add quirk using packet size 60
-Message-ID: <202410312046.r3WbTClD-lkp@intel.com>
-References: <20241030100804.2743115-1-hildawu@realtek.com>
+To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Huisong Li <lihuisong@huawei.com>
+Subject: Re: [PATCH v6 2/2] mctp pcc: Implement MCTP over PCC Transport
+Message-ID: <202410312048.W6PV1dIU-lkp@intel.com>
+References: <20241029165414.58746-3-admiyo@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,138 +70,271 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030100804.2743115-1-hildawu@realtek.com>
+In-Reply-To: <20241029165414.58746-3-admiyo@os.amperecomputing.com>
 
-Hi Hilda,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bluetooth/master]
-[also build test WARNING on bluetooth-next/master linus/master v6.12-rc5 next-20241031]
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.12-rc5 next-20241031]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hilda-Wu/bluetooth-add-quirk-using-packet-size-60/20241030-181008
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
-patch link:    https://lore.kernel.org/r/20241030100804.2743115-1-hildawu%40realtek.com
-patch subject: [PATCH] bluetooth: add quirk using packet size 60
-config: x86_64-randconfig-123-20241031 (https://download.01.org/0day-ci/archive/20241031/202410312046.r3WbTClD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410312046.r3WbTClD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20241030-005644
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241029165414.58746-3-admiyo%40os.amperecomputing.com
+patch subject: [PATCH v6 2/2] mctp pcc: Implement MCTP over PCC Transport
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241031/202410312048.W6PV1dIU-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410312048.W6PV1dIU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410312046.r3WbTClD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410312048.W6PV1dIU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/bluetooth/btusb.c:2156:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] wMaxPacketSize @@     got int @@
-   drivers/bluetooth/btusb.c:2156:65: sparse:     expected restricted __le16 [usertype] wMaxPacketSize
-   drivers/bluetooth/btusb.c:2156:65: sparse:     got int
-   drivers/bluetooth/btusb.c:2188:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] wMaxPacketSize @@     got int @@
-   drivers/bluetooth/btusb.c:2188:65: sparse:     expected restricted __le16 [usertype] wMaxPacketSize
-   drivers/bluetooth/btusb.c:2188:65: sparse:     got int
->> drivers/bluetooth/btusb.c:2156:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] wMaxPacketSize @@     got int @@
-   drivers/bluetooth/btusb.c:2156:65: sparse:     expected restricted __le16 [usertype] wMaxPacketSize
-   drivers/bluetooth/btusb.c:2156:65: sparse:     got int
-   drivers/bluetooth/btusb.c:2188:65: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] wMaxPacketSize @@     got int @@
-   drivers/bluetooth/btusb.c:2188:65: sparse:     expected restricted __le16 [usertype] wMaxPacketSize
-   drivers/bluetooth/btusb.c:2188:65: sparse:     got int
+All error/warnings (new ones prefixed by >>):
 
-vim +2156 drivers/bluetooth/btusb.c
+   In file included from drivers/net/mctp/mctp-pcc.c:12:
+   In file included from include/linux/if_arp.h:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/net/mctp/mctp-pcc.c:12:
+   In file included from include/linux/if_arp.h:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/net/mctp/mctp-pcc.c:12:
+   In file included from include/linux/if_arp.h:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/net/mctp/mctp-pcc.c:12:
+   In file included from include/linux/if_arp.h:22:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from drivers/net/mctp/mctp-pcc.c:21:
+>> include/acpi/acpi_drivers.h:72:43: warning: declaration of 'struct acpi_pci_root' will not be visible outside of this function [-Wvisibility]
+      72 | struct pci_bus *pci_acpi_scan_root(struct acpi_pci_root *root);
+         |                                           ^
+>> drivers/net/mctp/mctp-pcc.c:237:32: error: incomplete definition of type 'struct acpi_device'
+     237 |         struct device *dev = &acpi_dev->dev;
+         |                               ~~~~~~~~^
+   include/linux/acpi.h:801:8: note: forward declaration of 'struct acpi_device'
+     801 | struct acpi_device;
+         |        ^
+>> drivers/net/mctp/mctp-pcc.c:246:3: error: call to undeclared function 'acpi_device_hid'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     246 |                 acpi_device_hid(acpi_dev));
+         |                 ^
+   drivers/net/mctp/mctp-pcc.c:246:3: note: did you mean 'acpi_device_dep'?
+   include/acpi/acpi_bus.h:41:6: note: 'acpi_device_dep' declared here
+      41 | bool acpi_device_dep(acpi_handle target, acpi_handle match);
+         |      ^
+>> drivers/net/mctp/mctp-pcc.c:246:3: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
+     245 |         dev_dbg(dev, "Adding mctp_pcc device for HID  %s\n",
+         |                                                       ~~
+         |                                                       %d
+     246 |                 acpi_device_hid(acpi_dev));
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                      ~~~     ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                 ~~~    ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+>> drivers/net/mctp/mctp-pcc.c:247:15: error: call to undeclared function 'acpi_device_handle'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     247 |         dev_handle = acpi_device_handle(acpi_dev);
+         |                      ^
+>> drivers/net/mctp/mctp-pcc.c:247:13: error: incompatible integer to pointer conversion assigning to 'acpi_handle' (aka 'void *') from 'int' [-Wint-conversion]
+     247 |         dev_handle = acpi_device_handle(acpi_dev);
+         |                    ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/mctp/mctp-pcc.c:290:10: error: incomplete definition of type 'struct acpi_device'
+     290 |         acpi_dev->driver_data = mctp_pcc_ndev;
+         |         ~~~~~~~~^
+   include/linux/acpi.h:801:8: note: forward declaration of 'struct acpi_device'
+     801 | struct acpi_device;
+         |        ^
+>> drivers/net/mctp/mctp-pcc.c:317:27: error: variable has incomplete type 'struct acpi_driver'
+     317 | static struct acpi_driver mctp_pcc_driver = {
+         |                           ^
+   drivers/net/mctp/mctp-pcc.c:317:15: note: forward declaration of 'struct acpi_driver'
+     317 | static struct acpi_driver mctp_pcc_driver = {
+         |               ^
+>> drivers/net/mctp/mctp-pcc.c:326:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     326 | module_acpi_driver(mctp_pcc_driver);
+         | ^
+         | int
+>> drivers/net/mctp/mctp-pcc.c:326:20: error: a parameter list without types is only allowed in a function definition
+     326 | module_acpi_driver(mctp_pcc_driver);
+         |                    ^
+   9 warnings and 8 errors generated.
 
-  2126	
-  2127	static inline int __set_isoc_interface(struct hci_dev *hdev, int altsetting)
-  2128	{
-  2129		struct btusb_data *data = hci_get_drvdata(hdev);
-  2130		struct usb_interface *intf = data->isoc;
-  2131		struct usb_endpoint_descriptor *ep_desc;
-  2132		struct usb_host_interface *alt;
-  2133		int i, err;
-  2134	
-  2135		if (!data->isoc)
-  2136			return -ENODEV;
-  2137	
-  2138		/* For some Realtek chips, they actually have the altsetting 6, but its
-  2139		 * altsetting descriptor is not exposed. We can activate altsetting 6 by
-  2140		 * replacing the altsetting 5.
-  2141		 */
-  2142		if (altsetting == 6 && !btusb_find_altsetting(data, 6) &&
-  2143		    btrealtek_test_flag(hdev, REALTEK_ALT6_FORCE)) {
-  2144			alt = NULL;
-  2145			for (i = 0; i < intf->num_altsetting; i++) {
-  2146				if (intf->altsetting[i].desc.bAlternateSetting == 5) {
-  2147					alt = &intf->altsetting[i];
-  2148					break;
-  2149				}
-  2150			}
-  2151			if (alt) {
-  2152				for (i = 0; i < alt->desc.bNumEndpoints; i++) {
-  2153					ep_desc = &alt->endpoint[i].desc;
-  2154					if (usb_endpoint_is_isoc_out(ep_desc) ||
-  2155					    usb_endpoint_is_isoc_in(ep_desc))
-> 2156						ep_desc->wMaxPacketSize = 63;
-  2157				}
-  2158				alt->desc.bAlternateSetting = 6;
-  2159				set_bit(BTUSB_ALT_CHANGED, &data->flags);
-  2160			}
-  2161		}
-  2162	
-  2163		err = usb_set_interface(data->udev, data->isoc_ifnum, altsetting);
-  2164		if (err < 0) {
-  2165			bt_dev_err(hdev, "setting interface failed (%d)", -err);
-  2166			return err;
-  2167		}
-  2168	
-  2169		data->isoc_altsetting = altsetting;
-  2170	
-  2171		data->isoc_tx_ep = NULL;
-  2172		data->isoc_rx_ep = NULL;
-  2173	
-  2174		/* Recover alt 5 desc if alt 0 is set. */
-  2175		if (!altsetting && test_bit(BTUSB_ALT_CHANGED, &data->flags)) {
-  2176			alt = NULL;
-  2177			for (i = 0; i < intf->num_altsetting; i++) {
-  2178				if (intf->altsetting[i].desc.bAlternateSetting == 6) {
-  2179					alt = &intf->altsetting[i];
-  2180					break;
-  2181				}
-  2182			}
-  2183			if (alt) {
-  2184				for (i = 0; i < alt->desc.bNumEndpoints; i++) {
-  2185					ep_desc = &alt->endpoint[i].desc;
-  2186					if (usb_endpoint_is_isoc_out(ep_desc) ||
-  2187					    usb_endpoint_is_isoc_in(ep_desc))
-  2188						ep_desc->wMaxPacketSize = 49;
-  2189				}
-  2190				alt->desc.bAlternateSetting = 5;
-  2191				clear_bit(BTUSB_ALT_CHANGED, &data->flags);
-  2192			}
-  2193		}
-  2194	
-  2195		for (i = 0; i < intf->cur_altsetting->desc.bNumEndpoints; i++) {
-  2196			ep_desc = &intf->cur_altsetting->endpoint[i].desc;
-  2197	
-  2198			if (!data->isoc_tx_ep && usb_endpoint_is_isoc_out(ep_desc)) {
-  2199				data->isoc_tx_ep = ep_desc;
-  2200				continue;
-  2201			}
-  2202	
-  2203			if (!data->isoc_rx_ep && usb_endpoint_is_isoc_in(ep_desc)) {
-  2204				data->isoc_rx_ep = ep_desc;
-  2205				continue;
-  2206			}
-  2207		}
-  2208	
-  2209		if (!data->isoc_tx_ep || !data->isoc_rx_ep) {
-  2210			bt_dev_err(hdev, "invalid SCO descriptors");
-  2211			return -ENODEV;
-  2212		}
-  2213	
-  2214		return 0;
-  2215	}
-  2216	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +237 drivers/net/mctp/mctp-pcc.c
+
+   231	
+   232	static int mctp_pcc_driver_add(struct acpi_device *acpi_dev)
+   233	{
+   234		struct mctp_pcc_lookup_context context = {0, 0, 0};
+   235		struct mctp_pcc_hw_addr mctp_pcc_hw_addr;
+   236		struct mctp_pcc_ndev *mctp_pcc_ndev;
+ > 237		struct device *dev = &acpi_dev->dev;
+   238		struct net_device *ndev;
+   239		acpi_handle dev_handle;
+   240		acpi_status status;
+   241		int mctp_pcc_mtu;
+   242		char name[32];
+   243		int rc;
+   244	
+   245		dev_dbg(dev, "Adding mctp_pcc device for HID  %s\n",
+ > 246			acpi_device_hid(acpi_dev));
+ > 247		dev_handle = acpi_device_handle(acpi_dev);
+   248		status = acpi_walk_resources(dev_handle, "_CRS", lookup_pcct_indices,
+   249					     &context);
+   250		if (!ACPI_SUCCESS(status)) {
+   251			dev_err(dev, "FAILURE to lookup PCC indexes from CRS");
+   252			return -EINVAL;
+   253		}
+   254	
+   255		//inbox initialization
+   256		snprintf(name, sizeof(name), "mctpipcc%d", context.inbox_index);
+   257		ndev = alloc_netdev(sizeof(struct mctp_pcc_ndev), name, NET_NAME_ENUM,
+   258				    mctp_pcc_setup);
+   259		if (!ndev)
+   260			return -ENOMEM;
+   261	
+   262		mctp_pcc_ndev = netdev_priv(ndev);
+   263		rc =  devm_add_action_or_reset(dev, mctp_cleanup_netdev, ndev);
+   264		if (rc)
+   265			goto cleanup_netdev;
+   266		spin_lock_init(&mctp_pcc_ndev->lock);
+   267	
+   268		rc = mctp_pcc_initialize_mailbox(dev, &mctp_pcc_ndev->inbox,
+   269						 context.inbox_index);
+   270		if (rc)
+   271			goto cleanup_netdev;
+   272		mctp_pcc_ndev->inbox.client.rx_callback = mctp_pcc_client_rx_callback;
+   273	
+   274		//outbox initialization
+   275		rc = mctp_pcc_initialize_mailbox(dev, &mctp_pcc_ndev->outbox,
+   276						 context.outbox_index);
+   277		if (rc)
+   278			goto cleanup_netdev;
+   279	
+   280		mctp_pcc_hw_addr.parent_id = cpu_to_be32(0);
+   281		mctp_pcc_hw_addr.inbox_id = cpu_to_be16(context.inbox_index);
+   282		mctp_pcc_hw_addr.outbox_id = cpu_to_be16(context.outbox_index);
+   283		ndev->addr_len = sizeof(mctp_pcc_hw_addr);
+   284		dev_addr_set(ndev, (const u8 *)&mctp_pcc_hw_addr);
+   285	
+   286		mctp_pcc_ndev->acpi_device = acpi_dev;
+   287		mctp_pcc_ndev->inbox.client.dev = dev;
+   288		mctp_pcc_ndev->outbox.client.dev = dev;
+   289		mctp_pcc_ndev->mdev.dev = ndev;
+   290		acpi_dev->driver_data = mctp_pcc_ndev;
+   291	
+   292		/* There is no clean way to pass the MTU to the callback function
+   293		 * used for registration, so set the values ahead of time.
+   294		 */
+   295		mctp_pcc_mtu = mctp_pcc_ndev->outbox.chan->shmem_size -
+   296			sizeof(struct mctp_pcc_hdr);
+   297		ndev->mtu = MCTP_MIN_MTU;
+   298		ndev->max_mtu = mctp_pcc_mtu;
+   299		ndev->min_mtu = MCTP_MIN_MTU;
+   300	
+   301		/* ndev needs to be freed before the iomemory (mapped above) gets
+   302		 * unmapped,  devm resources get freed in reverse to the order they
+   303		 * are added.
+   304		 */
+   305		rc = register_netdev(ndev);
+   306		return rc;
+   307	cleanup_netdev:
+   308		free_netdev(ndev);
+   309		return rc;
+   310	}
+   311	
+   312	static const struct acpi_device_id mctp_pcc_device_ids[] = {
+   313		{ "DMT0001"},
+   314		{}
+   315	};
+   316	
+ > 317	static struct acpi_driver mctp_pcc_driver = {
+   318		.name = "mctp_pcc",
+   319		.class = "Unknown",
+   320		.ids = mctp_pcc_device_ids,
+   321		.ops = {
+   322			.add = mctp_pcc_driver_add,
+   323		},
+   324	};
+   325	
+ > 326	module_acpi_driver(mctp_pcc_driver);
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
