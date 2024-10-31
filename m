@@ -1,119 +1,162 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D7AA1C9EB5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 20:15:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19E21CC15C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 20:15:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730405705; cv=none; b=bEJTIelQqsmNFfsrbmYxk7Np6xgHTBKigV40QZwyIx3yX4/cYmWgo85arNc5ABCioZnha/A2XaFL1WrNgIC7XsjRLDfFI8jtiuW21bWCgeJtfiXcgqUouaoUh00ejB+qXb26Z/3J0XwGaoSzBQhKbl/aNKUW5O+4q5LpMXu1GhM=
+	t=1730405749; cv=none; b=mWgdu2jkuxJ7yHQ6OMRfl6F8C7wHxV74azoZ0iwQjbmjU1R1wWMpLVPn5Zpirck9pgRA9rZbtH7NlUHotGgisSTIPfrg3HJ/vSHwJ8eb+NZrB2C3Wt3XKn2CvRC2QSOpubUhTu+yQ/gzixZEOuDPRTcymIDRDp44h4zFN8BvtO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730405705; c=relaxed/simple;
-	bh=F1PXddJIyO5h0PSkrxMPB6bJl9U50pncdKZ9TRVqScQ=;
+	s=arc-20240116; t=1730405749; c=relaxed/simple;
+	bh=4dR6H4q/ri+zk3yP4yI9OIF1Zj2kbgtK8FGEMx4q6Y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nDie2si1zN+IgxgzAEtRK4g6vaURSzBBwkOCCvuFV2E4YetkJHPOLeCJEhlL/gilV5L1NzFP4DeMQAdAbiB4b4lkwwX53WECQQwT4s9HOv6hSGYWn1qeCsSoRErDAACSu0OPSsxFV4sW43/hPj55XNB7Hc9A5i0X/zEDio/JIJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xhg6Cyfj; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=O8GMmEm7tQXvpwGrMQfnuWVhRo8axwbx8J+pkQr8J/71ZRbbsC7L4SofTXKhZ29c6qyX1FmzkiLh33R1f4gdF6lgitYeUAJ49PKEZJRPR1BQSkmhKAo8P2OQJRF6lpp5xYxFFpbw5l16SoTdcBptxAci4K3gZNR6Txi2UAyK55g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1lCrGHi; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xhg6Cyfj"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-37d495d217bso1117417f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 13:15:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730405702; x=1731010502; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IrludKBBDIBzNRS8PzIYG2KuwgL5KcmDs8aNBJDfVxM=;
-        b=xhg6CyfjqFUGm0C6VPHKyHQAe+j/sD4v2FcLKJDn0aZ3d0T+OA8y7z+fOGhO3ycaaW
-         Q7VU5IggNiOg7UBMx8Jcy0tjgk932GsmCGUK4oE3Gk3swGvknPW/B9Iv+Z14ZAKEtNuS
-         8TlcWDEh60111B3jTFKrQlAuW/1HMu6BQkPSgKWt0CNzADaIhkReQ443CkszajxN95ZP
-         N/MJk4rSh3LL+qhnYMcafm8fWyT8jiwBvRzbY3E/qwUAuA334VOJga4DIVEaatAN+uVN
-         /n17k3CLrQTb3pgZ8zndLuv1oEuJN9ww2E7hKI8FDv4nas5jtvH9SH2hCUayh+ERmWLU
-         RktA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730405702; x=1731010502;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IrludKBBDIBzNRS8PzIYG2KuwgL5KcmDs8aNBJDfVxM=;
-        b=fVKxDtAWZOfMts/93ehW+kFJeycaACaAuV3tNNcQPSm5Mo3q5BpEbd4YzjNMWNit75
-         a41KNNTbGEZDr4CohQVkBq5Hd/ci4r7IJGgW88ffFgS9NLVQ1GLIdUlvWUIFB0D/XDMs
-         SJnmhqUahE3Z0LZ9UFMO8m2I58MLezTM0MSmzFzUmBy3RtTE1pLN/xtBZ3pIP2lSGHW3
-         gJweVeuCG739f5cglP8Gspr7Jvb6j9L6faR0gDufjP4HojfZmAQ2vMKQMOS3YlI9mO+/
-         AGyefmDVIGTXHpikazRjTbYArDjil1aLl56RvbQyKkVZK/oiyQayMVK1zX7IZggw9KaM
-         GczA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPOknxaXuHqTi4WalBL7o4Je5bJ0hn+HHDcmmTqbbSAfUO/OLpbst23XN0peVcsADfu1aDo7XhLWFlSUPm@lists.linux.dev
-X-Gm-Message-State: AOJu0YxAzCXo5z2kExS7EDkOGoHjErf6wn7rTL8Ci0fWAJylqHg4oTQC
-	th/v6o3EF/r9fn0zZ5kHsV2ERqMrOZOIGV4MzzdDfkG9hGQSlkT+aIDmlWovhEWSYjpeImjdYsp
-	b
-X-Google-Smtp-Source: AGHT+IGOYG5R83od9ifwFQcrF3qBEgFnACBjU/IjigZnNl6SG03NC9aar2K7mHgmVAKLHOGvdTR+sA==
-X-Received: by 2002:a05:6000:1866:b0:37d:95a7:9e57 with SMTP id ffacd0b85a97d-381c7a469c3mr1223628f8f.2.1730405701457;
-        Thu, 31 Oct 2024 13:15:01 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5e7c9asm39408905e9.21.2024.10.31.13.15.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Oct 2024 13:15:01 -0700 (PDT)
-Date: Thu, 31 Oct 2024 23:14:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 779/30000] drivers/md/dm.c:2295
- dm_keyslot_evict() warn: inconsistent returns '&md->io_barrier'.
-Message-ID: <20e3f66a-fd3f-47cf-95e1-8e54c9e32a5c@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1lCrGHi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730405746; x=1761941746;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=4dR6H4q/ri+zk3yP4yI9OIF1Zj2kbgtK8FGEMx4q6Y4=;
+  b=c1lCrGHipi80tzdIDKbk1ROdzdx2hMiz9wvJ03XRhl8BbOWIL3oTd34V
+   Pwgtf0GadlL3PNR8ubNyiBUQ5F8vOLfKG7R2WqvdglQUWUDH6/PdRj062
+   SUv+7m7Qb/5RAnDgoFMPwxMLgSjPlLG99qyhMq99S5QqPNdHfvXbfZPAy
+   DPWGLa+feFg+8De5Zh2vyL8JZeaXQQ2+8muJGRstW3pXp6V5I5logBdv6
+   5gqqeHZV1tcLe3Gjb0m9dER2CJCnXJvF5jcssC+e2lIyqNJBbKitt3QON
+   kvCuJW20yKf9zs9wVrDvuN/dm04lNEgHeEvYq1kb//6aNXlPADveeR8pL
+   Q==;
+X-CSE-ConnectionGUID: if9lHG25Tx2dlskAGZjaAw==
+X-CSE-MsgGUID: YHNVmYbYSkq4FpahAUoG3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30282998"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="30282998"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 13:15:46 -0700
+X-CSE-ConnectionGUID: Vy36aZtaTEq8tL8whTdq8g==
+X-CSE-MsgGUID: kDhg2e68RWqPPUn1adSL0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="82411932"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 31 Oct 2024 13:15:44 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6ba2-000gg2-1C;
+	Thu, 31 Oct 2024 20:15:42 +0000
+Date: Fri, 1 Nov 2024 04:14:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suma Hegde <suma.hegde@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Naveen Krishna Chatradhi <naveenkrishna.chatradhi@amd.com>
+Subject: [pdx86-platform-drivers-x86:review-ilpo 24/42]
+ drivers/platform/x86/amd/hsmp/plat.c:105:68: error: request for member
+ 'root' in something not a structure or union
+Message-ID: <202411010402.swXL37rr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: 695cfeb08863e147e56b4895443440692cfcebff [779/30000] ANDROID: dm: add support for passing through inline crypto support
-config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010347.BzF0LDj0-lkp@intel.com/config)
+Hi Suma,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git review-ilpo
+head:   df7f9acd8646bfad565e6d68a293ec0d8e3f2108
+commit: 7d3135d16356f1f0adda7e76d4a747f618263db4 [24/42] platform/x86/amd/hsmp: Create separate ACPI, plat and common drivers
+config: i386-buildonly-randconfig-004-20241101 (https://download.01.org/0day-ci/archive/20241101/202411010402.swXL37rr-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010402.swXL37rr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411010347.BzF0LDj0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010402.swXL37rr-lkp@intel.com/
 
-New smatch warnings:
-drivers/md/dm.c:2295 dm_keyslot_evict() warn: inconsistent returns '&md->io_barrier'.
+All error/warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/md/dm.c:1152 dm_dax_supported() warn: inconsistent returns '&md->io_barrier'.
+   drivers/platform/x86/amd/hsmp/plat.c: In function 'init_platform_device':
+>> drivers/platform/x86/amd/hsmp/plat.c:105:68: warning: dereferencing 'void *' pointer
+     105 |                 sock->root                      = node_to_amd_nb(i)->root;
+         |                                                                    ^~
+>> drivers/platform/x86/amd/hsmp/plat.c:105:68: error: request for member 'root' in something not a structure or union
 
-vim +2295 drivers/md/dm.c
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_PERFORMANCE [=y] && GCC_PLUGINS [=y] && MODULES [=y]
 
-695cfeb08863e1 Eric Biggers 2020-01-21  2275  static int dm_keyslot_evict(struct keyslot_manager *ksm,
-695cfeb08863e1 Eric Biggers 2020-01-21  2276  			    const struct blk_crypto_key *key, unsigned int slot)
-695cfeb08863e1 Eric Biggers 2020-01-21  2277  {
-695cfeb08863e1 Eric Biggers 2020-01-21  2278  	struct mapped_device *md = keyslot_manager_private(ksm);
-695cfeb08863e1 Eric Biggers 2020-01-21  2279  	struct dm_keyslot_evict_args args = { key };
-695cfeb08863e1 Eric Biggers 2020-01-21  2280  	struct dm_table *t;
-695cfeb08863e1 Eric Biggers 2020-01-21  2281  	int srcu_idx;
-695cfeb08863e1 Eric Biggers 2020-01-21  2282  	int i;
-695cfeb08863e1 Eric Biggers 2020-01-21  2283  	struct dm_target *ti;
-695cfeb08863e1 Eric Biggers 2020-01-21  2284  
-695cfeb08863e1 Eric Biggers 2020-01-21  2285  	t = dm_get_live_table(md, &srcu_idx);
-695cfeb08863e1 Eric Biggers 2020-01-21  2286  	if (!t)
-695cfeb08863e1 Eric Biggers 2020-01-21  2287  		return 0;
 
-We must call dm_put_live_table() even if dm_get_live_table() returns NULL.
+vim +/root +105 drivers/platform/x86/amd/hsmp/plat.c
 
-695cfeb08863e1 Eric Biggers 2020-01-21  2288  	for (i = 0; i < dm_table_get_num_targets(t); i++) {
-695cfeb08863e1 Eric Biggers 2020-01-21  2289  		ti = dm_table_get_target(t, i);
-695cfeb08863e1 Eric Biggers 2020-01-21  2290  		if (!ti->type->iterate_devices)
-695cfeb08863e1 Eric Biggers 2020-01-21  2291  			continue;
-695cfeb08863e1 Eric Biggers 2020-01-21  2292  		ti->type->iterate_devices(ti, dm_keyslot_evict_callback, &args);
-695cfeb08863e1 Eric Biggers 2020-01-21  2293  	}
-695cfeb08863e1 Eric Biggers 2020-01-21  2294  	dm_put_live_table(md, srcu_idx);
-695cfeb08863e1 Eric Biggers 2020-01-21 @2295  	return args.err;
-695cfeb08863e1 Eric Biggers 2020-01-21  2296  }
+e47c018a0ee696 Suma Hegde 2024-10-21   95  
+7d3135d16356f1 Suma Hegde 2024-10-21   96  static int init_platform_device(struct device *dev)
+e47c018a0ee696 Suma Hegde 2024-10-21   97  {
+e47c018a0ee696 Suma Hegde 2024-10-21   98  	struct hsmp_socket *sock;
+e47c018a0ee696 Suma Hegde 2024-10-21   99  	int ret, i;
+e47c018a0ee696 Suma Hegde 2024-10-21  100  
+8e75dff56e003c Suma Hegde 2024-10-21  101  	for (i = 0; i < hsmp_pdev.num_sockets; i++) {
+e47c018a0ee696 Suma Hegde 2024-10-21  102  		if (!node_to_amd_nb(i))
+e47c018a0ee696 Suma Hegde 2024-10-21  103  			return -ENODEV;
+8e75dff56e003c Suma Hegde 2024-10-21  104  		sock = &hsmp_pdev.sock[i];
+e47c018a0ee696 Suma Hegde 2024-10-21 @105  		sock->root			= node_to_amd_nb(i)->root;
+e47c018a0ee696 Suma Hegde 2024-10-21  106  		sock->sock_ind			= i;
+e47c018a0ee696 Suma Hegde 2024-10-21  107  		sock->dev			= dev;
+e47c018a0ee696 Suma Hegde 2024-10-21  108  		sock->mbinfo.base_addr		= SMN_HSMP_BASE;
+e47c018a0ee696 Suma Hegde 2024-10-21  109  		sock->amd_hsmp_rdwr		= amd_hsmp_pci_rdwr;
+e47c018a0ee696 Suma Hegde 2024-10-21  110  
+e47c018a0ee696 Suma Hegde 2024-10-21  111  		/*
+e47c018a0ee696 Suma Hegde 2024-10-21  112  		 * This is a transitional change from non-ACPI to ACPI, only
+e47c018a0ee696 Suma Hegde 2024-10-21  113  		 * family 0x1A, model 0x00 platform is supported for both ACPI and non-ACPI.
+e47c018a0ee696 Suma Hegde 2024-10-21  114  		 */
+e47c018a0ee696 Suma Hegde 2024-10-21  115  		if (is_f1a_m0h())
+e47c018a0ee696 Suma Hegde 2024-10-21  116  			sock->mbinfo.msg_id_off	= SMN_HSMP_MSG_ID_F1A_M0H;
+e47c018a0ee696 Suma Hegde 2024-10-21  117  		else
+e47c018a0ee696 Suma Hegde 2024-10-21  118  			sock->mbinfo.msg_id_off	= SMN_HSMP_MSG_ID;
+e47c018a0ee696 Suma Hegde 2024-10-21  119  
+e47c018a0ee696 Suma Hegde 2024-10-21  120  		sock->mbinfo.msg_resp_off	= SMN_HSMP_MSG_RESP;
+e47c018a0ee696 Suma Hegde 2024-10-21  121  		sock->mbinfo.msg_arg_off	= SMN_HSMP_MSG_DATA;
+e47c018a0ee696 Suma Hegde 2024-10-21  122  		sema_init(&sock->hsmp_sem, 1);
+e47c018a0ee696 Suma Hegde 2024-10-21  123  
+e47c018a0ee696 Suma Hegde 2024-10-21  124  		/* Test the hsmp interface on each socket */
+e47c018a0ee696 Suma Hegde 2024-10-21  125  		ret = hsmp_test(i, 0xDEADBEEF);
+e47c018a0ee696 Suma Hegde 2024-10-21  126  		if (ret) {
+e47c018a0ee696 Suma Hegde 2024-10-21  127  			dev_err(dev, "HSMP test message failed on Fam:%x model:%x\n",
+e47c018a0ee696 Suma Hegde 2024-10-21  128  				boot_cpu_data.x86, boot_cpu_data.x86_model);
+e47c018a0ee696 Suma Hegde 2024-10-21  129  			dev_err(dev, "Is HSMP disabled in BIOS ?\n");
+e47c018a0ee696 Suma Hegde 2024-10-21  130  			return ret;
+e47c018a0ee696 Suma Hegde 2024-10-21  131  		}
+e47c018a0ee696 Suma Hegde 2024-10-21  132  
+e47c018a0ee696 Suma Hegde 2024-10-21  133  		ret = hsmp_cache_proto_ver(i);
+e47c018a0ee696 Suma Hegde 2024-10-21  134  		if (ret) {
+e47c018a0ee696 Suma Hegde 2024-10-21  135  			dev_err(dev, "Failed to read HSMP protocol version\n");
+e47c018a0ee696 Suma Hegde 2024-10-21  136  			return ret;
+e47c018a0ee696 Suma Hegde 2024-10-21  137  		}
+e47c018a0ee696 Suma Hegde 2024-10-21  138  	}
+e47c018a0ee696 Suma Hegde 2024-10-21  139  
+e47c018a0ee696 Suma Hegde 2024-10-21  140  	return 0;
+e47c018a0ee696 Suma Hegde 2024-10-21  141  }
+7d3135d16356f1 Suma Hegde 2024-10-21  142  
+
+:::::: The code at line 105 was first introduced by commit
+:::::: e47c018a0ee6962fe3dd895407e2c49538cc066d platform/x86/amd/hsmp: Move platform device specific code to plat.c
+
+:::::: TO: Suma Hegde <suma.hegde@amd.com>
+:::::: CC: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
