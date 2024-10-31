@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5C312C473
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 05:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8C113BAC3
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 05:42:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730353381; cv=none; b=dMltvEvYyN/YSlWLIbwndlGGVITrLl07JFR0KiMOz2pOtaFibGhFJb5uap7ToGU9e5gz/p7eZY0HQbM2j7LSrFrgfI9eCV/f0cx+0fBTuQhaX+lTKAuiR41YlQIP+NjofhsUHZxBJjL4cvks3upRJ8KSORic14lXxIZ91tFZlhM=
+	t=1730353381; cv=none; b=G+JvVYyVn0fR1hDHimhvaEo027G2+SoB0JON+VoSxDSxuLNVFJvW2cRlE5JYlzw1J48Z1QgdpvX2E1x5gMqHwcAL0GcW+zUrPwI8lGy6SJ/n0qFNcK3zDOLqBgw3junsjA2qn9aGqiFzGa0+kZ/s1jmxYpaC3sCnLx7gDfeXxsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730353381; c=relaxed/simple;
-	bh=D4tOHwOBRIiQFrDlWAa2q3iNGbOHJjF5iBULklQKDhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k8V+b2zsMaFraryOm8iLl4UioqILz86Af/GoBviZyR8EZ9xE5PrVSbMbAvZATEV+rUf8hO9IVTjW+VpWjAFb0YQ3vxox+AJl6UKpWgyWwNYoqY3wam5RcLnF3skQvVyYd3RUooA4LaTZwL/8Aw5tJDLVhi3Q9oISvMmHMeBLOos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iJa3LijJ; arc=none smtp.client-ip=198.175.65.10
+	bh=Ac/j4MOgUEPCHxoddjHszNDloaEzY0OScDCcj5Fz9Y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KBbTsLI1B+PLYW/6kWJrAmY0IuVf/Ci96CkWwO5gsv3Ul35r2dvdXKpE53xQ7n0C//Vdjpajsw6v4X2rtqmPjFvfmA65EJncma4ATUgCsulktC2YcnND7ntktHpak2JFmmRwvQuFI9iTc/BK3FWR00qCFwAgC7b5E2LtcbCOFZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b19cH/i+; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iJa3LijJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b19cH/i+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730353378; x=1761889378;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D4tOHwOBRIiQFrDlWAa2q3iNGbOHJjF5iBULklQKDhQ=;
-  b=iJa3LijJlDDkacft1mVWl9+BBriFN/PEuwhT0/yjhff2IagSK1XGCAQC
-   T7GVT1+Jb/pgtsu9TrgEaxEIRO46jOxlNBYO8w/j1d+Fjr//a5nA2kvhx
-   YekDSM6HOKT0wG9LKqFJr8AInmJtDcRFSr3JmZ+MmCvdzsbN2wiGtSXIp
-   TULFMJCqHHKbTE22vWAcz4eSN/nkrgzI321ow1bMLBxhOjcjodUGttMbq
-   nTl0LOFaADgSbhOU7EIaO+Qz1UA2ZC0w6DNZQYF9VGGG889RPlCDOzCYD
-   BvvtUZ9TNYzetaSgPH7S7Lrc8ttkbcwQPXQFzrO71CrKeGiUD8uhLV3WQ
-   Q==;
-X-CSE-ConnectionGUID: /THf/pMeRdyKHp3mnOFS+Q==
-X-CSE-MsgGUID: NUxUyH9ISCqFzkITe5lVzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47536992"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47536992"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 22:42:58 -0700
-X-CSE-ConnectionGUID: CLu+p830S7+BxlUmNFvcgQ==
-X-CSE-MsgGUID: wznsqsJwRn6LlgYBkDdl8w==
+  t=1730353380; x=1761889380;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ac/j4MOgUEPCHxoddjHszNDloaEzY0OScDCcj5Fz9Y4=;
+  b=b19cH/i+P7u1V+7/2h1c/chmmyXHfqhGvTgauYQHgmeuZun2sEO49P+g
+   KR9KOyr6MRyT0pM1uS65iUDJJzhLKcJoxkjI1ytjeG+/GGCsdWZs3g9ZL
+   hVNcxy5qPVr+TFJIDK9Lgo72XBxotw9HiPRPu4xsADvdBIopdHUuoWrkW
+   3xCE04drZLKCcWSxRwmU83Bz4UjqjljcmI3nm0rSAH3X0RwWC5AsDRypa
+   kn7ry+4XuoxtF+XcOKtEK0Cngz1ptYByJjePM+LMdWdXnPMt2d/B2cmmu
+   HVE+5ddbiJF41IRzTVwT2jS/+RObPORLIjszZoGCPbcyWKmTwVWvfcNMl
+   A==;
+X-CSE-ConnectionGUID: wamgmvybQRWYEwhluDIxtw==
+X-CSE-MsgGUID: jAAKRjvdTbGpk0SI+7Yrrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="30186612"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="30186612"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2024 22:42:59 -0700
+X-CSE-ConnectionGUID: 3uxnDGihSNiF0PmHsGxmCw==
+X-CSE-MsgGUID: x1RbFepxTGaYiezTVuY9Xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="87313371"
+   d="scan'208";a="82640306"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2024 22:42:56 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 30 Oct 2024 22:42:56 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6NxN-000fiG-2O;
+	id 1t6NxN-000fiI-2U;
 	Thu, 31 Oct 2024 05:42:53 +0000
-Date: Thu, 31 Oct 2024 13:42:17 +0800
+Date: Thu, 31 Oct 2024 13:42:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, "Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>
-Subject: [bigeasy-staging:ktimers_v2.5 3/3] kernel/rcu/rcutorture.c:2445:37:
- error: 'timersd' undeclared; did you mean 'ktimerd'?
-Message-ID: <202410311325.AyDdMnSI-lkp@intel.com>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Christopher Cordahi <christophercordahi@nanometrics.ca>,
+	Bastien Curutchet <bastien.curutchet@bootlin.com>
+Subject: Re: [PATCH 2/5] memory: ti-aemif: export aemif_set_cs_timing()
+Message-ID: <202410311304.0fuqFK2M-lkp@intel.com>
+References: <20241030104717.88688-3-bastien.curutchet@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,110 +72,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241030104717.88688-3-bastien.curutchet@bootlin.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git ktimers_v2.5
-head:   e5c4029a61dc897cc0ab99e2647f0e796bdde2bf
-commit: e5c4029a61dc897cc0ab99e2647f0e796bdde2bf [3/3] softirq: Use a dedicated thread for timer wakeups on PREEMPT_RT.
-config: arm-randconfig-003-20241031 (https://download.01.org/0day-ci/archive/20241031/202410311325.AyDdMnSI-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311325.AyDdMnSI-lkp@intel.com/reproduce)
+Hi Bastien,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on krzk-mem-ctrl/for-next]
+[also build test WARNING on mtd/nand/next linus/master v6.12-rc5 next-20241030]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Curutchet/memory-ti-aemif-Create-aemif_set_cs_timings/20241030-184949
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20241030104717.88688-3-bastien.curutchet%40bootlin.com
+patch subject: [PATCH 2/5] memory: ti-aemif: export aemif_set_cs_timing()
+config: arc-randconfig-001-20241031 (https://download.01.org/0day-ci/archive/20241031/202410311304.0fuqFK2M-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311304.0fuqFK2M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410311325.AyDdMnSI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410311304.0fuqFK2M-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/percpu.h:7,
-                    from arch/arm/include/asm/percpu.h:68,
-                    from include/linux/irqflags.h:19,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from kernel/rcu/rcutorture.c:16:
-   kernel/rcu/rcutorture.c: In function 'rcutorture_booster_init':
->> kernel/rcu/rcutorture.c:2445:37: error: 'timersd' undeclared (first use in this function); did you mean 'ktimerd'?
-    2445 |                         t = per_cpu(timersd, cpu);
-         |                                     ^~~~~~~
-   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/rcu/rcutorture.c:2445:29: note: in expansion of macro 'per_cpu'
-    2445 |                         t = per_cpu(timersd, cpu);
-         |                             ^~~~~~~
-   kernel/rcu/rcutorture.c:2445:37: note: each undeclared identifier is reported only once for each function it appears in
-    2445 |                         t = per_cpu(timersd, cpu);
-         |                                     ^~~~~~~
-   include/linux/percpu-defs.h:219:54: note: in definition of macro '__verify_pcpu_ptr'
-     219 |         const void __percpu *__vpp_verify = (typeof((ptr) + 0))NULL;    \
-         |                                                      ^~~
-   include/linux/percpu-defs.h:263:49: note: in expansion of macro 'VERIFY_PERCPU_PTR'
-     263 | #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); })
-         |                                                 ^~~~~~~~~~~~~~~~~
-   include/linux/percpu-defs.h:269:35: note: in expansion of macro 'per_cpu_ptr'
-     269 | #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
-         |                                   ^~~~~~~~~~~
-   kernel/rcu/rcutorture.c:2445:29: note: in expansion of macro 'per_cpu'
-    2445 |                         t = per_cpu(timersd, cpu);
-         |                             ^~~~~~~
+>> drivers/memory/ti-aemif.c:130: warning: Function parameter or struct member 'config_cs_lock' not described in 'aemif_device'
+>> drivers/memory/ti-aemif.c:130: warning: Excess struct member 'cs_config_lock' description in 'aemif_device'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +2445 kernel/rcu/rcutorture.c
+vim +130 drivers/memory/ti-aemif.c
 
-  2424	
-  2425	static int rcutorture_booster_init(unsigned int cpu)
-  2426	{
-  2427		int retval;
-  2428	
-  2429		if (boost_tasks[cpu] != NULL)
-  2430			return 0;  /* Already created, nothing more to do. */
-  2431	
-  2432		// Testing RCU priority boosting requires rcutorture do
-  2433		// some serious abuse.  Counter this by running ksoftirqd
-  2434		// at higher priority.
-  2435		if (IS_BUILTIN(CONFIG_RCU_TORTURE_TEST)) {
-  2436			struct sched_param sp;
-  2437			struct task_struct *t;
-  2438	
-  2439			t = per_cpu(ksoftirqd, cpu);
-  2440			WARN_ON_ONCE(!t);
-  2441			sp.sched_priority = 2;
-  2442			sched_setscheduler_nocheck(t, SCHED_FIFO, &sp);
-  2443	#ifdef CONFIG_IRQ_FORCED_THREADING
-  2444			if (force_irqthreads()) {
-> 2445				t = per_cpu(timersd, cpu);
-  2446				WARN_ON_ONCE(!t);
-  2447				sp.sched_priority = 2;
-  2448				sched_setscheduler_nocheck(t, SCHED_FIFO, &sp);
-  2449			}
-  2450	#endif
-  2451		}
-  2452	
-  2453		/* Don't allow time recalculation while creating a new task. */
-  2454		mutex_lock(&boost_mutex);
-  2455		rcu_torture_disable_rt_throttle();
-  2456		VERBOSE_TOROUT_STRING("Creating rcu_torture_boost task");
-  2457		boost_tasks[cpu] = kthread_run_on_cpu(rcu_torture_boost, NULL,
-  2458						      cpu, "rcu_torture_boost_%u");
-  2459		if (IS_ERR(boost_tasks[cpu])) {
-  2460			retval = PTR_ERR(boost_tasks[cpu]);
-  2461			VERBOSE_TOROUT_STRING("rcu_torture_boost task create failed");
-  2462			n_rcu_torture_boost_ktrerror++;
-  2463			boost_tasks[cpu] = NULL;
-  2464			mutex_unlock(&boost_mutex);
-  2465			return retval;
-  2466		}
-  2467		mutex_unlock(&boost_mutex);
-  2468		return 0;
-  2469	}
-  2470	
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  111  
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  112  /**
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  113   * struct aemif_device: structure to hold device data
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  114   * @base: base address of AEMIF registers
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  115   * @clk: source clock
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  116   * @clk_rate: clock's rate in kHz
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  117   * @num_cs: number of assigned chip-selects
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  118   * @cs_offset: start number of cs nodes
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  119   * @cs_data: array of chip-select settings
+0f034c3604121bf Bastien Curutchet 2024-10-30  120   * @cs_config_lock: lock used to access CS configuration
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  121   */
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  122  struct aemif_device {
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  123  	void __iomem *base;
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  124  	struct clk *clk;
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  125  	unsigned long clk_rate;
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  126  	u8 num_cs;
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  127  	int cs_offset;
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  128  	struct aemif_cs_data cs_data[NUM_CS];
+0f034c3604121bf Bastien Curutchet 2024-10-30  129  	spinlock_t config_cs_lock;
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24 @130  };
+5a7c81547c1db75 Ivan Khoronzhuk   2014-02-24  131  
 
 -- 
 0-DAY CI Kernel Test Service
