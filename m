@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C6D13A256
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 08:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066841BD9ED
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 09:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730363478; cv=none; b=p52uEzo3irpH5vhvJin8uk1j93laRP1cVdbGnlE/ndiCVFiQlomxTxi2vPsssQLKJe0eB+GwUl0JGRaS3DNAu6T73f+MDZVAl1Djhxs1w1LVgs8F1HCLCObGuzt2/3GvqA0wLU9o/5048py+O7AVRuUUk/arTD51xUeNsaKTlac=
+	t=1730365329; cv=none; b=QmmwoDKr3RSzh/tAqEKcUcJEo5JU70I0/41ugugc5WKVFofckLlZsVicjUMdUefO4D+xtDKvweY5/NO7npKUdyey46/9Ia+kx2BiLN6rK09mNEusaz3Yc105ZQDcnkUz/xhFET6/yr0WCZObS51LGd6AN7aqtOyBpBG0tCkO5aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730363478; c=relaxed/simple;
-	bh=RnYekBpMcDIQnTJ8lIXxCdzmzb/IzVzMZJEy4dbWrwc=;
+	s=arc-20240116; t=1730365329; c=relaxed/simple;
+	bh=/n84PVy4YbxIQu6M1YNauirYO2NoxZN4HxZ03Pp+Pzc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L/VUdIv13sY7xd6SGiQIM9y2Apjv4fMlgud4yObulRS6T1/L8ofBSznVYCKCroEBF0m4mWL6xAJOtrnkUr7pItoejR+r0uFiq9XsCW3LN013CN++8BMe7cPnlfsP5pt2fyZNwy5B8aHlm9cn2ZOnyy7+xTAO2PS8SxHPEMKjus0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W282RJh/; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=l9aXNYwdE0IVvw1/1rhwnddGn0bQYcxShuKRqBQEzRnDd5M6zWHVwrUfpFgXyGColEBUszPxyjT7aI8zOK3AGnmTdtG/30KKQlJmazzjrrsJTkFTcHSKe5jwjGcLOh3YUu+TJ2PHVQW/yUU5VTmT+mnz7OigQtzQvWj13nJdzpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bzxat93o; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W282RJh/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bzxat93o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730363476; x=1761899476;
+  t=1730365327; x=1761901327;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RnYekBpMcDIQnTJ8lIXxCdzmzb/IzVzMZJEy4dbWrwc=;
-  b=W282RJh/P+tm3Ydz8mV/6wRbZWugbxkaSwlvPFGAgqH9N6I0Ff7VJ4mn
-   OUVRUX3AaxWA7n197VZerbVC7T9uDCbAuJtKYCkIdTl/l8jgFuHHekYbf
-   o+Kki/PO7kP4rBkXY8Qw0wkEmNxmWoU4RVP2eab0oBHd/Yho+00OtjvT1
-   Stz6g1dHM4Ib7Y6SFISYowOcCLCwmbrHi/M+v0u6wSjr2VOu1mGODhk0w
-   i/rdQ0+xn+LWuXG7J22IW0sVvn0/j3IzTN5QYnh3rI+KeojbpoiYCEKC4
-   qZdrPcfdcIBCASfCNy4QCcW6e8HV6oG4k2e3qKI1tFxPO3+wExwHIeSxR
-   A==;
-X-CSE-ConnectionGUID: rIugCohyQom6bj4y17/jYg==
-X-CSE-MsgGUID: RuScQSMSRBWA6lYevM+wMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="41481621"
+  bh=/n84PVy4YbxIQu6M1YNauirYO2NoxZN4HxZ03Pp+Pzc=;
+  b=Bzxat93oyPoqEcIw/i5h7ANuMbcW5EbbYv5aEjagrmVHWLAGfK/m+TW/
+   VyGeQvDxOhFMGP2Q0wApryQHpRtU80Un5M2e864Fz89gh6gSBZucF2U8/
+   zWoVooNHVC8WB7yX725rWqAs212+2bf9Txq8+Vvd6iY3d86LYwLslFPes
+   mJ1y5dOqnZjbZiupK7BZEOCPLMjoE8dvOQXbMxlXFYtUYkN2VXHDi3iHg
+   mKLYVA89kXxJNziFym6ZoutW3bWAJqwJtyauuUV4WaIeAsOqD2ueYrTLh
+   7emhEdvrwdOtO2wNJt+nmSLKKsm7dhQK0ihQMJaCgn1AFjUHCdcssu3HU
+   Q==;
+X-CSE-ConnectionGUID: LrN4SQpqQWOdqtwW+n4ONA==
+X-CSE-MsgGUID: WhTATMybTCaJHYcR2ch+9w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="40705623"
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="41481621"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 01:31:16 -0700
-X-CSE-ConnectionGUID: MkVcJ7ruRZaocrHzeEomww==
-X-CSE-MsgGUID: eOfVzdhDQ4qJjENrf2i3lQ==
+   d="scan'208";a="40705623"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 02:02:06 -0700
+X-CSE-ConnectionGUID: /Udoi9zqQiOSRfx3k09MHQ==
+X-CSE-MsgGUID: wlBJBE6ZTFeVUvXQZ81jNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="83364808"
+   d="scan'208";a="105885892"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 31 Oct 2024 01:31:10 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2024 02:02:05 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6Qa5-000fr6-1h;
-	Thu, 31 Oct 2024 08:31:01 +0000
-Date: Thu, 31 Oct 2024 16:30:08 +0800
+	id 1t6R47-000ftW-1E;
+	Thu, 31 Oct 2024 09:02:03 +0000
+Date: Thu, 31 Oct 2024 17:01:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnaldo Carvalho de Melo <acme@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 7587/7771] lib/x86_64/vmx.c:203:19: error: use of
- undeclared identifier 'VMX_BASIC_MEM_TYPE_WB'
-Message-ID: <202410311632.To4HmwKO-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: kernel/bpf/token.c:50:6-27: WARNING: atomic_dec_and_test variation
+ before object free at line 54.
+Message-ID: <202410311704.yIRxjp0C-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +63,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   f9f24ca362a4d84dd8aeb4b8f3ec28cb6c43dd06
-commit: 9af29a4f0b2ff984770581664266d123a8c3100b [7587/7771] Merge branch 'perf-tools' of git://git.kernel.org/pub/scm/linux/kernel/git/perf/perf-tools
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0fc810ae3ae110f9e2fcccce80fc8c8d62f97907
+commit: 35f96de04127d332a5c5e8a155d31f452f88c76d bpf: Introduce BPF token object
+date:   9 months ago
+config: i386-randconfig-051-20241031 (https://download.01.org/0day-ci/archive/20241031/202410311704.yIRxjp0C-lkp@intel.com/config)
 compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311632.To4HmwKO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202410311632.To4HmwKO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410311704.yIRxjp0C-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> kernel/bpf/token.c:50:6-27: WARNING: atomic_dec_and_test variation before object free at line 54.
 
->> lib/x86_64/vmx.c:203:19: error: use of undeclared identifier 'VMX_BASIC_MEM_TYPE_WB'
-     203 |                         .memory_type = VMX_BASIC_MEM_TYPE_WB,
-         |                                        ^
-   1 error generated.
+vim +50 kernel/bpf/token.c
+
+    44	
+    45	void bpf_token_put(struct bpf_token *token)
+    46	{
+    47		if (!token)
+    48			return;
+    49	
+  > 50		if (!atomic64_dec_and_test(&token->refcnt))
+    51			return;
+    52	
+    53		INIT_WORK(&token->work, bpf_token_put_deferred);
+  > 54		schedule_work(&token->work);
+    55	}
+    56	
 
 -- 
 0-DAY CI Kernel Test Service
