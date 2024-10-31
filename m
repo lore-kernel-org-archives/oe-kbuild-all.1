@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2861CC886
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 19:54:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6E51CB52E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 20:04:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730404492; cv=none; b=Xec61loXQi4eySKOmK6h7JekPLOWHPGd85SWlSo/yRrvkzronp7zPV3ON9FLP2WfD7PRybB64k942iHvm3moFUIFxFnh3qm0BQ11DC7dD1xHz+ixpYi/wbsquyR3E2VqQ42jSVpNu+PFVHEG++piL2aVVwNDKzeV6L3F5jzw+Ds=
+	t=1730405091; cv=none; b=C7XVHL6p89+tXIhkt3no7sJdO+JQDjW3dE4UUZ89CWVdI0+S05aSNMJZ7yU2XpIuS+UioVJM2ZQfCL+w/R5KNT0C2Ofs4ycY3TL+DJ/xKGwVf9fVGY+5DYBAa246ObCelcSZnDjwljszCM8f5tmyLF6mcN1GrM3YZwauZMhKTXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730404492; c=relaxed/simple;
-	bh=KnSzt9xuE3qtUYHDtDz9U4wDHY4P9xuTpGWQTrIpGfs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WZ4ukYtYwqwv4JiY9c8FdDa713K8YjHpgu7cIy6+F5v84kH1Jh92Jn/joODzfBNu3/N2TwlZGN63fqmdz6KYuA4KzeZbfmef/soJP8VnQ6mspiHIWELQBnDOChKC12G3rOSp0Ysb9qO/if26I0WGpavKo+h4pwzRCcd7n9cWER0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UWtif+PV; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1730405091; c=relaxed/simple;
+	bh=qnYu09z0y7RsONSDngYrFAvebfRu2a0JYiF1lBP7HRg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z9SdUq6kHmmsQKRicSEKImHN98zQhtFXw90vQANAZyPfk+n6/372F/quF4BP22YobPHNAnMOlp16ngEKEArSyc0VdRvWw9eTY/s3tycz6WGFXjCEINl2pwDixVCl43zq9k7ZRrOXORYJ//TqC+YihcZdfn1+3wYKOd1oNOi0Ibo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cW4vasLY; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UWtif+PV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cW4vasLY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730404487; x=1761940487;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KnSzt9xuE3qtUYHDtDz9U4wDHY4P9xuTpGWQTrIpGfs=;
-  b=UWtif+PV86/1XpCdPKH30t5uHYzoyZ+p6UZsAJ76kdmiXV3FaXAM2uq4
-   ewX97QZz0467QiKJ52VfU31OXYGAhM6jHOX8oWdBKlTs84NgWyZoY1RWM
-   xpcTB2/FgAPUIRIwI0DlHHYf9EJDZoIn3RtG9NLRHbsYuENocFufef4HX
-   jO2G0INpOwuexXj45+H41n4PF63rQcgUUBoMv8iBakZgm2vUUjTcu6B1G
-   ybA4qvMBIhGYStctc24atWeL3FubXmrDcrTO78qHfI01NrzuBDyZo/hsu
-   5lID8GbGTjgKe1oHwzgMCTa6Fwg50lM0geGBqUvO9ou0qUfC7bbgFdA6o
-   A==;
-X-CSE-ConnectionGUID: 08tkD9auSuCd5CbaAC/z4A==
-X-CSE-MsgGUID: xoS09ApBRpa6yGd1iZrwpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="40789087"
+  t=1730405089; x=1761941089;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qnYu09z0y7RsONSDngYrFAvebfRu2a0JYiF1lBP7HRg=;
+  b=cW4vasLYs3ajFQVc84flbFfsqC0gSbS+eEwsXvwwBGRAAUHy29+kE1zw
+   mA2Vx/9ZyiJ5EjvDSYudSnCJ2eI9y6kEMh0TCfnfJEQyIyM3H/P4C4ObB
+   vRBok+TM5MUQDhbuo77b94KyKBaynTBNEo+jBESfC9AMRs2cqZx6SRxBq
+   aErAdup7DtCjDNXW9F4guAgLbzybpxR9J11pB5d7eOcBFpd9/jx3U1caV
+   +6gfw+cWo5noWm0+moWz5lsysiUMrmN2hMDSPyDyeJPf/tG0R8CoQsCt0
+   /1WSGglKrVVkZvoP2rlFXsW1pgC7cguGrrXEdbBfUw1FCPC0Pxo9kKBBO
+   Q==;
+X-CSE-ConnectionGUID: GA86F259QOmAt2nxYwG/cg==
+X-CSE-MsgGUID: irF7xVhqQPi4EWzC6jT0kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="34101265"
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="40789087"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 12:54:46 -0700
-X-CSE-ConnectionGUID: 5wuo6YCEQm2xFzjNKJ44VQ==
-X-CSE-MsgGUID: auzeOhfdTpGdj+vo0lxPfw==
+   d="scan'208";a="34101265"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 13:04:48 -0700
+X-CSE-ConnectionGUID: 3TCXRfBVRgi1QOwu/J4SPA==
+X-CSE-MsgGUID: +iFfAEJDRLSjOIzSrhDiYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="87864516"
+   d="scan'208";a="87548862"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2024 12:54:44 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Oct 2024 13:04:44 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6bFh-000gey-1t;
-	Thu, 31 Oct 2024 19:54:41 +0000
-Date: Fri, 1 Nov 2024 03:54:07 +0800
+	id 1t6bPN-000gfG-30;
+	Thu, 31 Oct 2024 20:04:41 +0000
+Date: Fri, 1 Nov 2024 04:04:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>
-Subject: Re: [rft, PATCH v2 1/1] gpio: Drop unused inclusions from of_gpio.h
-Message-ID: <202411010328.dd4VPGlr-lkp@intel.com>
-References: <20241031105314.2463446-1-andriy.shevchenko@linux.intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:next 11987/13046] net/core/netclassid_cgroup.c:100:5:
+ sparse: sparse: symbol 'cls_cgroup_stats_init' was not declared. Should it
+ be static?
+Message-ID: <202411010402.SxAjjXXL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,280 +66,195 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241031105314.2463446-1-andriy.shevchenko@linux.intel.com>
 
-Hi Andy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.12-rc5 next-20241031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/gpio-Drop-unused-inclusions-from-of_gpio-h/20241031-185405
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20241031105314.2463446-1-andriy.shevchenko%40linux.intel.com
-patch subject: [rft, PATCH v2 1/1] gpio: Drop unused inclusions from of_gpio.h
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241101/202411010328.dd4VPGlr-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010328.dd4VPGlr-lkp@intel.com/reproduce)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git next
+head:   ce9f9d823a41831d622fa11e29c3d620c044f51b
+commit: 669bbf19cd74db8ba957c288e9482d9dc10d68e1 [11987/13046] rue/net: init netcls traffic controller
+config: x86_64-randconfig-123-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010402.SxAjjXXL-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010402.SxAjjXXL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411010328.dd4VPGlr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010402.SxAjjXXL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/core/netclassid_cgroup.c:100:5: sparse: sparse: symbol 'cls_cgroup_stats_init' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:129:6: sparse: sparse: symbol 'cls_cgroup_stats_destroy' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:257:5: sparse: sparse: symbol 'net_cgroup_notify_prio_change' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:409:5: sparse: sparse: symbol 'read_class_stat' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:421:5: sparse: sparse: symbol 'rx_dump' was not declared. Should it be static?
+>> net/core/netclassid_cgroup.c:428:5: sparse: sparse: symbol 'tx_dump' was not declared. Should it be static?
 
-   drivers/regulator/s5m8767.c: In function 's5m8767_set_high':
-   drivers/regulator/s5m8767.c:275:9: error: implicit declaration of function 'gpio_set_value'; did you mean 'gpiod_set_value'? [-Wimplicit-function-declaration]
-     275 |         gpio_set_value(s5m8767->buck_gpios[0], (temp_index >> 2) & 0x1);
-         |         ^~~~~~~~~~~~~~
-         |         gpiod_set_value
-   drivers/regulator/s5m8767.c: In function 's5m8767_pmic_dt_parse_dvs_gpio':
-   drivers/regulator/s5m8767.c:494:22: error: implicit declaration of function 'gpio_is_valid'; did you mean 'uuid_is_valid'? [-Wimplicit-function-declaration]
-     494 |                 if (!gpio_is_valid(gpio)) {
-         |                      ^~~~~~~~~~~~~
-         |                      uuid_is_valid
-   drivers/regulator/s5m8767.c: In function 's5m8767_pmic_dt_parse_pdata':
-   drivers/regulator/s5m8767.c:536:16: error: cleanup argument not a function
-     536 |         struct device_node *regulators_np __free(device_node) = of_get_child_by_name(pmic_np,
-         |                ^~~~~~~~~~~
-   drivers/regulator/s5m8767.c:536:65: error: implicit declaration of function 'of_get_child_by_name' [-Wimplicit-function-declaration]
-     536 |         struct device_node *regulators_np __free(device_node) = of_get_child_by_name(pmic_np,
-         |                                                                 ^~~~~~~~~~~~~~~~~~~~
->> drivers/regulator/s5m8767.c:536:65: error: initialization of 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/regulator/s5m8767.c:544:33: error: implicit declaration of function 'of_get_child_count' [-Wimplicit-function-declaration]
-     544 |         pdata->num_regulators = of_get_child_count(regulators_np);
-         |                                 ^~~~~~~~~~~~~~~~~~
-   drivers/regulator/s5m8767.c:560:9: error: implicit declaration of function 'for_each_child_of_node'; did you mean 'for_each_online_node'? [-Wimplicit-function-declaration]
-     560 |         for_each_child_of_node(regulators_np, reg_np) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-         |         for_each_online_node
-   drivers/regulator/s5m8767.c:560:54: error: expected ';' before '{' token
-     560 |         for_each_child_of_node(regulators_np, reg_np) {
-         |                                                      ^~
-         |                                                      ;
-   drivers/regulator/s5m8767.c:659:36: error: implicit declaration of function 'of_property_read_bool' [-Wimplicit-function-declaration]
-     659 |         pdata->buck2_ramp_enable = of_property_read_bool(pmic_np, "s5m8767,pmic-buck2-ramp-enable");
-         |                                    ^~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/s5m8767.c:665:21: error: implicit declaration of function 'of_property_read_u32' [-Wimplicit-function-declaration]
-     665 |                 if (of_property_read_u32(pmic_np, "s5m8767,pmic-buck-ramp-delay",
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/s5m8767.c:528:25: warning: unused variable 'dvs_voltage_nr' [-Wunused-variable]
-     528 |         unsigned int i, dvs_voltage_nr = 8, ret;
-         |                         ^~~~~~~~~~~~~~
-   drivers/regulator/s5m8767.c:528:22: warning: unused variable 'i' [-Wunused-variable]
-     528 |         unsigned int i, dvs_voltage_nr = 8, ret;
-         |                      ^
-   drivers/regulator/s5m8767.c: In function 's5m8767_pmic_probe':
-   drivers/regulator/s5m8767.c:798:23: error: implicit declaration of function 'devm_gpio_request'; did you mean 'devm_gpiod_put'? [-Wimplicit-function-declaration]
-     798 |                 ret = devm_gpio_request(&pdev->dev, pdata->buck_gpios[0],
-         |                       ^~~~~~~~~~~~~~~~~
-         |                       devm_gpiod_put
-   drivers/regulator/s5m8767.c:814:17: error: implicit declaration of function 'gpio_direction_output'; did you mean 'gpiod_direction_output'? [-Wimplicit-function-declaration]
-     814 |                 gpio_direction_output(pdata->buck_gpios[0],
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-         |                 gpiod_direction_output
-   drivers/regulator/s5m8767.c: At top level:
-   drivers/regulator/s5m8767.c:988:40: error: array type has incomplete element type 'struct platform_device_id'
-     988 | static const struct platform_device_id s5m8767_pmic_id[] = {
-         |                                        ^~~~~~~~~~~~~~~
-   drivers/regulator/s5m8767.c:503:12: warning: 's5m8767_pmic_dt_parse_ds_gpio' defined but not used [-Wunused-function]
-     503 | static int s5m8767_pmic_dt_parse_ds_gpio(struct sec_pmic_dev *iodev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/s5m8767.c:485:12: warning: 's5m8767_pmic_dt_parse_dvs_gpio' defined but not used [-Wunused-function]
-     485 | static int s5m8767_pmic_dt_parse_dvs_gpio(struct sec_pmic_dev *iodev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/nfc/nfcmrvl/uart.c: In function 'nfcmrvl_uart_parse_dt':
-   drivers/nfc/nfcmrvl/uart.c:65:24: error: implicit declaration of function 'of_get_compatible_child' [-Wimplicit-function-declaration]
-      65 |         matched_node = of_get_compatible_child(node, "marvell,nfc-uart");
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/nfc/nfcmrvl/uart.c:65:22: error: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      65 |         matched_node = of_get_compatible_child(node, "marvell,nfc-uart");
-         |                      ^
-   drivers/nfc/nfcmrvl/uart.c:67:30: error: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-      67 |                 matched_node = of_get_compatible_child(node, "mrvl,nfc-uart");
-         |                              ^
-   drivers/nfc/nfcmrvl/uart.c:75:17: error: implicit declaration of function 'of_node_put' [-Wimplicit-function-declaration]
-      75 |                 of_node_put(matched_node);
-         |                 ^~~~~~~~~~~
-   drivers/nfc/nfcmrvl/uart.c:79:31: error: implicit declaration of function 'of_property_read_bool' [-Wimplicit-function-declaration]
-      79 |         pdata->flow_control = of_property_read_bool(matched_node, "flow-control");
-         |                               ^~~~~~~~~~~~~~~~~~~~~
+vim +/cls_cgroup_stats_init +100 net/core/netclassid_cgroup.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +536 drivers/regulator/s5m8767.c
-
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  520  
-cbb0ed495ca165 Axel Lin                 2013-02-13  521  static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  522  					struct sec_platform_data *pdata)
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  523  {
-cbb0ed495ca165 Axel Lin                 2013-02-13  524  	struct sec_pmic_dev *iodev = dev_get_drvdata(pdev->dev.parent);
-34a3f95941e0df Krzysztof Kozlowski      2024-08-14  525  	struct device_node *pmic_np, *reg_np;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  526  	struct sec_regulator_data *rdata;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  527  	struct sec_opmode_data *rmode;
-04f9f068a619cc Chanwoo Choi             2013-10-10  528  	unsigned int i, dvs_voltage_nr = 8, ret;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  529  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  530  	pmic_np = iodev->dev->of_node;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  531  	if (!pmic_np) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  532  		dev_err(iodev->dev, "could not find pmic sub-node\n");
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  533  		return -ENODEV;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  534  	}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  535  
-34a3f95941e0df Krzysztof Kozlowski      2024-08-14 @536  	struct device_node *regulators_np __free(device_node) = of_get_child_by_name(pmic_np,
-34a3f95941e0df Krzysztof Kozlowski      2024-08-14  537  										     "regulators");
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  538  	if (!regulators_np) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  539  		dev_err(iodev->dev, "could not find regulators sub-node\n");
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  540  		return -EINVAL;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  541  	}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  542  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  543  	/* count the number of regulators to be supported in pmic */
-1f91b6f6c747d3 Axel Lin                 2013-02-06  544  	pdata->num_regulators = of_get_child_count(regulators_np);
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  545  
-a86854d0c599b3 Kees Cook                2018-06-12  546  	rdata = devm_kcalloc(&pdev->dev,
-a86854d0c599b3 Kees Cook                2018-06-12  547  			     pdata->num_regulators, sizeof(*rdata),
-a86854d0c599b3 Kees Cook                2018-06-12  548  			     GFP_KERNEL);
-34a3f95941e0df Krzysztof Kozlowski      2024-08-14  549  	if (!rdata)
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  550  		return -ENOMEM;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  551  
-a86854d0c599b3 Kees Cook                2018-06-12  552  	rmode = devm_kcalloc(&pdev->dev,
-a86854d0c599b3 Kees Cook                2018-06-12  553  			     pdata->num_regulators, sizeof(*rmode),
-a86854d0c599b3 Kees Cook                2018-06-12  554  			     GFP_KERNEL);
-34a3f95941e0df Krzysztof Kozlowski      2024-08-14  555  	if (!rmode)
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  556  		return -ENOMEM;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  557  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  558  	pdata->regulators = rdata;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  559  	pdata->opmode = rmode;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  560  	for_each_child_of_node(regulators_np, reg_np) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  561  		for (i = 0; i < ARRAY_SIZE(regulators); i++)
-c32569e358adea Rob Herring              2018-12-05  562  			if (of_node_name_eq(reg_np, regulators[i].name))
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  563  				break;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  564  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  565  		if (i == ARRAY_SIZE(regulators)) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  566  			dev_warn(iodev->dev,
-0c9721a5d1dea7 Rob Herring              2018-08-27  567  			"don't know how to configure regulator %pOFn\n",
-0c9721a5d1dea7 Rob Herring              2018-08-27  568  			reg_np);
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  569  			continue;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  570  		}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  571  
-5be0e549e18f8a Dmitry Torokhov          2019-10-04  572  		rdata->ext_control_gpiod = devm_fwnode_gpiod_get(
-63239e4bf7eff3 Linus Walleij            2018-10-15  573  			&pdev->dev,
-5be0e549e18f8a Dmitry Torokhov          2019-10-04  574  			of_fwnode_handle(reg_np),
-5be0e549e18f8a Dmitry Torokhov          2019-10-04  575  			"s5m8767,pmic-ext-control",
-63239e4bf7eff3 Linus Walleij            2018-10-15  576  			GPIOD_OUT_HIGH | GPIOD_FLAGS_BIT_NONEXCLUSIVE,
-9ae5cc75ceaacf Linus Walleij            2018-05-14  577  			"s5m8767");
-dea6dd2ba63f8c Pan Bian                 2021-01-20  578  		if (PTR_ERR(rdata->ext_control_gpiod) == -ENOENT) {
-025bf37725f192 Waibel Georg             2019-06-20  579  			rdata->ext_control_gpiod = NULL;
-dea6dd2ba63f8c Pan Bian                 2021-01-20  580  		} else if (IS_ERR(rdata->ext_control_gpiod)) {
-dea6dd2ba63f8c Pan Bian                 2021-01-20  581  			of_node_put(reg_np);
-9ae5cc75ceaacf Linus Walleij            2018-05-14  582  			return PTR_ERR(rdata->ext_control_gpiod);
-dea6dd2ba63f8c Pan Bian                 2021-01-20  583  		}
-ee1e0994ab1bd3 Krzysztof Kozlowski      2014-01-24  584  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  585  		rdata->id = i;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  586  		rdata->initdata = of_get_regulator_init_data(
-072e78b12bf518 Javier Martinez Canillas 2014-11-10  587  						&pdev->dev, reg_np,
-072e78b12bf518 Javier Martinez Canillas 2014-11-10  588  						&regulators[i]);
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  589  		rdata->reg_node = reg_np;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  590  		rdata++;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  591  		rmode->id = i;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  592  		if (of_property_read_u32(reg_np, "op_mode",
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  593  				&rmode->mode)) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  594  			dev_warn(iodev->dev,
-f3c7f7b636ef50 Christophe JAILLET       2019-12-03  595  				"no op_mode property at %pOF\n",
-7799167b7a14fe Rob Herring              2017-07-18  596  				reg_np);
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  597  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  598  			rmode->mode = S5M8767_OPMODE_NORMAL_MODE;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  599  		}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  600  		rmode++;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  601  	}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  602  
-5bd73a162bc881 Rob Herring              2023-03-10  603  	if (of_property_read_bool(pmic_np, "s5m8767,pmic-buck2-uses-gpio-dvs")) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  604  		pdata->buck2_gpiodvs = true;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  605  
-04f9f068a619cc Chanwoo Choi             2013-10-10  606  		if (of_property_read_u32_array(pmic_np,
-04f9f068a619cc Chanwoo Choi             2013-10-10  607  				"s5m8767,pmic-buck2-dvs-voltage",
-04f9f068a619cc Chanwoo Choi             2013-10-10  608  				pdata->buck2_voltage, dvs_voltage_nr)) {
-04f9f068a619cc Chanwoo Choi             2013-10-10  609  			dev_err(iodev->dev, "buck2 voltages not specified\n");
-04f9f068a619cc Chanwoo Choi             2013-10-10  610  			return -EINVAL;
-04f9f068a619cc Chanwoo Choi             2013-10-10  611  		}
-04f9f068a619cc Chanwoo Choi             2013-10-10  612  	}
-04f9f068a619cc Chanwoo Choi             2013-10-10  613  
-5bd73a162bc881 Rob Herring              2023-03-10  614  	if (of_property_read_bool(pmic_np, "s5m8767,pmic-buck3-uses-gpio-dvs")) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  615  		pdata->buck3_gpiodvs = true;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  616  
-04f9f068a619cc Chanwoo Choi             2013-10-10  617  		if (of_property_read_u32_array(pmic_np,
-04f9f068a619cc Chanwoo Choi             2013-10-10  618  				"s5m8767,pmic-buck3-dvs-voltage",
-04f9f068a619cc Chanwoo Choi             2013-10-10  619  				pdata->buck3_voltage, dvs_voltage_nr)) {
-04f9f068a619cc Chanwoo Choi             2013-10-10  620  			dev_err(iodev->dev, "buck3 voltages not specified\n");
-04f9f068a619cc Chanwoo Choi             2013-10-10  621  			return -EINVAL;
-04f9f068a619cc Chanwoo Choi             2013-10-10  622  		}
-04f9f068a619cc Chanwoo Choi             2013-10-10  623  	}
-04f9f068a619cc Chanwoo Choi             2013-10-10  624  
-5bd73a162bc881 Rob Herring              2023-03-10  625  	if (of_property_read_bool(pmic_np, "s5m8767,pmic-buck4-uses-gpio-dvs")) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  626  		pdata->buck4_gpiodvs = true;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  627  
-04f9f068a619cc Chanwoo Choi             2013-10-10  628  		if (of_property_read_u32_array(pmic_np,
-04f9f068a619cc Chanwoo Choi             2013-10-10  629  				"s5m8767,pmic-buck4-dvs-voltage",
-04f9f068a619cc Chanwoo Choi             2013-10-10  630  				pdata->buck4_voltage, dvs_voltage_nr)) {
-04f9f068a619cc Chanwoo Choi             2013-10-10  631  			dev_err(iodev->dev, "buck4 voltages not specified\n");
-04f9f068a619cc Chanwoo Choi             2013-10-10  632  			return -EINVAL;
-04f9f068a619cc Chanwoo Choi             2013-10-10  633  		}
-04f9f068a619cc Chanwoo Choi             2013-10-10  634  	}
-04f9f068a619cc Chanwoo Choi             2013-10-10  635  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  636  	if (pdata->buck2_gpiodvs || pdata->buck3_gpiodvs ||
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  637  						pdata->buck4_gpiodvs) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  638  		ret = s5m8767_pmic_dt_parse_dvs_gpio(iodev, pdata, pmic_np);
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  639  		if (ret)
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  640  			return -EINVAL;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  641  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  642  		if (of_property_read_u32(pmic_np,
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  643  				"s5m8767,pmic-buck-default-dvs-idx",
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  644  				&pdata->buck_default_idx)) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  645  			pdata->buck_default_idx = 0;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  646  		} else {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  647  			if (pdata->buck_default_idx >= 8) {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  648  				pdata->buck_default_idx = 0;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  649  				dev_info(iodev->dev,
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  650  				"invalid value for default dvs index, use 0\n");
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  651  			}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  652  		}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  653  	}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  654  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  655  	ret = s5m8767_pmic_dt_parse_ds_gpio(iodev, pdata, pmic_np);
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  656  	if (ret)
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  657  		return -EINVAL;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  658  
-5bd73a162bc881 Rob Herring              2023-03-10  659  	pdata->buck2_ramp_enable = of_property_read_bool(pmic_np, "s5m8767,pmic-buck2-ramp-enable");
-5bd73a162bc881 Rob Herring              2023-03-10  660  	pdata->buck3_ramp_enable = of_property_read_bool(pmic_np, "s5m8767,pmic-buck3-ramp-enable");
-5bd73a162bc881 Rob Herring              2023-03-10  661  	pdata->buck4_ramp_enable = of_property_read_bool(pmic_np, "s5m8767,pmic-buck4-ramp-enable");
-033054e8603036 Chanwoo Choi             2013-10-10  662  
-033054e8603036 Chanwoo Choi             2013-10-10  663  	if (pdata->buck2_ramp_enable || pdata->buck3_ramp_enable
-033054e8603036 Chanwoo Choi             2013-10-10  664  			|| pdata->buck4_ramp_enable) {
-033054e8603036 Chanwoo Choi             2013-10-10  665  		if (of_property_read_u32(pmic_np, "s5m8767,pmic-buck-ramp-delay",
-033054e8603036 Chanwoo Choi             2013-10-10  666  				&pdata->buck_ramp_delay))
-033054e8603036 Chanwoo Choi             2013-10-10  667  			pdata->buck_ramp_delay = 0;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  668  	}
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  669  
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  670  	return 0;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  671  }
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  672  #else
-cbb0ed495ca165 Axel Lin                 2013-02-13  673  static int s5m8767_pmic_dt_parse_pdata(struct platform_device *pdev,
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  674  					struct sec_platform_data *pdata)
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  675  {
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  676  	return 0;
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  677  }
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  678  #endif /* CONFIG_OF */
-26aec009f6b61c Amit Daniel Kachhap      2013-02-03  679  
+    99	
+ > 100	int cls_cgroup_stats_init(struct cls_cgroup_stats *stats)
+   101	{
+   102		struct {
+   103			struct nlattr nla;
+   104			struct gnet_estimator params;
+   105		} opt;
+   106		int err;
+   107	
+   108		opt.nla.nla_len = nla_attr_size(sizeof(opt.params));
+   109		opt.nla.nla_type = TCA_RATE;
+   110		opt.params.interval = 0; /* statistics every 1s. */
+   111		opt.params.ewma_log = 1; /* ewma off. */
+   112		spin_lock_init(&stats->lock);
+   113	
+   114		rtnl_lock();
+   115		err = gen_new_estimator(&stats->bstats,
+   116					NULL,
+   117					&stats->est,
+   118					&stats->lock,
+   119					NULL,
+   120					&opt.nla);
+   121	
+   122		if (err)
+   123			pr_err("gen_new_estimator failed(%d)\n", err);
+   124		rtnl_unlock();
+   125	
+   126		return err;
+   127	}
+   128	
+ > 129	void cls_cgroup_stats_destroy(struct cls_cgroup_stats *stats)
+   130	{
+   131		rtnl_lock();
+   132		gen_kill_estimator(&stats->est);
+   133		rtnl_unlock();
+   134	}
+   135	
+   136	static struct cgroup_subsys_state *
+   137	cgrp_css_alloc(struct cgroup_subsys_state *parent_css)
+   138	{
+   139		struct cgroup_cls_state *cs;
+   140	
+   141		cs = kzalloc(sizeof(*cs), GFP_KERNEL);
+   142		if (!cs)
+   143			return ERR_PTR(-ENOMEM);
+   144	
+   145		return &cs->css;
+   146	}
+   147	
+   148	static int cgrp_css_online(struct cgroup_subsys_state *css)
+   149	{
+   150		struct cgroup_cls_state *cs = css_cls_state(css);
+   151		struct cgroup_cls_state *parent = css_cls_state(css->parent);
+   152	
+   153		if (parent) {
+   154			cs->prio = parent->prio;
+   155			cs->classid = parent->classid;
+   156		}
+   157	
+   158		cls_cgroup_stats_init(&cs->rx_stats);
+   159		cls_cgroup_stats_init(&cs->tx_stats);
+   160		return 0;
+   161	}
+   162	
+   163	static void cgrp_css_offline(struct cgroup_subsys_state *css)
+   164	{
+   165		struct cgroup_cls_state *cs = css_cls_state(css);
+   166	
+   167		cls_cgroup_stats_destroy(&cs->rx_stats);
+   168		cls_cgroup_stats_destroy(&cs->tx_stats);
+   169	}
+   170	
+   171	static void cgrp_css_free(struct cgroup_subsys_state *css)
+   172	{
+   173		kfree(css_cls_state(css));
+   174	}
+   175	
+   176	/*
+   177	 * To avoid freezing of sockets creation for tasks with big number of threads
+   178	 * and opened sockets lets release file_lock every 1000 iterated descriptors.
+   179	 * New sockets will already have been created with new classid.
+   180	 */
+   181	
+   182	struct update_classid_context {
+   183		u32 classid;
+   184		unsigned int batch;
+   185		struct task_struct *task;
+   186	};
+   187	
+   188	#define UPDATE_CLASSID_BATCH 1000
+   189	
+   190	static int update_classid_sock(const void *v, struct file *file, unsigned int n)
+   191	{
+   192		struct update_classid_context *ctx = (void *)v;
+   193		struct socket *sock = sock_from_file(file);
+   194	
+   195		if (sock) {
+   196			sock_cgroup_set_classid(&sock->sk->sk_cgrp_data, ctx->classid);
+   197			rcu_read_lock();
+   198			sock->sk->sk_cgrp_data.cs = task_cls_state(ctx->task);
+   199			rcu_read_unlock();
+   200		}
+   201		if (--ctx->batch == 0) {
+   202			ctx->batch = UPDATE_CLASSID_BATCH;
+   203			return n + 1;
+   204		}
+   205		return 0;
+   206	}
+   207	
+   208	static void update_classid_task(struct task_struct *p, u32 classid)
+   209	{
+   210		struct update_classid_context ctx = {
+   211			.classid = classid,
+   212			.batch = UPDATE_CLASSID_BATCH,
+   213			.task = p,
+   214		};
+   215		unsigned int fd = 0;
+   216	
+   217		do {
+   218			task_lock(p);
+   219			fd = iterate_fd(p->files, fd, update_classid_sock, &ctx);
+   220			task_unlock(p);
+   221			cond_resched();
+   222		} while (fd);
+   223	}
+   224	
+   225	static void cgrp_attach(struct cgroup_taskset *tset)
+   226	{
+   227		struct cgroup_subsys_state *css;
+   228		struct task_struct *p;
+   229	
+   230		cgroup_taskset_for_each(p, css, tset) {
+   231			update_classid_task(p, css_cls_state(css)->classid);
+   232		}
+   233	}
+   234	
+   235	static u64 read_classid(struct cgroup_subsys_state *css, struct cftype *cft)
+   236	{
+   237		return css_cls_state(css)->classid;
+   238	}
+   239	
+   240	static int write_classid(struct cgroup_subsys_state *css, struct cftype *cft,
+   241				 u64 value)
+   242	{
+   243		struct cgroup_cls_state *cs = css_cls_state(css);
+   244		struct css_task_iter it;
+   245		struct task_struct *p;
+   246	
+   247		cs->classid = (u32)value;
+   248	
+   249		css_task_iter_start(css, 0, &it);
+   250		while ((p = css_task_iter_next(&it)))
+   251			update_classid_task(p, cs->classid);
+   252		css_task_iter_end(&it);
+   253	
+   254		return 0;
+   255	}
+   256	
+ > 257	int net_cgroup_notify_prio_change(struct cgroup_subsys_state *css,
+   258					  u16 old_prio, u16 new_prio)
+   259	{
+   260		if (css)
+   261			css_cls_state(css)->prio = (u32)new_prio;
+   262		return 0;
+   263	}
+   264	
 
 -- 
 0-DAY CI Kernel Test Service
