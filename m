@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8691BD027;
-	Thu, 31 Oct 2024 17:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C201BD03C;
+	Thu, 31 Oct 2024 17:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730394463; cv=none; b=OrA1K4PwA91K+zeD2PfoNByMZUfFZzL2YmDvt+JyWSbbRjqdcb0rBvRXCHoUab2C0q7OPQiwY38hXQtL0uYCxztXKIeCVDEhkD5jqXTsyLFdJhsgUhLI2XZlv84IO8NOk6Jxpd7NVIOF+ToU52sjIpJ/S2+1b3yR6i4EkjpGppA=
+	t=1730394465; cv=none; b=TSlHjTZjQOdzEqcWmW/waV1OLIv0CYD8bj8hgd2IUGNBfZiPCSzhEfVgg99xUAi3rksBSFSYKKibnyJ2NZguqtr07VCS0q6arYerw+V3W2HooyL5ZpL/+bYS0R+LfEmzIJAOOOmG3/hVj5WBWc0Yno0SMEvr/mh8Ebq3zcJBoHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730394463; c=relaxed/simple;
-	bh=DcnC6JXPAglQBQtZrEuqYjdyVGl/zg7nJfmo23aGIkU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ih28tYndd5Hwyrd5aN+tl52npdPMI7Jq4OnpCliwg8ZNoPZedUYCUe1tU8izC+/QO9nuB3iPgEdEwlel2zWpkHSipA0Jvk3tqEY8W+WKi9JxocJGjskJem1xMxro9eqtB+pHX8kAEBOhL5ltXcvPjgmWtInw9bhtvT1716uGWmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xc6/xL9D; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1730394465; c=relaxed/simple;
+	bh=NuwRVX8byKFf/BtgzAUxRh+eHUfVzR4snXY14ZFx9cA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ceO/kkcQih53hogJlnfFXOOqjN/V3es1dHkIKyNTfIWUDCt5cUFbZxvg96sRESyP4V8ozioxGKFPIgKUUqEOx9XLicli5zIw0w09zklR8Bq7kCf8sJWcgvBtJ0WckFE/O0qjrMhsnsLbqd+NNQgJmtSq3ZZ0pAdFZKlItTThr9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fUV91E/n; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xc6/xL9D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fUV91E/n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730394461; x=1761930461;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DcnC6JXPAglQBQtZrEuqYjdyVGl/zg7nJfmo23aGIkU=;
-  b=Xc6/xL9DWU96VtQlJdzVKBtdXnnN3BNL9lZbnIIXCGxMojkST0m2Svv5
-   uDXRAo2AN5pDU8AJW+HWlGc76QJ8TiqT2CFRGL/MIOcmNGcx9OwqBpX0B
-   qz5KN9+2agawLcK2Ay08MnC/lUFU+LnxQWTrvEFW5c94CAZ7Nfx8O5XUd
-   4IVhAMlJncO1NQ4aiiUSimjZFFGYOyQy/Fitix6zZndlSOZS0ggWQFyeo
-   xvPaFomLfIOjFBsuJbvRb2/xVuz/HBqdRD9TlCzwVSLdqRBDL4m1v5PwQ
-   F9j9pVNCuC36xwScidqJhmHTX1hoQ5EliOKh1EPfr0T35bsjEzFT/Jef+
-   Q==;
-X-CSE-ConnectionGUID: mqq41Tt6SoGgXYvYP55PVw==
-X-CSE-MsgGUID: XcbfUuO5Ro+nORapzkf5AQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="17787463"
-X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="17787463"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 10:07:41 -0700
-X-CSE-ConnectionGUID: O910B8opT4mDU8pNGyhgYA==
-X-CSE-MsgGUID: 9dBSr+KpSw6zkR9J4QOYuA==
+  t=1730394464; x=1761930464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NuwRVX8byKFf/BtgzAUxRh+eHUfVzR4snXY14ZFx9cA=;
+  b=fUV91E/nC6O7AyPtOcWJEvU0XrPyWaJLadlUthlk3k4mBa8RfB0St/f9
+   RBJZRRJETulK2gTp1omsnZ5HL1QtNKLDGes5QgzecsBmpEwQBhjGHKzWu
+   Uoa1naLWHMp9BvKAWVDYKvwLAHjFvuS+ZnSNCPGVdlPM5iDCnyXWQCEZV
+   IPpocc1sNI4iQV7oQb3N1JEETrQjQI/CiFPMrC2hvNkzVLJt3HnteOS9n
+   LhWb9fYyy6ICWpTfLqHGhDGa0l7T4jI3k9FZ2tYDBVt3YYmXMtixkI2Ls
+   hp+W3cRuNE8jm42t12aKJyrx+gbGw7PgQxmJ1qkIIqGDfv/Ai1y18B9i5
+   A==;
+X-CSE-ConnectionGUID: phOTE8gKS5eU1TQhBViQ1A==
+X-CSE-MsgGUID: LtOXWFKYSZyFN7G4YtaQng==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30315696"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30315696"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 10:07:44 -0700
+X-CSE-ConnectionGUID: ZAHTMA9MQQGK68AVz5GzkA==
+X-CSE-MsgGUID: +KhB7CocR5C3rBgQFtpkHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
-   d="scan'208";a="106014402"
+   d="scan'208";a="83493726"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 Oct 2024 10:07:40 -0700
+  by orviesa008.jf.intel.com with ESMTP; 31 Oct 2024 10:07:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6Ye1-000gYE-19;
+	id 1t6Ye1-000gYG-1E;
 	Thu, 31 Oct 2024 17:07:37 +0000
-Date: Fri, 1 Nov 2024 01:07:05 +0800
+Date: Fri, 1 Nov 2024 01:07:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [peterz-queue:sched/cleanup 20/22] kernel/sched/rt.c:2643:20: error:
- use of undeclared identifier 'switched_from_rt'; did you mean
- 'switched_to_rt'?
-Message-ID: <202411010109.9mDLbdzx-lkp@intel.com>
+To: Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	heikki.krogerus@linux.intel.com, tzungbi@kernel.org,
+	linux-usb@vger.kernel.org, chrome-platform@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, dmitry.baryshkov@linaro.org,
+	jthies@google.com, akuchynski@google.com, pmalani@chromium.org,
+	Abhishek Pandit-Subedi <abhishekpandit@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] platform/chrome: cros_ec_typec: Thunderbolt
+ support
+Message-ID: <202411010039.QHl0lhBw-lkp@intel.com>
+References: <20241030142833.v2.6.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +69,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241030142833.v2.6.Ic61ced3cdfb5d6776435356061f12307da719829@changeid>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sched/cleanup
-head:   4e3feca600aeb6b6cee07822faf7d1a8aa0564b2
-commit: 879c968b9feafb703c9b352fae0091b1c5b71bcc [20/22] sched: Fold sched_class::switch{ing,ed}_{to,from}() into the change pattern
-config: arm-randconfig-001-20241031 (https://download.01.org/0day-ci/archive/20241101/202411010109.9mDLbdzx-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010109.9mDLbdzx-lkp@intel.com/reproduce)
+Hi Abhishek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on chrome-platform/for-next]
+[also build test ERROR on chrome-platform/for-firmware-next usb/usb-testing usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.12-rc5 next-20241031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abhishek-Pandit-Subedi/usb-typec-Add-driver-for-Thunderbolt-3-Alternate-Mode/20241031-053304
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241030142833.v2.6.Ic61ced3cdfb5d6776435356061f12307da719829%40changeid
+patch subject: [PATCH v2 6/7] platform/chrome: cros_ec_typec: Thunderbolt support
+config: arm64-defconfig (https://download.01.org/0day-ci/archive/20241101/202411010039.QHl0lhBw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010039.QHl0lhBw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411010109.9mDLbdzx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411010039.QHl0lhBw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_policy.c:52:
->> kernel/sched/rt.c:2643:20: error: use of undeclared identifier 'switched_from_rt'; did you mean 'switched_to_rt'?
-    2643 |         .switched_from          = switched_from_rt,
-         |                                   ^~~~~~~~~~~~~~~~
-         |                                   switched_to_rt
-   kernel/sched/rt.c:2454:13: note: 'switched_to_rt' declared here
-    2454 | static void switched_to_rt(struct rq *rq, struct task_struct *p)
-         |             ^
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+   In file included from drivers/platform/chrome/cros_ec_typec.c:21:
+>> drivers/platform/chrome/cros_typec_altmode.h:41:1: warning: no previous prototype for 'cros_typec_register_thunderbolt' [-Wmissing-prototypes]
+      41 | cros_typec_register_thunderbolt(struct cros_typec_port *port,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   aarch64-linux-ld: drivers/platform/chrome/cros_typec_altmode.o: in function `cros_typec_register_thunderbolt':
+>> drivers/platform/chrome/cros_typec_altmode.h:43: multiple definition of `cros_typec_register_thunderbolt'; drivers/platform/chrome/cros_ec_typec.o:drivers/platform/chrome/cros_typec_altmode.h:43: first defined here
 
 
-vim +2643 kernel/sched/rt.c
+vim +43 drivers/platform/chrome/cros_typec_altmode.h
 
-  2638	
-  2639		.task_tick		= task_tick_rt,
-  2640	
-  2641		.get_rr_interval	= get_rr_interval_rt,
-  2642	
-> 2643		.switched_from		= switched_from_rt,
-  2644		.switched_to		= switched_to_rt,
-  2645		.prio_changed		= prio_changed_rt,
-  2646	
-  2647		.update_curr		= update_curr_rt,
-  2648	
+    34	
+    35	#if IS_ENABLED(CONFIG_TYPEC_TBT_ALTMODE)
+    36	struct typec_altmode *
+    37	cros_typec_register_thunderbolt(struct cros_typec_port *port,
+    38					struct typec_altmode_desc *desc);
+    39	#else
+    40	struct typec_altmode *
+  > 41	cros_typec_register_thunderbolt(struct cros_typec_port *port,
+    42					struct typec_altmode_desc *desc)
+  > 43	{
+    44		return typec_port_register_altmode(port->port, desc);
+    45	}
+    46	#endif
+    47	
 
 -- 
 0-DAY CI Kernel Test Service
