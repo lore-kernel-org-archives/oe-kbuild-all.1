@@ -1,65 +1,59 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C37CF1487ED
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 06:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC32A148314
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Oct 2024 07:06:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730357740; cv=none; b=ND39dxETr3+CmEhJcQ46ffQ/eqgGr4n7KPuR/FOZwfEQlUnhobWoHn/ywEcQb5bWajRNHxcfYMYBilN1v9H2ALOmaIGrWcYqg4otHidFAUwH43V1oxgyFxTJXZcDfoQygzjoyYIhDUjksC/IXnpNa30LRgn9Mpf6GFvVsF/OMN4=
+	t=1730358363; cv=none; b=A9rjqCK96Xcgdna0PUK0Slqm86qZOJ2K7sWS6kpA3X9k+HLIQ891eC2s9s6/03y53bOZK9viyTzxhojMyhlL/bdvQEEaF/3LdjjPi6ambvkOJuWAJmxRHldr12RkdNfGOfpjAzW4jRUAp2+D6f3HTxJX+AAvzUXURBvq8hwEzMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730357740; c=relaxed/simple;
-	bh=jXA9oFykw3OuBucI2N+CAj/uLbtHiwfjVgTejzv6jXw=;
+	s=arc-20240116; t=1730358363; c=relaxed/simple;
+	bh=9v6hKgPnRLsOnlL2242IEQo4g1F5/OPIK6uAUwZ7R0U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LGNOdcwytJfQk6ZrQUSOhGx/NVFQZxvJ2MyUzqXD+hmPBbR6bB1b986w6+CwGzPqx3QmyzyfIWy62ONFhwkv5Hm9MfJRpXMPPv0KDeLfZHKQjSbHkyeRWo7nJ0bi7CHfbNWtAqk5qyq4udOQ/cP6B5+577HI8Ttb+7aekgeSf/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aCklP0uR; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=EIGob1VYstnJ878dc3DZwAQaYMFSgae2fJeQXIxUYSoN0o3tRZdOd16UWjU+Q89iA/HJs6sltaAK0gbMQRLYzaPywI89R8NfWOvXspx7ODH0RJ2kXNpPrsO21JHBWFMTqbkhZ6xUmaKdr+a9DJ768KLdrFM3yB/z2g7lG5UgULY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WlzMkznm; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aCklP0uR"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-431616c23b5so3291975e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Oct 2024 23:55:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730357736; x=1730962536; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8D9+puWVwIzoPSk4HJ7n7MMOEH8VE9g3cY2YZH179xQ=;
-        b=aCklP0uRVS+jdM2gi4zmiDzKnPT0+QCwj7ICGhNDIoQ90VtoIFV/89rMbicoxTrWOI
-         3NnA3r/pPrxQKfBmgXGsHoKHt0kr2P5CGC+xjm7Azyn3BecmRjZTCP6MTgad75QriXkQ
-         aQ9beEtwZ+m3tkoRX3M9nGMtz8izfesJfY+PH8NwAUSxlR1MVl2STh2XC5Oa7kCy/oZw
-         tUn0S98X6nf+HuUjcPXst164Tbg+L3bPK7ZZo7/CiOreV+EkHBai4QIwAXxwsBfEJ2lg
-         ieAUNmiiWETGBmauVyFb/WQEpY/5m8RyutOOV8TH+NtX9DSU41xGldCqWEDGJwFbBcDH
-         szwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730357736; x=1730962536;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8D9+puWVwIzoPSk4HJ7n7MMOEH8VE9g3cY2YZH179xQ=;
-        b=Pi9Pco3/x84w1RY9ey5Rr1GsOWcQSsh1JS8elRdaIDHxRgpR1BODeiNX19jaHaE6nQ
-         EnIK1rwWu9Weow020W5NiHwQtr6CDSNYQZv7du5PIB4oiEhie11fiJdY3mL8qlBaPPIi
-         zv67Qg4KyHx2lzeGWa81dy/paOrZmfTBlURkZ4Ms/cAW1b191FszSH7ceYORuGT5uNUO
-         kB6JFtmeeVm7xH/7l+6OuE6dZcmKe9OnHjJdx8d39qPqsn3J6RwzLx2dxk8UgPio0MZj
-         pdCNmr9n1OSf6wBAoR0vRUsws9QzbIDySkhsJbF2xeYvq4MOtWn/NsE9qCIAFC8HxYD/
-         WxTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUSHT56tbevVoU2ObVTrbs1d0TsUM9bi9IBMkzr0QRxRKMHLL6XELczc7iL+U0zFzGYm/V1pCro2pTXmNjh@lists.linux.dev
-X-Gm-Message-State: AOJu0YxpVkQ8r2crGBSgtelI6Xq5YOu1SrHYYnVW6v0NjG9MYdzCge9r
-	vYt1VcXDTlPLuw/Ciye4UhPx2T/r5Npv2x1xl7X8XWRZ14PyFOsqzQ1ptO20jjI=
-X-Google-Smtp-Source: AGHT+IEOF2QFdJBPAHDsR7qGVAzEOGZBYXlj1xAfpsKEmVWbpFfp1A7I0+ODLRmd/9Wl1MkTLOxxRg==
-X-Received: by 2002:a05:600c:4f87:b0:428:b4a:7001 with SMTP id 5b1f17b1804b1-4327dbd09afmr7992885e9.15.1730357735990;
-        Wed, 30 Oct 2024 23:55:35 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c113e5e3sm1104741f8f.82.2024.10.30.23.55.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Oct 2024 23:55:35 -0700 (PDT)
-Date: Thu, 31 Oct 2024 09:55:32 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Shengyang Chen <shengyang.chen@starfivetech.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Vinod Koul <vkoul@kernel.org>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>
-Subject: drivers/phy/starfive/phy-jh7110-dphy-tx.c:335 stf_dphy_init() warn:
- 'dphy->txesc_clk' from clk_prepare_enable() not released on lines: 332.
-Message-ID: <bd0b71a2-2e54-43ef-b775-3afbd05fc7de@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WlzMkznm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730358361; x=1761894361;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9v6hKgPnRLsOnlL2242IEQo4g1F5/OPIK6uAUwZ7R0U=;
+  b=WlzMkznmJwx8FIzYj8kWTYxtTO0xRAj2xfBIHclozbngvowKLuIU3aHI
+   qD9FknRhtRCl08oUJxyQTX2GON0aFmeBbuHKdDMia5Iebxctnoc7tCiQR
+   iHgwck6SUppgK/FnapR03Z5RF1Op9wZc2uNdQDDrwoEOogrNzFvFJVrV7
+   q+zg2w5J347ZP3GpGYo4Omx1y1RxH6oOmlM1dEmcGmJhvsrVS2X+tROjo
+   4KS55uin3qP3uLqRD7ufg734BHbyrl8yjsOqGzpBzeobmClc+9O9gWONt
+   AcCeYJShgXQNOvZ5M2brogfjAbOPJUAz8fl0DFOJEBH5vkKGQH5QP5a6u
+   w==;
+X-CSE-ConnectionGUID: tWN+SrotSDOsuptwCdi0Yg==
+X-CSE-MsgGUID: iOco2stgTxGyPQvVYFL/Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11241"; a="47558263"
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="47558263"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 00:06:00 -0700
+X-CSE-ConnectionGUID: cmva6FhUSXa/1SDZHDXabg==
+X-CSE-MsgGUID: 0SJspJJ6SrSieuGJQbXCyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,247,1725346800"; 
+   d="scan'208";a="113338314"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 31 Oct 2024 00:05:59 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6PFk-000fmi-2W;
+	Thu, 31 Oct 2024 07:05:56 +0000
+Date: Thu, 31 Oct 2024 15:05:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 15243/23920]
+ arch/arm64/kernel/mpam/mpam_device.c:99:24: warning: no previous prototype
+ for 'mpam_component_get'
+Message-ID: <202410311541.Ld1wpJ0T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,56 +63,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0fc810ae3ae110f9e2fcccce80fc8c8d62f97907
-commit: d3ab7955330843699cdcc413edd7993923e6c016 phy: starfive: Add mipi dphy tx support
-config: riscv-randconfig-r071-20241030 (https://download.01.org/0day-ci/archive/20241031/202410310715.duo3ShR4-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   c6de47cf1f63ecc3ed337601e06ab8dc1c707563
+commit: 73d5cd426ed0b4aed565a11aa8eb86d90b444d94 [15243/23920] arm64/mpam: Add mpam driver discovery phase and kbuild boiler plate
+config: arm64-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241031/202410311541.Ld1wpJ0T-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241031/202410311541.Ld1wpJ0T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202410310715.duo3ShR4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202410311541.Ld1wpJ0T-lkp@intel.com/
 
-smatch warnings:
-drivers/phy/starfive/phy-jh7110-dphy-tx.c:335 stf_dphy_init() warn: 'dphy->txesc_clk' from clk_prepare_enable() not released on lines: 332.
+All warnings (new ones prefixed by >>):
 
-vim +335 drivers/phy/starfive/phy-jh7110-dphy-tx.c
+>> arch/arm64/kernel/mpam/mpam_device.c:99:24: warning: no previous prototype for 'mpam_component_get' [-Wmissing-prototypes]
+      99 | struct mpam_component *mpam_component_get(struct mpam_class *class, int id,
+         |                        ^~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/mpam/mpam_device.c:190:1: warning: no previous prototype for '__mpam_device_create' [-Wmissing-prototypes]
+     190 | __mpam_device_create(u8 level_idx, enum mpam_class_types type,
+         | ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/mpam/mpam_device.c:248:12: warning: no previous prototype for 'mpam_discovery_start' [-Wmissing-prototypes]
+     248 | int __init mpam_discovery_start(void)
+         |            ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/mpam/mpam_device.c:256:12: warning: no previous prototype for 'mpam_discovery_complete' [-Wmissing-prototypes]
+     256 | int __init mpam_discovery_complete(void)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kernel/mpam/mpam_device.c:261:13: warning: no previous prototype for 'mpam_discovery_failed' [-Wmissing-prototypes]
+     261 | void __init mpam_discovery_failed(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~
 
-d3ab7955330843 Shengyang Chen 2024-04-18  309  static int stf_dphy_init(struct phy *phy)
-d3ab7955330843 Shengyang Chen 2024-04-18  310  {
-d3ab7955330843 Shengyang Chen 2024-04-18  311  	struct stf_dphy *dphy = phy_get_drvdata(phy);
-d3ab7955330843 Shengyang Chen 2024-04-18  312  	int ret;
-d3ab7955330843 Shengyang Chen 2024-04-18  313  
-d3ab7955330843 Shengyang Chen 2024-04-18  314  	stf_dphy_hw_reset(dphy, 1);
-d3ab7955330843 Shengyang Chen 2024-04-18  315  
-d3ab7955330843 Shengyang Chen 2024-04-18  316  	writel(FIELD_PREP(STF_DPHY_SCFG_PPI_C_READY_SEL, 0) |
-d3ab7955330843 Shengyang Chen 2024-04-18  317  	       FIELD_PREP(STF_DPHY_SCFG_DSI_TXREADY_ESC_SEL, 0),
-d3ab7955330843 Shengyang Chen 2024-04-18  318  	       dphy->topsys + STF_DPHY_APBIFSAIF_SYSCFG(48));
-d3ab7955330843 Shengyang Chen 2024-04-18  319  
-d3ab7955330843 Shengyang Chen 2024-04-18  320  	writel(FIELD_PREP(STF_DPHY_SCFG_C_HS_PRE_ZERO_TIME, 0x30),
-d3ab7955330843 Shengyang Chen 2024-04-18  321  	       dphy->topsys + STF_DPHY_APBIFSAIF_SYSCFG(44));
-d3ab7955330843 Shengyang Chen 2024-04-18  322  
-d3ab7955330843 Shengyang Chen 2024-04-18  323  	ret = clk_prepare_enable(dphy->txesc_clk);
-d3ab7955330843 Shengyang Chen 2024-04-18  324  	if (ret) {
-d3ab7955330843 Shengyang Chen 2024-04-18  325  		dev_err(dphy->dev, "Failed to prepare/enable txesc_clk\n");
-d3ab7955330843 Shengyang Chen 2024-04-18  326  		return ret;
-d3ab7955330843 Shengyang Chen 2024-04-18  327  	}
-d3ab7955330843 Shengyang Chen 2024-04-18  328  
-d3ab7955330843 Shengyang Chen 2024-04-18  329  	ret = reset_control_deassert(dphy->sys_rst);
-d3ab7955330843 Shengyang Chen 2024-04-18  330  	if (ret) {
-d3ab7955330843 Shengyang Chen 2024-04-18  331  		dev_err(dphy->dev, "Failed to deassert sys_rst\n");
 
-clk_disable_unprepare(dphy->txesc_clk);?
+vim +/mpam_component_get +99 arch/arm64/kernel/mpam/mpam_device.c
 
-d3ab7955330843 Shengyang Chen 2024-04-18  332  		return ret;
-d3ab7955330843 Shengyang Chen 2024-04-18  333  	}
-d3ab7955330843 Shengyang Chen 2024-04-18  334  
-d3ab7955330843 Shengyang Chen 2024-04-18 @335  	return 0;
-d3ab7955330843 Shengyang Chen 2024-04-18  336  }
+    98	
+  > 99	struct mpam_component *mpam_component_get(struct mpam_class *class, int id,
+   100							bool alloc)
+   101	{
+   102		struct mpam_component *comp;
+   103	
+   104		list_for_each_entry(comp, &class->components, class_list) {
+   105			if (comp->comp_id == id)
+   106				return comp;
+   107		}
+   108	
+   109		if (!alloc)
+   110			return ERR_PTR(-ENOENT);
+   111	
+   112		comp = mpam_component_alloc(id);
+   113		if (IS_ERR(comp))
+   114			return comp;
+   115	
+   116		list_add(&comp->class_list, &class->components);
+   117	
+   118		return comp;
+   119	}
+   120	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
