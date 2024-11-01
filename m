@@ -1,49 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB9AF1714BC;
-	Fri,  1 Nov 2024 11:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8471914A62B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 11:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730459222; cv=none; b=XgjWrexmLHkP45L4STQoJWdI8ql243oAy2RRZeE4B2N9xNuWM8Jyf539l8zYY8mxSMrBe7tJ5DPZGYr8ZfIJ6t+Sx56XChbzPBI/YU6jAmLbrYrRH8EwF7n8XE6Rg2GH4ce5FEeo3+SmufQS17dqpZKYltBPQ5PObM+GdCpmvb0=
+	t=1730460460; cv=none; b=PXJnVNoL9SbRJ5brrhuFhKZQFqqSPWYgz+lvJ0H5LhTmuRjJ0lO6FASyDUx2t+DGtsNouiDV5ppgwyJ54zNNYwOGm5mMDDOUbeKVJsTiJHOhUuqs07O625pOQsrxsXl6PLMcOkF1sZK5Xb6hF4+i9dEbu0cG4uNmez6nZQbJbu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730459222; c=relaxed/simple;
-	bh=srguf2lufsd2nms2sdpliq9KmczeQ+7p0oDEJZUn4qQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I/6LDsr/eyRnY98IKNrLCSrvRL52VrV2QNg1+er5ervmcV+oULqOCoahIShKA5PpuBEjxed1pBqHs3jrLdNd9B4fWzOguEmQ6v2uvsLifVA6XwG2R0fqeS4TjyX6J9JLj6dHTOgf/uyzu6/gcoY0x5V+izj0nqzX2t47AksgmwU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OxWBRlgW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730460460; c=relaxed/simple;
+	bh=fTMgxiGEzWQ/4iwKC1bgteIDdVSG/2oCT+t0K7fquOc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X78unccYUYSSIzQ+6iWnro2qf0261EHYRfXu5a4/Awp6dy1TiWBqQNtkFAsT6hsFY5f3G43H5jVqdJxBYvOLPSjmrLaca5jqxFKHAfYnh4+LKypwkCR5Qo2/fCLIJ+PvCn+I405Oy9tYC9mpixpZRpxh/NV0r6MyuVaxWI2zNnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eTOPdSGa; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OxWBRlgW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89FFBC4CECD;
-	Fri,  1 Nov 2024 11:06:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730459221;
-	bh=srguf2lufsd2nms2sdpliq9KmczeQ+7p0oDEJZUn4qQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OxWBRlgWxR/HP1ssthtXOEjS1Ug+Pnv12CO8Ue4CGm5zvPtzZNCHpIJLCVRraSIE0
-	 mCGNA+ACuorR5XtJrpn+LW6WYujtmVXSTqVawVBoHFyx0NvPZNdx+bA7SU9FJQD8Xn
-	 oOsAtCBRcrSTCTMMG4ltrDj7xiXWdcF1vl4QobbocLu1eoYb+c5EhbAaKK9sdgVs4O
-	 uulEWugA/Ur0gE+cPD3/eKUB1xPCA9DY68NtMwWTHTH7tgEczjIIARGCWXfCsCFCY0
-	 J0y5b40u+kgMDMJw8zWUxeHTPMa2RQ86ncI0qFOhEnpwyV+IQK1g6sdM6TShlMl4Dx
-	 +NeuK5nt12mkQ==
-Date: Fri, 1 Nov 2024 12:06:54 +0100
-From: Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: kernel test robot <lkp@intel.com>, 
-	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, Lee Jones <lee@kernel.org>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, Pavel Machek <pavel@ucw.cz>, linux-leds@vger.kernel.org, 
-	soc@kernel.org, Gregory Clement <gregory.clement@bootlin.com>, 
-	arm <arm@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>, 
-	Andrew Lunn <andrew@lunn.ch>, Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>, 
-	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH leds v4 02/12] leds: turris-omnia: Use command execution
- functions from the MCU driver
-Message-ID: <6zpxjvs4tbccftlb6rqxpoibasm65pgv6rfntbytbatumriyyv@6htvljg5ftv4>
-References: <20241029135621.12546-3-kabel@kernel.org>
- <202410311612.0OkxKVgC-lkp@intel.com>
- <98d3ab51-e7db-46b0-8268-b111e115a281@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eTOPdSGa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730460457; x=1761996457;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fTMgxiGEzWQ/4iwKC1bgteIDdVSG/2oCT+t0K7fquOc=;
+  b=eTOPdSGat/zMBJikMX0IpmUA2caIzNb+l7DTJiC6aWSMBBPVcQSy3kug
+   oiG4YAM2fR+GvtKkvbBmWoYNtuh5jXQw5ZwgifbbJVvpBiKtWfonz0iQZ
+   p1qtTcAiAY1/+kakqkRSZOosGDBmUfsZI81UKuzefLYUyRIKwRuH3q0HI
+   Be2nMtZCZeYIPeFIAuAJVNKX6jre1c9Y3SET66dld5xfL5xp7e0zqX/Lh
+   XBYOh/FZtyTwfzabL26gAXMqyqNf6mkM6m8nTcmSZoUQ15YWURkmNf9Lw
+   asDc4NpzXJizSsqe1kGkjtPXDwb+/Bg6U+lSM1+S31P6rxb3o5fCDNWmi
+   w==;
+X-CSE-ConnectionGUID: kSZO2rXnS3aeXPoxRv9W2A==
+X-CSE-MsgGUID: qariBs8wSkW8aEURGZ0NBw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30410561"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30410561"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 04:27:36 -0700
+X-CSE-ConnectionGUID: WXKjg8i4QNmSgYffjZiF3A==
+X-CSE-MsgGUID: 9hO0mICpTdO5CzeGbIESHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="120396296"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2024 04:27:35 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6poS-000hTF-28;
+	Fri, 01 Nov 2024 11:27:32 +0000
+Date: Fri, 1 Nov 2024 19:26:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2332/2332] fs/buffer.o: warning: objtool:
+ __breadahead_gfp()+0x9b: unreachable instruction
+Message-ID: <202411011918.G4zrdL90-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -52,26 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <98d3ab51-e7db-46b0-8268-b111e115a281@app.fastmail.com>
 
-On Fri, Nov 01, 2024 at 10:06:40AM +0100, Arnd Bergmann wrote:
-> On Thu, Oct 31, 2024, at 10:01, kernel test robot wrote:
-> >
-> > kernel test robot noticed the following build warnings:
-> 
-> >>> drivers/leds/leds-turris-omnia.c:409:12: warning: stack frame size (2064) exceeds limit (2048) in 'omnia_leds_probe' [-Wframe-larger-than]
-> >      409 | static int omnia_leds_probe(struct i2c_client *client)
-> >          |            ^
-> 
-> The problem here is the i2c_client on the stack, you can't
-> do that:
-> 
->  static int omnia_mcu_get_features(const struct i2c_client *client)
->  {
-> +	struct i2c_client mcu_client = *client;
->  	u16 reply;
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   cc5e1415473b95a8a68887dbb9c459ed50de9f1e
+commit: 1ee722823d036ae6478e6bdb1afb12abff10a907 [2332/2332] fs/buffer: replace ll_rw_block()
+config: x86_64-randconfig-005-20241101 (https://download.01.org/0day-ci/archive/20241101/202411011918.G4zrdL90-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011918.G4zrdL90-lkp@intel.com/reproduce)
 
-OMG, I see. struct i2c_client contains struct device.
-OK, I will do this correctly by finding the MCU device on the I2C bus.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411011918.G4zrdL90-lkp@intel.com/
 
-Marek
+All warnings (new ones prefixed by >>):
+
+>> fs/buffer.o: warning: objtool: __breadahead_gfp()+0x9b: unreachable instruction
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
