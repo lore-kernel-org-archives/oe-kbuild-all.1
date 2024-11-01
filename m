@@ -1,108 +1,160 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7661925A9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 12:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C6722097
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 12:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730463262; cv=none; b=tMMUSJCiE6mFKNR5oDYRayCnP+PRpv5CgjuxSWKiOpnkipKI8v/YTkRjGWajHEtFkgrJ4pv7ItGQ/gRPo34FUL7/qGfDUrt2gNdxY0lstLiuLjVM7n5apW8Bz0B6zWkGunDw4cu5BZgiRvjxSpblBVJNy0/jkXmUUAsvqQ+C/1A=
+	t=1730464722; cv=none; b=cY2Tu5fzh7BEY1G62ucIoA7E2/a/cxzAdyfM94Wf7yRXoAunr4IbrAi9h5Cx9xrgq9zZsJraVEtUVW0W9YOAewRG/G8qaW3m1RjihcC8ZUh7Et5KaBo87iTpODlNI07hMqcnk6aZ9ehRryJXfBiBsq+XxF7vMzZ/m9WflWVmVaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730463262; c=relaxed/simple;
-	bh=p9DKxdVSBtQD6DXS5i3JPCzqn4/KGAK9P6m7WbcJMw4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fyjAyrZAflkqbUs3UtwFx1OXvwZkh49ZSypr8GoyiH4BJuQq6ElWHjBoURz3XZR6h/Odsn8dSQhO7QkONA5DXjqJhgwqjYirPzVd4eN0T3LjTVVcIhL8GjVmFBUWl2oLFpQ7G6En26hDa6EYd7ffwscXKlHAnhAsUyMsfFnt5pw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pfs9oiET; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1730464722; c=relaxed/simple;
+	bh=+rVmYqAZOeYMhyUCvCYgDaORU4GQZHYqKUZHLTySv98=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ClhejV2Ye4ceipSm/ibQ1KH/D0Gs0b6sgKvqIg5HlJIQUr/nRhFRTirbkQMJljfr0Vb8Acc8806tPYavyTS64dkIc6SRqmM05bVB6WDijYdk4gn+IL19wtLPeCcv+uFRyMbC5gQv+dWSo46Ub4/7QRT10fqhOhUua7LImdBJkKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtYofKy+; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pfs9oiET"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a0c7abaa6so207825966b.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Nov 2024 05:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730463259; x=1731068059; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=afXS28WNzPIn8ZiAoXeQQ+AWZulWG4v7TMM2B1Nbx3U=;
-        b=Pfs9oiETLB40yhxfa3o1Xo5DeOLSRWj82xEkux71ahjSmIYNxVrNO9iN0cjbo5GVya
-         9NuOYZWbSWgmKKa/a3owUUgZXQyntvoglNvXxCV0i9EYMhGh2IIUCK4oDu4RbDr4YW6b
-         6dJ3k8dyKkLmQTQaTkjO47XcaGNa7g7gokMUQr9CgHEEcADbRWmcCe0rJKO6MJmsW/tD
-         va2+HumKZScu5tvdRLbSptTXuIdgXooN3bD4GCMsnAOI9tADt2pDKwe1h3rFtMzr/Ec0
-         QcY6ID/5aVqbYAvbfxfTyCX2soFdsy2bm4u0u0DK7XenW52mJD73PUKmrky38jTvrrZo
-         5e0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730463259; x=1731068059;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=afXS28WNzPIn8ZiAoXeQQ+AWZulWG4v7TMM2B1Nbx3U=;
-        b=UI5aYs3I+EViLBpp3Wyr7mvLV7NRrBoCbC2pClP9OwpFlhBRU3hB0VSCT6RaZJIOrE
-         gHhtLJ3m2FUS547ZxuEc+yI25KbM/MdmizDimXuN9MW4P83kWg1OXbB7ovF+4oUdZoGP
-         c/f3K3suEIgMuhIgj3nTxUf89BF8EbAP5pZwGGEodT4EpYeLFHRCA/ZysGvFt9Z4J61i
-         U4005pL+OGbdQMN3eb7Arvnnh52BKlk0afINZ/hTr3sIjKTY4TDnhFt84fnjEbC25Zes
-         ABS4csxHBp4gwu/ViLsse8Muqxs4aDOUBmwKYDEwEDHQ7iqsV5LHXrkErD0NeLoVv2jN
-         DSKA==
-X-Gm-Message-State: AOJu0YxeQCaZOELzbVvm5gwgWGj8N8dbxEuydEms10B0rT7VGw6l/7GE
-	lkUY6YvNRs7h7yzZltN3HqnrZUBoPaRbHUse2l/0TXOWii2OwEZ1
-X-Google-Smtp-Source: AGHT+IGswJw9DBDaL1k60WKA1olp/Z5xH9EPY//gHoHbDiGQFhhiaordtKUxXzGZhvoPWau6GTIcoQ==
-X-Received: by 2002:a17:907:1c02:b0:a99:a9b6:2eb6 with SMTP id a640c23a62f3a-a9e652c179emr345249966b.0.1730463258564;
-        Fri, 01 Nov 2024 05:14:18 -0700 (PDT)
-Received: from [192.168.0.50] ([79.113.150.231])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9e565dfa80sm173888566b.130.2024.11.01.05.14.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 Nov 2024 05:14:18 -0700 (PDT)
-Message-ID: <fdec3e56-ee9f-4b44-bd61-cb8cfec5f2f8@gmail.com>
-Date: Fri, 1 Nov 2024 14:14:14 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtYofKy+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730464720; x=1762000720;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+rVmYqAZOeYMhyUCvCYgDaORU4GQZHYqKUZHLTySv98=;
+  b=VtYofKy+A8Ccd/+c/VT/zEDnx6R9SGnR99rpEjLUASwbqbba9OT+Jt/J
+   qpDh5Yt6p1YC4nYWruR/eRI9nTMoso+gpvDG2lZULpprCau2A1O99LmH6
+   PZ36pkEWWbtc539zWU6C5Kx0Qtw21oGNW5yWcZ5RiuXNwK01JNciieGej
+   +ndQ0awjpWH2dKoACgaFKEcyHfWtCifS2haC9BgcEWbT5XSnYBvpoey9J
+   LyS1vZtIXPFc4uCd7ANC8sNWILsgBQ2gfvcldOTD+OatULPm9qG1o0R1r
+   Lqr+pkVQNqs1xldAMCa1A9dtrr3SQ9NChVbyacnZusRPOtO2eZEg5/UCn
+   Q==;
+X-CSE-ConnectionGUID: QmijW8QATN+0H9lNTjV0Uw==
+X-CSE-MsgGUID: fJGaGMlBS1+eufwfZnxPhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33916858"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="33916858"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 05:38:39 -0700
+X-CSE-ConnectionGUID: S+QiExzwTPKXnbBSlMKMCg==
+X-CSE-MsgGUID: KOoIgSfdT824CUKIaYYuMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="83054571"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 01 Nov 2024 05:38:38 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6qvD-000hXt-1u;
+	Fri, 01 Nov 2024 12:38:35 +0000
+Date: Fri, 1 Nov 2024 20:38:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 8780/8858] error[E0061]: this function takes 2
+ arguments but 3 arguments were supplied
+Message-ID: <202411012033.gzLpoqVf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/7] wifi: rtw88: Enable the new RTL8821AU/RTL8812AU
- drivers
-To: kernel test robot <lkp@intel.com>,
- "linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>
-References: <0b8e8093-8103-4999-86bf-0055ec52ea64@gmail.com>
- <202411010825.Kzdw5VeV-lkp@intel.com>
-Content-Language: en-US
-From: Bitterblue Smith <rtl8821cerfe2@gmail.com>
-In-Reply-To: <202411010825.Kzdw5VeV-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 01/11/2024 02:35, kernel test robot wrote:
-> Hi Bitterblue,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on wireless-next/main]
-> [also build test ERROR on wireless/main linus/master v6.12-rc5 next-20241031]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw88-Add-rtw8812a_table-c-h/20241031-023323
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-> patch link:    https://lore.kernel.org/r/0b8e8093-8103-4999-86bf-0055ec52ea64%40gmail.com
-> patch subject: [PATCH v4 7/7] wifi: rtw88: Enable the new RTL8821AU/RTL8812AU drivers
-> config: um-allyesconfig (https://download.01.org/0day-ci/archive/20241101/202411010825.Kzdw5VeV-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010825.Kzdw5VeV-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411010825.Kzdw5VeV-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->          |                             REG_RFE_CTRL_E
->    drivers/net/wireless/realtek/rtw88/rtw8821a.c:338:37: error: 'REG_IQK_COM64' undeclared (first use in this function)
->      338 |                 rtw_write32(rtwdev, REG_IQK_COM64, 0xfa000000);
->          |                                     ^~~~~~~~~~~~~
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c88416ba074a8913cf6d61b789dd834bbca6681c
+commit: 648dc9064db5e8faef9cecb0c948d96801e31ea5 [8780/8858] Merge branch 'next' of git://git.kernel.org/pub/scm/linux/kernel/git/pcmoore/lsm.git
+config: x86_64-randconfig-103-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012033.gzLpoqVf-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012033.gzLpoqVf-lkp@intel.com/reproduce)
 
-Ah, sorry, I didn't use --base. This series is supposed to be
-applied on top of rtw-next, not wireless-next.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411012033.gzLpoqVf-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   1 warning generated.
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   1 warning generated.
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>> error[E0061]: this function takes 2 arguments but 3 arguments were supplied
+   --> rust/kernel/security.rs:32:28
+   |
+   32    |         to_result(unsafe { bindings::security_secid_to_secctx(secid, &mut secdata, &mut seclen) })?;
+   |                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                      ----------- unexpected argument of type `&mut u32`
+   |
+   note: expected `*mut lsm_context`, found `&mut *mut _`
+   --> rust/kernel/security.rs:32:70
+   |
+   32    |         to_result(unsafe { bindings::security_secid_to_secctx(secid, &mut secdata, &mut seclen) })?;
+   |                                                                      ^^^^^^^^^^^^
+   = note:    expected raw pointer `*mut bindings::lsm_context`
+   found mutable reference `&mut *mut _`
+   note: function defined here
+   --> rust/bindings/bindings_generated.rs:70041:12
+   |
+   70041 |     pub fn security_secid_to_secctx(secid: u32_, cp: *mut lsm_context) -> core::ffi::c_int;
+   |            ^^^^^^^^^^^^^^^^^^^^^^^^
+   help: consider removing the borrow
+   |
+   32    -         to_result(unsafe { bindings::security_secid_to_secctx(secid, &mut secdata, &mut seclen) })?;
+   32    +         to_result(unsafe { bindings::security_secid_to_secctx(secid, secdata, &mut seclen) })?;
+   |
+   help: remove the extra argument
+   |
+   32    -         to_result(unsafe { bindings::security_secid_to_secctx(secid, &mut secdata, &mut seclen) })?;
+   32    +         to_result(unsafe { bindings::security_secid_to_secctx(secid, /* *mut bindings::lsm_context */) })?;
+   |
+--
+>> error[E0061]: this function takes 1 argument but 2 arguments were supplied
+   --> rust/kernel/security.rs:72:18
+   |
+   72    |         unsafe { bindings::security_release_secctx(self.secdata, self.seclen as u32) };
+   |                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^               ------------------ unexpected argument of type `u32`
+   |
+   note: expected `*mut lsm_context`, found `*mut i8`
+   --> rust/kernel/security.rs:72:52
+   |
+   72    |         unsafe { bindings::security_release_secctx(self.secdata, self.seclen as u32) };
+   |                                                    ^^^^^^^^^^^^
+   = note: expected raw pointer `*mut bindings::lsm_context`
+   found raw pointer `*mut i8`
+   note: function defined here
+   --> rust/bindings/bindings_generated.rs:70057:12
+   |
+   70057 |     pub fn security_release_secctx(cp: *mut lsm_context);
+   |            ^^^^^^^^^^^^^^^^^^^^^^^
+   help: remove the extra argument
+   |
+   72    -         unsafe { bindings::security_release_secctx(self.secdata, self.seclen as u32) };
+   72    +         unsafe { bindings::security_release_secctx(/* *mut bindings::lsm_context */) };
+   |
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
