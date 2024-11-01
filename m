@@ -1,130 +1,245 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A7F155382;
-	Fri,  1 Nov 2024 07:11:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF0D14A60F
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 07:20:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730445075; cv=none; b=d0tTFwyfFYUMM62y0Xu/p558uafVOVTayuEhyY1Ra2ZOQSkbUuVl81n5T4tgvAaO9W5KB7Ym2Bf73PQA6BMSXoNnpIPS90WwQak2YX2e35j90wBDvofr8df+IROj882tHse/l9kO52SLP20mnB2WC1UXXRMKgTLzOIwv40qMznc=
+	t=1730445622; cv=none; b=Hd3tw6v/122CfAVkl6OEMOU9xizfiAY+PNPJFoaczKiG3+hdYqJ5jW20rwIj6pvlR0TNtFpHrAUwRfjfCl1naQwkc5wtC7SxSSh5aNII9lu8FxwDd+F3SobZIKWOCXGZXO+jtosmwFnemHxr57C7Q6TCJ7s1G9oo059bDkyQnJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730445075; c=relaxed/simple;
-	bh=LrXM8j4JXygvUS/V8UtdLf/1bnE60Pt/FNCjXxO/sk0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=i9KmLtteJ39O6iWKgk1rNsqGOqluHVWUBmzoiVUSvibK/WkJxqPQ1JdFtuFBuPw5aPm/dAFEEYKNxf+9zj69p2Kh6PZFPLbrDO3G5Ziwo/AsLVEaCJpWnoOWOXs/bshMDZUxUhoKbrd/ZIL4XUxOFUL5e9NrKxvHf7j+AXS6bJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gledPX3O; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730445622; c=relaxed/simple;
+	bh=8NXI7OlV4u2/yYrTXbkn3vRDeNLEp5PiMcTdO53uX34=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 In-Reply-To:Content-Type:Content-Disposition; b=W6OX4RQJML8JCKg0SWuiKSwpN5yWTp698/nVgc/NteXYNOH0me+MUMwEKC/iHd7CnS1MVK8kpb8jxPzMUi7Cfm5QQIn+SRo5wWnK3SOEFH2z9PLtumJ09+WwvK7sT2YfnvAGPc63Ub35r3cheWB39ThQ9ID1/MfnR+WMA7Et8gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h0HXucU+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gledPX3O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730445073; x=1761981073;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LrXM8j4JXygvUS/V8UtdLf/1bnE60Pt/FNCjXxO/sk0=;
-  b=gledPX3Oam+XntSVejcGwwSEbTRziONXq4LOTJn2WImfjI2lWh1gqYl/
-   pjMhIq5XGCCvTANzGeKKztsb7Nt14Zi2oPT+3Wb7iC1vVUq304DhYIYUP
-   visokN7lE8T/f6oTtrhfkanTBRCz1BMFc+0dmBjK+sEuBgaDbHiRjbwRB
-   8jFHYz+MYaq8LP1Owj3XJEXPuXSn/OfL+Lj/Sa42NJOEPUGdGxg6U+OyE
-   ggth/12dHg3c6j1YiH1/qksP7KYCQ1qhRGLE850QMD9foSV7lkItYJy3E
-   lJMLtx0JDxXMoPpaW/VXWQEXIku5LyeWjck46ZZ5jBb89FL1vU+xtRBte
-   A==;
-X-CSE-ConnectionGUID: g+1EeJ5QT7K7z4CLL6dTaQ==
-X-CSE-MsgGUID: 51/IWCqITWGCVqvy1rlAmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40752776"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40752776"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 00:11:12 -0700
-X-CSE-ConnectionGUID: 2v7wJwyaRRWdiBXKL3teRg==
-X-CSE-MsgGUID: mPC820krTNCU4TKaF3VrKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="106218062"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Nov 2024 00:11:10 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6loK-000hFl-2y;
-	Fri, 01 Nov 2024 07:11:08 +0000
-Date: Fri, 1 Nov 2024 15:10:45 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:drm_mm 3/4] lib/drm_mm.c:614:20: warning: function
- 'drm_mm_node_scanned_block' is not needed and will not be emitted
-Message-ID: <202411011528.dsCnUbV2-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h0HXucU+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1730445619;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x5hXjcqWXRn59a0xbdSnVFt2VZK6FjShJd6whf11uMo=;
+	b=h0HXucU+KFi4rmjYc7KbUaLjmvB4QZooOwRB4Bh5XDhBzd+5fW1C96ltNceRrlb4ezc7cB
+	ClVJJkZMIhQ6NpDC+anvS1kOAUy0b50QsmRsDwozdXyBbABMPvjyN+LKPVKeiyVBKikH0C
+	056s6ZacS9CiPsfHFSMu582OXwonYvQ=
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
+ [209.85.214.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-534-JX6yRuUWMSSV_j7t6Go1Mw-1; Fri, 01 Nov 2024 03:20:18 -0400
+X-MC-Unique: JX6yRuUWMSSV_j7t6Go1Mw-1
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-20c92707255so19002595ad.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Nov 2024 00:20:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730445617; x=1731050417;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=x5hXjcqWXRn59a0xbdSnVFt2VZK6FjShJd6whf11uMo=;
+        b=vGUz+ubr534SKd+1fJyHQaAa5IJJfChG5zLee3O7uZWhw+YiYmdK9W5PvglPEStaFH
+         ccvO8E3e0NpYNH1T64O+bf0U2+UAErY0h1JYS8tu+sYUifmunYCXz4gK0z9JCoB5xV7X
+         Wqfx5UxIcrJ3+1zJq3bm9np2mBZTlDQg3D7mGdhxmIpg08cB1JxRmxZ6W8j7RKxQ8krL
+         F6psocwMncINJeU5rCFXWvbNsbLhrT7FE/ZkkFmbfZmR/Y5xmCNHmMa5s/m1cKoBWyW8
+         QZzpL1Tl97gKzt144ugFVQKhXHAwcIhune5uCAbZX0bJjo94OLZg5xE4kN8BRvjpI2PU
+         zKKA==
+X-Forwarded-Encrypted: i=1; AJvYcCXivDVoH75jKPubAgPueysL34YfN6ptTT+i0Vs8VCGR7HEa2Un5SUE+9OJbvxF9ZIbM6A3Sff6zMtZ+pGP0@lists.linux.dev
+X-Gm-Message-State: AOJu0YyL8gi5euGECcJDboP5p353HudiuLekP730u17v6+/XwKUEpIjF
+	mP2uW78k5acYw0nOmgjVzjOa/Z/VqnWpERtYttwWZzSr/T1UKaCncD5zvnruJ9N0dNBCrrLRUZR
+	72aGgHwXEk6hI/7jCYKxAonfy5XLyQ9npvuzG6Jfh5MPKREq8NauJoDKmOXEOstI=
+X-Received: by 2002:a17:903:22c6:b0:20c:6ac0:f1f3 with SMTP id d9443c01a7336-2111af799c8mr30759375ad.34.1730445617253;
+        Fri, 01 Nov 2024 00:20:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGG2Y5WF1CYx2a1shsD35rPwqjdlx6MHWPlasgIsp973u0b68S35AogeDETQd5q6GacNCn+OA==
+X-Received: by 2002:a17:903:22c6:b0:20c:6ac0:f1f3 with SMTP id d9443c01a7336-2111af799c8mr30759025ad.34.1730445616668;
+        Fri, 01 Nov 2024 00:20:16 -0700 (PDT)
+Received: from localhost ([43.228.180.230])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211056edb4csm17362645ad.58.2024.11.01.00.20.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 00:20:16 -0700 (PDT)
+Date: Fri, 1 Nov 2024 15:16:03 +0800
+From: Coiby Xu <coxu@redhat.com>
+To: kernel test robot <lkp@intel.com>
+Cc: kexec@lists.infradead.org, oe-kbuild-all@lists.linux.dev, 
+	Ondrej Kozina <okozina@redhat.com>, Milan Broz <gmazyland@gmail.com>, 
+	Thomas Staudt <tstaudt@de.ibm.com>, Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>, 
+	Kairui Song <ryncsn@gmail.com>, Jan Pazdziora <jpazdziora@redhat.com>, 
+	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, Dave Hansen <dave.hansen@intel.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Greg KH <greg@kroah.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>, 
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+	"(open list:KERNEL HARDENING (not covered by other areas):Keyword:b__counted_byb)" <linux-hardening@vger.kernel.org>
+Subject: Re: [PATCH v6 3/7] crash_dump: store dm crypt keys in kdump reserved
+ memory
+Message-ID: <7iimyaxqzvjn7f6xorz7ng2kvgapvay5dwhyuisd7ls6rhs6zz@q6gtyynjxpzt>
+References: <20241029055223.210039-4-coxu@redhat.com>
+ <202410292237.HA9vMqbC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <202410292237.HA9vMqbC-lkp@intel.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git drm_mm
-head:   c8004f35f9de5c195a8cab95bbdd62b7fbb1563d
-commit: 3e790b7ac9876de0d4461c5219a29c674b5ecb12 [3/4] bpf, drm: move drm_mm to lib to be used by bpf arena
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241101/202411011528.dsCnUbV2-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011528.dsCnUbV2-lkp@intel.com/reproduce)
+On Tue, Oct 29, 2024 at 10:41:50PM +0800, kernel test robot wrote:
+>Hi Coiby,
+>
+>kernel test robot noticed the following build errors:
+>
+>[auto build test ERROR on e42b1a9a2557aa94fee47f078633677198386a52]
+>
+>url:    https://github.com/intel-lab-lkp/linux/commits/Coiby-Xu/kexec_file-allow-to-place-kexec_buf-randomly/20241029-135449
+>base:   e42b1a9a2557aa94fee47f078633677198386a52
+>patch link:    https://lore.kernel.org/r/20241029055223.210039-4-coxu%40redhat.com
+>patch subject: [PATCH v6 3/7] crash_dump: store dm crypt keys in kdump reserved memory
+>config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241029/202410292237.HA9vMqbC-lkp@intel.com/config)
+>compiler: loongarch64-linux-gcc (GCC) 14.1.0
+>reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241029/202410292237.HA9vMqbC-lkp@intel.com/reproduce)
+>
+>If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Closes: https://lore.kernel.org/oe-kbuild-all/202410292237.HA9vMqbC-lkp@intel.com/
+>
+>All error/warnings (new ones prefixed by >>):
+>
+>   kernel/crash_dump_dm_crypt.c: In function 'crash_load_dm_crypt_keys':
+>>> kernel/crash_dump_dm_crypt.c:221:16: error: variable 'kbuf' has initializer but incomplete type
+>     221 |         struct kexec_buf kbuf = {
+>         |                ^~~~~~~~~
+>>> kernel/crash_dump_dm_crypt.c:222:18: error: 'struct kexec_buf' has no member named 'image'
+>     222 |                 .image = image,
+>         |                  ^~~~~
+>>> kernel/crash_dump_dm_crypt.c:222:26: warning: excess elements in struct initializer
+>     222 |                 .image = image,
+>         |                          ^~~~~
+>   kernel/crash_dump_dm_crypt.c:222:26: note: (near initialization for 'kbuf')
+>>> kernel/crash_dump_dm_crypt.c:223:18: error: 'struct kexec_buf' has no member named 'buf_min'
+>     223 |                 .buf_min = 0,
+>         |                  ^~~~~~~
+>   kernel/crash_dump_dm_crypt.c:223:28: warning: excess elements in struct initializer
+>     223 |                 .buf_min = 0,
+>         |                            ^
+>   kernel/crash_dump_dm_crypt.c:223:28: note: (near initialization for 'kbuf')
+>>> kernel/crash_dump_dm_crypt.c:224:18: error: 'struct kexec_buf' has no member named 'buf_max'
+>     224 |                 .buf_max = ULONG_MAX,
+>         |                  ^~~~~~~
+>   In file included from include/linux/limits.h:7,
+>                    from include/linux/thread_info.h:12,
+>                    from include/asm-generic/preempt.h:5,
+>                    from ./arch/loongarch/include/generated/asm/preempt.h:1,
+>                    from include/linux/preempt.h:79,
+>                    from include/linux/rcupdate.h:27,
+>                    from include/linux/rbtree.h:24,
+>                    from include/linux/key.h:15,
+>                    from kernel/crash_dump_dm_crypt.c:2:
+>>> include/vdso/limits.h:13:25: warning: excess elements in struct initializer
+>      13 | #define ULONG_MAX       (~0UL)
+>         |                         ^
+>   kernel/crash_dump_dm_crypt.c:224:28: note: in expansion of macro 'ULONG_MAX'
+>     224 |                 .buf_max = ULONG_MAX,
+>         |                            ^~~~~~~~~
+>   include/vdso/limits.h:13:25: note: (near initialization for 'kbuf')
+>      13 | #define ULONG_MAX       (~0UL)
+>         |                         ^
+>   kernel/crash_dump_dm_crypt.c:224:28: note: in expansion of macro 'ULONG_MAX'
+>     224 |                 .buf_max = ULONG_MAX,
+>         |                            ^~~~~~~~~
+>>> kernel/crash_dump_dm_crypt.c:225:18: error: 'struct kexec_buf' has no member named 'top_down'
+>     225 |                 .top_down = false,
+>         |                  ^~~~~~~~
+>   kernel/crash_dump_dm_crypt.c:225:29: warning: excess elements in struct initializer
+>     225 |                 .top_down = false,
+>         |                             ^~~~~
+>   kernel/crash_dump_dm_crypt.c:225:29: note: (near initialization for 'kbuf')
+>>> kernel/crash_dump_dm_crypt.c:226:18: error: 'struct kexec_buf' has no member named 'random'
+>     226 |                 .random = true,
+>         |                  ^~~~~~
+>   kernel/crash_dump_dm_crypt.c:226:27: warning: excess elements in struct initializer
+>     226 |                 .random = true,
+>         |                           ^~~~
+>   kernel/crash_dump_dm_crypt.c:226:27: note: (near initialization for 'kbuf')
+>>> kernel/crash_dump_dm_crypt.c:221:26: error: storage size of 'kbuf' isn't known
+>     221 |         struct kexec_buf kbuf = {
+>         |                          ^~~~
+>>> kernel/crash_dump_dm_crypt.c:246:20: error: 'KEXEC_BUF_MEM_UNKNOWN' undeclared (first use in this function)
+>     246 |         kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+>         |                    ^~~~~~~~~~~~~~~~~~~~~
+>   kernel/crash_dump_dm_crypt.c:246:20: note: each undeclared identifier is reported only once for each function it appears in
+>>> kernel/crash_dump_dm_crypt.c:247:13: error: implicit declaration of function 'kexec_add_buffer' [-Wimplicit-function-declaration]
+>     247 |         r = kexec_add_buffer(&kbuf);
+>         |             ^~~~~~~~~~~~~~~~
+>>> kernel/crash_dump_dm_crypt.c:221:26: warning: unused variable 'kbuf' [-Wunused-variable]
+>     221 |         struct kexec_buf kbuf = {
+>         |                          ^~~~
+>
+>
+>vim +/kbuf +221 kernel/crash_dump_dm_crypt.c
+>
+>   218	
+>   219	int crash_load_dm_crypt_keys(struct kimage *image)
+>   220	{
+> > 221		struct kexec_buf kbuf = {
+> > 222			.image = image,
+> > 223			.buf_min = 0,
+> > 224			.buf_max = ULONG_MAX,
+> > 225			.top_down = false,
+> > 226			.random = true,
+>   227		};
+>   228		int r;
+>   229	
+>   230	
+>   231		if (key_count <= 0) {
+>   232			kexec_dprintk("No dm-crypt keys\n");
+>   233			return -EINVAL;
+>   234		}
+>   235	
+>   236		image->dm_crypt_keys_addr = 0;
+>   237		r = build_keys_header();
+>   238		if (r)
+>   239			return r;
+>   240	
+>   241		kbuf.buffer = keys_header;
+>   242		kbuf.bufsz = get_keys_header_size(key_count);
+>   243	
+>   244		kbuf.memsz = kbuf.bufsz;
+>   245		kbuf.buf_align = ELF_CORE_HEADER_ALIGN;
+> > 246		kbuf.mem = KEXEC_BUF_MEM_UNKNOWN;
+> > 247		r = kexec_add_buffer(&kbuf);
+>   248		if (r) {
+>   249			kvfree((void *)kbuf.buffer);
+>   250			return r;
+>   251		}
+>   252		image->dm_crypt_keys_addr = kbuf.mem;
+>   253		image->dm_crypt_keys_sz = kbuf.bufsz;
+>   254		kexec_dprintk(
+>   255			"Loaded dm crypt keys to kexec_buffer bufsz=0x%lx memsz=0x%lx\n",
+>   256			kbuf.bufsz, kbuf.bufsz);
+>   257	
+>   258		return r;
+>   259	}
+>   260	
+>
+>-- 
+>0-DAY CI Kernel Test Service
+>https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411011528.dsCnUbV2-lkp@intel.com/
+Thanks for reporting this issue. I'll make CRASH_DM_CRYPT depend on
+KEXEC_FILE to fix it in new version of patch set!
 
-All warnings (new ones prefixed by >>):
-
-   lib/drm_mm.c:152:1: warning: unused function 'drm_mm_interval_tree_insert' [-Wunused-function]
-     152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     153 |                      u64, __subtree_last,
-         |                      ~~~~~~~~~~~~~~~~~~~~
-     154 |                      START, LAST, static inline, drm_mm_interval_tree)
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/interval_tree_generic.h:38:15: note: expanded from macro 'INTERVAL_TREE_DEFINE'
-      38 | ITSTATIC void ITPREFIX ## _insert(ITSTRUCT *node,                             \
-         |               ^~~~~~~~~~~~~~~~~~~
-   <scratch space>:13:1: note: expanded from here
-      13 | drm_mm_interval_tree_insert
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/drm_mm.c:152:1: warning: unused function 'drm_mm_interval_tree_iter_next' [-Wunused-function]
-     152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     153 |                      u64, __subtree_last,
-         |                      ~~~~~~~~~~~~~~~~~~~~
-     154 |                      START, LAST, static inline, drm_mm_interval_tree)
-         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/interval_tree_generic.h:151:33: note: expanded from macro 'INTERVAL_TREE_DEFINE'
-     151 | ITSTATIC ITSTRUCT *                                                           \
-         |                                                                               ^
-     152 | ITPREFIX ## _iter_next(ITSTRUCT *node, ITTYPE start, ITTYPE last)             \
-         | ~~~~~~~~~~~~~~~~~~~~~~
-   <scratch space>:25:1: note: expanded from here
-      25 | drm_mm_interval_tree_iter_next
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/drm_mm.c:614:20: warning: function 'drm_mm_node_scanned_block' is not needed and will not be emitted [-Wunneeded-internal-declaration]
-     614 | static inline bool drm_mm_node_scanned_block(const struct drm_mm_node *node)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   3 warnings generated.
-
-
-vim +/drm_mm_node_scanned_block +614 lib/drm_mm.c
-
-6b9d89b4365ab5 drivers/gpu/drm/drm_mm.c Chris Wilson 2012-07-10  613  
-71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03 @614  static inline bool drm_mm_node_scanned_block(const struct drm_mm_node *node)
-71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  615  {
-4ee92c7149da9c drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  616  	return test_bit(DRM_MM_NODE_SCANNED_BIT, &node->flags);
-71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  617  }
-71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  618  
-
-:::::: The code at line 614 was first introduced by commit
-:::::: 71724f708997595919cb1e75c5e48916c8846d2e drm/mm: Use helpers for drm_mm_node booleans
-
-:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+>_______________________________________________
+>kexec mailing list
+>kexec@lists.infradead.org
+>http://lists.infradead.org/mailman/listinfo/kexec
+>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Coiby
+
