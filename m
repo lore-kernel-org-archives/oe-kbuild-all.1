@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 345F8137745
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 02:52:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C619B11CA0;
+	Fri,  1 Nov 2024 04:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730429535; cv=none; b=lDibxAvUjm3GBJEnsEWYjpKZ7ICs3YF7uxjQiWV74138gorYkyJ6j6Qn0kZs7lDRfAcTcRlnvK3uuVP3a/PlbSAOCKLhycVOSRT1oysZrpNRKlSlUlzeWglkEVhLuqD8QoQKmyDmGg3MUCstGiG0c5Z5MRqGa+TKJ2uAFZYi+nk=
+	t=1730434511; cv=none; b=AXuZErPFrCH11WdO6ULRC7GWWbLrdxeYWBn43tGdmyo3d4mJfsjDU+VVTDlNLArL/PYLucLP0M//OnSloOjs9hSNtSQd9amz11NbgarhpUK94GKJuhxc/v28p/uP4c+PoGyptbWmsQMswh3Wcot/cpCnrpSsQB4XgSrSMNnpLPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730429535; c=relaxed/simple;
-	bh=59tX4tpkBBoLdV/egynR8o+RMSZv25btoppP3TMRMEQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a8fOBPaAUWJjlmOY2fYVXxcYkBikg7pTp0g8MuuWIwf4uqIfvpI40IErb3QMDhqD2bKi+XePA6rcRDleHHxCCqqjvFgZ4v1kPdf356FfXe9QlpXmj5d84Yd1ki58Hqf/qetn6Gg6QLHHXA8ee9Ei7j0h26teFPYo2xW4lXMYNk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SKNAqQbg; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1730434511; c=relaxed/simple;
+	bh=9xDzoBwjMDIEAdLz66R9HUoiCdP6e1xPTsjspSdCIUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7LoK01CN02i9JpelHt9L/YKtcPxPC+jyQ/tiW7FXr4iuwBj3YyKwr03r0I1NPIsDw5CiYWTZuzqtM+GWLaJz4vAc1j2KwfDy6Jy6HF21AVE4JUExaM7RZVOJs0HZtRLL5IJ0ul/vz4hkB3yj6rNUtO7oKyipOs5TLzKmzKXR1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SyjMKO7p; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SKNAqQbg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SyjMKO7p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730429528; x=1761965528;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=59tX4tpkBBoLdV/egynR8o+RMSZv25btoppP3TMRMEQ=;
-  b=SKNAqQbgjZ0EwFq+U/Y11LMBQjebRoB3NknVJmtCDExmrCFBPqJcDRSK
-   NyPWYMNrImVViP4LNrHltUi2cky9fhZIFM85gKRhUqnNP4aYvRykgJiGN
-   UQwnJzTwFKP9hrZhlVZvlQPwq6UxSOfxXDrWuQLwOgHTCa+ZufmofbKtz
-   HrOqbwiYLr6RzuFEatQX10TrdpoCtbw8RviOD62yOYwsI4iuHSihG7mro
-   hyzUAS4OS1D0w+Xn+f7Hi6N3yvZPOiSPzKO9JT7q+pNdacbM6Bp1Ri7gj
-   APVlVPRU+uRz9oFIMloe6l7+Pdt9xmbnBvtYNSRG93bfCVQCHMsW48gdj
-   Q==;
-X-CSE-ConnectionGUID: p2rVhhsHQYugvG3TfCVYzA==
-X-CSE-MsgGUID: sVhHmVCdRhivI5ikuP4ZzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="29625947"
+  t=1730434509; x=1761970509;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9xDzoBwjMDIEAdLz66R9HUoiCdP6e1xPTsjspSdCIUs=;
+  b=SyjMKO7pF0sGkA7A/119mNfdwIS5tD0wkOxoMdF3PFQaCom3CvwtGj0h
+   XeGOCck4Ae8BoWtVSgCHlv/1kdt3qocI2eg5cz+3z6c3stpv6oLkUxUQ5
+   wnagvADJh27Teedsd2c7gMPdolIuuKxyUZI22aTuoBs9R0ZK+XdZX0tAe
+   rTtbOSmCJZnzwKHBsuqIjshx6Wt/SXlMWnymb4XeRGGkEdFYIkK4r6XRy
+   q8OqTBVlsAYOk0Y6mI5shuTq6r2c/HRfvy6st3nXCCv3+Tq/nttBsnk5J
+   mGbOArsHPU/p2CRGnAjkrNy7Gtp0HUg4+lRT9xbK1OZcU4SKtqOpaptjV
+   g==;
+X-CSE-ConnectionGUID: njeE5iO3Rg+HEItvwnjOkg==
+X-CSE-MsgGUID: Iqc//SA6Su+1m86/k22eoA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="47680051"
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="29625947"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 19:52:07 -0700
-X-CSE-ConnectionGUID: vU9tlH6vRUmAVXZ3vJ/OAA==
-X-CSE-MsgGUID: 7F4r3DXQQguEW45TrAx4Iw==
+   d="scan'208";a="47680051"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 21:15:08 -0700
+X-CSE-ConnectionGUID: N7vj03srRQquG7fIq26Hmg==
+X-CSE-MsgGUID: ChZqBy5NTzu8jDUN4hdhXQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="83264184"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="87623375"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 31 Oct 2024 19:52:05 -0700
+  by orviesa003.jf.intel.com with ESMTP; 31 Oct 2024 21:15:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6hla-000h4M-18;
-	Fri, 01 Nov 2024 02:52:02 +0000
-Date: Fri, 1 Nov 2024 10:51:57 +0800
+	id 1t6j3w-000h7b-1P;
+	Fri, 01 Nov 2024 04:15:04 +0000
+Date: Fri, 1 Nov 2024 12:14:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Isaku Yamahata <isaku.yamahata@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Farrah Chen <farrah.chen@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Kai Huang <kai.huang@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>
-Subject: [kvm:kvm-coco-queue 118/186] arch/x86/kvm/mmu/tdp_mmu.c:474:14:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202411011026.TPHQXlbi-lkp@intel.com>
+To: Nava kishore Manne <nava.kishore.manne@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v2 1/1] fpga-region: Add generic IOCTL interface for
+ runtime FPGA programming
+Message-ID: <202411011107.t2xWpqrr-lkp@intel.com>
+References: <20241029091734.3288005-2-nava.kishore.manne@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,100 +63,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241029091734.3288005-2-nava.kishore.manne@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git kvm-coco-queue
-head:   49c492a89914b02fa5011d9ea9848318c6c98dd9
-commit: 8c503164d3c974ae4ae50e75867b3563e983d267 [118/186] KVM: x86/tdp_mmu: Propagate building mirror page tables
-config: x86_64-randconfig-123-20241101 (https://download.01.org/0day-ci/archive/20241101/202411011026.TPHQXlbi-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011026.TPHQXlbi-lkp@intel.com/reproduce)
+Hi Nava,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc5 next-20241031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nava-kishore-Manne/fpga-region-Add-generic-IOCTL-interface-for-runtime-FPGA-programming/20241029-181743
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241029091734.3288005-2-nava.kishore.manne%40amd.com
+patch subject: [RFC v2 1/1] fpga-region: Add generic IOCTL interface for runtime FPGA programming
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241101/202411011107.t2xWpqrr-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011107.t2xWpqrr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411011026.TPHQXlbi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411011107.t2xWpqrr-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const volatile *v @@     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr @@
-   arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse:     expected void const volatile *v
-   arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse:     got unsigned long long [noderef] [usertype] __rcu *__ai_ptr
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: cast removes address space '__rcu' of expression
->> arch/x86/kvm/mmu/tdp_mmu.c:746:29: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:746:29: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:746:29: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1241:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:1241:25: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1241:25: sparse:     got unsigned long long [noderef] [usertype] __rcu *[addressable] [usertype] sptep
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: dereference of noderef expression
->> arch/x86/kvm/mmu/tdp_mmu.c:474:14: sparse: sparse: dereference of noderef expression
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c: note: in included file (through include/linux/rbtree.h, include/linux/mm_types.h, include/linux/mmzone.h, ...):
-   include/linux/rcupdate.h:880:25: sparse: sparse: context imbalance in '__tdp_mmu_zap_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:1524:33: sparse: sparse: context imbalance in 'tdp_mmu_split_huge_pages_root' - unexpected unlock
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned long long [usertype] *sptep @@     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep @@
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     expected unsigned long long [usertype] *sptep
-   arch/x86/kvm/mmu/tdp_mmu.c:610:33: sparse:     got unsigned long long [noderef] [usertype] __rcu *[usertype] sptep
+All warnings (new ones prefixed by >>):
 
-vim +474 arch/x86/kvm/mmu/tdp_mmu.c
+   In file included from drivers/fpga/fpga-region.c:8:
+   In file included from include/linux/fpga/fpga-bridge.h:6:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/fpga/fpga-region.c:223:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     223 |                 unsigned int status;
+         |                 ^
+>> drivers/fpga/fpga-region.c:227:7: warning: variable 'err' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     227 |                 if (copy_to_user((void __user *)arg, &status, sizeof(status)))
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/fpga/fpga-region.c:234:9: note: uninitialized use occurs here
+     234 |         return err;
+         |                ^~~
+   drivers/fpga/fpga-region.c:227:3: note: remove the 'if' if its condition is always true
+     227 |                 if (copy_to_user((void __user *)arg, &status, sizeof(status)))
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     228 |                         err = -EFAULT;
+   drivers/fpga/fpga-region.c:202:9: note: initialize the variable 'err' to silence this warning
+     202 |         int err;
+         |                ^
+         |                 = 0
+   6 warnings generated.
 
-   455	
-   456	static int __must_check set_external_spte_present(struct kvm *kvm, tdp_ptep_t sptep,
-   457							 gfn_t gfn, u64 old_spte,
-   458							 u64 new_spte, int level)
-   459	{
-   460		bool was_present = is_shadow_present_pte(old_spte);
-   461		bool is_present = is_shadow_present_pte(new_spte);
-   462		bool is_leaf = is_present && is_last_spte(new_spte, level);
-   463		kvm_pfn_t new_pfn = spte_to_pfn(new_spte);
-   464		int ret = 0;
-   465	
-   466		KVM_BUG_ON(was_present, kvm);
-   467	
-   468		lockdep_assert_held(&kvm->mmu_lock);
-   469		/*
-   470		 * We need to lock out other updates to the SPTE until the external
-   471		 * page table has been modified. Use FROZEN_SPTE similar to
-   472		 * the zapping case.
-   473		 */
- > 474		if (!try_cmpxchg64(sptep, &old_spte, FROZEN_SPTE))
-   475			return -EBUSY;
-   476	
-   477		/*
-   478		 * Use different call to either set up middle level
-   479		 * external page table, or leaf.
-   480		 */
-   481		if (is_leaf) {
-   482			ret = static_call(kvm_x86_set_external_spte)(kvm, gfn, level, new_pfn);
-   483		} else {
-   484			void *external_spt = get_external_spt(gfn, new_spte, level);
-   485	
-   486			KVM_BUG_ON(!external_spt, kvm);
-   487			ret = static_call(kvm_x86_link_external_spt)(kvm, gfn, level, external_spt);
-   488		}
-   489		if (ret)
-   490			__kvm_tdp_mmu_write_spte(sptep, old_spte);
-   491		else
-   492			__kvm_tdp_mmu_write_spte(sptep, new_spte);
-   493		return ret;
-   494	}
-   495	
+
+vim +223 drivers/fpga/fpga-region.c
+
+   198	
+   199	static long fpga_region_device_ioctl(struct file *file, unsigned int cmd,
+   200					     unsigned long arg)
+   201	{
+   202		int err;
+   203		void __user *argp = (void __user *)arg;
+   204		struct fpga_region_config_info config_info;
+   205		struct fpga_region *region =  (struct fpga_region *)(file->private_data);
+   206	
+   207		switch (cmd) {
+   208		case FPGA_REGION_IOCTL_LOAD:
+   209			if (copy_from_user(&config_info, argp, sizeof(struct fpga_region_config_info)))
+   210				return -EFAULT;
+   211	
+   212			err = region->region_ops->region_config_enumeration(region, &config_info);
+   213	
+   214			break;
+   215		case FPGA_REGION_IOCTL_REMOVE:
+   216			if (copy_from_user(&config_info, argp, sizeof(struct fpga_region_config_info)))
+   217				return -EFAULT;
+   218	
+   219			err = region->region_ops->region_remove(region, &config_info);
+   220	
+   221			break;
+   222		case FPGA_REGION_IOCTL_STATUS:
+ > 223			unsigned int status;
+   224	
+   225			status = region->region_ops->region_status(region);
+   226	
+ > 227			if (copy_to_user((void __user *)arg, &status, sizeof(status)))
+   228				err = -EFAULT;
+   229			break;
+   230		default:
+   231			err = -ENOTTY;
+   232		}
+   233	
+   234		return err;
+   235	}
+   236	
 
 -- 
 0-DAY CI Kernel Test Service
