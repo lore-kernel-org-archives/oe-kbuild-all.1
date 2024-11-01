@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F2829CA;
-	Fri,  1 Nov 2024 05:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8EB8467
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 05:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730438294; cv=none; b=HhPpsyhlUOEXyZ+6Q/tyzK0YAXcY07x5GErrgssvbzLz7NSsId10AbJO/tpcQMYyPZXinHNm3DxmhZGqF8qbFNcscwEQmojoH6/5kfPUl3F17j+yiMFf1a2bcZXq5MHTCfHDCPOVUhPBYVgRFK2vwLq6P3JeYMaWawPy5628M1I=
+	t=1730438892; cv=none; b=Eifz5hViUTLklbMmheccCGVhitq3GNVJGbDUGqjCnLrVDx9wwivO7uI4Qx2Q3FH0nqTu9BVUD31o8R3bNJwL31pJgO3UzuxqE8l42GsULSbJQx1IpKk93XuADn+PDJAsXa7TVam90oN0YW+hhyyp9mKfQY9wGEPdMJw/921m7vM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730438294; c=relaxed/simple;
-	bh=RQA+ZNexGcrhPRn77SkPHwN8hTOt4LsQt3KUN1PJvpY=;
+	s=arc-20240116; t=1730438892; c=relaxed/simple;
+	bh=LJBZR5VVYhm/pXMNSCVpcGLDxAg9jrQ/YH/DTLh0bSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o3fDO3pdY867OFNeyb1WpoC5kRi8q9EWD8TWWPsFqfHqoaUpggKmJfe6y8gGJcBpKcfOyNRALTtJGdjTJxD/sB1O0hY+K8khsKSxMe/UBrhQYJak3gk14J49MAykmu7PuRnm3GFdzpaDo/TWVIlJeNYmH/lrNkFNB29WhKwfr0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ky5HnFz1; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=E1LnUmjhfEgCuCeLkaQc587UXD5RGVN6bWA69p/eMJKTT/EYvMQjZgBOtYQu5w9f5LwyvZ/jL/odNy8tp1vTXKA2DzO4t0r4hjOKy8PXpbfzg9LdZaLXmjPt5yhsno39GvCo9BHvsf71XbIpDdZfvwB22AmvyPvxwiiBNTcfiLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O8mM8jGI; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ky5HnFz1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O8mM8jGI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730438291; x=1761974291;
+  t=1730438890; x=1761974890;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=RQA+ZNexGcrhPRn77SkPHwN8hTOt4LsQt3KUN1PJvpY=;
-  b=ky5HnFz1zFutCWgkdh6P+IJNY8K6q6iuL97T07dN0rTcj70+ZSIWo3DS
-   0VNJmwoiYWF8VA/vRABMIy9dJy4T7OOxEzWsAarkKSBangWZNvN+qOnDJ
-   uazZlu7kMzhKm0YeIjahdEE4clK6VcintzMv3U8wdhinx/KRp6kxc+dZR
-   JOdeROM5pt51w64RAdjdYSXHtvPp5hIUVEyu1h9WC/R/IBGyMZOMG+ect
-   6u966RB1IHc87T43PVEqiryqEl9Z0pzIql9DRxDrn6J+9snQmjVRaFn4d
-   /1m8xrNedZprAUlECDCMqtPna0m5GvuwGQ3+GQ+OJEj3G+mqdlk87edQE
-   g==;
-X-CSE-ConnectionGUID: oTV4kmxyQPqlI/cR6qGK3g==
-X-CSE-MsgGUID: s6btmnNKT+ahnQOlNtT9JA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47664501"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47664501"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:18:10 -0700
-X-CSE-ConnectionGUID: UAuUVEa1RKar3n/jPYulbw==
-X-CSE-MsgGUID: dgIMuI/gSt2t1N5VLX6eJw==
+  bh=LJBZR5VVYhm/pXMNSCVpcGLDxAg9jrQ/YH/DTLh0bSI=;
+  b=O8mM8jGIgyPQZh+Jas2NTfCSIEUXQ6t/NUrWSo0IE9hS1k02gaB/+1UL
+   aujAA8Znn88/BiTiRH0UUErClZQWPjGPxFU91fsF567/cUxiD713Xdjeb
+   oY1CjcFE3XKj7AEoAhRQ0d8kdheYYHWrdF9Aq2LVUN7zujUGHQHJj/8ax
+   OLvzBbEE0v1MuQUZOHFMOxW54zbPoIxxYU2L2GukD1zAH0viCXnt52u7e
+   E/RJfw/wd0gNC5qk9qLsW/tTIsWHQq0L44RB04BuLimlHx7lCCfzIqsok
+   wYizXWgcMCYnGMlguN1V1E9XZrpwL9fWacUg5lRuO4tRvWmSmGLW7CaAX
+   Q==;
+X-CSE-ConnectionGUID: s2JZlLltRkC/GG3En9mVAQ==
+X-CSE-MsgGUID: NuXgKvsgRbaDBL5sIiQ/bw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30314877"
+X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
+   d="scan'208";a="30314877"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:28:10 -0700
+X-CSE-ConnectionGUID: lF/syzuBR/CjSL/vjg8tsA==
+X-CSE-MsgGUID: iao2hjZkQ229xEuAP+x8mA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="87403233"
+   d="scan'208";a="87679634"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 31 Oct 2024 22:18:08 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Oct 2024 22:28:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6k2w-000hAf-0n;
-	Fri, 01 Nov 2024 05:18:06 +0000
-Date: Fri, 1 Nov 2024 13:17:30 +0800
+	id 1t6kCc-000hBB-1V;
+	Fri, 01 Nov 2024 05:28:06 +0000
+Date: Fri, 1 Nov 2024 13:27:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: Re: [PATCH RFC 07/10] sysfs: drop callback bin_attribute::llseek
-Message-ID: <202411011352.bJ3MT1ra-lkp@intel.com>
+Message-ID: <202411011313.7WUAqR1h-lkp@intel.com>
 References: <20241031-sysfs-const-bin_attr-v1-7-2281afa7f055@weissschuh.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,44 +76,21 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Wei-schuh/sysfs-ex
 base:   e42b1a9a2557aa94fee47f078633677198386a52
 patch link:    https://lore.kernel.org/r/20241031-sysfs-const-bin_attr-v1-7-2281afa7f055%40weissschuh.net
 patch subject: [PATCH RFC 07/10] sysfs: drop callback bin_attribute::llseek
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241101/202411011352.bJ3MT1ra-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011352.bJ3MT1ra-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241101/202411011313.7WUAqR1h-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011313.7WUAqR1h-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411011352.bJ3MT1ra-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411011313.7WUAqR1h-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/pci/pci-sysfs.c:18:
-   In file included from include/linux/pci.h:1650:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/pci/pci-sysfs.c:1202:13: error: no member named 'llseek' in 'struct bin_attribute'
+   drivers/pci/pci-sysfs.c: In function 'pci_create_attr':
+>> drivers/pci/pci-sysfs.c:1202:25: error: 'struct bin_attribute' has no member named 'llseek'
     1202 |                 res_attr->llseek = pci_llseek_resource;
-         |                 ~~~~~~~~  ^
-   4 warnings and 1 error generated.
+         |                         ^~
 
 
 vim +1202 drivers/pci/pci-sysfs.c
