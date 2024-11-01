@@ -1,767 +1,423 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7E243179
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 00:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730422629; cv=none; b=OVcQUwuntOX8klrGYqUkpxeY+TqccM7f0T8mofQIYSNyjO9KkFx3fqtFc+hrev6PYb/bDxkKoKYOA73qJSGjspQA+Ty6P3ZUyw+UnsqerJdlzgtF1zxaTKqwMyPKqYbPpTa4vH84UQ2yv3aF3/euT/V0aSvnUqI0FdDxrV4cbaI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730422629; c=relaxed/simple;
-	bh=8BpUH32LfRDTBTGmQ9TcFwwIyQ5IW4sWCjQLe8uz7xw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uJk3xNzEa7Zq9rm8JhXz6DDvJ1jtGUBfHhwpCSm3VLoFQU4gTJmKTlYDmoKl1Ni0IVFRfqcgSCoRCyAa/tFlm6c8J04IL4xQKA35zLa05hVdcpcl6hx0I3Gz6A8RR4Y7gNirOilZG2JJBH6nSnwfPTJ2NISGKUnuMmDP4IhzITw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RulMTE1s; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49C4A1C687
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 01:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730422988; cv=fail; b=tLzwrmos9z/xrw15F73ee/i+6rBvbCkEoe5eS189P4Uv33q8w1cNEuwiUp40/GPr3Ahdn9Doh1wU98+fPWvXCttE0ii1o1vHydyOlJc/KK88c4eOf0UZoXvHmJp+zrcD1Wm8vZBSp4QcesAsMB4ufJV3dhH/IAoDrsnFyYhmShY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730422988; c=relaxed/simple;
+	bh=+fRMb8m2lZb+1IoB2KEHX5nH0WChTu6OrreWvI+QsKg=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=ahghfhgJuY4hTA9elgY1Zv0tiDc8JenDmRguAoKqntEnO18HCtT8ogefbwJrVC8SFHk9so35WnW7VsnCbBBxNdgE7oiVXZRdQJA2LTPpGfd3jJM+8flmutiPoo9j0zyKdcWU9NydWJu9+ja/qs1z12iTxZ8AE3txUJrzEj18up4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HR8LHDR8; arc=fail smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RulMTE1s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HR8LHDR8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730422620; x=1761958620;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8BpUH32LfRDTBTGmQ9TcFwwIyQ5IW4sWCjQLe8uz7xw=;
-  b=RulMTE1szN14Ktl1k+UazRfkbYHylBfbr2YCaGg7NN4R3OYAqfrYLtnB
-   z9aT4oFjVwR0VLoM+EZteEHTZGMTX+Wp6F5uSuyPX41KfWUuV+Vu6IyI5
-   WiEd5sVnpYK4zLyk951UQK5qN2Pq7VRMTe33B2845AABjHGCIg2MGgmb/
-   bxW8gh52PbX/5BvEdnEclaUSR6SZnn9s2b7HiBxuw8QZEKp8asinkCqz5
-   xZv1ZT3WXfsWXvNfMxQAHyPf0iMQMjC6x2AgGuQj5943fUNZpmJ+cuJQi
-   Re6g7MynutPBRklaU237OXFLpEqD7mqU1WZ2u+Un6QFEV0rAjv5EyulXn
-   w==;
-X-CSE-ConnectionGUID: zU4ZdrKcTRGid64bQHmkGQ==
-X-CSE-MsgGUID: FbVv8tdZT9eD0PDFUmfG8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30303961"
+  t=1730422980; x=1761958980;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+fRMb8m2lZb+1IoB2KEHX5nH0WChTu6OrreWvI+QsKg=;
+  b=HR8LHDR8K/2n+3CJUvkvm98UEHTbtu1ww0YJrmK7Fl0AW+w5euXe9Vg2
+   qLh92rYd4whds9bXPCzK6icDXTXAXc4Eo9zO0FPb+EpHQ3pP7v7O1Dv1r
+   eGzugrI58jJnweQKx5+lO0o5dQPXMRa7dR2Mk1MpEqfE2fJnEPW1BScTP
+   RroRQg3CDZInes2TVPb8PEOuNZyBnYSKPuLNxbQ1M05/nhGI78v4YAYdU
+   I7vG6bpX1PLRrdJQgtYNdTY+BNMguLzpNeRYisPAYpgTVMzppzSfGgAYn
+   /T+ngJe60Dyu4OJXEBI/1K4zRngKnJYZCbzIT7LGRPuQpwtiNWWQJ8grK
+   Q==;
+X-CSE-ConnectionGUID: bev4mkkMRFKpnNJ+HN5Oug==
+X-CSE-MsgGUID: mELehIL1SxaGwP0jaIXhmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="29608588"
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="30303961"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 17:56:59 -0700
-X-CSE-ConnectionGUID: hWnYYU3WSN+TQa3C8WcFwA==
-X-CSE-MsgGUID: YRIQEDsyT/+5yyig34eNNQ==
+   d="scan'208";a="29608588"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 18:02:58 -0700
+X-CSE-ConnectionGUID: 1924VaSNRkG4w8dz2wc0zQ==
+X-CSE-MsgGUID: DwN56kGiTaqr84/ySoCwAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="87934781"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2024 17:56:56 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6fy9-000gwW-32;
-	Fri, 01 Nov 2024 00:56:53 +0000
-Date: Fri, 1 Nov 2024 08:56:34 +0800
+   d="scan'208";a="82928706"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 31 Oct 2024 18:02:58 -0700
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 31 Oct 2024 18:02:57 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 31 Oct 2024 18:02:57 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.42) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 31 Oct 2024 18:02:45 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xPD9RWHCr7wuZLPYEIEL3hRCfcKinBX32/xEQDAB1ZkNh4WgA217EVVB2AxLAhQlsBMH2DooiS2z6XUsmjSTJcsUSSWbpOoHr7kjpOg7N+5Ai8p0bdabM/fCluXK8RKgR53JvV+xCTaMaA3V937bC+VL4UBr10kLSkfEkEBCZCnjzu50d2rfaIgXpUSs3S5Ej3so5pH6QhVQL4uF1TJi8ZcQyRXXRqz5HoA+bfM7ziM7G4icO09Iod6ZNlBbzodgwpOpVFhTojNfGaYX1RPfZQUZEg5KIie4mOhgQ0F2rk2eTtC8PwrS2742QJAYGpi/ORKZPoCz4irzIlNClCDd0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yOyAS0difVUATYhQD7Uhsq3KKSkojuoqIWWGOjtZCIo=;
+ b=EbbDjxt4em3IzT5NB+fBIC4C8IR3+ZmkPd58v82aM+39tDlqjR9B/oQtSfW/E2GDL/6TyrDSBOpy+G15WpKWN0GiDrq+Q4Xd0loDXgNC5qG7gF/nUZBQELGovyCM7X6Pn3VLhjaiYwdHiac3gkh0l02gQUVypNKK4JwnBn0MYEIf3Def7JxQfuldhPbz/UinQkDL1qo7jtzcAITKqHOU5LgE2bRHr5do0Ai2Gk2zkMDeCYOGPrFY8sevg+rsZh6dtBJM+XsCrCVSpNEPayVM0QyhztBdgcNcFphl/u6idcMskoRAhu1GbB1A/1KMTZTiRemaaETPhF8f95Pg5vxb2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by PH7PR11MB5914.namprd11.prod.outlook.com (2603:10b6:510:138::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Fri, 1 Nov
+ 2024 01:02:40 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%3]) with mapi id 15.20.8114.015; Fri, 1 Nov 2024
+ 01:02:40 +0000
+Date: Fri, 1 Nov 2024 09:02:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>
-Subject: Re: [PATCH v4 7/7] wifi: rtw88: Enable the new RTL8821AU/RTL8812AU
- drivers
-Message-ID: <202411010808.yxK25k9f-lkp@intel.com>
-References: <0b8e8093-8103-4999-86bf-0055ec52ea64@gmail.com>
+To: <cros-kernel-buildreports@googlegroups.com>
+CC: <oe-kbuild-all@lists.linux.dev>
+Subject: [android-common:android15-6.6-desktop 13266/23114]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /:
+ compatible: 'oneOf' conditional failed, one must be fixed:
+Message-ID: <ZyQoqKE+g/p9l0H2@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0173.apcprd04.prod.outlook.com (2603:1096:4::35)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0b8e8093-8103-4999-86bf-0055ec52ea64@gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|PH7PR11MB5914:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5d39e41-a687-4500-f070-08dcfa10e218
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Zf4IudJMxV9UbHu61wLRjAZAXngCPV85ugG9d7P4K3IdX21GdP4DduF4ftm/?=
+ =?us-ascii?Q?vJBw/pivQw0VK0wdy6ml3aPEw8Z2T8RL4lGWJLOv/mcZluymZZvAL7YdngMy?=
+ =?us-ascii?Q?C5VxuMFIeSgGZ3DsmK756oDaKoZCefL5rrg4neN0FCY4+dUl/E8oCO/euE54?=
+ =?us-ascii?Q?Kl+5Eo0jmUjAvrKQxIIU+vlzKok4fDt7qYgzDJq8PfbPnLlF1MEPT7u4LKvA?=
+ =?us-ascii?Q?5qBMiOddqhV5Fhlr4rln+tTrLA35BCb88wyg/R2V3QOB7Yw3SGqwAqtVVNV/?=
+ =?us-ascii?Q?NDjYU/t4Hpal4cJZrYlWxpzSCm2mT8supm1LrKZS/LZW+8qCse6obLOKWS3I?=
+ =?us-ascii?Q?T1g+rfcyYn9JdxzXXhHrL4iE2gqI3XZAmZPST+TyBxFpMzw9kxdHOVecLNhN?=
+ =?us-ascii?Q?x1wWUAnh3Kp8Grj+EA6nWCSTRYVoPTU7ZrIwLRT9GHMV+dHisKiP8F1nwcyN?=
+ =?us-ascii?Q?Brf6h3pLMUmysfX3pltDezD3pnqfVEZfthGFew3hmgfkAjbIu3KaD6nUf7XY?=
+ =?us-ascii?Q?/IFDM1DmS9gkoLLpMKcDmX/G8tByNeFxsEEr5GbT4ybbj7qwN28Oq+hycwju?=
+ =?us-ascii?Q?slQrk1nPmNGnFMLDL8FlZtchQ+PMXI6g02T1UWdJfQkKJg8OJ60robjufS/N?=
+ =?us-ascii?Q?0zQdROARNDEuCSINkTn0/35B9bEjFjgjNcm/rfgt6PLpVlY9GIHl380B1H/D?=
+ =?us-ascii?Q?lYS5dUo0PWIghNDgpoXpe9M0rgFpYhcThUCPoRJtttb4GzOTAk5yt3WMtRDy?=
+ =?us-ascii?Q?PNySDhYCtXJxqfGKrk1wMyWbZwcl9faqhwhca4IVxvnKVEzs0UBo6nJ0Lcrc?=
+ =?us-ascii?Q?tVoav8krsdThy5fHi/x73UCGmrWaQKqHkE6P+xLWFfIAYo9WSNTKNKST5cMd?=
+ =?us-ascii?Q?Lhg98azqHbaElKOkvHyBca4eh6mxdQyBbt1wLQ93yn3WoanMhkR9Tl3gtv5h?=
+ =?us-ascii?Q?jHRT6fs4xafa+W54tkwMj7EQCyMV7/npoJYH2QA84C+n+UMJSFAvVKj80mQx?=
+ =?us-ascii?Q?kRBCUUkISkoR2j18wbZQBggdQqZMs3xxYHTED+QBKocR8bGnyqvRO/bzltSs?=
+ =?us-ascii?Q?SszWQdh7qkyvxB2SJACOf210H3IhZqVbqAkyIl0c+oEv2Wccwq37AlOH8bpc?=
+ =?us-ascii?Q?QmqiHUUP77zZk7TcADRFFKXiWvxyN4BkFhC29ARnHszpEQ4ZQ8uUjKIya0v2?=
+ =?us-ascii?Q?+XYmXz+dRUmriI/TfXoXmaR6V+3bvO/S9WMQG1y6BpJafd5rZQdJfPrZrYOJ?=
+ =?us-ascii?Q?ltGclfhRU4ul9QBEi9CQ2nQibLgktryVgzZIxuXaug=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CZLErcZ8a8T5di/THMgQK1gpSNgTxTDnBCVdk/TZNjaA+BZ0+xsNcrNNWnDV?=
+ =?us-ascii?Q?APdWmpRomYQhNgumfx5y0Hlw4Hco4R1Dy80H7TIfpUgX6WlfvQ/aVyO4K5wy?=
+ =?us-ascii?Q?x9deXTe5phdewdGxIdgt8HvgmFv7w2GPBNMklg5f8jEiTdfPq3qDJbrwG0+5?=
+ =?us-ascii?Q?K89OecPtELmcNGK7XBd6YyMBA34cmsEiUKbnV+ZyVu41pfANXvSB6FKpGP4B?=
+ =?us-ascii?Q?3UqsjDlSgr2iHJ8bVZ2dvWs4WDKlpobLtMOw1ocn4jRKrJh5lTi8GknAuIzt?=
+ =?us-ascii?Q?tnDVmFzinW9v75yaDqym5kcVnUwHMYOU8NSS6eQqycP634Xv0QePvAZJ94GG?=
+ =?us-ascii?Q?Y2RHTl/VTB8sTSLL0s9iYTHOygC1em7m7bbw/i4WzA0LBWfaUfHL9feVN/WA?=
+ =?us-ascii?Q?kcYp7krTcjScqAV0rUajT4edP/+Co7oZh2a6ALIZ+49d6B67qU/FV3SZ+47E?=
+ =?us-ascii?Q?MkzYMrPUxY4dDXEviWBamvYawQAoyrAKE17PtiFjy+In/hpzihx9aE5scjd5?=
+ =?us-ascii?Q?jo1cF+lo9aV8i+5WvamoekQQHLmrtS7iqNLNemVBXAy6FMeiX/f4v6pJeNeW?=
+ =?us-ascii?Q?U5LclcBJ/0zvBNRJgwJXVfeB9ZTTukWX6OzLdSC+Oht1LdG6UFdNaJ01bLbJ?=
+ =?us-ascii?Q?ZyVC+8RmuMYRQc5ZdSRwuavPcq0TaEoIxcEtxKcxHGGx1QtFcumtjhh9AZJ6?=
+ =?us-ascii?Q?j3xiSkePkk88uFjSkh5sB5/vhklLpZ8h4Wv5XF7O3SQrOq8K/SHj3QeIPUWI?=
+ =?us-ascii?Q?iJxJTKTYJ+Fyra9g9yOc+QsyiSbby95FpdZrcianKyDNngXX3RekHAFCoCYp?=
+ =?us-ascii?Q?D8x3pPwhsYXmtQqsBgC56TwLAHY92Jl8cG96A3gIiyVGB0bDFmmVe5UUfsfT?=
+ =?us-ascii?Q?YIANjGBeZxA7zYE2GRJKn86mmbuRLDhI+4NKVlqlGtEd1e7GYCsuEvM3jrfh?=
+ =?us-ascii?Q?MZpouxgoYkvi2821GmmncCUeSQ5Ro7cU/H7iEfPPTJojdp7ZT7KolHichegb?=
+ =?us-ascii?Q?UjkOSOI6Y8kiUQAtIGUWsrSmAT0hI6ViG6XkmRRX7gBLpiJ10HUIpU2xPdQg?=
+ =?us-ascii?Q?NCKggcQtODdkzSTTPmuDUbXB+sCuVlCovFznWDdJRxkRMSx1+0biVyIHEnpm?=
+ =?us-ascii?Q?KYbyWxpgrmp06k7F8F/c70k0I7ELUmZf85hnarypiU+DsWGjZfRIjhQxnvCI?=
+ =?us-ascii?Q?rUVGIep2j/+1uiyB5m/8Tps4yj+L4XWiVn5iQ1xdETw9ozp8sRYo3iZxwbK2?=
+ =?us-ascii?Q?Pc/i0oyPePJMff4eaP6puLcfFbJsVVRUXFEVkyAFQq5Yfky1Wm3MK/LS11Nk?=
+ =?us-ascii?Q?RvPguEX7J7I3I1sOPcjMhs0Ou8tNr3/XQ6nKu1LhogPa9/b1eN6wF+Yvh3En?=
+ =?us-ascii?Q?DP0xNMzykKsttKoZwNKhEUAXrmiQ46JGHDL1oMe7+ds5//bkRV4VTeS5USGl?=
+ =?us-ascii?Q?fcJVmoD+jHHtpE2z2qWBD2gubZTRbz+MCqpjopJYsA4MOiAFButZ5XIO809n?=
+ =?us-ascii?Q?DUDoLekxyTN4QkoCcfxCD/dnqMUJdCveb1lT4f6jt0r53mSCwD9CncF9t9hl?=
+ =?us-ascii?Q?eO1/6uteHfCmZUCJNAuuvVclZkf0ire3U2qAf+Qc?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5d39e41-a687-4500-f070-08dcfa10e218
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 01:02:40.4920
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: B7n04AqgS6SWENsELFZbthn5JduTgPNAEVfkzJWzlNY9g3OiAg4RSX2qKEOep/TxBXCKYJTorNUHZwtYJtz+3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB5914
+X-OriginatorOrg: intel.com
 
-Hi Bitterblue,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.12-rc5 next-20241031]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw88-Add-rtw8812a_table-c-h/20241031-023323
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/0b8e8093-8103-4999-86bf-0055ec52ea64%40gmail.com
-patch subject: [PATCH v4 7/7] wifi: rtw88: Enable the new RTL8821AU/RTL8812AU drivers
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241101/202411010808.yxK25k9f-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010808.yxK25k9f-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
+commit: b0e8f19e77a26eaad28d34770d7e115c48c035a7 [13266/23114] CHROMIUM: arm64: dts: mt8183: Add kukui-jacuzzi-makomo board
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241101/202411010735.G17LK1k0-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411010735.G17LK1k0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411010808.yxK25k9f-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411010735.G17LK1k0-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_read_usb_type':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:137:33: error: 'RTW_CHIP_TYPE_8821A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     137 |         if (rtwdev->chip->id == RTW_CHIP_TYPE_8821A)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-         |                                 RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:137:33: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_read_efuse':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:207:25: error: 'RTW_CHIP_TYPE_8812A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     207 |         if (chip->id == RTW_CHIP_TYPE_8812A)
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:243:25: error: 'RTW_CHIP_TYPE_8821A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     243 |         if (chip->id == RTW_CHIP_TYPE_8821A)
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_reset_8051':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:285:25: error: 'RTW_CHIP_TYPE_8812A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     285 |         if (chip->id == RTW_CHIP_TYPE_8812A)
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxau_hw_reset':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:315:33: error: 'REG_FPGA0_XCD_RF_PARA' undeclared (first use in this function)
-     315 |         rtw_write32_set(rtwdev, REG_FPGA0_XCD_RF_PARA, BIT(6));
-         |                                 ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:327:32: error: 'REG_APS_FSMCO' undeclared (first use in this function)
-     327 |         rtw_write8_set(rtwdev, REG_APS_FSMCO + 1, APS_FSMCO_MAC_OFF >> 8);
-         |                                ^~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:327:51: error: 'APS_FSMCO_MAC_OFF' undeclared (first use in this function)
-     327 |         rtw_write8_set(rtwdev, REG_APS_FSMCO + 1, APS_FSMCO_MAC_OFF >> 8);
-         |                                                   ^~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:337:17: error: 'APS_FSMCO_MAC_ENABLE' undeclared (first use in this function)
-     337 |         val8 |= APS_FSMCO_MAC_ENABLE >> 8;
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxau_init_power_on':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:350:15: error: implicit declaration of function 'rtw_pwr_seq_parser' [-Werror=implicit-function-declaration]
-     350 |         ret = rtw_pwr_seq_parser(rtwdev, chip->pwr_on_seq);
-         |               ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:362:25: error: 'RTW_CHIP_TYPE_8821A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     362 |         if (chip->id == RTW_CHIP_TYPE_8821A) {
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_llt_write':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:372:21: error: 'BIT_LLT_WRITE_ACCESS' undeclared (first use in this function)
-     372 |         u32 value = BIT_LLT_WRITE_ACCESS | (address << 8) | data;
-         |                     ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:375:29: error: 'REG_LLT_INIT' undeclared (first use in this function)
-     375 |         rtw_write32(rtwdev, REG_LLT_INIT, value);
-         |                             ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxau_tx_aggregation':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:552:25: error: 'RTW_CHIP_TYPE_8821A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     552 |         if (chip->id == RTW_CHIP_TYPE_8821A)
-         |                         ^~~~~~~~~~~~~~~~~~~
-         |                         RTW_CHIP_TYPE_8821C
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:553:36: error: 'REG_DWBCN1_CTRL' undeclared (first use in this function); did you mean 'REG_DWBCN0_CTRL'?
-     553 |                 rtw_write8(rtwdev, REG_DWBCN1_CTRL,
-         |                                    ^~~~~~~~~~~~~~~
-         |                                    REG_DWBCN0_CTRL
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_init_beacon_parameters':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:569:29: error: 'REG_BCNTCFG' undeclared (first use in this function)
-     569 |         rtw_write16(rtwdev, REG_BCNTCFG, 0x4413);
-         |                             ^~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_phy_bb_config':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:578:17: error: 'BIT_FEN_USBA' undeclared (first use in this function); did you mean 'BIT_FEN_ELDR'?
-     578 |         val8 |= BIT_FEN_USBA;
-         |                 ^~~~~~~~~~~~
-         |                 BIT_FEN_ELDR
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:587:28: error: 'REG_RF_B_CTRL' undeclared (first use in this function); did you mean 'REG_RF_CTRL'?
-     587 |         rtw_write8(rtwdev, REG_RF_B_CTRL,
-         |                            ^~~~~~~~~~~~~
-         |                            REG_RF_CTRL
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:594:33: error: 'RTW_CHIP_TYPE_8812A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     594 |         if (rtwdev->chip->id == RTW_CHIP_TYPE_8812A)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-         |                                 RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw8812a_config_1t':
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:613:34: error: 'REG_RXPSEL' undeclared (first use in this function); did you mean 'REG_RQPN'?
-     613 |         rtw_write32_mask(rtwdev, REG_RXPSEL, 0xff, 0x11);
-         |                                  ^~~~~~~~~~
-         |                                  REG_RQPN
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:616:34: error: 'REG_TXPSEL' undeclared (first use in this function); did you mean 'REG_TXPAUSE'?
-     616 |         rtw_write32_mask(rtwdev, REG_TXPSEL, MASKLWORD, 0x1111);
-         |                                  ^~~~~~~~~~
-         |                                  REG_TXPAUSE
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:619:34: error: 'REG_CCK_RX' undeclared (first use in this function)
-     619 |         rtw_write32_mask(rtwdev, REG_CCK_RX, 0x0c000000, 0x0);
-         |                                  ^~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:622:34: error: 'REG_RX_MCS_LIMIT' undeclared (first use in this function); did you mean 'REG_RX_PKT_LIMIT'?
-     622 |         rtw_write32_mask(rtwdev, REG_RX_MCS_LIMIT, 0xc0000060, 0x4);
-         |                                  ^~~~~~~~~~~~~~~~
-         |                                  REG_RX_PKT_LIMIT
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:625:34: error: 'REG_3WIRE_SWB' undeclared (first use in this function)
-     625 |         rtw_write32_mask(rtwdev, REG_3WIRE_SWB, 0xf, 0x4);
-         |                                  ^~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:628:34: error: 'REG_LSSI_WRITE_B' undeclared (first use in this function)
-     628 |         rtw_write32_mask(rtwdev, REG_LSSI_WRITE_B, MASKDWORD, 0);
-         |                                  ^~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw88xxa.c:631:34: error: 'REG_AFE_PWR1_B' undeclared (first use in this function); did you mean 'REG_AFE_CTRL_4'?
-     631 |         rtw_write32_mask(rtwdev, REG_AFE_PWR1_B, MASKDWORD, 0);
-         |                                  ^~~~~~~~~~~~~~
-         |                                  REG_AFE_CTRL_4
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:632:34: error: 'REG_AFE_PWR2_B' undeclared (first use in this function); did you mean 'REG_AFE_CTRL_4'?
-     632 |         rtw_write32_mask(rtwdev, REG_AFE_PWR2_B, MASKDWORD, 0);
-         |                                  ^~~~~~~~~~~~~~
-         |                                  REG_AFE_CTRL_4
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_pwrtrack_init':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:684:33: error: 'RTW_CHIP_TYPE_8821A' undeclared (first use in this function); did you mean 'RTW_CHIP_TYPE_8821C'?
-     684 |         if (rtwdev->chip->id == RTW_CHIP_TYPE_8821A)
-         |                                 ^~~~~~~~~~~~~~~~~~~
-         |                                 RTW_CHIP_TYPE_8821C
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_power_off':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:721:40: error: 'REG_USB_MOD' undeclared (first use in this function)
-     721 |                 rtw_write8_set(rtwdev, REG_USB_MOD, 0x18);
-         |                                        ^~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:723:29: error: 'REG_HISR0' undeclared (first use in this function); did you mean 'REG_ARFR0'?
-     723 |         rtw_write32(rtwdev, REG_HISR0, 0xffffffff);
-         |                             ^~~~~~~~~
-         |                             REG_ARFR0
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:724:29: error: 'REG_HISR1' undeclared (first use in this function); did you mean 'REG_FWISR'?
-     724 |         rtw_write32(rtwdev, REG_HISR1, 0xffffffff);
-         |                             ^~~~~~~~~
-         |                             REG_FWISR
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:725:29: error: 'REG_HIMR0' undeclared (first use in this function); did you mean 'REG_FWIMR'?
-     725 |         rtw_write32(rtwdev, REG_HIMR0, 0);
-         |                             ^~~~~~~~~
-         |                             REG_FWIMR
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:726:29: error: 'REG_HIMR1' undeclared (first use in this function); did you mean 'REG_FWIMR'?
-     726 |         rtw_write32(rtwdev, REG_HIMR1, 0);
-         |                             ^~~~~~~~~
-         |                             REG_FWIMR
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:731:40: error: 'REG_APS_FSMCO' undeclared (first use in this function)
-     731 |         ori_fsmc0 = rtw_read16(rtwdev, REG_APS_FSMCO);
-         |                                        ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:732:57: error: 'APS_FSMCO_HW_POWERDOWN' undeclared (first use in this function)
-     732 |         rtw_write16(rtwdev, REG_APS_FSMCO, ori_fsmc0 & ~APS_FSMCO_HW_POWERDOWN);
-         |                                                         ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:735:32: error: 'REG_TX_RPT_CTRL' undeclared (first use in this function); did you mean 'REG_TX_PTCL_CTRL'?
-     735 |         rtw_write8_clr(rtwdev, REG_TX_RPT_CTRL, BIT(1));
-         |                                ^~~~~~~~~~~~~~~
-         |                                REG_TX_PTCL_CTRL
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw88xxa_set_channel_bb_swing':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:759:34: error: 'REG_TXSCALE_A' undeclared (first use in this function)
-     759 |         rtw_write32_mask(rtwdev, REG_TXSCALE_A, BB_SWING_MASK,
-         |                                  ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:759:49: error: 'BB_SWING_MASK' undeclared (first use in this function)
-     759 |         rtw_write32_mask(rtwdev, REG_TXSCALE_A, BB_SWING_MASK,
-         |                                                 ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:761:34: error: 'REG_TXSCALE_B' undeclared (first use in this function)
-     761 |         rtw_write32_mask(rtwdev, REG_TXSCALE_B, BB_SWING_MASK,
-         |                                  ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw8821a_set_ext_band_switch':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:770:34: error: 'REG_RFE_INV_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     770 |         rtw_write32_mask(rtwdev, REG_RFE_INV_A, 0xf, 7);
-         |                                  ^~~~~~~~~~~~~
-         |                                  REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw8821a_phy_set_rfe_reg_24g':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:786:34: error: 'REG_RFE_PINMUX_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     786 |         rtw_write32_mask(rtwdev, REG_RFE_PINMUX_A, 0xF000, 0x7);
-         |                                  ^~~~~~~~~~~~~~~~
-         |                                  REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:792:42: error: 'REG_RFE_INV_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     792 |                 rtw_write32_mask(rtwdev, REG_RFE_INV_A, BIT(20), 1);
-         |                                          ^~~~~~~~~~~~~
-         |                                          REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw8821a_phy_set_rfe_reg_5g':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:810:34: error: 'REG_RFE_PINMUX_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     810 |         rtw_write32_mask(rtwdev, REG_RFE_PINMUX_A, 0xF000, 0x5);
-         |                                  ^~~~~~~~~~~~~~~~
-         |                                  REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:815:34: error: 'REG_RFE_INV_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     815 |         rtw_write32_mask(rtwdev, REG_RFE_INV_A, BIT(20), 0);
-         |                                  ^~~~~~~~~~~~~
-         |                                  REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw8812a_phy_set_rfe_reg_24g':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:826:37: error: 'REG_RFE_PINMUX_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     826 |                 rtw_write32(rtwdev, REG_RFE_PINMUX_A, 0x77777777);
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:827:37: error: 'REG_RFE_PINMUX_B' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     827 |                 rtw_write32(rtwdev, REG_RFE_PINMUX_B, 0x77777777);
-         |                                     ^~~~~~~~~~~~~~~~
-         |                                     REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:828:42: error: 'REG_RFE_INV_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     828 |                 rtw_write32_mask(rtwdev, REG_RFE_INV_A, RFE_INV_MASK, 0x000);
-         |                                          ^~~~~~~~~~~~~
-         |                                          REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:828:57: error: 'RFE_INV_MASK' undeclared (first use in this function)
-     828 |                 rtw_write32_mask(rtwdev, REG_RFE_INV_A, RFE_INV_MASK, 0x000);
-         |                                                         ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:829:42: error: 'REG_RFE_INV_B' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
-     829 |                 rtw_write32_mask(rtwdev, REG_RFE_INV_B, RFE_INV_MASK, 0x000);
-         |                                          ^~~~~~~~~~~~~
-         |                                          REG_RFE_INV16
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:849:42: error: 'REG_ANTSEL_SW' undeclared (first use in this function)
-     849 |                 rtw_write32_mask(rtwdev, REG_ANTSEL_SW, 0x00000303, 0x1);
-         |                                          ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c: In function 'rtw8812a_phy_set_rfe_reg_5g':
-   drivers/net/wireless/realtek/rtw88/rtw88xxa.c:878:37: error: 'REG_RFE_PINMUX_A' undeclared (first use in this function); did you mean 'REG_RFE_INV16'?
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:523.27-527.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam0@2: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:529.27-533.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam1@2: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1941.28-1945.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2055.27-2059.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183'] is too long
+   	['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183'] is too short
+   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt2701-evb']
+   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt2712-evb']
+   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6580-evbp1']
+   	'google,makomo-rev4-sku0' is not one of ['prestigio,pmt5008-3g']
+   	'google,makomo-rev4-sku0' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
+   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6592-evb']
+   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6755-evb']
+   	'google,makomo-rev4-sku0' is not one of ['mediatek,mt6765-evb']
 --
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_backup_rf':
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:63:34: error: 'REG_CCASEL' undeclared (first use in this function)
-      63 |         rtw_write32_mask(rtwdev, REG_CCASEL, BIT(31), 0x0);
-         |                                  ^~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:63:34: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_restore_rf':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:78:34: error: 'REG_CCASEL' undeclared (first use in this function)
-      78 |         rtw_write32_mask(rtwdev, REG_CCASEL, BIT(31), 0x0);
-         |                                  ^~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_restore_afe':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:91:34: error: 'REG_CCASEL' undeclared (first use in this function)
-      91 |         rtw_write32_mask(rtwdev, REG_CCASEL, BIT(31), 0x0);
-         |                                  ^~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:100:29: error: 'REG_OFDM0_XA_TX_IQ_IMBALANCE' undeclared (first use in this function)
-     100 |         rtw_write32(rtwdev, REG_OFDM0_XA_TX_IQ_IMBALANCE, 0x0);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:101:29: error: 'REG_OFDM0_A_TX_AFE' undeclared (first use in this function)
-     101 |         rtw_write32(rtwdev, REG_OFDM0_A_TX_AFE, 0x0);
-         |                             ^~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:102:29: error: 'REG_OFDM0_XB_TX_IQ_IMBALANCE' undeclared (first use in this function)
-     102 |         rtw_write32(rtwdev, REG_OFDM0_XB_TX_IQ_IMBALANCE, 0x0);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:103:29: error: 'REG_TSSI_TRK_SW' undeclared (first use in this function)
-     103 |         rtw_write32(rtwdev, REG_TSSI_TRK_SW, 0x3c000000);
-         |                             ^~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:104:29: error: 'REG_LSSI_WRITE_A' undeclared (first use in this function)
-     104 |         rtw_write32(rtwdev, REG_LSSI_WRITE_A, 0x00000080);
-         |                             ^~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:105:29: error: 'REG_TXAGCIDX' undeclared (first use in this function)
-     105 |         rtw_write32(rtwdev, REG_TXAGCIDX, 0x00000000);
-         |                             ^~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:106:29: error: 'REG_IQK_DPD_CFG' undeclared (first use in this function)
-     106 |         rtw_write32(rtwdev, REG_IQK_DPD_CFG, 0x20040000);
-         |                             ^~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:107:29: error: 'REG_CFG_PMPD' undeclared (first use in this function)
-     107 |         rtw_write32(rtwdev, REG_CFG_PMPD, 0x20000000);
-         |                             ^~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:108:29: error: 'REG_RFECTL_A' undeclared (first use in this function); did you mean 'REG_RFE_CTRL_E'?
-     108 |         rtw_write32(rtwdev, REG_RFECTL_A, 0x0);
-         |                             ^~~~~~~~~~~~
-         |                             REG_RFE_CTRL_E
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_rx_fill':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:115:34: error: 'REG_CCASEL' undeclared (first use in this function)
-     115 |         rtw_write32_mask(rtwdev, REG_CCASEL, BIT(31), 0x0);
-         |                                  ^~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:117:34: error: 'REG_RX_IQC_AB_A' undeclared (first use in this function)
-     117 |         rtw_write32_mask(rtwdev, REG_RX_IQC_AB_A,
-         |                                  ^~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_tx_fill':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:127:34: error: 'REG_CCASEL' undeclared (first use in this function)
-     127 |         rtw_write32_mask(rtwdev, REG_CCASEL, BIT(31), 0x1);
-         |                                  ^~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:129:29: error: 'REG_LSSI_WRITE_A' undeclared (first use in this function)
-     129 |         rtw_write32(rtwdev, REG_LSSI_WRITE_A, 0x00000080);
-         |                             ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:130:29: error: 'REG_IQK_DPD_CFG' undeclared (first use in this function)
-     130 |         rtw_write32(rtwdev, REG_IQK_DPD_CFG, 0x20040000);
-         |                             ^~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:131:29: error: 'REG_CFG_PMPD' undeclared (first use in this function)
-     131 |         rtw_write32(rtwdev, REG_CFG_PMPD, 0x20000000);
-         |                             ^~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:132:34: error: 'REG_IQC_Y' undeclared (first use in this function)
-     132 |         rtw_write32_mask(rtwdev, REG_IQC_Y, 0x000007ff, tx_y);
-         |                                  ^~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:133:34: error: 'REG_IQC_X' undeclared (first use in this function)
-     133 |         rtw_write32_mask(rtwdev, REG_IQC_X, 0x000007ff, tx_x);
-         |                                  ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_tx_vdf_true':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:149:45: error: 'REG_OFDM0_XA_TX_IQ_IMBALANCE' undeclared (first use in this function)
-     149 |                         rtw_write32(rtwdev, REG_OFDM0_XA_TX_IQ_IMBALANCE,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:152:45: error: 'REG_OFDM0_A_TX_AFE' undeclared (first use in this function)
-     152 |                         rtw_write32(rtwdev, REG_OFDM0_A_TX_AFE, 0x38008c38);
-         |                                             ^~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:153:50: error: 'REG_INTPO_SETA' undeclared (first use in this function)
-     153 |                         rtw_write32_mask(rtwdev, REG_INTPO_SETA, BIT(31), 0x0);
-         |                                                  ^~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:188:37: error: 'REG_RFECTL_A' undeclared (first use in this function); did you mean 'REG_RFE_CTRL_E'?
-     188 |                 rtw_write32(rtwdev, REG_RFECTL_A, 0x00100000);
-         |                                     ^~~~~~~~~~~~
-         |                                     REG_RFE_CTRL_E
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:192:45: error: 'REG_IQK_COM64' undeclared (first use in this function)
-     192 |                         rtw_write32(rtwdev, REG_IQK_COM64, 0xfa000000);
-         |                                             ^~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:201:61: error: 'REG_IQKA_END' undeclared (first use in this function)
-     201 |                                                             REG_IQKA_END,
-         |                                                             ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:245:58: error: 'REG_IQC_Y' undeclared (first use in this function)
-     245 |                                 rtw_write32_mask(rtwdev, REG_IQC_Y,
-         |                                                          ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:247:58: error: 'REG_IQC_X' undeclared (first use in this function)
-     247 |                                 rtw_write32_mask(rtwdev, REG_IQC_X,
-         |                                                          ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_tx_vdf_false':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:269:29: error: 'REG_OFDM0_XA_TX_IQ_IMBALANCE' undeclared (first use in this function)
-     269 |         rtw_write32(rtwdev, REG_OFDM0_XA_TX_IQ_IMBALANCE, 0x18008c10);
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:271:29: error: 'REG_OFDM0_A_TX_AFE' undeclared (first use in this function)
-     271 |         rtw_write32(rtwdev, REG_OFDM0_A_TX_AFE, 0x38008c10);
-         |                             ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:272:29: error: 'REG_RFECTL_A' undeclared (first use in this function); did you mean 'REG_RFE_CTRL_E'?
-     272 |         rtw_write32(rtwdev, REG_RFECTL_A, 0x00100000);
-         |                             ^~~~~~~~~~~~
-         |                             REG_RFE_CTRL_E
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:276:37: error: 'REG_IQK_COM64' undeclared (first use in this function)
-     276 |                 rtw_write32(rtwdev, REG_IQK_COM64, 0xfa000000);
-         |                                     ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:283:61: error: 'REG_IQKA_END' undeclared (first use in this function)
-     283 |                         iqk_ready = rtw_read32_mask(rtwdev, REG_IQKA_END, BIT(10));
-         |                                                             ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:320:50: error: 'REG_IQC_Y' undeclared (first use in this function)
-     320 |                         rtw_write32_mask(rtwdev, REG_IQC_Y, 0x000007ff, 0x0);
-         |                                                  ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:321:50: error: 'REG_IQC_X' undeclared (first use in this function)
-     321 |                         rtw_write32_mask(rtwdev, REG_IQC_X, 0x000007ff, 0x200);
-         |                                                  ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk_rx':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:334:29: error: 'REG_RFECTL_A' undeclared (first use in this function); did you mean 'REG_RFE_CTRL_E'?
-     334 |         rtw_write32(rtwdev, REG_RFECTL_A, 0x00100000);
-         |                             ^~~~~~~~~~~~
-         |                             REG_RFE_CTRL_E
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:338:37: error: 'REG_IQK_COM64' undeclared (first use in this function)
-     338 |                 rtw_write32(rtwdev, REG_IQK_COM64, 0xfa000000);
-         |                                     ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:346:61: error: 'REG_IQKA_END' undeclared (first use in this function)
-     346 |                         iqk_ready = rtw_read32_mask(rtwdev, REG_IQKA_END, BIT(10));
-         |                                                             ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:377:50: error: 'REG_RX_IQC_AB_A' undeclared (first use in this function)
-     377 |                         rtw_write32_mask(rtwdev, REG_RX_IQC_AB_A,
-         |                                                  ^~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_iqk':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:415:42: error: 'REG_CCASEL' undeclared (first use in this function)
-     415 |                 rtw_write32_mask(rtwdev, REG_CCASEL, BIT(31), 0x0);
-         |                                          ^~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:419:37: error: 'REG_AFE_PWR1_A' undeclared (first use in this function); did you mean 'REG_AFE_CTRL_4'?
-     419 |                 rtw_write32(rtwdev, REG_AFE_PWR1_A, 0x77777777);
-         |                                     ^~~~~~~~~~~~~~
-         |                                     REG_AFE_CTRL_4
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:420:37: error: 'REG_AFE_PWR2_A' undeclared (first use in this function); did you mean 'REG_AFE_CTRL_4'?
-     420 |                 rtw_write32(rtwdev, REG_AFE_PWR2_A, 0x77777777);
-         |                                     ^~~~~~~~~~~~~~
-         |                                     REG_AFE_CTRL_4
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:422:37: error: 'REG_RX_WAIT_CCA_TX_CCK_RFON_A' undeclared (first use in this function)
-     422 |                 rtw_write32(rtwdev, REG_RX_WAIT_CCA_TX_CCK_RFON_A, 0x19791979);
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/wireless/realtek/rtw88/rtw8821a.c:425:42: error: 'REG_3WIRE_SWA' undeclared (first use in this function)
-     425 |                 rtw_write32_mask(rtwdev, REG_3WIRE_SWA, 0xf, 0x4);
-         |                                          ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:430:42: error: 'REG_CK_MONHA' undeclared (first use in this function)
-     430 |                 rtw_write32_mask(rtwdev, REG_CK_MONHA, GENMASK(26, 24), 0x7);
-         |                                          ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:435:49: error: 'RF_MODE_TABLE_ADDR' undeclared (first use in this function)
-     435 |                 rtw_write_rf(rtwdev, RF_PATH_A, RF_MODE_TABLE_ADDR, RFREG_MASK,
-         |                                                 ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:437:49: error: 'RF_MODE_TABLE_DATA0' undeclared (first use in this function)
-     437 |                 rtw_write_rf(rtwdev, RF_PATH_A, RF_MODE_TABLE_DATA0, RFREG_MASK,
-         |                                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:439:49: error: 'RF_MODE_TABLE_DATA1' undeclared (first use in this function)
-     439 |                 rtw_write_rf(rtwdev, RF_PATH_A, RF_MODE_TABLE_DATA1, RFREG_MASK,
-         |                                                 ^~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:442:49: error: 'RF_TXA_PREPAD' undeclared (first use in this function)
-     442 |                 rtw_write_rf(rtwdev, RF_PATH_A, RF_TXA_PREPAD, RFREG_MASK,
-         |                                                 ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:444:49: error: 'RF_RXBB2' undeclared (first use in this function)
-     444 |                 rtw_write_rf(rtwdev, RF_PATH_A, RF_RXBB2, RFREG_MASK, 0x8a001);
-         |                                                 ^~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:445:37: error: 'REG_DAC_RSTB' undeclared (first use in this function)
-     445 |                 rtw_write32(rtwdev, REG_DAC_RSTB, 0x00008000);
-         |                                     ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:446:42: error: 'REG_TXAGCIDX' undeclared (first use in this function)
-     446 |                 rtw_write32_mask(rtwdev, REG_TXAGCIDX, BIT(0), 0x1);
-         |                                          ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:448:37: error: 'REG_IQK_COM00' undeclared (first use in this function)
-     448 |                 rtw_write32(rtwdev, REG_IQK_COM00, 0x29002000);
-         |                                     ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:450:37: error: 'REG_IQK_COM32' undeclared (first use in this function)
-     450 |                 rtw_write32(rtwdev, REG_IQK_COM32, 0xa9002000);
-         |                                     ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:452:37: error: 'REG_IQK_COM96' undeclared (first use in this function)
-     452 |                 rtw_write32(rtwdev, REG_IQK_COM96, 0x00462910);
-         |                                     ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:458:45: error: 'REG_OFDM0_XB_TX_IQ_IMBALANCE' undeclared (first use in this function)
-     458 |                         rtw_write32(rtwdev, REG_OFDM0_XB_TX_IQ_IMBALANCE,
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:465:45: error: 'REG_TSSI_TRK_SW' undeclared (first use in this function)
-     465 |                         rtw_write32(rtwdev, REG_TSSI_TRK_SW, 0x68163e96);
-         |                                             ^~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:470:37: error: 'REG_OFDM0_XA_TX_IQ_IMBALANCE' undeclared (first use in this function)
-     470 |                 rtw_write32(rtwdev, REG_OFDM0_XA_TX_IQ_IMBALANCE, 0x18008c10);
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:472:37: error: 'REG_OFDM0_A_TX_AFE' undeclared (first use in this function)
-     472 |                 rtw_write32(rtwdev, REG_OFDM0_A_TX_AFE, 0x38008c10);
-         |                                     ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:473:37: error: 'REG_RFECTL_A' undeclared (first use in this function); did you mean 'REG_RFE_CTRL_E'?
-     473 |                 rtw_write32(rtwdev, REG_RFECTL_A, 0x00100000);
-         |                                     ^~~~~~~~~~~~
-         |                                     REG_RFE_CTRL_E
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:474:37: error: 'REG_IQK_COM64' undeclared (first use in this function)
-     474 |                 rtw_write32(rtwdev, REG_IQK_COM64, 0xfa000000);
-         |                                     ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:482:49: error: 'RF_TXMOD' undeclared (first use in this function)
-     482 |                 rtw_write_rf(rtwdev, RF_PATH_A, RF_TXMOD, 0x7fe00,
-         |                                                 ^~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: In function 'rtw8821a_coex_cfg_ant_switch':
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:751:40: error: 'REG_GNT_BT' undeclared (first use in this function)
-     751 |                 rtw_write8_set(rtwdev, REG_GNT_BT, BIT_PTA_SW_CTL);
-         |                                        ^~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:751:52: error: 'BIT_PTA_SW_CTL' undeclared (first use in this function)
-     751 |                 rtw_write8_set(rtwdev, REG_GNT_BT, BIT_PTA_SW_CTL);
-         |                                                    ^~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:754:40: error: 'PTA_CTRL_PIN' undeclared (first use in this function)
-     754 |                            share_ant ? PTA_CTRL_PIN : DPDT_CTRL_PIN);
-         |                                        ^~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:754:55: error: 'DPDT_CTRL_PIN' undeclared (first use in this function)
-     754 |                            share_ant ? PTA_CTRL_PIN : DPDT_CTRL_PIN);
-         |                                                       ^~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c: At top level:
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:836:10: error: 'const struct rtw_chip_ops' has no member named 'power_on'
-     836 |         .power_on               = rtw88xxa_power_on,
-         |          ^~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:837:10: error: 'const struct rtw_chip_ops' has no member named 'power_off'
-     837 |         .power_off              = rtw8821a_power_off,
-         |          ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:837:35: error: initialization of 'int (*)(struct rtw_dev *)' from incompatible pointer type 'void (*)(struct rtw_dev *)' [-Werror=incompatible-pointer-types]
-     837 |         .power_off              = rtw8821a_power_off,
-         |                                   ^~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:837:35: note: (near initialization for 'rtw8821a_ops.dump_fw_crash')
-   In file included from include/uapi/linux/posix_types.h:5,
-                    from include/uapi/linux/types.h:14,
-                    from include/linux/types.h:6,
-                    from include/linux/kcsan-checks.h:14,
-                    from include/asm-generic/barrier.h:17,
-                    from arch/alpha/include/asm/barrier.h:21,
-                    from arch/alpha/include/asm/rwonce.h:10,
-                    from include/linux/compiler.h:317,
-                    from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from arch/alpha/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/net/mac80211.h:16,
-                    from drivers/net/wireless/realtek/rtw88/main.h:8,
-                    from drivers/net/wireless/realtek/rtw88/rtw8821a.c:5:
-   include/linux/stddef.h:8:14: warning: initialized field overwritten [-Woverride-init]
-       8 | #define NULL ((void *)0)
-         |              ^
-   drivers/net/wireless/realtek/rtw88/rtw8821a.c:842:35: note: in expansion of macro 'NULL'
-..
-
-
-vim +137 drivers/net/wireless/realtek/rtw88/rtw88xxa.c
-
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  123  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  124  static void rtw88xxa_read_usb_type(struct rtw_dev *rtwdev)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  125  {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  126  	struct rtw_efuse *efuse = &rtwdev->efuse;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  127  	struct rtw_hal *hal = &rtwdev->hal;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  128  	u8 antenna = 0;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  129  	u8 wmode = 0;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  130  	u8 val8, i;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  131  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  132  	efuse->hw_cap.bw = BIT(RTW_CHANNEL_WIDTH_20) |
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  133  			   BIT(RTW_CHANNEL_WIDTH_40) |
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  134  			   BIT(RTW_CHANNEL_WIDTH_80);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  135  	efuse->hw_cap.ptcl = EFUSE_HW_CAP_PTCL_VHT;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  136  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30 @137  	if (rtwdev->chip->id == RTW_CHIP_TYPE_8821A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  138  		efuse->hw_cap.nss = 1;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  139  	else
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  140  		efuse->hw_cap.nss = 2;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  141  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  142  	if (rtwdev->chip->id == RTW_CHIP_TYPE_8821A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  143  		goto print_hw_cap;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  144  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  145  	for (i = 0; i < 2; i++) {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  146  		rtw_read8_physical_efuse(rtwdev, 1019 - i, &val8);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  147  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  148  		antenna = u8_get_bits(val8, GENMASK(7, 5));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  149  		if (antenna)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  150  			break;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  151  		antenna = u8_get_bits(val8, GENMASK(3, 1));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  152  		if (antenna)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  153  			break;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  154  	}
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  155  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  156  	for (i = 0; i < 2; i++) {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  157  		rtw_read8_physical_efuse(rtwdev, 1021 - i, &val8);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  158  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  159  		wmode = u8_get_bits(val8, GENMASK(3, 2));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  160  		if (wmode)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  161  			break;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  162  	}
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  163  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  164  	if (antenna == 1) {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  165  		rtw_info(rtwdev, "This RTL8812AU says it is 1T1R.\n");
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  166  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  167  		efuse->hw_cap.nss = 1;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  168  		hal->rf_type = RF_1T1R;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  169  		hal->rf_path_num = 1;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  170  		hal->rf_phy_num = 1;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  171  		hal->antenna_tx = BB_PATH_A;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  172  		hal->antenna_rx = BB_PATH_A;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  173  	} else {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  174  		/* Override rtw_chip_parameter_setup(). It detects 8812au as 1T1R. */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  175  		efuse->hw_cap.nss = 2;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  176  		hal->rf_type = RF_2T2R;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  177  		hal->rf_path_num = 2;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  178  		hal->rf_phy_num = 2;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  179  		hal->antenna_tx = BB_PATH_AB;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  180  		hal->antenna_rx = BB_PATH_AB;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  181  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  182  		if (antenna == 2 && wmode == 2) {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  183  			rtw_info(rtwdev, "This RTL8812AU says it can't do VHT.\n");
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  184  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  185  			/* Can't be EFUSE_HW_CAP_IGNORE and can't be
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  186  			 * EFUSE_HW_CAP_PTCL_VHT, so make it 1.
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  187  			 */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  188  			efuse->hw_cap.ptcl = 1;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  189  			efuse->hw_cap.bw &= ~BIT(RTW_CHANNEL_WIDTH_80);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  190  		}
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  191  	}
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  192  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  193  print_hw_cap:
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  194  	rtw_dbg(rtwdev, RTW_DBG_EFUSE,
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  195  		"hw cap: hci=0x%02x, bw=0x%02x, ptcl=0x%02x, ant_num=%d, nss=%d\n",
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  196  		efuse->hw_cap.hci, efuse->hw_cap.bw, efuse->hw_cap.ptcl,
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  197  		efuse->hw_cap.ant_num, efuse->hw_cap.nss);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  198  }
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  199  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  200  int rtw88xxa_read_efuse(struct rtw_dev *rtwdev, u8 *log_map)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  201  {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  202  	const struct rtw_chip_info *chip = rtwdev->chip;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  203  	struct rtw_efuse *efuse = &rtwdev->efuse;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  204  	struct rtw88xxa_efuse *map;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  205  	int i;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  206  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30 @207  	if (chip->id == RTW_CHIP_TYPE_8812A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  208  		rtwdev->hal.cut_version += 1;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  209  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  210  	if (rtw_dbg_is_enabled(rtwdev, RTW_DBG_EFUSE))
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  211  		print_hex_dump(KERN_INFO, "", DUMP_PREFIX_OFFSET, 16, 1,
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  212  			       log_map, chip->log_efuse_size, true);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  213  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  214  	map = (struct rtw88xxa_efuse *)log_map;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  215  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  216  	efuse->rf_board_option = map->rf_board_option;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  217  	efuse->crystal_cap = map->xtal_k;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  218  	if (efuse->crystal_cap == 0xff)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  219  		efuse->crystal_cap = 0x20;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  220  	efuse->pa_type_2g = map->pa_type;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  221  	efuse->pa_type_5g = map->pa_type;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  222  	efuse->lna_type_2g = map->lna_type_2g;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  223  	efuse->lna_type_5g = map->lna_type_5g;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  224  	if (chip->id == RTW_CHIP_TYPE_8812A) {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  225  		rtw8812a_read_amplifier_type(rtwdev);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  226  		rtw8812a_read_rfe_type(rtwdev, map);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  227  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  228  		efuse->usb_mode_switch = u8_get_bits(map->usb_mode, BIT(1));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  229  	}
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  230  	efuse->channel_plan = map->channel_plan;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  231  	efuse->country_code[0] = map->country_code[0];
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  232  	efuse->country_code[1] = map->country_code[1];
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  233  	efuse->bt_setting = map->rf_bt_setting;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  234  	efuse->regd = map->rf_board_option & 0x7;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  235  	efuse->thermal_meter[0] = map->thermal_meter;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  236  	efuse->thermal_meter[1] = map->thermal_meter;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  237  	efuse->thermal_meter_k = map->thermal_meter;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  238  	efuse->tx_bb_swing_setting_2g = map->tx_bb_swing_setting_2g;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  239  	efuse->tx_bb_swing_setting_5g = map->tx_bb_swing_setting_5g;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  240  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  241  	rtw88xxa_read_usb_type(rtwdev);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  242  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  243  	if (chip->id == RTW_CHIP_TYPE_8821A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  244  		efuse->btcoex = rtw_read32_mask(rtwdev, REG_WL_BT_PWR_CTRL,
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  245  						BIT_BT_FUNC_EN);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  246  	else
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  247  		efuse->btcoex = (map->rf_board_option & 0xe0) == 0x20;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  248  	efuse->share_ant = !!(efuse->bt_setting & BIT(0));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  249  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  250  	/* No antenna diversity because it's disabled in the vendor driver */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  251  	efuse->ant_div_cfg = 0;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  252  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  253  	efuse->ant_div_type = map->rf_antenna_option;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  254  	if (efuse->ant_div_type == 0xff)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  255  		efuse->ant_div_type = 0x3;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  256  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  257  	for (i = 0; i < 4; i++)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  258  		efuse->txpwr_idx_table[i] = map->txpwr_idx_table[i];
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  259  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  260  	switch (rtw_hci_type(rtwdev)) {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  261  	case RTW_HCI_TYPE_USB:
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  262  		if (chip->id == RTW_CHIP_TYPE_8821A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  263  			ether_addr_copy(efuse->addr, map->rtw8821au.mac_addr);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  264  		else
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  265  			ether_addr_copy(efuse->addr, map->rtw8812au.mac_addr);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  266  		break;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  267  	case RTW_HCI_TYPE_PCIE:
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  268  	case RTW_HCI_TYPE_SDIO:
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  269  	default:
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  270  		/* unsupported now */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  271  		return -EOPNOTSUPP;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  272  	}
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  273  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  274  	return 0;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  275  }
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  276  EXPORT_SYMBOL(rtw88xxa_read_efuse);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  277  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  278  static void rtw88xxa_reset_8051(struct rtw_dev *rtwdev)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  279  {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  280  	const struct rtw_chip_info *chip = rtwdev->chip;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  281  	u8 val8;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  282  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  283  	/* Reset MCU IO Wrapper */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  284  	rtw_write8_clr(rtwdev, REG_RSV_CTRL, BIT(1));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  285  	if (chip->id == RTW_CHIP_TYPE_8812A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  286  		rtw_write8_clr(rtwdev, REG_RSV_CTRL + 1, BIT(3));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  287  	else
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  288  		rtw_write8_clr(rtwdev, REG_RSV_CTRL + 1, BIT(0));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  289  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  290  	val8 = rtw_read8(rtwdev, REG_SYS_FUNC_EN + 1);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  291  	rtw_write8(rtwdev, REG_SYS_FUNC_EN + 1, val8 & ~BIT(2));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  292  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  293  	/* Enable MCU IO Wrapper */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  294  	rtw_write8_clr(rtwdev, REG_RSV_CTRL, BIT(1));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  295  	if (chip->id == RTW_CHIP_TYPE_8812A)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  296  		rtw_write8_set(rtwdev, REG_RSV_CTRL + 1, BIT(3));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  297  	else
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  298  		rtw_write8_set(rtwdev, REG_RSV_CTRL + 1, BIT(0));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  299  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  300  	rtw_write8(rtwdev, REG_SYS_FUNC_EN + 1, val8 | BIT(2));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  301  }
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  302  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  303  /* A lightweight deinit function */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  304  static void rtw88xxau_hw_reset(struct rtw_dev *rtwdev)
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  305  {
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  306  	u8 val8;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  307  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  308  	if (!(rtw_read8(rtwdev, REG_MCUFW_CTRL) & BIT_RAM_DL_SEL))
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  309  		return;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  310  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  311  	rtw88xxa_reset_8051(rtwdev);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  312  	rtw_write8(rtwdev, REG_MCUFW_CTRL, 0x00);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  313  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  314  	/* before BB reset should do clock gated */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30 @315  	rtw_write32_set(rtwdev, REG_FPGA0_XCD_RF_PARA, BIT(6));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  316  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  317  	/* reset BB */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  318  	rtw_write8_clr(rtwdev, REG_SYS_FUNC_EN, BIT(0) | BIT(1));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  319  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  320  	/* reset RF */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  321  	rtw_write8(rtwdev, REG_RF_CTRL, 0);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  322  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  323  	/* reset TRX path */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  324  	rtw_write16(rtwdev, REG_CR, 0);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  325  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  326  	/* reset MAC, reg0x5[1], auto FSM off */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30 @327  	rtw_write8_set(rtwdev, REG_APS_FSMCO + 1, APS_FSMCO_MAC_OFF >> 8);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  328  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  329  	/* check if reg0x5[1] auto cleared */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  330  	if (read_poll_timeout_atomic(rtw_read8, val8,
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  331  				     !(val8 & (APS_FSMCO_MAC_OFF >> 8)),
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  332  				     1, 5000, false,
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  333  				     rtwdev, REG_APS_FSMCO + 1))
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  334  		rtw_err(rtwdev, "%s: timed out waiting for 0x5[1]\n", __func__);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  335  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  336  	/* reg0x5[0], auto FSM on */
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  337  	val8 |= APS_FSMCO_MAC_ENABLE >> 8;
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  338  	rtw_write8(rtwdev, REG_APS_FSMCO + 1, val8);
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  339  
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  340  	rtw_write8_clr(rtwdev, REG_SYS_FUNC_EN + 1, BIT(4) | BIT(7));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  341  	rtw_write8_set(rtwdev, REG_SYS_FUNC_EN + 1, BIT(4) | BIT(7));
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  342  }
-0810de4fd8fcd8 Bitterblue Smith 2024-10-30  343  
+   	'mediatek,mt8365' was expected
+   	'mediatek,mt8516' was expected
+   	'google,elm-rev6' was expected
+   	'google,hana-rev4' was expected
+   	'google,spherion-rev1' was expected
+   	'google,kakadu' was expected
+   	'google,elm-rev5' was expected
+   	'google,hana-rev3' was expected
+   	'google,spherion-rev0' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku0', 'google,makomo-rev5-sku0', 'google,makomo', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: mmc1-pins-uhs:pins_clk: 'pinmux' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: uart1-pins-default:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: uart1-pins-sleep:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: anx7625@58: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: da7219@1a: interrupts: [[165, 8], [165, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:523.27-527.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam0@2: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:529.27-533.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam1@2: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1941.28-1945.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2055.27-2059.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183'] is too long
+   	['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183'] is too short
+   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt2701-evb']
+   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt2712-evb']
+   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6580-evbp1']
+   	'google,makomo-rev4-sku1' is not one of ['prestigio,pmt5008-3g']
+   	'google,makomo-rev4-sku1' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
+   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6592-evb']
+   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6755-evb']
+   	'google,makomo-rev4-sku1' is not one of ['mediatek,mt6765-evb']
+--
+   	'mediatek,mt8365' was expected
+   	'mediatek,mt8516' was expected
+   	'google,elm-rev6' was expected
+   	'google,hana-rev4' was expected
+   	'google,spherion-rev1' was expected
+   	'google,kakadu' was expected
+   	'google,elm-rev5' was expected
+   	'google,hana-rev3' was expected
+   	'google,spherion-rev0' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /: failed to match any schema with compatible: ['google,makomo-rev4-sku1', 'google,makomo-rev5-sku1', 'google,makomo', 'mediatek,mt8183']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: mmc1-pins-uhs:pins_clk: 'pinmux' is a required property
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: panel-pins-default: 'panel-reset' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: uart1-pins-default:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: uart1-pins-sleep:pins-rts: 'output-enable' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: pp3300-panel-pins: 'panel-3v3-enable' does not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pinctrl@10005000: touchscreen-pins: 'touch-int-odl', 'touch-rst-l' do not match any of the regexes: '^pins', 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: anx7625@58: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-sku1.dtb: bt-sco: '#sound-dai-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
