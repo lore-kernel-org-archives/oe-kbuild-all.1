@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C20B31474B9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 04:57:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27CE13AA26
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 05:08:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730437035; cv=none; b=A7qy9rS/A8qiOvt/CXhzhm2rTZMHIcu0FCvr0GVecCmKb0QIWCtvcazu1+GX6G7EOr+4g5kXVxW/bWCqWaK4dSJPFSUckuzrMAwtoTPOZZ6nGv67m8c37t28194RQrgqLTWzo+BsCcy/TZVpXJinTyGe/LKKBW36e5MAu/hp/Wk=
+	t=1730437695; cv=none; b=QMIYvMXzymYB1NYZU9TinSqBwmEccHmZu2+al/jCFks40AQXOcnbegEUksDfiz0hV4O9vxG7xhsw1mOuLMYEWP9Vq1gj0NjmVbOf/EjhqjSY1CVL0lUwtGDlzOJEw3ouaIUMW7hZKYqPk/jn6NkuxzYf4OLPSFAhRFnALUGBFlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730437035; c=relaxed/simple;
-	bh=0Cai3H5eK7XtVf04/cs9wHer1MXsZhHNYaewLEXDdGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jqBUts1M2WKoaRPFm7QcbS05lLWqKEyjUZwBZdUnJq13lyh055vvSgKyF6zok2CxflgkjlnvtfCPv8Z+P+JOOexZ+bJbL+oixg0UK234TLi6foLUgHBs6SX8pOTvRiLReAZHt5IAJLeDrxfzwOHZ2fsppSfNWbB3IVY2Haj3Bkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cN87wfl8; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1730437695; c=relaxed/simple;
+	bh=gHCvEzqGz5HrCXCX8obbMOpf4rX8W8+whNsK2k2oVnA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YbUdOaM6lczdv1OGcpGvSbOf0DT8sIjz9Kg+HULZ3tcmQivXIIpVPKQurfzn/gOwyrQyqnG4bIQmkMy5WHOb4vB/UBCaQ5DhXXzLgO+TiMHt4Kt4vtuQv9Vja6E6YQRRJsEUL5BKyWRzz8kuaEU3bkZkS+XOHkgoYQfrMkK3yGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pna30I00; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cN87wfl8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pna30I00"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730437033; x=1761973033;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0Cai3H5eK7XtVf04/cs9wHer1MXsZhHNYaewLEXDdGU=;
-  b=cN87wfl8eMz4zS9yg5VdZREc7MWvodl6Bkn40FsXig6fpIpeWSoEzQsr
-   yJQ4mtPOWg9WlvGKudtsTA5ofHjvRiLJQXB9vJt68PW/lG7unkQBsY5kg
-   7f2H8NENzOg3dLW2kU7Db0+Gk5KVNdsHZtrCRmoMNzp0l7iYLd5d3vtyr
-   r8eedopS2de5w7z7eRGlIFrHhd3utugMAtqcxqlySdRgnjsBnp7zBPYfJ
-   QonrACY2LWfgJktjCl41UHgpJFEFubd9Tm8bOCIwRlG5NuNdb4qC0mMQL
-   vWRqr7itOzeDRfwOxECNrxejSreUVXLSC7nS9dxtT66xon9UGuWQoWxEq
-   A==;
-X-CSE-ConnectionGUID: 8/yo1A59QsGENu3fad/8UQ==
-X-CSE-MsgGUID: T8OXxN7gRvayv20C5ES2uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="17835763"
+  t=1730437693; x=1761973693;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gHCvEzqGz5HrCXCX8obbMOpf4rX8W8+whNsK2k2oVnA=;
+  b=Pna30I00qwvxsgjCJ2ZGBz+MG/NgTSVx3NohWr0yOeYSsdXLVKujurCF
+   k3l2lfYt0v8FvanclCFF8xULDL7g5MBcKvaRgNzZIxYppy3MezPmb0Yhv
+   w3+8Xh9gm1BoFrgvthipX1tjO2rjxSCeeaVQdVkxU0MI+DYsmSqF/LeB9
+   Rpx2p4tlsCaHas8PB1v3dq9XUOcGVF9DYJxgzdLcLlZ5uk/TdKN+gLh2r
+   Ndopcg7M5v8b4SzPdG19+ZjarX338RepY9ScYbv5DgO7wa/B0RGu/ue6z
+   ec1SispCpggw83Q7sfVw8qjb8y9wDCZy8QyL8Fy/aROtXZl3FWz7xJsVK
+   Q==;
+X-CSE-ConnectionGUID: dl6Ua31SQqaFqN39viTFwQ==
+X-CSE-MsgGUID: 6O3NsBKBRSeH1djSk3V8+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="30091589"
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="17835763"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 21:57:09 -0700
-X-CSE-ConnectionGUID: O3GSXUjeSxCZ88b8f9oerw==
-X-CSE-MsgGUID: TlunNVQoQeSeA/6LG2IZ9g==
+   d="scan'208";a="30091589"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 22:08:12 -0700
+X-CSE-ConnectionGUID: VVyBlTPCQpCKxcFXEHZ3sw==
+X-CSE-MsgGUID: kOLQEgr2QummUPom66znnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="82964577"
+   d="scan'208";a="120315134"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 31 Oct 2024 21:57:08 -0700
+  by orviesa001.jf.intel.com with ESMTP; 31 Oct 2024 22:08:08 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6jib-000h9L-2C;
-	Fri, 01 Nov 2024 04:57:05 +0000
-Date: Fri, 1 Nov 2024 12:56:34 +0800
+	id 1t6jtF-000h9t-30;
+	Fri, 01 Nov 2024 05:08:05 +0000
+Date: Fri, 1 Nov 2024 13:07:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Alexander Potapenko <glider@google.com>
-Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
- '__user' of expression
-Message-ID: <202411011212.6RM81BEd-lkp@intel.com>
+To: Andrii Nakryiko <andrii@kernel.org>, linux-trace-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, rostedt@goodmis.org, ast@kernel.org,
+	daniel@iogearbox.net, martin.lau@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	linux-kernel@vger.kernel.org, mhiramat@kernel.org,
+	peterz@infradead.org, paulmck@kernel.org, jrife@google.com,
+	Andrii Nakryiko <andrii@kernel.org>
+Subject: Re: [PATCH trace/for-next 3/3] bpf: ensure RCU Tasks Trace GP for
+ sleepable raw tracepoint BPF links
+Message-ID: <202411011255.GYntOfN5-lkp@intel.com>
+References: <20241031210938.1696639-3-andrii@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,83 +68,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241031210938.1696639-3-andrii@kernel.org>
 
-Hi Ilya,
+Hi Andrii,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6c52d4da1c742cd01a797a4d0a2d3c5a60dc9bfe
-commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
-date:   4 months ago
-config: s390-randconfig-r112-20241030 (https://download.01.org/0day-ci/archive/20241101/202411011212.6RM81BEd-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce: (https://download.01.org/0day-ci/archive/20241101/202411011212.6RM81BEd-lkp@intel.com/reproduce)
+[auto build test ERROR on trace/for-next]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrii-Nakryiko/bpf-decouple-BPF-link-attach-hook-and-BPF-program-sleepable-semantics/20241101-051131
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20241031210938.1696639-3-andrii%40kernel.org
+patch subject: [PATCH trace/for-next 3/3] bpf: ensure RCU Tasks Trace GP for sleepable raw tracepoint BPF links
+config: x86_64-buildonly-randconfig-001-20241101 (https://download.01.org/0day-ci/archive/20241101/202411011255.GYntOfN5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011255.GYntOfN5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411011212.6RM81BEd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411011255.GYntOfN5-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
-   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
-   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
-   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
-   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
-   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
-   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +/__user +269 mm/kmsan/hooks.c
+   kernel/bpf/syscall.c: In function 'bpf_raw_tp_link_attach':
+>> kernel/bpf/syscall.c:3866:33: error: implicit declaration of function 'tracepoint_is_faultable' [-Werror=implicit-function-declaration]
+    3866 |                                 tracepoint_is_faultable(btp->tp));
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-b073d7f8aee4ebf Alexander Potapenko 2022-09-15  247  
-75cf0290271bf6d Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
-75cf0290271bf6d Alexander Potapenko 2022-09-15  249  			size_t left)
-75cf0290271bf6d Alexander Potapenko 2022-09-15  250  {
-75cf0290271bf6d Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
-75cf0290271bf6d Alexander Potapenko 2022-09-15  252  
-75cf0290271bf6d Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
-75cf0290271bf6d Alexander Potapenko 2022-09-15  254  		return;
-75cf0290271bf6d Alexander Potapenko 2022-09-15  255  	/*
-75cf0290271bf6d Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
-75cf0290271bf6d Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
-75cf0290271bf6d Alexander Potapenko 2022-09-15  258  	 */
-75cf0290271bf6d Alexander Potapenko 2022-09-15  259  
-75cf0290271bf6d Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
-75cf0290271bf6d Alexander Potapenko 2022-09-15  261  	if (!to_copy)
-75cf0290271bf6d Alexander Potapenko 2022-09-15  262  		return;
-75cf0290271bf6d Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
-75cf0290271bf6d Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
-75cf0290271bf6d Alexander Potapenko 2022-09-15  265  		return;
-75cf0290271bf6d Alexander Potapenko 2022-09-15  266  
-75cf0290271bf6d Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
-f926e9326f3a79f Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
-f926e9326f3a79f Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
-75cf0290271bf6d Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
-75cf0290271bf6d Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
-75cf0290271bf6d Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
-75cf0290271bf6d Alexander Potapenko 2022-09-15  273  	} else {
-75cf0290271bf6d Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
-75cf0290271bf6d Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
-75cf0290271bf6d Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
-75cf0290271bf6d Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
-75cf0290271bf6d Alexander Potapenko 2022-09-15  278  		 * bytes.
-75cf0290271bf6d Alexander Potapenko 2022-09-15  279  		 */
-75cf0290271bf6d Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
-75cf0290271bf6d Alexander Potapenko 2022-09-15  281  						to_copy - left);
-75cf0290271bf6d Alexander Potapenko 2022-09-15  282  	}
-75cf0290271bf6d Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
-75cf0290271bf6d Alexander Potapenko 2022-09-15  284  }
-75cf0290271bf6d Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
-75cf0290271bf6d Alexander Potapenko 2022-09-15  286  
 
-:::::: The code at line 269 was first introduced by commit
-:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
+vim +/tracepoint_is_faultable +3866 kernel/bpf/syscall.c
 
-:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+  3818	
+  3819	static int bpf_raw_tp_link_attach(struct bpf_prog *prog,
+  3820					  const char __user *user_tp_name, u64 cookie)
+  3821	{
+  3822		struct bpf_link_primer link_primer;
+  3823		struct bpf_raw_tp_link *link;
+  3824		struct bpf_raw_event_map *btp;
+  3825		const char *tp_name;
+  3826		char buf[128];
+  3827		int err;
+  3828	
+  3829		switch (prog->type) {
+  3830		case BPF_PROG_TYPE_TRACING:
+  3831		case BPF_PROG_TYPE_EXT:
+  3832		case BPF_PROG_TYPE_LSM:
+  3833			if (user_tp_name)
+  3834				/* The attach point for this category of programs
+  3835				 * should be specified via btf_id during program load.
+  3836				 */
+  3837				return -EINVAL;
+  3838			if (prog->type == BPF_PROG_TYPE_TRACING &&
+  3839			    prog->expected_attach_type == BPF_TRACE_RAW_TP) {
+  3840				tp_name = prog->aux->attach_func_name;
+  3841				break;
+  3842			}
+  3843			return bpf_tracing_prog_attach(prog, 0, 0, 0);
+  3844		case BPF_PROG_TYPE_RAW_TRACEPOINT:
+  3845		case BPF_PROG_TYPE_RAW_TRACEPOINT_WRITABLE:
+  3846			if (strncpy_from_user(buf, user_tp_name, sizeof(buf) - 1) < 0)
+  3847				return -EFAULT;
+  3848			buf[sizeof(buf) - 1] = 0;
+  3849			tp_name = buf;
+  3850			break;
+  3851		default:
+  3852			return -EINVAL;
+  3853		}
+  3854	
+  3855		btp = bpf_get_raw_tracepoint(tp_name);
+  3856		if (!btp)
+  3857			return -ENOENT;
+  3858	
+  3859		link = kzalloc(sizeof(*link), GFP_USER);
+  3860		if (!link) {
+  3861			err = -ENOMEM;
+  3862			goto out_put_btp;
+  3863		}
+  3864		bpf_link_init_sleepable(&link->link, BPF_LINK_TYPE_RAW_TRACEPOINT,
+  3865					&bpf_raw_tp_link_lops, prog,
+> 3866					tracepoint_is_faultable(btp->tp));
+  3867		link->btp = btp;
+  3868		link->cookie = cookie;
+  3869	
+  3870		err = bpf_link_prime(&link->link, &link_primer);
+  3871		if (err) {
+  3872			kfree(link);
+  3873			goto out_put_btp;
+  3874		}
+  3875	
+  3876		err = bpf_probe_register(link->btp, link);
+  3877		if (err) {
+  3878			bpf_link_cleanup(&link_primer);
+  3879			goto out_put_btp;
+  3880		}
+  3881	
+  3882		return bpf_link_settle(&link_primer);
+  3883	
+  3884	out_put_btp:
+  3885		bpf_put_raw_tracepoint(btp);
+  3886		return err;
+  3887	}
+  3888	
 
 -- 
 0-DAY CI Kernel Test Service
