@@ -1,66 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3522D1C7610
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 16:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5641A2632;
+	Fri,  1 Nov 2024 17:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730479677; cv=none; b=KIw9wlWkqklYYapKyTiDuvcr+PvsGogkUTsNs4nJl7yZ/hKDFtzGZCDV4A+NlotWDI8UPL0cm6/mhwOHsYbWl702sR2VPVsSrB140Gte+LL9adavPgwARbjB1ixFyA//YA+coQaDfq5s5+1CosUQKlab5nIJu7KnROzhHguaJCQ=
+	t=1730481546; cv=none; b=VysTSknwX5SF+QuhOZhbWEcXoAEjFw4/q4lyPC6j5mu7kNFXObIjEhC82J5S00y5/PeHSZfuF8m1uTcMpsLkXEOhc/gYTrP7OnhmpGPNLH9cVGcX7UQfa953kpzMg/I7C0Gya349YvjcILqSfhqpLstMDwHjkQDaLVrPAxAuyMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730479677; c=relaxed/simple;
-	bh=c30YaQPddMCtY3eMn/oxC9HA5IhddbuJLVvAjHWP6PU=;
+	s=arc-20240116; t=1730481546; c=relaxed/simple;
+	bh=lxq998gJqdX9fpNp1aT7xjSU+QrdgsX0MPC9PiPtROo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qclVmXh4YAGfosZ8G+VceIes8ZOdlw87YQFGKVA0Z3mvVkroKUJ95jS9sSFe9e8deLDBQIOucOKXkzH8sr5uEPjFy8Bhl/rieTpp6Kk1AZ/kj83HPWsUX8/OWWELBMqDISlhW1fTnQU/vD59Wo+NV4MmpZ1yBELG6H1QEr4H0hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQPdMFiP; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=gDXAFzq6VFWJvR0+TUowhbAnTLr0MNUgrptZuL8pDe/D8yFQHdkMcG6f5hssPYxY9/vyCl2JB5iLiK5adYGIQupVa3JJlDDGoZBRxJJ1xnG0QrNigI6sP9nHSubV4Ni8eRGiqCvHi5sfSCwhYZVCqHjua5wT1QRxfdW6vu1tJ5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OAHIHOH+; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQPdMFiP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OAHIHOH+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730479675; x=1762015675;
+  t=1730481544; x=1762017544;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=c30YaQPddMCtY3eMn/oxC9HA5IhddbuJLVvAjHWP6PU=;
-  b=iQPdMFiPjSlG0WWhsp0GhFd3rFA3I4tXJ0XKbUOJ9kzmjVcv9G7qpAXD
-   OZQL58malAb/PqGHb+ABnYMkqAadjxO9hPWItKZcFJOVhEURDvWzJRxXJ
-   rlHKnbX6PhEkS5qmayIQ0oduQzgiW/QtUp9GIVw96OiQVA33a/yWXqqjH
-   C7U8749XP6cgIK+B/eNrCI+9lA3MELW8ge0klIJYd08jhbQ2wgCdnp0xa
-   6iGuW04M7/0+s+hAcZrfVkRDu1RhU7gVanuzapPgiS7NdGmPwuPNUKTgt
-   0UMkv4iBp2uru5Z70uATs5N7LKM9w0JgX2avCXJH9JGVvN19MNK4OO/KG
-   g==;
-X-CSE-ConnectionGUID: a3jHSKUHQM+drk4zWtiNiw==
-X-CSE-MsgGUID: zt3ezSi9QaCkCSqQxH6/Zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="17879853"
+  bh=lxq998gJqdX9fpNp1aT7xjSU+QrdgsX0MPC9PiPtROo=;
+  b=OAHIHOH+ksPwLqalkHhPyB2Aans8ro7VIiG/0Wr81+J4v7YwDYYly+Hw
+   yXSXHySb4hCK/sB/ZX10mviQg5uvVFqE2Vqdw2xV7KWoJoT3Q5xcBorWD
+   xl81173vgi6M+hTMZWsLU3Trj8yMRYzHK9lkiizTTLBDFl4XFBquYGM6z
+   vo3SzPxI8itAoziyGHUnkeo+Zm2c9dHPwyCFGt7ehjNl5VIhpzVp2WuYY
+   sGGr20djtu0m9E3WAppN763k8bf2daJd06+qNtXzs5QF5F2Dt27byLAe0
+   ZzI4m7pYcuQ3O9HwdIhUatRyLKpQbMG0XoQf9E3H+FWYknn1/iFXziYzO
+   Q==;
+X-CSE-ConnectionGUID: RCl5SiacSxOuVoDVP1HUaQ==
+X-CSE-MsgGUID: 3DXCZ3MTTMG7sF3DZdEXIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="29671140"
 X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="17879853"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 09:47:54 -0700
-X-CSE-ConnectionGUID: Wb4b81CGR52YZm+RfTJnng==
-X-CSE-MsgGUID: 9VLLpQbcQImSyWUjk/L+ow==
+   d="scan'208";a="29671140"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 10:19:00 -0700
+X-CSE-ConnectionGUID: erxjZ4CzSSuCmgrK+9hJFA==
+X-CSE-MsgGUID: 4aOi8Hy6Tz+4ZlBe8q8cHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="82892635"
+   d="scan'208";a="88147807"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Nov 2024 09:47:49 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Nov 2024 10:18:53 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6uoN-000hmF-0u;
-	Fri, 01 Nov 2024 16:47:47 +0000
-Date: Sat, 2 Nov 2024 00:47:32 +0800
+	id 1t6vIO-000hnX-0z;
+	Fri, 01 Nov 2024 17:18:48 +0000
+Date: Sat, 2 Nov 2024 01:18:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philo Lu <lulie@linux.alibaba.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, willemdebruijn.kernel@gmail.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, dsahern@kernel.org, horms@kernel.org,
-	antony.antony@secunet.com, steffen.klassert@secunet.com,
-	linux-kernel@vger.kernel.org, dust.li@linux.alibaba.com,
-	jakub@cloudflare.com, fred.cc@alibaba-inc.com,
-	yubing.qiuyubing@alibaba-inc.com
-Subject: Re: [PATCH v6 net-next 4/4] ipv6/udp: Add 4-tuple hash for connected
- socket
-Message-ID: <202411020025.8DrAkT2l-lkp@intel.com>
-References: <20241031124550.20227-5-lulie@linux.alibaba.com>
+To: Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Chester Lin <chester62515@gmail.com>,
+	Matthias Brugger <mbrugger@suse.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>,
+	Larisa Grigore <larisa.grigore@nxp.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Dong Aisheng <aisheng.dong@nxp.com>, Jacky Bai <ping.bai@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	NXP S32 Linux Team <s32@nxp.com>,
+	Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	imx@lists.linux.dev
+Subject: Re: [PATCH v5 2/7] mfd: nxp-siul2: add support for NXP SIUL2
+Message-ID: <202411020003.C5suQQDX-lkp@intel.com>
+References: <20241101080614.1070819-3-andrei.stefanescu@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,58 +84,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241031124550.20227-5-lulie@linux.alibaba.com>
+In-Reply-To: <20241101080614.1070819-3-andrei.stefanescu@oss.nxp.com>
 
-Hi Philo,
+Hi Andrei,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on linusw-pinctrl/devel]
+[also build test WARNING on linusw-pinctrl/for-next lee-mfd/for-mfd-next shawnguo/for-next linus/master lee-mfd/for-mfd-fixes v6.12-rc5 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Philo-Lu/net-udp-Add-a-new-struct-for-hash2-slot/20241031-204729
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241031124550.20227-5-lulie%40linux.alibaba.com
-patch subject: [PATCH v6 net-next 4/4] ipv6/udp: Add 4-tuple hash for connected socket
-config: i386-randconfig-141-20241101 (https://download.01.org/0day-ci/archive/20241102/202411020025.8DrAkT2l-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020025.8DrAkT2l-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Stefanescu/dt-bindings-mfd-add-support-for-the-NXP-SIUL2-module/20241101-160940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
+patch link:    https://lore.kernel.org/r/20241101080614.1070819-3-andrei.stefanescu%40oss.nxp.com
+patch subject: [PATCH v5 2/7] mfd: nxp-siul2: add support for NXP SIUL2
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241102/202411020003.C5suQQDX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020003.C5suQQDX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411020025.8DrAkT2l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411020003.C5suQQDX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   net/ipv6/udp.c: In function 'udp_v6_rehash':
->> net/ipv6/udp.c:116:29: error: implicit declaration of function 'udp_ehashfn'; did you mean 'udp6_ehashfn'? [-Werror=implicit-function-declaration]
-     116 |                 new_hash4 = udp_ehashfn(sock_net(sk), sk->sk_rcv_saddr, sk->sk_num,
-         |                             ^~~~~~~~~~~
-         |                             udp6_ehashfn
-   cc1: some warnings being treated as errors
+   drivers/mfd/nxp-siul2.c: In function 'nxp_siul2_init_regmap':
+>> drivers/mfd/nxp-siul2.c:318:1: warning: the frame size of 1116 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     318 | }
+         | ^
+--
+>> drivers/mfd/nxp-siul2.c:50: warning: Function parameter or struct member 'reg_name' not described in 'nxp_siul2_reg_range_info'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +116 net/ipv6/udp.c
+vim +318 drivers/mfd/nxp-siul2.c
 
-   107	
-   108	void udp_v6_rehash(struct sock *sk)
-   109	{
-   110		u16 new_hash = ipv6_portaddr_hash(sock_net(sk),
-   111						  &sk->sk_v6_rcv_saddr,
-   112						  inet_sk(sk)->inet_num);
-   113		u16 new_hash4;
-   114	
-   115		if (ipv6_addr_v4mapped(&sk->sk_v6_rcv_saddr)) {
- > 116			new_hash4 = udp_ehashfn(sock_net(sk), sk->sk_rcv_saddr, sk->sk_num,
-   117						sk->sk_daddr, sk->sk_dport);
-   118		} else {
-   119			new_hash4 = udp6_ehashfn(sock_net(sk), &sk->sk_v6_rcv_saddr, sk->sk_num,
-   120						 &sk->sk_v6_daddr, sk->sk_dport);
-   121		}
-   122	
-   123		udp_lib_rehash(sk, new_hash, new_hash4);
-   124	}
-   125	
+   266	
+   267	static int nxp_siul2_init_regmap(struct platform_device *pdev,
+   268					 void __iomem *base, int siul)
+   269	{
+   270		struct regmap_config regmap_configs[SIUL2_NUM_REG_TYPES] = {
+   271			[SIUL2_MPIDR]	= nxp_siul2_regmap_generic_conf,
+   272			[SIUL2_IRQ]	= nxp_siul2_regmap_irq_conf,
+   273			[SIUL2_MSCR]	= nxp_siul2_regmap_generic_conf,
+   274			[SIUL2_IMCR]	= nxp_siul2_regmap_generic_conf,
+   275			[SIUL2_PGPDO]	= nxp_siul2_regmap_pgpdo_conf,
+   276			[SIUL2_PGPDI]	= nxp_siul2_regmap_pgpdi_conf,
+   277		};
+   278		const struct nxp_siul2_reg_range_info *tmp_range;
+   279		struct regmap_config *tmp_conf;
+   280		struct nxp_siul2_info *info;
+   281		struct nxp_siul2_mfd *priv;
+   282		void __iomem *reg_start;
+   283		int i, ret;
+   284	
+   285		priv = platform_get_drvdata(pdev);
+   286		info = &priv->siul2[siul];
+   287	
+   288		for (i = 0; i < SIUL2_NUM_REG_TYPES; i++) {
+   289			if (!s32g2_reg_ranges[siul][i].valid)
+   290				continue;
+   291	
+   292			tmp_range = &s32g2_reg_ranges[siul][i];
+   293			tmp_conf = &regmap_configs[i];
+   294			tmp_conf->name = tmp_range->reg_name;
+   295			tmp_conf->max_register =
+   296				tmp_range->reg_end_offset - tmp_range->reg_start_offset;
+   297	
+   298			if (tmp_conf->cache_type != REGCACHE_NONE)
+   299				tmp_conf->num_reg_defaults_raw =
+   300					tmp_conf->max_register / tmp_conf->reg_stride;
+   301	
+   302			if (tmp_range->reg_access) {
+   303				tmp_conf->wr_table = tmp_range->reg_access;
+   304				tmp_conf->rd_table = tmp_range->reg_access;
+   305			}
+   306	
+   307			reg_start = base + tmp_range->reg_start_offset;
+   308			info->regmaps[i] = devm_regmap_init_mmio(&pdev->dev, reg_start,
+   309								 tmp_conf);
+   310			if (IS_ERR(info->regmaps[i])) {
+   311				dev_err(&pdev->dev, "regmap %d init failed: %d\n", i,
+   312					ret);
+   313				return PTR_ERR(info->regmaps[i]);
+   314			}
+   315		}
+   316	
+   317		return 0;
+ > 318	}
+   319	
 
 -- 
 0-DAY CI Kernel Test Service
