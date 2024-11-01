@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E5A1ABEB5
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 15:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBDAE1ADFEB;
+	Fri,  1 Nov 2024 15:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730474088; cv=none; b=j1x4T2cZ9tGW7hmTsQmPN1EPg9gGpoOcWlV65mPqdlc584p2jKHbHdtInOMGL0/+WoWVZQgWR9NZvKM6eiobTdC8IumrnTkIY3cUHTJgJ58+/497qP5IT8dmyLGAf2cq9sG84JMCxJ6p7wJdkGL3paEMUWNCddKkzOykjD1IOoI=
+	t=1730474092; cv=none; b=oiwMhQCVVAEeiY/DeS6Dy6P2CX4QJw6fRhVpilynw+lO3V56XkOi2M54nF8nMDgCM6JlYE2GAyIewKrTmb5TgL3vVbwh0/FBH+gORh5FQHLcv8mYZ3bGcWa6khIohnhXxydYupsJDWM31Uxtcbc5diBO04GTvPOM5wsnuKK5l5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730474088; c=relaxed/simple;
-	bh=F1Upgo6KcOgyL4gO865PbZ6gPG0AyykfKj2c05R7ts0=;
+	s=arc-20240116; t=1730474092; c=relaxed/simple;
+	bh=3kwKaT3UasmcB/0WMGK9/KJzS+/Wl2q/KOjXAZBuqNw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mLUIM8FdI9km7BifLAdDm91qVv/SJ5gfklbRh5PFeBexmParLcc5YdqBUnei7PzNyp+nXfA0VBV3ejga6o6KskDRz8F134Iv1Nb/dTTyX2d+r/IrF8OgQkqGLXTcAc0qdH8wnAwWgy5GtkdrkjEr74iEsEQuVu1BfPza4JVAcJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MzDuuTgo; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=pc/j70K3ePBbRRQwe+YHFAcuguv9+FgdGnm6VhPcac2Ot8yqYevAMcE1XGgsJqTQFvTU9J++TKXAj6bYRxJExYIWCzoF8ltIcaOjgS13ao9XRPkqs94qnPCwx5rTKbFw3oyVUmh619RNken9ufkuoYuDvxFVElYKD+WBmLxF0jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aDgksXqR; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzDuuTgo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aDgksXqR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730474086; x=1762010086;
+  t=1730474089; x=1762010089;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=F1Upgo6KcOgyL4gO865PbZ6gPG0AyykfKj2c05R7ts0=;
-  b=MzDuuTgoiBElexjPYWvrGiz6ph8Gw5frUPEiTgQzIwFUDhVkDqsl8Ohl
-   fKGwK88vB+lNH4iMZpN1kHYhQpUnbKbrhRR4YXcASWuX9bbj0FHY5Fy6V
-   2p+WJQSL5lvCwJMcWHFcYis06UKS5vZfE0zqmGl0JBR/UtNPxi7OZKdzz
-   BILN7bVkcSZ10aafzWLEpMFRn1J4kTQB6CdA2OymZaWnwbIBA7AhJvCfw
-   QdfGI5aNUlwZB6VhJ7vW5CIge3wuXsfqf3387Cv9EuPKyqSopZ4sDA6VQ
-   sjin+ezC93HWfL+nFOVQWN+513nwad8z4mfLn1EnRbPtjvkwo0az2IojE
-   w==;
-X-CSE-ConnectionGUID: LaS1TrCsTx2/ERMjYlCuNw==
-X-CSE-MsgGUID: qQ7t/xvrRrK0ibwkPKgiNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="34175639"
+  bh=3kwKaT3UasmcB/0WMGK9/KJzS+/Wl2q/KOjXAZBuqNw=;
+  b=aDgksXqRUvkwisdgaDtRXctWHPuDCVixrH+CsO1qad5FsfAH/tCCNPVO
+   vj0fRIDdIOFY/fFUF6Py6CCxhl43I0Yd02303HH+m9wbHsjlRpmGGpz6T
+   8aKtycgA3tGffDX/Q3UkrA0nVrdN5Em6IUco9J+hBSS//KIpQTNUWSz18
+   Ofot/V/Wa0xXuOdKtOvOCsJ0Q/JOxZkRXAw6rjCDY5CihneGypIHMouQv
+   0FI1AAfCw1zH0w9+8BnyH4z4pgW43e76VWDNaqwQyQZERZkHV5grqHG6z
+   7lp+inuze0ZUYu1cV1FWurTiwisutO38/0pYUMgqpYkkp/nZ4/W2zWxNI
+   A==;
+X-CSE-ConnectionGUID: We0Suf1sScijXJpnpI19vg==
+X-CSE-MsgGUID: vUQ7+VDVTqKADnJ3bLPlXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="30454120"
 X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="34175639"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 08:14:46 -0700
-X-CSE-ConnectionGUID: 2fVJsjMIRQGKeO9S2iTnEw==
-X-CSE-MsgGUID: xlHn9e2SQ/asWQ+d7LJHVw==
+   d="scan'208";a="30454120"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 08:14:48 -0700
+X-CSE-ConnectionGUID: Xy9InalVTQCrt2N2k8lTrw==
+X-CSE-MsgGUID: bqQv/g45TD+MyJ4TNLP+8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="113768622"
+   d="scan'208";a="82914855"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Nov 2024 08:14:44 -0700
+  by orviesa010.jf.intel.com with ESMTP; 01 Nov 2024 08:14:44 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6tMI-000hgs-0J;
-	Fri, 01 Nov 2024 15:14:42 +0000
-Date: Fri, 1 Nov 2024 23:14:19 +0800
+	id 1t6tMH-000hgl-2Z;
+	Fri, 01 Nov 2024 15:14:41 +0000
+Date: Fri, 1 Nov 2024 23:14:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anna Emese Nyiri <annaemesenyiri@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, fejes@inf.elte.hu,
-	annaemesenyiri@gmail.com
-Subject: Re: [PATCH net-next] support SO_PRIORITY cmsg
-Message-ID: <202411012324.a9SOqSqV-lkp@intel.com>
-References: <20241029144142.31382-1-annaemesenyiri@gmail.com>
+To: George Rurikov <grurikov@gmail.com>, Christoph Hellwig <hch@lst.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	MrRurikov <grurikov@gmal.com>, Sagi Grimberg <sagi@grimberg.me>,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Keith Busch <kbusch@kernel.org>,
+	Israel Rukshin <israelr@mellanox.com>,
+	Max Gurtovoy <maxg@mellanox.com>, Jens Axboe <axboe@kernel.dk>,
+	linux-nvme@lists.infradead.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, George Rurikov <g.ryurikov@securitycode.ru>
+Subject: Re: [PATCH] nvme: rdma: Add check for queue in
+ nvmet_rdma_cm_handler()
+Message-ID: <202411012252.e1ChG1dy-lkp@intel.com>
+References: <20241031173327.663-1-grurikov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +70,219 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029144142.31382-1-annaemesenyiri@gmail.com>
+In-Reply-To: <20241031173327.663-1-grurikov@gmail.com>
 
-Hi Anna,
+Hi George,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on mkl-can-next/testing]
-[also build test WARNING on linus/master v6.12-rc5]
-[cannot apply to net-next/main horms-ipvs/master next-20241101]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12-rc5 next-20241101]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Anna-Emese-Nyiri/support-SO_PRIORITY-cmsg/20241029-224326
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git testing
-patch link:    https://lore.kernel.org/r/20241029144142.31382-1-annaemesenyiri%40gmail.com
-patch subject: [PATCH net-next] support SO_PRIORITY cmsg
-config: i386-randconfig-141-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012324.a9SOqSqV-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/George-Rurikov/nvme-rdma-Add-check-for-queue-in-nvmet_rdma_cm_handler/20241101-013611
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241031173327.663-1-grurikov%40gmail.com
+patch subject: [PATCH] nvme: rdma: Add check for queue in nvmet_rdma_cm_handler()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241101/202411012252.e1ChG1dy-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012252.e1ChG1dy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411012324.a9SOqSqV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411012252.e1ChG1dy-lkp@intel.com/
 
-smatch warnings:
-net/core/sock.c:2870 __sock_cmsg_send() warn: always true condition '(*(cmsg + 12) >= 0) => (0-u32max >= 0)'
+All warnings (new ones prefixed by >>):
 
-vim +2870 net/core/sock.c
+   In file included from drivers/nvme/target/rdma.c:8:
+   In file included from include/linux/blk-integrity.h:5:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/nvme/target/rdma.c:8:
+   In file included from include/linux/blk-integrity.h:5:
+   In file included from include/linux/blk-mq.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from drivers/nvme/target/rdma.c:8:
+   In file included from include/linux/blk-integrity.h:5:
+   In file included from include/linux/blk-mq.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from drivers/nvme/target/rdma.c:8:
+   In file included from include/linux/blk-integrity.h:5:
+   In file included from include/linux/blk-mq.h:8:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/nvme/target/rdma.c:1775:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    1775 |         case RDMA_CM_EVENT_ADDR_CHANGE:
+         |         ^
+   drivers/nvme/target/rdma.c:1775:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    1775 |         case RDMA_CM_EVENT_ADDR_CHANGE:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/nvme/target/rdma.c:1775:2: note: insert 'break;' to avoid fall-through
+    1775 |         case RDMA_CM_EVENT_ADDR_CHANGE:
+         |         ^
+         |         break; 
+   drivers/nvme/target/rdma.c:1789:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    1789 |         case RDMA_CM_EVENT_DEVICE_REMOVAL:
+         |         ^
+   drivers/nvme/target/rdma.c:1789:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    1789 |         case RDMA_CM_EVENT_DEVICE_REMOVAL:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/nvme/target/rdma.c:1789:2: note: insert 'break;' to avoid fall-through
+    1789 |         case RDMA_CM_EVENT_DEVICE_REMOVAL:
+         |         ^
+         |         break; 
+   drivers/nvme/target/rdma.c:1802:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    1802 |         default:
+         |         ^
+   drivers/nvme/target/rdma.c:1802:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    1802 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/nvme/target/rdma.c:1802:2: note: insert 'break;' to avoid fall-through
+    1802 |         default:
+         |         ^
+         |         break; 
+   19 warnings generated.
 
-  2828	
-  2829	int __sock_cmsg_send(struct sock *sk, struct cmsghdr *cmsg,
-  2830			     struct sockcm_cookie *sockc)
-  2831	{
-  2832		u32 tsflags;
-  2833	
-  2834		switch (cmsg->cmsg_type) {
-  2835		case SO_MARK:
-  2836			if (!ns_capable(sock_net(sk)->user_ns, CAP_NET_RAW) &&
-  2837			    !ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN))
-  2838				return -EPERM;
-  2839			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2840				return -EINVAL;
-  2841			sockc->mark = *(u32 *)CMSG_DATA(cmsg);
-  2842			break;
-  2843		case SO_TIMESTAMPING_OLD:
-  2844		case SO_TIMESTAMPING_NEW:
-  2845			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2846				return -EINVAL;
-  2847	
-  2848			tsflags = *(u32 *)CMSG_DATA(cmsg);
-  2849			if (tsflags & ~SOF_TIMESTAMPING_TX_RECORD_MASK)
-  2850				return -EINVAL;
-  2851	
-  2852			sockc->tsflags &= ~SOF_TIMESTAMPING_TX_RECORD_MASK;
-  2853			sockc->tsflags |= tsflags;
-  2854			break;
-  2855		case SCM_TXTIME:
-  2856			if (!sock_flag(sk, SOCK_TXTIME))
-  2857				return -EINVAL;
-  2858			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u64)))
-  2859				return -EINVAL;
-  2860			sockc->transmit_time = get_unaligned((u64 *)CMSG_DATA(cmsg));
-  2861			break;
-  2862		/* SCM_RIGHTS and SCM_CREDENTIALS are semantically in SOL_UNIX. */
-  2863		case SCM_RIGHTS:
-  2864		case SCM_CREDENTIALS:
-  2865			break;
-  2866		case SO_PRIORITY:
-  2867			if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-  2868				return -EINVAL;
-  2869	
-> 2870			if ((*(u32 *)CMSG_DATA(cmsg) >= 0 && *(u32 *)CMSG_DATA(cmsg) <= 6) ||
-  2871			    sockopt_ns_capable(sock_net(sk)->user_ns, CAP_NET_RAW) ||
-  2872			    sockopt_ns_capable(sock_net(sk)->user_ns, CAP_NET_ADMIN)) {
-  2873				sockc->priority_cmsg_value = *(u32 *)CMSG_DATA(cmsg);
-  2874				sockc->priority_cmsg_set = 1;
-  2875				break;
-  2876			}
-  2877			return -EPERM;
-  2878		default:
-  2879			return -EINVAL;
-  2880		}
-  2881		return 0;
-  2882	}
-  2883	EXPORT_SYMBOL(__sock_cmsg_send);
-  2884	
+
+vim +1775 drivers/nvme/target/rdma.c
+
+d8f7750a08968b Sagi Grimberg       2016-05-19  1752  
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1753  static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1754  		struct rdma_cm_event *event)
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1755  {
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1756  	struct nvmet_rdma_queue *queue = NULL;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1757  	int ret = 0;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1758  
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1759  	if (cm_id->qp)
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1760  		queue = cm_id->qp->qp_context;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1761  
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1762  	pr_debug("%s (%d): status %d id %p\n",
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1763  		rdma_event_msg(event->event), event->event,
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1764  		event->status, cm_id);
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1765  
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1766  	switch (event->event) {
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1767  	case RDMA_CM_EVENT_CONNECT_REQUEST:
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1768  		ret = nvmet_rdma_queue_connect(cm_id, event);
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1769  		break;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1770  	case RDMA_CM_EVENT_ESTABLISHED:
+554d31ea0a6334 MrRurikov           2024-10-31  1771  		if (!queue) {
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1772  			nvmet_rdma_queue_established(queue);
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1773  			break;
+554d31ea0a6334 MrRurikov           2024-10-31  1774  		}
+8f000cac6e7a6e Christoph Hellwig   2016-07-06 @1775  	case RDMA_CM_EVENT_ADDR_CHANGE:
+a032e4f6d60d0a Sagi Grimberg       2020-04-02  1776  		if (!queue) {
+a032e4f6d60d0a Sagi Grimberg       2020-04-02  1777  			struct nvmet_rdma_port *port = cm_id->context;
+a032e4f6d60d0a Sagi Grimberg       2020-04-02  1778  
+8832cf922151e9 Sagi Grimberg       2022-03-21  1779  			queue_delayed_work(nvmet_wq, &port->repair_work, 0);
+a032e4f6d60d0a Sagi Grimberg       2020-04-02  1780  			break;
+a032e4f6d60d0a Sagi Grimberg       2020-04-02  1781  		}
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  1782  		fallthrough;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1783  	case RDMA_CM_EVENT_DISCONNECTED:
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1784  	case RDMA_CM_EVENT_TIMEWAIT_EXIT:
+554d31ea0a6334 MrRurikov           2024-10-31  1785  		if (!queue) {
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1786  			nvmet_rdma_queue_disconnect(queue);
+d8f7750a08968b Sagi Grimberg       2016-05-19  1787  			break;
+554d31ea0a6334 MrRurikov           2024-10-31  1788  		}
+d8f7750a08968b Sagi Grimberg       2016-05-19  1789  	case RDMA_CM_EVENT_DEVICE_REMOVAL:
+d8f7750a08968b Sagi Grimberg       2016-05-19  1790  		ret = nvmet_rdma_device_removal(cm_id, queue);
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1791  		break;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1792  	case RDMA_CM_EVENT_REJECTED:
+512fb1b32bac02 Steve Wise          2016-10-26  1793  		pr_debug("Connection rejected: %s\n",
+512fb1b32bac02 Steve Wise          2016-10-26  1794  			 rdma_reject_msg(cm_id, event->status));
+df561f6688fef7 Gustavo A. R. Silva 2020-08-23  1795  		fallthrough;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1796  	case RDMA_CM_EVENT_UNREACHABLE:
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1797  	case RDMA_CM_EVENT_CONNECT_ERROR:
+554d31ea0a6334 MrRurikov           2024-10-31  1798  		if (!queue) {
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1799  			nvmet_rdma_queue_connect_fail(cm_id, queue);
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1800  			break;
+554d31ea0a6334 MrRurikov           2024-10-31  1801  		}
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1802  	default:
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1803  		pr_err("received unrecognized RDMA CM event %d\n",
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1804  			event->event);
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1805  		break;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1806  	}
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1807  
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1808  	return ret;
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1809  }
+8f000cac6e7a6e Christoph Hellwig   2016-07-06  1810  
 
 -- 
 0-DAY CI Kernel Test Service
