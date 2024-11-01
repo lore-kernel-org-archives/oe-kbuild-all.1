@@ -1,65 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59771953A9;
-	Fri,  1 Nov 2024 13:20:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CC1174EFC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 13:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730467247; cv=none; b=uuQxhtokaxTrdDhVWcUTOZGLMUtiFgtELQc6jqMoocW3NvlMFF9rRN+ByDbOk3FPtrXmlJIi6/4mOtYa0APgt3PZS0H/M1b5+EuqoxugJYl92RHBMA3g/EY+QZlcoPK2SgUvXVxSkptsjPTWSV66ctHAO525PLYZccYtORUfppg=
+	t=1730467403; cv=none; b=uuBdvRje/uz5fAY7FjmQd3TRRY5x/IAXqabLKHgIXmMLpJ2k16x+EqGMmC6jB2sQFeSWqnB7u9b+XogYAbA2T9LBNdjB+m62Y3rTbwf2ek9eH5tPHED4NR716uw+t7a+hDCOjhSZ6ptO15k6pnh7Rmxf0Lt8CrMhcWLRjx6K5i0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730467247; c=relaxed/simple;
-	bh=b7r+EX0GsEYymviFMbe9ZL94rMKhxr0fKHNIMl7xvt0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XPdPWgX0XJpjga7MpGFcs1o7bWrCsEDnbYU8h4Ms14NTstmM81Xfcj7nrwpMd61J3KEzQC4QXE4XnPq8SyssLGmhh7f9Lij6pENsDGoJO6tJfIObHnmsY0tPqXVQP2C7EvLm0dEBaAMFekJ2lmDVCdQpRj8EL/kE8H5x75zEjyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EK25B39Y; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730467403; c=relaxed/simple;
+	bh=WNFYm7cUFdBfgBGT5+nfdKTA41JaJY+jQpwY55l8Fu8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MaAxPf2oFAWk1TWzcUb6l5pIMqFW3R9b/CnQ7kKbeNkfKt/y0RZNXvwdTuMXQUML+FuJecy4JUqBNdys15YViTjMUxyATOCx6jezaQKdvjsB4rom/DN2Q7g51zIa80jiDIyEKg0wylhkQZd0cUOFTI+CazzhWzdN6U3+i+EaeFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mrkkbPOE; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EK25B39Y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730467244; x=1762003244;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b7r+EX0GsEYymviFMbe9ZL94rMKhxr0fKHNIMl7xvt0=;
-  b=EK25B39YYw9yEGWLRpxAFUHogYtjbm4FJzZV6j6+jbha6Y13uBWVipgS
-   M6DqxvpA3FjvVuQgdBBW4zfiZX/0Rp8RAyedA+eMkVboJar5Yb5zmeQ2/
-   ugl9EXIHX0K22+NLj00xTp6HYCfkJnRNuDqZqCNJJtzs+8CdAzwcnmIkq
-   aT6kP9gtkbSyhV4fRPzHA6cZWtynnJ3iY7qTB7jV+JWk/+TVvydVCHwBR
-   LyeejnMRqWm0jxc5bU1pcISserjmXTnBFHeBdWiN6pz12UI57nk8a9Aap
-   D0WUiFsEUPr90x1hZMgV5RMjzVS7PG4+Kx4L18BWcaIxJo/C5FnLKaqHs
-   A==;
-X-CSE-ConnectionGUID: w0uuNbVjRpG7dEIDZVmcGg==
-X-CSE-MsgGUID: +xgyBKiJSkqaMJbqQx+d5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33921241"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="33921241"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 06:20:43 -0700
-X-CSE-ConnectionGUID: Z20rBfn5TBS+L23+2Ab4lA==
-X-CSE-MsgGUID: d8ErgaJoT5yYpo74GT4tsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="120414829"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2024 06:20:39 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6rZs-000hZl-2E;
-	Fri, 01 Nov 2024 13:20:36 +0000
-Date: Fri, 1 Nov 2024 21:20:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: mrpre <mrpre@163.com>, yonghong.song@linux.dev,
-	john.fastabend@gmail.com, martin.lau@kernel.org,
-	edumazet@google.com, jakub@cloudflare.com, davem@davemloft.net,
-	dsahern@kernel.org, kuba@kernel.org, pabeni@redhat.com,
-	netdev@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	mrpre <mrpre@163.com>
-Subject: Re: [PATCH 1/2] bpf: Introduce cpu affinity for sockmap
-Message-ID: <202411012119.5fFOfrH9-lkp@intel.com>
-References: <20241101023832.32404-1-mrpre@163.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mrkkbPOE"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d6a2aa748so1153673f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Nov 2024 06:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730467399; x=1731072199; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
+        b=mrkkbPOEk3Ky7Ew/5S5+agI1wr+dqvd70q2XV+kaik2YjA5xejfCz5Ez2RKHJ+8IBD
+         kSKHFTgSOtNhOgJtp2drQsN83tXkTzfGTE/hGwKoUsQCN4U9Qik3vvGNmgv3IvSNQ4Kn
+         /lkJ+Sf9l3BG4YJyWEQeGxHQIcykotEXoyqHMvnG4K4Rd7Wo4TRCozG+0LfbMafDn7v3
+         qcxY8R5yqPoy8GmflnpkQXlbCg7hAk97yCJ+YM/bZfazU7o2LGEW/81Y/juUCf7z03JK
+         SKVs8T1YRcZyQ0w70R4zDj6v90okGtispOU0KRduikQpxyTNKAzumCOnSNz0vB1vvaIG
+         HWkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730467399; x=1731072199;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
+        b=NqWTkgA30dN39hw95fODcQh88Mv/5FocUquxTn9I55YhXaHAcEZzRh4OTXK0C6UfYQ
+         g3Q9tOgmOK9kBNDIiQKAgzFz3U8KeT9UgEqLaSGsI2XdIixJcPdd11ATbiMgudzq/TyJ
+         rUwdQhqapG2YAoSY8atEcgBDPbAl44vBvhfQVusKEsNJUJYapW0NaUNKqNp3BqZIL2X5
+         kcbznru/jEDtzkjg2QqvvwC1+oQfBC+QfuOQcM303VEWvFcnhOqrVPPkzsVFY1iyWWwa
+         KvGNoZx4dV7klW1YudvX74CI6wVKfN70X/E+LdD3D6Nqcfn7q9JtYqmQil+wpk0mSHCo
+         uyuA==
+X-Forwarded-Encrypted: i=1; AJvYcCWf8y6YyYaVKU/f8GD1n3fJZnlx8O36Odd5PR0uGessiCGxDYhtlO447uW3EconchV1V6RPsFhL3Fd2dA3Y@lists.linux.dev
+X-Gm-Message-State: AOJu0YwZADRXxQ3n2bpzUusqI/q9MQYoFjNFqXqGZWuJeQtGlohOK+ZN
+	+E81oCGrg/+SvlAqBCTJfE7VA1QXE6dPeAv7icqhr3yCC/OoZjuaBn9skXEjiv4=
+X-Google-Smtp-Source: AGHT+IHrQPLC+hz5zDCLZ3Vdt7Vmbn353qZAkOC/IpUsmtGsVVkuzpjLAo+M5zDt8yFLl9EjoYCqkA==
+X-Received: by 2002:a5d:5c01:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-381c7ab30b1mr3307612f8f.48.1730467398923;
+        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d4d1fsm5159542f8f.38.2024.11.01.06.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
+Date: Fri, 1 Nov 2024 16:23:15 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-kiwi-5.4 387/387] drivers/md/dm-bow.c:666
+ dm_bow_ctr() warn: missing error code 'ret'
+Message-ID: <baa5e619-53ed-45a8-876c-6a2e2afecb1d@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,118 +65,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101023832.32404-1-mrpre@163.com>
 
-Hi mrpre,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-[also build test ERROR on bpf/master net-next/main net/main linus/master v6.12-rc5 next-20241101]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-implement-libbpf-sockmap-cpu-affinity/20241101-104144
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241101023832.32404-1-mrpre%40163.com
-patch subject: [PATCH 1/2] bpf: Introduce cpu affinity for sockmap
-config: i386-buildonly-randconfig-001-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012119.5fFOfrH9-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012119.5fFOfrH9-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
+head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
+commit: 0ce3eb37e9eab307def1bad31c028d86ae7b2ea1 [387/387] ANDROID: dm-bow: Add dm-bow feature
+config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411012054.D1zpW7a2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411012119.5fFOfrH9-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411012054.D1zpW7a2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/md/dm-bow.c:666 dm_bow_ctr() warn: missing error code 'ret'
 
-   In file included from kernel/bpf/syscall.c:4:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/bpf/syscall.c:254:59: error: too many arguments to function call, expected 4, have 5
-     254 |                 return sock_map_update_elem_sys(map, key, value, flags, target_cpu);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~                         ^~~~~~~~~~
-   include/linux/bpf.h:3175:19: note: 'sock_map_update_elem_sys' declared here
-    3175 | static inline int sock_map_update_elem_sys(struct bpf_map *map, void *key, void *value,
-         |                   ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    3176 |                                            u64 flags)
-         |                                            ~~~~~~~~~
-   kernel/bpf/syscall.c:5961:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    5961 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/bpf/syscall.c:6011:41: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    6011 |         .arg4_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_UNINIT | MEM_WRITE | MEM_ALIGNED,
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   3 warnings and 1 error generated.
+vim +/ret +666 drivers/md/dm-bow.c
 
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  622  static int dm_bow_ctr(struct dm_target *ti, unsigned int argc, char **argv)
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  623  {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  624  	struct bow_context *bc;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  625  	struct bow_range *br;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  626  	int ret;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  627  	struct mapped_device *md = dm_table_get_md(ti->table);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  628  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  629  	if (argc != 1) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  630  		ti->error = "Invalid argument count";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  631  		return -EINVAL;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  632  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  633  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  634  	bc = kzalloc(sizeof(*bc), GFP_KERNEL);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  635  	if (!bc) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  636  		ti->error = "Cannot allocate bow context";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  637  		return -ENOMEM;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  638  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  639  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  640  	ti->num_flush_bios = 1;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  641  	ti->num_discard_bios = 1;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  642  	ti->num_write_same_bios = 1;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  643  	ti->private = bc;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  644  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  645  	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table),
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  646  			    &bc->dev);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  647  	if (ret) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  648  		ti->error = "Device lookup failed";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  649  		goto bad;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  650  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  651  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  652  	if (bc->dev->bdev->bd_queue->limits.max_discard_sectors == 0) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  653  		bc->dev->bdev->bd_queue->limits.discard_granularity = 1 << 12;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  654  		bc->dev->bdev->bd_queue->limits.max_hw_discard_sectors = 1 << 15;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  655  		bc->dev->bdev->bd_queue->limits.max_discard_sectors = 1 << 15;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  656  		bc->forward_trims = false;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  657  	} else {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  658  		bc->forward_trims = true;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  659  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  660  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  661  	bc->block_size = bc->dev->bdev->bd_queue->limits.logical_block_size;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  662  	bc->block_shift = ilog2(bc->block_size);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  663  	bc->log_sector = kzalloc(bc->block_size, GFP_KERNEL);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  664  	if (!bc->log_sector) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  665  		ti->error = "Cannot allocate log sector";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23 @666  		goto bad;
 
-vim +254 kernel/bpf/syscall.c
+Needs a "ret = -ENOMEM;"
 
-   240	
-   241	static int bpf_map_update_value(struct bpf_map *map, struct file *map_file,
-   242					void *key, void *value, __u64 flags, s32 target_cpu)
-   243	{
-   244		int err;
-   245		/* Need to create a kthread, thus must support schedule */
-   246		if (bpf_map_is_offloaded(map)) {
-   247			return bpf_map_offload_update_elem(map, key, value, flags);
-   248		} else if (map->map_type == BPF_MAP_TYPE_CPUMAP ||
-   249			   map->map_type == BPF_MAP_TYPE_ARENA ||
-   250			   map->map_type == BPF_MAP_TYPE_STRUCT_OPS) {
-   251			return map->ops->map_update_elem(map, key, value, flags);
-   252		} else if (map->map_type == BPF_MAP_TYPE_SOCKHASH ||
-   253			   map->map_type == BPF_MAP_TYPE_SOCKMAP) {
- > 254			return sock_map_update_elem_sys(map, key, value, flags, target_cpu);
-   255		} else if (IS_FD_PROG_ARRAY(map)) {
-   256			return bpf_fd_array_map_update_elem(map, map_file, key, value,
-   257							    flags);
-   258		}
-   259	
-   260		bpf_disable_instrumentation();
-   261		if (map->map_type == BPF_MAP_TYPE_PERCPU_HASH ||
-   262		    map->map_type == BPF_MAP_TYPE_LRU_PERCPU_HASH) {
-   263			err = bpf_percpu_hash_update(map, key, value, flags);
-   264		} else if (map->map_type == BPF_MAP_TYPE_PERCPU_ARRAY) {
-   265			err = bpf_percpu_array_update(map, key, value, flags);
-   266		} else if (map->map_type == BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE) {
-   267			err = bpf_percpu_cgroup_storage_update(map, key, value,
-   268							       flags);
-   269		} else if (IS_FD_ARRAY(map)) {
-   270			err = bpf_fd_array_map_update_elem(map, map_file, key, value,
-   271							   flags);
-   272		} else if (map->map_type == BPF_MAP_TYPE_HASH_OF_MAPS) {
-   273			err = bpf_fd_htab_map_update_elem(map, map_file, key, value,
-   274							  flags);
-   275		} else if (map->map_type == BPF_MAP_TYPE_REUSEPORT_SOCKARRAY) {
-   276			/* rcu_read_lock() is not needed */
-   277			err = bpf_fd_reuseport_array_update_elem(map, key, value,
-   278								 flags);
-   279		} else if (map->map_type == BPF_MAP_TYPE_QUEUE ||
-   280			   map->map_type == BPF_MAP_TYPE_STACK ||
-   281			   map->map_type == BPF_MAP_TYPE_BLOOM_FILTER) {
-   282			err = map->ops->map_push_elem(map, value, flags);
-   283		} else {
-   284			err = bpf_obj_pin_uptrs(map->record, value);
-   285			if (!err) {
-   286				rcu_read_lock();
-   287				err = map->ops->map_update_elem(map, key, value, flags);
-   288				rcu_read_unlock();
-   289				if (err)
-   290					bpf_obj_unpin_uptrs(map->record, value);
-   291			}
-   292		}
-   293		bpf_enable_instrumentation();
-   294	
-   295		return err;
-   296	}
-   297	
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  667  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  668  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  669  	init_completion(&bc->kobj_holder.completion);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  670  	ret = kobject_init_and_add(&bc->kobj_holder.kobj, &bow_ktype,
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  671  				   &disk_to_dev(dm_disk(md))->kobj, "%s",
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  672  				   "bow");
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  673  	if (ret) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  674  		ti->error = "Cannot create sysfs node";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  675  		goto bad;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  676  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  677  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  678  	mutex_init(&bc->ranges_lock);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  679  	bc->ranges = RB_ROOT;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  680  	bc->bufio = dm_bufio_client_create(bc->dev->bdev, bc->block_size, 1, 0,
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  681  					   NULL, NULL);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  682  	if (IS_ERR(bc->bufio)) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  683  		ti->error = "Cannot initialize dm-bufio";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  684  		ret = PTR_ERR(bc->bufio);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  685  		bc->bufio = NULL;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  686  		goto bad;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  687  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  688  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  689  	bc->workqueue = alloc_workqueue("dm-bow",
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  690  					WQ_CPU_INTENSIVE | WQ_MEM_RECLAIM
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  691  					| WQ_UNBOUND, num_online_cpus());
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  692  	if (!bc->workqueue) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  693  		ti->error = "Cannot allocate workqueue";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  694  		ret = -ENOMEM;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  695  		goto bad;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  696  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  697  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  698  	INIT_LIST_HEAD(&bc->trimmed_list);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  699  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  700  	br = kzalloc(sizeof(*br), GFP_KERNEL);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  701  	if (!br) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  702  		ti->error = "Cannot allocate ranges";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  703  		ret = -ENOMEM;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  704  		goto bad;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  705  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  706  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  707  	br->sector = ti->len;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  708  	br->type = TOP;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  709  	rb_link_node(&br->node, NULL, &bc->ranges.rb_node);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  710  	rb_insert_color(&br->node, &bc->ranges);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  711  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  712  	br = kzalloc(sizeof(*br), GFP_KERNEL);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  713  	if (!br) {
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  714  		ti->error = "Cannot allocate ranges";
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  715  		ret = -ENOMEM;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  716  		goto bad;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  717  	}
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  718  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  719  	br->sector = 0;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  720  	br->type = UNCHANGED;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  721  	rb_link_node(&br->node, bc->ranges.rb_node,
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  722  		     &bc->ranges.rb_node->rb_left);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  723  	rb_insert_color(&br->node, &bc->ranges);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  724  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  725  	ti->discards_supported = true;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  726  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  727  	return 0;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  728  
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  729  bad:
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  730  	dm_bow_dtr(ti);
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  731  	return ret;
+0ce3eb37e9eab3 Paul Lawrence 2018-10-23  732  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
