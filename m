@@ -1,63 +1,58 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FFA1E495
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 07:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A7F155382;
+	Fri,  1 Nov 2024 07:11:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730444952; cv=none; b=k9CGsbB6nCPRX9/95bpXqszbmzALLx1f/dU/cMLakyZBuuYEKKvLmeIaSc7JgGvHyeXhd2fPPpE7rnWIzv7cBxT42GSBBmU/La1vpZg10s36uWGdwMVx8aKqgv4hA2mjSJc++dOK/PrPxGhCWKYnnMScyfacRbuJBwoKpoL76AQ=
+	t=1730445075; cv=none; b=d0tTFwyfFYUMM62y0Xu/p558uafVOVTayuEhyY1Ra2ZOQSkbUuVl81n5T4tgvAaO9W5KB7Ym2Bf73PQA6BMSXoNnpIPS90WwQak2YX2e35j90wBDvofr8df+IROj882tHse/l9kO52SLP20mnB2WC1UXXRMKgTLzOIwv40qMznc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730444952; c=relaxed/simple;
-	bh=LzEGpNux/05B+exzCPwOwfWvauy4dLOt6GP8659hYpU=;
+	s=arc-20240116; t=1730445075; c=relaxed/simple;
+	bh=LrXM8j4JXygvUS/V8UtdLf/1bnE60Pt/FNCjXxO/sk0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FaLry5kw8Z21VIiQBvSFqWGyJwj1wP/9+FLnIHGfbJFM/XMVUUlD+DLNVBG3VzGOgatVtoarYL6bnfH2jF0OxV/Jegnq8VgMMbuLd3qmufoxeBOK2AgITSCsgXzVSYJjkUgWsqtHzpmuhUGZ+Dz+f6eE1NA2wqzMDikuUwHzEAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YIU9rBqe; arc=none smtp.client-ip=209.85.167.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=i9KmLtteJ39O6iWKgk1rNsqGOqluHVWUBmzoiVUSvibK/WkJxqPQ1JdFtuFBuPw5aPm/dAFEEYKNxf+9zj69p2Kh6PZFPLbrDO3G5Ziwo/AsLVEaCJpWnoOWOXs/bshMDZUxUhoKbrd/ZIL4XUxOFUL5e9NrKxvHf7j+AXS6bJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gledPX3O; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YIU9rBqe"
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539f4d8ef66so2240906e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Nov 2024 00:09:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730444948; x=1731049748; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OdMhRimid/Fu9WULkrHC/yLOiFjb3Jtc8ZoNVQ9lnYI=;
-        b=YIU9rBqetAbc4TkszOETZoZ8moSS+RfT8f5fyaszyteWUXh5TyH1VXLNFtb7WfS8Y4
-         h8vMe+hcJp2RcsS7bgMa2Pmb2yfWajJSjRrFjO4JuRjIjmrxYxgOGocRBT7Ght4zfCAp
-         mXSajsp9I0eHu7Gp88zjzlE0Y8H1rk4YtvHE3Ge5NmVwwrrxf68AXZmtsXp4nerumVQX
-         Ve75o6KsB/XT1gL2b4UiB784xYufDnHiQ/+0aDcwDI/X1SbR3Ht/R2nm+kHSIWLNYIVS
-         n/YA3CBe9GIzpS0zHaFvLhYXTe0MFyBMteqiBO0cAgaFg2gp0XMhQ83tem/MCXevv+/A
-         ly3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730444948; x=1731049748;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OdMhRimid/Fu9WULkrHC/yLOiFjb3Jtc8ZoNVQ9lnYI=;
-        b=cV3XmoOh8cGz0IHU9c/lDocMreP4bN4KgvfzTQ95oiE3yMisCvCSzou8HcOQCqclYd
-         mn748sNF80Y3Os0/jS7VSy0vyVnrKaAbBCwy+XqtIv28SYPIHvVtNgAY7qF1Isw5QM6+
-         h2JCVJTqOiByuX1A2ZhzpfhKSeUKaN5jYPSDKdvFFG8H103Que8N6Hc7xt9nzadDXVL0
-         hhIKHrPyj56I23R5TrudIXmJSXHpzbQElsMZsQ/0uN0IxnYSvNOuozoUifUrCVJbmq8O
-         0n8yvFFSsKi1DZzd/aSoUNdkcAHlo4Tq82c27JkM0g2UdtTtXvASImHl8Pj11WCqMr1x
-         ITTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXoZhPQ9rwHITuwVxdeZti5BN2J+wS5TLf7jSbHhCODHerpYWxRZ0SAvXgQU4Kdg2mxng3oEl4hx6OmtE/@lists.linux.dev
-X-Gm-Message-State: AOJu0YxFwj0iTHuHa+lXzMwm7riRb3oH58wmPZ7+bDCMgEEveiULUVWB
-	l2tJ6D9pObOvUMwIJUslVUiyBbIWPdML+S948qjb2t5igStqtyNshYzpQeGEVc4bzzRCuRsMg7d
-	H
-X-Google-Smtp-Source: AGHT+IHESQNf/OJIWD4awWoO/xbiFtxV6PLI8/pRkzbUD8L0DIQUfnJgpPClh7sHm1KB1dlLDKcPbQ==
-X-Received: by 2002:a05:6512:3f0c:b0:53b:1369:fcf8 with SMTP id 2adb3069b0e04-53b348f96e8mr11644316e87.15.1730444948191;
-        Fri, 01 Nov 2024 00:09:08 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd9479ebsm79285905e9.23.2024.11.01.00.09.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 00:09:07 -0700 (PDT)
-Date: Fri, 1 Nov 2024 10:09:04 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 2240/30000] drivers/md/dm.c:2371
- dm_derive_raw_secret() warn: inconsistent returns '&md->io_barrier'.
-Message-ID: <dd5515a0-6aa8-4f61-bd18-97cb845b9649@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gledPX3O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730445073; x=1761981073;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LrXM8j4JXygvUS/V8UtdLf/1bnE60Pt/FNCjXxO/sk0=;
+  b=gledPX3Oam+XntSVejcGwwSEbTRziONXq4LOTJn2WImfjI2lWh1gqYl/
+   pjMhIq5XGCCvTANzGeKKztsb7Nt14Zi2oPT+3Wb7iC1vVUq304DhYIYUP
+   visokN7lE8T/f6oTtrhfkanTBRCz1BMFc+0dmBjK+sEuBgaDbHiRjbwRB
+   8jFHYz+MYaq8LP1Owj3XJEXPuXSn/OfL+Lj/Sa42NJOEPUGdGxg6U+OyE
+   ggth/12dHg3c6j1YiH1/qksP7KYCQ1qhRGLE850QMD9foSV7lkItYJy3E
+   lJMLtx0JDxXMoPpaW/VXWQEXIku5LyeWjck46ZZ5jBb89FL1vU+xtRBte
+   A==;
+X-CSE-ConnectionGUID: g+1EeJ5QT7K7z4CLL6dTaQ==
+X-CSE-MsgGUID: 51/IWCqITWGCVqvy1rlAmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40752776"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40752776"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 00:11:12 -0700
+X-CSE-ConnectionGUID: 2v7wJwyaRRWdiBXKL3teRg==
+X-CSE-MsgGUID: mPC820krTNCU4TKaF3VrKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="106218062"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 01 Nov 2024 00:11:10 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6loK-000hFl-2y;
+	Fri, 01 Nov 2024 07:11:08 +0000
+Date: Fri, 1 Nov 2024 15:10:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ast-bpf:drm_mm 3/4] lib/drm_mm.c:614:20: warning: function
+ 'drm_mm_node_scanned_block' is not needed and will not be emitted
+Message-ID: <202411011528.dsCnUbV2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,65 +62,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: a1423568e2aecd27a202e7053945905dddcc6045 [2240/30000] ANDROID: dm: add support for passing through derive_raw_secret
-config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411010811.geBuwIcp-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git drm_mm
+head:   c8004f35f9de5c195a8cab95bbdd62b7fbb1563d
+commit: 3e790b7ac9876de0d4461c5219a29c674b5ecb12 [3/4] bpf, drm: move drm_mm to lib to be used by bpf arena
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241101/202411011528.dsCnUbV2-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011528.dsCnUbV2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411010811.geBuwIcp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411011528.dsCnUbV2-lkp@intel.com/
 
-New smatch warnings:
-drivers/md/dm.c:2371 dm_derive_raw_secret() warn: inconsistent returns '&md->io_barrier'.
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/md/dm.c:1152 dm_dax_supported() warn: inconsistent returns '&md->io_barrier'.
-drivers/md/dm.c:2301 dm_keyslot_evict() warn: inconsistent returns '&md->io_barrier'.
+   lib/drm_mm.c:152:1: warning: unused function 'drm_mm_interval_tree_insert' [-Wunused-function]
+     152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     153 |                      u64, __subtree_last,
+         |                      ~~~~~~~~~~~~~~~~~~~~
+     154 |                      START, LAST, static inline, drm_mm_interval_tree)
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/interval_tree_generic.h:38:15: note: expanded from macro 'INTERVAL_TREE_DEFINE'
+      38 | ITSTATIC void ITPREFIX ## _insert(ITSTRUCT *node,                             \
+         |               ^~~~~~~~~~~~~~~~~~~
+   <scratch space>:13:1: note: expanded from here
+      13 | drm_mm_interval_tree_insert
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/drm_mm.c:152:1: warning: unused function 'drm_mm_interval_tree_iter_next' [-Wunused-function]
+     152 | INTERVAL_TREE_DEFINE(struct drm_mm_node, rb,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     153 |                      u64, __subtree_last,
+         |                      ~~~~~~~~~~~~~~~~~~~~
+     154 |                      START, LAST, static inline, drm_mm_interval_tree)
+         |                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/interval_tree_generic.h:151:33: note: expanded from macro 'INTERVAL_TREE_DEFINE'
+     151 | ITSTATIC ITSTRUCT *                                                           \
+         |                                                                               ^
+     152 | ITPREFIX ## _iter_next(ITSTRUCT *node, ITTYPE start, ITTYPE last)             \
+         | ~~~~~~~~~~~~~~~~~~~~~~
+   <scratch space>:25:1: note: expanded from here
+      25 | drm_mm_interval_tree_iter_next
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> lib/drm_mm.c:614:20: warning: function 'drm_mm_node_scanned_block' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+     614 | static inline bool drm_mm_node_scanned_block(const struct drm_mm_node *node)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   3 warnings generated.
 
-vim +2371 drivers/md/dm.c
 
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2340  static int dm_derive_raw_secret(struct keyslot_manager *ksm,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2341  				const u8 *wrapped_key,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2342  				unsigned int wrapped_key_size,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2343  				u8 *secret, unsigned int secret_size)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2344  {
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2345  	struct mapped_device *md = keyslot_manager_private(ksm);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2346  	struct dm_derive_raw_secret_args args = {
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2347  		.wrapped_key = wrapped_key,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2348  		.wrapped_key_size = wrapped_key_size,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2349  		.secret = secret,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2350  		.secret_size = secret_size,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2351  		.err = -EOPNOTSUPP,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2352  	};
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2353  	struct dm_table *t;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2354  	int srcu_idx;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2355  	int i;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2356  	struct dm_target *ti;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2357  
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2358  	t = dm_get_live_table(md, &srcu_idx);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2359  	if (!t)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2360  		return -EOPNOTSUPP;
+vim +/drm_mm_node_scanned_block +614 lib/drm_mm.c
 
-Need a dm_put_live_table() even though dm_get_live_table() returns NULL.
+6b9d89b4365ab5 drivers/gpu/drm/drm_mm.c Chris Wilson 2012-07-10  613  
+71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03 @614  static inline bool drm_mm_node_scanned_block(const struct drm_mm_node *node)
+71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  615  {
+4ee92c7149da9c drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  616  	return test_bit(DRM_MM_NODE_SCANNED_BIT, &node->flags);
+71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  617  }
+71724f70899759 drivers/gpu/drm/drm_mm.c Chris Wilson 2019-10-03  618  
 
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2361  	for (i = 0; i < dm_table_get_num_targets(t); i++) {
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2362  		ti = dm_table_get_target(t, i);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2363  		if (!ti->type->iterate_devices)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2364  			continue;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2365  		ti->type->iterate_devices(ti, dm_derive_raw_secret_callback,
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2366  					  &args);
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2367  		if (!args.err)
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2368  			break;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2369  	}
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2370  	dm_put_live_table(md, srcu_idx);
-a1423568e2aecd Barani Muthukumaran 2020-02-06 @2371  	return args.err;
-a1423568e2aecd Barani Muthukumaran 2020-02-06  2372  }
+:::::: The code at line 614 was first introduced by commit
+:::::: 71724f708997595919cb1e75c5e48916c8846d2e drm/mm: Use helpers for drm_mm_node booleans
+
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
