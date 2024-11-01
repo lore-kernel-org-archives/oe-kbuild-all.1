@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFCA19CC3D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 12:59:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A59771953A9;
+	Fri,  1 Nov 2024 13:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730465985; cv=none; b=cH52T/ugw6s3wUrP8X3pN2wakKJlC3HohNDF+Po/8om8F287J+YXzWjaQDtrPvdrCF4uCO8RtR+b72IzTWlfMOGACViTcyMRQjh4aJ/KIiuVxVs3hthHUY3kTrPPKYRgU5jthjjed+plBhXPc2SOrDe+AynTgT1Q/OkKopEJi+E=
+	t=1730467247; cv=none; b=uuQxhtokaxTrdDhVWcUTOZGLMUtiFgtELQc6jqMoocW3NvlMFF9rRN+ByDbOk3FPtrXmlJIi6/4mOtYa0APgt3PZS0H/M1b5+EuqoxugJYl92RHBMA3g/EY+QZlcoPK2SgUvXVxSkptsjPTWSV66ctHAO525PLYZccYtORUfppg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730465985; c=relaxed/simple;
-	bh=QHtjc+AA41BS7BsLkDlb++3TL4Gvkg1YKqyLysJNf/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BBD1R5dHbmkogK8GUMkNyFRyVP3Pu5ZlKlYJOsqfXw8WbbfPNWsQ+EKWZ+tujIdkVW56sqK6rFpyOwbr618lMzVPL5hoRD0dNZdbsuQhF7kb/fBTW505Du76wQ6+p7bevyg8dVkB0OhBHMSQ8xaavDOMo0L9JCiejCRimaLxg84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dnPbIsyj; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1730467247; c=relaxed/simple;
+	bh=b7r+EX0GsEYymviFMbe9ZL94rMKhxr0fKHNIMl7xvt0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XPdPWgX0XJpjga7MpGFcs1o7bWrCsEDnbYU8h4Ms14NTstmM81Xfcj7nrwpMd61J3KEzQC4QXE4XnPq8SyssLGmhh7f9Lij6pENsDGoJO6tJfIObHnmsY0tPqXVQP2C7EvLm0dEBaAMFekJ2lmDVCdQpRj8EL/kE8H5x75zEjyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EK25B39Y; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dnPbIsyj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EK25B39Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730465983; x=1762001983;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QHtjc+AA41BS7BsLkDlb++3TL4Gvkg1YKqyLysJNf/k=;
-  b=dnPbIsyjYCPEs6uVkFAoV3wv2tJGmM1/lWOz/j5cT2cQQqE/IxBadqW/
-   wSABSViCfZmmCBMj91/cwnSRffLp7xgbeHEhBXB0nm8R3J8ioiJ2w2J+v
-   1RZsEUuhkzwLqYVh4faSf8GHVgoO3PjA8jPnAORsAEq+7jisbPdTPn58B
-   xNQrmXHbg76oo8P+rNlB9azls5R2UN9vXwr3xHXtSbja58TpBnYAtFcuX
-   BPjU/XtEm2BVtfvrxNEDmO8KlwreI1Rf1/5/RSIVE2v2lGvP5GPijD/MB
-   Nj57lP5yTHHKmy8M2encOdhvOnifLg+0/7t8sBQxffhrwPyYRcqfoAEXo
-   g==;
-X-CSE-ConnectionGUID: +vMZoFAPQaal0WFZXvBTMg==
-X-CSE-MsgGUID: y84YApuPTiaHc0k+L54W+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52797083"
+  t=1730467244; x=1762003244;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b7r+EX0GsEYymviFMbe9ZL94rMKhxr0fKHNIMl7xvt0=;
+  b=EK25B39YYw9yEGWLRpxAFUHogYtjbm4FJzZV6j6+jbha6Y13uBWVipgS
+   M6DqxvpA3FjvVuQgdBBW4zfiZX/0Rp8RAyedA+eMkVboJar5Yb5zmeQ2/
+   ugl9EXIHX0K22+NLj00xTp6HYCfkJnRNuDqZqCNJJtzs+8CdAzwcnmIkq
+   aT6kP9gtkbSyhV4fRPzHA6cZWtynnJ3iY7qTB7jV+JWk/+TVvydVCHwBR
+   LyeejnMRqWm0jxc5bU1pcISserjmXTnBFHeBdWiN6pz12UI57nk8a9Aap
+   D0WUiFsEUPr90x1hZMgV5RMjzVS7PG4+Kx4L18BWcaIxJo/C5FnLKaqHs
+   A==;
+X-CSE-ConnectionGUID: w0uuNbVjRpG7dEIDZVmcGg==
+X-CSE-MsgGUID: +xgyBKiJSkqaMJbqQx+d5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="33921241"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="52797083"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 05:59:39 -0700
-X-CSE-ConnectionGUID: EbT8UmnaSWatDK/UUUX/nw==
-X-CSE-MsgGUID: pKhmSgDHRg2f/HX6xrW0Lg==
+   d="scan'208";a="33921241"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 06:20:43 -0700
+X-CSE-ConnectionGUID: Z20rBfn5TBS+L23+2Ab4lA==
+X-CSE-MsgGUID: d8ErgaJoT5yYpo74GT4tsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="83097116"
+   d="scan'208";a="120414829"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Nov 2024 05:59:38 -0700
+  by orviesa001.jf.intel.com with ESMTP; 01 Nov 2024 06:20:39 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6rFY-000hYp-0F;
-	Fri, 01 Nov 2024 12:59:36 +0000
-Date: Fri, 1 Nov 2024 20:59:02 +0800
+	id 1t6rZs-000hZl-2E;
+	Fri, 01 Nov 2024 13:20:36 +0000
+Date: Fri, 1 Nov 2024 21:20:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-group 59/60]
- include/linux/compiler_types.h:517:45: error: call to
- '__compiletime_assert_987' declared with attribute error: BUILD_BUG_ON
- failed: sizeof(struct io_uring_sqe) != 64
-Message-ID: <202411012038.q5qsEIFm-lkp@intel.com>
+To: mrpre <mrpre@163.com>, yonghong.song@linux.dev,
+	john.fastabend@gmail.com, martin.lau@kernel.org,
+	edumazet@google.com, jakub@cloudflare.com, davem@davemloft.net,
+	dsahern@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+	netdev@vger.kernel.org, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mrpre <mrpre@163.com>
+Subject: Re: [PATCH 1/2] bpf: Introduce cpu affinity for sockmap
+Message-ID: <202411012119.5fFOfrH9-lkp@intel.com>
+References: <20241101023832.32404-1-mrpre@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +68,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241101023832.32404-1-mrpre@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-group
-head:   208960febed8e8a2deaadfc0135e934373b16532
-commit: 3f048388f63bf3e751c0eca2a55db050c558da61 [59/60] io_uring: extend io_uring_sqe flags bits
-config: arm-randconfig-001-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012038.q5qsEIFm-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012038.q5qsEIFm-lkp@intel.com/reproduce)
+Hi mrpre,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+[also build test ERROR on bpf/master net-next/main net/main linus/master v6.12-rc5 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-implement-libbpf-sockmap-cpu-affinity/20241101-104144
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241101023832.32404-1-mrpre%40163.com
+patch subject: [PATCH 1/2] bpf: Introduce cpu affinity for sockmap
+config: i386-buildonly-randconfig-001-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012119.5fFOfrH9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012119.5fFOfrH9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411012038.q5qsEIFm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411012119.5fFOfrH9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from io_uring/io_uring.h:13,
-                    from io_uring/io_uring.c:83:
-   io_uring/filetable.h: In function 'io_slot_flags':
-   io_uring/filetable.h:44:45: warning: left shift count >= width of type [-Wshift-count-overflow]
-      44 |         return (node->file_ptr & ~FFS_MASK) << REQ_F_SUPPORT_NOWAIT_BIT;
-         |                                             ^~
-   In file included from <command-line>:
-   io_uring/io_uring.c: In function 'io_uring_init':
->> include/linux/compiler_types.h:517:45: error: call to '__compiletime_assert_987' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct io_uring_sqe) != 64
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:498:25: note: in definition of macro '__compiletime_assert'
-     498 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
-     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   io_uring/io_uring.c:3875:9: note: in expansion of macro 'BUILD_BUG_ON'
-    3875 |         BUILD_BUG_ON(sizeof(struct io_uring_sqe) != 64);
-         |         ^~~~~~~~~~~~
+   In file included from kernel/bpf/syscall.c:4:
+   In file included from include/linux/bpf.h:21:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/bpf/syscall.c:254:59: error: too many arguments to function call, expected 4, have 5
+     254 |                 return sock_map_update_elem_sys(map, key, value, flags, target_cpu);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~                         ^~~~~~~~~~
+   include/linux/bpf.h:3175:19: note: 'sock_map_update_elem_sys' declared here
+    3175 | static inline int sock_map_update_elem_sys(struct bpf_map *map, void *key, void *value,
+         |                   ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    3176 |                                            u64 flags)
+         |                                            ~~~~~~~~~
+   kernel/bpf/syscall.c:5961:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    5961 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
+         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   kernel/bpf/syscall.c:6011:41: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
+    6011 |         .arg4_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_UNINIT | MEM_WRITE | MEM_ALIGNED,
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
+   3 warnings and 1 error generated.
 
 
-vim +/__compiletime_assert_987 +517 include/linux/compiler_types.h
+vim +254 kernel/bpf/syscall.c
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  503  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  504  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  505  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  506  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  507  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  508   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  510   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  512   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  513   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  514   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  515   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  516  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @517  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  518  
-
-:::::: The code at line 517 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   240	
+   241	static int bpf_map_update_value(struct bpf_map *map, struct file *map_file,
+   242					void *key, void *value, __u64 flags, s32 target_cpu)
+   243	{
+   244		int err;
+   245		/* Need to create a kthread, thus must support schedule */
+   246		if (bpf_map_is_offloaded(map)) {
+   247			return bpf_map_offload_update_elem(map, key, value, flags);
+   248		} else if (map->map_type == BPF_MAP_TYPE_CPUMAP ||
+   249			   map->map_type == BPF_MAP_TYPE_ARENA ||
+   250			   map->map_type == BPF_MAP_TYPE_STRUCT_OPS) {
+   251			return map->ops->map_update_elem(map, key, value, flags);
+   252		} else if (map->map_type == BPF_MAP_TYPE_SOCKHASH ||
+   253			   map->map_type == BPF_MAP_TYPE_SOCKMAP) {
+ > 254			return sock_map_update_elem_sys(map, key, value, flags, target_cpu);
+   255		} else if (IS_FD_PROG_ARRAY(map)) {
+   256			return bpf_fd_array_map_update_elem(map, map_file, key, value,
+   257							    flags);
+   258		}
+   259	
+   260		bpf_disable_instrumentation();
+   261		if (map->map_type == BPF_MAP_TYPE_PERCPU_HASH ||
+   262		    map->map_type == BPF_MAP_TYPE_LRU_PERCPU_HASH) {
+   263			err = bpf_percpu_hash_update(map, key, value, flags);
+   264		} else if (map->map_type == BPF_MAP_TYPE_PERCPU_ARRAY) {
+   265			err = bpf_percpu_array_update(map, key, value, flags);
+   266		} else if (map->map_type == BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE) {
+   267			err = bpf_percpu_cgroup_storage_update(map, key, value,
+   268							       flags);
+   269		} else if (IS_FD_ARRAY(map)) {
+   270			err = bpf_fd_array_map_update_elem(map, map_file, key, value,
+   271							   flags);
+   272		} else if (map->map_type == BPF_MAP_TYPE_HASH_OF_MAPS) {
+   273			err = bpf_fd_htab_map_update_elem(map, map_file, key, value,
+   274							  flags);
+   275		} else if (map->map_type == BPF_MAP_TYPE_REUSEPORT_SOCKARRAY) {
+   276			/* rcu_read_lock() is not needed */
+   277			err = bpf_fd_reuseport_array_update_elem(map, key, value,
+   278								 flags);
+   279		} else if (map->map_type == BPF_MAP_TYPE_QUEUE ||
+   280			   map->map_type == BPF_MAP_TYPE_STACK ||
+   281			   map->map_type == BPF_MAP_TYPE_BLOOM_FILTER) {
+   282			err = map->ops->map_push_elem(map, value, flags);
+   283		} else {
+   284			err = bpf_obj_pin_uptrs(map->record, value);
+   285			if (!err) {
+   286				rcu_read_lock();
+   287				err = map->ops->map_update_elem(map, key, value, flags);
+   288				rcu_read_unlock();
+   289				if (err)
+   290					bpf_obj_unpin_uptrs(map->record, value);
+   291			}
+   292		}
+   293		bpf_enable_instrumentation();
+   294	
+   295		return err;
+   296	}
+   297	
 
 -- 
 0-DAY CI Kernel Test Service
