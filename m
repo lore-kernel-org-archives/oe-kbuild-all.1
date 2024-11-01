@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5EA1474A7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 04:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18A43F9C5
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 04:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730435111; cv=none; b=k0Kv6QDbY4XLeAiRmea60aCAai7Hzdj8L0TMSe4/66b9HdEhnqshIEUgq0McNv3zjnvvGzSnVWlRzWdf5a1+6N9hBGPGbjYIo9tXnZnokHgcBkC3RHTAvQcJL8f8emuBi6P+Sl3C8kA0qzsDcpZT7eM/gMoMxh7B/iKfpnMJmrY=
+	t=1730435771; cv=none; b=bD6QVeQIs+D1J5i3+drU6uGJUUDWmzJUnH713L+Dx7NpXfuIO6mYf2pYR6c0TL+YDJSF/FOPomS7/eH+nvuKEGcf/DdyjLKTdAKVDg3R9EIL9lZqNWrhrVIByDMGVp7KqhWPL9RCboZFRKu5MUzTepGiD0e2Cxg/sr1Nj9vlaSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730435111; c=relaxed/simple;
-	bh=TMlWETvEzMtGT+pRGU98Z4FiOuSkqZZQ45EJqxdTWfk=;
+	s=arc-20240116; t=1730435771; c=relaxed/simple;
+	bh=6HV0Zp0reaZhynlagCPMwThPrigNLwlNEio+Cj1DHN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UrcoEH8BWzJKP5/nLKC7Km3WuKZoTSz3oQJnZIfLTucoO0eqyYPTXgr4RpLCRkZAmPRpFTIOwkwraNUO1SXinkDIM3M4lS6LI2TqcYhgB9JyAcWfrJw7MYRVXcpum4p5Ud/vyZ5v0wk5NkQI6KADUbMN1Hlo0fsdvZXGWqfuy3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFLJnHFw; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=AnvGY4aGVO35OwRSo+U6qxITrsH1IHcz0SAPJHat+fd6/7LFMnZ7f4/WkDvGxyPR5n34amryxWobwEEQkQZr6nfBMo77z7Cc7UZCpFLGOqCcVBfddlFe33D1toezM0qPYPkict0zcBhSx9D+ZEnVHR3ExVpykKVvvaxVUGn94S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8EPySJH; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFLJnHFw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8EPySJH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730435109; x=1761971109;
+  t=1730435769; x=1761971769;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TMlWETvEzMtGT+pRGU98Z4FiOuSkqZZQ45EJqxdTWfk=;
-  b=hFLJnHFw1UxL2LcCyfo0Z5RaAFXZbWejx3AN+u9LxT0SQooQ13JhRHNN
-   R7vY2YjEgrvQUepKEC5kTxw2v0AOddD+2kbtQWkCuqVYQ2hvxKlkwxt8G
-   ShM1wwr/mYHqucE4AIMOyvvVllp/8YxU++HTPe6P6fqTSxjrpAsDWZaiN
-   88IMm6LrtHN2rawKqdShRsdIga/a/MbANqqgTbrgRtKZGMv7nZaFvxvml
-   NkPOoJ6uUdHPvK7iywmgXJj7BPRA8heA9ilb0wOYvKp4H2Z2+v3D1+jBl
-   2/2cZc3S347LvPHgcYHa419LBhKkHLpiHRjcxZZ8Xk5gjuysZCkAtT+EC
+  bh=6HV0Zp0reaZhynlagCPMwThPrigNLwlNEio+Cj1DHN8=;
+  b=F8EPySJH+gbRZ/1At1s6APytQ5pQh5po9FtuUZTTEiDLq1AyALRvXguy
+   IBBVVU+ZVRlyd1P7x7QRhgF7Y8GqADfYAqOev8GJt3xj7YH4bu+0ieT+Q
+   0GgqdvQZaL60PbojEX1FXM0TMk5/rz1Q+kdSUXPGubBGu2gMl0NwJ3oxa
+   yMNSvOz/enAhyFNL5WHnuYwk+6iS+KZmRvsaUV096AeC3H2S/tUsaxK85
+   ouuqLTd/vpnjcYafTvJW3tSljgFA/MtPc6mvYbx37x/No0bhtpRuwma55
+   gMzn9/8JgPyHdmdg9Bj6FStn6vhv9vlTl4tJbFAveFFc2ZHN6dPkeajeZ
    w==;
-X-CSE-ConnectionGUID: odw95XxtT8+ukXPA4sMrLA==
-X-CSE-MsgGUID: AF+PhVfwTjKn+w+L8BNpfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40743712"
+X-CSE-ConnectionGUID: 9Vn8SoYVS0Sy6q5H9oF3Eg==
+X-CSE-MsgGUID: g9cBFKhRS2ysDsnh6FL9ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41298487"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40743712"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 21:25:09 -0700
-X-CSE-ConnectionGUID: VvKpEOh9RjuKrzfVwWT77g==
-X-CSE-MsgGUID: sgFd9cVlTIqAlWaEHN4FRw==
+   d="scan'208";a="41298487"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 21:36:09 -0700
+X-CSE-ConnectionGUID: VTMx/GcjT4mE/7jmcaE50g==
+X-CSE-MsgGUID: bQqGa3oQSUaweKByKJOkKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,248,1725346800"; 
-   d="scan'208";a="87974114"
+   d="scan'208";a="82975417"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 31 Oct 2024 21:25:07 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 31 Oct 2024 21:36:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6jDc-000h8E-2H;
-	Fri, 01 Nov 2024 04:25:04 +0000
-Date: Fri, 1 Nov 2024 12:24:50 +0800
+	id 1t6jOH-000h8d-01;
+	Fri, 01 Nov 2024 04:36:05 +0000
+Date: Fri, 1 Nov 2024 12:35:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Charlie Jenkins <charlie@rivosinc.com>
-Subject: [palmer:for-next 7/7] arch/riscv/include/asm/hwprobe.h:24:7: error:
- use of undeclared identifier 'RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0'
-Message-ID: <202411011207.BuxUlnq3-lkp@intel.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 19549/30000]
+ arch/arm64/kernel/cpufeature.c:1729:13: warning: no previous prototype for
+ 'early_pbha_init'
+Message-ID: <202411011254.Q328bGAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,122 +63,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git for-next
-head:   95437f8c02b5907b5f2d7dc6c03e3c73523c5cd6
-commit: 95437f8c02b5907b5f2d7dc6c03e3c73523c5cd6 [7/7] Merge patch series "riscv: Add support for xtheadvector"
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241101/202411011207.BuxUlnq3-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011207.BuxUlnq3-lkp@intel.com/reproduce)
+Hi Ma,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   8c742fc5ad4aebf865be0fa53ebdbf26f0991e2c
+commit: f43933b3f947a7f9314ec8d704c6ae01041dbbba [19549/30000] arm64: cpufeature: Enable PBHA for stage1 early via FDT
+config: arm64-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241101/202411011254.Q328bGAB-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011254.Q328bGAB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411011207.BuxUlnq3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411011254.Q328bGAB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+Note: functions only called from assembly code should be annotated with the asmlinkage attribute
+All warnings (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from arch/riscv/kernel/asm-offsets.c:10:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:23:
-   In file included from arch/riscv/include/asm/vdso/data.h:7:
-   In file included from arch/riscv/include/asm/hwprobe.h:9:
-   arch/riscv/include/uapi/asm/hwprobe.h:86:1: error: version control conflict marker in file
-      86 | <<<<<<< HEAD
-         | ^
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:23:
-   In file included from arch/riscv/include/asm/vdso/data.h:7:
->> arch/riscv/include/asm/hwprobe.h:24:7: error: use of undeclared identifier 'RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0'
-      24 |         case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
-         |              ^
-   2 errors generated.
-   make[3]: *** [scripts/Makefile.build:229: arch/riscv/kernel/vdso/vgettimeofday.o] Error 1
-   In file included from arch/riscv/kernel/vdso/hwprobe.c:8:
-   In file included from include/vdso/datapage.h:23:
-   In file included from arch/riscv/include/asm/vdso/data.h:7:
-   In file included from arch/riscv/include/asm/hwprobe.h:9:
-   arch/riscv/include/uapi/asm/hwprobe.h:86:1: error: version control conflict marker in file
-      86 | <<<<<<< HEAD
-         | ^
-   In file included from arch/riscv/kernel/vdso/hwprobe.c:8:
-   In file included from include/vdso/datapage.h:23:
-   In file included from arch/riscv/include/asm/vdso/data.h:7:
->> arch/riscv/include/asm/hwprobe.h:24:7: error: use of undeclared identifier 'RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0'
-      24 |         case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
-         |              ^
-   2 errors generated.
-   make[3]: *** [scripts/Makefile.build:229: arch/riscv/kernel/vdso/hwprobe.o] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[2]: *** [arch/riscv/Makefile:177: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+   arch/arm64/kernel/cpufeature.c:1627:6: warning: no previous prototype for 'update_pbha_perf_only_bit' [-Wmissing-prototypes]
+    1627 | void update_pbha_perf_only_bit(const u8 *bits, int cnt)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/kernel/cpufeature.c:1729:13: warning: no previous prototype for 'early_pbha_init' [-Wmissing-prototypes]
+    1729 | void __init early_pbha_init(void)
+         |             ^~~~~~~~~~~~~~~
 
 
-vim +/RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0 +24 arch/riscv/include/asm/hwprobe.h
+vim +/early_pbha_init +1729 arch/arm64/kernel/cpufeature.c
 
-ea3de9ce8aa280 Evan Green      2023-04-07   8  
-ea3de9ce8aa280 Evan Green      2023-04-07  @9  #include <uapi/asm/hwprobe.h>
-ea3de9ce8aa280 Evan Green      2023-04-07  10  
-d1703dc7bc8ec7 Jesse Taube     2024-10-17  11  #define RISCV_HWPROBE_MAX_KEY 10
-ea3de9ce8aa280 Evan Green      2023-04-07  12  
-e1c05b3bf80f82 Andrew Jones    2023-10-10  13  static inline bool riscv_hwprobe_key_is_valid(__s64 key)
-e1c05b3bf80f82 Andrew Jones    2023-10-10  14  {
-e1c05b3bf80f82 Andrew Jones    2023-10-10  15  	return key >= 0 && key <= RISCV_HWPROBE_MAX_KEY;
-e1c05b3bf80f82 Andrew Jones    2023-10-10  16  }
-e1c05b3bf80f82 Andrew Jones    2023-10-10  17  
-e178bf146e4b8c Andrew Jones    2023-11-22  18  static inline bool hwprobe_key_is_bitmask(__s64 key)
-e178bf146e4b8c Andrew Jones    2023-11-22  19  {
-e178bf146e4b8c Andrew Jones    2023-11-22  20  	switch (key) {
-e178bf146e4b8c Andrew Jones    2023-11-22  21  	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
-e178bf146e4b8c Andrew Jones    2023-11-22  22  	case RISCV_HWPROBE_KEY_IMA_EXT_0:
-e178bf146e4b8c Andrew Jones    2023-11-22  23  	case RISCV_HWPROBE_KEY_CPUPERF_0:
-6e0f0b958f159f Charlie Jenkins 2024-09-11 @24  	case RISCV_HWPROBE_KEY_VENDOR_EXT_THEAD_0:
-e178bf146e4b8c Andrew Jones    2023-11-22  25  		return true;
-e178bf146e4b8c Andrew Jones    2023-11-22  26  	}
-e178bf146e4b8c Andrew Jones    2023-11-22  27  
-e178bf146e4b8c Andrew Jones    2023-11-22  28  	return false;
-e178bf146e4b8c Andrew Jones    2023-11-22  29  }
-e178bf146e4b8c Andrew Jones    2023-11-22  30  
-
-:::::: The code at line 24 was first introduced by commit
-:::::: 6e0f0b958f159fe22bf8149baecc02b58875e835 riscv: hwprobe: Add thead vendor extension probing
-
-:::::: TO: Charlie Jenkins <charlie@rivosinc.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+  1728	
+> 1729	void __init early_pbha_init(void)
+  1730	{
+  1731		void *fdt;
+  1732		int node;
+  1733		const u8 *prop;
+  1734		int size;
+  1735	
+  1736		spin_lock(&pbha_dt_lock);
+  1737	
+  1738		fdt = get_early_fdt_ptr();
+  1739		if (!fdt)
+  1740			goto unlock;
+  1741	
+  1742		node = fdt_path_offset(fdt, "/cpus");
+  1743		if (node < 0)
+  1744			goto unlock;
+  1745	
+  1746		prop = fdt_getprop(fdt, node, "arm,pbha-performance-only", &size);
+  1747		if (!prop)
+  1748			goto unlock;
+  1749	
+  1750		if (!cpu_has_pbha())
+  1751			goto unlock;
+  1752	
+  1753		update_pbha_perf_only_bit(prop, size);
+  1754		enable_pbha_inner();
+  1755	
+  1756		pbha_enabled = true;
+  1757	
+  1758	unlock:
+  1759		spin_unlock(&pbha_dt_lock);
+  1760	}
+  1761	
 
 -- 
 0-DAY CI Kernel Test Service
