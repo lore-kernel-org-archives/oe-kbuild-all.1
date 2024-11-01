@@ -1,58 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D21323398A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 14:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2BAE61FDF;
+	Fri,  1 Nov 2024 14:23:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730470365; cv=none; b=CDsIyIT1kJT/rL7rEum798GjQ0gjc8LSDXIeZXdNmvYAatIhCkc1rqSUv2uoZe0kTWiB+bMmH7X2xYa5u0a1HqMOJ8gQFXjEs0uS47YO40JIqH5AoIhhmxZNNInamyIQ/7pEWIEYA4ZpantOOrl1VO7O3viIqphpXkMsxYlqFVY=
+	t=1730471034; cv=none; b=TYeOaeEIFetpSqzvncG7GrkTmobttq+/vsPa4/JQcBggmrUxDLf3liI2bP27xMOL37BZRgozx28h2Es1+TkK0W9XIc3nOccIXwtieiDpX0FVivnGs1Q8WZt/vJVEARtPcdrJ8nhh2bUJpOrCJVDzFABy5HAfwi5hSqtfzBDT9Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730470365; c=relaxed/simple;
-	bh=bgceeZ6a160D4uCQujLLNwNZoWFQUPabog52HuDkgHM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aRcsy5fTbrM29SAioqlKQB9JkMA+AA4BUEnFq/UpbjsAQKD1CkggiZarqyAceCZ4IkUjaCWbQJKoRU3Og/h4ElHLgvX+agfZiXUpajLhJo5tycO1ex6SdzZCmJzgcM3oj273qRoiwHHJDL3LNlC9Sf1K3yG+edFyxeS+wbBX4hs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ssq1sv7r; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1730471034; c=relaxed/simple;
+	bh=OXDMAqh2nLfuHgCU8Sscde62QdU4PrQcAwb72r1rD80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BfFWZ48wpjh4Ia3rNgxJg6e5CwirroQQfaxFbsLzZ4uTyF3RpGev31xkrUXf5g+pJhqA9/sAmCa1CmqNJZe7jvCI6xfS5iYguzQ+DREAoEDEajAF5rnebsH2EOD5fFF9brQntOUca4POXpvRQsJ1r+mOwHzXEggabH9vN2T2AN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpOXUkvZ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ssq1sv7r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpOXUkvZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730470363; x=1762006363;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bgceeZ6a160D4uCQujLLNwNZoWFQUPabog52HuDkgHM=;
-  b=Ssq1sv7r6wU0WTA9h/qXwoeYxJ34fKeb69NHNNKinhfHDtDDpiVpdKza
-   oEE/bNnOgLidIprIUkf8/qciE+/AV/wNxer4dw06Zn4LJ1PAvj5D3vQYl
-   nLiIy+6BPThZNcHegeL/MjyHarwRU/akdih4DP3ksa2/SvVCzZb2KsZAC
-   zcZV1Lz43+ORo6HULzY7OR7hbyggsoW0HQ67PDn9Ho7d0XN2XCH0ZlReV
-   EwHQXUwC5e6o8QS3JASkdHyvpdkixQu4R+LUez4c/0bFErR+Wp0CX9iT2
-   /czrzWC+VFo4EnTKkNg86T2CSrP73qLgeKYGpllWNCNPww/iZl6ODvgek
-   Q==;
-X-CSE-ConnectionGUID: 4NW3/WC0RzS0URAPj2vRaA==
-X-CSE-MsgGUID: UFYRY0MPQQOMxWrtV2EW3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="41631136"
-X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="41631136"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 07:12:42 -0700
-X-CSE-ConnectionGUID: P4i18JN0SPOITjApW5lxlQ==
-X-CSE-MsgGUID: +BArapLrRTi7KQOxC+E4Tg==
+  t=1730471031; x=1762007031;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OXDMAqh2nLfuHgCU8Sscde62QdU4PrQcAwb72r1rD80=;
+  b=cpOXUkvZpAUuXnp8eAxltHh0uNZfmroaWQ/NJmEUWUzMIm8ysT8d0IRh
+   cRGzvCAje1yhzmf9nvo3LwA440Xoj+fmBPwc8nVqQjclQZlgAy6uA8wTN
+   cqNEhhs7ColF8sLahAItLk3fKwE3zcxsgQ7WdEMerT3INC9Fc/dGbeL6Q
+   Ftrnloe6SFI+GZhO3YbjhWS8MrzEBqQ1UOwfGwRrS1ljZOGA4KofpH74+
+   6OXXu42Y8VCeopRDZeb+5TKxiCU01HJfcN+0MDw+yYEt9EV2t4cY1ollu
+   jZ502BG3kBw0PFPRkeE6Vxzxq+FdeoO/X7xFIIRw0bpjV9kjk8tSuSaig
+   w==;
+X-CSE-ConnectionGUID: tg7LcmBdQ2CyULhi5l3WWw==
+X-CSE-MsgGUID: qvPQsKlRQRSdfjCh1P68Kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41337040"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41337040"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 07:23:50 -0700
+X-CSE-ConnectionGUID: imwns5Y0QGea1ZlKb1YZtA==
+X-CSE-MsgGUID: WV7WXGAMRJiX01/aCBZLeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,250,1725346800"; 
-   d="scan'208";a="83409567"
+   d="scan'208";a="87516207"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2024 07:12:41 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Nov 2024 07:23:42 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6sOE-000hcv-33;
-	Fri, 01 Nov 2024 14:12:38 +0000
-Date: Fri, 1 Nov 2024 22:12:33 +0800
+	id 1t6sYt-000hdV-1s;
+	Fri, 01 Nov 2024 14:23:39 +0000
+Date: Fri, 1 Nov 2024 22:22:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Pu Lehui <pulehui@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2341/2341] kernel/trace/trace_uprobe.o: warning:
- objtool: __uprobe_perf_func()+0x1e6: unreachable instruction
-Message-ID: <202411012238.VsICkiep-lkp@intel.com>
+To: Mario Limonciello <mario.limonciello@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>,
+	Maximilian Luz <luzmaximilian@gmail.com>,
+	Lee Chun-Yi <jlee@suse.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Corentin Chary <corentin.chary@gmail.com>,
+	"Luke D . Jones" <luke@ljones.dev>,
+	Ike Panhc <ike.pan@canonical.com>,
+	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
+	Alexis Belmonte <alexbelm48@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Ai Chao <aichao@kylinos.cn>, Gergo Koteles <soyer@irl.hu>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:ACPI" <linux-acpi@vger.kernel.org>,
+	"open list:MICROSOFT SURFACE PLATFORM PROFILE DRIVER" <platform-driver-x86@vger.kernel.org>,
+	"open list:THINKPAD ACPI EXTRAS DRIVER" <ibm-acpi-devel@lists.sourceforge.net>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Matthew Schwartz <matthew.schwartz@linux.dev>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v3 20/22] ACPI: platform_profile: Register class device
+ for platform profile handlers
+Message-ID: <202411012227.46a4WcxB-lkp@intel.com>
+References: <20241031040952.109057-21-mario.limonciello@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +84,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241031040952.109057-21-mario.limonciello@amd.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   cc5e1415473b95a8a68887dbb9c459ed50de9f1e
-commit: c59687cc7631aea65c88ec0f1162492b8470adf3 [2341/2341] uprobe: avoid out-of-bounds memory access of fetching args
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241101/202411012238.VsICkiep-lkp@intel.com/config)
+Hi Mario,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.12-rc5 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-platform-profile-Add-a-name-member-to-handlers/20241031-121650
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241031040952.109057-21-mario.limonciello%40amd.com
+patch subject: [PATCH v3 20/22] ACPI: platform_profile: Register class device for platform profile handlers
+config: i386-buildonly-randconfig-005-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012227.46a4WcxB-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012238.VsICkiep-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012227.46a4WcxB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411012238.VsICkiep-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411012227.46a4WcxB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/trace_uprobe.o: warning: objtool: __uprobe_perf_func()+0x1e6: unreachable instruction
+>> drivers/acpi/platform_profile.c:303:7: error: call to undeclared function 'MKDEV'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     303 |                                          MKDEV(0, pprof->minor), NULL, "platform-profile-%s",
+         |                                          ^
+   drivers/acpi/platform_profile.c:344:42: error: call to undeclared function 'MKDEV'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     344 |         device_destroy(&platform_profile_class, MKDEV(0, pprof->minor));
+         |                                                 ^
+   2 errors generated.
+
+
+vim +/MKDEV +303 drivers/acpi/platform_profile.c
+
+   261	
+   262	int platform_profile_register(struct platform_profile_handler *pprof)
+   263	{
+   264		bool registered;
+   265		int err;
+   266	
+   267		/* Sanity check the profile handler */
+   268		if (!pprof || bitmap_empty(pprof->choices, PLATFORM_PROFILE_LAST) ||
+   269		    !pprof->profile_set || !pprof->profile_get) {
+   270			pr_err("platform_profile: handler is invalid\n");
+   271			return -EINVAL;
+   272		}
+   273		if (!test_bit(PLATFORM_PROFILE_BALANCED, pprof->choices)) {
+   274			pr_err("platform_profile: handler does not support balanced profile\n");
+   275			return -EINVAL;
+   276		}
+   277		if (!pprof->dev) {
+   278			pr_err("platform_profile: handler device is not set\n");
+   279			return -EINVAL;
+   280		}
+   281	
+   282		guard(mutex)(&profile_lock);
+   283		/* We can only have one active profile */
+   284		if (cur_profile)
+   285			return -EEXIST;
+   286	
+   287		registered = platform_profile_is_registered();
+   288		if (!registered) {
+   289			/* class for individual handlers */
+   290			err = class_register(&platform_profile_class);
+   291			if (err)
+   292				return err;
+   293			/* legacy sysfs files */
+   294			err = sysfs_create_group(acpi_kobj, &platform_profile_group);
+   295			if (err)
+   296				goto cleanup_class;
+   297	
+   298		}
+   299	
+   300		/* create class interface for individual handler */
+   301		pprof->minor = idr_alloc(&platform_profile_minor_idr, pprof, 0, 0, GFP_KERNEL);
+   302		pprof->class_dev = device_create(&platform_profile_class, pprof->dev,
+ > 303						 MKDEV(0, pprof->minor), NULL, "platform-profile-%s",
+   304						 pprof->name);
+   305		if (IS_ERR(pprof->class_dev)) {
+   306			err = PTR_ERR(pprof->class_dev);
+   307			goto cleanup_legacy;
+   308		}
+   309		err = sysfs_create_group(&pprof->class_dev->kobj, &platform_profile_group);
+   310		if (err)
+   311			goto cleanup_device;
+   312	
+   313		list_add_tail(&pprof->list, &platform_profile_handler_list);
+   314		sysfs_notify(acpi_kobj, NULL, "platform_profile");
+   315	
+   316		cur_profile = pprof;
+   317		return 0;
+   318	
+   319	cleanup_device:
+   320		device_destroy(&platform_profile_class, MKDEV(0, pprof->minor));
+   321	
+   322	cleanup_legacy:
+   323		if (!registered)
+   324			sysfs_remove_group(acpi_kobj, &platform_profile_group);
+   325	cleanup_class:
+   326		if (!registered)
+   327			class_unregister(&platform_profile_class);
+   328	
+   329		return err;
+   330	}
+   331	EXPORT_SYMBOL_GPL(platform_profile_register);
+   332	
 
 -- 
 0-DAY CI Kernel Test Service
