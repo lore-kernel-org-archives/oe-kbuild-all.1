@@ -1,62 +1,59 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CC1174EFC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 13:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1563168DA;
+	Fri,  1 Nov 2024 13:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730467403; cv=none; b=uuBdvRje/uz5fAY7FjmQd3TRRY5x/IAXqabLKHgIXmMLpJ2k16x+EqGMmC6jB2sQFeSWqnB7u9b+XogYAbA2T9LBNdjB+m62Y3rTbwf2ek9eH5tPHED4NR716uw+t7a+hDCOjhSZ6ptO15k6pnh7Rmxf0Lt8CrMhcWLRjx6K5i0=
+	t=1730468507; cv=none; b=BH/PIRtpB5rfVyndz+kU9sYsYojvWKRoyK/vTM3LBJXl+HcrdSrn1wvTxtVXttdFvK9cEpv+L6p1044ioGiN6Ydzz2MbqxWbKX+seEYgWmo1u2w103WgGojbZf5ARz23oQxjx/pEwU85Vae4/iQNKsCj/PeqlcngisxFKB6OMsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730467403; c=relaxed/simple;
-	bh=WNFYm7cUFdBfgBGT5+nfdKTA41JaJY+jQpwY55l8Fu8=;
+	s=arc-20240116; t=1730468507; c=relaxed/simple;
+	bh=DbrHzucDQTNLfVs72rLTmrnYfWOEPD0hPsBwPPQ7inA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MaAxPf2oFAWk1TWzcUb6l5pIMqFW3R9b/CnQ7kKbeNkfKt/y0RZNXvwdTuMXQUML+FuJecy4JUqBNdys15YViTjMUxyATOCx6jezaQKdvjsB4rom/DN2Q7g51zIa80jiDIyEKg0wylhkQZd0cUOFTI+CazzhWzdN6U3+i+EaeFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mrkkbPOE; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=RFIjP17vhe3bNrLP8htq8vh8IJynABGLWZQU+sNTHngFy2W5sFw+kFgH9V6/D77+tzyuhfsgj7yKpY54V7KQCbmg7tyip8KJriTxKXVZGdR+0uQ+ms7ovskUR4JwIr3zHdASaG8xVKy2VxWNRAiI9gAoXi7hOLjIJ7aZpo7RWkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvqBSx9a; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mrkkbPOE"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d6a2aa748so1153673f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Nov 2024 06:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730467399; x=1731072199; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
-        b=mrkkbPOEk3Ky7Ew/5S5+agI1wr+dqvd70q2XV+kaik2YjA5xejfCz5Ez2RKHJ+8IBD
-         kSKHFTgSOtNhOgJtp2drQsN83tXkTzfGTE/hGwKoUsQCN4U9Qik3vvGNmgv3IvSNQ4Kn
-         /lkJ+Sf9l3BG4YJyWEQeGxHQIcykotEXoyqHMvnG4K4Rd7Wo4TRCozG+0LfbMafDn7v3
-         qcxY8R5yqPoy8GmflnpkQXlbCg7hAk97yCJ+YM/bZfazU7o2LGEW/81Y/juUCf7z03JK
-         SKVs8T1YRcZyQ0w70R4zDj6v90okGtispOU0KRduikQpxyTNKAzumCOnSNz0vB1vvaIG
-         HWkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730467399; x=1731072199;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ssSRHGucCIdHWlypyPzA16lT6xHQNS6ZvVdZxw56Yzk=;
-        b=NqWTkgA30dN39hw95fODcQh88Mv/5FocUquxTn9I55YhXaHAcEZzRh4OTXK0C6UfYQ
-         g3Q9tOgmOK9kBNDIiQKAgzFz3U8KeT9UgEqLaSGsI2XdIixJcPdd11ATbiMgudzq/TyJ
-         rUwdQhqapG2YAoSY8atEcgBDPbAl44vBvhfQVusKEsNJUJYapW0NaUNKqNp3BqZIL2X5
-         kcbznru/jEDtzkjg2QqvvwC1+oQfBC+QfuOQcM303VEWvFcnhOqrVPPkzsVFY1iyWWwa
-         KvGNoZx4dV7klW1YudvX74CI6wVKfN70X/E+LdD3D6Nqcfn7q9JtYqmQil+wpk0mSHCo
-         uyuA==
-X-Forwarded-Encrypted: i=1; AJvYcCWf8y6YyYaVKU/f8GD1n3fJZnlx8O36Odd5PR0uGessiCGxDYhtlO447uW3EconchV1V6RPsFhL3Fd2dA3Y@lists.linux.dev
-X-Gm-Message-State: AOJu0YwZADRXxQ3n2bpzUusqI/q9MQYoFjNFqXqGZWuJeQtGlohOK+ZN
-	+E81oCGrg/+SvlAqBCTJfE7VA1QXE6dPeAv7icqhr3yCC/OoZjuaBn9skXEjiv4=
-X-Google-Smtp-Source: AGHT+IHrQPLC+hz5zDCLZ3Vdt7Vmbn353qZAkOC/IpUsmtGsVVkuzpjLAo+M5zDt8yFLl9EjoYCqkA==
-X-Received: by 2002:a5d:5c01:0:b0:37d:461d:b1ea with SMTP id ffacd0b85a97d-381c7ab30b1mr3307612f8f.48.1730467398923;
-        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d4d1fsm5159542f8f.38.2024.11.01.06.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Nov 2024 06:23:18 -0700 (PDT)
-Date: Fri, 1 Nov 2024 16:23:15 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-kiwi-5.4 387/387] drivers/md/dm-bow.c:666
- dm_bow_ctr() warn: missing error code 'ret'
-Message-ID: <baa5e619-53ed-45a8-876c-6a2e2afecb1d@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvqBSx9a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730468505; x=1762004505;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DbrHzucDQTNLfVs72rLTmrnYfWOEPD0hPsBwPPQ7inA=;
+  b=DvqBSx9atvjfYMMgq7JRxSsfCAHGIMhgsygDmZSXKlzuQvLqy6Q1G6Dx
+   HkV5hzkFZNnzZEebd0vond2fMrQbI49WVtHTDBQyQ/jZvOGJM6x/rXBfE
+   lUY0ak9BIppb01300w6pykafzZqOJv4eNu/p8t5eDnKivH5KzcxT3chUO
+   JnAct7BVlCkRTsmLk2+qto2jyu+a4c4g0F4Eo8ohNVKk+OsvnTVUvrbh0
+   U7SzqwF9GIwmuJ0kpXfUMfkttFf1XwEjFRT7e7RlG+/Jw9YbAHx3IQYAA
+   AReVJESKkqOo+p8Chyy5008L+6fkMvZmscaiCtUw/xzAfc9sVGWoJhGDi
+   w==;
+X-CSE-ConnectionGUID: rIplhGK4SJOCeNqw06enpA==
+X-CSE-MsgGUID: ByPMfshVRLCu81vOQ96Ayw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="47717866"
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="47717866"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 06:41:41 -0700
+X-CSE-ConnectionGUID: Zka9ghB+SP26Arbn8yGlSA==
+X-CSE-MsgGUID: LVYKbddfReS3LngXkFRpCw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
+   d="scan'208";a="106309024"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 01 Nov 2024 06:41:39 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t6ruD-000har-0b;
+	Fri, 01 Nov 2024 13:41:37 +0000
+Date: Fri, 1 Nov 2024 21:40:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/must_check-devm_mutex_init 2/2]
+ drivers/iio/adc/pac1921.c:1174:2: warning: ignoring return value of function
+ declared with 'warn_unused_result' attribute
+Message-ID: <202411012150.KynHQ3Ht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,139 +63,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android11-kiwi-5.4
-head:   6a622c20579dfeb7db056fc9b624d4abb73c8081
-commit: 0ce3eb37e9eab307def1bad31c028d86ae7b2ea1 [387/387] ANDROID: dm-bow: Add dm-bow feature
-config: x86_64-randconfig-161-20241029 (https://download.01.org/0day-ci/archive/20241101/202411012054.D1zpW7a2-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/must_check-devm_mutex_init
+head:   1806244ad4c894932db80d79aceae7a9fb262153
+commit: 1806244ad4c894932db80d79aceae7a9fb262153 [2/2] locking/mutex: Mark devm_mutex_init() as __must_check
+config: x86_64-buildonly-randconfig-004-20241101 (https://download.01.org/0day-ci/archive/20241101/202411012150.KynHQ3Ht-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411012150.KynHQ3Ht-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411012054.D1zpW7a2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411012150.KynHQ3Ht-lkp@intel.com/
 
-smatch warnings:
-drivers/md/dm-bow.c:666 dm_bow_ctr() warn: missing error code 'ret'
+All warnings (new ones prefixed by >>):
 
-vim +/ret +666 drivers/md/dm-bow.c
+   In file included from drivers/iio/adc/pac1921.c:10:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/pac1921.c:1174:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+    1174 |         devm_mutex_init(dev, &priv->lock);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:152:37: note: expanded from macro 'devm_mutex_init'
+     152 | #define devm_mutex_init(dev, mutex) __devm_mutex_init(dev, ___devm_mutex_init(mutex))
+         |                                     ^~~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
 
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  622  static int dm_bow_ctr(struct dm_target *ti, unsigned int argc, char **argv)
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  623  {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  624  	struct bow_context *bc;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  625  	struct bow_range *br;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  626  	int ret;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  627  	struct mapped_device *md = dm_table_get_md(ti->table);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  628  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  629  	if (argc != 1) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  630  		ti->error = "Invalid argument count";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  631  		return -EINVAL;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  632  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  633  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  634  	bc = kzalloc(sizeof(*bc), GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  635  	if (!bc) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  636  		ti->error = "Cannot allocate bow context";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  637  		return -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  638  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  639  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  640  	ti->num_flush_bios = 1;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  641  	ti->num_discard_bios = 1;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  642  	ti->num_write_same_bios = 1;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  643  	ti->private = bc;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  644  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  645  	ret = dm_get_device(ti, argv[0], dm_table_get_mode(ti->table),
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  646  			    &bc->dev);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  647  	if (ret) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  648  		ti->error = "Device lookup failed";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  649  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  650  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  651  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  652  	if (bc->dev->bdev->bd_queue->limits.max_discard_sectors == 0) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  653  		bc->dev->bdev->bd_queue->limits.discard_granularity = 1 << 12;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  654  		bc->dev->bdev->bd_queue->limits.max_hw_discard_sectors = 1 << 15;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  655  		bc->dev->bdev->bd_queue->limits.max_discard_sectors = 1 << 15;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  656  		bc->forward_trims = false;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  657  	} else {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  658  		bc->forward_trims = true;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  659  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  660  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  661  	bc->block_size = bc->dev->bdev->bd_queue->limits.logical_block_size;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  662  	bc->block_shift = ilog2(bc->block_size);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  663  	bc->log_sector = kzalloc(bc->block_size, GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  664  	if (!bc->log_sector) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  665  		ti->error = "Cannot allocate log sector";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23 @666  		goto bad;
 
-Needs a "ret = -ENOMEM;"
+vim +/warn_unused_result +1174 drivers/iio/adc/pac1921.c
 
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  667  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  668  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  669  	init_completion(&bc->kobj_holder.completion);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  670  	ret = kobject_init_and_add(&bc->kobj_holder.kobj, &bow_ktype,
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  671  				   &disk_to_dev(dm_disk(md))->kobj, "%s",
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  672  				   "bow");
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  673  	if (ret) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  674  		ti->error = "Cannot create sysfs node";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  675  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  676  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  677  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  678  	mutex_init(&bc->ranges_lock);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  679  	bc->ranges = RB_ROOT;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  680  	bc->bufio = dm_bufio_client_create(bc->dev->bdev, bc->block_size, 1, 0,
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  681  					   NULL, NULL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  682  	if (IS_ERR(bc->bufio)) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  683  		ti->error = "Cannot initialize dm-bufio";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  684  		ret = PTR_ERR(bc->bufio);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  685  		bc->bufio = NULL;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  686  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  687  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  688  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  689  	bc->workqueue = alloc_workqueue("dm-bow",
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  690  					WQ_CPU_INTENSIVE | WQ_MEM_RECLAIM
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  691  					| WQ_UNBOUND, num_online_cpus());
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  692  	if (!bc->workqueue) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  693  		ti->error = "Cannot allocate workqueue";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  694  		ret = -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  695  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  696  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  697  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  698  	INIT_LIST_HEAD(&bc->trimmed_list);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  699  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  700  	br = kzalloc(sizeof(*br), GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  701  	if (!br) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  702  		ti->error = "Cannot allocate ranges";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  703  		ret = -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  704  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  705  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  706  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  707  	br->sector = ti->len;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  708  	br->type = TOP;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  709  	rb_link_node(&br->node, NULL, &bc->ranges.rb_node);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  710  	rb_insert_color(&br->node, &bc->ranges);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  711  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  712  	br = kzalloc(sizeof(*br), GFP_KERNEL);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  713  	if (!br) {
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  714  		ti->error = "Cannot allocate ranges";
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  715  		ret = -ENOMEM;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  716  		goto bad;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  717  	}
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  718  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  719  	br->sector = 0;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  720  	br->type = UNCHANGED;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  721  	rb_link_node(&br->node, bc->ranges.rb_node,
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  722  		     &bc->ranges.rb_node->rb_left);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  723  	rb_insert_color(&br->node, &bc->ranges);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  724  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  725  	ti->discards_supported = true;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  726  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  727  	return 0;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  728  
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  729  bad:
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  730  	dm_bow_dtr(ti);
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  731  	return ret;
-0ce3eb37e9eab3 Paul Lawrence 2018-10-23  732  }
+371f778b83cd94 Matteo Martelli 2024-07-24  1153  
+371f778b83cd94 Matteo Martelli 2024-07-24  1154  static int pac1921_probe(struct i2c_client *client)
+371f778b83cd94 Matteo Martelli 2024-07-24  1155  {
+371f778b83cd94 Matteo Martelli 2024-07-24  1156  	struct device *dev = &client->dev;
+371f778b83cd94 Matteo Martelli 2024-07-24  1157  	struct pac1921_priv *priv;
+371f778b83cd94 Matteo Martelli 2024-07-24  1158  	struct iio_dev *indio_dev;
+371f778b83cd94 Matteo Martelli 2024-07-24  1159  	int ret;
+371f778b83cd94 Matteo Martelli 2024-07-24  1160  
+371f778b83cd94 Matteo Martelli 2024-07-24  1161  	indio_dev = devm_iio_device_alloc(dev, sizeof(*priv));
+371f778b83cd94 Matteo Martelli 2024-07-24  1162  	if (!indio_dev)
+371f778b83cd94 Matteo Martelli 2024-07-24  1163  		return -ENOMEM;
+371f778b83cd94 Matteo Martelli 2024-07-24  1164  
+371f778b83cd94 Matteo Martelli 2024-07-24  1165  	priv = iio_priv(indio_dev);
+371f778b83cd94 Matteo Martelli 2024-07-24  1166  	priv->client = client;
+371f778b83cd94 Matteo Martelli 2024-07-24  1167  	i2c_set_clientdata(client, indio_dev);
+371f778b83cd94 Matteo Martelli 2024-07-24  1168  
+371f778b83cd94 Matteo Martelli 2024-07-24  1169  	priv->regmap = devm_regmap_init_i2c(client, &pac1921_regmap_config);
+371f778b83cd94 Matteo Martelli 2024-07-24  1170  	if (IS_ERR(priv->regmap))
+c5d2291a3086f4 Dan Carpenter   2024-08-08  1171  		return dev_err_probe(dev, (int)PTR_ERR(priv->regmap),
+371f778b83cd94 Matteo Martelli 2024-07-24  1172  				     "Cannot initialize register map\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1173  
+371f778b83cd94 Matteo Martelli 2024-07-24 @1174  	devm_mutex_init(dev, &priv->lock);
+371f778b83cd94 Matteo Martelli 2024-07-24  1175  
+371f778b83cd94 Matteo Martelli 2024-07-24  1176  	priv->dv_gain = PAC1921_DEFAULT_DV_GAIN;
+371f778b83cd94 Matteo Martelli 2024-07-24  1177  	priv->di_gain = PAC1921_DEFAULT_DI_GAIN;
+371f778b83cd94 Matteo Martelli 2024-07-24  1178  	priv->n_samples = PAC1921_DEFAULT_NUM_SAMPLES;
+371f778b83cd94 Matteo Martelli 2024-07-24  1179  
+371f778b83cd94 Matteo Martelli 2024-07-24  1180  	ret = device_property_read_u32(dev, "shunt-resistor-micro-ohms",
+371f778b83cd94 Matteo Martelli 2024-07-24  1181  				       &priv->rshunt_uohm);
+371f778b83cd94 Matteo Martelli 2024-07-24  1182  	if (ret)
+371f778b83cd94 Matteo Martelli 2024-07-24  1183  		return dev_err_probe(dev, ret,
+371f778b83cd94 Matteo Martelli 2024-07-24  1184  				     "Cannot read shunt resistor property\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1185  	if (priv->rshunt_uohm == 0 || priv->rshunt_uohm > INT_MAX)
+371f778b83cd94 Matteo Martelli 2024-07-24  1186  		return dev_err_probe(dev, -EINVAL,
+371f778b83cd94 Matteo Martelli 2024-07-24  1187  				     "Invalid shunt resistor: %u\n",
+371f778b83cd94 Matteo Martelli 2024-07-24  1188  				     priv->rshunt_uohm);
+371f778b83cd94 Matteo Martelli 2024-07-24  1189  
+371f778b83cd94 Matteo Martelli 2024-07-24  1190  	pac1921_calc_current_scales(priv);
+371f778b83cd94 Matteo Martelli 2024-07-24  1191  
+371f778b83cd94 Matteo Martelli 2024-07-24  1192  	priv->vdd = devm_regulator_get(dev, "vdd");
+371f778b83cd94 Matteo Martelli 2024-07-24  1193  	if (IS_ERR(priv->vdd))
+371f778b83cd94 Matteo Martelli 2024-07-24  1194  		return dev_err_probe(dev, (int)PTR_ERR(priv->vdd),
+371f778b83cd94 Matteo Martelli 2024-07-24  1195  				     "Cannot get vdd regulator\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1196  
+371f778b83cd94 Matteo Martelli 2024-07-24  1197  	ret = regulator_enable(priv->vdd);
+371f778b83cd94 Matteo Martelli 2024-07-24  1198  	if (ret)
+371f778b83cd94 Matteo Martelli 2024-07-24  1199  		return dev_err_probe(dev, ret, "Cannot enable vdd regulator\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1200  
+371f778b83cd94 Matteo Martelli 2024-07-24  1201  	ret = devm_add_action_or_reset(dev, pac1921_regulator_disable,
+371f778b83cd94 Matteo Martelli 2024-07-24  1202  				       priv->vdd);
+371f778b83cd94 Matteo Martelli 2024-07-24  1203  	if (ret)
+371f778b83cd94 Matteo Martelli 2024-07-24  1204  		return dev_err_probe(dev, ret,
+371f778b83cd94 Matteo Martelli 2024-07-24  1205  			"Cannot add action for vdd regulator disposal\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1206  
+371f778b83cd94 Matteo Martelli 2024-07-24  1207  	msleep(PAC1921_POWERUP_TIME_MS);
+371f778b83cd94 Matteo Martelli 2024-07-24  1208  
+371f778b83cd94 Matteo Martelli 2024-07-24  1209  	ret = pac1921_init(priv);
+371f778b83cd94 Matteo Martelli 2024-07-24  1210  	if (ret)
+371f778b83cd94 Matteo Martelli 2024-07-24  1211  		return dev_err_probe(dev, ret, "Cannot initialize device\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1212  
+371f778b83cd94 Matteo Martelli 2024-07-24  1213  	priv->iio_info = pac1921_iio;
+371f778b83cd94 Matteo Martelli 2024-07-24  1214  
+371f778b83cd94 Matteo Martelli 2024-07-24  1215  	indio_dev->name = "pac1921";
+371f778b83cd94 Matteo Martelli 2024-07-24  1216  	indio_dev->info = &priv->iio_info;
+371f778b83cd94 Matteo Martelli 2024-07-24  1217  	indio_dev->modes = INDIO_DIRECT_MODE;
+371f778b83cd94 Matteo Martelli 2024-07-24  1218  	indio_dev->channels = pac1921_channels;
+371f778b83cd94 Matteo Martelli 2024-07-24  1219  	indio_dev->num_channels = ARRAY_SIZE(pac1921_channels);
+371f778b83cd94 Matteo Martelli 2024-07-24  1220  
+371f778b83cd94 Matteo Martelli 2024-07-24  1221  	ret = devm_iio_triggered_buffer_setup(dev, indio_dev,
+371f778b83cd94 Matteo Martelli 2024-07-24  1222  					      &iio_pollfunc_store_time,
+371f778b83cd94 Matteo Martelli 2024-07-24  1223  					      &pac1921_trigger_handler, NULL);
+371f778b83cd94 Matteo Martelli 2024-07-24  1224  	if (ret)
+371f778b83cd94 Matteo Martelli 2024-07-24  1225  		return dev_err_probe(dev, ret,
+371f778b83cd94 Matteo Martelli 2024-07-24  1226  				     "Cannot setup IIO triggered buffer\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1227  
+371f778b83cd94 Matteo Martelli 2024-07-24  1228  	ret = devm_iio_device_register(dev, indio_dev);
+371f778b83cd94 Matteo Martelli 2024-07-24  1229  	if (ret)
+371f778b83cd94 Matteo Martelli 2024-07-24  1230  		return dev_err_probe(dev, ret, "Cannot register IIO device\n");
+371f778b83cd94 Matteo Martelli 2024-07-24  1231  
+371f778b83cd94 Matteo Martelli 2024-07-24  1232  	return 0;
+371f778b83cd94 Matteo Martelli 2024-07-24  1233  }
+371f778b83cd94 Matteo Martelli 2024-07-24  1234  
+
+:::::: The code at line 1174 was first introduced by commit
+:::::: 371f778b83cd94467852efb466d74dc84eddd11e iio: adc: add support for pac1921
+
+:::::: TO: Matteo Martelli <matteomartelli3@gmail.com>
+:::::: CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
