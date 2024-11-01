@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB16143C7E;
-	Fri,  1 Nov 2024 06:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FB851494A7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 07:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730442619; cv=none; b=A0dnkOeX5GQYbGl1Ce8GgJGuQQJOJSqBLkxJzCFulu61uTCPvV3MvKnDIzqKrEHrIutbaoNS9NuArLgoqDrS2BWn/2zzeIVxp8Dijoqx8HQqRmYQVrkpV5kO75On3gnxRzLWRjLe+t9MRQtOUbtSjwDA64JYYEl9YYzm/73zm6A=
+	t=1730444881; cv=none; b=Iq2VCLPAjAOUKGo+6fcDodRsNBUiWY91ZKVyl9s5GMLTNGD+mjByQ+TqHWRF+GXM/zoxZO7Nbcen4Dw/ZxqW5V1QfGpxsz4AwAw/0X+5iGGggCsig9p0kuJf3uGqqaSeA4lppvWQqzKGi9us6E84hnP92YLF8LHH/ARkaOZ0wXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730442619; c=relaxed/simple;
-	bh=KuYa/8PRXOVFBFQTEIySjZ4SyCDmLcX1fAyctT/KcqU=;
+	s=arc-20240116; t=1730444881; c=relaxed/simple;
+	bh=JutYPB/3oXVJH99Pr39tDq9r5sOqucdhb6oQbo/MObs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AaowNRD+xdpUlciukxDk5HqXS2o54Apu1JMXmAxCag7k3jtHFSCXY1Fd79A+hod3ek4CBz3SdkgKn2JW66tlMGwSHblpvxK8wxvJUfuc3Fa3MaadDe79w3x75ZQHfIQr+dyxFcXsQ1eAGti+uZLJO0qOpZcG7Ccf8r+l1VcpmPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UFVbQHAu; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=W/54Kry8pb+uDvshpt7OgRyIfYfAl188063rEMmcwqZXHQxaX3wa4FPnPxRWZEKxfW8z1PL9EP14bnOCbtpAObHwEqlpknLUl84Hxr939Q08ne+viQkwKfY8L5N2JG7tL0ZVlBRW8zJbmBGlsYpbsO9C64+NoGkQ2IAtWpLZYhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=r7Bo98Dk; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UFVbQHAu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730442614; x=1761978614;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KuYa/8PRXOVFBFQTEIySjZ4SyCDmLcX1fAyctT/KcqU=;
-  b=UFVbQHAu7N1DGllU4AV1YzXhKzFuSuquyPjeUeYqGXcncF68nvdkp22F
-   szE1LqiDcoqsGnayLh6K0sJGIYZporSpimZqAHeIzfpQ2sIJHmvy9IcoZ
-   60dyiE7E+J6j6sV+miIpgOzyKEqIm0iE64VEeficsRqL/hIwnw67yjD2L
-   G45YZqi8IwfLT1Z/bmbazH0r1WBD/D+2VA28k4PcZAJPf1QBSdcW1MRz0
-   MZdhksp1JJv05WHWFQLEF4EfqPPqL+gnEfZHoiWi6yCw3jg/U6k6f8qJv
-   iYRn2AkMDnR0FSrKnADcUjx8bpfHMUst1AeYtzZ8WN5oZmWlFmnKdkvu0
-   Q==;
-X-CSE-ConnectionGUID: UN1VZ/CyRyGOijbadv8kFg==
-X-CSE-MsgGUID: m8WgAa4iSaK7Xb8JA/c5mA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11242"; a="17839798"
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="17839798"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2024 23:30:11 -0700
-X-CSE-ConnectionGUID: xEgji2rCQmiBoNmriYIxLA==
-X-CSE-MsgGUID: uvZcfqGNSUiMOmckZGGo/A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,249,1725346800"; 
-   d="scan'208";a="87470468"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 31 Oct 2024 23:30:10 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t6lAe-000hDu-05;
-	Fri, 01 Nov 2024 06:30:08 +0000
-Date: Fri, 1 Nov 2024 14:30:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-next 22/23] fs/nfsd/filecache.c:842:3:
- error: call to undeclared function 'nfs_localio_invalidate_clients'; ISO C99
- and later do not support implicit function declarations
-Message-ID: <202411011441.s36Lqszr-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="r7Bo98Dk"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3807dd08cfcso1339151f8f.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Nov 2024 00:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730444878; x=1731049678; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=S+Ifb642LkdinlwnAChfN9N1WVHKlmNGlParRQonuAM=;
+        b=r7Bo98DkkN+NrwHqheP+CZ3ibkHVfpwszi8nK2rKl07ODqIuyuHT+/O/UyQ/POACCQ
+         qdydx46ggakwHWo2cJT2V2uO2IN0TgEhutE3Iz73NJYP1hlQDWj4qObVoAQRH5ZsSPxf
+         JxuvM2/orhtD3Bck7N16HoQMGsKj1AsXZCjfgC3GGMrE3M5iq3RcaFwy7h8POywMHC9b
+         5yyY2O58NX+7djidfYdKK86zKzGCWgXb3FUWWg1YCe4X0odFRTPH7RMKrznsLYrMxco8
+         IXB+D2sIiOmNYkCaeAJ4oasYA/z4cL3womR/17U9UxWgryTerOKhNlwTuNsUIOiE74nO
+         vMng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730444878; x=1731049678;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=S+Ifb642LkdinlwnAChfN9N1WVHKlmNGlParRQonuAM=;
+        b=FR/pUckGSzlCfMBKNJ2rNdfSO1pNHjeZSZCJw40WKrDlo2xvjBzr5uK/XsOKBhUzf3
+         q0f93p0SLwP2m+FUt7+aM3fKnePpciLmkgqa7/ADNJ6GrMlgDeaZf5S+HXaXjGkeFqOt
+         Xxw9GvRnrygRNT6SRA5JYkBd72/mf0OThEYeJuWuonv/rY2B7iXk5ekGmRLcgelSqgMQ
+         qjt9yhkUsJhFgWqzRa9DJYvSUAn1yDM5PTMTkeHedRoyO0lUz5qbCf0EUl8hJ4BEBUiC
+         EvAfFGTI53TzyUtt5b85HHS7GRntNQweNiQ3UVUQjHobVtvDJ8S7wsJMqWMumhUP5vS3
+         m+NA==
+X-Forwarded-Encrypted: i=1; AJvYcCVT/qNqExZIJjUaqAYKpzYTEtNW9aIXjng8FTB6xJb7LDNVwSijtr77YgR7X2grawcHBUjErKmK6bqv++sh@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz0qsL5eig3/K1cOVV8COYJvI/r/7vd6A+S0X3w1dqHakkE89mI
+	ypC0fmz5DaZlxxG/rmkqCIIisQ8DFixpv5y1ChYozE20C3pQXDrL9LgyLJj9x5k=
+X-Google-Smtp-Source: AGHT+IHZkKwuSaJjnxtpYOWRHPKIO6H6fHtNmW5nRFRDs0p02yK/SaVhAKY0QGc50Lrs/f2CtIFgBQ==
+X-Received: by 2002:a05:6000:1f8c:b0:37d:2de3:bf8a with SMTP id ffacd0b85a97d-381c7a6bcb4mr2189000f8f.26.1730444877770;
+        Fri, 01 Nov 2024 00:07:57 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bb79429asm77103985e9.1.2024.11.01.00.07.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Nov 2024 00:07:57 -0700 (PDT)
+Date: Fri, 1 Nov 2024 10:07:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Florian Westphal <fw@strlen.de>,
+	netfilter-devel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Florian Westphal <fw@strlen.de>
+Subject: Re: [PATCH v2 nf-next 7/7] netfilter: nf_tables: must hold rcu read
+ lock while iterating object type list
+Message-ID: <b052e0ad-4b89-4f79-855d-5ed9766168e4@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +68,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241030094053.13118-8-fw@strlen.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next
-head:   cdfa872ee25377e6ceb6e73f695e19c903b38608
-commit: 27f81c6a85b36d6948b768cc1ec584b92fe7ee30 [22/23] nfs_common: track all open nfsd_files per nfs_client
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241101/202411011441.s36Lqszr-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241101/202411011441.s36Lqszr-lkp@intel.com/reproduce)
+Hi Florian,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-nf_tables-avoid-false-positive-lockdep-splat-on-rule-deletion/20241030-174657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20241030094053.13118-8-fw%40strlen.de
+patch subject: [PATCH v2 nf-next 7/7] netfilter: nf_tables: must hold rcu read lock while iterating object type list
+config: s390-randconfig-r073-20241031 (https://download.01.org/0day-ci/archive/20241101/202411010754.SLk5GvT6-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411011441.s36Lqszr-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411010754.SLk5GvT6-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+New smatch warnings:
+net/netfilter/nf_tables_api.c:7886 nf_tables_newobj() warn: 'type' is an error pointer or valid
 
-   In file included from fs/nfsd/filecache.c:35:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/nfsd/filecache.c:42:
->> include/linux/nfslocalio.h:89:46: warning: declaration of 'struct nfs_fh' will not be visible outside of this function [-Wvisibility]
-      89 | static inline void nfs_close_local_fh(struct nfs_fh *fh)
-         |                                              ^
->> fs/nfsd/filecache.c:842:3: error: call to undeclared function 'nfs_localio_invalidate_clients'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     842 |                 nfs_localio_invalidate_clients(&nn->local_clients);
-         |                 ^
->> fs/nfsd/filecache.c:842:39: error: no member named 'local_clients' in 'struct nfsd_net'
-     842 |                 nfs_localio_invalidate_clients(&nn->local_clients);
-         |                                                 ~~  ^
-   5 warnings and 2 errors generated.
+vim +/type +7886 net/netfilter/nf_tables_api.c
 
+7dab8ee3b6e7ec8 Pablo Neira Ayuso          2021-04-23  7879  		if (info->nlh->nlmsg_flags & NLM_F_REPLACE)
+d62d0ba97b58031 Fernando Fernandez Mancera 2019-08-26  7880  			return -EOPNOTSUPP;
+d62d0ba97b58031 Fernando Fernandez Mancera 2019-08-26  7881  
+84b1a0c0140a9a9 Pablo Neira Ayuso          2024-03-05  7882  		if (!obj->ops->update)
+84b1a0c0140a9a9 Pablo Neira Ayuso          2024-03-05  7883  			return 0;
+84b1a0c0140a9a9 Pablo Neira Ayuso          2024-03-05  7884  
+2a7dbf052c3b79b Florian Westphal           2024-10-30  7885  		type = nft_obj_type_get(net, objtype, family);
+2a7dbf052c3b79b Florian Westphal           2024-10-30 @7886  		if (WARN_ON_ONCE(!type))
 
-vim +/nfs_localio_invalidate_clients +842 fs/nfsd/filecache.c
+s/!type/IS_ERR(type)/
 
-   824	
-   825	/**
-   826	 * __nfsd_file_cache_purge: clean out the cache for shutdown
-   827	 * @net: net-namespace to shut down the cache (may be NULL)
-   828	 *
-   829	 * Walk the nfsd_file cache and close out any that match @net. If @net is NULL,
-   830	 * then close out everything. Called when an nfsd instance is being shut down,
-   831	 * and when the exports table is flushed.
-   832	 */
-   833	static void
-   834	__nfsd_file_cache_purge(struct net *net)
-   835	{
-   836		struct rhashtable_iter iter;
-   837		struct nfsd_file *nf;
-   838		LIST_HEAD(dispose);
-   839	
-   840		if (net) {
-   841			struct nfsd_net *nn = net_generic(net, nfsd_net_id);
- > 842			nfs_localio_invalidate_clients(&nn->local_clients);
-   843		}
-   844	
-   845		rhltable_walk_enter(&nfsd_file_rhltable, &iter);
-   846		do {
-   847			rhashtable_walk_start(&iter);
-   848	
-   849			nf = rhashtable_walk_next(&iter);
-   850			while (!IS_ERR_OR_NULL(nf)) {
-   851				if (!net || nf->nf_net == net)
-   852					nfsd_file_cond_queue(nf, &dispose);
-   853				nf = rhashtable_walk_next(&iter);
-   854			}
-   855	
-   856			rhashtable_walk_stop(&iter);
-   857		} while (nf == ERR_PTR(-EAGAIN));
-   858		rhashtable_walk_exit(&iter);
-   859	
-   860		nfsd_file_dispose_list(&dispose);
-   861	}
-   862	
+2a7dbf052c3b79b Florian Westphal           2024-10-30  7887  			return -ENOENT;
+2a7dbf052c3b79b Florian Westphal           2024-10-30  7888  
+7dab8ee3b6e7ec8 Pablo Neira Ayuso          2021-04-23  7889  		nft_ctx_init(&ctx, net, skb, info->nlh, family, table, NULL, nla);
+d62d0ba97b58031 Fernando Fernandez Mancera 2019-08-26  7890  
+2a7dbf052c3b79b Florian Westphal           2024-10-30  7891  		/* type->owner reference is put when transaction object is released. */
+d62d0ba97b58031 Fernando Fernandez Mancera 2019-08-26  7892  		return nf_tables_updobj(&ctx, type, nla[NFTA_OBJ_DATA], obj);
+e50092404c1bc7a Pablo Neira Ayuso          2016-11-28  7893  	}
+e50092404c1bc7a Pablo Neira Ayuso          2016-11-28  7894  
+7dab8ee3b6e7ec8 Pablo Neira Ayuso          2021-04-23  7895  	nft_ctx_init(&ctx, net, skb, info->nlh, family, table, NULL, nla);
+e50092404c1bc7a Pablo Neira Ayuso          2016-11-28  7896  
+1689f25924ada8f Pablo Neira Ayuso          2023-06-28  7897  	if (!nft_use_inc(&table->use))
+1689f25924ada8f Pablo Neira Ayuso          2023-06-28  7898  		return -EMFILE;
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
