@@ -1,58 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AB4155C9E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Nov 2024 20:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E644F1CEAD7;
+	Fri,  1 Nov 2024 20:25:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730492702; cv=none; b=M4nD9UmXFPkJoFayABZwDN0n/jURgLEWwE8kPTIkpZkz1baE2aNQ/FozM+pfJzve+KuTa6KU+km7BMfoSJ3+F61ol90m6/PZWxP2DxV659U3Ihto2RE9Wvv4IIQKcga9fmA2MtGx3cKROfMNzQ2CsGL5SuO9MWq2jANIe45vLLw=
+	t=1730492703; cv=none; b=GQnFEs1Rp7qE1V5w9V0aLYdgHA962Ki3UOSZ3ikcBDSXJIyZC53nKRtQBCAo4C5wGhTVvPRjvD9aNKV5HIVQTkmYWL55YhALRsUmzke1c14FO6U5oP6EeVpie8UIrQ3oxtFV37GEk0E4TcwbBuHfU6JWqSvwFCHodC01AJnqQEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730492702; c=relaxed/simple;
-	bh=zwlUavLcxSdqD6rbGAhx9PihJLTUbMfjo/Nnw22IiL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Am1wLcuc1yMzkR5Wn/Ik0uhMGh6B5GLjEjvsnqsrgfzbSSz+vOUnl9BftYiSsIEwUs03oKy6Xl11xFH4zPVajzD5p9dp1PylmB+AQ4D/YYs/Jd03lNG3bdq3WX2fjbpyHlNDp9HYwmR0HNLkwLbcfXHCed7wLNC2GfcnrjIm4wQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/7zvGML; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1730492703; c=relaxed/simple;
+	bh=bjW/NCoam4Vnhany8p1O01mp0aqm+EOKnkh+sbXImR4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PhWKrnXdftCfD44hH5QPFy2cNJuafpnuJpSnBJuIAxqRFDTG1KeK9skVXdfPOTNGEHMmht2gB34kAS+zp6FueEemfxL+DCHk1/LbLFJyx25ZjC+Z9mAzQOZ8VzudzZx5z5Kf6iOJNDkfBzdtT0dq/2BMOjV9c8CvcFL6/RGiePE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFr5gNK3; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/7zvGML"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFr5gNK3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730492701; x=1762028701;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zwlUavLcxSdqD6rbGAhx9PihJLTUbMfjo/Nnw22IiL0=;
-  b=f/7zvGMLV/o2Hvbo3Lg+eVfVqRH6TNlsRjgrgZaqehewtVQZ8qR7eurw
-   50m/DEkgY+Aw5OOSvjqk+ucMG81oA2cNQqol4/QjCXv5AFWOaBI/yX63Z
-   I77oqK6KD0bkI6O+k9HIGG+FWr1K8pGrbFF1BMtKOCPPY4Sta/WmnJQlO
-   ojarC1AkiK3NvnWbdGSL3Jw7p7SH37lF05akIPuZpHIQoHpwtuIfytj0H
-   CE7LZLtexW5NpOktt7DQRHk/xnhOwHD06QusXj+8N0jv34QYrqHyipnYF
-   EZoMkGwPCNyPYcsyb9hYmBJp0TWpJJieDbtmVBrVbmExHf7P4Pm7iK6Ut
-   g==;
-X-CSE-ConnectionGUID: cTgaFBWDTtiozfEyAEPxzQ==
-X-CSE-MsgGUID: 18uMz0DRTda1bjgHV7LwLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47720859"
+  t=1730492703; x=1762028703;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bjW/NCoam4Vnhany8p1O01mp0aqm+EOKnkh+sbXImR4=;
+  b=nFr5gNK3qwUE75vyYt/oO9uqnhORSUFUeO0B0Ol1XFKVM/r9KRd7c6nP
+   oTnE1kM8tlYPjqqA7lcIYS0g1e0vRfmEuCSdW2OH7E7h3/YCigLC3nk0Z
+   OYs8kwHFVsXGPOJHBq9qU5d+KnG+D/+YSamXxBTWDoOTiC7Jc3u7QrAzL
+   vOOpescNbE6wXyIHVcuJv/UZMFTKjuOf5kcE3esO7a/Ax+pqnOfqDorPu
+   F1+p+R8sEDngbKJ40FnJUor/4TAXolzPxXUmavPORDaom63bLpICmWz1z
+   RZ7qcQnOlDrGTZvTS8ypNEf5KMANler5g25UdAXPcW/F1WOUdrjaosSmw
+   A==;
+X-CSE-ConnectionGUID: fvnodD31SyeO3OxffbG7eQ==
+X-CSE-MsgGUID: FHyyY1bRTe+GTac4LyCaqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47720862"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47720859"
+   d="scan'208";a="47720862"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 13:25:00 -0700
-X-CSE-ConnectionGUID: UMzSV89QTIqxNg7QE7KVPw==
-X-CSE-MsgGUID: vh7CFGqcQRq5c1GuG93BFA==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 13:25:02 -0700
+X-CSE-ConnectionGUID: X5qYRDRrQ1uEsmAEOs6W1g==
+X-CSE-MsgGUID: 5vrLubZPSsG4Mh/qtxgQuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="87841657"
+   d="scan'208";a="87841658"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Nov 2024 13:24:58 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 Nov 2024 13:24:59 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t6yCW-000i0W-27;
+	id 1t6yCW-000i0Y-2D;
 	Fri, 01 Nov 2024 20:24:56 +0000
-Date: Sat, 2 Nov 2024 04:24:00 +0800
+Date: Sat, 2 Nov 2024 04:24:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev, Daniel Borkmann <daniel@iogearbox.net>
-Subject: [cilium:pr/wg 5/5] drivers/net/wireguard/socket.c:47:63: sparse:
- sparse: restricted __be16 degrades to integer
-Message-ID: <202411020445.rsCK4K45-lkp@intel.com>
+To: David Lechner <dlechner@baylibre.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Guillaume Stols <gstols@baylibre.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, David Lechner <dlechner@baylibre.com>
+Subject: Re: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
+Message-ID: <202411020416.BsBZy5XU-lkp@intel.com>
+References: <20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230@baylibre.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,104 +68,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230@baylibre.com>
 
-tree:   https://github.com/cilium/linux.git pr/wg
-head:   b3a46ba5516ec2c40cb67404cddd26207f661feb
-commit: 4a1ce373cedb6551e598a2c946867f1fc90fa118 [5/5] sport hashing
-config: loongarch-randconfig-r121-20241101 (https://download.01.org/0day-ci/archive/20241102/202411020445.rsCK4K45-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241102/202411020445.rsCK4K45-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 6fb2fa9805c501d9ade047fc511961f3273cdcb5]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/pwm-core-export-pwm_get_state_hw/20241030-052134
+base:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
+patch link:    https://lore.kernel.org/r/20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230%40baylibre.com
+patch subject: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
+config: i386-buildonly-randconfig-004-20241102 (https://download.01.org/0day-ci/archive/20241102/202411020416.BsBZy5XU-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020416.BsBZy5XU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411020445.rsCK4K45-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411020416.BsBZy5XU-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireguard/socket.c:47:63: sparse: sparse: restricted __be16 degrades to integer
->> drivers/net/wireguard/socket.c:47:22: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] sport @@     got int @@
-   drivers/net/wireguard/socket.c:47:22: sparse:     expected restricted __be16 [usertype] sport
-   drivers/net/wireguard/socket.c:47:22: sparse:     got int
+All errors (new ones prefixed by >>):
 
-vim +47 drivers/net/wireguard/socket.c
+   In file included from drivers/iio/adc/ad7606.c:17:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2225:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/iio/adc/ad7606.c:765:9: error: call to undeclared function 'pwm_get_state_hw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     765 |                 ret = pwm_get_state_hw(st->cnvst_pwm, &cnvst_pwm_state);
+         |                       ^
+   drivers/iio/adc/ad7606.c:765:9: note: did you mean 'pwm_get_state'?
+   include/linux/pwm.h:127:20: note: 'pwm_get_state' declared here
+     127 | static inline void pwm_get_state(const struct pwm_device *pwm,
+         |                    ^
+   1 warning and 1 error generated.
 
-    20	
-    21	static int send4(struct wg_device *wg, struct sk_buff *skb,
-    22			 struct endpoint *endpoint, u8 ds, struct dst_cache *cache)
-    23	{
-    24		struct flowi4 fl = {
-    25			.saddr = endpoint->src4.s_addr,
-    26			.daddr = endpoint->addr4.sin_addr.s_addr,
-    27			.fl4_dport = endpoint->addr4.sin_port,
-    28			.flowi4_mark = wg->fwmark,
-    29			.flowi4_proto = IPPROTO_UDP
-    30		};
-    31		struct rtable *rt = NULL;
-    32		struct sock *sock;
-    33		int ret = 0;
-    34	
-    35		skb_mark_not_on_list(skb);
-    36		skb->dev = wg->dev;
-    37		skb->mark = wg->fwmark;
-    38	
-    39		rcu_read_lock_bh();
-    40		sock = rcu_dereference_bh(wg->sock4);
-    41	
-    42		if (unlikely(!sock)) {
-    43			ret = -ENONET;
-    44			goto err;
-    45		}
-    46	
-  > 47		fl.fl4_sport = PACKET_CB(skb)->sport ? : inet_sk(sock)->inet_sport;
-    48		if (cache)
-    49			rt = dst_cache_get_ip4(cache, &fl.saddr);
-    50	
-    51		if (!rt) {
-    52			security_sk_classify_flow(sock, flowi4_to_flowi_common(&fl));
-    53			if (unlikely(!inet_confirm_addr(sock_net(sock), NULL, 0,
-    54							fl.saddr, RT_SCOPE_HOST))) {
-    55				endpoint->src4.s_addr = 0;
-    56				endpoint->src_if4 = 0;
-    57				fl.saddr = 0;
-    58				if (cache)
-    59					dst_cache_reset(cache);
-    60			}
-    61			rt = ip_route_output_flow(sock_net(sock), &fl, sock);
-    62			if (unlikely(endpoint->src_if4 && ((IS_ERR(rt) &&
-    63				     PTR_ERR(rt) == -EINVAL) || (!IS_ERR(rt) &&
-    64				     rt->dst.dev->ifindex != endpoint->src_if4)))) {
-    65				endpoint->src4.s_addr = 0;
-    66				endpoint->src_if4 = 0;
-    67				fl.saddr = 0;
-    68				if (cache)
-    69					dst_cache_reset(cache);
-    70				if (!IS_ERR(rt))
-    71					ip_rt_put(rt);
-    72				rt = ip_route_output_flow(sock_net(sock), &fl, sock);
-    73			}
-    74			if (IS_ERR(rt)) {
-    75				ret = PTR_ERR(rt);
-    76				net_dbg_ratelimited("%s: No route to %pISpfsc, error %d\n",
-    77						    wg->dev->name, &endpoint->addr, ret);
-    78				goto err;
-    79			}
-    80			if (cache)
-    81				dst_cache_set_ip4(cache, &rt->dst, fl.saddr);
-    82		}
-    83	
-    84		skb->ignore_df = 1;
-    85		udp_tunnel_xmit_skb(rt, sock, skb, fl.saddr, fl.daddr, ds,
-    86				    ip4_dst_hoplimit(&rt->dst), 0, fl.fl4_sport,
-    87				    fl.fl4_dport, false, false);
-    88		goto out;
-    89	
-    90	err:
-    91		kfree_skb(skb);
-    92	out:
-    93		rcu_read_unlock_bh();
-    94		return ret;
-    95	}
-    96	
+
+vim +/pwm_get_state_hw +765 drivers/iio/adc/ad7606.c
+
+   733	
+   734	static int ad7606_read_raw(struct iio_dev *indio_dev,
+   735				   struct iio_chan_spec const *chan,
+   736				   int *val,
+   737				   int *val2,
+   738				   long m)
+   739	{
+   740		int ret, ch = 0;
+   741		struct ad7606_state *st = iio_priv(indio_dev);
+   742		struct ad7606_chan_scale *cs;
+   743		struct pwm_state cnvst_pwm_state;
+   744	
+   745		switch (m) {
+   746		case IIO_CHAN_INFO_RAW:
+   747			iio_device_claim_direct_scoped(return -EBUSY, indio_dev) {
+   748				ret = ad7606_scan_direct(indio_dev, chan->address, val);
+   749				if (ret < 0)
+   750					return ret;
+   751				return IIO_VAL_INT;
+   752			}
+   753			unreachable();
+   754		case IIO_CHAN_INFO_SCALE:
+   755			if (st->sw_mode_en)
+   756				ch = chan->address;
+   757			cs = &st->chan_scales[ch];
+   758			*val = cs->scale_avail[cs->range][0];
+   759			*val2 = cs->scale_avail[cs->range][1];
+   760			return IIO_VAL_INT_PLUS_MICRO;
+   761		case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+   762			*val = st->oversampling;
+   763			return IIO_VAL_INT;
+   764		case IIO_CHAN_INFO_SAMP_FREQ:
+ > 765			ret = pwm_get_state_hw(st->cnvst_pwm, &cnvst_pwm_state);
+   766			if (ret < 0)
+   767				return ret;
+   768			*val = DIV_ROUND_CLOSEST_ULL(NSEC_PER_SEC, cnvst_pwm_state.period);
+   769			return IIO_VAL_INT;
+   770		}
+   771		return -EINVAL;
+   772	}
+   773	
 
 -- 
 0-DAY CI Kernel Test Service
