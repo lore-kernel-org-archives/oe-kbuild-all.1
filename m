@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79A12E40E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 04:00:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE482EC5
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 04:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730520017; cv=none; b=m9rZJwM63aIsyZJwsUDq1mi3OYeflmRHw3AuCSjxBwsh26d1J3BlbQyhphOcCf+GGLPEuJuWS3Am9jwrEge9pFwKHlBJOKvQH3pkGwesbWZ2dzuVvOdzQm0Uorj0NZXbq+uiFMNJ4WAEZ3tD0gpZKxGYBbWV8HTWpFjQQpe90oc=
+	t=1730521880; cv=none; b=SLwpPWlb8ND6CPnBhqXWf46O8/5ihO1F243M5bCKdMY475+wHmVazd9e5a/cj5k1tUAocZ1bf8lp/M3xxII6Rho8pWHbsDI3h4z4LbPAosW5yLQ973CG76DhJMc2oabew9RyRVTHoVTZWBLDScoEuYCeqZqCHmYPAoaamKDuBDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730520017; c=relaxed/simple;
-	bh=as/YFYUSIHQPs5zPPukCKpWI+psrQxz3KyHA4llyoYg=;
+	s=arc-20240116; t=1730521880; c=relaxed/simple;
+	bh=R8FyDv5rv8rJtgbYzUd8A0iaxqWlGCbWLy7vw3Jb3WA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KGuXh0z7R4/Nyq8JyUq4oETALtCXxLkRJMb72sgUuDNYf/pQeAxG9P93OoVAy66/MdI6tLokng6ebnZC0nhDyAO380ngjuv6NOrQ7UU7d0ptF46pglJ4OP4fxmPWRCBxrKy8YVgzeWmTW0kiIn5eAu1VvfD458qdwlHjwVYAdA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sx8TbMKY; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=fASzUqmX2Hh+5i4V86WkJcuTuxcEh4rWNkzP4pn+OKAqEm+8dcOvZZjmhXXtSEIfVtkwtCxNWBvfWxvchR8KUsHcMsC4K/rBBmUNBb9l/zwEDdk/fPbgHSofrLOy2qPCughcB6wZU6iManrsydYE2RdL4YlMcRqxGq3ZBHOFWmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z8bLwUZX; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sx8TbMKY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z8bLwUZX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730520016; x=1762056016;
+  t=1730521878; x=1762057878;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=as/YFYUSIHQPs5zPPukCKpWI+psrQxz3KyHA4llyoYg=;
-  b=Sx8TbMKYc0jACGbiX6e5MWdn3mJJ0F/EfJ28hbopkyznUtgcsIi7mGWe
-   hpqcsxuHF4KkhcrrX9wFI0/u+qeeUOVNy0RwC/qrgWy1gV3fYODFUoxHJ
-   yo+1Aa6uP8l2YEfpbD2T7T2V0S3BG/ISATN81Hxd6JYE05KrZnfcY54wa
-   EkYc34K1UPLGtIUaGJRls8Dn5eL2X0YaYyEb8i8cdSEjK1ZZ9RTUTdbMv
-   n5tENWZ1Jo/A/5GDV/lpA/a7B/PS/IA2EG4ezy0Z2GZg/t80K5DdIbFrk
-   3zeGt+ackLjOAf8FPE7CD9sfW/H9OUtZmZUQx98gokp5vY1e4awrW6n3p
-   g==;
-X-CSE-ConnectionGUID: g7mk798JRiS02frtJl4ZPg==
-X-CSE-MsgGUID: S6GNHVI9RLGjlDAynbIgMw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="41657007"
+  bh=R8FyDv5rv8rJtgbYzUd8A0iaxqWlGCbWLy7vw3Jb3WA=;
+  b=Z8bLwUZXSOrziTODqK/nEg4EbNKHfXdcxkjq2/bXkPK681/C0gmLMgti
+   zXIo4ktmsTN9fd/svBlIyF1ATt+pSUWL7edIP1WJEnIr4w3wy8bHwxZi/
+   6xY6hsWK/+JhRFVCrb3LGzOFTIboVv0qESkPFves93aaUOyGIC3XCwKkV
+   f1I5fwRl/c46qSmMWgPSQ3/Aq7MJ5nRFda0COuD1uUwCAHpXzjwHaaIDH
+   HnKJcrE3sAOO3vQ6ww+juQOZ0kJ6PIvsH+ehy7AYGrp8/sbaGvIBcPZKW
+   /6gP7+wBq5JwEX5QDRJ0qAjMVORpo7lI+/8lN3b3c4bzzvfQFSeHjY/zK
+   A==;
+X-CSE-ConnectionGUID: oMaMhOocQGi6f5j9EGZykw==
+X-CSE-MsgGUID: 8bm5yZLcT5K6SNx/zP/NGA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="34080906"
 X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="41657007"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 21:00:15 -0700
-X-CSE-ConnectionGUID: qt7jzscsTfWm/+Pm78BHkg==
-X-CSE-MsgGUID: qGzPQwNeSe+9uLFUZk8KNg==
+   d="scan'208";a="34080906"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 21:31:16 -0700
+X-CSE-ConnectionGUID: 7IPtyrvURpa8UB9iPwSfrw==
+X-CSE-MsgGUID: ec1I+s6OTpKN1ttdNLpfhg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="83966267"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="87912511"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Nov 2024 21:00:14 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 Nov 2024 21:31:15 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t75J5-000iO5-2i;
-	Sat, 02 Nov 2024 04:00:11 +0000
-Date: Sat, 2 Nov 2024 11:59:20 +0800
+	id 1t75n6-000iPd-37;
+	Sat, 02 Nov 2024 04:31:12 +0000
+Date: Sat, 2 Nov 2024 12:30:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev, Stephen Boyd <sboyd@kernel.org>
-Subject: [linux-next:master 7014/8858] drivers/clk/clk-eyeq.c:131
- eqc_pll_downshift_factors() warn: always true condition '(*mult <= (~0)) =>
- (0-u32max <= u32max)'
-Message-ID: <202411021153.lmUL4YKc-lkp@intel.com>
+To: Yi Liu <yi.l.liu@intel.com>, Kevin Tian <kevin.tian@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [yiliu1765-iommufd:wip/iommufd_pasid-20241101 2/57]
+ fork.c:(.text+0xf88): multiple definition of
+ `iommu_paging_domain_alloc_flags';
+ arch/arm/mm/dma-mapping.o:dma-mapping.c:(.text+0x7ec): first defined here
+Message-ID: <202411021229.6cL0SsTR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +64,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c88416ba074a8913cf6d61b789dd834bbca6681c
-commit: 25d904946a0baf08b16204d95dc3624096d99c38 [7014/8858] clk: eyeq: add driver
-config: csky-randconfig-r072-20241102 (https://download.01.org/0day-ci/archive/20241102/202411021153.lmUL4YKc-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
+tree:   https://github.com/yiliu1765/iommufd.git wip/iommufd_pasid-20241101
+head:   96a6bacf52e9104ff2ad3f9fd356325a88efe276
+commit: da9c8ba14267921a8fdce17e19d349faed4405af [2/57] iommu: Introduce iommu_paging_domain_alloc_flags()
+config: arm-sama7_defconfig (https://download.01.org/0day-ci/archive/20241102/202411021229.6cL0SsTR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411021229.6cL0SsTR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411021153.lmUL4YKc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411021229.6cL0SsTR-lkp@intel.com/
 
-smatch warnings:
-drivers/clk/clk-eyeq.c:131 eqc_pll_downshift_factors() warn: always true condition '(*mult <= (~0)) => (0-u32max <= u32max)'
-drivers/clk/clk-eyeq.c:131 eqc_pll_downshift_factors() warn: always true condition '(*div <= (~0)) => (0-u32max <= u32max)'
+All errors (new ones prefixed by >>):
 
-vim +131 drivers/clk/clk-eyeq.c
-
-   112	
-   113	/*
-   114	 * Both factors (mult and div) must fit in 32 bits. When an operation overflows,
-   115	 * this function throws away low bits so that factors still fit in 32 bits.
-   116	 *
-   117	 * Precision loss depends on amplitude of mult and div. Worst theorical
-   118	 * loss is: (UINT_MAX+1) / UINT_MAX - 1 = 2.3e-10.
-   119	 * This is 1Hz every 4.3GHz.
-   120	 */
-   121	static void eqc_pll_downshift_factors(unsigned long *mult, unsigned long *div)
-   122	{
-   123		unsigned long biggest;
-   124		unsigned int shift;
-   125	
-   126		/* This function can be removed if mult/div switch to unsigned long. */
-   127		static_assert(sizeof_field(struct clk_fixed_factor, mult) == sizeof(unsigned int));
-   128		static_assert(sizeof_field(struct clk_fixed_factor, div) == sizeof(unsigned int));
-   129	
-   130		/* No overflow, nothing to be done. */
- > 131		if (*mult <= UINT_MAX && *div <= UINT_MAX)
-   132			return;
-   133	
-   134		/*
-   135		 * Compute the shift required to bring the biggest factor into unsigned
-   136		 * int range. That is, shift its highest set bit to the unsigned int
-   137		 * most significant bit.
-   138		 */
-   139		biggest = max(*mult, *div);
-   140		shift = __fls(biggest) - (BITS_PER_BYTE * sizeof(unsigned int)) + 1;
-   141	
-   142		*mult >>= shift;
-   143		*div >>= shift;
-   144	}
-   145	
+   arm-linux-gnueabi-ld: kernel/fork.o: in function `iommu_paging_domain_alloc_flags':
+>> fork.c:(.text+0xf88): multiple definition of `iommu_paging_domain_alloc_flags'; arch/arm/mm/dma-mapping.o:dma-mapping.c:(.text+0x7ec): first defined here
+   arm-linux-gnueabi-ld: mm/init-mm.o: in function `iommu_paging_domain_alloc_flags':
+   init-mm.c:(.text+0x0): multiple definition of `iommu_paging_domain_alloc_flags'; arch/arm/mm/dma-mapping.o:dma-mapping.c:(.text+0x7ec): first defined here
+   arm-linux-gnueabi-ld: drivers/base/platform.o: in function `iommu_paging_domain_alloc_flags':
+   platform.c:(.text+0x1414): multiple definition of `iommu_paging_domain_alloc_flags'; arch/arm/mm/dma-mapping.o:dma-mapping.c:(.text+0x7ec): first defined here
 
 -- 
 0-DAY CI Kernel Test Service
