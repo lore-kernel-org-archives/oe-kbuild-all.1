@@ -1,82 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B5B22595;
-	Sat,  2 Nov 2024 00:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5065A920
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 00:43:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730506335; cv=none; b=EZsmsVZanwfV7cyciLMgKSbl2nmQ+JyDA58cFlrvv+sBae7rgF4o4gOe6a431b06ahoKhTlPkxQdOs4Cv9A54NmngV+NYQIOO6QABr2roXzcLB+hDpiiml1069JaiN7hIuMt/8qeRmZ1YyxrRkpg7AmRr2rq7+d4RkP9CxMHZFc=
+	t=1730508190; cv=none; b=u+WJmnhi2DHGxoREUgSBGfHNWx7yiUKF2ZDU73QV0U9OA8aFRu9phW+xPV+F0RizRoP6LhEpy6g/W4CMsXB8odJNCE3FelL+3GTDn9ouN0I7w46lZ4JOxqbwUctms8wQv+s8wYHvUJp+FnKcmg2QSUzPaM02gZbX2OHmrNBgCIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730506335; c=relaxed/simple;
-	bh=xv+nykGXHVSjOSmJkCXOvxnP2m+hqI1dTS+fBxn4gvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=paJlOWXHlIwkV+wQGI1xc7SEWRhUrVHCnSeFKQRVOJY9JXVYX8Op4yH9X5iZecRJxCbjNybEr+nnl9hhJdPcQqaFjB3QyG1tZy3eNzvW376I7TCa5+dyLnhcRTIik/v3Ll++GvaMb0mj+cp8ZZaR/NNhTVD8egAApBnaW7EFUCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oCk66Rwj; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1730508190; c=relaxed/simple;
+	bh=2Df7QsxULX8UpNjuYa3pDnlRbxp41kOakL/RV0piv3s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fJ/A5Kq9Rl91LNcDPT+jTM7Gv7PTUi+PE3uDJdu9YrGSPq7+rleALr7TLXDgqq4zEb6Rm8mvAgasdsQtt0i84kXwuaSbuS4hRwShlE03Jej6ROFAuw3anEM6jpG2SL9poKhlTlUj2NYuKnXrUMQNy52ybHNfU2EokfcivIqzo5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cOCQi7Gx; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oCk66Rwj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cOCQi7Gx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730506333; x=1762042333;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xv+nykGXHVSjOSmJkCXOvxnP2m+hqI1dTS+fBxn4gvc=;
-  b=oCk66RwjBNH4UpDfY9DN3J/PuaOfGhV86qLvPvSzlG17jYq0KQgDbLCy
-   8VUMzSM2gUmjhLSVXy8eQX7wnGKWG4xja2OZa5fiHJnZe78qTn0SK0Ue/
-   Q4Qn+C8IpPMwc8xQ5/CqMBPdz3dkWSRxBa1DGRD9nLNBplsCmXetuPNHx
-   PKjcYBF2g5TOv4yMeOao2iJicpry1C8SM8y4g/Ut8XveXkw/wTE+/ZA9t
-   ZuEOTBmH/u1gKNOQJs5lj50C40+bl8cAk7Co+px415hrBOxkZlEl6RdfU
-   6njEifGWjM7Vep4GSgNiHjFFB2+Hu1Rh8U9XvyxKzoz1GUjrTSGUikcXJ
+  t=1730508189; x=1762044189;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2Df7QsxULX8UpNjuYa3pDnlRbxp41kOakL/RV0piv3s=;
+  b=cOCQi7GxOvANOl2fGZcREnxX4vJmXP/8hT8Js6Wer+iiOoImgSugbGgE
+   XytXGyHlE3RNgrVoxWR9C5nYVa1KU1frWVdo72x8vErdfGIMrh46yKRu9
+   0M5S+w2UShXAbKLZjBIv5fRwZDA1NtF6EiELB6HqjbvKrzSfDEg4Q9ptG
+   exPnyY1g7EAdFAUoAN1SnA+5kqmSFDaf6asZ8Rj7bij10vr88TPweKwoS
+   22YGkRS2L1FwZBhV+VgY1YX+cef6ywoBnO5Au6UymnbeEgSKy6Xn2lM+T
+   IRewahkchn1gFjF5Z/nU324Vwc4Ofw8mDurjP7c/aVv3aBVEBQt+8QMAo
    w==;
-X-CSE-ConnectionGUID: cc3irFwNQ6uQXT+nK/g3eA==
-X-CSE-MsgGUID: LGkki9aHR1qnb+qhHZyZwg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="29708497"
-X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="29708497"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 17:12:12 -0700
-X-CSE-ConnectionGUID: SYcSZUb8SY2zz3VY3iFssg==
-X-CSE-MsgGUID: B71jvY/mS+aLgDu8y++ckg==
+X-CSE-ConnectionGUID: LxOo4WJnRJWD1uYsv4qtUg==
+X-CSE-MsgGUID: ifSZxrkyTHCWFQMw4fVILQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41379906"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41379906"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 17:43:09 -0700
+X-CSE-ConnectionGUID: HNtEnrLPS9STWvcu7smuSQ==
+X-CSE-MsgGUID: gVtdInzXTXy5Sr6P1VXAtg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="83559994"
+   d="scan'208";a="87640649"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2024 17:12:06 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Nov 2024 17:43:07 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t71kJ-000iCJ-1u;
-	Sat, 02 Nov 2024 00:12:03 +0000
-Date: Sat, 2 Nov 2024 08:11:54 +0800
+	id 1t72EK-000iER-37;
+	Sat, 02 Nov 2024 00:43:04 +0000
+Date: Sat, 2 Nov 2024 08:42:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Arinzon <darinzon@amazon.com>, David Miller <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, David Arinzon <darinzon@amazon.com>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	"Woodhouse, David" <dwmw@amazon.com>,
-	"Machulsky, Zorik" <zorik@amazon.com>,
-	"Matushevsky, Alexander" <matua@amazon.com>,
-	Saeed Bshara <saeedb@amazon.com>, "Wilson, Matt" <msw@amazon.com>,
-	"Liguori, Anthony" <aliguori@amazon.com>,
-	"Bshara, Nafea" <nafea@amazon.com>,
-	"Schmeilin, Evgeny" <evgenys@amazon.com>,
-	"Belgazal, Netanel" <netanel@amazon.com>,
-	"Saidi, Ali" <alisaidi@amazon.com>,
-	"Herrenschmidt, Benjamin" <benh@amazon.com>,
-	"Kiyanovski, Arthur" <akiyano@amazon.com>,
-	"Dagan, Noam" <ndagan@amazon.com>,
-	"Bernstein, Amit" <amitbern@amazon.com>,
-	"Agroskin, Shay" <shayagr@amazon.com>,
-	"Abboud, Osama" <osamaabb@amazon.com>,
-	"Ostrovsky, Evgeny" <evostrov@amazon.com>,
-	"Tabachnik, Ofir" <ofirt@amazon.com>,
-	"Machnikowski, Maciek" <maciek@machnikowski.net>
-Subject: Re: [PATCH v2 net-next 1/3] net: ena: Add PHC support in the ENA
- driver
-Message-ID: <202411020715.L7KdiUt4-lkp@intel.com>
-References: <20241031085245.18146-2-darinzon@amazon.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6 5/5]
+ arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1260:5:
+ warning: no previous prototype for 'smmu_map_pages'
+Message-ID: <202411020826.0PIkMfew-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,148 +62,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241031085245.18146-2-darinzon@amazon.com>
 
-Hi David,
+Hi Mostafa,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Arinzon/net-ena-Add-PHC-support-in-the-ENA-driver/20241031-165503
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241031085245.18146-2-darinzon%40amazon.com
-patch subject: [PATCH v2 net-next 1/3] net: ena: Add PHC support in the ENA driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241102/202411020715.L7KdiUt4-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020715.L7KdiUt4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6
+head:   4996d55916ef7ac29e8741314de1320e5bdc8bf9
+commit: a737b7d0e7214b258b75010404de3de09d2d5c0d [5/5] ANDROID: KVM: arm64: iommu: Reduce the logic in generic code
+config: arm64-randconfig-r061-20241101 (https://download.01.org/0day-ci/archive/20241102/202411020826.0PIkMfew-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020826.0PIkMfew-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411020715.L7KdiUt4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411020826.0PIkMfew-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/amazon/ena/ena_com.c:6:
-   In file included from drivers/net/ethernet/amazon/ena/ena_com.h:11:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/amazon/ena/ena_com.c:1703:7: error: expected ')'
-    1703 |                                   ENA_ADMIN_PHC_CONFIG,
-         |                                   ^
-   drivers/net/ethernet/amazon/ena/ena_com.c:1701:27: note: to match this '('
-    1701 |         ret = ena_com_get_feature(ena_dev,
-         |                                  ^
-   4 warnings and 1 error generated.
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:768:5: warning: no previous prototype for 'smmu_domain_config_s2' [-Wmissing-prototypes]
+     768 | int smmu_domain_config_s2(struct kvm_hyp_iommu_domain *domain, u64 *ent)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:800:5: warning: no previous prototype for 'smmu_domain_config_s1' [-Wmissing-prototypes]
+     800 | int smmu_domain_config_s1(struct hyp_arm_smmu_v3_device *smmu,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:874:5: warning: no previous prototype for 'smmu_domain_finalise' [-Wmissing-prototypes]
+     874 | int smmu_domain_finalise(struct hyp_arm_smmu_v3_device *smmu,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1149:5: warning: no previous prototype for 'smmu_alloc_domain' [-Wmissing-prototypes]
+    1149 | int smmu_alloc_domain(struct kvm_hyp_iommu_domain *domain, u32 type)
+         |     ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1168:6: warning: no previous prototype for 'smmu_free_domain' [-Wmissing-prototypes]
+    1168 | void smmu_free_domain(struct kvm_hyp_iommu_domain *domain)
+         |      ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1180:6: warning: no previous prototype for 'smmu_dabt_device' [-Wmissing-prototypes]
+    1180 | bool smmu_dabt_device(struct hyp_arm_smmu_v3_device *smmu,
+         |      ^~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1223:6: warning: no previous prototype for 'smmu_dabt_handler' [-Wmissing-prototypes]
+    1223 | bool smmu_dabt_handler(struct kvm_cpu_context *host_ctxt, u64 esr, u64 addr)
+         |      ^~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1235:5: warning: no previous prototype for 'smmu_suspend' [-Wmissing-prototypes]
+    1235 | int smmu_suspend(struct kvm_hyp_iommu *iommu)
+         |     ^~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1248:5: warning: no previous prototype for 'smmu_resume' [-Wmissing-prototypes]
+    1248 | int smmu_resume(struct kvm_hyp_iommu *iommu)
+         |     ^~~~~~~~~~~
+>> arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c:1260:5: warning: no previous prototype for 'smmu_map_pages' [-Wmissing-prototypes]
+    1260 | int smmu_map_pages(struct kvm_hyp_iommu_domain *domain, unsigned long iova,
+         |     ^~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
 
 
-vim +1703 drivers/net/ethernet/amazon/ena/ena_com.c
+vim +/smmu_map_pages +1260 arch/arm64/kvm/hyp/nvhe/../../../../../drivers/iommu/arm/arm-smmu-v3/pkvm/arm-smmu-v3.c
 
-  1691	
-  1692	int ena_com_phc_config(struct ena_com_dev *ena_dev)
-  1693	{
-  1694		struct ena_com_phc_info *phc = &ena_dev->phc;
-  1695		struct ena_admin_get_feat_resp get_feat_resp;
-  1696		struct ena_admin_set_feat_resp set_feat_resp;
-  1697		struct ena_admin_set_feat_cmd set_feat_cmd;
-  1698		int ret = 0;
-  1699	
-  1700		/* Get device PHC default configuration */
-  1701		ret = ena_com_get_feature(ena_dev,
-  1702					  &get_feat_resp
-> 1703					  ENA_ADMIN_PHC_CONFIG,
-  1704					  0);
-  1705		if (unlikely(ret)) {
-  1706			netdev_err(ena_dev->net_device,
-  1707				   "Failed to get PHC feature configuration, error: %d\n",
-  1708				   ret);
-  1709			return ret;
-  1710		}
-  1711	
-  1712		/* Supporting only readless PHC retrieval */
-  1713		if (get_feat_resp.u.phc.type != ENA_ADMIN_PHC_TYPE_READLESS) {
-  1714			netdev_err(ena_dev->net_device, "Unsupported PHC type, error: %d\n",
-  1715				   -EOPNOTSUPP);
-  1716			return -EOPNOTSUPP;
-  1717		}
-  1718	
-  1719		/* Update PHC doorbell offset according to device value,
-  1720		 * used to write req_id to PHC bar
-  1721		 */
-  1722		phc->doorbell_offset = get_feat_resp.u.phc.doorbell_offset;
-  1723	
-  1724		/* Update PHC expire timeout according to device
-  1725		 * or default driver value
-  1726		 */
-  1727		phc->expire_timeout_usec = (get_feat_resp.u.phc.expire_timeout_usec) ?
-  1728					    get_feat_resp.u.phc.expire_timeout_usec :
-  1729					    ENA_PHC_DEFAULT_EXPIRE_TIMEOUT_USEC;
-  1730	
-  1731		/* Update PHC block timeout according to device
-  1732		 * or default driver value
-  1733		 */
-  1734		phc->block_timeout_usec = (get_feat_resp.u.phc.block_timeout_usec) ?
-  1735					   get_feat_resp.u.phc.block_timeout_usec :
-  1736					   ENA_PHC_DEFAULT_BLOCK_TIMEOUT_USEC;
-  1737	
-  1738		/* Sanity check - expire timeout must not be above skip timeout */
-  1739		if (phc->expire_timeout_usec > phc->block_timeout_usec)
-  1740			phc->expire_timeout_usec = phc->block_timeout_usec;
-  1741	
-  1742		/* Prepare PHC config feature command */
-  1743		memset(&set_feat_cmd, 0x0, sizeof(set_feat_cmd));
-  1744		set_feat_cmd.aq_common_descriptor.opcode = ENA_ADMIN_SET_FEATURE;
-  1745		set_feat_cmd.feat_common.feature_id = ENA_ADMIN_PHC_CONFIG;
-  1746		set_feat_cmd.u.phc.output_length = sizeof(*phc->virt_addr);
-  1747		ret = ena_com_mem_addr_set(ena_dev,
-  1748					   &set_feat_cmd.u.phc.output_address,
-  1749					   phc->phys_addr);
-  1750		if (unlikely(ret)) {
-  1751			netdev_err(ena_dev->net_device, "Failed setting PHC output address, error: %d\n",
-  1752				   ret);
-  1753			return ret;
-  1754		}
-  1755	
-  1756		/* Send PHC feature command to the device */
-  1757		ret = ena_com_execute_admin_command(&ena_dev->admin_queue,
-  1758						    (struct ena_admin_aq_entry *)&set_feat_cmd,
-  1759						    sizeof(set_feat_cmd),
-  1760						    (struct ena_admin_acq_entry *)&set_feat_resp,
-  1761						    sizeof(set_feat_resp));
-  1762	
-  1763		if (unlikely(ret)) {
-  1764			netdev_err(ena_dev->net_device,
-  1765				   "Failed to enable PHC, error: %d\n",
-  1766				   ret);
-  1767			return ret;
-  1768		}
-  1769	
-  1770		phc->active = true;
-  1771		netdev_dbg(ena_dev->net_device, "PHC is active in the device\n");
-  1772	
-  1773		return ret;
-  1774	}
-  1775	
+  1259	
+> 1260	int smmu_map_pages(struct kvm_hyp_iommu_domain *domain, unsigned long iova,
+  1261			   phys_addr_t paddr, size_t pgsize,
+  1262			   size_t pgcount, int prot, size_t *total_mapped)
+  1263	{
+  1264		size_t mapped;
+  1265		size_t granule;
+  1266		int ret;
+  1267		struct hyp_arm_smmu_v3_domain *smmu_domain = domain->priv;
+  1268	
+  1269		granule = 1UL << __ffs(domain->pgtable->cfg.pgsize_bitmap);
+  1270		if (!IS_ALIGNED(iova | paddr | pgsize, granule))
+  1271			return -EINVAL;
+  1272	
+  1273		hyp_spin_lock(&smmu_domain->pgt_lock);
+  1274		while (pgcount && !ret) {
+  1275			mapped = 0;
+  1276			ret = domain->pgtable->ops.map_pages(&domain->pgtable->ops, iova, paddr, pgsize,
+  1277							     pgcount, prot, 0, &mapped);
+  1278			if (ret)
+  1279				break;
+  1280			WARN_ON(!IS_ALIGNED(mapped, pgsize));
+  1281			WARN_ON(mapped > pgcount * pgsize);
+  1282	
+  1283			pgcount -= mapped / pgsize;
+  1284			*total_mapped += mapped;
+  1285			iova += mapped;
+  1286			paddr += mapped;
+  1287		}
+  1288		hyp_spin_unlock(&smmu_domain->pgt_lock);
+  1289	
+  1290		return 0;
+  1291	}
+  1292	
 
 -- 
 0-DAY CI Kernel Test Service
