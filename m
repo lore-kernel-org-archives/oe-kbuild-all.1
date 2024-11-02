@@ -1,81 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7F2156F39
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 07:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3000C12FF69
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 07:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730531310; cv=none; b=F3BIMhqgUdtkwaUwKtYcdRQF66c909kEG7JegTu/D+EGnuj2aZSJ4WaHGtkKN3sQ3aMhbKD0FdJ90I8+wgsx8rNo2rS8wtFPGy9wvKJo3VJPE+oiWERo26PCRM3IHA7r26d4odRTP6xgNExHvm8WQum/0m06YKbpyLF2B7k90hU=
+	t=1730533824; cv=none; b=Dt2SqQzR2KIbvj79wMtbMJkDPNaD/Vg0om11PnbXRDwO0qQA3uT9ooJdlWuEqQQP2c2aY7BTqPhJaFCx04FsuLP+c84h7XkhaCltl/rEidf9XFxk4NYNp5/uh3Hm8TapAxqfFAFRZjEUshkB7Y+7hzeLPbFCj/bPkh1Ev6coxFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730531310; c=relaxed/simple;
-	bh=kXMw8nXdTzh+5/TW0jzALf0sAcfEu/eK7OpnnWpYv/Y=;
+	s=arc-20240116; t=1730533824; c=relaxed/simple;
+	bh=xyj21Cadg2qWGouZ2QqbVMHmLQMIbSTPDWf88yLiIlI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jdw/9RiwD+3yIFgobkRRGuL0qQlsDvg3hqGr9a2OCr/i5FO+uUgB5Lg+Y4kPXmil5b6FVoo2RNGNF3+EaJqZM25x4rZ6BShio3Hzu1UBp3MlQ64sQJA/NILxBofJmDc+otJR7r6B5FBw1+i61+qwEuqpxxDSTYKaTRSFfwAdObo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyT3k4zB; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=mkN3KV0gBObta1w71dMZ4J6Bk8+w/C0LQi/DP8kcxdTtzgvFcjB5nLNm1n9mO9Uc+MuW4J46rALhWu0yOR0Q3MKQuMlPD00N8sg4ybXTAoAocKo/4QOtISjqz7oZ+wzs3HcKFly9g/qwtcIVqjCGDMjO029W4NbZhHvMuv6DWT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YvtQyTsS; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyT3k4zB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvtQyTsS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730531309; x=1762067309;
+  t=1730533822; x=1762069822;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=kXMw8nXdTzh+5/TW0jzALf0sAcfEu/eK7OpnnWpYv/Y=;
-  b=FyT3k4zBvgJNmsNN1T+Iy0nTn/epoZ32tl5nL+eZHs/9Fd5ZEBOZ01bF
-   A1MEiTgids/2f+iio7QDyhL15nYdakEM+ypiAamNeWeX6bg0AXDmA5S4l
-   B1bwsr3TVl51hvz/Q3Mf0Kr4hI26NGv4T1VVo+D+GNK6tCIiOldKwgD6W
-   5eZsOaU3u3ruMmu1M7s8vVv73HRz+3e2BPjdgm3Y4uGJaY2JxuNmO8LjL
-   +ShnGYGlrzDuM4vfhVP7pFofry9compcq1JKQRaDQsaVUAx0l17CL8ZmW
-   InVoJfwCdaCfWmcO0fMqMhn44jn0HyJuAyYmbVx+NiKDyswr0dPt87bDK
+  bh=xyj21Cadg2qWGouZ2QqbVMHmLQMIbSTPDWf88yLiIlI=;
+  b=YvtQyTsS96hzxKyCQ+rZ1S9qZzjbitvyTMRz7UWJNruvEKfouTdTKdjW
+   Fm8HWiUK+au9FFRn1txW1MbuXdDsBZrjUoe8Vi7UAsqIvCfXedrpaZ0eD
+   A/0D/kRi4qStNeVrqT6vp2/8brbZazpCg28gHnnUbKrfrIOqLMsilDhdN
+   mJHUEOFOgrOwofOkwNKkbDsVI43Elz7ME3VI7PT7oi20MtVwlGoG6M5Td
+   kF0Lw8neytLs5fLqMI+Eq6cCkyfUTQWSTAZRl/kMiyDimoNaC1ZEHNrBe
+   nBTwWW02TeWeZ0Fnxj+Wz3yDhUZLKIBerOhfiWYiefBtJJMmJl9k1eJte
    A==;
-X-CSE-ConnectionGUID: 4r4O2VitShWS0zB2+6qGiQ==
-X-CSE-MsgGUID: rPS0279GSBafEqcy2R0xCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30476056"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30476056"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 00:08:28 -0700
-X-CSE-ConnectionGUID: ZvuMZxJSQPWa9EjT1rIthQ==
-X-CSE-MsgGUID: 4m6SlXJwTuiw/LQreG7Obg==
+X-CSE-ConnectionGUID: ivFpeknIQtytOxiJVBZElQ==
+X-CSE-MsgGUID: vNqPc+y1Qfucbo2Iki1LFw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="41663350"
+X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
+   d="scan'208";a="41663350"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 00:50:22 -0700
+X-CSE-ConnectionGUID: mE0pGos6QrC4kpmiLs7q/A==
+X-CSE-MsgGUID: rNQamn6vQkumReV4ILS5lg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="87930409"
+X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
+   d="scan'208";a="87107093"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 02 Nov 2024 00:08:21 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2024 00:50:20 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t78F7-000iXl-2Q;
-	Sat, 02 Nov 2024 07:08:17 +0000
-Date: Sat, 2 Nov 2024 15:07:54 +0800
+	id 1t78tm-000iZV-2R;
+	Sat, 02 Nov 2024 07:50:18 +0000
+Date: Sat, 2 Nov 2024 15:49:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Jason Baron <jbaron@akamai.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Wedson Almeida Filho <wedsonaf@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Uros Bizjak <ubizjak@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v12 3/5] rust: samples: add tracepoint to Rust sample
-Message-ID: <202411021421.jZ0FSDq6-lkp@intel.com>
-References: <20241030-tracepoint-v12-3-eec7f0f8ad22@google.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC v2 3/7] drm/connector: implement generic HDMI codec
+ helpers
+Message-ID: <202411021500.tp7G2CnS-lkp@intel.com>
+References: <20241101-drm-bridge-hdmi-connector-v2-3-739ef9addf9e@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,54 +63,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030-tracepoint-v12-3-eec7f0f8ad22@google.com>
+In-Reply-To: <20241101-drm-bridge-hdmi-connector-v2-3-739ef9addf9e@linaro.org>
 
-Hi Alice,
+Hi Dmitry,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on eb887c4567d1b0e7684c026fe7df44afa96589e6]
+[auto build test WARNING on f9f24ca362a4d84dd8aeb4b8f3ec28cb6c43dd06]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-add-static_branch_unlikely-for-static_key_false/20241031-000709
-base:   eb887c4567d1b0e7684c026fe7df44afa96589e6
-patch link:    https://lore.kernel.org/r/20241030-tracepoint-v12-3-eec7f0f8ad22%40google.com
-patch subject: [PATCH v12 3/5] rust: samples: add tracepoint to Rust sample
-config: x86_64-randconfig-103-20241101 (https://download.01.org/0day-ci/archive/20241102/202411021421.jZ0FSDq6-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411021421.jZ0FSDq6-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/ASoC-hdmi-codec-pass-data-to-get_dai_id-too/20241101-182046
+base:   f9f24ca362a4d84dd8aeb4b8f3ec28cb6c43dd06
+patch link:    https://lore.kernel.org/r/20241101-drm-bridge-hdmi-connector-v2-3-739ef9addf9e%40linaro.org
+patch subject: [PATCH RFC v2 3/7] drm/connector: implement generic HDMI codec helpers
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241102/202411021500.tp7G2CnS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411021500.tp7G2CnS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411021421.jZ0FSDq6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411021500.tp7G2CnS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0425]: cannot find value `__tracepoint_rust_sample_loaded` in crate `$crate::bindings`
-   --> samples/rust/rust_print.rs:87:5
-   |
-   87 | /     kernel::declare_trace! {
-   88 | |         /// # Safety
-   89 | |         ///
-   90 | |         /// Always safe to call.
-   91 | |         unsafe fn rust_sample_loaded(magic: c_int);
-   92 | |     }
-   | |_____^ not found in `$crate::bindings`
-   |
-   = note: this error originates in the macro `kernel::declare_trace` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0425]: cannot find function `rust_do_trace_rust_sample_loaded` in crate `$crate::bindings`
-   --> samples/rust/rust_print.rs:87:5
-   |
-   87 | /     kernel::declare_trace! {
-   88 | |         /// # Safety
-   89 | |         ///
-   90 | |         /// Always safe to call.
-   91 | |         unsafe fn rust_sample_loaded(magic: c_int);
-   92 | |     }
-   | |_____^ not found in `$crate::bindings`
-   |
-   = note: this error originates in the macro `kernel::declare_trace` (in Nightly builds, run with -Z macro-backtrace for more info)
+>> drivers/gpu/drm/drm_connector_hdmi_codec.c:161: warning: expecting prototype for drm_connector_hdmi_init(). Prototype was for drm_connector_hdmi_codec_init() instead
+
+
+vim +161 drivers/gpu/drm/drm_connector_hdmi_codec.c
+
+   150	
+   151	/**
+   152	 * drm_connector_hdmi_init - Initialize HDMI Codec device for the DRM connector
+   153	 * @connector: A pointer to the connector to allocate codec for
+   154	 *
+   155	 * Create a HDMI codec device to be used with the specified connector.
+   156	 *
+   157	 * Returns:
+   158	 * Zero on success, error code on failure.
+   159	 */
+   160	int drm_connector_hdmi_codec_init(struct drm_connector *connector)
+ > 161	{
 
 -- 
 0-DAY CI Kernel Test Service
