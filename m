@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF10175D29
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 11:39:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C2A149E16
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 12:20:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730547582; cv=none; b=MzcZsGUbC7x8bMpMZN/vNLEbA+nb7q3y9Z48busHv5Fz337M1drFsY1pmbvjNP5Hpy3gly5RRUWvflsykctPyIPWOoUaZC+xpvrjrpy9XZQJtSb6sykxj98C7/U6zOs1eQagzZ4eBxTQ4rRmf3U2XxF5zkCtuFDBIYRLR7YaD8E=
+	t=1730550039; cv=none; b=N2nsvYJ1tx4lYQ+25xeFQQqTx7De3VMAKQBJkiVxyttcGFKjgwX2TnIIbKLVh5BwoZB+WGKt8RO4iaVmSUW6yo4HEt/pvTpXvAXhrJhYNsZPyVchvP80RcE5PhFQcaelFMpqpsfWxgwBjCVFv2Lp4vx/ccCpkw0B+ZtKYxpbnPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730547582; c=relaxed/simple;
-	bh=AMrjIY8dJeUvVWVkGizF8Yx7actymBoa3uQKiOySwbk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KR3b6yJAcuOesxMNNcHGPm/tfQRoTKnOGAlgdsBHJwZq9PvNpwBqwl6ecUTxXNShvTQ0rzUBurLM6OZNM8IQN2ezkAr2zrx90LUDWfpOj1fxvLWBQua1ZpOHDIvf3jfdJXjhH0So5OaI4SLoJAHFA1+vEQFYALUfxvwLitKi+rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ke9/hGA/; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1730550039; c=relaxed/simple;
+	bh=e8fHVUlSWejsmWEMdzLqyPWjoQFPmDdjTG651vph47c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ja+bmclhqBMkyx8atOZ9/E+T8/rip2CP2vF0IBV1gKxoN5YeNNZwbrCSeNAb+xFZVOgWjMDHoy+4rnsc/UNwISGRMFJJ8o5oShxsceYPvVNm4QodOlFkic0UOcyR3kFGozITqS6vhXjoKElyTzu2BUrLj5KDq3e5A2JtkuYo2JE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J3omALFo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ke9/hGA/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J3omALFo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730547580; x=1762083580;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AMrjIY8dJeUvVWVkGizF8Yx7actymBoa3uQKiOySwbk=;
-  b=Ke9/hGA/eNmoYueTNkraz+UGiwb6nls1XFOavV0JaPk648KSbUaFOMKg
-   wZdzoJDkxVKcsSlwqwyPQvt7Nw2noHdQRAiaV1+yu6k1gAOeI2tmK+oEq
-   Eb7FmEmovpwD0x0oiNuvGolQi0Ac/xLWTPCquCxCuhVjTKOjpLQMN3cmX
-   YircFPodzUVb6fR3xgSlOMlPnS6OXDNji4RUxoMN4H7oZ2lxo5VqY9haf
-   ArflYx5rEYRPLK4E3YNc1C/sj3zzkRKm3WTEIXpY82vsHEIjiFFKbIgKZ
-   8Pc13Yj7i1UjQDlBpW/8QDqxpOEl/7ease88hjnkii8UAg+3LKklM196P
-   w==;
-X-CSE-ConnectionGUID: gHJu86TXSDWPfPHGbTEB7A==
-X-CSE-MsgGUID: KJEZibdBQQu912VXx0oETg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="30414480"
-X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
-   d="scan'208";a="30414480"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 04:39:40 -0700
-X-CSE-ConnectionGUID: RlAAphZrTJaTT0VA4y0i8g==
-X-CSE-MsgGUID: yH3ycratQoe/iycCHmTR7A==
+  t=1730550037; x=1762086037;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=e8fHVUlSWejsmWEMdzLqyPWjoQFPmDdjTG651vph47c=;
+  b=J3omALFofR5m45gjH9PnMVWfV0ATIlcmOJmrI9SbTIKutLJT4EDaqmLE
+   G47UXj6ZuqwCa4d7ZpyrbqskJ0wX6kO1krg3E3vYbevlhoczQgRRqQIOu
+   6x/ga20Ibj+KihWyU6G+U4CEvAHn1kMMTNIv7ydN18R8t+pdrcc35gbP4
+   8q3KMWfPQi3dR8nLWgs0G2eicfSyGqhJtrYA6dsxn6ET3R73ufm6aGRSF
+   n5h77uCbPNGLjwWu3KbJ+Fjr6bLj2qvN8U/i+LTf1046+Wan1RWIAEoSw
+   pPB+5nUOgd37WSc8WMpWxK3K5nATEEWSAtBcNwG5tsKjYjVOfNdyK5xUO
+   g==;
+X-CSE-ConnectionGUID: U7ACbGZ5RTir4w1Q19ObZA==
+X-CSE-MsgGUID: YpEVa0I2SIeqDMXEYntmzg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52868400"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52868400"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 05:20:37 -0700
+X-CSE-ConnectionGUID: TWynLSS9Q/ORt9JSmGHFxQ==
+X-CSE-MsgGUID: qXi9IjsCTkyO3YZagnQj5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
-   d="scan'208";a="114017845"
+   d="scan'208";a="87140861"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Nov 2024 04:39:33 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 02 Nov 2024 05:20:35 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7CTb-000is3-1W;
-	Sat, 02 Nov 2024 11:39:31 +0000
-Date: Sat, 2 Nov 2024 19:39:05 +0800
+	id 1t7D7I-000iu1-1h;
+	Sat, 02 Nov 2024 12:20:32 +0000
+Date: Sat, 2 Nov 2024 20:20:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jishnu Prakash <quic_jprakash@quicinc.com>, jic23@kernel.org,
-	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
-	conor+dt@kernel.org, agross@kernel.org, andersson@kernel.org,
-	dmitry.baryshkov@linaro.org, konrad.dybcio@linaro.org,
-	daniel.lezcano@linaro.org, sboyd@kernel.org,
-	quic_subbaram@quicinc.com, quic_collinsd@quicinc.com,
-	quic_amelende@quicinc.com, quic_kamalw@quicinc.com,
-	amitk@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, lee@kernel.org, rafael@kernel.org,
-	rui.zhang@intel.com, lukasz.luba@arm.com, lars@metafoo.de,
-	quic_skakitap@quicinc.com, neil.armstrong@linaro.org,
-	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, cros-qcom-dts-watchers@chromium.org,
-	Jishnu Prakash <quic_jprakash@quicinc.com>
-Subject: Re: [PATCH V4 4/4] thermal: qcom: add support for PMIC5 Gen3 ADC
- thermal monitoring
-Message-ID: <202411021924.bHINpnCr-lkp@intel.com>
-References: <20241030185854.4015348-5-quic_jprakash@quicinc.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2024-11 1/1]
+ arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:58: error: variable has incomplete
+ type 'enum pkvm_psci_notification'
+Message-ID: <202411022031.nz1teXBG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,182 +62,291 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241030185854.4015348-5-quic_jprakash@quicinc.com>
 
-Hi Jishnu,
+Hi Quentin,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 6fb2fa9805c501d9ade047fc511961f3273cdcb5]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jishnu-Prakash/dt-bindings-iio-adc-Move-QCOM-ADC-bindings-to-iio-adc-folder/20241031-030237
-base:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
-patch link:    https://lore.kernel.org/r/20241030185854.4015348-5-quic_jprakash%40quicinc.com
-patch subject: [PATCH V4 4/4] thermal: qcom: add support for PMIC5 Gen3 ADC thermal monitoring
-config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20241102/202411021924.bHINpnCr-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411021924.bHINpnCr-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-11
+head:   4dc1c153f7b0c12b5ace41e7383514e9ab54cd3b
+commit: a6f552f0abf27513c692c5dcd8e470c9dbea8b53 [1/1] ANDROID: KVM: arm64: Notify pKVM modules of PSCI events
+config: arm64-randconfig-002-20241102 (https://download.01.org/0day-ci/archive/20241102/202411022031.nz1teXBG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022031.nz1teXBG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411021924.bHINpnCr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411022031.nz1teXBG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:599,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/fortify-string.h:6,
-                    from include/linux/string.h:390,
-                    from arch/x86/include/asm/page_32.h:18,
-                    from arch/x86/include/asm/page.h:14,
-                    from arch/x86/include/asm/processor.h:20,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/auxiliary_bus.h:11,
-                    from include/linux/iio/adc/qcom-adc5-gen3-common.h:12,
-                    from drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c:7:
-   drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c: In function 'adctm5_gen3_isr':
->> drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c:103:31: warning: format '%x' expects argument of type 'unsigned int', but argument 5 has type 'u8 *' {aka 'unsigned char *'} [-Wformat=]
-     103 |         dev_dbg(adc_tm5->dev, "Interrupt status:%#x, TM status:%#x, high:%#x, low:%#x\n",
-         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c:103:9: note: in expansion of macro 'dev_dbg'
-     103 |         dev_dbg(adc_tm5->dev, "Interrupt status:%#x, TM status:%#x, high:%#x, low:%#x\n",
-         |         ^~~~~~~
-   drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c:103:66: note: format string is defined here
-     103 |         dev_dbg(adc_tm5->dev, "Interrupt status:%#x, TM status:%#x, high:%#x, low:%#x\n",
-         |                                                                ~~^
-         |                                                                  |
-         |                                                                  unsigned int
-         |                                                                %#hhn
---
->> drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c:22: warning: Cannot understand  * @adc_tm: indicates if the channel is used for TM measurements.
-    on line 22 - I thought it was a doc line
+   In file included from arch/arm64/kvm/hyp/nvhe/psci-relay.c:7:
+   In file included from arch/arm64/include/asm/kvm_asm.h:50:
+   In file included from include/linux/mm.h:2168:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:28:40: warning: declaration of 'enum pkvm_psci_notification' will not be visible outside of this function [-Wvisibility]
+      28 | static void (*pkvm_psci_notifier)(enum pkvm_psci_notification, struct user_pt_regs *);
+         |                                        ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:35: warning: declaration of 'enum pkvm_psci_notification' will not be visible outside of this function [-Wvisibility]
+      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |                                   ^
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:58: error: variable has incomplete type 'enum pkvm_psci_notification'
+      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |                                                          ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:29:35: note: forward declaration of 'enum pkvm_psci_notification'
+      29 | static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+         |                                   ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:51: warning: declaration of 'enum pkvm_psci_notification' will not be visible outside of this function [-Wvisibility]
+      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+         |                                                   ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:5: warning: no previous prototype for function '__pkvm_register_psci_notifier' [-Wmissing-prototypes]
+      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+         |     ^
+   arch/arm64/kvm/hyp/nvhe/psci-relay.c:35:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      35 | int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+         | ^
+         | static 
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:191:19: error: use of undeclared identifier 'PKVM_PSCI_CPU_SUSPEND'
+     191 |         pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
+         |                          ^
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:223:19: error: use of undeclared identifier 'PKVM_PSCI_SYSTEM_SUSPEND'
+     223 |         pkvm_psci_notify(PKVM_PSCI_SYSTEM_SUSPEND, host_ctxt);
+         |                          ^
+>> arch/arm64/kvm/hyp/nvhe/psci-relay.c:251:19: error: use of undeclared identifier 'PKVM_PSCI_CPU_ENTRY'
+     251 |         pkvm_psci_notify(PKVM_PSCI_CPU_ENTRY, host_ctxt);
+         |                          ^
+   9 warnings and 4 errors generated.
 
 
-vim +103 drivers/thermal/qcom/qcom-spmi-adc-tm5-gen3.c
+vim +29 arch/arm64/kvm/hyp/nvhe/psci-relay.c
 
-   > 7	#include <linux/iio/adc/qcom-adc5-gen3-common.h>
-     8	#include <linux/iio/consumer.h>
-     9	#include <linux/interrupt.h>
-    10	#include <linux/module.h>
-    11	#include <linux/of.h>
-    12	#include <linux/platform_device.h>
-    13	#include <linux/regmap.h>
-    14	#include <linux/thermal.h>
-    15	#include <linux/unaligned.h>
-    16	
-    17	#include "../thermal_hwmon.h"
-    18	
-    19	struct adc_tm5_gen3_chip;
-    20	
-    21	/**
-  > 22	 * @adc_tm: indicates if the channel is used for TM measurements.
-    23	 * @tm_chan_index: TM channel number used (ranging from 1-7).
-    24	 * @timer: time period of recurring TM measurement.
-    25	 * @tzd: pointer to thermal device corresponding to TM channel.
-    26	 * @high_thr_en: TM high threshold crossing detection enabled.
-    27	 * @low_thr_en: TM low threshold crossing detection enabled.
-    28	 * @last_temp: last temperature that caused threshold violation,
-    29	 *	or a thermal TM channel.
-    30	 * @last_temp_set: indicates if last_temp is stored.
-    31	 */
-    32	
-    33	struct adc_tm5_gen3_channel_props {
-    34		struct device			*dev;
-    35		unsigned int			timer;
-    36		unsigned int			tm_chan_index;
-    37		unsigned int			sdam_index;
-    38		struct adc5_channel_common_prop common_props;
-    39		bool			high_thr_en;
-    40		bool			low_thr_en;
-    41		bool			meas_en;
-    42		struct adc_tm5_gen3_chip	*chip;
-    43		struct thermal_zone_device *tzd;
-    44		int				last_temp;
-    45		bool				last_temp_set;
-    46	};
-    47	
-    48	struct adc_tm5_gen3_chip {
-    49		struct adc5_device_data	*dev_data;
-    50		struct adc_tm5_gen3_channel_props	*chan_props;
-    51		unsigned int		nchannels;
-    52		struct device		*dev;
-    53		struct work_struct		tm_handler_work;
-    54	};
+    27	
+    28	static void (*pkvm_psci_notifier)(enum pkvm_psci_notification, struct user_pt_regs *);
+  > 29	static void pkvm_psci_notify(enum pkvm_psci_notification notif, struct kvm_cpu_context *host_ctxt)
+    30	{
+    31		if (smp_load_acquire(&pkvm_psci_notifier))
+    32			pkvm_psci_notifier(notif, &host_ctxt->regs);
+    33	}
+    34	
+    35	int __pkvm_register_psci_notifier(void (*cb)(enum pkvm_psci_notification, struct user_pt_regs *))
+    36	{
+    37		/*
+    38		 * Paired with smp_load_acquire(&pkvm_psci_notifier) in
+    39		 * pkvm_psci_notify(). Ensure memory stores hapenning during a pKVM module
+    40		 * init are observed before executing the callback.
+    41		 */
+    42		return cmpxchg_release(&pkvm_psci_notifier, NULL, cb) ? -EBUSY : 0;
+    43	}
+    44	
+    45	#define INVALID_CPU_ID	UINT_MAX
+    46	
+    47	struct psci_boot_args {
+    48		atomic_t lock;
+    49		unsigned long pc;
+    50		unsigned long r0;
+    51	};
+    52	
+    53	#define PSCI_BOOT_ARGS_UNLOCKED		0
+    54	#define PSCI_BOOT_ARGS_LOCKED		1
     55	
-    56	static int get_sdam_from_irq(struct adc_tm5_gen3_chip *adc_tm5, int irq)
-    57	{
-    58		int i;
-    59	
-    60		for (i = 0; i < adc_tm5->dev_data->num_sdams; i++) {
-    61			if (adc_tm5->dev_data->base[i].irq == irq)
-    62				return i;
-    63		}
-    64		return -ENOENT;
-    65	}
-    66	
-    67	static irqreturn_t adctm5_gen3_isr(int irq, void *dev_id)
-    68	{
-    69		struct adc_tm5_gen3_chip *adc_tm5 = dev_id;
-    70		u8 status, tm_status[2], val;
-    71		int ret, sdam_num;
-    72	
-    73		sdam_num = get_sdam_from_irq(adc_tm5, irq);
-    74		if (sdam_num < 0) {
-    75			dev_err(adc_tm5->dev, "adc irq %d not associated with an sdam\n", irq);
-    76			return IRQ_HANDLED;
-    77		}
-    78	
-    79		ret = adc5_gen3_read(adc_tm5->dev_data, sdam_num, ADC5_GEN3_STATUS1, &status, 1);
-    80		if (ret) {
-    81			dev_err(adc_tm5->dev, "adc read status1 failed with %d\n", ret);
-    82			return IRQ_HANDLED;
-    83		}
-    84	
-    85		if (status & ADC5_GEN3_STATUS1_CONV_FAULT) {
-    86			dev_err_ratelimited(adc_tm5->dev, "Unexpected conversion fault, status:%#x\n",
-    87					    status);
-    88			val = ADC5_GEN3_CONV_ERR_CLR_REQ;
-    89			adc5_gen3_status_clear(adc_tm5->dev_data, sdam_num, ADC5_GEN3_CONV_ERR_CLR, &val,
-    90					       1);
-    91			return IRQ_HANDLED;
-    92		}
-    93	
-    94		ret = adc5_gen3_read(adc_tm5->dev_data, sdam_num, ADC5_GEN3_TM_HIGH_STS, tm_status, 2);
-    95		if (ret) {
-    96			dev_err(adc_tm5->dev, "adc read TM status failed with %d\n", ret);
-    97			return IRQ_HANDLED;
-    98		}
-    99	
-   100		if (tm_status[0] || tm_status[1])
-   101			schedule_work(&adc_tm5->tm_handler_work);
-   102	
- > 103		dev_dbg(adc_tm5->dev, "Interrupt status:%#x, TM status:%#x, high:%#x, low:%#x\n",
-   104			status, tm_status, tm_status[0], tm_status[1]);
+    56	#define PSCI_BOOT_ARGS_INIT					\
+    57		((struct psci_boot_args){				\
+    58			.lock = ATOMIC_INIT(PSCI_BOOT_ARGS_UNLOCKED),	\
+    59		})
+    60	
+    61	static DEFINE_PER_CPU(struct psci_boot_args, cpu_on_args) = PSCI_BOOT_ARGS_INIT;
+    62	static DEFINE_PER_CPU(struct psci_boot_args, suspend_args) = PSCI_BOOT_ARGS_INIT;
+    63	
+    64	#define	is_psci_0_1(what, func_id)					\
+    65		(kvm_host_psci_config.psci_0_1_ ## what ## _implemented &&	\
+    66		 (func_id) == kvm_host_psci_config.function_ids_0_1.what)
+    67	
+    68	static bool is_psci_0_1_call(u64 func_id)
+    69	{
+    70		return (is_psci_0_1(cpu_suspend, func_id) ||
+    71			is_psci_0_1(cpu_on, func_id) ||
+    72			is_psci_0_1(cpu_off, func_id) ||
+    73			is_psci_0_1(migrate, func_id));
+    74	}
+    75	
+    76	static bool is_psci_0_2_call(u64 func_id)
+    77	{
+    78		/* SMCCC reserves IDs 0x00-1F with the given 32/64-bit base for PSCI. */
+    79		return (PSCI_0_2_FN(0) <= func_id && func_id <= PSCI_0_2_FN(31)) ||
+    80		       (PSCI_0_2_FN64(0) <= func_id && func_id <= PSCI_0_2_FN64(31));
+    81	}
+    82	
+    83	static unsigned long psci_call(unsigned long fn, unsigned long arg0,
+    84				       unsigned long arg1, unsigned long arg2)
+    85	{
+    86		struct arm_smccc_res res;
+    87	
+    88		arm_smccc_1_1_smc(fn, arg0, arg1, arg2, &res);
+    89		return res.a0;
+    90	}
+    91	
+    92	static unsigned long psci_forward(struct kvm_cpu_context *host_ctxt)
+    93	{
+    94		return psci_call(cpu_reg(host_ctxt, 0), cpu_reg(host_ctxt, 1),
+    95				 cpu_reg(host_ctxt, 2), cpu_reg(host_ctxt, 3));
+    96	}
+    97	
+    98	static unsigned int find_cpu_id(u64 mpidr)
+    99	{
+   100		unsigned int i;
+   101	
+   102		/* Reject invalid MPIDRs */
+   103		if (mpidr & ~MPIDR_HWID_BITMASK)
+   104			return INVALID_CPU_ID;
    105	
-   106		return IRQ_HANDLED;
-   107	}
-   108	
+   106		for (i = 0; i < NR_CPUS; i++) {
+   107			if (cpu_logical_map(i) == mpidr)
+   108				return i;
+   109		}
+   110	
+   111		return INVALID_CPU_ID;
+   112	}
+   113	
+   114	static __always_inline bool try_acquire_boot_args(struct psci_boot_args *args)
+   115	{
+   116		return atomic_cmpxchg_acquire(&args->lock,
+   117					      PSCI_BOOT_ARGS_UNLOCKED,
+   118					      PSCI_BOOT_ARGS_LOCKED) ==
+   119			PSCI_BOOT_ARGS_UNLOCKED;
+   120	}
+   121	
+   122	static __always_inline void release_boot_args(struct psci_boot_args *args)
+   123	{
+   124		atomic_set_release(&args->lock, PSCI_BOOT_ARGS_UNLOCKED);
+   125	}
+   126	
+   127	static int psci_cpu_on(u64 func_id, struct kvm_cpu_context *host_ctxt)
+   128	{
+   129		DECLARE_REG(u64, mpidr, host_ctxt, 1);
+   130		DECLARE_REG(unsigned long, pc, host_ctxt, 2);
+   131		DECLARE_REG(unsigned long, r0, host_ctxt, 3);
+   132	
+   133		unsigned int cpu_id;
+   134		struct psci_boot_args *boot_args;
+   135		struct kvm_nvhe_init_params *init_params;
+   136		int ret;
+   137	
+   138		/*
+   139		 * Find the logical CPU ID for the given MPIDR. The search set is
+   140		 * the set of CPUs that were online at the point of KVM initialization.
+   141		 * Booting other CPUs is rejected because their cpufeatures were not
+   142		 * checked against the finalized capabilities. This could be relaxed
+   143		 * by doing the feature checks in hyp.
+   144		 */
+   145		cpu_id = find_cpu_id(mpidr);
+   146		if (cpu_id == INVALID_CPU_ID)
+   147			return PSCI_RET_INVALID_PARAMS;
+   148	
+   149		boot_args = per_cpu_ptr(&cpu_on_args, cpu_id);
+   150		init_params = per_cpu_ptr(&kvm_init_params, cpu_id);
+   151	
+   152		/* Check if the target CPU is already being booted. */
+   153		if (!try_acquire_boot_args(boot_args))
+   154			return PSCI_RET_ALREADY_ON;
+   155	
+   156		boot_args->pc = pc;
+   157		boot_args->r0 = r0;
+   158		wmb();
+   159	
+   160		ret = psci_call(func_id, mpidr,
+   161				__hyp_pa(&kvm_hyp_cpu_entry),
+   162				__hyp_pa(init_params));
+   163	
+   164		/* If successful, the lock will be released by the target CPU. */
+   165		if (ret != PSCI_RET_SUCCESS)
+   166			release_boot_args(boot_args);
+   167	
+   168		return ret;
+   169	}
+   170	
+   171	static int psci_cpu_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
+   172	{
+   173		DECLARE_REG(u64, power_state, host_ctxt, 1);
+   174		DECLARE_REG(unsigned long, pc, host_ctxt, 2);
+   175		DECLARE_REG(unsigned long, r0, host_ctxt, 3);
+   176		int ret;
+   177	
+   178		struct psci_boot_args *boot_args;
+   179		struct kvm_nvhe_init_params *init_params;
+   180	
+   181		boot_args = this_cpu_ptr(&suspend_args);
+   182		init_params = this_cpu_ptr(&kvm_init_params);
+   183	
+   184		/*
+   185		 * No need to acquire a lock before writing to boot_args because a core
+   186		 * can only suspend itself. Racy CPU_ON calls use a separate struct.
+   187		 */
+   188		boot_args->pc = pc;
+   189		boot_args->r0 = r0;
+   190	
+ > 191		pkvm_psci_notify(PKVM_PSCI_CPU_SUSPEND, host_ctxt);
+   192		trace_hyp_exit();
+   193	
+   194		/*
+   195		 * Will either return if shallow sleep state, or wake up into the entry
+   196		 * point if it is a deep sleep state.
+   197		 */
+   198		ret = psci_call(func_id, power_state,
+   199				__hyp_pa(&kvm_hyp_cpu_resume),
+   200				__hyp_pa(init_params));
+   201	
+   202		return ret;
+   203	}
+   204	
+   205	static int psci_system_suspend(u64 func_id, struct kvm_cpu_context *host_ctxt)
+   206	{
+   207		DECLARE_REG(unsigned long, pc, host_ctxt, 1);
+   208		DECLARE_REG(unsigned long, r0, host_ctxt, 2);
+   209	
+   210		struct psci_boot_args *boot_args;
+   211		struct kvm_nvhe_init_params *init_params;
+   212	
+   213		boot_args = this_cpu_ptr(&suspend_args);
+   214		init_params = this_cpu_ptr(&kvm_init_params);
+   215	
+   216		/*
+   217		 * No need to acquire a lock before writing to boot_args because a core
+   218		 * can only suspend itself. Racy CPU_ON calls use a separate struct.
+   219		 */
+   220		boot_args->pc = pc;
+   221		boot_args->r0 = r0;
+   222	
+ > 223		pkvm_psci_notify(PKVM_PSCI_SYSTEM_SUSPEND, host_ctxt);
+   224	
+   225		/* Will only return on error. */
+   226		return psci_call(func_id,
+   227				 __hyp_pa(&kvm_hyp_cpu_resume),
+   228				 __hyp_pa(init_params), 0);
+   229	}
+   230	
 
 -- 
 0-DAY CI Kernel Test Service
