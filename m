@@ -1,61 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D24A18A93E;
-	Sat,  2 Nov 2024 17:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 542C31A0BF1
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 17:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730567570; cv=none; b=tklpVFYvXAECBiUKAL1OB97GFAFa0YOKWK3ZKdGOraEnH9SyAbSvorKQL96Txk9Vi4eLOipwnP2hbXCqDWuCHnG1cuj/Y5Anu113Zw2TPmPc3pfdwzfmxaf2qei3FHbaq17/VLuMsJ4NX4LRzdFY/O4+BTmBRzydL4JqcxADMrk=
+	t=1730568172; cv=none; b=ciXhnjTTx3Y3HDr+TyNYlg2kwR0LNOTmYr6OQ84kxiy9gEgBdzKAmmONw7/MCUNkkN5oZ3Ff4olNAsTrzxlCl/iST2/oj8AB1XC5pt/svfx4/vdunqB+Nk+vC0Fb7aEweb/AVdgSC9DrLeuXQj/ilsE9vGpjJ5TbWq1cBL0ISrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730567570; c=relaxed/simple;
-	bh=asyuoFLaFKdUCe5G1d61lWe7UpdRsPkuPYtkyr5+/T0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OUYdCS7jGxjn65T7BGd3Ms2USUxZr1NuN02V9Qa0wdfqNis6jJyWPsLaGE6fhbjsY1Kr6WCRNWJ8SiGYx77Tby72QJ7ozAuZcvSxZhprC6wxH5oAk3i2TThxKPL+Sgl8lr3FocDDr1LSemPAKOilxZzoSAoAVQ8c6/bqJVLEWV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZsolEumU; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1730568172; c=relaxed/simple;
+	bh=XNGKGxWAqSn8LnzAKe6C4ocwFgOA/8v5UdCwrk4wPKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZhiaRLqD4qGmV5GOh5q0ah1aZdWMp9lX269UfS4AgGCXW1jBpYDAP9yOt8zFb7G4yPft5+mXzE35aM65Ej6FCAjFRSfdxZEdU6uo82xaJZzXMrd7yA5/gqxelf9nlgciOCBGPuQuYm0HnqHMo+xoqLQWSITOcFcz3CyUvfA4QiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ld2H0vHM; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsolEumU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ld2H0vHM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730567568; x=1762103568;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=asyuoFLaFKdUCe5G1d61lWe7UpdRsPkuPYtkyr5+/T0=;
-  b=ZsolEumUc8fyEOcLWg8tt2h4sdIt9h0uIofJoI7g3ZJmDBv3bh80PkWx
-   DZGL/0i4vqwUkM8h0z+NT8HaGOtnYJzMAX7FEyqWgdG0+S4WaxBfrjkwD
-   yreFEQ3JI4fc4cgK4rLVuDwJJN4ygzMa405Vd3Hz0AfcepWRRH0wAmHnS
-   ChXbc7pXtZ2L7RNtW9DEMIKz0QFbQIIAY3l6FdbMj30YcEjV39zTpUauo
-   h9owDDWhZVNo5sy0NSJUnw/fhGeE93PI25pqzTVAw2r4RV8Wu+QETG38R
-   cT6iU+Hi+DAIBTfOTQm4treN3blSQnNxaEybzS+DTeG5YwomXVtJKbsC2
-   A==;
-X-CSE-ConnectionGUID: bcjGZWzLTd69uOIHQH+3hA==
-X-CSE-MsgGUID: 8348xpk0Tj6uyQS0dIkJ8Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30160046"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30160046"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 10:12:48 -0700
-X-CSE-ConnectionGUID: qKLyXNBUSkGuySGkfey+bg==
-X-CSE-MsgGUID: TgXbcXiOSl2JrpyEoJdS2g==
+  t=1730568171; x=1762104171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XNGKGxWAqSn8LnzAKe6C4ocwFgOA/8v5UdCwrk4wPKY=;
+  b=Ld2H0vHMb+q08Ggb51JqFw6WBHLaZrtYZC8X7S6z0yf5124TH/Jt6NBe
+   e5/WkZsz0Ke7kIFzE/75jD0WnAlq8Pa1Azo3JoCQZQczGitaBQc4Qq8br
+   EO/aV9zTyeOKkDB94BlXx9tLjHG8tAvQokdopyTmki8xOanrs3Fiz1fyq
+   mpFTGd6npOuX2VNdMoAUMPMvodW6ufusyvgzsw+vZosVGPREKbaQ7/+1N
+   op3cO2YvHUbj49JAMB3TR7wWpZtKk6rtft8xRO2Xw3iTy2Xw+FH8HOY9S
+   R3P2PWEom0uB6Gh2sNd8hXtEb4qYvGVcmkDTCL7D9A178XehXYgQ//HXl
+   w==;
+X-CSE-ConnectionGUID: FSk3WM4MRMawXdc0Cj0NzA==
+X-CSE-MsgGUID: ce6qZew2QiiNekkzZwzmHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="30190738"
+X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
+   d="scan'208";a="30190738"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 10:22:50 -0700
+X-CSE-ConnectionGUID: 3TLj/OQVQgqqe4ixgpfTPQ==
+X-CSE-MsgGUID: slKwWB4qSR6c+S+tnGhm9g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="83590704"
+   d="scan'208";a="83378580"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2024 10:12:45 -0700
+  by orviesa006.jf.intel.com with ESMTP; 02 Nov 2024 10:22:47 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7Hg3-000jCH-2h;
-	Sat, 02 Nov 2024 17:12:43 +0000
-Date: Sun, 3 Nov 2024 01:12:13 +0800
+	id 1t7Hpk-000jCb-06;
+	Sat, 02 Nov 2024 17:22:44 +0000
+Date: Sun, 3 Nov 2024 01:22:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/sysfs-const-bin_attr-simple 14/14]
- kernel/module/sysfs.c:199:16: error: incompatible function pointer types
- assigning to 'ssize_t (*)(struct file *, struct kobject *, struct
- bin_attribute *, char *, loff_t, size_t)' (aka 'long (*)(struct file *,
- struct kobject *, struct bin_attribute *, ch...
-Message-ID: <202411030153.kwfbG9J6-lkp@intel.com>
+To: Zi Yan <ziy@nvidia.com>, linux-mm@kvack.org,
+	"Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ryan Roberts <ryan.roberts@arm.com>,
+	Hugh Dickins <hughd@google.com>,
+	David Hildenbrand <david@redhat.com>,
+	Yang Shi <yang@os.amperecomputing.com>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Yu Zhao <yuzhao@google.com>, John Hubbard <jhubbard@nvidia.com>,
+	linux-kernel@vger.kernel.org, Zi Yan <ziy@nvidia.com>
+Subject: Re: [PATCH v2 6/6] mm/truncate: use folio_split() for truncate
+ operation.
+Message-ID: <202411030124.ZWzXWxPU-lkp@intel.com>
+References: <20241101150357.1752726-7-ziy@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,116 +72,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241101150357.1752726-7-ziy@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/sysfs-const-bin_attr-simple
-head:   621fe990596bff092203435a832fd67c3aefb87a
-commit: 621fe990596bff092203435a832fd67c3aefb87a [14/14] sysfs_bin_attr_simple_read
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241103/202411030153.kwfbG9J6-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411030153.kwfbG9J6-lkp@intel.com/reproduce)
+Hi Zi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on next-20241101]
+[cannot apply to linus/master v6.12-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zi-Yan/mm-huge_memory-add-two-new-yet-used-functions-for-folio_split/20241101-230623
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241101150357.1752726-7-ziy%40nvidia.com
+patch subject: [PATCH v2 6/6] mm/truncate: use folio_split() for truncate operation.
+config: arc-tb10x_defconfig (https://download.01.org/0day-ci/archive/20241103/202411030124.ZWzXWxPU-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411030124.ZWzXWxPU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411030153.kwfbG9J6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411030124.ZWzXWxPU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from kernel/module/sysfs.c:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> kernel/module/sysfs.c:199:16: error: incompatible function pointer types assigning to 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t, size_t)' (aka 'long (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long, unsigned long)') from 'ssize_t (struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t, size_t)' (aka 'long (struct file *, struct kobject *, const struct bin_attribute *, char *, long long, unsigned long)') [-Wincompatible-function-pointer-types]
-     199 |                         nattr->read = sysfs_bin_attr_simple_read;
-         |                                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings and 1 error generated.
+   mm/truncate.c: In function 'truncate_inode_partial_folio':
+>> mm/truncate.c:214:13: error: implicit declaration of function 'split_folio_at'; did you mean 'split_folio'? [-Werror=implicit-function-declaration]
+     214 |         if (split_folio_at(folio, folio_page(folio, in_folio_offset), NULL) == 0)
+         |             ^~~~~~~~~~~~~~
+         |             split_folio
+   cc1: some warnings being treated as errors
 
 
-vim +199 kernel/module/sysfs.c
+vim +214 mm/truncate.c
 
-44c09535de4784 Aaron Tomlin 2022-03-22  165  
-ce47f7cbbcadbc Chunhui Li   2024-09-11  166  static int add_notes_attrs(struct module *mod, const struct load_info *info)
-44c09535de4784 Aaron Tomlin 2022-03-22  167  {
-44c09535de4784 Aaron Tomlin 2022-03-22  168  	unsigned int notes, loaded, i;
-44c09535de4784 Aaron Tomlin 2022-03-22  169  	struct module_notes_attrs *notes_attrs;
-44c09535de4784 Aaron Tomlin 2022-03-22  170  	struct bin_attribute *nattr;
-ce47f7cbbcadbc Chunhui Li   2024-09-11  171  	int ret;
-44c09535de4784 Aaron Tomlin 2022-03-22  172  
-44c09535de4784 Aaron Tomlin 2022-03-22  173  	/* Count notes sections and allocate structures.  */
-44c09535de4784 Aaron Tomlin 2022-03-22  174  	notes = 0;
-44c09535de4784 Aaron Tomlin 2022-03-22  175  	for (i = 0; i < info->hdr->e_shnum; i++)
-44c09535de4784 Aaron Tomlin 2022-03-22  176  		if (!sect_empty(&info->sechdrs[i]) &&
-44c09535de4784 Aaron Tomlin 2022-03-22  177  		    info->sechdrs[i].sh_type == SHT_NOTE)
-44c09535de4784 Aaron Tomlin 2022-03-22  178  			++notes;
-44c09535de4784 Aaron Tomlin 2022-03-22  179  
-44c09535de4784 Aaron Tomlin 2022-03-22  180  	if (notes == 0)
-ce47f7cbbcadbc Chunhui Li   2024-09-11  181  		return 0;
-44c09535de4784 Aaron Tomlin 2022-03-22  182  
-44c09535de4784 Aaron Tomlin 2022-03-22  183  	notes_attrs = kzalloc(struct_size(notes_attrs, attrs, notes),
-44c09535de4784 Aaron Tomlin 2022-03-22  184  			      GFP_KERNEL);
-44c09535de4784 Aaron Tomlin 2022-03-22  185  	if (!notes_attrs)
-ce47f7cbbcadbc Chunhui Li   2024-09-11  186  		return -ENOMEM;
-44c09535de4784 Aaron Tomlin 2022-03-22  187  
-44c09535de4784 Aaron Tomlin 2022-03-22  188  	notes_attrs->notes = notes;
-44c09535de4784 Aaron Tomlin 2022-03-22  189  	nattr = &notes_attrs->attrs[0];
-44c09535de4784 Aaron Tomlin 2022-03-22  190  	for (loaded = i = 0; i < info->hdr->e_shnum; ++i) {
-44c09535de4784 Aaron Tomlin 2022-03-22  191  		if (sect_empty(&info->sechdrs[i]))
-44c09535de4784 Aaron Tomlin 2022-03-22  192  			continue;
-44c09535de4784 Aaron Tomlin 2022-03-22  193  		if (info->sechdrs[i].sh_type == SHT_NOTE) {
-44c09535de4784 Aaron Tomlin 2022-03-22  194  			sysfs_bin_attr_init(nattr);
-44c09535de4784 Aaron Tomlin 2022-03-22  195  			nattr->attr.name = mod->sect_attrs->attrs[loaded].battr.attr.name;
-44c09535de4784 Aaron Tomlin 2022-03-22  196  			nattr->attr.mode = 0444;
-44c09535de4784 Aaron Tomlin 2022-03-22  197  			nattr->size = info->sechdrs[i].sh_size;
-44c09535de4784 Aaron Tomlin 2022-03-22  198  			nattr->private = (void *)info->sechdrs[i].sh_addr;
-66bc1a173328de Lukas Wunner 2024-04-06 @199  			nattr->read = sysfs_bin_attr_simple_read;
-44c09535de4784 Aaron Tomlin 2022-03-22  200  			++nattr;
-44c09535de4784 Aaron Tomlin 2022-03-22  201  		}
-44c09535de4784 Aaron Tomlin 2022-03-22  202  		++loaded;
-44c09535de4784 Aaron Tomlin 2022-03-22  203  	}
-44c09535de4784 Aaron Tomlin 2022-03-22  204  
-44c09535de4784 Aaron Tomlin 2022-03-22  205  	notes_attrs->dir = kobject_create_and_add("notes", &mod->mkobj.kobj);
-ce47f7cbbcadbc Chunhui Li   2024-09-11  206  	if (!notes_attrs->dir) {
-ce47f7cbbcadbc Chunhui Li   2024-09-11  207  		ret = -ENOMEM;
-44c09535de4784 Aaron Tomlin 2022-03-22  208  		goto out;
-ce47f7cbbcadbc Chunhui Li   2024-09-11  209  	}
-44c09535de4784 Aaron Tomlin 2022-03-22  210  
-ce47f7cbbcadbc Chunhui Li   2024-09-11  211  	for (i = 0; i < notes; ++i) {
-ce47f7cbbcadbc Chunhui Li   2024-09-11  212  		ret = sysfs_create_bin_file(notes_attrs->dir, &notes_attrs->attrs[i]);
-ce47f7cbbcadbc Chunhui Li   2024-09-11  213  		if (ret)
-44c09535de4784 Aaron Tomlin 2022-03-22  214  			goto out;
-ce47f7cbbcadbc Chunhui Li   2024-09-11  215  	}
-44c09535de4784 Aaron Tomlin 2022-03-22  216  
-44c09535de4784 Aaron Tomlin 2022-03-22  217  	mod->notes_attrs = notes_attrs;
-ce47f7cbbcadbc Chunhui Li   2024-09-11  218  	return 0;
-44c09535de4784 Aaron Tomlin 2022-03-22  219  
-44c09535de4784 Aaron Tomlin 2022-03-22  220  out:
-44c09535de4784 Aaron Tomlin 2022-03-22  221  	free_notes_attrs(notes_attrs, i);
-ce47f7cbbcadbc Chunhui Li   2024-09-11  222  	return ret;
-44c09535de4784 Aaron Tomlin 2022-03-22  223  }
-44c09535de4784 Aaron Tomlin 2022-03-22  224  
-
-:::::: The code at line 199 was first introduced by commit
-:::::: 66bc1a173328dec3e37c203a999f2a2914c96b56 treewide: Use sysfs_bin_attr_simple_read() helper
-
-:::::: TO: Lukas Wunner <lukas@wunner.de>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+   166	
+   167	/*
+   168	 * Handle partial folios.  The folio may be entirely within the
+   169	 * range if a split has raced with us.  If not, we zero the part of the
+   170	 * folio that's within the [start, end] range, and then split the folio if
+   171	 * it's large.  split_page_range() will discard pages which now lie beyond
+   172	 * i_size, and we rely on the caller to discard pages which lie within a
+   173	 * newly created hole.
+   174	 *
+   175	 * Returns false if splitting failed so the caller can avoid
+   176	 * discarding the entire folio which is stubbornly unsplit.
+   177	 */
+   178	bool truncate_inode_partial_folio(struct folio *folio, loff_t start, loff_t end)
+   179	{
+   180		loff_t pos = folio_pos(folio);
+   181		unsigned int offset, length;
+   182		long in_folio_offset;
+   183	
+   184		if (pos < start)
+   185			offset = start - pos;
+   186		else
+   187			offset = 0;
+   188		length = folio_size(folio);
+   189		if (pos + length <= (u64)end)
+   190			length = length - offset;
+   191		else
+   192			length = end + 1 - pos - offset;
+   193	
+   194		folio_wait_writeback(folio);
+   195		if (length == folio_size(folio)) {
+   196			truncate_inode_folio(folio->mapping, folio);
+   197			return true;
+   198		}
+   199	
+   200		/*
+   201		 * We may be zeroing pages we're about to discard, but it avoids
+   202		 * doing a complex calculation here, and then doing the zeroing
+   203		 * anyway if the page split fails.
+   204		 */
+   205		if (!mapping_inaccessible(folio->mapping))
+   206			folio_zero_range(folio, offset, length);
+   207	
+   208		if (folio_needs_release(folio))
+   209			folio_invalidate(folio, offset, length);
+   210		if (!folio_test_large(folio))
+   211			return true;
+   212	
+   213		in_folio_offset = PAGE_ALIGN_DOWN(offset) / PAGE_SIZE;
+ > 214		if (split_folio_at(folio, folio_page(folio, in_folio_offset), NULL) == 0)
+   215			return true;
+   216		if (folio_test_dirty(folio))
+   217			return false;
+   218		truncate_inode_folio(folio->mapping, folio);
+   219		return true;
+   220	}
+   221	
 
 -- 
 0-DAY CI Kernel Test Service
