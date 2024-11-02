@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D221607AA;
-	Sat,  2 Nov 2024 13:53:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EAF1991BF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 14:04:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730555623; cv=none; b=uRHVrJbAfWnUvKnCyHLPwpYkIQgi1bFFPouK5uzr3E3D84tfP7eY+5lfFQRVyvHGjQ7uNh3sc1u2DG0EyLiapnTZAAgTMQMxF8IKC01DZXrwSiDfXaQknqfzwhcmG+i0D0I4T25xPlpqRYW9FhSXEGPec+75X39EyrGJntOf1Tw=
+	t=1730556284; cv=none; b=kjBEzmpiBxNfEzNoaKPBuY40vSl1wKuzqGcX/TIaHOxG4qB/J2jXgmYqOOwSvAmCeqlaFA7t2HxsJe38Uop+mRQO2pXsZuZwbNngshdSF2ZKYJS7ua/DA7Qdb9rdG8ppIj+F/aHKeAhFzfEAtZxd2C9KI2kBonQkkC3CICJHIXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730555623; c=relaxed/simple;
-	bh=PCJU3Hhf4qqMWg1P5DqMlKhJk1+68gubtERPbc0fCUI=;
+	s=arc-20240116; t=1730556284; c=relaxed/simple;
+	bh=Rt98b2f8Rl6AMyUjJgz1QxJEpMu8VSuscWKSCGoXNrE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OleybDGX4nc8pmbPMHBf0lrs8VokpGUhGMHbttehfoOXMj+4ue11J8OzFn+6Ckl8BsvJFonvMHJSpUZtBLc1TUWSAzAw04Y5m8oueikcnXZXDFc/tH1vXthiNHHu04Lr6PHs3cYNWBZ8KZLY9Fzr/NdqyT+SxmNAFxASxY4mMMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyVj1yQI; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=iqWSu95kVtsEjVVBOOGkNCue+tIj/V2z96wm/AjGkxaOugclFKBjG+Qy5JS3cwZJM2sYXk3HISge/fbBec+YtfDt4IALPBLWcAWAMEGvNGAVFGcUXMbr1xw4BgNgMN7PBZtCeQye4I+bqCVCcsQfkQo9KlvFzST5LsaEAiLCSOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hM6FVi5m; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyVj1yQI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hM6FVi5m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730555621; x=1762091621;
+  t=1730556283; x=1762092283;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PCJU3Hhf4qqMWg1P5DqMlKhJk1+68gubtERPbc0fCUI=;
-  b=AyVj1yQIGHSCUVfxqqMl8Fx9RKHtQNJfOIpNQQNICMPhzDnd37M330+l
-   nRJTjYvLkJgdeI2nEuSDXbjNaeSba7gw9m+nXP8WPRLX6h/JDaf2IY/9i
-   SkuULEqM87n5lG7DrKqc6HdRfzz8ooSsG3na8OEg+msBhqEmLzXLr4Krp
-   8IAokXGIqEZuWctj3wYMAq1mzNdk4Ifpg9ACgVvss41dAK6xEDKe50zTC
-   TfL4yMFg6XfchBSCXGRPQhPSuKElp/8u5IBQ+ltGeK7OB5yoSs+s4cxM2
-   yt8XqV0clBTK5kMOTLNYZP+xAVEar3y/z5Xawi+tQ3LqpDzsQez7vZfAW
-   A==;
-X-CSE-ConnectionGUID: kfkG9xXBQe69DPgX0BJ69g==
-X-CSE-MsgGUID: cUbPpSxXSZC4Qg0wkX8rQw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40847579"
+  bh=Rt98b2f8Rl6AMyUjJgz1QxJEpMu8VSuscWKSCGoXNrE=;
+  b=hM6FVi5m2XK3jQnVmR1Aa95zANoAwI+SOSF5A5ejxoKcW2dkTdRiiuRY
+   AEbK6zenA0Tjhg/B69qmxYm3Zwl1d0BMErYRa9lUFjC+NtuEDJ9YSZ6iP
+   5h/dv236Di6FnQ7qC1RcplpRyRkDGiPMAqnS4IfuULTeC+1//XDZauIuJ
+   I2jdyzJM1n13ME3nDZFnKFFJKmqJweH0Dcz1ZtrR2nvcHpYCukbxNYeAz
+   JMXatYNERtnckeBHgZUtYTKsYzAxwGi/lfwSKPIdg2jIPEtJRqxDq/5fq
+   k6BvI26FWgqBXLDYiJ6T0DzfpR/1hS9AlVa5uHm0zzesJjRtAMsGsxjdC
+   Q==;
+X-CSE-ConnectionGUID: wNTEvj7UQsmrHGUdScsucw==
+X-CSE-MsgGUID: oMMrl+HyTrePkBNvWnKyhw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30071988"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="40847579"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 06:53:41 -0700
-X-CSE-ConnectionGUID: 8qFh7d9LR7aM3LMXH5FGCg==
-X-CSE-MsgGUID: DVgtg/h4QHC3stvtnbOJvQ==
+   d="scan'208";a="30071988"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 07:04:41 -0700
+X-CSE-ConnectionGUID: DGFOx46WQ56ioot1fN9OXg==
+X-CSE-MsgGUID: BpEmGjNCQXKtPQUmMTspjQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="87981139"
+X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
+   d="scan'208";a="83327414"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 02 Nov 2024 06:53:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 02 Nov 2024 07:04:39 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7EZM-000j2V-2r;
-	Sat, 02 Nov 2024 13:53:36 +0000
-Date: Sat, 2 Nov 2024 21:53:29 +0800
+	id 1t7Ek1-000j2r-16;
+	Sat, 02 Nov 2024 14:04:37 +0000
+Date: Sat, 2 Nov 2024 22:04:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@linutronix.de>
-Subject: [tip:timers/vdso 33/41] arch/x86/include/asm/vdso/vsyscall.h:16:10:
- fatal error: 'asm/vvar.h' file not found
-Message-ID: <202411022159.vUVrHGcm-lkp@intel.com>
+To: Paolo Abeni <pabeni@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 7079/7183] progs/bpf_iter_netlink.c:11:9: error:
+ incompatible pointer types returning 'struct inode___2 *' from a function
+ with result type 'struct inode *'
+Message-ID: <202411022118.B9SpVJ75-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
-head:   3bf96deae5ad9664bdf2db95599e52221f9ddc33
-commit: 915c1d9df1f757b0979283b6e50da9b3ccc4d826 [33/41] x86/vdso: Split virtual clock pages into dedicated mapping
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241102/202411022159.vUVrHGcm-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022159.vUVrHGcm-lkp@intel.com/reproduce)
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c88416ba074a8913cf6d61b789dd834bbca6681c
+commit: f998557433ecd476f3c22b61c2002c1e472a6ea7 [7079/7183] Merge branch 'main' of git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022118.B9SpVJ75-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411022159.vUVrHGcm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411022118.B9SpVJ75-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/entry/vdso/vma.c:7:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/entry/vdso/vma.c:27:
->> arch/x86/include/asm/vdso/vsyscall.h:16:10: fatal error: 'asm/vvar.h' file not found
-      16 | #include <asm/vvar.h>
-         |          ^~~~~~~~~~~~
-   4 warnings and 1 error generated.
-
-
-vim +16 arch/x86/include/asm/vdso/vsyscall.h
-
-7ac8707479886c Vincenzo Frascino 2019-06-21  13  
-7ac8707479886c Vincenzo Frascino 2019-06-21  14  #include <vdso/datapage.h>
-7ac8707479886c Vincenzo Frascino 2019-06-21  15  #include <asm/vgtod.h>
-7ac8707479886c Vincenzo Frascino 2019-06-21 @16  #include <asm/vvar.h>
-7ac8707479886c Vincenzo Frascino 2019-06-21  17  
-
-:::::: The code at line 16 was first introduced by commit
-:::::: 7ac8707479886c75f353bfb6a8273f423cfccb23 x86/vdso: Switch to generic vDSO implementation
-
-:::::: TO: Vincenzo Frascino <vincenzo.frascino@arm.com>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+>> progs/bpf_iter_netlink.c:11:9: error: incompatible pointer types returning 'struct inode___2 *' from a function with result type 'struct inode *' [-Werror,-Wincompatible-pointer-types]
+      11 |         return &container_of(socket, struct socket_alloc, socket)->vfs_inode;
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> progs/bpf_iter_tcp4.c:58:8: error: incompatible pointer types assigning to 'const struct inode *' from 'struct inode___2 *' [-Werror,-Wincompatible-pointer-types]
+      58 |         inode = &container_of(sk_socket, struct socket_alloc, socket)->vfs_inode;
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> progs/bpf_iter_udp4.c:19:8: error: incompatible pointer types assigning to 'const struct inode *' from 'struct inode___2 *' [-Werror,-Wincompatible-pointer-types]
+      19 |         inode = &container_of(sk_socket, struct socket_alloc, socket)->vfs_inode;
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> progs/bpf_iter_udp6.c:26:8: error: incompatible pointer types assigning to 'const struct inode *' from 'struct inode___2 *' [-Werror,-Wincompatible-pointer-types]
+      26 |         inode = &container_of(sk_socket, struct socket_alloc, socket)->vfs_inode;
+         |               ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> progs/local_storage.c:220:23: error: incompatible pointer types assigning to 'struct inode *' from 'struct inode___2 *' [-Werror,-Wincompatible-pointer-types]
+     220 |                 storage->exec_inode = bprm->file->f_inode;
+         |                                     ^ ~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+   progs/map_percpu_stats.c:10:7: error: conflicting types for 'bpf_map_sum_elem_count'
+      10 | __s64 bpf_map_sum_elem_count(const struct bpf_map *map) __ksym;
+         |       ^
+   tools/testing/selftests/bpf/tools/include/vmlinux.h:159544:12: note: previous declaration is here
+    159544 | extern s64 bpf_map_sum_elem_count(const struct bpf_map___2 *map) __weak __ksym;
+           |            ^
+>> progs/map_percpu_stats.c:16:18: error: incompatible pointer types initializing 'struct bpf_map *' with an expression of type 'struct bpf_map___2 *' [-Werror,-Wincompatible-pointer-types]
+      16 |         struct bpf_map *map = ctx->map;
+         |                         ^     ~~~~~~~~
+   progs/map_percpu_stats.c:19:54: error: incompatible pointer types passing 'struct bpf_map *' to parameter of type 'const struct bpf_map___2 *' [-Werror,-Wincompatible-pointer-types]
+      19 |                 BPF_SEQ_PRINTF(seq, "%lld", bpf_map_sum_elem_count(map));
+         |                                                                    ^~~
+   tools/testing/selftests/bpf/tools/include/bpf/bpf_helpers.h:252:24: note: expanded from macro 'BPF_SEQ_PRINTF'
+     252 |         ___bpf_fill(___param, args);                            \
+         |                               ^~~~
+   tools/testing/selftests/bpf/tools/include/bpf/bpf_helpers.h:239:55: note: expanded from macro '___bpf_fill'
+     239 |         ___bpf_apply(___bpf_fill, ___bpf_narg(args))(arr, 0, args)
+         |                                                              ^~~~
+   tools/testing/selftests/bpf/tools/include/bpf/bpf_helpers.h:226:42: note: expanded from macro '___bpf_fill1'
+     226 | #define ___bpf_fill1(arr, p, x) arr[p] = x
+         |                                          ^
+   tools/testing/selftests/bpf/tools/include/vmlinux.h:159544:61: note: passing argument to parameter 'map' here
+    159544 | extern s64 bpf_map_sum_elem_count(const struct bpf_map___2 *map) __weak __ksym;
+           |                                                             ^
+   3 errors generated.
+--
+>> progs/verifier_arena.c:121:18: error: incompatible pointer types initializing 'struct bpf_map *' with an expression of type 'struct bpf_map___2 *' [-Werror,-Wincompatible-pointer-types]
+     121 |         struct bpf_map *map = ctx->map;
+         |                         ^     ~~~~~~~~
+   progs/verifier_arena.c:143:18: error: incompatible pointer types initializing 'struct bpf_map *' with an expression of type 'struct bpf_map___2 *' [-Werror,-Wincompatible-pointer-types]
+     143 |         struct bpf_map *map = ctx->map;
+         |                         ^     ~~~~~~~~
+   2 errors generated.
 
 -- 
 0-DAY CI Kernel Test Service
