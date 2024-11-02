@@ -1,59 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F9CE1BC41
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 02:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47612FC52
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 02:05:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730513114; cv=none; b=lnEr+ijpXMi5FrkKZRsJUVdOX0atGvxGl2YI4JzIhdAJ+/mEUITpe+tLslC/N+XnIn0SKBcWU4LcVq1DCQILBhBg9jU8zq2b09WKvjMln4ofmGI/c3JxzFE97NuxAZdjq6scm7IHJnq3BTaVxeKUuO+gYMdfHO8fmu1iftAsfKg=
+	t=1730513116; cv=none; b=WK9DsVi43cY7zinE0SaUm8SFlY32EhY67VFBFgmX/H1ZdpDe6vQ+M1psPHylcGlm8wBCRjjRbaJJ9qO/BW/wEJy0etghnEmGcTppM5Ok9NrLZGl92mX4wC4owVWpcwCVBnoSOP+Mqo50mJUOIV3BPxkQJxocqWxaYE7O6rEUTls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730513114; c=relaxed/simple;
-	bh=XhoSGciqlXqLvea4Fb30b5jck9wlI2d5rQB0anpr26Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iZEcHvI5wjfrSjuPEgZjq1ITj90wqtJtL/3lKRFLwubErN7ic8B2+ZYt7u3gqwrSxkrhFwi3iV3/PR9kUU6ZMzzCzucMQewZajr2KK/jwXtyhJKTRRYtTEI8QpWq6GNoQ139QzaRI9cjjd0iV3iSAqi1kol/sVNtWH08M8SEcVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c/lv7n1U; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1730513116; c=relaxed/simple;
+	bh=izP0oBk62DXJy2OJ2RXIbSqrKdSfg33H0k6pVd8XtiY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h/YNxgDu9rXPdZY+XA6LM1wYI3yPVvsXtAwL9/lRu2iorYkcGwn5w4XOg5IIVfgNGD2PeS3LInDeHW9XoF2Cx0gniD/fjTzUYDlZvj9PMHdTG0dAChf9at+GCdc91FwcgdFEIrVLy91W8IAYvU8PmqHcHZddn/MR0cyOzGYOROQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZZA2A7v; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c/lv7n1U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZZA2A7v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730513113; x=1762049113;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XhoSGciqlXqLvea4Fb30b5jck9wlI2d5rQB0anpr26Y=;
-  b=c/lv7n1UT5SNGQaw5w0LC/oJVvWClP8LjCSKsByG5LwoXLHKdd9Qujpp
-   lGzivxBzltmGnXYceQ9aN3qsu/4aM//Iv5SbZ9SPbS9VJxMThrtmp7OsB
-   qRy0hd+hjcPEX3N31cWifRYQ4ycLhStgZPo+r72Glx27ivGsPpodV+R8W
-   Xjx3E8fvs8q2O0mMJ+4ayr6h5RwmnEjTK3mCYDdw8I6J3NJhRRx+Z2gBB
-   DmVWSEcRI78elnmqI1jC7jCyCg7Xyi0UVukLGErUrGYxea/j4yHpltpCi
-   LF4A2N5/U8qwgOomTZC5+/o/kpxMeGYuVvp7lN9kFGZ55trnD5GEThEnu
-   w==;
-X-CSE-ConnectionGUID: ei0H7Su9TtSCMgFHxXYGeQ==
-X-CSE-MsgGUID: etuvUC7iQtOvPJ4drLgo0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="33127547"
+  t=1730513114; x=1762049114;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=izP0oBk62DXJy2OJ2RXIbSqrKdSfg33H0k6pVd8XtiY=;
+  b=HZZA2A7vfzETBKLcCU1wA0QuUt7g//U8FxgHp9qSNhRGEs8EXomfmAj1
+   DbuqaUzQw+3WJuPxyYJI44rgn3Iatd2reMNO2cW/rQ2tzZgsy7LWSSIK4
+   OoLiavIf5bSFD3YFBoOeeXdnzRCH7qURRV/yDBLrFC8l3TvHRrMDLkOCy
+   Q2rCCbxpfvNa2z2frpn5oQfxF0opYKzhgZfH9s4VGm8UDv/OUHaM/r1v3
+   GQyasYSgJL0FYBNSEjOkKTBQxEWO9FUuKjGLrQ0pQKU7BUzLgezPX13lo
+   3E62HQT3U6cZbBosdHMwU7Lb8JkpsDVNt/ncqb0DthqzpnRPpUkigIjZC
+   A==;
+X-CSE-ConnectionGUID: 4InIgR4WQYakbez1r+lUjA==
+X-CSE-MsgGUID: oFbZZVkbS7K/+mHTySjlsQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="33127550"
 X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="33127547"
+   d="scan'208";a="33127550"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 19:05:12 -0700
-X-CSE-ConnectionGUID: 2YAg1oaVQh2Uf32Pt86PHA==
-X-CSE-MsgGUID: Ev1FUTGKQNaPErrD5F7OmQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 19:05:13 -0700
+X-CSE-ConnectionGUID: VddqJ4heQIa+829KwFr0Lg==
+X-CSE-MsgGUID: dQJrE7jnTseocIkYwXM+TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,251,1725346800"; 
-   d="scan'208";a="87941871"
+   d="scan'208";a="87941872"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 01 Nov 2024 19:05:11 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t73Vk-000iIl-0N;
+	id 1t73Vk-000iIn-0R;
 	Sat, 02 Nov 2024 02:05:08 +0000
-Date: Sat, 2 Nov 2024 10:04:59 +0800
+Date: Sat, 2 Nov 2024 10:04:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, chench00 <chench@hygon.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1344/1344]
- drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:15: warning: no previous
- prototype for function 'kprobe_symbol_address_byname'
-Message-ID: <202411020918.At8pfay4-lkp@intel.com>
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+	Santosh Shilimkar <ssantosh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Herve Codina <herve.codina@bootlin.com>,
+	Christopher Cordahi <christophercordahi@nanometrics.ca>,
+	Bastien Curutchet <bastien.curutchet@bootlin.com>
+Subject: Re: [PATCH 5/5] mtd: rawnand: davinci: Implement setup_interface()
+ operation
+Message-ID: <202411020957.X1T8T9ZR-lkp@intel.com>
+References: <20241030104717.88688-6-bastien.curutchet@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +73,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241030104717.88688-6-bastien.curutchet@bootlin.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4cd9ac5bb21892408b1fd5332f7fbea44a16b61e
-commit: 3ad98583441f7c8a2553e1e8d6340ed4397033e2 [1344/1344] crypto: tdm: Support dynamic protection for SCT and IDT by HYGON TDM
-config: x86_64-buildonly-randconfig-003-20241102 (https://download.01.org/0day-ci/archive/20241102/202411020918.At8pfay4-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020918.At8pfay4-lkp@intel.com/reproduce)
+Hi Bastien,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on krzk-mem-ctrl/for-next]
+[also build test ERROR on linus/master v6.12-rc5]
+[cannot apply to mtd/nand/next next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bastien-Curutchet/memory-ti-aemif-Create-aemif_set_cs_timings/20241030-184949
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux-mem-ctrl.git for-next
+patch link:    https://lore.kernel.org/r/20241030104717.88688-6-bastien.curutchet%40bootlin.com
+patch subject: [PATCH 5/5] mtd: rawnand: davinci: Implement setup_interface() operation
+config: arm-randconfig-003-20241101 (https://download.01.org/0day-ci/archive/20241102/202411020957.X1T8T9ZR-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020957.X1T8T9ZR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411020918.At8pfay4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411020957.X1T8T9ZR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/crypto/ccp/hygon/tdm-kernel-guard.c:15:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2242:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:5: warning: no previous prototype for function 'tdm_service_run' [-Wmissing-prototypes]
-     151 | int tdm_service_run(struct tdm_security_enhance *data)
-         |     ^
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:151:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     151 | int tdm_service_run(struct tdm_security_enhance *data)
-         | ^
-         | static 
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:5: warning: no previous prototype for function 'tdm_service_exit' [-Wmissing-prototypes]
-     212 | int tdm_service_exit(struct tdm_security_enhance *data)
-         |     ^
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:212:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     212 | int tdm_service_exit(struct tdm_security_enhance *data)
-         | ^
-         | static 
->> drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:15: warning: no previous prototype for function 'kprobe_symbol_address_byname' [-Wmissing-prototypes]
-     243 | unsigned long kprobe_symbol_address_byname(const char *name)
-         |               ^
-   drivers/crypto/ccp/hygon/tdm-kernel-guard.c:243:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     243 | unsigned long kprobe_symbol_address_byname(const char *name)
-         | ^
-         | static 
-   4 warnings generated.
-
-
-vim +/kprobe_symbol_address_byname +243 drivers/crypto/ccp/hygon/tdm-kernel-guard.c
-
-   211	
- > 212	int tdm_service_exit(struct tdm_security_enhance *data)
-   213	{
-   214		int ret = 0;
-   215		int task_status = 0;
-   216	
-   217		task_status = psp_startstop_measure_task(data->task_id, data->authcode, false);
-   218		if (task_status < 0) {
-   219			ret = task_status;
-   220			pr_err("task_id %d stop failed with 0x%x\n", data->task_id, ret);
-   221			goto end;
-   222		}
-   223	
-   224		// Waiting for the task to end
-   225		msleep(40);
-   226	
-   227		psp_destroy_measure_task(data->task_id, data->authcode);
-   228	
-   229		kfree(data->authcode);
-   230		data->authcode = NULL;
-   231		kfree(data->mem_range);
-   232		data->mem_range = NULL;
-   233	end:
-   234		return ret;
-   235	}
-   236	
-   237	#if !IS_BUILTIN(CONFIG_TDM_KERNEL_GUARD)
-   238	static int p_tmp_kprobe_handler(struct kprobe *p_ri, struct pt_regs *p_regs)
-   239	{
-   240		return 0;
-   241	}
-   242	
- > 243	unsigned long kprobe_symbol_address_byname(const char *name)
-   244	{
-   245		int p_ret;
-   246		struct kprobe p_kprobe;
-   247		unsigned long addr = 0;
-   248	
-   249		memset(&p_kprobe, 0, sizeof(p_kprobe));
-   250	
-   251		p_kprobe.pre_handler = p_tmp_kprobe_handler;
-   252		p_kprobe.symbol_name = name;
-   253	
-   254		p_ret = register_kprobe(&p_kprobe);
-   255		if (p_ret < 0) {
-   256			pr_err("register_kprobe error [%d] :(\n", p_ret);
-   257			return 0;
-   258		}
-   259	
-   260		addr = (unsigned long)p_kprobe.addr;
-   261		unregister_kprobe(&p_kprobe);
-   262	
-   263		return addr;
-   264	}
-   265	#endif
-   266	
+   arm-linux-gnueabi-ld: drivers/mtd/nand/raw/davinci_nand.o: in function `davinci_nand_setup_interface':
+>> davinci_nand.c:(.text+0x688): undefined reference to `aemif_set_cs_timings'
 
 -- 
 0-DAY CI Kernel Test Service
