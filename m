@@ -1,107 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8DB175D47
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 14:36:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BCF166F0C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 14:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730558205; cv=none; b=g9LIbt0OB6lUnUeDjHQg1rJOUbE+AfMex8eezDnxx+QCZvfq8Z8T4hgrqfgdvmO2oJe7QT8lAqAmvO0hAMMXZ/g116f8Ky4IK9ocC+DVOMCoxRSoGPHeBYm5nmeoTCjy0IBdu180tqwT7NksS81xvNdbnHjw0Xvd4BRS0AN9q54=
+	t=1730559467; cv=none; b=DL2zEzfi/DKRcKDJ2m9rrQDgW1KepqwzNp2nZTlgOZII0ckC5RS7FQj6QUwEVE8XmQAM52tmByxO8gFyV0wTNUydgic4AMwWQ0CKHTNcCmwbg7g/ZH/RLo8BtL1fXmSpMlJ4cTxlWmKPBhBNT9uJKjxKIBY10cOmCAtNRD88DE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730558205; c=relaxed/simple;
-	bh=RcJ4tASJhcou446taNCQzNa7In5RtUPM0Dckgu1LL7k=;
+	s=arc-20240116; t=1730559467; c=relaxed/simple;
+	bh=+kig3y6lmvI17GCrzccYnpL9XwG617bk4/y1maBE3L4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EEN/7+90dPuzGEj4Rbt+0rN2woh3YPJEl5oz3E2NVktdI8PrIEukNl0SJ28fvEa5RtyeTnT1W4Vd9L0M/Zcb38Ye3q4mF1TFT6AmL51b1vAPRtLzir5TP/zwquqPxqG5gL8G35s+xJVy+6Ot2Xxyxi7GI+CplSO200s7Mz2MdDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lCXp6SUT; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=uaadhYFFnaJIyUYy5Rxdhy8YMmvJCn1zsOm+4vWzk17Y3aVO1FlfyRHW0T/SaMzI8x13DpCVJtKlrRyXmL8pssywDfJatYFFvKVrd/x9P/E3HetjgkEAluFx08I9y4m5swGAsPi+Cs99KOpDsae6MWQIJ8L2pgtGpmAXMadLpAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXoCqRMi; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lCXp6SUT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXoCqRMi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730558203; x=1762094203;
+  t=1730559465; x=1762095465;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RcJ4tASJhcou446taNCQzNa7In5RtUPM0Dckgu1LL7k=;
-  b=lCXp6SUTydNye9OZRm4gCsSgOFe0ZIumAJA3Sno8w3Wk3wjpLafswDAH
-   HJPWS0oe5V81VhDTGq3lTU+jA5iiNuVDeGL23ibuplfvL5jmRcfowdhJE
-   7/f0ew45DcX3HdYCtMTqqrl8xXipiOj+NQC5GA1EPkrGDATsquog33wpt
-   ihc6CWP7GPxkucfDeArzXOyB3JCEmYXraW6NFBg4wnSyRCaaJTJx7Yy3e
-   tHyLfwGJvt/Cf0WagSMaYXaMwcIoNB62ekkP5T/Pyb9rb8psyez+aU1Y1
-   6+Frveeimsdflo/ZMbXfpoIs+GqFGI2bcR0ofkiKiS6pFnL1YEEKl3Y1w
-   g==;
-X-CSE-ConnectionGUID: EsKQLvDuTMOBG4roT24iIw==
-X-CSE-MsgGUID: Z4JWzt+gSgKZYXWkGv48zg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="34097177"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+kig3y6lmvI17GCrzccYnpL9XwG617bk4/y1maBE3L4=;
+  b=SXoCqRMiAoHnjIK/8QlfWQA+rKYqT1grxrlDDt+lmG32T4lWtIWA6i+w
+   e1DnFLDAqOsF7V2JkqI2AtmTWnvMHZ2BzsKwIThSelxIqBWbD1r4krzDj
+   aTBiTj2pfMotarZt+QINzX7afNyIManc+sOTUzEb+PRzYYsBDgv+JLhJD
+   DkD4sNQY2r9KUkDx/RL/tXoekq2O7Laq49aXcuAkRUAaVv4Tmw+p0E4ml
+   4yykZN7CfTkYrSz5XTGOraeUShZCOCVLgsS0bf1VVKdycjVvCsMqSRCib
+   tCy9Nhr8aZl95kXrPCl4ZSSk7xFh+ojXgECpBXwbWP5JaKRXbOM6LeJy5
+   Q==;
+X-CSE-ConnectionGUID: r3e1ylbXS3iy5pCNdss2Kg==
+X-CSE-MsgGUID: WxIB2cMPTKyNL3qQ3yyN+w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="40883295"
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="34097177"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 07:36:41 -0700
-X-CSE-ConnectionGUID: 2XHnKQ1mSyamrEuF5ov2fA==
-X-CSE-MsgGUID: GW0FA3rOSk6ZrPc891HUBw==
+   d="scan'208";a="40883295"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 07:57:44 -0700
+X-CSE-ConnectionGUID: veWbj8gwRU6f/HwMxf2CnQ==
+X-CSE-MsgGUID: JNxxEeC2RMqnaV69vmVfgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="83572535"
+   d="scan'208";a="87833768"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Nov 2024 07:36:40 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 02 Nov 2024 07:57:40 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7FF0-000j4F-0c;
-	Sat, 02 Nov 2024 14:36:38 +0000
-Date: Sat, 2 Nov 2024 22:36:18 +0800
+	id 1t7FZK-000j4n-1m;
+	Sat, 02 Nov 2024 14:57:38 +0000
+Date: Sat, 2 Nov 2024 22:57:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Herton R. Krzesinski" <herton@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] lazy tlb: fix hotplug exit race with
- MMU_LAZY_TLB_SHOOTDOWN
-Message-ID: <202411022220.0u2CXCAM-lkp@intel.com>
-References: <20241101214904.3178140-1-herton@redhat.com>
+To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Darren Hart <dvhart@infradead.org>,
+	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>,
+	sonicadvance1@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel-dev@igalia.com, linux-api@vger.kernel.org,
+	Nathan Chancellor <nathan@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
+Subject: Re: [PATCH v2 1/3] futex: Use explicit sizes for
+ compat_exit_robust_list
+Message-ID: <202411022242.XCJECOCz-lkp@intel.com>
+References: <20241101162147.284993-2-andrealmeid@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241101214904.3178140-1-herton@redhat.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241101162147.284993-2-andrealmeid@igalia.com>
 
-Hi Herton,
+Hi André,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on tip/smp/core tip/sched/core linus/master v6.12-rc5 next-20241101]
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on tip/sched/core linus/master tip/x86/asm v6.12-rc5 next-20241101]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Herton-R-Krzesinski/lazy-tlb-fix-hotplug-exit-race-with-MMU_LAZY_TLB_SHOOTDOWN/20241102-055107
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20241101214904.3178140-1-herton%40redhat.com
-patch subject: [PATCH] lazy tlb: fix hotplug exit race with MMU_LAZY_TLB_SHOOTDOWN
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241102/202411022220.0u2CXCAM-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022220.0u2CXCAM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/futex-Use-explicit-sizes-for-compat_exit_robust_list/20241102-002419
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20241101162147.284993-2-andrealmeid%40igalia.com
+patch subject: [PATCH v2 1/3] futex: Use explicit sizes for compat_exit_robust_list
+config: x86_64-randconfig-123-20241102 (https://download.01.org/0day-ci/archive/20241102/202411022242.XCJECOCz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022242.XCJECOCz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411022220.0u2CXCAM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411022242.XCJECOCz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> kernel/futex/core.c:914:59: sparse: sparse: cast removes address space '__user' of expression
+>> kernel/futex/core.c:914:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *head @@     got unsigned int [usertype] * @@
+   kernel/futex/core.c:914:59: sparse:     expected unsigned int [noderef] [usertype] __user *head
+   kernel/futex/core.c:914:59: sparse:     got unsigned int [usertype] *
 
->> kernel/sched/core.c:7982:13: warning: 'sched_force_init_mm' defined but not used [-Wunused-function]
-    7982 | static void sched_force_init_mm(void)
-         |             ^~~~~~~~~~~~~~~~~~~
+vim +/__user +914 kernel/futex/core.c
 
-
-vim +/sched_force_init_mm +7982 kernel/sched/core.c
-
-  7981	
-> 7982	static void sched_force_init_mm(void)
-  7983	{
-  7984	}
-  7985	
+   893	
+   894	/*
+   895	 * Walk curr->robust_list (very carefully, it's a userspace list!)
+   896	 * and mark any locks found there dead, and notify any waiters.
+   897	 *
+   898	 * We silently return on any sign of list-walking problem.
+   899	 */
+   900	static void exit_robust_list32(struct task_struct *curr)
+   901	{
+   902		struct robust_list_head32 __user *head = curr->compat_robust_list;
+   903		struct robust_list __user *entry, *next_entry, *pending;
+   904		unsigned int limit = ROBUST_LIST_LIMIT, pi, pip;
+   905		unsigned int next_pi;
+   906		u32 uentry, next_uentry, upending;
+   907		s32 futex_offset;
+   908		int rc;
+   909	
+   910		/*
+   911		 * Fetch the list head (which was registered earlier, via
+   912		 * sys_set_robust_list()):
+   913		 */
+ > 914		if (fetch_robust_entry32((u32 *)&uentry, &entry, (u32 *)&head->list.next, &pi))
+   915			return;
+   916		/*
+   917		 * Fetch the relative futex offset:
+   918		 */
+   919		if (get_user(futex_offset, &head->futex_offset))
+   920			return;
+   921		/*
+   922		 * Fetch any possibly pending lock-add first, and handle it
+   923		 * if it exists:
+   924		 */
+   925		if (fetch_robust_entry32(&upending, &pending,
+   926				       &head->list_op_pending, &pip))
+   927			return;
+   928	
+   929		next_entry = NULL;	/* avoid warning with gcc */
+   930		while (entry != (struct robust_list __user *) &head->list) {
+   931			/*
+   932			 * Fetch the next entry in the list before calling
+   933			 * handle_futex_death:
+   934			 */
+   935			rc = fetch_robust_entry32(&next_uentry, &next_entry,
+   936				(u32 __user *)&entry->next, &next_pi);
+   937			/*
+   938			 * A pending lock might already be on the list, so
+   939			 * dont process it twice:
+   940			 */
+   941			if (entry != pending) {
+   942				void __user *uaddr = futex_uaddr(entry, futex_offset);
+   943	
+   944				if (handle_futex_death(uaddr, curr, pi,
+   945						       HANDLE_DEATH_LIST))
+   946					return;
+   947			}
+   948			if (rc)
+   949				return;
+   950			uentry = next_uentry;
+   951			entry = next_entry;
+   952			pi = next_pi;
+   953			/*
+   954			 * Avoid excessively long or circular lists:
+   955			 */
+   956			if (!--limit)
+   957				break;
+   958	
+   959			cond_resched();
+   960		}
+   961		if (pending) {
+   962			void __user *uaddr = futex_uaddr(pending, futex_offset);
+   963	
+   964			handle_futex_death(uaddr, curr, pip, HANDLE_DEATH_PENDING);
+   965		}
+   966	}
+   967	
 
 -- 
 0-DAY CI Kernel Test Service
