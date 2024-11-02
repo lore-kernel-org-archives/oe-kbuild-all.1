@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D172A18035
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 12:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D221607AA;
+	Sat,  2 Nov 2024 13:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730550698; cv=none; b=kHtJLeGCMwsvnYy/COaBCDdnoP8+GNJewDBBQLY1UTRcXHpCGl90QNon1q881O/Tzf5jvS+8Ct5f678nXWN1XfapnX177HNMIfTpE0wMmYan8CbEPw6e7s+s1m3nBXO8kfw+R9D6pB1eToAXrP3wwPFo9A5OUDvZSYKLxp//uNY=
+	t=1730555623; cv=none; b=uRHVrJbAfWnUvKnCyHLPwpYkIQgi1bFFPouK5uzr3E3D84tfP7eY+5lfFQRVyvHGjQ7uNh3sc1u2DG0EyLiapnTZAAgTMQMxF8IKC01DZXrwSiDfXaQknqfzwhcmG+i0D0I4T25xPlpqRYW9FhSXEGPec+75X39EyrGJntOf1Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730550698; c=relaxed/simple;
-	bh=dVpcPBKNGX0yV94AtQWidWWeiChoMQCS1m5u39kkE0c=;
+	s=arc-20240116; t=1730555623; c=relaxed/simple;
+	bh=PCJU3Hhf4qqMWg1P5DqMlKhJk1+68gubtERPbc0fCUI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=abzmxaCgHju0U8yfScK7nEgnamAEaQu5lzA9qRx8M2NUAUNACGH5e0m7oZl30KxCk9b6Qa7QxDeZNbdFRKbVahZcEcMLNFA4QvrTNS9r1DWHiGKYu7QdrvH/mlOrTpd4CT8xPk2EbpSoW9rlb27GUH4WllSKpI9zwpYPMZFh5gg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZbFmeXq6; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=OleybDGX4nc8pmbPMHBf0lrs8VokpGUhGMHbttehfoOXMj+4ue11J8OzFn+6Ckl8BsvJFonvMHJSpUZtBLc1TUWSAzAw04Y5m8oueikcnXZXDFc/tH1vXthiNHHu04Lr6PHs3cYNWBZ8KZLY9Fzr/NdqyT+SxmNAFxASxY4mMMA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyVj1yQI; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZbFmeXq6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyVj1yQI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730550697; x=1762086697;
+  t=1730555621; x=1762091621;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dVpcPBKNGX0yV94AtQWidWWeiChoMQCS1m5u39kkE0c=;
-  b=ZbFmeXq6QmEDgESzwCWi5z2GSoY7RItZzmc48mZE5HUMkcWqS2wv1HRO
-   D5wtqv6Z1FdAyjD6SU7h/lSCHZoYuMRgrf9PYWy3C4wmjwZY8+CwQzOp3
-   n3t/TntUwGu6vpXYPar4ukl6s3liU2TXbq2pBbHX0xM/DnTuI2G3ymiqt
-   62VqXe1/6ON9w2Z5k409rIUNJ5Yi7NXTBLfDjlpRoFl4GexcmS29YEECD
-   BT3miBJj2rcLKi5tI8DRdGgFCiTvD+UivDU6BmK/AEJ/yXRlWDLITIlmq
-   qrIi35xqfq2vPLwUjMqbrdcgzWZ+zUdnA67prEizFHs1ns4AFZZD1dkal
-   Q==;
-X-CSE-ConnectionGUID: cPZWqi9sRvaf+yM49/e6MA==
-X-CSE-MsgGUID: MrujLHzyTY28Kjpn7HYmAA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="33147331"
-X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
-   d="scan'208";a="33147331"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 05:31:36 -0700
-X-CSE-ConnectionGUID: IjcibsqVRi+hYvFJYhHMgA==
-X-CSE-MsgGUID: 4XVHCJ3yRQWkGg1DYGcQBg==
+  bh=PCJU3Hhf4qqMWg1P5DqMlKhJk1+68gubtERPbc0fCUI=;
+  b=AyVj1yQIGHSCUVfxqqMl8Fx9RKHtQNJfOIpNQQNICMPhzDnd37M330+l
+   nRJTjYvLkJgdeI2nEuSDXbjNaeSba7gw9m+nXP8WPRLX6h/JDaf2IY/9i
+   SkuULEqM87n5lG7DrKqc6HdRfzz8ooSsG3na8OEg+msBhqEmLzXLr4Krp
+   8IAokXGIqEZuWctj3wYMAq1mzNdk4Ifpg9ACgVvss41dAK6xEDKe50zTC
+   TfL4yMFg6XfchBSCXGRPQhPSuKElp/8u5IBQ+ltGeK7OB5yoSs+s4cxM2
+   yt8XqV0clBTK5kMOTLNYZP+xAVEar3y/z5Xawi+tQ3LqpDzsQez7vZfAW
+   A==;
+X-CSE-ConnectionGUID: kfkG9xXBQe69DPgX0BJ69g==
+X-CSE-MsgGUID: cUbPpSxXSZC4Qg0wkX8rQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="40847579"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="40847579"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 06:53:41 -0700
+X-CSE-ConnectionGUID: 8qFh7d9LR7aM3LMXH5FGCg==
+X-CSE-MsgGUID: DVgtg/h4QHC3stvtnbOJvQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
-   d="scan'208";a="87727302"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="87981139"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Nov 2024 05:31:35 -0700
+  by orviesa003.jf.intel.com with ESMTP; 02 Nov 2024 06:53:39 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7DHx-000iv3-06;
-	Sat, 02 Nov 2024 12:31:33 +0000
-Date: Sat, 2 Nov 2024 20:30:42 +0800
+	id 1t7EZM-000j2V-2r;
+	Sat, 02 Nov 2024 13:53:36 +0000
+Date: Sat, 2 Nov 2024 21:53:29 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Thomas Gleixner <tglx@linutronix.de>
 Subject: [tip:timers/vdso 33/41] arch/x86/include/asm/vdso/vsyscall.h:16:10:
- fatal error: asm/vvar.h: No such file or directory
-Message-ID: <202411022036.pBj9Jefz-lkp@intel.com>
+ fatal error: 'asm/vvar.h' file not found
+Message-ID: <202411022159.vUVrHGcm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,22 +67,42 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git timers/vdso
 head:   3bf96deae5ad9664bdf2db95599e52221f9ddc33
 commit: 915c1d9df1f757b0979283b6e50da9b3ccc4d826 [33/41] x86/vdso: Split virtual clock pages into dedicated mapping
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241102/202411022036.pBj9Jefz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022036.pBj9Jefz-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241102/202411022159.vUVrHGcm-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022159.vUVrHGcm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411022036.pBj9Jefz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411022159.vUVrHGcm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
+   In file included from arch/x86/entry/vdso/vma.c:7:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
    In file included from arch/x86/entry/vdso/vma.c:27:
->> arch/x86/include/asm/vdso/vsyscall.h:16:10: fatal error: asm/vvar.h: No such file or directory
+>> arch/x86/include/asm/vdso/vsyscall.h:16:10: fatal error: 'asm/vvar.h' file not found
       16 | #include <asm/vvar.h>
          |          ^~~~~~~~~~~~
-   compilation terminated.
+   4 warnings and 1 error generated.
 
 
 vim +16 arch/x86/include/asm/vdso/vsyscall.h
