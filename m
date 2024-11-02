@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64AD6C125;
-	Sat,  2 Nov 2024 05:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078737F6
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 05:45:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730525060; cv=none; b=nKW3cE+xif87Ph6Iybv+Se2TDxQm4F2+kFnk3SeaHqY3Nimikk1QrAyKfJ5p179uUnARpFUundemo6SuzWP66J3cJ1tqH3HQP5VpyRJGTw09QY0S727/Dk2+9dWic6+FaStb7O1bVsqlf5qZRZKmsf/riBWWiMtPfYEZiAEJ728=
+	t=1730526321; cv=none; b=AjVR6YLl5jeglf0DAA2gfjnsNzYsc9orJcbznpQrbUlSH/PO7qwOPk9rOd1+w/WZwWAwZyH/UTzVlOpE2LBb1OYXz/agxTCHCF8l+u0obgQZWXAFhx6zCLu4dTODacH699JGcYJ9lVPJWl0VH3QTZDn+Dg6l0ruYRI1Aa5FBRPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730525060; c=relaxed/simple;
-	bh=0KmM/0DXaV+MfNkcyjQqqPrmAoyaQNBB7ognZHkrbQQ=;
+	s=arc-20240116; t=1730526321; c=relaxed/simple;
+	bh=WhbOoM9SSBH6xGjIEnQfpBPsBxCHchwrf7DBrnpNO2A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hvfPGqKTPPDjJttWsTM1JN4TuJziCnKeqQFSJO9c8TKyq4F3Psy1D7b23G1lwGw1I2M6pHTqCE2pmJtQB9TZlg2tcfVKwXHPnhSj0xJClOPm+oyE7SCy0u69RpzU1W6//VjulnsfWqQp45wYR9N6wZqw8nG3XD1AW93yH3o60TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SUg/E0YU; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=eqn2c6kzdEF5IQCxEEWMqo0R1pbbUyY0nkLKkZ32pkH9AlX27i4aMxhzzcbMUIo4y3snVZFyP3KcEduHRjau1fWW54nAbFQdfPvrPNIVPEPPyOyOOuiKKQhoHyYKt91pLfYKYeGXWYekbfSWP1sFKpJ9buqziMmSiMVfYw75OhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HoDeNC54; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SUg/E0YU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HoDeNC54"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730525058; x=1762061058;
+  t=1730526319; x=1762062319;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0KmM/0DXaV+MfNkcyjQqqPrmAoyaQNBB7ognZHkrbQQ=;
-  b=SUg/E0YUuDkKE1VqZDn0yPwnbhltehaPxLnnSoEBTwPFx2eunYf0lF40
-   J1AARtfqpIzLmPKV2oNvAek1I4+khPI5DMtfvwSLlRA5NPiJDczlMWGEH
-   ntKjuUHxNDRG73Wd+yXpQuXNFabi69ZqXK7lLkDitsbHBiKAgZ7GGGdCW
-   m/2GbO3GuhFpfTGGE9IN75Qg5K8nudowF7R4ePEbQYML9jk4wczR19SqK
-   h1tYenTa384787Vv1aklLLz6GFC0LNZHw9QmYKz/5ZMM+TI8t9lNiToPy
-   ABbYmOrbUSfENCyB2Z8Iy9aUf0kFd4LzKe/epUC1hV7FX6HrRKUwCZb0d
-   A==;
-X-CSE-ConnectionGUID: ANBlJAouTIu/ByleSVaTNA==
-X-CSE-MsgGUID: fdq19SXvQ8a8ep9A8LL5Aw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11243"; a="40924404"
-X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
-   d="scan'208";a="40924404"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 22:24:18 -0700
-X-CSE-ConnectionGUID: bAeEtVbQQ7ioFQDszy1IsA==
-X-CSE-MsgGUID: 34RMNg1zQpa2G4F0a6Iomw==
+  bh=WhbOoM9SSBH6xGjIEnQfpBPsBxCHchwrf7DBrnpNO2A=;
+  b=HoDeNC54a0bR1R/K5VCxewAK3DFXLgbOreeL9UtjkDSnLzU5lzP8JVz7
+   atJn2dbL+Q7V8NDk4c1rW2Ov8w/83ok/zA4TkoZ+UzzyXs5zLknOPG+3c
+   N5We/++fkU6f4uWljm044SMgfWhEu+Uz4c0JUKL1wahThi3tLW/oi4o+/
+   Y0ypDzP1/T9NpLsiolH+bGJ7BRhz1MQx78ez5XKJNLEgQpt41oQyKcbT8
+   UkaTexsMUe2n4F+i8/Qat0CUa4q0i5CGofv4lZbtXFnbhfbwJchF/qd/o
+   zDfaJm6vcHEoS99ZXTUi217UlRL+Ox+8rwdZsRy7wLB63RApZqawdCd1J
+   Q==;
+X-CSE-ConnectionGUID: oosqhBB6SeafJjmGEipRFg==
+X-CSE-MsgGUID: UqlqwJd0QzGfv5fFMqizXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30060530"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30060530"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2024 22:45:18 -0700
+X-CSE-ConnectionGUID: zRI1ejyuTzG/EgddgLKK0A==
+X-CSE-MsgGUID: 3N/SsUikRy+WtpMq6ai1/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,252,1725346800"; 
-   d="scan'208";a="83603794"
+   d="scan'208";a="106496613"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 01 Nov 2024 22:24:17 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 01 Nov 2024 22:45:17 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t76cQ-000iSL-1O;
-	Sat, 02 Nov 2024 05:24:14 +0000
-Date: Sat, 2 Nov 2024 13:23:20 +0800
+	id 1t76wl-000iTC-05;
+	Sat, 02 Nov 2024 05:45:15 +0000
+Date: Sat, 2 Nov 2024 13:44:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Song Liu <song@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC bpf-next fanotify 4/5] fanotify: Enable bpf based fanotify
- fastpath handler
-Message-ID: <202411021334.BYbBTg4G-lkp@intel.com>
-References: <20241029231244.2834368-5-song@kernel.org>
+To: Wei Yang <richard.weiyang@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 5/5] maple_tree: add a test checking storing null
+Message-ID: <202411021338.ph78FBKg-lkp@intel.com>
+References: <20241031231627.14316-6-richard.weiyang@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,62 +62,205 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241029231244.2834368-5-song@kernel.org>
+In-Reply-To: <20241031231627.14316-6-richard.weiyang@gmail.com>
 
-Hi Song,
+Hi Wei,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf/master]
-[also build test ERROR on jack-fs/fsnotify linus/master v6.12-rc5]
-[cannot apply to bpf-next/master next-20241101]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.12-rc5 next-20241101]
+[cannot apply to akpm-mm/mm-nonmm-unstable]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Song-Liu/fanotify-Introduce-fanotify-fastpath-handler/20241030-071530
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20241029231244.2834368-5-song%40kernel.org
-patch subject: [RFC bpf-next fanotify 4/5] fanotify: Enable bpf based fanotify fastpath handler
-config: i386-randconfig-013-20241102 (https://download.01.org/0day-ci/archive/20241102/202411021334.BYbBTg4G-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411021334.BYbBTg4G-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Yang/maple_tree-print-empty-for-an-empty-tree-on-mt_dump/20241101-071827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241031231627.14316-6-richard.weiyang%40gmail.com
+patch subject: [PATCH v5 5/5] maple_tree: add a test checking storing null
+config: m68k-amiga_defconfig (https://download.01.org/0day-ci/archive/20241102/202411021338.ph78FBKg-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411021338.ph78FBKg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411021334.BYbBTg4G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411021338.ph78FBKg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/notify/fanotify/fanotify_fastpath.c:4:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/notify/fanotify/fanotify_fastpath.c:217:7: error: call to undeclared function 'bpf_tracing_btf_ctx_access'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     217 |         if (!bpf_tracing_btf_ctx_access(off, size, type, prog, info))
-         |              ^
-   1 warning and 1 error generated.
+   lib/test_maple_tree.c: In function 'check_store_null':
+   lib/test_maple_tree.c:1456:34: error: implicit declaration of function 'mas_root' [-Werror=implicit-function-declaration]
+    1456 |         MT_BUG_ON(mt, xa_is_node(mas_root(&mas)));
+         |                                  ^~~~~~~~
+   lib/test_maple_tree.c:30:13: note: in definition of macro 'MT_BUG_ON'
+      30 |         if (__x) {                                                      \
+         |             ^~~
+>> lib/test_maple_tree.c:1456:34: warning: passing argument 1 of 'xa_is_node' makes pointer from integer without a cast [-Wint-conversion]
+    1456 |         MT_BUG_ON(mt, xa_is_node(mas_root(&mas)));
+         |                                  ^~~~~~~~~~~~~~
+         |                                  |
+         |                                  int
+   lib/test_maple_tree.c:30:13: note: in definition of macro 'MT_BUG_ON'
+      30 |         if (__x) {                                                      \
+         |             ^~~
+   In file included from include/linux/radix-tree.h:21,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/module.h:21,
+                    from lib/test_maple_tree.c:11:
+   include/linux/xarray.h:1262:43: note: expected 'const void *' but argument is of type 'int'
+    1262 | static inline bool xa_is_node(const void *entry)
+         |                               ~~~~~~~~~~~~^~~~~
+   In file included from include/linux/kernel.h:31,
+                    from include/linux/maple_tree.h:11,
+                    from lib/test_maple_tree.c:10:
+>> lib/test_maple_tree.c:1456:34: warning: passing argument 1 of 'xa_is_node' makes pointer from integer without a cast [-Wint-conversion]
+    1456 |         MT_BUG_ON(mt, xa_is_node(mas_root(&mas)));
+         |                                  ^~~~~~~~~~~~~~
+         |                                  |
+         |                                  int
+   include/linux/printk.h:462:33: note: in definition of macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:563:9: note: in expansion of macro 'printk'
+     563 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   lib/test_maple_tree.c:31:17: note: in expansion of macro 'pr_info'
+      31 |                 pr_info("BUG at %s:%d (%u)\n",                          \
+         |                 ^~~~~~~
+   lib/test_maple_tree.c:1456:9: note: in expansion of macro 'MT_BUG_ON'
+    1456 |         MT_BUG_ON(mt, xa_is_node(mas_root(&mas)));
+         |         ^~~~~~~~~
+   include/linux/xarray.h:1262:43: note: expected 'const void *' but argument is of type 'int'
+    1262 | static inline bool xa_is_node(const void *entry)
+         |                               ~~~~~~~~~~~~^~~~~
+   lib/test_maple_tree.c:1468:35: warning: passing argument 1 of 'xa_is_node' makes pointer from integer without a cast [-Wint-conversion]
+    1468 |         MT_BUG_ON(mt, !xa_is_node(mas_root(&mas)));
+         |                                   ^~~~~~~~~~~~~~
+         |                                   |
+         |                                   int
+   lib/test_maple_tree.c:30:13: note: in definition of macro 'MT_BUG_ON'
+      30 |         if (__x) {                                                      \
+         |             ^~~
+   include/linux/xarray.h:1262:43: note: expected 'const void *' but argument is of type 'int'
+    1262 | static inline bool xa_is_node(const void *entry)
+         |                               ~~~~~~~~~~~~^~~~~
+   lib/test_maple_tree.c:1468:35: warning: passing argument 1 of 'xa_is_node' makes pointer from integer without a cast [-Wint-conversion]
+    1468 |         MT_BUG_ON(mt, !xa_is_node(mas_root(&mas)));
+         |                                   ^~~~~~~~~~~~~~
+         |                                   |
+         |                                   int
+   include/linux/printk.h:462:33: note: in definition of macro 'printk_index_wrap'
+     462 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:563:9: note: in expansion of macro 'printk'
+     563 |         printk(KERN_INFO pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   lib/test_maple_tree.c:31:17: note: in expansion of macro 'pr_info'
+      31 |                 pr_info("BUG at %s:%d (%u)\n",                          \
+         |                 ^~~~~~~
+   lib/test_maple_tree.c:1468:9: note: in expansion of macro 'MT_BUG_ON'
+    1468 |         MT_BUG_ON(mt, !xa_is_node(mas_root(&mas)));
+         |         ^~~~~~~~~
+   include/linux/xarray.h:1262:43: note: expected 'const void *' but argument is of type 'int'
+    1262 | static inline bool xa_is_node(const void *entry)
+         |                               ~~~~~~~~~~~~^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/bpf_tracing_btf_ctx_access +217 fs/notify/fanotify/fanotify_fastpath.c
+vim +/xa_is_node +1456 lib/test_maple_tree.c
 
-   211	
-   212	static bool bpf_fanotify_fastpath_is_valid_access(int off, int size,
-   213							  enum bpf_access_type type,
-   214							  const struct bpf_prog *prog,
-   215							  struct bpf_insn_access_aux *info)
-   216	{
- > 217		if (!bpf_tracing_btf_ctx_access(off, size, type, prog, info))
-   218			return false;
-   219	
-   220		return true;
-   221	}
-   222	
+  1389	
+  1390	static noinline void __init check_store_null(struct maple_tree *mt)
+  1391	{
+  1392		MA_STATE(mas, mt, 0, ULONG_MAX);
+  1393	
+  1394		/*
+  1395		 * Store NULL at range [0, ULONG_MAX] to an empty tree should result
+  1396		 * in an empty tree
+  1397		 */
+  1398		mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+  1399		mas_lock(&mas);
+  1400		mas_store_gfp(&mas, NULL, GFP_KERNEL);
+  1401		MT_BUG_ON(mt, !mtree_empty(mt));
+  1402		mas_unlock(&mas);
+  1403		mtree_destroy(mt);
+  1404	
+  1405		/*
+  1406		 * Store NULL at any range to an empty tree should result in an empty
+  1407		 * tree
+  1408		 */
+  1409		mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+  1410		mas_lock(&mas);
+  1411		mas_set_range(&mas, 3, 10);
+  1412		mas_store_gfp(&mas, NULL, GFP_KERNEL);
+  1413		MT_BUG_ON(mt, !mtree_empty(mt));
+  1414		mas_unlock(&mas);
+  1415		mtree_destroy(mt);
+  1416	
+  1417		/*
+  1418		 * Store NULL at range [0, ULONG_MAX] to a single entry tree should
+  1419		 * result in an empty tree
+  1420		 */
+  1421		mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+  1422		mas_lock(&mas);
+  1423		mas_set(&mas, 0);
+  1424		mas_store_gfp(&mas, &mas, GFP_KERNEL);
+  1425		mas_set_range(&mas, 0, ULONG_MAX);
+  1426		mas_store_gfp(&mas, NULL, GFP_KERNEL);
+  1427		MT_BUG_ON(mt, !mtree_empty(mt));
+  1428		mas_unlock(&mas);
+  1429		mtree_destroy(mt);
+  1430	
+  1431		/*
+  1432		 * Store NULL at range [0, n] to a single entry tree should
+  1433		 * result in an empty tree
+  1434		 */
+  1435		mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+  1436		mas_lock(&mas);
+  1437		mas_set(&mas, 0);
+  1438		mas_store_gfp(&mas, &mas, GFP_KERNEL);
+  1439		mas_set_range(&mas, 0, 5);
+  1440		mas_store_gfp(&mas, NULL, GFP_KERNEL);
+  1441		MT_BUG_ON(mt, !mtree_empty(mt));
+  1442		mas_unlock(&mas);
+  1443		mtree_destroy(mt);
+  1444	
+  1445		/*
+  1446		 * Store NULL at range [m, n] where m > 0 to a single entry tree
+  1447		 * should still be a single entry tree
+  1448		 */
+  1449		mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+  1450		mas_lock(&mas);
+  1451		mas_set(&mas, 0);
+  1452		mas_store_gfp(&mas, &mas, GFP_KERNEL);
+  1453		mas_set_range(&mas, 2, 5);
+  1454		mas_store_gfp(&mas, NULL, GFP_KERNEL);
+  1455		MT_BUG_ON(mt, mtree_empty(mt));
+> 1456		MT_BUG_ON(mt, xa_is_node(mas_root(&mas)));
+  1457		mas_unlock(&mas);
+  1458		mtree_destroy(mt);
+  1459	
+  1460		/*
+  1461		 * Store NULL at range [0, ULONG_MAX] to a tree with node should
+  1462		 * result in an empty tree
+  1463		 */
+  1464		mt_init_flags(mt, MT_FLAGS_ALLOC_RANGE);
+  1465		mas_lock(&mas);
+  1466		mas_set_range(&mas, 1, 3);
+  1467		mas_store_gfp(&mas, &mas, GFP_KERNEL);
+  1468		MT_BUG_ON(mt, !xa_is_node(mas_root(&mas)));
+  1469		mas_set_range(&mas, 0, ULONG_MAX);
+  1470		mas_store_gfp(&mas, NULL, GFP_KERNEL);
+  1471		MT_BUG_ON(mt, !mtree_empty(mt));
+  1472		mas_unlock(&mas);
+  1473		mtree_destroy(mt);
+  1474	}
+  1475	
 
 -- 
 0-DAY CI Kernel Test Service
