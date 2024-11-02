@@ -1,180 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E2118A925
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 14:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CF41991BF
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 14:22:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730556945; cv=none; b=peoIMZHm+IVyX4aMuKmGQ7mBa40iIZRqRQthFoATuKTjtBLJqBep8ktSRu4COJne6coUMJh7/PV9I/uzKOrFErDrmHuFq/15lsPvTkeo4KprplCzX9DRzGHMYRvqWo4laEzKHINFv+s1D2H/yfJZL1URhVCYjYbwvrM6zpchj2k=
+	t=1730557331; cv=none; b=o7IMAP9MohLuku39UCqPum6fvCcHhEMCRpLTmuOjHmFsAn/gFI7P95mf72mPofC+AhxP2LY2vIKred4+Fumy8FKoV2dPf4j6v1lYHhZ1AHsJYc4eVc3yVx9ruRWzhFOhXa9yuHdqvGN/aTXbIZS6IoPvU1Ks/Fu9dhu6YDToVoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730556945; c=relaxed/simple;
-	bh=IgDeAUzYxb1Fo38cc6C1G4XaRVWee0V2M1rPDOSgCXE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iDi6YRDljbFGffK0iE6NDn/PB3HMAhv1FE9DnsEUnNhbndYepsnBeodPXh0SR5LOPQ4NZOX3GjDlX3M1FMriqQhUn+XZTyUH1eJk3v3ss6BDLP3pkC0Z+BMIaFwK33MsQboCW7jYvU1pLclTrsUJMX7dI0q6sNMF+XBlBz1+YIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UaMF1YCl; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730557331; c=relaxed/simple;
+	bh=O0ByfEPYfKUF/aOooEO7tom3LWddvgDyaY78cHYV+uM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ET4ZgX2DeCuHze5IXS48Sz97++4KeVyzDH9PzTRElaVii14ClH9SM/G0D8nlhVxtD0aRJArZwH1otUsYh/l3Pm/cWtWkV2btb9isqQtcfEXFVL7VGgzoFLil79BtCig/gHhxTktIoEtk3bGnOCQQq3oBUALMsx2OD5CvA7dMy2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RHz4biW5; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UaMF1YCl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730556943; x=1762092943;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IgDeAUzYxb1Fo38cc6C1G4XaRVWee0V2M1rPDOSgCXE=;
-  b=UaMF1YClOxyfyDKp1e9lEQCbROpvS1DNTgXP1wZf2nnVJ22vQ3ttkYyT
-   VMNawa3LwPsY3YqPgBZDsdhlVlDjFUgNe34hbsXNy1t2nNxeedsFvUPbw
-   gtnx1GouXmOgBZMzWv3uWmr2BMcr+DsvWJ131hSY63kcu/gLy5a75EPYB
-   Cr+kvj71k1YkakgKLBAIPbV1uGP9B3B8IZTOb1hEYIvTMmMWDuz1PRPot
-   zznGC81DpDm1qLuGBWBdgyHYDdZGJ+/qF3y+V9hxFjJ69tSSAjIjP3OAV
-   5t6Z3P9chkchFQpJUlQGhUnxO9ww4/8bbk6yT9d9hceZ/tR2ZnVi0vSmZ
-   Q==;
-X-CSE-ConnectionGUID: /pSizLwvTCWh9KEq3H/Vjw==
-X-CSE-MsgGUID: dj1kg0ToRyWJ79F27ulhaA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30485193"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30485193"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 07:15:40 -0700
-X-CSE-ConnectionGUID: iROgqnsrROmf8l1W2Ao5Qw==
-X-CSE-MsgGUID: 90qJETIuSD60VKiHvGGaVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="114037552"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Nov 2024 07:15:40 -0700
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7Euf-000j3L-1r;
-	Sat, 02 Nov 2024 14:15:37 +0000
-Date: Sat, 2 Nov 2024 22:14:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-11 1/1]
- arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer
- types passing 'struct user_pt_regs *' to parameter of type 'struct
- kvm_cpu_context *'
-Message-ID: <202411022219.8pq8uBDG-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RHz4biW5"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c9404c0d50so3262836a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 Nov 2024 07:22:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730557328; x=1731162128; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nDagFHxr5LQ7A9Wr8K+r1XRdDK2QMYfBZ8U+Hq3KKcE=;
+        b=RHz4biW52OWSQPfBonkV1Y93LrftcdyVc8ibkr0SmeBNKs7leuQohEDO9hPaYG4QfP
+         klk3H/5/ci2capgYQF/4ss/n1j7c8TXwy9VNUx/tk6qOIwAfZ1MIgXY9E5w9SFeSj9QT
+         KyRWWLboYQF4SzuJb0aoPjkC/A6XXwmOCZIaX9c0686iLn7GgK6+ZiNw2EHjNzN3xu8y
+         fo/DlvUz40K8W+L99COSkfFioRtJCxjjNq5ozNSAmMtYzKTzEHJESjpBYdYmYYWfqaON
+         YdCQGqkfehta8jRnuq7iXYZ95xLTyslM4SJ2ZfLOnl2D36CnA7ntwkb8tIG9Z3M2RK6B
+         psJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730557328; x=1731162128;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nDagFHxr5LQ7A9Wr8K+r1XRdDK2QMYfBZ8U+Hq3KKcE=;
+        b=Ae3FAVN6slF/g9ExNf4vvB1RCsdXaERD6tONiqlserildORkxc7WWVDZ2kX4Yiic5K
+         dDuA0/PX0PhEZ1bVyt//A590SLAdgdnN3aJY38B/g90vwg3JjdDMpwfKDkfKbvv0ZCiQ
+         ZEd5D9JglSH6A/wZRXjXtrHeTIzaYqQNwBV5dwjyKR0dLq8+LCl110FPXYlMo9TNZOC4
+         3WQ64oz0x32J/U1M/J63VFnWyvQR7El7ux1HjKzztPF/E8bYBECGYFPb/Hl78r2yeTzL
+         ltnv2ASjugBKgdocck3h7nXPG2hoaKzd5j4LPhCIAM2g/fxztWd6PXL6NGy09rR+G4Zk
+         zggQ==
+X-Gm-Message-State: AOJu0YzsspefJF/DuHbmhM/PvqcmV9SvDOamrDcckCH7rY8ARcUKW5JT
+	3s9uJDvw2Sz8zQIY0aFya7TEgwvNJ8btImJb6kSnHnDm11lT8ShA/n921boO1k9SUWQIU6SJU4L
+	K9XISH5+6wJGfRborXjqjWO7Ib5w=
+X-Google-Smtp-Source: AGHT+IHcA1HNdFZ7QfXqRz0hTckXZX2gAI3taxMuzEOk8bVwutcXATIRbM7Rm+b+bPQ0fLNb4izEGNH9+XI1SjvuuJs=
+X-Received: by 2002:a05:6402:42c1:b0:5cb:acfa:6225 with SMTP id
+ 4fb4d7f45d1cf-5cbbf947321mr18916818a12.25.1730557328089; Sat, 02 Nov 2024
+ 07:22:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241101184011.3369247-2-snovitoll@gmail.com> <202411021938.t9ib5DAw-lkp@intel.com>
+In-Reply-To: <202411021938.t9ib5DAw-lkp@intel.com>
+From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
+Date: Sat, 2 Nov 2024 19:21:56 +0500
+Message-ID: <CACzwLxiVuScO2gWbV0by+U3zRTDD0V=bgcJT0CrqivFPMgkCzQ@mail.gmail.com>
+Subject: Re: [PATCH 1/2] kasan: use EXPORT_SYMBOL_IF_KUNIT to export symbols
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Vincent,
+Sabyrzhan
 
-FYI, the error/warning still remains.
+On Sat, Nov 2, 2024 at 4:18=E2=80=AFPM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi Sabyrzhan,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on v6.12-rc5]
+> [also build test ERROR on linus/master]
+> [cannot apply to akpm-mm/mm-everything]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Sabyrzhan-Tasbolat=
+ov/kasan-use-EXPORT_SYMBOL_IF_KUNIT-to-export-symbols/20241102-024138
+> base:   v6.12-rc5
+> patch link:    https://lore.kernel.org/r/20241101184011.3369247-2-snovito=
+ll%40gmail.com
+> patch subject: [PATCH 1/2] kasan: use EXPORT_SYMBOL_IF_KUNIT to export sy=
+mbols
+> config: x86_64-randconfig-102-20241102 (https://download.01.org/0day-ci/a=
+rchive/20241102/202411021938.t9ib5DAw-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241102/202411021938.t9ib5DAw-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411021938.t9ib5DAw-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>, old ones prefixed by <<):
+>
+> WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kasan/kasan_test_mod=
+ule.o
+> WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-11
-head:   4dc1c153f7b0c12b5ace41e7383514e9ab54cd3b
-commit: 718bf2535e3912862e7f3aedb4a04f7377e7af3b [1/1] ANDROID: KVM: arm64: Fix missing mask for custom hypercall handling
-config: arm64-randconfig-002-20241102 (https://download.01.org/0day-ci/archive/20241102/202411022219.8pq8uBDG-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022219.8pq8uBDG-lkp@intel.com/reproduce)
+I will make a v2 to add MODULE_DESCRIPTION().
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411022219.8pq8uBDG-lkp@intel.com/
+> >> ERROR: modpost: module kasan_test_module uses symbol kasan_save_enable=
+_multi_shot from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import =
+it.
+> >> ERROR: modpost: module kasan_test_module uses symbol kasan_restore_mul=
+ti_shot from namespace EXPORTED_FOR_KUNIT_TESTING, but does not import it.
 
-All errors (new ones prefixed by >>):
+kernel_test_module.c has been deleted in commit 906917f951ea("kasan:
+migrate copy_user_test to kunit"), in linux-next tree.
+So I'm not sure if I should include the header in this file.
 
-   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
-   In file included from include/kvm/arm_hypercalls.h:7:
-   In file included from arch/arm64/include/asm/kvm_emulate.h:14:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2180:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:6: warning: no previous prototype for function '__pkvm_unmask_serror' [-Wmissing-prototypes]
-      88 | void __pkvm_unmask_serror(void)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:88:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      88 | void __pkvm_unmask_serror(void)
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:796:8: warning: unused variable 'vq_len' [-Wunused-variable]
-     796 |                         u64 vq_len = sve_vq_from_vl(kvm_host_sve_max_vl) - 1;
-         |                             ^~~~~~
->> arch/arm64/kvm/hyp/nvhe/hyp-main.c:1652:32: error: incompatible pointer types passing 'struct user_pt_regs *' to parameter of type 'struct kvm_cpu_context *' [-Werror,-Wincompatible-pointer-types]
-    1652 |         if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
-         |                                       ^~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/include/nvhe/modules.h:25:51: note: passing argument to parameter 'host_ctxt' here
-      25 | handle_host_dynamic_hcall(struct kvm_cpu_context *host_ctxt, int id)
-         |                                                   ^
-   7 warnings and 1 error generated.
-
-
-vim +1652 arch/arm64/kvm/hyp/nvhe/hyp-main.c
-
-  1630	
-  1631	static void handle_host_hcall(struct kvm_cpu_context *host_ctxt)
-  1632	{
-  1633		DECLARE_REG(unsigned long, id, host_ctxt, 0);
-  1634		unsigned long hcall_min = 0;
-  1635		hcall_t hfn;
-  1636	
-  1637		/*
-  1638		 * If pKVM has been initialised then reject any calls to the
-  1639		 * early "privileged" hypercalls. Note that we cannot reject
-  1640		 * calls to __pkvm_prot_finalize for two reasons: (1) The static
-  1641		 * key used to determine initialisation must be toggled prior to
-  1642		 * finalisation and (2) finalisation is performed on a per-CPU
-  1643		 * basis. This is all fine, however, since __pkvm_prot_finalize
-  1644		 * returns -EPERM after the first call for a given CPU.
-  1645		 */
-  1646		if (static_branch_unlikely(&kvm_protected_mode_initialized))
-  1647			hcall_min = __KVM_HOST_SMCCC_FUNC___pkvm_prot_finalize;
-  1648	
-  1649		id &= ~ARM_SMCCC_CALL_HINTS;
-  1650		id -= KVM_HOST_SMCCC_ID(0);
-  1651	
-> 1652		if (handle_host_dynamic_hcall(&host_ctxt->regs, id) == HCALL_HANDLED)
-  1653			goto end;
-  1654	
-  1655		if (unlikely(id < hcall_min || id >= ARRAY_SIZE(host_hcall)))
-  1656			goto inval;
-  1657	
-  1658		hfn = host_hcall[id];
-  1659		if (unlikely(!hfn))
-  1660			goto inval;
-  1661	
-  1662		cpu_reg(host_ctxt, 0) = SMCCC_RET_SUCCESS;
-  1663		hfn(host_ctxt);
-  1664	end:
-  1665		trace_host_hcall(id, 0);
-  1666	
-  1667		return;
-  1668	inval:
-  1669		trace_host_hcall(id, 1);
-  1670		cpu_reg(host_ctxt, 0) = SMCCC_RET_NOT_SUPPORTED;
-  1671	}
-  1672	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
