@@ -1,186 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BCF166F0C
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Nov 2024 14:57:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41EF71A01D8;
+	Sat,  2 Nov 2024 15:28:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730559467; cv=none; b=DL2zEzfi/DKRcKDJ2m9rrQDgW1KepqwzNp2nZTlgOZII0ckC5RS7FQj6QUwEVE8XmQAM52tmByxO8gFyV0wTNUydgic4AMwWQ0CKHTNcCmwbg7g/ZH/RLo8BtL1fXmSpMlJ4cTxlWmKPBhBNT9uJKjxKIBY10cOmCAtNRD88DE8=
+	t=1730561327; cv=none; b=ll3vPPC7JEs8PG3EFZrN9prxYFG5IfLjRLAaYU/rbup2eKiwawmYNK5GKgLi22z5UBCxJQQqY/PyjVlG/RE6Z0EoWichS+sPrmo9mRxWFCgGf6BzlYUaoXRnoH3viQMlVA1vTkge7FKJ6URm0Qw7WeOM+hNDKFkZo1D77VvNym4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730559467; c=relaxed/simple;
-	bh=+kig3y6lmvI17GCrzccYnpL9XwG617bk4/y1maBE3L4=;
+	s=arc-20240116; t=1730561327; c=relaxed/simple;
+	bh=zAUFqbRnx3QrIZL0lXYiEoGKtF5VPcXttxczM7SZY6c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uaadhYFFnaJIyUYy5Rxdhy8YMmvJCn1zsOm+4vWzk17Y3aVO1FlfyRHW0T/SaMzI8x13DpCVJtKlrRyXmL8pssywDfJatYFFvKVrd/x9P/E3HetjgkEAluFx08I9y4m5swGAsPi+Cs99KOpDsae6MWQIJ8L2pgtGpmAXMadLpAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXoCqRMi; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=c0GTRFsOsVZiU8s8ZDwrJk9rX3tH57yEDoVRH8ysLH1+Bp+fXbxL6xZ+ixeB3A+S4XXT+lOhrrRzT6miDHL4vN9ynfyxlYQ5/OyKN7dRfRWy6KuxFb3GDRU9+Qg7TqMalD+SkjGUlIYCss3rbjn6qAyGhr/76c+JkMNB/y1aPSM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=USG+6xhO; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXoCqRMi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="USG+6xhO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730559465; x=1762095465;
+  t=1730561325; x=1762097325;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=+kig3y6lmvI17GCrzccYnpL9XwG617bk4/y1maBE3L4=;
-  b=SXoCqRMiAoHnjIK/8QlfWQA+rKYqT1grxrlDDt+lmG32T4lWtIWA6i+w
-   e1DnFLDAqOsF7V2JkqI2AtmTWnvMHZ2BzsKwIThSelxIqBWbD1r4krzDj
-   aTBiTj2pfMotarZt+QINzX7afNyIManc+sOTUzEb+PRzYYsBDgv+JLhJD
-   DkD4sNQY2r9KUkDx/RL/tXoekq2O7Laq49aXcuAkRUAaVv4Tmw+p0E4ml
-   4yykZN7CfTkYrSz5XTGOraeUShZCOCVLgsS0bf1VVKdycjVvCsMqSRCib
-   tCy9Nhr8aZl95kXrPCl4ZSSk7xFh+ojXgECpBXwbWP5JaKRXbOM6LeJy5
+   mime-version:in-reply-to;
+  bh=zAUFqbRnx3QrIZL0lXYiEoGKtF5VPcXttxczM7SZY6c=;
+  b=USG+6xhO3bNumqh7xUYJoV4HD5stEe+mGJbVHV/6jNOc/HzR1hFOJf4W
+   n032K2Jp6YXLMS0pVZZSnqB9QRRfrUyu3UmF1w322xyS0nGEbLVBRTfYG
+   WWNLGR+DmW1TxZWSaIgSR5+GosHSmSVmeZNtB1qqvKZesMJgCLUN8c0V1
+   IqERh5RzmU9qQIhC/v1UGcfI/0oilAyt81C6c5/UHx61oJ7it1iF9IM/k
+   hFAUy5992ek6xSC5pzzpiYckcRPVexqERBat8ZW0bBjb5aN4QHMH6Uds/
+   0PK7SDWYoxCe7FatHkOor/DIN5GqXE9sdsfHgMDuynKw2lYuWnsc+3GX7
    Q==;
-X-CSE-ConnectionGUID: r3e1ylbXS3iy5pCNdss2Kg==
-X-CSE-MsgGUID: WxIB2cMPTKyNL3qQ3yyN+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="40883295"
+X-CSE-ConnectionGUID: +0Jf7gjzT4eDLjF3QWHPzA==
+X-CSE-MsgGUID: 6sA7swfoSVqa7/IfZb42xw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="30411886"
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="40883295"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 07:57:44 -0700
-X-CSE-ConnectionGUID: veWbj8gwRU6f/HwMxf2CnQ==
-X-CSE-MsgGUID: JNxxEeC2RMqnaV69vmVfgg==
+   d="scan'208";a="30411886"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 08:28:45 -0700
+X-CSE-ConnectionGUID: B6v/LPEhTo64evpmnST69g==
+X-CSE-MsgGUID: jRQcgbeoT7+OwZQGIUT5vA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
-   d="scan'208";a="87833768"
+   d="scan'208";a="83685863"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Nov 2024 07:57:40 -0700
+  by orviesa007.jf.intel.com with ESMTP; 02 Nov 2024 08:28:42 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7FZK-000j4n-1m;
-	Sat, 02 Nov 2024 14:57:38 +0000
-Date: Sat, 2 Nov 2024 22:57:16 +0800
+	id 1t7G3L-000j6H-1q;
+	Sat, 02 Nov 2024 15:28:39 +0000
+Date: Sat, 2 Nov 2024 23:28:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>, Arnd Bergmann <arnd@arndb.de>,
-	sonicadvance1@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com, linux-api@vger.kernel.org,
-	Nathan Chancellor <nathan@kernel.org>,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH v2 1/3] futex: Use explicit sizes for
- compat_exit_robust_list
-Message-ID: <202411022242.XCJECOCz-lkp@intel.com>
-References: <20241101162147.284993-2-andrealmeid@igalia.com>
+To: Samuel Holland <samuel.holland@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	linux-riscv@lists.infradead.org, Conor Dooley <conor@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alexandre Ghiti <alexghiti@rivosinc.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Emil Renner Berthing <kernel@esmil.dk>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH 10/11] riscv: mm: Use physical memory aliases to apply
+ PMAs
+Message-ID: <202411022337.JHozQieV-lkp@intel.com>
+References: <20241102000843.1301099-11-samuel.holland@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241101162147.284993-2-andrealmeid@igalia.com>
+In-Reply-To: <20241102000843.1301099-11-samuel.holland@sifive.com>
 
-Hi André,
+Hi Samuel,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on tip/sched/core linus/master tip/x86/asm v6.12-rc5 next-20241101]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.12-rc5 next-20241101]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/futex-Use-explicit-sizes-for-compat_exit_robust_list/20241102-002419
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20241101162147.284993-2-andrealmeid%40igalia.com
-patch subject: [PATCH v2 1/3] futex: Use explicit sizes for compat_exit_robust_list
-config: x86_64-randconfig-123-20241102 (https://download.01.org/0day-ci/archive/20241102/202411022242.XCJECOCz-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022242.XCJECOCz-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Holland/dt-bindings-riscv-Describe-physical-memory-regions/20241102-081311
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241102000843.1301099-11-samuel.holland%40sifive.com
+patch subject: [PATCH 10/11] riscv: mm: Use physical memory aliases to apply PMAs
+config: riscv-defconfig (https://download.01.org/0day-ci/archive/20241102/202411022337.JHozQieV-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411022337.JHozQieV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411022242.XCJECOCz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411022337.JHozQieV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/futex/core.c:914:59: sparse: sparse: cast removes address space '__user' of expression
->> kernel/futex/core.c:914:59: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected unsigned int [noderef] [usertype] __user *head @@     got unsigned int [usertype] * @@
-   kernel/futex/core.c:914:59: sparse:     expected unsigned int [noderef] [usertype] __user *head
-   kernel/futex/core.c:914:59: sparse:     got unsigned int [usertype] *
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/__user +914 kernel/futex/core.c
-
-   893	
-   894	/*
-   895	 * Walk curr->robust_list (very carefully, it's a userspace list!)
-   896	 * and mark any locks found there dead, and notify any waiters.
-   897	 *
-   898	 * We silently return on any sign of list-walking problem.
-   899	 */
-   900	static void exit_robust_list32(struct task_struct *curr)
-   901	{
-   902		struct robust_list_head32 __user *head = curr->compat_robust_list;
-   903		struct robust_list __user *entry, *next_entry, *pending;
-   904		unsigned int limit = ROBUST_LIST_LIMIT, pi, pip;
-   905		unsigned int next_pi;
-   906		u32 uentry, next_uentry, upending;
-   907		s32 futex_offset;
-   908		int rc;
-   909	
-   910		/*
-   911		 * Fetch the list head (which was registered earlier, via
-   912		 * sys_set_robust_list()):
-   913		 */
- > 914		if (fetch_robust_entry32((u32 *)&uentry, &entry, (u32 *)&head->list.next, &pi))
-   915			return;
-   916		/*
-   917		 * Fetch the relative futex offset:
-   918		 */
-   919		if (get_user(futex_offset, &head->futex_offset))
-   920			return;
-   921		/*
-   922		 * Fetch any possibly pending lock-add first, and handle it
-   923		 * if it exists:
-   924		 */
-   925		if (fetch_robust_entry32(&upending, &pending,
-   926				       &head->list_op_pending, &pip))
-   927			return;
-   928	
-   929		next_entry = NULL;	/* avoid warning with gcc */
-   930		while (entry != (struct robust_list __user *) &head->list) {
-   931			/*
-   932			 * Fetch the next entry in the list before calling
-   933			 * handle_futex_death:
-   934			 */
-   935			rc = fetch_robust_entry32(&next_uentry, &next_entry,
-   936				(u32 __user *)&entry->next, &next_pi);
-   937			/*
-   938			 * A pending lock might already be on the list, so
-   939			 * dont process it twice:
-   940			 */
-   941			if (entry != pending) {
-   942				void __user *uaddr = futex_uaddr(entry, futex_offset);
-   943	
-   944				if (handle_futex_death(uaddr, curr, pi,
-   945						       HANDLE_DEATH_LIST))
-   946					return;
-   947			}
-   948			if (rc)
-   949				return;
-   950			uentry = next_uentry;
-   951			entry = next_entry;
-   952			pi = next_pi;
-   953			/*
-   954			 * Avoid excessively long or circular lists:
-   955			 */
-   956			if (!--limit)
-   957				break;
-   958	
-   959			cond_resched();
-   960		}
-   961		if (pending) {
-   962			void __user *uaddr = futex_uaddr(pending, futex_offset);
-   963	
-   964			handle_futex_death(uaddr, curr, pip, HANDLE_DEATH_PENDING);
-   965		}
-   966	}
-   967	
+>> ERROR: modpost: "riscv_fixup_memory_alias" [arch/riscv/kvm/kvm.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
