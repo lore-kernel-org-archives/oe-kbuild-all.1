@@ -1,123 +1,149 @@
-Received: from mail-ot1-f54.google.com (mail-ot1-f54.google.com [209.85.210.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5960C18BC2F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 22:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38412C2FB
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 22:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730671819; cv=none; b=a2sbXpEpvQwG/jVHA4Pf7fKeHRaB2BB/up5QQ4L64HV1mUCACtmwDUErKhsgLm3tVrNjhGkk7jTTrniq/QEr+QgnEsGNLiA6s27/RGl/Q37cG2AmjPt01BpbonpU4g2VoH/Hk2gXnipvMlLze5zg5q4oP17gbKB11YQrtNWJNMc=
+	t=1730672275; cv=none; b=qLDXyfWrWEoud0mRSOq2YxcwmTYLvW+WtYjQQkCFcg+AT418+yBw5jO2FZ2wXTtBG1uG36KekUHt/43NPulLltXWJgRNNl2+QCiWgMSao2rsUHjKoH+FDmj8UQ9DtEXPBKVHRwIBc6z7FXjRjUEN9NvfpP0/5ZM+WyINb8laUBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730671819; c=relaxed/simple;
-	bh=YfV5iYFCey8uL8RvVFXKpCmMrpkP6Yn7Yg2LpgeM26E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HEYiP0U8610qDSoXeS5EFz/o0XqX4CSPd51iXRWQJ/CPDcJ25hd8v5rwd0j0jb/EQr+HMcHPPJh4H4T6dyZAMwSa1i0+PgvaSnJFP0vkgoLEKTokKQ5d3lnYFYgrAUuFADzmhXst1ScYM+8fhCUvjtE3EddXrH702f8Xm4foEZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=GAN3eosy; arc=none smtp.client-ip=209.85.210.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1730672275; c=relaxed/simple;
+	bh=VOB1OIK29K9TiaJiab9XTOI61mofBoUutAbzIYNP7sQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mIkUroSbNy7kwD98rESCk2zj5xtSWUKmObuQ5HXsvFClcS2LFPK3Rll4VUdWaKtSABdcxQAYq4U4UYRkq+QECMrXKe3f0N+hOBdHHbtGQ2o4QsshPhBMSUdgg3wBSHh7Qrlw6brdcP4jWdJBs11aQFqmPxjc5LYDjD8AvcJhbJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrzZ8g3o; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="GAN3eosy"
-Received: by mail-ot1-f54.google.com with SMTP id 46e09a7af769-715716974baso2115671a34.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Nov 2024 14:10:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730671814; x=1731276614; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jUWYuqtR3aHLEhG7mg7lZrCRFDuphm1pLOvMuWzILNI=;
-        b=GAN3eosyRJh0AFz/pr2wDs5cVUZrnaoJiiWcY5ZJxwOKRVymCxE3ofTTnjNhOucBgD
-         Rig0TIqh+s5hyk4t6kXo8kJwaYti+T/2SpC7WSQuagxGcRBhke/BfHeOskMupnxgDa+D
-         k0zIy31yRPUGRos/A4Td8wbMnhFhlwmt9Qr8VNTHaH7hCRR0toVqUG3WcrvsXlcN5eQx
-         8S1L1D5KCslZQp8BMhCzqoxpS1Z997injzEO7zTTe08YwsAwcxHG1ql0fnuxqHVusE4L
-         nXe+Tg2bFaxhjghA3ksH/awV/bt+E22JWYt4xtJb8F3B8H/DvC1f+sP5xlxQHRz/JS7k
-         Xscg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730671814; x=1731276614;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jUWYuqtR3aHLEhG7mg7lZrCRFDuphm1pLOvMuWzILNI=;
-        b=tv7BRD7KjrcbGvyQtF67rSDWKVPNwVg50BBk6Za5gHPos8NccertAqWmWFUAuHSKc/
-         QxvqW8BiNfSIY6OspaxW6tAKSJTG7rQl1o0lcTgqHUE9DisFEmBhyhvTZrMhQPUVtztT
-         S7tJmhcDVnFqZ7DvgTiAoGH9tquOQDHURglKgqCEc4J7dyo42Mo5/meKvM0J+uDhKii9
-         Ni7ML/o1A8gLerbRp1Xa5lz97vlgwkG0aPgOnLPLaOinlv0joRcvee3ZEfo+lFCwiFdi
-         sTA7QreoD15Xg0EH1z+w2qKxwGKGgTG12LmAg3yX5L+vrj6uN8wQfk42OExIkmrBOO7g
-         CGEg==
-X-Forwarded-Encrypted: i=1; AJvYcCU7e47FQ5qD5DjpoLPk8HIERGAa2GwtSv9b+OmCy2OftUX1eefRG+BT4W+5CRjZ1EY4Rhn1xfgLqyBN+UCk@lists.linux.dev
-X-Gm-Message-State: AOJu0YzsozbBIT5cD5esXpuoesvPgU6UbBJougDGrqIPV4ZhG1+1nuwF
-	p/delwpc6noOfLNDZmh/klw50oHP70qGTd3n6Cwa6+DsAasep9xpsW1zRRUHgHs=
-X-Google-Smtp-Source: AGHT+IGMfVh9LXk0iaYFioOzlB6HVEvHUV0T09OtRUqjTerOH+6ZJQ5jtvM98lKCEUKMBpdWBa6SFw==
-X-Received: by 2002:a05:6830:310b:b0:718:118d:2be8 with SMTP id 46e09a7af769-719ca25bdd4mr6851108a34.28.1730671814414;
-        Sun, 03 Nov 2024 14:10:14 -0800 (PST)
-Received: from [192.168.0.142] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7189ccb15c0sm1745498a34.60.2024.11.03.14.10.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 Nov 2024 14:10:13 -0800 (PST)
-Message-ID: <88b1e5a4-a962-4ef3-abff-724af2f6c09e@baylibre.com>
-Date: Sun, 3 Nov 2024 16:10:12 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrzZ8g3o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730672274; x=1762208274;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VOB1OIK29K9TiaJiab9XTOI61mofBoUutAbzIYNP7sQ=;
+  b=mrzZ8g3ooNsFVCqmB9h/ZtXDNflLAr9XJc3PX8s+BAMuQ+67VYEh7zAD
+   BZSwQRLx1RYVTpsTUxVWb0xKg+Zm4PVgqfHz/NvBpr0x29EBO7e5iyhW1
+   y3ntQgUW553FjvvdrBCoMstNjzsbZ/AG1etrkXu2iqfLZUqkgfxNuV2jU
+   lRf+NSyisUCdMGJhJEgZwnquLoMNb8+VCBPxB6S1PoKKeK+O4tW4oWmjc
+   JbCq6Wjx4K81pOzNisJZc5c6bjQVjVlaZAl4Oit1WmnFacB1ThkFicbxz
+   UhUJtE0s8LDI9WvNHcf0DV3f4HH32lJ9+JBCLQp4WbbIN35Q9RoV5bwRk
+   Q==;
+X-CSE-ConnectionGUID: yiVBJ+/cS1eN0nHL6L1tCg==
+X-CSE-MsgGUID: o1I1Xf6WRyuprmyWaWaaQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="52922102"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="52922102"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 14:17:53 -0800
+X-CSE-ConnectionGUID: iA0yg6pVRbCVToZebeUJ0w==
+X-CSE-MsgGUID: sAeLMV34QsSqRg6c06YMlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,255,1725346800"; 
+   d="scan'208";a="83574269"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 03 Nov 2024 14:17:51 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7iur-000kFN-28;
+	Sun, 03 Nov 2024 22:17:49 +0000
+Date: Mon, 4 Nov 2024 06:17:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [linux-next:master 7685/8858]
+ drivers/gpu/drm/xlnx/zynqmp_dp.c:2312:46: error: '_preemphasis' directive
+ output may be truncated writing 12 bytes into a region of size between 4 and
+ 14
+Message-ID: <202411040654.iDf1aTGd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
-To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-Cc: kernel test robot <lkp@intel.com>, Jonathan Cameron <jic23@kernel.org>,
- Guillaume Stols <gstols@baylibre.com>, oe-kbuild-all@lists.linux.dev,
- Michael Hennerich <Michael.Hennerich@analog.com>, linux-pwm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org
-References: <20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230@baylibre.com>
- <202411020101.5Hs6MkwQ-lkp@intel.com>
- <d44ab5s73kmochmwis3buhd6ci7ff4rwd7kgh47aqar6xeyqna@f4plwf6qbvlm>
- <awpjqzq2ksbqvlfkbh4xnpwqxrnf4np6amifdweasrh52v3jl3@lz3md7ydyhji>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <awpjqzq2ksbqvlfkbh4xnpwqxrnf4np6amifdweasrh52v3jl3@lz3md7ydyhji>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 11/3/24 2:20 PM, Uwe Kleine-König wrote:
-> On Sun, Nov 03, 2024 at 03:00:14PM +0100, Uwe Kleine-König wrote:
->> Hello David,
->>
->> On Sat, Nov 02, 2024 at 01:50:35AM +0800, kernel test robot wrote:
->>> kernel test robot noticed the following build errors:
->>>
->>> [auto build test ERROR on 6fb2fa9805c501d9ade047fc511961f3273cdcb5]
->>>
->>> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/pwm-core-export-pwm_get_state_hw/20241030-052134
->>> base:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
->>> patch link:    https://lore.kernel.org/r/20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230%40baylibre.com
->>> patch subject: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
->>> config: i386-randconfig-141-20241101 (https://download.01.org/0day-ci/archive/20241102/202411020101.5Hs6MkwQ-lkp@intel.com/config)
->>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
->>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241102/202411020101.5Hs6MkwQ-lkp@intel.com/reproduce)
->>>
->>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>> the same patch/commit), kindly add following tags
->>> | Reported-by: kernel test robot <lkp@intel.com>
->>> | Closes: https://lore.kernel.org/oe-kbuild-all/202411020101.5Hs6MkwQ-lkp@intel.com/
->>>
->>> All errors (new ones prefixed by >>):
->>>
->>>    drivers/iio/adc/ad7606.c: In function 'ad7606_read_raw':
->>>>> drivers/iio/adc/ad7606.c:765:23: error: implicit declaration of function 'pwm_get_state_hw'; did you mean 'pwm_get_state'? [-Werror=implicit-function-declaration]
->>>      765 |                 ret = pwm_get_state_hw(st->cnvst_pwm, &cnvst_pwm_state);
->>>          |                       ^~~~~~~~~~~~~~~~
->>>          |                       pwm_get_state
->>>    cc1: some warnings being treated as errors
->>
->> The problem here is that there is no declaration (and implementation) of
->> pwm_get_state_hw() with CONFIG_PWM=n. Does it make sense to enable the
->> ad7606 driver without enabling PWM support? If yes, we should add a
->> dummy implementation of pwm_get_state_hw(), if not, a depends on PWM
->> should be introduced.
-> 
-> Looking at the driver, the PWM is optional. So I rewrote the commit from
-> patch 1/2 in this series and added a dummy.
-> 
-> Best regards
-> Uwe
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   c88416ba074a8913cf6d61b789dd834bbca6681c
+commit: 28edaacb821c69241f6c0be6bbd29f7145f1b44f [7685/8858] drm: zynqmp_dp: Add debugfs interface for compliance testing
+config: arm64-randconfig-r111-20241103 (https://download.01.org/0day-ci/archive/20241104/202411040654.iDf1aTGd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241104/202411040654.iDf1aTGd-lkp@intel.com/reproduce)
 
-Thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411040654.iDf1aTGd-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/gpu/drm/xlnx/zynqmp_dp.c: In function 'zynqmp_dp_bridge_debugfs_init':
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2312:46: error: '_preemphasis' directive output may be truncated writing 12 bytes into a region of size between 4 and 14 [-Werror=format-truncation=]
+    2312 |                 snprintf(name, sizeof(name), fmt, i);
+         |                                              ^~~
+   drivers/gpu/drm/xlnx/zynqmp_dp.c:2312:17: note: 'snprintf' output between 18 and 28 bytes into a destination of size 19
+    2312 |                 snprintf(name, sizeof(name), fmt, i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/xlnx/zynqmp_dp.c:2317:53: error: '_swing' directive output may be truncated writing 6 bytes into a region of size between 4 and 14 [-Werror=format-truncation=]
+    2317 |                 snprintf(name, sizeof(name), "lane%d_swing", i);
+         |                                                     ^~~~~~
+   drivers/gpu/drm/xlnx/zynqmp_dp.c:2317:17: note: 'snprintf' output between 12 and 22 bytes into a destination of size 19
+    2317 |                 snprintf(name, sizeof(name), "lane%d_swing", i);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+
+
+vim +/_preemphasis +2312 drivers/gpu/drm/xlnx/zynqmp_dp.c
+
+  2278	
+  2279	DEFINE_DEBUGFS_ATTRIBUTE(fops_zynqmp_dp_ignore_hpd, zynqmp_dp_ignore_hpd_get,
+  2280				 zynqmp_dp_ignore_hpd_set, "%llu\n");
+  2281	
+  2282	static void zynqmp_dp_bridge_debugfs_init(struct drm_bridge *bridge,
+  2283						  struct dentry *root)
+  2284	{
+  2285		struct zynqmp_dp *dp = bridge_to_dp(bridge);
+  2286		struct dentry *test;
+  2287		int i;
+  2288	
+  2289		dp->test.bw_code = DP_LINK_BW_5_4;
+  2290		dp->test.link_cnt = dp->num_lanes;
+  2291	
+  2292		test = debugfs_create_dir("test", root);
+  2293	#define CREATE_FILE(name) \
+  2294		debugfs_create_file(#name, 0600, test, dp, &fops_zynqmp_dp_##name)
+  2295		CREATE_FILE(pattern);
+  2296		CREATE_FILE(enhanced);
+  2297		CREATE_FILE(downspread);
+  2298		CREATE_FILE(active);
+  2299		CREATE_FILE(custom);
+  2300		CREATE_FILE(rate);
+  2301		CREATE_FILE(lanes);
+  2302		CREATE_FILE(ignore_aux_errors);
+  2303		CREATE_FILE(ignore_hpd);
+  2304	
+  2305		for (i = 0; i < dp->num_lanes; i++) {
+  2306			static const char fmt[] = "lane%d_preemphasis";
+  2307			char name[sizeof(fmt)];
+  2308	
+  2309			dp->debugfs_train_set[i].dp = dp;
+  2310			dp->debugfs_train_set[i].lane = i;
+  2311	
+> 2312			snprintf(name, sizeof(name), fmt, i);
+  2313			debugfs_create_file(name, 0600, test,
+  2314					    &dp->debugfs_train_set[i],
+  2315					    &fops_zynqmp_dp_preemphasis);
+  2316	
+> 2317			snprintf(name, sizeof(name), "lane%d_swing", i);
+  2318			debugfs_create_file(name, 0600, test,
+  2319					    &dp->debugfs_train_set[i],
+  2320					    &fops_zynqmp_dp_swing);
+  2321		}
+  2322	}
+  2323	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
