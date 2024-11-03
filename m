@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECDB6B658
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 04:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F9B7083D;
+	Sun,  3 Nov 2024 04:13:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730607198; cv=none; b=ieRLi62wR0dgCVKzMl5rUiYX45C8iViGZvhcea4OFFoUdr/hwyjd4Q2eIyWUVBZ+SCXuJ3DR0gyLpalnBnkS6rzDMHyoVWlNjWD7/z2JGOvKM4CMM0RwuN4lw44XzkpAuLBoT6UmEiWudcXJ4sU61jnqcQ/2D5MnL2tj5+SH1Og=
+	t=1730607200; cv=none; b=HhJVuc/4X6Kso6t9U3aqlMtuv+cxRp7ANQZz849iIw2r/1jOu4/tDLvXUyHNpzxeGDRDbO0FuDKsMcawVwzZXgf9wTYOinSYF8SEJ6GDa+GRhC2N5DEOG93zZBJWOqylxU6plW6Pam//iwdfdNZNp7p3hNR+YGmPHtjVXPV+puA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730607198; c=relaxed/simple;
-	bh=ZfDD/3d8rc6FwEGpDYMV3hOV7RmJTdsGMCTjaAESWYw=;
+	s=arc-20240116; t=1730607200; c=relaxed/simple;
+	bh=9ArWa3Oi6qGNqJLQSVT8qu1ChJ7IzskXhNuJ44XTCH4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WP+YtgrovK1ypO9hjwQygVSzRoclUrGWYObdqTPjHZesWGnELcPTW1n+o+W7dv1XNMJx3mD5sGDkbN4uw/AXLvi5Jd4u70ZfeRoGd7VspxlR23F1MPJjyWsexNZFy5jATdCnU66QYw64boJ4iQin88rsRuyRRQQO4SPESDR8+Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dNC2V7ep; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=Sy740RVgVQGqANRRSgXLm9rU2ZegfQROUzxgX2UQfW8tL78MoZMU9ZRuCEyyeyTPTEgLrJd8G1kQy2YdfziL+zKi8HzHangR3J1l2h/FQ21awp/wD47L35S6MTljM3CrEyc6WpPDMfsNoR+ljJ0vqzmuPc1oX6dZ7bie0kVR7Kw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAA8ZWcQ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dNC2V7ep"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAA8ZWcQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730607195; x=1762143195;
+  t=1730607199; x=1762143199;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZfDD/3d8rc6FwEGpDYMV3hOV7RmJTdsGMCTjaAESWYw=;
-  b=dNC2V7epgiioDQuxtJHxt+nAfZn/qhjItaXiD1KxcHTvrGaVo374FjC0
-   RHWiBNWDQZfDM3OtaapRu8HROjMJ112z7tntLKgi/muWWjm+5Wp752gOF
-   ef8G/6AKykzr4dYiCStFopKH0dRU6me7UHYIDIXfmvMSG/Z1rKhdtnG8i
-   xqCQksBZ+5gzKAP+BnSMuXlWAfxrWOoMw68uCNLHs2WqupG1zZZn0adco
-   oO8LC1q8HgytiIdF6tvUmEk0baD5kY2uarl5BxJG/ZyMuzpV6+hY16SZ/
-   7jMeP1a6jFhjGj+3kZ+52TGeM41+FWV8wtaXfsSY1ZsdHONQ97SvSaGoq
+  bh=9ArWa3Oi6qGNqJLQSVT8qu1ChJ7IzskXhNuJ44XTCH4=;
+  b=bAA8ZWcQTKuKpCCjPSqpvuayW2I5qjCtPEtzEx/rUbtYDzcPJoR6A9Hi
+   GZJUj78SBIB5b/3ZQzu8Cr6tkbW7vRnCovP+NuhwgaopeGANNhZ//x68C
+   bkFBDPwfulZKqLDxNH02KK0oOpL8cE9OhndzwHfjQsFXFCT36GwY82r3v
+   vKtu1IasxckS84B0CIXfe41jEDoGzNWHDG9V115d+MYYLfyY+5Dj8HocG
+   SVZtEeZQ9lSL6u3aNRQ+70o+3237swz1f8CskADYVbZ6njGjSpoWVqOhW
+   YrdISTdMr/3PIKr7kbMDZ9FrjGkn0EAHZMAo7KuQTTWQTNg7DX+1TVCoM
    A==;
-X-CSE-ConnectionGUID: MTFlJbcpRzubKJGgY/kMTQ==
-X-CSE-MsgGUID: 4BtSN0NhTneRQV2lZSjAVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="47826862"
+X-CSE-ConnectionGUID: NG1YSj59S26Qzue7COvzmA==
+X-CSE-MsgGUID: /yMo9AcZTqqXO4MgEay8ow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="47826863"
 X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
-   d="scan'208";a="47826862"
+   d="scan'208";a="47826863"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 21:13:13 -0700
-X-CSE-ConnectionGUID: BKxdCtMuRcebYtQbYhhI8A==
-X-CSE-MsgGUID: UH2jQyf+TB+foGEcIYzTSA==
+X-CSE-ConnectionGUID: U3yNVXcgTJKseBXeuY1h2Q==
+X-CSE-MsgGUID: NhPq+VUwTQiifNeLcqjd5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
-   d="scan'208";a="88151522"
+   d="scan'208";a="88151521"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 02 Nov 2024 21:13:12 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7RzA-000jfn-33;
+	id 1t7RzA-000jfl-2y;
 	Sun, 03 Nov 2024 04:13:08 +0000
-Date: Sun, 3 Nov 2024 12:12:48 +0800
+Date: Sun, 3 Nov 2024 12:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 83/91]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /:
- compatible: 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202411031220.0KvdDdrv-lkp@intel.com>
+To: Raviteja Laggyshetty <quic_rlaggysh@quicinc.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Melody Olvera <quic_molvera@quicinc.com>
+Subject: [krzk-github:b4/sm8750-audio 13/36]
+ drivers/interconnect/qcom/sm8750.c:1236:29: warning: unused variable
+ 'aggre1_noc_bcms'
+Message-ID: <202411031241.slenB0dY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,262 +65,210 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   e21c1059f5fa6731f7a7d9460d4d64a6ed45deeb
-commit: 9d93bf02978ac8934217a12c211586b005a2aef7 [83/91] CHROMIUM: arm64: dts: mt8186: Restore the elan touchpad setting in Veluza
-config: arm64-randconfig-051-20241031 (https://download.01.org/0day-ci/archive/20241103/202411031220.0KvdDdrv-lkp@intel.com/config)
+tree:   https://github.com/krzk/linux b4/sm8750-audio
+head:   5c4247ed056c28382180718f04a756348a628dd7
+commit: c013177b6be9c3ed3501e3de36ea4e73b7ded154 [13/36] interconnect: qcom: Add interconnect provider driver for SM8750
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241103/202411031241.slenB0dY-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411031220.0KvdDdrv-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411031241.slenB0dY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411031220.0KvdDdrv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411031241.slenB0dY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2244.30-2248.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2250.23-2254.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2256.35-2260.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2236.32-2353.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,veluza-sku65536', 'google,veluza-sku65537', 'google,veluza', 'google,corsola', 'mediatek,mt8186'] is too long
-   	['google,veluza-sku65536', 'google,veluza-sku65537', 'google,veluza', 'google,corsola', 'mediatek,mt8186'] is too short
-   	'google,veluza-sku65536' is not one of ['mediatek,mt2701-evb']
-   	'google,veluza-sku65536' is not one of ['mediatek,mt2712-evb']
-   	'google,veluza-sku65536' is not one of ['mediatek,mt6580-evbp1']
-   	'google,veluza-sku65536' is not one of ['prestigio,pmt5008-3g']
-   	'google,veluza-sku65536' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,veluza-sku65536' is not one of ['mediatek,mt6592-evb']
-   	'google,veluza-sku65536' is not one of ['mediatek,mt6755-evb']
-   	'google,veluza-sku65536' is not one of ['mediatek,mt6765-evb']
---
-   	'google,spherion-rev0' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,chinchou-sku2147483647' was expected
-   	'google,chinchou-sku4' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /: failed to match any schema with compatible: ['google,veluza-sku65536', 'google,veluza-sku65537', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /: failed to match any schema with compatible: ['google,veluza-sku65536', 'google,veluza-sku65537', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /: failed to match any schema with compatible: ['google,veluza-sku65536', 'google,veluza-sku65537', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /: failed to match any schema with compatible: ['google,veluza-sku65536', 'google,veluza-sku65537', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: jpeg-encoder@17030000: iommus: [[124, 233], [124, 234], [124, 235], [124, 236]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku65536.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2244.30-2248.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2250.23-2254.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2256.35-2260.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2236.32-2353.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,veluza-sku131072', 'google,veluza-sku131074', 'google,veluza', 'google,corsola', 'mediatek,mt8186'] is too long
-   	['google,veluza-sku131072', 'google,veluza-sku131074', 'google,veluza', 'google,corsola', 'mediatek,mt8186'] is too short
-   	'google,veluza-sku131072' is not one of ['mediatek,mt2701-evb']
-   	'google,veluza-sku131072' is not one of ['mediatek,mt2712-evb']
-   	'google,veluza-sku131072' is not one of ['mediatek,mt6580-evbp1']
-   	'google,veluza-sku131072' is not one of ['prestigio,pmt5008-3g']
-   	'google,veluza-sku131072' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,veluza-sku131072' is not one of ['mediatek,mt6592-evb']
-   	'google,veluza-sku131072' is not one of ['mediatek,mt6755-evb']
-   	'google,veluza-sku131072' is not one of ['mediatek,mt6765-evb']
---
-   	'google,spherion-rev0' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,chinchou-sku2147483647' was expected
-   	'google,chinchou-sku4' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131072', 'google,veluza-sku131074', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131072', 'google,veluza-sku131074', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131072', 'google,veluza-sku131074', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131072', 'google,veluza-sku131074', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: jpeg-encoder@17030000: iommus: [[125, 233], [125, 234], [125, 235], [125, 236]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131072.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:381.16-387.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:389.16-392.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2244.30-2248.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/trip-point@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2250.23-2254.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/target@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2256.35-2260.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2236.32-2353.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,veluza-sku131073', 'google,veluza-sku131075', 'google,veluza', 'google,corsola', 'mediatek,mt8186'] is too long
-   	['google,veluza-sku131073', 'google,veluza-sku131075', 'google,veluza', 'google,corsola', 'mediatek,mt8186'] is too short
-   	'google,veluza-sku131073' is not one of ['mediatek,mt2701-evb']
-   	'google,veluza-sku131073' is not one of ['mediatek,mt2712-evb']
-   	'google,veluza-sku131073' is not one of ['mediatek,mt6580-evbp1']
-   	'google,veluza-sku131073' is not one of ['prestigio,pmt5008-3g']
-   	'google,veluza-sku131073' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,veluza-sku131073' is not one of ['mediatek,mt6592-evb']
-   	'google,veluza-sku131073' is not one of ['mediatek,mt6755-evb']
-   	'google,veluza-sku131073' is not one of ['mediatek,mt6765-evb']
---
-   	'google,spherion-rev0' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,chinchou-sku2147483647' was expected
-   	'google,chinchou-sku4' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131073', 'google,veluza-sku131075', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131073', 'google,veluza-sku131075', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131073', 'google,veluza-sku131075', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /: failed to match any schema with compatible: ['google,veluza-sku131073', 'google,veluza-sku131075', 'google,veluza', 'google,corsola', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: ec@0: typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: typec: connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: jpeg-encoder@17030000: iommus: [[125, 233], [125, 234], [125, 235], [125, 236]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-jpeg-encoder.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: thermal-zones: 'adsp', 'cam', 'cpu_big0', 'cpu_big1', 'cpu_zone0', 'cpu_zone1', 'cpu_zone2', 'mfg', 'nna', 'soc_max' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-veluza-sku131073.dtb: sound: 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+All warnings (new ones prefixed by >>):
+
+>> drivers/interconnect/qcom/sm8750.c:1236:29: warning: unused variable 'aggre1_noc_bcms' [-Wunused-variable]
+    1236 | static struct qcom_icc_bcm *aggre1_noc_bcms[] = {
+         |                             ^~~~~~~~~~~~~~~
+>> drivers/interconnect/qcom/sm8750.c:1411:29: warning: unused variable 'lpass_ag_noc_bcms' [-Wunused-variable]
+    1411 | static struct qcom_icc_bcm *lpass_ag_noc_bcms[] = {
+         |                             ^~~~~~~~~~~~~~~~~
+   2 warnings generated.
+
+
+vim +/aggre1_noc_bcms +1236 drivers/interconnect/qcom/sm8750.c
+
+  1235	
+> 1236	static struct qcom_icc_bcm *aggre1_noc_bcms[] = {
+  1237	};
+  1238	
+  1239	static struct qcom_icc_node *aggre1_noc_nodes[] = {
+  1240		[MASTER_QSPI_0] = &qhm_qspi,
+  1241		[MASTER_QUP_1] = &qhm_qup1,
+  1242		[MASTER_QUP_3] = &qxm_qup02,
+  1243		[MASTER_SDCC_4] = &xm_sdc4,
+  1244		[MASTER_UFS_MEM] = &xm_ufs_mem,
+  1245		[MASTER_USB3_0] = &xm_usb3_0,
+  1246		[SLAVE_A1NOC_SNOC] = &qns_a1noc_snoc,
+  1247	};
+  1248	
+  1249	static struct qcom_icc_desc sm8750_aggre1_noc = {
+  1250		.nodes = aggre1_noc_nodes,
+  1251		.num_nodes = ARRAY_SIZE(aggre1_noc_nodes),
+  1252	};
+  1253	
+  1254	static struct qcom_icc_bcm *aggre2_noc_bcms[] = {
+  1255		&bcm_ce0,
+  1256	};
+  1257	
+  1258	static struct qcom_icc_node *aggre2_noc_nodes[] = {
+  1259		[MASTER_QDSS_BAM] = &qhm_qdss_bam,
+  1260		[MASTER_QUP_2] = &qhm_qup2,
+  1261		[MASTER_CRYPTO] = &qxm_crypto,
+  1262		[MASTER_IPA] = &qxm_ipa,
+  1263		[MASTER_SOCCP_AGGR_NOC] = &qxm_soccp,
+  1264		[MASTER_SP] = &qxm_sp,
+  1265		[MASTER_QDSS_ETR] = &xm_qdss_etr_0,
+  1266		[MASTER_QDSS_ETR_1] = &xm_qdss_etr_1,
+  1267		[MASTER_SDCC_2] = &xm_sdc2,
+  1268		[SLAVE_A2NOC_SNOC] = &qns_a2noc_snoc,
+  1269	};
+  1270	
+  1271	static struct qcom_icc_desc sm8750_aggre2_noc = {
+  1272		.nodes = aggre2_noc_nodes,
+  1273		.num_nodes = ARRAY_SIZE(aggre2_noc_nodes),
+  1274		.bcms = aggre2_noc_bcms,
+  1275		.num_bcms = ARRAY_SIZE(aggre2_noc_bcms),
+  1276	};
+  1277	
+  1278	static struct qcom_icc_bcm *clk_virt_bcms[] = {
+  1279		&bcm_qup0,
+  1280		&bcm_qup1,
+  1281		&bcm_qup2,
+  1282	};
+  1283	
+  1284	static struct qcom_icc_node *clk_virt_nodes[] = {
+  1285		[MASTER_QUP_CORE_0] = &qup0_core_master,
+  1286		[MASTER_QUP_CORE_1] = &qup1_core_master,
+  1287		[MASTER_QUP_CORE_2] = &qup2_core_master,
+  1288		[SLAVE_QUP_CORE_0] = &qup0_core_slave,
+  1289		[SLAVE_QUP_CORE_1] = &qup1_core_slave,
+  1290		[SLAVE_QUP_CORE_2] = &qup2_core_slave,
+  1291	};
+  1292	
+  1293	static struct qcom_icc_desc sm8750_clk_virt = {
+  1294		.nodes = clk_virt_nodes,
+  1295		.num_nodes = ARRAY_SIZE(clk_virt_nodes),
+  1296		.bcms = clk_virt_bcms,
+  1297		.num_bcms = ARRAY_SIZE(clk_virt_bcms),
+  1298	};
+  1299	
+  1300	static struct qcom_icc_bcm *cnoc_cfg_bcms[] = {
+  1301		&bcm_cn0,
+  1302		&bcm_cn1,
+  1303	};
+  1304	
+  1305	static struct qcom_icc_node *cnoc_cfg_nodes[] = {
+  1306		[MASTER_CNOC_CFG] = &qsm_cfg,
+  1307		[SLAVE_AHB2PHY_SOUTH] = &qhs_ahb2phy0,
+  1308		[SLAVE_AHB2PHY_NORTH] = &qhs_ahb2phy1,
+  1309		[SLAVE_CAMERA_CFG] = &qhs_camera_cfg,
+  1310		[SLAVE_CLK_CTL] = &qhs_clk_ctl,
+  1311		[SLAVE_CRYPTO_0_CFG] = &qhs_crypto0_cfg,
+  1312		[SLAVE_DISPLAY_CFG] = &qhs_display_cfg,
+  1313		[SLAVE_EVA_CFG] = &qhs_eva_cfg,
+  1314		[SLAVE_GFX3D_CFG] = &qhs_gpuss_cfg,
+  1315		[SLAVE_I2C] = &qhs_i2c,
+  1316		[SLAVE_I3C_IBI0_CFG] = &qhs_i3c_ibi0_cfg,
+  1317		[SLAVE_I3C_IBI1_CFG] = &qhs_i3c_ibi1_cfg,
+  1318		[SLAVE_IMEM_CFG] = &qhs_imem_cfg,
+  1319		[SLAVE_CNOC_MSS] = &qhs_mss_cfg,
+  1320		[SLAVE_PCIE_CFG] = &qhs_pcie_cfg,
+  1321		[SLAVE_PRNG] = &qhs_prng,
+  1322		[SLAVE_QDSS_CFG] = &qhs_qdss_cfg,
+  1323		[SLAVE_QSPI_0] = &qhs_qspi,
+  1324		[SLAVE_QUP_3] = &qhs_qup02,
+  1325		[SLAVE_QUP_1] = &qhs_qup1,
+  1326		[SLAVE_QUP_2] = &qhs_qup2,
+  1327		[SLAVE_SDCC_2] = &qhs_sdc2,
+  1328		[SLAVE_SDCC_4] = &qhs_sdc4,
+  1329		[SLAVE_SPSS_CFG] = &qhs_spss_cfg,
+  1330		[SLAVE_TCSR] = &qhs_tcsr,
+  1331		[SLAVE_TLMM] = &qhs_tlmm,
+  1332		[SLAVE_UFS_MEM_CFG] = &qhs_ufs_mem_cfg,
+  1333		[SLAVE_USB3_0] = &qhs_usb3_0,
+  1334		[SLAVE_VENUS_CFG] = &qhs_venus_cfg,
+  1335		[SLAVE_VSENSE_CTRL_CFG] = &qhs_vsense_ctrl_cfg,
+  1336		[SLAVE_CNOC_MNOC_CFG] = &qss_mnoc_cfg,
+  1337		[SLAVE_PCIE_ANOC_CFG] = &qss_pcie_anoc_cfg,
+  1338		[SLAVE_QDSS_STM] = &xs_qdss_stm,
+  1339		[SLAVE_TCU] = &xs_sys_tcu_cfg,
+  1340	};
+  1341	
+  1342	static struct qcom_icc_desc sm8750_cnoc_cfg = {
+  1343		.nodes = cnoc_cfg_nodes,
+  1344		.num_nodes = ARRAY_SIZE(cnoc_cfg_nodes),
+  1345		.bcms = cnoc_cfg_bcms,
+  1346		.num_bcms = ARRAY_SIZE(cnoc_cfg_bcms),
+  1347	};
+  1348	
+  1349	static struct qcom_icc_bcm *cnoc_main_bcms[] = {
+  1350		&bcm_cn0,
+  1351	};
+  1352	
+  1353	static struct qcom_icc_node *cnoc_main_nodes[] = {
+  1354		[MASTER_GEM_NOC_CNOC] = &qnm_gemnoc_cnoc,
+  1355		[MASTER_GEM_NOC_PCIE_SNOC] = &qnm_gemnoc_pcie,
+  1356		[SLAVE_AOSS] = &qhs_aoss,
+  1357		[SLAVE_IPA_CFG] = &qhs_ipa,
+  1358		[SLAVE_IPC_ROUTER_CFG] = &qhs_ipc_router,
+  1359		[SLAVE_SOCCP] = &qhs_soccp,
+  1360		[SLAVE_TME_CFG] = &qhs_tme_cfg,
+  1361		[SLAVE_APPSS] = &qns_apss,
+  1362		[SLAVE_CNOC_CFG] = &qss_cfg,
+  1363		[SLAVE_DDRSS_CFG] = &qss_ddrss_cfg,
+  1364		[SLAVE_BOOT_IMEM] = &qxs_boot_imem,
+  1365		[SLAVE_IMEM] = &qxs_imem,
+  1366		[SLAVE_BOOT_IMEM_2] = &qxs_modem_boot_imem,
+  1367		[SLAVE_SERVICE_CNOC] = &srvc_cnoc_main,
+  1368		[SLAVE_PCIE_0] = &xs_pcie,
+  1369	};
+  1370	
+  1371	static struct qcom_icc_desc sm8750_cnoc_main = {
+  1372		.nodes = cnoc_main_nodes,
+  1373		.num_nodes = ARRAY_SIZE(cnoc_main_nodes),
+  1374		.bcms = cnoc_main_bcms,
+  1375		.num_bcms = ARRAY_SIZE(cnoc_main_bcms),
+  1376	};
+  1377	
+  1378	static struct qcom_icc_bcm *gem_noc_bcms[] = {
+  1379		&bcm_sh0,
+  1380		&bcm_sh1,
+  1381		&bcm_ubw0,
+  1382	};
+  1383	
+  1384	static struct qcom_icc_node *gem_noc_nodes[] = {
+  1385		[MASTER_GPU_TCU] = &alm_gpu_tcu,
+  1386		[MASTER_SYS_TCU] = &alm_sys_tcu,
+  1387		[MASTER_APPSS_PROC] = &chm_apps,
+  1388		[MASTER_GFX3D] = &qnm_gpu,
+  1389		[MASTER_LPASS_GEM_NOC] = &qnm_lpass_gemnoc,
+  1390		[MASTER_MSS_PROC] = &qnm_mdsp,
+  1391		[MASTER_MNOC_HF_MEM_NOC] = &qnm_mnoc_hf,
+  1392		[MASTER_MNOC_SF_MEM_NOC] = &qnm_mnoc_sf,
+  1393		[MASTER_COMPUTE_NOC] = &qnm_nsp_gemnoc,
+  1394		[MASTER_ANOC_PCIE_GEM_NOC] = &qnm_pcie,
+  1395		[MASTER_SNOC_SF_MEM_NOC] = &qnm_snoc_sf,
+  1396		[MASTER_UBWC_P] = &qnm_ubwc_p,
+  1397		[MASTER_GIC] = &xm_gic,
+  1398		[SLAVE_UBWC_P] = &chs_ubwc_p,
+  1399		[SLAVE_GEM_NOC_CNOC] = &qns_gem_noc_cnoc,
+  1400		[SLAVE_LLCC] = &qns_llcc,
+  1401		[SLAVE_MEM_NOC_PCIE_SNOC] = &qns_pcie,
+  1402	};
+  1403	
+  1404	static struct qcom_icc_desc sm8750_gem_noc = {
+  1405		.nodes = gem_noc_nodes,
+  1406		.num_nodes = ARRAY_SIZE(gem_noc_nodes),
+  1407		.bcms = gem_noc_bcms,
+  1408		.num_bcms = ARRAY_SIZE(gem_noc_bcms),
+  1409	};
+  1410	
+> 1411	static struct qcom_icc_bcm *lpass_ag_noc_bcms[] = {
+  1412	};
+  1413	
 
 -- 
 0-DAY CI Kernel Test Service
