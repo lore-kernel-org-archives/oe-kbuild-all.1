@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502192628D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 08:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF0613AD1C
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 08:33:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730620943; cv=none; b=ULaeGVf0Xaj8M3pC1KHZ3hxSwAE1DmlyVakfkVL9c2AiFFJWcO0i2NSH0h5mTyWcISR62q9larY9de47D6KLT9P7y8KrjSMjI4P+QPyoVEUlLDCGEeq0o1SA7yIJqTeTUERV8AFl2Gq5SFfEYAK/DXZcRHUO5+C9GFjKkol2Ny0=
+	t=1730622802; cv=none; b=jhqB1oZ+bRusjuvZe4zdcH/IlHKjgtiKbbKjvj80SHl9weBDP/BTCbZDYxadQ01tEsZUN+h4d0wRBmtyB8XfLHmVvXJTMDzEf5PiWhRPkdaQGgs1Du7GZyVmCnUK8oDo8pVit7N0Os2FH96AnCLlXYkiB8M39MzJ7gbBjSy3leI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730620943; c=relaxed/simple;
-	bh=6AWpHA6iO9w0MfvJAskhUdpPuHcAifso5X7DRo8ufxE=;
+	s=arc-20240116; t=1730622802; c=relaxed/simple;
+	bh=REbRLl9G2lmdOypXq8T260G3nV9xxhtn1Goin3qpjUs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CgjhjQcmDPSwSG8RM/1g65foZAa1TecTU8/2fKHY+tkR+JciV3n/ifcM3SGWGTcb3onGGWJQlRUQruHXDrW1cF+271izYEdeGrvEaPa6qtjr4b3ppTN5T1PLeDJsTBDQhQh18UFNLKsvvyql3l3dqXAaaiDGYDEc/6FuVU1RErA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OyGHyM6B; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=tiC4E5KT2Cs1lrBrGWgSD/u/vK55AKVVqRC2BU9ONh0TV+6ztJVY3i4MmqCUxrGvdjsZwH71QwCqPB0HQAPvfBRO5QBpYHfkxPpSH2R3X3F1bI1rDdmB0qHxjKcOXpRlVrlfYQqUK6aBhx+h6zHmdkrSChVHXebReeDbEjzLMgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BfK5G8Ud; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyGHyM6B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BfK5G8Ud"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730620940; x=1762156940;
+  t=1730622800; x=1762158800;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6AWpHA6iO9w0MfvJAskhUdpPuHcAifso5X7DRo8ufxE=;
-  b=OyGHyM6BiDOVRJJ/IgG5FcenEF3XjvBOGNKSq6AY6Prmz1Pm3Z3oQyeb
-   AzlEG1pdoXHWlBqRC+5qAdX0KX94D1xhLCbO5dnAKLie9EDI2ZRWsb3wt
-   FFRMN74Zxxbv+/RBJVz4Y98ipHmIcQBoXImbETej5IxHS/OP39e7g68GY
-   XmstFjfrzcENnlowplhgFpmp1785BbUdnYfB//tgPzITFtiVVX0R4uk6z
-   SPXh2LcUnB/xADk2cP19wwAOaOn+vYJQ7FW1BO6vj4UFneXMs1Tt6tBn1
-   HBPsJVs3FWJJu1vzRJmlYdsO7QFqKkooWsFsfAU0hxFig2MNecSSWzT8q
+  bh=REbRLl9G2lmdOypXq8T260G3nV9xxhtn1Goin3qpjUs=;
+  b=BfK5G8UdA/buSlrDbUR7uD66OkO7nL+SqMvInxlUROx86H1e8kSb2+hU
+   gQBeJo5F0sucOWBHJR9AKtKr7Ll+D2rih49VGTut98C+awyKkbY7RQH7m
+   pMkkSGPrkOjTM9XTgmn7YHvwWHKlAbU/mvYyT+A36KNsMEQJyMoK7V1kV
+   lRX7PR0Budan0188gsol7we9mo9lL8EkXsuzX1YnW685MrrSHGQ0ajGIO
+   MqE+6D0HH/jgiQz1STldZm9zUxPf4fkMew1rINAb1aUfC9MVqZXSyOiqA
+   D8lylboGXD5scwWRY3iWSEQr043M6cFmwaSXkFCJtv3T/bet1XmtHKysH
    Q==;
-X-CSE-ConnectionGUID: W14HNwVWTPCoK1PdiXs4Tg==
-X-CSE-MsgGUID: ir3krZDjQ92gDnY8cbj4sQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="41706695"
+X-CSE-ConnectionGUID: NIQZmLkyR5KXQUo40k7GeQ==
+X-CSE-MsgGUID: UKKBo/H0T3KvAHVcSIlbrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="30445033"
 X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
-   d="scan'208";a="41706695"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 01:02:19 -0700
-X-CSE-ConnectionGUID: fb3uQtGMSTisHu8oFVixPQ==
-X-CSE-MsgGUID: WtUN7VzNR8GmjSwuqLYrng==
+   d="scan'208";a="30445033"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 01:33:19 -0700
+X-CSE-ConnectionGUID: Q9fgUNtKQjebMe7KjsUS+g==
+X-CSE-MsgGUID: wRGHKtd4SxSraivKVc5jUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,254,1725346800"; 
-   d="scan'208";a="87869675"
+   d="scan'208";a="87953813"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Nov 2024 01:02:19 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 03 Nov 2024 01:33:19 -0700
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7VYu-000jnh-0p;
-	Sun, 03 Nov 2024 08:02:16 +0000
-Date: Sun, 3 Nov 2024 16:01:20 +0800
+	id 1t7W2v-000jod-00;
+	Sun, 03 Nov 2024 08:33:17 +0000
+Date: Sun, 3 Nov 2024 16:32:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1257/1257] drivers/edac/skx_base.o:
- warning: objtool: missing symbol for section .init.text
-Message-ID: <202411031540.xYeDxC2Y-lkp@intel.com>
+Subject: [dwmw2:kexec-debug 7/7] vmlinux.o: warning: objtool:
+ relocate_range+0x2f6: unreachable instruction
+Message-ID: <202411031619.LJkD5bVc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,27 +62,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e833cceaa63f729c44be494d90d6ee3bfaf22faf
-commit: e34047f6dc606c123911c6db8fa424bb4a035262 [1257/1257] EDAC, skx_edac: Delete duplicated code
-config: x86_64-buildonly-randconfig-003-20241102 (https://download.01.org/0day-ci/archive/20241103/202411031540.xYeDxC2Y-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411031540.xYeDxC2Y-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug
+head:   323ac978117ad1c540de0414282f8aad6c1f10a5
+commit: 323ac978117ad1c540de0414282f8aad6c1f10a5 [7/7] [DO NOT MERGE] x86/kexec: enable DEBUG
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241103/202411031619.LJkD5bVc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411031619.LJkD5bVc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411031540.xYeDxC2Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411031619.LJkD5bVc-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/edac/skx_base.o: warning: objtool: missing symbol for section .init.text
---
-   drivers/edac/skx_common.c:470:8: warning: variable 'type' set but not used [-Wunused-but-set-variable]
-     470 |         char *type, *optype;
-         |               ^
-   1 warning generated.
->> drivers/edac/skx_common.o: warning: objtool: missing symbol for section .init.text
+>> vmlinux.o: warning: objtool: relocate_range+0x2f6: unreachable instruction
+   vmlinux.o: warning: objtool: relocate_range+0x305: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
