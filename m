@@ -1,96 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AA89EAD8;
-	Sun,  3 Nov 2024 13:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2DA4120B
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 14:00:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730641351; cv=none; b=GQFP//8oX+7W8BIW3BPErtG4uJ+M/cCmDpZsbxfqyBDNgJLaVQBs/R3Cj/ehKWnFjIgOE1b7n8OWK8CTl0t9oobfiPk0i1ehJwIZ/7DdKcSi7M2mGn7QD4AniuiXi1KIc9oHKjfB/JTu8Tk4pLCdvU6IKA6nmvO9+Ilc3vpb8e8=
+	t=1730642424; cv=none; b=buM3tbDLbBjG7G9zx9gd6oXLC9Lu/f4hUTg0XWSlEAEQLCDRYJ2PCG2EyKsngr3CELwXm4zolOMczEi/OdGXbMVF5g6gaEYjwBy7MHY30v12geg1voZFRTZIuYfPomAXT6sVYOsocFNYQcmZtQTh+jh5uuTa9sSTJlBDegQS1oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730641351; c=relaxed/simple;
-	bh=tJ7tJX1hCX5vgqyd4uA84/xO02M06ad5DOorPfKO43Y=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hqx6W3sF0ZXVVO+2QraG/KmZ0b2LZMEhBjEo+B8bDC7Epv+BoZ9fzJdEv7pUvQEAiKmr6asOf+3fGWyiNe/nkUfYaGFWu2YkFo1oQ1g3xxS7dJ/95VDk5sugmabEhQzolFt3jf3XErRp13UshYEf3HzmrSUMzgaUgVzkw3lh6cY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gfH0i/qk; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730642424; c=relaxed/simple;
+	bh=HW0xkDerZUwC1H4Kuq1940vxcFFwZNOG+FdLrgr34zE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uoQq4357QIMb220qfLXDXaSEKJF/GGQAAFnkMW22EBCOhxEyJ07+WlnJu2UrgNDkjanB64WbUxAsooNH9yUDJk/GiR7teXB1V2t0UUc7p5WCiXIe6bGUlXjBst9nRvmJ8Yyr2VVXacUwr6gaR2f0kZrU4yBnb4e2eCoWUUK78sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=HKA7jley; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gfH0i/qk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730641349; x=1762177349;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=tJ7tJX1hCX5vgqyd4uA84/xO02M06ad5DOorPfKO43Y=;
-  b=gfH0i/qkXbTKLa/xnaJOM2h52pKOizc2oVFI4z8PempDTvTET4ubOLzg
-   LCoCmOFnB9IyP02c0K8WyNY9NvuY/yimSWSDZq/CggaNIYvccT3S1qwg9
-   bK7miNWuYrg9GHXlxiuuICMhCi9s4Zb37yTAom1VV03cI8SvHpsTZwjBw
-   CDBJZkuXpuwnT8bKs8/BIvNQ7LiIogRzJV0Oe55fZCllUnz4navKAhpMb
-   WleQ+sEz1QGLWosrLVdSqpAjvTTqJcdz1A+XxYrM2PXb5xXFupYXrbPz1
-   icH1nempnZ9AuAa6P3hkjcjXNwz5QHGmvUtvqZUFz5/+Dr/eBwzZFzFEd
-   g==;
-X-CSE-ConnectionGUID: gfDitEMYRP6/M7F6Gjr/2Q==
-X-CSE-MsgGUID: FLkWQDgmQiKVutc2QwwYgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="29764974"
-X-IronPort-AV: E=Sophos;i="6.11,255,1725346800"; 
-   d="scan'208";a="29764974"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 05:42:28 -0800
-X-CSE-ConnectionGUID: aoDWrpwZRySl5EjHhjuQug==
-X-CSE-MsgGUID: VEr63UCGSOyuULu6mITohw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,255,1725346800"; 
-   d="scan'208";a="83330419"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Nov 2024 05:42:28 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7as5-000jyP-0o;
-	Sun, 03 Nov 2024 13:42:25 +0000
-Date: Sun, 3 Nov 2024 21:41:38 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [dwmw2:kexec-debug 7/7] arch/x86/kernel/relocate_kernel_64.o:
- warning: objtool: relocate_range+0x2f9: unreachable instruction
-Message-ID: <202411032106.qYUkz2pQ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="HKA7jley"
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5c94861ee25so1876542a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Nov 2024 06:00:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730642420; x=1731247220; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6Zwcc6mJ2Z+M1jD5t38WLUuaC+7Hx/sCtRGVgR6vlbk=;
+        b=HKA7jleyhX3+lUUCh4jACbZT7y2jr8Hs8vS543Vrwnm87jzbJ8CJvipKtuYhX+TQMP
+         hhB1MZQEKRgfYcTCri4w/9FtqbwHEgTG9TFJv09T/kRXlXHHgNt2KYOIeYLL8fCjZNBg
+         qMt0YB/fD59PBmFXYnP9aclYX1cBt1ArLMxhzYXDkGZhV3z99NHYtLWSv7moVm04RgPi
+         eVRoqUhJOCU1U2P2hDMQUZeRkO5Geho1ggiGPhR6ALartY/oMEy97DZIDC5FlbMpIlZe
+         wY0BnrS5S6ab47D0QNNDWzplQDlHwOJ1u9x/unNNXhWL8DEp0JdEfZjAhybSPEAmjjJn
+         3v4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730642420; x=1731247220;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6Zwcc6mJ2Z+M1jD5t38WLUuaC+7Hx/sCtRGVgR6vlbk=;
+        b=raF5H5VwhJZ6+3DXX9EOZPU5u2QhtteetlOjYwjXJfKczaNDrTITCUKBv8MkI8DTEn
+         cqvboyr1EzYWOW3N5Ovkpvd9eoCG/b+QY0wZxM/SpDLk9IKdH7gWc5wYUttGsRFvUyuK
+         O1F3Wcq9hj8IBDDBWJXnpQlWwOBtX+fnL5RJHHMWEoqG4DdMMTZ/XAKh2ncgclF9Wma0
+         7mQwmZTt6AB8S8OAv7iIqpNWpKxBFLAhNFHWfZ9t0+hPpHQVXfsUyHZt9sN5NbTV7c5N
+         mf0zBoDYMBEVwi6VyP2jTL3cAxNPUulxo2HbvedMIxAp0ElNAo8fg34RAfhsQrs0qrWP
+         lgFQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmpuiuRuw+VFWsQ0Keq94O1aFdgD+VK07kGkEMp8jORnHyw3ttG2nxQdT/DSImIHs1T/0Slocra14v8anD@lists.linux.dev
+X-Gm-Message-State: AOJu0YzAM45HHy5VU/Syv59QNq5W8IPZBxzHSCC/b3VWbTc4UduTfQPS
+	LEguuPwrlyvJr/QM5rlVDW+NE4zBDsmV4uCNqjf0+hO4qLFfLGOV/q5wVyxGgEw=
+X-Google-Smtp-Source: AGHT+IHuuxLDk9hwg0+iu/v28lzVF3K4zk9CZmxe8Kkj+OthvudFByHtLuWu3au1z0eWR3PyoVpO5g==
+X-Received: by 2002:a05:6402:2106:b0:5ce:b715:6529 with SMTP id 4fb4d7f45d1cf-5ceb923efadmr10173655a12.3.1730642419742;
+        Sun, 03 Nov 2024 06:00:19 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:d0c0:5ce1:4bb1:2797])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac7c8c77sm3265183a12.61.2024.11.03.06.00.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Nov 2024 06:00:18 -0800 (PST)
+Date: Sun, 3 Nov 2024 15:00:14 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Guillaume Stols <gstols@baylibre.com>, oe-kbuild-all@lists.linux.dev, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
+Message-ID: <d44ab5s73kmochmwis3buhd6ci7ff4rwd7kgh47aqar6xeyqna@f4plwf6qbvlm>
+References: <20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230@baylibre.com>
+ <202411020101.5Hs6MkwQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vwkk7mov6pa2u6sg"
 Content-Disposition: inline
+In-Reply-To: <202411020101.5Hs6MkwQ-lkp@intel.com>
 
-TO: David Woodhouse <dwmw@amazon.co.uk>
 
-tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug
-head:   323ac978117ad1c540de0414282f8aad6c1f10a5
-commit: 323ac978117ad1c540de0414282f8aad6c1f10a5 [7/7] [DO NOT MERGE] x86/kexec: enable DEBUG
-config: x86_64-buildonly-randconfig-003-20241103 (https://download.01.org/0day-ci/archive/20241103/202411032106.qYUkz2pQ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411032106.qYUkz2pQ-lkp@intel.com/reproduce)
+--vwkk7mov6pa2u6sg
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
+MIME-Version: 1.0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411032106.qYUkz2pQ-lkp@intel.com/
+Hello David,
 
-All warnings (new ones prefixed by >>):
+On Sat, Nov 02, 2024 at 01:50:35AM +0800, kernel test robot wrote:
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on 6fb2fa9805c501d9ade047fc511961f3273cdcb5]
+>=20
+> url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/pwm-=
+core-export-pwm_get_state_hw/20241030-052134
+> base:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
+> patch link:    https://lore.kernel.org/r/20241029-pwm-export-pwm_get_stat=
+e_hw-v2-2-03ba063a3230%40baylibre.com
+> patch subject: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw()=
+ TODO
+> config: i386-randconfig-141-20241101 (https://download.01.org/0day-ci/arc=
+hive/20241102/202411020101.5Hs6MkwQ-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241102/202411020101.5Hs6MkwQ-lkp@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411020101.5Hs6MkwQ-lkp=
+@intel.com/
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>    drivers/iio/adc/ad7606.c: In function 'ad7606_read_raw':
+> >> drivers/iio/adc/ad7606.c:765:23: error: implicit declaration of functi=
+on 'pwm_get_state_hw'; did you mean 'pwm_get_state'? [-Werror=3Dimplicit-fu=
+nction-declaration]
+>      765 |                 ret =3D pwm_get_state_hw(st->cnvst_pwm, &cnvst=
+_pwm_state);
+>          |                       ^~~~~~~~~~~~~~~~
+>          |                       pwm_get_state
+>    cc1: some warnings being treated as errors
 
->> arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x2f9: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x308: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x50f: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x510: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x512: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x514: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x516: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x518: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x51a: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x51c: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x523: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x529: unreachable instruction
-   arch/x86/kernel/relocate_kernel_64.o: warning: objtool: relocate_range+0x52b: unreachable instruction
+The problem here is that there is no declaration (and implementation) of
+pwm_get_state_hw() with CONFIG_PWM=3Dn. Does it make sense to enable the
+ad7606 driver without enabling PWM support? If yes, we should add a
+dummy implementation of pwm_get_state_hw(), if not, a depends on PWM
+should be introduced.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards
+Uwe
+
+--vwkk7mov6pa2u6sg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcngewACgkQj4D7WH0S
+/k7XQgf/S5oqIxrk+tCZrofLS72CSpw69wFvTYhfwN/NrMGBNVp95W3Ophsa+Pkr
+XdTPbdySiDYjjnL1fdSTpiQSYCm9hKuJG/656ke78cPP6duNzPVpckAyAJcvNhjb
+NbbQdNn+HtQCH/MXFX4iqoTZw0jR/IT7F1KE/+1Dm5DszUQMreoC94p9IcCwUdcH
+kwxwZph/2ztSwcAqOGlIQOy+qo3Jb2GXD+rTlJ46t2hNqji0P7XvMLwspODMf3EV
+7qYGcw83e5J+TBvXiloklNFCaP9YBIyeijW2TrWq9SoPFLc4otl6YJUMytgjWL8H
+4YxpizEk2QB8e6Qdh2eyTObScTuqIw==
+=RL7H
+-----END PGP SIGNATURE-----
+
+--vwkk7mov6pa2u6sg--
