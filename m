@@ -1,178 +1,107 @@
-Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7712F3B
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 00:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9BA1AD21
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 00:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730592756; cv=none; b=VYdqrGI+PIkeYXp/3JlrGfbzswayb1tvStUh3+zvF7Bes39krma8TNrpfvwcJ2MNbsyy+nE4VbzDgiXgAz1ZHKRwx5VoZ/z70b7eot71vL8Uki159bvgOqgDritNRxjNVcoIyHQFAI3BVGHvfbcostEBonG8aw0xxWa/RlErBcw=
+	t=1730592906; cv=none; b=R9shm40NDlkF1nd0ALx5QUnFHB7YECVsdpmzBOPSJ5TKT0yLlwp/YERyngWIlwwEUwMzrUALhuoO+K9T34LcWNQpaer8A/2Xten+hf4mlXljPIGRmxwunTmH3bzRorrNLZSORV0cNBueT+o4E96BR7895qlZh2/jEMWHan8gDvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730592756; c=relaxed/simple;
-	bh=OZWXXGyoS9bJT9N6PrGwyLR+Px5L9/6D39WIpYyz/NA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j75b8cn7H5P0EYdOPQy36GxP+auusyipCXFUHW6n9GCI+art+8/gfHxeuVGf+fzCm7IvC+B7M8NXCq0YWynhhw++hqtgcXQ3PxJWhDiShj7SUt2YOLp8UcDmrheepWGF/nakJgzMvHr5XHRw2eeHRZ9PSyBzAIED9Y435Y72Zb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=ZhozWKjG; arc=none smtp.client-ip=171.64.64.25
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
+	s=arc-20240116; t=1730592906; c=relaxed/simple;
+	bh=uEIXB5+YmparKf5BPzrdvX0KLzvggu55uYDCjyljm8s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GHkcqHDaOsrHK0ccfjVmSiB27orK3d4MRxCUF6eYJmtbIeIg0313luMQC0obIyvadduDCJBMAkBFcZqmPCaFb7uSfp3c8ooZ5WxgzbCo0DavrIgOSIR6IVHDzchLwm2fETSXY7w+uNQdt0WRZGYDtc0WXwfiKyptyMxn3ww6f7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TL22JqJg; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="ZhozWKjG"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:Content-Type:Cc:To:
-	Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Sender:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=LE7fzoInMcHBvF6grXh46ZoKfKccUWf5KStRmstmXFI=; t=1730592754; x=1731456754; 
-	b=ZhozWKjGTTVZRkU1OLNsNmIDwlEgT/6h++mEZjJC0SSbJLW+dknnh1qXMfdXEBKK7/8MooxcOmz
-	esbZwPh02FgJbqX5OJ83X3/KL22KpieX4unEBSTntLefzLkfSviiOd+I3Xlz9sgzQgBHW1zm4nGBs
-	JFgaQ5g9MJ+2yf2ZWdT5OXbhz7VRpHjz7Ldm8X+o/N1pchUQB9T4KToa7WucTAhmlG4FIEGUD3Mli
-	MVtnkW9qF2OT0WNB1xguk51bibqzOTTrEvE5/qwB/w1Ovv3gQOqWpp2waDavTrYodLsWdwshd9FX+
-	RLtp1OmwXle5P/fnjADYnjQqcjKZa5sKnWhw==;
-Received: from mail-oo1-f43.google.com ([209.85.161.43]:58382)
-	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.94.2)
-	(envelope-from <ouster@cs.stanford.edu>)
-	id 1t7OEJ-00068g-Vn
-	for oe-kbuild-all@lists.linux.dev; Sat, 02 Nov 2024 17:12:33 -0700
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5eb60f6b4a7so919211eaf.0
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 02 Nov 2024 17:12:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVSdTsMGrnGbCzGamfMKSamSnD9ixA2Wma2ZUBH5QS0AFJRT7cSRsjB6smJKZmtpker59XxMb14W6wYDpdE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXI0iJhgdOIEq+409F7gMvImSbxEuuS6yuE/HletRVKWs9m9tA
-	kt0VA3eHQDkjSI8ADaDjHmJq8scP9Ts37HH25G7OthB5bEdjIgsTpQL7hzPMt6AEZhht2z97Oz6
-	/BBVm0eISD4lBCBYDu0oY2EvRd1c=
-X-Google-Smtp-Source: AGHT+IH2LnniTE/Gn04OHYIREto1SOHB/u8GoEJdhJEsZ6BiJ9NhRaawRQiE1BKTtKQ+fLETiatUt4cxC0RbGqTGsGI=
-X-Received: by 2002:a05:6820:541:b0:5eb:db1c:a860 with SMTP id
- 006d021491bc7-5ec23aa5cd5mr19028463eaf.8.1730592751392; Sat, 02 Nov 2024
- 17:12:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TL22JqJg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730592904; x=1762128904;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uEIXB5+YmparKf5BPzrdvX0KLzvggu55uYDCjyljm8s=;
+  b=TL22JqJgIQur0PglOBSITPkniLBqkgrv3eA08GMky4TpTEbGzu0nxHui
+   aTSxA7fN0GC0crAiGJLlLrtCFtJMnvufSyuJVDluzX6B4na5IgEG296SG
+   BZ+LUCfMVllIw21L6QEHcgAxhB2moYRco8XfWGbEAmB7q8YYV7of0liMY
+   U3rNqO06kL660YppDFAyDSqN+3CDFueD0ziS4jwmStAXbJsGXtD8M7T0X
+   G5Eb9l6CLCyBj3OCpdvJWE+vsVlQJm0FvN5dEQu/7LxomwSe82ivYlFDa
+   Gr9p0syDQHk384Q2Bue6mXvvJC89eEU1bcCoGa/UICLmCJk8Mhqvo0TP6
+   Q==;
+X-CSE-ConnectionGUID: xqlaSZKIQ+mhvfNZV8hatw==
+X-CSE-MsgGUID: Q/LQ1t7+RuyKTloaePqksg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11244"; a="40898835"
+X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
+   d="scan'208";a="40898835"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2024 17:15:03 -0700
+X-CSE-ConnectionGUID: KZkj/jmyR6aPTeFXypG4vw==
+X-CSE-MsgGUID: WBuHXSbgSqaktPQcofOjFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,253,1725346800"; 
+   d="scan'208";a="87815812"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 02 Nov 2024 17:15:02 -0700
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7OGi-000jUP-1l;
+	Sun, 03 Nov 2024 00:15:00 +0000
+Date: Sun, 3 Nov 2024 08:14:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_3 19/24]
+ include/linux/uprobes.h:133:9: error: unknown type name 'refcount_t'
+Message-ID: <202411030854.YMt4ZJDy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241028213541.1529-13-ouster@cs.stanford.edu> <202410300823.rFSVqCH5-lkp@intel.com>
-In-Reply-To: <202410300823.rFSVqCH5-lkp@intel.com>
-From: John Ousterhout <ouster@cs.stanford.edu>
-Date: Sat, 2 Nov 2024 17:11:54 -0700
-X-Gmail-Original-Message-ID: <CAGXJAmxRoU8tkxC+wX24Zn8vvh16ih7d8d83DwOt1h_gPVy62Q@mail.gmail.com>
-Message-ID: <CAGXJAmxRoU8tkxC+wX24Zn8vvh16ih7d8d83DwOt1h_gPVy62Q@mail.gmail.com>
-Subject: Re: [PATCH net-next 12/12] net: homa: create Makefile and Kconfig
-To: kernel test robot <lkp@intel.com>
-Cc: netdev@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Score: -1.0
-X-Spam-Level: 
-X-Scan-Signature: e06f15b59fb559802f962308c7f2f8f7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I have made a stab at fixing all of the problems reported by the test
-robot. However, it may take a few passes to figure exactly how to make
-sparse happy...
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_3
+head:   2e0575143d13814d04f02a33a4110989ccdbf3a3
+commit: dad4c7b2a8fb2c951d2b83ace0b4ad41de222cba [19/24] uprobes: Add mapping for optimized uprobe trampolines
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241103/202411030854.YMt4ZJDy-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241103/202411030854.YMt4ZJDy-lkp@intel.com/reproduce)
 
--John-
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411030854.YMt4ZJDy-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/arm/probes/uprobes/actions-arm.c:10:
+   include/linux/uprobes.h:126:33: error: field 'tramp_mutex' has incomplete type
+     126 |         struct mutex            tramp_mutex;
+         |                                 ^~~~~~~~~~~
+>> include/linux/uprobes.h:133:9: error: unknown type name 'refcount_t'
+     133 |         refcount_t              ref;
+         |         ^~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-On Tue, Oct 29, 2024 at 6:09=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi John,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on net-next/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/ne=
-t-homa-define-user-visible-API-for-Homa/20241029-095137
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/20241028213541.1529-13-ouster%40=
-cs.stanford.edu
-> patch subject: [PATCH net-next 12/12] net: homa: create Makefile and Kcon=
-fig
-> config: arc-randconfig-r132-20241029 (https://download.01.org/0day-ci/arc=
-hive/20241030/202410300823.rFSVqCH5-lkp@intel.com/config)
-> compiler: arc-elf-gcc (GCC) 13.2.0
-> reproduce: (https://download.01.org/0day-ci/archive/20241030/202410300823=
-.rFSVqCH5-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202410300823.rFSVqCH5-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->    net/homa/homa_rpc.c: note: in included file:
-> >> net/homa/homa_impl.h:605:13: sparse: sparse: restricted __be32 degrade=
-s to integer
->    net/homa/homa_rpc.c: note: in included file (through include/linux/smp=
-.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always eva=
-luates to true
->    net/homa/homa_rpc.c:84:9: sparse: sparse: context imbalance in 'homa_r=
-pc_new_client' - different lock contexts for basic block
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always eva=
-luates to true
->    net/homa/homa_rpc.c:104:17: sparse: sparse: context imbalance in 'homa=
-_rpc_new_server' - wrong count at exit
->    net/homa/homa_rpc.c: note: in included file (through include/linux/rcu=
-list.h, include/linux/sched/signal.h, include/linux/ptrace.h, ...):
->    include/linux/rcupdate.h:881:9: sparse: sparse: context imbalance in '=
-homa_rpc_acked' - unexpected unlock
->    net/homa/homa_rpc.c: note: in included file (through include/linux/smp=
-.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always eva=
-luates to true
->    net/homa/homa_rpc.c:235:6: sparse: sparse: context imbalance in 'homa_=
-rpc_free' - different lock contexts for basic block
->    net/homa/homa_rpc.c:311:5: sparse: sparse: context imbalance in 'homa_=
-rpc_reap' - wrong count at exit
->    net/homa/homa_rpc.c:448:17: sparse: sparse: context imbalance in 'homa=
-_find_client_rpc' - wrong count at exit
->    net/homa/homa_rpc.c:474:17: sparse: sparse: context imbalance in 'homa=
-_find_server_rpc' - wrong count at exit
-> --
-> >> net/homa/homa_sock.c:85:39: sparse: sparse: cast removes address space=
- '__rcu' of expression
->    net/homa/homa_sock.c:91:31: sparse: sparse: cast removes address space=
- '__rcu' of expression
->    net/homa/homa_sock.c:165:6: sparse: sparse: context imbalance in 'homa=
-_sock_shutdown' - wrong count at exit
->    net/homa/homa_sock.c:243:5: sparse: sparse: context imbalance in 'homa=
-_sock_bind' - different lock contexts for basic block
->    net/homa/homa_sock.c:312:6: sparse: sparse: context imbalance in 'homa=
-_sock_lock_slow' - wrong count at exit
->    net/homa/homa_sock.c:326:6: sparse: sparse: context imbalance in 'homa=
-_bucket_lock_slow' - wrong count at exit
->
-> vim +605 net/homa/homa_impl.h
->
-> 1416f12d4ea455 John Ousterhout 2024-10-28  595
-> 1416f12d4ea455 John Ousterhout 2024-10-28  596  /**
-> 1416f12d4ea455 John Ousterhout 2024-10-28  597   * Given an IPv4 address,=
- return an equivalent IPv6 address (an IPv4-mapped
-> 1416f12d4ea455 John Ousterhout 2024-10-28  598   * one)
-> 1416f12d4ea455 John Ousterhout 2024-10-28  599   * @ip4: IPv4 address, in=
- network byte order.
-> 1416f12d4ea455 John Ousterhout 2024-10-28  600   */
-> 1416f12d4ea455 John Ousterhout 2024-10-28  601  static inline struct in6_=
-addr ipv4_to_ipv6(__be32 ip4)
-> 1416f12d4ea455 John Ousterhout 2024-10-28  602  {
-> 1416f12d4ea455 John Ousterhout 2024-10-28  603          struct in6_addr r=
-et =3D {};
-> 1416f12d4ea455 John Ousterhout 2024-10-28  604
-> 1416f12d4ea455 John Ousterhout 2024-10-28 @605          if (ip4 =3D=3D IN=
-ADDR_ANY)
-> 1416f12d4ea455 John Ousterhout 2024-10-28  606                  return in=
-6addr_any;
-> 1416f12d4ea455 John Ousterhout 2024-10-28  607          ret.in6_u.u6_addr=
-32[2] =3D htonl(0xffff);
-> 1416f12d4ea455 John Ousterhout 2024-10-28  608          ret.in6_u.u6_addr=
-32[3] =3D ip4;
-> 1416f12d4ea455 John Ousterhout 2024-10-28  609          return ret;
-> 1416f12d4ea455 John Ousterhout 2024-10-28  610  }
-> 1416f12d4ea455 John Ousterhout 2024-10-28  611
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/refcount_t +133 include/linux/uprobes.h
+
+   128	
+   129	struct tramp_area {
+   130		unsigned long		vaddr;
+   131		struct page		*page;
+   132		struct hlist_node	node;
+ > 133		refcount_t		ref;
+   134	};
+   135	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
