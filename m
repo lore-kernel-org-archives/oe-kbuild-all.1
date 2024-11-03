@@ -1,301 +1,152 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D38B114F9E9
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 19:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35EC77C0BE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  3 Nov 2024 20:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730663625; cv=none; b=cxbdR3u4SgxtZ0L+Lk3an10/y/IgEMb3QmvecD0Jlv8WV1dbaWXoWKUWZuqlIfW0nWUvCRNPtDpQDr+UEuh0E3TDx+/xBfHWUPPZrVHHl0KrZxyBB8JDZheRNRzlO5yIhyLCgW2ffcE+Ls4Q15OqZ8ynipp9iyJoU/aDfv3qN5k=
+	t=1730665249; cv=none; b=igyZb3gdXFUIYkK22oQ8mLs8fgZIHu9+iGKmwD6A54O671LwjKi/z4WG2Ea4NLDnNNmmHhLij80zjMSseV3dI86eOwPVbx4NB8NBCyjW4xS7wyL6/mrVJumOpljyMWIC2NcAqpBCeqA2utEZ7EjngXmG0FuhOcp2vL3st7r3A74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730663625; c=relaxed/simple;
-	bh=mkfcV+hLFGM+lsAiUg8LsMsKPnFVoP8ixlvWxMztf5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DAa+u4JT46a/8yvbCmJfB/Kg6WQ3VF8JMol7SN7mEDiuzfbyj/EqbW6SE8LEcnk7/nT04BbaDf2yg3OgT2lhVAmG0EkcOOy4Ve0mWhvaVyqClVHtToqC/pDRp11Q5OBI08GY5xm32M+iDqENsajqjzKuZ//3ykcgSqn9P/vjMwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dtb438Jy; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730665249; c=relaxed/simple;
+	bh=0zoz5lm1V6JN5CFOkg53xcxKckUvGgvBhj7EMYnnUzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ozSfAYx6+IwzV1hAan7lv6K4DFyaFPe5k25zI1pu18GJpzaipuy8804MAto3ypMSbRr6xpEv5GNV7CzCUdJN0GjZC2tFVRYy1bgyFARLbvnfaIyytGOjt5p2TtKwcKN9fIsHOiwfk14SMC/c+BGksk+xZDtAwu1I93BFApKRsqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=T3xOvMfK; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dtb438Jy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730663623; x=1762199623;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mkfcV+hLFGM+lsAiUg8LsMsKPnFVoP8ixlvWxMztf5o=;
-  b=Dtb438Jy85y1UgCU9CiaFGWllzJJUvefKb3JXBX6Zlhdl2CSbhR8S1E8
-   ipVmbhnETI++U4Krmj76rQuvhlAa5ecnHlBSUPt9iLv6wizUdAXfwq1mA
-   biJtGQkMr51Mtt/rJw39MxtGtfY6z3zstJZ0BCwweuJnBvbOOXVZB7Lbr
-   kaqjiqMGr1Srl68vDX7hm7/qx8XxzOjr7BBx/FzZc+2rDNNImyqP770kV
-   w61XLCfFNrm4GjO6OQlT5EZh7DOpjszIPO8rYZGQsq3Bdi8HPSUNBnJRk
-   nQupuSpQhQ/HXK8UE00UPb1TCD9lIO3uoaImode/oEJi8tkErNF9p+QH3
-   w==;
-X-CSE-ConnectionGUID: 4SCufluvQCODvW1EktMpjg==
-X-CSE-MsgGUID: B82v7+4PSFGvb/M9enAsOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="47821096"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="47821096"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 11:53:42 -0800
-X-CSE-ConnectionGUID: Q1bU3GfhQk6jMQMIFt5aKA==
-X-CSE-MsgGUID: k/ELwIdPQL6p39s/JUrnQw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,255,1725346800"; 
-   d="scan'208";a="87405713"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2024 11:53:41 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7gfK-000kBN-2f;
-	Sun, 03 Nov 2024 19:53:38 +0000
-Date: Mon, 4 Nov 2024 03:53:02 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2284/2284]
- drivers/ub/urma/ubcore/ubcore_tpg.c:113:42: warning: the comparison will
- always evaluate as 'false' for the address of 'head' will never be NULL
-Message-ID: <202411040331.VqatFZsL-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="T3xOvMfK"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-5c948c41edeso4469021a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Nov 2024 12:20:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730665245; x=1731270045; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=zp4YtXuSexn4oBzrN9Y8dVklYvGXzwQ+TOitGbf9SkE=;
+        b=T3xOvMfKug/i7v5VQI0zV7dnBMIGuPqKjB1yt+KQbbNBRXVwPwmuih3vqpBP3RII/z
+         E8AhjfaCDoVGHMmNfbxjEJUNiH6tPr1CP/MQAcjRqYbI+hGNVrR2bbQ7gHi7f1Ofreyw
+         OPC+G/XAyQ67LwbwwXT4McC/Zapt4f1XFKmYD5IUIyq2JMFvYkJQX53E23EvaAYQZVHg
+         ENlFmKL9ZRZrJWhnnstrSYWmm+qovFJftPKGgJ2ZDIZywvPmuz/U9uGiEdhRBk88mz6N
+         0PsQwkegksJVZjX+aaLMHVDgnJKvHh0cRRXuAMBK/vhUoNUaacPaBHPiBAq57570nytD
+         x7iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730665245; x=1731270045;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zp4YtXuSexn4oBzrN9Y8dVklYvGXzwQ+TOitGbf9SkE=;
+        b=Y8xcroYH3v0kX6vZ7Z8svaHcIWQEs/KA6YmOegsUiiY7sfwrg+0PFQAVpPQFN3BPDs
+         EVf3PI+kazPwMmNp2txJQQvYKEBakvk7yl6Fz4+1yklN+TM+DjEyjqaVUeZ48xFxbNt9
+         lU7O3OuVXN6p+xtnYKfzR1Vw9O9ahqVs70HbNFHMq0ycq6AXEKJrY7Qx6L0YESYpYq6F
+         fVzSJ66UvKjpvyDhMForxrYFJ6AQ+ZaOlQeYW0s2AgZdRrPD06aj2xsTd7f7OxIWnPN2
+         DmYegzXSRQvWosygKLFsry5fg3VPYIxL/5JG0yylvBl+gwhQ8vtQQCf9ouW+dD+aHqDn
+         VVZA==
+X-Forwarded-Encrypted: i=1; AJvYcCWHdj0WveOW64se+yxGVED1H5txHZ2IOnkeuS1fF9KboURknrq+PDSWg/ZVy5cQmTU1SYjm3cckyEGOR9tk@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw2qvLnFJ/F2KCur69S00JCSY+t0MuQOq+03AS6y8WH99JhDoQu
+	qzmXXGNK84Ef48nj8yodoXrJCaPkcJWe+sK3SgHLuVHTgbR/03hxUv+KmdssAw8=
+X-Google-Smtp-Source: AGHT+IERawzdo8mdjAZRJEgHt5N6dGAKA+wUD+Xe4d/NURkOTWW3DdQKRBXsu7LEK76VCRW3HpCjkg==
+X-Received: by 2002:a05:6402:270e:b0:5ce:dd11:6244 with SMTP id 4fb4d7f45d1cf-5cedd11630cmr597417a12.32.1730665245259;
+        Sun, 03 Nov 2024 12:20:45 -0800 (PST)
+Received: from localhost ([2a02:8071:b783:6940:711f:c21d:28dc:9f01])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5ceac77015esm3548592a12.23.2024.11.03.12.20.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Nov 2024 12:20:43 -0800 (PST)
+Date: Sun, 3 Nov 2024 21:20:41 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Guillaume Stols <gstols@baylibre.com>, oe-kbuild-all@lists.linux.dev, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-iio@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
+Message-ID: <awpjqzq2ksbqvlfkbh4xnpwqxrnf4np6amifdweasrh52v3jl3@lz3md7ydyhji>
+References: <20241029-pwm-export-pwm_get_state_hw-v2-2-03ba063a3230@baylibre.com>
+ <202411020101.5Hs6MkwQ-lkp@intel.com>
+ <d44ab5s73kmochmwis3buhd6ci7ff4rwd7kgh47aqar6xeyqna@f4plwf6qbvlm>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="brypaa3fkyl5s5wz"
 Content-Disposition: inline
-
-Hi WenChen,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   170b758d064664f953e8f6de41dd4a3ef122443a
-commit: 6d14be01fcb032c478cd4669b32526fda0393195 [2284/2284] urma: upload kernel patch for 20240318_happy_birthday
-config: arm64-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241104/202411040331.VqatFZsL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411040331.VqatFZsL-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411040331.VqatFZsL-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tpg':
->> drivers/ub/urma/ubcore/ubcore_tpg.c:113:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     113 |         if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
-         |                                          ^~
-   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
-                    from drivers/ub/urma/ubcore/ubcore_tpg.c:23:
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
-   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tp_node':
-   drivers/ub/urma/ubcore/ubcore_tpg.c:149:44: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     149 |         if (&dev->ht[UBCORE_HT_UB_TP].head == NULL) {
-         |                                            ^~
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
---
->> drivers/ub/urma/ubcore/ubcore_netlink.c:185:5: warning: no previous prototype for 'ubcore_genl_unicast' [-Wmissing-prototypes]
-     185 | int ubcore_genl_unicast(struct ubcore_nlmsg *req, uint32_t len)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netlink.c: In function 'ubcore_create_nl_session':
-   drivers/ub/urma/ubcore/ubcore_netlink.c:87:15: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-      87 |         (void)strncpy(s->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netlink.c:87:15: note: length computed here
-      87 |         (void)strncpy(s->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/ub/urma/ubcore/ubcore_msg.c:433:28: warning: no previous prototype for 'ubcore_asyn_send_fe2tpf_msg' [-Wmissing-prototypes]
-     433 | struct ubcore_msg_session *ubcore_asyn_send_fe2tpf_msg(struct ubcore_device *dev,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'ubcore_migrate_req',
-       inlined from 'ubcore_recv_req' at drivers/ub/urma/ubcore/ubcore_msg.c:282:16:
-   drivers/ub/urma/ubcore/ubcore_msg.c:261:15: warning: 'strncpy' specified bound depends on the length of the source argument [-Wstringop-truncation]
-     261 |         (void)strncpy(mig_resp->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_msg.c:261:15: note: length computed here
-     261 |         (void)strncpy(mig_resp->dev_name, dev->dev_name, strlen(dev->dev_name));
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/ub/urma/ubcore/ubcore_utp.c: In function 'ubcore_find_remove_utp':
->> drivers/ub/urma/ubcore/ubcore_utp.c:139:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     139 |         if (&dev->ht[UBCORE_HT_UTP].head == NULL) {
-         |                                          ^~
-   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
-                    from drivers/ub/urma/ubcore/ubcore_utp.c:23:
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
---
-   drivers/ub/urma/ubcore/ubcore_ctp.c: In function 'ubcore_find_remove_ctp':
->> drivers/ub/urma/ubcore/ubcore_ctp.c:114:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
-     114 |         if (&dev->ht[UBCORE_HT_CTP].head == NULL) {
-         |                                          ^~
-   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
-                    from drivers/ub/urma/ubcore/ubcore_ctp.c:23:
-   include/urma/ubcore_types.h:162:28: note: 'head' declared here
-     162 |         struct hlist_head *head;
-         |                            ^~~~
---
-   drivers/ub/urma/ubcore/ubcore_device.c:409:6: warning: no previous prototype for 'ubcore_destroy_upi_list' [-Wmissing-prototypes]
-     409 | void ubcore_destroy_upi_list(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:504:23: warning: no previous prototype for 'ubcore_find_tpf_device_legacy' [-Wmissing-prototypes]
-     504 | struct ubcore_device *ubcore_find_tpf_device_legacy(void)
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1637:5: warning: no previous prototype for 'ubcore_dispatch_event' [-Wmissing-prototypes]
-    1637 | int ubcore_dispatch_event(struct ubcore_event *event)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:7,
-                    from include/linux/kernel.h:17,
-                    from include/asm-generic/bug.h:20,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from include/linux/refcount.h:96,
-                    from include/net/net_namespace.h:9,
-                    from drivers/ub/urma/ubcore/ubcore_device.c:21:
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_add_ueid':
-   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
-     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
-      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
-         |                ^~~
-   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
-      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
-         |                 ^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1857:17: note: in expansion of macro 'ubcore_log_err'
-    1857 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
-         |                 ^~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_delete_ueid':
-   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
-       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
-         |                         ^~~~~~
-   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
-      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
-         |                         ^~~~~~~~
-   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
-     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |                ^~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
-      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
-         |                ^~~
-   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
-      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
-         |                 ^~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c:1885:17: note: in expansion of macro 'ubcore_log_err'
-    1885 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
-         |                 ^~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: At top level:
-   drivers/ub/urma/ubcore/ubcore_device.c:2389:6: warning: no previous prototype for 'ubcore_net_exit' [-Wmissing-prototypes]
-    2389 | void ubcore_net_exit(struct net *net)
-         |      ^~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_new_tpf_dev_msg':
->> drivers/ub/urma/ubcore/ubcore_device.c:913:21: warning: 'strnlen' specified bound 64 exceeds source size 16 [-Wstringop-overread]
-     913 |                 if (strnlen(dev->netdev->name, UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/ub/urma/ubcore/ubcore_device.c:32:
-   include/linux/netdevice.h:1957:33: note: source object allocated here
-    1957 |         char                    name[IFNAMSIZ];
-         |                                 ^~~~
---
->> drivers/ub/urma/ubcore/ubcore_netdev.c:40:25: warning: no previous prototype for 'ubcore_lookup_sip_info_without_lock' [-Wmissing-prototypes]
-      40 | struct ubcore_sip_info *ubcore_lookup_sip_info_without_lock(
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:74:5: warning: no previous prototype for 'ubcore_notify_uvs_del_sip' [-Wmissing-prototypes]
-      74 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/ub/urma/ubcore/ubcore_netdev.c:112:22: warning: no previous prototype for 'ubcore_new_sip_req_msg' [-Wmissing-prototypes]
-     112 | struct ubcore_nlmsg *ubcore_new_sip_req_msg(struct ubcore_device *dev,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:144:5: warning: no previous prototype for 'ubcore_notify_uvs_add_sip' [-Wmissing-prototypes]
-     144 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:176:5: warning: no previous prototype for 'ubcore_check_port_state' [-Wmissing-prototypes]
-     176 | int ubcore_check_port_state(struct ubcore_device *dev, uint8_t port_idx)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:200:6: warning: no previous prototype for 'ubcore_find_port_netdev' [-Wmissing-prototypes]
-     200 | void ubcore_find_port_netdev(struct ubcore_device *dev,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:291:5: warning: no previous prototype for 'ubcore_set_port_netdev' [-Wmissing-prototypes]
-     291 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:377:5: warning: no previous prototype for 'ubcore_unset_port_netdev' [-Wmissing-prototypes]
-     377 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:408:6: warning: no previous prototype for 'ubcore_put_port_netdev' [-Wmissing-prototypes]
-     408 | void ubcore_put_port_netdev(struct ubcore_device *dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:435:5: warning: no previous prototype for 'ubcore_sip_table_init' [-Wmissing-prototypes]
-     435 | int ubcore_sip_table_init(struct ubcore_sip_table *sip_table, uint32_t size)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:454:6: warning: no previous prototype for 'ubcore_sip_table_uninit' [-Wmissing-prototypes]
-     454 | void ubcore_sip_table_uninit(struct ubcore_sip_table *sip_table)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:465:5: warning: no previous prototype for 'ubcore_sip_idx_alloc' [-Wmissing-prototypes]
-     465 | int ubcore_sip_idx_alloc(struct ubcore_sip_table *sip_table)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:481:5: warning: no previous prototype for 'ubcore_sip_idx_free' [-Wmissing-prototypes]
-     481 | int ubcore_sip_idx_free(struct ubcore_sip_table *sip_table, uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:494:5: warning: no previous prototype for 'ubcore_add_sip_entry' [-Wmissing-prototypes]
-     494 | int ubcore_add_sip_entry(struct ubcore_sip_table *sip_table, const struct ubcore_sip_info *sip,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:512:5: warning: no previous prototype for 'ubcore_del_sip_entry' [-Wmissing-prototypes]
-     512 | int ubcore_del_sip_entry(struct ubcore_sip_table *sip_table, uint32_t idx)
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c:542:5: warning: no previous prototype for 'ubcore_lookup_sip_idx' [-Wmissing-prototypes]
-     542 | int ubcore_lookup_sip_idx(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *sip,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_set_port_netdev':
->> drivers/ub/urma/ubcore/ubcore_netdev.c:298:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
-     298 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_unset_port_netdev':
-   drivers/ub/urma/ubcore/ubcore_netdev.c:384:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
-     384 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In-Reply-To: <d44ab5s73kmochmwis3buhd6ci7ff4rwd7kgh47aqar6xeyqna@f4plwf6qbvlm>
 
 
-vim +113 drivers/ub/urma/ubcore/ubcore_tpg.c
+--brypaa3fkyl5s5wz
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw() TODO
+MIME-Version: 1.0
 
-   107	
-   108	struct ubcore_tpg *ubcore_find_remove_tpg(struct ubcore_device *dev, uint32_t tpgn)
-   109	{
-   110		struct ubcore_tpg *tpg;
-   111	
-   112		spin_lock(&dev->ht[UBCORE_HT_TPG].lock);
- > 113		if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
-   114			spin_unlock(&dev->ht[UBCORE_HT_TPG].lock);
-   115			return NULL;
-   116		}
-   117		tpg = ubcore_hash_table_lookup_nolock(&dev->ht[UBCORE_HT_TPG], tpgn, &tpgn);
-   118		if (tpg == NULL) {
-   119			spin_unlock(&dev->ht[UBCORE_HT_TPG].lock);
-   120			return NULL;
-   121		}
-   122		if (atomic_read(&tpg->use_cnt) > 0) {
-   123			spin_unlock(&dev->ht[UBCORE_HT_TPG].lock);
-   124			ubcore_log_err("Failed to remove tpg");
-   125			return NULL;
-   126		}
-   127		ubcore_hash_table_remove_nolock(&dev->ht[UBCORE_HT_TPG], &tpg->hnode);
-   128		spin_unlock(&dev->ht[UBCORE_HT_TPG].lock);
-   129	
-   130		return tpg;
-   131	}
-   132	
+On Sun, Nov 03, 2024 at 03:00:14PM +0100, Uwe Kleine-K=F6nig wrote:
+> Hello David,
+>=20
+> On Sat, Nov 02, 2024 at 01:50:35AM +0800, kernel test robot wrote:
+> > kernel test robot noticed the following build errors:
+> >=20
+> > [auto build test ERROR on 6fb2fa9805c501d9ade047fc511961f3273cdcb5]
+> >=20
+> > url:    https://github.com/intel-lab-lkp/linux/commits/David-Lechner/pw=
+m-core-export-pwm_get_state_hw/20241030-052134
+> > base:   6fb2fa9805c501d9ade047fc511961f3273cdcb5
+> > patch link:    https://lore.kernel.org/r/20241029-pwm-export-pwm_get_st=
+ate_hw-v2-2-03ba063a3230%40baylibre.com
+> > patch subject: [PATCH v2 2/2] iio: adc: ad7606: finish pwm_get_state_hw=
+() TODO
+> > config: i386-randconfig-141-20241101 (https://download.01.org/0day-ci/a=
+rchive/20241102/202411020101.5Hs6MkwQ-lkp@intel.com/config)
+> > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20241102/202411020101.5Hs6MkwQ-lkp@intel.com/reproduce)
+> >=20
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202411020101.5Hs6MkwQ-l=
+kp@intel.com/
+> >=20
+> > All errors (new ones prefixed by >>):
+> >=20
+> >    drivers/iio/adc/ad7606.c: In function 'ad7606_read_raw':
+> > >> drivers/iio/adc/ad7606.c:765:23: error: implicit declaration of func=
+tion 'pwm_get_state_hw'; did you mean 'pwm_get_state'? [-Werror=3Dimplicit-=
+function-declaration]
+> >      765 |                 ret =3D pwm_get_state_hw(st->cnvst_pwm, &cnv=
+st_pwm_state);
+> >          |                       ^~~~~~~~~~~~~~~~
+> >          |                       pwm_get_state
+> >    cc1: some warnings being treated as errors
+>=20
+> The problem here is that there is no declaration (and implementation) of
+> pwm_get_state_hw() with CONFIG_PWM=3Dn. Does it make sense to enable the
+> ad7606 driver without enabling PWM support? If yes, we should add a
+> dummy implementation of pwm_get_state_hw(), if not, a depends on PWM
+> should be introduced.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Looking at the driver, the PWM is optional. So I rewrote the commit from
+patch 1/2 in this series and added a dummy.
+
+Best regards
+Uwe
+
+--brypaa3fkyl5s5wz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmcn2xcACgkQj4D7WH0S
+/k6qGwf+PRPPjDTaPe2Qq2XZE5P9C3PLoXwH95RnwAf/b+F/pZAYoH5F1SadS/o8
+Jg7TDfoA+w7Zqca+t9Q7rnheds6dlQk5b2Z8sxglqjnguD3zSXniYbmsZTM+dIrk
+uNRFgxf/1mRaTQsy9y9N7TmJcTdxSelLX0mBhYMAzk3RejZQbF9xjWDr1HhtQjkg
+Ulve7uX6Cx+/MqaN78w/mUgnXifuZvwQdohOHznn/hyVAW4+emkcTGtQqBvCyl6C
+FWWz4N1qd9+G3dblWDB3WsKAUO04wq/B/I/O66VThD4IU+uz1SL2GqQ5CI0Daefw
+woJYAQpnylt82oWds3lAKJW00hfN3w==
+=VNtb
+-----END PGP SIGNATURE-----
+
+--brypaa3fkyl5s5wz--
