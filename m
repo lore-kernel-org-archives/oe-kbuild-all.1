@@ -1,67 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6E318C02E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 07:21:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0D818E362
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 07:23:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730704918; cv=none; b=JK0osXr89aesQEeJLrnqkQfhRRaLcX55sc13oe6I02jHDDufY6ycbhL+8p513SwOoDYKlVGDg7E4zl4Pga3e8BDoRG0k0f0cE0+oPv6x9534aRC+0qHYlsBQ3N2sed/IW8AGhg5ZOvAyaBXpxsfGdsJBz/syVJ3nbMVki5ZfAmE=
+	t=1730705020; cv=none; b=n+slrqFZ38lKc9QqYJnVDWL0hvTGQ75UK0k14W/5zhxnOXORGOasyrTM9Efe0qq2JEOJ+t6/KVzkq3smf/MT2C505mFBMbN50SVEICvSZr1h6G0ssREU0dDEzJz2VOinRuxaNafVdaBG4hz+5eL3DJ2PCHqz+Dr4ANCRbjzr0rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730704918; c=relaxed/simple;
-	bh=vVvC//hm2Qb9JX4BN8wiAIzh4mvzc75vswlBe2pSDsk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WxFIMxyHVD7gltDJvIXfgqApTkXL3loiyzMoIzDXMMgUJwV2jX785aVskLVrywxvp4cVXS3UmM8ECwLnJenV/twavyIPtUxap0VCARmGXcnkXhtdyUfJZho8qnnN67yWK3/7yQhY/4XBP09qCcMcNxiofzHa9gL4jseEn2Jlq+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlPJ9VUx; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730705020; c=relaxed/simple;
+	bh=BzZ86BxrPlQC9+39mi52+0OlxseZ8YqyYhJ2yPkZFts=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=MVdxFqz1Rw5DAwRYlY6dBK3X9E20OVWxuvhrqVKTcm5KA5py7Kw7JpijS7RtYRZGBHjg+7k5X3ak5qAXa19wBzniK35ujoh1AD3SbEyapHbAUHfJ2maQITGkAbntmxigpHMW1TBv9dBGXzz4KNwz5g+w7QhznBUF/zrI9q3wom4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fUoPqv2a; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlPJ9VUx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730704917; x=1762240917;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vVvC//hm2Qb9JX4BN8wiAIzh4mvzc75vswlBe2pSDsk=;
-  b=QlPJ9VUxjKrFw8bjmmTkrKZTPoGDkEXExXtcmHGEHZ/GbNvSdImPN4yA
-   Qo7eDI6i9r48hua2fBVx6zWH83+uvRiDbzH69F4gLsp7ISoUlgQiqoH18
-   bSwriiKjjFPj6TdI5XrRfgRhBVbLRJXidEgAJBR+b1LCeKhopo6YeF2Gz
-   DDOV3KOQ5Opv/WU/T2CktSR5435toHuD/QIujIh5d22wFbkFFL/7dxm9X
-   PdfDdYVlfQYa/mXbIVwDwNkp7n1OR0NEXWSOKylgROOHbdAZbikzUAVN5
-   8kFJjreWHQ5Ts2SO4PphGyfFZ4cJCEniyp/DHD9cPmAqkfdthnkk9CUj6
-   w==;
-X-CSE-ConnectionGUID: CyHQ3EP3Q1Ct3q+kv/nNxw==
-X-CSE-MsgGUID: qoxwtFbCTWm2DQWjeQsEpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="34177759"
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="34177759"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 23:21:56 -0800
-X-CSE-ConnectionGUID: gOTNyNwWQyioP4BtnfK/IA==
-X-CSE-MsgGUID: MZev9TICTqKf9KSMkCwTBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83452794"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 03 Nov 2024 23:21:52 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7rPJ-000kal-2E;
-	Mon, 04 Nov 2024 07:21:49 +0000
-Date: Mon, 4 Nov 2024 15:21:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
-	tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
-Cc: oe-kbuild-all@lists.linux.dev, liangjian010@huawei.com,
-	chenjianmin@huawei.com, lidongming5@huawei.com,
-	shiyongbang@huawei.com, libaihan@huawei.com, shenjian15@huawei.com,
-	shaojijie@huawei.com, dri-devel@lists.freedesktop.org,
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fUoPqv2a"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so32911615e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Nov 2024 23:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730705017; x=1731309817; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=jiS8XdRJ5mjLBZvVPPJ1C4Js2HB6fwq261ppgxWkFZU=;
+        b=fUoPqv2aVNJ48LVhiz6+/dTw3I+kICmQJy9KSsbWzIVK+zpHfASOgXvcWwou+WDQtM
+         lggczTqVeSNyq9fcmR2Ban34qR9zjoFQ6farOVQyscQkKwGzu8ZGxd0ruZpBlvPNWKSv
+         uajI0amHjn+F4qMcNzxgkf2NZEgrWqAS0dxUfrrBe1FMGIdVBWbxvxw9sTSFUJb4Tn1N
+         vxZ9vf0qEy6m5nz9X8Wjw3PBYRai0Fvp04aOdZSpBQbG2atiBSCijJQr7BKpHZPccalb
+         ynK7bfLuB6ZFJerW3UCVQmiRrubg6alWDXMhWTmQDtKmhtZQ6wknrYVd4H7nv2F+2YB9
+         iQ9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730705017; x=1731309817;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jiS8XdRJ5mjLBZvVPPJ1C4Js2HB6fwq261ppgxWkFZU=;
+        b=LQAKXEWJdX//vn9GcBpRqzn5zkRKWgf2c//AWM646+2HChP/rY18H1Zu0DDlEQEsFY
+         6e89+hO7cMvygt1/O79bMOdZCKCe1AtUWRlS1JS10Zfnok4OTnSHgc5hb4waJ3e0egFh
+         IvIiYIPV5GmCfkeHIslhYYi59RzC44iHZDPSi3KO39hDZUIfTEffyD0sjZi9GBvL0DUg
+         ZIV5iDYsyJveoXmvl7OW0zgqRiiNNOzkZUP7UJAvFLO1m21C+tYeX//eNpN9A4UWFOuI
+         l+sl+8RBIPvm/jeUMCh2Cgpg75HKYK5gAVdV3jWxUSCW+k6rLsgpv/TphmFrl+VhFL+1
+         VrmA==
+X-Forwarded-Encrypted: i=1; AJvYcCWy8HRyYWiBgr05JhmARx8d6UBDGzQy1vfGzYJix6B9dbd6cul2Qo/1wZ/ODjdW2eqK4NZiNkjvhoXVelSp@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyy69Zj2tb65+wqFunSxwbsIxawr/6vuCyxRCgfT/vGmmDD2ybF
+	ZnpjV7kSs/fwQDEnA9bWvdovsRqyuvdR0oxmkSkawQbYwuGloymJFvF1sSvRCmw=
+X-Google-Smtp-Source: AGHT+IH40kTx91Wk2I+uwvpntqh9B6wAV6h1+3zOozojDZ54UMaVhhfVF5oyrYpKHhmXEoEXhdGeTQ==
+X-Received: by 2002:a05:600c:3507:b0:431:4e3f:9dee with SMTP id 5b1f17b1804b1-4327b6f46d3mr123743255e9.4.1730705017060;
+        Sun, 03 Nov 2024 23:23:37 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5abfefsm144395155e9.4.2024.11.03.23.23.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 Nov 2024 23:23:36 -0800 (PST)
+Date: Mon, 4 Nov 2024 10:23:32 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, mrpre <mrpre@163.com>,
+	yonghong.song@linux.dev, john.fastabend@gmail.com,
+	martin.lau@kernel.org, edumazet@google.com, jakub@cloudflare.com,
+	davem@davemloft.net, dsahern@kernel.org, kuba@kernel.org,
+	pabeni@redhat.com, netdev@vger.kernel.org, bpf@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH V3 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in
- hibmc
-Message-ID: <202411041559.WIfxRN6n-lkp@intel.com>
-References: <20241101105028.2177274-3-shiyongbang@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mrpre <mrpre@163.com>
+Subject: Re: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
+Message-ID: <53444aeb-aa22-4076-95dd-f079861567c9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,41 +70,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101105028.2177274-3-shiyongbang@huawei.com>
+In-Reply-To: <20241101161624.568527-2-mrpre@163.com>
 
-Hi Yongbang,
+Hi mrpre,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-misc/drm-misc-next]
-[also build test WARNING on linus/master v6.12-rc6 next-20241101]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-add-dp-aux-in-hibmc/20241101-185648
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241101105028.2177274-3-shiyongbang%40huawei.com
-patch subject: [PATCH V3 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in hibmc
-config: csky-randconfig-r121-20241103 (https://download.01.org/0day-ci/archive/20241104/202411041559.WIfxRN6n-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241104/202411041559.WIfxRN6n-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-Introduce-cpu-affinity-for-sockmap/20241102-001844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241101161624.568527-2-mrpre%40163.com
+patch subject: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
+config: i386-randconfig-141-20241102 (https://download.01.org/0day-ci/archive/20241103/202411030036.PSKG1pW3-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411030036.PSKG1pW3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:12:10: sparse: sparse: symbol 'link_rate_map' was not declared. Should it be static?
+smatch warnings:
+net/core/sock_map.c:511 sock_map_update_common() warn: variable dereferenced before check 'psock' (see line 492)
 
-vim +/link_rate_map +12 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+vim +/psock +511 net/core/sock_map.c
 
-    11	
-  > 12	const u8 link_rate_map[] = {DP_LINK_BW_1_62, DP_LINK_BW_2_7,
-    13				    DP_LINK_BW_5_4, DP_LINK_BW_8_1};
-    14	
+604326b41a6fb9 Daniel Borkmann 2018-10-13  467  static int sock_map_update_common(struct bpf_map *map, u32 idx,
+ffed654afa8dc1 mrpre           2024-11-02  468  				  struct sock *sk, u64 flags, s32 target_cpu)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  469  {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  470  	struct bpf_stab *stab = container_of(map, struct bpf_stab, map);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  471  	struct sk_psock_link *link;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  472  	struct sk_psock *psock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  473  	struct sock *osk;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  474  	int ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  475  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  476  	WARN_ON_ONCE(!rcu_read_lock_held());
+604326b41a6fb9 Daniel Borkmann 2018-10-13  477  	if (unlikely(flags > BPF_EXIST))
+604326b41a6fb9 Daniel Borkmann 2018-10-13  478  		return -EINVAL;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  479  	if (unlikely(idx >= map->max_entries))
+604326b41a6fb9 Daniel Borkmann 2018-10-13  480  		return -E2BIG;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  481  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  482  	link = sk_psock_init_link();
+604326b41a6fb9 Daniel Borkmann 2018-10-13  483  	if (!link)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  484  		return -ENOMEM;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  485  
+2004fdbd8a2b56 Cong Wang       2021-03-30  486  	ret = sock_map_link(map, sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  487  	if (ret < 0)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  488  		goto out_free;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  489  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  490  	psock = sk_psock(sk);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  491  	WARN_ON_ONCE(!psock);
+ffed654afa8dc1 mrpre           2024-11-02 @492  	psock->target_cpu = target_cpu;
+                                                        ^^^^^^^^^^^^^^^^^
+The patch adds an unchecked dereference
+
+35d2b7ffffc1d9 John Fastabend  2023-08-29  493  	spin_lock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  494  	osk = stab->sks[idx];
+604326b41a6fb9 Daniel Borkmann 2018-10-13  495  	if (osk && flags == BPF_NOEXIST) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  496  		ret = -EEXIST;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  497  		goto out_unlock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  498  	} else if (!osk && flags == BPF_EXIST) {
+604326b41a6fb9 Daniel Borkmann 2018-10-13  499  		ret = -ENOENT;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  500  		goto out_unlock;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  501  	}
+604326b41a6fb9 Daniel Borkmann 2018-10-13  502  
+604326b41a6fb9 Daniel Borkmann 2018-10-13  503  	sock_map_add_link(psock, link, map, &stab->sks[idx]);
+
+This also dereferences psock btw.
+
+604326b41a6fb9 Daniel Borkmann 2018-10-13  504  	stab->sks[idx] = sk;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  505  	if (osk)
+604326b41a6fb9 Daniel Borkmann 2018-10-13  506  		sock_map_unref(osk, &stab->sks[idx]);
+35d2b7ffffc1d9 John Fastabend  2023-08-29  507  	spin_unlock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  508  	return 0;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  509  out_unlock:
+35d2b7ffffc1d9 John Fastabend  2023-08-29  510  	spin_unlock_bh(&stab->lock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13 @511  	if (psock)
+                                                            ^^^^^
+Probably after 6 years of not triggering the WARN_ON_ONCE() on line 490, we can
+remove this check?
+
+604326b41a6fb9 Daniel Borkmann 2018-10-13  512  		sk_psock_put(sk, psock);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  513  out_free:
+604326b41a6fb9 Daniel Borkmann 2018-10-13  514  	sk_psock_free_link(link);
+604326b41a6fb9 Daniel Borkmann 2018-10-13  515  	return ret;
+604326b41a6fb9 Daniel Borkmann 2018-10-13  516  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
