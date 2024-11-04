@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E74189F45
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 07:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CBD1953B0
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 08:31:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730706776; cv=none; b=UT4d33hoDL01p8LTkT4OHOsk5rM4vqv2ZiJHPB2tvoeZprmXM+Cj2oncMZpAAIXRjio+TrnG+6aCXzye6fpRTpaAANiAT0Cpbcjegw1xjdtCCLdQbbzpzLe0bCfM/enYh7fWBrfLqu2nqxe1xWLDA8JMRET19AV35Xy716Hy9cY=
+	t=1730709081; cv=none; b=m1daWoX6dlaU1hY7kTI05jfpLw7osrC2EtV8XW8PbYRLbhFIxE9/FFRyMOdvzFxVdnsPZM75JqQysM6HdAXyExHrWGXT3UC4B1T9P1ijIV8eufdPUX4VrX6XD6URtyRrxGA2p7oa8H9vrQPwH/xSYs6eYTb4Uq7hAUogzQsXVfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730706776; c=relaxed/simple;
-	bh=Cr5rD/+HY6vt+VKE7z+vw3XsU9RSd9ssfzNDIHXaWuc=;
+	s=arc-20240116; t=1730709081; c=relaxed/simple;
+	bh=RMFwDMojD3zrSAgOcjuKC+xriirvgs/o1aANeynXSuQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JKEfLkDzh+PkBP6ildMioPW/DkXsv4v9JKlKFBbfmck+5Yo8epQ9qde+Zs11Y9hOz/6aRBT4oCPorbUhcp6vsI9LhcpVykktCloStvg7t4PHKuokYf1wm86lShDpC/WRvRfnQk6OGRLU/w7/UVfs9SVCVOQhbkKw4R0pR0+1hn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RnhUCgBa; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=fqJwQ8ufsuYFHAx5ifxyScUCEHf/7Ie06akOrLhCvtvyZuTwlpcOIaqxz2YmIWZJgYnf7INkbZ6uhKZN0s2Ur8juFZsnPH992lvuz24c/f0/MZ+KYKfQu4OVm6QEC1elWre73Jtgexn0b+JjSmxtDKgvTlnmHh8ynH0yah3cuAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CipQRwbi; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RnhUCgBa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730706775; x=1762242775;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cr5rD/+HY6vt+VKE7z+vw3XsU9RSd9ssfzNDIHXaWuc=;
-  b=RnhUCgBaYMT2CdVPIHlLDU5up/m8V38BHISvDeHlYAtKU18KYDmQgAoI
-   w6+B0+q/v0F/ZrI87gfohwRcqp+053xh0rRg88HkVrOHO50JM7fqFxFrT
-   hmUXyYQ5fgE1pADXXx13nxYwYi+7ZNJkMz4ueR39RoqAnCNN0yms0pcHz
-   vzigFJE1BPdNXcXsCqBvSAWkVi5/UBQVdtpEe1aMWLhUqsK7VzyFi5Dg4
-   1IahPOYH7VseJo+wTaYJX6SWOMFEBEUSh1qSBZLhvuz+Sb5XKkWUCuiaR
-   77k6kqup4AzVaNzVu1QRdOqNAgvjPVTvjMvPDhYvyeDxURK6U9K1/aSWm
-   Q==;
-X-CSE-ConnectionGUID: 0xc2GSB4Qcanq3+4kCUwKg==
-X-CSE-MsgGUID: OjME2rfPRlG7fNNwglPKYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="18008674"
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="18008674"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 23:52:55 -0800
-X-CSE-ConnectionGUID: 05JlAmOVR9SrmL/j9sP+ag==
-X-CSE-MsgGUID: Ksd2yd7CTsOlcvbb9g7CKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="84387287"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 03 Nov 2024 23:52:53 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t7rtL-000kcL-1A;
-	Mon, 04 Nov 2024 07:52:51 +0000
-Date: Mon, 4 Nov 2024 15:52:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/m68k/sun3/sun3ints.c:33:13: sparse: sparse: cast truncates bits
- from constant value (ffffff7f becomes 7f)
-Message-ID: <202411041551.CCTg5fsi-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CipQRwbi"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43155afca99so28512915e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Nov 2024 00:31:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730709078; x=1731313878; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=T5vDLGsbEr0SVIowN1t5ye+7OUL4pjjT2D7werAFSjM=;
+        b=CipQRwbi07lCjzQ56qnODXfhqIbzL5HSbwFs8PiPp7wfLO74D/1MhGth6a745+t9SK
+         wybzrvWe6MEBlK1mZ516VDcsA2wkHeT7wwNa3W91wnJNb6JzDZkI39dVnTQ5uUWbPdYe
+         UMV0+VN1A0iPnRTRFf4QbiiEt17kpMTdawgOUTv1RsFhPxr0U8qFBpA0TvSfJY5YMxCJ
+         3aH91p7XjNYW5WkEmxM3eqrYLlc9Z5hyU51N/vKS7su2JDerqdH+gr0fK5tpSK2NXNCJ
+         R3x23jgLfG1I3SlfXmrSK5/1wR6DTrMIJ/URoBtgHaUW3PXBFMS1HtVaZg5oFc+zNN8O
+         0OIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730709078; x=1731313878;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T5vDLGsbEr0SVIowN1t5ye+7OUL4pjjT2D7werAFSjM=;
+        b=BnlIscr5BFjpU2aYo0xKgS2vFW9FLXBAJw6t21oCraLzjTQ6EV7ad7JoFkT1OXuqDi
+         PfMxXgYnYl6w7sX2MJ3QVpZDmG+BulV+aP6YvpTs+iDCl8WxSEDImZb1opo/gKh1fvP8
+         r0Zp5Q6icq8NOjOXAR8H87VaQEYNPcthU46ezClJfNTH+GV0PA8V5tJJ1MZgHs1c2dq5
+         Q3ZahOgBvrka6rkwUx5aUlejKIlVa14nwQna3twp9R/WwVYp/DFnQc6MgOyXpYniT1g2
+         x1y8pbWvVHEUtDBxNLJtdvPnPVaqeLWFmoIF7oN9khQzJ6IJaOMgyjSFhTwEgxH5ws/M
+         tZrw==
+X-Forwarded-Encrypted: i=1; AJvYcCXPeq0m2Y92m9YOr38NCJ0F1Zq9BM9fwYEbBSuPnpunj4mmnOhDAMlGEE5bRVPqvDIpn88SmAQ+E/qlAHdB@lists.linux.dev
+X-Gm-Message-State: AOJu0YyxHLbf5H0rs7aqj7dT/8NcOfPoaNn358Ivakda6Be4rckn2l0c
+	tw1HbINno+FNeQF1VvbmMxkYW+5X254sEP+/dejjO46zCK7QNQsAa2IpBNTK5nI=
+X-Google-Smtp-Source: AGHT+IFFiT8xMGT+o7kM5vRaU6KjK8tqr+AcRQcVqXIZYuM1L7HGi9LZqQfv+QQLXIRdVtTWEYW6xA==
+X-Received: by 2002:a5d:64a7:0:b0:374:c7cd:8818 with SMTP id ffacd0b85a97d-381c79e366dmr9155476f8f.22.1730709078297;
+        Mon, 04 Nov 2024 00:31:18 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d439esm12549514f8f.44.2024.11.04.00.31.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 00:31:17 -0800 (PST)
+Date: Mon, 4 Nov 2024 11:31:13 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
+	chengming.zhou@linux.dev, usamaarif642@gmail.com,
+	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
+	akpm@linux-foundation.org, linux-crypto@vger.kernel.org,
+	herbert@gondor.apana.org.au, davem@davemloft.net,
+	clabbe@baylibre.com, ardb@kernel.org, ebiggers@google.com,
+	surenb@google.com, kristen.c.accardi@intel.com, zanussi@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, wajdi.k.feghali@intel.com,
+	vinodh.gopal@intel.com, kanchana.p.sridhar@intel.com
+Subject: Re: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA in
+ zswap_store() of large folios.
+Message-ID: <89728727-0fd2-4539-bc89-17a699d7179a@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,34 +76,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241103032111.333282-14-kanchana.p.sridhar@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-commit: 72e70a0e7ac7c422843eb8bbf192e820e9ccd24d m68k: sun3: Change led_pattern[] to unsigned char
-date:   1 year, 1 month ago
-config: m68k-randconfig-r112-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041551.CCTg5fsi-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241104/202411041551.CCTg5fsi-lkp@intel.com/reproduce)
+Hi Kanchana,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/crypto-acomp-Define-two-new-interfaces-for-compress-decompress-batching/20241103-112337
+base:   5c4cf96cd70230100b5d396d45a5c9a332539d19
+patch link:    https://lore.kernel.org/r/20241103032111.333282-14-kanchana.p.sridhar%40intel.com
+patch subject: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA in zswap_store() of large folios.
+config: x86_64-randconfig-161-20241104 (https://download.01.org/0day-ci/archive/20241104/202411040859.2z0MfFkR-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411041551.CCTg5fsi-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411040859.2z0MfFkR-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/m68k/sun3/sun3ints.c:33:13: sparse: sparse: cast truncates bits from constant value (ffffff7f becomes 7f)
+smatch warnings:
+mm/zswap.c:1788 zswap_store_propagate_errors() warn: variable dereferenced before check 'sbp->entry' (see line 1785)
 
-vim +33 arch/m68k/sun3/sun3ints.c
+vim +1788 mm/zswap.c
 
-    31	
-    32	static unsigned char led_pattern[8] = {
-  > 33		(u8)~(0x80), (u8)~(0x01),
-    34		(u8)~(0x40), (u8)~(0x02),
-    35		(u8)~(0x20), (u8)~(0x04),
-    36		(u8)~(0x10), (u8)~(0x08)
-    37	};
-    38	
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1771  static __always_inline void zswap_store_propagate_errors(
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1772  	struct zswap_store_pipeline_state *zst,
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1773  	u8 error_batch_idx)
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1774  {
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1775  	u8 i;
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1776  
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1777  	if (zst->errors[error_batch_idx])
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1778  		return;
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1779  
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1780  	for (i = 0; i < zst->nr_comp_pages; ++i) {
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1781  		struct zswap_store_sub_batch_page *sbp = &zst->sub_batch[i];
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1782  
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1783  		if (sbp->batch_idx == error_batch_idx) {
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1784  			if (!sbp->error) {
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02 @1785  				if (!IS_ERR_VALUE(sbp->entry->handle))
+                                                                                                  ^^^^^^^^^^^^^^^^^^
+Dereferenced
+
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1786  					zpool_free(zst->pool->zpool, sbp->entry->handle);
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1787  
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02 @1788  				if (sbp->entry) {
+                                                                                    ^^^^^^^^^^
+Checked too late
+
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1789  					zswap_entry_cache_free(sbp->entry);
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1790  					sbp->entry = NULL;
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1791  				}
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1792  				sbp->error = -EINVAL;
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1793  			}
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1794  		}
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1795  	}
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1796  
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1797  	/*
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1798  	 * Set zswap status for the folio to "error"
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1799  	 * for use in swap_writepage.
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1800  	 */
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1801  	zst->errors[error_batch_idx] = -EINVAL;
+c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1802  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
