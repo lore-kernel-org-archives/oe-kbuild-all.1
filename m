@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F7F218DF7E;
-	Mon,  4 Nov 2024 06:51:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6E318C02E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 07:21:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730703112; cv=none; b=FGujF8JcBCDEJG6k9qS43BK6eLACmGChsbEVWzRc1E4HdvkvydLgqOtlShLrr4Zv4EAWIE3MEQt2Re/AUC2ervOpGhnHNPcfioW89Gvd0wQkwJwsE5hBs4i6O4+ebKWG4x1j61L5MG1aFo+ugX0kDFVU06z6mGnAZKMPhR3WlgI=
+	t=1730704918; cv=none; b=JK0osXr89aesQEeJLrnqkQfhRRaLcX55sc13oe6I02jHDDufY6ycbhL+8p513SwOoDYKlVGDg7E4zl4Pga3e8BDoRG0k0f0cE0+oPv6x9534aRC+0qHYlsBQ3N2sed/IW8AGhg5ZOvAyaBXpxsfGdsJBz/syVJ3nbMVki5ZfAmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730703112; c=relaxed/simple;
-	bh=CNImVzsZlJ7xWiG4UC92lMfsLbazMpimQH9GRzbrG7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TwvPF9rcEv4BSdWWISKgmDHYzjKe1xZPtCskZvyC0TaQKCS1WjZLgC7BhoGHSyyPfXR74IgscIFVlWz/cKXsfmRqKa//zmBCg4CpNCc20M3gbb1wxhlIGJOq8RMU/2tmMGWAOM5BMU2tQzkCVlLFncGcbwx/B1zgKD4ISc6KMq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZlcoSG20; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1730704918; c=relaxed/simple;
+	bh=vVvC//hm2Qb9JX4BN8wiAIzh4mvzc75vswlBe2pSDsk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WxFIMxyHVD7gltDJvIXfgqApTkXL3loiyzMoIzDXMMgUJwV2jX785aVskLVrywxvp4cVXS3UmM8ECwLnJenV/twavyIPtUxap0VCARmGXcnkXhtdyUfJZho8qnnN67yWK3/7yQhY/4XBP09qCcMcNxiofzHa9gL4jseEn2Jlq+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlPJ9VUx; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZlcoSG20"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlPJ9VUx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730703111; x=1762239111;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CNImVzsZlJ7xWiG4UC92lMfsLbazMpimQH9GRzbrG7A=;
-  b=ZlcoSG20HOftqoUszZ6+YsfSPIB1ljPS6/GH+lY1oJUPcLg/IZzgBABb
-   THMH0c7tuFl1o06/0YsQQiUpQVbQ9hRv5Uqis9o9rPCF+ZdniTSrO3ivy
-   Pb/APsaxg8CFZ+NpRzawXOdcya6OzC/f2lPcQdFfiji5PcQrjrgkD/S4f
-   P/RTNO62z9H6r62K9K40haETwGbtfVw+GHzXE5V2e9v3FIaGlFQdGCyIY
-   8TWeaLSDy8t2eMogN5AnJA8/3udAwOb+P13nP0+mNfszhAIEqsh6YWzkz
-   f7EzbiaSqIT9JxH51+ZSSnqqVAteVdQu/585QQrENjy0Q4YbhcPKCEqFd
+  t=1730704917; x=1762240917;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vVvC//hm2Qb9JX4BN8wiAIzh4mvzc75vswlBe2pSDsk=;
+  b=QlPJ9VUxjKrFw8bjmmTkrKZTPoGDkEXExXtcmHGEHZ/GbNvSdImPN4yA
+   Qo7eDI6i9r48hua2fBVx6zWH83+uvRiDbzH69F4gLsp7ISoUlgQiqoH18
+   bSwriiKjjFPj6TdI5XrRfgRhBVbLRJXidEgAJBR+b1LCeKhopo6YeF2Gz
+   DDOV3KOQ5Opv/WU/T2CktSR5435toHuD/QIujIh5d22wFbkFFL/7dxm9X
+   PdfDdYVlfQYa/mXbIVwDwNkp7n1OR0NEXWSOKylgROOHbdAZbikzUAVN5
+   8kFJjreWHQ5Ts2SO4PphGyfFZ4cJCEniyp/DHD9cPmAqkfdthnkk9CUj6
    w==;
-X-CSE-ConnectionGUID: 3EzmQmghRfCMecuBJh21Yw==
-X-CSE-MsgGUID: M+oq6j32QKGeDKW7wHbV7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="40967703"
+X-CSE-ConnectionGUID: CyHQ3EP3Q1Ct3q+kv/nNxw==
+X-CSE-MsgGUID: qoxwtFbCTWm2DQWjeQsEpA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="34177759"
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="40967703"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 22:51:50 -0800
-X-CSE-ConnectionGUID: qR+/SgJNQ62A1DbHEInMig==
-X-CSE-MsgGUID: CdSTMi/CR8+cOkr03SOiog==
+   d="scan'208";a="34177759"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 23:21:56 -0800
+X-CSE-ConnectionGUID: gOTNyNwWQyioP4BtnfK/IA==
+X-CSE-MsgGUID: MZev9TICTqKf9KSMkCwTBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="87496271"
+   d="scan'208";a="83452794"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2024 22:51:48 -0800
+  by orviesa009.jf.intel.com with ESMTP; 03 Nov 2024 23:21:52 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7qwE-000kZ3-1P;
-	Mon, 04 Nov 2024 06:51:46 +0000
-Date: Mon, 4 Nov 2024 14:50:51 +0800
+	id 1t7rPJ-000kal-2E;
+	Mon, 04 Nov 2024 07:21:49 +0000
+Date: Mon, 4 Nov 2024 15:21:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: ld.lld: error: undefined symbol: __kcfi_typeid_cpu_v7_smc_switch_mm
-Message-ID: <202411041456.ZsoEiD7T-lkp@intel.com>
+To: Yongbang Shi <shiyongbang@huawei.com>, xinliang.liu@linaro.org,
+	tiantao6@hisilicon.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	daniel@ffwll.ch, kong.kongxinwei@hisilicon.com
+Cc: oe-kbuild-all@lists.linux.dev, liangjian010@huawei.com,
+	chenjianmin@huawei.com, lidongming5@huawei.com,
+	shiyongbang@huawei.com, libaihan@huawei.com, shenjian15@huawei.com,
+	shaojijie@huawei.com, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH V3 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in
+ hibmc
+Message-ID: <202411041559.WIfxRN6n-lkp@intel.com>
+References: <20241101105028.2177274-3-shiyongbang@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,33 +70,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241101105028.2177274-3-shiyongbang@huawei.com>
 
-Hi Linus,
+Hi Yongbang,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-commit: 1a4fec49efe5273eb2fcf575175a117745f76f97 ARM: 9392/2: Support CLANG CFI
-date:   6 months ago
-config: arm-randconfig-001-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041456.ZsoEiD7T-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041456.ZsoEiD7T-lkp@intel.com/reproduce)
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on linus/master v6.12-rc6 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yongbang-Shi/drm-hisilicon-hibmc-add-dp-aux-in-hibmc/20241101-185648
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241101105028.2177274-3-shiyongbang%40huawei.com
+patch subject: [PATCH V3 drm-dp 2/4] drm/hisilicon/hibmc: add dp link moduel in hibmc
+config: csky-randconfig-r121-20241103 (https://download.01.org/0day-ci/archive/20241104/202411041559.WIfxRN6n-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241104/202411041559.WIfxRN6n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411041456.ZsoEiD7T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041559.WIfxRN6n-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c:12:10: sparse: sparse: symbol 'link_rate_map' was not declared. Should it be static?
 
->> ld.lld: error: undefined symbol: __kcfi_typeid_cpu_v7_smc_switch_mm
-   >>> referenced by proc-v7.S:94 (arch/arm/mm/proc-v7.S:94)
-   >>>               arch/arm/mm/proc-v7.o:(.text+0x108) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: __kcfi_typeid_cpu_v7_hvc_switch_mm
-   >>> referenced by proc-v7.S:105 (arch/arm/mm/proc-v7.S:105)
-   >>>               arch/arm/mm/proc-v7.o:(.text+0x124) in archive vmlinux.a
+vim +/link_rate_map +12 drivers/gpu/drm/hisilicon/hibmc/dp/dp_link.c
+
+    11	
+  > 12	const u8 link_rate_map[] = {DP_LINK_BW_1_62, DP_LINK_BW_2_7,
+    13				    DP_LINK_BW_5_4, DP_LINK_BW_8_1};
+    14	
 
 -- 
 0-DAY CI Kernel Test Service
