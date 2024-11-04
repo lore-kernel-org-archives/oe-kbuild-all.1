@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B331C2309
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 18:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9507918622
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 18:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730743955; cv=none; b=WfABSjqLeunIyeP8PDPw2rjl/qG+WFxHYc/1y4H5pCvcvB/MSBXMaYQy2YJY78yNlReqCO5fnHQJXa15kHZoA8c2fiY/18J/3DXqhxkVhqzKfEmukquHaTy7qE3Io+5WhV2xuWTgJiM0i2KZEUC3YvVnkTiBVN9hXkB3snsEjBo=
+	t=1730744614; cv=none; b=bP1FA1ZVZ6hwWAZB+aTXKntZDuXXLu4wLpiRRL0KgnXfA96ZJ9NLgMXtOf8YFmOvemEM27dg43cU0lN7OdQUdQuK3eICm4ZMcEu83NVenP+SsbPbbgmmWwETQGEBP1pbRvo4pYPz4RFk9prJx06bPDqwskbJR+ZxYb1RGybeo5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730743955; c=relaxed/simple;
-	bh=HgmLtpoaraIg2BsEfE/hXotFrAKmh8DqvByjzkRG7EQ=;
+	s=arc-20240116; t=1730744614; c=relaxed/simple;
+	bh=jc00/Ah1siBfjfVGdHfDeWrkdyrMjMH4fmdg5nNBjrY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bvHlibpVN5KWFpYSeHoxL+1hr5v4P44CmckETS1Tmhib8T1q3Y8KkprN4semgNxACGiPlcsaIRBRzsse6EmnTCraIoDn7OMIzsOZwFxWhOXheWZacMlLlXK6yY/Al7PRkOBP8gcLvsf5MdBFYnL6OQ0rWflgDuIIMHBc9RWQuOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IXjYTxNj; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=FwBOdAGf5j0T5dgs41Yi8q9NZ/pxnhlcHecNNgQsDsGejqbLN5t9cKjutT21MbP7lrawo7Q5wuMWM1UtZ3DT97xuEOPhjC4LDooIPDbqQEWWjJJAWIxo+zpRY5adaHrf1pR3z5BGs1kaqPxi8A2JCwOwTExn7ILJjVCLbiTIn24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SLNv+4r1; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IXjYTxNj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SLNv+4r1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730743955; x=1762279955;
+  t=1730744612; x=1762280612;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HgmLtpoaraIg2BsEfE/hXotFrAKmh8DqvByjzkRG7EQ=;
-  b=IXjYTxNjqGW8dDf4BGwW5fSZLhZrDeUqb+EOunKUcwUf17srUuPhNrKY
-   Ne91+N7Pobm91H8BKxro8C8j8E8ttRbmyEf7mZjjg55I2FoWFPgOtk7Ck
-   nZT+Pv1gYJGxrqoWpJfyx87Ie9zLQhB9GDlycgKiFJZxuLsevIGqEgWPM
-   zTxV0eC0M02ZZJ2qtJrurz1YN1XgQJEDScJFfy8UjAcqMgnjm/dnYGMkN
-   /aG48aa7zHn62FN/CwFhrGYzB+0aLSAgjIShCoUEfQse9/AzeZ7bZc3Yr
-   8Urphz8ef0XA96hgJK/KXaKBohyuAuFBXF/zaxkPlukTjQXk1pAdMLaUS
-   A==;
-X-CSE-ConnectionGUID: rAr6CffkStKyxbseCzrlVg==
-X-CSE-MsgGUID: uouHrhwtQ3KUJfIRAn+nFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30309147"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30309147"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 10:12:33 -0800
-X-CSE-ConnectionGUID: Kk9qomXqT3W0AWkosjq07w==
-X-CSE-MsgGUID: dA4sPxxYThmYggLBQUCtkg==
+  bh=jc00/Ah1siBfjfVGdHfDeWrkdyrMjMH4fmdg5nNBjrY=;
+  b=SLNv+4r1d/hxyWTQT7dHKYjVnREkVyrNPMDcBLiqKEJhy3u7rVf+Eftg
+   OcZFLWBdDkbdo88mYOzRihfYyA0ejRg/3CCKXoFA7ovGxivaOh5VNWPZN
+   5BOS/iwsw5QB6m+j6wiHSNpld5L4XDLjd5reRXodEsMT8baz1vZzus7XS
+   UFyTcs3M6AZ2FlpCPdDFlMBDQorKoc2l8RAjya2ELK/erz/5LI54mhSGo
+   bcSDmPLbjYX3US45cxkeQHwm8vqvrT9aQgIRT1YIsSLBpGLFipV9dm9wp
+   EkU1tcXzZp/BTPNNkRKtSGDF8DPqw64AeehWkjWLZKnivpHkhYqCRISIx
+   w==;
+X-CSE-ConnectionGUID: cr2yeGjHQFCI6Hn+VL+ZaA==
+X-CSE-MsgGUID: 8HI7r5c1QwuqZt2yqbNdTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="29882640"
+X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
+   d="scan'208";a="29882640"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 10:23:31 -0800
+X-CSE-ConnectionGUID: pvDXIshuQpWsssEqxp0wzg==
+X-CSE-MsgGUID: uzPY7aBpRBux6BcPURre8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="87670861"
+   d="scan'208";a="83671568"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2024 10:12:29 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Nov 2024 10:23:30 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t81Yx-000l6p-0V;
-	Mon, 04 Nov 2024 18:12:27 +0000
-Date: Tue, 5 Nov 2024 02:12:05 +0800
+	id 1t81jb-000l7D-1U;
+	Mon, 04 Nov 2024 18:23:27 +0000
+Date: Tue, 5 Nov 2024 02:23:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
- kernel/dma/mapping.c:557:29: sparse: sparse: macro "alloc_pages" passed 5
- arguments, but takes just 2
-Message-ID: <202411050256.EOjqyl5Z-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 9863/16090] arch/x86/kernel/early-quirks.c:722:6:
+ warning: no previous prototype for 'is_zhaoxin_kh40000'
+Message-ID: <202411050256.qgVICxTA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,49 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 0764432a5ada7a09ce36b0e980ec40340fae2a30 [1/1] dma-mapping: add a new dma_alloc_pages API
-config: x86_64-randconfig-121-20241028 (https://download.01.org/0day-ci/archive/20241105/202411050256.EOjqyl5Z-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050256.EOjqyl5Z-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ab4fcabb7d813ddd7a455c85557f8d0891df4c41
+commit: 8eaba08b2d72718a40cafe3402ab4f26b0dc62eb [9863/16090] x86/cpu/zhaoxin: Encapsulate access to global variables within functions
+config: x86_64-buildonly-randconfig-003-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050256.qgVICxTA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050256.qgVICxTA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411050256.EOjqyl5Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411050256.qgVICxTA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/dma/mapping.c:557:29: sparse: sparse: macro "alloc_pages" passed 5 arguments, but takes just 2
+All warnings (new ones prefixed by >>):
 
-vim +/alloc_pages +557 kernel/dma/mapping.c
+>> arch/x86/kernel/early-quirks.c:722:6: warning: no previous prototype for 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
+     722 | bool is_zhaoxin_kh40000(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/early-quirks.c: In function 'quirk_zhaoxin_dma_patch':
+   arch/x86/kernel/early-quirks.c:737:28: error: 'kh40000_dma_direct_ops' undeclared (first use in this function)
+     737 |                 dma_ops = &kh40000_dma_direct_ops;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/early-quirks.c:737:28: note: each undeclared identifier is reported only once for each function it appears in
+--
+>> kernel/dma/contiguous.c:209:13: warning: no previous prototype for 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
+     209 | bool __weak is_zhaoxin_kh40000(void)
+         |             ^~~~~~~~~~~~~~~~~~
 
-   541	
-   542	struct page *dma_alloc_pages(struct device *dev, size_t size,
-   543			dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
-   544	{
-   545		const struct dma_map_ops *ops = get_dma_ops(dev);
-   546		struct page *page;
-   547	
-   548		if (WARN_ON_ONCE(!dev->coherent_dma_mask))
-   549			return NULL;
-   550		if (WARN_ON_ONCE(gfp & (__GFP_DMA | __GFP_DMA32 | __GFP_HIGHMEM)))
-   551			return NULL;
-   552	
-   553		size = PAGE_ALIGN(size);
-   554		if (dma_alloc_direct(dev, ops))
-   555			page = dma_direct_alloc_pages(dev, size, dma_handle, dir, gfp);
-   556		else if (ops->alloc_pages)
- > 557			page = ops->alloc_pages(dev, size, dma_handle, dir, gfp);
-   558		else
-   559			return NULL;
-   560	
-   561		debug_dma_map_page(dev, page, 0, size, dir, *dma_handle);
-   562	
-   563		return page;
-   564	}
-   565	EXPORT_SYMBOL_GPL(dma_alloc_pages);
-   566	
+
+vim +/is_zhaoxin_kh40000 +722 arch/x86/kernel/early-quirks.c
+
+   721	
+ > 722	bool is_zhaoxin_kh40000(void)
+   723	{
+   724		return zhaoxin_kh40000;
+   725	}
+   726	
 
 -- 
 0-DAY CI Kernel Test Service
