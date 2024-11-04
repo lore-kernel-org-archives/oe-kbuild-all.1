@@ -1,167 +1,137 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C76B1ADFF5
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 09:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F321AF0A8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 10:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730711362; cv=none; b=Cwxz8dxfgBVNbb99+WBy+9JPQY8B1pt35b7bO+ZnkijAN3lmXsofPJ+B+6cWbx0eac0q4YZyiY6mEblEArqEPxuSOWbSDKW/yMcoqTAHeQam6AUHq4NIfqcpo9OtpxEj2fi1N6WnKdsx0KKDBQMpKBcy2hBl5ArBJFSETM+NmCk=
+	t=1730714768; cv=none; b=i925s3R2PVr/jR7GSMzVJ+krrKIhHyYMWOSu5t1zZDypDnOPb02pWwcOiSwbDCo5AgiN7Lp7NIe3F5h4hzCrye/Hgb0AnOzdB3fX60a0s444o2LTnpzKdHWRZkg5SXkolb3ogiNLYMB8VW7YeXWbSkOc29Fsr+747Ws5Z4hjmJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730711362; c=relaxed/simple;
-	bh=ifqPukSiWEbvQx2BNyq44t24PrtspIIZb3U4Z0syxko=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=a51gJXDTIhJJ2ubcC7yfCsGB2HeV+CMmouF34A8jWbG7vk8B9MjoSM3Zku3ER2IF3+EBLqDYEfxNhbq4+SkaNszqGtmiTuO3j8yP730cYz4k52TLOQJEr3j8QCSofJ8o375ocJ9H9eX/1s1/moC94KW6ivHlKx5Cz+vwWnNq5x0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Up3kIHGU; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1730714768; c=relaxed/simple;
+	bh=Xod1yEXAGdpYU4tYEd+Nah1kh/k99Q2zii1RjaEeOIQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YdkF8zT16tIwuhhdXRGri9wOys7MAWKTLHfsiTdt374DabSvD3SEy00VqCTxAxM0D8plg2vjmqJZh7KMRDsgFOUa+Ea+PnsjXqSqEo/NhdFXG4KlacroLOMmD8XfuxhD7vse7XyoUDkBE7JkRu5Out+HivtBkwM3C3Y1oqFcu+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZMrFh4g; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Up3kIHGU"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5ceca0ec4e7so1910390a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Nov 2024 01:09:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1730711359; x=1731316159; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=055q6HVRLMtsIiCxhqKFgJlzoVTgwNt+2YbIpiGOuNo=;
-        b=Up3kIHGUTzG9xPdZy0IfNituFl3XA/Fofqy/JHeyEJzkGBrei2GdCRyVnxwQFPrnIF
-         DM0LAPKKHMCafSEu+3KQ9ZZH+EiDcw+gU09p5FNA8LjeJCnTsNwhfjwL3vlf5PdMPxgS
-         amRR8EXssxdmh69u9+lfmfAeZ4waIeMV89xsR7JfZrt8nMDjWaFVxIJUbzmkTEpQSVJO
-         Bl9NKZcWFcmM/WGPy/Vhtq6DOeG3guAzZcB5dxMR4AF0lPT137+5nIAGviw78X5CNclp
-         HGryHhuRhJ5QR/yXeTYWJK//F/RVt7hyJpjtFCZJXa9ggT4QUnTJDbFaT81IIO4W7CeX
-         0C4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730711359; x=1731316159;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=055q6HVRLMtsIiCxhqKFgJlzoVTgwNt+2YbIpiGOuNo=;
-        b=IrvUwekEKoPclmoLyjgL1nNXKZ6QiezG8CdWlBgdlyLfEOpgo5iFHWKaCjGLdzmkQt
-         3beGicYYF/QF6hKsHCTX81DaM2gBhADwpl9/Hf89QMiKHsl9vKfJg05vSatyOVtpRNXr
-         m8WdUVCi2I07TocvpijC/FzTQxxe5ppTgvcIlWpaHHxaeIFYsrZWBlTrKPbgI5OwRAW+
-         2k+YU/zGjHyyuiKpvb6ki91CrB3N0pj/ccjQ3AFEk9ht0iDrLAqPA58bxnKU8x08SHFl
-         BNCH48tJO7vWmp9z8sGUu35LiiZP5yAdFZLHSk17Pkh98OHD3nLR1TLTdLfxIGRQF85z
-         Y2Lw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWZyz5jHr3lDwK48U7qz2HCJiuNHPXG87EHDLXLN/DaC+PcldKEXMlUOukJgOHi89N+UFsgLHhOVADwpbG@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy5/7B+42MCzd4CncxkuJky6CMy6nivNnVebZ1ffqVxkrQ0Jsil
-	89iiEtotDY17kBCCchx9V+j7tDYQXyBhXQ1KWytppHGsnSIi7KUc6dnFeED/w5bi5xMLj4vzeq8
-	VLlXXeHZhfFdOpgo6KSlNNpbTW8s8UbcIBTXRBw==
-X-Google-Smtp-Source: AGHT+IG7T23Pew0G4bjyo8FIV5YjqVKWXQFF//1S8lbRwvUhNbZuSM2H8qF/oqLViu8AJNrr6QEfuupKRznSgIqZeV4=
-X-Received: by 2002:a05:6402:51ca:b0:5ce:d397:9f5 with SMTP id
- 4fb4d7f45d1cf-5ced3970cbemr2889559a12.24.1730711358703; Mon, 04 Nov 2024
- 01:09:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZMrFh4g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730714767; x=1762250767;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Xod1yEXAGdpYU4tYEd+Nah1kh/k99Q2zii1RjaEeOIQ=;
+  b=gZMrFh4ggeSeIRszghBSiYgPC/l6rQ6/xH4sf/E8qWMQruIgVgsfBIxg
+   l4DWle4J2TqCVGPDOP5DPUHE5ow/C24YI3Himz6q9/OC5JX27NlULkZxa
+   Qui9tzTBgEPcp9s4WfGdwU8sdZhZR10fMTr4qjex0Ny3kXNlAcP/FDU6n
+   02s0PdBhPbNvusmRbyAL4lU32zdSI+XcbKMvvfjigs3rw3a4H9pC9cVAc
+   5spz6EEYWc7BTylMZrfARMCvLDzPEQiH+b5xZvfPFkQ3GE3KPhSAtNFyl
+   W0X+WR1KRz1ejfb1th8PJOXjJX4D5M5QTZ3/1ZOTXMTknIMC+hdU8XDqQ
+   Q==;
+X-CSE-ConnectionGUID: QWq/3jGRRI6t+GUJl4z6nA==
+X-CSE-MsgGUID: Q/gtqEQbQWy5jQknd6g6rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="34331595"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="34331595"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 02:06:07 -0800
+X-CSE-ConnectionGUID: TURrh7mMSN6g+F7LpMOr4Q==
+X-CSE-MsgGUID: ibZPN91MRBGiAzTRPojnUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="83953452"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 04 Nov 2024 02:06:05 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7tyE-000kiz-20;
+	Mon, 04 Nov 2024 10:06:02 +0000
+Date: Mon, 4 Nov 2024 18:05:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: chenchangcheng <ccc194101@163.com>, laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+	chenchangcheng <ccc194101@163.com>
+Subject: Re: [PATCH] media: uvcvideo:Create input device for all uvc devices
+ with status endpoints.
+Message-ID: <202411041605.VSoO1uus-lkp@intel.com>
+References: <20241104023947.826707-1-ccc194101@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241103145153.105097-14-alexghiti@rivosinc.com> <202411041609.gxjI2dsw-lkp@intel.com>
-In-Reply-To: <202411041609.gxjI2dsw-lkp@intel.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Mon, 4 Nov 2024 10:09:07 +0100
-Message-ID: <CAHVXubj8EXCXNPuJ+hqrHwyujjz3GDcqqMjQ4ZFC5VbmZurV3w@mail.gmail.com>
-Subject: Re: [PATCH v6 13/13] riscv: Add qspinlock support
-To: kernel test robot <lkp@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, Andrea Parri <parri.andrea@gmail.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>, 
-	Will Deacon <will@kernel.org>, Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Leonardo Bras <leobras@redhat.com>, Guo Ren <guoren@kernel.org>, 
-	linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
-	linux-arch@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241104023947.826707-1-ccc194101@163.com>
 
-On Mon, Nov 4, 2024 at 10:05=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Alexandre,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on arnd-asm-generic/master]
-> [also build test WARNING on robh/for-next tip/locking/core linus/master v=
-6.12-rc6]
-> [cannot apply to next-20241101]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alexandre-Ghiti/ri=
-scv-Move-cpufeature-h-macros-into-their-own-header/20241103-230614
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/asm-generic.=
-git master
-> patch link:    https://lore.kernel.org/r/20241103145153.105097-14-alexghi=
-ti%40rivosinc.com
-> patch subject: [PATCH v6 13/13] riscv: Add qspinlock support
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
-eccf88f5321e7c60591c5546b254b6afab99)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411041609.gxjI2dsw-lkp=
-@intel.com/
->
-> includecheck warnings: (new ones prefixed by >>)
-> >> arch/riscv/include/asm/spinlock.h: asm/ticket_spinlock.h is included m=
-ore than once.
-> >> arch/riscv/include/asm/spinlock.h: asm/qspinlock.h is included more th=
-an once.
+Hi chenchangcheng,
 
-Yes but that's in a #ifdef/#elif#else clause so nothing to do here!
+kernel test robot noticed the following build errors:
 
->
-> vim +10 arch/riscv/include/asm/spinlock.h
->
->      8
->      9  #define __no_arch_spinlock_redefine
->   > 10  #include <asm/ticket_spinlock.h>
->     11  #include <asm/qspinlock.h>
->     12  #include <asm/jump_label.h>
->     13
->     14  /*
->     15   * TODO: Use an alternative instead of a static key when we are a=
-ble to parse
->     16   * the extensions string earlier in the boot process.
->     17   */
->     18  DECLARE_STATIC_KEY_TRUE(qspinlock_key);
->     19
->     20  #define SPINLOCK_BASE_DECLARE(op, type, type_lock)               =
-       \
->     21  static __always_inline type arch_spin_##op(type_lock lock)       =
-       \
->     22  {                                                                =
-       \
->     23          if (static_branch_unlikely(&qspinlock_key))              =
-       \
->     24                  return queued_spin_##op(lock);                   =
-       \
->     25          return ticket_spin_##op(lock);                           =
-       \
->     26  }
->     27
->     28  SPINLOCK_BASE_DECLARE(lock, void, arch_spinlock_t *)
->     29  SPINLOCK_BASE_DECLARE(unlock, void, arch_spinlock_t *)
->     30  SPINLOCK_BASE_DECLARE(is_locked, int, arch_spinlock_t *)
->     31  SPINLOCK_BASE_DECLARE(is_contended, int, arch_spinlock_t *)
->     32  SPINLOCK_BASE_DECLARE(trylock, bool, arch_spinlock_t *)
->     33  SPINLOCK_BASE_DECLARE(value_unlocked, int, arch_spinlock_t)
->     34
->     35  #elif defined(CONFIG_RISCV_QUEUED_SPINLOCKS)
->     36
->     37  #include <asm/qspinlock.h>
->     38
->     39  #else
->     40
->   > 41  #include <asm/ticket_spinlock.h>
->     42
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+[auto build test ERROR on linuxtv-media-stage/master]
+[also build test ERROR on linus/master v6.12-rc6 next-20241101]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/chenchangcheng/media-uvcvideo-Create-input-device-for-all-uvc-devices-with-status-endpoints/20241104-104225
+base:   https://git.linuxtv.org/media_stage.git master
+patch link:    https://lore.kernel.org/r/20241104023947.826707-1-ccc194101%40163.com
+patch subject: [PATCH] media: uvcvideo:Create input device for all uvc devices with status endpoints.
+config: x86_64-buildonly-randconfig-001-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041605.VSoO1uus-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041605.VSoO1uus-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041605.VSoO1uus-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/usb/uvc/uvc_status.c: In function 'uvc_event_streaming':
+>> drivers/media/usb/uvc/uvc_status.c:110:21: error: implicit declaration of function 'uvc_input_has_button' [-Werror=implicit-function-declaration]
+     110 |                 if (uvc_input_has_button(dev)) {
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/uvc_input_has_button +110 drivers/media/usb/uvc/uvc_status.c
+
+    93	
+    94	/* --------------------------------------------------------------------------
+    95	 * Status interrupt endpoint
+    96	 */
+    97	static void uvc_event_streaming(struct uvc_device *dev,
+    98					struct uvc_status *status, int len)
+    99	{
+   100		if (len <= offsetof(struct uvc_status, bEvent)) {
+   101			uvc_dbg(dev, STATUS,
+   102				"Invalid streaming status event received\n");
+   103			return;
+   104		}
+   105	
+   106		if (status->bEvent == 0) {
+   107			if (len <= offsetof(struct uvc_status, streaming))
+   108				return;
+   109	
+ > 110			if (uvc_input_has_button(dev)) {
+   111				uvc_dbg(dev, STATUS, "Button (intf %u) %s len %d\n",
+   112					status->bOriginator,
+   113					status->streaming.button ? "pressed" : "released", len);
+   114				uvc_input_report_key(dev, KEY_CAMERA, status->streaming.button);
+   115			}
+   116		} else {
+   117			uvc_dbg(dev, STATUS, "Stream %u error event %02x len %d\n",
+   118				status->bOriginator, status->bEvent, len);
+   119		}
+   120	}
+   121	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
