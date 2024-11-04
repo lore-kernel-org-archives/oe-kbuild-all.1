@@ -1,67 +1,59 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0D818E362
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 07:23:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A931EAD8
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 07:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730705020; cv=none; b=n+slrqFZ38lKc9QqYJnVDWL0hvTGQ75UK0k14W/5zhxnOXORGOasyrTM9Efe0qq2JEOJ+t6/KVzkq3smf/MT2C505mFBMbN50SVEICvSZr1h6G0ssREU0dDEzJz2VOinRuxaNafVdaBG4hz+5eL3DJ2PCHqz+Dr4ANCRbjzr0rg=
+	t=1730705577; cv=none; b=ev3XcAJt9o3K8ZS6biZWqx7JlBu0pYcsT5dHDRK4drF2LwsLK61qAMUMCJ1EACVu+OUM0Wq6nERrDAbDav/DrrlgWwdu7mdgnuixSWj2DZtZdnNGRXlPeaDITl+5WPAQR4PghO+YAc64wg2f19UGjwiJ+0ba6zGiaeg1BsjTvgA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730705020; c=relaxed/simple;
-	bh=BzZ86BxrPlQC9+39mi52+0OlxseZ8YqyYhJ2yPkZFts=;
+	s=arc-20240116; t=1730705577; c=relaxed/simple;
+	bh=dkEH8l54zk66jaMfX5u9O/Wi6t6jSOicf1p6tKjHOHk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MVdxFqz1Rw5DAwRYlY6dBK3X9E20OVWxuvhrqVKTcm5KA5py7Kw7JpijS7RtYRZGBHjg+7k5X3ak5qAXa19wBzniK35ujoh1AD3SbEyapHbAUHfJ2maQITGkAbntmxigpHMW1TBv9dBGXzz4KNwz5g+w7QhznBUF/zrI9q3wom4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fUoPqv2a; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=oMdC7V6a3Q0qM1bUc4kYtsdvh2j8cu8IruuJCnYkLJfpk0/ASgPZqVekQlWeA4EGIE/tGIARFoylDLCg2E5IjpnIFks1UdNfitXexxYLyLtse5g3DH1BOszqGX2DlpbXuFNeJPltDR9rOqraED202SmVz0drb7xpUE1cB+Th4/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEXF8jfx; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fUoPqv2a"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so32911615e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 03 Nov 2024 23:23:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730705017; x=1731309817; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jiS8XdRJ5mjLBZvVPPJ1C4Js2HB6fwq261ppgxWkFZU=;
-        b=fUoPqv2aVNJ48LVhiz6+/dTw3I+kICmQJy9KSsbWzIVK+zpHfASOgXvcWwou+WDQtM
-         lggczTqVeSNyq9fcmR2Ban34qR9zjoFQ6farOVQyscQkKwGzu8ZGxd0ruZpBlvPNWKSv
-         uajI0amHjn+F4qMcNzxgkf2NZEgrWqAS0dxUfrrBe1FMGIdVBWbxvxw9sTSFUJb4Tn1N
-         vxZ9vf0qEy6m5nz9X8Wjw3PBYRai0Fvp04aOdZSpBQbG2atiBSCijJQr7BKpHZPccalb
-         ynK7bfLuB6ZFJerW3UCVQmiRrubg6alWDXMhWTmQDtKmhtZQ6wknrYVd4H7nv2F+2YB9
-         iQ9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730705017; x=1731309817;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jiS8XdRJ5mjLBZvVPPJ1C4Js2HB6fwq261ppgxWkFZU=;
-        b=LQAKXEWJdX//vn9GcBpRqzn5zkRKWgf2c//AWM646+2HChP/rY18H1Zu0DDlEQEsFY
-         6e89+hO7cMvygt1/O79bMOdZCKCe1AtUWRlS1JS10Zfnok4OTnSHgc5hb4waJ3e0egFh
-         IvIiYIPV5GmCfkeHIslhYYi59RzC44iHZDPSi3KO39hDZUIfTEffyD0sjZi9GBvL0DUg
-         ZIV5iDYsyJveoXmvl7OW0zgqRiiNNOzkZUP7UJAvFLO1m21C+tYeX//eNpN9A4UWFOuI
-         l+sl+8RBIPvm/jeUMCh2Cgpg75HKYK5gAVdV3jWxUSCW+k6rLsgpv/TphmFrl+VhFL+1
-         VrmA==
-X-Forwarded-Encrypted: i=1; AJvYcCWy8HRyYWiBgr05JhmARx8d6UBDGzQy1vfGzYJix6B9dbd6cul2Qo/1wZ/ODjdW2eqK4NZiNkjvhoXVelSp@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyy69Zj2tb65+wqFunSxwbsIxawr/6vuCyxRCgfT/vGmmDD2ybF
-	ZnpjV7kSs/fwQDEnA9bWvdovsRqyuvdR0oxmkSkawQbYwuGloymJFvF1sSvRCmw=
-X-Google-Smtp-Source: AGHT+IH40kTx91Wk2I+uwvpntqh9B6wAV6h1+3zOozojDZ54UMaVhhfVF5oyrYpKHhmXEoEXhdGeTQ==
-X-Received: by 2002:a05:600c:3507:b0:431:4e3f:9dee with SMTP id 5b1f17b1804b1-4327b6f46d3mr123743255e9.4.1730705017060;
-        Sun, 03 Nov 2024 23:23:37 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d5abfefsm144395155e9.4.2024.11.03.23.23.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 Nov 2024 23:23:36 -0800 (PST)
-Date: Mon, 4 Nov 2024 10:23:32 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, mrpre <mrpre@163.com>,
-	yonghong.song@linux.dev, john.fastabend@gmail.com,
-	martin.lau@kernel.org, edumazet@google.com, jakub@cloudflare.com,
-	davem@davemloft.net, dsahern@kernel.org, kuba@kernel.org,
-	pabeni@redhat.com, netdev@vger.kernel.org, bpf@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, mrpre <mrpre@163.com>
-Subject: Re: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
-Message-ID: <53444aeb-aa22-4076-95dd-f079861567c9@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEXF8jfx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730705575; x=1762241575;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dkEH8l54zk66jaMfX5u9O/Wi6t6jSOicf1p6tKjHOHk=;
+  b=FEXF8jfxOTQE/Ot9PAG0t71WkBgZ0jK8dFDJ3iRb0a/Muobm5+TyYy0b
+   UvBTwN45f5dE7Z+qleSVrnfD3rFz6UFB7lndGnW9Wev2OKLl/sopEb43F
+   l88g3y0+DHSp3LNUUnXdI+5XrjmU5KW9F81jfeRfqE0fFUP3Svgz4Nh9I
+   LsWjY1GCC0tchb6Pby9BQPnzHFBlk+1D2AwHpPndEOglemCbYIUjQ1oBt
+   HJuwzycnH9Ut9TyFs1uI0E4M3FwS3HTzvLNhkOMBKZHlpKyyb6EjAUnjr
+   q3ya64EQN6GYcRJlpQVnI6C4ee+H75Fm8lAfdubg9+i+uq9THxpP9xBLp
+   g==;
+X-CSE-ConnectionGUID: Mh3Of5XbTaSHv2A+isDUfQ==
+X-CSE-MsgGUID: yWSQpom3RFuChbR/iUimsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="40970645"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="40970645"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 23:32:55 -0800
+X-CSE-ConnectionGUID: 9T4308wbR0GS8QTGeIXdJA==
+X-CSE-MsgGUID: cq6j3j8hRGeiHrE9gMoGBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="83245794"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 03 Nov 2024 23:32:53 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7rZy-000kbX-2Z;
+	Mon, 04 Nov 2024 07:32:50 +0000
+Date: Mon, 4 Nov 2024 15:32:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1231/1231]
+ arch/arm64/kernel/mpam/mpam_ctrlmon.c:300: warning: Function parameter or
+ member 's' not described in 'show_doms'
+Message-ID: <202411041549.sgcRhuo9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,94 +62,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101161624.568527-2-mrpre@163.com>
 
-Hi mrpre,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mrpre/bpf-Introduce-cpu-affinity-for-sockmap/20241102-001844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241101161624.568527-2-mrpre%40163.com
-patch subject: [PATCH v2 1/2] bpf: Introduce cpu affinity for sockmap
-config: i386-randconfig-141-20241102 (https://download.01.org/0day-ci/archive/20241103/202411030036.PSKG1pW3-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d9cf86e2fe8e5c014fd3e46c31f3415549ab813f
+commit: 7243df9bf3ab4130b2c8f5dfa9a620afc964cc72 [1231/1231] arm64/mpam: resctrl: Write and read schemata by schema_list
+config: arm64-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241104/202411041549.sgcRhuo9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041549.sgcRhuo9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411030036.PSKG1pW3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041549.sgcRhuo9-lkp@intel.com/
 
-smatch warnings:
-net/core/sock_map.c:511 sock_map_update_common() warn: variable dereferenced before check 'psock' (see line 492)
+All warnings (new ones prefixed by >>):
 
-vim +/psock +511 net/core/sock_map.c
+>> arch/arm64/kernel/mpam/mpam_ctrlmon.c:300: warning: Function parameter or member 's' not described in 'show_doms'
+>> arch/arm64/kernel/mpam/mpam_ctrlmon.c:300: warning: Function parameter or member 'r' not described in 'show_doms'
+>> arch/arm64/kernel/mpam/mpam_ctrlmon.c:300: warning: Function parameter or member 'schema_name' not described in 'show_doms'
+   arch/arm64/kernel/mpam/mpam_ctrlmon.c:300: warning: Function parameter or member 'partid' not described in 'show_doms'
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  467  static int sock_map_update_common(struct bpf_map *map, u32 idx,
-ffed654afa8dc1 mrpre           2024-11-02  468  				  struct sock *sk, u64 flags, s32 target_cpu)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  469  {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  470  	struct bpf_stab *stab = container_of(map, struct bpf_stab, map);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  471  	struct sk_psock_link *link;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  472  	struct sk_psock *psock;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  473  	struct sock *osk;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  474  	int ret;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  475  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  476  	WARN_ON_ONCE(!rcu_read_lock_held());
-604326b41a6fb9 Daniel Borkmann 2018-10-13  477  	if (unlikely(flags > BPF_EXIST))
-604326b41a6fb9 Daniel Borkmann 2018-10-13  478  		return -EINVAL;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  479  	if (unlikely(idx >= map->max_entries))
-604326b41a6fb9 Daniel Borkmann 2018-10-13  480  		return -E2BIG;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  481  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  482  	link = sk_psock_init_link();
-604326b41a6fb9 Daniel Borkmann 2018-10-13  483  	if (!link)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  484  		return -ENOMEM;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  485  
-2004fdbd8a2b56 Cong Wang       2021-03-30  486  	ret = sock_map_link(map, sk);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  487  	if (ret < 0)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  488  		goto out_free;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  489  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  490  	psock = sk_psock(sk);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  491  	WARN_ON_ONCE(!psock);
-ffed654afa8dc1 mrpre           2024-11-02 @492  	psock->target_cpu = target_cpu;
-                                                        ^^^^^^^^^^^^^^^^^
-The patch adds an unchecked dereference
 
-35d2b7ffffc1d9 John Fastabend  2023-08-29  493  	spin_lock_bh(&stab->lock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  494  	osk = stab->sks[idx];
-604326b41a6fb9 Daniel Borkmann 2018-10-13  495  	if (osk && flags == BPF_NOEXIST) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  496  		ret = -EEXIST;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  497  		goto out_unlock;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  498  	} else if (!osk && flags == BPF_EXIST) {
-604326b41a6fb9 Daniel Borkmann 2018-10-13  499  		ret = -ENOENT;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  500  		goto out_unlock;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  501  	}
-604326b41a6fb9 Daniel Borkmann 2018-10-13  502  
-604326b41a6fb9 Daniel Borkmann 2018-10-13  503  	sock_map_add_link(psock, link, map, &stab->sks[idx]);
+vim +300 arch/arm64/kernel/mpam/mpam_ctrlmon.c
 
-This also dereferences psock btw.
+1abcabe9dab59ec arch/arm64/kernel/mpam_ctrlmon.c      Yang Yingliang 2019-01-30  287  
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  288  /**
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  289   * MPAM resources such as L2 may have too many domains for arm64,
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  290   * at this time we should rearrange this display for brevity and
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  291   * harmonious interaction.
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  292   *
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  293   * Before rearrangement: L2:0=ff;1=ff;2=fc;3=ff;4=f;....;255=ff
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  294   * After rearrangement:  L2:S;2=fc;S;4=f;S
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  295   * Those continuous fully sharable domains will be combined into
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  296   * a single "S" simply.
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  297   */
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  298  static void show_doms(struct seq_file *s, struct resctrl_resource *r,
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  299  		char *schema_name, int partid)
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29 @300  {
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  301  	struct raw_resctrl_resource *rr = r->res;
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  302  	struct rdt_domain *dom;
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  303  	bool sep = false;
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  304  	bool rg = false;
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  305  	bool prev_auto_fill = false;
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  306  	u32 reg_val;
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  307  
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  308  	if (r->dom_num > RESCTRL_SHOW_DOM_MAX_NUM)
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  309  		rg = true;
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  310  
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  311  	seq_printf(s, "%*s:", max_name_width, schema_name);
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  312  	list_for_each_entry(dom, &r->domains, list) {
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  313  		reg_val = rr->msr_read(dom, partid);
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  314  
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  315  		if (rg && reg_val == r->default_ctrl &&
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  316  				prev_auto_fill == true)
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  317  			continue;
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  318  
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  319  		if (sep)
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  320  			seq_puts(s, ";");
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  321  		if (rg && reg_val == r->default_ctrl) {
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  322  			prev_auto_fill = true;
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  323  			seq_puts(s, "S");
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  324  		} else {
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  325  			seq_printf(s, rr->format_str, dom->id,
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  326  				max_data_width, reg_val);
+7243df9bf3ab413 arch/arm64/kernel/mpam/mpam_ctrlmon.c Wang ShaoBo    2021-02-24  327  		}
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  328  		sep = true;
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  329  	}
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  330  	seq_puts(s, "\n");
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  331  }
+be2167d2a188dc2 arch/arm64/kernel/mpam_ctrlmon.c      Xie XiuQi      2019-01-29  332  
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  504  	stab->sks[idx] = sk;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  505  	if (osk)
-604326b41a6fb9 Daniel Borkmann 2018-10-13  506  		sock_map_unref(osk, &stab->sks[idx]);
-35d2b7ffffc1d9 John Fastabend  2023-08-29  507  	spin_unlock_bh(&stab->lock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  508  	return 0;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  509  out_unlock:
-35d2b7ffffc1d9 John Fastabend  2023-08-29  510  	spin_unlock_bh(&stab->lock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13 @511  	if (psock)
-                                                            ^^^^^
-Probably after 6 years of not triggering the WARN_ON_ONCE() on line 490, we can
-remove this check?
+:::::: The code at line 300 was first introduced by commit
+:::::: be2167d2a188dc20648fa10c2c5ccd56ba579533 arm64/mpam: support resctrl_group_schemata_show
 
-604326b41a6fb9 Daniel Borkmann 2018-10-13  512  		sk_psock_put(sk, psock);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  513  out_free:
-604326b41a6fb9 Daniel Borkmann 2018-10-13  514  	sk_psock_free_link(link);
-604326b41a6fb9 Daniel Borkmann 2018-10-13  515  	return ret;
-604326b41a6fb9 Daniel Borkmann 2018-10-13  516  }
+:::::: TO: Xie XiuQi <xiexiuqi@huawei.com>
+:::::: CC: Xie XiuQi <xiexiuqi@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
