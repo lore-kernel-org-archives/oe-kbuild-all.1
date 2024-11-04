@@ -1,307 +1,430 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DA4B1388
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 00:06:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730678790; cv=fail; b=kvc0Q9DykLwEJwazQVYT0YJOVtT76olkCvSWrUurexWJv/eznTyiF4BYgJbLV3amHSGgWskSvwLc2D75ao18tQOzSJexdoT/PAY3ASZ9F3ROU0a4pywxiWDuHTQfMVNEOwqXhHgiyKXsLvX45DU0PtKS9vQaZYRToHP8iIiq+0s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730678790; c=relaxed/simple;
-	bh=RT0K8J53Lu1rm6uQ+khoiQ83AD+33UUl2JdSDKuYTso=;
-	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=R5QnHcJ+nTStmp7tleEagznJ+gVW96M9gxWxxi8hPoxzvdaBBpXkMVkDKB4vGbF40xfApEuJFelOlieYj05O5ZFiy7jm1GfDQAn+rOZ/kxuNITmT1QDfUSbV4mZSgD6zVVycORbZQKGjfQ5z3Ovn6V4bEv9dZYYJSORpmR9vxC4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XCiT1+Yv; arc=fail smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A602F20ED
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 00:11:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1730679064; cv=none; b=AwoFBSCqAcdRa09bJXbVAFBt9yUlXLFm9NaRKT34ScNly0yx5zml4gZyu9/quV9bDsDQ5Zu2W7zwhRMRUXAQvOnhcnZ6SKiI8av71C4OpdTj7SQcDIhI6mUUqX3yMh6OaLasqDhXMMfvxkCJmvLJ7aVEop+4VbQ0+8ibFXja2Go=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1730679064; c=relaxed/simple;
+	bh=jd1Fsm71zC/Fr3VxrNemmpIM0t+e+bZSfhjq6KI/ZsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RuqaskVoyrgEnthxqOU732rqNwvDUuKwxU5XUBYLojq1jA9BONtkNzaONVUDeIMsTBRgUPdaCDGJhNRnwdl3OqDT4H6jWFEXotYFDyJAac7sOxYz0lsfmS/kNv8SihMDRMMX2OIUtxjSPuutiU4/fWLedym0tK8SOoBjw0pCGj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W58V79TO; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XCiT1+Yv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W58V79TO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730678788; x=1762214788;
+  t=1730679062; x=1762215062;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RT0K8J53Lu1rm6uQ+khoiQ83AD+33UUl2JdSDKuYTso=;
-  b=XCiT1+YvKWFSIfkQqYI3H1NZpmC/sMDZfBBDZ8Xa2Rb3m6qbdi3DWc8l
-   n0nWLnLDw3i9LRaPy/usutJStsbrg9XTG2EHxhYnswKV5RTFTHnv1/OGQ
-   GpEGBbjqeMk4y05PSH+JvV/EY+5utQedXBbzD2rKknFbOpvZFMe8dQ2bm
-   S6Xl5QgSEmV7HqcPbESpmrFxm7GK9B5v5H7LRF3xvq7mE0nYDMUETxKhg
-   B/NjLdGYZ65W/iiXgggLTyI6R4p4WIjLnGs40Jna5+/W/UN0cMBLZLgFr
-   btAQfTR7IBEBSN/JoUk8A24uNm28i+cvdl5q9Yn2lTlwA+37F3WF0s1qJ
-   g==;
-X-CSE-ConnectionGUID: 8zZB0qInTdWnhhnD7g+wlQ==
-X-CSE-MsgGUID: Z3N5hWwQQdWsOIzUlgIkoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="40997137"
+  bh=jd1Fsm71zC/Fr3VxrNemmpIM0t+e+bZSfhjq6KI/ZsI=;
+  b=W58V79TOKNF1+8oU/HtgWyi5gDBPZNRH4BgJKZVXYOdqWCQh6ui7biBH
+   oGolqn47x+xz3msHj+/SUOr7mGTigVCYl2U96f2WQ5dbD17bEYa/wcvnI
+   xOlmDkqFgNJo9t9XK+Ij0xR4psb3bHR7HfEZIg0Qg3vRClbNP/2jHtDt9
+   Zcptr8/1ooA3y9AvuNtOrg4PnC8f5972hRMyl5zN+XmF7/QKyjujCZ7Mc
+   XPGKNszmTDHDIPAg4NHYAZ952rMUOY8DHcS9a/cz35IGJBmth7y8U9JL7
+   lgeaj1vGGiFbgGAlA97bJZf3SKsMtb8SNBqVazN9JGwEplFUNu86oMSLt
+   A==;
+X-CSE-ConnectionGUID: lhYHWoD5TSGOXSKGuppxPA==
+X-CSE-MsgGUID: PC9O9xGGSf+4C709vVAPKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="30240322"
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="40997137"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 16:06:26 -0800
-X-CSE-ConnectionGUID: e9tfRa4qTQCgWn2YVeaC4Q==
-X-CSE-MsgGUID: Eh0p8rXlS4i+0oyuOV0gFA==
+   d="scan'208";a="30240322"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 16:11:01 -0800
+X-CSE-ConnectionGUID: muA9ZNKtQPqGwjdNdKgG/w==
+X-CSE-MsgGUID: W8YBwmIJTpCXnWqkSPMVAQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83937330"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
-  by orviesa007.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 03 Nov 2024 16:06:26 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sun, 3 Nov 2024 16:06:25 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sun, 3 Nov 2024 16:06:25 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.171)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sun, 3 Nov 2024 16:06:24 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=b86xiSPWKDln4Km8jks63xEazU/YIse8QEJuzoMdS0R1ea/mVnsKFvxDTGB29X0/fWmreASraRBsm+2tF3MCE3C8YX2e0N93xKbaMG5FmKIiR/zmCXnabG79u5AAWO+7i089/Zav1iWsLVLzgO0AwSMXThmejb304X8MJUsoDsRZaweUJEnSMfGrUsPKfEbQX3BUy40Rw+JCsO+/B7t/lh3lhNmxzja2VhwYE4umJpYi5K7lxqFnHpyEFIGeWH1zaYpJAnaQGMP3IB2QS9j57gdjEzk3L508h+7/QCDSIm/nVolYcuHwkobsU3mENy16uJWYGtbGoZt8GY3DmAivWA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nuprpJHMx2wNKrpc3x8Ga71eqodsBd/NNd4XGOSXhR0=;
- b=RdF9g7DC10AftOlMvnf19zTJwfCJr1jY5C2/AIkk03fxfZekbIpurF3Z3MzNWIFYYaTrreQ/tCWCQYsf2/Ck9l+5iWoyt4LzgylpVzGIffSp/1eNyi/unT5LM0cz9mvUuM7pMJl+D7A7Mq1kZRhccCH9QjSyA6HThr8hIJmwZbgD9JWNSN1JCxrro6zCrVz0lAH2AeXds9/a6uQk/5PdtdM9p/pKcT8iiyCDXSgYsODvSEpjvWRa2avMEzIn2IMhJoKb3fp95Hq7KGGlYMxWW5rxXO/w0p+DY7sQuBpn8ooj70lOZQ9H6hnB7Vle2jNY5Sb3ja6s6ECy0svKqGnKYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by MW4PR11MB6690.namprd11.prod.outlook.com (2603:10b6:303:1e8::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.29; Mon, 4 Nov
- 2024 00:06:16 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 00:06:16 +0000
-Date: Mon, 4 Nov 2024 08:06:07 +0800
+   d="scan'208";a="87435752"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2024 16:11:00 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7kgL-000kIv-1r;
+	Mon, 04 Nov 2024 00:10:57 +0000
+Date: Mon, 4 Nov 2024 08:10:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: <cros-kernel-buildreports@googlegroups.com>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [android-common:android15-6.6-desktop 1/1]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb:
- /soc/thermal@1100b000: failed to match any schema with compatible:
- ['mediatek,mt8183-thermal']
-Message-ID: <ZygP78A3jS618JpT@rli9-mobl>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2284/2284]
+ drivers/ub/urma/uburma/uburma_mmap.c:29:6: warning: no previous prototype
+ for 'uburma_umap_priv_init'
+Message-ID: <202411040843.b0ebMozw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|MW4PR11MB6690:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e21e107-cc3b-4123-6e26-08dcfc648047
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|220923002;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?f2CyUuZJ3WBRMcEG5gKUph6WrbsLlLvEo4sxhhJ0zHSPAsliANYU2vTVomUY?=
- =?us-ascii?Q?XgMKqjL9jgV2jBYz84UhJhDluOFDPqBFJvZ+ZSeeR2Mcl1ywvMOb0QnixOhm?=
- =?us-ascii?Q?nQI6eRZ4W5GmRtXjv5qmJ3pwOOTQcLkrsXIYe+aimVB86660T+9z02IiUL8T?=
- =?us-ascii?Q?X4XSHONNUVBKCeZWKNLtMd7hW4zgd6CQGFqJ6aw9w9BCUybiC08KV4laev6B?=
- =?us-ascii?Q?kuEG7S9sz5aJD+uRlukY7+yNXJ04QjpBM82TewQJUgw2H3eiRwKXuzzuvTfK?=
- =?us-ascii?Q?kdbIEjo1nzFAKAvNVGyb1EBEnpRFMjb1CX+w9jP5WntfvzFQ2ttyq/N1muXl?=
- =?us-ascii?Q?bcXTtVDn1EzhYDTNCi8a9BlNEHsUIO25Wp7tg2zwsZrv9lUjlM8oOpiUa1p4?=
- =?us-ascii?Q?AdpUIpl7OF7No2e+q7+BAxxcoUxEOYzM9CUvSau5ISneGmR+l8ZVio25dNm6?=
- =?us-ascii?Q?hZv34hSx09bqpdVKZ7mL+xgejV78dxI/5CQUMxs/AjyRcIBju7aWTdknpdeW?=
- =?us-ascii?Q?cyQas71E/C8HesF3SMaIQlue5ykmDMDuipEAOaowj18/UY/SDPmMLkQc3AJ7?=
- =?us-ascii?Q?aP9W5teDDa+DV80Na5ZswmP1VIOSqi1C+PwaF9z+ySX5wiiGhHnVeub3BW7A?=
- =?us-ascii?Q?6AKPPC7OCfZBKiQZykCQVuGZMCb/jXZS5udNcvbNeUabgCYx0iUOr6ci264e?=
- =?us-ascii?Q?5x4wG2cz+JN4gc/yNm2zOc/nVyKfqimX/azmklPSEwrKdcPw/b56QivfUsQr?=
- =?us-ascii?Q?TxFpnCFTFZ7jyhH2joZ+3gfa+HAoy36NCl7wvQuTQAvZsD/wIIlxCUhI3yrC?=
- =?us-ascii?Q?HSB60Wf5DOQh77ub4i84ELgFfLlhToJf7tmjIVzERxRHVRePCJOD9yrEWTL4?=
- =?us-ascii?Q?zE2KP9SH6RhPxs51Hug6byl2vYLIX3dA7cb+IVeBCd+rWlv5UQ1qXkMbH1XQ?=
- =?us-ascii?Q?99K5dQ/HH7t/4ih6CG6Z+g6AU1GSfGMAle1Wv2KeIgZhma8RylaYeHwK5UM1?=
- =?us-ascii?Q?BDYu7gpM+B3sNwr+z95xnauldq+BjsabnCNofOZA8cMD8ijbgPYGPv5cEzju?=
- =?us-ascii?Q?u4ahbKz9tNj5iCEYeAefxJENOeSOcOv2SjsmN7s2oSDXLK2gRYy9jqljKWpI?=
- =?us-ascii?Q?Rmla0bk3+3Z6J2aVC+YM8rqtXHEKsXIr5PzfraL1U2A1I7MrGcIWE2tmKj4y?=
- =?us-ascii?Q?MZ5l0oGTnZn2MTsWCMh11OLPh3lvXOm+BGLhvTdkH5PeIkwYAHf2alfK6jJK?=
- =?us-ascii?Q?XNcrYJ3n0QZiyvt+M2/sG6qgqoKkPqj3OJFVQYuNBUW8yrjzkbqy5g4CPbRj?=
- =?us-ascii?Q?CLTQCYs9NJDqR6kPv3XNL0hQ?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(220923002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?mHX9l3Nrn57i7f0AySrCI5gbtz9YbvpI4XB/ayNwTbP2kWHkZuGncgIuvq+V?=
- =?us-ascii?Q?4ggXr3FrdO254tWSwuiQgPdyLQTr3g83YaVHN3RO+WeV+QFFWmg0J0uM+e1k?=
- =?us-ascii?Q?ekuJF9YVEVJKxeWVDo2C2o+f2sVj8dVSNaSKRznaA37LoV6XgcuZvf+2QowZ?=
- =?us-ascii?Q?bbe4JALe/OFJty+eggUfSGZyrGh2vBfFINcOQ9UD6p+0SVH1BQoYQVwfMzis?=
- =?us-ascii?Q?BQ6hWl8y9ppPDYR0ES4zNet6gWfMi1GVUTIcpiCq5mSHl+NbY/LgaWgHF665?=
- =?us-ascii?Q?0lo7tmoRzgnWsjUox4jl/nrHVSeCvmrtRCbLJIUX9pbXfSe9KXbOQdkPsFp6?=
- =?us-ascii?Q?+v8n8Hj7+b/gdN8G/V3L6RVaOjtfP68cKc5MzRorXn0VrUDfOc+y+FwWj4rB?=
- =?us-ascii?Q?MpsbtdCjoSweV3gXmSihBVtolW2Ix7dtRRDK5Dl/pLunwMyW2rBm/VuNtbiF?=
- =?us-ascii?Q?/jsRfH0GhOLY/vJ6/D9pFr+weSrPTCXVdtFUr2DYcDOrTtVkhciAgSm0pfm0?=
- =?us-ascii?Q?gZCOaGCb+KHuhKycfTX9lyGz1BsYP7tiuFmABPrdGz4a1CckS8N1RO+9OwOd?=
- =?us-ascii?Q?sKvTMrVr82RqoHDK2O798npnzZsoWuiHcgnVYFV/qs6roHwFiU9XdTtNEzFm?=
- =?us-ascii?Q?GFSE9i16qLtqsxNLC8/aPV6Hw8qvpe8J/FiCYovusmt9UdH22HUBkExqrM/Y?=
- =?us-ascii?Q?svVFL4mLRNwqBLhyI6kRmHLLrJQ6FEB/1RCcpCj3YTs4e1opFmATJugNQ841?=
- =?us-ascii?Q?Q6gnoFQaGxXXd4roSDss6zB5hB++jZX3odqKtPGn1UmRGRnfO/gzb5uSV6Dl?=
- =?us-ascii?Q?Wm9fR8mu+5LP1h5O5ACGccxlCDoB/fpww5H/j/fVwMoZrt0s7toFmnLFurt7?=
- =?us-ascii?Q?6zCUYbq3m/rJ0Ro2+rQy0WyXc4afOQ4NkZt8DkxIrxRO3UHBuVTWO2R0JKG1?=
- =?us-ascii?Q?FYqRWWqPP9Z2tK+UL9x2z9JNFoeOjFErxoq93Xw+R/NhZWr0eBG19LfQKspb?=
- =?us-ascii?Q?UnxrsjeNP0+zWUhz1mvst0Bt+AU/9Wj9mZkQ15HAIVBIictai/qWhlegJA5p?=
- =?us-ascii?Q?p9t16mR7PMqRmY/YbfHjyLoTb3NFiIWl9RhNiR1mZS2anByTYVleFSVqZGFq?=
- =?us-ascii?Q?w1ZeucLsUuXmqAqtOiZNB6S3KinOdw7H40WM8j2gB/U7BLFu0g/C4vNAl8S2?=
- =?us-ascii?Q?DCHuSZZTfi+6UltsWKCkIFeZ8kv+sgQnFTY6gb2F4wYcxT8UHOxGrsQ/jJkj?=
- =?us-ascii?Q?SI1slYCbs1n83RiO+wg4gBknjlAyUu+odaKtRkqCJVWdCu7Qu89gXQpLDe/c?=
- =?us-ascii?Q?KPZJAwbCOudYfb8W3qGLFDsVSsiNz+gP5DKGqWBrJKcuUuEKvjLs7yntq2GU?=
- =?us-ascii?Q?GpGOkxK4T69Sg1MxBWUYBB/jI+39R8uwojYuW0Xqi7YSw7ZJcCCMsWjFFxlw?=
- =?us-ascii?Q?JsJu2KVD+xbKwBkz1Zd+Fs2FRx8XvA90wyT+bEY10YjksknPg3XTXitKs8nN?=
- =?us-ascii?Q?i70WzFWjotU5b65hP3JcF72caEauWxWEBzO0UWMsxGedSenuDY50k0GRHsHh?=
- =?us-ascii?Q?iZp4/SD3yjSdmbmj8sqVYoKe5hIJzrZOxndcZRnh?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e21e107-cc3b-4123-6e26-08dcfc648047
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 00:06:16.2652
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: n0JrrKAu2b0QEE9TwUrYVVtxPd7+R1oeu0+4AuaLwdQB3cGFsPIrRjq3YmPt6/D3PywrbLlnWza1Tkr6+5Fh6Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6690
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
-commit: 389212047fde26378a31cd8a71f248c008d98d8d [1/1] CHROMIUM: arm64: dts: mt8183: Add Kukui-Jacuzzi-Makomo board
-:::::: branch date: 3 days ago
-:::::: commit date: 6 months ago
-config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241104/202411040127.wCsiqbKG-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   170b758d064664f953e8f6de41dd4a3ef122443a
+commit: 5d130e2cfa3d2aaee4d10e18c075f6c3750600c5 [2284/2284] urma: upload kernel patch for 20240511_mig
+config: arm64-randconfig-003-20241029 (https://download.01.org/0day-ci/archive/20241104/202411040843.b0ebMozw-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411040127.wCsiqbKG-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411040843.b0ebMozw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411040127.wCsiqbKG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411040843.b0ebMozw-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+All warnings (new ones prefixed by >>):
+
+>> drivers/ub/urma/uburma/uburma_mmap.c:29:6: warning: no previous prototype for 'uburma_umap_priv_init' [-Wmissing-prototypes]
+      29 | void uburma_umap_priv_init(struct uburma_umap_priv *priv,
+         |      ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/uburma/uburma_mmap.c:42:6: warning: no previous prototype for 'uburma_unmap_vma_pages' [-Wmissing-prototypes]
+      42 | void uburma_unmap_vma_pages(struct uburma_file *ufile)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/uburma/uburma_mmap.c:157:36: warning: no previous prototype for 'uburma_get_umap_ops' [-Wmissing-prototypes]
+     157 | const struct vm_operations_struct *uburma_get_umap_ops(void)
+         |                                    ^~~~~~~~~~~~~~~~~~~
 --
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+>> drivers/ub/urma/ubcore/ubcore_tpg.c:85:6: warning: no previous prototype for 'ubcore_tpg_kref_get' [-Wmissing-prototypes]
+      85 | void ubcore_tpg_kref_get(struct ubcore_tpg *tpg)
+         |      ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tpg':
+   drivers/ub/urma/ubcore/ubcore_tpg.c:100:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     100 |         if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
+         |                                          ^~
+   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
+                    from drivers/ub/urma/ubcore/ubcore_tpg.c:23:
+   include/urma/ubcore_types.h:178:28: note: 'head' declared here
+     178 |         struct hlist_head *head;
+         |                            ^~~~
+   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tp_node':
+   drivers/ub/urma/ubcore/ubcore_tpg.c:131:41: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     131 |         if (&dev->ht[UBCORE_HT_TP].head == NULL) {
+         |                                         ^~
+   include/urma/ubcore_types.h:178:28: note: 'head' declared here
+     178 |         struct hlist_head *head;
+         |                            ^~~~
 --
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev0-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+   drivers/ub/urma/ubcore/ubcore_netlink.c:192:5: warning: no previous prototype for 'ubcore_genl_unicast' [-Wmissing-prototypes]
+     192 | int ubcore_genl_unicast(struct ubcore_nlmsg *req, uint32_t len)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netlink.c: In function 'ubcore_create_nl_session':
+>> drivers/ub/urma/ubcore/ubcore_netlink.c:89:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+      89 |         (void)strncpy(s->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: anx7625@58: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: da7219@1a: interrupts: [[165, 8], [165, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/sound/dialog,da7219.yaml#
+   drivers/ub/urma/ubcore/ubcore_msg.c:519:28: warning: no previous prototype for 'ubcore_asyn_send_fe2tpf_msg' [-Wmissing-prototypes]
+     519 | struct ubcore_msg_session *ubcore_asyn_send_fe2tpf_msg(struct ubcore_device *dev,
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'ubcore_migrate_req',
+       inlined from 'ubcore_recv_req' at drivers/ub/urma/ubcore/ubcore_msg.c:368:16:
+>> drivers/ub/urma/ubcore/ubcore_msg.c:264:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     264 |         (void)strncpy(mig_resp->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   drivers/ub/urma/ubcore/ubcore_device.c:413:6: warning: no previous prototype for 'ubcore_destroy_upi_list' [-Wmissing-prototypes]
+     413 | void ubcore_destroy_upi_list(struct ubcore_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1666:5: warning: no previous prototype for 'ubcore_dispatch_event' [-Wmissing-prototypes]
+    1666 | int ubcore_dispatch_event(struct ubcore_event *event)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/printk.h:7,
+                    from include/linux/kernel.h:17,
+                    from include/asm-generic/bug.h:20,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from include/linux/refcount.h:96,
+                    from include/net/net_namespace.h:9,
+                    from drivers/ub/urma/ubcore/ubcore_device.c:21:
+   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_add_ueid':
+   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
+     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
+      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
+         |                ^~~
+   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
+      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1874:17: note: in expansion of macro 'ubcore_log_err'
+    1874 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
+         |                 ^~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_delete_ueid':
+   include/linux/kern_levels.h:5:25: warning: too many arguments for format [-Wformat-extra-args]
+       5 | #define KERN_SOH        "\001"          /* ASCII Start Of Header */
+         |                         ^~~~~~
+   include/linux/kern_levels.h:11:25: note: in expansion of macro 'KERN_SOH'
+      11 | #define KERN_ERR        KERN_SOH "3"    /* error conditions */
+         |                         ^~~~~~~~
+   include/linux/printk.h:392:16: note: in expansion of macro 'KERN_ERR'
+     392 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |                ^~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_log.h:46:16: note: in expansion of macro 'pr_err'
+      46 |         ((void)pr_##l("%s|%s:[%d]|" format, UBCORE_LOG_TAG, __func__, __LINE__, ##args))
+         |                ^~~
+   drivers/ub/urma/ubcore/ubcore_log.h:57:17: note: in expansion of macro 'ubcore_default_log'
+      57 |                 ubcore_default_log(err, __VA_ARGS__);   \
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:1896:17: note: in expansion of macro 'ubcore_log_err'
+    1896 |                 ubcore_log_err("failed to add ueid, ret:%d\n",
+         |                 ^~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c: At top level:
+   drivers/ub/urma/ubcore/ubcore_device.c:2372:6: warning: no previous prototype for 'ubcore_net_exit' [-Wmissing-prototypes]
+    2372 | void ubcore_net_exit(struct net *net)
+         |      ^~~~~~~~~~~~~~~
+   In function 'ubcore_send_remove_tpf_dev_info',
+       inlined from 'uninit_ubcore_device' at drivers/ub/urma/ubcore/ubcore_device.c:1057:37:
+>> drivers/ub/urma/ubcore/ubcore_device.c:823:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     823 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c: In function 'ubcore_new_tpf_dev_msg':
+   drivers/ub/urma/ubcore/ubcore_device.c:888:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     888 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_device.c:892:17: warning: 'strnlen' specified bound 64 exceeds source size 16 [-Wstringop-overread]
+     892 |                 strnlen(dev->netdev->name, UBCORE_MAX_DEV_NAME) < UBCORE_MAX_DEV_NAME)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/ub/urma/ubcore/ubcore_device.c:32:
+   include/linux/netdevice.h:1957:33: note: source object allocated here
+    1957 |         char                    name[IFNAMSIZ];
+         |                                 ^~~~
 --
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-makomo-rev3-sku0.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+   drivers/ub/urma/ubcore/ubcore_tp.c:70:17: warning: no previous prototype for 'ubcore_get_mtu' [-Wmissing-prototypes]
+      70 | enum ubcore_mtu ubcore_get_mtu(int mtu)
+         |                 ^~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c:341:5: warning: no previous prototype for 'ubcore_modify_tp_state' [-Wmissing-prototypes]
+     341 | int ubcore_modify_tp_state(struct ubcore_device *dev, struct ubcore_tp *tp,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c: In function 'ubcore_init_create_tp_req':
+>> drivers/ub/urma/ubcore/ubcore_tp.c:581:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     581 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_tp.c: In function 'ubcore_send_del_tp_req.isra':
+   drivers/ub/urma/ubcore/ubcore_tp.c:687:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+     687 |         (void)strncpy(data->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_umem.c:242:21: warning: no previous prototype for 'ubcore_umem_get' [-Wmissing-prototypes]
+     242 | struct ubcore_umem *ubcore_umem_get(struct ubcore_device *dev, uint64_t va,
+         |                     ^~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_umem.c:260:6: warning: no previous prototype for 'ubcore_umem_release' [-Wmissing-prototypes]
+     260 | void ubcore_umem_release(struct ubcore_umem *umem)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_umem.c:284:10: warning: no previous prototype for 'ubcore_umem_find_best_page_size' [-Wmissing-prototypes]
+     284 | uint64_t ubcore_umem_find_best_page_size(struct ubcore_umem *umem, uint64_t page_size_bitmap,
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_netdev.c:41:25: warning: no previous prototype for 'ubcore_lookup_sip_info_without_lock' [-Wmissing-prototypes]
+      41 | struct ubcore_sip_info *ubcore_lookup_sip_info_without_lock(
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:75:5: warning: no previous prototype for 'ubcore_notify_uvs_del_sip' [-Wmissing-prototypes]
+      75 | int ubcore_notify_uvs_del_sip(struct ubcore_device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:113:22: warning: no previous prototype for 'ubcore_new_sip_req_msg' [-Wmissing-prototypes]
+     113 | struct ubcore_nlmsg *ubcore_new_sip_req_msg(struct ubcore_device *dev,
+         |                      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:145:5: warning: no previous prototype for 'ubcore_notify_uvs_add_sip' [-Wmissing-prototypes]
+     145 | int ubcore_notify_uvs_add_sip(struct ubcore_device *dev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:177:5: warning: no previous prototype for 'ubcore_check_port_state' [-Wmissing-prototypes]
+     177 | int ubcore_check_port_state(struct ubcore_device *dev)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_netdev.c:204:6: warning: no previous prototype for 'ubcore_fill_port_netdev' [-Wmissing-prototypes]
+     204 | void ubcore_fill_port_netdev(struct ubcore_device *dev,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:268:5: warning: no previous prototype for 'ubcore_set_port_netdev' [-Wmissing-prototypes]
+     268 | int ubcore_set_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:353:5: warning: no previous prototype for 'ubcore_unset_port_netdev' [-Wmissing-prototypes]
+     353 | int ubcore_unset_port_netdev(struct ubcore_device *dev, struct net_device *ndev,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:385:6: warning: no previous prototype for 'ubcore_put_port_netdev' [-Wmissing-prototypes]
+     385 | void ubcore_put_port_netdev(struct ubcore_device *dev)
+         |      ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:412:5: warning: no previous prototype for 'ubcore_sip_table_init' [-Wmissing-prototypes]
+     412 | int ubcore_sip_table_init(struct ubcore_sip_table *sip_table, uint32_t size)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:431:6: warning: no previous prototype for 'ubcore_sip_table_uninit' [-Wmissing-prototypes]
+     431 | void ubcore_sip_table_uninit(struct ubcore_sip_table *sip_table)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:442:5: warning: no previous prototype for 'ubcore_sip_idx_alloc' [-Wmissing-prototypes]
+     442 | int ubcore_sip_idx_alloc(struct ubcore_sip_table *sip_table)
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:458:5: warning: no previous prototype for 'ubcore_sip_idx_free' [-Wmissing-prototypes]
+     458 | int ubcore_sip_idx_free(struct ubcore_sip_table *sip_table, uint32_t idx)
+         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:471:5: warning: no previous prototype for 'ubcore_add_sip_entry' [-Wmissing-prototypes]
+     471 | int ubcore_add_sip_entry(struct ubcore_sip_table *sip_table, const struct ubcore_sip_info *sip,
+         |     ^~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:489:5: warning: no previous prototype for 'ubcore_del_sip_entry' [-Wmissing-prototypes]
+     489 | int ubcore_del_sip_entry(struct ubcore_sip_table *sip_table, uint32_t idx)
+         |     ^~~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_netdev.c:519:5: warning: no previous prototype for 'ubcore_update_sip_entry' [-Wmissing-prototypes]
+     519 | int ubcore_update_sip_entry(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *new_sip,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c:548:5: warning: no previous prototype for 'ubcore_lookup_sip_idx' [-Wmissing-prototypes]
+     548 | int ubcore_lookup_sip_idx(struct ubcore_sip_table *sip_table, struct ubcore_sip_info *sip,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_set_port_netdev':
+   drivers/ub/urma/ubcore/ubcore_netdev.c:275:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
+     275 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ub/urma/ubcore/ubcore_netdev.c: In function 'ubcore_unset_port_netdev':
+   drivers/ub/urma/ubcore/ubcore_netdev.c:360:17: warning: 'strnlen' specified bound 64 exceeds source size 21 [-Wstringop-overread]
+     360 |                 strnlen(netdev_name(ndev), UBCORE_MAX_DEV_NAME) >= UBCORE_MAX_DEV_NAME) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   drivers/ub/urma/ubcore/ubcore_vtp.c:337:6: warning: no previous prototype for 'ubcore_hash_table_rmv_vtpn' [-Wmissing-prototypes]
+     337 | void ubcore_hash_table_rmv_vtpn(struct ubcore_device *dev, struct ubcore_vtpn *vtpn,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In function 'ubcore_send_create_vtp_req',
+       inlined from 'ubcore_connect_vtp' at drivers/ub/urma/ubcore/ubcore_vtp.c:419:8:
+>> drivers/ub/urma/ubcore/ubcore_vtp.c:93:15: warning: 'strncpy' output may be truncated copying 63 bytes from a string of length 63 [-Wstringop-truncation]
+      93 |         (void)strncpy(create->dev_name, dev->dev_name, UBCORE_MAX_DEV_NAME - 1);
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/uburma_umap_priv_init +29 drivers/ub/urma/uburma/uburma_mmap.c
+
+    28	
+  > 29	void uburma_umap_priv_init(struct uburma_umap_priv *priv,
+    30		struct vm_area_struct *vma)
+    31	{
+    32		struct uburma_file *ufile = vma->vm_file->private_data;
+    33	
+    34		priv->vma = vma;
+    35		vma->vm_private_data = priv;
+    36	
+    37		mutex_lock(&ufile->umap_mutex);
+    38		list_add(&priv->node, &ufile->umaps_list);
+    39		mutex_unlock(&ufile->umap_mutex);
+    40	}
+    41	
+  > 42	void uburma_unmap_vma_pages(struct uburma_file *ufile)
+    43	{
+    44		struct uburma_umap_priv *priv, *next_priv;
+    45		struct mm_struct *mm = NULL;
+    46		struct vm_area_struct *vma;
+    47		int ret;
+    48	
+    49		lockdep_assert_held(&ufile->cleanup_rwsem);
+    50	
+    51		while (1) {
+    52			mutex_lock(&ufile->umap_mutex);
+    53			list_for_each_entry_safe(priv, next_priv, &ufile->umaps_list, node) {
+    54				mm = priv->vma->vm_mm;
+    55				ret = mmget_not_zero(mm);
+    56				if (ret != 0) {
+    57					list_del_init(&priv->node);
+    58					mm = NULL;
+    59					continue;
+    60				}
+    61				break;
+    62			}
+    63			mutex_unlock(&ufile->umap_mutex);
+    64			if (!mm)
+    65				return;
+    66	
+    67			mmap_read_lock(mm);
+    68			mutex_lock(&ufile->umap_mutex);
+    69			list_for_each_entry_safe(priv, next_priv, &ufile->umaps_list, node) {
+    70				vma = priv->vma;
+    71				if (vma->vm_mm != mm)
+    72					continue;
+    73				list_del_init(&priv->node);
+    74				zap_vma_ptes(vma, vma->vm_start, vma->vm_end - vma->vm_start);
+    75			}
+    76			mutex_unlock(&ufile->umap_mutex);
+    77			mmap_read_unlock(mm);
+    78			mmput(mm);
+    79		}
+    80	}
+    81	
+    82	static void uburma_umap_open(struct vm_area_struct *vma)
+    83	{
+    84		struct uburma_file *ufile = vma->vm_file->private_data;
+    85		struct uburma_umap_priv *priv;
+    86	
+    87		if (!down_read_trylock(&ufile->cleanup_rwsem))
+    88			goto out_zap;
+    89	
+    90		priv = kzalloc(sizeof(*priv), GFP_KERNEL);
+    91		if (!priv)
+    92			goto out_unlock;
+    93	
+    94		uburma_umap_priv_init(priv, vma);
+    95	
+    96		up_read(&ufile->cleanup_rwsem);
+    97		return;
+    98	
+    99	out_unlock:
+   100		up_read(&ufile->cleanup_rwsem);
+   101	out_zap:
+   102		vma->vm_private_data = NULL;
+   103		zap_vma_ptes(vma, vma->vm_start, vma->vm_end - vma->vm_start);
+   104	}
+   105	
+   106	static void uburma_umap_close(struct vm_area_struct *vma)
+   107	{
+   108		struct uburma_file *ufile = vma->vm_file->private_data;
+   109		struct uburma_umap_priv *priv = vma->vm_private_data;
+   110	
+   111		if (!priv)
+   112			return;
+   113	
+   114		mutex_lock(&ufile->umap_mutex);
+   115		list_del(&priv->node);
+   116		mutex_unlock(&ufile->umap_mutex);
+   117		kfree(priv);
+   118		vma->vm_private_data = NULL;
+   119	}
+   120	
+   121	static vm_fault_t uburma_umap_fault(struct vm_fault *vmf)
+   122	{
+   123		struct uburma_file *ufile = vmf->vma->vm_file->private_data;
+   124		struct uburma_umap_priv *priv = vmf->vma->vm_private_data;
+   125		vm_fault_t ret = 0;
+   126	
+   127		if (!priv)
+   128			return VM_FAULT_SIGBUS;
+   129	
+   130		if (!(vmf->vma->vm_flags & (VM_WRITE | VM_MAYWRITE))) {
+   131			vmf->page = ZERO_PAGE(0);
+   132			get_page(vmf->page);
+   133			return 0;
+   134		}
+   135	
+   136		mutex_lock(&ufile->umap_mutex);
+   137		if (!ufile->fault_page)
+   138			ufile->fault_page = alloc_pages(vmf->gfp_mask | __GFP_ZERO, 0);
+   139	
+   140		if (ufile->fault_page) {
+   141			vmf->page = ufile->fault_page;
+   142			get_page(vmf->page);
+   143		} else {
+   144			ret = VM_FAULT_SIGBUS;
+   145		}
+   146		mutex_unlock(&ufile->umap_mutex);
+   147	
+   148		return ret;
+   149	}
+   150	
+   151	static const struct vm_operations_struct g_urma_umap_ops = {
+   152		.open = uburma_umap_open,
+   153		.close = uburma_umap_close,
+   154		.fault = uburma_umap_fault,
+   155	};
+   156	
+ > 157	const struct vm_operations_struct *uburma_get_umap_ops(void)
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
