@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7AB3EC4
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 05:28:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCA7EC4;
+	Mon,  4 Nov 2024 05:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730698125; cv=none; b=f+mVYXAkEPVn4D299vtuS3Jws0cugaJ9Kfht72Opk2+irplKL5gv9M8KtSmzoZf93QstjR/wAXN/z442mxuROj3/iGJK43NMca/rxHX5W8m1by69b1FykRkpecWqp4UQDN9Bg9LjtCwQhkvtGUJWpQBB+j5es3rdMHDYtKNXdfA=
+	t=1730698128; cv=none; b=FyX9E+1G2QOb+qO8Oxutf04WaLB2m4ilKt+uGOP1+J99sIngSdnVe7NtSX4+XKU46cUOuI8ipt8u73d8dnxYUlsKbEaU+gvPtcK0yv/ahNMurqF4uCjL73O+Q8oJMYsg81sl7srkBL8elC1ngAf2jqX+/zWfO0Vt903ZEQf3gX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730698125; c=relaxed/simple;
-	bh=MqQI0A8NybK7ybHEeh1f8JrlqjBshD6D5Yu0FVTSYXQ=;
+	s=arc-20240116; t=1730698128; c=relaxed/simple;
+	bh=aw0QSEdEuP8K7cDHTnyPiIWW5caXnL78iQag1veB43o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CHfzs4CiyVSeQGd/F8OlzLTl0RQH8YmKzN1j/ABKa7rj8xJjyDbsKbSqyAWg8Ib8LOTi/iGMT6u422ny0P4LvY/dudm7/3ClZwIaZz8SeOpGn3la/Xt0nWfBx08ZRLQgj+4OjLLTOHjVwKWAnhhb2NPRSgHSZi8v6Pcr3rOmW/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gxy63vMS; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=jhJbAqO/o+ZYe4nGP6uz4ctgzTtD7cSfhU3HzIlJ41cxLjEDPelTUp5UmCoAhBplTAqUL9EepaW6ctj4nvvK37Bh3OyYvmvY/n10Tz6gbXBFxCpQTRuCS9pc8CAkrEmsuoUlky3kBv8NolJgb2CrMZ8CTaBFqUF8E0Te8KEEDXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eRCBlU2f; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gxy63vMS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eRCBlU2f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730698124; x=1762234124;
+  t=1730698127; x=1762234127;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MqQI0A8NybK7ybHEeh1f8JrlqjBshD6D5Yu0FVTSYXQ=;
-  b=Gxy63vMSgrwZQBVgT0PdgmVGE/gjgM8mV3dGjxv32CNwMnqA1l2K6Q2Q
-   Avi9dEjPwXIdMfJSSehEIpIWEOgLDFKIFHlyhErw+i9Ft4aEJTzo6ERw6
-   VCm+kU/uqvn6+aWdqPG4v9EhBtetDwaoa9jkdvT977elGwujqTcntAaB2
-   aQHrmJTdXaDOkdYeWWAdS7fDMwdF+YKN6n9NZsJRcqwJ2NNt2/KjjtTcR
-   6xxWgL27Q0Emohie6qd9nqwVhRejTFQP9N1x25E1fW8UO45exL9/a6ZKg
-   DRMXj3Zbx0hb1bq2eWsJmNnnFE1MzoOCAWIzgs7Fmk/Dc2xOpVtckhVL+
+  bh=aw0QSEdEuP8K7cDHTnyPiIWW5caXnL78iQag1veB43o=;
+  b=eRCBlU2f9nGCVyWC/FxJXnr0BU1eao6WmYtp6Mlc4F9ry2Q+oAn0z/hx
+   t3aiE7K/RT9F9aoHSQsjb867P/4fH/jbsYTbQRoqG8YeW/PM69ZwfwV1E
+   MQyYgB817d0+uwY9Lizy2q6uRuh/T1oJ784SAymo1QbzR1s4Nsv/xY0B2
+   rAbrtggx1M+hXrezUBaE++ViqoTc+MZNZGrzWV7FMKaspRd0M1AhBQeVN
+   n/t2MHy1EGFcH6sqrNgpsLtVg6BqoE4UyLw9F36KJozwmK/yBLW+VuO4c
+   EaTR2dBjCbxfz9st6fudgy2ZlpG9U8kr/KXJ1SSvwsuY6Ru7j8mTKaXkN
    w==;
-X-CSE-ConnectionGUID: W5NfmzWQSKOjnK4pKMdQ0A==
-X-CSE-MsgGUID: iXvuQ3DtRYS6h6xzrUHTnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41482610"
+X-CSE-ConnectionGUID: mg7fRAiKTV6LB2ursIyUGg==
+X-CSE-MsgGUID: q6PiY0+wRpWSPSCL2C4JeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41482614"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41482610"
+   d="scan'208";a="41482614"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 21:28:44 -0800
-X-CSE-ConnectionGUID: K/1u9rfMQI+Dy0lmmEnScg==
-X-CSE-MsgGUID: jH6MwXB7R0+yqN3Ses9hlQ==
+X-CSE-ConnectionGUID: FQAGhTQCQNSj8ifHP7ACrA==
+X-CSE-MsgGUID: a5EWnnlNTCehhi8+GS8GPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="83070497"
+   d="scan'208";a="83070499"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 03 Nov 2024 21:28:42 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7pdo-000kUT-07;
+	id 1t7pdo-000kUX-0D;
 	Mon, 04 Nov 2024 05:28:40 +0000
-Date: Mon, 4 Nov 2024 13:28:29 +0800
+Date: Mon, 4 Nov 2024 13:28:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: [linux-next:master 2527/8858] panel-samsung-s6e3ha8.c:(.text+0x800):
- relocation truncated to fit: R_NIOS2_CALL26 against
- `drm_dsc_pps_payload_pack'
-Message-ID: <202411041348.XOZVtRjs-lkp@intel.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg 32/42] include/linux/filelock.h:507:9: error: use
+ of undeclared identifier 'delegated_inode'
+Message-ID: <202411041337.Vf6Omjng-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,32 +62,93 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   c88416ba074a8913cf6d61b789dd834bbca6681c
-commit: 779679d3c1640d8f45c75b1e15831180ab2712e2 [2527/8858] drm/panel: Add support for S6E3HA8 panel driver
-config: nios2-randconfig-001-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041348.XOZVtRjs-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041348.XOZVtRjs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   2e48bdf939b25989db6f1d5b16e3814a39dd4c82
+commit: b6232347709692f6d08fa8f15ace5ceb06a803e9 [32/42] SQUASH: fix up delegated_inode handling
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241104/202411041337.Vf6Omjng-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041337.Vf6Omjng-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411041348.XOZVtRjs-lkp@intel.com/
-
-Note: the linux-next/master HEAD c88416ba074a8913cf6d61b789dd834bbca6681c builds fine.
-      It may have been fixed somewhere.
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041337.Vf6Omjng-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   nios2-linux-ld: drivers/gpu/drm/panel/panel-samsung-s6e3ha8.o: in function `s6e3ha8_amb577px01_wqhd_prepare':
-   panel-samsung-s6e3ha8.c:(.text+0x800): undefined reference to `drm_dsc_pps_payload_pack'
->> panel-samsung-s6e3ha8.c:(.text+0x800): relocation truncated to fit: R_NIOS2_CALL26 against `drm_dsc_pps_payload_pack'
+   In file included from fs/nfs/flexfilelayout/flexfilelayout.c:10:
+   In file included from include/linux/nfs_fs.h:23:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/nfs/flexfilelayout/flexfilelayout.c:22:
+   In file included from fs/nfs/flexfilelayout/../internal.h:6:
+   In file included from fs/nfs/flexfilelayout/../nfs4_fs.h:26:
+>> include/linux/filelock.h:507:9: error: use of undeclared identifier 'delegated_inode'
+     507 |         return delegated_inode->di_inode;
+         |                ^
+   fs/nfs/flexfilelayout/flexfilelayout.c:1238:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    1238 |         int err;
+         |             ^
+   5 warnings and 1 error generated.
+--
+   In file included from fs/nfs/flexfilelayout/flexfilelayoutdev.c:10:
+   In file included from include/linux/nfs_fs.h:23:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/nfs/flexfilelayout/flexfilelayoutdev.c:15:
+   In file included from fs/nfs/flexfilelayout/../internal.h:6:
+   In file included from fs/nfs/flexfilelayout/../nfs4_fs.h:26:
+>> include/linux/filelock.h:507:9: error: use of undeclared identifier 'delegated_inode'
+     507 |         return delegated_inode->di_inode;
+         |                ^
+   fs/nfs/flexfilelayout/flexfilelayoutdev.c:55:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      55 |         int i, ret = -ENOMEM;
+         |                ^
+   5 warnings and 1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+vim +/delegated_inode +507 include/linux/filelock.h
+
+   504	
+   505	static inline struct inode *deleg_inode(struct delegated_inode *di)
+   506	{
+ > 507		return delegated_inode->di_inode;
+   508	}
+   509	
 
 -- 
 0-DAY CI Kernel Test Service
