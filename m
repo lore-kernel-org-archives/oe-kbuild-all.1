@@ -1,150 +1,89 @@
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D317D1AF4EF
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 10:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C67D1C2443
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 11:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730715250; cv=none; b=BVyDVkmSSOugiahEULV79EuYQ2FTTgW+PD/0Mc43V71iNj9WAOIBEd4RC2dHoshqN8u4de2XToWD06hFhcEK2KZzR+ql5iqPI5QvKjHNVU039p8niqA56+ATRYJemGoIBl8iZFJLiRrGZ9JeHvqtfW10Ajz1rBA2RVW77WkmSeg=
+	t=1730718492; cv=none; b=QCK9Tl0WmPlXcLAevmFEIX7eSW+gQFjxqWxyX7VrkKUx37IINhY5PCKARcg/g6ZK/5KpGU/0GcjVxvE9qFs2rSqBcWnhVCYBPx0MsBL05oZHclMao2aMbn9PMn6wzhoZjx0YvO1+NNdFXOp/FPZ8RGj3TNAJVZAPLHZjZJQJ00k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730715250; c=relaxed/simple;
-	bh=1ZD8l+C1EuzgucsrrDGFXbeA8HL3duQOdkk9LUjOOuY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LdDIu7UYwQNzjIjEVIznCAMeOrjemVVuf5u5ts337hXORkQa3nIKSGwLnuBgj5PvicPlFe6t1RE8O4tRzFg1QZjDN6pFRU9OLYsuK1rWP0wPk10bGAeasbCk5YvGxLuUM2wrwqUbQRBcRBMNZvjXrGUM1sjJ9KrENc6oHWtB0lQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qkdVeBFP; arc=none smtp.client-ip=209.85.167.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1730718492; c=relaxed/simple;
+	bh=GjZG5wVCAPvOIvP1OuxPVitKYlGNJVSorP73l+04uw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q8Y8MCm2ySmWs6wcdx7ZFGrk+jegIpBMfaQW4y6Nq50Myhewmrm2IFCneExMAMIskBfm8jwDGdFoT4ihCdEA7+OgfIzhHoclkc8PR7D18EvIVRxuagY+Meine+x75A+UHzchTv7y/Jb4BWRixiB36ab9s7ELrS56QIYz0KTzmXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YbBuoHPz; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qkdVeBFP"
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539eb97f26aso1695426e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Nov 2024 02:14:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1730715246; x=1731320046; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4c7jIDPXYCos97zH52V3Rx0a/Pe9j9klHJ/m3x5c878=;
-        b=qkdVeBFPVU7AKUQpCmT03zN0buVPsI5iUPrRxAR8T2TmbngHqTTVWPzk2lqJ3kWRr5
-         ljhE3Bm/kgV3SJOh0YCLS8zdnnYC80QH72K60dJh+fspJ/ZVH9mROn3JhcWxbGOjsxdk
-         v1OhZ27mrqNQ3SOINf31Vk4hHvMa2roRqLDyxxnzDDiFwarsN7t2O/+hLOcuDBc3eq6o
-         uaFsSIZK6FqoREfuTneIQhUe98W3Egyf3p4AXfpCkXJYjaeCVQnhl+zW+Szza0FYZR/S
-         LtWLB3U3rDsjiQfAncJkgj+HVnQbEUKkYtNyaYkanbpmk1Wm5KaHDIZ32kBuIfAk29KZ
-         aCkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730715246; x=1731320046;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4c7jIDPXYCos97zH52V3Rx0a/Pe9j9klHJ/m3x5c878=;
-        b=PeDEJWsvqxyMYGXXRcIJNci3LExMtehQrUMozaB6L+GOD/3L/lMUGhjzGgtaJhfRNM
-         q+1IUYXq5uGoOHtzYgy1doO0U/pOIbTz2Q+1Dyz5yzfyv8o+CWPMc02qFCb5ImXyRcYl
-         gEn5hPSosc52jquiIH/W+3fTS0fDOcPwplfJhwAsW2NIzknk2Z12C/TFithgM22Gkhki
-         BaxNSR7ba/4PdmY81S7Pe7EuUMHPvLGwm8BsO7+eZH9uZPO1+W/xIl3oVEOdlY/ui1Zw
-         Tfs0CRO9V7hWvg6jQohp8+De9Xd2A3npIEaRASr70kgrKhZTQSpY77XlrHsEBtE8hMJ+
-         2T1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXCP4mM0MXKdkdTkLAHD/zgdb+biIl2rXMFGuwn8JLH8fKrbMEAie08lSEaPcf+9SrVLcSGKPsafPTHfgzK@lists.linux.dev
-X-Gm-Message-State: AOJu0YyBVHIRQaAHiS+mSk2EFYrxOylq2/u5deFw6ahnxyG+QQoNxlm0
-	t4QoYo7GIlzV9YXu6D3T34zLPzOj0sQgCxHub/yAMmI1QQodGEgfwqcWyGE3yEHyz9T1nq52CrX
-	xVBk2HcyGXonENGvHDOeS1lrQkct82Tu4+BA1
-X-Google-Smtp-Source: AGHT+IF3YrSYDNpUh7K6DP1BrHft72F43XaFavJhNPR1z+HcVXMbGOoX4JuofOBYs8pgr4OQ7WmvjdXbt+mvTRqeQfM=
-X-Received: by 2002:a05:6512:3041:b0:539:e6bf:ca97 with SMTP id
- 2adb3069b0e04-53b7ecf28d7mr10644101e87.32.1730715245823; Mon, 04 Nov 2024
- 02:14:05 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YbBuoHPz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730718490; x=1762254490;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GjZG5wVCAPvOIvP1OuxPVitKYlGNJVSorP73l+04uw8=;
+  b=YbBuoHPzcJokXetRM8qzUBKdLu0Igaj0YZ8QTeoqYk9WsXCi6BeNAeXg
+   //Ph2u+rpoVl4vWueFoFQWxuBssf+LzDfRlcJLwBTxY8ng1i3/7MrBjXm
+   aJZFjjF3cVe7gk8kixwPyFREdTpZMEuJ8CEhN/DN7k8YrnFiD1DLUM5aN
+   MyPisi6dtc3WtRVPKz+R2pgE3eZpMWDGjVZWt2UR+E1MXIIcFFs2z5B5n
+   S4OBjER8+n9CaXWFjP5kJpOrF95P58AZbbOs3gmf8n0KDkEftVSdEhYIb
+   xFbLRbOZs/dGDEux/FV55FS2FRITWeyl7Tfzab8VM4EeDN1864hSShkEa
+   A==;
+X-CSE-ConnectionGUID: j2Wj6GiZTquXIEWKvpOJ8w==
+X-CSE-MsgGUID: QfleCoEpQAKRLYo/bHXrtg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="33247647"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="33247647"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 03:08:08 -0800
+X-CSE-ConnectionGUID: qMUSCCGzRXKTg7s27/17BQ==
+X-CSE-MsgGUID: W8IFWlrrQkaL67NxAtuC6g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="87560924"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2024 03:08:06 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7uwG-000kkf-0t;
+	Mon, 04 Nov 2024 11:08:04 +0000
+Date: Mon, 4 Nov 2024 19:07:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1225/1225] fs/crypto/crypto.o: warning:
+ objtool: fscrypt_do_page_crypto()+0x3b8: unreachable instruction
+Message-ID: <202411041950.2aZl0qHh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20241030-tracepoint-v12-3-eec7f0f8ad22@google.com> <202411021421.jZ0FSDq6-lkp@intel.com>
-In-Reply-To: <202411021421.jZ0FSDq6-lkp@intel.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 4 Nov 2024 11:13:53 +0100
-Message-ID: <CAH5fLgjOxfKR+HE9KZRCuBGVW26adM=r4AxSCJ2B-G2eG_4FzA@mail.gmail.com>
-Subject: Re: [PATCH v12 3/5] rust: samples: add tracepoint to Rust sample
-To: kernel test robot <lkp@intel.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, Jason Baron <jbaron@akamai.com>, 
-	Ard Biesheuvel <ardb@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Wedson Almeida Filho <wedsonaf@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	oe-kbuild-all@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Arnd Bergmann <arnd@arndb.de>, linux-arch@vger.kernel.org, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Sean Christopherson <seanjc@google.com>, Uros Bizjak <ubizjak@gmail.com>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sat, Nov 2, 2024 at 8:08=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
-ote:
->
-> Hi Alice,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on eb887c4567d1b0e7684c026fe7df44afa96589e6]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-ad=
-d-static_branch_unlikely-for-static_key_false/20241031-000709
-> base:   eb887c4567d1b0e7684c026fe7df44afa96589e6
-> patch link:    https://lore.kernel.org/r/20241030-tracepoint-v12-3-eec7f0=
-f8ad22%40google.com
-> patch subject: [PATCH v12 3/5] rust: samples: add tracepoint to Rust samp=
-le
-> config: x86_64-randconfig-103-20241101 (https://download.01.org/0day-ci/a=
-rchive/20241102/202411021421.jZ0FSDq6-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51=
-eccf88f5321e7c60591c5546b254b6afab99)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20241102/202411021421.jZ0FSDq6-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411021421.jZ0FSDq6-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
-> >> error[E0425]: cannot find value `__tracepoint_rust_sample_loaded` in c=
-rate `$crate::bindings`
->    --> samples/rust/rust_print.rs:87:5
->    |
->    87 | /     kernel::declare_trace! {
->    88 | |         /// # Safety
->    89 | |         ///
->    90 | |         /// Always safe to call.
->    91 | |         unsafe fn rust_sample_loaded(magic: c_int);
->    92 | |     }
->    | |_____^ not found in `$crate::bindings`
->    |
->    =3D note: this error originates in the macro `kernel::declare_trace` (=
-in Nightly builds, run with -Z macro-backtrace for more info)
-> --
-> >> error[E0425]: cannot find function `rust_do_trace_rust_sample_loaded` =
-in crate `$crate::bindings`
->    --> samples/rust/rust_print.rs:87:5
->    |
->    87 | /     kernel::declare_trace! {
->    88 | |         /// # Safety
->    89 | |         ///
->    90 | |         /// Always safe to call.
->    91 | |         unsafe fn rust_sample_loaded(magic: c_int);
->    92 | |     }
->    | |_____^ not found in `$crate::bindings`
->    |
->    =3D note: this error originates in the macro `kernel::declare_trace` (=
-in Nightly builds, run with -Z macro-backtrace for more info)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   22dcf78e532857efd97dab81b5edf3aa6f4b2f1c
+commit: 3ce03ba72d5afd7df8b73a68e92ea17bcdb09c14 [1225/1225] fscrypt: clean up some BUG_ON()s in block encryption/decryption
+config: x86_64-buildonly-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241104/202411041950.2aZl0qHh-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041950.2aZl0qHh-lkp@intel.com/reproduce)
 
-This bot is using a buggy bindgen. Please see
-https://lore.kernel.org/all/20241030-bindgen-libclang-warn-v1-1-3a7ba9fedcf=
-e@google.com/
-which was also mentioned in the cover letter.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041950.2aZl0qHh-lkp@intel.com/
 
-Alice
+All warnings (new ones prefixed by >>):
+
+   In file included from fs/crypto/crypto.c:22:
+   include/linux/pagemap.h:401:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     401 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+>> fs/crypto/crypto.o: warning: objtool: fscrypt_do_page_crypto()+0x3b8: unreachable instruction
+   fs/crypto/crypto.o: warning: objtool: missing symbol for section .text.unlikely.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
