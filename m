@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A658D224F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 18:02:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CDE61C9ED6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 18:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730743352; cv=none; b=Kw+o39Jy6zAttqLl8zsGxyB/9RrfuVmCXTYXoymotm3EGfjVZ6KXmpFOcsuWOLPIQqYPWMasqd1qgp7p0WIJtnSI5kMNGYvJZzlfpwMwF7k9BK5q4cxZ+wxj4EtHmHhr9gTDucGge8QDU3g7BVjJJ3HD8KO0vLowMphKQp30gZ8=
+	t=1730743953; cv=none; b=Hzg84EgiPhAdVoZ72fQJN+Oc9nviMdbpdXor3KiIf4PATEvpNGNWsjW6+qpurmn7VrfMpz5BTM7hozRWiK3cSomaqpwTj++r5JzemhrQpBEkV3NywaNuzFy9l73cjF2SMaa5wtdmPMCDJd94Zn00yLNpqEC31FnYIC5Dhji8FYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730743352; c=relaxed/simple;
-	bh=dMJ/MQ5iqsnhu6Jl2i/4xO9+vPn8Gzt3b2D6YluZYco=;
+	s=arc-20240116; t=1730743953; c=relaxed/simple;
+	bh=4jTapEbyYKp1NbNFNZ02TqEFZFxI1PBjFnPYKar6UCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BjbmDLx0gRnb6YvtOi84gKhFoox6zAiiYXDSFz7n3X0e2FTRLkTu2AtMBzqvjC5ik7g82LkL/DCevgjDK/L/tSj90kZ3V/NJS/78sCNZ98CE1LBpXrGsKBkHASARKeKrZ+t1Ia9134fbV3iP4xiCS7WfjiZ7eTmmszVVRJ5pKkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nbq5D9vM; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=FsKFILzcqwMiAzu4PEO7sJyrmGf2+yfuXIVHJZRJ9BWkYhqPPH7H4MBoumMCx7O6gue93cSmdtrJj/CY8CyEddpyJKNeSDd+gpit8XkZZm0f2bwT6FLyXmw3cVxvbCfmwy2WrvP6bxnKE1ppJWba8B36mJBH44eNbrgIEGPtfeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G5+8MXBy; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nbq5D9vM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G5+8MXBy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730743351; x=1762279351;
+  t=1730743952; x=1762279952;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dMJ/MQ5iqsnhu6Jl2i/4xO9+vPn8Gzt3b2D6YluZYco=;
-  b=Nbq5D9vMeqR6DQzxMtOGO+gv9h1DGngX/IHVyHc7QDeOiK/ZyD0WhPjM
-   TZelqxPPP0NN1eF7P9mCdxB2N/XOoAoF7AGmWhd85ZT6zYjlgcWzGku0h
-   /7gm69vAiULEC/kt2KbzGt20IDaQ36002sxDoBM6kBmUezPHWIcgJfGdZ
-   XjvPHQJknmy3HXAxWGPlN/0bzjmHcK8/mpSPHc93L/i4YGytofc2UhOHh
-   zaiDVKdptTGh0vg4xLhGE3JW+0K7huCsvTGU+IzP8v/m9o02zp/soR8nu
-   xMIN/uN2334omwD1DgLNPGLPf4JpBEmymGSjkA7xqNF65+YY2YB23MmyD
-   w==;
-X-CSE-ConnectionGUID: /slL1KKkRP64Vs93N/1isw==
-X-CSE-MsgGUID: okAufPA5S42wnkHPltNSnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30307899"
+  bh=4jTapEbyYKp1NbNFNZ02TqEFZFxI1PBjFnPYKar6UCc=;
+  b=G5+8MXBy1uedQA0aNLc6Qxea7O1tnqCYpv+Wfxo9qlKJiJ/+a+gTfbHw
+   qhOdmMPzI88hRRaP8Xtn00+GZNJUDDTvN8NPUeMEMoGdOt+6fHyNyTVBr
+   /tQCPjQ0pdWulufuRLz8qOKg1DLXWMLoXIm4Yn1TLrYbStHhUTTBC4oOs
+   xkhg8SFwd8qlY34p3/MpM/MovzPMj4cubydruRI/Dp4vODyswmQQoLOWJ
+   S8toJjMkRwJ9TI+HkGfY5Hm7O6eS5zQJ9UEOJCWTwhOb4LXpXPffPPF+8
+   C3Pj1O98Hry7sCy9S0L6Dj3g7sYQ2tUGItSvnK/LqUgwwl1PB1VyRoPrR
+   Q==;
+X-CSE-ConnectionGUID: yyDNqx+oRHunqc8ewTwdfg==
+X-CSE-MsgGUID: 2dxs5LSyTo+rZEQMgLzWSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30309139"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30307899"
+   d="scan'208";a="30309139"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 10:02:31 -0800
-X-CSE-ConnectionGUID: h57X2HS0QEeOGzY6XYgcXg==
-X-CSE-MsgGUID: /3+PobrKQ/WFTLa5s+6CXA==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 10:12:31 -0800
+X-CSE-ConnectionGUID: AP8accjhQRWerai/sN9bBw==
+X-CSE-MsgGUID: 6SH7stdTSZGD2p6eYDnw4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="87669008"
+   d="scan'208";a="87670830"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2024 10:02:29 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2024 10:12:29 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t81PG-000l67-1s;
-	Mon, 04 Nov 2024 18:02:26 +0000
-Date: Tue, 5 Nov 2024 02:01:36 +0800
+	id 1t81Yx-000l6n-0R;
+	Mon, 04 Nov 2024 18:12:27 +0000
+Date: Tue, 5 Nov 2024 02:12:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
+To: Mike Snitzer <snitzer@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 10691/16090]
- arch/x86/events/zhaoxin/uncore.c:2828:6: warning: no previous prototype for
- function 'kx7000_uncore_cpu_init'
-Message-ID: <202411050150.UNuEIvNX-lkp@intel.com>
+Subject: [snitzer:nfs-localio-for-next 20/27] fs/nfs/localio.c:289:22:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202411050254.NkyAiUJZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,125 +62,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   ab4fcabb7d813ddd7a455c85557f8d0891df4c41
-commit: 25fd62f6e8c9636272009dfcbe04fb1a260cbf8d [10691/16090] perf/x86/zhaoxin/uncore: update KX-7000 support
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241105/202411050150.UNuEIvNX-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050150.UNuEIvNX-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next
+head:   011b3478732d0ccd6962aac6d9e01db32dce3748
+commit: a37cec9d1b28435a2cfc8064ff99765f50b46bfd [20/27] nfs: cache open nfsd_file(s) in client
+config: arc-randconfig-r122-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050254.NkyAiUJZ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241105/202411050254.NkyAiUJZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411050150.UNuEIvNX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411050254.NkyAiUJZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/nfs/localio.c:289:22: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct nfsd_file [noderef] __rcu *_n_ @@     got struct nfsd_file *[assigned] new @@
+   fs/nfs/localio.c:289:22: sparse:     expected struct nfsd_file [noderef] __rcu *_n_
+   fs/nfs/localio.c:289:22: sparse:     got struct nfsd_file *[assigned] new
+>> fs/nfs/localio.c:289:20: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct nfsd_file *[assigned] nf @@     got struct nfsd_file [noderef] __rcu *[assigned] _prev_ @@
+   fs/nfs/localio.c:289:20: sparse:     expected struct nfsd_file *[assigned] nf
+   fs/nfs/localio.c:289:20: sparse:     got struct nfsd_file [noderef] __rcu *[assigned] _prev_
+   fs/nfs/localio.c: note: in included file (through include/linux/fs.h, include/linux/highmem.h, include/linux/bvec.h, ...):
+   include/linux/ioprio.h:65:18: sparse: sparse: self-comparison always evaluates to false
+   fs/nfs/localio.c:511:1: sparse: sparse: context imbalance in 'nfs_copy_boot_verifier' - different lock contexts for basic block
 
-   In file included from arch/x86/events/zhaoxin/uncore.c:3:
-   In file included from arch/x86/events/zhaoxin/uncore.h:3:
-   In file included from include/linux/pci.h:1666:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2235:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/events/zhaoxin/uncore.c:2798:6: warning: no previous prototype for function 'kx5000_uncore_cpu_init' [-Wmissing-prototypes]
-    2798 | void kx5000_uncore_cpu_init(void)
-         |      ^
-   arch/x86/events/zhaoxin/uncore.c:2798:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2798 | void kx5000_uncore_cpu_init(void)
-         | ^
-         | static 
-   arch/x86/events/zhaoxin/uncore.c:2807:6: warning: no previous prototype for function 'kh40000_uncore_cpu_init' [-Wmissing-prototypes]
-    2807 | void kh40000_uncore_cpu_init(void)
-         |      ^
-   arch/x86/events/zhaoxin/uncore.c:2807:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2807 | void kh40000_uncore_cpu_init(void)
-         | ^
-         | static 
-   arch/x86/events/zhaoxin/uncore.c:2812:5: warning: no previous prototype for function 'kh40000_uncore_pci_init' [-Wmissing-prototypes]
-    2812 | int kh40000_uncore_pci_init(void)
-         |     ^
-   arch/x86/events/zhaoxin/uncore.c:2812:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2812 | int kh40000_uncore_pci_init(void)
-         | ^
-         | static 
->> arch/x86/events/zhaoxin/uncore.c:2828:6: warning: no previous prototype for function 'kx7000_uncore_cpu_init' [-Wmissing-prototypes]
-    2828 | void kx7000_uncore_cpu_init(void)
-         |      ^
-   arch/x86/events/zhaoxin/uncore.c:2828:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2828 | void kx7000_uncore_cpu_init(void)
-         | ^
-         | static 
->> arch/x86/events/zhaoxin/uncore.c:2843:5: warning: no previous prototype for function 'kx7000_uncore_pci_init' [-Wmissing-prototypes]
-    2843 | int kx7000_uncore_pci_init(void)
-         |     ^
-   arch/x86/events/zhaoxin/uncore.c:2843:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2843 | int kx7000_uncore_pci_init(void)
-         | ^
-         | static 
->> arch/x86/events/zhaoxin/uncore.c:2851:6: warning: no previous prototype for function 'kx7000_uncore_mmio_init' [-Wmissing-prototypes]
-    2851 | void kx7000_uncore_mmio_init(void)
-         |      ^
-   arch/x86/events/zhaoxin/uncore.c:2851:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2851 | void kx7000_uncore_mmio_init(void)
-         | ^
-         | static 
-   11 warnings generated.
+vim +289 fs/nfs/localio.c
 
-
-vim +/kx7000_uncore_cpu_init +2828 arch/x86/events/zhaoxin/uncore.c
-
-  2827	
-> 2828	void kx7000_uncore_cpu_init(void)
-  2829	{
-  2830		u64 val;
-  2831		int cpu;
-  2832	
-  2833		uncore_msr_uncores = kx7000_msr_uncores;
-  2834	
-  2835		/* clear bit 16 of MSR 0x1877 so that HIF can work normally */
-  2836		for_each_present_cpu(cpu) {
-  2837			rdmsrl_on_cpu(cpu, 0x1877, &val);
-  2838			val = val & 0xfffffffffffeffffULL;
-  2839			wrmsrl_on_cpu(cpu, 0x1877, val);
-  2840		}
-  2841	}
-  2842	
-> 2843	int kx7000_uncore_pci_init(void)
-  2844	{
-  2845		uncore_pci_uncores = kx7000_pci_uncores;
-  2846		uncore_pci_driver = &kx7000_uncore_pci_driver;
-  2847	
-  2848		return 0;
-  2849	}
-  2850	
-> 2851	void kx7000_uncore_mmio_init(void)
-  2852	{
-  2853		uncore_mmio_uncores = kx7000_mmio_uncores;
-  2854	}
-  2855	
+   254	
+   255	/*
+   256	 * nfs_local_open_fh - open a local filehandle in terms of nfsd_file.
+   257	 * First checking if the open nfsd_file is already cached, otherwise
+   258	 * must __nfs_local_open_fh and insert the nfsd_file in nfs_fh.
+   259	 *
+   260	 * Returns a pointer to a struct nfsd_file or NULL.
+   261	 */
+   262	struct nfsd_file *
+   263	nfs_local_open_fh(struct nfs_client *clp, const struct cred *cred,
+   264			  struct nfs_fh *fh, const fmode_t mode)
+   265	{
+   266		struct nfs_fh_localio *nfh = (struct nfs_fh_localio *)fh;
+   267		struct nfsd_file *nf, *new, __rcu **pnf;
+   268	
+   269		if (!nfs_server_is_local(clp))
+   270			return NULL;
+   271		if (mode & ~(FMODE_READ | FMODE_WRITE))
+   272			return NULL;
+   273	
+   274		if (mode & FMODE_WRITE)
+   275			pnf = &nfh->rw_file;
+   276		else
+   277			pnf = &nfh->ro_file;
+   278	
+   279		new = NULL;
+   280		rcu_read_lock();
+   281		nf = rcu_dereference(*pnf);
+   282		if (!nf) {
+   283			rcu_read_unlock();
+   284			new = __nfs_local_open_fh(clp, cred, fh, mode);
+   285			if (IS_ERR(new))
+   286				return NULL;
+   287			rcu_read_lock();
+   288			/* try to swap in the pointer */
+ > 289			nf = cmpxchg(pnf, NULL, new);
+   290			if (!nf) {
+   291				nf = new;
+   292				new = NULL;
+   293			}
+   294		}
+   295		nf = nfs_local_file_get(nf);
+   296		rcu_read_unlock();
+   297		if (new)
+   298			nfs_to_nfsd_file_put_local(new);
+   299		return nf;
+   300	}
+   301	EXPORT_SYMBOL_GPL(nfs_local_open_fh);
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
