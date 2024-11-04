@@ -1,231 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF03D1DD0F1;
-	Mon,  4 Nov 2024 20:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71CA370837;
+	Mon,  4 Nov 2024 20:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730751462; cv=none; b=aKaXqLuDM0lh2q6+8V7axyoCPuZp60Uaj7sNy+6vFJrhTD/c2c1J0ARN/puSQOrQOFfvi14ezGIIL/c3FTEFWc8hNDsm9uirz4jFv4dBtQhbfY+9uWS2G+8CJQ6WFLu/wRffB7Q3C2R6M9gJF+qOmaqLanC4rDg10YGdcda1Qg0=
+	t=1730751493; cv=none; b=qNBg7nIf+YZk/AdPPLPdc1VOhQE2g//fSspWZ3G/DsRURvB2hQWvME01s1kVcmtXptj0UfFzTZdjeWZKvOqvx5bnQ1dEG6sDWEX/FFWEOP8/eB0MXFY/c6aa6fPEojQkSmYjD/9C+wa5JWxeNAWICCtMbgTWtN+IrlfgnJscR/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730751462; c=relaxed/simple;
-	bh=5MWgbh4aOjwoJiLBWxpgay+wgAMi+P1rkEAd6ZT8gdE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ntQZqKPgMp/ZtFjkLRssRe+tar17hCzBi4lXBE59hfziQB+67/GD5mzDbXClLPRXqJ7aN3MSIgcRaKOU8DOkqSzPVHJWMqArvaTpccJ7iKmfOyq0COO0QwMC7y/WXGw3jVVK2e1G8vj8jLBigeKWPL/AyuSYwi1wyJ2QsoKpytc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I8Hkxr0m; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730751493; c=relaxed/simple;
+	bh=pflxZGIfk80/m0RGcrJkM9Byb5SifgUbCWlGSC0xRiM=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
+	 MIME-Version:Content-Type; b=NFPVlV3FLsYFx9TaLIpKDSCcJOePJesMWN4b/g8CAmKewocfRyqBfHtHNqveqwC2ettf9MZLAtGqxC8IV3ChMe2y+f1Ic+3aZIrJczXqMcR6GTYJ8mj4xzECHP0FytwQad4mBpBaqh6BROp5sbJ023eP90AlRFJyyZVAm7f6lTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OK4BDwoC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I8Hkxr0m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730751461; x=1762287461;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5MWgbh4aOjwoJiLBWxpgay+wgAMi+P1rkEAd6ZT8gdE=;
-  b=I8Hkxr0mAsYglyYe+QacWMJmLhZ084uE5wTVlsO9tTg7ie3DqseUzDLq
-   q89yvyH4YNIwsGnRxv3cOJ5bAVRBtlBGMIA0ddQiwAXN+Ji9MO5xF98Fj
-   NpNrhWdcVjphR9HehYt2W3jwXzYrD0pOo4HEyVhUUzCfaiuX+/uQUgRyM
-   Obeb9/U9DG6I4KfqHntYALXwA2ulv2p7ElLO5MEkuQUV8dfTpOk9SyEF9
-   ZH18S4mGT2FDgGMly7xq4OpvElgwtsSXUzTDNDv89DhsstbrFD+6K9OKw
-   SUBa1G8aCYytZHDKJXygxWAAn+faDs6y/BV6U7lTlxqkrqncbzEbWpYAe
-   g==;
-X-CSE-ConnectionGUID: j28cWm2SShKQSF2owNeT2Q==
-X-CSE-MsgGUID: 2Y9CSk/DSJKQAwh1yKk+0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="41858040"
-X-IronPort-AV: E=Sophos;i="6.11,258,1725346800"; 
-   d="scan'208";a="41858040"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 12:17:40 -0800
-X-CSE-ConnectionGUID: DjDAKnVUQtS4/c7pKUkeQg==
-X-CSE-MsgGUID: a15UI2hBS9yREI5ghSgxJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,258,1725346800"; 
-   d="scan'208";a="83286325"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Nov 2024 12:17:35 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t83W1-000lFV-1X;
-	Mon, 04 Nov 2024 20:17:33 +0000
-Date: Tue, 5 Nov 2024 04:17:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>, Rob Herring <robh+dt@kernel.org>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	YiFeng Zhao <zyf@rock-chips.com>, Liang Chen <cl@rock-chips.com>,
-	linux-scsi@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 4/7] pmdomain: core: Introduce
- dev_pm_genpd_rpm_always_on()
-Message-ID: <202411050317.abJatSkD-lkp@intel.com>
-References: <1730705521-23081-5-git-send-email-shawn.lin@rock-chips.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OK4BDwoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 527A4C4CECE;
+	Mon,  4 Nov 2024 20:18:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1730751491;
+	bh=pflxZGIfk80/m0RGcrJkM9Byb5SifgUbCWlGSC0xRiM=;
+	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
+	b=OK4BDwoCcNFfPsQlHeyrck13aWOd0AB4dkZrPIx3Dd9T6udaQChmF97UcsPEKYIov
+	 4UPJ0MFbuKR7ajfn84gqL/xQCFw8WrBZ8smLsnYjBVxhiVMwLbNKFXxUtrPRMGqbNC
+	 Mug1ZfcAmVu+w6wnWFVu5fXj08L5drgq/XJ2BR820hEbq5ACThyDbuSU/U9qoS9Oqd
+	 1siQvXlzyPUMkpjaNNiD5DqO93+0ankSii92sjJYKVMw99Eg3PLqLd0oSBseXJbXmW
+	 VzdJbL9EI0rEC2X3EE/mDgsnXrRHrAPpFDqh+67gskt1Mk2XYsa6SAb0wpPBfSgVRC
+	 nHE13BfrQ3cyA==
+From: Kalle Valo <kvalo@kernel.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,  Rameshkumar Sundaram
+ <quic_ramess@quicinc.com>,  lkp@intel.com,  oe-kbuild-all@lists.linux.dev,
+  Jeff Johnson <jjohnson@kernel.org>,  ath12k@lists.infradead.org
+Subject: Re: [ath:ath12k-mlo-qcn9274 /81]
+ drivers/net/wireless/ath/ath12k/mac.c:4304 ath12k_mac_op_set_key() error:
+ uninitialized symbol 'ret'.
+References: <7e7afd00-ad84-4744-8d94-416bab7e7dd9@stanley.mountain>
+Date: Mon, 04 Nov 2024 22:18:07 +0200
+In-Reply-To: <7e7afd00-ad84-4744-8d94-416bab7e7dd9@stanley.mountain> (Dan
+	Carpenter's message of "Wed, 9 Oct 2024 14:09:53 +0300")
+Message-ID: <87a5ee7ny8.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1730705521-23081-5-git-send-email-shawn.lin@rock-chips.com>
+Content-Type: text/plain
 
-Hi Shawn,
+Dan Carpenter <dan.carpenter@linaro.org> writes:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath12k-mlo-qcn9274
+> head:   7435d14d41d5d479a5e6a8a2cd4efdac9d928823
+> commit: 573de29145bf929c428f9e2dc55ad3f5f3da8453 [/81] wifi: ath12k: modify ath12k_mac_op_set_key for MLO
+> config: csky-randconfig-r072-20241008
+> (https://download.01.org/0day-ci/archive/20241009/202410090311.SK1SO5GL-lkp@intel.com/config)
+> compiler: csky-linux-gcc (GCC) 14.1.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202410090311.SK1SO5GL-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/net/wireless/ath/ath12k/mac.c:4304 ath12k_mac_op_set_key() error: uninitialized symbol 'ret'.
+>
+> vim +/ret +4304 drivers/net/wireless/ath/ath12k/mac.c
+>
+> b5068bc9180d06 Sriram R 2024-04-09 4222 static int
+> ath12k_mac_op_set_key(struct ieee80211_hw *hw, enum set_key_cmd cmd,
+> b5068bc9180d06 Sriram R 2024-04-09 4223 struct ieee80211_vif *vif,
+> struct ieee80211_sta *sta,
+> b5068bc9180d06 Sriram R             2024-04-09  4224  				 struct ieee80211_key_conf *key)
+> b5068bc9180d06 Sriram R             2024-04-09  4225  {
+> 18333c4baa4d72 Sriram R             2024-01-27  4226  	struct ath12k_vif *ahvif = ath12k_vif_to_ahvif(vif);
+> 18333c4baa4d72 Sriram R             2024-01-27  4227  	struct ath12k_link_vif *arvif;
+> 611aacdb3540ff Sriram R             2024-04-14  4228  	struct ath12k_link_sta *arsta = NULL;
+> b5068bc9180d06 Sriram R             2024-04-09  4229  	struct ath12k_vif_cache *cache;
+> 611aacdb3540ff Sriram R             2024-04-14  4230  	struct ath12k_sta *ahsta;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4231  	unsigned long links;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4232  	u8 link_id;
+> b5068bc9180d06 Sriram R             2024-04-09  4233  	int ret;
+> b5068bc9180d06 Sriram R             2024-04-09  4234  
+> d4243fd891671d Kalle Valo           2024-09-25  4235  	lockdep_assert_wiphy(hw->wiphy);
+> d4243fd891671d Kalle Valo           2024-09-25  4236  
+> b5068bc9180d06 Sriram R             2024-04-09  4237  	/* BIP needs to be done in software */
+> b5068bc9180d06 Sriram R             2024-04-09  4238  	if (key->cipher == WLAN_CIPHER_SUITE_AES_CMAC ||
+> b5068bc9180d06 Sriram R             2024-04-09  4239  	    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_128 ||
+> b5068bc9180d06 Sriram R             2024-04-09  4240  	    key->cipher == WLAN_CIPHER_SUITE_BIP_GMAC_256 ||
+> 18333c4baa4d72 Sriram R             2024-01-27  4241  	    key->cipher == WLAN_CIPHER_SUITE_BIP_CMAC_256) {
+> b5068bc9180d06 Sriram R             2024-04-09  4242  		return 1;
+> 18333c4baa4d72 Sriram R             2024-01-27  4243  	}
+> b5068bc9180d06 Sriram R             2024-04-09  4244  
+> b5068bc9180d06 Sriram R             2024-04-09  4245  	if (key->keyidx > WMI_MAX_KEY_INDEX)
+> b5068bc9180d06 Sriram R             2024-04-09  4246  		return -ENOSPC;
+> b5068bc9180d06 Sriram R             2024-04-09  4247  
+> b5068bc9180d06 Sriram R             2024-04-09  4248  	if (sta) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4249  		ahsta = ath12k_sta_to_ahsta(sta);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4250 /* For an ML STA
+> Pairwise key is same for all associated link Stations,
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4251 * hence do set key
+> for all link STAs which are active.
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4252  		 */
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4253  		if (sta->mlo) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4254  			links = ahsta->links_map;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4255
+> for_each_set_bit(link_id, &links, IEEE80211_MLD_MAX_NUM_LINKS) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4256 arvif =
+> wiphy_dereference(hw->wiphy, ahvif->link[link_id]);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4257 arsta =
+> wiphy_dereference(hw->wiphy, ahsta->link[link_id]);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4258  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4259  				if (WARN_ON(!arvif || !arsta))
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4260 /* arvif and arsta
+> are expected to be valid when
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4261  					 * STA is present.
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4262  					 */
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4263  					continue;
+>
+> Is it possible that there are no set bits or that we always hit this continue?
 
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on robh/for-next linus/master v6.12-rc6]
-[cannot apply to mkp-scsi/for-next next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Actually I'm not fully sure if links_map can be zero but I would not
+assume so.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/dt-bindings-ufs-Document-Rockchip-UFS-host-controller/20241104-191810
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/1730705521-23081-5-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v4 4/7] pmdomain: core: Introduce dev_pm_genpd_rpm_always_on()
-config: x86_64-buildonly-randconfig-002-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050317.abJatSkD-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050317.abJatSkD-lkp@intel.com/reproduce)
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4264  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4265 ret =
+> ath12k_mac_set_key(arvif->ar, cmd, arvif,
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4266 arsta, key);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4267  				if (ret)
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4268  					break;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4269  			}
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4270  		} else {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4271  			arsta = &ahsta->deflink;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4272  			arvif = arsta->arvif;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4273  			if (WARN_ON(!arvif)) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4274  				ret = -EINVAL;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4275  				goto out;
+> b5068bc9180d06 Sriram R             2024-04-09  4276  			}
+> b5068bc9180d06 Sriram R             2024-04-09  4277  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4278 ret =
+> ath12k_mac_set_key(arvif->ar, cmd, arvif, arsta, key);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4279  		}
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4280  	} else {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4281 if (key->link_id
+>>= 0 && key->link_id < IEEE80211_MLD_MAX_NUM_LINKS) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4282  			link_id = key->link_id;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4283 arvif =
+> wiphy_dereference(hw->wiphy, ahvif->link[link_id]);
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4284  		} else {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4285  			link_id = 0;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4286  			arvif = &ahvif->deflink;
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4287  		}
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4288  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4289  		if (!arvif || !arvif->is_created) {
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4290 cache =
+> ath12k_ahvif_get_link_cache(ahvif, link_id);
+> b5068bc9180d06 Sriram R             2024-04-09  4291  			if (!cache)
+> b5068bc9180d06 Sriram R             2024-04-09  4292  				return -ENOSPC;
+> 18333c4baa4d72 Sriram R             2024-01-27  4293  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4294 ret =
+> ath12k_mac_update_key_cache(cache, cmd, sta, key);
+> 18333c4baa4d72 Sriram R             2024-01-27  4295  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4296  			return ret;
+> b5068bc9180d06 Sriram R             2024-04-09  4297  		}
+> b5068bc9180d06 Sriram R             2024-04-09  4298  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09 4299 ret =
+> ath12k_mac_set_key(arvif->ar, cmd, arvif, NULL, key);
+> 611aacdb3540ff Sriram R             2024-04-14  4300  	}
+> 611aacdb3540ff Sriram R             2024-04-14  4301  
+> 573de29145bf92 Rameshkumar Sundaram 2024-08-09  4302  out:
+> 18333c4baa4d72 Sriram R             2024-01-27  4303  
+> d889913205cf7e Kalle Valo           2022-11-28 @4304  	return ret;
+>
+> If so then ret is uninitialized
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411050317.abJatSkD-lkp@intel.com/
+Thanks for the report, I fixed it like this in ath12k-mlo branch (not
+yet submitted for review):
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/pmdomain/core.c:21:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/pmdomain/core.c:898:4: warning: misleading indentation; statement is not part of the previous 'if' [-Wmisleading-indentation]
-     898 |                         if (to_gpd_data(pdd)->rpm_always_on)
-         |                         ^
-   drivers/pmdomain/core.c:893:3: note: previous statement is here
-     893 |                 if (!pm_runtime_suspended(pdd->dev) ||
-         |                 ^
-   2 warnings generated.
-
-
-vim +/if +898 drivers/pmdomain/core.c
-
-   837	
-   838	/**
-   839	 * genpd_power_off - Remove power from a given PM domain.
-   840	 * @genpd: PM domain to power down.
-   841	 * @one_dev_on: If invoked from genpd's ->runtime_suspend|resume() callback, the
-   842	 * RPM status of the releated device is in an intermediate state, not yet turned
-   843	 * into RPM_SUSPENDED. This means genpd_power_off() must allow one device to not
-   844	 * be RPM_SUSPENDED, while it tries to power off the PM domain.
-   845	 * @depth: nesting count for lockdep.
-   846	 *
-   847	 * If all of the @genpd's devices have been suspended and all of its subdomains
-   848	 * have been powered down, remove power from @genpd.
-   849	 */
-   850	static int genpd_power_off(struct generic_pm_domain *genpd, bool one_dev_on,
-   851				   unsigned int depth)
-   852	{
-   853		struct pm_domain_data *pdd;
-   854		struct gpd_link *link;
-   855		unsigned int not_suspended = 0;
-   856		int ret;
-   857	
-   858		/*
-   859		 * Do not try to power off the domain in the following situations:
-   860		 * (1) The domain is already in the "power off" state.
-   861		 * (2) System suspend is in progress.
-   862		 */
-   863		if (!genpd_status_on(genpd) || genpd->prepared_count > 0)
-   864			return 0;
-   865	
-   866		/*
-   867		 * Abort power off for the PM domain in the following situations:
-   868		 * (1) The domain is configured as always on.
-   869		 * (2) When the domain has a subdomain being powered on.
-   870		 */
-   871		if (genpd_is_always_on(genpd) ||
-   872				genpd_is_rpm_always_on(genpd) ||
-   873				atomic_read(&genpd->sd_count) > 0)
-   874			return -EBUSY;
-   875	
-   876		/*
-   877		 * The children must be in their deepest (powered-off) states to allow
-   878		 * the parent to be powered off. Note that, there's no need for
-   879		 * additional locking, as powering on a child, requires the parent's
-   880		 * lock to be acquired first.
-   881		 */
-   882		list_for_each_entry(link, &genpd->parent_links, parent_node) {
-   883			struct generic_pm_domain *child = link->child;
-   884			if (child->state_idx < child->state_count - 1)
-   885				return -EBUSY;
-   886		}
-   887	
-   888		list_for_each_entry(pdd, &genpd->dev_list, list_node) {
-   889			/*
-   890			 * Do not allow PM domain to be powered off, when an IRQ safe
-   891			 * device is part of a non-IRQ safe domain.
-   892			 */
-   893			if (!pm_runtime_suspended(pdd->dev) ||
-   894				irq_safe_dev_in_sleep_domain(pdd->dev, genpd))
-   895				not_suspended++;
-   896	
-   897				/* The device may need its PM domain to stay powered on. */
- > 898				if (to_gpd_data(pdd)->rpm_always_on)
-   899					return -EBUSY;
-   900		}
-   901	
-   902		if (not_suspended > 1 || (not_suspended == 1 && !one_dev_on))
-   903			return -EBUSY;
-   904	
-   905		if (genpd->gov && genpd->gov->power_down_ok) {
-   906			if (!genpd->gov->power_down_ok(&genpd->domain))
-   907				return -EAGAIN;
-   908		}
-   909	
-   910		/* Default to shallowest state. */
-   911		if (!genpd->gov)
-   912			genpd->state_idx = 0;
-   913	
-   914		/* Don't power off, if a child domain is waiting to power on. */
-   915		if (atomic_read(&genpd->sd_count) > 0)
-   916			return -EBUSY;
-   917	
-   918		ret = _genpd_power_off(genpd, true);
-   919		if (ret) {
-   920			genpd->states[genpd->state_idx].rejected++;
-   921			return ret;
-   922		}
-   923	
-   924		genpd->status = GENPD_STATE_OFF;
-   925		genpd_update_accounting(genpd);
-   926		genpd->states[genpd->state_idx].usage++;
-   927	
-   928		list_for_each_entry(link, &genpd->child_links, child_node) {
-   929			genpd_sd_counter_dec(link->parent);
-   930			genpd_lock_nested(link->parent, depth + 1);
-   931			genpd_power_off(link->parent, false, depth + 1);
-   932			genpd_unlock(link->parent);
-   933		}
-   934	
-   935		return 0;
-   936	}
-   937	
+https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git/commit/?h=ath12k-mlo&id=1ed8ae547f604b6c6176aeadd98bd192c9031066
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://patchwork.kernel.org/project/linux-wireless/list/
+
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
