@@ -1,74 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3B31C07D7
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 19:05:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3102A1B81C1
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 19:36:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730747148; cv=none; b=pxEP04TZ3elAtCNub1gz6sGtFNgDJqj9uIooTTPMdJC/OIsdeYgqqwo1VKI1MVdWfwolJtUwmzzD9SeY79wOQw/THb6n8x/m9t0vOFWlzhI9sO9E2JOpbeR1aROBuyEPFjF6mVmwHTZfmtjAEirzZy254vo7eE23Qi8WV4dg6oo=
+	t=1730748997; cv=none; b=njr4v1O9jy3ox9Z9puY6tFzEVWLXJsD096N9urOetLbl/y9p41OXFcR233tIMkMUjkca4DqwxqHlRKVgctek91eHq1WHmUeNOwx8Khl/BxhUIMP7PiLDuTm81BnkaDTvVN9kNaKb8T23AVobNWc7M7cq3WGSzODoyPU6h1LA7As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730747148; c=relaxed/simple;
-	bh=rdh9R1V4RPjx3dKyhSI+3FBX4va4hMS0m5So6O7EdSA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WmtWGY2QWsHJMBDpDps7xoj07zhRWQv75O3Vt0D0fKmSfvoKHYdDSLiWVOmURo7yxQlvRQN3gen5HgepjhRzLKGeJsDUOQ9ItX2YqUU8vb9jCR67VQmdtFlV9K0WGByHHYM+nZyVDjV6wfXRze0fsQeEG9e+/vnrVR9uN3eqIpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzgP46v5; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1730748997; c=relaxed/simple;
+	bh=UyvXukuUKsz7/I3SvtJuUA/jjSRQyyewUGK5CIpxyW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=H5xCseorQs3eKDCZSt8cYqsK3srsFjceDpJnQXVkjMIBuXeG36sMYWpWYkpUh4SsSE+g6HReSelT/kc6Fa3uc51dPdkmSWT1jtFxSF9nzzpZpIV5BOmhB/yDmvw09b0hK0KRo3F+qCT8PxbdlijPud4eEiZXtnIXnC065u8R73I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S15QN9fm; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzgP46v5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S15QN9fm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730747146; x=1762283146;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rdh9R1V4RPjx3dKyhSI+3FBX4va4hMS0m5So6O7EdSA=;
-  b=bzgP46v5APxfqNBqVH12EIAPMZ+QsM4B3si3DNFy1zU2gST+03QuTCfv
-   Sac5O7yK6Zc7dZNeOMmBB5tfyvHVdrvTjGimCxbtvI4BBoImUqkK3SQCr
-   e9TlAgzdaRKnGvprM1FVlXq2XNRfrU8974ykP8Q7ZC8zUffuchL8lum1X
-   PSynWyNOXp0jl3ZgLABQZTmefpLJl8bIjRS83EXbEugpkpTzfQ2JtaPvn
-   DuMNG0h5Xb/HnvrHlBg4f0qhHN9e57x2mPGVEU8j6DNIyKLjRtqtM3dcq
-   KDMExSrr0szVZGec1RavGCdp3preqGtMpPO+JI8T0WOV7FimvV/uF/J+r
-   Q==;
-X-CSE-ConnectionGUID: jZ47EzddS7iA3UF/ZRvXlw==
-X-CSE-MsgGUID: vikPSLrISQ29Jz+0qf2Z0w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30574855"
+  t=1730748995; x=1762284995;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UyvXukuUKsz7/I3SvtJuUA/jjSRQyyewUGK5CIpxyW0=;
+  b=S15QN9fmCBgsVG+MyEIprWjWeqlobanCEtzYdExOCutr1wi1d7NIgX1U
+   aMG4GD+KNYf69kfyqrgIzYhpIsDDoTmVisV8fOOPMuH8DUkaHBg6E/dT0
+   vxyw/1OSlt8gCevq9kZjeZfcOe8W+kYeEervZpmYIr3EhQGTw2P3W+igc
+   rloF85aJKbahkMSuJMXtt0DUP2N1miQIvAw0euFR0u0vrj226AF1CuTiX
+   MHM+586GkdEfhF2ByobFGUo12d9Hn0lhaFgYzUOhY2FC1dMQxCM7yPOyz
+   RPRz5vE9m//qov/ACMbGbqARFKqObkPKqG0XD7zTKo5dGRCV/Gqq9oxwO
+   w==;
+X-CSE-ConnectionGUID: wVX4pRLWQXC1qpvQK03+UQ==
+X-CSE-MsgGUID: zoELIHA/QE+Blt6nNxZd7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30348765"
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="30574855"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 11:05:37 -0800
-X-CSE-ConnectionGUID: YZjB/43eRpKobbtUg0ngLg==
-X-CSE-MsgGUID: vHLulKSHRHeKCIpcf9p65A==
+   d="scan'208";a="30348765"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 11:36:34 -0800
+X-CSE-ConnectionGUID: bOqUhslHTKGxzr+5AdyVfw==
+X-CSE-MsgGUID: aERVGnYfStWUTQo91ex+nA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="83421430"
+   d="scan'208";a="88578797"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Nov 2024 11:05:31 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2024 11:36:33 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t82OH-000l9n-0g;
-	Mon, 04 Nov 2024 19:05:29 +0000
-Date: Tue, 5 Nov 2024 03:04:48 +0800
+	id 1t82sI-000lD9-2y;
+	Mon, 04 Nov 2024 19:36:30 +0000
+Date: Tue, 5 Nov 2024 03:35:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shawn Lin <shawn.lin@rock-chips.com>, Rob Herring <robh+dt@kernel.org>,
-	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K . Petersen" <martin.petersen@oracle.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Avri Altman <avri.altman@wdc.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	YiFeng Zhao <zyf@rock-chips.com>, Liang Chen <cl@rock-chips.com>,
-	linux-scsi@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-pm@vger.kernel.org
-Subject: Re: [PATCH v4 4/7] pmdomain: core: Introduce
- dev_pm_genpd_rpm_always_on()
-Message-ID: <202411050203.kPDzy0bS-lkp@intel.com>
-References: <1730705521-23081-5-git-send-email-shawn.lin@rock-chips.com>
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 9863/16090] arch/x86/kernel/early-quirks.c:722:6:
+ warning: no previous prototype for function 'is_zhaoxin_kh40000'
+Message-ID: <202411050336.auofJ1jN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,146 +61,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1730705521-23081-5-git-send-email-shawn.lin@rock-chips.com>
 
-Hi Shawn,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jejb-scsi/for-next]
-[also build test WARNING on robh/for-next linus/master v6.12-rc6]
-[cannot apply to mkp-scsi/for-next next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shawn-Lin/dt-bindings-ufs-Document-Rockchip-UFS-host-controller/20241104-191810
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/1730705521-23081-5-git-send-email-shawn.lin%40rock-chips.com
-patch subject: [PATCH v4 4/7] pmdomain: core: Introduce dev_pm_genpd_rpm_always_on()
-config: x86_64-buildonly-randconfig-003-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050203.kPDzy0bS-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050203.kPDzy0bS-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   ab4fcabb7d813ddd7a455c85557f8d0891df4c41
+commit: 8eaba08b2d72718a40cafe3402ab4f26b0dc62eb [9863/16090] x86/cpu/zhaoxin: Encapsulate access to global variables within functions
+config: x86_64-buildonly-randconfig-002-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050336.auofJ1jN-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050336.auofJ1jN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411050203.kPDzy0bS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411050336.auofJ1jN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/pmdomain/core.c: In function 'genpd_power_off':
->> drivers/pmdomain/core.c:893:17: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-     893 |                 if (!pm_runtime_suspended(pdd->dev) ||
-         |                 ^~
-   drivers/pmdomain/core.c:898:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     898 |                         if (to_gpd_data(pdd)->rpm_always_on)
-         |                         ^~
+   In file included from arch/x86/kernel/early-quirks.c:13:
+   In file included from include/linux/pci.h:1666:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2235:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> arch/x86/kernel/early-quirks.c:722:6: warning: no previous prototype for function 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
+     722 | bool is_zhaoxin_kh40000(void)
+         |      ^
+   arch/x86/kernel/early-quirks.c:722:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     722 | bool is_zhaoxin_kh40000(void)
+         | ^
+         | static 
+   arch/x86/kernel/early-quirks.c:737:14: error: use of undeclared identifier 'kh40000_dma_direct_ops'
+     737 |                 dma_ops = &kh40000_dma_direct_ops;
+         |                            ^
+   2 warnings and 1 error generated.
+--
+   In file included from kernel/dma/contiguous.c:48:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2235:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/dma/contiguous.c:209:13: warning: no previous prototype for function 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
+     209 | bool __weak is_zhaoxin_kh40000(void)
+         |             ^
+   kernel/dma/contiguous.c:209:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     209 | bool __weak is_zhaoxin_kh40000(void)
+         | ^
+         | static 
+   kernel/dma/contiguous.c:73:26: warning: unused variable 'size_bytes' [-Wunused-const-variable]
+      73 | static const phys_addr_t size_bytes __initconst =
+         |                          ^~~~~~~~~~
+   3 warnings generated.
 
 
-vim +/if +893 drivers/pmdomain/core.c
+vim +/is_zhaoxin_kh40000 +722 arch/x86/kernel/early-quirks.c
 
-29e47e2173349e drivers/base/power/domain.c Ulf Hansson     2015-09-02  837  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  838  /**
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  839   * genpd_power_off - Remove power from a given PM domain.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  840   * @genpd: PM domain to power down.
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  841   * @one_dev_on: If invoked from genpd's ->runtime_suspend|resume() callback, the
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  842   * RPM status of the releated device is in an intermediate state, not yet turned
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  843   * into RPM_SUSPENDED. This means genpd_power_off() must allow one device to not
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  844   * be RPM_SUSPENDED, while it tries to power off the PM domain.
-763663c9715f5f drivers/base/power/domain.c Yang Yingliang  2021-05-12  845   * @depth: nesting count for lockdep.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  846   *
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  847   * If all of the @genpd's devices have been suspended and all of its subdomains
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  848   * have been powered down, remove power from @genpd.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  849   */
-2da835452a0875 drivers/base/power/domain.c Ulf Hansson     2017-02-17  850  static int genpd_power_off(struct generic_pm_domain *genpd, bool one_dev_on,
-2da835452a0875 drivers/base/power/domain.c Ulf Hansson     2017-02-17  851  			   unsigned int depth)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  852  {
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  853  	struct pm_domain_data *pdd;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  854  	struct gpd_link *link;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  855  	unsigned int not_suspended = 0;
-f63816e43d9044 drivers/base/power/domain.c Ulf Hansson     2020-09-24  856  	int ret;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  857  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  858  	/*
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  859  	 * Do not try to power off the domain in the following situations:
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  860  	 * (1) The domain is already in the "power off" state.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  861  	 * (2) System suspend is in progress.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  862  	 */
-41e2c8e0060db2 drivers/base/power/domain.c Ulf Hansson     2017-03-20  863  	if (!genpd_status_on(genpd) || genpd->prepared_count > 0)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  864  		return 0;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  865  
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  866  	/*
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  867  	 * Abort power off for the PM domain in the following situations:
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  868  	 * (1) The domain is configured as always on.
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  869  	 * (2) When the domain has a subdomain being powered on.
-ffaa42e8a40b7f drivers/base/power/domain.c Ulf Hansson     2017-03-20  870  	 */
-ed61e18a4b4e44 drivers/base/power/domain.c Leonard Crestez 2019-04-30  871  	if (genpd_is_always_on(genpd) ||
-ed61e18a4b4e44 drivers/base/power/domain.c Leonard Crestez 2019-04-30  872  			genpd_is_rpm_always_on(genpd) ||
-ed61e18a4b4e44 drivers/base/power/domain.c Leonard Crestez 2019-04-30  873  			atomic_read(&genpd->sd_count) > 0)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  874  		return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  875  
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  876  	/*
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  877  	 * The children must be in their deepest (powered-off) states to allow
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  878  	 * the parent to be powered off. Note that, there's no need for
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  879  	 * additional locking, as powering on a child, requires the parent's
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  880  	 * lock to be acquired first.
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  881  	 */
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  882  	list_for_each_entry(link, &genpd->parent_links, parent_node) {
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  883  		struct generic_pm_domain *child = link->child;
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  884  		if (child->state_idx < child->state_count - 1)
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  885  			return -EBUSY;
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  886  	}
-e7d90cfac5510f drivers/base/power/domain.c Ulf Hansson     2022-02-17  887  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  888  	list_for_each_entry(pdd, &genpd->dev_list, list_node) {
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  889  		/*
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  890  		 * Do not allow PM domain to be powered off, when an IRQ safe
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  891  		 * device is part of a non-IRQ safe domain.
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  892  		 */
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17 @893  		if (!pm_runtime_suspended(pdd->dev) ||
-7a02444b8fc25a drivers/base/power/domain.c Ulf Hansson     2022-05-11  894  			irq_safe_dev_in_sleep_domain(pdd->dev, genpd))
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  895  			not_suspended++;
-f0f6da10152fb8 drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  896  
-f0f6da10152fb8 drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  897  			/* The device may need its PM domain to stay powered on. */
-f0f6da10152fb8 drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  898  			if (to_gpd_data(pdd)->rpm_always_on)
-f0f6da10152fb8 drivers/pmdomain/core.c     Ulf Hansson     2024-11-04  899  				return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  900  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  901  
-3c64649d1cf9f3 drivers/base/power/domain.c Ulf Hansson     2017-02-17  902  	if (not_suspended > 1 || (not_suspended == 1 && !one_dev_on))
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  903  		return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  904  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  905  	if (genpd->gov && genpd->gov->power_down_ok) {
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  906  		if (!genpd->gov->power_down_ok(&genpd->domain))
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  907  			return -EAGAIN;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  908  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  909  
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  910  	/* Default to shallowest state. */
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  911  	if (!genpd->gov)
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  912  		genpd->state_idx = 0;
-2c9b7f8772033c drivers/base/power/domain.c Ulf Hansson     2018-10-03  913  
-f63816e43d9044 drivers/base/power/domain.c Ulf Hansson     2020-09-24  914  	/* Don't power off, if a child domain is waiting to power on. */
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  915  	if (atomic_read(&genpd->sd_count) > 0)
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  916  		return -EBUSY;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  917  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  918  	ret = _genpd_power_off(genpd, true);
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  919  	if (ret) {
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  920  		genpd->states[genpd->state_idx].rejected++;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  921  		return ret;
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  922  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  923  
-49f618e1b669ef drivers/base/power/domain.c Ulf Hansson     2020-09-24  924  	genpd->status = GENPD_STATE_OFF;
-afece3ab9a3640 drivers/base/power/domain.c Thara Gopinath  2017-07-14  925  	genpd_update_accounting(genpd);
-c6a113b52302ad drivers/base/power/domain.c Lina Iyer       2020-10-15  926  	genpd->states[genpd->state_idx].usage++;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  927  
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  928  	list_for_each_entry(link, &genpd->child_links, child_node) {
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  929  		genpd_sd_counter_dec(link->parent);
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  930  		genpd_lock_nested(link->parent, depth + 1);
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  931  		genpd_power_off(link->parent, false, depth + 1);
-8d87ae48ced2df drivers/base/power/domain.c Kees Cook       2020-07-08  932  		genpd_unlock(link->parent);
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  933  	}
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  934  
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  935  	return 0;
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  936  }
-1f8728b7adc4c2 drivers/base/power/domain.c Ulf Hansson     2017-02-17  937  
+   721	
+ > 722	bool is_zhaoxin_kh40000(void)
+   723	{
+   724		return zhaoxin_kh40000;
+   725	}
+   726	
 
 -- 
 0-DAY CI Kernel Test Service
