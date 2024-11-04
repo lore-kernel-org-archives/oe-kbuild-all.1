@@ -1,67 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E7617B428;
-	Mon,  4 Nov 2024 14:25:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1211BD004
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 14:35:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730730323; cv=none; b=LAUwTwPkuPrzRy2t5UOSXDb8+vSZ03hIdlsaZgBasWZZSEA7HyLwoclanXSi3GL8xbE7ElPiXZ+fvWKO5CjMnLxPqA1h7AjScT0POEjhCtTiA9UGxj8jmHdWI6Tfz35JzRvcHXIVYT1nrHGgHa9LHrC4WxXASFuLn1Rs7lxyMoc=
+	t=1730730924; cv=none; b=tRu0O7GpbQJ492JrHK9yZKYkh4xDzYa+QHDXfEye+2Z0QP85hMm3oBTjThPR72HPujYTIHlbCXYY4PS1qXofp7Gb05YaoMJoShM6B58NUgbiGeTasYMoTO67jfoV0t41PTGtLe0+RkaLT9x94538RDxdJKWQJN7ff6zfThsIia0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730730323; c=relaxed/simple;
-	bh=CT7brXbn9NKpu0p4b2oRMcjvrtTgl29owzk4cIVFwAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TCj4oqkixx2A6VBxGkK9fSGvOtdUQQ6ColSCjKZ4jV3Xgb3CyM4bU1SnuAJvDjiCfPo3kzJmPvuhCnSzecLLAv3kcIiZAh7XkilVXG0y18hsl8Rp570lknc36AppxLVYk1575StfR35vwA/Nvh6wTLPPMtmD13zDv90FbPRH+B0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mTWkeaOo; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1730730924; c=relaxed/simple;
+	bh=52dzUwWrNteuyWEOyKqFCD7AkweuwycSceX/+/drMCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nqaoWKa7CNpGRS4QQjlipso2XdoQ9M06FmmMGJKMDqbpiBtKQ4fygF7zmq+CCDVO7lsDxwoGqs7hECFBKLo6Pg2BMlEBLRsw3W1n9UIzegwFaLPKnoDR3/nQ56IDOw74tU4GWNi/gxw2Ux7i8RPdBpPibA6+JaUHnAvnno9oQWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e7MDwz66; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mTWkeaOo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e7MDwz66"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730730321; x=1762266321;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CT7brXbn9NKpu0p4b2oRMcjvrtTgl29owzk4cIVFwAQ=;
-  b=mTWkeaOoEDfICAh8y96W4/9VIcP3C80s3TUPEeMnKVbrf+KkXqBFWn0G
-   uadpd+NPZCtv7eL6/tt0ghEV85ahD2W96/lEDdAoS2QOVlDjcEsjQs8/t
-   KCcMEsyIXdpzvgB2OJSI7uhZP4J2ZUv1TvmZwRzQZEQMeMXbsGqxrKfGU
-   9wdvZ2+j+jlVtLUA5bVFV1RE9yLQsFJ2ymF/NW/ahomu1My4jGvcOvNFa
-   4/vC1kxD6AMV7NhdC+FW4w9jHgF4uHGmJBjhngwxROtZRn3JAGxL7oekY
-   shpsA5xehY1mtci3J2R5nYZh9/7JeP8B/UUa5fmRX0cJUt3Ix+auKel4N
+  t=1730730923; x=1762266923;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=52dzUwWrNteuyWEOyKqFCD7AkweuwycSceX/+/drMCw=;
+  b=e7MDwz66edpN+QXKdKXUNFM8Xbov2PTqgeb65hx0soAd5N/PQUYjhiDL
+   OHOWFRkvsn/r2KMvtFydRj+KC5e2S0RlDoSpBi5OQ80Faba5DGCueaTCZ
+   RZW8IQr21zxekKj+Fxxdt2Wrj2Hs0raXKmb8kOAzwqiWFff4i2LywH8IT
+   tY18RU+GKXyqUnGs/Fy3kgy04nl9vBCs4PChu0EZGQs1592LjBNKm8ne3
+   V5q5vN58iWhSk65feQbEOzdD6QJM9MHqEvIkK24KGfDCPA5UlVJTD75BZ
+   aqByLr/SWfhV3xX7SMd9vxWXeyKoGmtqi1wkHywd2PzVHeNZqLwdwosc9
    Q==;
-X-CSE-ConnectionGUID: DsvFx81/QOiTTX0ApDr1wg==
-X-CSE-MsgGUID: movaRnDgRtu8KhqQ5DUAxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="33265761"
-X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="33265761"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:25:20 -0800
-X-CSE-ConnectionGUID: vKIxw/FaRaSqqupeNOnP6A==
-X-CSE-MsgGUID: hGrie7GzTXCqRPAazkBXmw==
+X-CSE-ConnectionGUID: p9elEpg6RHmCk+AIKcPZ6g==
+X-CSE-MsgGUID: JQit6h8pSIqAw0mBLxGs9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30206270"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30206270"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:35:17 -0800
+X-CSE-ConnectionGUID: mnXtu6QKQOW4JUY02e6Ohg==
+X-CSE-MsgGUID: ZDcWuvDvQXyRYsZn/d/n4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="83778622"
+   d="scan'208";a="121138407"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Nov 2024 06:25:15 -0800
+  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2024 06:35:16 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7y13-000ktz-1V;
-	Mon, 04 Nov 2024 14:25:13 +0000
-Date: Mon, 4 Nov 2024 22:24:32 +0800
+	id 1t7yAj-000kvH-30;
+	Mon, 04 Nov 2024 14:35:13 +0000
+Date: Mon, 4 Nov 2024 22:34:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Zhu <hongxing.zhu@nxp.com>, l.stach@pengutronix.de,
-	bhelgaas@google.com, lpieralisi@kernel.org, kw@linux.com,
-	manivannan.sadhasivam@linaro.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, shawnguo@kernel.org,
-	frank.li@nxp.com, s.hauer@pengutronix.de, festevam@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, imx@lists.linux.dev,
-	kernel@pengutronix.de, linux-pci@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Frank Li <Frank.Li@nxp.com>,
-	Richard Zhu <hongxing.zhu@nxp.com>
-Subject: Re: [PATCH v6 08/10] PCI: imx6: Use dwc common suspend resume method
-Message-ID: <202411042110.bIIyBWlv-lkp@intel.com>
-References: <20241101070610.1267391-9-hongxing.zhu@nxp.com>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+	LKML <linux-kernel@vger.kernel.org>
+Subject: [gustavoars:testing/wfamnae-next20241028-sa-with-flex 13/26]
+ drivers/net/phy/aquantia/aquantia_leds.o: warning: objtool:
+ aqr_phy_led_polarity_set+0x118: sibling call from callable instruction with
+ modified stack frame
+Message-ID: <202411042241.KaXFKg7U-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,52 +65,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101070610.1267391-9-hongxing.zhu@nxp.com>
 
-Hi Richard,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus shawnguo/for-next mani-mhi/mhi-next linus/master v6.12-rc6 next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Zhu/dt-bindings-imx6q-pcie-Add-ref-clock-for-i-MX95-PCIe-RC/20241101-150006
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20241101070610.1267391-9-hongxing.zhu%40nxp.com
-patch subject: [PATCH v6 08/10] PCI: imx6: Use dwc common suspend resume method
-config: i386-buildonly-randconfig-004-20241104 (https://download.01.org/0day-ci/archive/20241104/202411042110.bIIyBWlv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411042110.bIIyBWlv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241028-sa-with-flex
+head:   0e7c24c783de39e1f965e8c23e96a7de29dfbfca
+commit: b304d4c5cf207285c3820dc9a50bf09c06e46d42 [13/26] treewide_some: fix multiple -Wfamnae warnings that must be audited separately
+config: loongarch-randconfig-001-20241104 (https://download.01.org/0day-ci/archive/20241104/202411042241.KaXFKg7U-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411042241.KaXFKg7U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411042110.bIIyBWlv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411042241.KaXFKg7U-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/pci/controller/dwc/pci-imx6.o: in function `imx_pcie_resume_noirq':
->> pci-imx6.c:(.text+0x88): undefined reference to `dw_pcie_resume_noirq'
-   ld: drivers/pci/controller/dwc/pci-imx6.o: in function `imx_pcie_suspend_noirq':
->> pci-imx6.c:(.text+0x111): undefined reference to `dw_pcie_suspend_noirq'
-   ld: drivers/usb/misc/onboard_usb_dev.o: in function `onboard_dev_probe':
-   onboard_usb_dev.c:(.text+0x6ae): undefined reference to `i2c_find_device_by_fwnode'
-   ld: onboard_usb_dev.c:(.text+0x711): undefined reference to `i2c_smbus_write_block_data'
-   ld: onboard_usb_dev.c:(.text+0x72f): undefined reference to `i2c_smbus_write_word_data'
-   ld: onboard_usb_dev.c:(.text+0x74c): undefined reference to `i2c_smbus_write_word_data'
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_PERFORMANCE [=y] && GCC_PLUGINS [=y] && MODULES [=y]
-   WARNING: unmet direct dependencies detected for FB_IOMEM_HELPERS
-   Depends on [n]: HAS_IOMEM [=y] && FB_CORE [=n]
-   Selected by [m]:
-   - DRM_XE_DISPLAY [=y] && HAS_IOMEM [=y] && DRM [=m] && DRM_XE [=m] && DRM_XE [=m]=m [=m]
+>> drivers/net/phy/aquantia/aquantia_leds.o: warning: objtool: aqr_phy_led_polarity_set+0x118: sibling call from callable instruction with modified stack frame
 
 -- 
 0-DAY CI Kernel Test Service
