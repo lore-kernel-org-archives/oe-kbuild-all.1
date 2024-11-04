@@ -1,91 +1,91 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF776469D
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 14:51:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C328469D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 14:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730731877; cv=fail; b=tpu4MbvcCeqd8JAQj8ZgsaOKLUtTS+VLzbs5vAdNAubgiNtf1Y0JCpsxLF9Jrr6ZvLMUQ1whOCpv9LNasQJTIx/sc2dpBI+vCvxcoFuTtvLAbfNY6AleEHlYpYA30tZ/qYkSavhFQQ9e0E8KYSKlgUnznkbCb8w0gYYZ2b76J2Q=
+	t=1730731906; cv=fail; b=ZBSjSBkyv4w0W2THh7k/hbRkdZIb5u6PfPAtI5kDHLRkn6Do/WKDIyq8PXd8MHaezuM82uFChJS3Em1YLMM/ebOdzgUZnFx/rJuLvc36Rhash6uF+Lmn9f5sIorkT0cReuWK1jnim+6wgXZzxgndKpz8TxjMNTg3CYQpV/2DDcM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730731877; c=relaxed/simple;
-	bh=YmFMpgtmhtX8RLMQe01WIXVh5gW5K31fI84Tb41VATc=;
+	s=arc-20240116; t=1730731906; c=relaxed/simple;
+	bh=XbVD1+dwgieqMKmllxo7edmDaBGUkROWxhN+s8t6kUI=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=Nh60h9MmWsrphvG3bzgIMlQsk+Ef+9zELPqwRhlDVeA+vR4VQQMyUJqMLHD4JiTZ6hv44DX1Mi7Duq2M1OdkKj5G01VVATG7MmEoE1jCewJR0wVjqccaZygF052Ukr20+czr3eVG9jmc1cDTQOTudMT7WWLxC3eTdioLvfIIl6o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSqqI9jW; arc=fail smtp.client-ip=192.198.163.7
+	 Content-Disposition:MIME-Version; b=iHV5LoACMcdVTTWrz436O5o//id+kb2Vk4nmEa3hM4K+TIflPpVs/GFDFbYULsulkgb7YbWSpzI5ltLDi1CStdvQZBm2YW0L0a30p0B/bfQjZEXLttyFL2HZXH43rs22kl7t+RXMFKPtcTKPP2ASvgN+xhv7bCsDwRU1OInsyoY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYqBhP/l; arc=fail smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSqqI9jW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYqBhP/l"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730731876; x=1762267876;
+  t=1730731905; x=1762267905;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YmFMpgtmhtX8RLMQe01WIXVh5gW5K31fI84Tb41VATc=;
-  b=LSqqI9jWlQvHbsP++iddqBOjBV7HqkOzsXEksLcVrsIHkZO8alpeF0mZ
-   IoA9aewOdc0coocirH10iTJ6UfuRwxDxdlkbbCZ7wke+Ac8agc5Vn4gvj
-   nEx9bLuTePFpX5aCCp2KEi0XX1NWBpM+XQfwJV7YtLDO2xcG407m09XZX
-   nNbD9lAnELgi3enyZpaoKUoa2tGRjk0MBu3zw6ck249ZajxqXdDI18ED+
-   SFYtcoyaaVfCZIrX4XGKvTXYitg0hiN/zpx+whNtEKIxibFQ0gm03TPcP
-   KFZbvS0Yxu55IUFHp7RswA56b3JNbqE6GoUcNktY4A/PyGTeDwEPmKsmw
+  bh=XbVD1+dwgieqMKmllxo7edmDaBGUkROWxhN+s8t6kUI=;
+  b=dYqBhP/lmMHfHeX0yugep3iMOEhiaGkVB+1WgkiRrIQGxRvExqKoTLDs
+   gQ4NSH4ZkcQ3S2ddnxbCpIVIC+Ed4VLUOGl8MCcJMUEQu3AhSEVK274iP
+   GyG0Gl+fUFwulkZckBjUt+nlY7AhgKb1k2nMnm8HLA2Af2siRyYJXqsSh
+   c0RJPUaY3VJiNgoGNqeN/kO4U2TMTwew788GZpzmuE8MrAajqJcRNENv4
+   CMscD40UGiwZ/sIuORsL09KYlWevYAXR5lnGjt+Jm2dxmFrg5lJ4rTShW
+   uLgrkbL81N8gHr/4sP1xSf7krm7fjfeFESiaZnp/ePPUnWjGJYquLplM/
    Q==;
-X-CSE-ConnectionGUID: UrEZt+kfSsSsJ3TB0qkCYA==
-X-CSE-MsgGUID: sEOD5Bz9QYaov9FTC6PtaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="55832647"
+X-CSE-ConnectionGUID: Z7NYe48NRm+CBvCUU/BDhQ==
+X-CSE-MsgGUID: 8uNChRXXQE+4B76oX6ivNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="55832714"
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="55832647"
+   d="scan'208";a="55832714"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:51:14 -0800
-X-CSE-ConnectionGUID: brSmF+l4R6KRVbB+YVdHXQ==
-X-CSE-MsgGUID: SXMju/cqS6GOh92B/LVf+Q==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 06:51:44 -0800
+X-CSE-ConnectionGUID: /Yyt5BcDSZWAlBLV2xxMwQ==
+X-CSE-MsgGUID: a30urobaSVq+9W34+fSa+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,257,1725346800"; 
-   d="scan'208";a="83357134"
+   d="scan'208";a="83357200"
 Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Nov 2024 06:51:14 -0800
+  by fmviesa007.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 04 Nov 2024 06:51:44 -0800
 Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
  ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 4 Nov 2024 06:51:14 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ 15.1.2507.39; Mon, 4 Nov 2024 06:51:43 -0800
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
  orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 06:51:14 -0800
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ 15.1.2507.39 via Frontend Transport; Mon, 4 Nov 2024 06:51:43 -0800
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.174)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 4 Nov 2024 06:51:13 -0800
+ 15.1.2507.39; Mon, 4 Nov 2024 06:51:43 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yxyxEYNmmLdW5oLv2LBiR+E0SDEJKaRitQ8vxttmPdzAdYOb0b2J4e26nI0A9dbszzku/V7cFm66Wd/C0i4W47ov8WKbMwYTQRX8qUFumX/dJFx2x806oM8UoXg3n8hSIdIbgMAziw5AKXaZsAHGOETWqdMDGAEQv7Uh3ddbqMUNZC5LJXmy40V4EX++XYdykZQKeXv5bfvSanCgNtFq7USg9Led5NnG4z5CcGoO/X1vlPklgFICcPc2jdqixEOCQKp8IC38/+oeJLvXtkcCo5y8DdEBHUSWdDVCw7l9VSmMGH7eMIK3eEakQ4JRIMcnFDytg5foSRfF2LrX+wsC1g==
+ b=SHiayor0fQ5DM2/EFqlVRHtj5ko+CNjMrzlEXCHZvMQkvXAmyUawa8+lC18A0iYa5wGxDo4BCo2WYlubJ7xiNWEjLH07nKDe8g5bWEH0urVL1G3k0Yo5UiKtHg04q97hiBKYHRWVgoCKHhDM7+g3oN5+aFjEuYTfBdMIXeudjjEPOetoxb68CVs0gXwhHF+KPZjOmBtLbwTLOiInKa8CasU6vS+2MLk1oFz6EyPrAwgrK0hOP7Oas8sQm3mz9HY7oOArYOe5CFAhDdig/YLpQTLNpPRErpSTKvFm+NPtwsSeQUySWn3Cb2VILOAedq4v3eUj26hquKaAZLxn3hKTfw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zdgB8l0soDmWn0ks8L5HNfFNhLA8ffmDTLPRxgHqrQw=;
- b=lVpkJFMMMe9x8aWF4Iv9eOxqBK8NZZ6LJsgfI4a+y0S7vESdL4FHrq1ngqYFfdTRGCyyE/XUq/cpF2R47/I0MkPm7b4AHL/FRBUPs/R0KOaUiiziNtSABPjYhCobNEUyQECSu9TFB9dS9H1pdiGSkvboA+BYQORGMlJZBBDXUN6QXqlnTvNytCAb5gZCWIlgdF6v0fh4HDpXkYiyVe1YHAKQLxC09XcP6tTBvgPuwoL+HF7wgC7K7ht2TKc690GpmvaM0Bjns7/uMcfn+yFPoTg35CMJ/eBhTFlU0x8RTkcdQyTraCAm5U6oUcYy+aX6fwePIyOF46L71FI3L6LwLw==
+ bh=dRIsMSW+Jj/Pzgmjt3Ou6MiaQ3sSjNtCIRjJ1HV3A3o=;
+ b=r3Y1DJpY/JuCymSgoWiOvuOehyaJUzIVFQ6Y8HrbwR+5bQxykOmVlp9pXMndc4lA9kWUPLWfeDL8LrEp1+fZc4ciqojKAu8fZ0U2FkUosw8UEBGGiMogPPZNTbeTePs70KUH+qMlwMXCNaoyyX5Z6Mk1VjH9puPBx7sHe+X83vsP3MrAyBMua5bv32Ik37vFlZyHCzZRf+tIXHYdxbiOjhQPs2B+qoHB5Mqtr/0Y0HNb8QHkvVvfK3T/zJYG/JPjGj9sd2bbD6i7in1G7cneR1mx4RFihjPEFvrshxQbJzwuDotCQGqcprLk9p0vYu2bqOU/HsH47lAOSq/pGWbqQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by SA3PR11MB7534.namprd11.prod.outlook.com (2603:10b6:806:305::21) with
+ by SJ1PR11MB6299.namprd11.prod.outlook.com (2603:10b6:a03:456::16) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.28; Mon, 4 Nov
- 2024 14:51:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
+ 2024 14:51:39 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%6]) with mapi id 15.20.8114.028; Mon, 4 Nov 2024
- 14:51:11 +0000
-Date: Mon, 4 Nov 2024 22:51:03 +0800
+ 14:51:39 +0000
+Date: Mon, 4 Nov 2024 22:51:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: <kernel@openeuler.org>, Zeng Heng <zengheng4@huawei.com>
+To: <cros-kernel-buildreports@googlegroups.com>
 CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [openeuler:OLK-6.6 1360/1360]
- Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:76:15: [error]
- string value is redundantly quoted with any quotes (quoted-strings)
-Message-ID: <ZyjfV/HqAFZ74k/r@rli9-mobl>
+Subject: [android-common:android15-6.6-desktop 1/1]
+ arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <ZyjfczX1vky9PR8F@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0163.apcprd04.prod.outlook.com (2603:1096:4::25)
+X-ClientProxiedBy: SG2PR04CA0174.apcprd04.prod.outlook.com (2603:1096:4::36)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -95,187 +95,167 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SA3PR11MB7534:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2d1fd280-47f6-47b5-c801-08dcfce01f71
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SJ1PR11MB6299:EE_
+X-MS-Office365-Filtering-Correlation-Id: ef36196e-e603-4978-8214-08dcfce03026
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?Zug88M0j3N0QKbV0qOleQyGh1vIMht7/dmysbvwNiP/hMtPVsVd803qCMrZ7?=
- =?us-ascii?Q?/OOp2Uzn/lHioxEY4gNOCw0hxqOJinxFW0099PebTkPiTYQxh92NucPuAahw?=
- =?us-ascii?Q?LN0BoAmlcbhD4zy0EN5kYbjbn8hQFuu48YxYMWpQgkBVL9NaB3IrxRcRpCLb?=
- =?us-ascii?Q?ANCYda1bPNQi8MWehnbnj1cWZ79PP88C1KabPobBHX2AKLiVsVDFMufH0kY3?=
- =?us-ascii?Q?xRzv/Uj3BZU67Ii+yR5bxIo7wql+U61lKSiaUEPzlRov0D8BBvioiNkzZW+r?=
- =?us-ascii?Q?OkXIniGe3Qahx1Abfj/Jsiilsnm7OP3xcxcww56MFoo9ne76s2CaN0O27DW1?=
- =?us-ascii?Q?8rCQ5jE2gE93eXXwWmAyHcSe7xvYu0WCVshMyuSbrb2UBKXHc8egdSQE1rR3?=
- =?us-ascii?Q?WULxB/oHuy6k+SxslxamiDBLcVRJg1H8DfN/3FuMNjp+s64ZydrpZHgefI8j?=
- =?us-ascii?Q?9CKCWSuuYQSK5OxfCaMdI0u3TaY5fg/iWPIU55I+PVPk1h/AUa2bDPVx6B9I?=
- =?us-ascii?Q?OY7bp0MHRfgF7fyD9pCQeJXJgZoguAjmJ+nGZjEslsGq/4S9fcTRsLd+M3nX?=
- =?us-ascii?Q?eU38tgebG1mzGuQigp91eTGsksx5BsyndeDFyfNB0d8ToCU2Gnf6uB/LxZkk?=
- =?us-ascii?Q?Uu3i0CUjKWFjNFg7Tbmk283cMYUh6gOjmbkkaEl8gxHw3BOxYUouCz5X7ljL?=
- =?us-ascii?Q?go4RJXUFch42ONxETZcyjCUqe+08vwsadmxXd/5N75cSi6O+IouPb6/9pOLm?=
- =?us-ascii?Q?uJowm1s+9FuUqcQXPnBfFW8oDGpVvCI9wR4ZfktKJY5trRfFzurCWmYVh0gX?=
- =?us-ascii?Q?q9miMMwRdkJE9prznOhCxvtVV0tVxkrhhJL0Z63/+aVtC3pafq/VWu+hXu1r?=
- =?us-ascii?Q?bTO/FE+CDalHE2iFMXZoZVTOPxYAfZoENh5412VZ/vuNOq2650MbO+x7edIe?=
- =?us-ascii?Q?Y0Ew7tZ0LRsd7R7Ep9eGSwU0jp5NcTeNIUNFUooEQpMW0Oed9Gd2Xk8mQV7s?=
- =?us-ascii?Q?WdcrIk2gB+OgXDZg+rG2CNXU9OajgZyj7DhauTUPpYEjQdQDZmupaTSQKCRI?=
- =?us-ascii?Q?MOWLokR/MlpcsdhaMUCOV/VLgtFNrGFPAm4JOEwRjOx84DvzQFNI943r6ze6?=
- =?us-ascii?Q?KOzPhkm1ZXElPWN5oYUkwHa8vbmzuUsHWoI288VgcvOz9rbjswgUIpqAJ1K3?=
- =?us-ascii?Q?VYNvUzyA5mOjng/t1akEnotvHzCmo0V9R5fH50fbmPwUfORTrdXKDkIrVg8J?=
- =?us-ascii?Q?tcw4/7fU9A4UuU2e+39cnUeKp6aXL7SRa8d0ETBABQ=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?NP0iE6kXDJx6AGgwrJp57h5V+LmHGma3zSX1jjX3H7XCM4umj5EMhHtd40yZ?=
+ =?us-ascii?Q?T/5tsXdW5WQLCBVEE2YZ40Tbi5+5nmJx0cgw1RL/nPIJ/QsbcUyFDIng7qVI?=
+ =?us-ascii?Q?oDvb4OYL69EkW0/dZZ4TihEIhRGR+ulWiodA3JX7QNXAAeC7gfy91WT0Y6rT?=
+ =?us-ascii?Q?3tcp02a746SDug36HPlXxK5/yVhxb7YbYzok5D5iydy2SewiELVVcu660Ole?=
+ =?us-ascii?Q?35Ums/Ly98o6b006YVYGS0I6rkp6/ekSDvnN8Ql2F7GMO4Aqv8gXhHgvlKEa?=
+ =?us-ascii?Q?y/esNBKmbfas/+o08Orlv5p/0NI4enJqzCUcFVFttq/RjTXX6CbEobUIKURp?=
+ =?us-ascii?Q?PMVm2sCLSlPwT8HYuXLLdtbvK6HzYG6/ZhtVM5svmUHA33nyCMD5CiFiXWxk?=
+ =?us-ascii?Q?lYac1g0wrTB0JsBtvHXQSPiG+TA/hUWKmWOyLsi7Lx0g8guAR8wfw/xn2CB/?=
+ =?us-ascii?Q?rw1raFXam9seyCkzFZD3OTj/22H6P//65rsCeG6SKaMPmjyrbL4mmzT1T1Sw?=
+ =?us-ascii?Q?Hk91AeaUzFVaS1KXMLdLH6LLQxw+dU/hs8Wks+VVas4Fqn6YiMoj9xtnFP7t?=
+ =?us-ascii?Q?G/cibYu9tE6UipCujFegDYVxUBWG2H7K9VIrMSIYKM8CBgP3hi0k8clrk6cK?=
+ =?us-ascii?Q?IkDkj3xnbwFRecKj/BFMrwtLE1oPmDrtIw7VwpaG15X0rgcz858vx0UGJnxJ?=
+ =?us-ascii?Q?ER4E7qmtwanIpWS5LM1xbQDtCVoWLHW5K4UwQH2BouNZ7ElQfyl246J4P5ct?=
+ =?us-ascii?Q?ZvLLVsKanh9wIEixwp9/GnR758n/GATkgG/1CTy4hjkB4cMRYMrtZg1bd8P9?=
+ =?us-ascii?Q?WzcgYFi3LBnRmaTdx7wGuQw04pJ+ipicv3hl+cyd9ThoN8mSAmDkaMQY8Ws0?=
+ =?us-ascii?Q?zEstny5sFMJSHMgu6MGQ4LHLxFlcOJPgg+PO19/0EoLkjoDLNS1EjUvgzuqm?=
+ =?us-ascii?Q?NykKwNSXFt0mmKP5D0zqOLTm4iPFOKnB6+/+n5Z8a/fIr0deYRlSomz82U1H?=
+ =?us-ascii?Q?Nb3N2X9F7/cdjiyqifJrCm58lHSBmnuKg6aPVbvISGUdHEPXr/LXslTCmLkV?=
+ =?us-ascii?Q?Kembsi4K32/onbudzPVVefSNOurleuBTx9KHZgdU6Ej7ayIP40qKJH8xDwRs?=
+ =?us-ascii?Q?MmdNfDEsXYu8RTNzY3JQme8iXOuPi4Xhyrogel4n+oiNWX6HQV9JsukJOrh1?=
+ =?us-ascii?Q?orf0XdAPsy98i7dIDlotpinxKdmlIETOAnoaRRPEmHYzP8oBeKpZODofJ1D7?=
+ =?us-ascii?Q?ym/Wx6q/0eaGa3mVyxFvCC8bTrQk10sZFXyTyjX/mw=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Z3rB0uW4B2BT8SN1o6p13rLDe8wKCC2ERU6LhQ3U7CCIRAsEnHfgXkw8xJHH?=
- =?us-ascii?Q?/aC0QWlPK8VGu+c96tqdTAEshZ4G1JHhcnymA9M2sK3q9aoK+PipwSewUklQ?=
- =?us-ascii?Q?oYyTopx963eSW6pFT6XxIBbEnLTY4ZFVZXekvAKReNdtfQQ/AMTmPBWNvgyH?=
- =?us-ascii?Q?ujUHSbZZvckIwQg/LuK1/jj9aJep708l84CYeS+vWn+kuU6NZKUqA3PdQiBK?=
- =?us-ascii?Q?CLX6g7mSZpzwKoSOncoFxb+upMDwws15vXn1od6wtn7k+SggxJkS/ouUR31/?=
- =?us-ascii?Q?7GcY4s9V0i8K3KmToBlJHJwoXRVI/777m8mPvDz0qStcd31TgrRjtjaeRGAo?=
- =?us-ascii?Q?29yJYV9LOxFr2qWonUyzWUk6UsQvs0thMo9i7GhVFTCy6wpDL9N9PIFiGope?=
- =?us-ascii?Q?gmP5o/O3p3ju+a5oGnIJAgGv/Q0xqvyn3WoNLH1uOeFxYaRgQJaL2VLkVmxz?=
- =?us-ascii?Q?VHnLV0DgekXqHSH0FNl8fTARFppT+CpTZqEIWJIS8n/n5grYw1/0Y90tict/?=
- =?us-ascii?Q?k8aqeOSgpx2f91o5a35jAwGl83XzH5gNPgWOcMNXQsfo4otgoKV0HvzCSP3f?=
- =?us-ascii?Q?uUxlr+GMajSr7Z53rory9pi5qnD1rWklKPRg4d91WYIY/EE1MygHgzmN/vsH?=
- =?us-ascii?Q?pYACVmqZk4JqBfNfwZxBO/pu/1tUK6B0XMBbYx+BMYnmn+xpzDTD0tszofBy?=
- =?us-ascii?Q?UJk0mau1yHCvYu7NPVdBDN9GOSddOcZQnQACT9eE9dhTSJFJGWYS/Y7uruqv?=
- =?us-ascii?Q?GlqYsoiUl9MEeWA1eoGD/fieVqjbAwR9y7wTZnjB2JLrWjcZ6jeD9+QeTwKe?=
- =?us-ascii?Q?cdBA/Ih3F90NpOyQEz3gO0WY0b3qkipLrM60fYfn8ZpHAjW+1H8JY9v9/gU7?=
- =?us-ascii?Q?S6fruh/VMKweZ1qhvLbwzP5f0fIGIBDLG1tcot47cHIFYw9AHifWhp8Q9Q10?=
- =?us-ascii?Q?fGS033hlI6S9BU5vkoAhJYeZuM+1R3m6Mz/KbJmIESgiw0KkBcpHJys7Hq0A?=
- =?us-ascii?Q?2/ZkfkvIbXLWDRhhfQLKTq+nDwjQNJERrK7hAGbI9pcMFGAh7IffuMvZDZsJ?=
- =?us-ascii?Q?begTe+jhbu5pqHTgaqqPeTXz/VjUEHNG0F4xGgB74lkU9l/cpuij84YFIF5S?=
- =?us-ascii?Q?Om9R83tmJIBVcQ2/gyPGSl07/OF6EnTFGdSg75cYbWsg4Wq3A1p9Gkt2ZS8m?=
- =?us-ascii?Q?QgeNTTky+mPfJaCZc0A703oHZQnRETCO0yrdciYkfqKz9Kf5gthU15jHji7U?=
- =?us-ascii?Q?yoz3OgtjtX3J7JYcY/4CvLC5KIpwFgE1gs0yyHCIQzgvrpB2L6uYPaquDeeQ?=
- =?us-ascii?Q?leXswniwloeoitQxS6oBflXuYkgNDxgiGxmfR/iYdNNt11l23FYJbDTgOEmA?=
- =?us-ascii?Q?eJTrQOIkPN69vCqSChOUBN6Ios2Ymh8VG1PE2OzPcoWO2biVnUXI4CiTKFtN?=
- =?us-ascii?Q?yHdaFnIJHJHmLy4yUICdDl9TAqGZ7QALROVGjDH4h88yJy7Qo/f+oV3BNQq1?=
- =?us-ascii?Q?fM4v52wmd8q3ZDEjRtnNt7gqv2rBUmcDo2UJRZoXiw+QJ6hefg8qKIBQ0+yY?=
- =?us-ascii?Q?AX46t7tuDlfBtZkkQnVfDXWmNBMO9B7+EXce0lMCeLUKMVYoVWQFvB7we8AN?=
- =?us-ascii?Q?8g=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d1fd280-47f6-47b5-c801-08dcfce01f71
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?y3VHNjTFzhhs7slSI3ar+tQ3aSQSb+0K60C/VMIfNUI0RXwgFD+7WOEmICfT?=
+ =?us-ascii?Q?q3qqjYbJ4CkHaKJGGKrsBAJqb1ikJ7FZLZ/NqDv3RxFX6yo7nGtLrvpwY9qH?=
+ =?us-ascii?Q?D7Yd5Q2H7HATAtRjOCux258DapBkvdvBtcjjnNfsORb5hNDYSYTwxwm6mTfY?=
+ =?us-ascii?Q?XpHlIOcx5YRw9kdd7VqYTRTmq3a57M+r1Ln5weiTIPRiECLEsIGHIpTqwOzi?=
+ =?us-ascii?Q?cyIK2kiGGGoGu5oYPK2oPLjj2lTV867ceUy+0R6LKEgMQTr4NE3u3h6cyPib?=
+ =?us-ascii?Q?TYycHc3idWE8BXVWxaL8Tlh5BVMF61c14yKcm39v2D2oLuMBnnrcp5JHSaAg?=
+ =?us-ascii?Q?2nmOdH9xRKqeeWCC7GnP5k7GM10/GiX5ZuRB55t/ySyta71DHjY7c2tQsJYH?=
+ =?us-ascii?Q?ZklOi+msIS2PvQ2SJsZmuuisnOhs35+lcNO2DysxeszpWENkdQ42HH23WdeA?=
+ =?us-ascii?Q?gKayuyDl8t9gkff3BlXDMHul9tKWsQXA5G4YTUgyaBjtFsjnrVYFLOv9v/6w?=
+ =?us-ascii?Q?lP8jV2Cry0qMx1ogbrRgzpsIpUVtjHuEkb/zXupktWyBUzegRXijiI64m5bd?=
+ =?us-ascii?Q?S0EamQdZtPP1AE3qlA+iGYfUdj7/m0QJIsZS5Pqbxafbco5oYkwDY/EfrRue?=
+ =?us-ascii?Q?t7paJlkZQR1xJzd/BPCmfgT6N4+JpXzF1Khu7YodgfCOltlMcziYSTxyDfFS?=
+ =?us-ascii?Q?t/x/ULmqg7SDxCllNJu9Uj7qfBNoP5cCiD8XTTZXNAeVbih653/naYbMFoCl?=
+ =?us-ascii?Q?TL/ib0P1fHN34j+bFVUz2Fxy/uQILfg+8loMZegXfBV4KQQzXq1q01bXvA1u?=
+ =?us-ascii?Q?L1HvYquoii9WkhxvFzMB7k2XIvSxJU95QtT21ZVUTRhxRNPdSC25eG1yGAQV?=
+ =?us-ascii?Q?PNkrfhWbjZxsoOkmCEeiyHRzuDqI0gUNfpYkAyHvx1RJUAw1cKweOo6L2Sty?=
+ =?us-ascii?Q?EtZIOuNYSf4hOmy8zIc4Rjt6pxhn48X5So7PEYqw8w4S7+9wPB4wI9gWQLZg?=
+ =?us-ascii?Q?a92ZeU6fWgpUXnfLeLAEZdyJnus5S201laDxZsqN6Mv56NPwuDN2ToMCtitw?=
+ =?us-ascii?Q?v47h7SlFHOc056mRMkMtQztwgvbojtpMzQfhckR+YfDyTuRU/HxIoum+K21t?=
+ =?us-ascii?Q?VRSfG09XEW6SXcMieIJy4Ngrg7k948fiSGpfIeWK073KlQ2CLyDm0UN+NBen?=
+ =?us-ascii?Q?MnwQSGJuNaO98bYa7YR/uvOp7KYegPdiZUYdjEbT2e+CoSKkWcK7CrYmjnYh?=
+ =?us-ascii?Q?VXiA33qynMfqfaOEVl/3WYOBYTDY58+Qf4u3wmCtTFG9i71u8yHFmVe48k/u?=
+ =?us-ascii?Q?m8Jjy+0bHI0fibv0mWMirryoEHojORrijwMt6Wc2s7+JkH89g9cr9w68Sddq?=
+ =?us-ascii?Q?FciulpwSuKwUTfr2zQwikEmEyqxNg5vZphhK1eu4HvRRaxDicURT4PQ+ZnwN?=
+ =?us-ascii?Q?zaX3C3pAjYsBi/2LpSJWmCKHQXvZBxcDVps4foivKRRuQH9FNVr5v7uUNCoX?=
+ =?us-ascii?Q?oIAIHYkcCTy40Zp+9D+Nfu4bqu6HBY0ci4fq1MohHq5VY/54r9xoubyZbwAn?=
+ =?us-ascii?Q?dCk++rh7oGGKWXPMU/7EFnfaXkvKrRYve8oArmARuVv4EuBGEwQPZfbyc7Z6?=
+ =?us-ascii?Q?hg=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ef36196e-e603-4978-8214-08dcfce03026
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 14:51:11.3804
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 14:51:39.3433
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h7VgFAytkxYwOkALWWUAyKJ7/l8eR5kZg2bNG5cSr+hjhIg//U5C/ED5ltBQ+GHNpSkTn7vpCfMwdXZCqhyznw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB7534
+X-MS-Exchange-CrossTenant-UserPrincipalName: LXSOmjzHh8TYgcYH6fV5u+9FOjlr8XBsT0hIZ9Wv3gzYEcaADW38clMv4tCXZSAkKN9wLq5oOC6PZiIP8LIPBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6299
 X-OriginatorOrg: intel.com
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4d3056ab32e02139d7656adf048416e877e283b0
-commit: c21dc717760f8594e1fccae49eb86eb05e9a5f12 [1360/1360] dt-bindings: arm: Add MPAM MSC binding
-:::::: branch date: 2 hours ago
-:::::: commit date: 10 months ago
-config: loongarch-randconfig-052-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041305.karqcxbp-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.1.0
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   81bd1eb3862e37f2ce6e1148ed51ac214ab5c007
+commit: 19a00cf1778a605491092b6b2ac0cf46687ff6f2 [1/1] CHROMIUM: arm64: dts: mt8183: Add pico board in kernel v5.10
+:::::: branch date: 4 days ago
+:::::: commit date: 6 months ago
+config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241104/202411041213.HRKAus08-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
 dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041305.karqcxbp-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041213.HRKAus08-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411041305.karqcxbp-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411041213.HRKAus08-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
->> Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:76:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
-   Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml:82:15: [error] string value is redundantly quoted with any quotes (quoted-strings)
-
-vim +76 Documentation/devicetree/bindings/arm/arm,mpam-msc.yaml
-
-c21dc717760f85 Rob Herring 2024-01-22   8  
-c21dc717760f85 Rob Herring 2024-01-22   9  description: |
-c21dc717760f85 Rob Herring 2024-01-22  10    The Arm MPAM specification can be found here:
-c21dc717760f85 Rob Herring 2024-01-22  11  
-c21dc717760f85 Rob Herring 2024-01-22  12    https://developer.arm.com/documentation/ddi0598/latest
-c21dc717760f85 Rob Herring 2024-01-22  13  
-c21dc717760f85 Rob Herring 2024-01-22  14  maintainers:
-c21dc717760f85 Rob Herring 2024-01-22  15    - Rob Herring <robh@kernel.org>
-c21dc717760f85 Rob Herring 2024-01-22  16  
-c21dc717760f85 Rob Herring 2024-01-22  17  properties:
-c21dc717760f85 Rob Herring 2024-01-22  18    compatible:
-c21dc717760f85 Rob Herring 2024-01-22  19      items:
-c21dc717760f85 Rob Herring 2024-01-22  20        - const: arm,mpam-msc                   # Further details are discoverable
-c21dc717760f85 Rob Herring 2024-01-22  21        - const: arm,mpam-memory-controller-msc
-c21dc717760f85 Rob Herring 2024-01-22  22  
-c21dc717760f85 Rob Herring 2024-01-22  23    reg:
-c21dc717760f85 Rob Herring 2024-01-22  24      maxItems: 1
-c21dc717760f85 Rob Herring 2024-01-22  25      description: A memory region containing registers as defined in the MPAM
-c21dc717760f85 Rob Herring 2024-01-22  26        specification.
-c21dc717760f85 Rob Herring 2024-01-22  27  
-c21dc717760f85 Rob Herring 2024-01-22  28    interrupts:
-c21dc717760f85 Rob Herring 2024-01-22  29      minItems: 1
-c21dc717760f85 Rob Herring 2024-01-22  30      items:
-c21dc717760f85 Rob Herring 2024-01-22  31        - description: error (optional)
-c21dc717760f85 Rob Herring 2024-01-22  32        - description: overflow (optional, only for monitoring)
-c21dc717760f85 Rob Herring 2024-01-22  33  
-c21dc717760f85 Rob Herring 2024-01-22  34    interrupt-names:
-c21dc717760f85 Rob Herring 2024-01-22  35      oneOf:
-c21dc717760f85 Rob Herring 2024-01-22  36        - items:
-c21dc717760f85 Rob Herring 2024-01-22  37            - enum: [ error, overflow ]
-c21dc717760f85 Rob Herring 2024-01-22  38        - items:
-c21dc717760f85 Rob Herring 2024-01-22  39            - const: error
-c21dc717760f85 Rob Herring 2024-01-22  40            - const: overflow
-c21dc717760f85 Rob Herring 2024-01-22  41  
-c21dc717760f85 Rob Herring 2024-01-22  42    arm,not-ready-us:
-c21dc717760f85 Rob Herring 2024-01-22  43      description: The maximum time in microseconds for monitoring data to be
-c21dc717760f85 Rob Herring 2024-01-22  44        accurate after a settings change. For more information, see the
-c21dc717760f85 Rob Herring 2024-01-22  45        Not-Ready (NRDY) bit description in the MPAM specification.
-c21dc717760f85 Rob Herring 2024-01-22  46  
-c21dc717760f85 Rob Herring 2024-01-22  47    numa-node-id: true # see NUMA binding
-c21dc717760f85 Rob Herring 2024-01-22  48  
-c21dc717760f85 Rob Herring 2024-01-22  49    '#address-cells':
-c21dc717760f85 Rob Herring 2024-01-22  50      const: 1
-c21dc717760f85 Rob Herring 2024-01-22  51  
-c21dc717760f85 Rob Herring 2024-01-22  52    '#size-cells':
-c21dc717760f85 Rob Herring 2024-01-22  53      const: 0
-c21dc717760f85 Rob Herring 2024-01-22  54  
-c21dc717760f85 Rob Herring 2024-01-22  55  patternProperties:
-c21dc717760f85 Rob Herring 2024-01-22  56    '^ris@[0-9a-f]$':
-c21dc717760f85 Rob Herring 2024-01-22  57      type: object
-c21dc717760f85 Rob Herring 2024-01-22  58      additionalProperties: false
-c21dc717760f85 Rob Herring 2024-01-22  59      description: |
-c21dc717760f85 Rob Herring 2024-01-22  60        RIS nodes for each RIS in an MSC. These nodes are required for each RIS
-c21dc717760f85 Rob Herring 2024-01-22  61        implementing known MPAM controls
-c21dc717760f85 Rob Herring 2024-01-22  62  
-c21dc717760f85 Rob Herring 2024-01-22  63      properties:
-c21dc717760f85 Rob Herring 2024-01-22  64        compatible:
-c21dc717760f85 Rob Herring 2024-01-22  65          enum:
-c21dc717760f85 Rob Herring 2024-01-22  66              # Bulk storage for cache
-c21dc717760f85 Rob Herring 2024-01-22  67            - arm,mpam-cache
-c21dc717760f85 Rob Herring 2024-01-22  68              # Memory bandwidth
-c21dc717760f85 Rob Herring 2024-01-22  69            - arm,mpam-memory
-c21dc717760f85 Rob Herring 2024-01-22  70  
-c21dc717760f85 Rob Herring 2024-01-22  71        reg:
-c21dc717760f85 Rob Herring 2024-01-22  72          minimum: 0
-c21dc717760f85 Rob Herring 2024-01-22  73          maximum: 0xf
-c21dc717760f85 Rob Herring 2024-01-22  74  
-c21dc717760f85 Rob Herring 2024-01-22  75        cpus:
-c21dc717760f85 Rob Herring 2024-01-22 @76          $ref: '/schemas/types.yaml#/definitions/phandle-array'
-c21dc717760f85 Rob Herring 2024-01-22  77          description:
-c21dc717760f85 Rob Herring 2024-01-22  78            Phandle(s) to the CPU node(s) this RIS belongs to. By default, the parent
-c21dc717760f85 Rob Herring 2024-01-22  79            device's affinity is used.
-c21dc717760f85 Rob Herring 2024-01-22  80  
-c21dc717760f85 Rob Herring 2024-01-22  81        arm,mpam-device:
-c21dc717760f85 Rob Herring 2024-01-22  82          $ref: '/schemas/types.yaml#/definitions/phandle'
-c21dc717760f85 Rob Herring 2024-01-22  83          description:
-c21dc717760f85 Rob Herring 2024-01-22  84            By default, the MPAM enabled device associated with a RIS is the MSC's
-c21dc717760f85 Rob Herring 2024-01-22  85            parent node. It is possible for each RIS to be associated with different
-c21dc717760f85 Rob Herring 2024-01-22  86            devices in which case 'arm,mpam-device' should be used.
-c21dc717760f85 Rob Herring 2024-01-22  87  
-c21dc717760f85 Rob Herring 2024-01-22  88      required:
-c21dc717760f85 Rob Herring 2024-01-22  89        - compatible
-c21dc717760f85 Rob Herring 2024-01-22  90        - reg
-c21dc717760f85 Rob Herring 2024-01-22  91  
-c21dc717760f85 Rob Herring 2024-01-22  92  required:
-c21dc717760f85 Rob Herring 2024-01-22  93    - compatible
-c21dc717760f85 Rob Herring 2024-01-22  94    - reg
-c21dc717760f85 Rob Herring 2024-01-22  95  
-c21dc717760f85 Rob Herring 2024-01-22  96  dependencies:
-c21dc717760f85 Rob Herring 2024-01-22  97    interrupts: [ interrupt-names ]
-c21dc717760f85 Rob Herring 2024-01-22  98  
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:523.27-527.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam0@2: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8183-kukui.dtsi:529.27-533.4: Warning (unit_address_vs_reg): /soc/pinctrl@10005000/cam1@2: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1941.28-1945.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
+   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2055.27-2059.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['google,pico', 'mediatek,mt8183'] is too short
+   	'google,pico' is not one of ['mediatek,mt2701-evb']
+   	'google,pico' is not one of ['mediatek,mt2712-evb']
+   	'google,pico' is not one of ['mediatek,mt6580-evbp1']
+   	'google,pico' is not one of ['prestigio,pmt5008-3g']
+   	'google,pico' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
+   	'google,pico' is not one of ['mediatek,mt6592-evb']
+   	'google,pico' is not one of ['mediatek,mt6755-evb']
+   	'google,pico' is not one of ['mediatek,mt6765-evb']
+   	'google,pico' is not one of ['mediatek,mt6779-evb']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/pwrap@1000d000/pmic/mt6358regulator: failed to match any schema with compatible: ['mediatek,mt6358-regulator']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8183-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: anx7625@58: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: anx7625@58: '#address-cells', '#size-cells', 'panel_flags', 'port@0', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/analogix,anx7625.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: it6505dptx@5c: 'ports' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
+--
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
+>> arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,12}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_mt6358_ts3a227_max98357']
+   arch/arm64/boot/dts/mediatek/mt8183-kukui-jacuzzi-pico.dtb: bt-sco: '#sound-dai-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
