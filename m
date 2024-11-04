@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729291791EB;
-	Mon,  4 Nov 2024 05:59:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3FAA4501A
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 06:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730699988; cv=none; b=gVgOl73prcIhBwX6LuvHju3fILML/Mtsut2jRxACD2cIv8ejKoZLlTDKBhmp/JidQ/xZEl82j/jOTYKoX1hZb9ldGIh/lM06gFJXryh2K7WlDwerti15vQWfaejGzgYWXxo1W6fEuVhRRBa/jaqlwNtufTrQGwAz/KV5/P2F3is=
+	t=1730701850; cv=none; b=Sv22DZVRLUoq57D/gUkp6S4ssb4VEjFTfwAZHpRnWYE6UlNYtfJp/u5Y8O1jQAspOsMAQRIWOwKskst48ukB90xB+2oMeEUX+iMQYmnHKdLOwkAiCUAEZ3kftACEbM4Lh21n94KLGcNZKSHzNy7xNpzWRwIQUJamsTxgnRMEdVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730699988; c=relaxed/simple;
-	bh=hTOyJC84pbu81qmxmzUt8J7bKPI8eB4sncv8Be+6qsE=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ho8atyOGT6cMVxoNDPi16is9jb8yFPkCcmtw0XTnsvBOy17JNsdSb7XI4uK/zhp0FTqNZ/cJ0WtPAFTLbPyza68WWQTrquP359ebSDAfZi+Nlp1VuDw9Ox/7AzUS+8H3CH+efyKaCMe6cBHDO9ErnQK9VGr+pT3ADj+TrcD4mhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kJbpVwHV; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1730701850; c=relaxed/simple;
+	bh=8nAb/AF4Sjr0v90Ds6/tQONEEcAbVIJNxgvFQXgTdSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zo07mGRAALRadlvR0teBX/kYWKI5Gz8hYKuIBUoviNHsVBniWq1ZlGJAWz71iEVjRrAydjkci7TPUXbo10uuubIIgaGQRomAs4gy6umHCuBu3RepYoN0WVb1zAYUzEQXM7rdLzl9aKSsu9NdCD0TyyAPGmZgmmoij2z2BsRi7gA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMMHM2Co; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kJbpVwHV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMMHM2Co"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730699987; x=1762235987;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=hTOyJC84pbu81qmxmzUt8J7bKPI8eB4sncv8Be+6qsE=;
-  b=kJbpVwHV23VCzPHKzHksigGloM95zsEjeudUXELbSH3T09jHgPiC5G0O
-   W8rzhs76Z/TQU3h2L2QickINzjJmLWSYqDtnj/G01dd4h1NvXD6TzXhmv
-   lJq4ayVLRBmDMadZK/LrNIXLDHOybGpDJ4/v6AIBebAZuNTiySawWXwZL
-   F86f/ZFkR8sH/nG+gFSkoWO8RRgKvJJBbYy7AP1tQalrYMV9sxwMrVNsS
-   nkXhyuREiwfIUqfzV5MuEWoVx5GkrtBPueobnfUhNapWFRjlVOaJdlstl
-   CFi19zomDBqNobOq8bFFU7NU9alWe908RwfGc3gdnZGo0+fkeTlO3TNGn
-   w==;
-X-CSE-ConnectionGUID: TNv2b7i+Q/G43X3cWwmd+w==
-X-CSE-MsgGUID: c/Q3fTXzTnaRWh3dw2RMhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30236743"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30236743"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 21:59:46 -0800
-X-CSE-ConnectionGUID: frbaLsbFS5mdaWSWvhi/oA==
-X-CSE-MsgGUID: cNPKstEYQ4+WZaZBxWXGgg==
+  t=1730701848; x=1762237848;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8nAb/AF4Sjr0v90Ds6/tQONEEcAbVIJNxgvFQXgTdSY=;
+  b=aMMHM2CoHHLyT32JFC2htB6yZTX2xRKXp7W/cahiF0/b+toCMTTpBeXD
+   jZyD8sjnqK4mZlAfrYEBVT09hezs5COLlLPs3Z3YTMvp/bw9qSoDEi8GD
+   xQYoJlQwE2NqsXzUFJXbsN0MfcPSN4HG6MCzD6X8e5QWi1uTxverr+ehi
+   QfF5izEOIJy55prClJ0vN7nBt8yW4MUo3oOw+fgU51qcj9LD8HnalQeYp
+   uNpxMV2Y/tQBdzrDjZUCY0WfAApxV/yypoM38rA+lJr5VSr+BKnXAIjgb
+   iQkhRTjhY/zPJnT+iSwkiHvDY+eMzMeZeRAvJUrRJP5BMjW9crQAOCAG5
+   A==;
+X-CSE-ConnectionGUID: XKYskcn2STOFaOQHbYyuKQ==
+X-CSE-MsgGUID: zN4G6TXJTYiIwVaE9h8cQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="18002509"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="18002509"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 22:30:47 -0800
+X-CSE-ConnectionGUID: 7zEeJ7LtSFOEtZiXnDU9Cg==
+X-CSE-MsgGUID: YDSzl1HRT/WlDFMDLhTGsQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="106895708"
+   d="scan'208";a="84002932"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Nov 2024 21:59:44 -0800
+  by orviesa007.jf.intel.com with ESMTP; 03 Nov 2024 22:30:47 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7q7q-000kW9-0d;
-	Mon, 04 Nov 2024 05:59:42 +0000
-Date: Mon, 4 Nov 2024 13:59:36 +0800
+	id 1t7qbr-000kXf-3A;
+	Mon, 04 Nov 2024 06:30:43 +0000
+Date: Mon, 4 Nov 2024 14:30:34 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH bpf-next v3 2/2] bpf, x86: Skip bounds checking for
- PROBE_MEM with SMAP
-Message-ID: <202411041350.JjnPADMy-lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm2key-v8 11/12]
+ crypto/asymmetric_keys/tpm2_key_rsa.c:633:10: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202411041402.87goDFKV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,58 +63,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In-Reply-To: <20241103193512.4076710-3-memxor@gmail.com>
-References: <20241103193512.4076710-3-memxor@gmail.com>
-TO: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-TO: bpf@vger.kernel.org
-CC: kkd@meta.com
-CC: Puranjay Mohan <puranjay@kernel.org>
-CC: Alexei Starovoitov <ast@kernel.org>
-CC: Andrii Nakryiko <andrii@kernel.org>
-CC: Daniel Borkmann <daniel@iogearbox.net>
-CC: Martin KaFai Lau <martin.lau@kernel.org>
-CC: Eduard Zingerman <eddyz87@gmail.com>
-CC: Song Liu <song@kernel.org>
-CC: Yonghong Song <yonghong.song@linux.dev>
-CC: Alexander Shishkin <alexander.shishkin@linux.intel.com>
-CC: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-CC: Dave Hansen <dave.hansen@linux.intel.com>
-CC: Andy Lutomirski <luto@kernel.org>
-CC: Peter Zijlstra <peterz@infradead.org>
-CC: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@redhat.com>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Rishabh Iyer <rishabh.iyer@berkeley.edu>
-CC: Sanidhya Kashyap <sanidhya.kashyap@epfl.ch>
-CC: x86@kernel.org
-CC: kernel-team@fb.com
-
-Hi Kumar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 77017b9c46820d72596e50a3986bd0734c1340a9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/x86-Perform-BPF-exception-fixup-in-do_user_addr_fault/20241104-033702
-base:   77017b9c46820d72596e50a3986bd0734c1340a9
-patch link:    https://lore.kernel.org/r/20241103193512.4076710-3-memxor%40gmail.com
-patch subject: [PATCH bpf-next v3 2/2] bpf, x86: Skip bounds checking for PROBE_MEM with SMAP
-config: x86_64-randconfig-001-20241104 (https://download.01.org/0day-ci/archive/20241104/202411041350.JjnPADMy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
+head:   676e39dca229e7ee2b1d90a1e8accda6fdede98f
+commit: 70ff943241a1202554120aa67fdb4708c684fed4 [11/12] KEYS: asymmetric: Add tpm2_key_rsa signer
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241104/202411041402.87goDFKV-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041350.JjnPADMy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041402.87goDFKV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411041350.JjnPADMy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041402.87goDFKV-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/net/bpf_jit_comp.c:8:
-   In file included from include/linux/netdevice.h:38:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
+   In file included from crypto/asymmetric_keys/tpm2_key_rsa.c:21:
+   In file included from include/keys/trusted-type.h:12:
+   In file included from include/linux/tpm.h:24:
    In file included from include/linux/highmem.h:8:
    In file included from include/linux/cacheflush.h:5:
    In file included from arch/x86/include/asm/cacheflush.h:5:
@@ -135,8 +102,51 @@ All warnings (new ones prefixed by >>):
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
      525 |                            NR_VM_NUMA_EVENT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
->> arch/x86/net/bpf_jit_comp.o: warning: objtool: do_jit+0xda74: unreachable instruction
+>> crypto/asymmetric_keys/tpm2_key_rsa.c:633:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     633 |                 return ret;
+         |                        ^~~
+   crypto/asymmetric_keys/tpm2_key_rsa.c:629:9: note: initialize the variable 'ret' to silence this warning
+     629 |         int ret;
+         |                ^
+         |                 = 0
+   5 warnings generated.
+
+
+vim +/ret +633 crypto/asymmetric_keys/tpm2_key_rsa.c
+
+   622	
+   623	/*
+   624	 * Attempt to parse a data blob for a key as a TPM private key blob.
+   625	 */
+   626	static int tpm2_key_rsa_preparse(struct key_preparsed_payload *prep)
+   627	{
+   628		struct tpm2_key *key;
+   629		int ret;
+   630	
+   631		key = tpm2_key_decode(prep->data, prep->datalen);
+   632		if (IS_ERR(key))
+ > 633			return ret;
+   634	
+   635		if (key->oid != OID_TPMLoadableKey) {
+   636			kfree(key);
+   637			return -EBADMSG;
+   638		}
+   639	
+   640		ret = __tpm2_key_rsa_preparse(key);
+   641		if (ret < 0) {
+   642			kfree(key);
+   643			return ret;
+   644		}
+   645	
+   646		prep->payload.data[asym_subtype] = &tpm2_key_rsa_subtype;
+   647		prep->payload.data[asym_key_ids] = NULL;
+   648		prep->payload.data[asym_crypto] = key;
+   649		prep->payload.data[asym_auth] = NULL;
+   650		prep->quotalen = 100;
+   651	
+   652		return 0;
+   653	}
+   654	
 
 -- 
 0-DAY CI Kernel Test Service
