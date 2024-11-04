@@ -1,73 +1,59 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02CBD1953B0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 08:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B1318BB8F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 08:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730709081; cv=none; b=m1daWoX6dlaU1hY7kTI05jfpLw7osrC2EtV8XW8PbYRLbhFIxE9/FFRyMOdvzFxVdnsPZM75JqQysM6HdAXyExHrWGXT3UC4B1T9P1ijIV8eufdPUX4VrX6XD6URtyRrxGA2p7oa8H9vrQPwH/xSYs6eYTb4Uq7hAUogzQsXVfM=
+	t=1730709840; cv=none; b=ACw5Z4o4uAtUOwKLJb0aV46jRLPWEOYTfEq3weBczAZkOSswnyeDuHvMpFYf8GfkrZQPiXgBPlW9Du9fRUBwHFQ0J1iMy0dSx8s8obNuNMnXJwWd6sCjY+9WsgG5C3VnaiZBFgXp+VULRmN0GzM6V9m0k0eSMbKmBSDttC/+geU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730709081; c=relaxed/simple;
-	bh=RMFwDMojD3zrSAgOcjuKC+xriirvgs/o1aANeynXSuQ=;
+	s=arc-20240116; t=1730709840; c=relaxed/simple;
+	bh=xYNwywpoMShFA+5id6HFLosxqPAVUtellR8QUBis1D0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=fqJwQ8ufsuYFHAx5ifxyScUCEHf/7Ie06akOrLhCvtvyZuTwlpcOIaqxz2YmIWZJgYnf7INkbZ6uhKZN0s2Ur8juFZsnPH992lvuz24c/f0/MZ+KYKfQu4OVm6QEC1elWre73Jtgexn0b+JjSmxtDKgvTlnmHh8ynH0yah3cuAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CipQRwbi; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=I+PMw0lfKAztOx6QymxqiNr6drC/ctnIujcosrg8xWHdzArI9OzopkQyuuIlmxU8xMGI/KS5I1+hmxxEl7W8wJPIP9oExaMNsQBmg4eNTfIHFrfCcGE4OuMfJ4loKzk85k8jlo9eir4vlRFkmkH0DBv5uipH3wY8ydNO5saaUwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bD3KEIxy; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CipQRwbi"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43155afca99so28512915e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Nov 2024 00:31:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1730709078; x=1731313878; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=T5vDLGsbEr0SVIowN1t5ye+7OUL4pjjT2D7werAFSjM=;
-        b=CipQRwbi07lCjzQ56qnODXfhqIbzL5HSbwFs8PiPp7wfLO74D/1MhGth6a745+t9SK
-         wybzrvWe6MEBlK1mZ516VDcsA2wkHeT7wwNa3W91wnJNb6JzDZkI39dVnTQ5uUWbPdYe
-         UMV0+VN1A0iPnRTRFf4QbiiEt17kpMTdawgOUTv1RsFhPxr0U8qFBpA0TvSfJY5YMxCJ
-         3aH91p7XjNYW5WkEmxM3eqrYLlc9Z5hyU51N/vKS7su2JDerqdH+gr0fK5tpSK2NXNCJ
-         R3x23jgLfG1I3SlfXmrSK5/1wR6DTrMIJ/URoBtgHaUW3PXBFMS1HtVaZg5oFc+zNN8O
-         0OIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730709078; x=1731313878;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=T5vDLGsbEr0SVIowN1t5ye+7OUL4pjjT2D7werAFSjM=;
-        b=BnlIscr5BFjpU2aYo0xKgS2vFW9FLXBAJw6t21oCraLzjTQ6EV7ad7JoFkT1OXuqDi
-         PfMxXgYnYl6w7sX2MJ3QVpZDmG+BulV+aP6YvpTs+iDCl8WxSEDImZb1opo/gKh1fvP8
-         r0Zp5Q6icq8NOjOXAR8H87VaQEYNPcthU46ezClJfNTH+GV0PA8V5tJJ1MZgHs1c2dq5
-         Q3ZahOgBvrka6rkwUx5aUlejKIlVa14nwQna3twp9R/WwVYp/DFnQc6MgOyXpYniT1g2
-         x1y8pbWvVHEUtDBxNLJtdvPnPVaqeLWFmoIF7oN9khQzJ6IJaOMgyjSFhTwEgxH5ws/M
-         tZrw==
-X-Forwarded-Encrypted: i=1; AJvYcCXPeq0m2Y92m9YOr38NCJ0F1Zq9BM9fwYEbBSuPnpunj4mmnOhDAMlGEE5bRVPqvDIpn88SmAQ+E/qlAHdB@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxHLbf5H0rs7aqj7dT/8NcOfPoaNn358Ivakda6Be4rckn2l0c
-	tw1HbINno+FNeQF1VvbmMxkYW+5X254sEP+/dejjO46zCK7QNQsAa2IpBNTK5nI=
-X-Google-Smtp-Source: AGHT+IFFiT8xMGT+o7kM5vRaU6KjK8tqr+AcRQcVqXIZYuM1L7HGi9LZqQfv+QQLXIRdVtTWEYW6xA==
-X-Received: by 2002:a5d:64a7:0:b0:374:c7cd:8818 with SMTP id ffacd0b85a97d-381c79e366dmr9155476f8f.22.1730709078297;
-        Mon, 04 Nov 2024 00:31:18 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381c10d439esm12549514f8f.44.2024.11.04.00.31.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 00:31:17 -0800 (PST)
-Date: Mon, 4 Nov 2024 11:31:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
-	chengming.zhou@linux.dev, usamaarif642@gmail.com,
-	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
-	akpm@linux-foundation.org, linux-crypto@vger.kernel.org,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	clabbe@baylibre.com, ardb@kernel.org, ebiggers@google.com,
-	surenb@google.com, kristen.c.accardi@intel.com, zanussi@kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, wajdi.k.feghali@intel.com,
-	vinodh.gopal@intel.com, kanchana.p.sridhar@intel.com
-Subject: Re: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA in
- zswap_store() of large folios.
-Message-ID: <89728727-0fd2-4539-bc89-17a699d7179a@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bD3KEIxy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730709840; x=1762245840;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=xYNwywpoMShFA+5id6HFLosxqPAVUtellR8QUBis1D0=;
+  b=bD3KEIxyI5c0f2eFsf/YVApJWAfRnPmKlpKzVfAE5F/7KXTC37XLObh8
+   jQP4uLZY4wbFW54+itlALg9OrQgIcdLAlU+LjyQVPwG8OjbaxJguYj8cJ
+   I9g+JJ1zefzJGz+7OxMte5I/o5mZF9UqhkTfVeY8xFMV4FrW+OvaqGPri
+   l2k+J3Fx8D1CrjezFVrGKsLCWGXSyFkLp3wtozFf2c2ScFhSM16vVXM4q
+   c30n8Ex0JjsI0E0x0CcnnvpLSCwvceCbqdU44BdPDmJsEgGrpjyQrBqzL
+   uv63L32j4Hvs8t+7O7yBH9hYvb1txH6l362dpVcudiX27SDCIH+VbGBmF
+   g==;
+X-CSE-ConnectionGUID: QWY5DwHRSf2QCsl5XejK+A==
+X-CSE-MsgGUID: uQk0M3uKQvaz7a5AcveGFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34089807"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34089807"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:43:59 -0800
+X-CSE-ConnectionGUID: V+I2HO7iQ2GNBji1zRuDXg==
+X-CSE-MsgGUID: 4vhHOXOBQYGR+5q6ZSTNCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="121050434"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2024 00:43:58 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t7sgl-000kec-2N;
+	Mon, 04 Nov 2024 08:43:55 +0000
+Date: Mon, 4 Nov 2024 16:43:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jarkko-tpmdd:tpm2key-v8 12/12]
+ crypto/asymmetric_keys/tpm2_key_ecc.c:417:10: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202411041645.kUdtTSqR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,70 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241103032111.333282-14-kanchana.p.sridhar@intel.com>
 
-Hi Kanchana,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/crypto-acomp-Define-two-new-interfaces-for-compress-decompress-batching/20241103-112337
-base:   5c4cf96cd70230100b5d396d45a5c9a332539d19
-patch link:    https://lore.kernel.org/r/20241103032111.333282-14-kanchana.p.sridhar%40intel.com
-patch subject: [PATCH v2 13/13] mm: zswap: Compress batching with Intel IAA in zswap_store() of large folios.
-config: x86_64-randconfig-161-20241104 (https://download.01.org/0day-ci/archive/20241104/202411040859.2z0MfFkR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
+head:   676e39dca229e7ee2b1d90a1e8accda6fdede98f
+commit: 3ca44efc8f37aa7aeada1dd406ec273f92859022 [12/12] KEYS: asymmetric: Add tpm2_key_ecdsa signer
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241104/202411041645.kUdtTSqR-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041645.kUdtTSqR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411040859.2z0MfFkR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041645.kUdtTSqR-lkp@intel.com/
 
-smatch warnings:
-mm/zswap.c:1788 zswap_store_propagate_errors() warn: variable dereferenced before check 'sbp->entry' (see line 1785)
+All warnings (new ones prefixed by >>):
 
-vim +1788 mm/zswap.c
+   In file included from crypto/asymmetric_keys/tpm2_key_ecc.c:17:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> crypto/asymmetric_keys/tpm2_key_ecc.c:417:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+     417 |                 return ret;
+         |                        ^~~
+   crypto/asymmetric_keys/tpm2_key_ecc.c:413:9: note: initialize the variable 'ret' to silence this warning
+     413 |         int ret;
+         |                ^
+         |                 = 0
+   5 warnings generated.
 
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1771  static __always_inline void zswap_store_propagate_errors(
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1772  	struct zswap_store_pipeline_state *zst,
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1773  	u8 error_batch_idx)
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1774  {
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1775  	u8 i;
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1776  
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1777  	if (zst->errors[error_batch_idx])
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1778  		return;
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1779  
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1780  	for (i = 0; i < zst->nr_comp_pages; ++i) {
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1781  		struct zswap_store_sub_batch_page *sbp = &zst->sub_batch[i];
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1782  
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1783  		if (sbp->batch_idx == error_batch_idx) {
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1784  			if (!sbp->error) {
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02 @1785  				if (!IS_ERR_VALUE(sbp->entry->handle))
-                                                                                                  ^^^^^^^^^^^^^^^^^^
-Dereferenced
 
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1786  					zpool_free(zst->pool->zpool, sbp->entry->handle);
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1787  
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02 @1788  				if (sbp->entry) {
-                                                                                    ^^^^^^^^^^
-Checked too late
+vim +/ret +417 crypto/asymmetric_keys/tpm2_key_ecc.c
 
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1789  					zswap_entry_cache_free(sbp->entry);
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1790  					sbp->entry = NULL;
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1791  				}
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1792  				sbp->error = -EINVAL;
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1793  			}
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1794  		}
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1795  	}
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1796  
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1797  	/*
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1798  	 * Set zswap status for the folio to "error"
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1799  	 * for use in swap_writepage.
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1800  	 */
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1801  	zst->errors[error_batch_idx] = -EINVAL;
-c1252ac91d6a6a Kanchana P Sridhar 2024-11-02  1802  }
+   406	
+   407	/*
+   408	 * Attempt to parse a data blob for a key as a TPM private key blob.
+   409	 */
+   410	static int tpm2_key_ecc_preparse(struct key_preparsed_payload *prep)
+   411	{
+   412		struct tpm2_key *key;
+   413		int ret;
+   414	
+   415		key = tpm2_key_decode(prep->data, prep->datalen);
+   416		if (IS_ERR(key))
+ > 417			return ret;
+   418	
+   419		if (key->oid != OID_TPMLoadableKey) {
+   420			kfree(key);
+   421			return -EBADMSG;
+   422		}
+   423	
+   424		ret = __tpm2_key_ecc_preparse(key);
+   425		if (ret < 0) {
+   426			kfree(key);
+   427			return ret;
+   428		}
+   429	
+   430		prep->payload.data[asym_subtype] = &tpm2_key_ecc_subtype;
+   431		prep->payload.data[asym_key_ids] = NULL;
+   432		prep->payload.data[asym_crypto] = key;
+   433		prep->payload.data[asym_auth] = NULL;
+   434		prep->quotalen = 100;
+   435		return 0;
+   436	}
+   437	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
