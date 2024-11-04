@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE27DBA34
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 01:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048D854723
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 02:42:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730683988; cv=none; b=hMII2H/4E+XRJgFG+Nd/V8Q5EdEreRUoQ1AJIFTkwJGtvs8G3s7oqHtOIvOBDMH2woFKaWJUKsXq9M8oWAm7LP7lgwfUcLqzKNrt9tOehBSFmW6eUgsPaiNwUmxM4d/VrY3/Tm1rFEKCesJ8+AdqTPHq7q0KoLq8F4tYDIe0FtM=
+	t=1730688157; cv=none; b=s0oCq+5nhL5WdhSrb7PrCiBKDg6Kp40OcncwxGFVzWK8mNDsj1qX5IXHlSuCxbAaMDEsjkZWgggpuJ02mUYiRvK4QVYzx5Ochv8ATjXwGegXbkNi47Mbh8scnYEsaZUgDfnHq5/niE5oQx6M1zyrR3y+91bKgd+Gorc/sf6c01Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730683988; c=relaxed/simple;
-	bh=JBAGixxzwQtytE5o5q2F0cVtHOi7j53QA485QZoFC1A=;
+	s=arc-20240116; t=1730688157; c=relaxed/simple;
+	bh=DsBMO5PsU9G+AWKLnyFg8R/GdDfxg7/McvtsubaFLP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L0b7z5/0/sMzttlRfK+cTZmUdDzg8FJ3s2dBuWuF2cH307jY4oFHLUh+gkrpw7/MhWnwjN2G2R4PLjq3B5v7JSCbBLA1czwKH0xkPUXqAs3TkfKDlT/umI0Ezp9hczRTL8VAhO+ERJ52v/LZ1GJEr66r53u3bGbMChF0jkJbj10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RtNe5kqf; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition:In-Reply-To; b=hBRZiAuKvEQQFcR5jdkcrqmAWFDdr5w2N2O7Axg8UaoTcRDbh2EMXdyE8leJbLE7Pw/0G+VrckUTFUlODiZxouwEI3MMFufgqxYDf7pZ4EKOVraUdKr9m8RA8+DKJpL0HyT9RBGTKH1BpPJXldL9Gds2OL9VMLj1vigceUsiSnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vo8BDgS3; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RtNe5kqf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vo8BDgS3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730683987; x=1762219987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JBAGixxzwQtytE5o5q2F0cVtHOi7j53QA485QZoFC1A=;
-  b=RtNe5kqfl4iG9zQm7wBar78OY9aJFhdzKw6AUxSno7zRLMj9eIAvsNyC
-   mYQZckoOHZKgZQKYKUOBiTwmDKVM69iM54SyUg8gdc/1LmZ6zwOegv9Sl
-   Oks1TcoIL3aRwciVHraq0hJgZ43ZrKIMegOqtW6wDmGtcNLKrg4jAhuaH
-   lHDdkBroNWM8sZrHPHdITxLVBH2xvYEPMItUEFWl3tcmDX08KPJdvuASH
-   cry3Abxpn/2cbIrlQIsMNNWAWEwubjuyR1oBh5CfTcYV+AijW2tY9xkGD
-   OEhMmpy81fCknq2HH1rEWL0PjC/NcB5FMxv59HNzC6gD6LrYdyNgCgqHb
-   w==;
-X-CSE-ConnectionGUID: oRa0TksORGuxgd4dQJi7Qg==
-X-CSE-MsgGUID: QbyBQEZJROqgYctYymjOkg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="33205669"
+  t=1730688154; x=1762224154;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=DsBMO5PsU9G+AWKLnyFg8R/GdDfxg7/McvtsubaFLP8=;
+  b=Vo8BDgS34x1LCBYSzqc6w5N/fX8yKOJopOP7trIiehov5SPoS9a63VN+
+   u2Mw3AaZUOitpjvAaGGHW5e/hQoC6pAMC2YTuLfLvmBddNMVhE7e18VSw
+   DpO+JJUbTYh+VhJtzCy9R3mYyw+7l3IZ5X+RKqEhV5pG/4BGyif//UGoG
+   UBCVH6bRBtqkH0Kr8RKgpyWatuZpGFzTc+XD02xx1WVKYSCEgcUNzUzv3
+   tL5NIvHXVID6Wxj63DGRL580uOCAZ5424pGUMVsBQrUxsEncpJscllvKw
+   QR7BQmrPvApuhzgi2fu4OAeWnbJLsxg7TC2pwquMPj0OkXDT15vjl05JC
+   Q==;
+X-CSE-ConnectionGUID: lfIx/ZskQAeSGBpC7ayU3A==
+X-CSE-MsgGUID: G3fztg1/TgKHtlxNJsA8QA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="40948248"
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="33205669"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 17:33:06 -0800
-X-CSE-ConnectionGUID: EuGRuYvzQ2SC0WV9qzHwEQ==
-X-CSE-MsgGUID: eHRrIZKrQvSNd0/rGAX/HA==
+   d="scan'208";a="40948248"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2024 18:42:33 -0800
+X-CSE-ConnectionGUID: L8aHyAnRSmGs1zypEQu82A==
+X-CSE-MsgGUID: 7qzIzJuqROe4nl4CuSzmRg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="120973430"
+   d="scan'208";a="87453763"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 03 Nov 2024 17:33:05 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 03 Nov 2024 18:42:32 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7lxm-000kM9-2j;
-	Mon, 04 Nov 2024 01:33:02 +0000
-Date: Mon, 4 Nov 2024 09:32:36 +0800
+	id 1t7n30-000kOL-11;
+	Mon, 04 Nov 2024 02:42:30 +0000
+Date: Mon, 4 Nov 2024 10:42:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1225/1225] drivers/fpga/dfl.o: warning:
- objtool: build_info_commit_dev()+0x75: unreachable instruction
-Message-ID: <202411040906.Y94avIn6-lkp@intel.com>
+To: chenchangcheng <ccc194101@163.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] media: uvcvideo:Create input device for all uvc devices
+ with status endpoints.
+Message-ID: <Zyg0ffucS8iMvjdl@18dc9bc60085>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,30 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241104023947.826707-1-ccc194101@163.com>
 
-Hi Scott,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e833cceaa63f729c44be494d90d6ee3bfaf22faf
-commit: 99e28159a079ea6af5a5b789e83b68240d67f9ff [1225/1225] fpga: dfl: Add lockdep classes for pdata->lock
-config: x86_64-buildonly-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241104/202411040906.Y94avIn6-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411040906.Y94avIn6-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411040906.Y94avIn6-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-All warnings (new ones prefixed by >>):
-
-   drivers/fpga/dfl.c:57: warning: cannot understand function prototype: 'struct dfl_dev_info '
-   drivers/fpga/dfl.c:77: warning: cannot understand function prototype: 'struct dfl_chardev_info '
->> drivers/fpga/dfl.o: warning: objtool: build_info_commit_dev()+0x75: unreachable instruction
-   drivers/fpga/dfl.o: warning: objtool: missing symbol for section .init.text
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] media: uvcvideo:Create input device for all uvc devices with status endpoints.
+Link: https://lore.kernel.org/stable/20241104023947.826707-1-ccc194101%40163.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
