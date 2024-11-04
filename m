@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B1318BB8F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46A68179956
 	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 08:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730709840; cv=none; b=ACw5Z4o4uAtUOwKLJb0aV46jRLPWEOYTfEq3weBczAZkOSswnyeDuHvMpFYf8GfkrZQPiXgBPlW9Du9fRUBwHFQ0J1iMy0dSx8s8obNuNMnXJwWd6sCjY+9WsgG5C3VnaiZBFgXp+VULRmN0GzM6V9m0k0eSMbKmBSDttC/+geU=
+	t=1730709841; cv=none; b=bdyonWxjdL9KeWVvm9TzLUhKZsLiMhsGxOL4hJqop8QcLUeOmZxiz+AkLqNAYKb2BJEbkcbWofMApudJksA2jlh8xU1rNmNulyhEwamM3wL353pnTrYn33GBl56ICqlpEL2gPOEhTYBLYQyJTbcOenEMStqxxPbYM/Dr61Mbi+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730709840; c=relaxed/simple;
-	bh=xYNwywpoMShFA+5id6HFLosxqPAVUtellR8QUBis1D0=;
+	s=arc-20240116; t=1730709841; c=relaxed/simple;
+	bh=SoWEjhbgaUQa0v0iajE3/EoaGjY4YeFdcKMlrV1IEr0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=I+PMw0lfKAztOx6QymxqiNr6drC/ctnIujcosrg8xWHdzArI9OzopkQyuuIlmxU8xMGI/KS5I1+hmxxEl7W8wJPIP9oExaMNsQBmg4eNTfIHFrfCcGE4OuMfJ4loKzk85k8jlo9eir4vlRFkmkH0DBv5uipH3wY8ydNO5saaUwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bD3KEIxy; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=dl0M8qUPC0Je+VprN/7nrrWLmglksbzUqsro1YW44zIkTyVcvATI5h/jJl8aF4pWQF15WClX+uvxd+TVM5Ydz/t6V3zhcB3wfB8drGQ+gh6jp8ZTRhLZKPpP2UYOII2HuHT5axN9rgTEGS1Ub4AoyyjGr3DM/8wMGFqyYCJbDfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ym6u4VgW; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bD3KEIxy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ym6u4VgW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730709840; x=1762245840;
+  t=1730709839; x=1762245839;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xYNwywpoMShFA+5id6HFLosxqPAVUtellR8QUBis1D0=;
-  b=bD3KEIxyI5c0f2eFsf/YVApJWAfRnPmKlpKzVfAE5F/7KXTC37XLObh8
-   jQP4uLZY4wbFW54+itlALg9OrQgIcdLAlU+LjyQVPwG8OjbaxJguYj8cJ
-   I9g+JJ1zefzJGz+7OxMte5I/o5mZF9UqhkTfVeY8xFMV4FrW+OvaqGPri
-   l2k+J3Fx8D1CrjezFVrGKsLCWGXSyFkLp3wtozFf2c2ScFhSM16vVXM4q
-   c30n8Ex0JjsI0E0x0CcnnvpLSCwvceCbqdU44BdPDmJsEgGrpjyQrBqzL
-   uv63L32j4Hvs8t+7O7yBH9hYvb1txH6l362dpVcudiX27SDCIH+VbGBmF
-   g==;
-X-CSE-ConnectionGUID: QWY5DwHRSf2QCsl5XejK+A==
-X-CSE-MsgGUID: uQk0M3uKQvaz7a5AcveGFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34089807"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34089807"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:43:59 -0800
-X-CSE-ConnectionGUID: V+I2HO7iQ2GNBji1zRuDXg==
-X-CSE-MsgGUID: 4vhHOXOBQYGR+5q6ZSTNCQ==
+  bh=SoWEjhbgaUQa0v0iajE3/EoaGjY4YeFdcKMlrV1IEr0=;
+  b=Ym6u4VgW6XDTG3EiHSQkS0bZ/PMr0huN8rIZNKEITpTpot0/OLqwEjfZ
+   izLDdVKJCa1W0e/yKzk7OHbzwGeG36iYC936vgwVj639hbNpFKl++YLj5
+   ED62TJJAxSDNTer0MBeX+BCTn1Ctv40SUQ4nWdsBJsdTyCZ6TeKajCuSe
+   qAFbm0QQtEvxjNDk2BnOULtm++srDuN547YL7WqMRtFkW+9hLI0MGce2T
+   eIlDqZHWS+yKYOhzuuwd07iJBB+DwA7cXteBGH9262AGS51b9CgtVpTtH
+   kM5Qe68tjpRb1sd3UwSvaVXL0UfklHZOD3X5h9RW+s6oPNCl3jVIDy0Hh
+   Q==;
+X-CSE-ConnectionGUID: IrB8pA7QTsqof/12mPGBZg==
+X-CSE-MsgGUID: tiofM6mwTeWe/904DM163g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11245"; a="29811393"
+X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
+   d="scan'208";a="29811393"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 00:43:58 -0800
+X-CSE-ConnectionGUID: NIA9CtyhTfGtnbtWwsPndA==
+X-CSE-MsgGUID: GAenqY9CQ3CYYBpIDChiHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,256,1725346800"; 
-   d="scan'208";a="121050434"
+   d="scan'208";a="114388032"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Nov 2024 00:43:58 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 04 Nov 2024 00:43:58 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t7sgl-000kec-2N;
+	id 1t7sgl-000keX-2B;
 	Mon, 04 Nov 2024 08:43:55 +0000
-Date: Mon, 4 Nov 2024 16:43:39 +0800
+Date: Mon, 4 Nov 2024 16:43:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
+To: kernel@openeuler.org, wangzhimin <wangzhimin1179@phytium.com.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jarkko-tpmdd:tpm2key-v8 12/12]
- crypto/asymmetric_keys/tpm2_key_ecc.c:417:10: warning: variable 'ret' is
- uninitialized when used here
-Message-ID: <202411041645.kUdtTSqR-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1270/1270]
+ drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:10: error:
+ incompatible pointer to integer conversion returning 'void *' from a
+ function with result type 'int'
+Message-ID: <202411041653.GP4Kzp6V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +64,179 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jarkko/linux-tpmdd.git tpm2key-v8
-head:   676e39dca229e7ee2b1d90a1e8accda6fdede98f
-commit: 3ca44efc8f37aa7aeada1dd406ec273f92859022 [12/12] KEYS: asymmetric: Add tpm2_key_ecdsa signer
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241104/202411041645.kUdtTSqR-lkp@intel.com/config)
+Hi wangzhimin,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   22dcf78e532857efd97dab81b5edf3aa6f4b2f1c
+commit: af48889301db8235deab66a8822e3e00195ca14b [1270/1270] dwmac:add phytium dwmac driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241104/202411041653.GP4Kzp6V-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041645.kUdtTSqR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241104/202411041653.GP4Kzp6V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411041645.kUdtTSqR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411041653.GP4Kzp6V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from crypto/asymmetric_keys/tpm2_key_ecc.c:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> crypto/asymmetric_keys/tpm2_key_ecc.c:417:10: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     417 |                 return ret;
-         |                        ^~~
-   crypto/asymmetric_keys/tpm2_key_ecc.c:413:9: note: initialize the variable 'ret' to silence this warning
-     413 |         int ret;
-         |                ^
-         |                 = 0
-   5 warnings generated.
+>> drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:159:10: error: incompatible pointer to integer conversion returning 'void *' from a function with result type 'int' [-Wint-conversion]
+     159 |                 return stmmac_res.addr;
+         |                        ^~~~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:5: warning: no previous prototype for function 'phytium_dwmac_remove' [-Wmissing-prototypes]
+     172 | int phytium_dwmac_remove(struct platform_device *pdev)
+         |     ^
+   drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c:172:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     172 | int phytium_dwmac_remove(struct platform_device *pdev)
+         | ^
+         | static 
+   1 warning and 1 error generated.
 
 
-vim +/ret +417 crypto/asymmetric_keys/tpm2_key_ecc.c
+vim +159 drivers/net/ethernet/stmicro/stmmac/dwmac-phytium.c
 
-   406	
-   407	/*
-   408	 * Attempt to parse a data blob for a key as a TPM private key blob.
-   409	 */
-   410	static int tpm2_key_ecc_preparse(struct key_preparsed_payload *prep)
-   411	{
-   412		struct tpm2_key *key;
-   413		int ret;
-   414	
-   415		key = tpm2_key_decode(prep->data, prep->datalen);
-   416		if (IS_ERR(key))
- > 417			return ret;
-   418	
-   419		if (key->oid != OID_TPMLoadableKey) {
-   420			kfree(key);
-   421			return -EBADMSG;
-   422		}
-   423	
-   424		ret = __tpm2_key_ecc_preparse(key);
-   425		if (ret < 0) {
-   426			kfree(key);
-   427			return ret;
-   428		}
-   429	
-   430		prep->payload.data[asym_subtype] = &tpm2_key_ecc_subtype;
-   431		prep->payload.data[asym_key_ids] = NULL;
-   432		prep->payload.data[asym_crypto] = key;
-   433		prep->payload.data[asym_auth] = NULL;
-   434		prep->quotalen = 100;
-   435		return 0;
-   436	}
-   437	
+    32	
+    33	static int phytium_dwmac_probe(struct platform_device *pdev)
+    34	{
+    35		struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+    36		struct plat_stmmacenet_data *plat;
+    37		struct stmmac_resources stmmac_res;
+    38		struct device_node *np = pdev->dev.of_node;
+    39		struct resource *res;
+    40		u64 clk_freq;
+    41		char clk_name[20];
+    42		int ret;
+    43	
+    44		plat = devm_kzalloc(&pdev->dev, sizeof(*plat), GFP_KERNEL);
+    45		if (!plat)
+    46			return -ENOMEM;
+    47	
+    48		plat->dma_cfg = devm_kzalloc(&pdev->dev, sizeof(*plat->dma_cfg),
+    49					     GFP_KERNEL);
+    50		if (!plat->dma_cfg)
+    51			return -ENOMEM;
+    52	
+    53		plat->axi = devm_kzalloc(&pdev->dev, sizeof(*plat->axi), GFP_KERNEL);
+    54		if (!plat->axi)
+    55			return -ENOMEM;
+    56	
+    57		plat->interface = device_get_phy_mode(&pdev->dev);
+    58		if (plat->interface < 0)
+    59			return plat->interface;
+    60	
+    61		/* Configure PHY if using device-tree */
+    62		if (pdev->dev.of_node)
+    63			plat->phy_node = of_parse_phandle(np, "phy-handle", 0);
+    64	
+    65		if (pdev->dev.of_node) {
+    66			plat->bus_id = of_alias_get_id(np, "ethernet");
+    67			if (plat->bus_id < 0)
+    68				plat->bus_id = 0;
+    69		} else if (fwnode_property_read_u32(fwnode, "bus_id", &plat->bus_id)) {
+    70			plat->bus_id = 2;
+    71		}
+    72	
+    73		plat->phy_addr = -1;
+    74		plat->clk_csr = -1;
+    75		plat->has_gmac = 1;
+    76		plat->enh_desc = 1;
+    77		plat->bugged_jumbo = 1;
+    78		plat->pmt = 1;
+    79		plat->force_sf_dma_mode = 1;
+    80	
+    81		if (fwnode_property_read_u32(fwnode, "max-speed", &plat->max_speed))
+    82			plat->max_speed = -1;
+    83	
+    84		if (fwnode_property_read_u32(fwnode, "max-frame-size", &plat->maxmtu))
+    85			plat->maxmtu = JUMBO_LEN;
+    86	
+    87		if (fwnode_property_read_u32(fwnode, "snps,multicast-filter-bins",
+    88					     &plat->multicast_filter_bins))
+    89			plat->multicast_filter_bins = HASH_TABLE_SIZE;
+    90	
+    91		if (fwnode_property_read_u32(fwnode, "snps,perfect-filter-entries",
+    92					     &plat->unicast_filter_entries))
+    93			plat->unicast_filter_entries = 1;
+    94	
+    95		if (fwnode_property_read_u32(fwnode, "tx-fifo-depth",
+    96					     &plat->tx_fifo_size))
+    97			plat->tx_fifo_size = 0x1000;
+    98	
+    99		if (fwnode_property_read_u32(fwnode, "rx-fifo-depth",
+   100					     &plat->rx_fifo_size))
+   101			plat->rx_fifo_size = 0x1000;
+   102	
+   103		if (phytium_dwmac_acpi_phy(plat, fwnode, &pdev->dev))
+   104			return -ENODEV;
+   105	
+   106		plat->rx_queues_to_use = 1;
+   107		plat->tx_queues_to_use = 1;
+   108		plat->rx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   109		plat->tx_queues_cfg[0].mode_to_use = MTL_QUEUE_DCB;
+   110	
+   111		if (fwnode_property_read_u64(fwnode, "clock-frequency", &clk_freq))
+   112			clk_freq = 125000000;
+   113	
+   114		/* Set system clock */
+   115		snprintf(clk_name, sizeof(clk_name), "%s-%d", "stmmaceth",
+   116			 plat->bus_id);
+   117	
+   118		plat->stmmac_clk = clk_register_fixed_rate(&pdev->dev, clk_name,
+   119							   NULL, 0, clk_freq);
+   120		if (IS_ERR(plat->stmmac_clk)) {
+   121			dev_warn(&pdev->dev, "Fail to register stmmac-clk\n");
+   122			plat->stmmac_clk = NULL;
+   123		}
+   124	
+   125		ret = clk_prepare_enable(plat->stmmac_clk);
+   126		if (ret) {
+   127			clk_unregister_fixed_rate(plat->stmmac_clk);
+   128			return ret;
+   129		}
+   130	
+   131		plat->clk_ptp_rate = clk_get_rate(plat->stmmac_clk);
+   132		plat->clk_ptp_ref = NULL;
+   133	
+   134		if (fwnode_property_read_u32(fwnode, "snps,pbl", &plat->dma_cfg->pbl))
+   135			plat->dma_cfg->pbl = 16;
+   136	
+   137		fwnode_property_read_u32(fwnode, "snps,txpbl", &plat->dma_cfg->txpbl);
+   138		fwnode_property_read_u32(fwnode, "snps,rxpbl", &plat->dma_cfg->rxpbl);
+   139	
+   140		plat->dma_cfg->pblx8 = !fwnode_property_read_bool(fwnode,
+   141								  "snps,no-pbl-x8");
+   142		plat->dma_cfg->aal = fwnode_property_read_bool(fwnode, "snps,aal");
+   143		plat->dma_cfg->fixed_burst = fwnode_property_read_bool(fwnode,
+   144								       "snps,fixed-burst");
+   145		plat->dma_cfg->mixed_burst = fwnode_property_read_bool(fwnode,
+   146								       "snps,mixed-burst");
+   147	
+   148		plat->axi->axi_lpi_en = false;
+   149		plat->axi->axi_xit_frm = false;
+   150		plat->axi->axi_wr_osr_lmt = 7;
+   151		plat->axi->axi_rd_osr_lmt = 7;
+   152		plat->axi->axi_blen[0] = 16;
+   153	
+   154		memset(&stmmac_res, 0, sizeof(stmmac_res));
+   155		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+   156		stmmac_res.addr = devm_ioremap_resource(&pdev->dev, res);
+   157		if (stmmac_res.addr < 0) {
+   158			dev_err(&pdev->dev, "resource map failed.\n");
+ > 159			return stmmac_res.addr;
+   160		}
+   161		stmmac_res.irq = platform_get_irq(pdev, 0);
+   162		if (stmmac_res.irq < 0) {
+   163			dev_err(&pdev->dev, "IRQ not found.\n");
+   164			return -ENXIO;
+   165		}
+   166		stmmac_res.wol_irq = stmmac_res.irq;
+   167		stmmac_res.lpi_irq = -1;
+   168	
+   169		return  stmmac_dvr_probe(&pdev->dev, plat, &stmmac_res);
+   170	}
+   171	
 
 -- 
 0-DAY CI Kernel Test Service
