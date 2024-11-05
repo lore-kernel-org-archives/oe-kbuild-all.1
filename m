@@ -1,64 +1,79 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E183BB22;
-	Tue,  5 Nov 2024 03:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BE471885B4
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 03:47:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730778427; cv=none; b=lhj43yb/U5bh1AHM2jTvyLtHMH98d7cs1rSL8hsbEbS+cKUpff8F2NaVzdSuhTiX+G1ukCRNrC1Is5BJEljeEeY9Gpy62GUcztTG0gDnTqOiMva7eLbz7IuU+uchhEoLnOvyjIY8iUv0KYyfFZ/dpPouKyNuiJwG2GAwAcPubS0=
+	t=1730778429; cv=none; b=hM67S6HRiX+azKc3qd8oACdwmWw/Dausvzo5O/af3nv8xr0DYQ/V6zz7kyZMa6T4eNZxOgaq5x50fWJvyI7pxkoM/Tp2J1GA4em4SgSysE22A3gIBd+BFIHybLKReiiFSrzPf5i295zIfVVYMfHY0HjRWxRer0B+7xpgj0lmkKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730778427; c=relaxed/simple;
-	bh=2JD/SF3RDU/EAWXGkUkiGo50LDNAryP1U70AYzXZvO0=;
+	s=arc-20240116; t=1730778429; c=relaxed/simple;
+	bh=8TsvSQbE65UhTUrEuiAcFPCLHnlzDnvn34YkdDVwTWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWrkYwUlrjheEIzrOnyZ218ohKuSazKQBPp8IuKmymUNRlANSy+IwDANipWlRIEjzMTigj7SmiHqXc76ateaKlg8yqwm6Vl6mJSoOaOlllFY62VDLI6RWnAfSB3Lc52ytHg6Dnl53eRByYlGvnCnujZuUvT0dlSmG771Pzv90JY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dB2yrUAI; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=F63Qp2ghnCobxh41yp9PPwLEVUmEakySjaUAI8uN5tebL8wqKqHc1HvkUkhzIHwh4ueSdcC9JlHOZMCoF8nTb9nC0eozVgmRv1tLE6yTt8dy049HRdc+xoIf7TY8dO/LdpAJcFo7nBWzfTo/NhPnRSSdjOQAlJkDwvL6FQSuG8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XFesyRkC; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dB2yrUAI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XFesyRkC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730778425; x=1762314425;
+  t=1730778427; x=1762314427;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2JD/SF3RDU/EAWXGkUkiGo50LDNAryP1U70AYzXZvO0=;
-  b=dB2yrUAIXsjqSI2UC7LFdcSwUp3uLFEAMXu25/e72SBN2Uw1FX0Y4KH9
-   Rx2RydBBc5bWXyXSLBMLVfmXPefsGZSRQbCajBN6WNLSbbUxN9MrKzAvb
-   j+h6nvGRBR1xWgODin3N5CuWV/tg4VJILtQ0szuzFn38YqvsrgrPQFjFX
-   Lg4NsN5aEoeqRyB53Sgosb8uHnGu17SUByDSAxoM5mMBvWNBNR8r9bwBl
-   g34AIpW+1HoI9j6bz8cRmh7FOSf/F4QC+Zs5eZqecGDdehx0VNZBLECur
-   2rG8369RIfGw6aiKdBPnWUxiYPjWx3qfUKXmf9ESgrFxtKlYa4E7jU2Ud
+  bh=8TsvSQbE65UhTUrEuiAcFPCLHnlzDnvn34YkdDVwTWo=;
+  b=XFesyRkCCGBAeaTFBgbC3VJ2WEeE9914Hvc8JX2OaAckVtMWGfAv0WkP
+   O8YVGIivMTLXf0LqeyhlI1+LaMQjefmfqRetfH/KCcSNeM3PAPwWyA+OQ
+   OHnbhN2GBTSeRTDbXTW2rvauTPlwow3i0qyxTfn68uE/8fbs0A9oV/m0a
+   6gpBDBGONfDgy2+hXILE9jm2G5Lc71Sma1S+0BglzftxzTViGYg7msoNc
+   WbcYbH0HfPwUnuDQYE468SNMY9c//elNihqFJ7Pve67LHZXfe6PjtXAZE
+   1CMl0TotytLS4v82gjcBB8JHcBsJheN+JOqaXZsprKki22p61PS6AE07X
    w==;
-X-CSE-ConnectionGUID: xvbGfP8VRHGLTRW1tYKfCA==
-X-CSE-MsgGUID: PR/6Zc31SSeoqNIkRjuc0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="29924994"
+X-CSE-ConnectionGUID: 8WSWoouKSFqMEb1Vs2r7pQ==
+X-CSE-MsgGUID: /vYmJBH7SdqD6HxYIYyEbw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="29925006"
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="29924994"
+   d="scan'208";a="29925006"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 19:47:04 -0800
-X-CSE-ConnectionGUID: l5goev/0QASn+AOycwOZzg==
-X-CSE-MsgGUID: dmiN3I2oQNi4+gFw6oTIJw==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 19:47:06 -0800
+X-CSE-ConnectionGUID: pBn/4mjpR56YEC47o0gLrQ==
+X-CSE-MsgGUID: A0enPtwYTPWI2zbCLPgtuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="88366034"
+   d="scan'208";a="88366033"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 04 Nov 2024 19:47:01 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8AWx-000lZl-1v;
+	id 1t8AWx-000lZh-1m;
 	Tue, 05 Nov 2024 03:46:59 +0000
 Date: Tue, 5 Nov 2024 11:46:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, iommu@lists.linux.dev,
-	Joerg Roedel <joro@8bytes.org>,
-	linux-arm-kernel@lists.infradead.org,
-	Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Boris Brezillon <bbrezillon@kernel.org>,
-	dri-devel@lists.freedesktop.org, Liviu Dudau <liviu.dudau@arm.com>,
-	patches@lists.linux.dev, Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v2 3/3] iommu: Add a kdoc to iommu_unmap()
-Message-ID: <202411051125.mlgeWlEm-lkp@intel.com>
-References: <3-v2-fd55d00a60b2+c69-arm_no_split_jgg@nvidia.com>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= via B4 Relay <devnull+duje.mihanovic.skole.hr@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tony Lindgren <tony@atomide.com>,
+	Haojian Zhuang <haojian.zhuang@linaro.org>,
+	Duje =?utf-8?Q?Mihanovi=C4=87?= <duje.mihanovic@skole.hr>,
+	Lubomir Rintel <lkundrak@v3.sk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, phone-devel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht,
+	Karel Balej <balejk@matfyz.cz>, David Wronek <david@mainlining.org>,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH RESEND v13 10/12] arm64: Kconfig.platforms: Add config
+ for Marvell PXA1908 platform
+Message-ID: <202411051124.7S823oLf-lkp@intel.com>
+References: <20241104-pxa1908-lkml-v13-10-e050609b8d6c@skole.hr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,64 +82,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3-v2-fd55d00a60b2+c69-arm_no_split_jgg@nvidia.com>
+In-Reply-To: <20241104-pxa1908-lkml-v13-10-e050609b8d6c@skole.hr>
 
-Hi Jason,
+Hi Duje,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 8e929cb546ee42c9a61d24fae60605e9e3192354]
+[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/iommu-io-pgtable-arm-Remove-split-on-unmap-behavior/20241105-014356
-base:   8e929cb546ee42c9a61d24fae60605e9e3192354
-patch link:    https://lore.kernel.org/r/3-v2-fd55d00a60b2%2Bc69-arm_no_split_jgg%40nvidia.com
-patch subject: [PATCH v2 3/3] iommu: Add a kdoc to iommu_unmap()
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241105/202411051125.mlgeWlEm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051125.mlgeWlEm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi-via-B4-Relay/clk-mmp-Switch-to-use-struct-u32_fract-instead-of-custom-one/20241105-010102
+base:   9852d85ec9d492ebef56dc5f229416c925758edc
+patch link:    https://lore.kernel.org/r/20241104-pxa1908-lkml-v13-10-e050609b8d6c%40skole.hr
+patch subject: [PATCH RESEND v13 10/12] arm64: Kconfig.platforms: Add config for Marvell PXA1908 platform
+config: arm64-kismet-CONFIG_I2C_GPIO-CONFIG_VIDEO_MMP_CAMERA-0-0 (https://download.01.org/0day-ci/archive/20241105/202411051124.7S823oLf-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241105/202411051124.7S823oLf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051125.mlgeWlEm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411051124.7S823oLf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/iommu/iommu.c:2605: warning: Function parameter or struct member 'size' not described in 'iommu_unmap'
->> drivers/iommu/iommu.c:2605: warning: Excess function parameter 'len' description in 'iommu_unmap'
-
-
-vim +2605 drivers/iommu/iommu.c
-
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2588  
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2589  /**
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2590   * iommu_unmap() - Remove mappings from a range of IOVA
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2591   * @domain: Domain to manipulate
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2592   * @iova: IO virtual address to start
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2593   * @len: Length of the range starting from @iova
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2594   *
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2595   * iommu_unmap() will remove a translation created by iommu_map(). It cannot
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2596   * subdivide a mapping created by iommu_map(), so it should be called with IOVA
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2597   * ranges that match what was passed to iommu_map(). The range can aggregate
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2598   * contiguous iommu_map() calls so long as no individual range is split.
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2599   *
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2600   * Returns: Number of bytes of IOVA unmapped. iova + res will be the point
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2601   * unmapping stopped.
-6aa7e03e9dd8b5 drivers/iommu/iommu.c Jason Gunthorpe 2024-11-04  2602   */
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2603  size_t iommu_unmap(struct iommu_domain *domain,
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2604  		   unsigned long iova, size_t size)
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23 @2605  {
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2606  	struct iommu_iotlb_gather iotlb_gather;
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2607  	size_t ret;
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2608  
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2609  	iommu_iotlb_gather_init(&iotlb_gather);
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2610  	ret = __iommu_unmap(domain, iova, size, &iotlb_gather);
-aae4c8e27bd756 drivers/iommu/iommu.c Tom Murphy      2020-08-17  2611  	iommu_iotlb_sync(domain, &iotlb_gather);
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2612  
-a7d20dc19d9ea7 drivers/iommu/iommu.c Will Deacon     2019-07-02  2613  	return ret;
-add02cfdc9bc29 drivers/iommu/iommu.c Joerg Roedel    2017-08-23  2614  }
-cefc53c7f49424 drivers/base/iommu.c  Joerg Roedel    2010-01-08  2615  EXPORT_SYMBOL_GPL(iommu_unmap);
-1460432cb513f0 drivers/iommu/iommu.c Alex Williamson 2011-10-21  2616  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for I2C_GPIO when selected by VIDEO_MMP_CAMERA
+   WARNING: unmet direct dependencies detected for I2C_GPIO
+     Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (GPIOLIB [=n] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP [=y] || COMPILE_TEST [=n]) && COMMON_CLK [=y]
 
 -- 
 0-DAY CI Kernel Test Service
