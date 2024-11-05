@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ECD61D31A2;
-	Tue,  5 Nov 2024 12:09:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A02F21D3195
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 12:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730808571; cv=none; b=iwQFk/uVD6L8vwW6uC/AxfNao7qiSrgRKub0ogVzUxeuWE12Rsl8hi4BySGtcHM9JIwh7Yalzeg6ZGk1Mn2Ip9XVUVMnCHHGbrzGi6i8PntBoUkkyVjhytHwBbji4fFL0ittcqSKOfn4ORcMhBm9VPkr6WV4GNw3yilHVZXh7zI=
+	t=1730809230; cv=none; b=f1EYBQM3NMGOCBhpTaaiYzntPmxDTEQO7fVb9YsD3fIqX5WUJNoZxGcffv9PMjph0ML4KxJa1UJ1xTwPCF8okqtqGdMWw7kOWNXf2qPdl2p/ORDe0migtuJYrzEV2JYlj+Ozc5EYjWXGOlJzYhHyVRLS5iVoZIGNqLRPA0AzALs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730808571; c=relaxed/simple;
-	bh=J/B+ENA4OJ4XDGIbjRbvBcVaTYPoDG6+MJhHGv0MEQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M6hifuOmO9YGjwep4gz4UR1uhU/eaEICSoMaO7e4KXwiW1HUtEE0eTK39Ktx0mzM9ej/Xe9j0wiah4TYK9UqqnNJ8MpcEmj0AcIzB+pDX94Oz3gAUXaweO8n928j0Ez+KfDSvGBJMyCkq+76vS+jsTEFXFkrd8VBTP4prBoZ7yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WB8rD+7Q; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1730809230; c=relaxed/simple;
+	bh=10UppPsR6R82fQmpCENxUYVkOnYoQ6GPcxWe9uc50pU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BwDSJ+9xxn6hYGHqtTM4bg3iSeT59IrYVGZ2p0X01CaRvE56NP93eAjV71eag97yPSJp3650qYtBgsCbz9XizOmxlQK9dEK74XsBUvW9+IlTPs4m0mCxelSlGSHHZNDGeZ/OGlRceYvYRpdccUnoAQcYnHo284Muja/kzac60t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J7ZzKppI; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WB8rD+7Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J7ZzKppI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730808570; x=1762344570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=J/B+ENA4OJ4XDGIbjRbvBcVaTYPoDG6+MJhHGv0MEQQ=;
-  b=WB8rD+7Q4xq0Wz0gm4/t9PeANaRpdwZMu31DO2pwJen/v57VdWOWyiM5
-   r7TBHzpx42Iz3clUNP8wes7xrskPXTt6ZKSqSN3ADv0+2NtoquDZ3+v7Z
-   8Y+YYZdgS6EAaWrzaLqtSbgu5JVMqB1v7W27SBR85rzJn0nQ0HxyLKTIa
-   +gidH6MQTF+7Hl4Wj/o0OB5oYQQkBlSGwILgvXb8IuOdVSRG5inEmRBhq
-   GUvZrUh5RUD+JmovJB7xFNPRYPKi6xrcb0RyAEfp2xbk1FVTDvLBKIX2J
-   C5MjmXNHOEvdSOE8tZAdWODNb8jAbFsGxpOu89caBeEPEacIGE5D+ZD8C
-   Q==;
-X-CSE-ConnectionGUID: 8SY+reE/RxKBkz+M8PYflg==
-X-CSE-MsgGUID: a2eWuAumSKW2NyEYq5OiIQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="33389692"
+  t=1730809228; x=1762345228;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=10UppPsR6R82fQmpCENxUYVkOnYoQ6GPcxWe9uc50pU=;
+  b=J7ZzKppI51vaywS8Q3GAMvVnonjP7Bki3p6AEvFTNWGNkJa63XikBnTc
+   ohn+/3gis4I5Gwz5Ll56AKJJoknXQ5Fo7AB/fiRJ0BC7qtm4EZq0fcwZO
+   hKVuBafzfzMooqspMryqhGyAVabioIfX2atB7S7UVz8a23uUfsqQsxzcV
+   kUGCSajPOLl6Tw9r/kaSaGAPUmh5Dxa7Q69l95biHnPbIVk6t9uysSB7q
+   EWR0PwcSwJcqiC76Rim20X8CPKhzq8GabUO4XClsZoOdVK8W9YdVt4Y7J
+   0O1vBBOG3vR4AlwwRFx0fnorZL6bJjNWkablOIMVE+rGDpd2w3oznvJHi
+   g==;
+X-CSE-ConnectionGUID: kfnzhbVLTRyC79BPUzOmUw==
+X-CSE-MsgGUID: 3c5OklBsQ1GEsHHSXewWqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30775299"
 X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="33389692"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 04:09:29 -0800
-X-CSE-ConnectionGUID: zQ/rrbs1RB6/gxOiycK1og==
-X-CSE-MsgGUID: LlRr8a9hR5ensXNCeAb/cA==
+   d="scan'208";a="30775299"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 04:20:28 -0800
+X-CSE-ConnectionGUID: e0AMpQUiShCDGEwu+8RwrQ==
+X-CSE-MsgGUID: cCXzgX7dTHWCfYqGKu1mCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="83649240"
+   d="scan'208";a="84389140"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Nov 2024 04:09:26 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2024 04:20:27 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8INA-000m1e-0k;
-	Tue, 05 Nov 2024 12:09:24 +0000
-Date: Tue, 5 Nov 2024 20:08:54 +0800
+	id 1t8IXo-000m29-1i;
+	Tue, 05 Nov 2024 12:20:24 +0000
+Date: Tue, 5 Nov 2024 20:19:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dionna Glaze <dionnaglaze@google.com>, x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	John Allen <john.allen@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Ashish Kalra <ashish.kalra@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Dionna Glaze <dionnaglaze@google.com>,
-	linux-crypto@vger.kernel.org
-Subject: Re: [PATCH v4 3/6] crypto: ccp: Track GCTX through sev commands
-Message-ID: <202411051934.6vECpMIv-lkp@intel.com>
-References: <20241105010558.1266699-4-dionnaglaze@google.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: [rust:staging/dev 23/23] error[E0560]: struct `drm_gem_object_funcs`
+ has no field named `vmap`
+Message-ID: <202411052008.2JU3E9Jx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,51 +62,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105010558.1266699-4-dionnaglaze@google.com>
 
-Hi Dionna,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master kvm/queue linus/master v6.12-rc6 next-20241105]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dionna-Glaze/kvm-svm-Fix-gctx-page-leak-on-invalid-inputs/20241105-090822
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20241105010558.1266699-4-dionnaglaze%40google.com
-patch subject: [PATCH v4 3/6] crypto: ccp: Track GCTX through sev commands
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241105/202411051934.6vECpMIv-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051934.6vECpMIv-lkp@intel.com/reproduce)
+tree:   https://github.com/Rust-for-Linux/linux staging/dev
+head:   cfd66f531af29e0616c58b4cd4c72770a5ac4081
+commit: cfd66f531af29e0616c58b4cd4c72770a5ac4081 [23/23] rust: drm: gem: Add GEM object abstraction
+config: um-randconfig-r061-20241105 (https://download.01.org/0day-ci/archive/20241105/202411052008.2JU3E9Jx-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411052008.2JU3E9Jx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051934.6vECpMIv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411052008.2JU3E9Jx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/crypto/ccp/sev-fw.c:9:10: fatal error: 'asm/sev.h' file not found
-       9 | #include <asm/sev.h>
-         |          ^~~~~~~~~~~
-   1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +9 drivers/crypto/ccp/sev-fw.c
-
-     8	
-   > 9	#include <asm/sev.h>
-    10	
+>> error[E0560]: struct `drm_gem_object_funcs` has no field named `vmap`
+   --> rust/kernel/drm/gem/mod.rs:225:9
+   |
+   225 |         vmap: None,
+   |         ^^^^ `drm_gem_object_funcs` does not have this field
+   |
+   = note: available fields are: `kernel_vmap`
 
 -- 
 0-DAY CI Kernel Test Service
