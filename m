@@ -1,135 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE0218454E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 03:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECF420B20
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 03:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730777167; cv=none; b=LOjHl8OoNb7c5t3HV0yhbCHv4k+UFSCFrYb9NcetBf0CHKztBZ9yQQljp/dpTX3KDbhI+pGfDXmYafb2+6ZFRKoJ4qf+s47tDohYVAtUFhnom97uVSadPeLbW5oPoNzeTQJL7lVwqfu6Ob7CYLKzZ20eZMaXJOHWAQxYISsTIcg=
+	t=1730778065; cv=none; b=Nx2iul/2fu2dCU2VkaB6I9q8MSqdxOvdG5CyP+ZdO8c/5wCsM1CnUUzb68pwkyV5dGBENURttg3ArMYdPYTf1VYLzLVL0u0N8rVYyEuZgDjNRVpKqy3sczMS6oV1KL5wtXzqKa/bnMBeXGjsI1d2ghBS/Oqy+GXNhU49EUNZxIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730777167; c=relaxed/simple;
-	bh=H3V8QZZl/ANZDQGwjdKAQwgsQgaEeVu8bl2VnMkliGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I48NQcd0gFfhrC10q8gVJ4FlxpeHbrr/5IQgn6NZ1+3Ik+MGSBwf/U3QT1IzttFRVG7fYFjh87rKX7EN+QMoNpXPSPDpXKZkX/R8EdbW7erxqLrKImdPBm7IVydIXHrmvx+pNJ450iSqQTNEamLSGmgx9wfu2PIFqST8v6n2q/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VcF7TQHm; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1730778065; c=relaxed/simple;
+	bh=8ZUVFTjTpIHcAw26biLwyjSlKLWzk0wqsGQf1zfqi0c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=rEp8gqqkJ56tqLRg8bZhzpAjyH+ax2Uo7oTEuOFq63sJ7aFmX6ed9D1XDoxDPuOX+OPYUhERGmELu9+9nr1j7sJdOg4t+7H66fgwKH3hQzvycy34dmgIJ96QhkTDZ/vtP6xP2WcGMCcl8eGHjUf07Wm6TOr0gO/6GSVIWGWXc0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrUzs0BC; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VcF7TQHm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrUzs0BC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730777166; x=1762313166;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=H3V8QZZl/ANZDQGwjdKAQwgsQgaEeVu8bl2VnMkliGo=;
-  b=VcF7TQHmYPE9TQ84fVnX6SL9QgLzVbOjfm7eegMHU1ebqO0DxBJToNrd
-   vjREW+uX6sKLF/H3xB8GsXpTwSdlUb5YaN3/lR1yqOJIYBIyIe4ujvSXU
-   Im5rKwhSVHF7rCipBf93k7vTJKacObGsqigQqPn8qOTdcp78qPaC+Dz4A
-   PJtan95YOlNeNCLJwSoovuRF0yToR4tY7ovc79WS7EqysSK/M3TYd+z1/
-   cyMVqZOsJl8awxZRX2d39PtltD2jSeKZdJJLA4LWbQWiAQU0eeZsjNiP/
-   CQjsO/f+1wawB6Uspje77U15Hr2LwuKqUsnvJBBrqIUp9nR7E/2yCRfqV
-   g==;
-X-CSE-ConnectionGUID: DyXLXx33Tiqi+Vx9Ea5RrA==
-X-CSE-MsgGUID: xpSn1bRMRrymYnKR5Cyq+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="55906223"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="55906223"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 19:26:05 -0800
-X-CSE-ConnectionGUID: KWHu0FwZTgCqktjXEqHSsA==
-X-CSE-MsgGUID: fh5TW4D9QFiGV+bTPr4gmw==
+  t=1730778063; x=1762314063;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=8ZUVFTjTpIHcAw26biLwyjSlKLWzk0wqsGQf1zfqi0c=;
+  b=MrUzs0BCSTq0FumOk7nv/L3Rz+qdPZ2WvsTMXKv1wCosHCb4jiw/bU+s
+   0GqXY9lzQCamNP8Sy/TBSL90pEgzFjI0LZ4ap8vXHiDaK/HgEC6p53fUQ
+   4CHCH7EhpYa4STjSE/R9etvy6Rz7odpdur4+37yXRtmB1oWyr8/q6u3EA
+   feVw/viC/as9kSUqak6CQHIWcnaMjXWY7jajSA2Y9jiYLf+pRkR6neTaM
+   EjcGJEcw67UzkkO/hucUoyrMS2EsElWqx76yo/wEyJkLcwumhVuf0+AiO
+   Fz8pf7RI3snlktXZx2vWpBG068E0EeQpUja1wnwSkjtcAHYP0hsb47PT5
+   w==;
+X-CSE-ConnectionGUID: k180Izs3Q7W7/RxvmhX8Rw==
+X-CSE-MsgGUID: WG9RyjPJQ0ablHWX9ZjFWw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34194693"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34194693"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 19:41:03 -0800
+X-CSE-ConnectionGUID: HWU/HEwFTPa+sw3fgPJ7ug==
+X-CSE-MsgGUID: Kz6bp21TRNCC2X+LJtiPUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="87788402"
+   d="scan'208";a="83799065"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Nov 2024 19:26:01 -0800
+  by orviesa010.jf.intel.com with ESMTP; 04 Nov 2024 19:41:02 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8ACc-000lYH-2e;
-	Tue, 05 Nov 2024 03:25:58 +0000
-Date: Tue, 5 Nov 2024 11:25:22 +0800
+	id 1t8AR9-000lZ8-0q;
+	Tue, 05 Nov 2024 03:40:59 +0000
+Date: Tue, 5 Nov 2024 11:40:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Pavel Machek <pavel@ucw.cz>,
-	linux-leds@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
-	soc@kernel.org, Gregory CLEMENT <gregory.clement@bootlin.com>,
-	arm@kernel.org, Andy Shevchenko <andy@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>
-Subject: Re: [PATCH leds v5 07/12] leds: turris-omnia: Notify sysfs on MCU
- global LEDs brightness change
-Message-ID: <202411051138.jzDE6sBH-lkp@intel.com>
-References: <20241104141924.18816-8-kabel@kernel.org>
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/1] [PATCH] mm/gup: avoid an unnecessary allocation
+ call for FOLL_LONGTERM cases
+Message-ID: <ZymTpxyshT23oNUm@7f78dee4e976>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241104141924.18816-8-kabel@kernel.org>
+In-Reply-To: <20241105032944.141488-2-jhubbard@nvidia.com>
 
-Hi Marek,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.12-rc6]
-[cannot apply to lee-leds/for-leds-next robh/for-next next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Beh-n/turris-omnia-mcu-interface-h-Move-command-execution-function-to-global-header/20241104-223435
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241104141924.18816-8-kabel%40kernel.org
-patch subject: [PATCH leds v5 07/12] leds: turris-omnia: Notify sysfs on MCU global LEDs brightness change
-config: arm-randconfig-003-20241105 (https://download.01.org/0day-ci/archive/20241105/202411051138.jzDE6sBH-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051138.jzDE6sBH-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051138.jzDE6sBH-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arm-linux-gnueabi-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_cmd_set_color':
->> include/linux/turris-omnia-mcu-interface.h:275:(.text+0x5a): undefined reference to `omnia_cmd_write_read'
-   arm-linux-gnueabi-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_cmd_read_u16':
-   include/linux/turris-omnia-mcu-interface.h:311:(.text+0xaa): undefined reference to `omnia_cmd_write_read'
-   arm-linux-gnueabi-ld: drivers/leds/leds-turris-omnia.o: in function `gamma_correction_show':
-   include/linux/turris-omnia-mcu-interface.h:311:(.text+0x1a2): undefined reference to `omnia_cmd_write_read'
-   arm-linux-gnueabi-ld: drivers/leds/leds-turris-omnia.o: in function `omnia_cmd_write_u8':
-   include/linux/turris-omnia-mcu-interface.h:275:(.text+0x1c8): undefined reference to `omnia_cmd_write_read'
-   arm-linux-gnueabi-ld: drivers/leds/leds-turris-omnia.o: in function `brightness_show':
-   include/linux/turris-omnia-mcu-interface.h:311:(.text+0x4c2): undefined reference to `omnia_cmd_write_read'
-
-
-vim +275 include/linux/turris-omnia-mcu-interface.h
-
-9f74fe5691025f Marek Behún 2024-11-04  267  
-9f74fe5691025f Marek Behún 2024-11-04  268  int omnia_cmd_write_read(const struct i2c_client *client,
-9f74fe5691025f Marek Behún 2024-11-04  269  			 void *cmd, unsigned int cmd_len,
-9f74fe5691025f Marek Behún 2024-11-04  270  			 void *reply, unsigned int reply_len);
-9f74fe5691025f Marek Behún 2024-11-04  271  
-9f74fe5691025f Marek Behún 2024-11-04  272  static inline int omnia_cmd_write(const struct i2c_client *client, void *cmd,
-9f74fe5691025f Marek Behún 2024-11-04  273  				  unsigned int len)
-9f74fe5691025f Marek Behún 2024-11-04  274  {
-9f74fe5691025f Marek Behún 2024-11-04 @275  	return omnia_cmd_write_read(client, cmd, len, NULL, 0);
-9f74fe5691025f Marek Behún 2024-11-04  276  }
-9f74fe5691025f Marek Behún 2024-11-04  277  
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2 1/1] [PATCH] mm/gup: avoid an unnecessary allocation call for FOLL_LONGTERM cases
+Link: https://lore.kernel.org/stable/20241105032944.141488-2-jhubbard%40nvidia.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
