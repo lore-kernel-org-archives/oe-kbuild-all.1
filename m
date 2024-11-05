@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECF420B20
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 03:41:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66BDB26ACC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 03:47:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730778065; cv=none; b=Nx2iul/2fu2dCU2VkaB6I9q8MSqdxOvdG5CyP+ZdO8c/5wCsM1CnUUzb68pwkyV5dGBENURttg3ArMYdPYTf1VYLzLVL0u0N8rVYyEuZgDjNRVpKqy3sczMS6oV1KL5wtXzqKa/bnMBeXGjsI1d2ghBS/Oqy+GXNhU49EUNZxIU=
+	t=1730778426; cv=none; b=Kjt6b/HUGkhfyT6Sxkfu/1ZXb7LrDlOEInyujwDIZH2+jmKpnng6G6sIH5KUQRi8YbjoOq1GUqoYKs01YBphGCUHbT4nzEBIqydPcZ3iK3Vnl8XGGy0reqA7BaHsFUXRU/RWaW8+xV7hN+EwVLElqeWTgpauZ3W3TWou6mdKvn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730778065; c=relaxed/simple;
-	bh=8ZUVFTjTpIHcAw26biLwyjSlKLWzk0wqsGQf1zfqi0c=;
+	s=arc-20240116; t=1730778426; c=relaxed/simple;
+	bh=v3c7Ok6iipLf2siUerlcD6n0AaVaZ9SzjXrTHaoTkRA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=rEp8gqqkJ56tqLRg8bZhzpAjyH+ax2Uo7oTEuOFq63sJ7aFmX6ed9D1XDoxDPuOX+OPYUhERGmELu9+9nr1j7sJdOg4t+7H66fgwKH3hQzvycy34dmgIJ96QhkTDZ/vtP6xP2WcGMCcl8eGHjUf07Wm6TOr0gO/6GSVIWGWXc0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MrUzs0BC; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=WVU9jPcPmuSIs8xz15tvcT5CqRUKA5QzHyvqxyJKSat3i6gFPfDrHb7vLjZDi4xfN17w/i/W2wgj8O57M5YvH6YNso1/L+H1GgUegaB+ol+/o2iDoE7CN5o3hg/u70cYRGATNXwG8K/UF86ECzwROmufIAWI/eLk2+dkvWpUPBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NTtDavwW; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MrUzs0BC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NTtDavwW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730778063; x=1762314063;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=8ZUVFTjTpIHcAw26biLwyjSlKLWzk0wqsGQf1zfqi0c=;
-  b=MrUzs0BCSTq0FumOk7nv/L3Rz+qdPZ2WvsTMXKv1wCosHCb4jiw/bU+s
-   0GqXY9lzQCamNP8Sy/TBSL90pEgzFjI0LZ4ap8vXHiDaK/HgEC6p53fUQ
-   4CHCH7EhpYa4STjSE/R9etvy6Rz7odpdur4+37yXRtmB1oWyr8/q6u3EA
-   feVw/viC/as9kSUqak6CQHIWcnaMjXWY7jajSA2Y9jiYLf+pRkR6neTaM
-   EjcGJEcw67UzkkO/hucUoyrMS2EsElWqx76yo/wEyJkLcwumhVuf0+AiO
-   Fz8pf7RI3snlktXZx2vWpBG068E0EeQpUja1wnwSkjtcAHYP0hsb47PT5
-   w==;
-X-CSE-ConnectionGUID: k180Izs3Q7W7/RxvmhX8Rw==
-X-CSE-MsgGUID: WG9RyjPJQ0ablHWX9ZjFWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34194693"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34194693"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 19:41:03 -0800
-X-CSE-ConnectionGUID: HWU/HEwFTPa+sw3fgPJ7ug==
-X-CSE-MsgGUID: Kz6bp21TRNCC2X+LJtiPUQ==
+  t=1730778424; x=1762314424;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=v3c7Ok6iipLf2siUerlcD6n0AaVaZ9SzjXrTHaoTkRA=;
+  b=NTtDavwWTuhUSYEjh1unZiWrL+Y7sAnC66MAP1Mc9P4x5vthCz3RKT9O
+   rqmOjgKhyPSpFX2yzMSzjsv7DePRcTGy/bIBPCwaY31QciRUHXsf++zko
+   fhfcrtSX4KJA3GLGn0dB0qRwu3GlUlXmN12gP1BjdCVcWfLXcG3AANTBc
+   3YLfd4tK4MjRKHiLJzOAXpgcuEfCOci7g/pSB6OfUOvyJ+3Y0QbCUkKB8
+   XTZ5ukdPcJJFqb1MTMqUjmd2iK0sJ+tnjublfnbbAmwbiY1JXAzLbQdke
+   s1tSyxGqef1MLOOYL3e0UppZOXYKcPb4sZnuNPkNs4CM1OsEqZGVH8cSM
+   g==;
+X-CSE-ConnectionGUID: CvHYYYe9SJS40QTK628Zbw==
+X-CSE-MsgGUID: Rwdbf3ciS/qhkP3DVBp5ZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="18122948"
+X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
+   d="scan'208";a="18122948"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 19:47:03 -0800
+X-CSE-ConnectionGUID: q4QQwP80TVWb4F0766a8oA==
+X-CSE-MsgGUID: YRtGtRl5ReaxwBzXthMeFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="83799065"
+   d="scan'208";a="83971716"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 04 Nov 2024 19:41:02 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 04 Nov 2024 19:47:01 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8AR9-000lZ8-0q;
-	Tue, 05 Nov 2024 03:40:59 +0000
-Date: Tue, 5 Nov 2024 11:40:23 +0800
+	id 1t8AWx-000lZj-1q;
+	Tue, 05 Nov 2024 03:46:59 +0000
+Date: Tue, 5 Nov 2024 11:46:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Hubbard <jhubbard@nvidia.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] [PATCH] mm/gup: avoid an unnecessary allocation
- call for FOLL_LONGTERM cases
-Message-ID: <ZymTpxyshT23oNUm@7f78dee4e976>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Intel Wired LAN <intel-wired-lan@lists.osuosl.org>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Wojciech Drewek <wojciech.drewek@intel.com>,
+	Rahul Rameshbabu <rrameshbabu@nvidia.com>,
+	Simon Horman <horms@kernel.org>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>
+Subject: [tnguy-next-queue:dev-queue 66/85] iavf_main.c:undefined reference
+ to `iavf_ptp_set_ts_config'
+Message-ID: <202411051123.n3qTi2f2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +68,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105032944.141488-2-jhubbard@nvidia.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git dev-queue
+head:   676d779106de51fc4e2685ca8de610ee5a70d35f
+commit: 827d8d40f17baf7a78b28aa4146f52140b2baf8f [66/85] iavf: handle set and get timestamps ops
+config: parisc-randconfig-001-20241105 (https://download.01.org/0day-ci/archive/20241105/202411051123.n3qTi2f2-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051123.n3qTi2f2-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411051123.n3qTi2f2-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v2 1/1] [PATCH] mm/gup: avoid an unnecessary allocation call for FOLL_LONGTERM cases
-Link: https://lore.kernel.org/stable/20241105032944.141488-2-jhubbard%40nvidia.com
+   hppa-linux-ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_hwstamp_set':
+>> iavf_main.c:(.text+0x1924): undefined reference to `iavf_ptp_set_ts_config'
+   hppa-linux-ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_remove':
+   iavf_main.c:(.text+0x7398): undefined reference to `iavf_ptp_release'
+   hppa-linux-ld: drivers/net/ethernet/intel/iavf/iavf_main.o: in function `iavf_init_config_adapter':
+   iavf_main.c:(.text+0x8560): undefined reference to `iavf_ptp_init'
+   hppa-linux-ld: drivers/net/ethernet/intel/iavf/iavf_virtchnl.o: in function `iavf_configure_queues':
+   drivers/net/ethernet/intel/iavf/iavf_virtchnl.c:381:(.text+0xf08): undefined reference to `iavf_ptp_cap_supported'
+   hppa-linux-ld: drivers/net/ethernet/intel/iavf/iavf_virtchnl.o: in function `iavf_virtchnl_completion':
+   drivers/net/ethernet/intel/iavf/iavf_virtchnl.c:2710:(.text+0x4778): undefined reference to `iavf_ptp_process_caps'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
