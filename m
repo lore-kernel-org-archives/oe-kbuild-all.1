@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DC8B1E764B;
-	Tue,  5 Nov 2024 21:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F0E383
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 21:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730841654; cv=none; b=DGbpM66bRmwCQ6iBQaTQaRPvE2CoyHa4rn2l2uEtjqOcRKAXqDIVjXbCN5NpmSYmrHZGHcy6ANMgRbT5Ek+s/++gFnidnjFKRnz+HTBx5PBexXyn1EndmIHXWWV40j3MSIhLCCVQk3UuXJWbZEL3iYeUw/E1WoZbSvKgypvWSLg=
+	t=1730842253; cv=none; b=sLvBj2u6ZuK9Vj9Dv66/I5f6OzQNvjSu4hHcJFliio/TWu1IbmgV24QJ/KU0FEakVv9fhtxxm19REZYWDwncU6zR/gl6yHiHQtKr+v6PRc23yIRhVVopvZjoAWkCDzv1uPLdpvAq2Qb2JWiSuNKE+LF8sf1Xzd6+biAd1FLHdT4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730841654; c=relaxed/simple;
-	bh=HKzWNl+2gNPBHTjyug5xLVbK+7v2ikZFVkCCRxefCNs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mFWjOnPBMPFcAyu2HF/j6P0JM/GSKFcy41sVIi2nlAnbbg1rQBI66WmSAQZCu3tXMLUrCnuZxYz8GVSoeG86fipPh48UkS6+NOdkiLGsxcxeTqk5WoHOUpAuveo+HWEAP8Wsf69+Zbc9fLv0pM3It2MbfFlq9hriCwBgd3ljLHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fAil14rw; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1730842253; c=relaxed/simple;
+	bh=ncS/Qx3r/eAS9xoMARqu53nYprMVbu1bmZSGVstUXBk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hgghR1nDS/Gtvbopm9/XSagY6ftWYGU5Bq5ap+Oap1wWfnRkFl18KgZqVNh2JRSl2ysS224RkmI3Ql5Xz870LYBXx8hFoOB7fVeYozmGI4yROC2zJoVDKt9CG+zbImQ0OO8XMNhYFOs6CM1gGG6u/KYKiVWWjk1reG/5c6vK8Uk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YO/Oe/9N; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fAil14rw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YO/Oe/9N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730841652; x=1762377652;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HKzWNl+2gNPBHTjyug5xLVbK+7v2ikZFVkCCRxefCNs=;
-  b=fAil14rwXHrz0nV0iM4bcaGYM9OIdOoY1SU8x0yaPU4wvOJsI5532SgM
-   z0vWTZ9WGh4ziObVUZa4uo1irJDeh14llOMZFaiPMWxh4AvhQYypi9/T/
-   coxVH5Bn1ttvhoHoqU9p6yt+0l73Bz1DuFqMi0ilBNVjcIbjxejhsvdQ4
-   LDpRMErlxYjQjs7K1DDL50hwBDr03xVWUzPc6gmTHRLQxnt0oiUGSkXv0
-   xxAMNtQEyuIS4QcyvSUPbQ3W96jqGLyDvjXUT1oQ07dQJox0Ewz4spTS6
-   QWZDwNdzgrpoxMjYt5HlO9R0MqzzaIVLQK1fY3lpzCXIQsgwV6rHDEZb2
-   g==;
-X-CSE-ConnectionGUID: 8xQKemHbRfm60F/JWfg8lw==
-X-CSE-MsgGUID: EnJ9asfUTeuEr2Jqa4R4YA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="33455990"
+  t=1730842252; x=1762378252;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ncS/Qx3r/eAS9xoMARqu53nYprMVbu1bmZSGVstUXBk=;
+  b=YO/Oe/9NFNPQOH34VYV7aSD9nsew/h39pA6GVuXbcjAv2G7ntYDFdBU2
+   dUxp+AAECOBVKHNH6A6CiYM1twqjTWpUQuihIBfiLabimyQIelgSyiKv0
+   VyDmYMD/oikgC3eUQ2NtlWn2xTjY6HCXDMn+lnLUztAvOZuGAg/SMxJQ4
+   eDu/SGfgYX9Z+gkwtoyGmx1V/WHizeDYRHFAvM5IK1QgpVctgYngdSP1Y
+   X1YjHoPL42WNUxrfSSNg9FGrnVYMNKq9UMpgk0DnzqdlcMu2mXqK8t+Oa
+   bI88POrlSliaRaRO/YFL5OQB39GkX+XOMv7JsuIE8ASHm5W6hO/xaqiZ2
+   w==;
+X-CSE-ConnectionGUID: EnsT3OACTme5CDPOBnRZkQ==
+X-CSE-MsgGUID: 4K82HfG9SAqPLePOGQIUvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42015748"
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="33455990"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 13:20:51 -0800
-X-CSE-ConnectionGUID: Ex1FPkmbTaGNaNY+qn6sEA==
-X-CSE-MsgGUID: SlG1Ac0iQDW32yIm0AkXsA==
+   d="scan'208";a="42015748"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 13:30:52 -0800
+X-CSE-ConnectionGUID: kA7INnyWSG2QTzE4dFg50w==
+X-CSE-MsgGUID: jKWE/OyLSlKgDl2+Fb8bWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="114959947"
+   d="scan'208";a="107494389"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2024 13:20:49 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 05 Nov 2024 13:30:50 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8Qyk-000mUB-2f;
-	Tue, 05 Nov 2024 21:20:46 +0000
-Date: Wed, 6 Nov 2024 05:20:10 +0800
+	id 1t8R8R-000mUl-0U;
+	Tue, 05 Nov 2024 21:30:47 +0000
+Date: Wed, 6 Nov 2024 05:30:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Qiu-ji Chen <chenqiuji666@gmail.com>, james.smart@broadcom.com,
-	dick.kennedy@broadcom.com, James.Bottomley@hansenpartnership.com,
-	martin.petersen@oracle.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com, Qiu-ji Chen <chenqiuji666@gmail.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] scsi: lpfc: Fix improper handling of refcount in
- lpfc_bsg_hba_get_event()
-Message-ID: <202411060527.qPI24Q8a-lkp@intel.com>
-References: <20241105130902.4603-1-chenqiuji666@gmail.com>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jlayton:dir-deleg 21/39] fs/nfs/./nfs4trace.h:975:1: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202411060547.VGf16vVq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,175 +61,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105130902.4603-1-chenqiuji666@gmail.com>
 
-Hi Qiu-ji,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on jejb-scsi/for-next]
-[also build test ERROR on mkp-scsi/for-next linus/master v6.12-rc6 next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qiu-ji-Chen/scsi-lpfc-Fix-improper-handling-of-refcount-in-lpfc_bsg_hba_get_event/20241105-211110
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20241105130902.4603-1-chenqiuji666%40gmail.com
-patch subject: [PATCH] scsi: lpfc: Fix improper handling of refcount in lpfc_bsg_hba_get_event()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241106/202411060527.qPI24Q8a-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   fcdfaef0f912fdab052bdc87ed835684f2427070
+commit: d7d079c200a4080868f14be2c429bb8a81f71f44 [21/39] nfs: new tracepoint in nfs_delegation_need_return
+config: x86_64-randconfig-122-20241105 (https://download.01.org/0day-ci/archive/20241106/202411060547.VGf16vVq-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060527.qPI24Q8a-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060547.VGf16vVq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060527.qPI24Q8a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060547.VGf16vVq-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+>> fs/nfs/./nfs4trace.h:975:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:975:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:975:1: sparse:     got restricted fmode_t const [usertype] type
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+>> fs/nfs/./nfs4trace.h:975:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:975:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:975:1: sparse:     got restricted fmode_t const [usertype] type
 
-   In file included from drivers/scsi/lpfc/lpfc_bsg.c:25:
-   In file included from include/linux/pci.h:1650:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/lpfc/lpfc_bsg.c:1297:8: error: use of undeclared label 'job_error_unref'
-    1297 |                 goto job_error_unref;
-         |                      ^
->> drivers/scsi/lpfc/lpfc_bsg.c:1332:1: warning: unused label 'job_err_unref' [-Wunused-label]
-    1332 | job_err_unref:
-         | ^~~~~~~~~~~~~~
-   drivers/scsi/lpfc/lpfc_bsg.c:2810:11: warning: variable 'offset' set but not used [-Wunused-but-set-variable]
-    2810 |         int cnt, offset = 0, i = 0;
-         |                  ^
-   6 warnings and 1 error generated.
+vim +975 fs/nfs/./nfs4trace.h
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +/job_error_unref +1297 drivers/scsi/lpfc/lpfc_bsg.c
-
-  1243	
-  1244	/**
-  1245	 * lpfc_bsg_hba_get_event - process a GET_EVENT bsg vendor command
-  1246	 * @job: GET_EVENT fc_bsg_job
-  1247	 **/
-  1248	static int
-  1249	lpfc_bsg_hba_get_event(struct bsg_job *job)
-  1250	{
-  1251		struct lpfc_vport *vport = shost_priv(fc_bsg_to_shost(job));
-  1252		struct lpfc_hba *phba = vport->phba;
-  1253		struct fc_bsg_request *bsg_request = job->request;
-  1254		struct fc_bsg_reply *bsg_reply = job->reply;
-  1255		struct get_ct_event *event_req;
-  1256		struct get_ct_event_reply *event_reply;
-  1257		struct lpfc_bsg_event *evt, *evt_next;
-  1258		struct event_data *evt_dat = NULL;
-  1259		unsigned long flags;
-  1260		uint32_t rc = 0;
-  1261	
-  1262		if (job->request_len <
-  1263		    sizeof(struct fc_bsg_request) + sizeof(struct get_ct_event)) {
-  1264			lpfc_printf_log(phba, KERN_WARNING, LOG_LIBDFC,
-  1265					"2613 Received GET_CT_EVENT request below "
-  1266					"minimum size\n");
-  1267			rc = -EINVAL;
-  1268			goto job_error;
-  1269		}
-  1270	
-  1271		event_req = (struct get_ct_event *)
-  1272			bsg_request->rqst_data.h_vendor.vendor_cmd;
-  1273	
-  1274		event_reply = (struct get_ct_event_reply *)
-  1275			bsg_reply->reply_data.vendor_reply.vendor_rsp;
-  1276		spin_lock_irqsave(&phba->ct_ev_lock, flags);
-  1277		list_for_each_entry_safe(evt, evt_next, &phba->ct_ev_waiters, node) {
-  1278			if (evt->reg_id == event_req->ev_reg_id) {
-  1279				if (list_empty(&evt->events_to_get))
-  1280					break;
-  1281				lpfc_bsg_event_ref(evt);
-  1282				evt->wait_time_stamp = jiffies;
-  1283				evt_dat = list_entry(evt->events_to_get.prev,
-  1284						     struct event_data, node);
-  1285				list_del(&evt_dat->node);
-  1286				break;
-  1287			}
-  1288		}
-  1289		spin_unlock_irqrestore(&phba->ct_ev_lock, flags);
-  1290	
-  1291		/* The app may continue to ask for event data until it gets
-  1292		 * an error indicating that there isn't anymore
-  1293		 */
-  1294		if (evt_dat == NULL) {
-  1295			bsg_reply->reply_payload_rcv_len = 0;
-  1296			rc = -ENOENT;
-> 1297			goto job_error_unref;
-  1298		}
-  1299	
-  1300		if (evt_dat->len > job->request_payload.payload_len) {
-  1301			evt_dat->len = job->request_payload.payload_len;
-  1302			lpfc_printf_log(phba, KERN_WARNING, LOG_LIBDFC,
-  1303					"2618 Truncated event data at %d "
-  1304					"bytes\n",
-  1305					job->request_payload.payload_len);
-  1306		}
-  1307	
-  1308		event_reply->type = evt_dat->type;
-  1309		event_reply->immed_data = evt_dat->immed_dat;
-  1310		if (evt_dat->len > 0)
-  1311			bsg_reply->reply_payload_rcv_len =
-  1312				sg_copy_from_buffer(job->request_payload.sg_list,
-  1313						    job->request_payload.sg_cnt,
-  1314						    evt_dat->data, evt_dat->len);
-  1315		else
-  1316			bsg_reply->reply_payload_rcv_len = 0;
-  1317	
-  1318		if (evt_dat) {
-  1319			kfree(evt_dat->data);
-  1320			kfree(evt_dat);
-  1321		}
-  1322	
-  1323		spin_lock_irqsave(&phba->ct_ev_lock, flags);
-  1324		lpfc_bsg_event_unref(evt);
-  1325		spin_unlock_irqrestore(&phba->ct_ev_lock, flags);
-  1326		job->dd_data = NULL;
-  1327		bsg_reply->result = 0;
-  1328		bsg_job_done(job, bsg_reply->result,
-  1329			       bsg_reply->reply_payload_rcv_len);
-  1330		return 0;
-  1331	
-> 1332	job_err_unref:
-  1333		spin_lock_irqsave(&phba->ct_ev_lock, flags);
-  1334		lpfc_bsg_event_unref(evt);
-  1335		spin_unlock_irqrestore(&phba->ct_ev_lock, flags);
-  1336	job_error:
-  1337		job->dd_data = NULL;
-  1338		bsg_reply->result = rc;
-  1339		return rc;
-  1340	}
-  1341	
+   962	
+   963	#define show_delegation_flags(flags) \
+   964		__print_flags(flags, "|", \
+   965			{ BIT(NFS_DELEGATION_NEED_RECLAIM), "NEED_RECLAIM" }, \
+   966			{ BIT(NFS_DELEGATION_RETURN), "RETURN" }, \
+   967			{ BIT(NFS_DELEGATION_RETURN_IF_CLOSED), "RETURN_IF_CLOSED" }, \
+   968			{ BIT(NFS_DELEGATION_REFERENCED), "REFERENCED" }, \
+   969			{ BIT(NFS_DELEGATION_RETURNING), "RETURNING" }, \
+   970			{ BIT(NFS_DELEGATION_REVOKED), "REVOKED" }, \
+   971			{ BIT(NFS_DELEGATION_TEST_EXPIRED), "TEST_EXPIRED" }, \
+   972			{ BIT(NFS_DELEGATION_INODE_FREEING), "INODE_FREEING" }, \
+   973			{ BIT(NFS_DELEGATION_RETURN_DELAYED), "RETURN_DELAYED" })
+   974	
+ > 975	DECLARE_EVENT_CLASS(nfs4_delegation_event,
+   976			TP_PROTO(
+   977				const struct nfs_delegation *delegation
+   978			),
+   979	
+   980			TP_ARGS(delegation),
+   981	
+   982			TP_STRUCT__entry(
+   983				__field(u32, fhandle)
+   984				__field(unsigned int, fmode)
+   985				__field(unsigned long, flags)
+   986			),
+   987	
+   988			TP_fast_assign(
+   989				__entry->fhandle = nfs_fhandle_hash(NFS_FH(delegation->inode));
+   990				__entry->fmode = delegation->type;
+   991				__entry->flags = delegation->flags;
+   992			),
+   993	
+   994			TP_printk(
+   995				"fhandle=0x%08x fmode=%s flags=%s",
+   996				__entry->fhandle, show_fs_fmode_flags(__entry->fmode),
+   997				show_delegation_flags(__entry->flags)
+   998			)
+   999	);
+  1000	#define DEFINE_NFS4_DELEGATION_EVENT(name) \
+  1001		DEFINE_EVENT(nfs4_delegation_event, name, \
+  1002				TP_PROTO( \
+  1003					const struct nfs_delegation *delegation \
+  1004				), \
+  1005				TP_ARGS(delegation))
+  1006	DEFINE_NFS4_DELEGATION_EVENT(nfs_delegation_need_return);
+  1007	
 
 -- 
 0-DAY CI Kernel Test Service
