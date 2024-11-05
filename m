@@ -1,126 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90E41E766D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 19:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8C921443A;
+	Tue,  5 Nov 2024 19:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730834150; cv=none; b=LuedOTwkmYVhPF9b3oBWHFgAa6HhyYwZZ6pLiZ5BGZl4nh+s9FDEOLZ8OkoDyda/owrER8x9m7W0thHPEZTzwzxdVi89WSfmCL8aE2lgMvQsKQWfit1IdKSYhy1Deg8LIn3vK5DcjWcrP8fqMfRkMkVwpnIAQXmTsD5fI/a3I6Q=
+	t=1730836608; cv=none; b=ZTM8+U/MC68B3pd1xrETtEqN5mXx98b2lfeGuq/4O3eVZy+V6EV64gdiFjML+ZKsYPXzkccUCnLyCGlkCh91qKIk+kEpb6WlJQzfd/JgI9w+tPPWy/rJjGraldaWjeTYm4uhNUD5TwIHZhtWuwCmETNKFtCq5/Zo3aJ+QItbtRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730834150; c=relaxed/simple;
-	bh=9Shq7F5zshytH1TIeEjlYPA2wyJYy7tpdhCPane9pqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AWBeu9uQKawyyWunYb+BFIGThoTen+iWn7HDPAuJWLw0TQqPwG64rbIVtadl7C4I8e0CbRNchgw0LfmWg3BDwERY2KWFRba9Njf5jKzdCptdE8F5IGib9ocrz5KFKHJA4L8u8Wo3X8IBU6pgd0h0WR3IXUvO0iZD6Gb7GFu1pZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WryrFrYX; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1730836608; c=relaxed/simple;
+	bh=etC4DRo9aSiilSVN2+0xOGPzkuuGeA2zoqU3BmXEyT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZN16Migrw7mfgs375eEoX9wHKKnXSlAnjlmVzUssuopO7iiBty9VBt+6aVezOiOzOxBU0V2XgwvDOYzbsGULkcAEfwTF8fxADabJNWw0lZLyH8lmxTx5GrfOE/VMd2wPykZrY4DoTbXCXD6mdRJbjHW4fz2M3ez5hw0KioHa+sA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cnWlfC7f; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WryrFrYX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cnWlfC7f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730834148; x=1762370148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9Shq7F5zshytH1TIeEjlYPA2wyJYy7tpdhCPane9pqc=;
-  b=WryrFrYX8fCMtpDIeMS33iCYyJoWPUY2FvXHKnGTZ7kcGd2saPq2v159
-   IN5SjdwOxT7wR+HJWh/dm8EON+iEvwVttHsgE6Aj3ysrxJVLsmwiqP5IC
-   PO/eO/sNTmq6EAwqWuJ3SNbEGdVpz8n15tX7MY5wT8ia1qG62ww4jluQP
-   ThwAVccvCJ+JkWUJMXp7cfJId9pIdm9Z0Rqlvh1qFl6EJgAo2ffwSjtI7
-   t3xwvZ1w26eFsOLC2OpVa2DJ+UnTG203BV78+XpZtfveBBwxoM4z3fECB
-   4/UOPnIrHsm3AD8YwWpKc46Rhgt3B0Ckd7qi73KXn8dE8FCi1rEDbLKgU
-   g==;
-X-CSE-ConnectionGUID: ZD+xMdDmS+Oos1C7fEl9pQ==
-X-CSE-MsgGUID: KF5YWsKjSYyvxgvjsfov5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42001995"
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="42001995"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 11:15:47 -0800
-X-CSE-ConnectionGUID: wR4K5R08S7SJ1rmt0i2Ouw==
-X-CSE-MsgGUID: ktw9GgY6Tl2VnQ74Ya5blg==
+  t=1730836607; x=1762372607;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=etC4DRo9aSiilSVN2+0xOGPzkuuGeA2zoqU3BmXEyT8=;
+  b=cnWlfC7fjqHQZ7NJS0Za/eI/L1Rvq+FJ0BoUdQYL2fjM8RCiC9pBBg5M
+   8ux1b0o2cPuNBPBl/RhUGVrTSKWmr2YBD4y3pLNzMLJNRwH0nIHDYgKJl
+   ewGPZw7irwI8jTsQ6UjSOwjKBDQ4IHUPwURMz4ewii+OX9MtJEsNjpnYc
+   NGhsJbALQhMvqJSVAUQyQ+MTr0QQyXc0/ww638628l6c1lf8XF42CiFfM
+   cA93RtLp4yCy/3OUosekPEgN3mgSXKn5/Wkhd6uhP1XKD6vFCOBMh6Ud6
+   1V7ovZWwBvjG4GUaYcLMCdpsh6gbY4IBtYzQENwRtR25A0BpzFV6oAXQI
+   Q==;
+X-CSE-ConnectionGUID: ayK/WdlMTSqPRbj4Kbzofg==
+X-CSE-MsgGUID: fhIpC2/6Sx6JhYaowTRoOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53176687"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="53176687"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 11:56:46 -0800
+X-CSE-ConnectionGUID: wnbg42AUSi6duTIHLhFtPg==
+X-CSE-MsgGUID: PNy0o4rYTxqHEGgxDlVCLg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="84248501"
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="88720939"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2024 11:15:44 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 11:56:44 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8P1h-000mNN-2I;
-	Tue, 05 Nov 2024 19:15:41 +0000
-Date: Wed, 6 Nov 2024 03:14:50 +0800
+	id 1t8PfO-000mPD-1j;
+	Tue, 05 Nov 2024 19:56:42 +0000
+Date: Wed, 6 Nov 2024 03:55:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Stuebner <heiko@sntech.de>, vkoul@kernel.org, kishon@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, quentin.schulz@cherry.de,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	heiko@sntech.de, Heiko Stuebner <heiko.stuebner@cherry.de>
-Subject: Re: [PATCH v2 2/2] phy: rockchip: Add Samsung CSI/DSI Combo DCPHY
- driver
-Message-ID: <202411060336.yBL7jGAs-lkp@intel.com>
-References: <20241104111121.99274-3-heiko@sntech.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
+Subject: drivers/gpu/drm/ttm/tests/ttm_bo_test.c:225:13: error: incompatible
+ pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex
+ *'
+Message-ID: <202411060302.ox59BV7M-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20241104111121.99274-3-heiko@sntech.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Heiko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rockchip/for-next]
-[also build test WARNING on robh/for-next linus/master v6.12-rc6 next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-phy-Add-Rockchip-MIPI-CSI-DSI-PHY-schema/20241104-193646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
-patch link:    https://lore.kernel.org/r/20241104111121.99274-3-heiko%40sntech.de
-patch subject: [PATCH v2 2/2] phy: rockchip: Add Samsung CSI/DSI Combo DCPHY driver
-config: m68k-randconfig-r113-20241105 (https://download.01.org/0day-ci/archive/20241106/202411060336.yBL7jGAs-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20241106/202411060336.yBL7jGAs-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2e1b3cc9d7f790145a80cb705b168f05dab65df2
+commit: d2d6422f8bd17c6bb205133e290625a564194496 x86: Allow to enable PREEMPT_RT.
+date:   7 weeks ago
+config: i386-buildonly-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060302.ox59BV7M-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060302.ox59BV7M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060336.yBL7jGAs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060302.ox59BV7M-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c:1630:34: warning: 'samsung_mipi_dcphy_of_match' defined but not used [-Wunused-const-variable=]
-    1630 | static const struct of_device_id samsung_mipi_dcphy_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:15:
+   In file included from include/drm/ttm/ttm_tt.h:30:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2237:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:225:13: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
+     225 |         mutex_lock(&bo->base.resv->lock.base);
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:161:44: note: expanded from macro 'mutex_lock'
+     161 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
+         |                                            ^~~~
+   include/linux/mutex.h:152:45: note: passing argument to parameter 'lock' here
+     152 | extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass);
+         |                                             ^
+   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:231:15: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
+     231 |         mutex_unlock(&bo->base.resv->lock.base);
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mutex.h:192:40: note: passing argument to parameter 'lock' here
+     192 | extern void mutex_unlock(struct mutex *lock);
+         |                                        ^
+   1 warning and 2 errors generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
+vim +225 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
 
-vim +/samsung_mipi_dcphy_of_match +1630 drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c
+995279d280d1ef Karolina Stolarek 2023-11-29  210  
+995279d280d1ef Karolina Stolarek 2023-11-29  211  static void ttm_bo_reserve_interrupted(struct kunit *test)
+995279d280d1ef Karolina Stolarek 2023-11-29  212  {
+995279d280d1ef Karolina Stolarek 2023-11-29  213  	struct ttm_buffer_object *bo;
+995279d280d1ef Karolina Stolarek 2023-11-29  214  	struct task_struct *task;
+995279d280d1ef Karolina Stolarek 2023-11-29  215  	int err;
+995279d280d1ef Karolina Stolarek 2023-11-29  216  
+588c4c8d58c413 Karolina Stolarek 2024-06-12  217  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
+995279d280d1ef Karolina Stolarek 2023-11-29  218  
+995279d280d1ef Karolina Stolarek 2023-11-29  219  	task = kthread_create(threaded_ttm_bo_reserve, bo, "ttm-bo-reserve");
+995279d280d1ef Karolina Stolarek 2023-11-29  220  
+995279d280d1ef Karolina Stolarek 2023-11-29  221  	if (IS_ERR(task))
+995279d280d1ef Karolina Stolarek 2023-11-29  222  		KUNIT_FAIL(test, "Couldn't create ttm bo reserve task\n");
+995279d280d1ef Karolina Stolarek 2023-11-29  223  
+995279d280d1ef Karolina Stolarek 2023-11-29  224  	/* Take a lock so the threaded reserve has to wait */
+995279d280d1ef Karolina Stolarek 2023-11-29 @225  	mutex_lock(&bo->base.resv->lock.base);
+995279d280d1ef Karolina Stolarek 2023-11-29  226  
+995279d280d1ef Karolina Stolarek 2023-11-29  227  	wake_up_process(task);
+995279d280d1ef Karolina Stolarek 2023-11-29  228  	msleep(20);
+995279d280d1ef Karolina Stolarek 2023-11-29  229  	err = kthread_stop(task);
+995279d280d1ef Karolina Stolarek 2023-11-29  230  
+995279d280d1ef Karolina Stolarek 2023-11-29  231  	mutex_unlock(&bo->base.resv->lock.base);
+995279d280d1ef Karolina Stolarek 2023-11-29  232  
+995279d280d1ef Karolina Stolarek 2023-11-29  233  	KUNIT_ASSERT_EQ(test, err, -ERESTARTSYS);
+995279d280d1ef Karolina Stolarek 2023-11-29  234  }
+995279d280d1ef Karolina Stolarek 2023-11-29  235  #endif /* IS_BUILTIN(CONFIG_DRM_TTM_KUNIT_TEST) */
+995279d280d1ef Karolina Stolarek 2023-11-29  236  
 
-  1629	
-> 1630	static const struct of_device_id samsung_mipi_dcphy_of_match[] = {
-  1631		{
-  1632			.compatible = "rockchip,rk3576-mipi-dcphy",
-  1633			.data = &rk3576_samsung_mipi_dcphy_plat_data,
-  1634		}, {
-  1635			.compatible = "rockchip,rk3588-mipi-dcphy",
-  1636			.data = &rk3588_samsung_mipi_dcphy_plat_data,
-  1637		},
-  1638		{ /* sentinel */ }
-  1639	};
-  1640	MODULE_DEVICE_TABLE(of, samsung_mipi_dcphy_of_match);
-  1641	
+:::::: The code at line 225 was first introduced by commit
+:::::: 995279d280d1ef5cc349b6eafee4dccd720c99bf drm/ttm/tests: Add tests for ttm_bo functions
+
+:::::: TO: Karolina Stolarek <karolina.stolarek@intel.com>
+:::::: CC: Christian König <christian.koenig@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
