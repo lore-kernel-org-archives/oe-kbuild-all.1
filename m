@@ -1,146 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8C921443A;
-	Tue,  5 Nov 2024 19:56:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC52D205E32
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 20:17:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730836608; cv=none; b=ZTM8+U/MC68B3pd1xrETtEqN5mXx98b2lfeGuq/4O3eVZy+V6EV64gdiFjML+ZKsYPXzkccUCnLyCGlkCh91qKIk+kEpb6WlJQzfd/JgI9w+tPPWy/rJjGraldaWjeTYm4uhNUD5TwIHZhtWuwCmETNKFtCq5/Zo3aJ+QItbtRg=
+	t=1730837872; cv=none; b=Ehc6Q4wMHjOucOaGaLJ/91/6vklYU+oHrljtNVRevqw5dTQ9ubbAowBPScRNn8AZL4DP5qOEG69Z9qBAFjQVRuvMZPLYd9AhOpp20OKugjWUC+fQPTuy0dRzJYf9M9Q592fQBE0j23ZFZGSt7RXxK8XP/LQdXjJCJSR53gxkzCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730836608; c=relaxed/simple;
-	bh=etC4DRo9aSiilSVN2+0xOGPzkuuGeA2zoqU3BmXEyT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZN16Migrw7mfgs375eEoX9wHKKnXSlAnjlmVzUssuopO7iiBty9VBt+6aVezOiOzOxBU0V2XgwvDOYzbsGULkcAEfwTF8fxADabJNWw0lZLyH8lmxTx5GrfOE/VMd2wPykZrY4DoTbXCXD6mdRJbjHW4fz2M3ez5hw0KioHa+sA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cnWlfC7f; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1730837872; c=relaxed/simple;
+	bh=G4KvV+fKvQz4xW9wWgjXJe2AgMxSBP7vJwJ6Xb4Jf0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FNWCR0SiaxEjfPJlGsDweCpRr4iI76z5QROFXEEihk9GRAgUcuy9Di3KUDwbRx/qZC9gPozMjj0lLow+8vy92Z0yeVhuIjL5GbG0VK5U//ro5wtIRChRR7iEhGTdxZu14CTUJ41Dj+aHlBrqtCrcw1/maCOUnRjt7XKFbduERwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cw5dGJPP; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cnWlfC7f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cw5dGJPP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730836607; x=1762372607;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=etC4DRo9aSiilSVN2+0xOGPzkuuGeA2zoqU3BmXEyT8=;
-  b=cnWlfC7fjqHQZ7NJS0Za/eI/L1Rvq+FJ0BoUdQYL2fjM8RCiC9pBBg5M
-   8ux1b0o2cPuNBPBl/RhUGVrTSKWmr2YBD4y3pLNzMLJNRwH0nIHDYgKJl
-   ewGPZw7irwI8jTsQ6UjSOwjKBDQ4IHUPwURMz4ewii+OX9MtJEsNjpnYc
-   NGhsJbALQhMvqJSVAUQyQ+MTr0QQyXc0/ww638628l6c1lf8XF42CiFfM
-   cA93RtLp4yCy/3OUosekPEgN3mgSXKn5/Wkhd6uhP1XKD6vFCOBMh6Ud6
-   1V7ovZWwBvjG4GUaYcLMCdpsh6gbY4IBtYzQENwRtR25A0BpzFV6oAXQI
+  t=1730837869; x=1762373869;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=G4KvV+fKvQz4xW9wWgjXJe2AgMxSBP7vJwJ6Xb4Jf0w=;
+  b=cw5dGJPPTL4DXrwvAeHpjTwHr3McYp4dxWchO1z/X2MYGM2eaXmqzKuO
+   MyY6HWVTbswy5qhispfakXJQbbh3Sc6eACf/KqM6EM+/z1v3aLJWuNeyx
+   ax3NTfNcBGwhZ6K8YBExqBYWVYf+hjNAzf1MwEK78zkzCEoIiXD9Ajl75
+   MlCWrakHRzrikU0ly3V8Lv7j3jC9WTeDip3NXgfDeZmV8ELFdI51ayQNw
+   ZFrYbybvdZpL/tIvcnL9O9re2ZObX8nKgjz4QG3dMz6G56DdbXHDwGciF
+   JSQojg66FdwHAabwV17Z/Ht6B+CXR63fjHB3Fzfa5JNnV3t3JOZHsjugV
    Q==;
-X-CSE-ConnectionGUID: ayK/WdlMTSqPRbj4Kbzofg==
-X-CSE-MsgGUID: fhIpC2/6Sx6JhYaowTRoOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53176687"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53176687"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 11:56:46 -0800
-X-CSE-ConnectionGUID: wnbg42AUSi6duTIHLhFtPg==
-X-CSE-MsgGUID: PNy0o4rYTxqHEGgxDlVCLg==
+X-CSE-ConnectionGUID: qy//SKUWSwm/n0kNq3PQ5A==
+X-CSE-MsgGUID: sMo3/Ri0TtenBRRFg04NQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="34538094"
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="34538094"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 12:17:49 -0800
+X-CSE-ConnectionGUID: Lh33xTkyS1GF6g50pUIdfw==
+X-CSE-MsgGUID: oF/C8elwRp2NhgGGip5fxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="88720939"
+   d="scan'208";a="88109239"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 11:56:44 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 05 Nov 2024 12:17:47 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8PfO-000mPD-1j;
-	Tue, 05 Nov 2024 19:56:42 +0000
-Date: Wed, 6 Nov 2024 03:55:50 +0800
+	id 1t8Pzk-000mQJ-1T;
+	Tue, 05 Nov 2024 20:17:44 +0000
+Date: Wed, 6 Nov 2024 04:16:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>
-Subject: drivers/gpu/drm/ttm/tests/ttm_bo_test.c:225:13: error: incompatible
- pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex
- *'
-Message-ID: <202411060302.ox59BV7M-lkp@intel.com>
+To: Qiu-ji Chen <chenqiuji666@gmail.com>, james.smart@broadcom.com,
+	dick.kennedy@broadcom.com, James.Bottomley@hansenpartnership.com,
+	martin.petersen@oracle.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, baijiaju1990@gmail.com,
+	Qiu-ji Chen <chenqiuji666@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH] scsi: lpfc: Fix improper handling of refcount in
+ lpfc_bsg_hba_get_event()
+Message-ID: <202411060332.fmmxsBzv-lkp@intel.com>
+References: <20241105130902.4603-1-chenqiuji666@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241105130902.4603-1-chenqiuji666@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2e1b3cc9d7f790145a80cb705b168f05dab65df2
-commit: d2d6422f8bd17c6bb205133e290625a564194496 x86: Allow to enable PREEMPT_RT.
-date:   7 weeks ago
-config: i386-buildonly-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060302.ox59BV7M-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060302.ox59BV7M-lkp@intel.com/reproduce)
+Hi Qiu-ji,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jejb-scsi/for-next]
+[also build test ERROR on mkp-scsi/for-next linus/master v6.12-rc6 next-20241105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Qiu-ji-Chen/scsi-lpfc-Fix-improper-handling-of-refcount-in-lpfc_bsg_hba_get_event/20241105-211110
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20241105130902.4603-1-chenqiuji666%40gmail.com
+patch subject: [PATCH] scsi: lpfc: Fix improper handling of refcount in lpfc_bsg_hba_get_event()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241106/202411060332.fmmxsBzv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060332.fmmxsBzv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060302.ox59BV7M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060332.fmmxsBzv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/ttm/tests/ttm_bo_test.c:15:
-   In file included from include/drm/ttm/ttm_tt.h:30:
-   In file included from include/linux/pagemap.h:8:
-   In file included from include/linux/mm.h:2237:
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/ttm/tests/ttm_bo_test.c:225:13: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
-     225 |         mutex_lock(&bo->base.resv->lock.base);
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mutex.h:161:44: note: expanded from macro 'mutex_lock'
-     161 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-         |                                            ^~~~
-   include/linux/mutex.h:152:45: note: passing argument to parameter 'lock' here
-     152 | extern void mutex_lock_nested(struct mutex *lock, unsigned int subclass);
-         |                                             ^
-   drivers/gpu/drm/ttm/tests/ttm_bo_test.c:231:15: error: incompatible pointer types passing 'struct rt_mutex *' to parameter of type 'struct mutex *' [-Werror,-Wincompatible-pointer-types]
-     231 |         mutex_unlock(&bo->base.resv->lock.base);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mutex.h:192:40: note: passing argument to parameter 'lock' here
-     192 | extern void mutex_unlock(struct mutex *lock);
-         |                                        ^
-   1 warning and 2 errors generated.
+   drivers/scsi/lpfc/lpfc_bsg.c: In function 'lpfc_bsg_hba_get_event':
+>> drivers/scsi/lpfc/lpfc_bsg.c:1332:1: warning: label 'job_err_unref' defined but not used [-Wunused-label]
+    1332 | job_err_unref:
+         | ^~~~~~~~~~~~~
+>> drivers/scsi/lpfc/lpfc_bsg.c:1297:17: error: label 'job_error_unref' used but not defined
+    1297 |                 goto job_error_unref;
+         |                 ^~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=n] || GCC_PLUGINS [=y]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +225 drivers/gpu/drm/ttm/tests/ttm_bo_test.c
+vim +/job_error_unref +1297 drivers/scsi/lpfc/lpfc_bsg.c
 
-995279d280d1ef Karolina Stolarek 2023-11-29  210  
-995279d280d1ef Karolina Stolarek 2023-11-29  211  static void ttm_bo_reserve_interrupted(struct kunit *test)
-995279d280d1ef Karolina Stolarek 2023-11-29  212  {
-995279d280d1ef Karolina Stolarek 2023-11-29  213  	struct ttm_buffer_object *bo;
-995279d280d1ef Karolina Stolarek 2023-11-29  214  	struct task_struct *task;
-995279d280d1ef Karolina Stolarek 2023-11-29  215  	int err;
-995279d280d1ef Karolina Stolarek 2023-11-29  216  
-588c4c8d58c413 Karolina Stolarek 2024-06-12  217  	bo = ttm_bo_kunit_init(test, test->priv, BO_SIZE, NULL);
-995279d280d1ef Karolina Stolarek 2023-11-29  218  
-995279d280d1ef Karolina Stolarek 2023-11-29  219  	task = kthread_create(threaded_ttm_bo_reserve, bo, "ttm-bo-reserve");
-995279d280d1ef Karolina Stolarek 2023-11-29  220  
-995279d280d1ef Karolina Stolarek 2023-11-29  221  	if (IS_ERR(task))
-995279d280d1ef Karolina Stolarek 2023-11-29  222  		KUNIT_FAIL(test, "Couldn't create ttm bo reserve task\n");
-995279d280d1ef Karolina Stolarek 2023-11-29  223  
-995279d280d1ef Karolina Stolarek 2023-11-29  224  	/* Take a lock so the threaded reserve has to wait */
-995279d280d1ef Karolina Stolarek 2023-11-29 @225  	mutex_lock(&bo->base.resv->lock.base);
-995279d280d1ef Karolina Stolarek 2023-11-29  226  
-995279d280d1ef Karolina Stolarek 2023-11-29  227  	wake_up_process(task);
-995279d280d1ef Karolina Stolarek 2023-11-29  228  	msleep(20);
-995279d280d1ef Karolina Stolarek 2023-11-29  229  	err = kthread_stop(task);
-995279d280d1ef Karolina Stolarek 2023-11-29  230  
-995279d280d1ef Karolina Stolarek 2023-11-29  231  	mutex_unlock(&bo->base.resv->lock.base);
-995279d280d1ef Karolina Stolarek 2023-11-29  232  
-995279d280d1ef Karolina Stolarek 2023-11-29  233  	KUNIT_ASSERT_EQ(test, err, -ERESTARTSYS);
-995279d280d1ef Karolina Stolarek 2023-11-29  234  }
-995279d280d1ef Karolina Stolarek 2023-11-29  235  #endif /* IS_BUILTIN(CONFIG_DRM_TTM_KUNIT_TEST) */
-995279d280d1ef Karolina Stolarek 2023-11-29  236  
-
-:::::: The code at line 225 was first introduced by commit
-:::::: 995279d280d1ef5cc349b6eafee4dccd720c99bf drm/ttm/tests: Add tests for ttm_bo functions
-
-:::::: TO: Karolina Stolarek <karolina.stolarek@intel.com>
-:::::: CC: Christian König <christian.koenig@amd.com>
+  1243	
+  1244	/**
+  1245	 * lpfc_bsg_hba_get_event - process a GET_EVENT bsg vendor command
+  1246	 * @job: GET_EVENT fc_bsg_job
+  1247	 **/
+  1248	static int
+  1249	lpfc_bsg_hba_get_event(struct bsg_job *job)
+  1250	{
+  1251		struct lpfc_vport *vport = shost_priv(fc_bsg_to_shost(job));
+  1252		struct lpfc_hba *phba = vport->phba;
+  1253		struct fc_bsg_request *bsg_request = job->request;
+  1254		struct fc_bsg_reply *bsg_reply = job->reply;
+  1255		struct get_ct_event *event_req;
+  1256		struct get_ct_event_reply *event_reply;
+  1257		struct lpfc_bsg_event *evt, *evt_next;
+  1258		struct event_data *evt_dat = NULL;
+  1259		unsigned long flags;
+  1260		uint32_t rc = 0;
+  1261	
+  1262		if (job->request_len <
+  1263		    sizeof(struct fc_bsg_request) + sizeof(struct get_ct_event)) {
+  1264			lpfc_printf_log(phba, KERN_WARNING, LOG_LIBDFC,
+  1265					"2613 Received GET_CT_EVENT request below "
+  1266					"minimum size\n");
+  1267			rc = -EINVAL;
+  1268			goto job_error;
+  1269		}
+  1270	
+  1271		event_req = (struct get_ct_event *)
+  1272			bsg_request->rqst_data.h_vendor.vendor_cmd;
+  1273	
+  1274		event_reply = (struct get_ct_event_reply *)
+  1275			bsg_reply->reply_data.vendor_reply.vendor_rsp;
+  1276		spin_lock_irqsave(&phba->ct_ev_lock, flags);
+  1277		list_for_each_entry_safe(evt, evt_next, &phba->ct_ev_waiters, node) {
+  1278			if (evt->reg_id == event_req->ev_reg_id) {
+  1279				if (list_empty(&evt->events_to_get))
+  1280					break;
+  1281				lpfc_bsg_event_ref(evt);
+  1282				evt->wait_time_stamp = jiffies;
+  1283				evt_dat = list_entry(evt->events_to_get.prev,
+  1284						     struct event_data, node);
+  1285				list_del(&evt_dat->node);
+  1286				break;
+  1287			}
+  1288		}
+  1289		spin_unlock_irqrestore(&phba->ct_ev_lock, flags);
+  1290	
+  1291		/* The app may continue to ask for event data until it gets
+  1292		 * an error indicating that there isn't anymore
+  1293		 */
+  1294		if (evt_dat == NULL) {
+  1295			bsg_reply->reply_payload_rcv_len = 0;
+  1296			rc = -ENOENT;
+> 1297			goto job_error_unref;
+  1298		}
+  1299	
+  1300		if (evt_dat->len > job->request_payload.payload_len) {
+  1301			evt_dat->len = job->request_payload.payload_len;
+  1302			lpfc_printf_log(phba, KERN_WARNING, LOG_LIBDFC,
+  1303					"2618 Truncated event data at %d "
+  1304					"bytes\n",
+  1305					job->request_payload.payload_len);
+  1306		}
+  1307	
+  1308		event_reply->type = evt_dat->type;
+  1309		event_reply->immed_data = evt_dat->immed_dat;
+  1310		if (evt_dat->len > 0)
+  1311			bsg_reply->reply_payload_rcv_len =
+  1312				sg_copy_from_buffer(job->request_payload.sg_list,
+  1313						    job->request_payload.sg_cnt,
+  1314						    evt_dat->data, evt_dat->len);
+  1315		else
+  1316			bsg_reply->reply_payload_rcv_len = 0;
+  1317	
+  1318		if (evt_dat) {
+  1319			kfree(evt_dat->data);
+  1320			kfree(evt_dat);
+  1321		}
+  1322	
+  1323		spin_lock_irqsave(&phba->ct_ev_lock, flags);
+  1324		lpfc_bsg_event_unref(evt);
+  1325		spin_unlock_irqrestore(&phba->ct_ev_lock, flags);
+  1326		job->dd_data = NULL;
+  1327		bsg_reply->result = 0;
+  1328		bsg_job_done(job, bsg_reply->result,
+  1329			       bsg_reply->reply_payload_rcv_len);
+  1330		return 0;
+  1331	
+> 1332	job_err_unref:
+  1333		spin_lock_irqsave(&phba->ct_ev_lock, flags);
+  1334		lpfc_bsg_event_unref(evt);
+  1335		spin_unlock_irqrestore(&phba->ct_ev_lock, flags);
+  1336	job_error:
+  1337		job->dd_data = NULL;
+  1338		bsg_reply->result = rc;
+  1339		return rc;
+  1340	}
+  1341	
 
 -- 
 0-DAY CI Kernel Test Service
