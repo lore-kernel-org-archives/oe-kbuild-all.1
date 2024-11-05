@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E30EAD2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 17:42:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 787A01E8855
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 18:54:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730828578; cv=none; b=jfFqufHhtaffpiEK6/CI9iPTDe80Spqb3Jf9LGe/agEW6dTimXeKdVUirWgJlQjwn3B9STKHm0tiJWmsrdJAN4VhstkFLWpAzk2N9mMC9q6IZgBdOu5jqQc6A4SK7llSBTtw7U2gpC9biUqA6N2VgOx9qaVHWhRu2XPpo300dWg=
+	t=1730832886; cv=none; b=gO60iR+rNb+kixcsGXPq1f6RSZy1UcewAlNFDCF6wbo6vS5yoYJ7wwQxoA0t5Ed4lz5HwGbB+7ffLfFsWBHBCddPDcu2IW1CJwjrj6GGWyjqrE8M3FubulJ2Do1iP9iSmE3qhU2ERf7erfHTbhA5WPUn4JVml/A1oKaEA13stlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730828578; c=relaxed/simple;
-	bh=3CCZ/Nz3v7uzJ1fP/pqCuVtCbES1VD29pWbFAww1mF8=;
+	s=arc-20240116; t=1730832886; c=relaxed/simple;
+	bh=ZH7etx/9O1xdtZYvH0GaTKK1ORjghV/ZHybNIlf88dI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IJHwBrd9EZMhOfWMuP46ho0CslegJpCzgbBj4pIqghzwC/E5bb4EumqKXkgpelj/WRZK/dZtv9CRvXjH3OCHpGbSq0RcbvL+9ZYgtJEwP8KceQYHx/X0zEOYEd907J+Ug1//wqrRkhBtqHXy7dZgpTbRVn9yZ9sPlTR6yvhA1uA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfO/Wphr; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=IK51O8uQjQuVIJzHglGb927mkhQbucnQu0kNff1rP1KA4KgYjX9fVPUWHS9JvYVc7YJoXT4yNONCK++29z0dFtFZr2UEYDim93gZbu3fw8FOV7Zx2Df01Zz3vAHMG3je82jdm/OoyEbKof0ffEmqjp2bISQH9bcA7a/5DMp1nRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RMJeQk7p; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfO/Wphr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RMJeQk7p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730828576; x=1762364576;
+  t=1730832885; x=1762368885;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3CCZ/Nz3v7uzJ1fP/pqCuVtCbES1VD29pWbFAww1mF8=;
-  b=TfO/WphrCEKpV4J2dafiX+jJli0FgbiWO04bJy9cDcmlmPDtDegsGnEL
-   c20D3j919dlqTSTQyS78Py3D1X/iFw5p/6sjF+8wo5ubZNCMHjXfoDmJZ
-   1h+SHbbvYLrXHTj09SvQHYVOGUBivWeC4N6oGtIvDPvMDy8DSkuAe+e9b
-   sXgN+FzvwSxO4DGGWY50QG5fsN77fBy7Eh73PuEZRZJ+ySH9zpH53VKKc
-   UHV9+uzYC6etzvfd4zP6NPfXbYAuFixMxirDQ0WMvkBYMDgtzbnmaYemw
-   dRP9UDoLLvqSYn0MwH3AbHtK13uqCLgqng2fo4j88sWaWCXp46+pC0xpc
+  bh=ZH7etx/9O1xdtZYvH0GaTKK1ORjghV/ZHybNIlf88dI=;
+  b=RMJeQk7p0R1vGK+tJMx06mIAeM8PhqGXJqko6rx+Oza4ah95+fL/Z0NV
+   fz624ZY1su5L70xf1Or6nsGu7vkAPi9+8iTJzGs/OQK8eboX9eO62jYYV
+   Bfu8nEHUZCgjtrGQ1PkCvFdJ98nRsrfz14uQ8RveJ3L85IuogxolcwriQ
+   C8QuwJtp50McB9zsluwTPjzRo9QHrdb5xvp8pffMWYO14K8fDXTh62fio
+   qUYSQ5YUSH/ZmighZX9pqyRjfM7t0sU5ltQXlwvtvJZEe7GICxs20lb6F
+   WWD9/Q9GFKQpeKgJlPHodemzW0aTdDHgNekm4O0yKBJ2Wll8feQz3lsIy
    Q==;
-X-CSE-ConnectionGUID: 5x0ZXfgeQIW4fmI00s0AgA==
-X-CSE-MsgGUID: MXI+AP5SSJ60JLWL+t8IxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30700337"
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="30700337"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 09:42:42 -0800
-X-CSE-ConnectionGUID: wnqV3LPsTQ2cP25x9ZYTjA==
-X-CSE-MsgGUID: WL0IzIwERd2osChtKXLwww==
+X-CSE-ConnectionGUID: l9t8GBB8QiujNBqU644g5Q==
+X-CSE-MsgGUID: V0IsnEqMRXueLMZph2GKvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30773812"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30773812"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 10:54:44 -0800
+X-CSE-ConnectionGUID: g7lgc7+tSdesxLM/AetbrA==
+X-CSE-MsgGUID: RGM4FqDySyW1LogdTB0Xcg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="121588907"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="88923140"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2024 09:42:40 -0800
+  by orviesa003.jf.intel.com with ESMTP; 05 Nov 2024 10:54:43 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8NZd-000mIf-2x;
-	Tue, 05 Nov 2024 17:42:37 +0000
-Date: Wed, 6 Nov 2024 01:42:00 +0800
+	id 1t8OhM-000mMP-2b;
+	Tue, 05 Nov 2024 18:54:40 +0000
+Date: Wed, 6 Nov 2024 02:53:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1231/1231]
- arch/arm64/kernel/mpam/mpam_resctrl.c:566: warning: Function parameter or
- member 'cols' not described in 'rmid_transform'
-Message-ID: <202411060122.PBQDO81j-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1225/1225] kernel/kprobes.o: warning:
+ objtool: register_kprobe()+0x6ee: unreachable instruction
+Message-ID: <202411060227.oM4HzgsK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,64 +63,36 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   5e5fe4767eb1c2cdaeeddcd731adf35da6453c12
-commit: 75008419705983d9d2027127568111f88a26a67c [1231/1231] arm64/mpam: Remap reqpartid,pmg to rmid and intpartid to closid
-config: arm64-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241106/202411060122.PBQDO81j-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060122.PBQDO81j-lkp@intel.com/reproduce)
+head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
+commit: 388c9a84a807812e7226e0e1ca606563e14a7f5a [1225/1225] kprobes: Warn if the kprobe is reregistered
+config: x86_64-buildonly-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241106/202411060227.oM4HzgsK-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060227.oM4HzgsK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060122.PBQDO81j-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060227.oM4HzgsK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/arm64/kernel/mpam/mpam_resctrl.c:178:1: warning: conflicting types for 'mpam_get_raw_resctrl_resource' due to enum/integer mismatch; have 'struct raw_resctrl_resource *(enum resctrl_resource_level)' [-Wenum-int-mismatch]
-     178 | mpam_get_raw_resctrl_resource(enum resctrl_resource_level level)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/kernel/mpam/mpam_resctrl.c:47:
-   arch/arm64/kernel/mpam/mpam_internal.h:192:1: note: previous declaration of 'mpam_get_raw_resctrl_resource' with type 'struct raw_resctrl_resource *(u32)' {aka 'struct raw_resctrl_resource *(unsigned int)'}
-     192 | mpam_get_raw_resctrl_resource(u32 level);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:521:5: warning: no previous prototype for 'closid_bitmap_init' [-Wmissing-prototypes]
-     521 | int closid_bitmap_init(void)
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:1306:5: warning: no previous prototype for 'cpus_ctrl_write' [-Wmissing-prototypes]
-    1306 | int cpus_ctrl_write(struct rdtgroup *rdtgrp, cpumask_var_t newmask,
-         |     ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:1403:5: warning: no previous prototype for 'cpus_mon_write' [-Wmissing-prototypes]
-    1403 | int cpus_mon_write(struct rdtgroup *rdtgrp, cpumask_var_t newmask,
-         |     ^~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c: In function 'rdt_last_cmd_printf':
-   arch/arm64/kernel/mpam/mpam_resctrl.c:1583:9: warning: function 'rdt_last_cmd_printf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1583 |         seq_buf_vprintf(&last_cmd_status, fmt, ap);
-         |         ^~~~~~~~~~~~~~~
->> arch/arm64/kernel/mpam/mpam_resctrl.c:566: warning: Function parameter or member 'cols' not described in 'rmid_transform'
-
-
-vim +566 arch/arm64/kernel/mpam/mpam_resctrl.c
-
-   549	
-   550	/**
-   551	 * struct rmid_transform - Matrix for transforming rmid to partid and pmg
-   552	 * @rows:           Number of bits for remap_body[:] bitmap
-   553	 * @clos:           Number of bitmaps
-   554	 * @nr_usage:       Number rmid we have
-   555	 * @stride:         Step stride from transforming rmid to partid and pmg
-   556	 * @remap_body:     Storing bitmaps' entry and itself
-   557	 * @remap_enabled:  Does remap_body init done
-   558	 */
-   559	struct rmid_transform {
-   560		u32 rows;
-   561		u32 cols;
-   562		u32 nr_usage;
-   563		int stride;
-   564		unsigned long **remap_body;
-   565		bool remap_enabled;
- > 566	};
-   567	static struct rmid_transform rmid_remap_matrix;
-   568	
+   kernel/kprobes.c:120:14: warning: no previous prototype for function 'alloc_insn_page' [-Wmissing-prototypes]
+     120 | void __weak *alloc_insn_page(void)
+         |              ^
+   kernel/kprobes.c:120:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     120 | void __weak *alloc_insn_page(void)
+         | ^
+         | static 
+   kernel/kprobes.c:125:13: warning: no previous prototype for function 'free_insn_page' [-Wmissing-prototypes]
+     125 | void __weak free_insn_page(void *page)
+         |             ^
+   kernel/kprobes.c:125:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     125 | void __weak free_insn_page(void *page)
+         | ^
+         | static 
+   2 warnings generated.
+   kernel/kprobes.c:145: warning: Function parameter or member 'c' not described in '__get_insn_slot'
+>> kernel/kprobes.o: warning: objtool: register_kprobe()+0x6ee: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
