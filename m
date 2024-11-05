@@ -1,69 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BE61FEFA9;
-	Tue,  5 Nov 2024 05:54:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ACC71FE0F6
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 06:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730786055; cv=none; b=VTnjL/wudaL8LY+ZAgaXHSsXnohOSYDm6/jkxGlDf1k0wNd7D2P1On9sVdyDQVMy3piTL0Ph7iRYEh5V0fuSLctvFxNciwAyiqVDQ6S1F56q0/B0HVvNvSBTXKNYk6SVe+tpwKdCwOBdMbIQfSjciPFb5UQHgg09leGbt0Mj/Vg=
+	t=1730788637; cv=none; b=Qo8yURnaysG8Nfjh50SjB++hp0B7fJXv4JDPiI7m54IYltEE77RIYrguLKAtN/hl0aNaJyaSJ5xSnZiLNqlwtjSdafa0vGbD+Mo1zTn48g5D8iiw3Ghow0LbaXzrKxmOAEHz14HZx904LnHON8ph+2KuuO82luh3StWnNxCUCLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730786055; c=relaxed/simple;
-	bh=mGA7O6fgfWIf/Pwu4MvEyfLhFnqrGvQTMMOxj9Qazzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r3GRqFXXPp5zBNLoYO73Kg9bWuc4H91vi8ZDCWBDYibDvhvFaG7W5Wjss6RmTSZEjqigsnYQHdlqR5JqvYLqOg9YGm8s6eAw9QiDEdMQIGGN2jDpQZ+T2/fCOj9hVkh7QmRwc7zMXZ0433ZqRmcx9FYMKDw+RcKqLyyUzAz3MRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PXOxxrgB; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730788637; c=relaxed/simple;
+	bh=Su8aAtaBzY4C/hqUzePCMSSGK724DpLmH+I5a9kuKo0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jRUL2BznXdrZd+TEPWIQMpTVDEDmqHZouNXnCoSKvyfWtxWdNin6BDB4nYZGDduWOR3GQJ0aMQBz14QhDZ1gBTSZ1eN2cfRbeE5w636NhKxW9adimQVRaMqVuazT6ll9ykGGgygw/RSpWhw6aVH5YwvPYXEaySs+ziaV5F60EvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DijaQAPU; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PXOxxrgB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730786052; x=1762322052;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mGA7O6fgfWIf/Pwu4MvEyfLhFnqrGvQTMMOxj9Qazzs=;
-  b=PXOxxrgBZjCNd1mGUppARyHsnxuQtA1oJNoGw06y47KrWXWO0onv0SiW
-   /f6neqaD9ipgjxxJL7sFmqkr7UWkPMCPntKNd2hGY5Nb73we2DHJ52cN5
-   NP7dxAVWSjbAOOTyTEvi4kUmZNg6uz89UxlHKBxR88w0EKN37kz2KBDQy
-   98R3V3jVociiHHqmOrPSFrAQu3Rx4P6o2iaAH6Lfq5CodsTVf2GBo1/iy
-   3RT/2ppGHsU0FqFIkv8K5GHptcek95D8B76tk0vqiVGRi462+eEtC1Mjc
-   qd6uBAd4LMMxEp58ImrT9g+zzMnj6PeE2fDIdowiP+3zncpNM0Uq8IMLB
-   w==;
-X-CSE-ConnectionGUID: e9ZcuuarRHmfn0W3pMa7bw==
-X-CSE-MsgGUID: W27+5if4TAWQS6vt3Tta5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41618641"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41618641"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 21:54:11 -0800
-X-CSE-ConnectionGUID: Ud1QZqu5Q7y+3MTYCN7GcA==
-X-CSE-MsgGUID: s6QMNsPpSXyaQICF17edmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="88447927"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 04 Nov 2024 21:54:08 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8CVy-000lgf-0o;
-	Tue, 05 Nov 2024 05:54:06 +0000
-Date: Tue, 5 Nov 2024 13:53:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Quentin Perret <qperret@google.com>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Fuad Tabba <tabba@google.com>,
-	Vincent Donnefort <vdonnefort@google.com>,
-	Sebastian Ene <sebastianene@google.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 18/18] KVM: arm64: Plumb the pKVM MMU in KVM
-Message-ID: <202411051325.EBkzE0th-lkp@intel.com>
-References: <20241104133204.85208-19-qperret@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DijaQAPU"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c9404c0d50so6108464a12.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Nov 2024 22:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730788632; x=1731393432; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+WNu6vxL2kci2KEk4ZBb4bzXNQGNWCDr/n1sXNjfCCk=;
+        b=DijaQAPUuAyt3D9h/UCs0whw+kRUt5JPGx0vPgby3aonttBdVkp0zNfQZ/1LlGojri
+         rPAXy8a7bLVD6m9IFLb2ORbGtdvo7+Mp5sbBkaFtKIZG9o8ldeBALU93A/pF5OeMUNS+
+         8R0Qb06Z7ujLGHZ9cxzIwbO3o82jQQ1HU58HP/WEZ6XZq2vzoJfuD5E8Lutpzu95pxVZ
+         ZogW3MGibh7YKAnxz6C6WJrFhGdzgbm8T2Rzb5A9kVNko5LYBMYrEdiZ6NXx/5aJSBFH
+         DmWtLu71T5/+FKdvAx81TtlqG1tawJwjdksp/x/eZJImXxsohGkgRDPE+/2WQctrOSXO
+         lKZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730788632; x=1731393432;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+WNu6vxL2kci2KEk4ZBb4bzXNQGNWCDr/n1sXNjfCCk=;
+        b=WRY5FGAcGhdAWtURo9eR6yMrMseAeGT33URdWOySPtzzJg7W5MA39/fIyZPXJhov0T
+         Pn7YOXpO6JIVXicGykJEWl272mZVFd/jBWuWBprJUeQRXPXVPVbcePBhyFpXPXHgKfg8
+         E38AymjAc3gjYamMhlWvcZPCpOr+NpGxaxtbwNj4yEWNzG77ZenhilbuKmjx0SQA35fp
+         bT3R8wbiv/Pw14Spr9SGjfT4ItdmNbWu2tuy/ZRAt6jlpOwfJzdFF6V2+24BvgeEJJE8
+         Rrm/JX/oAPoDq6fjpWqMu+qZZKqNL/pxbSJ1/nSjh8N3oOBCawyDzmGXA8n6+7EN+/pd
+         yUrA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5h8BbUGYbCjMLRG/WaMjdD8hK8BdNgikAKTHwpag8kmuFidqLfQfQKOo2bAqNvjXaFsk8vNFxXj35EhPt@lists.linux.dev
+X-Gm-Message-State: AOJu0YxdL3xLyDeqfHgDx7fwKH44rgL/a+GXZOKtuYzC0lLNaWvmrRCi
+	A8f6PFwwdxI40P64zh6p4W4LfTfqUDSujN3ktka2lN6UCm38SwGdwByAdkX8Dw4=
+X-Google-Smtp-Source: AGHT+IEw0TjNJQYuD9PXpUhLi54N1/pbpRHrodKx9NromPzYVShSWicHZCGTAC+gdLH11vbeEKw6gQ==
+X-Received: by 2002:a05:6402:5112:b0:5ca:151a:b84c with SMTP id 4fb4d7f45d1cf-5cbbf8cb79amr25866641a12.18.1730788632417;
+        Mon, 04 Nov 2024 22:37:12 -0800 (PST)
+Received: from localhost ([77.241.232.19])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cee6ab082bsm835298a12.29.2024.11.04.22.37.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 22:37:12 -0800 (PST)
+Date: Tue, 5 Nov 2024 09:37:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2350/2350] net/rxrpc/sendmsg.c:471
+ rxrpc_send_data() error: uninitialized symbol 'skb'.
+Message-ID: <a93550a2-91bb-45e9-9297-682212268d94@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,85 +66,258 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241104133204.85208-19-qperret@google.com>
 
-Hi Quentin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.12-rc6]
-[also build test WARNING on linus/master]
-[cannot apply to kvmarm/next next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Quentin-Perret/KVM-arm64-Change-the-layout-of-enum-pkvm_page_state/20241104-213817
-base:   v6.12-rc6
-patch link:    https://lore.kernel.org/r/20241104133204.85208-19-qperret%40google.com
-patch subject: [PATCH 18/18] KVM: arm64: Plumb the pKVM MMU in KVM
-config: arm64-randconfig-002-20241105 (https://download.01.org/0day-ci/archive/20241105/202411051325.EBkzE0th-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051325.EBkzE0th-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   7435f796ba0cdd99338403d56a92dec9c0f89730
+commit: 5a5d74ffcd49103d4781651bdb6a3e5175551dd6 [2350/2350] rxrpc: Fix locking in rxrpc's sendmsg
+config: x86_64-randconfig-161-20241103 (https://download.01.org/0day-ci/archive/20241105/202411050217.vVYcKY88-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051325.EBkzE0th-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411050217.vVYcKY88-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+New smatch warnings:
+net/rxrpc/sendmsg.c:471 rxrpc_send_data() error: uninitialized symbol 'skb'.
 
->> arch/arm64/kvm/mmu.c:338: warning: Function parameter or struct member 'pgt' not described in 'kvm_s2_unmap'
->> arch/arm64/kvm/mmu.c:338: warning: Function parameter or struct member 'addr' not described in 'kvm_s2_unmap'
->> arch/arm64/kvm/mmu.c:338: warning: expecting prototype for __unmap_stage2_range(). Prototype was for kvm_s2_unmap() instead
+vim +/skb +471 net/rxrpc/sendmsg.c
 
+0b58b8a18be4932 David Howells 2016-09-02  287  static int rxrpc_send_data(struct rxrpc_sock *rx,
+0b58b8a18be4932 David Howells 2016-09-02  288  			   struct rxrpc_call *call,
+e833251ad813168 David Howells 2017-08-29  289  			   struct msghdr *msg, size_t len,
+5a5d74ffcd49103 David Howells 2022-12-02  290  			   rxrpc_notify_end_tx_t notify_end_tx,
+5a5d74ffcd49103 David Howells 2022-12-02  291  			   bool *_dropped_lock)
+0b58b8a18be4932 David Howells 2016-09-02  292  {
+0b58b8a18be4932 David Howells 2016-09-02  293  	struct rxrpc_skb_priv *sp;
+0b58b8a18be4932 David Howells 2016-09-02  294  	struct sk_buff *skb;
+0b58b8a18be4932 David Howells 2016-09-02  295  	struct sock *sk = &rx->sk;
+5a5d74ffcd49103 David Howells 2022-12-02  296  	enum rxrpc_call_state state;
+0b58b8a18be4932 David Howells 2016-09-02  297  	long timeo;
+5a5d74ffcd49103 David Howells 2022-12-02  298  	bool more = msg->msg_flags & MSG_MORE;
+5a5d74ffcd49103 David Howells 2022-12-02  299  	int ret, copied = 0;
+0b58b8a18be4932 David Howells 2016-09-02  300  
+0b58b8a18be4932 David Howells 2016-09-02  301  	timeo = sock_sndtimeo(sk, msg->msg_flags & MSG_DONTWAIT);
+0b58b8a18be4932 David Howells 2016-09-02  302  
+0b58b8a18be4932 David Howells 2016-09-02  303  	/* this should be in poll */
+0b58b8a18be4932 David Howells 2016-09-02  304  	sk_clear_bit(SOCKWQ_ASYNC_NOSPACE, sk);
+0b58b8a18be4932 David Howells 2016-09-02  305  
+5a5d74ffcd49103 David Howells 2022-12-02  306  reload:
+5a5d74ffcd49103 David Howells 2022-12-02  307  	ret = -EPIPE;
+639f181f0ee20d3 David Howells 2020-07-20  308  	if (sk->sk_shutdown & SEND_SHUTDOWN)
+5a5d74ffcd49103 David Howells 2022-12-02  309  		goto maybe_error;
 
-vim +338 arch/arm64/kvm/mmu.c
+STEP 1: We hit this goto.  copied is false.
 
-   299	
-   300	/*
-   301	 * Unmapping vs dcache management:
-   302	 *
-   303	 * If a guest maps certain memory pages as uncached, all writes will
-   304	 * bypass the data cache and go directly to RAM.  However, the CPUs
-   305	 * can still speculate reads (not writes) and fill cache lines with
-   306	 * data.
-   307	 *
-   308	 * Those cache lines will be *clean* cache lines though, so a
-   309	 * clean+invalidate operation is equivalent to an invalidate
-   310	 * operation, because no cache lines are marked dirty.
-   311	 *
-   312	 * Those clean cache lines could be filled prior to an uncached write
-   313	 * by the guest, and the cache coherent IO subsystem would therefore
-   314	 * end up writing old data to disk.
-   315	 *
-   316	 * This is why right after unmapping a page/section and invalidating
-   317	 * the corresponding TLBs, we flush to make sure the IO subsystem will
-   318	 * never hit in the cache.
-   319	 *
-   320	 * This is all avoided on systems that have ARM64_HAS_STAGE2_FWB, as
-   321	 * we then fully enforce cacheability of RAM, no matter what the guest
-   322	 * does.
-   323	 */
-   324	/**
-   325	 * __unmap_stage2_range -- Clear stage2 page table entries to unmap a range
-   326	 * @mmu:   The KVM stage-2 MMU pointer
-   327	 * @start: The intermediate physical base address of the range to unmap
-   328	 * @size:  The size of the area to unmap
-   329	 * @may_block: Whether or not we are permitted to block
-   330	 *
-   331	 * Clear a range of stage-2 mappings, lowering the various ref-counts.  Must
-   332	 * be called while holding mmu_lock (unless for freeing the stage2 pgd before
-   333	 * destroying the VM), otherwise another faulting VCPU may come in and mess
-   334	 * with things behind our backs.
-   335	 */
-   336	
-   337	static int kvm_s2_unmap(struct kvm_pgtable *pgt, u64 addr, u64 size)
- > 338	{
-   339		return KVM_PGT_S2(unmap, pgt, addr, size);
-   340	}
-   341	
+5a5d74ffcd49103 David Howells 2022-12-02  310  	state = READ_ONCE(call->state);
+5a5d74ffcd49103 David Howells 2022-12-02  311  	ret = -ESHUTDOWN;
+5a5d74ffcd49103 David Howells 2022-12-02  312  	if (state >= RXRPC_CALL_COMPLETE)
+5a5d74ffcd49103 David Howells 2022-12-02  313  		goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  314  	ret = -EPROTO;
+5a5d74ffcd49103 David Howells 2022-12-02  315  	if (state != RXRPC_CALL_CLIENT_SEND_REQUEST &&
+5a5d74ffcd49103 David Howells 2022-12-02  316  	    state != RXRPC_CALL_SERVER_ACK_REQUEST &&
+5a5d74ffcd49103 David Howells 2022-12-02  317  	    state != RXRPC_CALL_SERVER_SEND_REPLY)
+5a5d74ffcd49103 David Howells 2022-12-02  318  		goto maybe_error;
+0b58b8a18be4932 David Howells 2016-09-02  319  
+5a5d74ffcd49103 David Howells 2022-12-02  320  	ret = -EMSGSIZE;
+e754eba685aac2a David Howells 2017-06-07  321  	if (call->tx_total_len != -1) {
+5a5d74ffcd49103 David Howells 2022-12-02  322  		if (len - copied > call->tx_total_len)
+5a5d74ffcd49103 David Howells 2022-12-02  323  			goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  324  		if (!more && len - copied != call->tx_total_len)
+5a5d74ffcd49103 David Howells 2022-12-02  325  			goto maybe_error;
+e754eba685aac2a David Howells 2017-06-07  326  	}
+e754eba685aac2a David Howells 2017-06-07  327  
+0b58b8a18be4932 David Howells 2016-09-02  328  	skb = call->tx_pending;
+0b58b8a18be4932 David Howells 2016-09-02  329  	call->tx_pending = NULL;
+987db9f7cd1e77e David Howells 2019-08-19  330  	rxrpc_see_skb(skb, rxrpc_skb_seen);
+0b58b8a18be4932 David Howells 2016-09-02  331  
+0b58b8a18be4932 David Howells 2016-09-02  332  	do {
+7aa51da7c88d42c David Howells 2016-09-22  333  		/* Check to see if there's a ping ACK to reply to. */
+7aa51da7c88d42c David Howells 2016-09-22  334  		if (call->ackr_reason == RXRPC_ACK_PING_RESPONSE)
+bd1fdf8cfdf3fdb David Howells 2017-11-24  335  			rxrpc_send_ack_packet(call, false, NULL);
+7aa51da7c88d42c David Howells 2016-09-22  336  
+0b58b8a18be4932 David Howells 2016-09-02  337  		if (!skb) {
+0b58b8a18be4932 David Howells 2016-09-02  338  			size_t size, chunk, max, space;
+0b58b8a18be4932 David Howells 2016-09-02  339  
+0b58b8a18be4932 David Howells 2016-09-02  340  			_debug("alloc");
+0b58b8a18be4932 David Howells 2016-09-02  341  
+5a5d74ffcd49103 David Howells 2022-12-02  342  			if (!rxrpc_check_tx_space(call, NULL))
+5a5d74ffcd49103 David Howells 2022-12-02  343  				goto wait_for_space;
+0b58b8a18be4932 David Howells 2016-09-02  344  
+182f50562490e58 David Howells 2016-09-17  345  			max = RXRPC_JUMBO_DATALEN;
+0b58b8a18be4932 David Howells 2016-09-02  346  			max -= call->conn->security_size;
+0b58b8a18be4932 David Howells 2016-09-02  347  			max &= ~(call->conn->size_align - 1UL);
+0b58b8a18be4932 David Howells 2016-09-02  348  
+0b58b8a18be4932 David Howells 2016-09-02  349  			chunk = max;
+0b58b8a18be4932 David Howells 2016-09-02  350  			if (chunk > msg_data_left(msg) && !more)
+0b58b8a18be4932 David Howells 2016-09-02  351  				chunk = msg_data_left(msg);
+0b58b8a18be4932 David Howells 2016-09-02  352  
+0b58b8a18be4932 David Howells 2016-09-02  353  			space = chunk + call->conn->size_align;
+0b58b8a18be4932 David Howells 2016-09-02  354  			space &= ~(call->conn->size_align - 1UL);
+0b58b8a18be4932 David Howells 2016-09-02  355  
+5a924b8951f835b David Howells 2016-09-22  356  			size = space + call->conn->security_size;
+0b58b8a18be4932 David Howells 2016-09-02  357  
+0b58b8a18be4932 David Howells 2016-09-02  358  			_debug("SIZE: %zu/%zu/%zu", chunk, space, size);
+0b58b8a18be4932 David Howells 2016-09-02  359  
+0b58b8a18be4932 David Howells 2016-09-02  360  			/* create a buffer that we can retain until it's ACK'd */
+0b58b8a18be4932 David Howells 2016-09-02  361  			skb = sock_alloc_send_skb(
+0b58b8a18be4932 David Howells 2016-09-02  362  				sk, size, msg->msg_flags & MSG_DONTWAIT, &ret);
+0b58b8a18be4932 David Howells 2016-09-02  363  			if (!skb)
+0b58b8a18be4932 David Howells 2016-09-02  364  				goto maybe_error;
+0b58b8a18be4932 David Howells 2016-09-02  365  
+b311e68420aa520 David Howells 2019-08-19  366  			sp = rxrpc_skb(skb);
+b311e68420aa520 David Howells 2019-08-19  367  			sp->rx_flags |= RXRPC_SKB_TX_BUFFER;
+987db9f7cd1e77e David Howells 2019-08-19  368  			rxrpc_new_skb(skb, rxrpc_skb_new);
+0b58b8a18be4932 David Howells 2016-09-02  369  
+0b58b8a18be4932 David Howells 2016-09-02  370  			_debug("ALLOC SEND %p", skb);
+0b58b8a18be4932 David Howells 2016-09-02  371  
+0b58b8a18be4932 David Howells 2016-09-02  372  			ASSERTCMP(skb->mark, ==, 0);
+0b58b8a18be4932 David Howells 2016-09-02  373  
+5a924b8951f835b David Howells 2016-09-22  374  			_debug("HS: %u", call->conn->security_size);
+5a924b8951f835b David Howells 2016-09-22  375  			skb_reserve(skb, call->conn->security_size);
+5a924b8951f835b David Howells 2016-09-22  376  			skb->len += call->conn->security_size;
+0b58b8a18be4932 David Howells 2016-09-02  377  
+0b58b8a18be4932 David Howells 2016-09-02  378  			sp->remain = chunk;
+0b58b8a18be4932 David Howells 2016-09-02  379  			if (sp->remain > skb_tailroom(skb))
+0b58b8a18be4932 David Howells 2016-09-02  380  				sp->remain = skb_tailroom(skb);
+0b58b8a18be4932 David Howells 2016-09-02  381  
+0b58b8a18be4932 David Howells 2016-09-02  382  			_net("skb: hr %d, tr %d, hl %d, rm %d",
+0b58b8a18be4932 David Howells 2016-09-02  383  			       skb_headroom(skb),
+0b58b8a18be4932 David Howells 2016-09-02  384  			       skb_tailroom(skb),
+0b58b8a18be4932 David Howells 2016-09-02  385  			       skb_headlen(skb),
+0b58b8a18be4932 David Howells 2016-09-02  386  			       sp->remain);
+0b58b8a18be4932 David Howells 2016-09-02  387  
+0b58b8a18be4932 David Howells 2016-09-02  388  			skb->ip_summed = CHECKSUM_UNNECESSARY;
+0b58b8a18be4932 David Howells 2016-09-02  389  		}
+0b58b8a18be4932 David Howells 2016-09-02  390  
+0b58b8a18be4932 David Howells 2016-09-02  391  		_debug("append");
+0b58b8a18be4932 David Howells 2016-09-02  392  		sp = rxrpc_skb(skb);
+0b58b8a18be4932 David Howells 2016-09-02  393  
+0b58b8a18be4932 David Howells 2016-09-02  394  		/* append next segment of data to the current buffer */
+0b58b8a18be4932 David Howells 2016-09-02  395  		if (msg_data_left(msg) > 0) {
+0b58b8a18be4932 David Howells 2016-09-02  396  			int copy = skb_tailroom(skb);
+0b58b8a18be4932 David Howells 2016-09-02  397  			ASSERTCMP(copy, >, 0);
+0b58b8a18be4932 David Howells 2016-09-02  398  			if (copy > msg_data_left(msg))
+0b58b8a18be4932 David Howells 2016-09-02  399  				copy = msg_data_left(msg);
+0b58b8a18be4932 David Howells 2016-09-02  400  			if (copy > sp->remain)
+0b58b8a18be4932 David Howells 2016-09-02  401  				copy = sp->remain;
+0b58b8a18be4932 David Howells 2016-09-02  402  
+0b58b8a18be4932 David Howells 2016-09-02  403  			_debug("add");
+0b58b8a18be4932 David Howells 2016-09-02  404  			ret = skb_add_data(skb, &msg->msg_iter, copy);
+0b58b8a18be4932 David Howells 2016-09-02  405  			_debug("added");
+0b58b8a18be4932 David Howells 2016-09-02  406  			if (ret < 0)
+0b58b8a18be4932 David Howells 2016-09-02  407  				goto efault;
+0b58b8a18be4932 David Howells 2016-09-02  408  			sp->remain -= copy;
+0b58b8a18be4932 David Howells 2016-09-02  409  			skb->mark += copy;
+0b58b8a18be4932 David Howells 2016-09-02  410  			copied += copy;
+e754eba685aac2a David Howells 2017-06-07  411  			if (call->tx_total_len != -1)
+e754eba685aac2a David Howells 2017-06-07  412  				call->tx_total_len -= copy;
+0b58b8a18be4932 David Howells 2016-09-02  413  		}
+0b58b8a18be4932 David Howells 2016-09-02  414  
+e122d845a01ece2 David Howells 2019-01-10  415  		/* check for the far side aborting the call or a network error
+e122d845a01ece2 David Howells 2019-01-10  416  		 * occurring */
+e122d845a01ece2 David Howells 2019-01-10  417  		if (call->state == RXRPC_CALL_COMPLETE)
+e122d845a01ece2 David Howells 2019-01-10  418  			goto call_terminated;
+e122d845a01ece2 David Howells 2019-01-10  419  
+0b58b8a18be4932 David Howells 2016-09-02  420  		/* add the packet to the send queue if it's now full */
+0b58b8a18be4932 David Howells 2016-09-02  421  		if (sp->remain <= 0 ||
+0b58b8a18be4932 David Howells 2016-09-02  422  		    (msg_data_left(msg) == 0 && !more)) {
+0b58b8a18be4932 David Howells 2016-09-02  423  			struct rxrpc_connection *conn = call->conn;
+0b58b8a18be4932 David Howells 2016-09-02  424  			uint32_t seq;
+0b58b8a18be4932 David Howells 2016-09-02  425  			size_t pad;
+0b58b8a18be4932 David Howells 2016-09-02  426  
+0b58b8a18be4932 David Howells 2016-09-02  427  			/* pad out if we're using security */
+0b58b8a18be4932 David Howells 2016-09-02  428  			if (conn->security_ix) {
+0b58b8a18be4932 David Howells 2016-09-02  429  				pad = conn->security_size + skb->mark;
+0b58b8a18be4932 David Howells 2016-09-02  430  				pad = conn->size_align - pad;
+0b58b8a18be4932 David Howells 2016-09-02  431  				pad &= conn->size_align - 1;
+0b58b8a18be4932 David Howells 2016-09-02  432  				_debug("pad %zu", pad);
+0b58b8a18be4932 David Howells 2016-09-02  433  				if (pad)
+b080db585384b9f Johannes Berg 2017-06-16  434  					skb_put_zero(skb, pad);
+0b58b8a18be4932 David Howells 2016-09-02  435  			}
+0b58b8a18be4932 David Howells 2016-09-02  436  
+248f219cb8bcbfb David Howells 2016-09-08  437  			seq = call->tx_top + 1;
+0b58b8a18be4932 David Howells 2016-09-02  438  
+0b58b8a18be4932 David Howells 2016-09-02  439  			sp->hdr.seq	= seq;
+0b58b8a18be4932 David Howells 2016-09-02  440  			sp->hdr._rsvd	= 0;
+0b58b8a18be4932 David Howells 2016-09-02  441  			sp->hdr.flags	= conn->out_clientflag;
+5a924b8951f835b David Howells 2016-09-22  442  
+0b58b8a18be4932 David Howells 2016-09-02  443  			if (msg_data_left(msg) == 0 && !more)
+0b58b8a18be4932 David Howells 2016-09-02  444  				sp->hdr.flags |= RXRPC_LAST_PACKET;
+248f219cb8bcbfb David Howells 2016-09-08  445  			else if (call->tx_top - call->tx_hard_ack <
+248f219cb8bcbfb David Howells 2016-09-08  446  				 call->tx_winsize)
+0b58b8a18be4932 David Howells 2016-09-02  447  				sp->hdr.flags |= RXRPC_MORE_PACKETS;
+0b58b8a18be4932 David Howells 2016-09-02  448  
+91fcfbe8852edb9 David Howells 2019-10-07  449  			ret = call->security->secure_packet(
+5a924b8951f835b David Howells 2016-09-22  450  				call, skb, skb->mark, skb->head);
+0b58b8a18be4932 David Howells 2016-09-02  451  			if (ret < 0)
+0b58b8a18be4932 David Howells 2016-09-02  452  				goto out;
+0b58b8a18be4932 David Howells 2016-09-02  453  
+8e8715aaa905f65 Marc Dionne   2019-04-12  454  			ret = rxrpc_queue_packet(rx, call, skb,
+e833251ad813168 David Howells 2017-08-29  455  						 !msg_data_left(msg) && !more,
+e833251ad813168 David Howells 2017-08-29  456  						 notify_end_tx);
+8e8715aaa905f65 Marc Dionne   2019-04-12  457  			/* Should check for failure here */
+0b58b8a18be4932 David Howells 2016-09-02  458  			skb = NULL;
+0b58b8a18be4932 David Howells 2016-09-02  459  		}
+0b58b8a18be4932 David Howells 2016-09-02  460  	} while (msg_data_left(msg) > 0);
+0b58b8a18be4932 David Howells 2016-09-02  461  
+0b58b8a18be4932 David Howells 2016-09-02  462  success:
+0b58b8a18be4932 David Howells 2016-09-02  463  	ret = copied;
+504deca5022022a David Howells 2022-09-29  464  	if (READ_ONCE(call->state) == RXRPC_CALL_COMPLETE) {
+504deca5022022a David Howells 2022-09-29  465  		read_lock_bh(&call->state_lock);
+504deca5022022a David Howells 2022-09-29  466  		if (call->error < 0)
+504deca5022022a David Howells 2022-09-29  467  			ret = call->error;
+504deca5022022a David Howells 2022-09-29  468  		read_unlock_bh(&call->state_lock);
+504deca5022022a David Howells 2022-09-29  469  	}
+0b58b8a18be4932 David Howells 2016-09-02  470  out:
+0b58b8a18be4932 David Howells 2016-09-02 @471  	call->tx_pending = skb;
+
+STEP 3: skb is uninitialized
+
+0b58b8a18be4932 David Howells 2016-09-02  472  	_leave(" = %d", ret);
+0b58b8a18be4932 David Howells 2016-09-02  473  	return ret;
+0b58b8a18be4932 David Howells 2016-09-02  474  
+e122d845a01ece2 David Howells 2019-01-10  475  call_terminated:
+987db9f7cd1e77e David Howells 2019-08-19  476  	rxrpc_free_skb(skb, rxrpc_skb_freed);
+e122d845a01ece2 David Howells 2019-01-10  477  	_leave(" = %d", call->error);
+e122d845a01ece2 David Howells 2019-01-10  478  	return call->error;
+e122d845a01ece2 David Howells 2019-01-10  479  
+0b58b8a18be4932 David Howells 2016-09-02  480  maybe_error:
+0b58b8a18be4932 David Howells 2016-09-02  481  	if (copied)
+0b58b8a18be4932 David Howells 2016-09-02  482  		goto success;
+0b58b8a18be4932 David Howells 2016-09-02  483  	goto out;
+
+STEP 2: goto out
+
+0b58b8a18be4932 David Howells 2016-09-02  484  
+0b58b8a18be4932 David Howells 2016-09-02  485  efault:
+0b58b8a18be4932 David Howells 2016-09-02  486  	ret = -EFAULT;
+0b58b8a18be4932 David Howells 2016-09-02  487  	goto out;
+5a5d74ffcd49103 David Howells 2022-12-02  488  
+5a5d74ffcd49103 David Howells 2022-12-02  489  wait_for_space:
+5a5d74ffcd49103 David Howells 2022-12-02  490  	ret = -EAGAIN;
+5a5d74ffcd49103 David Howells 2022-12-02  491  	if (msg->msg_flags & MSG_DONTWAIT)
+5a5d74ffcd49103 David Howells 2022-12-02  492  		goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  493  	mutex_unlock(&call->user_mutex);
+5a5d74ffcd49103 David Howells 2022-12-02  494  	*_dropped_lock = true;
+5a5d74ffcd49103 David Howells 2022-12-02  495  	ret = rxrpc_wait_for_tx_window(rx, call, &timeo,
+5a5d74ffcd49103 David Howells 2022-12-02  496  				       msg->msg_flags & MSG_WAITALL);
+5a5d74ffcd49103 David Howells 2022-12-02  497  	if (ret < 0)
+5a5d74ffcd49103 David Howells 2022-12-02  498  		goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  499  	if (call->interruptibility == RXRPC_INTERRUPTIBLE) {
+5a5d74ffcd49103 David Howells 2022-12-02  500  		if (mutex_lock_interruptible(&call->user_mutex) < 0) {
+5a5d74ffcd49103 David Howells 2022-12-02  501  			ret = sock_intr_errno(timeo);
+5a5d74ffcd49103 David Howells 2022-12-02  502  			goto maybe_error;
+5a5d74ffcd49103 David Howells 2022-12-02  503  		}
+5a5d74ffcd49103 David Howells 2022-12-02  504  	} else {
+5a5d74ffcd49103 David Howells 2022-12-02  505  		mutex_lock(&call->user_mutex);
+5a5d74ffcd49103 David Howells 2022-12-02  506  	}
+5a5d74ffcd49103 David Howells 2022-12-02  507  	*_dropped_lock = false;
+5a5d74ffcd49103 David Howells 2022-12-02  508  	goto reload;
+0b58b8a18be4932 David Howells 2016-09-02  509  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
