@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF53F2A1CA;
-	Tue,  5 Nov 2024 13:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FCA18C938;
+	Tue,  5 Nov 2024 13:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730812953; cv=none; b=KMqjuAx76DO5JUTaHD7Iw8UCW49oMwA+UuIqBJLJx/N/51g4PsryRAmMx0QQRx5vdcKcl9/NkWK+m4ByrdKWiSEfafz0yMnqAbSVBH05CROeixNl7rt69JM+9DzDGBi1HNLQt7ezxxH3zuC8JEx7pJWkNgDYZhNty/tllIR6S5Q=
+	t=1730814815; cv=none; b=UB+JngU7Qq1xgH4rqGs6FkAmZ+sq78pZVq2DuR3UApSD89OCix9Q58AiM09+LpsJtQvMVzHTOEwoBQFZ0wS5bUIfauBNtfNC+9dhkrD+7guBQtJY/Fk+j40kzoS3nORAdbBK1fHtEHSH8JBe+VPBUmRRmTsQybCSm19eGOf4Cnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730812953; c=relaxed/simple;
-	bh=Rl2BdQd4VeKv/WVzNjNrixfTnglCDHJ0qmXNSu1Eo0Y=;
+	s=arc-20240116; t=1730814815; c=relaxed/simple;
+	bh=yYiiWxO22fdPMxDz35VCSXFDF8TlMhptaUy6z91Bkmo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nQ9rJdy5putRadoCixegLb5wBLr1BUIDRuQfeGR6OvHVrieRiH+eYinN/Q+7Q82cj0OcI7FbPRBQPftU6dBC19atWQ52QvxaL1Olk62HXbUo3CgeXjtLLm/60+PbXYbE5hbnAceZq33lp9WB9A/4wQqV+zunXn400QDSvntvsfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mnq2XuJX; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=IVDSiDE8kRK3sok1abYtDoujVlj2cy6sfAd+8x+W/1jpBJ9Lb0cKboo8b/dJmopvWfqcVwX/Fh80uL/hg4fcdSpBPnubBJr1Em7zRWS39t/GDdh3vN79xctRL79AhVW2DX5liHCYmUenSG0VhlGX0jvKg0DEVN/A/UiMxaaBEow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMcv+8uI; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mnq2XuJX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMcv+8uI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730812951; x=1762348951;
+  t=1730814813; x=1762350813;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Rl2BdQd4VeKv/WVzNjNrixfTnglCDHJ0qmXNSu1Eo0Y=;
-  b=Mnq2XuJXtic6Q8uACjLUQ0Wj0E1uhliUkqE4/gFJRHECo74xrv6tCLpD
-   V8WXXNYnhPb7i8DJ5FJKCVGAkpXYEqKrJS1BfCb8gwEx+2Gy0vGjzX8BO
-   ydeBF6v0nV8U2xsCN3qibbDZY1NO/WeA4fULjMfPqG1Op5zf622Du5eYg
-   mM/K5Dd/pfxKxoq0uwvijhf22QGZOR64lt2L2xdI54KnnLYrnMOEWZ8pA
-   3fZqVSiIT8hm4mNGUpnFMFA1wFeymctbwCrNXUTLu2hly7FdvW+aA8L6o
-   aWjmitoBQtqNWQxIQXvjPsv/OjHh9XcJLC3TWPWs0FuDBWJC06/Rm8q5e
-   Q==;
-X-CSE-ConnectionGUID: QBXi6GAuRJG/apT2jKzMrA==
-X-CSE-MsgGUID: k8uGEOFBQtuoJvrTy8yRSA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30781626"
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="30781626"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 05:22:31 -0800
-X-CSE-ConnectionGUID: 60Efj1CBRyWYuszSKZdpYQ==
-X-CSE-MsgGUID: 84Y1uhMIRkeJ5oOTjdxhzg==
+  bh=yYiiWxO22fdPMxDz35VCSXFDF8TlMhptaUy6z91Bkmo=;
+  b=EMcv+8uIyG0bfH+lszDGGv4WnHAIp6XeNH4Bra1uco1q5OhoIfsEkKdd
+   eqeGAheGc0+zMOeD+UVYO6fNkf8u2iraPUrnqSpQBhjVhQS5DPRww6Glu
+   78bJPMmGQz3dP43zlZdt6McFnDYtMhG7g6YBRmEkFIIUUAz8ErjxAM5Ut
+   4C//QFsma2aQmFGzJIAzb8IxVAegdleSpYZ0aQCpaQ0Cg2refFAZVa/Xq
+   IAtsIk8xbKtZwAcnxMETLdsB3RnEMaSkIODwGIbDhh9sEz5cFuVAzZK79
+   SRxqWNo1XoBJjn0bh9tocVAumtdLpnezCFNYgUI+bzCDi9a7e0d7SpW27
+   g==;
+X-CSE-ConnectionGUID: JVN5OekDSK285E1cYDA0og==
+X-CSE-MsgGUID: MZhfiB5CQpOCJIFZ7q7sIA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41665546"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41665546"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 05:53:32 -0800
+X-CSE-ConnectionGUID: AytUpMpwQXeRvJ6gNkUnYg==
+X-CSE-MsgGUID: pLgLit9rQ2+GFZ7KNjoN4w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="114809964"
+   d="scan'208";a="84127794"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Nov 2024 05:22:29 -0800
+  by orviesa006.jf.intel.com with ESMTP; 05 Nov 2024 05:53:31 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8JVr-000m5D-2v;
-	Tue, 05 Nov 2024 13:22:27 +0000
-Date: Tue, 5 Nov 2024 21:21:38 +0800
+	id 1t8Jzt-000m6n-0D;
+	Tue, 05 Nov 2024 13:53:29 +0000
+Date: Tue, 5 Nov 2024 21:53:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ed Tsai <ed.tsai@mediatek.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Martin K. Petersen" <martin.petersen@oracle.com>
-Subject: [linux-next:master 7954/9328]
- drivers/ufs/host/ufs-mediatek.c:1789:51: error: no member named
- 'reqeust_queue' in 'struct scsi_device'; did you mean 'request_queue'?
-Message-ID: <202411052104.cBFin611-lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:x86/ibt 1/11] ld.lld: error: undefined symbol:
+ __kcfi_typeid___sw_hweight32
+Message-ID: <202411052122.CKL0yuvN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,73 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   850f22c42f4b0a14a015aecc26f46f9948ded6dd
-commit: 1b55fc24d50fc5c752b8d6b594998c6f96445d2c [7954/9328] scsi: ufs: ufs-mediatek: Configure individual LU queue flags
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241105/202411052104.cBFin611-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411052104.cBFin611-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/ibt
+head:   ef457c113168a1aee9bedbe0027d3acf9f3bb134
+commit: d1c853bc341134b5758b678d6c5915375a2d9533 [1/11] x86,kcfi: Fix EXPORT_SYMBOL vs kCFI
+config: x86_64-buildonly-randconfig-005-20241105 (https://download.01.org/0day-ci/archive/20241105/202411052122.CKL0yuvN-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411052122.CKL0yuvN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411052104.cBFin611-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411052122.CKL0yuvN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/ufs/host/ufs-mediatek.c:18:
-   In file included from include/linux/phy/phy.h:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/ufs/host/ufs-mediatek.c:1789:51: error: no member named 'reqeust_queue' in 'struct scsi_device'; did you mean 'request_queue'?
-    1789 |                 blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, sdev->reqeust_queue);
-         |                                                                 ^~~~~~~~~~~~~
-         |                                                                 request_queue
-   include/scsi/scsi_device.h:105:24: note: 'request_queue' declared here
-     105 |         struct request_queue *request_queue;
-         |                               ^
-   4 warnings and 1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +1789 drivers/ufs/host/ufs-mediatek.c
-
-  1782	
-  1783	static void ufs_mtk_config_scsi_dev(struct scsi_device *sdev)
-  1784	{
-  1785		struct ufs_hba *hba = shost_priv(sdev->host);
-  1786	
-  1787		dev_dbg(hba->dev, "lu %llu scsi device configured", sdev->lun);
-  1788		if (sdev->lun == 2)
-> 1789			blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, sdev->reqeust_queue);
-  1790	}
-  1791	
+>> ld.lld: error: undefined symbol: __kcfi_typeid___sw_hweight32
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___sw_hweight32)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___sw_hweight64
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___sw_hweight64)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___get_user_nocheck_1
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___get_user_nocheck_1)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___get_user_nocheck_2
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___get_user_nocheck_2)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___get_user_nocheck_4
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___get_user_nocheck_4)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___get_user_nocheck_8
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___get_user_nocheck_8)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___put_user_1
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___put_user_1)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___put_user_nocheck_1
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___put_user_nocheck_1)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___put_user_2
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___put_user_2)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___put_user_nocheck_2
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___put_user_nocheck_2)
+--
+>> ld.lld: error: undefined symbol: __kcfi_typeid___put_user_4
+   >>> referenced by usercopy_64.c
+   >>>               vmlinux.o:(__cfi___put_user_4)
+..
 
 -- 
 0-DAY CI Kernel Test Service
