@@ -1,59 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E458288DA
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 19:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90E41E766D
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 19:15:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730834147; cv=none; b=nDTQ5sEWbXlGC+GquFmrN/l9xziPzB/HCMkSpvSf6pUFhRrb66kqRfN7xxLihoJA6sMfCEG4lSV7dljxJ+/PIRWsIT2GbaQqffzVjJP3b5dkw7GdRVxzHx918Hjn/1KgraANJJ1IS2/nNujkix4GbOWbul3vg36r/1H78maMik0=
+	t=1730834150; cv=none; b=LuedOTwkmYVhPF9b3oBWHFgAa6HhyYwZZ6pLiZ5BGZl4nh+s9FDEOLZ8OkoDyda/owrER8x9m7W0thHPEZTzwzxdVi89WSfmCL8aE2lgMvQsKQWfit1IdKSYhy1Deg8LIn3vK5DcjWcrP8fqMfRkMkVwpnIAQXmTsD5fI/a3I6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730834147; c=relaxed/simple;
-	bh=8cSiDd4UTMndUZytGhHCzhdtxwKyObIlol9/PaVca1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RevKP0czqO5ef4nlJxGaUrE0BWCiYDCEg0/zoW1aow6K5Y4XhLXkwW3NWgLAKJ7lb9XhTfPkXdpaWa5Q+xQrz3WWcBaPEzQaYJR5kyQTPK9cgmqh9JbJQKedbZs/MVJo8up+AShYuWvpGcxKnLPR8Nn17Cntz2fwcLQcuo6Yivc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caArBu/2; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1730834150; c=relaxed/simple;
+	bh=9Shq7F5zshytH1TIeEjlYPA2wyJYy7tpdhCPane9pqc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AWBeu9uQKawyyWunYb+BFIGThoTen+iWn7HDPAuJWLw0TQqPwG64rbIVtadl7C4I8e0CbRNchgw0LfmWg3BDwERY2KWFRba9Njf5jKzdCptdE8F5IGib9ocrz5KFKHJA4L8u8Wo3X8IBU6pgd0h0WR3IXUvO0iZD6Gb7GFu1pZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WryrFrYX; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caArBu/2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WryrFrYX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730834146; x=1762370146;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8cSiDd4UTMndUZytGhHCzhdtxwKyObIlol9/PaVca1Q=;
-  b=caArBu/2kYGHWhcCblEhYagWHc1VAV2OklMrSrPM+1anGm3WscBA/Vos
-   ZcQHLOn9lHxtMPvVBkPaGknL/EtguBnTGLysIiypsF32/FOLYpNzE/abW
-   7i3+EiMx7DmmZpMG9AowDiZ4OJ8gPlF8I7rqlTaz+bjCk+VzsLrMSFeFj
-   GAwYEyuC+V3vmQrWLGWvXlcwaaTm7yV29m2WhXoZF2fR4J1qcuJkbc91Y
-   AdMPdVhB0728FG89WDfoTf91gFOHan8BtOg19vD6txoEijmzZJwSfXn57
-   kM7Q7J4o/P9NR/55u4f8rVgy70jbubT88sQlTRXvDO0oqjBwNxeKjidnP
-   w==;
-X-CSE-ConnectionGUID: rK0dK+rxS/CM5YQXRd3QTA==
-X-CSE-MsgGUID: 3Y6h7lGGQX++QmpWmJ5sUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42001991"
+  t=1730834148; x=1762370148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9Shq7F5zshytH1TIeEjlYPA2wyJYy7tpdhCPane9pqc=;
+  b=WryrFrYX8fCMtpDIeMS33iCYyJoWPUY2FvXHKnGTZ7kcGd2saPq2v159
+   IN5SjdwOxT7wR+HJWh/dm8EON+iEvwVttHsgE6Aj3ysrxJVLsmwiqP5IC
+   PO/eO/sNTmq6EAwqWuJ3SNbEGdVpz8n15tX7MY5wT8ia1qG62ww4jluQP
+   ThwAVccvCJ+JkWUJMXp7cfJId9pIdm9Z0Rqlvh1qFl6EJgAo2ffwSjtI7
+   t3xwvZ1w26eFsOLC2OpVa2DJ+UnTG203BV78+XpZtfveBBwxoM4z3fECB
+   4/UOPnIrHsm3AD8YwWpKc46Rhgt3B0Ckd7qi73KXn8dE8FCi1rEDbLKgU
+   g==;
+X-CSE-ConnectionGUID: ZD+xMdDmS+Oos1C7fEl9pQ==
+X-CSE-MsgGUID: KF5YWsKjSYyvxgvjsfov5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42001995"
 X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="42001991"
+   d="scan'208";a="42001995"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 11:15:45 -0800
-X-CSE-ConnectionGUID: C8o/Tc0dR9+vXOSl+1LTfA==
-X-CSE-MsgGUID: nBXgxUNUTJ+3yYxsbcMd6Q==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 11:15:47 -0800
+X-CSE-ConnectionGUID: wR4K5R08S7SJ1rmt0i2Ouw==
+X-CSE-MsgGUID: ktw9GgY6Tl2VnQ74Ya5blg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="84248497"
+   d="scan'208";a="84248501"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2024 11:15:43 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2024 11:15:44 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8P1h-000mNL-2E;
+	id 1t8P1h-000mNN-2I;
 	Tue, 05 Nov 2024 19:15:41 +0000
-Date: Wed, 6 Nov 2024 03:14:51 +0800
+Date: Wed, 6 Nov 2024 03:14:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Herbert Xu <herbert@gondor.apana.org.au>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1219/1219]
- drivers/crypto/hisilicon/sec/sec_drv.o: warning: objtool: missing symbol for
- section .init.text
-Message-ID: <202411060503.rYM2XmVn-lkp@intel.com>
+To: Heiko Stuebner <heiko@sntech.de>, vkoul@kernel.org, kishon@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, quentin.schulz@cherry.de,
+	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	heiko@sntech.de, Heiko Stuebner <heiko.stuebner@cherry.de>
+Subject: Re: [PATCH v2 2/2] phy: rockchip: Add Samsung CSI/DSI Combo DCPHY
+ driver
+Message-ID: <202411060336.yBL7jGAs-lkp@intel.com>
+References: <20241104111121.99274-3-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +68,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241104111121.99274-3-heiko@sntech.de>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
-commit: 915e4e8413dacc086efcef4de04fdfdca57e8b1c [1219/1219] crypto: hisilicon - SEC security accelerator driver
-config: x86_64-buildonly-randconfig-001-20241025 (https://download.01.org/0day-ci/archive/20241106/202411060503.rYM2XmVn-lkp@intel.com/config)
-compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060503.rYM2XmVn-lkp@intel.com/reproduce)
+Hi Heiko,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on robh/for-next linus/master v6.12-rc6 next-20241105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/dt-bindings-phy-Add-Rockchip-MIPI-CSI-DSI-PHY-schema/20241104-193646
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20241104111121.99274-3-heiko%40sntech.de
+patch subject: [PATCH v2 2/2] phy: rockchip: Add Samsung CSI/DSI Combo DCPHY driver
+config: m68k-randconfig-r113-20241105 (https://download.01.org/0day-ci/archive/20241106/202411060336.yBL7jGAs-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20241106/202411060336.yBL7jGAs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060503.rYM2XmVn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060336.yBL7jGAs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/crypto/hisilicon/sec/sec_drv.c:843: warning: Function parameter or member 'queue' not described in 'sec_queue_empty'
->> drivers/crypto/hisilicon/sec/sec_drv.o: warning: objtool: missing symbol for section .init.text
+>> drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c:1630:34: warning: 'samsung_mipi_dcphy_of_match' defined but not used [-Wunused-const-variable=]
+    1630 | static const struct of_device_id samsung_mipi_dcphy_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +/samsung_mipi_dcphy_of_match +1630 drivers/phy/rockchip/phy-rockchip-samsung-dcphy.c
+
+  1629	
+> 1630	static const struct of_device_id samsung_mipi_dcphy_of_match[] = {
+  1631		{
+  1632			.compatible = "rockchip,rk3576-mipi-dcphy",
+  1633			.data = &rk3576_samsung_mipi_dcphy_plat_data,
+  1634		}, {
+  1635			.compatible = "rockchip,rk3588-mipi-dcphy",
+  1636			.data = &rk3588_samsung_mipi_dcphy_plat_data,
+  1637		},
+  1638		{ /* sentinel */ }
+  1639	};
+  1640	MODULE_DEVICE_TABLE(of, samsung_mipi_dcphy_of_match);
+  1641	
 
 -- 
 0-DAY CI Kernel Test Service
