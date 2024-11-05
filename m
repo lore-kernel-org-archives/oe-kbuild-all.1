@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D397B156F45;
-	Tue,  5 Nov 2024 06:45:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BBA186284
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 06:46:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730789116; cv=none; b=s2GJmZ28qdo3rxs1aNK7h4tB/Sqq4XfKqx2sXIzaK1v8kC9AMPXoY09HbSJNswHxxxISQXcv/2rgXpGUfSgeyRVeWixJBMlZpxq36xWBFGYZ4ocPuOX062ws5lJPCNvt15JxErBd7BC6x2bdM30+ww5SHeBpzH0nrSRpHsKh3R8=
+	t=1730789174; cv=none; b=NgEL9vwV3Ua3YSZEFMcCDppF8kqwGfcOl7TwSMW1OolK/AHcR5VNIW0LGtERAqpYt3vzMckoflLjyw0dPmjsCXPi6KDXr8aPEK+VUy3ViY44BFgxMbeYsjPRzvQeUi9FdHPHL2RfGn3QKBRItM+92dro8WHMf00XpFX6A0/ViD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730789116; c=relaxed/simple;
-	bh=HnRLlzYKPDHFqQcA6nesvQKWwD+lCsYk536ldKLd+fM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E7JAWr7+MnV3Ulw2dIY8UL+N3qtM0qM10Ol5HHzgy28eYeWJYz+e2AYGWvQVxP3VVw3yeNUBJJCRn5lhNTCTnbLDjsnLIdqfnYJqQ0nWI/JWTenf0gxyNXplcNkBdZAF8oJB/bOsrXiWox8vmrmnxrpP22jzb/+b0w8OZBqpDWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nd1VRjss; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730789174; c=relaxed/simple;
+	bh=hSQTiFZQF0hGorX49JWUNc3bUyS2+/nohnICuzTw4Tk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dlrGEEqnHCTVfBf5eee/i5CsbcmSf3Wu8qHUMiYI2aGAYhuMQHYnl+Us6HdGUUPYpmkSOH++s1khqYGo68vGFvWq6vqKWxZ1OyK1svQKVVLiRc//mxxK49+GhOtysLyfvaqDRwLM5JWHXy5FPnt7JryLdAOjCWBViIDhDb0ddzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jRFk7iYX; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nd1VRjss"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730789115; x=1762325115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=HnRLlzYKPDHFqQcA6nesvQKWwD+lCsYk536ldKLd+fM=;
-  b=Nd1VRjsswypI6Gfhv1kxdzDdB1AHyimlP4m9utKIXoVGzqE0T9v5AjKM
-   ueUjDhAYAniqx55+nJ8RRflJ+Ukggp2IACmlbt6eCDENdH8jCdXim4nta
-   ls6RgIORLzWxawEVHGacsbt+CSARn1jJL0rGLlFDGH+3bdIjnqyppZZth
-   VlmcCFYc7CLfPOMyQ05+1AvC6XdFIG8VgqWX8WqYxAuAQPTI25s/K+hzt
-   859M4K+ElahjBYMYIHZZn+Yes5M5caqpmV8YMRup9QpDd0cfhkr9hilF6
-   bH2iU66w+CHCCFv76tiqiOEiOgJdBjAtrXR4mKv8eN1ROuzhq8+eVsQsC
-   w==;
-X-CSE-ConnectionGUID: UbJt4scXQVqjqA0GLEVi8w==
-X-CSE-MsgGUID: tPLffxxtQoK7PGNkjWBe1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="55917527"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="55917527"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 22:45:13 -0800
-X-CSE-ConnectionGUID: Hjc4h4/XQdS87HpuHl5KNw==
-X-CSE-MsgGUID: ht/tApraRjenOm3mZHbyjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="88711450"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2024 22:45:09 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8DJL-000liz-1X;
-	Tue, 05 Nov 2024 06:45:07 +0000
-Date: Tue, 5 Nov 2024 14:44:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Keren Sun <kerensun@google.com>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	roman.gushchin@linux.dev, hannes@cmpxchg.org, mhocko@kernel.org,
-	shakeel.butt@linux.dev, muchun.song@linux.dev,
-	cgroups@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, Keren Sun <kerensun@google.com>
-Subject: Re: [PATCH 4/4] mm: Replace simple_strtoul() with kstrtoul()
-Message-ID: <202411051411.1N0Ziqjh-lkp@intel.com>
-References: <20241104222737.298130-5-kerensun@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jRFk7iYX"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a93c1cc74fdso804479866b.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 04 Nov 2024 22:46:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730789169; x=1731393969; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Kortesz35ShgnDxJcvbwhIE8NxLL7SZg3WEa2gvuUw0=;
+        b=jRFk7iYXGG4igX5UWKRCY0Z+9x9YmqDU5oZEAjt4c2wgcIo1mAZTt3OlPCELm8Kl66
+         6TEYqaPOlzeYNYV93PtX0eJLuQUYbGJ4geSDaeYi8tfmNj0lTChU0NlFQTDdqgOF/Pw3
+         bGfDRQ0wEfJUC3FJ4popa/DTtfzqwt4lfFeFvczXclyZOi6Augq4gvCMF5L+xT8pFLf4
+         qkjBCrdE0IuewLRObBtYGyYB4tSX2J9MpFMGhlLPKBKJS14s7IF0dl0J3KoKItXQy0YX
+         lc8VLhgmauej7jmOe48O32j8IYb3Ya0/zVD77waxb9xYRosYh9oQOJWLqVMk7yG8rabb
+         xt1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730789169; x=1731393969;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Kortesz35ShgnDxJcvbwhIE8NxLL7SZg3WEa2gvuUw0=;
+        b=lnOBbsRiHBSV4Wv/o9FFGhHkrGsge+2lnh+PzNXg7ix2hwiu7EAVs1n+FAGiPkddgE
+         IBMl9j1fbmyNDifaIR8GNsbsiVsmdztGS0rnuc2IIlVw2sJ9erDlwL+plzbxbs1aVaq9
+         hicwIw5f1PbRZazfmuohkEnvtl8hOK6Rk2q/FWmUSwBBh0AWCBjsROAyA9woBkrHFV0X
+         40pytyoZon4drrxIgceSmg4yHkrkAKrCVxTkkET6PMUr5zML7mOgHDoEAp6CC4HK61gk
+         IDDd9/N/C/YuwEs/QH8MuieQrp7SUsyTRAAUm6QWzTFWtn4B+2vnV7BaFqGzFpEmJB0L
+         RP+A==
+X-Forwarded-Encrypted: i=1; AJvYcCUh6xFMTVkJe/S3Y7gBIYlrWHSpxR5avevxrSVcrjaQLLfa94r1qeeJO+inZwms/h05WiLRg4YEvgx9RN5Q@lists.linux.dev
+X-Gm-Message-State: AOJu0YyZ/RgOhvW2eCIa0Btqn6qAgY3oFrrDSEgjyk9mNxJtvqg2CsUG
+	mMn5adTZhM7efaDygsv60s1xFDRgT/KcATJCIXxrW4acBe6Xmo4JMtGO2810pSY=
+X-Google-Smtp-Source: AGHT+IFqwgIDPvpZ5dC/UJEbtwUiJ7w8TtUpn5NEnOCbcZpBiyi9BvlhK2QfQs6WOzzLE4V2LpOqVg==
+X-Received: by 2002:a17:906:db08:b0:a9a:1165:1bb with SMTP id a640c23a62f3a-a9e658c1759mr1660385166b.65.1730789169295;
+        Mon, 04 Nov 2024 22:46:09 -0800 (PST)
+Received: from localhost ([77.241.232.19])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17d0af1sm85658866b.94.2024.11.04.22.46.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 Nov 2024 22:46:08 -0800 (PST)
+Date: Tue, 5 Nov 2024 09:46:07 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Herve Codina <herve.codina@bootlin.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code
+ 'ret'
+Message-ID: <bac2dc94-1bf3-4dcf-b776-cd78ef992d28@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,258 +67,178 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241104222737.298130-5-kerensun@google.com>
 
-Hi Keren,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on v6.12-rc6]
-[also build test ERROR on linus/master]
-[cannot apply to akpm-mm/mm-everything next-20241104]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keren-Sun/mm-fix-quoted-strings-spliting-across-lines/20241105-063007
-base:   v6.12-rc6
-patch link:    https://lore.kernel.org/r/20241104222737.298130-5-kerensun%40google.com
-patch subject: [PATCH 4/4] mm: Replace simple_strtoul() with kstrtoul()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241105/202411051411.1N0Ziqjh-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051411.1N0Ziqjh-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2e1b3cc9d7f790145a80cb705b168f05dab65df2
+commit: eb680d563089e55b20cb7730ed881638fe4425b7 soc: fsl: cpm1: qmc: Add support for QUICC Engine (QE) implementation
+config: powerpc64-randconfig-r071-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051350.KNy6ZIWA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051411.1N0Ziqjh-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411051350.KNy6ZIWA-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/soc/fsl/qe/qmc.c:1942 qmc_probe() warn: missing error code 'ret'
 
-   In file included from mm/memcontrol-v1.c:4:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/memcontrol-v1.c:6:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/memcontrol-v1.c:1926:20: error: incompatible integer to pointer conversion passing 'unsigned int' to parameter of type 'unsigned long *' [-Wint-conversion]
-    1926 |         kstrtoul(buf, 10, efd);
-         |                           ^~~
-   include/linux/kstrtox.h:30:90: note: passing argument to parameter 'res' here
-      30 | static inline int __must_check kstrtoul(const char *s, unsigned int base, unsigned long *res)
-         |                                                                                          ^
->> mm/memcontrol-v1.c:1926:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-    1926 |         kstrtoul(buf, 10, efd);
-         |         ^~~~~~~~ ~~~~~~~~~~~~
-   mm/memcontrol-v1.c:1931:20: error: incompatible integer to pointer conversion passing 'unsigned int' to parameter of type 'unsigned long *' [-Wint-conversion]
-    1931 |         kstrtoul(buf, 10, cfd);
-         |                           ^~~
-   include/linux/kstrtox.h:30:90: note: passing argument to parameter 'res' here
-      30 | static inline int __must_check kstrtoul(const char *s, unsigned int base, unsigned long *res)
-         |                                                                                          ^
-   mm/memcontrol-v1.c:1931:2: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-    1931 |         kstrtoul(buf, 10, cfd);
-         |         ^~~~~~~~ ~~~~~~~~~~~~
-   mm/memcontrol-v1.c:1918:8: warning: unused variable 'endp' [-Wunused-variable]
-    1918 |         char *endp;
-         |               ^~~~
-   mm/memcontrol-v1.c:2606:48: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2606 |                         nr += lruvec_page_state(lruvec, NR_LRU_BASE + lru);
-         |                                                         ~~~~~~~~~~~ ^ ~~~
-   mm/memcontrol-v1.c:2608:54: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2608 |                         nr += lruvec_page_state_local(lruvec, NR_LRU_BASE + lru);
-         |                                                               ~~~~~~~~~~~ ^ ~~~
-   mm/memcontrol-v1.c:2624:46: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2624 |                         nr += memcg_page_state(memcg, NR_LRU_BASE + lru);
-         |                                                       ~~~~~~~~~~~ ^ ~~~
-   mm/memcontrol-v1.c:2626:52: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-    2626 |                         nr += memcg_page_state_local(memcg, NR_LRU_BASE + lru);
-         |                                                             ~~~~~~~~~~~ ^ ~~~
-   13 warnings and 2 errors generated.
+vim +/ret +1942 drivers/soc/fsl/qe/qmc.c
 
+3178d58e0b9772 Herve Codina 2023-02-17  1828  static int qmc_probe(struct platform_device *pdev)
+3178d58e0b9772 Herve Codina 2023-02-17  1829  {
+3178d58e0b9772 Herve Codina 2023-02-17  1830  	struct device_node *np = pdev->dev.of_node;
+3178d58e0b9772 Herve Codina 2023-02-17  1831  	unsigned int nb_chans;
+3178d58e0b9772 Herve Codina 2023-02-17  1832  	struct qmc *qmc;
+3178d58e0b9772 Herve Codina 2023-02-17  1833  	int irq;
+3178d58e0b9772 Herve Codina 2023-02-17  1834  	int ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1835  
+3178d58e0b9772 Herve Codina 2023-02-17  1836  	qmc = devm_kzalloc(&pdev->dev, sizeof(*qmc), GFP_KERNEL);
+3178d58e0b9772 Herve Codina 2023-02-17  1837  	if (!qmc)
+3178d58e0b9772 Herve Codina 2023-02-17  1838  		return -ENOMEM;
+3178d58e0b9772 Herve Codina 2023-02-17  1839  
+3178d58e0b9772 Herve Codina 2023-02-17  1840  	qmc->dev = &pdev->dev;
+d23ae9f1815e89 Herve Codina 2024-08-08  1841  	qmc->data = of_device_get_match_data(&pdev->dev);
+d23ae9f1815e89 Herve Codina 2024-08-08  1842  	if (!qmc->data) {
+d23ae9f1815e89 Herve Codina 2024-08-08  1843  		dev_err(qmc->dev, "Missing match data\n");
+d23ae9f1815e89 Herve Codina 2024-08-08  1844  		return -EINVAL;
+d23ae9f1815e89 Herve Codina 2024-08-08  1845  	}
+3178d58e0b9772 Herve Codina 2023-02-17  1846  	INIT_LIST_HEAD(&qmc->chan_head);
+3178d58e0b9772 Herve Codina 2023-02-17  1847  
+a13bf605342ea9 Herve Codina 2024-08-08  1848  	qmc->tsa_serial = devm_tsa_serial_get_byphandle(qmc->dev, np, "fsl,tsa-serial");
+a13bf605342ea9 Herve Codina 2024-08-08  1849  	if (IS_ERR(qmc->tsa_serial)) {
+a13bf605342ea9 Herve Codina 2024-08-08  1850  		return dev_err_probe(qmc->dev, PTR_ERR(qmc->tsa_serial),
+a13bf605342ea9 Herve Codina 2024-08-08  1851  				     "Failed to get TSA serial\n");
+a13bf605342ea9 Herve Codina 2024-08-08  1852  	}
+a13bf605342ea9 Herve Codina 2024-08-08  1853  
+727b3ab490a5f5 Herve Codina 2024-08-08  1854  	ret = qmc_init_resources(qmc, pdev);
+727b3ab490a5f5 Herve Codina 2024-08-08  1855  	if (ret)
+727b3ab490a5f5 Herve Codina 2024-08-08  1856  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1857  
+3178d58e0b9772 Herve Codina 2023-02-17  1858  	/* Parse channels informationss */
+3178d58e0b9772 Herve Codina 2023-02-17  1859  	ret = qmc_of_parse_chans(qmc, np);
+3178d58e0b9772 Herve Codina 2023-02-17  1860  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1861  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1862  
+3178d58e0b9772 Herve Codina 2023-02-17  1863  	nb_chans = qmc_nb_chans(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1864  
+3178d58e0b9772 Herve Codina 2023-02-17  1865  	/*
+3178d58e0b9772 Herve Codina 2023-02-17  1866  	 * Allocate the buffer descriptor table
+3178d58e0b9772 Herve Codina 2023-02-17  1867  	 * 8 rx and 8 tx descriptors per channel
+3178d58e0b9772 Herve Codina 2023-02-17  1868  	 */
+3178d58e0b9772 Herve Codina 2023-02-17  1869  	qmc->bd_size = (nb_chans * (QMC_NB_TXBDS + QMC_NB_RXBDS)) * sizeof(cbd_t);
+3178d58e0b9772 Herve Codina 2023-02-17  1870  	qmc->bd_table = dmam_alloc_coherent(qmc->dev, qmc->bd_size,
+3178d58e0b9772 Herve Codina 2023-02-17  1871  					    &qmc->bd_dma_addr, GFP_KERNEL);
+3178d58e0b9772 Herve Codina 2023-02-17  1872  	if (!qmc->bd_table) {
+3178d58e0b9772 Herve Codina 2023-02-17  1873  		dev_err(qmc->dev, "Failed to allocate bd table\n");
+a13bf605342ea9 Herve Codina 2024-08-08  1874  		return -ENOMEM;
+3178d58e0b9772 Herve Codina 2023-02-17  1875  	}
+3178d58e0b9772 Herve Codina 2023-02-17  1876  	memset(qmc->bd_table, 0, qmc->bd_size);
+3178d58e0b9772 Herve Codina 2023-02-17  1877  
+3178d58e0b9772 Herve Codina 2023-02-17  1878  	qmc_write32(qmc->scc_pram + QMC_GBL_MCBASE, qmc->bd_dma_addr);
+3178d58e0b9772 Herve Codina 2023-02-17  1879  
+3178d58e0b9772 Herve Codina 2023-02-17  1880  	/* Allocate the interrupt table */
+3178d58e0b9772 Herve Codina 2023-02-17  1881  	qmc->int_size = QMC_NB_INTS * sizeof(u16);
+3178d58e0b9772 Herve Codina 2023-02-17  1882  	qmc->int_table = dmam_alloc_coherent(qmc->dev, qmc->int_size,
+3178d58e0b9772 Herve Codina 2023-02-17  1883  					     &qmc->int_dma_addr, GFP_KERNEL);
+3178d58e0b9772 Herve Codina 2023-02-17  1884  	if (!qmc->int_table) {
+3178d58e0b9772 Herve Codina 2023-02-17  1885  		dev_err(qmc->dev, "Failed to allocate interrupt table\n");
+a13bf605342ea9 Herve Codina 2024-08-08  1886  		return -ENOMEM;
+3178d58e0b9772 Herve Codina 2023-02-17  1887  	}
+3178d58e0b9772 Herve Codina 2023-02-17  1888  	memset(qmc->int_table, 0, qmc->int_size);
+3178d58e0b9772 Herve Codina 2023-02-17  1889  
+3178d58e0b9772 Herve Codina 2023-02-17  1890  	qmc->int_curr = qmc->int_table;
+3178d58e0b9772 Herve Codina 2023-02-17  1891  	qmc_write32(qmc->scc_pram + QMC_GBL_INTBASE, qmc->int_dma_addr);
+3178d58e0b9772 Herve Codina 2023-02-17  1892  	qmc_write32(qmc->scc_pram + QMC_GBL_INTPTR, qmc->int_dma_addr);
+3178d58e0b9772 Herve Codina 2023-02-17  1893  
+3178d58e0b9772 Herve Codina 2023-02-17  1894  	/* Set MRBLR (valid for HDLC only) max MRU + max CRC */
+3178d58e0b9772 Herve Codina 2023-02-17  1895  	qmc_write16(qmc->scc_pram + QMC_GBL_MRBLR, HDLC_MAX_MRU + 4);
+3178d58e0b9772 Herve Codina 2023-02-17  1896  
+3178d58e0b9772 Herve Codina 2023-02-17  1897  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFTHR, 1);
+3178d58e0b9772 Herve Codina 2023-02-17  1898  	qmc_write16(qmc->scc_pram + QMC_GBL_GRFCNT, 1);
+3178d58e0b9772 Herve Codina 2023-02-17  1899  
+3178d58e0b9772 Herve Codina 2023-02-17  1900  	qmc_write32(qmc->scc_pram + QMC_GBL_C_MASK32, 0xDEBB20E3);
+3178d58e0b9772 Herve Codina 2023-02-17  1901  	qmc_write16(qmc->scc_pram + QMC_GBL_C_MASK16, 0xF0B8);
+3178d58e0b9772 Herve Codina 2023-02-17  1902  
+eb680d563089e5 Herve Codina 2024-08-08  1903  	if (qmc_is_qe(qmc)) {
+eb680d563089e5 Herve Codina 2024-08-08  1904  		/* Zeroed the reserved area */
+eb680d563089e5 Herve Codina 2024-08-08  1905  		memset_io(qmc->scc_pram + QMC_QE_GBL_RSV_B0_START, 0,
+eb680d563089e5 Herve Codina 2024-08-08  1906  			  QMC_QE_GBL_RSV_B0_SIZE);
+eb680d563089e5 Herve Codina 2024-08-08  1907  
+eb680d563089e5 Herve Codina 2024-08-08  1908  		qmc_write32(qmc->scc_pram + QMC_QE_GBL_GCSBASE, qmc->dpram_offset);
+eb680d563089e5 Herve Codina 2024-08-08  1909  
+eb680d563089e5 Herve Codina 2024-08-08  1910  		/* Init 'framer parameters' area and set the base addresses */
+eb680d563089e5 Herve Codina 2024-08-08  1911  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE, 0x01, 64);
+eb680d563089e5 Herve Codina 2024-08-08  1912  		memset_io(qmc->scc_pram + UCC_SLOW_PRAM_SIZE + 64, 0x01, 64);
+eb680d563089e5 Herve Codina 2024-08-08  1913  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_RX_FRM_BASE,
+eb680d563089e5 Herve Codina 2024-08-08  1914  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE);
+eb680d563089e5 Herve Codina 2024-08-08  1915  		qmc_write16(qmc->scc_pram + QMC_QE_GBL_TX_FRM_BASE,
+eb680d563089e5 Herve Codina 2024-08-08  1916  			    qmc->scc_pram_offset + UCC_SLOW_PRAM_SIZE + 64);
+eb680d563089e5 Herve Codina 2024-08-08  1917  	}
+eb680d563089e5 Herve Codina 2024-08-08  1918  
+2d965e25fa4180 Herve Codina 2023-12-05  1919  	ret = qmc_init_tsa(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1920  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1921  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1922  
+3178d58e0b9772 Herve Codina 2023-02-17  1923  	qmc_write16(qmc->scc_pram + QMC_GBL_QMCSTATE, 0x8000);
+3178d58e0b9772 Herve Codina 2023-02-17  1924  
+3178d58e0b9772 Herve Codina 2023-02-17  1925  	ret = qmc_setup_chans(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1926  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1927  		return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1928  
+3178d58e0b9772 Herve Codina 2023-02-17  1929  	/* Init interrupts table */
+3178d58e0b9772 Herve Codina 2023-02-17  1930  	ret = qmc_setup_ints(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1931  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1932  		return ret;
+a13bf605342ea9 Herve Codina 2024-08-08  1933  
+eb680d563089e5 Herve Codina 2024-08-08  1934  	/* Init SCC (CPM1) or UCC (QE) */
+de5fdb7d14b34f Herve Codina 2024-08-08  1935  	ret = qmc_init_xcc(qmc);
+de5fdb7d14b34f Herve Codina 2024-08-08  1936  	if (ret)
+a13bf605342ea9 Herve Codina 2024-08-08  1937  		return ret;
+a13bf605342ea9 Herve Codina 2024-08-08  1938  
+de5fdb7d14b34f Herve Codina 2024-08-08  1939  	/* Set the irq handler */
+3178d58e0b9772 Herve Codina 2023-02-17  1940  	irq = platform_get_irq(pdev, 0);
+3178d58e0b9772 Herve Codina 2023-02-17  1941  	if (irq < 0)
+de5fdb7d14b34f Herve Codina 2024-08-08 @1942  		goto err_exit_xcc;
 
-vim +1926 mm/memcontrol-v1.c
+ret = irq;
 
-  1897	
-  1898	/*
-  1899	 * DO NOT USE IN NEW FILES.
-  1900	 *
-  1901	 * Parse input and register new cgroup event handler.
-  1902	 *
-  1903	 * Input must be in format '<event_fd> <control_fd> <args>'.
-  1904	 * Interpretation of args is defined by control file implementation.
-  1905	 */
-  1906	static ssize_t memcg_write_event_control(struct kernfs_open_file *of,
-  1907						 char *buf, size_t nbytes, loff_t off)
-  1908	{
-  1909		struct cgroup_subsys_state *css = of_css(of);
-  1910		struct mem_cgroup *memcg = mem_cgroup_from_css(css);
-  1911		struct mem_cgroup_event *event;
-  1912		struct cgroup_subsys_state *cfile_css;
-  1913		unsigned int efd, cfd;
-  1914		struct fd efile;
-  1915		struct fd cfile;
-  1916		struct dentry *cdentry;
-  1917		const char *name;
-  1918		char *endp;
-  1919		int ret;
-  1920	
-  1921		if (IS_ENABLED(CONFIG_PREEMPT_RT))
-  1922			return -EOPNOTSUPP;
-  1923	
-  1924		buf = strstrip(buf);
-  1925	
-> 1926		kstrtoul(buf, 10, efd);
-  1927		if (*buf != ' ')
-  1928			return -EINVAL;
-  1929		buf++;
-  1930	
-  1931		kstrtoul(buf, 10, cfd);
-  1932		if (*buf == ' ')
-  1933			buf++;
-  1934		else if (*buf != '\0')
-  1935			return -EINVAL;
-  1936	
-  1937		event = kzalloc(sizeof(*event), GFP_KERNEL);
-  1938		if (!event)
-  1939			return -ENOMEM;
-  1940	
-  1941		event->memcg = memcg;
-  1942		INIT_LIST_HEAD(&event->list);
-  1943		init_poll_funcptr(&event->pt, memcg_event_ptable_queue_proc);
-  1944		init_waitqueue_func_entry(&event->wait, memcg_event_wake);
-  1945		INIT_WORK(&event->remove, memcg_event_remove);
-  1946	
-  1947		efile = fdget(efd);
-  1948		if (!fd_file(efile)) {
-  1949			ret = -EBADF;
-  1950			goto out_kfree;
-  1951		}
-  1952	
-  1953		event->eventfd = eventfd_ctx_fileget(fd_file(efile));
-  1954		if (IS_ERR(event->eventfd)) {
-  1955			ret = PTR_ERR(event->eventfd);
-  1956			goto out_put_efile;
-  1957		}
-  1958	
-  1959		cfile = fdget(cfd);
-  1960		if (!fd_file(cfile)) {
-  1961			ret = -EBADF;
-  1962			goto out_put_eventfd;
-  1963		}
-  1964	
-  1965		/* the process need read permission on control file */
-  1966		/* AV: shouldn't we check that it's been opened for read instead? */
-  1967		ret = file_permission(fd_file(cfile), MAY_READ);
-  1968		if (ret < 0)
-  1969			goto out_put_cfile;
-  1970	
-  1971		/*
-  1972		 * The control file must be a regular cgroup1 file. As a regular cgroup
-  1973		 * file can't be renamed, it's safe to access its name afterwards.
-  1974		 */
-  1975		cdentry = fd_file(cfile)->f_path.dentry;
-  1976		if (cdentry->d_sb->s_type != &cgroup_fs_type || !d_is_reg(cdentry)) {
-  1977			ret = -EINVAL;
-  1978			goto out_put_cfile;
-  1979		}
-  1980	
-  1981		/*
-  1982		 * Determine the event callbacks and set them in @event.  This used
-  1983		 * to be done via struct cftype but cgroup core no longer knows
-  1984		 * about these events.  The following is crude but the whole thing
-  1985		 * is for compatibility anyway.
-  1986		 *
-  1987		 * DO NOT ADD NEW FILES.
-  1988		 */
-  1989		name = cdentry->d_name.name;
-  1990	
-  1991		if (!strcmp(name, "memory.usage_in_bytes")) {
-  1992			event->register_event = mem_cgroup_usage_register_event;
-  1993			event->unregister_event = mem_cgroup_usage_unregister_event;
-  1994		} else if (!strcmp(name, "memory.oom_control")) {
-  1995			pr_warn_once("oom_control is deprecated and will be removed. Please report your usecase to linux-mm-@kvack.org if you depend on this functionality.\n");
-  1996			event->register_event = mem_cgroup_oom_register_event;
-  1997			event->unregister_event = mem_cgroup_oom_unregister_event;
-  1998		} else if (!strcmp(name, "memory.pressure_level")) {
-  1999			pr_warn_once("pressure_level is deprecated and will be removed. Please report your usecase to linux-mm-@kvack.org if you depend on this functionality.\n");
-  2000			event->register_event = vmpressure_register_event;
-  2001			event->unregister_event = vmpressure_unregister_event;
-  2002		} else if (!strcmp(name, "memory.memsw.usage_in_bytes")) {
-  2003			event->register_event = memsw_cgroup_usage_register_event;
-  2004			event->unregister_event = memsw_cgroup_usage_unregister_event;
-  2005		} else {
-  2006			ret = -EINVAL;
-  2007			goto out_put_cfile;
-  2008		}
-  2009	
-  2010		/*
-  2011		 * Verify @cfile should belong to @css.  Also, remaining events are
-  2012		 * automatically removed on cgroup destruction but the removal is
-  2013		 * asynchronous, so take an extra ref on @css.
-  2014		 */
-  2015		cfile_css = css_tryget_online_from_dir(cdentry->d_parent,
-  2016						       &memory_cgrp_subsys);
-  2017		ret = -EINVAL;
-  2018		if (IS_ERR(cfile_css))
-  2019			goto out_put_cfile;
-  2020		if (cfile_css != css) {
-  2021			css_put(cfile_css);
-  2022			goto out_put_cfile;
-  2023		}
-  2024	
-  2025		ret = event->register_event(memcg, event->eventfd, buf);
-  2026		if (ret)
-  2027			goto out_put_css;
-  2028	
-  2029		vfs_poll(fd_file(efile), &event->pt);
-  2030	
-  2031		spin_lock_irq(&memcg->event_list_lock);
-  2032		list_add(&event->list, &memcg->event_list);
-  2033		spin_unlock_irq(&memcg->event_list_lock);
-  2034	
-  2035		fdput(cfile);
-  2036		fdput(efile);
-  2037	
-  2038		return nbytes;
-  2039	
-  2040	out_put_css:
-  2041		css_put(css);
-  2042	out_put_cfile:
-  2043		fdput(cfile);
-  2044	out_put_eventfd:
-  2045		eventfd_ctx_put(event->eventfd);
-  2046	out_put_efile:
-  2047		fdput(efile);
-  2048	out_kfree:
-  2049		kfree(event);
-  2050	
-  2051		return ret;
-  2052	}
-  2053	
+3178d58e0b9772 Herve Codina 2023-02-17  1943  	ret = devm_request_irq(qmc->dev, irq, qmc_irq_handler, 0, "qmc", qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1944  	if (ret < 0)
+de5fdb7d14b34f Herve Codina 2024-08-08  1945  		goto err_exit_xcc;
+3178d58e0b9772 Herve Codina 2023-02-17  1946  
+3178d58e0b9772 Herve Codina 2023-02-17  1947  	/* Enable interrupts */
+3178d58e0b9772 Herve Codina 2023-02-17  1948  	qmc_write16(qmc->scc_regs + SCC_SCCM,
+3178d58e0b9772 Herve Codina 2023-02-17  1949  		    SCC_SCCE_IQOV | SCC_SCCE_GINT | SCC_SCCE_GUN | SCC_SCCE_GOV);
+3178d58e0b9772 Herve Codina 2023-02-17  1950  
+3178d58e0b9772 Herve Codina 2023-02-17  1951  	ret = qmc_finalize_chans(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1952  	if (ret < 0)
+3178d58e0b9772 Herve Codina 2023-02-17  1953  		goto err_disable_intr;
+3178d58e0b9772 Herve Codina 2023-02-17  1954  
+e49dd637e02589 Herve Codina 2024-08-08  1955  	/* Enable transmitter and receiver */
+3178d58e0b9772 Herve Codina 2023-02-17  1956  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, SCC_GSMRL_ENR | SCC_GSMRL_ENT);
+3178d58e0b9772 Herve Codina 2023-02-17  1957  
+3178d58e0b9772 Herve Codina 2023-02-17  1958  	platform_set_drvdata(pdev, qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1959  
+ba3b7e4753c5ad Herve Codina 2023-12-05  1960  	/* Populate channel related devices */
+ba3b7e4753c5ad Herve Codina 2023-12-05  1961  	ret = devm_of_platform_populate(qmc->dev);
+ba3b7e4753c5ad Herve Codina 2023-12-05  1962  	if (ret)
+ba3b7e4753c5ad Herve Codina 2023-12-05  1963  		goto err_disable_txrx;
+ba3b7e4753c5ad Herve Codina 2023-12-05  1964  
+3178d58e0b9772 Herve Codina 2023-02-17  1965  	return 0;
+3178d58e0b9772 Herve Codina 2023-02-17  1966  
+ba3b7e4753c5ad Herve Codina 2023-12-05  1967  err_disable_txrx:
+ba3b7e4753c5ad Herve Codina 2023-12-05  1968  	qmc_setbits32(qmc->scc_regs + SCC_GSMRL, 0);
+ba3b7e4753c5ad Herve Codina 2023-12-05  1969  
+3178d58e0b9772 Herve Codina 2023-02-17  1970  err_disable_intr:
+3178d58e0b9772 Herve Codina 2023-02-17  1971  	qmc_write16(qmc->scc_regs + SCC_SCCM, 0);
+3178d58e0b9772 Herve Codina 2023-02-17  1972  
+de5fdb7d14b34f Herve Codina 2024-08-08  1973  err_exit_xcc:
+de5fdb7d14b34f Herve Codina 2024-08-08  1974  	qmc_exit_xcc(qmc);
+3178d58e0b9772 Herve Codina 2023-02-17  1975  	return ret;
+3178d58e0b9772 Herve Codina 2023-02-17  1976  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
