@@ -1,64 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473131AC43A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 05:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BD41172A
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 05:33:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730784832; cv=none; b=H9Q9kVZ76+T14Wz+V1MYmNEl0KgK6Ys4JUBHJPLXHxf0K5BKOGuZjRyr1rdZqJ71tS8E1XITVK2kFCp1c3Jyqr+SjaPaoOvNyFuMSQEyiXREQpcwYY77T964mbO2tXj7oGN9n5bvCjWFl9U1eyXcrqyZlnqsnO9gHpIIdctnMC0=
+	t=1730784832; cv=none; b=YFWjTZ5sPfVNP6899oBWc2oQViLa8I2Yn4NL/CDfov2ExZy6bwuq++L7V/K/qN0KoQtrrsHe6CnKlFpXPvUJ047UrZQPJ4kktsZndUe/3xuc9IasMFB6zwqG/bRQGLKJGYibFEqTT9gbrClGRL3Il90QDoWmV5F7E1+4RjGGTR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730784832; c=relaxed/simple;
-	bh=gmZTemamg+uRTTCOPBTd06AyJjplmSENIS5ZeSNo/WY=;
+	bh=g3Q3M6WUtQ6xDA3rcj5fxZODTWiZLjTjC4j+67Vvc4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ChFHNjYoSqNBKFjywVBPVnA0To1OlCn9nn4YPI9ALmNgkSeTcLK/nBi3ZpgZB2f0ZCDBza58gys+F1M7leZmQRV8tmdyQyq8qlnKuyLBeeizDK9qSoxiQVn101iS3WmHcA2KmrQ6RLEdF2BtLEtPsfYrOz8gTk713vllfG8EZu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWjXBoyg; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=D9m66ezbqlPCfEoVz2Sh3X5ijfkLVGEnBzPjTDjvpAl1zvU0VD9Uxemda7TImWrenpdcSDVZFmntWBbyerYoakszhgpHYusDT/4aUcwY9pRJCe89L9vUQGueoXNS1qR0NK4hbaxhputTHMoMgOoNw0/kob6ChKglHUYVLJlcNiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PIn4S4aC; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWjXBoyg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PIn4S4aC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1730784831; x=1762320831;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gmZTemamg+uRTTCOPBTd06AyJjplmSENIS5ZeSNo/WY=;
-  b=dWjXBoygBC561FuK+SwGN5cknf/iAXxZdl0s76YMbKDkr9GOdBuNhXv2
-   zgxfNKMSJFQaFFZ7CuPXGLvJyXifnOsfIWY3DVWCyQXtat+1TqhMGRUE/
-   ioYviDRYYNOXZh5yf6OfvjaBg5Ub+jqRVNQ7zbbgM/w5BtFVYHQZWQwMs
-   lIpR5MCGOebraf7APAqjXe6iDc1cAKwrtv9JnydkZf/KMzjswImUu1qXr
-   934htwQsTVwAQvF48el+EQRFqno9wEt+c1lUxBXzio7kfipK1gtUszqBF
-   tnm2yd2u9xInrXa884KTK6E10TTuZPK6zCMg/G+O1etgktEw2iOBDpl+2
-   A==;
-X-CSE-ConnectionGUID: x74HRJ6QQsymSxys9R237g==
-X-CSE-MsgGUID: O8ZwyWvTQz+lasA2lpew4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="30622052"
-X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="30622052"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 21:33:50 -0800
-X-CSE-ConnectionGUID: Y12mQembSlSR785+eKKPcw==
-X-CSE-MsgGUID: Ib2OJmGxRgWFwHmH6AEfjg==
+  bh=g3Q3M6WUtQ6xDA3rcj5fxZODTWiZLjTjC4j+67Vvc4Y=;
+  b=PIn4S4aCqU5XdsUwtbXJeBOrAcnzwr6G6IsidjCNukpw65IA7nK6Wh7I
+   gdrXQVtfe2sNDmVScCTJYe8fF2IsOPRyMdjqMmUUE7tkk/99jUxcN2NOc
+   kchYT29K2kImj8gTVQ2zwMEb6bx6gX00NXzw6HVV5ArXH9y3b+qcB1+a6
+   mkCOtsc4rr6FOPk/PV2ISf0YR+1aACHmXp8ADzM3ltq2g1Kj4OJCbRkmE
+   vCmm18KTVlj2FsJVAwYfrof6ILFEszVDKeq0xiv2ni1b44a2vk025sOKH
+   3DS+aAoVrMVqgbOjMJdgbT1OjbtA060abHYopzlRS+hWcOmDcfkh0RfWV
+   g==;
+X-CSE-ConnectionGUID: 73XNGzF1QMibnKsbNDyNGw==
+X-CSE-MsgGUID: RKZz4wizRtCgW4CNMtw+Fg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30685742"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30685742"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 21:33:50 -0800
+X-CSE-ConnectionGUID: kM3nh4pcStOj1L+0QRHEsw==
+X-CSE-MsgGUID: U6Z3GzQcTbebC3t43cg/mA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,259,1725346800"; 
-   d="scan'208";a="83992278"
+   d="scan'208";a="88695720"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Nov 2024 21:33:48 -0800
+  by orviesa005.jf.intel.com with ESMTP; 04 Nov 2024 21:33:48 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8CBd-000lfl-2K;
+	id 1t8CBd-000lfn-2O;
 	Tue, 05 Nov 2024 05:33:05 +0000
-Date: Tue, 5 Nov 2024 13:32:09 +0800
+Date: Tue, 5 Nov 2024 13:32:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
-	memxor@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, dri-devel@lists.freedesktop.org,
-	kernel-team@fb.com
-Subject: Re: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead
- of maple_tree
-Message-ID: <202411051357.3XLBnPy3-lkp@intel.com>
-References: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
+To: Divya Koppera <divya.koppera@microchip.com>, andrew@lunn.ch,
+	arun.ramadoss@microchip.com, UNGLinuxDriver@microchip.com,
+	hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	richardcochran@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net-next 4/5] net: phy: Makefile: Add makefile support
+ for ptp in Microchip phys
+Message-ID: <202411051307.bXWxsYtE-lkp@intel.com>
+References: <20241104090750.12942-5-divya.koppera@microchip.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,61 +68,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
+In-Reply-To: <20241104090750.12942-5-divya.koppera@microchip.com>
 
-Hi Alexei,
+Hi Divya,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test WARNING on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/drm-bpf-Move-drm_mm-c-to-lib-to-be-used-by-bpf-arena/20241102-075645
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241101235453.63380-3-alexei.starovoitov%40gmail.com
-patch subject: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead of maple_tree
-config: i386-randconfig-003-20241104 (https://download.01.org/0day-ci/archive/20241105/202411051357.3XLBnPy3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051357.3XLBnPy3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Divya-Koppera/net-phy-microchip_ptp-Add-header-file-for-Microchip-ptp-library/20241104-171132
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241104090750.12942-5-divya.koppera%40microchip.com
+patch subject: [PATCH net-next 4/5] net: phy: Makefile: Add makefile support for ptp in Microchip phys
+config: hexagon-randconfig-r112-20241105 (https://download.01.org/0day-ci/archive/20241105/202411051307.bXWxsYtE-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
+reproduce: (https://download.01.org/0day-ci/archive/20241105/202411051307.bXWxsYtE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411051357.3XLBnPy3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411051307.bXWxsYtE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/phy/microchip_ptp.c:614:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short [usertype] val @@     got restricted __be16 [usertype] sequence_id @@
+   drivers/net/phy/microchip_ptp.c:614:16: sparse:     expected unsigned short [usertype] val
+   drivers/net/phy/microchip_ptp.c:614:16: sparse:     got restricted __be16 [usertype] sequence_id
+>> drivers/net/phy/microchip_ptp.c:614:16: sparse: sparse: cast from restricted __be16
+>> drivers/net/phy/microchip_ptp.c:614:16: sparse: sparse: cast from restricted __be16
+>> drivers/net/phy/microchip_ptp.c:614:14: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   drivers/net/phy/microchip_ptp.c:614:14: sparse:     expected unsigned short [usertype]
+   drivers/net/phy/microchip_ptp.c:614:14: sparse:     got restricted __be16 [usertype]
+   drivers/net/phy/microchip_ptp.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   ld: lib/drm_mm.o: in function `show_leaks':
->> lib/drm_mm.c:135: undefined reference to `__drm_err'
->> ld: lib/drm_mm.c:129: undefined reference to `__drm_err'
+vim +614 drivers/net/phy/microchip_ptp.c
 
-
-vim +135 lib/drm_mm.c
-
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  117  
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  118  static void show_leaks(struct drm_mm *mm)
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  119  {
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  120  	struct drm_mm_node *node;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  121  	char *buf;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  122  
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  123  	buf = kmalloc(BUFSZ, GFP_KERNEL);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  124  	if (!buf)
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  125  		return;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  126  
-2bc98c86517b08 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-12-22  127  	list_for_each_entry(node, drm_mm_nodes(mm), node_list) {
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  128  		if (!node->stack) {
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31 @129  			DRM_ERROR("node [%08llx + %08llx]: unknown owner\n",
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  130  				  node->start, node->size);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  131  			continue;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  132  		}
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  133  
-0f68d45ef41abb drivers/gpu/drm/drm_mm.c Imran Khan   2021-11-08  134  		stack_depot_snprint(node->stack, buf, BUFSZ, 0);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31 @135  		DRM_ERROR("node [%08llx + %08llx]: inserted at\n%s",
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  136  			  node->start, node->size, buf);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  137  	}
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  138  
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  139  	kfree(buf);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  140  }
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  141  
+cf630bd2326111 Divya Koppera 2024-11-04  600  
+cf630bd2326111 Divya Koppera 2024-11-04  601  static bool mchp_ptp_get_sig_tx(struct sk_buff *skb, u16 *sig)
+cf630bd2326111 Divya Koppera 2024-11-04  602  {
+cf630bd2326111 Divya Koppera 2024-11-04  603  	struct ptp_header *ptp_header;
+cf630bd2326111 Divya Koppera 2024-11-04  604  	int type;
+cf630bd2326111 Divya Koppera 2024-11-04  605  
+cf630bd2326111 Divya Koppera 2024-11-04  606  	type = ptp_classify_raw(skb);
+cf630bd2326111 Divya Koppera 2024-11-04  607  	if (type == PTP_CLASS_NONE)
+cf630bd2326111 Divya Koppera 2024-11-04  608  		return false;
+cf630bd2326111 Divya Koppera 2024-11-04  609  
+cf630bd2326111 Divya Koppera 2024-11-04  610  	ptp_header = ptp_parse_header(skb, type);
+cf630bd2326111 Divya Koppera 2024-11-04  611  	if (!ptp_header)
+cf630bd2326111 Divya Koppera 2024-11-04  612  		return false;
+cf630bd2326111 Divya Koppera 2024-11-04  613  
+cf630bd2326111 Divya Koppera 2024-11-04 @614  	*sig = htons(ptp_header->sequence_id);
+cf630bd2326111 Divya Koppera 2024-11-04  615  
+cf630bd2326111 Divya Koppera 2024-11-04  616  	return true;
+cf630bd2326111 Divya Koppera 2024-11-04  617  }
+cf630bd2326111 Divya Koppera 2024-11-04  618  
 
 -- 
 0-DAY CI Kernel Test Service
