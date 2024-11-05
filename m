@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34418188703
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  4 Nov 2024 23:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21047163
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 00:05:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730763898; cv=none; b=gm/rPJagllmApyNxEM1Be07aPmr2jQr2we2Bkr7gnniX1/h/byVu2j4uLDjwVVgjtRBHBKTwj17xP9gWnIqQZR6xTRGgcV1VZ6/OAnlxjXVoOo2jsd2B9mWWxHOpF9RCBXRz77spt5150qrA2xVNMhLzw4XdkHEiHB1APXNQV9A=
+	t=1730765156; cv=none; b=WeubGuVUPeItLGHrE9JW2+YsEwCp235zYYbwMeBHTzsLt0ivdHsVfRfsXyD6k9yEMbHvaeRUxHAmzugpA5k/si8ux4VfKh8acYRj7avOnzB9xxN9GFmxmZX1OK37UJpGSAsDcTOMZz2cqjKdOvt22eIjTTZ92LdnB0LsLkUb42g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730763898; c=relaxed/simple;
-	bh=ZOG+mOz8yJP/C8UYPu8nrcdL2Cqw9KJlUikvqrq34+w=;
+	s=arc-20240116; t=1730765156; c=relaxed/simple;
+	bh=t9TodP49Tzra9PMjPWz3RQtoqbjXb1siFuSbyYVxBps=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OTvpyJeYHSPXzUtmGaAVq5Z1LIQ/9JQDqyVnJDWVHuk6hZUHc9yRjP/xPmjTO6LuUyrUIkoMCIW+PhGJSrDQtB8TWJ3hV8nMnUepIlyAS/g3PjJKK+fZg9t8p9ck0Mnm7phjnF/7KvtPWes3s33QlfztxowTouN1pBLZtEFhDzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qi3yls+B; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=K/+J45sIH7M5iVMofABA1mqbhNXb50JMbwWK29J87jc5Vr5kJhWhRD3+cXzwm9eGRF28MzYa3GoWZWduaHITOVwKx72pPAELiVlxPC6K79Y3ozw6qcs0HzcnnGtpFPaZPhRAd1Eyr0OVuU7U8ITYF0PqL7/NlwhwCzMnYo8uje4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=coBJwWB7; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qi3yls+B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="coBJwWB7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730763896; x=1762299896;
+  t=1730765154; x=1762301154;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZOG+mOz8yJP/C8UYPu8nrcdL2Cqw9KJlUikvqrq34+w=;
-  b=Qi3yls+BWBCPKUwAg0W2wcDBwfREDDuYmchRB8ujCk0IsxvkgwGEd4yY
-   U10omSYmWDojhkN9A2zpWptiu1UkhcqP0ebZyVgDS00cyIxJzzcoD4ob7
-   rSbqXM7SaxXY7vFYoRNQaVuJFlb6pue9/jdYvetvwIPbkfQM+0sISC5MC
-   DaOvq3D/sY8Lk43aDngpieewxKILs2JunJbJN3Y2x0hEcRnw22NCyt0LN
-   yHTlI+Fi38z/KCh9XuF0wCyEE3RyjnMGtPiJpj4aYIrImqMCIOUgRu95L
-   nETHhzIApPGEBhzHPMtKcxc14q641IJY3ouUI8eBf1BMvZ37daRoQEp9o
-   Q==;
-X-CSE-ConnectionGUID: hIIud/8DTCSosZPuhOXHdg==
-X-CSE-MsgGUID: 0Got40ydRTeQTdvHBCOSLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="41856876"
+  bh=t9TodP49Tzra9PMjPWz3RQtoqbjXb1siFuSbyYVxBps=;
+  b=coBJwWB7Q/y1fMknhzwv201yoLCZNS4dcl+fGC/e0GMbR782fn+u8zMN
+   605dlGsMSuV2gaZhzUwMYe+epLVf0+JZS/2qMju8LpZxcYrAmqkfhrutl
+   fgP0OL87qzmhn6WvL46pR30B2DAG0MANlAXv6fiagIetRZRNGwweGgjJB
+   0bu2fB4jBNNOw/cyeYYJkmFj53LwP4vGeX+KVdWLV0JNeXJIX2A07ppym
+   lz/JZSmR6viA0OJRAKf16Rl8JUNrDBxGmNC4ZFgP9PmceMTyU6cufqIA0
+   EzYLGe5fZJEm8rZYL/k73GAtlvKD0Zy5gvcJPJjgHTt7AZwqSamrAsMF3
+   A==;
+X-CSE-ConnectionGUID: cJ3K8NVvTv+gussfiTRPnw==
+X-CSE-MsgGUID: CVuKKku0Tqi4kIJxeDHA6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11246"; a="41072850"
 X-IronPort-AV: E=Sophos;i="6.11,258,1725346800"; 
-   d="scan'208";a="41856876"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 15:44:55 -0800
-X-CSE-ConnectionGUID: rQOIpOktR0+MOJ4hWzyEwQ==
-X-CSE-MsgGUID: 7cFGMM7iQgqAGNk1bRLaBQ==
+   d="scan'208";a="41072850"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2024 16:05:53 -0800
+X-CSE-ConnectionGUID: QjVA6bDZTCGwHTYC3IvX9A==
+X-CSE-MsgGUID: YyMKDFT8TAKde6pzcFitIw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,258,1725346800"; 
-   d="scan'208";a="83325225"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="88567201"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 04 Nov 2024 15:44:52 -0800
+  by orviesa003.jf.intel.com with ESMTP; 04 Nov 2024 16:05:53 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t86kb-000lP3-1H;
-	Mon, 04 Nov 2024 23:44:49 +0000
-Date: Tue, 5 Nov 2024 07:44:44 +0800
+	id 1t874v-000lQ1-37;
+	Tue, 05 Nov 2024 00:05:49 +0000
+Date: Tue, 5 Nov 2024 08:05:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/optimized_usdt 19/25]
- arch/arm/include/asm/tlbflush.h:363:19: error: no member named 'context' in
- 'struct mm_struct'
-Message-ID: <202411050702.BmkzBFgz-lkp@intel.com>
+To: Mark Harmstone <maharmstone@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Sterba <dsterba@suse.com>
+Subject: [linux-next:master 8334/9360] fs/btrfs/ioctl.c:4975:9-16: WARNING
+ opportunity for kmemdup
+Message-ID: <202411050846.GI8oh5IK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,148 +62,165 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt
-head:   ea12a7f9c1697d73061d2c3627052fc528e238a1
-commit: 538aa4dff7cbb83642feed8922eb41bf1e315efe [19/25] uprobes: Add mapping for optimized uprobe trampolines
-config: arm-randconfig-r052-20241105 (https://download.01.org/0day-ci/archive/20241105/202411050702.BmkzBFgz-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 639a7ac648f1e50ccd2556e17d401c04f9cce625)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411050702.BmkzBFgz-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1ffec08567f426a1c593e038cadc61bdc38cb467
+commit: 48b8a3df6d216bf9641bebf1efa1a3e1bdc9520d [8334/9360] btrfs: add io_uring command for encoded reads (ENCODED_READ ioctl)
+config: x86_64-randconfig-103-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050846.GI8oh5IK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411050702.BmkzBFgz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411050846.GI8oh5IK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> fs/btrfs/ioctl.c:4975:9-16: WARNING opportunity for kmemdup
 
-   In file included from mm/init-mm.c:2:
-   In file included from include/linux/mm_types.h:16:
-   include/linux/uprobes.h:126:16: error: field has incomplete type 'struct mutex'
-     126 |         struct mutex            tramp_mutex;
-         |                                 ^
-   include/linux/refcount.h:102:8: note: forward declaration of 'struct mutex'
-     102 | struct mutex;
-         |        ^
-   In file included from mm/init-mm.c:2:
-   include/linux/mm_types.h:1138:27: error: no member named 'mm_mt' in 'struct mm_struct'
-    1138 |         mas_init(&vmi->mas, &mm->mm_mt, addr);
-         |                              ~~  ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:16:
-   include/linux/mmap_lock.h:65:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-      65 |         rwsem_assert_held(&mm->mmap_lock);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:70:31: error: no member named 'mmap_lock' in 'struct mm_struct'
-      70 |         rwsem_assert_held_write(&mm->mmap_lock);
-         |                                  ~~  ^
-   include/linux/mmap_lock.h:100:18: error: no member named 'mmap_lock' in 'struct mm_struct'
-     100 |         init_rwsem(&mm->mmap_lock);
-         |                     ~~  ^
-   include/linux/rwsem.h:121:16: note: expanded from macro 'init_rwsem'
-     121 |         __init_rwsem((sem), #sem, &__key);                      \
-         |                       ^~~
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:16:
-   include/linux/mmap_lock.h:106:18: error: no member named 'mmap_lock' in 'struct mm_struct'
-     106 |         down_write(&mm->mmap_lock);
-         |                     ~~  ^
-   include/linux/mmap_lock.h:113:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-     113 |         down_write_nested(&mm->mmap_lock, subclass);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:122:33: error: no member named 'mmap_lock' in 'struct mm_struct'
-     122 |         ret = down_write_killable(&mm->mmap_lock);
-         |                                    ~~  ^
-   include/linux/mmap_lock.h:131:16: error: no member named 'mmap_lock' in 'struct mm_struct'
-     131 |         up_write(&mm->mmap_lock);
-         |                   ~~  ^
-   include/linux/mmap_lock.h:138:23: error: no member named 'mmap_lock' in 'struct mm_struct'
-     138 |         downgrade_write(&mm->mmap_lock);
-         |                          ~~  ^
-   include/linux/mmap_lock.h:144:17: error: no member named 'mmap_lock' in 'struct mm_struct'
-     144 |         down_read(&mm->mmap_lock);
-         |                    ~~  ^
-   include/linux/mmap_lock.h:153:32: error: no member named 'mmap_lock' in 'struct mm_struct'
-     153 |         ret = down_read_killable(&mm->mmap_lock);
-         |                                   ~~  ^
-   include/linux/mmap_lock.h:163:31: error: no member named 'mmap_lock' in 'struct mm_struct'
-     163 |         ret = down_read_trylock(&mm->mmap_lock) != 0;
-         |                                  ~~  ^
-   include/linux/mmap_lock.h:171:15: error: no member named 'mmap_lock' in 'struct mm_struct'
-     171 |         up_read(&mm->mmap_lock);
-         |                  ~~  ^
-   include/linux/mmap_lock.h:177:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-     177 |         up_read_non_owner(&mm->mmap_lock);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:182:33: error: no member named 'mmap_lock' in 'struct mm_struct'
-     182 |         return rwsem_is_contended(&mm->mmap_lock);
-         |                                    ~~  ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
-   In file included from arch/arm/include/asm/pgtable.h:34:
->> arch/arm/include/asm/tlbflush.h:363:19: error: no member named 'context' in 'struct mm_struct'
-     363 |         const int asid = ASID(mm);
-         |                          ^~~~~~~~
-   arch/arm/include/asm/mmu.h:27:40: note: expanded from macro 'ASID'
-      27 | #define ASID(mm)        ((unsigned int)((mm)->context.id.counter & ~ASID_MASK))
-         |                                         ~~~~  ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
-   In file included from arch/arm/include/asm/pgtable.h:34:
-   arch/arm/include/asm/tlbflush.h:381:19: error: no member named 'context' in 'struct mm_struct'
-     381 |         const int asid = ASID(mm);
-         |                          ^~~~~~~~
-   arch/arm/include/asm/mmu.h:27:40: note: expanded from macro 'ASID'
-      27 | #define ASID(mm)        ((unsigned int)((mm)->context.id.counter & ~ASID_MASK))
-         |                                         ~~~~  ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:30:
-   In file included from include/linux/pgtable.h:6:
-   In file included from arch/arm/include/asm/pgtable.h:34:
-   arch/arm/include/asm/tlbflush.h:418:32: error: no member named 'context' in 'struct mm_struct'
-     418 |         uaddr = (uaddr & PAGE_MASK) | ASID(vma->vm_mm);
-         |                                       ^~~~~~~~~~~~~~~~
-   arch/arm/include/asm/mmu.h:27:40: note: expanded from macro 'ASID'
-      27 | #define ASID(mm)        ((unsigned int)((mm)->context.id.counter & ~ASID_MASK))
-         |                                         ~~~~  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
+vim +4975 fs/btrfs/ioctl.c
 
-
-vim +363 arch/arm/include/asm/tlbflush.h
-
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  359  
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  360  static inline void __local_flush_tlb_mm(struct mm_struct *mm)
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  361  {
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  362  	const int zero = 0;
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11 @363  	const int asid = ASID(mm);
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  364  	const unsigned int __tlb_flag = __cpu_tlb_flags;
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  365  
-4cc3daaf3976bd arch/arm/include/asm/tlbflush.h Will Deacon    2013-01-14  366  	if (possible_tlb_flags & (TLB_V4_U_FULL|TLB_V4_D_FULL|TLB_V4_I_FULL)) {
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  367  		if (cpumask_test_cpu(smp_processor_id(), mm_cpumask(mm))) {
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  368  			tlb_op(TLB_V4_U_FULL, "c8, c7, 0", zero);
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  369  			tlb_op(TLB_V4_D_FULL, "c8, c6, 0", zero);
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  370  			tlb_op(TLB_V4_I_FULL, "c8, c5, 0", zero);
-^1da177e4c3f41 include/asm-arm/tlbflush.h      Linus Torvalds 2005-04-16  371  		}
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  372  	}
-^1da177e4c3f41 include/asm-arm/tlbflush.h      Linus Torvalds 2005-04-16  373  
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  374  	tlb_op(TLB_V6_U_ASID, "c8, c7, 2", asid);
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  375  	tlb_op(TLB_V6_D_ASID, "c8, c6, 2", asid);
-87067a935a174c arch/arm/include/asm/tlbflush.h Russell King   2012-02-04  376  	tlb_op(TLB_V6_I_ASID, "c8, c5, 2", asid);
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  377  }
-f0915781bd5edf arch/arm/include/asm/tlbflush.h Will Deacon    2013-02-11  378  
-
-:::::: The code at line 363 was first introduced by commit
-:::::: f0915781bd5edf78b1154e61efe962dc15872d09 ARM: tlb: don't perform inner-shareable invalidation for local TLB ops
-
-:::::: TO: Will Deacon <will.deacon@arm.com>
-:::::: CC: Will Deacon <will.deacon@arm.com>
+  4868	
+  4869	static int btrfs_uring_encoded_read(struct io_uring_cmd *cmd, unsigned int issue_flags)
+  4870	{
+  4871		size_t copy_end_kernel = offsetofend(struct btrfs_ioctl_encoded_io_args, flags);
+  4872		size_t copy_end;
+  4873		struct btrfs_ioctl_encoded_io_args args = { 0 };
+  4874		int ret;
+  4875		u64 disk_bytenr, disk_io_size;
+  4876		struct file *file;
+  4877		struct btrfs_inode *inode;
+  4878		struct btrfs_fs_info *fs_info;
+  4879		struct extent_io_tree *io_tree;
+  4880		struct iovec iovstack[UIO_FASTIOV];
+  4881		struct iovec *iov = iovstack;
+  4882		struct iov_iter iter;
+  4883		loff_t pos;
+  4884		struct kiocb kiocb;
+  4885		struct extent_state *cached_state = NULL;
+  4886		u64 start, lockend;
+  4887		void __user *sqe_addr;
+  4888	
+  4889		if (!capable(CAP_SYS_ADMIN)) {
+  4890			ret = -EPERM;
+  4891			goto out_acct;
+  4892		}
+  4893		file = cmd->file;
+  4894		inode = BTRFS_I(file->f_inode);
+  4895		fs_info = inode->root->fs_info;
+  4896		io_tree = &inode->io_tree;
+  4897		sqe_addr = u64_to_user_ptr(READ_ONCE(cmd->sqe->addr));
+  4898	
+  4899		if (issue_flags & IO_URING_F_COMPAT) {
+  4900	#if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
+  4901			struct btrfs_ioctl_encoded_io_args_32 args32;
+  4902	
+  4903			copy_end = offsetofend(struct btrfs_ioctl_encoded_io_args_32, flags);
+  4904			if (copy_from_user(&args32, sqe_addr, copy_end)) {
+  4905				ret = -EFAULT;
+  4906				goto out_acct;
+  4907			}
+  4908			args.iov = compat_ptr(args32.iov);
+  4909			args.iovcnt = args32.iovcnt;
+  4910			args.offset = args32.offset;
+  4911			args.flags = args32.flags;
+  4912	#else
+  4913			return -ENOTTY;
+  4914	#endif
+  4915		} else {
+  4916			copy_end = copy_end_kernel;
+  4917			if (copy_from_user(&args, sqe_addr, copy_end)) {
+  4918				ret = -EFAULT;
+  4919				goto out_acct;
+  4920			}
+  4921		}
+  4922	
+  4923		if (args.flags != 0)
+  4924			return -EINVAL;
+  4925	
+  4926		ret = import_iovec(ITER_DEST, args.iov, args.iovcnt, ARRAY_SIZE(iovstack),
+  4927				   &iov, &iter);
+  4928		if (ret < 0)
+  4929			goto out_acct;
+  4930	
+  4931		if (iov_iter_count(&iter) == 0) {
+  4932			ret = 0;
+  4933			goto out_free;
+  4934		}
+  4935	
+  4936		pos = args.offset;
+  4937		ret = rw_verify_area(READ, file, &pos, args.len);
+  4938		if (ret < 0)
+  4939			goto out_free;
+  4940	
+  4941		init_sync_kiocb(&kiocb, file);
+  4942		kiocb.ki_pos = pos;
+  4943	
+  4944		if (issue_flags & IO_URING_F_NONBLOCK)
+  4945			kiocb.ki_flags |= IOCB_NOWAIT;
+  4946	
+  4947		start = ALIGN_DOWN(pos, fs_info->sectorsize);
+  4948		lockend = start + BTRFS_MAX_UNCOMPRESSED - 1;
+  4949	
+  4950		ret = btrfs_encoded_read(&kiocb, &iter, &args, &cached_state,
+  4951					 &disk_bytenr, &disk_io_size);
+  4952		if (ret < 0 && ret != -EIOCBQUEUED)
+  4953			goto out_free;
+  4954	
+  4955		file_accessed(file);
+  4956	
+  4957		if (copy_to_user(sqe_addr + copy_end, (const char *)&args + copy_end_kernel,
+  4958				 sizeof(args) - copy_end_kernel)) {
+  4959			if (ret == -EIOCBQUEUED) {
+  4960				unlock_extent(io_tree, start, lockend, &cached_state);
+  4961				btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+  4962			}
+  4963			ret = -EFAULT;
+  4964			goto out_free;
+  4965		}
+  4966	
+  4967		if (ret == -EIOCBQUEUED) {
+  4968			u64 count;
+  4969	
+  4970			/*
+  4971			 * If we've optimized things by storing the iovecs on the stack,
+  4972			 * undo this.
+  4973			 */
+  4974			if (!iov) {
+> 4975				iov = kmalloc(sizeof(struct iovec) * args.iovcnt, GFP_NOFS);
+  4976				if (!iov) {
+  4977					unlock_extent(io_tree, start, lockend, &cached_state);
+  4978					btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
+  4979					ret = -ENOMEM;
+  4980					goto out_acct;
+  4981				}
+  4982	
+  4983				memcpy(iov, iovstack, sizeof(struct iovec) * args.iovcnt);
+  4984			}
+  4985	
+  4986			count = min_t(u64, iov_iter_count(&iter), disk_io_size);
+  4987	
+  4988			/* Match ioctl by not returning past EOF if uncompressed. */
+  4989			if (!args.compression)
+  4990				count = min_t(u64, count, args.len);
+  4991	
+  4992			ret = btrfs_uring_read_extent(&kiocb, &iter, start, lockend,
+  4993						      cached_state, disk_bytenr,
+  4994						      disk_io_size, count,
+  4995						      args.compression, iov, cmd);
+  4996	
+  4997			goto out_acct;
+  4998		}
+  4999	
+  5000	out_free:
+  5001		kfree(iov);
+  5002	
+  5003	out_acct:
+  5004		if (ret > 0)
+  5005			add_rchar(current, ret);
+  5006		inc_syscr(current);
+  5007	
+  5008		return ret;
+  5009	}
+  5010	
 
 -- 
 0-DAY CI Kernel Test Service
