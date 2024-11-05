@@ -1,64 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10881E2313
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 15:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1808E173326
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  5 Nov 2024 16:07:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730822319; cv=none; b=fc/LqBu6yMgo8BEZ2TRzxnE3SLxvO8L58KYkYpGxeJ0bXvj7EZRLisge8ZDlU/IOg1R9gBmI/45+QBPNaLw2U3D7z2j/KtXTG1v8/oYLh4jAT5TZOkcmWxIg73S/wsNLVvsSNLd3GJfwQpLg/Uia6o8yXXNGYkRv9E+ddvsoi/4=
+	t=1730822849; cv=none; b=selnPRDrVLbqPPjgsDPVXFi5TleBnE32PKMW1ZETRnpCxFlZ5PAypkNMaeHNWrCP45gotkY53JGXt95M/psQ4CDclgtBwut6aV14UJ0Uwmldi8HTpmP6z/koJy6cdxIfkQ4nMqCK7Wn5g5NkRhIISI8UTmVbVjyoXTSe6miiMo8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730822319; c=relaxed/simple;
-	bh=Q/y9vOpTykXgYrQoKuWRZ+1nv2SoQIiyeDAcyGYSW0I=;
+	s=arc-20240116; t=1730822849; c=relaxed/simple;
+	bh=7ZkzkSGmyqQmi15NfDxrzGLhDJf1avX/vxXv3Nof8XA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FhMuOZphpZxVLZvFg/2vvp+VNH/2u8sHPhiH7VPzrMMdO++W9fKrJHrfsNWxc1mBn4L4xxb3uCOeLwgWZlpWkb8VRaIqOQu6OTafPPsUY8Zszg6MED9F12/Bj+A3bCTahBPDnMdBZHfAGDZDtB9wXdsoSeyleUP1ZmHfccU9A2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xne3BHfu; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CNXJFkT6P0j5DeAVLxi/8En4ZZ2nAmois6Vfs4IJGAbALEFkJgSy1+SvvcUJPm9BehgeIptcOmXnP9pEgePpvw3UCsKA/rPC+5ez5Qu01kyHReBh0VhLan5vtVoQ2AeMp4jC3lCiRpRjdaEvLjg6OdDMUOWiJtgrO3o2uSmCu+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ucRN+Ydp; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xne3BHfu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730822318; x=1762358318;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Q/y9vOpTykXgYrQoKuWRZ+1nv2SoQIiyeDAcyGYSW0I=;
-  b=Xne3BHfukjWs18vFCcx8a2KASLoXyLGNPH9HzTRXdpo8P69vzYZePS96
-   l1hiKBWGkUTmYvLZENp09wBQgdOcj15bGQVxzh9vq9RkvyJjjCiECg4Qu
-   AGMHCP313uBp+SRCUJp1vbbHlgrtmxIz9JPmu9xdowMeLy99z0YzIgXno
-   nPR60WWLr+igyzYIr8451YMvWujpTuxeOQiegOlfP9Y1BEeqUAUwRnDdx
-   74fdNeS8xk/dV7eS8Un+OjULF8CG1Aa1VQXAgDVMjcOI7DGPqKwEEYXxP
-   TLO0+T/j/jSRRK0Z49fC4MHt48vDihebxaZlHy8NB6mP++sHpu/8tOopY
-   A==;
-X-CSE-ConnectionGUID: Cbys1v80SnyhPzvqlGC2NQ==
-X-CSE-MsgGUID: iBbkXWpgTVG218V+A3Qn0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41976444"
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="41976444"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 07:58:37 -0800
-X-CSE-ConnectionGUID: BTNINd6BQHe8MZCjfF5MUw==
-X-CSE-MsgGUID: etmk2V29Rei+8saJ95Mtkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,260,1725346800"; 
-   d="scan'208";a="121550940"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Nov 2024 07:58:35 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8Lwu-000mCF-1r;
-	Tue, 05 Nov 2024 15:58:32 +0000
-Date: Tue, 5 Nov 2024 23:58:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, daniel@iogearbox.net, andrii@kernel.org,
-	memxor@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, dri-devel@lists.freedesktop.org,
-	kernel-team@fb.com
-Subject: Re: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead
- of maple_tree
-Message-ID: <202411052322.GENc72sg-lkp@intel.com>
-References: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ucRN+Ydp"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539f7606199so3301786e87.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 05 Nov 2024 08:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1730822846; x=1731427646; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=473DlSot6ue6xbPLLwBdkXEbSfpgFoGTCnq7nesFQaI=;
+        b=ucRN+YdpcJPsDlkEKvfeFrJ8jsr2I2bx1pc/okIkG0LRl3ZYzNsE9EQ2UyFkuapatC
+         qpUquKjlbGw6928riqa5aeib93ATH7woM3+AdkFsyZ8HdlyXJAspb8nAyEg1R8EPiqSK
+         iI69BcDs3jYo1oUVb+LLZLHwqNSFgxYQztJoh0SomNHeD54JSZZn1pKUX96T2w7++lnW
+         OMHMk/swUUqP3yxZKxjWfPDwhpd85Oh4QVTuD5IlpjAMpg34cVmde4otgeqPMv4+MOK8
+         gYNj9EjonwA8QbQ1SEv6pN9QDpNUFXfBap7rU85nJ/rrClv1iUyiRdxWNPTFz4CpmhUg
+         vLuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730822846; x=1731427646;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=473DlSot6ue6xbPLLwBdkXEbSfpgFoGTCnq7nesFQaI=;
+        b=LAdNrcEP95d/a2yaFk7rYeSjRzPTjbCN+FnMoeACM8UswXv6QWnFhRbOwHsHw/A9FM
+         z00G9aN3iD2HNTPfrZkjxTZ/C93plXnxWvZ5+C710WHoMkMtacCrSl/Y+IYFfzUNiimX
+         eMt+UTq6AjWLIYJoHsSfWTbK2s/B8T3yYzkM379YSN5qLk0mjjTqiIlON3rBg/dG8p+J
+         oD1dC0fSKjIFEDWLxyaSCtCw3bA+67KTBCxgWGiLotB6Lj2iCWNDaObX1Gifa1KXkO+P
+         JWxCbsetQjfX2OTjDAL9gYBbLDwdVvA8v9Mr6W+TCoDwvlYGlMDtDtWz2QLwuB+y3NvM
+         SQDg==
+X-Forwarded-Encrypted: i=1; AJvYcCX/bHMLAtDNUKNC91NTpMcYraubSQRkFNRy9uENH/7oi1mJYuVORyua5XDNhllwoGsCZAdU/ulycfNG8yD4@lists.linux.dev
+X-Gm-Message-State: AOJu0YywJh878/iqfu6j5HBvb/+wVdBVPjeBBg5+uZqpOgFBnTNkvssN
+	rg9/5vQ+7X2jRfKgd4J0U0Vj+xJ+XjIBGxEpnTJk9OQ9LJ15dVwJECSRKw7FWw==
+X-Google-Smtp-Source: AGHT+IHQrLAwD8G22UzU+Ve3Dp55NDLGsHlnPaeRYF6+uIfupSs5Q35hB7K725aR+e45CXT07QcH/g==
+X-Received: by 2002:a05:6512:3f13:b0:539:9490:7257 with SMTP id 2adb3069b0e04-53b7ecf28ebmr12296414e87.30.1730822845919;
+        Tue, 05 Nov 2024 08:07:25 -0800 (PST)
+Received: from google.com (40.162.204.35.bc.googleusercontent.com. [35.204.162.40])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb17d0adasm151224366b.111.2024.11.05.08.07.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 Nov 2024 08:07:25 -0800 (PST)
+Date: Tue, 5 Nov 2024 16:07:21 +0000
+From: Quentin Perret <qperret@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, oe-kbuild-all@lists.linux.dev,
+	Fuad Tabba <tabba@google.com>,
+	Vincent Donnefort <vdonnefort@google.com>,
+	Sebastian Ene <sebastianene@google.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 18/18] KVM: arm64: Plumb the pKVM MMU in KVM
+Message-ID: <ZypCuSRW9VJEEWnr@google.com>
+References: <20241104133204.85208-19-qperret@google.com>
+ <202411051325.EBkzE0th-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,62 +77,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241101235453.63380-3-alexei.starovoitov@gmail.com>
+In-Reply-To: <202411051325.EBkzE0th-lkp@intel.com>
 
-Hi Alexei,
+On Tuesday 05 Nov 2024 at 13:53:22 (+0800), kernel test robot wrote:
+> Hi Quentin,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on v6.12-rc6]
+> [also build test WARNING on linus/master]
+> [cannot apply to kvmarm/next next-20241104]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Quentin-Perret/KVM-arm64-Change-the-layout-of-enum-pkvm_page_state/20241104-213817
+> base:   v6.12-rc6
+> patch link:    https://lore.kernel.org/r/20241104133204.85208-19-qperret%40google.com
+> patch subject: [PATCH 18/18] KVM: arm64: Plumb the pKVM MMU in KVM
+> config: arm64-randconfig-002-20241105 (https://download.01.org/0day-ci/archive/20241105/202411051325.EBkzE0th-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 14.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411051325.EBkzE0th-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411051325.EBkzE0th-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> arch/arm64/kvm/mmu.c:338: warning: Function parameter or struct member 'pgt' not described in 'kvm_s2_unmap'
+> >> arch/arm64/kvm/mmu.c:338: warning: Function parameter or struct member 'addr' not described in 'kvm_s2_unmap'
+> >> arch/arm64/kvm/mmu.c:338: warning: expecting prototype for __unmap_stage2_range(). Prototype was for kvm_s2_unmap() instead
+> 
+> 
+> vim +338 arch/arm64/kvm/mmu.c
+> 
+>    299	
+>    300	/*
+>    301	 * Unmapping vs dcache management:
+>    302	 *
+>    303	 * If a guest maps certain memory pages as uncached, all writes will
+>    304	 * bypass the data cache and go directly to RAM.  However, the CPUs
+>    305	 * can still speculate reads (not writes) and fill cache lines with
+>    306	 * data.
+>    307	 *
+>    308	 * Those cache lines will be *clean* cache lines though, so a
+>    309	 * clean+invalidate operation is equivalent to an invalidate
+>    310	 * operation, because no cache lines are marked dirty.
+>    311	 *
+>    312	 * Those clean cache lines could be filled prior to an uncached write
+>    313	 * by the guest, and the cache coherent IO subsystem would therefore
+>    314	 * end up writing old data to disk.
+>    315	 *
+>    316	 * This is why right after unmapping a page/section and invalidating
+>    317	 * the corresponding TLBs, we flush to make sure the IO subsystem will
+>    318	 * never hit in the cache.
+>    319	 *
+>    320	 * This is all avoided on systems that have ARM64_HAS_STAGE2_FWB, as
+>    321	 * we then fully enforce cacheability of RAM, no matter what the guest
+>    322	 * does.
+>    323	 */
+>    324	/**
+>    325	 * __unmap_stage2_range -- Clear stage2 page table entries to unmap a range
+>    326	 * @mmu:   The KVM stage-2 MMU pointer
+>    327	 * @start: The intermediate physical base address of the range to unmap
+>    328	 * @size:  The size of the area to unmap
+>    329	 * @may_block: Whether or not we are permitted to block
+>    330	 *
+>    331	 * Clear a range of stage-2 mappings, lowering the various ref-counts.  Must
+>    332	 * be called while holding mmu_lock (unless for freeing the stage2 pgd before
+>    333	 * destroying the VM), otherwise another faulting VCPU may come in and mess
+>    334	 * with things behind our backs.
+>    335	 */
+>    336	
+>    337	static int kvm_s2_unmap(struct kvm_pgtable *pgt, u64 addr, u64 size)
+>  > 338	{
+>    339		return KVM_PGT_S2(unmap, pgt, addr, size);
+>    340	}
+>    341	
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexei-Starovoitov/drm-bpf-Move-drm_mm-c-to-lib-to-be-used-by-bpf-arena/20241102-075645
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241101235453.63380-3-alexei.starovoitov%40gmail.com
-patch subject: [PATCH bpf-next 2/2] bpf: Switch bpf arena to use drm_mm instead of maple_tree
-config: sparc-randconfig-r061-20241105 (https://download.01.org/0day-ci/archive/20241105/202411052322.GENc72sg-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241105/202411052322.GENc72sg-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411052322.GENc72sg-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   sparc64-linux-ld: lib/drm_mm.o: in function `drm_mm_takedown':
->> lib/drm_mm.c:135:(.text+0x470): undefined reference to `__drm_err'
->> sparc64-linux-ld: lib/drm_mm.c:129:(.text+0x4ac): undefined reference to `__drm_err'
-
-
-vim +135 lib/drm_mm.c
-
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  117  
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  118  static void show_leaks(struct drm_mm *mm)
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  119  {
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  120  	struct drm_mm_node *node;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  121  	char *buf;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  122  
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  123  	buf = kmalloc(BUFSZ, GFP_KERNEL);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  124  	if (!buf)
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  125  		return;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  126  
-2bc98c86517b08 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-12-22  127  	list_for_each_entry(node, drm_mm_nodes(mm), node_list) {
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  128  		if (!node->stack) {
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31 @129  			DRM_ERROR("node [%08llx + %08llx]: unknown owner\n",
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  130  				  node->start, node->size);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  131  			continue;
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  132  		}
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  133  
-0f68d45ef41abb drivers/gpu/drm/drm_mm.c Imran Khan   2021-11-08  134  		stack_depot_snprint(node->stack, buf, BUFSZ, 0);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31 @135  		DRM_ERROR("node [%08llx + %08llx]: inserted at\n%s",
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  136  			  node->start, node->size, buf);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  137  	}
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  138  
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  139  	kfree(buf);
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  140  }
-5705670d046342 drivers/gpu/drm/drm_mm.c Chris Wilson 2016-10-31  141  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Oops, yes, that broke the kerneldoc comment, I'll fix in v2.
