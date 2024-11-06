@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A981F8EE0
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 13:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003DA13AD11
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 13:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730898271; cv=none; b=hVUdf9lv2GTT7bRCpGuIILUMchA22YxJOJw6aMKOCwWLn/A9+gnzTxZeZyzYrdZuqnSUid6HOH4yJMerxv0ycssMTidwMs5xXSMzeP0WQLXxhVGgQc9kNXfFas3XhK98RHk/Yi/RrbsbIOXAT24B2ZJd7//YcsvfmgtJjwYg2DA=
+	t=1730899453; cv=none; b=NT0Kodyt1UnIVRcCEnziFLEBVEEcxzP2b0EfDf5vRx9jIt05dbKmFqhXB3fhloK7k2Rtq4Bz6jenVScC+HL8tDDFGrZDJdIWTT0MffScDKL/b5dIRkjASZY5fpg1vPYooLJ6lXUn/16XlXdW6/1K3zjDWYralYoDNdPk7TvkNyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730898271; c=relaxed/simple;
-	bh=536n4a0slU6yz/JsUm+aY2O5haEqSbaaPUR8g4vVlrs=;
+	s=arc-20240116; t=1730899453; c=relaxed/simple;
+	bh=0y210huG3BVWa8mN+H5kHBlQ1+JRmnJ9yWUuiZORSV8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lETRgrry2YtF+u5Q4AtQh4YjWs7ICBskCYFm5qQnHTzIIz+A0Qet0rIoKTzt4vnysYVYS+26pyZtzGssy2pc1BwZyUgrUYbd57iXFpJWvbUVTAMYaZN3RmcrKjQBuj6fAHpbsyMhwZyDkaUs8mlWbSMXZbrdBW0degS1o/20pas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dECtIos2; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=CC/YMx1WKuxT6oCVoMiaJh2Z8tBjBiSKTXrXUOSZCmkviUNqkmrYYmRUDy9LCLSP8jY5w4pIbsDd6E0lThrQJKNGUGLQ1TI7J67m5pyz4skccPeUbq086stR1AxcAgzFMWm7O+8dtu6d3EQRsl4rE/sjNwK5bet1+MwU/vlQj6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lp8vuD7J; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dECtIos2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lp8vuD7J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730898268; x=1762434268;
+  t=1730899452; x=1762435452;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=536n4a0slU6yz/JsUm+aY2O5haEqSbaaPUR8g4vVlrs=;
-  b=dECtIos2qT3RmOG7dcUyaNaA7XFopCVHnVVIS4fQemx7jiZtkHcCqJPz
-   A4WHEjgeFlTojT7vHdSvVSMWb9riso7JNQWJOuRgiQCQMv93Yf4oZ7c0K
-   KWPoAvtV6M9FfhXzzJE+0NPXgMBrNYKNP7pJc/3G5BXEsTACBuQVXJvza
-   FjWq3QJs3AYuNHtuOkjGleA533x/z9mkki0S7+ANN8cGzW3AfQ+dBjvvW
-   Rctfu7yr8NHh0LTqgN1jspullBFXjg40xsN5o4FwylNBtR03FDP0pAzpp
-   xD12kCCBIQOsf3vtUuc03NT5zrKmDN1o1P3kGPMF4UHiXC7FnwrWaRuQf
-   g==;
-X-CSE-ConnectionGUID: /7B48xpkSvSUlKmcm78oNA==
-X-CSE-MsgGUID: qBnze3sVSHmgkT/sdATakA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30122068"
+  bh=0y210huG3BVWa8mN+H5kHBlQ1+JRmnJ9yWUuiZORSV8=;
+  b=Lp8vuD7JjWZ7u34BoomgeAmPkRD44me2XW1E9T6CxkvoDBpNpfmlnH0x
+   GtTDrJQOpTz2DHIK3Xeq/g+/j5/++0r8u1+5LYB/r/AP9ssGq9jPFEGWQ
+   IDIoqswIzHJaMvonAsuImF8RExhpuyvlVNNthn9qOoTPrsBJO696h+MLx
+   AoIfPL50g7mx4gOqTMaComou1kk83F29mz56NFQ3ZplbbTsMEKIyEvm30
+   WFsyxNv0ZVjZZSVSMaaOUWw4GBc8CjNa+TxWKRrmHC+e92oTNzcTQt523
+   pZOQHQ93hZ5JRxSCmpvCCqX8NOD6u4Jb1UabZFFcGbS2LGRb1LJC2Xi9E
+   Q==;
+X-CSE-ConnectionGUID: Am/ChXgFTpi23G/UA7rKfQ==
+X-CSE-MsgGUID: la1Yph1sQGa3p46fAnAb/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="56090877"
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="30122068"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 05:04:14 -0800
-X-CSE-ConnectionGUID: hemqPnAnQ7OG98L7vnlTgQ==
-X-CSE-MsgGUID: B56wh+b3TouVFngpu8cSJg==
+   d="scan'208";a="56090877"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 05:24:11 -0800
+X-CSE-ConnectionGUID: GVhlw07iQ2i87mj4p38aAw==
+X-CSE-MsgGUID: ZKM6B7rgTHCRiKmnwr4KlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="84078493"
+   d="scan'208";a="84455239"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Nov 2024 05:02:47 -0800
+  by orviesa009.jf.intel.com with ESMTP; 06 Nov 2024 05:24:10 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8fgK-000o7w-2s;
-	Wed, 06 Nov 2024 13:02:44 +0000
-Date: Wed, 6 Nov 2024 21:02:21 +0800
+	id 1t8g11-000ooC-1h;
+	Wed, 06 Nov 2024 13:24:07 +0000
+Date: Wed, 6 Nov 2024 21:23:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
-	sagazchen@tencent.com, kernelxing@tencent.com,
-	aurelianliu@tencent.com, deshengwu@tencent.com,
-	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
-	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:169:60: sparse: sparse:
- non-ANSI function declaration of function
- 'amdgpu_amdkfd_gfx_10_0_get_functions'
-Message-ID: <202411062131.WZjYqvaN-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1225/1225] mm/cma.o: warning: objtool:
+ cma_activate_area()+0x1a9: unreachable instruction
+Message-ID: <202411062106.mPTnywkZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,31 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
-head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
-commit: 6bdadb2072243154e6441bfd789dce1fc941976c [1/1] drm/amdgpu: Add navi10 kfd support for amdgpu (v3)
-config: x86_64-randconfig-123-20241028 (https://download.01.org/0day-ci/archive/20241106/202411062131.WZjYqvaN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411062131.WZjYqvaN-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
+commit: 5f0e34d2aceec67c169be7599d82f0e8519c37f7 [1225/1225] mm/sparsemem: fix 'mem_section' will never be NULL gcc 12 warning
+config: x86_64-buildonly-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241106/202411062106.mPTnywkZ-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411062106.mPTnywkZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411062131.WZjYqvaN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411062106.mPTnywkZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:169:60: sparse: sparse: non-ANSI function declaration of function 'amdgpu_amdkfd_gfx_10_0_get_functions'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:433:17: sparse: sparse: cast removes address space '<asn:1>' of expression
-   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:435:17: sparse: sparse: cast removes address space '<asn:1>' of expression
+All warnings (new ones prefixed by >>):
 
-vim +/amdgpu_amdkfd_gfx_10_0_get_functions +169 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
-
-   168	
- > 169	struct kfd2kgd_calls *amdgpu_amdkfd_gfx_10_0_get_functions()
-   170	{
-   171		return (struct kfd2kgd_calls *)&kfd2kgd;
-   172	}
-   173	
+>> mm/cma.o: warning: objtool: cma_activate_area()+0x1a9: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
