@@ -1,62 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2077A1F4FC2
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 13:04:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A981F8EE0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 13:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730898267; cv=none; b=mmPk0iXgHo2XyS8SeuZPQRqq/A7yFHaFU6GGhGBgmIkUndjHYoas0XUHBq2Xhf1ClmTcwgb3pxP3TGQUKOyil0ZZslWSCoy4MLtpY3QonQm3UWzmHzxaEgwex6tNlmlHMpJUgzgRo6Mxds/D7E0AqZPrndzjL9UfCD9suAO/ang=
+	t=1730898271; cv=none; b=hVUdf9lv2GTT7bRCpGuIILUMchA22YxJOJw6aMKOCwWLn/A9+gnzTxZeZyzYrdZuqnSUid6HOH4yJMerxv0ycssMTidwMs5xXSMzeP0WQLXxhVGgQc9kNXfFas3XhK98RHk/Yi/RrbsbIOXAT24B2ZJd7//YcsvfmgtJjwYg2DA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730898267; c=relaxed/simple;
-	bh=zYGtwBfV0x64QF/tybKaJiAALjjS0RIFDdMh4l262Ho=;
+	s=arc-20240116; t=1730898271; c=relaxed/simple;
+	bh=536n4a0slU6yz/JsUm+aY2O5haEqSbaaPUR8g4vVlrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NUluADb2vR65Cy880u1625OvrdwVOBGx7FbDRUZfBULRJxLlCl+JJV/J/rodnfp3uCVOam5V3QoPstPHazsyvmqs+x4Yq3WP2TGW7h0WZxMjnj3pnpbKbZg7e3Ot8qND7+gebMGskjKJltzvB3alPBygRNIYhschsB4hTBfq/MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kqulIxZY; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=lETRgrry2YtF+u5Q4AtQh4YjWs7ICBskCYFm5qQnHTzIIz+A0Qet0rIoKTzt4vnysYVYS+26pyZtzGssy2pc1BwZyUgrUYbd57iXFpJWvbUVTAMYaZN3RmcrKjQBuj6fAHpbsyMhwZyDkaUs8mlWbSMXZbrdBW0degS1o/20pas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dECtIos2; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kqulIxZY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dECtIos2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730898265; x=1762434265;
+  t=1730898268; x=1762434268;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zYGtwBfV0x64QF/tybKaJiAALjjS0RIFDdMh4l262Ho=;
-  b=kqulIxZY8iJFPIaS89dWdiYwF2+8GDvhv242VjQp70rQkw6JmoKJveCO
-   vZAlCix4dw8IZJyNSd4TKrM6R6Psvm/WXCC0tkfASQ7rrJDZnblBRE7k0
-   6ZJbKmeNAhiNp9UO3AtBdpd4NKTW0Of436bErZoeWiwXVIZtiGlBuLFU2
-   wp9EvPUgvWR58O7Te6bhVUmW2mwZ4F+N+Z3BrdE8BaM4+gogWDYwu4+Yf
-   ipxFRLy8jSJ0kbTQEmnwA79ua/VdFg+X3lsq2J6mx4aJX0pclb1EmA9zt
-   rMrRJgTzCkrsin+sHVpMC66LVdUzkkA2cnBS5XbfQEwv5LOR0wqId31E1
-   A==;
-X-CSE-ConnectionGUID: uOPQN5ezRcibkloBfn4QMw==
-X-CSE-MsgGUID: LKs2B1XkReyn6HbVeGaJ6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30122058"
+  bh=536n4a0slU6yz/JsUm+aY2O5haEqSbaaPUR8g4vVlrs=;
+  b=dECtIos2qT3RmOG7dcUyaNaA7XFopCVHnVVIS4fQemx7jiZtkHcCqJPz
+   A4WHEjgeFlTojT7vHdSvVSMWb9riso7JNQWJOuRgiQCQMv93Yf4oZ7c0K
+   KWPoAvtV6M9FfhXzzJE+0NPXgMBrNYKNP7pJc/3G5BXEsTACBuQVXJvza
+   FjWq3QJs3AYuNHtuOkjGleA533x/z9mkki0S7+ANN8cGzW3AfQ+dBjvvW
+   Rctfu7yr8NHh0LTqgN1jspullBFXjg40xsN5o4FwylNBtR03FDP0pAzpp
+   xD12kCCBIQOsf3vtUuc03NT5zrKmDN1o1P3kGPMF4UHiXC7FnwrWaRuQf
+   g==;
+X-CSE-ConnectionGUID: /7B48xpkSvSUlKmcm78oNA==
+X-CSE-MsgGUID: qBnze3sVSHmgkT/sdATakA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30122068"
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="30122058"
+   d="scan'208";a="30122068"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 05:04:11 -0800
-X-CSE-ConnectionGUID: 1EKWuTk8Q/i0Y4iSjxwe9w==
-X-CSE-MsgGUID: UWyxu7tfSFujPaIwjTgfZQ==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 05:04:14 -0800
+X-CSE-ConnectionGUID: hemqPnAnQ7OG98L7vnlTgQ==
+X-CSE-MsgGUID: B56wh+b3TouVFngpu8cSJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="84076929"
+   d="scan'208";a="84078493"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 06 Nov 2024 05:02:47 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8fgL-000o8W-0Q;
-	Wed, 06 Nov 2024 13:02:45 +0000
-Date: Wed, 6 Nov 2024 21:02:14 +0800
+	id 1t8fgK-000o7w-2s;
+	Wed, 06 Nov 2024 13:02:44 +0000
+Date: Wed, 6 Nov 2024 21:02:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Barry Song <v-songbaohua@oppo.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Nhat Pham <nphamcs@gmail.com>
-Subject: [akpm-mm:mm-unstable 27/106] mm/page_io.c:220:17: error: implicit
- declaration of function 'count_objcg_events'; did you mean
- 'count_objcg_event'?
-Message-ID: <202411062114.V0749sXc-lkp@intel.com>
+To: kaixuxia@tencent.com, frankjpliu@tencent.com, kasong@tencent.com,
+	sagazchen@tencent.com, kernelxing@tencent.com,
+	aurelianliu@tencent.com, deshengwu@tencent.com,
+	flyingpeng@tencent.com, jingqunli@tencent.com, jason.zeng@intel.com,
+	wu.zheng@intel.com, yingbao.jia@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [opencloudos:linux-5.4/lts/5.4.119-20.0009.spr 1/1]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:169:60: sparse: sparse:
+ non-ANSI function declaration of function
+ 'amdgpu_amdkfd_gfx_10_0_get_functions'
+Message-ID: <202411062131.WZjYqvaN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,54 +68,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   7994b7ea6ac880efd0c38fedfbffd5ab8b1b7b2b
-commit: c10966f19a878a66206327ebe3b85500f59f47e2 [27/106] mm: count zeromap read and set for swapout and swapin
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241106/202411062114.V0749sXc-lkp@intel.com/config)
+tree:   https://gitee.com/OpenCloudOS/OpenCloudOS-Kernel.git linux-5.4/lts/5.4.119-20.0009.spr
+head:   56b96e2ee1334c923cb707ff5b18d7cf858a2c46
+commit: 6bdadb2072243154e6441bfd789dce1fc941976c [1/1] drm/amdgpu: Add navi10 kfd support for amdgpu (v3)
+config: x86_64-randconfig-123-20241028 (https://download.01.org/0day-ci/archive/20241106/202411062131.WZjYqvaN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411062114.V0749sXc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411062131.WZjYqvaN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411062114.V0749sXc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411062131.WZjYqvaN-lkp@intel.com/
 
-Note: the akpm-mm/mm-unstable HEAD 7994b7ea6ac880efd0c38fedfbffd5ab8b1b7b2b builds fine.
-      It only hurts bisectability.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:169:60: sparse: sparse: non-ANSI function declaration of function 'amdgpu_amdkfd_gfx_10_0_get_functions'
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:433:17: sparse: sparse: cast removes address space '<asn:1>' of expression
+   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c:435:17: sparse: sparse: cast removes address space '<asn:1>' of expression
 
-All errors (new ones prefixed by >>):
+vim +/amdgpu_amdkfd_gfx_10_0_get_functions +169 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gfx_v10.c
 
-   mm/page_io.c: In function 'swap_zeromap_folio_set':
->> mm/page_io.c:220:17: error: implicit declaration of function 'count_objcg_events'; did you mean 'count_objcg_event'? [-Werror=implicit-function-declaration]
-     220 |                 count_objcg_events(objcg, SWPOUT_ZERO, nr_pages);
-         |                 ^~~~~~~~~~~~~~~~~~
-         |                 count_objcg_event
-   cc1: some warnings being treated as errors
-
-
-vim +220 mm/page_io.c
-
-   204	
-   205	static void swap_zeromap_folio_set(struct folio *folio)
-   206	{
-   207		struct obj_cgroup *objcg = get_obj_cgroup_from_folio(folio);
-   208		struct swap_info_struct *sis = swp_swap_info(folio->swap);
-   209		int nr_pages = folio_nr_pages(folio);
-   210		swp_entry_t entry;
-   211		unsigned int i;
-   212	
-   213		for (i = 0; i < folio_nr_pages(folio); i++) {
-   214			entry = page_swap_entry(folio_page(folio, i));
-   215			set_bit(swp_offset(entry), sis->zeromap);
-   216		}
-   217	
-   218		count_vm_events(SWPOUT_ZERO, nr_pages);
-   219		if (objcg) {
- > 220			count_objcg_events(objcg, SWPOUT_ZERO, nr_pages);
-   221			obj_cgroup_put(objcg);
-   222		}
-   223	}
-   224	
+   168	
+ > 169	struct kfd2kgd_calls *amdgpu_amdkfd_gfx_10_0_get_functions()
+   170	{
+   171		return (struct kfd2kgd_calls *)&kfd2kgd;
+   172	}
+   173	
 
 -- 
 0-DAY CI Kernel Test Service
