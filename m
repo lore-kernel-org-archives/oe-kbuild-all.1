@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55FC3211;
-	Wed,  6 Nov 2024 09:46:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305BB1D358B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 10:08:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730886383; cv=none; b=tbbt/xzbM7iz7ZUYFfdd+6WN2+QfzyhrRPvv97IF+GvV0LiHSVY1D1SYr87KsIgXQEy3IsIdAFL7MG6gTLExRStmozbWTXvnigKXGajZjQiui4p3lX8e/rMtybA7D7TKIG5C+j4/ep1Q/wfCY5/06iA5haZInIjR6zmVU/XTzUU=
+	t=1730887708; cv=none; b=M9GY7u8eiwRZIyAJ+7ElB2L+wgcxtoPSujU+hLUTgYGzi29Ac1XS/OAAgKEQz1so4rjKCfx5C9/SQgxsRoLE2/sIgiGs8SftV+UPkLDhVZnajZ5Ys4pcrXg9tZjiAONYEYuwKTFMgFJBsbp7iXXhoc4jH3EG05Ipdp99QRB+My0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730886383; c=relaxed/simple;
-	bh=b0MvF/Bd/6vMVojtjHo3DTZ1P1e6+dYU3aZJLPSU+Pc=;
+	s=arc-20240116; t=1730887708; c=relaxed/simple;
+	bh=OvWDlr1loUbxSiDcW9b0GU+dwNwbbZnKFoas2+eyajM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=g3YY7o3AzPGL7x8Vjdz8yES7ch9MDDIK1Q6u1EHWB+GSZJLkwpN9x49cevcKda5mg+5VcPB2cZhpaK8qUV+lWRvZl9pyDgGStnuKDM9/dB7lPgB95oJyKnRzI+StHdCVtYEdsY43QqIchY1Ku53Zk/mErPtxwG7F8Cbyhv7Oi24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ia8m7qqi; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=VGFm6qZmte6rl6BtrJPH38rLw+gQ1l9/9NK6nZwF6nfHy0GpNOZCJaSsQRG6IcjFWUOtbE2x0864zDY6BgSJ3wuuQ+oO9pyHIUWGnkuZGjnBtTDo1repdLJQRNxmKGLpaWJCHEWkzfVMv2MnNx2Kyooh65gWO4x6dq+rKOORXSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wEBDCOtS; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ia8m7qqi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730886382; x=1762422382;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=b0MvF/Bd/6vMVojtjHo3DTZ1P1e6+dYU3aZJLPSU+Pc=;
-  b=Ia8m7qqiHVg7FT4o6eghjDIcMaRMQMsyk62SkByTaz2i10dV+Tt9k3mw
-   vVzWnaGEaP/T1WK1yw/Fax5n7Ca3dKRQXyVed61EQB1greqwm94osM8/W
-   Hs513O48+vczxo+0wPOZQwvKQY6BdexQoVH8hLimpUMNeY82Ku95z3Z2F
-   5hSUukYLwt5DSi7qsuEGBuCoqfNKwxSdGZ+Zz606HSJeg8zJaoo09P3TZ
-   JW/odzy+MGlys4u59FVYSq1sGHdgu2g8KZ0GLU58OXSD/JM7w7zDwKIOY
-   XT6XJ9KgvD5RrfwxZCzaIyxlAlsXlQXAnM8n4/ZzE+g0mQy7XsZLEZLyj
-   g==;
-X-CSE-ConnectionGUID: 5y+/4OjQQaC5HQYKzU5VgQ==
-X-CSE-MsgGUID: +MeFRSYtTqO647kTvLDMrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34371285"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34371285"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 01:46:21 -0800
-X-CSE-ConnectionGUID: EGw32GqRR2aZnmVCrH1XzA==
-X-CSE-MsgGUID: sSkIVPAiRkmyCxOW6u+F1Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="115229086"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2024 01:46:20 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8ccD-000n9W-1q;
-	Wed, 06 Nov 2024 09:46:17 +0000
-Date: Wed, 6 Nov 2024 17:45:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vadim Fedorenko <vadfed@meta.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Paolo Abeni <pabeni@redhat.com>
-Subject: [linux-next:master 2823/9686] ld.lld: error: undefined symbol:
- ptp_schedule_worker
-Message-ID: <202411061759.pllJz18k-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wEBDCOtS"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4314f38d274so76110825e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 06 Nov 2024 02:08:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730887704; x=1731492504; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UkWWfAyBu3WW0g4TCmz8PRrfoftzcKWnN0PBwY8HE8c=;
+        b=wEBDCOtSrN51VMhxXui6O73LCB88s/WTc++RcJKiuZ6JtmuDma6CutZzX6cm29YJig
+         5hM/JNVYBA0WsHZqpiz9b+AFPkDoPM02e8kqFHDXc7v6sk9qv/1cdgKOPBUT3t8JHB2W
+         wK7zDeX0UUt+lmonj6B9r5xl6LiaaiAgva+1WTfPnmxdtLGjX4Q9i0RHEY0532hiKwxG
+         wsykojmUldvjuHIQ1EvWYJiLyIJ3FcEkT3AJSWouWdlEV4LAUnNJoa+44eR14hpSxaXU
+         973EiWU9zNRcCkXuf/in8nmJ/bN0t/3440uCHM521thCYrdCyYbLAKYvkLvQ1Gh00AQr
+         l5rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730887704; x=1731492504;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UkWWfAyBu3WW0g4TCmz8PRrfoftzcKWnN0PBwY8HE8c=;
+        b=h7nOgBUUdauc0oB0XQFYKv8AaBJXrIgllb+sXbAz7QJxu4gQyJG7l64Tdkhll5wfMB
+         xZ/gOYe3k0R48bXRsfAJoq6PtRVyKa4TICFulmQE/f90SZurk8V0HnTp3SEwJAwv/eCR
+         EXewdU2ll8pHLS6Mcn1BosTZYQardrFva+m47QYsZr3Uc3r35960E2WLAcwQen/up2Um
+         gud+oyAn7MPUyIEij9fHII5P/Enf1/mcDsHw6raLcVY49GIcJqmYjp1QuaueTvbB3FwX
+         gu6Nj5DlipOnqwDBqPiBoHBjqsLvDvo9yx6jz5E1nB67wUB4D8CD4FDWi6PJc7whEx81
+         g3iA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSgiq6hNH1EyyfMu4MAPYrcxNcrax/DmYAFYDNRKp4b1qGg6eyokCxxIDB5mkmBmt2/Rh/Y1IBA85lmWYc@lists.linux.dev
+X-Gm-Message-State: AOJu0YzHGMgwuTWh93E4Ds3XA+uPxm9dF2EE0+LOAA0J+Pafk4+nmIQ4
+	d8jonOGfl61vvKfjlNatDm2UnybL9KCP45yfLcjbt+hJEX5cSP5blDQSNSPezYw=
+X-Google-Smtp-Source: AGHT+IHN/LNrUX8sCqZtT8Y/oHbW/YMr6KBY5meERslZsoGedrt7WohxSJqCZWJF+J3Idui5l0+S2w==
+X-Received: by 2002:a7b:c5cc:0:b0:431:5c7b:e939 with SMTP id 5b1f17b1804b1-43283255a38mr212705585e9.18.1730887703823;
+        Wed, 06 Nov 2024 02:08:23 -0800 (PST)
+Received: from localhost ([89.101.134.25])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432aa6bd6c6sm16622835e9.18.2024.11.06.02.08.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2024 02:08:23 -0800 (PST)
+Date: Wed, 6 Nov 2024 13:08:20 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Vlastimil Babka <vbabka@suse.cz>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:b4/slub-percpu-sheaves 8/9] mm/slub.c:4932
+ kmem_cache_prefill_sheaf() warn: returning freed memory 'sheaf'
+Message-ID: <6b4bd53f-92c0-4cac-9b7c-90cd544609c4@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,45 +66,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   5b913f5d7d7fe0f567dea8605f21da6eaa1735fb
-commit: ad8e66a4d963ce3936eb6dc92c3be41ee92f3350 [2823/9686] eth: fbnic: add initial PHC support
-config: x86_64-buildonly-randconfig-006-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061759.pllJz18k-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slub-percpu-sheaves
+head:   c2ef14761b7d660275c07a6f6c53db215045bcfc
+commit: 7b79b3645d1e8aa28c52bcf891b8d3d59eb2bf1e [8/9] mm, slub: sheaf prefilling
+config: i386-randconfig-141-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061426.Ztzp9ABZ-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061759.pllJz18k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061759.pllJz18k-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411061426.Ztzp9ABZ-lkp@intel.com/
 
-Note: the linux-next/master HEAD 5b913f5d7d7fe0f567dea8605f21da6eaa1735fb builds fine.
-      It may have been fixed somewhere.
+smatch warnings:
+mm/slub.c:4932 kmem_cache_prefill_sheaf() warn: returning freed memory 'sheaf'
 
-All errors (new ones prefixed by >>):
+vim +/sheaf +4932 mm/slub.c
 
->> ld.lld: error: undefined symbol: ptp_schedule_worker
-   >>> referenced by fbnic_time.c
-   >>>               drivers/net/ethernet/meta/fbnic/fbnic_time.o:(fbnic_time_start) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: ptp_cancel_worker_sync
-   >>> referenced by fbnic_time.c
-   >>>               drivers/net/ethernet/meta/fbnic/fbnic_time.o:(fbnic_time_stop) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: ptp_clock_register
-   >>> referenced by fbnic_time.c
-   >>>               drivers/net/ethernet/meta/fbnic/fbnic_time.o:(fbnic_ptp_setup) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: ptp_clock_unregister
-   >>> referenced by fbnic_time.c
-   >>>               drivers/net/ethernet/meta/fbnic/fbnic_time.o:(fbnic_ptp_destroy) in archive vmlinux.a
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4900  struct slab_sheaf *
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4901  kmem_cache_prefill_sheaf(struct kmem_cache *s, gfp_t gfp, unsigned int count)
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4902  {
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4903  	struct slub_percpu_sheaves *pcs;
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4904  	struct slab_sheaf *sheaf = NULL;
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4905  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4906  	//TODO: handle via oversize sheaf
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4907  	if (count > s->sheaf_capacity)
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4908  		return NULL;
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4909  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4910  	pcs = cpu_sheaves_lock(s->cpu_sheaves);
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4911  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4912  	if (pcs->spare && pcs->spare->size > 0) {
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4913  		sheaf = pcs->spare;
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4914  		pcs->spare = NULL;
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4915  	}
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4916  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4917  	if (!sheaf)
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4918  		sheaf = barn_get_full_or_empty_sheaf(pcs->barn);
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4919  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4920  	cpu_sheaves_unlock(s->cpu_sheaves);
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4921  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4922  	if (!sheaf)
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4923  		sheaf = alloc_empty_sheaf(s, gfp);
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4924  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4925  	if (sheaf && sheaf->size < count) {
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4926  		if (refill_sheaf(s, sheaf, gfp)) {
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4927  			sheaf_flush(s, sheaf);
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4928  			free_empty_sheaf(s, sheaf);
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+sheaf = NULL?
+
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4929  		}
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4930  	}
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4931  
+7b79b3645d1e8a Vlastimil Babka   2024-11-05 @4932  	return sheaf;
+7b79b3645d1e8a Vlastimil Babka   2024-11-05  4933  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
