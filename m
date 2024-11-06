@@ -1,72 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BE7171C9;
-	Wed,  6 Nov 2024 12:32:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2077A1F4FC2
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 13:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730896376; cv=none; b=d3r4gBuzF1LZruwc8NsX2hfsDVIAKjGJggiCbwgPOZrB9WCKoRFnW7V2QtNDnGmRs2cQ5DyUlU0rxEm3vL5vw+SCJ9wpsMSpjHGWR5dIFwHc1HPtN+k6vNDFhvFMnk2sO9aR3M477XVXn1shDHJewUSbjb7yZ0hM3of/MNckT/E=
+	t=1730898267; cv=none; b=mmPk0iXgHo2XyS8SeuZPQRqq/A7yFHaFU6GGhGBgmIkUndjHYoas0XUHBq2Xhf1ClmTcwgb3pxP3TGQUKOyil0ZZslWSCoy4MLtpY3QonQm3UWzmHzxaEgwex6tNlmlHMpJUgzgRo6Mxds/D7E0AqZPrndzjL9UfCD9suAO/ang=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730896376; c=relaxed/simple;
-	bh=pAaxQ9Gjz6nuJzTKxrooqmYKq2ChzragGuK0hhgnAHs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NiM4958EezLARlLduonGNaNBh+ReZvvMHFSE1F/ivoRcRQpvOgnB+z85G7GKNccnGfoFNi0g/3RVkvS6fBMtbEYi9JRzVuTcDD3jYMbjpP4HBQki+xeAmV25Me51TFLdpj9g9NhhOOHwhiDyWa/PbEY6tD2KL1v+9KypjutwgkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7ksSaeb; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1730898267; c=relaxed/simple;
+	bh=zYGtwBfV0x64QF/tybKaJiAALjjS0RIFDdMh4l262Ho=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NUluADb2vR65Cy880u1625OvrdwVOBGx7FbDRUZfBULRJxLlCl+JJV/J/rodnfp3uCVOam5V3QoPstPHazsyvmqs+x4Yq3WP2TGW7h0WZxMjnj3pnpbKbZg7e3Ot8qND7+gebMGskjKJltzvB3alPBygRNIYhschsB4hTBfq/MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kqulIxZY; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7ksSaeb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kqulIxZY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730896375; x=1762432375;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pAaxQ9Gjz6nuJzTKxrooqmYKq2ChzragGuK0hhgnAHs=;
-  b=j7ksSaebWgX3MiCldODAM+8bM9EMsCy3R3XWhZqQspIL4TApE45d48TD
-   WUcnIx9NXIBWZOKMJo4THl9Y8kzdI4VT+pMW/pn9pEK2eOOxOi9ScjY7z
-   dA2QuZhcjR9MP9fPZ0RP/9sbqB5vjojmIi7AQZ9U/WUllswh8Twt/CqIV
-   faPbY0ds1sD2L9n+a5TuOjxwZXt4/m5y25zs6vaEF/AHjNw1IvpEv2idm
-   2gTXoAObQaM0lxrJ5UUVoL8LlTgrdUyE+CeKimH0gftxogeylKFaS1vQa
-   3tAObnG/yloKR/IHTzAchmwC8a9bzHVLY279w1Eh6OmQmO721qerM6i6N
-   w==;
-X-CSE-ConnectionGUID: +ygHOyrORr2XRJD1nwQxAA==
-X-CSE-MsgGUID: mK6qxoAgScqK7EH5uASfKQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30796866"
+  t=1730898265; x=1762434265;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zYGtwBfV0x64QF/tybKaJiAALjjS0RIFDdMh4l262Ho=;
+  b=kqulIxZY8iJFPIaS89dWdiYwF2+8GDvhv242VjQp70rQkw6JmoKJveCO
+   vZAlCix4dw8IZJyNSd4TKrM6R6Psvm/WXCC0tkfASQ7rrJDZnblBRE7k0
+   6ZJbKmeNAhiNp9UO3AtBdpd4NKTW0Of436bErZoeWiwXVIZtiGlBuLFU2
+   wp9EvPUgvWR58O7Te6bhVUmW2mwZ4F+N+Z3BrdE8BaM4+gogWDYwu4+Yf
+   ipxFRLy8jSJ0kbTQEmnwA79ua/VdFg+X3lsq2J6mx4aJX0pclb1EmA9zt
+   rMrRJgTzCkrsin+sHVpMC66LVdUzkkA2cnBS5XbfQEwv5LOR0wqId31E1
+   A==;
+X-CSE-ConnectionGUID: uOPQN5ezRcibkloBfn4QMw==
+X-CSE-MsgGUID: LKs2B1XkReyn6HbVeGaJ6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30122058"
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="30796866"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 04:32:54 -0800
-X-CSE-ConnectionGUID: K2WuBYXxT2Oz0PvRjM0onQ==
-X-CSE-MsgGUID: OehlV23PTxyEfmktAHBvXg==
+   d="scan'208";a="30122058"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 05:04:11 -0800
+X-CSE-ConnectionGUID: 1EKWuTk8Q/i0Y4iSjxwe9w==
+X-CSE-MsgGUID: UWyxu7tfSFujPaIwjTgfZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="122042036"
+   d="scan'208";a="84076929"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 06 Nov 2024 04:31:34 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 06 Nov 2024 05:02:47 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8fC7-000neY-2J;
-	Wed, 06 Nov 2024 12:31:31 +0000
-Date: Wed, 6 Nov 2024 20:30:54 +0800
+	id 1t8fgL-000o8W-0Q;
+	Wed, 06 Nov 2024 13:02:45 +0000
+Date: Wed, 6 Nov 2024 21:02:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eason Yang <j2anfernee@gmail.com>, avifishman70@gmail.com,
-	tmaimon77@gmail.com, tali.perry1@gmail.com, venture@google.com,
-	yuenn@google.com, benjaminfair@google.com, jic23@kernel.org,
-	lars@metafoo.de, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, nuno.sa@analog.com, dlechner@baylibre.com,
-	javier.carrasco.cruz@gmail.com, andy@kernel.org,
-	marcelo.schmitt@analog.com, olivier.moysan@foss.st.com,
-	mitrutzceclan@gmail.com, matteomartelli3@gmail.com,
-	alisadariana@gmail.com, joao.goncalves@toradex.com,
-	marius.cristea@microchip.com, mike.looijmans@topic.nl,
-	chanh@os.amperecomputing.com, KWLIU@nuvoton.com,
-	yhyang2@nuvoton.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	openbmc@lists.ozlabs.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 2/2] iio: adc: add Nuvoton NCT720x ADC driver
-Message-ID: <202411062051.TLRkJSSL-lkp@intel.com>
-References: <20241106023916.440767-3-j2anfernee@gmail.com>
+To: Barry Song <v-songbaohua@oppo.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Nhat Pham <nphamcs@gmail.com>
+Subject: [akpm-mm:mm-unstable 27/106] mm/page_io.c:220:17: error: implicit
+ declaration of function 'count_objcg_events'; did you mean
+ 'count_objcg_event'?
+Message-ID: <202411062114.V0749sXc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,126 +65,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106023916.440767-3-j2anfernee@gmail.com>
 
-Hi Eason,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc6 next-20241106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eason-Yang/dt-bindings-iio-adc-Add-binding-for-Nuvoton-NCT720x-ADCs/20241106-104046
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241106023916.440767-3-j2anfernee%40gmail.com
-patch subject: [PATCH v1 2/2] iio: adc: add Nuvoton NCT720x ADC driver
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241106/202411062051.TLRkJSSL-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411062051.TLRkJSSL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
+head:   7994b7ea6ac880efd0c38fedfbffd5ab8b1b7b2b
+commit: c10966f19a878a66206327ebe3b85500f59f47e2 [27/106] mm: count zeromap read and set for swapout and swapin
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241106/202411062114.V0749sXc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411062114.V0749sXc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411062051.TLRkJSSL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411062114.V0749sXc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the akpm-mm/mm-unstable HEAD 7994b7ea6ac880efd0c38fedfbffd5ab8b1b7b2b builds fine.
+      It only hurts bisectability.
 
-   In file included from drivers/iio/adc/nct720x.c:9:
-   In file included from include/linux/device.h:32:
-   In file included from include/linux/device/driver.h:21:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iio/adc/nct720x.c:526:16: warning: cast to smaller integer type 'enum nct720x_chips' from 'const void *' [-Wvoid-pointer-to-enum-cast]
-     526 |                 chip->type = (enum nct720x_chips)device_get_match_data(&client->dev);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
+All errors (new ones prefixed by >>):
+
+   mm/page_io.c: In function 'swap_zeromap_folio_set':
+>> mm/page_io.c:220:17: error: implicit declaration of function 'count_objcg_events'; did you mean 'count_objcg_event'? [-Werror=implicit-function-declaration]
+     220 |                 count_objcg_events(objcg, SWPOUT_ZERO, nr_pages);
+         |                 ^~~~~~~~~~~~~~~~~~
+         |                 count_objcg_event
+   cc1: some warnings being treated as errors
 
 
-vim +526 drivers/iio/adc/nct720x.c
+vim +220 mm/page_io.c
 
-   511	
-   512	static int nct720x_probe(struct i2c_client *client)
-   513	{
-   514		const struct i2c_device_id *id = i2c_client_get_device_id(client);
-   515		struct nct720x_chip_info *chip;
-   516		struct iio_dev *indio_dev;
-   517		int ret;
-   518		u32 tmp;
-   519	
-   520		indio_dev = devm_iio_device_alloc(&client->dev, sizeof(*chip));
-   521		if (!indio_dev)
-   522			return -ENOMEM;
-   523		chip = iio_priv(indio_dev);
-   524	
-   525		if (client->dev.of_node)
- > 526			chip->type = (enum nct720x_chips)device_get_match_data(&client->dev);
-   527		else
-   528			chip->type = i2c_match_id(nct720x_id, client)->driver_data;
-   529	
-   530		chip->vin_max = (chip->type == nct7201) ? NCT7201_VIN_MAX : NCT7202_VIN_MAX;
-   531	
-   532		ret = of_property_read_u32(client->dev.of_node, "read-vin-data-size", &tmp);
-   533		if (ret < 0) {
-   534			pr_err("read-vin-data-size property not found\n");
-   535			return ret;
-   536		}
-   537	
-   538		if (tmp == 8) {
-   539			chip->use_read_byte_vin = true;
-   540		} else if (tmp == 16) {
-   541			chip->use_read_byte_vin = false;
-   542		} else {
-   543			pr_err("invalid read-vin-data-size (%d)\n", tmp);
-   544			return -EINVAL;
-   545		}
-   546	
-   547		mutex_init(&chip->access_lock);
-   548	
-   549		/* this is only used for device removal purposes */
-   550		i2c_set_clientdata(client, indio_dev);
-   551	
-   552		chip->client = client;
-   553	
-   554		ret = nct720x_init_chip(chip);
-   555		if (ret < 0)
-   556			return ret;
-   557	
-   558		indio_dev->name = id->name;
-   559		indio_dev->channels = nct720x_channels;
-   560		indio_dev->num_channels = ARRAY_SIZE(nct720x_channels);
-   561		indio_dev->info = &nct720x_info;
-   562		indio_dev->modes = INDIO_DIRECT_MODE;
-   563	
-   564		iio_device_register(indio_dev);
-   565	
-   566		return 0;
-   567	}
-   568	
+   204	
+   205	static void swap_zeromap_folio_set(struct folio *folio)
+   206	{
+   207		struct obj_cgroup *objcg = get_obj_cgroup_from_folio(folio);
+   208		struct swap_info_struct *sis = swp_swap_info(folio->swap);
+   209		int nr_pages = folio_nr_pages(folio);
+   210		swp_entry_t entry;
+   211		unsigned int i;
+   212	
+   213		for (i = 0; i < folio_nr_pages(folio); i++) {
+   214			entry = page_swap_entry(folio_page(folio, i));
+   215			set_bit(swp_offset(entry), sis->zeromap);
+   216		}
+   217	
+   218		count_vm_events(SWPOUT_ZERO, nr_pages);
+   219		if (objcg) {
+ > 220			count_objcg_events(objcg, SWPOUT_ZERO, nr_pages);
+   221			obj_cgroup_put(objcg);
+   222		}
+   223	}
+   224	
 
 -- 
 0-DAY CI Kernel Test Service
