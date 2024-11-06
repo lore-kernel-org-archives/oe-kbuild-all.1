@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C686764D;
-	Wed,  6 Nov 2024 03:19:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A754C19047F
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 03:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730863149; cv=none; b=GX0gqgJT6+mLcab7bguMJc1VVXrrqed4k9Yj9BBAKMJGHxz/N28L6KpF15JisakB5osS3eeS2S4A4swDenQ5PHBt17AShO1+RzIzzh723sAvIzPz/LBz3FUuuF6yOayIh0ekmEsg1lFw09Tt/q4x27TVQe0/MAdEdW3a7M38Fos=
+	t=1730863750; cv=none; b=Z4BGKBYMqAJW/bjByCxzWze4YQfbHFmwYjdCHWtBcOhD8Cn7P56BxRO1AeUeDGTpjKVAMYp0AJvvXFgRf9ROS79rH01X75RTjUtvu19oF6pY9MHoHOO/6QSoscwj8cLNbdaD1t6jthkdt7psOWThU5qt7/kT24faImruTBfN6GA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730863149; c=relaxed/simple;
-	bh=o8aQslghnk2+z70tsW+2DklDn7CG8sbivh6qhEJ0ZDw=;
+	s=arc-20240116; t=1730863750; c=relaxed/simple;
+	bh=qC1wnd1WwW47fQVNwxJjJihB3ApMLG2UMI1x7ljhGu8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FliyTWLQwtVQHI3qbfnGZP2slvV7NqJwkrqp8Wl11PWCrRYO6lET7SlvLpGrnSeGhzPdgRVhuRk7GSLWh0tutve5fpxFW+EAwGXtvpdlcwDSWXUcFF+7oXuAiOXSlHo6skDzxyywea8RZky3KpHotpMUpX4HTBI8BDAnsdcB2k4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKFrk0Tw; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=RXQy2xiDYAwKQgwwLZRXKRFZqXlAyo0pG3GXpDY6Ss+Mr5bQvt5X5TVXoFI0wNx3VnJjo/3r0Z85SCJGMGJ0b5b3xv6/QHiYA2G8wPA7lkH0iaFamjuWwQslAKhTO2+VzkT1zMzo1bRkV1HcfAl2dq/qv4iNgkX1i98JRJnrbN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XjLkZ2Aj; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKFrk0Tw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XjLkZ2Aj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730863147; x=1762399147;
+  t=1730863749; x=1762399749;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=o8aQslghnk2+z70tsW+2DklDn7CG8sbivh6qhEJ0ZDw=;
-  b=iKFrk0TwIVGBVt3HxtOjHyojIfP2bcgm8pVao+89GIoa9749AAHbBYyr
-   r9GZlKr0mxJ2UoGIL6ZNqZVHYdAOYX94ZagfZxu4rCdZNrgAq+oIrqSHg
-   I7uQf2Lz83hVASmgbAOoFRd4M8OFJGAuLAdhg08HceLxXih5PlzvwAosL
-   aR7pCg1epAdU17Z+aCKAlvqWgc6IvxenUpNQBpzYlrphp81+bIu7omhMr
-   dZ0MbQFimXCI4Xp3jpFqdw4mWy+WkL5E8g1H2Ibpy036NkZlGgfz710Mz
-   Yn0Ggi8wv0FWGt+iDElTyKYN29MEKnYcjFMYMS1JciJYOYTxImKhRZbGZ
-   w==;
-X-CSE-ConnectionGUID: wtBflMw+RZ2DsSODeHfrvA==
-X-CSE-MsgGUID: v8ZGg4gfSme4paemXnOF1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30759608"
+  bh=qC1wnd1WwW47fQVNwxJjJihB3ApMLG2UMI1x7ljhGu8=;
+  b=XjLkZ2Aj4cE77oDzieTyMXIV9Ae6bCYba8w9OZPJw3p5yyxkhSUNIC2f
+   pCZo5eZgFegHN8awXzQMWUSM15yFGcH4HI9BbfnmZ1GZhs6Zi64mwYY0h
+   KHixMcLKwDpOOKbQuWJ7E9ilto+BMmOI5ubXXKbhgFRMTQl5StsVBbOdg
+   K4YwqzGuLWHs2Lu1VnUy7LOzLSTjZ/JgVfUze49bt0iMH7Mpnpsz2czR4
+   e55qIwpeRW+DrmSb+F9XBEgYOUILVCYf2DJD7kWfJcRaMzzxxtQPjFeuA
+   YeElh/jQR7oMZhQrr9FB4tmKAFh63KVw+L7UW4ThsRW2ybIxKZ9N8AsCQ
+   Q==;
+X-CSE-ConnectionGUID: rdWEPZE8RzSMNm/71U7ZiQ==
+X-CSE-MsgGUID: y9IynNdxQAOohTVOiWZj7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41269998"
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="30759608"
+   d="scan'208";a="41269998"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 19:19:06 -0800
-X-CSE-ConnectionGUID: C3b9hammQ5K62oSusumzvA==
-X-CSE-MsgGUID: xp94QqJRThKSfiZb/sjasA==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 19:29:08 -0800
+X-CSE-ConnectionGUID: o4ttEnRoTteCZ5MHOpisWQ==
+X-CSE-MsgGUID: 0P0Yqix6TiK6L7VzCX4pjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="84692741"
+   d="scan'208";a="84694585"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2024 19:19:04 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2024 19:29:04 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8WZR-000msn-04;
-	Wed, 06 Nov 2024 03:19:01 +0000
-Date: Wed, 6 Nov 2024 11:18:44 +0800
+	id 1t8Wj7-000mtG-0t;
+	Wed, 06 Nov 2024 03:29:01 +0000
+Date: Wed, 6 Nov 2024 11:29:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marex@denx.de>, linux-hwmon@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (pwm-fan) Introduce start from dead stop
- handling
-Message-ID: <202411061031.GHHHxm19-lkp@intel.com>
-References: <20241105135259.101126-2-marex@denx.de>
+To: Philo Lu <lulie@linux.alibaba.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, willemdebruijn.kernel@gmail.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, dsahern@kernel.org, horms@kernel.org,
+	antony.antony@secunet.com, steffen.klassert@secunet.com,
+	linux-kernel@vger.kernel.org, dust.li@linux.alibaba.com,
+	jakub@cloudflare.com, fred.cc@alibaba-inc.com,
+	yubing.qiuyubing@alibaba-inc.com
+Subject: Re: [PATCH v7 net-next 4/4] ipv6/udp: Add 4-tuple hash for connected
+ socket
+Message-ID: <202411061155.g9trZ6rZ-lkp@intel.com>
+References: <20241105121225.12513-5-lulie@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,34 +69,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105135259.101126-2-marex@denx.de>
+In-Reply-To: <20241105121225.12513-5-lulie@linux.alibaba.com>
 
-Hi Marek,
+Hi Philo,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.12-rc6 next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/hwmon-pwm-fan-Introduce-start-from-dead-stop-handling/20241105-215454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20241105135259.101126-2-marex%40denx.de
-patch subject: [PATCH 2/2] hwmon: (pwm-fan) Introduce start from dead stop handling
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20241106/202411061031.GHHHxm19-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061031.GHHHxm19-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Philo-Lu/net-udp-Add-a-new-struct-for-hash2-slot/20241105-201454
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241105121225.12513-5-lulie%40linux.alibaba.com
+patch subject: [PATCH v7 net-next 4/4] ipv6/udp: Add 4-tuple hash for connected socket
+config: arc-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061155.g9trZ6rZ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061155.g9trZ6rZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061031.GHHHxm19-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411061155.g9trZ6rZ-lkp@intel.com/
 
 All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> ERROR: modpost: "__aeabi_uldivmod" [drivers/hwmon/pwm-fan.ko] undefined!
+>> ERROR: modpost: "udp_lib_hash4" [net/ipv6/ipv6.ko] undefined!
+>> ERROR: modpost: "udp_ehashfn" [net/ipv6/ipv6.ko] undefined!
+>> ERROR: modpost: "udp4_hash4" [net/ipv6/ipv6.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
