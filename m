@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4959F20C473
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 21:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2716C209668
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 21:12:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730927524; cv=none; b=mtkMY8JHIC+lRIQzyXe+xoAX/HQNRha+wM5XPcBB+2eWfmuOc2E/yrjxJJHay+0Ztb8hiP6qDYWCyeUmrtxfiX98GovEtIO572fMSueY7FFMwmRIMJDp4dDKaGYdOkJVuQXCPFjYeTl5sQWkiYVYtGMwn1zuhAvJPJP45gjLs5g=
+	t=1730927559; cv=none; b=dNTJtjj/b76k/UYkgIvF1zGeLq6zFGtr9H0uVrfIFGg5mZqRMh27ddhjOZZhT/YhOW1pAHIyu7txwKzBf4NzVNqQDC60vY43MNb37tAlRP16ApLIT5q71OeS25Z8czKBDnaBAE9aHckqmOs1uGSzZbQiFgJhsZ5nChy33/GoIuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730927524; c=relaxed/simple;
-	bh=zrZe+fid+09uUIx8uhiwUTZMog/OC/hedzszsms8RNM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YmJgMwIyAecEXLIXHSsIZwiaFJ3QFOKsw22H6Bpy+3Lv0I/vHICZ5XnhDUccXyJW+NjXHHPhmDSlbvF5X9IVoEkKxWnv2D0ILBRIvVBgHX5e1Djvb4wzci/h2B6xSXvhnhLOe923O4RBtBuuhUT8beu0Ay6FhOm3DN/phgj4Acw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcB9DYIK; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1730927559; c=relaxed/simple;
+	bh=49CPRwpfEabvpoWyYJlCSgemc7WVgWusT7Umz6RYQmQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mjHHBTfAbb5lWFjW5pm7MovKt7G+G+Be4PIu/josXKixlYRVefdWplDiIf7phk/du5L+9lZpLu+dPtbnF9bIc3XSi1so9swMCl6KEGrzAgC8kxEOHGltIwtJcYshiJezPHDBf3UHuLajsiqi6QRvzOmvpd3NLrP3Axi0xxYgiuU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CFXVPDno; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcB9DYIK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFXVPDno"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730927524; x=1762463524;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zrZe+fid+09uUIx8uhiwUTZMog/OC/hedzszsms8RNM=;
-  b=XcB9DYIKAyuZ9r2RqnoGIRxj1dQc5tYn+oDIUGhUPILDj76NhK+n15fQ
-   GscdiBZ5QtKmypXtq+GxpJQV5QMEussbGAut7NpI2SghSzt7+96b64n4g
-   3uH0vx6p3F4uSnjGky5rhaN+EWbqC0hpzMuxqRuj2ekOBl/1gqPVswrIC
-   y/WDbS96/dlKqHNj8OveZY3vehsuXGalUOUbYY6CdKWTsGKwpJexo/sTr
-   iUaLE5Nixuh4EC02S1OZo7PblwOHpXJrNDQfPH0m07YKmCmVeafUCDrEX
-   wOv63pINiipoZ+O3KaGAvwq3EUdnImTgoGIER4Rpnl2aI5q/IYmTnxx1V
-   A==;
-X-CSE-ConnectionGUID: q/rjWr6OQNWhD1WIsyeRmw==
-X-CSE-MsgGUID: u3vqtxq3TCy8Ql1lSWqjvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="33588538"
+  t=1730927558; x=1762463558;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=49CPRwpfEabvpoWyYJlCSgemc7WVgWusT7Umz6RYQmQ=;
+  b=CFXVPDnolccqq+wiO6vkWREB/wq8yg7HydLFfx8ztqpO0DYMEK7L+a51
+   ZhmMm+DcMnUuUInpQOxGZQ81GRlU+G4NV3T2wZPE33Kvh4ctBIJAIw/E0
+   d1F/lCNpcFxbVSf4q0u5S+dneG6xXJPVwnknjTjCrvenTrSBkyUHMR2Wo
+   XDZbXDSOs7rNO29gSG7ZHARMt0Vw393RconKuM7n1STJaOmMuy6Rb6Jyj
+   6D2Y6M0Rvgp8kXwyDSLlsUzxqKrnKZKKgCQPXsUkaMnGqsnUVeCxvmfBh
+   cLUd2jID8F/+GIVAULLh0DHchcGj2ctoQ0dNjAZIT1ZDrkwo/JHoP3zEv
+   g==;
+X-CSE-ConnectionGUID: mgGoj/ecSqissEDa3DvXAQ==
+X-CSE-MsgGUID: W4PPVchgRz2gR2s+BSf7GQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30851630"
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="33588538"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 13:12:03 -0800
-X-CSE-ConnectionGUID: eoL8m8VYSUWZwLMM2UAn4Q==
-X-CSE-MsgGUID: IjKBEYDHQBO/Utx6NyVuPw==
+   d="scan'208";a="30851630"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 13:12:38 -0800
+X-CSE-ConnectionGUID: 4SrOcXWcRea9CXwo9ugeMw==
+X-CSE-MsgGUID: gvD9PBIKRxeTq6+PRfTQaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="84925348"
+   d="scan'208";a="89353069"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Nov 2024 13:11:36 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2024 13:12:37 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8nJO-000pQo-29;
-	Wed, 06 Nov 2024 21:11:34 +0000
-Date: Thu, 7 Nov 2024 05:11:30 +0800
+	id 1t8nKM-000pQw-2E;
+	Wed, 06 Nov 2024 21:12:34 +0000
+Date: Thu, 7 Nov 2024 05:11:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexis Cezar Torreno <alexisczezar.torreno@analog.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Radu Sabau <radu.sabau@analog.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexis Cezar Torreno <alexisczezar.torreno@analog.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): Support adp1051 and adp1055
-Message-ID: <202411070427.lkz6nVFX-lkp@intel.com>
-References: <20241106090311.17536-3-alexisczezar.torreno@analog.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/5] drivers/dma-buf/dma-buf.c:345:
+ warning: Function parameter or struct member 'name' not described in
+ 'dma_buf_set_name'
+Message-ID: <202411070525.fxJENtOy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,46 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106090311.17536-3-alexisczezar.torreno@analog.com>
 
-Hi Alexis,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on aa8cbc0898902070f1ad093a6e036cf57f0d47bc]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexis-Cezar-Torreno/dt-bindings-hwmon-pmbus-adp1050-Support-adp1051-and-adp1055-add-bindings/20241106-170853
-base:   aa8cbc0898902070f1ad093a6e036cf57f0d47bc
-patch link:    https://lore.kernel.org/r/20241106090311.17536-3-alexisczezar.torreno%40analog.com
-patch subject: [PATCH 2/2] hwmon: (pmbus/adp1050): Support adp1051 and adp1055
-config: x86_64-randconfig-r123-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070427.lkz6nVFX-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   07be6b4d90ac00c60a3343b76eb2fb5aabfdabc4
+commit: 88a96b0b27bcdda732e9d4e9d35cefad8ea7ffd9 [1/5] ANDROID: dma-buf: support users to change dma_buf.name
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241107/202411070525.fxJENtOy-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070427.lkz6nVFX-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070525.fxJENtOy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070427.lkz6nVFX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070525.fxJENtOy-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hwmon/pmbus/adp1050.c:59:39: sparse: sparse: incorrect type in argument 2 (different modifiers) @@     expected struct pmbus_driver_info *info @@     got struct pmbus_driver_info const *[assigned] info @@
-   drivers/hwmon/pmbus/adp1050.c:59:39: sparse:     expected struct pmbus_driver_info *info
-   drivers/hwmon/pmbus/adp1050.c:59:39: sparse:     got struct pmbus_driver_info const *[assigned] info
+All warnings (new ones prefixed by >>):
 
-vim +59 drivers/hwmon/pmbus/adp1050.c
+>> drivers/dma-buf/dma-buf.c:345: warning: Function parameter or struct member 'name' not described in 'dma_buf_set_name'
+   drivers/dma-buf/dma-buf.c:345: warning: Excess function parameter 'buf' description in 'dma_buf_set_name'
 
-    50	
-    51	static int adp1050_probe(struct i2c_client *client)
-    52	{
-    53		const struct pmbus_driver_info *info;
-    54	
-    55		info = device_get_match_data(&client->dev);
-    56		if (!info)
-    57			return -ENODEV;
-    58	
-  > 59		return pmbus_do_probe(client, info);
-    60	}
-    61	
+
+vim +345 drivers/dma-buf/dma-buf.c
+
+   330	
+   331	/**
+   332	 * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+   333	 * It could support changing the name of the dma-buf if the same
+   334	 * piece of memory is used for multiple purpose between different devices.
+   335	 *
+   336	 * @dmabuf: [in]     dmabuf buffer that will be renamed.
+   337	 * @buf:    [in]     A piece of userspace memory that contains the name of
+   338	 *                   the dma-buf.
+   339	 *
+   340	 * Returns 0 on success. If the dma-buf buffer is already attached to
+   341	 * devices, return -EBUSY.
+   342	 *
+   343	 */
+   344	long dma_buf_set_name(struct dma_buf *dmabuf, const char *name)
+ > 345	{
+   346		char *buf = kstrndup(name, DMA_BUF_NAME_LEN, GFP_KERNEL);
+   347		if (!buf)
+   348			return -ENOMEM;
+   349	
+   350		_dma_buf_set_name(dmabuf, buf);
+   351	
+   352		return 0;
+   353	}
+   354	EXPORT_SYMBOL_GPL(dma_buf_set_name);
+   355	
 
 -- 
 0-DAY CI Kernel Test Service
