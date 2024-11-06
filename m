@@ -1,67 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E94A2036F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 16:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FBC204957
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 16:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730909966; cv=none; b=RNywdwvqpbosNHrOEMXJ1ZSCLCUOXqB3thYlhoOTQPjpmhKuaJrvU1WZJD7PmU+eUyJKlXuTWUcgCUBMaECiKWPc5GQgmNbdxvQQ/Sj1CjMsydJPDySAouKEuLxUjQB4b92jPugIi/IWSJptFXhv910SfD2tvTaS7rsq4g+djek=
+	t=1730911230; cv=none; b=pP2dSbcbrjP52eumwz2IwTSC+/VdQa/pXSba75tzueB0ppMD2jG51CzFMMJgytgqCboUW+UCJ4Ykq/3bcezS9rlHCGVule7VWpL2tzltCE8Am8YOO9OCRNrQFWNlIH8CCPz4LBHRsKOj/MSUU5gGH7k99hq/lBnwsZKE96kMKxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730909966; c=relaxed/simple;
-	bh=syEZ0PUhB/s8AY7uLWeu+hDKYqIIr8eprxynDeL1Ahk=;
+	s=arc-20240116; t=1730911230; c=relaxed/simple;
+	bh=FwGjrB4Xov+J3GULSU5ZLeqm2acMIY8YeIdZeoVv4GA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rkRVzJPnABwCfISEwbv+bSCPDIyPGTu5iXpMZLjCmuViwtaNmFmwqrBqybH5hhBKUL5kyzCfxdHcuOKW3e8iIfVDExt20n7bAsjsNZEynYWwYAQ3yhzSlVh/736QW2ALwIfedjwkv2MAPpD4+2DEjnO09567BZd/kYfoNccxjIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkZnLSUR; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=i1nSWWCHPX95QYXLL51mW/S4xU5m9tzseTbARJP6ZcqHrdFK38whVwqDIRvFrD0rP9Aq4IPuxkvYiGZNcuwwu3HdF2IhnUkKrcqUUyQrk8oPE7Nc+ryrTHK/yQrBKGcdstlM58ASL1PDydbFEPuSfhGesjgcp9kyZ6frQgSH3HU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S9YOMynJ; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkZnLSUR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S9YOMynJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730909965; x=1762445965;
+  t=1730911229; x=1762447229;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=syEZ0PUhB/s8AY7uLWeu+hDKYqIIr8eprxynDeL1Ahk=;
-  b=NkZnLSURELpI5T5F2U3cjvblm2FSMoGhqPwwK/Yl8hGsbjXQwtNCawbt
-   n7sd3XI/CEJS5jZfJzKimMi6ZX2JDW0bnCvnUh/kjf+DW3DqpW+STAifw
-   oHP3kPjdMF+q2zVDNbC/8Qpeg4Nz+OishY5s7o1z052nR+yCR1uzbHEY5
-   zJjdwSQlLsjm6MbcGqjlxLc35LkS9PhgJw6xG6xE3y0NTdo8v2uldrHa2
-   P2Pjxb1xkYbsBfXXQKV/DsXNoH0PQ0oopyZI5kde9M/YAX0toXCwYvV4P
-   rcro7OdrA9VN73iOr+DlDQMrnnzQaYn33xQskgE6avpsruRa2rlTIYoQd
-   A==;
-X-CSE-ConnectionGUID: OrcKsugJTGa77UdbM6m+0A==
-X-CSE-MsgGUID: 4LOWSLibTbKTIcBnVS5dpA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30934261"
-X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="30934261"
+  bh=FwGjrB4Xov+J3GULSU5ZLeqm2acMIY8YeIdZeoVv4GA=;
+  b=S9YOMynJHq4xtPkWFcX3hrO7DxAeat5KzKpAnwMZKoutCaLPdkFE3ITi
+   e8xMysJ9ZaScdYhHt6n9XJwY+wIdpsp6vYeQsBJncLwvXaCa9lrXdCN3n
+   T8myKofaABEDhS6dUzVkLNwQ6b982vRrZP+7qoYhvBbCXjzZ6+LTbCvcb
+   /pWK3gC+f4sHFE0VICQSLpZXtnL8X2F7OTMJLVuLbXKTxQ1I8QRposlXa
+   y9Lczvb4Du1shCrr2Cq/bjEKHGhCk+Pl7bk9u9ivqv8UKrZYuHnlklsg9
+   5X0OGnpddI6v+qr4oQMPQf7RDtYv9D0rnBvVmwErp52d1nDcNGJ9BbUUd
+   w==;
+X-CSE-ConnectionGUID: y44yfhWSTKyEA0T7Q8Mu9g==
+X-CSE-MsgGUID: ieRcWoKcRiyMda7xJeID7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34418299"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34418299"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 08:19:24 -0800
-X-CSE-ConnectionGUID: lhPZUfgZRP+LsZXDQg+Ong==
-X-CSE-MsgGUID: l2Tmkid3R9mXOwIn9SXByg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 08:40:28 -0800
+X-CSE-ConnectionGUID: v/KZ/PUcRoyJxlpv5b/l4g==
+X-CSE-MsgGUID: Ikuk+uEcQgGFd8F8gzv4NA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="88587679"
+   d="scan'208";a="88602921"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 08:19:22 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 08:40:23 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8ika-000p7A-0d;
-	Wed, 06 Nov 2024 16:19:20 +0000
-Date: Thu, 7 Nov 2024 00:19:02 +0800
+	id 1t8j4v-000p8e-0l;
+	Wed, 06 Nov 2024 16:40:21 +0000
+Date: Thu, 7 Nov 2024 00:40:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v2 3/4] drm/mode_object: add
- drm_mode_object_read_refcount()
-Message-ID: <202411070038.tZJzI7NC-lkp@intel.com>
-References: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
+To: Alexis Cezar Torreno <alexisczezar.torreno@analog.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Radu Sabau <radu.sabau@analog.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alexis Cezar Torreno <alexisczezar.torreno@analog.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): Support adp1051 and adp1055
+Message-ID: <202411070008.3X7zgKXO-lkp@intel.com>
+References: <20241106090311.17536-3-alexisczezar.torreno@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,55 +72,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106-drm-small-improvements-v2-3-f6e2aef86719@bootlin.com>
+In-Reply-To: <20241106090311.17536-3-alexisczezar.torreno@analog.com>
 
-Hi Luca,
+Hi Alexis,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 42f7652d3eb527d03665b09edac47f85fb600924]
+[auto build test ERROR on aa8cbc0898902070f1ad093a6e036cf57f0d47bc]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-drm_mode_object-fix-typo-in-kerneldoc/20241106-185032
-base:   42f7652d3eb527d03665b09edac47f85fb600924
-patch link:    https://lore.kernel.org/r/20241106-drm-small-improvements-v2-3-f6e2aef86719%40bootlin.com
-patch subject: [PATCH v2 3/4] drm/mode_object: add drm_mode_object_read_refcount()
-config: arc-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070038.tZJzI7NC-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070038.tZJzI7NC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alexis-Cezar-Torreno/dt-bindings-hwmon-pmbus-adp1050-Support-adp1051-and-adp1055-add-bindings/20241106-170853
+base:   aa8cbc0898902070f1ad093a6e036cf57f0d47bc
+patch link:    https://lore.kernel.org/r/20241106090311.17536-3-alexisczezar.torreno%40analog.com
+patch subject: [PATCH 2/2] hwmon: (pmbus/adp1050): Support adp1051 and adp1055
+config: i386-randconfig-141-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070008.3X7zgKXO-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070008.3X7zgKXO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070038.tZJzI7NC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070008.3X7zgKXO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/drm_mode_object.c:228: warning: expecting prototype for drm_mode_object_get(). Prototype was for drm_mode_object_read_refcount() instead
+   In file included from drivers/hwmon/pmbus/adp1050.c:8:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/hwmon/pmbus/adp1050.c:59:32: error: passing 'const struct pmbus_driver_info *' to parameter of type 'struct pmbus_driver_info *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      59 |         return pmbus_do_probe(client, info);
+         |                                       ^~~~
+   drivers/hwmon/pmbus/pmbus.h:541:73: note: passing argument to parameter 'info' here
+     541 | int pmbus_do_probe(struct i2c_client *client, struct pmbus_driver_info *info);
+         |                                                                         ^
+   1 warning and 1 error generated.
 
 
-vim +228 drivers/gpu/drm/drm_mode_object.c
+vim +59 drivers/hwmon/pmbus/adp1050.c
 
-   219	
-   220	/**
-   221	 * drm_mode_object_get - read the refcount for a mode object
-   222	 * @obj: DRM mode object
-   223	 *
-   224	 * This function returns the current object's refcount if it is a
-   225	 * refcounted modeset object, or 0 on any other object.
-   226	 */
-   227	unsigned int drm_mode_object_read_refcount(struct drm_mode_object *obj)
- > 228	{
-   229		unsigned int refcount = 0;
-   230	
-   231		if (obj->free_cb) {
-   232			refcount = kref_read(&obj->refcount);
-   233			DRM_DEBUG("OBJ ID: %d (%d)\n", obj->id, refcount);
-   234		}
-   235	
-   236		return refcount;
-   237	}
-   238	EXPORT_SYMBOL(drm_mode_object_read_refcount);
-   239	
+    50	
+    51	static int adp1050_probe(struct i2c_client *client)
+    52	{
+    53		const struct pmbus_driver_info *info;
+    54	
+    55		info = device_get_match_data(&client->dev);
+    56		if (!info)
+    57			return -ENODEV;
+    58	
+  > 59		return pmbus_do_probe(client, info);
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
