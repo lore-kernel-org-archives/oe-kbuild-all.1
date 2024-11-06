@@ -1,58 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7DBF9F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 00:39:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BB37DA9E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 00:39:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730853543; cv=none; b=mvSZ77qhTvBS7yGP0Y/QtGu1dypf9vbtlLba4LSzQmLxeEHaRL66ppYFxqVEtEN+01x8ER6AqaP3+jJ4stBf9vFmNGl643gpOiUqbr6Cpt4o6/orPwoOV0qdcVhqDOd/GTlBoKyH9YHYtqqDK3nPyR2PCT18k26LtOLd8ltqZ00=
+	t=1730853544; cv=none; b=OLpz80cex5oXPqBwqwiyMPuCsKsEeqXOwlJsSLYORhpLTHmSLASop6LFKov+6oYqMUp1jdqXmrCMTBJ6x8sDTvR9bApiOE5bmNzjOihxfvCVJCPgR00BTO42Y+IpxwTwktM04T6gFyfpR7j1ZE++nxRrfYgbgO24JLi2iHS2kHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730853543; c=relaxed/simple;
-	bh=eY5ZO/e9XR2/Uh57vFmn0mLNH0/bGfv+KrTWNps1tbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qkxo8RUIRy5D5+YSuZiHd3z+3MEUUAJH5N1Xfrw9eAbwobZXaW/3aKaqqDN+Rkcs7m/NiUkPSDmjVlsOcHY6VHmDGpl3hrX+1M3v5u9Lm5U4UJS4VgOvuTgoGz+zxClE1zZPOzUjGE//xPx8IzYTX7/LwqvIY+0edOCYF5wKjJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y7l8lscO; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1730853544; c=relaxed/simple;
+	bh=CbnbHhZ5g+AnISB2qi8+n7pIi443xyPrj0/svOudxF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MJo1zLmnnq5LaZ3RS+5f7nimMlj+AkaKXdoSonfusL6d/1N1pFlrrwEgfgZMxHyKb/8g6F3YYr6M9zHs6wzeMC5xD/QSckzj8eDR9ScSn5YP23nXvukShtOEIcRbdzyPAW3jWs17H8yhgqVl8GCTtZL8FAUSYleM47EB3hYm7xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLPPJTVZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7l8lscO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLPPJTVZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730853541; x=1762389541;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eY5ZO/e9XR2/Uh57vFmn0mLNH0/bGfv+KrTWNps1tbw=;
-  b=Y7l8lscOpRC433NYpgFNFrXC+Bsg3ZLng1NYwuZyg/RgYYGiEe/BHKkd
-   liUArOpV9vKg1Ta6aSNldUCUjRbiL0Yom8xCDCThu3VDw4SdASaNxg3m2
-   IcsNzanX4dr7iY2zmZsPS1T9lTmIwWFHK45tuxNdS+riNBRejkzjRAnHf
-   wOsU7vmu3MF9hfvL7DifoJzvwtYPubVt9WfzEqEuNhAiJHcIBE+2oKVWb
-   4FSwqPYWplP/w7qNucj6Bx5c/vv8+I/60QoX6tm4ZLs1UnKAZysUq1bZr
-   CrBjBYnMcppMUUEJUHeSkXz4MMo/6ZsBZf5HFvy/O1wAkKMlBenCfKlhX
-   g==;
-X-CSE-ConnectionGUID: uPb056HKSSSdwPHja3HL/g==
-X-CSE-MsgGUID: /Qw6JfjdQ3irVgCwrLIoXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41227713"
+  t=1730853543; x=1762389543;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CbnbHhZ5g+AnISB2qi8+n7pIi443xyPrj0/svOudxF8=;
+  b=RLPPJTVZSKAwGPU34Z7rTavgVn6Nz6f56MYE3yOV9ChsVIZkpJHdgfVR
+   r0kttu7aeNvJtY8zshnKhg0tlbIladYrLu/4UAmrf1VL88QQIiHEUWgoz
+   urR8bG1+M+RUVExC4nHH1w3GPEZbM+WbOz+QwdbX/6tto0euy4ENwdnQm
+   z3Mx7DCKHOelqEZeBSrM2H4P68drV+nsZB8rqLFV6bOhRiInHGrHSN8+h
+   rI5thrcgB2DmHiOH9aqbZCkjlILC+TdmR4K2jdn86+uImQjT/5/2axz8u
+   XPPS66zwqujTHZ48LZMOwdkROqQdFEBXCaNz/mD58kf7bfKgWlnIijoqP
+   Q==;
+X-CSE-ConnectionGUID: XBOs7z2TTS6Ox15ZDaJ4OQ==
+X-CSE-MsgGUID: 1daF8g30Tp6nML7lz2phRA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41227718"
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="41227713"
+   d="scan'208";a="41227718"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:38:55 -0800
-X-CSE-ConnectionGUID: ufA5GvcNSwiZmANZMhiflQ==
-X-CSE-MsgGUID: BSLx4C9NSsueXJJxrr570Q==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:38:57 -0800
+X-CSE-ConnectionGUID: CMQEnPN1R86AFU17tTOaog==
+X-CSE-MsgGUID: ht2dK8EgRFGQ7ou2Yl+MAg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="88793874"
+   d="scan'208";a="88793876"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 16:38:54 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8U4R-000me9-2h;
+	id 1t8U4R-000me5-2a;
 	Wed, 06 Nov 2024 00:38:51 +0000
-Date: Wed, 6 Nov 2024 08:38:36 +0800
+Date: Wed, 6 Nov 2024 08:38:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
+To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
+	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:b4/slub-percpu-sheaves 2/9] mm/slub.c:2560:13: warning:
- 'pcs_flush_all' defined but not used
-Message-ID: <202411060828.opOeNEjg-lkp@intel.com>
+Subject: Re: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
+Message-ID: <202411060859.fqkOY75Z-lkp@intel.com>
+References: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,64 +69,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slub-percpu-sheaves
-head:   c2ef14761b7d660275c07a6f6c53db215045bcfc
-commit: 8a21fb0b8625d6f4f77351cc33427d9c52fd9cdf [2/9] mm/slub: add opt-in caching layer of percpu sheaves
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241106/202411060828.opOeNEjg-lkp@intel.com/config)
+Hi Vicentiu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on lee-leds/for-leds-next]
+[also build test ERROR on robh/for-next linus/master v6.12-rc6 next-20241105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-001305
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
+patch link:    https://lore.kernel.org/r/20241105161041.4813-3-vicentiu.galanopulo%40remote-tech.co.uk
+patch subject: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241106/202411060859.fqkOY75Z-lkp@intel.com/config)
 compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060828.opOeNEjg-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060859.fqkOY75Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060828.opOeNEjg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060859.fqkOY75Z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/slub.c:2560:13: warning: 'pcs_flush_all' defined but not used [-Wunused-function]
-    2560 | static void pcs_flush_all(struct kmem_cache *s)
-         |             ^~~~~~~~~~~~~
+   drivers/leds/leds-st1202.c: In function 'st1202_dt_init':
+>> drivers/leds/leds-st1202.c:350:49: warning: missing terminating " character
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                                 ^
+>> drivers/leds/leds-st1202.c:350:49: error: missing terminating " character
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/leds/leds-st1202.c:351:41: error: 'error' undeclared (first use in this function); did you mean 'err'?
+     351 |                                         error: %d\n", err);
+         |                                         ^~~~~
+         |                                         err
+   drivers/leds/leds-st1202.c:351:41: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/leds/leds-st1202.c:351:46: error: expected ')' before ':' token
+     351 |                                         error: %d\n", err);
+         |                                              ^
+         |                                              )
+   drivers/leds/leds-st1202.c:350:38: note: to match this '('
+     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
+         |                                      ^
+>> drivers/leds/leds-st1202.c:351:50: error: stray '\' in program
+     351 |                                         error: %d\n", err);
+         |                                                  ^
+   drivers/leds/leds-st1202.c:351:52: warning: missing terminating " character
+     351 |                                         error: %d\n", err);
+         |                                                    ^
+   drivers/leds/leds-st1202.c:351:52: error: missing terminating " character
+     351 |                                         error: %d\n", err);
+         |                                                    ^~~~~~~~
+>> drivers/leds/leds-st1202.c:352:36: error: expected ';' before '}' token
+     352 |                         return err;
+         |                                    ^
+         |                                    ;
+     353 |                 }
+         |                 ~                   
 
 
-vim +/pcs_flush_all +2560 mm/slub.c
+vim +350 drivers/leds/leds-st1202.c
 
-  2552	
-  2553	/*
-  2554	 * Caller needs to make sure migration is disabled in order to fully flush
-  2555	 * single cpu's sheaves
-  2556	 *
-  2557	 * flushing operations are rare so let's keep it simple and flush to slabs
-  2558	 * directly, skipping the barn
-  2559	 */
-> 2560	static void pcs_flush_all(struct kmem_cache *s)
-  2561	{
-  2562		struct slub_percpu_sheaves *pcs;
-  2563		struct slab_sheaf *spare, *rcu_free;
-  2564		unsigned long flags;
-  2565	
-  2566		local_lock_irqsave(&s->cpu_sheaves->lock, flags);
-  2567		pcs = this_cpu_ptr(s->cpu_sheaves);
-  2568	
-  2569		spare = pcs->spare;
-  2570		pcs->spare = NULL;
-  2571	
-  2572		rcu_free = pcs->rcu_free;
-  2573		pcs->rcu_free = NULL;
-  2574	
-  2575		local_unlock_irqrestore(&s->cpu_sheaves->lock, flags);
-  2576	
-  2577		if (spare) {
-  2578			sheaf_flush(s, spare);
-  2579			free_empty_sheaf(s, spare);
-  2580		}
-  2581	
-  2582		// TODO: handle rcu_free
-  2583		BUG_ON(rcu_free);
-  2584	
-  2585		sheaf_flush_main(s);
-  2586	}
-  2587	
+   318	
+   319	static int st1202_dt_init(struct st1202_chip *chip)
+   320	{
+   321		struct device *dev = &chip->client->dev;
+   322		struct st1202_led *led;
+   323		int err, reg;
+   324	
+   325		for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
+   326			struct led_init_data init_data = {};
+   327	
+   328			err = of_property_read_u32(child, "reg", &reg);
+   329			if (err) {
+   330				of_node_put(child);
+   331				return dev_err_probe(dev, err, "Invalid register, error: %d\n", err);
+   332			}
+   333	
+   334			led = &chip->leds[reg];
+   335			led->is_active = true;
+   336			led->fwnode = of_fwnode_handle(child);
+   337	
+   338			led->led_cdev.max_brightness = U8_MAX;
+   339			led->led_cdev.brightness_set_blocking = st1202_led_set;
+   340			led->led_cdev.pattern_set = st1202_led_pattern_set;
+   341			led->led_cdev.pattern_clear = st1202_led_pattern_clear;
+   342			led->led_cdev.default_trigger = "pattern";
+   343	
+   344			init_data.fwnode = led->fwnode;
+   345			init_data.devicename = "st1202";
+   346			init_data.default_label = ":";
+   347			err = devm_led_classdev_register_ext(dev,
+   348						&led->led_cdev, &init_data);
+   349			if (err < 0) {
+ > 350				dev_err_probe(dev, err, "Failed to register LED class dev,
+ > 351						error: %d\n", err);
+ > 352				return err;
+   353			}
+   354			led->led_cdev.brightness_set = st1202_brightness_set;
+   355			led->led_cdev.brightness_get = st1202_brightness_get;
+   356		}
+   357	
+   358		return 0;
+   359	}
+   360	
 
 -- 
 0-DAY CI Kernel Test Service
