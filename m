@@ -1,199 +1,215 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9C071DC194;
-	Wed,  6 Nov 2024 10:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD3F1DDC3A;
+	Wed,  6 Nov 2024 10:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730888246; cv=none; b=m2yGwqr6bQU0x1FcRAdsfPPt94AHhdLtYO49iIoXsTjJUTCXPlcw32pTNyfJUzVr+V8PHd8IL/dC6Si0oPWsuLWFO+g9kSuGGGySnYCMkoRxREjY9q+8uFygg+UyF9KckAaQFsNcc/g7i6rbSUPecNleANQ8lSTzTUC1cR7Okx4=
+	t=1730888503; cv=none; b=lS7HTlEd87YfhhGZueGkrMaWxEgaedipn8kwQAsKtGUcK98mWrzBUUYGmq65g5CSg/1WsgUlH6m1Hz/+gQQAWkgipueM3Zp6tO6fV7zYNGa6gvgo4xrHsMoT4zD9wYrJLVUEYMhGnXLEHVygqTHNuVisKVRqWcQ1qtYdBcSrg2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730888246; c=relaxed/simple;
-	bh=zkb4wZ27Y2KjcXTANjwfpxh6rJegVZieqvBVXEsCfTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IAsgrADmQSIti/wpeGBsn2+s6sjqfE/pSflRwfC0kaDP90+e4acPc9nSHPO3cnE9FgCD3LDRRUNGXQZhIdYdSk+u7HRVbEWEyWFywkfiiH+SRUJy6H1l74iRNtTZw6A/pT7n0kN2ZSKycNJT/GcdKluZlocMA0TeLY69auzkkFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NI6vbDS5; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730888503; c=relaxed/simple;
+	bh=Qy5eRC7Pv8lisSEI05lOrbRUphO50CEejxmo7xUMuro=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Izgx+QUeC6uaXBL8QBQxtdiB08VTTLOSGpMk8GTABLvRcJVnktQd2A23viFWvS95VEFn/KaZ92P0EXH63CmM8u5dc9u+Xb0dkq6fCHQ2kkCXrx04qhF5CHkXY8w1Dbf/dZuo4gMOpTi9MjfvBfYsU+6ec4ZxFQSuhmgRHVVqjAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JsR4fcIy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cKmJaEww; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JsR4fcIy; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=cKmJaEww; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NI6vbDS5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730888245; x=1762424245;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zkb4wZ27Y2KjcXTANjwfpxh6rJegVZieqvBVXEsCfTE=;
-  b=NI6vbDS5R/QJqjthw5ihjRszzz68SIhclAz2j7idUaoz/scXTYb8+tuE
-   G0L7g1F1+W6YqhDvLx/aOa/Tbc5lugHUpMhx0hozsrilC5PhUZLyQOWKt
-   D/VJfwWfv9VCtaxf64Yplr7vFidvxnUBgjBXicX7fMVE34dY+AHhSwZx6
-   UcmHUh9EYoGsSb+L32radYqL9ROeU47AFOC74Ga8KPH7cpsDchynW+9us
-   +5jOPmTCn09XbZFf/l8+dzWJ9ft20fgKPnIvfDBLJjD7vvHgqI7P+sojq
-   D4gCuTCOcv+jDtqwjzhECZW2EcznuecxiivwQChiQxzaYmcWcTpLSFz6v
-   Q==;
-X-CSE-ConnectionGUID: YUxuBiGXR/qvud8Q5VFiIQ==
-X-CSE-MsgGUID: wbVfKw2dSbioq63XTKWkmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41270718"
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="41270718"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 02:17:22 -0800
-X-CSE-ConnectionGUID: nJVy8MMLTcyiXYI55ZWMRw==
-X-CSE-MsgGUID: s+7kSnqzTEu67X7N1h6Pig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="89303428"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 06 Nov 2024 02:17:21 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8d6E-000nBE-1w;
-	Wed, 06 Nov 2024 10:17:18 +0000
-Date: Wed, 6 Nov 2024 18:17:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Varadarajan Narayanan <quic_varada@quicinc.com>
-Subject: [qcom:clk-for-6.13 30/30] drivers/clk/qcom/gcc-ipq5424.c:497:30:
- warning: unused variable 'ftbl_gcc_qupv3_2x_core_clk_src'
-Message-ID: <202411061802.Gncrt9l5-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JsR4fcIy";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cKmJaEww";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JsR4fcIy";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="cKmJaEww"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id A75A11FD0C;
+	Wed,  6 Nov 2024 10:21:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1730888499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VxX7EKtuUq19NAMZLPi/9xIlOyx9n0vdXpCdRvQPo4E=;
+	b=JsR4fcIyjcka8eBSv9bXtHBWZ9WMuR86+r4CloJu+kgxu1JsfDemb6u+8kDVe0In2NOyy8
+	85Uk66Nptlm7VU7xHVicOV/ckHCmJHgZ1QTyJyd3vNiC9eeD3TFReau6ZfCz+gCSy0LN45
+	JOKPv9l9QhfIuQv08jg9DkFUusjda70=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1730888499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VxX7EKtuUq19NAMZLPi/9xIlOyx9n0vdXpCdRvQPo4E=;
+	b=cKmJaEww25VW9VqGsdzKDbrMUyx9yqOYQ4LqvAV/rRL1w1yY2QOoKGfdCAkne9npMZks4F
+	gHEhpr9omoQOQQCw==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1730888499; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VxX7EKtuUq19NAMZLPi/9xIlOyx9n0vdXpCdRvQPo4E=;
+	b=JsR4fcIyjcka8eBSv9bXtHBWZ9WMuR86+r4CloJu+kgxu1JsfDemb6u+8kDVe0In2NOyy8
+	85Uk66Nptlm7VU7xHVicOV/ckHCmJHgZ1QTyJyd3vNiC9eeD3TFReau6ZfCz+gCSy0LN45
+	JOKPv9l9QhfIuQv08jg9DkFUusjda70=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1730888499;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=VxX7EKtuUq19NAMZLPi/9xIlOyx9n0vdXpCdRvQPo4E=;
+	b=cKmJaEww25VW9VqGsdzKDbrMUyx9yqOYQ4LqvAV/rRL1w1yY2QOoKGfdCAkne9npMZks4F
+	gHEhpr9omoQOQQCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 995D4137C4;
+	Wed,  6 Nov 2024 10:21:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id IpYTJTNDK2cQZQAAD6G6ig
+	(envelope-from <vbabka@suse.cz>); Wed, 06 Nov 2024 10:21:39 +0000
+Message-ID: <3d9c0c67-222b-42a3-8c12-3e9b51097d4b@suse.cz>
+Date: Wed, 6 Nov 2024 11:21:39 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [vbabka:b4/slub-percpu-sheaves 8/9] mm/slub.c:4932
+ kmem_cache_prefill_sheaf() warn: returning freed memory 'sheaf'
+Content-Language: en-US
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <6b4bd53f-92c0-4cac-9b7c-90cd544609c4@suswa.mountain>
+From: Vlastimil Babka <vbabka@suse.cz>
+Autocrypt: addr=vbabka@suse.cz; keydata=
+ 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
+ EP+ylKVEKb0Q2A==
+In-Reply-To: <6b4bd53f-92c0-4cac-9b7c-90cd544609c4@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.cz:mid,intel.com:email]
+X-Spam-Score: -4.30
+X-Spam-Flag: NO
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux clk-for-6.13
-head:   21b5d5a4a3114607a27653371c0332f2080e3c05
-commit: 21b5d5a4a3114607a27653371c0332f2080e3c05 [30/30] clk: qcom: add Global Clock controller (GCC) driver for IPQ5424 SoC
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241106/202411061802.Gncrt9l5-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061802.Gncrt9l5-lkp@intel.com/reproduce)
+On 11/6/24 11:08, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slub-percpu-sheaves
+> head:   c2ef14761b7d660275c07a6f6c53db215045bcfc
+> commit: 7b79b3645d1e8aa28c52bcf891b8d3d59eb2bf1e [8/9] mm, slub: sheaf prefilling
+> config: i386-randconfig-141-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061426.Ztzp9ABZ-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202411061426.Ztzp9ABZ-lkp@intel.com/
+> 
+> smatch warnings:
+> mm/slub.c:4932 kmem_cache_prefill_sheaf() warn: returning freed memory 'sheaf'
+> 
+> vim +/sheaf +4932 mm/slub.c
+> 
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4900  struct slab_sheaf *
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4901  kmem_cache_prefill_sheaf(struct kmem_cache *s, gfp_t gfp, unsigned int count)
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4902  {
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4903  	struct slub_percpu_sheaves *pcs;
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4904  	struct slab_sheaf *sheaf = NULL;
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4905  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4906  	//TODO: handle via oversize sheaf
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4907  	if (count > s->sheaf_capacity)
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4908  		return NULL;
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4909  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4910  	pcs = cpu_sheaves_lock(s->cpu_sheaves);
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4911  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4912  	if (pcs->spare && pcs->spare->size > 0) {
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4913  		sheaf = pcs->spare;
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4914  		pcs->spare = NULL;
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4915  	}
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4916  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4917  	if (!sheaf)
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4918  		sheaf = barn_get_full_or_empty_sheaf(pcs->barn);
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4919  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4920  	cpu_sheaves_unlock(s->cpu_sheaves);
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4921  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4922  	if (!sheaf)
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4923  		sheaf = alloc_empty_sheaf(s, gfp);
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4924  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4925  	if (sheaf && sheaf->size < count) {
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4926  		if (refill_sheaf(s, sheaf, gfp)) {
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4927  			sheaf_flush(s, sheaf);
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4928  			free_empty_sheaf(s, sheaf);
+> 
+> sheaf = NULL?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061802.Gncrt9l5-lkp@intel.com/
+Yep, thanks a lot.
 
-All warnings (new ones prefixed by >>):
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4929  		}
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4930  	}
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4931  
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05 @4932  	return sheaf;
+> 7b79b3645d1e8a Vlastimil Babka   2024-11-05  4933  }
+> 
 
-   In file included from drivers/clk/qcom/gcc-ipq5424.c:9:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/clk/qcom/gcc-ipq5424.c:12:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/clk/qcom/gcc-ipq5424.c:12:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/clk/qcom/gcc-ipq5424.c:12:
-   In file included from include/linux/regmap.h:20:
-   In file included from include/linux/iopoll.h:14:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:93:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/clk/qcom/gcc-ipq5424.c:497:30: warning: unused variable 'ftbl_gcc_qupv3_2x_core_clk_src' [-Wunused-const-variable]
-     497 | static const struct freq_tbl ftbl_gcc_qupv3_2x_core_clk_src[] = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-ipq5424.c:957:30: warning: unused variable 'ftbl_gcc_qpic_clk_src' [-Wunused-const-variable]
-     957 | static const struct freq_tbl ftbl_gcc_qpic_clk_src[] = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-ipq5424.c:1064:30: warning: unused variable 'ftbl_gcc_q6_axi_clk_src' [-Wunused-const-variable]
-    1064 | static const struct freq_tbl ftbl_gcc_q6_axi_clk_src[] = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
-   19 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-
-
-vim +/ftbl_gcc_qupv3_2x_core_clk_src +497 drivers/clk/qcom/gcc-ipq5424.c
-
-   496	
- > 497	static const struct freq_tbl ftbl_gcc_qupv3_2x_core_clk_src[] = {
-   498		F(200000000, P_GPLL0_OUT_MAIN, 4, 0, 0),
-   499		{ }
-   500	};
-   501	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
