@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9457C64D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 03:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C686764D;
+	Wed,  6 Nov 2024 03:19:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730863146; cv=none; b=Sq+15EldFzwiywh29Ho4UQZ0ZIOO1yB43ByFila5bzGdCD/PeHGB2JvlR9lTkDnMsPINseBHP6ngXCLoneJcr4EVu255cThTr63ZUSwvkVS7EfCBYlHyVG2Y7Pfsat64ymc2nDzok1VKuKZCH+oCLbyZWRbVYy0hzZw7D+Q7lq0=
+	t=1730863149; cv=none; b=GX0gqgJT6+mLcab7bguMJc1VVXrrqed4k9Yj9BBAKMJGHxz/N28L6KpF15JisakB5osS3eeS2S4A4swDenQ5PHBt17AShO1+RzIzzh723sAvIzPz/LBz3FUuuF6yOayIh0ekmEsg1lFw09Tt/q4x27TVQe0/MAdEdW3a7M38Fos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730863146; c=relaxed/simple;
-	bh=xRAR1Svcq4AoWe8xq69hP7T9wqUr9ZENk5KeM4TPtRs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PZ3pM7majFxCwjXB3BcqLwJ3uDeUcG3sdidlUpWaTAA4JgS21mmwBvSwrD73JNICR44rDWArbDDpfioo2L4VFB5j0w8idlCfrlpegjBsaXyw75gLRLCfw846O5ui8G7I0Lc91xuxpb15Vi2IO+E0mnzTjWPM/eO7l5CXU1JjMqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxVLX43Y; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1730863149; c=relaxed/simple;
+	bh=o8aQslghnk2+z70tsW+2DklDn7CG8sbivh6qhEJ0ZDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FliyTWLQwtVQHI3qbfnGZP2slvV7NqJwkrqp8Wl11PWCrRYO6lET7SlvLpGrnSeGhzPdgRVhuRk7GSLWh0tutve5fpxFW+EAwGXtvpdlcwDSWXUcFF+7oXuAiOXSlHo6skDzxyywea8RZky3KpHotpMUpX4HTBI8BDAnsdcB2k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iKFrk0Tw; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxVLX43Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iKFrk0Tw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730863145; x=1762399145;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xRAR1Svcq4AoWe8xq69hP7T9wqUr9ZENk5KeM4TPtRs=;
-  b=XxVLX43Y5kiP99lo+CxCI10FURiHwpGeDmYL1Eq7/qg/TvNpLaP9ShHU
-   U/0cOWjBJWfnQrGzQq3U+1PHDTeFj/5Ic/ALSKXscP+gotHZ3UjdVkmVl
-   A4VrVDWpQNAbA0HGo52rI3Gtwwt+7NLCgZC+ULQitIGKFch6gf1SdIhDI
-   Gt6lzyLHm03YkkhTUKi/6ToPxRer4mO7aqnzBJyfBe7/r6voSCpFSj0A/
-   X51+/Z/UHF93dhG/3JG2BaUIVpPTdJ6/XVEalAmv3XTS4aR908lfOfBmr
-   +cSwCroL/zS+Iwv1EMYHga7YVud2QAu4n1pJRIgVHEyd94mYnDzsR7DR5
-   A==;
-X-CSE-ConnectionGUID: /7WbBHzhQai82zBQ3X7NTg==
-X-CSE-MsgGUID: UuCfsfiISfik/dRu3ec3lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48104040"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="48104040"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 19:19:05 -0800
-X-CSE-ConnectionGUID: v9fpdfwyRJ+hZzYYOCnxDQ==
-X-CSE-MsgGUID: mHnGZ/uMRYG31dLWwX+xvg==
+  t=1730863147; x=1762399147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o8aQslghnk2+z70tsW+2DklDn7CG8sbivh6qhEJ0ZDw=;
+  b=iKFrk0TwIVGBVt3HxtOjHyojIfP2bcgm8pVao+89GIoa9749AAHbBYyr
+   r9GZlKr0mxJ2UoGIL6ZNqZVHYdAOYX94ZagfZxu4rCdZNrgAq+oIrqSHg
+   I7uQf2Lz83hVASmgbAOoFRd4M8OFJGAuLAdhg08HceLxXih5PlzvwAosL
+   aR7pCg1epAdU17Z+aCKAlvqWgc6IvxenUpNQBpzYlrphp81+bIu7omhMr
+   dZ0MbQFimXCI4Xp3jpFqdw4mWy+WkL5E8g1H2Ibpy036NkZlGgfz710Mz
+   Yn0Ggi8wv0FWGt+iDElTyKYN29MEKnYcjFMYMS1JciJYOYTxImKhRZbGZ
+   w==;
+X-CSE-ConnectionGUID: wtBflMw+RZ2DsSODeHfrvA==
+X-CSE-MsgGUID: v8ZGg4gfSme4paemXnOF1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30759608"
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="30759608"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 19:19:06 -0800
+X-CSE-ConnectionGUID: C3b9hammQ5K62oSusumzvA==
+X-CSE-MsgGUID: xp94QqJRThKSfiZb/sjasA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="115098766"
+   d="scan'208";a="84692741"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2024 19:19:03 -0800
+  by orviesa007.jf.intel.com with ESMTP; 05 Nov 2024 19:19:04 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8WZR-000msl-00;
+	id 1t8WZR-000msn-04;
 	Wed, 06 Nov 2024 03:19:01 +0000
-Date: Wed, 6 Nov 2024 11:18:45 +0800
+Date: Wed, 6 Nov 2024 11:18:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1231/1231]
- arch/arm64/kernel/mpam/mpam_mon.c:48: warning: Cannot understand  *
- @rmid_mon_exclusive_all  List of allocated RMIDs with
-Message-ID: <202411061140.gNjqbgZ7-lkp@intel.com>
+To: Marek Vasut <marex@denx.de>, linux-hwmon@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
+Subject: Re: [PATCH 2/2] hwmon: (pwm-fan) Introduce start from dead stop
+ handling
+Message-ID: <202411061031.GHHHxm19-lkp@intel.com>
+References: <20241105135259.101126-2-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +68,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241105135259.101126-2-marex@denx.de>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
-commit: 0f728d63ce7a19f1dd0dbde79197248e7c4accf6 [1231/1231] arm64/mpam: Add wait queue for monitor alloc and free
-config: arm64-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241106/202411061140.gNjqbgZ7-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061140.gNjqbgZ7-lkp@intel.com/reproduce)
+Hi Marek,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.12-rc6 next-20241105]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/hwmon-pwm-fan-Introduce-start-from-dead-stop-handling/20241105-215454
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20241105135259.101126-2-marex%40denx.de
+patch subject: [PATCH 2/2] hwmon: (pwm-fan) Introduce start from dead stop handling
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20241106/202411061031.GHHHxm19-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061031.GHHHxm19-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061140.gNjqbgZ7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411061031.GHHHxm19-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/arm64/kernel/mpam/mpam_mon.c:48: warning: Cannot understand  * @rmid_mon_exclusive_all  List of allocated RMIDs with
-    on line 48 - I thought it was a doc line
->> arch/arm64/kernel/mpam/mpam_mon.c:54: warning: Cannot understand  * @rmid_mon_wait_all  List of allocated RMIDs with default
-    on line 54 - I thought it was a doc line
->> arch/arm64/kernel/mpam/mpam_mon.c:62: warning: Cannot understand  * @rmid_entry - The entry in the mon list.
-    on line 62 - I thought it was a doc line
-
-
-vim +48 arch/arm64/kernel/mpam/mpam_mon.c
-
-    46	
-    47	/**
-  > 48	 * @rmid_mon_exclusive_all  List of allocated RMIDs with
-    49	 * exclusive available mon.
-    50	 */
-    51	static LIST_HEAD(rmid_mon_exclusive_all);
-    52	
-    53	/**
-  > 54	 * @rmid_mon_wait_all  List of allocated RMIDs with default
-    55	 * 0 mon and wait for exclusive available mon.
-    56	 */
-    57	static LIST_HEAD(rmid_mon_wait_all);
-    58	
-    59	static u32 rmid_ptrs_len;
-    60	
-    61	/**
-  > 62	 * @rmid_entry - The entry in the mon list.
-    63	 */
-    64	static struct rmid_entry    *rmid_ptrs;
-    65	
+>> ERROR: modpost: "__aeabi_uldivmod" [drivers/hwmon/pwm-fan.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
