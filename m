@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 663E51D2704
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 02:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9457C64D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 03:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730859970; cv=none; b=U3QJAZ2SpBVJYgmXq+Q0BbtF55mVfWGSZw7m3gjWlK7E1b715yh6XZyPXmdWj6mlvqS6niZcEavumdVHHu1KXEQU0hTo15DERvW4kB9YzgrvkHvJUNadD8vNp9QSxlb6e0tjksbB5neivCohI6Fr/qBIrr7Sma+bx6EesTiB7P8=
+	t=1730863146; cv=none; b=Sq+15EldFzwiywh29Ho4UQZ0ZIOO1yB43ByFila5bzGdCD/PeHGB2JvlR9lTkDnMsPINseBHP6ngXCLoneJcr4EVu255cThTr63ZUSwvkVS7EfCBYlHyVG2Y7Pfsat64ymc2nDzok1VKuKZCH+oCLbyZWRbVYy0hzZw7D+Q7lq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730859970; c=relaxed/simple;
-	bh=eZJo9WFDJ7RnliIFYPRscGm7wkXoUYcsplfRpOIj9zw=;
+	s=arc-20240116; t=1730863146; c=relaxed/simple;
+	bh=xRAR1Svcq4AoWe8xq69hP7T9wqUr9ZENk5KeM4TPtRs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dTdFSPgpJF4ZCs4nX+EbiTjj4Xn3RDvAPEX8SF9eVH4F9MgbnT6KuUfuaiNxrKF4gjnVOYICaxmZf3ENVzFjicI17wE/Bd63JoE/Y2TUpVNFLz6ILhpIB9bO5QwqlbjymkLx2rIWhHgGh4TB6AHJnXKx79TrKzJ9FjfA5aT7Nos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q0kc0eDE; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=PZ3pM7majFxCwjXB3BcqLwJ3uDeUcG3sdidlUpWaTAA4JgS21mmwBvSwrD73JNICR44rDWArbDDpfioo2L4VFB5j0w8idlCfrlpegjBsaXyw75gLRLCfw846O5ui8G7I0Lc91xuxpb15Vi2IO+E0mnzTjWPM/eO7l5CXU1JjMqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XxVLX43Y; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q0kc0eDE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XxVLX43Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730859968; x=1762395968;
+  t=1730863145; x=1762399145;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eZJo9WFDJ7RnliIFYPRscGm7wkXoUYcsplfRpOIj9zw=;
-  b=Q0kc0eDEiS3ioMhjbdQMiCLoa4DZKrFFf0IHMr/Cwc4wOdlAuIn8S20z
-   osw+hBjta4ods6RTIkT5/5k+jWQy9b7fV1UY3Y49csox6CCX7LAfYNcod
-   tCdJHfSBqiutZYlwPKXkS8lDCxbXquNQIt1dSm1C9ZCXC2OTIXI6UXZpN
-   7O75a/QKeScRlbIK95LT8tgf7Qr8kn3wWeJFDnjFOmCrlKh14xYxqMVtn
-   M1tp+DU+r5SToaWvNh1M/YSnmjiF2F2fOtLUot+lHxIF+mEYPlV3Ysba9
-   vszS9OZBlvra09DrM5TBScUbUmLluBaSzTG88TNUMwf1ZFkhwbpWxdVav
+  bh=xRAR1Svcq4AoWe8xq69hP7T9wqUr9ZENk5KeM4TPtRs=;
+  b=XxVLX43Y5kiP99lo+CxCI10FURiHwpGeDmYL1Eq7/qg/TvNpLaP9ShHU
+   U/0cOWjBJWfnQrGzQq3U+1PHDTeFj/5Ic/ALSKXscP+gotHZ3UjdVkmVl
+   A4VrVDWpQNAbA0HGo52rI3Gtwwt+7NLCgZC+ULQitIGKFch6gf1SdIhDI
+   Gt6lzyLHm03YkkhTUKi/6ToPxRer4mO7aqnzBJyfBe7/r6voSCpFSj0A/
+   X51+/Z/UHF93dhG/3JG2BaUIVpPTdJ6/XVEalAmv3XTS4aR908lfOfBmr
+   +cSwCroL/zS+Iwv1EMYHga7YVud2QAu4n1pJRIgVHEyd94mYnDzsR7DR5
    A==;
-X-CSE-ConnectionGUID: LOg6OeCiRrCVHTA5CK9rnw==
-X-CSE-MsgGUID: iyJi0ATBRoWLjd1d9vKwfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="42018030"
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="42018030"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 18:26:08 -0800
-X-CSE-ConnectionGUID: 4bnvm7S/SRO+DeKio//Lnw==
-X-CSE-MsgGUID: RgAKjD0dSViPXs6YVOLenw==
+X-CSE-ConnectionGUID: /7WbBHzhQai82zBQ3X7NTg==
+X-CSE-MsgGUID: UuCfsfiISfik/dRu3ec3lg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48104040"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="48104040"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 19:19:05 -0800
+X-CSE-ConnectionGUID: v9fpdfwyRJ+hZzYYOCnxDQ==
+X-CSE-MsgGUID: mHnGZ/uMRYG31dLWwX+xvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="115071801"
+   d="scan'208";a="115098766"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Nov 2024 18:25:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 05 Nov 2024 19:19:03 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8Vj7-000moF-2N;
-	Wed, 06 Nov 2024 02:24:57 +0000
-Date: Wed, 6 Nov 2024 10:24:03 +0800
+	id 1t8WZR-000msl-00;
+	Wed, 06 Nov 2024 03:19:01 +0000
+Date: Wed, 6 Nov 2024 11:18:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.12-mt7988upstream 39/40] Error:
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:91.1-5 Label or
- path eth not found
-Message-ID: <202411061053.1YZ5uE8J-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1231/1231]
+ arch/arm64/kernel/mpam/mpam_mon.c:48: warning: Cannot understand  *
+ @rmid_mon_exclusive_all  List of allocated RMIDs with
+Message-ID: <202411061140.gNjqbgZ7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,50 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.12-mt7988upstream
-head:   3f84f8d621ca28a56bcc9e2a277ebd99dd10b36e
-commit: 298704e989ebad986f9745082d5cd01003e21bac [39/40] arm64: dts: update bpi-r4.dts to actual state
-config: arm64-randconfig-003-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061053.1YZ5uE8J-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061053.1YZ5uE8J-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
+commit: 0f728d63ce7a19f1dd0dbde79197248e7c4accf6 [1231/1231] arm64/mpam: Add wait queue for monitor alloc and free
+config: arm64-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241106/202411061140.gNjqbgZ7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061140.gNjqbgZ7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061053.1YZ5uE8J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411061140.gNjqbgZ7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:91.1-5 Label or path eth not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:95.1-7 Label or path gmac0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:99.1-7 Label or path gmac1 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:106.1-7 Label or path gmac2 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:113.1-8 Label or path switch not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:117.1-10 Label or path gsw_phy0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:122.1-11 Label or path gsw_port0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:126.1-15 Label or path gsw_phy0_led0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:131.1-10 Label or path gsw_phy1 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:136.1-15 Label or path gsw_phy1_led0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:141.1-10 Label or path gsw_phy2 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:146.1-15 Label or path gsw_phy2_led0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:151.1-10 Label or path gsw_phy3 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:156.1-15 Label or path gsw_phy3_led0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:177.1-5 Label or path cci not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:294.1-7 Label or path pcie0 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:301.1-7 Label or path pcie1 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:308.1-7 Label or path pcie2 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:315.1-7 Label or path pcie3 not found
->> Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:325.1-5 Label or path fan not found
-   Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:334.1-6 Label or path tphy not found
-   Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:392.1-7 Label or path uart0 not found
-   Error: arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:400.1-6 Label or path xphy not found
-   FATAL ERROR: Syntax error parsing input tree
+>> arch/arm64/kernel/mpam/mpam_mon.c:48: warning: Cannot understand  * @rmid_mon_exclusive_all  List of allocated RMIDs with
+    on line 48 - I thought it was a doc line
+>> arch/arm64/kernel/mpam/mpam_mon.c:54: warning: Cannot understand  * @rmid_mon_wait_all  List of allocated RMIDs with default
+    on line 54 - I thought it was a doc line
+>> arch/arm64/kernel/mpam/mpam_mon.c:62: warning: Cannot understand  * @rmid_entry - The entry in the mon list.
+    on line 62 - I thought it was a doc line
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+
+vim +48 arch/arm64/kernel/mpam/mpam_mon.c
+
+    46	
+    47	/**
+  > 48	 * @rmid_mon_exclusive_all  List of allocated RMIDs with
+    49	 * exclusive available mon.
+    50	 */
+    51	static LIST_HEAD(rmid_mon_exclusive_all);
+    52	
+    53	/**
+  > 54	 * @rmid_mon_wait_all  List of allocated RMIDs with default
+    55	 * 0 mon and wait for exclusive available mon.
+    56	 */
+    57	static LIST_HEAD(rmid_mon_wait_all);
+    58	
+    59	static u32 rmid_ptrs_len;
+    60	
+    61	/**
+  > 62	 * @rmid_entry - The entry in the mon list.
+    63	 */
+    64	static struct rmid_entry    *rmid_ptrs;
+    65	
 
 -- 
 0-DAY CI Kernel Test Service
