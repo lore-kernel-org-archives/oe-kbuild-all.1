@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BB420BB41
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 20:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF28A20969F;
+	Wed,  6 Nov 2024 20:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730923779; cv=none; b=Heq7tgdv6JkfAqmqQqa6FgKL2IcsXq2RSEB19qx/1r4hQj6c6cZsSssT0/TjLMlM8GaZ0Bqj1m7aca0BuN414EJnl3QIcEhmHazjV0WI2HyScBK7hqJqDY6h0mM3S0b7bayz0fesk7nJLDVIgTCsgQibAgh49i2QIxiDaELI/8Q=
+	t=1730924379; cv=none; b=mw5FwQLm41Lzel8EcqIuG2NYYRCNBStsi9t+13b3o5F8T6sqDchyyN0R1b9PX/PueR0EFmPeIKgxEzTNbRuAFzo7btcNV4TUcztIjSBEzd/9j1haj5Ub1+ZS+LvxIwuDM51EHlkIvPnLqiFimi/fS0C+DRU+bcpgKfDLtZO0Hps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730923779; c=relaxed/simple;
-	bh=My6LltXBOBfvaZ2lkBky0b77j/MGuGGyCGSdMvkIg7A=;
+	s=arc-20240116; t=1730924379; c=relaxed/simple;
+	bh=CSFZ2m/b0MOo6ENGPqjNjXfmcckm6HSnDWpJlQMs5V4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aR1H/0XoFyNzPrE4TiUzFFMMlsTzAjCobqJ7Y4E3XeRgAUPjek+AhgUV4uzlJMU3ykT6QZrDLAiAvobu8ehob9eQPUedw3UAZM2159cr3+bpVMP/iaGxEsl23RUugOvdR6p7qy087H80JuW4F2hxbmtYW+G5zmz0te9sZgdwjm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iCA6/Sgm; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Dn5rffT+AoB86V93mU1cQ3BzbwAcs5QjKs6Om1bk8VhpixiTq0el0I5YBFR71liEnvrL/RXV4MUatfWRij7E4m9B2rYHYVwy61ibRqQG3enJilupTXIUed6wCJV0VKma1uNU9BDDuXLyqTnoYwQdBNBvAewR4/8S39OK879YkPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IpdJc/FI; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iCA6/Sgm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpdJc/FI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730923778; x=1762459778;
+  t=1730924378; x=1762460378;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=My6LltXBOBfvaZ2lkBky0b77j/MGuGGyCGSdMvkIg7A=;
-  b=iCA6/SgmTL9zXsNqUMs1oB+Y6/eX6y08h7vb7nAJtXyeL52nsP+RscQV
-   3+b8pxbikVg1tudxbUueak8umWlON5+YETB+IQnLj/qAn1sycmAfZleV/
-   f5OuRsY11CTxwXjeYzJYeLzd2pBFNyDsV2CnaPkeP8xeZfuYcD5WNtVjZ
-   aYhykRi0J2BeKHNut6IyLnJMcEEw/crYZX1EUHrwzxOeEef+wMkKR/t2x
-   AejAvYYRfjaK0iSciPVDll+iYK9L0QybNQrn5/P03WR59jYSFawOeWDyr
-   4rt4jgdj6kjHI0/e2XobJPf2RhTMj6ur5+BHBPYyqDTllM+zUoDdCCY6o
-   w==;
-X-CSE-ConnectionGUID: DkTc7UyCRn+6gfaT1t11fQ==
-X-CSE-MsgGUID: c7R/+DKHTkS9JK6q1RUOKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="56144156"
+  bh=CSFZ2m/b0MOo6ENGPqjNjXfmcckm6HSnDWpJlQMs5V4=;
+  b=IpdJc/FI3X6OoN1eEQZ8ljlXzVqklmf7Eii9dm1ZCYpk0aiYBTGPIeyn
+   rE6NVnqu9hnYNB7BLplvSVqpxxGY7BZLLD9p2+Leg04zqYjymaqGC4LGD
+   1PytQvGYGzWaTP2eefynOcPSKfZ+QnN5fuR948aCLZO8MaIuMTJrH7ych
+   YRL6D7dqNKgwz44OtXCi9i14K15IUPXanCnMgazB7bkYPiN9cyJkgScTr
+   fm1JuZ7zyI8sYp/w5EM8POa6KC+JZG2anBmwTUaRHN4aD8AbbQC2RxR/R
+   xhTvO0K2wWpjtBioL3PkE5MutWCN2cWJBmNXDu56bEsOm99s7fSs71bxp
+   Q==;
+X-CSE-ConnectionGUID: dOYXtWlhTG+vxQRVRM5qdQ==
+X-CSE-MsgGUID: dLof9V00TN6/zp3a0qoGsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="48261013"
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="56144156"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 12:09:37 -0800
-X-CSE-ConnectionGUID: kgnR/VJ1RAypCVpIt/9Vrg==
-X-CSE-MsgGUID: o+8EWDW7QO6kwg7S9Y1F9g==
+   d="scan'208";a="48261013"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 12:19:37 -0800
+X-CSE-ConnectionGUID: laEV/4gDS5CaWD/MjBnYiQ==
+X-CSE-MsgGUID: 1+lQ5Vd/RgGZqZmazKidfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="84663693"
+   d="scan'208";a="88715100"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 06 Nov 2024 12:09:35 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 12:19:35 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8mLN-000pNv-0Q;
-	Wed, 06 Nov 2024 20:09:33 +0000
-Date: Thu, 7 Nov 2024 04:08:57 +0800
+	id 1t8mV3-000pOG-0r;
+	Wed, 06 Nov 2024 20:19:33 +0000
+Date: Thu, 7 Nov 2024 04:19:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Janne Grunau <j@jannau.net>
-Subject: [broonie-ci:v4_20241105_j_apple_spi_controller_driver 23/24]
- drivers/spi/spi-apple.c:463:16: error: implicit declaration of function
- 'devm_spi_alloc_master'; did you mean 'devm_spi_alloc_target'?
-Message-ID: <202411070327.65jUtrJ9-lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Fei Shao <fshao@chromium.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [pci:controller/mediatek 2/2]
+ drivers/pci/controller/pcie-mediatek-gen3.c:898:14: error: call to
+ undeclared function 'of_property_read_u31'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202411070452.OBJPnFbT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,94 +68,125 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v4_20241105_j_apple_spi_controller_driver
-head:   afe8c02f24d5ebd2c0c715ef3e18fd912b8404a5
-commit: f801ef613dd708cfc4ad5523254ead4798cb5699 [23/24] spi: apple: Add driver for Apple SPI controller
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20241107/202411070327.65jUtrJ9-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070327.65jUtrJ9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/mediatek
+head:   2bee4c1a6fc0408242aedca80a102ef50c0dfbe5
+commit: 2bee4c1a6fc0408242aedca80a102ef50c0dfbe5 [2/2] PCI: mediatek-gen3: Add support for restricting link width
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241107/202411070452.OBJPnFbT-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070452.OBJPnFbT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070327.65jUtrJ9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070452.OBJPnFbT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-apple.c: In function 'apple_spi_probe':
->> drivers/spi/spi-apple.c:463:16: error: implicit declaration of function 'devm_spi_alloc_master'; did you mean 'devm_spi_alloc_target'? [-Wimplicit-function-declaration]
-     463 |         ctlr = devm_spi_alloc_master(&pdev->dev, sizeof(struct apple_spi));
-         |                ^~~~~~~~~~~~~~~~~~~~~
-         |                devm_spi_alloc_target
->> drivers/spi/spi-apple.c:463:14: error: assignment to 'struct spi_controller *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     463 |         ctlr = devm_spi_alloc_master(&pdev->dev, sizeof(struct apple_spi));
+   In file included from drivers/pci/controller/pcie-mediatek-gen3.c:22:
+   In file included from include/linux/pci.h:1650:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pci/controller/pcie-mediatek-gen3.c:898:14: error: call to undeclared function 'of_property_read_u31'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     898 |        ret = of_property_read_u31(dev->of_node, "num-lanes", &num_lanes);
          |              ^
+   drivers/pci/controller/pcie-mediatek-gen3.c:898:14: note: did you mean 'of_property_read_u32'?
+   include/linux/of.h:1412:19: note: 'of_property_read_u32' declared here
+    1412 | static inline int of_property_read_u32(const struct device_node *np,
+         |                   ^
+   4 warnings and 1 error generated.
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
 
 
-vim +463 drivers/spi/spi-apple.c
+vim +/of_property_read_u31 +898 drivers/pci/controller/pcie-mediatek-gen3.c
 
-   456	
-   457	static int apple_spi_probe(struct platform_device *pdev)
-   458	{
-   459		struct apple_spi *spi;
-   460		int ret, irq;
-   461		struct spi_controller *ctlr;
-   462	
- > 463		ctlr = devm_spi_alloc_master(&pdev->dev, sizeof(struct apple_spi));
-   464		if (!ctlr)
-   465			return -ENOMEM;
-   466	
-   467		spi = spi_controller_get_devdata(ctlr);
-   468		init_completion(&spi->done);
-   469	
-   470		spi->regs = devm_platform_ioremap_resource(pdev, 0);
-   471		if (IS_ERR(spi->regs))
-   472			return PTR_ERR(spi->regs);
-   473	
-   474		spi->clk = devm_clk_get_enabled(&pdev->dev, NULL);
-   475		if (IS_ERR(spi->clk))
-   476			return dev_err_probe(&pdev->dev, PTR_ERR(spi->clk),
-   477					     "Unable to find or enable bus clock\n");
-   478	
-   479		irq = platform_get_irq(pdev, 0);
-   480		if (irq < 0)
-   481			return irq;
-   482	
-   483		ret = devm_request_irq(&pdev->dev, irq, apple_spi_irq, 0,
-   484				       dev_name(&pdev->dev), spi);
-   485		if (ret)
-   486			return dev_err_probe(&pdev->dev, ret, "Unable to bind to interrupt\n");
-   487	
-   488		ctlr->dev.of_node = pdev->dev.of_node;
-   489		ctlr->bus_num = pdev->id;
-   490		ctlr->num_chipselect = 1;
-   491		ctlr->mode_bits = SPI_CPHA | SPI_CPOL | SPI_LSB_FIRST;
-   492		ctlr->bits_per_word_mask = SPI_BPW_RANGE_MASK(1, 32);
-   493		ctlr->prepare_message = apple_spi_prepare_message;
-   494		ctlr->set_cs = apple_spi_set_cs;
-   495		ctlr->transfer_one = apple_spi_transfer_one;
-   496		ctlr->auto_runtime_pm = true;
-   497	
-   498		pm_runtime_set_active(&pdev->dev);
-   499		ret = devm_pm_runtime_enable(&pdev->dev);
-   500		if (ret < 0)
-   501			return ret;
-   502	
-   503		apple_spi_init(spi);
-   504	
-   505		ret = devm_spi_register_controller(&pdev->dev, ctlr);
-   506		if (ret < 0)
-   507			return dev_err_probe(&pdev->dev, ret, "devm_spi_register_controller failed\n");
-   508	
-   509		return 0;
-   510	}
-   511	
+   845	
+   846	static int mtk_pcie_parse_port(struct mtk_gen3_pcie *pcie)
+   847	{
+   848		int i, ret, num_resets = pcie->soc->phy_resets.num_resets;
+   849		struct device *dev = pcie->dev;
+   850		struct platform_device *pdev = to_platform_device(dev);
+   851		struct resource *regs;
+   852		u32 num_lanes;
+   853	
+   854		regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "pcie-mac");
+   855		if (!regs)
+   856			return -EINVAL;
+   857		pcie->base = devm_ioremap_resource(dev, regs);
+   858		if (IS_ERR(pcie->base)) {
+   859			dev_err(dev, "failed to map register base\n");
+   860			return PTR_ERR(pcie->base);
+   861		}
+   862	
+   863		pcie->reg_base = regs->start;
+   864	
+   865		for (i = 0; i < num_resets; i++)
+   866			pcie->phy_resets[i].id = pcie->soc->phy_resets.id[i];
+   867	
+   868		ret = devm_reset_control_bulk_get_optional_shared(dev, num_resets, pcie->phy_resets);
+   869		if (ret) {
+   870			dev_err(dev, "failed to get PHY bulk reset\n");
+   871			return ret;
+   872		}
+   873	
+   874		pcie->mac_reset = devm_reset_control_get_optional_exclusive(dev, "mac");
+   875		if (IS_ERR(pcie->mac_reset)) {
+   876			ret = PTR_ERR(pcie->mac_reset);
+   877			if (ret != -EPROBE_DEFER)
+   878				dev_err(dev, "failed to get MAC reset\n");
+   879	
+   880			return ret;
+   881		}
+   882	
+   883		pcie->phy = devm_phy_optional_get(dev, "pcie-phy");
+   884		if (IS_ERR(pcie->phy)) {
+   885			ret = PTR_ERR(pcie->phy);
+   886			if (ret != -EPROBE_DEFER)
+   887				dev_err(dev, "failed to get PHY\n");
+   888	
+   889			return ret;
+   890		}
+   891	
+   892		pcie->num_clks = devm_clk_bulk_get_all(dev, &pcie->clks);
+   893		if (pcie->num_clks < 0) {
+   894			dev_err(dev, "failed to get clocks\n");
+   895			return pcie->num_clks;
+   896		}
+   897	
+ > 898	       ret = of_property_read_u31(dev->of_node, "num-lanes", &num_lanes);
+   899	       if (ret == 0) {
+   900		       if (num_lanes == 0 || num_lanes > 16 || (num_lanes != 1 && num_lanes % 2))
+   901				dev_warn(dev, "invalid num-lanes, using controller defaults\n");
+   902		       else
+   903				pcie->num_lanes = num_lanes;
+   904	       }
+   905	
+   906		return 0;
+   907	}
+   908	
 
 -- 
 0-DAY CI Kernel Test Service
