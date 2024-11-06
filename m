@@ -1,80 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B553D3B8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 01:10:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3873D66;
+	Wed,  6 Nov 2024 01:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730855402; cv=none; b=ZfSEBhgPyj+vRbZjNwX0pH0D6IW3hoGlJko6xGqyHPgPIkRmSEjvSPJDhF0PNPwoCiMHCGtdjMkqT77hwRBuC6ThOfgAgCz0Dobdpos0R8glYkozNBVZ96Wxtmqam9pub8eU19jcgjKx3SkKJ3PbhJyLJWV7v+bsePa8JZTsFTE=
+	t=1730856662; cv=none; b=BynkUr36QxNkqIizQ7fLj4QjlXZKnStsqhpesIPphnU/AzGFIW8TlwzhDg0D3GWZd3+EwhXMW8idBxVAyA04IgiV+XRIK2PjTADQsrHZpf8oEknFY7Kn2/Aqp4DifHfym739kucNyTpo3pdjxdF5IS2EA0XrG0kDsRp8WaduJ1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730855402; c=relaxed/simple;
-	bh=8wkwyTaOOs9Q5NnvxbQhqZPtZs3GJ1PNsILlDFMD+Ic=;
+	s=arc-20240116; t=1730856662; c=relaxed/simple;
+	bh=w4uRAgM8xbGcWtcxv849nFQ4mF6NuoUMjhUqN7BpOZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WEq4OGTe5xVIYATfV/ux+H37ztPUKT6xcq1AvWPhCGdCxmtA+8h7tsTAjfwSpIST27U5cjcf90W7TSVwwI2DgKJpytrCABznG0qgpWxeO508n4PvzPVK9u7Pt7nYqlWQmVKYIUp8J1taUmbMDGQGF+c8qmmpDOjPPLyGh+6VlmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1jkwQoD; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=BbumkKAYbk9IvIL9AXPs2FxJe1WBKjIQJCt9irFtRKZFwxEfBJOS+nBbz5/OZ2KRcVtXIiR1pYsANaFF4dEbKu94SYM1ZFOY90VcE9b7EWt2whuUiZCHYQ1oG5pjjZ9j86eIhFfp5OcYju869mAkeN27PWdV/VWkiKAfoF4xTPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONtD99Gr; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1jkwQoD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONtD99Gr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730855401; x=1762391401;
+  t=1730856660; x=1762392660;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8wkwyTaOOs9Q5NnvxbQhqZPtZs3GJ1PNsILlDFMD+Ic=;
-  b=f1jkwQoDTBYlKXY8YTuAysaBWintcHbhfmuZqKioP1/mm7gANIVTVIXv
-   ClRJoZCzSAJ09bQ3g1+hWTLF0OQaW49MVtMYcXjQsWVMHNSTqGq8lOGla
-   aNJF6k35AFoeXC2vVd02mNFJ0CfSkq4kd/XRLL1PLaFbfnk7L543g894r
-   q4cSQfMHGzg15iRfLFmvVgWsFW2AbxYQkTKZSj5ufxwsTYYKoctzyjtz6
-   7KycIHm7wrv/HKy26ECV7tTv8N1v//TMGW26l3twjCtF8d5h5fVlTMNEl
-   br9a1H8hGgfCf/tu5XHEcs4iyh+gf6ItKTOWybUDrDZDF20t1k8b8Gcm3
-   A==;
-X-CSE-ConnectionGUID: Iez4ITIoTV63a37y0lK70w==
-X-CSE-MsgGUID: 6jEqUT/LSpGcu5aDHI4eIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30740738"
-X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="30740738"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 17:10:00 -0800
-X-CSE-ConnectionGUID: 8QkttW8lSlGJTh+nJBv2Tw==
-X-CSE-MsgGUID: nvQubyb8SZOi3RncHdWtHg==
+  bh=w4uRAgM8xbGcWtcxv849nFQ4mF6NuoUMjhUqN7BpOZE=;
+  b=ONtD99GrBf25+rM34KqHUwiiwURJm/oah1vLGcWaIc5uQ35/pb8qi8bk
+   m32DKNOLqFNO0G1UE38es+/jeRiiG2FSdhTn5QJ20y4RaariVeN/uBFcu
+   7GNO9SJPGq1kHva5k2UKCo0MNlysf+CTJDpdPM83y8ZogbMGBY8ifnqFJ
+   B6VZm7Y0cZBH2l62hclJA8GycLUGFIxUaeBauGxOXBWX4bGs9/w21FEdB
+   xq9wwsQpqByCrRLpItYG9tyL0vDW4gQeHdQL0fyDl+BJCl8Yx8vruioCa
+   uCkzhgp8GU9o3bUvocDy/Vxd6UMKOoKf3GnSUbEkGe9oet0J+NEaGaHgk
+   w==;
+X-CSE-ConnectionGUID: SkPI1xKvRhiDnnscnu1Ing==
+X-CSE-MsgGUID: iMx9vsQRTIilI/iMZ5eBMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53201954"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="53201954"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 17:30:59 -0800
+X-CSE-ConnectionGUID: 4L7Ct1tFSgaMWkNvEsRxBQ==
+X-CSE-MsgGUID: +Z+xLsTLRoWY1bWMap8SKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="89395669"
+   d="scan'208";a="84347612"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Nov 2024 17:09:56 -0800
+  by orviesa006.jf.intel.com with ESMTP; 05 Nov 2024 17:30:55 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8UYS-000mgP-3B;
-	Wed, 06 Nov 2024 01:09:52 +0000
-Date: Wed, 6 Nov 2024 09:09:38 +0800
+	id 1t8Usn-000mhP-1q;
+	Wed, 06 Nov 2024 01:30:53 +0000
+Date: Wed, 6 Nov 2024 09:30:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Lee Chun-Yi <jlee@suse.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Ike Panhc <ike.pan@canonical.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Alexis Belmonte <alexbelm48@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Ai Chao <aichao@kylinos.cn>, Gergo Koteles <soyer@irl.hu>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	"open list:MICROSOFT SURFACE PLATFORM PROFILE DRIVER" <platform-driver-x86@vger.kernel.org>,
-	"open list:THINKPAD ACPI EXTRAS DRIVER" <ibm-acpi-devel@lists.sourceforge.net>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Matthew Schwartz <matthew.schwartz@linux.dev>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v4 11/20] ACPI: platform_profile: Add choices attribute
- for class interface
-Message-ID: <202411060835.GlMKVSsy-lkp@intel.com>
-References: <20241105153316.378-12-mario.limonciello@amd.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	John Ogness <john.ogness@linutronix.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+	bluescreen_avenger@verizon.net,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v6 2/6] drm/log: Introduce a new boot logger to draw the
+ kmsg on the screen
+Message-ID: <202411060951.mK9Fi0fi-lkp@intel.com>
+References: <20241105125109.226866-3-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,54 +75,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105153316.378-12-mario.limonciello@amd.com>
+In-Reply-To: <20241105125109.226866-3-jfalempe@redhat.com>
 
-Hi Mario,
+Hi Jocelyn,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on d68cb6023356af3bd3193983ad4ec03954a0b3e2]
+[auto build test ERROR on d78f0ee0406803cda8801fd5201746ccf89e5e4a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-platform-profile-Add-a-name-member-to-handlers/20241105-233922
-base:   d68cb6023356af3bd3193983ad4ec03954a0b3e2
-patch link:    https://lore.kernel.org/r/20241105153316.378-12-mario.limonciello%40amd.com
-patch subject: [PATCH v4 11/20] ACPI: platform_profile: Add choices attribute for class interface
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241106/202411060835.GlMKVSsy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060835.GlMKVSsy-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Move-drawing-functions-to-drm_draw/20241105-205432
+base:   d78f0ee0406803cda8801fd5201746ccf89e5e4a
+patch link:    https://lore.kernel.org/r/20241105125109.226866-3-jfalempe%40redhat.com
+patch subject: [PATCH v6 2/6] drm/log: Introduce a new boot logger to draw the kmsg on the screen
+config: hexagon-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060951.mK9Fi0fi-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060951.mK9Fi0fi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060835.GlMKVSsy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060951.mK9Fi0fi-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/acpi/platform_profile.c:55: warning: Function parameter or struct member 'choices' not described in '_get_class_choices'
-
-
-vim +55 drivers/acpi/platform_profile.c
-
-    48	
-    49	/**
-    50	 * _get_class_choices - Get the available profile choices for a class device
-    51	 * @dev: The class device
-    52	 * Return: The available profile choices
-    53	 */
-    54	static int _get_class_choices(struct device *dev, unsigned long *choices)
-  > 55	{
-    56		struct platform_profile_handler *handler;
-    57		int i;
-    58	
-    59		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
-    60			handler = dev_get_drvdata(dev);
-    61			for_each_set_bit(i, handler->choices, PLATFORM_PROFILE_LAST)
-    62				*choices |= BIT(i);
-    63		}
-    64	
-    65		return 0;
-    66	}
-    67	
+>> ld.lld: error: undefined symbol: drm_client_setup
+   >>> referenced by komeda_drv.c:87 (drivers/gpu/drm/arm/display/komeda/komeda_drv.c:87)
+   >>>               drivers/gpu/drm/arm/display/komeda/komeda_drv.o:(komeda_platform_probe) in archive vmlinux.a
+   >>> referenced by komeda_drv.c:87 (drivers/gpu/drm/arm/display/komeda/komeda_drv.c:87)
+   >>>               drivers/gpu/drm/arm/display/komeda/komeda_drv.o:(komeda_platform_probe) in archive vmlinux.a
+   >>> referenced by vkms_drv.c:230 (drivers/gpu/drm/vkms/vkms_drv.c:230)
+   >>>               drivers/gpu/drm/vkms/vkms_drv.o:(vkms_init) in archive vmlinux.a
+   >>> referenced 23 more times
+--
+>> ld.lld: error: undefined symbol: drm_client_setup_with_fourcc
+   >>> referenced by arcpgu.c:399 (drivers/gpu/drm/tiny/arcpgu.c:399)
+   >>>               drivers/gpu/drm/tiny/arcpgu.o:(arcpgu_probe) in archive vmlinux.a
+   >>> referenced by arcpgu.c:399 (drivers/gpu/drm/tiny/arcpgu.c:399)
+   >>>               drivers/gpu/drm/tiny/arcpgu.o:(arcpgu_probe) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
