@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAF93C39
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 07:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5201D4342
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 08:22:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730879480; cv=none; b=fagpoBbDxSh4kHQEGbey/ln2Mhtyr81P6c3j9f7ihXUn2NHym9lVCADpqrk2d31aHOreAKPOtvBOmYFdPlZ8throQctO4iQfYvGXQQWS2Z1WJuDKb++9Ki0ViGFgq0DROAISXdHClMpkFmOyv05n9J+bG7KrSWI3FvVkZYAH6V0=
+	t=1730881343; cv=none; b=uzSSWzZwgKM5ufe+2STyx7L3W71XSBR7AxfB7hGvJO+sgsjVSE2LGhbMoh7VUboNsGhvzpRE5RtpnMOD4hlMiW8Bs1C5jbhtaXNjEDZl93fIfEJ+8P0qJcz7nU/R3BKixp+mxq/bn+b90tN6eAHmHQ1+gSMD6q+EUdAtaWfJ5To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730879480; c=relaxed/simple;
-	bh=HbRiIhKTQArt6qccqBDRK1n5WMoklP6bAgI8d1g8YxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H7lnOC2WRzBTjQep9WxTyed1gAEgEuLGy1iFPCOIY24a0uAE3YPC8S33c/7fN2m4hWHhSBBwJJAGLeMpzQROW+Zep9rY9P1lf+3bfnE4XAgX43/2BYIYF0IedjsifMOzumptioIQso3k0pMul/15pM7IGgHM2sbLnvKHCsdha6s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xi4qc3+m; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1730881343; c=relaxed/simple;
+	bh=xZIKcH8xCyb0GTaVvSB3BqXD9mW6/nv+FXboxz/GI74=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CVr6sKE/yPlJxb+kymBZQZb/LEUpaEjXSPcdZRIdAUL1v0FHPKQnzFNV4I0FuL2d5aqu7dWXjdC4ssLVAcmHV2iDxCz56zvMW5nzHBvLNB/4pDIOTTfMP9gjG2ySbQF6UqBoy6jKPZrY95To2KddQzslZ+3+atZ5bXw0UQ6wSqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J4Y5gozX; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xi4qc3+m"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4Y5gozX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730879479; x=1762415479;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HbRiIhKTQArt6qccqBDRK1n5WMoklP6bAgI8d1g8YxU=;
-  b=Xi4qc3+mZyhGIwf04GILNqDqmTqX6LpF/WEFit01Q7Kza8rsS7IU7BdU
-   ldqC9xH9M8MwIBULPGK5ipmKpnXqElHdDTVvYpop7Uef4dDZHRlRPgUMq
-   zfN0T5dnSKo7n2s21ZXEjfYVmpudktYfEDntgYyei3mfFztLn7TclfNj5
-   0fRKhu/VHcMVBX4iartk08XsK3fH8cfHHJV+esKj+iPECrsnmsu1dNmwt
-   f0N2Vj2jKauNqOJfoA48rfNzDaSe5GgPtGNVO76Op71V8kUf8DtrU1mL+
-   PaWSxaa+MyPEKXLHh5ZD2gwM1CPNoWYt/4GPrMu1Atj9hHjT9cLo/t9PY
+  t=1730881341; x=1762417341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xZIKcH8xCyb0GTaVvSB3BqXD9mW6/nv+FXboxz/GI74=;
+  b=J4Y5gozXGIwkiiRR7mupiEpAAJk8DHqwPQgnpmDdDKT3Wo3kimTAgeD+
+   UB1odgzjEbfnVsTwS6oVs5hzShTjR0Y5RTMUh2adeKco5RBsu64R1T4sy
+   cpafDYq6Q592ruTvtBcQnI2aNUIqk2fjzNPIpIKKZU/hS6/VDcZyZ10BY
+   nFj09v/CcNQny2N2Z4uPZcd9MUkcCqPmMQgxWIjmbf6OMy7rE7+zf36uD
+   k1HmFaxss4vil+FFgA3j5xZYjs4bGxPXapILWqjt8W8jUFI4BlgfTk4xE
+   chwzvAzAq/RYf92zh9zS8+cDgUUyFpkRc+mKAYQIS71uZetHZofuxvVh/
    Q==;
-X-CSE-ConnectionGUID: +gk40otVT7a84JS7DOnoaA==
-X-CSE-MsgGUID: FAUn/aEyRduLZES3ZFO0kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34358025"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34358025"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 23:51:19 -0800
-X-CSE-ConnectionGUID: 8hfRn+kvTzetYyVBHfULSw==
-X-CSE-MsgGUID: wwMUmx5uSjCsuaNpnogK9Q==
+X-CSE-ConnectionGUID: mXYUcrg2S++aNFaHtSKwxg==
+X-CSE-MsgGUID: Kbd2MQe8RsCSTRy43DWQfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30886721"
+X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
+   d="scan'208";a="30886721"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 00:22:20 -0800
+X-CSE-ConnectionGUID: RtbyNr8cRXG/qvBKAWPtFQ==
+X-CSE-MsgGUID: LZopDLTsR6u0Qj0aY9xbhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="84512876"
+   d="scan'208";a="89544488"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 05 Nov 2024 23:51:17 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2024 00:22:18 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8aos-000n3q-1R;
-	Wed, 06 Nov 2024 07:51:14 +0000
-Date: Wed, 6 Nov 2024 15:50:43 +0800
+	id 1t8bIt-000n50-0a;
+	Wed, 06 Nov 2024 08:22:15 +0000
+Date: Wed, 6 Nov 2024 16:22:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sricharan Ramabadhran <quic_srichara@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Varadarajan Narayanan <quic_varada@quicinc.com>
-Subject: [qcom:clk-for-6.13 30/30] drivers/clk/qcom/gcc-ipq5424.c:1064:30:
- warning: 'ftbl_gcc_q6_axi_clk_src' defined but not used
-Message-ID: <202411061537.anSkNwoR-lkp@intel.com>
+To: James Houghton <jthoughton@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, David Matlack <dmatlack@google.com>,
+	David Rientjes <rientjes@google.com>,
+	James Houghton <jthoughton@google.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>, Wei Xu <weixugc@google.com>,
+	Yu Zhao <yuzhao@google.com>,
+	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 04/11] KVM: x86/mmu: Relax locking for
+ kvm_test_age_gfn and kvm_age_gfn
+Message-ID: <202411061526.RAuCXKJh-lkp@intel.com>
+References: <20241105184333.2305744-5-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,154 +72,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241105184333.2305744-5-jthoughton@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux clk-for-6.13
-head:   21b5d5a4a3114607a27653371c0332f2080e3c05
-commit: 21b5d5a4a3114607a27653371c0332f2080e3c05 [30/30] clk: qcom: add Global Clock controller (GCC) driver for IPQ5424 SoC
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241106/202411061537.anSkNwoR-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061537.anSkNwoR-lkp@intel.com/reproduce)
+Hi James,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on a27e0515592ec9ca28e0d027f42568c47b314784]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM-Remove-kvm_handle_hva_range-helper-functions/20241106-025133
+base:   a27e0515592ec9ca28e0d027f42568c47b314784
+patch link:    https://lore.kernel.org/r/20241105184333.2305744-5-jthoughton%40google.com
+patch subject: [PATCH v8 04/11] KVM: x86/mmu: Relax locking for kvm_test_age_gfn and kvm_age_gfn
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241106/202411061526.RAuCXKJh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061526.RAuCXKJh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061537.anSkNwoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411061526.RAuCXKJh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/clk/qcom/gcc-ipq5424.c:1064:30: warning: 'ftbl_gcc_q6_axi_clk_src' defined but not used [-Wunused-const-variable=]
-    1064 | static const struct freq_tbl ftbl_gcc_q6_axi_clk_src[] = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-ipq5424.c:957:30: warning: 'ftbl_gcc_qpic_clk_src' defined but not used [-Wunused-const-variable=]
-     957 | static const struct freq_tbl ftbl_gcc_qpic_clk_src[] = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/gcc-ipq5424.c:497:30: warning: 'ftbl_gcc_qupv3_2x_core_clk_src' defined but not used [-Wunused-const-variable=]
-     497 | static const struct freq_tbl ftbl_gcc_qupv3_2x_core_clk_src[] = {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   arch/x86/kvm/mmu/tdp_mmu.c: In function 'kvm_tdp_mmu_age_spte':
+>> arch/x86/kvm/mmu/tdp_mmu.c:1189:23: warning: ignoring return value of '__tdp_mmu_set_spte_atomic' declared with attribute 'warn_unused_result' [-Wunused-result]
+    1189 |                 (void)__tdp_mmu_set_spte_atomic(iter, new_spte);
+         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/ftbl_gcc_q6_axi_clk_src +1064 drivers/clk/qcom/gcc-ipq5424.c
+vim +1189 arch/x86/kvm/mmu/tdp_mmu.c
 
-   956	
- > 957	static const struct freq_tbl ftbl_gcc_qpic_clk_src[] = {
-   958		F(24000000, P_XO, 1, 0, 0),
-   959		F(100000000, P_GPLL0_OUT_MAIN, 8, 0, 0),
-   960		F(200000000, P_GPLL0_OUT_MAIN, 4, 0, 0),
-   961		{ }
-   962	};
-   963	
-   964	static struct clk_rcg2 gcc_qpic_clk_src = {
-   965		.cmd_rcgr = 0x32020,
-   966		.mnd_width = 0,
-   967		.hid_width = 5,
-   968		.parent_map = gcc_parent_map_11,
-   969		.freq_tbl = ftbl_gcc_qpic_io_macro_clk_src,
-   970		.clkr.hw.init = &(const struct clk_init_data) {
-   971			.name = "gcc_qpic_clk_src",
-   972			.parent_data = gcc_parent_data_11,
-   973			.num_parents = ARRAY_SIZE(gcc_parent_data_11),
-   974			.ops = &clk_rcg2_ops,
-   975		},
-   976	};
-   977	
-   978	static struct clk_rcg2 gcc_pcie0_rchng_clk_src = {
-   979		.cmd_rcgr = 0x28028,
-   980		.mnd_width = 0,
-   981		.hid_width = 5,
-   982		.parent_map = gcc_parent_map_1,
-   983		.freq_tbl = ftbl_gcc_adss_pwm_clk_src,
-   984		.clkr.hw.init = &(const struct clk_init_data) {
-   985			.name = "gcc_pcie0_rchng_clk_src",
-   986			.parent_data = gcc_parent_data_1,
-   987			.num_parents = ARRAY_SIZE(gcc_parent_data_1),
-   988			.ops = &clk_rcg2_ops,
-   989		},
-   990	};
-   991	
-   992	static struct clk_rcg2 gcc_pcie1_rchng_clk_src = {
-   993		.cmd_rcgr = 0x29028,
-   994		.mnd_width = 0,
-   995		.hid_width = 5,
-   996		.parent_map = gcc_parent_map_1,
-   997		.freq_tbl = ftbl_gcc_adss_pwm_clk_src,
-   998		.clkr.hw.init = &(const struct clk_init_data) {
-   999			.name = "gcc_pcie1_rchng_clk_src",
-  1000			.parent_data = gcc_parent_data_1,
-  1001			.num_parents = ARRAY_SIZE(gcc_parent_data_1),
-  1002			.ops = &clk_rcg2_ops,
-  1003		},
-  1004	};
-  1005	
-  1006	static struct clk_rcg2 gcc_pcie2_rchng_clk_src = {
-  1007		.cmd_rcgr = 0x2a028,
-  1008		.mnd_width = 0,
-  1009		.hid_width = 5,
-  1010		.parent_map = gcc_parent_map_1,
-  1011		.freq_tbl = ftbl_gcc_adss_pwm_clk_src,
-  1012		.clkr.hw.init = &(const struct clk_init_data) {
-  1013			.name = "gcc_pcie2_rchng_clk_src",
-  1014			.parent_data = gcc_parent_data_1,
-  1015			.num_parents = ARRAY_SIZE(gcc_parent_data_1),
-  1016			.ops = &clk_rcg2_ops,
-  1017		},
-  1018	};
-  1019	
-  1020	static struct clk_rcg2 gcc_pcie3_rchng_clk_src = {
-  1021		.cmd_rcgr = 0x2b028,
-  1022		.mnd_width = 0,
-  1023		.hid_width = 5,
-  1024		.parent_map = gcc_parent_map_1,
-  1025		.freq_tbl = ftbl_gcc_adss_pwm_clk_src,
-  1026		.clkr.hw.init = &(const struct clk_init_data) {
-  1027			.name = "gcc_pcie3_rchng_clk_src",
-  1028			.parent_data = gcc_parent_data_1,
-  1029			.num_parents = ARRAY_SIZE(gcc_parent_data_1),
-  1030			.ops = &clk_rcg2_ops,
-  1031		},
-  1032	};
-  1033	
-  1034	static struct clk_regmap_div gcc_qupv3_i2c0_div_clk_src = {
-  1035		.reg = 0x2020,
-  1036		.shift = 0,
-  1037		.width = 2,
-  1038		.clkr.hw.init = &(const struct clk_init_data) {
-  1039			.name = "gcc_qupv3_i2c0_div_clk_src",
-  1040			.parent_hws = (const struct clk_hw*[]) {
-  1041				&gcc_qupv3_i2c0_clk_src.clkr.hw,
-  1042			},
-  1043			.num_parents = 1,
-  1044			.flags = CLK_SET_RATE_PARENT,
-  1045			.ops = &clk_regmap_div_ro_ops,
-  1046		},
-  1047	};
-  1048	
-  1049	static struct clk_regmap_div gcc_qupv3_i2c1_div_clk_src = {
-  1050		.reg = 0x3020,
-  1051		.shift = 0,
-  1052		.width = 2,
-  1053		.clkr.hw.init = &(const struct clk_init_data) {
-  1054			.name = "gcc_qupv3_i2c1_div_clk_src",
-  1055			.parent_hws = (const struct clk_hw*[]) {
-  1056				&gcc_qupv3_i2c1_clk_src.clkr.hw,
-  1057			},
-  1058			.num_parents = 1,
-  1059			.flags = CLK_SET_RATE_PARENT,
-  1060			.ops = &clk_regmap_div_ro_ops,
-  1061		},
-  1062	};
-  1063	
-> 1064	static const struct freq_tbl ftbl_gcc_q6_axi_clk_src[] = {
-  1065		F(480000000, P_GPLL4_OUT_AUX, 2.5, 0, 0),
-  1066		F(533333333, P_GPLL0_OUT_MAIN, 1.5, 0, 0),
-  1067		{ }
-  1068	};
-  1069	
+  1166	
+  1167	/*
+  1168	 * Mark the SPTEs range of GFNs [start, end) unaccessed and return non-zero
+  1169	 * if any of the GFNs in the range have been accessed.
+  1170	 *
+  1171	 * No need to mark the corresponding PFN as accessed as this call is coming
+  1172	 * from the clear_young() or clear_flush_young() notifier, which uses the
+  1173	 * return value to determine if the page has been accessed.
+  1174	 */
+  1175	static void kvm_tdp_mmu_age_spte(struct tdp_iter *iter)
+  1176	{
+  1177		u64 new_spte;
+  1178	
+  1179		if (spte_ad_enabled(iter->old_spte)) {
+  1180			iter->old_spte = tdp_mmu_clear_spte_bits_atomic(iter->sptep,
+  1181							shadow_accessed_mask);
+  1182			new_spte = iter->old_spte & ~shadow_accessed_mask;
+  1183		} else {
+  1184			new_spte = mark_spte_for_access_track(iter->old_spte);
+  1185			/*
+  1186			 * It is safe for the following cmpxchg to fail. Leave the
+  1187			 * Accessed bit set, as the spte is most likely young anyway.
+  1188			 */
+> 1189			(void)__tdp_mmu_set_spte_atomic(iter, new_spte);
+  1190		}
+  1191	
+  1192		trace_kvm_tdp_mmu_spte_changed(iter->as_id, iter->gfn, iter->level,
+  1193					       iter->old_spte, new_spte);
+  1194	}
+  1195	
 
 -- 
 0-DAY CI Kernel Test Service
