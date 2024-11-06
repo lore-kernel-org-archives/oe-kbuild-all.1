@@ -1,79 +1,84 @@
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE8E118C03F
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 15:22:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606DE2038B5
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 15:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730906526; cv=none; b=ZgpYMsfnarHT/4VUgwOMFRzHsmUSadA5zdSiVtkHHd5I9GiHcsnv19pDpV3YKWnC04DuhwCTRDz5JGgDYIfxgJ2+S8gR5/qxbWw7eWrSH7XloRnxCUF8bFD/EOp/1BqeVLWpjRVNQFFZXfvfCAoJOp9/9FfyedhHsstvK4YJ2E8=
+	t=1730907322; cv=none; b=XTmcaAWVLjcZMWb36c0z3etFaiKBEIWKF3Y+/Xu/KZnPHKLSuh3SHlOmHVJWdFv3HVazo1Qb/3EfCTEO1YzjoX45Da8ohLsFHZ1iwHPowvpL9Fu/zupq1aJ/Y2S/Hjvhvp4NyHVUwu0Q2Hz/NWR6InUlm5N4oTYsl/6fxO+VYYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730906526; c=relaxed/simple;
-	bh=hwQb6Bgpzxjusi1sNjee+JRXjDmZXCInqM6lgcIFXi0=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=RDzeDUm3PhUVSCtdFEij5A6ovFO7DFbRS/pu52XJ7jKQwbZK384nrwz6Wuo3EcyIPXCXzxFFRp0CYAVZIaXokAoWQa42ulNDSaxu04MTb6QFu5SpkmBkIjU2OOfzDab5UqmZ4i1RVCUpSlgR3dEmfIdUSnUidjWZ2Ax9LAOsW3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-3a6b2581364so57573925ab.0
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 06 Nov 2024 07:22:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730906524; x=1731511324;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TxtIZrToYDUsmz51BXFewoWsiGAdqJraREWxLhVJXpA=;
-        b=BnwGavdHmVP2eyqysZf7JKaeeZrSyWQzFpEuG2tnnjHUV5+/irhdpuf0qRgfjeX3xm
-         Tz9+cjYfD2goFVy44io/fhGAB8P8bM/XLq6AlI1iI2cuH6bvoiTMVgIKtA9fjl/lEkIN
-         veFGWQ/Vfd1gqrbZA1FPE1e6T03RwGzWqKHQJDa4B0YDUuk4w7xyCL2igRWgQ5DqoNqJ
-         y6YSTtoRguYZjDqowJCyTpaPTT6i+nZ9jlKVvWcqHLBIetyNhCYMOJr1owrxTWi+3KE/
-         w5JjZvsi/fStxbbp1CeMyG5kcocGWyNy+2xZAgpmI2dD45XqKGKMjBG77PuQU+pMDxhz
-         Il/w==
-X-Forwarded-Encrypted: i=1; AJvYcCXA+RLUnSJdW65xwzIEd/jIEED17UcziVosyEXGKNsaqha5EGwe3UURrNLceiVb1XgkdaZ+XAS9Nzpbl/zZ@lists.linux.dev
-X-Gm-Message-State: AOJu0YxfVZlaz4Y4kM85FJA/fETebuz4DfLFGwj10PGAR267+5hG3yQE
-	0ouFY1ypdmFFsNvS4no/RGCA5fifOT/yoQEFc29YkB8cKiesy29wmpy+Bn7VXV0zRHengT9JycS
-	ioBZCDTtiITkZm+zKQW7ZhwtKe+/DojaXuHt09A62nnh2uyHpfeTQdUk=
-X-Google-Smtp-Source: AGHT+IGB0fuX92rvZS/mWn27iW0EG8h6GUgkVshI6dXgd3sqA8coI/pcSaFgr7mzopz8lL1dOWvuvS+ns96sVHW4jkdJMv2qVU9o
+	s=arc-20240116; t=1730907322; c=relaxed/simple;
+	bh=FI7CV0X4k1j7iQ7IahLdRFMBi8yyGlbjrOiYPxWSBi8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=EOEh25N+hCQcUe6701mCysZo8/UDkc0yq2CdeXeEKe7y+YIPFj8+BtqpjTkbBiLNpLXWHzdQH6aqSQtJfkXCbcNZs5WDnMRyujS0AabaBG1sG+2fszyH/qe0vFhAwbC5ZZXvXHsn70Ue3gqsr6SbByrdeogvPAMS6SM1gQOF2iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bM0FxsSr; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bM0FxsSr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730907322; x=1762443322;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=FI7CV0X4k1j7iQ7IahLdRFMBi8yyGlbjrOiYPxWSBi8=;
+  b=bM0FxsSrMMsMTz+TYbo2jBAf/09wVGw+nYQHykN0juO5iESpMPO9T4hI
+   CmIuE85ZH+psjhNQmxOcEl7rQW4BTFtraXfjB6h3uXcZbfpBVmP0ZgemM
+   xv9cFJKGIMxC6OzSQRUosSAKgNc7iH2BoH+Of5bA25c9p5qbUzmKqAcxV
+   KblxwyQVD1R8QfHqVfJhSope9SWGJLopijK214y8psYcPhFrH6vsCw8il
+   l3VfGCpW3XZ4aMiMY+iNYFCu1hUsvDDqZ+THJEENuudV3J2xLq3/DIUqo
+   Fx2rpPngO0FvsFG3Wvhdx/AiyFGIS36CbjiR0Q1w2lWAmZelzPxozCusK
+   Q==;
+X-CSE-ConnectionGUID: TX58/J+lTECqJgUxIO4u7A==
+X-CSE-MsgGUID: +chx7LSyQCqZPbQIQY5HMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34410712"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34410712"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 07:35:21 -0800
+X-CSE-ConnectionGUID: 2lEY/G5EQ7Ws6YWFczQ3Kg==
+X-CSE-MsgGUID: Oavb0Ff9SveEtXlp3auSTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
+   d="scan'208";a="88572040"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 07:35:20 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t8i3x-000p4E-3A;
+	Wed, 06 Nov 2024 15:35:17 +0000
+Date: Wed, 6 Nov 2024 23:34:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v5 6/6] phy: core: Simplify API of_phy_simple_xlate()
+ implementation
+Message-ID: <ZyuMlk8VXQx7IswZ@a6d8444ee0cf>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:505:b0:3a5:e1f5:156a with SMTP id
- e9e14a558f8ab-3a5e1f51a6bmr238666775ab.2.1730906524025; Wed, 06 Nov 2024
- 07:22:04 -0800 (PST)
-Date: Wed, 06 Nov 2024 07:22:04 -0800
-In-Reply-To: <671c2223.050a0220.2fdf0c.021c.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <672b899c.050a0220.350062.026d.GAE@google.com>
-Subject: Re: [syzbot] [ext4?] KASAN: use-after-free Write in ext4_insert_dentry
-From: syzbot <syzbot+0c99c3f90699936c1e77@syzkaller.appspotmail.com>
-To: adilger.kernel@dilger.ca, adilger@dilger.ca, eadavis@qq.com, jack@suse.cz, 
-	linux-ext4@vger.kernel.org, linux-kernel@vger.kernel.org, lkp@intel.com, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, oe-lkp@lists.linux.dev, 
-	oliver.sang@intel.com, sandeen@redhat.com, syzkaller-bugs@googlegroups.com, 
-	tytso@mit.edu
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241106-phy_core_fix-v5-6-9771652eb88c@quicinc.com>
 
-syzbot has bisected this issue to:
+Hi,
 
-commit 5872331b3d91820e14716632ebb56b1399b34fe1
-Author: Eric Sandeen <sandeen@redhat.com>
-Date:   Wed Jun 17 19:19:04 2020 +0000
+Thanks for your patch.
 
-    ext4: fix potential negative array index in do_split()
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=15b9ce30580000
-start commit:   2e1b3cc9d7f7 Merge tag 'arm-fixes-6.12-2' of git://git.ker..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=17b9ce30580000
-console output: https://syzkaller.appspot.com/x/log.txt?x=13b9ce30580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=921b01cbfd887a9b
-dashboard link: https://syzkaller.appspot.com/bug?extid=0c99c3f90699936c1e77
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=173636a7980000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1600cf40580000
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-Reported-by: syzbot+0c99c3f90699936c1e77@syzkaller.appspotmail.com
-Fixes: 5872331b3d91 ("ext4: fix potential negative array index in do_split()")
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v5 6/6] phy: core: Simplify API of_phy_simple_xlate() implementation
+Link: https://lore.kernel.org/stable/20241106-phy_core_fix-v5-6-9771652eb88c%40quicinc.com
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
