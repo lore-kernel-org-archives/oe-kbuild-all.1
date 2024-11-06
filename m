@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BB1CF9F8
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 00:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7DBF9F8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 00:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730853541; cv=none; b=GG/DEv2YVexR/vqscDMkgSmH9oBMfMLZINXP+adV8zGDMLS4Kob1QIfsfyvzB0IT+cz0+BXNNFyI2GtZc3rt6v4Xo4cvVhjzm7UaREbGt4JUrevFQTQhOSDPrs5/pJFBwvJaI5Ust3wS+DtiJT9z0YDqzie/MLZGYrohB6PKGk4=
+	t=1730853543; cv=none; b=mvSZ77qhTvBS7yGP0Y/QtGu1dypf9vbtlLba4LSzQmLxeEHaRL66ppYFxqVEtEN+01x8ER6AqaP3+jJ4stBf9vFmNGl643gpOiUqbr6Cpt4o6/orPwoOV0qdcVhqDOd/GTlBoKyH9YHYtqqDK3nPyR2PCT18k26LtOLd8ltqZ00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730853541; c=relaxed/simple;
-	bh=OY1hlIVYQYS0vaFdEQbDhhBtFBmY9oVIQ6rqxklOL7Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D+LHZHNTOqNSgWwITF5mQ76UwoFk3B+l78xpwLYI486yXVuGMVeAq8lkgSXEF30h8cGa5ZbnYqcwZfAQM/LeRQdwcdQCwqWYJq/UF360AyoedbbU+IT04ULef7ufZL6OBzpE6HAmZqd85zq2gL6TQ5xkFQLRrLfUxQSFk6a1UGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcgpBxHp; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1730853543; c=relaxed/simple;
+	bh=eY5ZO/e9XR2/Uh57vFmn0mLNH0/bGfv+KrTWNps1tbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qkxo8RUIRy5D5+YSuZiHd3z+3MEUUAJH5N1Xfrw9eAbwobZXaW/3aKaqqDN+Rkcs7m/NiUkPSDmjVlsOcHY6VHmDGpl3hrX+1M3v5u9Lm5U4UJS4VgOvuTgoGz+zxClE1zZPOzUjGE//xPx8IzYTX7/LwqvIY+0edOCYF5wKjJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y7l8lscO; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcgpBxHp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7l8lscO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730853538; x=1762389538;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=OY1hlIVYQYS0vaFdEQbDhhBtFBmY9oVIQ6rqxklOL7Q=;
-  b=LcgpBxHptWTqsaPvULxcwsX/J70pBAGtu8/EdUt8qJWFMUm11dWUbIYr
-   6CHwB1vSEgSk+pH80nxeK1VNPQVI65a15E/PDFkwbDuHDVCNbbALxwUvw
-   Gj5uVHU65hz8hjP9IHiw1QyTeDe60NcapkousnEMSIZWyZJpMDQvqOXge
-   KI9k29ATlmn/ylqzYGaeNofIQGXzU0/bzuvg0kMLSzn5vbwqItnrmoIW9
-   qeFzWSGM14IyVNXc4WbxsT6dhya4FLHGMLPXStC13K8fO21akfHUwAkUn
-   0MtV1AdUl0Ulf9YH1dosMemjnGwtrvW+OXpMkzK8WJ25phXbBqVBg8w6x
-   Q==;
-X-CSE-ConnectionGUID: wgOIvIkCRZa+AZ7HgBXKDg==
-X-CSE-MsgGUID: 7NMMxR+mRlGaix3d9Tvexg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30793760"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30793760"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:38:58 -0800
-X-CSE-ConnectionGUID: I3dyyNjpT2qz2VOPNAR7VQ==
-X-CSE-MsgGUID: Tn51CGnTRsuvRpj/uZhEOg==
+  t=1730853541; x=1762389541;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eY5ZO/e9XR2/Uh57vFmn0mLNH0/bGfv+KrTWNps1tbw=;
+  b=Y7l8lscOpRC433NYpgFNFrXC+Bsg3ZLng1NYwuZyg/RgYYGiEe/BHKkd
+   liUArOpV9vKg1Ta6aSNldUCUjRbiL0Yom8xCDCThu3VDw4SdASaNxg3m2
+   IcsNzanX4dr7iY2zmZsPS1T9lTmIwWFHK45tuxNdS+riNBRejkzjRAnHf
+   wOsU7vmu3MF9hfvL7DifoJzvwtYPubVt9WfzEqEuNhAiJHcIBE+2oKVWb
+   4FSwqPYWplP/w7qNucj6Bx5c/vv8+I/60QoX6tm4ZLs1UnKAZysUq1bZr
+   CrBjBYnMcppMUUEJUHeSkXz4MMo/6ZsBZf5HFvy/O1wAkKMlBenCfKlhX
+   g==;
+X-CSE-ConnectionGUID: uPb056HKSSSdwPHja3HL/g==
+X-CSE-MsgGUID: /Qw6JfjdQ3irVgCwrLIoXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41227713"
+X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
+   d="scan'208";a="41227713"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:38:55 -0800
+X-CSE-ConnectionGUID: ufA5GvcNSwiZmANZMhiflQ==
+X-CSE-MsgGUID: BSLx4C9NSsueXJJxrr570Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="88746269"
+   d="scan'208";a="88793874"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Nov 2024 16:38:54 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 16:38:54 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8U4R-000me3-2V;
+	id 1t8U4R-000me9-2h;
 	Wed, 06 Nov 2024 00:38:51 +0000
-Date: Wed, 6 Nov 2024 08:38:35 +0800
+Date: Wed, 6 Nov 2024 08:38:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	John Ogness <john.ogness@linutronix.de>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
-	bluescreen_avenger@verizon.net,
-	Caleb Connolly <caleb.connolly@linaro.org>,
-	Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH v6 2/6] drm/log: Introduce a new boot logger to draw the
- kmsg on the screen
-Message-ID: <202411060804.HiQa1eSZ-lkp@intel.com>
-References: <20241105125109.226866-3-jfalempe@redhat.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:b4/slub-percpu-sheaves 2/9] mm/slub.c:2560:13: warning:
+ 'pcs_flush_all' defined but not used
+Message-ID: <202411060828.opOeNEjg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,93 +61,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105125109.226866-3-jfalempe@redhat.com>
 
-Hi Jocelyn,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on d78f0ee0406803cda8801fd5201746ccf89e5e4a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Move-drawing-functions-to-drm_draw/20241105-205432
-base:   d78f0ee0406803cda8801fd5201746ccf89e5e4a
-patch link:    https://lore.kernel.org/r/20241105125109.226866-3-jfalempe%40redhat.com
-patch subject: [PATCH v6 2/6] drm/log: Introduce a new boot logger to draw the kmsg on the screen
-config: s390-randconfig-001-20241106 (https://download.01.org/0day-ci/archive/20241106/202411060804.HiQa1eSZ-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060804.HiQa1eSZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slub-percpu-sheaves
+head:   c2ef14761b7d660275c07a6f6c53db215045bcfc
+commit: 8a21fb0b8625d6f4f77351cc33427d9c52fd9cdf [2/9] mm/slub: add opt-in caching layer of percpu sheaves
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241106/202411060828.opOeNEjg-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060828.opOeNEjg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060804.HiQa1eSZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060828.opOeNEjg-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   s390-linux-ld: drivers/gpu/drm/arm/display/komeda/komeda_drv.o: in function `komeda_platform_probe':
->> drivers/gpu/drm/arm/display/komeda/komeda_drv.c:87:(.text+0x18e): undefined reference to `drm_client_setup'
-   s390-linux-ld: drivers/gpu/drm/radeon/radeon_drv.o: in function `radeon_pci_probe':
->> drivers/gpu/drm/radeon/radeon_drv.c:336:(.text+0x594): undefined reference to `drm_client_setup'
-   s390-linux-ld: drivers/gpu/drm/vkms/vkms_drv.o: in function `vkms_create':
->> drivers/gpu/drm/vkms/vkms_drv.c:230:(.text.unlikely+0x1b4): undefined reference to `drm_client_setup'
-   s390-linux-ld: drivers/gpu/drm/nouveau/nouveau_drm.o: in function `nouveau_drm_probe':
->> drivers/gpu/drm/nouveau/nouveau_drm.c:882:(.text+0x2c26): undefined reference to `drm_client_setup'
-   s390-linux-ld: drivers/gpu/drm/ast/ast_drv.o: in function `ast_pci_probe':
->> drivers/gpu/drm/ast/ast_drv.c:365:(.text+0x916): undefined reference to `drm_client_setup'
-   s390-linux-ld: drivers/gpu/drm/qxl/qxl_drv.o:drivers/gpu/drm/qxl/qxl_drv.c:122: more undefined references to `drm_client_setup' follow
+>> mm/slub.c:2560:13: warning: 'pcs_flush_all' defined but not used [-Wunused-function]
+    2560 | static void pcs_flush_all(struct kmem_cache *s)
+         |             ^~~~~~~~~~~~~
 
 
-vim +87 drivers/gpu/drm/arm/display/komeda/komeda_drv.c
+vim +/pcs_flush_all +2560 mm/slub.c
 
-ce3d99c8349584 Douglas Anderson                       2023-09-01   55  
-4cfe5cc02e3f62 Faiz Abbas                             2023-07-12   56  static int komeda_platform_probe(struct platform_device *pdev)
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   57) {
-4cfe5cc02e3f62 Faiz Abbas                             2023-07-12   58  	struct device *dev = &pdev->dev;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   59) 	struct komeda_drv *mdrv;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   60) 	int err;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   61) 
-a918dcfecc36f8 Amjad Ouled-Ameur                      2024-02-19   62  	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(40));
-a918dcfecc36f8 Amjad Ouled-Ameur                      2024-02-19   63  	if (err)
-a918dcfecc36f8 Amjad Ouled-Ameur                      2024-02-19   64  		return dev_err_probe(dev, err, "DMA mask error\n");
-a918dcfecc36f8 Amjad Ouled-Ameur                      2024-02-19   65  
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   66) 	mdrv = devm_kzalloc(dev, sizeof(*mdrv), GFP_KERNEL);
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   67) 	if (!mdrv)
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   68) 		return -ENOMEM;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   69) 
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   70) 	mdrv->mdev = komeda_dev_create(dev);
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   71) 	if (IS_ERR(mdrv->mdev)) {
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   72) 		err = PTR_ERR(mdrv->mdev);
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   73) 		goto free_mdrv;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   74) 	}
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   75) 
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   76) 	pm_runtime_enable(dev);
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   77) 	if (!pm_runtime_enabled(dev))
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   78) 		komeda_dev_resume(mdrv->mdev);
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   79) 
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   80) 	mdrv->kms = komeda_kms_attach(mdrv->mdev);
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   81) 	if (IS_ERR(mdrv->kms)) {
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   82) 		err = PTR_ERR(mdrv->kms);
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   83) 		goto destroy_mdev;
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   84) 	}
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   85) 
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   86) 	dev_set_drvdata(dev, mdrv);
-dd5891e7a4099e Thomas Zimmermann                      2024-09-24  @87  	drm_client_setup(&mdrv->kms->base, NULL);
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   88) 
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   89) 	return 0;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   90) 
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   91) destroy_mdev:
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   92) 	if (pm_runtime_enabled(dev))
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   93) 		pm_runtime_disable(dev);
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   94) 	else
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   95) 		komeda_dev_suspend(mdrv->mdev);
-efb46508851874 james qian wang (Arm Technology China  2019-12-12   96) 
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   97) 	komeda_dev_destroy(mdrv->mdev);
-61f1c4a8ab7575 james qian wang (Arm Technology China  2019-01-03   98) 
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03   99) free_mdrv:
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03  100) 	devm_kfree(dev, mdrv);
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03  101) 	return err;
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03  102) }
-26bd43a7599639 james qian wang (Arm Technology China  2019-01-03  103) 
+  2552	
+  2553	/*
+  2554	 * Caller needs to make sure migration is disabled in order to fully flush
+  2555	 * single cpu's sheaves
+  2556	 *
+  2557	 * flushing operations are rare so let's keep it simple and flush to slabs
+  2558	 * directly, skipping the barn
+  2559	 */
+> 2560	static void pcs_flush_all(struct kmem_cache *s)
+  2561	{
+  2562		struct slub_percpu_sheaves *pcs;
+  2563		struct slab_sheaf *spare, *rcu_free;
+  2564		unsigned long flags;
+  2565	
+  2566		local_lock_irqsave(&s->cpu_sheaves->lock, flags);
+  2567		pcs = this_cpu_ptr(s->cpu_sheaves);
+  2568	
+  2569		spare = pcs->spare;
+  2570		pcs->spare = NULL;
+  2571	
+  2572		rcu_free = pcs->rcu_free;
+  2573		pcs->rcu_free = NULL;
+  2574	
+  2575		local_unlock_irqrestore(&s->cpu_sheaves->lock, flags);
+  2576	
+  2577		if (spare) {
+  2578			sheaf_flush(s, spare);
+  2579			free_empty_sheaf(s, spare);
+  2580		}
+  2581	
+  2582		// TODO: handle rcu_free
+  2583		BUG_ON(rcu_free);
+  2584	
+  2585		sheaf_flush_main(s);
+  2586	}
+  2587	
 
 -- 
 0-DAY CI Kernel Test Service
