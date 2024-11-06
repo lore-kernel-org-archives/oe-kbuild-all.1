@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15F920408D;
-	Wed,  6 Nov 2024 17:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD69620822A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 18:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730915676; cv=none; b=vCMBd22KHPlFgky2Lg2RFalrzUbsZkNb1nsbAP80ciuII7yng3sB6wAoimEMv8N2Q2FrUEXYpABOtxrr3/is8q9RDgiHHZNMsSTgtoY3DAA2cTtyavJyEUs4vKddwvgWt/sR89AHTbVseIpfyjVz/Ti606nLaBvv0COjrbgYkjw=
+	t=1730918135; cv=none; b=C1oZHKg5vi29+Uge9tBKQaODecl71MG55EI2CkkHVGF6Ig8fZlsu7UdTO0pIEElYCprso6WEJjvoYevaAxdVIMOuqAqL7v4lxw57oTQqBODTl4WWscKgKD3YUWPMlWL97iUTciUhDTo6XqzSd3aFoIP6wwTu85JXwydoRcVQAsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730915676; c=relaxed/simple;
-	bh=cDz3GbfOlnxsDFkNUWxFouzEfiwqYtJwJJki0uFIs1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KUMqFwdgZYxLWrns0JaeSNaS/lwRimw/ri8FNwPCTGciqeFXRwZqyQFeJ9+7LwncYe6ZV81paqa/o5p+2GIZMzVzsqkDMbv/T/rctR/jDxnKc39FQz7pAlsVR/tZg7uEUi3h0RfQnnEvVJYHj+a7ASZ6LILqYED/P08D4+BHlFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VilI7UWP; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1730918135; c=relaxed/simple;
+	bh=z3sgG4avAGwKtJiVjApORQ0TVVeXqWgh9/AzJo6C7g4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nPoIv6tdr9YGfdBWyz1Bc1Sfqp8fp4y0oBmZnk54+hHGtND7n6ILjurL8zDt4oAOy8yaARBjlWK5z2VC3K3CBfmzj3eEqpgsOwZBDw9SR1Ba2JatlVklSWNDkyar3WYZ2xtuuT/6UNvppTjLeb5Iy9bsDAGzGwJsKNbv151yORw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfBTtTSx; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VilI7UWP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfBTtTSx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730915673; x=1762451673;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cDz3GbfOlnxsDFkNUWxFouzEfiwqYtJwJJki0uFIs1k=;
-  b=VilI7UWPfQV9sT+1bGw2MeVyjJTXL/869c7spv7SQemJZ3NYfBw2vMQB
-   +jnLWmG9aEy9M8zlsl8K35BOcatjckFPUN71Hk1fRqDzWqOStvUyt8SwR
-   QSSWo4Zioe1fM45MUfUn+qCNN7h+tRPn6geIz6nutivkFCu+vRYtcVYkQ
-   zdBGNnZnYEk+GzrRJwTTsf2D5rftv2XLF8MBPgMK70rltd7hmrrqti41U
-   DINruTCkKGBOcl68RPlBd/XxhhAVb6Zuc7OTY403mVtWEY7vdRIgACwxX
-   AvROC2RIyeKVnGpB4fkWiyShyLBJlbYhVw+X9Hfc/xezz/9uCYF64C85X
+  t=1730918134; x=1762454134;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z3sgG4avAGwKtJiVjApORQ0TVVeXqWgh9/AzJo6C7g4=;
+  b=MfBTtTSx71zPWpWtBeBnlzye76OsuRagsJdqCm/qCyNahTBkrDs+CYCY
+   pJFNf6/FDcp+Waephji0/VUYNszQc0T37A0rtcEj4fyU45gudIUz0JDWe
+   nFcGIRUdNK8Wg5v0C8+fZbqvzcR1ncLLCyncy+0R3CCPZ0nYLThCBDpO9
+   JTKmEN67R4eCk/JnFOA5hJNCLMFZDz6kD0NqaLZVHjxtEtaoJnqXU9mTm
+   YothagPQwAMNY6WisjgfHQc/2HbhiLmhyAslEloWqjuQbREHU0e1fjhBx
+   te+iPtuJtIWeFbEqmVfHN5Z8IJX4CSZsTBC4suD5+yJw79KdprPm73o/9
    A==;
-X-CSE-ConnectionGUID: eRCGYGMwTZSzzIsW6lROVg==
-X-CSE-MsgGUID: Vk7fF9EXQdq7J3fu2MGEvg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="48246428"
+X-CSE-ConnectionGUID: YQU9f4eEQQaaw1LJsyG3Tw==
+X-CSE-MsgGUID: HhGtcC6wTcGSFa59fz2OyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30957231"
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="48246428"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 09:54:33 -0800
-X-CSE-ConnectionGUID: YZVQo7FOSumGqTal8BzSCQ==
-X-CSE-MsgGUID: 7nCFTiLDSaaGVdNjepMI+Q==
+   d="scan'208";a="30957231"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 10:35:31 -0800
+X-CSE-ConnectionGUID: E3A8VAodTg2Oo8//s3hFUQ==
+X-CSE-MsgGUID: Up7DaX3ISZ6bITYnAV1xxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="115516600"
+   d="scan'208";a="89231676"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Nov 2024 09:54:30 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 06 Nov 2024 10:35:29 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8kEd-000pFe-0h;
-	Wed, 06 Nov 2024 17:54:27 +0000
-Date: Thu, 7 Nov 2024 01:53:30 +0800
+	id 1t8ksK-000pHW-0y;
+	Wed, 06 Nov 2024 18:35:28 +0000
+Date: Thu, 7 Nov 2024 02:35:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liviu Dudau <liviu.dudau@arm.com>,
-	Boris Brezillon <bbrezillon@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Steven Price <steven.price@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	Jann Horn <jannh@google.com>
-Subject: Re: [PATCH] drm/panthor: Lock XArray when getting entries for heap
- and VM
-Message-ID: <202411070115.YPuBa5QX-lkp@intel.com>
-References: <20241106120748.290697-1-liviu.dudau@arm.com>
+To: kernel@openeuler.org, Pu Wen <puwen@hygon.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1225/1225] drivers/hwmon/k10temp.o:
+ warning: objtool: read_tempreg_nb_zen()+0x11b: unreachable instruction
+Message-ID: <202411070216.fFHEZGdK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,113 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106120748.290697-1-liviu.dudau@arm.com>
 
-Hi Liviu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on linus/master v6.12-rc6 next-20241106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liviu-Dudau/drm-panthor-Lock-XArray-when-getting-entries-for-heap-and-VM/20241106-200841
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20241106120748.290697-1-liviu.dudau%40arm.com
-patch subject: [PATCH] drm/panthor: Lock XArray when getting entries for heap and VM
-config: x86_64-buildonly-randconfig-002-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070115.YPuBa5QX-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070115.YPuBa5QX-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
+commit: c230f66f19ad44afbef0bbf2a49c0168a5211f37 [1225/1225] hwmon: (k10temp) Create common functions and macros for Zen CPU families
+config: x86_64-buildonly-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241107/202411070216.fFHEZGdK-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070216.fFHEZGdK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070115.YPuBa5QX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070216.fFHEZGdK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/panthor/panthor_heap.c:9:
-   In file included from drivers/gpu/drm/panthor/panthor_device.h:10:
-   In file included from include/linux/io-pgtable.h:6:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/panthor/panthor_heap.c:354:57: error: declaration of 'struct pathor_heap_pool' will not be visible outside of this function [-Werror,-Wvisibility]
-     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-         |                                                         ^
-   drivers/gpu/drm/panthor/panthor_heap.c:358:15: error: incomplete definition of type 'struct pathor_heap_pool'
-     358 |         xa_lock(&pool->xa);
-         |                  ~~~~^
-   include/linux/xarray.h:536:34: note: expanded from macro 'xa_lock'
-     536 | #define xa_lock(xa)             spin_lock(&(xa)->xa_lock)
-         |                                             ^~
-   drivers/gpu/drm/panthor/panthor_heap.c:354:57: note: forward declaration of 'struct pathor_heap_pool'
-     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-         |                                                         ^
-   drivers/gpu/drm/panthor/panthor_heap.c:359:22: error: incomplete definition of type 'struct pathor_heap_pool'
-     359 |         heap = xa_load(&pool->xa, id);
-         |                         ~~~~^
-   drivers/gpu/drm/panthor/panthor_heap.c:354:57: note: forward declaration of 'struct pathor_heap_pool'
-     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-         |                                                         ^
-   drivers/gpu/drm/panthor/panthor_heap.c:360:17: error: incomplete definition of type 'struct pathor_heap_pool'
-     360 |         xa_unlock(&pool->va);
-         |                    ~~~~^
-   include/linux/xarray.h:537:38: note: expanded from macro 'xa_unlock'
-     537 | #define xa_unlock(xa)           spin_unlock(&(xa)->xa_lock)
-         |                                               ^~
-   drivers/gpu/drm/panthor/panthor_heap.c:354:57: note: forward declaration of 'struct pathor_heap_pool'
-     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-         |                                                         ^
-   drivers/gpu/drm/panthor/panthor_heap.c:389:30: error: incompatible pointer types passing 'struct panthor_heap_pool *' to parameter of type 'struct pathor_heap_pool *' [-Werror,-Wincompatible-pointer-types]
-     389 |         heap = panthor_heap_from_id(pool, heap_id);
-         |                                     ^~~~
-   drivers/gpu/drm/panthor/panthor_heap.c:354:75: note: passing argument to parameter 'pool' here
-     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-         |                                                                           ^
-   drivers/gpu/drm/panthor/panthor_heap.c:452:30: error: incompatible pointer types passing 'struct panthor_heap_pool *' to parameter of type 'struct pathor_heap_pool *' [-Werror,-Wincompatible-pointer-types]
-     452 |         heap = panthor_heap_from_id(pool, heap_id);
-         |                                     ^~~~
-   drivers/gpu/drm/panthor/panthor_heap.c:354:75: note: passing argument to parameter 'pool' here
-     354 | static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-         |                                                                           ^
-   10 errors generated.
-
-
-vim +354 drivers/gpu/drm/panthor/panthor_heap.c
-
-   353	
- > 354	static struct panthor_heap *panthor_heap_from_id(struct pathor_heap_pool *pool, u32 id)
-   355	{
-   356		struct panthor_heap *heap;
-   357	
-   358		xa_lock(&pool->xa);
-   359		heap = xa_load(&pool->xa, id);
-   360		xa_unlock(&pool->va);
-   361	
-   362		return heap;
-   363	}
-   364	
+>> drivers/hwmon/k10temp.o: warning: objtool: read_tempreg_nb_zen()+0x11b: unreachable instruction
+   drivers/hwmon/k10temp.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
