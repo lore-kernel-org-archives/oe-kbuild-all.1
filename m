@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BB37DA9E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 00:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78E0126C10
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 00:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730853544; cv=none; b=OLpz80cex5oXPqBwqwiyMPuCsKsEeqXOwlJsSLYORhpLTHmSLASop6LFKov+6oYqMUp1jdqXmrCMTBJ6x8sDTvR9bApiOE5bmNzjOihxfvCVJCPgR00BTO42Y+IpxwTwktM04T6gFyfpR7j1ZE++nxRrfYgbgO24JLi2iHS2kHE=
+	t=1730854800; cv=none; b=n6+MnO6xgt/Xs4IDVN0ZF2bPzcwUyRDHhKv0/l4TaQ5AvxN0G3cmuc/wVgGK/TRqcmPYs7ZjmNToTtgVpmuk3fbjwr20q1EKEYAK8+43jidNfW9c7+blK1lR1DeuS1LwqVtnxYEBWlVpyIx1lp8uaueXauNG1uGWZU0wzScJdEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730853544; c=relaxed/simple;
-	bh=CbnbHhZ5g+AnISB2qi8+n7pIi443xyPrj0/svOudxF8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MJo1zLmnnq5LaZ3RS+5f7nimMlj+AkaKXdoSonfusL6d/1N1pFlrrwEgfgZMxHyKb/8g6F3YYr6M9zHs6wzeMC5xD/QSckzj8eDR9ScSn5YP23nXvukShtOEIcRbdzyPAW3jWs17H8yhgqVl8GCTtZL8FAUSYleM47EB3hYm7xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RLPPJTVZ; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1730854800; c=relaxed/simple;
+	bh=mLRJmQ9b8SAm8RUuWwpkLJWqk0ICOkauYYldqrUPlS0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u5oQVIfnzDWHJf5yUzxqUsk3wAoz1tVLUPGr5osmQFSG8J2st0qJAv8QIva7qU5317ujNhytybg13AAssswtTu2hf0+XynpRDmg0hcuedYSRS2cUYzP6dxdX2JLGvO/t3Lq/cgRnXbx/CrzWN9Ya1LQpjlfR+W9yz06sQaxTf/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZZmwuOWQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RLPPJTVZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZZmwuOWQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730853543; x=1762389543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=CbnbHhZ5g+AnISB2qi8+n7pIi443xyPrj0/svOudxF8=;
-  b=RLPPJTVZSKAwGPU34Z7rTavgVn6Nz6f56MYE3yOV9ChsVIZkpJHdgfVR
-   r0kttu7aeNvJtY8zshnKhg0tlbIladYrLu/4UAmrf1VL88QQIiHEUWgoz
-   urR8bG1+M+RUVExC4nHH1w3GPEZbM+WbOz+QwdbX/6tto0euy4ENwdnQm
-   z3Mx7DCKHOelqEZeBSrM2H4P68drV+nsZB8rqLFV6bOhRiInHGrHSN8+h
-   rI5thrcgB2DmHiOH9aqbZCkjlILC+TdmR4K2jdn86+uImQjT/5/2axz8u
-   XPPS66zwqujTHZ48LZMOwdkROqQdFEBXCaNz/mD58kf7bfKgWlnIijoqP
-   Q==;
-X-CSE-ConnectionGUID: XBOs7z2TTS6Ox15ZDaJ4OQ==
-X-CSE-MsgGUID: 1daF8g30Tp6nML7lz2phRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="41227718"
+  t=1730854799; x=1762390799;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mLRJmQ9b8SAm8RUuWwpkLJWqk0ICOkauYYldqrUPlS0=;
+  b=ZZmwuOWQ0lW4j84aM0OD21hWPbMceHrEvesvpFYCus98epOuPa9OOZPN
+   SKIT9FC5jM0O9DXRH+UhMweIx6KMDkkCI/rNodYlEHh8BxDfwsWXE23DG
+   s/Viwtq5U/lkRBYAUOJlKEXxYYoDqF9Ydh+1gWNPJQiInWOdszDnREB9P
+   B65TyjWtyJjgf2+5NxZuNiBaPp1LVY34HWzzROWPf0ebh/NX1/CPVJnLU
+   QQHJhXuYJ9P6YOGZ9u+bkp5SkAQzutFlHTi/uBz6VJ7Y3edlXPySlBgoo
+   QIeJXG4fD3ZCxRjaXrsvYx5NnDRSsti/BH0U1f5sBbvuPJcwgJvd0kw/4
+   w==;
+X-CSE-ConnectionGUID: 4yIfH1owT4KWx3sUE6IC0w==
+X-CSE-MsgGUID: lsXv8DHiSKujDXdJeJRK/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11247"; a="30061063"
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="41227718"
+   d="scan'208";a="30061063"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:38:57 -0800
-X-CSE-ConnectionGUID: CMQEnPN1R86AFU17tTOaog==
-X-CSE-MsgGUID: ht2dK8EgRFGQ7ou2Yl+MAg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 16:59:58 -0800
+X-CSE-ConnectionGUID: bMEyHr93RoSB8iopOCzG3g==
+X-CSE-MsgGUID: EPkapaIpS52FmX+14mPo9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,261,1725346800"; 
-   d="scan'208";a="88793876"
+   d="scan'208";a="88803328"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 16:38:54 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 05 Nov 2024 16:59:55 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8U4R-000me5-2a;
-	Wed, 06 Nov 2024 00:38:51 +0000
-Date: Wed, 6 Nov 2024 08:38:35 +0800
+	id 1t8UOm-000mfl-24;
+	Wed, 06 Nov 2024 00:59:52 +0000
+Date: Wed, 6 Nov 2024 08:59:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vicentiu Galanopulo <vicentiu.galanopulo@remote-tech.co.uk>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
-Message-ID: <202411060859.fqkOY75Z-lkp@intel.com>
-References: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
+Subject: [jlayton:dir-deleg 22/39] fs/nfs/./nfs4trace.h:1511:1: sparse:
+ sparse: incorrect type in assignment (different base types)
+Message-ID: <202411060813.1fRAKN9Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,114 +61,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105161041.4813-3-vicentiu.galanopulo@remote-tech.co.uk>
 
-Hi Vicentiu,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on robh/for-next linus/master v6.12-rc6 next-20241105]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vicentiu-Galanopulo/dt-bindings-leds-Add-LED1202-LED-Controller/20241106-001305
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20241105161041.4813-3-vicentiu.galanopulo%40remote-tech.co.uk
-patch subject: [PATCH 3/3] [PATCH v5] leds: Add LED1202 I2C driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241106/202411060859.fqkOY75Z-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060859.fqkOY75Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git dir-deleg
+head:   fcdfaef0f912fdab052bdc87ed835684f2427070
+commit: b333aaae2e0b1480b42908f0f472de3d6c89576d [22/39] nfs: new tracepoint in match_stateid operation
+config: x86_64-randconfig-122-20241105 (https://download.01.org/0day-ci/archive/20241106/202411060813.1fRAKN9Y-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411060813.1fRAKN9Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411060859.fqkOY75Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411060813.1fRAKN9Y-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+   fs/nfs/./nfs4trace.h:975:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:975:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:975:1: sparse:     got restricted fmode_t const [usertype] type
+>> fs/nfs/./nfs4trace.h:1511:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s1_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     expected int s1_seq
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     got restricted __be32 const [usertype] seqid
+>> fs/nfs/./nfs4trace.h:1511:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s2_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     expected int s2_seq
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     got restricted __be32 const [usertype] seqid
+   fs/nfs/nfs4trace.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, fs/nfs/nfs4trace.h):
+   fs/nfs/./nfs4trace.h:975:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int fmode @@     got restricted fmode_t const [usertype] type @@
+   fs/nfs/./nfs4trace.h:975:1: sparse:     expected unsigned int fmode
+   fs/nfs/./nfs4trace.h:975:1: sparse:     got restricted fmode_t const [usertype] type
+>> fs/nfs/./nfs4trace.h:1511:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s1_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     expected int s1_seq
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     got restricted __be32 const [usertype] seqid
+>> fs/nfs/./nfs4trace.h:1511:1: sparse: sparse: incorrect type in assignment (different base types) @@     expected int s2_seq @@     got restricted __be32 const [usertype] seqid @@
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     expected int s2_seq
+   fs/nfs/./nfs4trace.h:1511:1: sparse:     got restricted __be32 const [usertype] seqid
 
-   drivers/leds/leds-st1202.c: In function 'st1202_dt_init':
->> drivers/leds/leds-st1202.c:350:49: warning: missing terminating " character
-     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
-         |                                                 ^
->> drivers/leds/leds-st1202.c:350:49: error: missing terminating " character
-     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/leds/leds-st1202.c:351:41: error: 'error' undeclared (first use in this function); did you mean 'err'?
-     351 |                                         error: %d\n", err);
-         |                                         ^~~~~
-         |                                         err
-   drivers/leds/leds-st1202.c:351:41: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/leds/leds-st1202.c:351:46: error: expected ')' before ':' token
-     351 |                                         error: %d\n", err);
-         |                                              ^
-         |                                              )
-   drivers/leds/leds-st1202.c:350:38: note: to match this '('
-     350 |                         dev_err_probe(dev, err, "Failed to register LED class dev,
-         |                                      ^
->> drivers/leds/leds-st1202.c:351:50: error: stray '\' in program
-     351 |                                         error: %d\n", err);
-         |                                                  ^
-   drivers/leds/leds-st1202.c:351:52: warning: missing terminating " character
-     351 |                                         error: %d\n", err);
-         |                                                    ^
-   drivers/leds/leds-st1202.c:351:52: error: missing terminating " character
-     351 |                                         error: %d\n", err);
-         |                                                    ^~~~~~~~
->> drivers/leds/leds-st1202.c:352:36: error: expected ';' before '}' token
-     352 |                         return err;
-         |                                    ^
-         |                                    ;
-     353 |                 }
-         |                 ~                   
+vim +1511 fs/nfs/./nfs4trace.h
 
-
-vim +350 drivers/leds/leds-st1202.c
-
-   318	
-   319	static int st1202_dt_init(struct st1202_chip *chip)
-   320	{
-   321		struct device *dev = &chip->client->dev;
-   322		struct st1202_led *led;
-   323		int err, reg;
-   324	
-   325		for_each_available_child_of_node_scoped(dev_of_node(dev), child) {
-   326			struct led_init_data init_data = {};
-   327	
-   328			err = of_property_read_u32(child, "reg", &reg);
-   329			if (err) {
-   330				of_node_put(child);
-   331				return dev_err_probe(dev, err, "Invalid register, error: %d\n", err);
-   332			}
-   333	
-   334			led = &chip->leds[reg];
-   335			led->is_active = true;
-   336			led->fwnode = of_fwnode_handle(child);
-   337	
-   338			led->led_cdev.max_brightness = U8_MAX;
-   339			led->led_cdev.brightness_set_blocking = st1202_led_set;
-   340			led->led_cdev.pattern_set = st1202_led_pattern_set;
-   341			led->led_cdev.pattern_clear = st1202_led_pattern_clear;
-   342			led->led_cdev.default_trigger = "pattern";
-   343	
-   344			init_data.fwnode = led->fwnode;
-   345			init_data.devicename = "st1202";
-   346			init_data.default_label = ":";
-   347			err = devm_led_classdev_register_ext(dev,
-   348						&led->led_cdev, &init_data);
-   349			if (err < 0) {
- > 350				dev_err_probe(dev, err, "Failed to register LED class dev,
- > 351						error: %d\n", err);
- > 352				return err;
-   353			}
-   354			led->led_cdev.brightness_set = st1202_brightness_set;
-   355			led->led_cdev.brightness_get = st1202_brightness_get;
-   356		}
-   357	
-   358		return 0;
-   359	}
-   360	
+  1499	
+  1500	#define show_stateid_type(type) \
+  1501		__print_symbolic(type, \
+  1502			{ NFS4_INVALID_STATEID_TYPE, "INVALID" }, \
+  1503			{ NFS4_SPECIAL_STATEID_TYPE, "SPECIAL" }, \
+  1504			{ NFS4_OPEN_STATEID_TYPE, "OPEN" }, \
+  1505			{ NFS4_LOCK_STATEID_TYPE, "LOCK" }, \
+  1506			{ NFS4_DELEGATION_STATEID_TYPE, "DELEGATION" }, \
+  1507			{ NFS4_LAYOUT_STATEID_TYPE, "LAYOUT" },	\
+  1508			{ NFS4_PNFS_DS_STATEID_TYPE, "PNFS_DS" }, \
+  1509			{ NFS4_REVOKED_STATEID_TYPE, "REVOKED" })
+  1510	
+> 1511	DECLARE_EVENT_CLASS(nfs4_match_stateid_event,
+  1512			TP_PROTO(
+  1513				const nfs4_stateid *s1,
+  1514				const nfs4_stateid *s2
+  1515			),
+  1516	
+  1517			TP_ARGS(s1, s2),
+  1518	
+  1519			TP_STRUCT__entry(
+  1520				__field(int, s1_seq)
+  1521				__field(int, s2_seq)
+  1522				__field(u32, s1_hash)
+  1523				__field(u32, s2_hash)
+  1524				__field(int, s1_type)
+  1525				__field(int, s2_type)
+  1526			),
+  1527	
+  1528			TP_fast_assign(
+  1529				__entry->s1_seq = s1->seqid;
+  1530				__entry->s1_hash = nfs_stateid_hash(s1);
+  1531				__entry->s1_type = s1->type;
+  1532				__entry->s2_seq = s2->seqid;
+  1533				__entry->s2_hash = nfs_stateid_hash(s2);
+  1534				__entry->s2_type = s2->type;
+  1535			),
+  1536	
+  1537			TP_printk(
+  1538				"s1=%s:%x:%u s2=%s:%x:%u",
+  1539				show_stateid_type(__entry->s1_type),
+  1540				__entry->s1_hash, __entry->s1_seq,
+  1541				show_stateid_type(__entry->s2_type),
+  1542				__entry->s2_hash, __entry->s2_seq
+  1543			)
+  1544	);
+  1545	
 
 -- 
 0-DAY CI Kernel Test Service
