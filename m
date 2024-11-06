@@ -1,73 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F8D18FC86;
-	Wed,  6 Nov 2024 18:45:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A766207A1D
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 18:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730918738; cv=none; b=f+8ndsAnZ2c2pM585sGXjCDOJXpCK0mpGA/SKLvrB5X26/WvLt/hg29y5cP4TaZkLCO0oxs/Kpnfan2ON9dyhGTZqJTUI6jcOmlbQbSuJ8KrIbCcQWtvqbIr7G8Q93fzt3ojxf4LXW+E98gJrT2fCXp9NDa1FvD+PddhmJmUhLI=
+	t=1730919411; cv=none; b=WziJxRLADxgeOZRSb2UaJn5xqpABSSr6Hyd8+cNAsNYNXgPLh0pdu16baXf6RcvNMYIuAR9m8S0ucKx507wYsTUUKtTWCiNR+IP3IbAt4yXttWChfobhig+GWgWT4UeHCW8oZtf8o/fedUWnzTqyj51L7U128yJ0zqbK6scdciU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730918738; c=relaxed/simple;
-	bh=ts1jeFGgXcWV69i9NnWPLiE0tUfahZCCkXmefsTxWgY=;
+	s=arc-20240116; t=1730919411; c=relaxed/simple;
+	bh=hyMv01gLmOo95GlTaKcxVke3e6gveNY0nSXI8qWLs/U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JY7srvQ8NUMYSPs3Ocgz+uOdGA/lp5bQiArlJ9mcpJ25p1VNCjzK6RY2UONQcMaMyWTEiFl44gWVjMKNl+RQv1eZK25xgJDW27+2M35aPE3Sfk9MIgFljB/BNN1Nfgp3u7Nr+qxfT4v0U+M9GHhOqpwPexOMjfOmXWkOg07+8W0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bh7nRh21; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=CkRqu9ANopvElSABGMx6hDBGhXusEq3DLihVusoxQDrlTOhmZKw7kWh77THx4B2p9UrYYeBeNjLbkVr/GcwejgGCwFqLSfDhhqOZ2qxVcNR1BaCN064tRNPlUvzAMzFr2GYm4Tq3M5fET2z5D6phPGgoGCNXy52hGQUgC5NshEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Je3XH5VT; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bh7nRh21"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Je3XH5VT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730918738; x=1762454738;
+  t=1730919409; x=1762455409;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ts1jeFGgXcWV69i9NnWPLiE0tUfahZCCkXmefsTxWgY=;
-  b=bh7nRh2170HNYGvim2MXS0Y38/7pgoqHo5PH1zBNbrzRITDQVod8/ApX
-   CpDguNMJJxskle7iiYhjdTGbsWVMiMts2r9pKWrRVfVXY7xWGXECf3mJc
-   MhxHdRsJzZ042Q4efMi77mgpcOCLZTeMrQ3bLoPqvF/x7VapiFbF7CIvr
-   T9k9jiN6hLRdBW9K5UClO2CTv+zx60ybrBcXmwWYPoZmLU3tXuSBD8DGY
-   8LGen66GUVqKhU2q1Iz/lst8UZ4JAX9PF5ZvaJDJBQKfBREkoOl97TAxv
-   ivOXC9nETLtGlqbehtbjhUFuNKs0vgld8GNdb2sRMlAP2Jb+ydAUVhf0e
-   g==;
-X-CSE-ConnectionGUID: ap28Kxu8Q0uNerFRBAuSYA==
-X-CSE-MsgGUID: kapNbMCQQvu8dQ6695rYaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41835394"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41835394"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 10:45:37 -0800
-X-CSE-ConnectionGUID: JXbIrWCESACS6phQ1AkCqQ==
-X-CSE-MsgGUID: D5jfgmkXRwyWfuvgMCl/oA==
+  bh=hyMv01gLmOo95GlTaKcxVke3e6gveNY0nSXI8qWLs/U=;
+  b=Je3XH5VT0eH9+U52cTBdLmGKIYBKTn6nonF5eKFtjx9UY1aWpaPhqKtN
+   7bMt6qcUJbbOY9qY/sxOV3+NprDwKddZa5NY8gVUYbpL7BnjBlE05xpUN
+   OEAByUo2/fHQU479F5wTOZWUBYTrj/yg0w2e4f4nLisu23hD28foEvGre
+   5CppXQFGCNgrnwXvFYEOy7onFsw0Ck8hP877Q+PDydU67XyV0qnuuLOMQ
+   xThW02lG3tPSqVpDHzlTJyjDbXNDUBPefh8PL33q8fPZ3mkg44QEW2xUm
+   jp6I045gDcPijo3wDQAe1DT3uVkJ0EyAYezJ1Lzl07HaQOapU39eDgndr
+   w==;
+X-CSE-ConnectionGUID: 8SSxiAwxSBi1tOc+GUY41w==
+X-CSE-MsgGUID: BlIbmbpMSvugvPc/RAUifA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="41357898"
+X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
+   d="scan'208";a="41357898"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 10:56:49 -0800
+X-CSE-ConnectionGUID: x7Xr4cpgR3+Y1QCOQpWbtg==
+X-CSE-MsgGUID: ux6hEzz2S0iV5lh/+fFXow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="85516951"
+   d="scan'208";a="89289554"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2024 10:45:32 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2024 10:56:32 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8l21-000pIy-2k;
-	Wed, 06 Nov 2024 18:45:29 +0000
-Date: Thu, 7 Nov 2024 02:45:19 +0800
+	id 1t8lCg-000pJS-1e;
+	Wed, 06 Nov 2024 18:56:30 +0000
+Date: Thu, 7 Nov 2024 02:56:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Peter Yin <peteryin.openbmc@gmail.com>,
-	Noah Wang <noahwang.wang@outlook.com>, Marek Vasut <marex@denx.de>,
-	Lukas Wunner <lukas@wunner.de>,
-	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Subject: Re: [PATCH v2 2/2] hwmon: pmbus: add driver for ltp8800-1a,
- ltp8800-4a, and ltp8800-2
-Message-ID: <202411070232.xrxV7tVx-lkp@intel.com>
-References: <20241106030918.24849-3-cedricjustine.encarnacion@analog.com>
+To: Vinicius Costa Gomes <vinicius.gomes@intel.com>, brauner@kernel.org,
+	amir73il@gmail.com, hu1.chen@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, miklos@szeredi.hu,
+	malini.bhandaru@intel.com, tim.c.chen@intel.com,
+	mikko.ylinen@intel.com, linux-unionfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Vinicius Costa Gomes <vinicius.gomes@intel.com>
+Subject: Re: [PATCH overlayfs-next v3 1/4] cred: Add a light version of
+ override/revert_creds()
+Message-ID: <202411070234.EOrhSGRU-lkp@intel.com>
+References: <20241105193514.828616-2-vinicius.gomes@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,52 +68,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106030918.24849-3-cedricjustine.encarnacion@analog.com>
+In-Reply-To: <20241105193514.828616-2-vinicius.gomes@intel.com>
 
-Hi Cedric,
+Hi Vinicius,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 30a984c0c9d8c631cc135280f83c441d50096b6d]
+[auto build test WARNING on next-20241105]
+[also build test WARNING on v6.12-rc6]
+[cannot apply to brauner-vfs/vfs.all linus/master v6.12-rc6 v6.12-rc5 v6.12-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-trivial-devices-add-ltp8800/20241106-111734
-base:   30a984c0c9d8c631cc135280f83c441d50096b6d
-patch link:    https://lore.kernel.org/r/20241106030918.24849-3-cedricjustine.encarnacion%40analog.com
-patch subject: [PATCH v2 2/2] hwmon: pmbus: add driver for ltp8800-1a, ltp8800-4a, and ltp8800-2
-config: x86_64-buildonly-randconfig-004-20241107 (https://download.01.org/0day-ci/archive/20241107/202411070232.xrxV7tVx-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070232.xrxV7tVx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vinicius-Costa-Gomes/cred-Add-a-light-version-of-override-revert_creds/20241106-033748
+base:   next-20241105
+patch link:    https://lore.kernel.org/r/20241105193514.828616-2-vinicius.gomes%40intel.com
+patch subject: [PATCH overlayfs-next v3 1/4] cred: Add a light version of override/revert_creds()
+config: x86_64-randconfig-121-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070234.EOrhSGRU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070234.EOrhSGRU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070232.xrxV7tVx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070234.EOrhSGRU-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/cred.c:104:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/cred.c:104:9: sparse:    struct cred *
+   kernel/cred.c:104:9: sparse:    struct cred const [noderef] __rcu *
+   kernel/cred.c:105:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/cred.c:105:9: sparse:    struct cred *
+   kernel/cred.c:105:9: sparse:    struct cred const [noderef] __rcu *
+   kernel/cred.c:121:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t const [usertype] *v @@     got struct atomic64_t const [noderef] __rcu * @@
+   kernel/cred.c:121:9: sparse:     expected struct atomic64_t const [usertype] *v
+   kernel/cred.c:121:9: sparse:     got struct atomic64_t const [noderef] __rcu *
+   kernel/cred.c:124:22: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/cred.c:127:17: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/cred.c:218:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   kernel/cred.c:218:13: sparse:     expected struct cred const *old
+   kernel/cred.c:218:13: sparse:     got struct cred const [noderef] __rcu *cred
+   kernel/cred.c:305:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cred const *cred @@     got struct cred const [noderef] __rcu *cred @@
+   kernel/cred.c:305:47: sparse:     expected struct cred const *cred
+   kernel/cred.c:305:47: sparse:     got struct cred const [noderef] __rcu *cred
+   kernel/cred.c:305:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const [noderef] __rcu *real_cred @@     got struct cred const * @@
+   kernel/cred.c:305:30: sparse:     expected struct cred const [noderef] __rcu *real_cred
+   kernel/cred.c:305:30: sparse:     got struct cred const *
+   kernel/cred.c:306:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct atomic64_t const [usertype] *v @@     got struct atomic64_t const [noderef] __rcu * @@
+   kernel/cred.c:306:17: sparse:     expected struct atomic64_t const [usertype] *v
+   kernel/cred.c:306:17: sparse:     got struct atomic64_t const [noderef] __rcu *
+   kernel/cred.c:344:32: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct cred const [noderef] __rcu *real_cred @@     got struct cred const * @@
+   kernel/cred.c:344:32: sparse:     expected struct cred const [noderef] __rcu *real_cred
+   kernel/cred.c:344:32: sparse:     got struct cred const *
+   kernel/cred.c:395:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *real_cred @@
+   kernel/cred.c:395:38: sparse:     expected struct cred const *old
+   kernel/cred.c:395:38: sparse:     got struct cred const [noderef] __rcu *real_cred
+   kernel/cred.c:400:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/cred.c:400:9: sparse:    struct cred const [noderef] __rcu *
+   kernel/cred.c:400:9: sparse:    struct cred const *
+   kernel/cred.c:519:46: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *override @@     got struct cred const [noderef] __rcu *cred @@
+   kernel/cred.c:519:46: sparse:     expected struct cred const *override
+   kernel/cred.c:519:46: sparse:     got struct cred const [noderef] __rcu *cred
+   kernel/cred.c:301:19: sparse: sparse: dereference of noderef expression
+   kernel/cred.c: note: in included file:
+>> include/linux/cred.h:182:41: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct cred const *old @@     got struct cred const [noderef] __rcu *cred @@
+   include/linux/cred.h:182:41: sparse:     expected struct cred const *old
+   include/linux/cred.h:182:41: sparse:     got struct cred const [noderef] __rcu *cred
 
-   In file included from drivers/hwmon/pmbus/ltp8800.c:7:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/hwmon/pmbus/ltp8800.c:12:36: warning: unused variable 'ltp8800_reg_desc' [-Wunused-const-variable]
-      12 | static const struct regulator_desc ltp8800_reg_desc[] = {
-         |                                    ^~~~~~~~~~~~~~~~
-   2 warnings generated.
+vim +182 include/linux/cred.h
 
-
-vim +/ltp8800_reg_desc +12 drivers/hwmon/pmbus/ltp8800.c
-
-    11	
-  > 12	static const struct regulator_desc ltp8800_reg_desc[] = {
-    13		PMBUS_REGULATOR("vout", 0),
-    14	};
-    15	
+   174	
+   175	/*
+   176	 * Override creds without bumping reference count. Caller must ensure
+   177	 * reference remains valid or has taken reference. Almost always not the
+   178	 * interface you want. Use override_creds()/revert_creds() instead.
+   179	 */
+   180	static inline const struct cred *override_creds_light(const struct cred *override_cred)
+   181	{
+ > 182		const struct cred *old = current->cred;
+   183	
+   184		rcu_assign_pointer(current->cred, override_cred);
+   185		return old;
+   186	}
+   187	
 
 -- 
 0-DAY CI Kernel Test Service
