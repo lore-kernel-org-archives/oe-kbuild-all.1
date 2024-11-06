@@ -1,65 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E55C207A1A;
-	Wed,  6 Nov 2024 18:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39A7208969
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 18:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730919411; cv=none; b=djxISm8FT2C+RB1GaT28/CPBjwUpAUXZDGn9Gd1YoRaCuBhHw7Nl6SKZlFLsr7fM3O7rkHKpyu4ajOuYOpf9hMTG1kPK/XutC7iehDvBR+P9jMuNvnkooC8vQzV1dZHflbIkqT+BELWBlpOE1FUDF5kuEcS2xZz9N3u9clor8LA=
+	t=1730919537; cv=none; b=nZCytVeqDIlyIn6av1dLo/TNo0w91acwYaasaYDbDAOMzc22PO8DjHeKftIMXdpOLDrAX6JwmzRCTABNvshewhmsppYo0OPC/9iev4MdBX6YA14iraWPPgwHB6xGu1KWyoYe9hsudv81VwaIVbPKBZ/gt4Od1u6c0KNDcSX6IWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730919411; c=relaxed/simple;
-	bh=WeOYK2Ugv5uXCeV4l3zpKEBTYXRLPK10LIXAB2A6XnU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tsNag7jKTFYktkiPSePmF1nrU5f40Q6Ru+1UtJurF2a8Zb9q6BeSyI02I9yQM4L1XRv8ZvLRLC7ixLv2yQuGmLuK1KOzDF7dMxK62odo3Ky1KS4+L+CjBVi3qcBa1tiU0246rpLm9w1G90G32HzT8fenMHKUbaj9v32VMrjeARY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AVU3aZZ1; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1730919537; c=relaxed/simple;
+	bh=yve0O4eLXbDOf5S5SW6eMuDz9aLA90dqdPjs8e7p6kI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Un4tvQI2XahE+62V/gCHtQNYgUuMMwjcoYwtiDWDjK6+FUNqvMDQoSYx4a7aV8i5lTGQRd+UDPGaiFRKFMr+Zai5WxrKqLhPlBqkYtZICdnsDESJDI1Z0AlyZgsI1X0djzXNxVYqLoT63cmfZnUi8m/AmJNo6qZnUrEJmM9Q3KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GDkLwPHo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AVU3aZZ1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GDkLwPHo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730919408; x=1762455408;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WeOYK2Ugv5uXCeV4l3zpKEBTYXRLPK10LIXAB2A6XnU=;
-  b=AVU3aZZ15jfJCeLCNj/zh7Ue8t6pWblYxHSYi2OUcUzuCZ5ngJ2ZFyyx
-   EUJhtMT13/gp3zfi9jORCMLR9BsMSabxWF3R6uPHtKOYuf5pckeM46ZFi
-   OmxLN2UIZBZNGvJWx6G2bazOSFt9olBTbRmzDjsi0EDJWOxn43Jq6wF3g
-   Y5sVPGSi8f+WjiJoCLMrvzNbQDHyPooInC7MSH2Oy1JXAvDlrvQHPyToE
-   ZFwDGHSFKD9Rp6W3hi1ADBEn8OdhrE+klTPoaU6gbkQq4GEAoNA7fwJoj
-   8Mw53BuF6XCCZVToYHFuaWnH6IoQCXKtkolCishgVuGTlmuzjJeQPJKCj
-   A==;
-X-CSE-ConnectionGUID: Sg3LJSsESKWI6RRHCiU0HQ==
-X-CSE-MsgGUID: 9pcqMyPKTqKLs8csrPsmKg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="41357889"
+  t=1730919536; x=1762455536;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yve0O4eLXbDOf5S5SW6eMuDz9aLA90dqdPjs8e7p6kI=;
+  b=GDkLwPHolPhcxx5guWnocI0hxsF6+lAv7cD9NxvdakKZUMjzECKct8Sl
+   yFwlqAEURDYCoMEXbCyBvBIPERP86gFAlfUln76K+/R4UHGuGo6QV1pzR
+   RXiGwXzet2bSE0uzLOYv/UNpyHWCy6E46K0/Gv3Y4E9zFKkHTOba8DkK7
+   ei9dshCzL6bCQ6SGyct9OFkcE+Kj65h5yqUEdEAFvHn5WEE2WfPT8IL8Q
+   7DmiJpH957BkeUdb6rf7tJJxtmRKAo4HQl4ZxvhX87wov08RJCvDta+26
+   yPHIpn/At0ALHPWaI+xvkjkE/uFz8xtQ3p1U8QV1VoS3zoelF+dlKldbf
+   Q==;
+X-CSE-ConnectionGUID: tjTDS4UNRmKUDNv7VQriRg==
+X-CSE-MsgGUID: 92JIOUeWQr61G+xhG2NJHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30959488"
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="41357889"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 10:56:47 -0800
-X-CSE-ConnectionGUID: W/DY7m6ORbiTLi1LGT9rSA==
-X-CSE-MsgGUID: FeROC1g6SKKjySQSZKU9AQ==
+   d="scan'208";a="30959488"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 10:58:55 -0800
+X-CSE-ConnectionGUID: Rl0ki3B+RguWWQnYqdj/qw==
+X-CSE-MsgGUID: z9DCtyhKRTixZqBtgSWysg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,263,1725346800"; 
-   d="scan'208";a="89289376"
+   d="scan'208";a="89813517"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 06 Nov 2024 10:56:32 -0800
+  by orviesa004.jf.intel.com with ESMTP; 06 Nov 2024 10:57:33 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8lCg-000pJU-1i;
-	Wed, 06 Nov 2024 18:56:30 +0000
-Date: Thu, 7 Nov 2024 02:56:28 +0800
+	id 1t8lDe-000pJc-1r;
+	Wed, 06 Nov 2024 18:57:30 +0000
+Date: Thu, 7 Nov 2024 02:56:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marex@denx.de>, linux-hwmon@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Marek Vasut <marex@denx.de>, Conor Dooley <conor+dt@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (pwm-fan) Introduce start from dead stop
- handling
-Message-ID: <202411070251.mEqY5ErJ-lkp@intel.com>
-References: <20241105135259.101126-2-marex@denx.de>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+	Fei Shao <fshao@chromium.org>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: [pci:controller/mediatek 2/2]
+ drivers/pci/controller/pcie-mediatek-gen3.c:898:14: error: implicit
+ declaration of function 'of_property_read_u31'; did you mean
+ 'of_property_read_u32'?
+Message-ID: <202411070226.YqavKDUD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,34 +66,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105135259.101126-2-marex@denx.de>
 
-Hi Marek,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.12-rc6 next-20241106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/hwmon-pwm-fan-Introduce-start-from-dead-stop-handling/20241105-215454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20241105135259.101126-2-marex%40denx.de
-patch subject: [PATCH 2/2] hwmon: (pwm-fan) Introduce start from dead stop handling
-config: i386-randconfig-016-20241106 (https://download.01.org/0day-ci/archive/20241107/202411070251.mEqY5ErJ-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070251.mEqY5ErJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/mediatek
+head:   2bee4c1a6fc0408242aedca80a102ef50c0dfbe5
+commit: 2bee4c1a6fc0408242aedca80a102ef50c0dfbe5 [2/2] PCI: mediatek-gen3: Add support for restricting link width
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241107/202411070226.YqavKDUD-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070226.YqavKDUD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070251.mEqY5ErJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070226.YqavKDUD-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> ERROR: modpost: "__udivdi3" [drivers/hwmon/pwm-fan.ko] undefined!
+   drivers/pci/controller/pcie-mediatek-gen3.c: In function 'mtk_pcie_parse_port':
+>> drivers/pci/controller/pcie-mediatek-gen3.c:898:14: error: implicit declaration of function 'of_property_read_u31'; did you mean 'of_property_read_u32'? [-Wimplicit-function-declaration]
+     898 |        ret = of_property_read_u31(dev->of_node, "num-lanes", &num_lanes);
+         |              ^~~~~~~~~~~~~~~~~~~~
+         |              of_property_read_u32
+
+
+vim +898 drivers/pci/controller/pcie-mediatek-gen3.c
+
+   845	
+   846	static int mtk_pcie_parse_port(struct mtk_gen3_pcie *pcie)
+   847	{
+   848		int i, ret, num_resets = pcie->soc->phy_resets.num_resets;
+   849		struct device *dev = pcie->dev;
+   850		struct platform_device *pdev = to_platform_device(dev);
+   851		struct resource *regs;
+   852		u32 num_lanes;
+   853	
+   854		regs = platform_get_resource_byname(pdev, IORESOURCE_MEM, "pcie-mac");
+   855		if (!regs)
+   856			return -EINVAL;
+   857		pcie->base = devm_ioremap_resource(dev, regs);
+   858		if (IS_ERR(pcie->base)) {
+   859			dev_err(dev, "failed to map register base\n");
+   860			return PTR_ERR(pcie->base);
+   861		}
+   862	
+   863		pcie->reg_base = regs->start;
+   864	
+   865		for (i = 0; i < num_resets; i++)
+   866			pcie->phy_resets[i].id = pcie->soc->phy_resets.id[i];
+   867	
+   868		ret = devm_reset_control_bulk_get_optional_shared(dev, num_resets, pcie->phy_resets);
+   869		if (ret) {
+   870			dev_err(dev, "failed to get PHY bulk reset\n");
+   871			return ret;
+   872		}
+   873	
+   874		pcie->mac_reset = devm_reset_control_get_optional_exclusive(dev, "mac");
+   875		if (IS_ERR(pcie->mac_reset)) {
+   876			ret = PTR_ERR(pcie->mac_reset);
+   877			if (ret != -EPROBE_DEFER)
+   878				dev_err(dev, "failed to get MAC reset\n");
+   879	
+   880			return ret;
+   881		}
+   882	
+   883		pcie->phy = devm_phy_optional_get(dev, "pcie-phy");
+   884		if (IS_ERR(pcie->phy)) {
+   885			ret = PTR_ERR(pcie->phy);
+   886			if (ret != -EPROBE_DEFER)
+   887				dev_err(dev, "failed to get PHY\n");
+   888	
+   889			return ret;
+   890		}
+   891	
+   892		pcie->num_clks = devm_clk_bulk_get_all(dev, &pcie->clks);
+   893		if (pcie->num_clks < 0) {
+   894			dev_err(dev, "failed to get clocks\n");
+   895			return pcie->num_clks;
+   896		}
+   897	
+ > 898	       ret = of_property_read_u31(dev->of_node, "num-lanes", &num_lanes);
+   899	       if (ret == 0) {
+   900		       if (num_lanes == 0 || num_lanes > 16 || (num_lanes != 1 && num_lanes % 2))
+   901				dev_warn(dev, "invalid num-lanes, using controller defaults\n");
+   902		       else
+   903				pcie->num_lanes = num_lanes;
+   904	       }
+   905	
+   906		return 0;
+   907	}
+   908	
 
 -- 
 0-DAY CI Kernel Test Service
