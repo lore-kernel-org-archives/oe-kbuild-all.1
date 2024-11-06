@@ -1,83 +1,179 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1E61645;
-	Wed,  6 Nov 2024 22:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 082CD1D7E37
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 23:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730933587; cv=none; b=qrVeIaCi/WURy8CegVnUIsQl0IZarNRRB/vZhxEzmJDhE7AjsirXWpEPK4UauAvePR3FUZmtxIJY3TKhY/rfupMVttonzidlifmGt10hlYa50pHKV1lNm5VZI+dKzFIOGAOqVARDGTspMNThKy9LtPvHgaRpyOuqbxaEAOh8C7I=
+	t=1730935004; cv=none; b=SJguR9hp5tNZ4grdWvnErmjrw4smFsCAm4Vt/DFpp8m2lsA1mBBw/0UBDYP6vKxrL0rfuH6Isz6U6z7dce6TuB2klwNLvcw7Jgl6GK/debFkCrIcFn9/GNO0hALzYsIpLl7aPSaKxyIZNNrNvHyn5f1j+f2ZDpol9onpeE2sjoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730933587; c=relaxed/simple;
-	bh=2rG0V8XGr+zNT9gx3HFi1etRMN45S04G2ksfE2rB3jY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=knfEa5Ke0crmOtgdKrtX55WaiAIjb9YkP1Fr7QpUop0Jyji4seIAV9LfTVAi7+iLu6G2SJMovxeFvkYSevPUXgDMGE75jPHu9HuN3Tt9BjBxIzy2XPk1BLiQiBRJsyHhPIsXSdLWo61sGLbZlKvR8huJDb9p8yp3pa0V+ojprTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LOLifT3Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1730935004; c=relaxed/simple;
+	bh=8t4OEcNHJDzTfLCGQpw/anttTxd3p+Oa+vM7lHiVVxw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MFhCEI5TSsw9vb3K0nYtm4z4H5Bg785E+X1PlkP9O0VE+OGWVcDHCaFGJV+TuNDuxnlTP0fqwWOJY0alkR3EXLbFCuZ4b4gJqCucn4mFHs5NsNWM5I+Xv/dAsBIDDYYOmQCUwNO84UXOcyDJe50klS71xhVHsXylFjMHaedUOKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YF3HkRMz; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LOLifT3Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FF89C4CED0;
-	Wed,  6 Nov 2024 22:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730933586;
-	bh=2rG0V8XGr+zNT9gx3HFi1etRMN45S04G2ksfE2rB3jY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LOLifT3YKXRXzrX5ofcXb0Y3OpIX1R369xEpkdqk068QHjZGE3jTRIH4INnAzVMHU
-	 SoMtuAd9i8OPF9I7+Okhs0NbO9nO3I0OLR7glx4gkbEBPoHU1dPF9sidB8GDYCV/tx
-	 WiRfkU0udw3IKG4qtZTZhYpaZVdsQ57CwcdXM950l15sdbdOVb+JKgMg3XMfmcLtCc
-	 u7UQ4g2tEwQ3RqQkN4C3oeaGx44d8ot4BKjiV+CRtSalivZgZlFpZLgqM4Be2kNo+d
-	 QtbdMcEqbOlTydvGGZ2VCmTZ8n2QR37JpQwRR+vamw9q5naVV8ATKLg/Pea9ls65Qu
-	 ZdL3RoTj7w9ZA==
-Message-ID: <fd494e1c-9d77-424c-b397-af7059ee1fe7@kernel.org>
-Date: Thu, 7 Nov 2024 07:53:04 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YF3HkRMz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1730935003; x=1762471003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8t4OEcNHJDzTfLCGQpw/anttTxd3p+Oa+vM7lHiVVxw=;
+  b=YF3HkRMzSNnOub6CbVSh3wAwP9Irfz3CmSvoTUsUdAzXmC1M+rGwEX4k
+   Sc7+xrsJGgPq/IQHQnE/kpxmYDZSgs0jGVis7+JhRvYz/D7dFP4H625u5
+   ltQQfTPJj/MJJ7zgdypMVUGUH/wOM8pABMXVWVwwoLVsFGGKPO5TPiRpM
+   5zoZyngJAvm+UoqaWtgQrIszzvZmLMF58PeuMdCZ/9rgaYrtJvMbEToMc
+   bXrFpXOVSLFdE2kWcr3d3sW0ivw5JklzFjwKmHTsS+pRFF2P+2jCENtAp
+   XcSuxo+pRLhW15A2ZKDPvVvRe4noBWY7gcMhV1gQVWx5Y5CS0KBp5SFGE
+   A==;
+X-CSE-ConnectionGUID: J0Wnnt4vRaeerMS71AmneA==
+X-CSE-MsgGUID: AZXQqad+QW2ayT4XZNGDmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="42162653"
+X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
+   d="scan'208";a="42162653"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 15:16:43 -0800
+X-CSE-ConnectionGUID: gJdqCi98T0+DMt2pX58LyQ==
+X-CSE-MsgGUID: IQVfLupFSiW0UjsM/h+pIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
+   d="scan'208";a="115608972"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 06 Nov 2024 15:16:40 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t8pGP-000pWO-38;
+	Wed, 06 Nov 2024 23:16:37 +0000
+Date: Thu, 7 Nov 2024 07:16:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Li <Frank.Li@nxp.com>, Haibo Chen <haibo.chen@nxp.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	"open list:NXP i.MX 7D/6SX/6UL/93 AND VF610 ADC DRIVER" <linux-iio@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/2] iio: adc: vf610_adc: use devm_* and
+ dev_err_probe() to simple code
+Message-ID: <202411070633.NIrO7Ert-lkp@intel.com>
+References: <20241105160822.2761261-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: block/blk-zoned.c:579:5-24: WARNING: atomic_dec_and_test
- variation before object free at line 583.
-To: Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Hannes Reinecke <hare@suse.de>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Bart Van Assche <bvanassche@acm.org>
-References: <202411050650.ilIZa8S7-lkp@intel.com>
- <20241105153422.GA7132@lst.de>
- <e86904d7-bf42-4b38-889e-3978e89358f2@kernel.dk>
- <20241105153733.GA7219@lst.de>
- <5b55417d-6b27-4186-bcfa-d6952624e99f@kernel.dk>
-From: Damien Le Moal <dlemoal@kernel.org>
-Content-Language: en-US
-Organization: Western Digital Research
-In-Reply-To: <5b55417d-6b27-4186-bcfa-d6952624e99f@kernel.dk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241105160822.2761261-1-Frank.Li@nxp.com>
 
-On 11/6/24 00:56, Jens Axboe wrote:
-> On 11/5/24 8:37 AM, Christoph Hellwig wrote:
->> On Tue, Nov 05, 2024 at 08:36:33AM -0700, Jens Axboe wrote:
->>> On 11/5/24 8:34 AM, Christoph Hellwig wrote:
->>>> On Tue, Nov 05, 2024 at 06:52:25AM +0800, kernel test robot wrote:
->>>>>>> block/blk-zoned.c:579:5-24: WARNING: atomic_dec_and_test variation before object free at line 583.
->>>>
->>>> Does anyone know what this warning is supposed to mean?
->>>
->>> It's supposed to mean "use refcount_t for things like this".
->>
->> Have we finally resolved the performance problems with refcount_t for
->> fast path operations?
-> 
-> I mean it's closer, but it's still slower. Will always be so. Does it
-> matter for zoned devices? Probably not.
-> 
-> I don't think it matters for this case. It's not like the ref itself is
-> something that is user controllable in terms of being able to get
-> anywhere near an overflow.
+Hi Frank,
 
-OK. Will work on a patch to switch to refcount.
+kernel test robot noticed the following build warnings:
 
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on next-20241106]
+[cannot apply to linus/master v6.12-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/iio-adc-vf610_adc-limit-i-MX6SX-s-channel-number-to-4/20241106-001101
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241105160822.2761261-1-Frank.Li%40nxp.com
+patch subject: [PATCH v2 1/2] iio: adc: vf610_adc: use devm_* and dev_err_probe() to simple code
+config: i386-randconfig-141-20241107 (https://download.01.org/0day-ci/archive/20241107/202411070633.NIrO7Ert-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070633.NIrO7Ert-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/adc/vf610_adc.c:857 vf610_adc_probe() warn: unsigned 'info->vref_uv' is never less than zero.
+
+vim +857 drivers/iio/adc/vf610_adc.c
+
+   816	
+   817	static int vf610_adc_probe(struct platform_device *pdev)
+   818	{
+   819		struct device *dev = &pdev->dev;
+   820		struct vf610_adc *info;
+   821		struct iio_dev *indio_dev;
+   822		int irq;
+   823		int ret;
+   824	
+   825		indio_dev = devm_iio_device_alloc(&pdev->dev, sizeof(struct vf610_adc));
+   826		if (!indio_dev)
+   827			return dev_err_probe(&pdev->dev, -ENOMEM, "Failed allocating iio device\n");
+   828	
+   829		info = iio_priv(indio_dev);
+   830		info->dev = &pdev->dev;
+   831	
+   832		info->regs = devm_platform_ioremap_resource(pdev, 0);
+   833		if (IS_ERR(info->regs))
+   834			return PTR_ERR(info->regs);
+   835	
+   836		irq = platform_get_irq(pdev, 0);
+   837		if (irq < 0)
+   838			return irq;
+   839	
+   840		ret = devm_request_irq(info->dev, irq,
+   841					vf610_adc_isr, 0,
+   842					dev_name(&pdev->dev), indio_dev);
+   843		if (ret < 0)
+   844			dev_err_probe(&pdev->dev, ret, "failed requesting irq, irq = %d\n", irq);
+   845	
+   846		info->clk = devm_clk_get_enabled(&pdev->dev, "adc");
+   847		if (IS_ERR(info->clk))
+   848			return dev_err_probe(&pdev->dev, PTR_ERR(info->clk),
+   849					     "failed getting clock, err = %ld\n",
+   850					     PTR_ERR(info->clk));
+   851	
+   852		info->vref = devm_regulator_get(&pdev->dev, "vref");
+   853		if (IS_ERR(info->vref))
+   854			return PTR_ERR(info->vref);
+   855	
+   856		info->vref_uv = devm_regulator_get_enable_read_voltage(&pdev->dev, "vref");
+ > 857		if (info->vref_uv < 0)
+   858			return info->vref_uv;
+   859	
+   860		device_property_read_u32_array(dev, "fsl,adck-max-frequency", info->max_adck_rate, 3);
+   861	
+   862		info->adc_feature.default_sample_time = DEFAULT_SAMPLE_TIME;
+   863		device_property_read_u32(dev, "min-sample-time", &info->adc_feature.default_sample_time);
+   864	
+   865		platform_set_drvdata(pdev, indio_dev);
+   866	
+   867		init_completion(&info->completion);
+   868	
+   869		indio_dev->name = dev_name(&pdev->dev);
+   870		indio_dev->info = &vf610_adc_iio_info;
+   871		indio_dev->modes = INDIO_DIRECT_MODE;
+   872		indio_dev->channels = vf610_adc_iio_channels;
+   873		indio_dev->num_channels = ARRAY_SIZE(vf610_adc_iio_channels);
+   874	
+   875		vf610_adc_cfg_init(info);
+   876		vf610_adc_hw_init(info);
+   877	
+   878		ret = devm_iio_triggered_buffer_setup(&pdev->dev, indio_dev, &iio_pollfunc_store_time,
+   879						      NULL, &iio_triggered_buffer_setup_ops);
+   880		if (ret < 0)
+   881			return dev_err_probe(&pdev->dev, ret, "Couldn't initialise the buffer\n");
+   882	
+   883		mutex_init(&info->lock);
+   884	
+   885		ret = devm_iio_device_register(&pdev->dev, indio_dev);
+   886		if (ret)
+   887			return dev_err_probe(&pdev->dev, ret, "Couldn't register the device.\n");
+   888	
+   889		return 0;
+   890	}
+   891	
 
 -- 
-Damien Le Moal
-Western Digital Research
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
