@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F7EA2D
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 07:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FECD19046E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  6 Nov 2024 07:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730876958; cv=none; b=DdOT+4MExLNJiKHJkySxlkqSGXPOhtpsqZ6nRK37r4z+fMsqLlXw5iEeYxz8gK9M3SutJ3weAIWWTDF7noZmomzNHANaiO04RKTH3QLShbhQlV1QsZ79GfeqWK7zNYcuKw34a3PMUsFaNuDkXGQ26hOB94ymkUTg0VYeFH0+x2k=
+	t=1730876958; cv=none; b=a6LQJ+FHSNS91O1oVD6ra8t/9/5d4Fgi+Vxlm41RM3bYX0sDgoX5bgt8dQwzqMqw6PfVK+kGlK2hgzN4jvHgjh91hte10uA6pKncfdeUeQMlTRPvOz+I8DeeJ2D12NVBsx0kfY1vPWPVuYQMDwA7SBLVEC2cHNGwxObmRED5yso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1730876958; c=relaxed/simple;
-	bh=Aik0BlK9GpCBPc4NaR4/Gdl2TUZQRHDvQtSQx1TcZJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gR/teQ+vBjZWMtC9NLpZiPd0PZSfpFyW/DGNB1arp6q4MTb5M7ixCUma63nwsoGlop/e3gcZBYj2lpd/WJFdpcW7SYUlcGQpXR3Wh5spRFLwoofBFgi3vj2tvBYHC+Ap9KkD63HmqdLZCPXhvt3sbu5urOsxA1FE5Gw+GMNpsLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eZYleAxT; arc=none smtp.client-ip=198.175.65.16
+	bh=BH+2/wL6fP/XcN+mi+DcVh+27bUl3r/8r2YV+MqiC+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=goQjZpNAasdBs+xFO77pg0f1S2kSUMy1Am7lksVQaKMnEaIA9Np717BfMWSXylv1KOmRPybpl7CFBtWv698BrsA10yuOVfMrKuwj5bDObXq6Gc5Gh6yloeMiUgCV8JkVcmylo4BzMaDgjRUpuP4mh4c5j6fOC5tAhkSw/ntLXu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C3Ddypmb; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eZYleAxT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C3Ddypmb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1730876957; x=1762412957;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Aik0BlK9GpCBPc4NaR4/Gdl2TUZQRHDvQtSQx1TcZJA=;
-  b=eZYleAxTvbjn5IcIBeT1dKIO73+QjEVbd4v8bf4rQkcCCr5QTsLWfTbj
-   /e50bOqFMs48vLx1OufhWUWmZ8yFbXTJUbt0aiAuCNr+epNuJvvboRJI9
-   MSXO3NZfoY+Uso/iaKWm1vf1gixIzIzu8QSzpIzrvlTVOmJazPzP+6Mqo
-   sn+pbQkzQTuD/jHYa3afFNWFdxzX3c+k8HGrAsd4gBtyiPLFdpt+5AO3J
-   A5SPBEyLm0QIkC3PFMWvj6pDhm8bU0lKEoFavQQFiVWNu6jqvbazPqhD5
-   aHM2gGf5yqsHjDAzv5DvOEya5pQkbeVFL+a2/9q0V+27teuQdxkkH8cxE
-   A==;
-X-CSE-ConnectionGUID: DAWkgrgCRkWvHG3ScRNL/w==
-X-CSE-MsgGUID: Gvm8GFDRTS2LyXVnbnObgQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30819278"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=BH+2/wL6fP/XcN+mi+DcVh+27bUl3r/8r2YV+MqiC+M=;
+  b=C3DdypmbnVQfSNzWx1FGzLZ+nJxKjQ+uslEEHG/XmcnoKrSEVqDiNMkK
+   kOR6mdQodxc8L0e4ILc9rYeZWU1DZ66dd57z+LsBkdcA0GAWQNjVfKA35
+   H05rliFPGzJkpR94p5Txut26fnl4MNK7nw2UjIm4eYgwvwF0XmJJ73g6U
+   gJYKzc/QN7WKF5PuH5Y/lXxuyeT5nr+KOpKyZ1rhDzutGG3hKsk4MofMU
+   +C4R87OzjiAbLjXNtLI0snR6D9DjMJWDSvx3OTzy7p5qwNGvK/Plok/hi
+   xde0gnce0vAN198ZbMfnkLqj3c7QTBCvtPWOHxKaauzJvGavz2b4xmI4z
+   g==;
+X-CSE-ConnectionGUID: IvzP77caTiia+2ltwtdHCA==
+X-CSE-MsgGUID: 2w7fCD/lRRKA4JM0jd0oHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30623885"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30819278"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 23:09:17 -0800
-X-CSE-ConnectionGUID: g+ijCVvvQJaH0WlrizcASQ==
-X-CSE-MsgGUID: 5U6qr/TmQ2KoaYtWCIxuDg==
+   d="scan'208";a="30623885"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2024 23:09:14 -0800
+X-CSE-ConnectionGUID: I8aXufsBQlSdzf0soJABiQ==
+X-CSE-MsgGUID: D6UZ0D27RCOAzoUobnRFbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,262,1725346800"; 
-   d="scan'208";a="89213837"
+   d="scan'208";a="84505504"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 05 Nov 2024 23:09:13 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 05 Nov 2024 23:09:12 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8aAA-000n2A-0k;
+	id 1t8aAA-000n2C-0q;
 	Wed, 06 Nov 2024 07:09:10 +0000
 Date: Wed, 6 Nov 2024 15:08:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hironori KIKUCHI <kikuchan98@gmail.com>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Hironori KIKUCHI <kikuchan98@gmail.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jessica Zhang <quic_jesszhan@quicinc.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ryan Walklin <ryan@testtoast.com>, dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/7] dt-bindings: display: panel: Add YLM-LBV0345001H-V2
- panel
-Message-ID: <202411061425.Qitk3g1Q-lkp@intel.com>
-References: <20241105055239.1577275-5-kikuchan98@gmail.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1225/1225] mm/memory.o: warning:
+ objtool: __apply_to_page_range()+0x67c: unreachable instruction
+Message-ID: <202411061528.694k8VkC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,48 +61,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241105055239.1577275-5-kikuchan98@gmail.com>
 
-Hi Hironori,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on next-20241104]
-[also build test WARNING on v6.12-rc6]
-[cannot apply to robh/for-next linus/master v6.12-rc6 v6.12-rc5 v6.12-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hironori-KIKUCHI/dt-bindings-display-panel-Rename-rg35xx-plus-panel-back-to-WL-355608-A8/20241105-135601
-base:   next-20241104
-patch link:    https://lore.kernel.org/r/20241105055239.1577275-5-kikuchan98%40gmail.com
-patch subject: [PATCH 4/7] dt-bindings: display: panel: Add YLM-LBV0345001H-V2 panel
-config: csky-randconfig-051-20241106 (https://download.01.org/0day-ci/archive/20241106/202411061425.Qitk3g1Q-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061425.Qitk3g1Q-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
+commit: dd365884b743523ae70dbbf469bca8168f40ba93 [1225/1225] mm/memory.c: add apply_to_existing_page_range() helper
+config: x86_64-buildonly-randconfig-002-20241028 (https://download.01.org/0day-ci/archive/20241106/202411061528.694k8VkC-lkp@intel.com/config)
+compiler: clang version 19.1.2 (https://github.com/llvm/llvm-project 7ba7d8e2f7b6445b60679da826210cdde29eaf8b)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241106/202411061528.694k8VkC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411061425.Qitk3g1Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411061528.694k8VkC-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Documentation/devicetree/bindings/net/snps,dwmac.yaml: mac-mode: missing type definition
->> Warning: Duplicate compatible "anbernic,rg35xx-h-panel" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/panel/anbernic,wl-355608-a8.yaml#
-   	http://devicetree.org/schemas/display/panel/anbernic,ylm-lbv0345001h-v2.yaml#
->> Warning: Duplicate compatible "anbernic,rg35xx-sp-panel" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/panel/anbernic,wl-355608-a8.yaml#
-   	http://devicetree.org/schemas/display/panel/anbernic,ylm-lbv0345001h-v2.yaml#
->> Warning: Duplicate compatible "anbernic,rg35xx-plus-panel" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/panel/anbernic,wl-355608-a8.yaml#
-   	http://devicetree.org/schemas/display/panel/anbernic,ylm-lbv0345001h-v2.yaml#
->> Warning: Duplicate compatible "anbernic,rg35xx-2024-panel" found in schemas matching "$id":
-   	http://devicetree.org/schemas/display/panel/anbernic,wl-355608-a8.yaml#
-   	http://devicetree.org/schemas/display/panel/anbernic,ylm-lbv0345001h-v2.yaml#
+   In file included from mm/memory.c:47:
+   In file included from include/linux/hugetlb.h:44:
+   In file included from include/linux/mempolicy.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/memory.c:4707:3: warning: cast from 'int (*)(unsigned long, unsigned long, struct cgp_args *)' to 'ktask_thread_func' (aka 'int (*)(void *, void *, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+    4707 |                 DEFINE_KTASK_CTL(ctl, clear_gigantic_page_chunk, &args,
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    4708 |                                  KTASK_PTE_MINCHUNK);
+         |                                  ~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:139:3: note: expanded from macro 'DEFINE_KTASK_CTL'
+     139 |                 KTASK_CTL_INITIALIZER(thread_func, func_arg, min_chunk_size) \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/ktask.h:123:21: note: expanded from macro 'KTASK_CTL_INITIALIZER'
+     123 |                 .kc_thread_func = (ktask_thread_func)(thread_func),          \
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+>> mm/memory.o: warning: objtool: __apply_to_page_range()+0x67c: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
