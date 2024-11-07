@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3CD1EC011;
-	Thu,  7 Nov 2024 10:29:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 382321EF09E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 10:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730975352; cv=none; b=aOrWR5mER61YLpo5I5EQ6oyRUeTSoK/POISxXMmAgpTnW16GqtjZPRChkn7sO57uYoE5/qUCBYWbzOX9MnOMBOPMN68l4u2DQFIK8FgWFVPa2/YHd5LWJCaMQBez3R/DuOgdzxoKEhugggaHrvtNZ9glADgNUAE8vG6xIh8QXrk=
+	t=1730975821; cv=none; b=p7he5og+DMvEAn9cHduRkN++lSxRmHhrjEuCRd/cuA5BAWSjzvzb0r8bm/7ww215ByoUajeGKdjkfZp0w64Vo03xsQktFazZVyjEdOGQoEpHAsemucbkYcKRauK901a25QuLT1057sVEATBQGZLqd96X6zQYXXxrjP1miliTtT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730975352; c=relaxed/simple;
-	bh=gzY4iRQXNJKf9ytRnhAtkzrTNWnRl7wvgqscZ1J086U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jrwUrVso7DvHaatHNKwhGZ58/lCeSYIGYpbCVNm09DzBljrQ2A8RGNGMG3NDtXAgJD+1eb2f4PvEJoW8Pe+5D6eMPrLv1N+PKATnJuGW0K6p59xNK9uUtgmMbPwff7nq/6T+hHKQi8YG5o/om6BiC/hJXnyOL0rdO09AbJ6pSrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AiduRBIe; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730975821; c=relaxed/simple;
+	bh=uXeL6oPT1sRD6DNR1Ei1tfZg04k2YN6pse+xtQD5Jjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MBMdCGFLQODvjKkbrBzM9bi4mnPkf1tk2mhhdxwURIsutFh4ov+jh9skuyutERDSTeH+m2akFGhQMAUTDVEOtjRGjkTAcoOQ+I4SvkPXDtc2TE8nCHAXGq2jLsLESZ0lFN9aAdbJuIX31EP+7RZ9bi4QLCPmXStB/QK+H0gDRrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=quXLq2/V; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AiduRBIe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730975351; x=1762511351;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gzY4iRQXNJKf9ytRnhAtkzrTNWnRl7wvgqscZ1J086U=;
-  b=AiduRBIek3K+C6UYWRWQKWQb/bxTdwQniTVaXKeA72XPlCb2QObuid8M
-   nuqk5qWDE5QtLWi4T1xAHebx3coFWhJXdne+uB1PZXuc9wWJ0jPMd2Icl
-   v+xspRxNINjpSmC67qNXp5TAhhcM/F6KfyS73qaEWZajQRDHmbo63fzOd
-   QCiwWUsn7I6JtMgfU0gvsyZcEm3A7n6qzK66ZqNn5FsA9dawq/z7Wpe8n
-   uOD6g2n1Xt9Su0Gy6nsUPXVJhY/kDbc8yJccAl/cjC4FpYiZdpOwRdJvS
-   FYfrEeBto9v1l2HWHiTUaBbbyFFjMkLfcOXjtwONnctQZXA4SuaJT6Xet
-   g==;
-X-CSE-ConnectionGUID: 1KOsq9aGSZuAZ7DWNQbPWQ==
-X-CSE-MsgGUID: aAc8c2psQ+u2bUkihXZicA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="41427908"
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="41427908"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 02:29:07 -0800
-X-CSE-ConnectionGUID: 0N3zud1DSDq6XADPT36x4w==
-X-CSE-MsgGUID: krUv5L3KQVmPtwdRZOh0fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="90142173"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 07 Nov 2024 02:29:05 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t8zl9-000q5y-2P;
-	Thu, 07 Nov 2024 10:29:03 +0000
-Date: Thu, 7 Nov 2024 18:28:17 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v5 16/20] ACPI: platform_profile: Make sure all profile
- handlers agree on profile
-Message-ID: <202411071827.sHhBsmEW-lkp@intel.com>
-References: <20241107060254.17615-17-mario.limonciello@amd.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="quXLq2/V"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43168d9c6c9so6556825e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Nov 2024 02:36:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730975817; x=1731580617; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S54IrLpHtNn97UBj1ol5mcFhoNy+46NWo9YLyxcmnDs=;
+        b=quXLq2/VvxqIst1lNyC5ilZwOnZTKP7j8twaKHXUnTNkCpiJx8+FYSofVX6LRRuHEe
+         2hUDmVxbocYdd7YRzeWvqyWYOu/Gi0jj+cz4C6VZrqjZ+WXAbbUyfNOaNYcjJHviESUc
+         nH15R20MeuKFZBtG5bYGb/LisywAdi8588WrxqlgZNPscMQ58x6s84R3RK5TlDUKJ/Or
+         ZkA0EMq/adait/fhL12xlS2/i4kq0RH3q5NCG7FjNqtR+ZVCSDSokjBWgeOGaXRYtfzo
+         5GNM0SHHy6oro40ZfFRqa4j+h1s6BzAoUG2TaYKZHWhb/yI97C2exf2M12pTW6SUKamn
+         oOPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730975817; x=1731580617;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S54IrLpHtNn97UBj1ol5mcFhoNy+46NWo9YLyxcmnDs=;
+        b=YNsCEpEdgnrRZ4lmoc2aJ74JXUnb/lRHqCZrfveIAyjYkvBeo053uW6WAri5oWQY9c
+         SLg+k3dDSczeA5yYYc8w6M4nedq24alh7k/sFix+td05UT3GdKbLDXsKiOvSkGmcZ+Fe
+         JEQyrSNSGmqlZ5Q9k0ADM3S0isKQAfPXl8MGPSDH26oAhHbh++zi+QnMttk3oPTZ/j7l
+         krxOeboinLy95CjQ7SzJDJOnTjunHa3TaQg6FzApEOX4I//epJqE4XtBJUizIDbJQGQJ
+         dsA67a0ix6m44X43Mws31MC343WHF2L6QHqnb29mLf6CCDP2SOM5fCSFoWE41PTpB9Ix
+         Icvg==
+X-Forwarded-Encrypted: i=1; AJvYcCW0je/mUZPPqDHNy0sVQc5XusU8yPerL4Eqqc+9wcrefr0Mt6LjHY07SV4aizqbnCkx4QMHB5Eyh02CINzD@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyv8QNVN64gPtbE8aNy6/dYlDgxTZ7PXU/R/0kGrgluxWc+bqo2
+	XkhXx6L0ha+ZcLf4+UQzBI/DoGCvt/gthHt9fLr3KV4bxceRoRlur6BBbebBogw=
+X-Google-Smtp-Source: AGHT+IHJN10jxR25SKTrqoQSOU4fqH3/hpD0VG7KU7sTzSUI1QddhOzAtwQ33b1IaUwDG2RJB9NHWA==
+X-Received: by 2002:a05:600c:3593:b0:430:54a4:5ad7 with SMTP id 5b1f17b1804b1-4319ac76449mr400894365e9.1.1730975817526;
+        Thu, 07 Nov 2024 02:36:57 -0800 (PST)
+Received: from localhost ([89.101.241.141])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97c6b6sm1330220f8f.24.2024.11.07.02.36.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 02:36:56 -0800 (PST)
+Date: Thu, 7 Nov 2024 13:36:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, kernel@openeuler.org,
+	Yingbao Jia <yingbao.jia@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: [openeuler:OLK-5.10 22553/30000]
+ drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100
+ isst_if_get_tpmi_instance_count() warn: potential spectre issue
+ 'isst_common.sst_inst' [r] (local cap)
+Message-ID: <d26fa958-ea6a-4052-ab26-3d33dbca595f@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,73 +69,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107060254.17615-17-mario.limonciello@amd.com>
 
-Hi Mario,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d68cb6023356af3bd3193983ad4ec03954a0b3e2]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-platform-profile-Add-a-name-member-to-handlers/20241107-141001
-base:   d68cb6023356af3bd3193983ad4ec03954a0b3e2
-patch link:    https://lore.kernel.org/r/20241107060254.17615-17-mario.limonciello%40amd.com
-patch subject: [PATCH v5 16/20] ACPI: platform_profile: Make sure all profile handlers agree on profile
-config: x86_64-buildonly-randconfig-004-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071827.sHhBsmEW-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411071827.sHhBsmEW-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   99db8adce903def72c36be0dbc5a2f459422b9bc
+commit: 4dc4d762dd6ed4cb851209a87e79d7d936b3fb4c [22553/30000] platform/x86: ISST: Enumerate TPMI SST and create framework
+config: x86_64-randconfig-161-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071052.IGzXSZzF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411071827.sHhBsmEW-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411071052.IGzXSZzF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:100 isst_if_get_tpmi_instance_count() warn: potential spectre issue 'isst_common.sst_inst' [r] (local cap)
+drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c:104 isst_if_get_tpmi_instance_count() warn: possible spectre second half.  'sst_inst'
 
->> drivers/acpi/platform_profile.c:372:12: warning: converting the enum constant to a boolean [-Wint-in-bool-context]
-     372 |         if (i < 0 || PLATFORM_PROFILE_CUSTOM)
-         |                   ^
-   1 warning generated.
+vim +100 drivers/platform/x86/intel_speed_select_if/isst_tpmi_core.c
 
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   88  static int isst_if_get_tpmi_instance_count(void __user *argp)
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   89  {
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   90  	struct isst_tpmi_instance_count tpmi_inst;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   91  	struct tpmi_sst_struct *sst_inst;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   92  	int i;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   93  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   94  	if (copy_from_user(&tpmi_inst, argp, sizeof(tpmi_inst)))
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   95  		return -EFAULT;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   96  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   97  	if (tpmi_inst.socket_id >= topology_max_packages())
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   98  		return -EINVAL;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07   99  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @100  	tpmi_inst.count = isst_common.sst_inst[tpmi_inst.socket_id]->number_of_power_domains;
 
-vim +372 drivers/acpi/platform_profile.c
+I'm not a Spectre v1 expert but this seems like a problem where you
+would need to use array_index_nospec()
 
-   354	
-   355	/**
-   356	 * platform_profile_store - Set the profile for legacy sysfs interface
-   357	 * @dev: The device
-   358	 * @attr: The attribute
-   359	 * @buf: The buffer to read from
-   360	 * @count: The number of bytes to read
-   361	 * Return: The number of bytes read
-   362	 */
-   363	static ssize_t platform_profile_store(struct device *dev,
-   364					      struct device_attribute *attr,
-   365					      const char *buf, size_t count)
-   366	{
-   367		int ret;
-   368		int i;
-   369	
-   370		/* Scan for a matching profile */
-   371		i = sysfs_match_string(profile_names, buf);
- > 372		if (i < 0 || PLATFORM_PROFILE_CUSTOM)
-   373			return -EINVAL;
-   374	
-   375		scoped_cond_guard(mutex_intr, return -ERESTARTSYS, &profile_lock) {
-   376			ret = class_for_each_device(&platform_profile_class, NULL, &i,
-   377						    _store_class_profile);
-   378			if (ret)
-   379				return ret;
-   380			ret = class_for_each_device(&platform_profile_class, NULL, NULL,
-   381						    _notify_class_profile);
-   382			if (ret)
-   383				return ret;
-   384		}
-   385	
-   386		return count;
-   387	}
-   388	
+I've added Dan Williams to the CC list.  He told me at Plumbs that he
+loves talking about Spectre v1.  :P  lol.
+
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  101  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  102  	sst_inst = isst_common.sst_inst[tpmi_inst.socket_id];
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  103  	tpmi_inst.valid_mask = 0;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07 @104  	for (i = 0; i < sst_inst->number_of_power_domains; ++i) {
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  105  		struct tpmi_per_power_domain_info *power_domain_info;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  106  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  107  		power_domain_info = &sst_inst->power_domain_info[i];
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  108  		if (power_domain_info->sst_base)
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  109  			tpmi_inst.valid_mask |= BIT(i);
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  110  	}
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  111  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  112  	if (copy_to_user(argp, &tpmi_inst, sizeof(tpmi_inst)))
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  113  		return -EFAULT;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  114  
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  115  	return 0;
+4dc4d762dd6ed4 Srinivas Pandruvada 2023-03-07  116  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
