@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5A6746E
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 00:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7671179DC
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 00:59:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730940647; cv=none; b=hHYscXxWObTeGMUMoFJ287xlgyNz9n1GnvwH0CCjnKDxQnjfkJNSkOpgfVun5IqShMctkEKA8B8Yw6JhHg7/FyyWOn673jo3AtKX9WnFYrmuBUCqT87SdzRUfx9Snw56mjyaQdac3vvlOpZfMbcxHyCwT8xy1L2MIbY55kuofKU=
+	t=1730941189; cv=none; b=DMVgBOSGzFm+H0OoLb7JQVF/OdXyuzDPk85HASh3pXa3Y+9/rQ1DrB4luFW31ATZ50SkNN3tUL01oNmRVjlzXGk85mipLZzP4jSNOHCx6E9Ntr571txyqYuvrU7rMz0d0PHTHta5XvwY8V+WzdZmrT7JkoSU5fVVXBOY5qb/9fo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730940647; c=relaxed/simple;
-	bh=AhmxPsUV4Jx/uy15Ct//BIB1DKKgvYm4/O57H1ZXv+g=;
+	s=arc-20240116; t=1730941189; c=relaxed/simple;
+	bh=/SCgBm+It/PN05lQ/MCt0R4HsbsGfU0h8NeeLA8oRlE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bm4EO1mHeVxy5v72ouqBc/jYdiTD3k+LF1tcmCqtF14/i7F03TmxLBxRI8ifI8kCaLnX5o+twL3acjoNCqPR80WNvR6UM0sqpMIe4MqoX2PGa4MSY+xDJqAdssTROf7HFlTb5+f/YKepmHv9JExBaBiexkSHoUd8btipf7bHJeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZU8Ue9H; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=OL6/AQVNo6TwkVYF9fV8C2jfDA+TLCoq41H5sht/jqgxZwaJARn5ILP59efiCExe17UB5V9YlVC5cz/9JKtNHAgId2doa+9/1+g628S5ah9nYc0qDoPftGhkxZ4EUx+N8UbjPTvWLxa+sgfXjWlhPycKnpAvtjIWAZpOjO35U6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PxIis65j; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZU8Ue9H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PxIis65j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730940646; x=1762476646;
+  t=1730941189; x=1762477189;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AhmxPsUV4Jx/uy15Ct//BIB1DKKgvYm4/O57H1ZXv+g=;
-  b=QZU8Ue9HZYZvbohfovkdNIjZVwTtWgwZqyXk0t6qcDca7DY24Tco61Ag
-   PLel8PhihNTaO9CMukAb5ZBOhCwT2gEEdrog1J92n8tlCnulRHvy+O0HD
-   xIy3mxMInAQvmJo199JzIYiZp9XUhs93Ub5fqzlGH1rJlSIuo268yXGx+
-   A2ZlPmK2vpNuD9w3RNAacZQ3sipAdaGoOGIX3cbtrqebMlhLBr52FRJJo
-   NTC3xyhN65s79zyq9CC7vNK9bIEfQMiuM/2g3syWGlLax5+dmk+AEPyz7
-   4eQtvXKPyt8XKx/H6IO8RMZh+Uk3GTF3vA0n+0AsNjC41JHXRogQFFcyI
-   A==;
-X-CSE-ConnectionGUID: H6JjeuM0RousayAF3l2pgw==
-X-CSE-MsgGUID: ZlVDGjCsT4GHuOJ0NjOMfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48227123"
+  bh=/SCgBm+It/PN05lQ/MCt0R4HsbsGfU0h8NeeLA8oRlE=;
+  b=PxIis65jsZlwOKPRw3fcZpvyFWtCyx52jpwj/3IJBxBzDDYbcyZktpy+
+   bUNJKokDFOgyCQz8tGIBsI3o1EVtHG2CJdzdQWmjAd2nBsOBVs/vHI1AP
+   OoJZG5ai7TLxX2vwowcwuCWKU2rqpQMz2boCtCbEwXJKmYIeJLpKX5HFH
+   FGf6FYiotsJ7JYQeUIUCOjUV3WvMWjx3vT1B6aiUamWqL1Q+AJ2fhKhuL
+   0df5t6r2wGF5tfQAIe3rURdBGSzLuQLOkJQaFhHULnjMv28gxkPLHdhQ5
+   mWizB+I7BeeGWFgs0+vjALZvPSSyjizhFUQ7h5N4qB6rIZcOduSW3cJgw
+   w==;
+X-CSE-ConnectionGUID: z/R8BmtwQFSJfyBFTSmxoA==
+X-CSE-MsgGUID: 7YJpoV/CSaCLt8i+qRy9Lw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53323151"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="48227123"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 16:50:45 -0800
-X-CSE-ConnectionGUID: FgiPR/S/QrmuHTh/ArvbrQ==
-X-CSE-MsgGUID: Q0Aeyvr8QeOs1g2OYDIciA==
+   d="scan'208";a="53323151"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 16:59:47 -0800
+X-CSE-ConnectionGUID: RJXiv74dSJSqhxID1jEdgA==
+X-CSE-MsgGUID: tH4iSv9yTxi92QrV9VMv5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
-   d="scan'208";a="85262728"
+   d="scan'208";a="85660211"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 06 Nov 2024 16:50:44 -0800
+  by orviesa008.jf.intel.com with ESMTP; 06 Nov 2024 16:50:44 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8qjS-000paZ-0D;
+	id 1t8qjS-000pac-0L;
 	Thu, 07 Nov 2024 00:50:42 +0000
-Date: Thu, 7 Nov 2024 08:50:11 +0800
+Date: Thu, 7 Nov 2024 08:50:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1231/1231]
- arch/arm64/kernel/mpam/mpam_resctrl.c:1741:19: warning: variable 'times' set
- but not used
-Message-ID: <202411070826.nwr0luMf-lkp@intel.com>
+Subject: [android-common:android-mainline-riscv64 262/6153]
+ socket.c:undefined reference to `wext_handle_ioctl'
+Message-ID: <202411070828.lNrPGy4S-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,77 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   e33ed48bc600febcdca9e71e43cf224934dadc4f
-commit: e0aed913079d6b30aafeb50318f26d49bfb3d95b [1231/1231] arm64/mpam: resctrl: Add rmid file in resctrl sysfs
-config: arm64-randconfig-001-20241029 (https://download.01.org/0day-ci/archive/20241107/202411070826.nwr0luMf-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070826.nwr0luMf-lkp@intel.com/reproduce)
+Hi Mark,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android-mainline-riscv64
+head:   e38e1b5d82032316514aeb3da982a6b9b9863897
+commit: 8a167346a33aa28c6e422739e69abc87f57f81bc [262/6153] ANDROID: net: enable wireless core features with GKI_LEGACY_WEXT_ALLCONFIG
+config: i386-buildonly-randconfig-006-20241107 (https://download.01.org/0day-ci/archive/20241107/202411070828.lNrPGy4S-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070828.lNrPGy4S-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070826.nwr0luMf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070828.lNrPGy4S-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm64/kernel/mpam/mpam_resctrl.c:221:1: warning: conflicting types for 'mpam_get_raw_resctrl_resource' due to enum/integer mismatch; have 'struct raw_resctrl_resource *(enum resctrl_resource_level)' [-Wenum-int-mismatch]
-     221 | mpam_get_raw_resctrl_resource(enum resctrl_resource_level level)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/arm64/kernel/mpam/mpam_resctrl.c:48:
-   arch/arm64/kernel/mpam/mpam_internal.h:327:1: note: previous declaration of 'mpam_get_raw_resctrl_resource' with type 'struct raw_resctrl_resource *(u32)' {aka 'struct raw_resctrl_resource *(unsigned int)'}
-     327 | mpam_get_raw_resctrl_resource(u32 level);
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:525:5: warning: no previous prototype for 'closid_bitmap_init' [-Wmissing-prototypes]
-     525 | int closid_bitmap_init(void)
-         |     ^~~~~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:1319:5: warning: no previous prototype for 'cpus_ctrl_write' [-Wmissing-prototypes]
-    1319 | int cpus_ctrl_write(struct rdtgroup *rdtgrp, cpumask_var_t newmask,
-         |     ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:1374:5: warning: no previous prototype for 'cpus_mon_write' [-Wmissing-prototypes]
-    1374 | int cpus_mon_write(struct rdtgroup *rdtgrp, cpumask_var_t newmask,
-         |     ^~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c: In function 'rdt_last_cmd_printf':
-   arch/arm64/kernel/mpam/mpam_resctrl.c:1554:9: warning: function 'rdt_last_cmd_printf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    1554 |         seq_buf_vprintf(&last_cmd_status, fmt, ap);
-         |         ^~~~~~~~~~~~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c: In function 'resctrl_group_rmid_show':
->> arch/arm64/kernel/mpam/mpam_resctrl.c:1741:19: warning: variable 'times' set but not used [-Wunused-but-set-variable]
-    1741 |         u32 flag, times;
-         |                   ^~~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c: In function 'mpam_resctrl_update_component_cfg':
-   arch/arm64/kernel/mpam/mpam_resctrl.c:2083:25: warning: implicit conversion from 'enum resctrl_ctrl_type' to 'enum rdt_event_id' [-Wenum-conversion]
-    2083 |                         type, slave_mpam_cfg);
-         |                         ^~~~
-   arch/arm64/kernel/mpam/mpam_resctrl.c:570: warning: Function parameter or member 'cols' not described in 'rmid_transform'
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: warning: arch/x86/lib/retpoline.o: missing .note.GNU-stack section implies executable stack
+   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
+   ld: net/socket.o: in function `sock_ioctl':
+>> socket.c:(.text+0x1846): undefined reference to `wext_handle_ioctl'
+   ld: net/core/net-procfs.o: in function `dev_proc_net_exit':
+>> net-procfs.c:(.ref.text+0x27): undefined reference to `wext_proc_exit'
+   ld: net/core/net-procfs.o: in function `dev_proc_net_init':
+>> net-procfs.c:(.init.text+0x97): undefined reference to `wext_proc_init'
 
-
-vim +/times +1741 arch/arm64/kernel/mpam/mpam_resctrl.c
-
-  1735	
-  1736	static int resctrl_group_rmid_show(struct kernfs_open_file *of,
-  1737				       struct seq_file *s, void *v)
-  1738	{
-  1739		int ret = 0;
-  1740		struct rdtgroup *rdtgrp;
-> 1741		u32 flag, times;
-  1742	
-  1743		hw_alloc_times_validate(times, flag);
-  1744	
-  1745		rdtgrp = resctrl_group_kn_lock_live(of->kn);
-  1746		if (rdtgrp) {
-  1747			if (flag)
-  1748				seq_printf(s, "%u-%u\n", rdtgrp->mon.rmid,
-  1749					rdtgrp->mon.rmid + 1);
-  1750			else
-  1751				seq_printf(s, "%u\n", rdtgrp->mon.rmid);
-  1752		} else
-  1753			ret = -ENOENT;
-  1754		resctrl_group_kn_unlock(of->kn);
-  1755	
-  1756		return ret;
-  1757	}
-  1758	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 -- 
 0-DAY CI Kernel Test Service
