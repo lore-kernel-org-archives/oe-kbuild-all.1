@@ -1,333 +1,122 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6EC155398
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 21:48:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DDE91D4337
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 22:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731016130; cv=none; b=pKY6R+ihZVlCrxJSb284IAS9RnKjKAdV2B6duR2YYmCmMP02cJzlJ6ZLAExr7fd8PK65XO9Z/Xv6OiooDIMNq6yqMks+7UdjjtcZ4+iXPDBZdRdY8tnEZFA8wvigvR7YBs0/EUgKabbpelKptuP2xZVYor87sevlyFPK63oqOQ8=
+	t=1731017796; cv=none; b=eKNJ0gDmQgB14TKzV3LTyAYkEZqpHOAubGn40rX6+L7TXmpb5H4yQJzpFehx5TJwbmPE0l4x86usg3x/3uP6XRfLCkQ8WXEnm0zhNfjFzCMXqnpQX24sDvWc3wwi46Xh8HVWyZkSPwCRwjq+twMPU+lwHTCl8YLGDbISvvg9gA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731016130; c=relaxed/simple;
-	bh=UUiOWRslliEtPYbRepkUEkGcIzeSn6bXr/KpFIUWjys=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=CdsjIC30RS8nJsZvPfTXE4a6y+qJ6/w2VjF0lNBGzPQEovzq48pMy6PWfJIV5R7rEfZqO+PQskqORA4wCgCfwjTK4sx7O5usr1lHkT+5BZk0AvHZN6H47RvWqYFUcj6ibpUvNjcAEXe+Uyfi+WTqF/vcElPyGmiBKG+1M0ozYgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N6OENuRl; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1731017796; c=relaxed/simple;
+	bh=1utf0p32zAmm7nLv9sS2ZD186hfheynECG2twpLzuW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kpb+JXw9WhSf9TWEf4KokKy+hGaMoqEbaBpbm+5uYGzXZSXjb1cryAW0naB+zHBQVOFb4KlgWEsC/nfus7Su/sfluoCtKylctBWSK1Zg9V1kGMEjyWgiaYY8pPs9i9WaU5wuG2dO+vIN5A9DiX2jEZJdR+F9bep/Th5nTZSm/Bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aEQduWFP; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N6OENuRl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1731016127;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pw/17vEQArIwYy0AEvJtnGHtIjVGW6R5nxCDMrBYCz4=;
-	b=N6OENuRlh3LCMkn9WCvKQUXvNbF4FVAgI3y0bnkDfbHbjJjLBcvQ5PsUWCfrZpUXMWwe2I
-	mzkNTM0CooinBcfIDMZ3mtzDNDQUSgVFjDuI5igl5zRITO6Rz4HjGBoyUOCvDoGinLR+0S
-	UfGnC4mra4J7NC+ygIieTc7fzPbIxtE=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-654-uOQSzDtqMsqxM0HDWKKkjg-1; Thu, 07 Nov 2024 16:48:45 -0500
-X-MC-Unique: uOQSzDtqMsqxM0HDWKKkjg-1
-X-Mimecast-MFC-AGG-ID: uOQSzDtqMsqxM0HDWKKkjg
-Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5c9338a16cdso2776036a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Nov 2024 13:48:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731016125; x=1731620925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pw/17vEQArIwYy0AEvJtnGHtIjVGW6R5nxCDMrBYCz4=;
-        b=PGLoovZuHJkss9TzFHcGk1FIV1vVV81571Smc16BifDsJNHquo4SiRMm6PuAKdEHnL
-         KXLzMLadEcGMOXIS0hLPbnSqEk0C6052AZSTW2omTPdPZU50boyVIHEK/Ue7Q7g6WbTH
-         ZolbagjcbkU1kHSECC/ub97dyeq3QYwF0RmWs9BuAyxlNkCRaMC8shU6HoRy821Fdzni
-         Cg43vKvi3Fx9NpZKhWsrb4fe/wlqcnStAt5xb4VwUYRUxiRy9JbkXwdWFeNhh6VDhfqF
-         tidNRCd8NdmFyyUk9e+zS5ep4xSyglLkcFvOnWGqjMGyui/9huKE6AKsDmtUgQwAnrn5
-         A09Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWqTBd3l4cDvTMgYtobEkaNQ6QVJTvq1P0sieffh+idAN9q80b0nHX0Lolvn73mnbpovZyMRuoiThb/hnMt@lists.linux.dev
-X-Gm-Message-State: AOJu0YzoarTmJ0iJpUoCSUgsJmXP1c1fe50kXI732EBj6pGhzPPg8qRX
-	Gs7NZTfm4wK9r0GioXv4MZXDZSpvO9vFRolvfIRy7Rz1ZGhMROvpMWOfp2QieWXkrTu+/b/D2dq
-	/WZ3brDYLLvQNtsvyUDJwZSzpnzlzun2PUkwTwpYnUSqj+CXsqr9YVywyQpHRvnE=
-X-Received: by 2002:a05:6402:540e:b0:5c9:66c:660e with SMTP id 4fb4d7f45d1cf-5cf0973654dmr1141867a12.13.1731016124627;
-        Thu, 07 Nov 2024 13:48:44 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGvqxJ4xcVu3HBnz3Ks59rfSIuYVC8pI01ZxNmHUTmZE14YYjVwg7OAvaColwyDXYPkNe6Ncg==
-X-Received: by 2002:a05:6402:540e:b0:5c9:66c:660e with SMTP id 4fb4d7f45d1cf-5cf0973654dmr1141842a12.13.1731016124111;
-        Thu, 07 Nov 2024 13:48:44 -0800 (PST)
-Received: from redhat.com ([2a02:14f:179:39a6:9751:f8aa:307a:2952])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03c7ce0asm1234528a12.85.2024.11.07.13.48.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 13:48:42 -0800 (PST)
-Date: Thu, 7 Nov 2024 16:48:37 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Carlos Bilbao <cbilbao@digitalocean.com>, oe-kbuild-all@lists.linux.dev,
-	Dragos Tatulea <dtatulea@nvidia.com>
-Subject: Re: [linux-next:master 9473/10190]
- drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <20241107164504-mutt-send-email-mst@kernel.org>
-References: <202411080535.Xq60FSHw-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aEQduWFP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731017795; x=1762553795;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1utf0p32zAmm7nLv9sS2ZD186hfheynECG2twpLzuW8=;
+  b=aEQduWFP4pb0saSmTN+zLfciS17RoQB9zvL04j9PpNKcuStycRmDdHUm
+   nPgszuyVJDxrnAKjE1cq0wkWZWIBTBpDcRUm9yVp2WGVC441kSK/Og6qP
+   Z7lhls5CUXfwWQx3QiA/GGKy6T2SYRAM/4cTCiKw0iw0gJLpQ+3AiZoG0
+   3YesTl9EDcO6/m3tNmW6Ytv/aQav5780UYCCXok+6rn6IXdt6YdVmeuEP
+   1ARQ98UBnWsk3TP8p1z6Ob3W8ZonsdPeyuFD5uoz++XvZIQBUAhRAqDsD
+   GrUaMxSV4nkE3Loj49Jvrx4k/9tEXd55zRxkGH4ZpgaNEBoNMl4DXH83W
+   w==;
+X-CSE-ConnectionGUID: g5k5T8DoQTCn/jKNbyKK8g==
+X-CSE-MsgGUID: yOMlwOB7SvaTrtHx3sS4Qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="41506916"
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="41506916"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 14:16:34 -0800
+X-CSE-ConnectionGUID: nrNC/RabSn2IyBnxgjd/5Q==
+X-CSE-MsgGUID: RwUDHvSARdemCf07+gfjiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="89204463"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 07 Nov 2024 14:16:33 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9Ann-000qig-04;
+	Thu, 07 Nov 2024 22:16:31 +0000
+Date: Fri, 8 Nov 2024 06:15:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 21144/30000] arch/arm64/kvm/reset.c:102:34:
+ error: implicit declaration of function 'sve_max_virtualisable_vl'
+Message-ID: <202411080635.2RiYCRd1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <202411080535.Xq60FSHw-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: yxxOETgcnDMcKJBvx5XM_xvAnSp2WGxr8wGZWDoGslM_1731016125
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-I dropped the patch for now, I think it's wrong. CB.
+Hi Mark,
 
-On Fri, Nov 08, 2024 at 05:34:27AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   74741a050b79d31d8d2eeee12c77736596d0a6b2
-> commit: 09e317f5d07e3fb5bc09674eb94e38e138fef4bf [9473/10190] vdpa/mlx5: Set speed and duplex of vDPA devices to UNKNOWN
-> config: i386-randconfig-061-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080535.Xq60FSHw-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080535.Xq60FSHw-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411080535.Xq60FSHw-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] speed @@     got restricted __virtio32 @@
->    drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse:     expected restricted __le32 [usertype] speed
->    drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse:     got restricted __virtio32
-> 
-> vim +3910 drivers/vdpa/mlx5/net/mlx5_vnet.c
-> 
->   3822	
->   3823	static int mlx5_vdpa_dev_add(struct vdpa_mgmt_dev *v_mdev, const char *name,
->   3824				     const struct vdpa_dev_set_config *add_config)
->   3825	{
->   3826		struct mlx5_vdpa_mgmtdev *mgtdev = container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
->   3827		struct virtio_net_config *config;
->   3828		struct mlx5_core_dev *pfmdev;
->   3829		struct mlx5_vdpa_dev *mvdev;
->   3830		struct mlx5_vdpa_net *ndev;
->   3831		struct mlx5_core_dev *mdev;
->   3832		u64 device_features;
->   3833		u32 max_vqs;
->   3834		u16 mtu;
->   3835		int err;
->   3836	
->   3837		if (mgtdev->ndev)
->   3838			return -ENOSPC;
->   3839	
->   3840		mdev = mgtdev->madev->mdev;
->   3841		device_features = mgtdev->mgtdev.supported_features;
->   3842		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) {
->   3843			if (add_config->device_features & ~device_features) {
->   3844				dev_warn(mdev->device,
->   3845					 "The provisioned features 0x%llx are not supported by this device with features 0x%llx\n",
->   3846					 add_config->device_features, device_features);
->   3847				return -EINVAL;
->   3848			}
->   3849			device_features &= add_config->device_features;
->   3850		} else {
->   3851			device_features &= ~BIT_ULL(VIRTIO_NET_F_MRG_RXBUF);
->   3852		}
->   3853		if (!(device_features & BIT_ULL(VIRTIO_F_VERSION_1) &&
->   3854		      device_features & BIT_ULL(VIRTIO_F_ACCESS_PLATFORM))) {
->   3855			dev_warn(mdev->device,
->   3856				 "Must provision minimum features 0x%llx for this device",
->   3857				 BIT_ULL(VIRTIO_F_VERSION_1) | BIT_ULL(VIRTIO_F_ACCESS_PLATFORM));
->   3858			return -EOPNOTSUPP;
->   3859		}
->   3860	
->   3861		if (!(MLX5_CAP_DEV_VDPA_EMULATION(mdev, virtio_queue_type) &
->   3862		    MLX5_VIRTIO_EMULATION_CAP_VIRTIO_QUEUE_TYPE_SPLIT)) {
->   3863			dev_warn(mdev->device, "missing support for split virtqueues\n");
->   3864			return -EOPNOTSUPP;
->   3865		}
->   3866	
->   3867		max_vqs = min_t(int, MLX5_CAP_DEV_VDPA_EMULATION(mdev, max_num_virtio_queues),
->   3868				1 << MLX5_CAP_GEN(mdev, log_max_rqt_size));
->   3869		if (max_vqs < 2) {
->   3870			dev_warn(mdev->device,
->   3871				 "%d virtqueues are supported. At least 2 are required\n",
->   3872				 max_vqs);
->   3873			return -EAGAIN;
->   3874		}
->   3875	
->   3876		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_NET_CFG_MAX_VQP)) {
->   3877			if (add_config->net.max_vq_pairs > max_vqs / 2)
->   3878				return -EINVAL;
->   3879			max_vqs = min_t(u32, max_vqs, 2 * add_config->net.max_vq_pairs);
->   3880		} else {
->   3881			max_vqs = 2;
->   3882		}
->   3883	
->   3884		ndev = vdpa_alloc_device(struct mlx5_vdpa_net, mvdev.vdev, mdev->device, &mgtdev->vdpa_ops,
->   3885					 MLX5_VDPA_NUMVQ_GROUPS, MLX5_VDPA_NUM_AS, name, false);
->   3886		if (IS_ERR(ndev))
->   3887			return PTR_ERR(ndev);
->   3888	
->   3889		ndev->mvdev.max_vqs = max_vqs;
->   3890		mvdev = &ndev->mvdev;
->   3891		mvdev->mdev = mdev;
->   3892	
->   3893		ndev->vqs = kcalloc(max_vqs, sizeof(*ndev->vqs), GFP_KERNEL);
->   3894		ndev->event_cbs = kcalloc(max_vqs + 1, sizeof(*ndev->event_cbs), GFP_KERNEL);
->   3895		if (!ndev->vqs || !ndev->event_cbs) {
->   3896			err = -ENOMEM;
->   3897			goto err_alloc;
->   3898		}
->   3899		ndev->cur_num_vqs = MLX5V_DEFAULT_VQ_COUNT;
->   3900	
->   3901		mvqs_set_defaults(ndev);
->   3902		allocate_irqs(ndev);
->   3903		init_rwsem(&ndev->reslock);
->   3904		config = &ndev->config;
->   3905	
->   3906		/*
->   3907		 * mlx5_vdpa vDPA devices currently don't support reporting or
->   3908		 * setting the speed or duplex.
->   3909		 */
-> > 3910		config->speed  = cpu_to_mlx5vdpa32(mvdev, SPEED_UNKNOWN);
->   3911		config->duplex = DUPLEX_UNKNOWN;
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   b96ea10d92add994f978118c6e3280a03a1daaf1
+commit: 68da302c8ae30331c8917f1dc7b0f1682f696d71 [21144/30000] arm64/sve: Put system wide vector length information into structs
+config: arm64-randconfig-004-20241108 (https://download.01.org/0day-ci/archive/20241108/202411080635.2RiYCRd1-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080635.2RiYCRd1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411080635.2RiYCRd1-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/arm64/kvm/reset.c: In function 'kvm_arm_init_sve':
+>> arch/arm64/kvm/reset.c:102:34: error: implicit declaration of function 'sve_max_virtualisable_vl' [-Werror=implicit-function-declaration]
+     102 |                 kvm_sve_max_vl = sve_max_virtualisable_vl();
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-Looking at this in more detail, so 
+vim +/sve_max_virtualisable_vl +102 arch/arm64/kvm/reset.c
 
-1. why not just clear the feature bits?
+    98	
+    99	int kvm_arm_init_sve(void)
+   100	{
+   101		if (system_supports_sve()) {
+ > 102			kvm_sve_max_vl = sve_max_virtualisable_vl();
+   103	
+   104			/*
+   105			 * The get_sve_reg()/set_sve_reg() ioctl interface will need
+   106			 * to be extended with multiple register slice support in
+   107			 * order to support vector lengths greater than
+   108			 * SVE_VL_ARCH_MAX:
+   109			 */
+   110			if (WARN_ON(kvm_sve_max_vl > SVE_VL_ARCH_MAX))
+   111				kvm_sve_max_vl = SVE_VL_ARCH_MAX;
+   112	
+   113			/*
+   114			 * Don't even try to make use of vector lengths that
+   115			 * aren't available on all CPUs, for now:
+   116			 */
+   117			if (kvm_sve_max_vl < sve_max_vl())
+   118				pr_warn("KVM: SVE vector length for guests limited to %u bytes\n",
+   119					kvm_sve_max_vl);
+   120		}
+   121	
+   122		return 0;
+   123	}
+   124	
 
-2. you should not expose SPEED_UNKNOWN in UAPI, it happens to work but
-   really there's no intent to devices to actually say "I do not know
-   the duplex" - unknown here was intended so we can later add
-   new values and userspace will say "I don't know how to interpret it"
-   rather than crashing. Same for duplex.
-
-
-
-
->   3912	
->   3913		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_NET_CFG_MTU)) {
->   3914			err = config_func_mtu(mdev, add_config->net.mtu);
->   3915			if (err)
->   3916				goto err_alloc;
->   3917		}
->   3918	
->   3919		if (device_features & BIT_ULL(VIRTIO_NET_F_MTU)) {
->   3920			err = query_mtu(mdev, &mtu);
->   3921			if (err)
->   3922				goto err_alloc;
->   3923	
->   3924			ndev->config.mtu = cpu_to_mlx5vdpa16(mvdev, mtu);
->   3925		}
->   3926	
->   3927		if (device_features & BIT_ULL(VIRTIO_NET_F_STATUS)) {
->   3928			if (get_link_state(mvdev))
->   3929				ndev->config.status |= cpu_to_mlx5vdpa16(mvdev, VIRTIO_NET_S_LINK_UP);
->   3930			else
->   3931				ndev->config.status &= cpu_to_mlx5vdpa16(mvdev, ~VIRTIO_NET_S_LINK_UP);
->   3932		}
->   3933	
->   3934		if (add_config->mask & (1 << VDPA_ATTR_DEV_NET_CFG_MACADDR)) {
->   3935			memcpy(ndev->config.mac, add_config->net.mac, ETH_ALEN);
->   3936		/* No bother setting mac address in config if not going to provision _F_MAC */
->   3937		} else if ((add_config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) == 0 ||
->   3938			   device_features & BIT_ULL(VIRTIO_NET_F_MAC)) {
->   3939			err = mlx5_query_nic_vport_mac_address(mdev, 0, 0, config->mac);
->   3940			if (err)
->   3941				goto err_alloc;
->   3942		}
->   3943	
->   3944		if (!is_zero_ether_addr(config->mac)) {
->   3945			pfmdev = pci_get_drvdata(pci_physfn(mdev->pdev));
->   3946			err = mlx5_mpfs_add_mac(pfmdev, config->mac);
->   3947			if (err)
->   3948				goto err_alloc;
->   3949		} else if ((add_config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) == 0) {
->   3950			/*
->   3951			 * We used to clear _F_MAC feature bit if seeing
->   3952			 * zero mac address when device features are not
->   3953			 * specifically provisioned. Keep the behaviour
->   3954			 * so old scripts do not break.
->   3955			 */
->   3956			device_features &= ~BIT_ULL(VIRTIO_NET_F_MAC);
->   3957		} else if (device_features & BIT_ULL(VIRTIO_NET_F_MAC)) {
->   3958			/* Don't provision zero mac address for _F_MAC */
->   3959			mlx5_vdpa_warn(&ndev->mvdev,
->   3960				       "No mac address provisioned?\n");
->   3961			err = -EINVAL;
->   3962			goto err_alloc;
->   3963		}
->   3964	
->   3965		if (device_features & BIT_ULL(VIRTIO_NET_F_MQ)) {
->   3966			config->max_virtqueue_pairs = cpu_to_mlx5vdpa16(mvdev, max_vqs / 2);
->   3967			ndev->rqt_size = max_vqs / 2;
->   3968		} else {
->   3969			ndev->rqt_size = 1;
->   3970		}
->   3971	
->   3972		mlx5_cmd_init_async_ctx(mdev, &mvdev->async_ctx);
->   3973	
->   3974		ndev->mvdev.mlx_features = device_features;
->   3975		mvdev->vdev.dma_dev = &mdev->pdev->dev;
->   3976		err = mlx5_vdpa_alloc_resources(&ndev->mvdev);
->   3977		if (err)
->   3978			goto err_alloc;
->   3979	
->   3980		err = mlx5_vdpa_init_mr_resources(mvdev);
->   3981		if (err)
->   3982			goto err_alloc;
->   3983	
->   3984		if (MLX5_CAP_GEN(mvdev->mdev, umem_uid_0)) {
->   3985			err = mlx5_vdpa_create_dma_mr(mvdev);
->   3986			if (err)
->   3987				goto err_alloc;
->   3988		}
->   3989	
->   3990		err = alloc_fixed_resources(ndev);
->   3991		if (err)
->   3992			goto err_alloc;
->   3993	
->   3994		ndev->cvq_ent.mvdev = mvdev;
->   3995		INIT_WORK(&ndev->cvq_ent.work, mlx5_cvq_kick_handler);
->   3996		mvdev->wq = create_singlethread_workqueue("mlx5_vdpa_wq");
->   3997		if (!mvdev->wq) {
->   3998			err = -ENOMEM;
->   3999			goto err_alloc;
->   4000		}
->   4001	
->   4002		mvdev->vdev.mdev = &mgtdev->mgtdev;
->   4003		err = _vdpa_register_device(&mvdev->vdev, max_vqs + 1);
->   4004		if (err)
->   4005			goto err_reg;
->   4006	
->   4007		mgtdev->ndev = ndev;
->   4008	
->   4009		/* For virtio-vdpa, the device was set up during device register. */
->   4010		if (ndev->setup)
->   4011			return 0;
->   4012	
->   4013		down_write(&ndev->reslock);
->   4014		err = setup_vq_resources(ndev, false);
->   4015		up_write(&ndev->reslock);
->   4016		if (err)
->   4017			goto err_setup_vq_res;
->   4018	
->   4019		return 0;
->   4020	
->   4021	err_setup_vq_res:
->   4022		_vdpa_unregister_device(&mvdev->vdev);
->   4023	err_reg:
->   4024		destroy_workqueue(mvdev->wq);
->   4025	err_alloc:
->   4026		put_device(&mvdev->vdev.dev);
->   4027		return err;
->   4028	}
->   4029	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
