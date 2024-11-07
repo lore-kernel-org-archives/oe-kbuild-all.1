@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B20C185B56;
-	Thu,  7 Nov 2024 19:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70CE2161EB;
+	Thu,  7 Nov 2024 20:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731009153; cv=none; b=f1LWq6GUkf3P+VZmPQ6x6K5BaUB1QEEzC+oGWa69kANfcOh74e0lOAVOlTLv5EkC8nnr/2Vx8ea5K7okkpmG/YdYRFh5MPa89lyfZDznrBpy8xlsjAgU81Z4GfqHnujCIxh00igz/XMWNtNFtSK8nXk5G0h5fSwJsBojb8Hxn7g=
+	t=1731009769; cv=none; b=ftvPfWc7YSS5gtSlGdHHJv3W4To44aN54JXaIgr46VWWtyLUmJcA+w6wm4hkjzh6GzkT5vJt9GywCgeJsaOOo9yMvMRajjNmJT91gK7zaXz2vn3E7ineo6bvvyy2jxglHalFzkjKxEeKYYtXumfPQi4mzH8skii1F+u+iTcHi5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731009153; c=relaxed/simple;
-	bh=cTv2IJtY2oZEyU3mmu6NAcZIzE8Q8oIuozfawf8iUiM=;
+	s=arc-20240116; t=1731009769; c=relaxed/simple;
+	bh=IOhBT4+s9HKKZijqKV2MQyFUtiotLMC73AtMG4Y6HsI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L+gsMIudTZJ8sSuUgVl7n7EtLOf0p6TMr4ng2AfidqIiPW7abMUif71PKcw1kjRx0VqQ5F02Kvh4GbrG1W7VlDQWbfqHsWE6hrwmZ2VVdN73FUhy5phiTyu9wHvbcV9sLmDRJOQI6hE1U5tPzrKkoWsWp4UZs4VPUrl8TpVgteg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+UjRyfE; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=rXy8f+0rAtQv8MJ2MLYOV3b6RZOstrYnkIv/cB7pFArgtUtoBum1oEQrYpBXLsxVnwUsvm3VjbrZtOTyunOZcREzwvezjzYeeKWMy5qXPLIiRlkhsJv7F8OM4r7ZkgEmE/bOE/HRmZt1aKMIB5/F7LXd5H6glH4WVk2uKS3LeOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B+/ICLsO; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+UjRyfE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B+/ICLsO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731009151; x=1762545151;
+  t=1731009768; x=1762545768;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=cTv2IJtY2oZEyU3mmu6NAcZIzE8Q8oIuozfawf8iUiM=;
-  b=d+UjRyfEJsofpFFn7YjlKpyA9/O3mnr479ZuPLm+c+tDyRVux7Mi+Y7X
-   OknT3FKO1aZS0CPJs2QfOtlYSSEv41JzG3oU+DuHSf9E1Z//O6tDIPHwO
-   znYkL6CgB3ccKEjOlsTqcp2rGPDibfTqys8ZHXnb4wP7E0zfaoLxVkciI
-   S/IMnfj+Ey0JqeIHZPaYgQIW/UGoO+f4dKalDwgwQpLgM3Hg1IFyg4sju
-   2WtNja1Be5YNwE5LEcIhHyv7GVZEOiBtn1VEh58pu9SJpcdIEi7HQMUYM
-   rCETs5XbRLzqtQ9z1tQNwax9/8eXaEA1JJWvHsOLUrS3d/TpHv+SXKfFk
-   Q==;
-X-CSE-ConnectionGUID: xcHW1Fk3QYm4aO+B6Pvhyw==
-X-CSE-MsgGUID: hcjt1BX6Q/Skl2yMyp54+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="56273175"
+  bh=IOhBT4+s9HKKZijqKV2MQyFUtiotLMC73AtMG4Y6HsI=;
+  b=B+/ICLsOHDBxNTJIHr98ST1Dal6D/hvlSvM5RuCcED8cPaOHfCufe8u1
+   G/fdNpil1m5vT3237BBkusXSSoOT2cpkHoZz3bHgW2EYJAAXIMMG2jFSl
+   UQ0o7ZeJeEqXVYagdySpkBwknAoS4XjOnDlXu//PqLacXmapsEQdM1k6q
+   50vzCnBWNFqtA3Fjg4M7xZGI0wCi5GPz+IYf/hLSyW/VGNqI1rz0CQ/TR
+   L4BC07GbeOFocFLDpzRwursyfEwC53TrHaPuwHCYk4t/fn9fsq/lO+UQj
+   ajn6gm310s+3T/WiKIVRuy+mEQ31b4U9J9wnz0VNcfF0rVA/rMIcJvzFQ
+   A==;
+X-CSE-ConnectionGUID: EgYp32F3T0uQ8p9smeBbag==
+X-CSE-MsgGUID: oS6tnnHARq2Ak6Q/YGcd4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="48389752"
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="56273175"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 11:52:31 -0800
-X-CSE-ConnectionGUID: pcIzTETWTR6eas7kZ0VTqQ==
-X-CSE-MsgGUID: 6ZeMLHnAQRyvSdV7R5/wHQ==
+   d="scan'208";a="48389752"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 12:02:33 -0800
+X-CSE-ConnectionGUID: ba7PxB6RT3iz2c17O0RJ7w==
+X-CSE-MsgGUID: 29VcLRgfRSOszxnR9CtQRA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,135,1728975600"; 
-   d="scan'208";a="108480287"
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="89860766"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Nov 2024 11:52:30 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 07 Nov 2024 12:02:30 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t98YN-000qd2-1r;
-	Thu, 07 Nov 2024 19:52:27 +0000
-Date: Fri, 8 Nov 2024 03:51:29 +0800
+	id 1t98i3-000qdG-2M;
+	Thu, 07 Nov 2024 20:02:27 +0000
+Date: Fri, 8 Nov 2024 04:01:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Hansen <dave.hansen@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC][PATCH] x86/cpu/bugs: Consider having old Intel microcode
- to be a vulnerability
-Message-ID: <202411080337.HKOT7oZc-lkp@intel.com>
-References: <20241107170630.2A92B8D3@davehans-spike.ostc.intel.com>
+To: Jonas Rebmann <jre@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Jonas Rebmann <jre@pengutronix.de>
+Subject: Re: [PATCH 2/2] spi: imx: support word delay
+Message-ID: <202411080315.8JXzpAnT-lkp@intel.com>
+References: <20241107-imx-spi-word-delay-v1-2-2a969214d796@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,69 +71,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107170630.2A92B8D3@davehans-spike.ostc.intel.com>
+In-Reply-To: <20241107-imx-spi-word-delay-v1-2-2a969214d796@pengutronix.de>
 
-Hi Dave,
+Hi Jonas,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on tip/smp/core]
-[also build test ERROR on tip/x86/core]
-[cannot apply to tip/master driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus tip/auto-latest linus/master v6.12-rc6 next-20241107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 9852d85ec9d492ebef56dc5f229416c925758edc]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Hansen/x86-cpu-bugs-Consider-having-old-Intel-microcode-to-be-a-vulnerability/20241108-011145
-base:   tip/smp/core
-patch link:    https://lore.kernel.org/r/20241107170630.2A92B8D3%40davehans-spike.ostc.intel.com
-patch subject: [RFC][PATCH] x86/cpu/bugs: Consider having old Intel microcode to be a vulnerability
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241108/202411080337.HKOT7oZc-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080337.HKOT7oZc-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonas-Rebmann/spi-imx-pass-struct-spi_transfer-to-prepare_transfer/20241107-233756
+base:   9852d85ec9d492ebef56dc5f229416c925758edc
+patch link:    https://lore.kernel.org/r/20241107-imx-spi-word-delay-v1-2-2a969214d796%40pengutronix.de
+patch subject: [PATCH 2/2] spi: imx: support word delay
+config: arc-randconfig-002-20241108 (https://download.01.org/0day-ci/archive/20241108/202411080315.8JXzpAnT-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080315.8JXzpAnT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411080337.HKOT7oZc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411080315.8JXzpAnT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/cpu/common.c:5:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2232:
-   include/linux/vmstat.h:503:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     503 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     504 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:510:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     510 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     511 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:523:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     523 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     524 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/x86/kernel/cpu/common.c:1321:
->> arch/x86/kernel/cpu/microcode/intel-ucode-defs.h:2:1: error: expected '}'
-       2 | { .flags = X86_CPU_ID_FLAG_ENTRY_VALID, .vendor = X86_VENDOR_INTEL, .family = 0x6,  .model = 0x05, .steppings = 0x0001, .driver_data = 0x45 }
-         | ^
-   arch/x86/kernel/cpu/common.c:1320:44: note: to match this '{'
-    1320 | struct x86_cpu_id cpu_latest_microcdoe[] = {
-         |                                            ^
-   4 warnings and 1 error generated.
+   drivers/spi/spi-imx.c: In function 'mx51_ecspi_prepare_transfer':
+>> drivers/spi/spi-imx.c:739:14: error: implicit declaration of function 'FIELD_FIT' [-Werror=implicit-function-declaration]
+     739 |         if (!FIELD_FIT(MX51_ECSPI_PERIOD_MASK, word_delay_sck))
+         |              ^~~~~~~~~
+   In file included from include/linux/byteorder/little_endian.h:5,
+                    from arch/arc/include/uapi/asm/byteorder.h:16,
+                    from include/asm-generic/bitops/le.h:6,
+                    from arch/arc/include/asm/bitops.h:192,
+                    from include/linux/bitops.h:68,
+                    from include/linux/kernel.h:23,
+                    from include/linux/clk.h:13,
+                    from drivers/spi/spi-imx.c:6:
+>> drivers/spi/spi-imx.c:742:16: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
+     742 |         writel(FIELD_PREP(MX51_ECSPI_PERIOD_MASK, word_delay_sck),
+         |                ^~~~~~~~~~
+   include/uapi/linux/byteorder/little_endian.h:34:51: note: in definition of macro '__cpu_to_le32'
+      34 | #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+         |                                                   ^
+   arch/arc/include/asm/io.h:208:47: note: in expansion of macro 'writel_relaxed'
+     208 | #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+         |                                               ^~~~~~~~~~~~~~
+   drivers/spi/spi-imx.c:742:9: note: in expansion of macro 'writel'
+     742 |         writel(FIELD_PREP(MX51_ECSPI_PERIOD_MASK, word_delay_sck),
+         |         ^~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +2 arch/x86/kernel/cpu/microcode/intel-ucode-defs.h
+vim +/FIELD_FIT +739 drivers/spi/spi-imx.c
 
-   > 2	{ .flags = X86_CPU_ID_FLAG_ENTRY_VALID, .vendor = X86_VENDOR_INTEL, .family = 0x6,  .model = 0x05, .steppings = 0x0001, .driver_data = 0x45 }
+   665	
+   666	static int mx51_ecspi_prepare_transfer(struct spi_imx_data *spi_imx,
+   667					       struct spi_device *spi, struct spi_transfer *t)
+   668	{
+   669		u32 ctrl = readl(spi_imx->base + MX51_ECSPI_CTRL);
+   670		u64 word_delay_sck;
+   671		u32 clk;
+   672	
+   673		/* Clear BL field and set the right value */
+   674		ctrl &= ~MX51_ECSPI_CTRL_BL_MASK;
+   675		if (spi_imx->target_mode && is_imx53_ecspi(spi_imx))
+   676			ctrl |= (spi_imx->target_burst * 8 - 1)
+   677				<< MX51_ECSPI_CTRL_BL_OFFSET;
+   678		else {
+   679			ctrl |= (spi_imx->bits_per_word - 1)
+   680				<< MX51_ECSPI_CTRL_BL_OFFSET;
+   681		}
+   682	
+   683		/* set clock speed */
+   684		ctrl &= ~(0xf << MX51_ECSPI_CTRL_POSTDIV_OFFSET |
+   685			  0xf << MX51_ECSPI_CTRL_PREDIV_OFFSET);
+   686		ctrl |= mx51_ecspi_clkdiv(spi_imx, spi_imx->spi_bus_clk, &clk);
+   687		spi_imx->spi_bus_clk = clk;
+   688	
+   689		mx51_configure_cpha(spi_imx, spi);
+   690	
+   691		/*
+   692		 * ERR009165: work in XHC mode instead of SMC as PIO on the chips
+   693		 * before i.mx6ul.
+   694		 */
+   695		if (spi_imx->usedma && spi_imx->devtype_data->tx_glitch_fixed)
+   696			ctrl |= MX51_ECSPI_CTRL_SMC;
+   697		else
+   698			ctrl &= ~MX51_ECSPI_CTRL_SMC;
+   699	
+   700		writel(ctrl, spi_imx->base + MX51_ECSPI_CTRL);
+   701	
+   702		/* calculate word delay in SPI Clock (SCLK) cycles */
+   703		if (t->word_delay.value == 0) {
+   704			word_delay_sck = 0;
+   705		} else if (t->word_delay.unit == SPI_DELAY_UNIT_SCK) {
+   706			word_delay_sck = t->word_delay.value;
+   707	
+   708			if (word_delay_sck <= MX51_ECSPI_PERIOD_MIN_DELAY_SCK)
+   709				word_delay_sck = 0;
+   710			else if (word_delay_sck <= MX51_ECSPI_PERIOD_MIN_DELAY_SCK + 1)
+   711				word_delay_sck = 1;
+   712			else
+   713				word_delay_sck -= MX51_ECSPI_PERIOD_MIN_DELAY_SCK + 1;
+   714		} else {
+   715			int word_delay_ns;
+   716	
+   717			word_delay_ns = spi_delay_to_ns(&t->word_delay, t);
+   718			if (word_delay_ns < 0)
+   719				return word_delay_ns;
+   720	
+   721			if (word_delay_ns <= mul_u64_u32_div(NSEC_PER_SEC,
+   722							     MX51_ECSPI_PERIOD_MIN_DELAY_SCK,
+   723							     spi_imx->spi_bus_clk)) {
+   724				word_delay_sck = 0;
+   725			} else if (word_delay_ns <= mul_u64_u32_div(NSEC_PER_SEC,
+   726								    MX51_ECSPI_PERIOD_MIN_DELAY_SCK + 1,
+   727								    spi_imx->spi_bus_clk)) {
+   728				word_delay_sck = 1;
+   729			} else {
+   730				word_delay_ns -= mul_u64_u32_div(NSEC_PER_SEC,
+   731								 MX51_ECSPI_PERIOD_MIN_DELAY_SCK + 1,
+   732								 spi_imx->spi_bus_clk);
+   733	
+   734				word_delay_sck = DIV_U64_ROUND_UP((u64)word_delay_ns * spi_imx->spi_bus_clk,
+   735								  NSEC_PER_SEC);
+   736			}
+   737		}
+   738	
+ > 739		if (!FIELD_FIT(MX51_ECSPI_PERIOD_MASK, word_delay_sck))
+   740			return -EINVAL;
+   741	
+ > 742		writel(FIELD_PREP(MX51_ECSPI_PERIOD_MASK, word_delay_sck),
+   743		       spi_imx->base + MX51_ECSPI_PERIOD);
+   744	
+   745		return 0;
+   746	}
+   747	
 
 -- 
 0-DAY CI Kernel Test Service
