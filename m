@@ -1,65 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34D01E6DC1;
-	Thu,  7 Nov 2024 11:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 631421F4723
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 11:24:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730978414; cv=none; b=hZL/RmGC93J14gYgRvik2/QsC44ix9MV3ZsWVHlOAvqMaOIypeCzhk8aGCc1mXzc6FcN12sd+VVmF6yeWKApVkeWkmAlOkjKN+PwfF5ygpFSblGko/1AoWmHyWiyamMBNY+5v/bkEApq/n+SG2fbaHvIrjwP4xH58Ie7Fk8Zbh0=
+	t=1730978645; cv=none; b=f9UIAGpX31rLBpr8M6KEFuY+YJB7ZbMbCgBFC4tOaoGnrNfSFDiIeQFv7N8FgGjBgjndSdH8HHDPFGuBhFMA+UDTmri1RwRzvjpakw9NXeoOgt/UsRBkeW83uyZniA05mak9OPPXcgGo1Wh0ruy/APJQn4e8JstaRfmdQS05zxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730978414; c=relaxed/simple;
-	bh=D7hGGVMQw07xKXCnq82A7pvUfvt2UhcDjA2KRum3A1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E+Qdga83670BETW117Rq81BIvjEFmDPxWsJOer75NPyuzAwIIbJyphE/dOsur46Wtgq8oMfupRBPr0qoXESFFiUZRh5IrvmhoTqpnGZ5O1GSyvpXaY6TLa6LsQ5KcwgEbIQAWWm/aikqjo2+sjO0WPvT/6cIbK/R3pkOyoQLtRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/rg4CI8; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1730978645; c=relaxed/simple;
+	bh=2GsD4FM0iXQ9ZQgHNEDuqIySpEr5mZ0z+3AwGF26ZN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ZUE4Qt4blIaJ57+OYhnduBIdlULcDc9pfyfiZ5+G12ZsxPR8r1CNvtI8bk4bV1h3zU3qFrQJxOXXGIux2K7hae5l5+O+dlz0TXf798p0HUfGuXhnwHQV0kvzwYYVN8ycEn0IBq/jnRQ1iPeFNqoeBV+g5dxcILjesP+KnIwwF0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yfhLrFSl; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/rg4CI8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730978412; x=1762514412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D7hGGVMQw07xKXCnq82A7pvUfvt2UhcDjA2KRum3A1o=;
-  b=F/rg4CI8dF1DUGQK/3HgSGflLINeDLpt/Xv7eEzwwpO3MU/cUhQegGCa
-   126Pli4NN/360JsZ625zdp1VjO2XRhzC+HRmmC3gm/MGSmq9VKKBjITzY
-   HlQ95I68sd/WqfOKKS/UC9YVu4CivQ4dXVdo0M3tDjTVajdPhC2daxxmj
-   cctuzG+Il8zIMLHBTuSf6/3vBFIGtiordsMVTf4eyFuCnqnT/ZkzDZvXZ
-   t2qFoJm77D7ZLbujbxfKzec0cDMinfCUxJeaWQpA2P/iXq7ebaY0xGsu0
-   Qtwt8EyzVx7W5kdREMCQqVLjsxZ/HHqkDipvhiJjuJlwFFE65XWwuxNX8
-   w==;
-X-CSE-ConnectionGUID: hEzRrztdRsKEyvmTkEKltw==
-X-CSE-MsgGUID: jTBz1NTLSOu0FZjVqdzpaQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="41432978"
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="41432978"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 03:20:11 -0800
-X-CSE-ConnectionGUID: WRqTtAxQQZ2Ai+NyHZftRw==
-X-CSE-MsgGUID: PaPrMed1SDaEVMw9ozT2ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="108319149"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 07 Nov 2024 03:20:07 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t90YX-000q9g-2L;
-	Thu, 07 Nov 2024 11:20:05 +0000
-Date: Thu, 7 Nov 2024 19:20:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alistair Francis <alistair23@gmail.com>, alex.gaynor@gmail.com,
-	benno.lossin@proton.me, gary@garyguo.net,
-	linux-kernel@vger.kernel.org, ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org, bjorn3_gh@protonmail.com,
-	alistair.francis@wdc.com, me@kloenk.dev, a.hindborg@kernel.org,
-	tmgross@umich.edu, boqun.feng@gmail.com, aliceryhl@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alistair23@gmail.com
-Subject: Re: [PATCH 06/13] rust: helpers: Remove mutex helper
-Message-ID: <202411071903.OV35vZIP-lkp@intel.com>
-References: <20241107020831.1561063-7-alistair.francis@wdc.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yfhLrFSl"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so7331855e9.2
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Nov 2024 03:24:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1730978642; x=1731583442; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YI7D6pYZ3MPTsBn2X/3v3EZ17avH4kCX3waBbepnJPk=;
+        b=yfhLrFSlJfDDA1JtnzmjZXHtDzbq5czqEx5P6kNhM6sSJtHsntD8QLk/3KaJ50rnzy
+         uGThkLRixDS8yCFJ/pZuzJCwbw5vdhVlf/FakRG6ZICPtBGdQFJnI7Tf8GP2Q+zgFEW5
+         QIuFOZuyIAUjTUiQry1NXd4pFse0fmEypgAdirspDqdHVixznGoHm9r9Vy2clHavtrXD
+         xszUeaOZK+7/dkjr1rb8m3x/SvZi0eQoVIti+e5xp43lZ2fhwpZXFJAiSsyrlVL5IV7O
+         Wiwx8FxUZw+X3ItAEiasPMMxCsKknf401NPxDeTQOvvcC/inEAPIWKroEs0riVtq206I
+         W/FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730978642; x=1731583442;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YI7D6pYZ3MPTsBn2X/3v3EZ17avH4kCX3waBbepnJPk=;
+        b=Nrida/7+RZYaG/eYDl/gkMnC48z0xqzZ9QP3ihI5JuBrzRFY2QiM4yzJ9eSw/2dPh6
+         ze7jpH3wsTk6NwW2+oTjm4yDBbbhTUu5+H6625OdN+gh1x9Iv4jkTuja8LJFAUMw3NsE
+         iejjXdGdskGc45W9dWYS0Kxm1OU8qmc9bXIq0M/5OhnQIDAx8gsqW+tsRO1GylaijGrY
+         hn57NgxSTmqEwnycCBARHJztvHElQVCdN48g4ajU/gFaqOEPBq5NGIXziD85CxG5IErq
+         rR0ns3DmOJQnXQZv8gAaXMWJ4zn7VfC7hQlMp57g5DZNstjC3dhVTj7um2hPk67u689A
+         XplA==
+X-Forwarded-Encrypted: i=1; AJvYcCWAce+FLxiDa8Fi/b4w0ic4zq+mO1VG2Gkf3DzGW3SAHb7ueGa9v4gJJCLEm++rulw2luVOH5PTFKnu6h6I@lists.linux.dev
+X-Gm-Message-State: AOJu0YxztRf4LBfzXYIWOzIQpHSJ0GT7nZZIRP7KZ0CldU8STsazrFzX
+	x//loQbV3hHnosi/dpWpjZOycFT4rTstPUfy+/Bd/ZR8J+/mXqD6Fo/PBjAIqWA=
+X-Google-Smtp-Source: AGHT+IFBpowv+bSWYC6j4VAMIQVR8u8yrWok5kaYTtpzwW5CbfWm5qUgpBko8chZf+PgyCz8MppP4g==
+X-Received: by 2002:a05:600c:348e:b0:42c:b74c:d8c3 with SMTP id 5b1f17b1804b1-432b30a15femr7963805e9.32.1730978641744;
+        Thu, 07 Nov 2024 03:24:01 -0800 (PST)
+Received: from localhost ([154.14.63.34])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432aa5b5e56sm59261885e9.2.2024.11.07.03.24.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 03:24:01 -0800 (PST)
+Date: Thu, 7 Nov 2024 14:24:00 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Cindy Lu <lulu@redhat.com>,
+	jasowang@redhat.com, mst@redhat.com, michael.christie@oracle.com,
+	sgarzare@redhat.com, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 6/9] vhost: Add kthread support in function
+ vhost_worker_destroy()
+Message-ID: <ed23b4b1-1aa8-414a-856c-15e072541dee@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,118 +69,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107020831.1561063-7-alistair.francis@wdc.com>
+In-Reply-To: <20241105072642.898710-7-lulu@redhat.com>
 
-Hi Alistair,
+Hi Cindy,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on v6.12-rc6]
-[also build test ERROR on linus/master]
-[cannot apply to rust/rust-next next-20241106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/rust-bindings-Support-some-inline-static-functions/20241107-101321
-base:   v6.12-rc6
-patch link:    https://lore.kernel.org/r/20241107020831.1561063-7-alistair.francis%40wdc.com
-patch subject: [PATCH 06/13] rust: helpers: Remove mutex helper
-config: arm64-randconfig-003-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071903.OV35vZIP-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411071903.OV35vZIP-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cindy-Lu/vhost-Add-a-new-parameter-to-allow-user-select-kthread/20241105-153254
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
+patch link:    https://lore.kernel.org/r/20241105072642.898710-7-lulu%40redhat.com
+patch subject: [PATCH v3 6/9] vhost: Add kthread support in function vhost_worker_destroy()
+config: x86_64-randconfig-161-20241106 (https://download.01.org/0day-ci/archive/20241107/202411071945.ExiEHgoX-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411071903.OV35vZIP-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411071945.ExiEHgoX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/vhost/vhost.c:721 vhost_worker_destroy() error: we previously assumed 'worker' could be null (see line 721)
 
-   In file included from arch/arm64/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   505 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   512 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   525 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
-   In file included from rust/helpers/helpers.c:12:
-   In file included from rust/helpers/page.c:4:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   505 |                            item];
-   |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   512 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-   |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-   525 |                            NR_VM_NUMA_EVENT_ITEMS +
-   |                            ~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   rust/extern.c:1:10: fatal error: 'bindings/bindings_helper.h' file not found
-   1 | #include "bindings/bindings_helper.h"
-   |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:229: rust/extern.o] Error 1 shuffle=940008358
->> error[E0425]: cannot find function `mutex_lock` in crate `bindings`
-   --> rust/kernel/sync/lock/mutex.rs:110:28
-   |
-   110   |         unsafe { bindings::mutex_lock(ptr) };
-   |                            ^^^^^^^^^^ help: a function with a similar name exists: `mutex_unlock`
-   |
-   ::: rust/bindings/bindings_generated.rs:24140:5
-   |
-   24140 |     pub fn mutex_unlock(lock: *mut mutex);
-   |     ------------------------------------- similarly named function `mutex_unlock` defined here
+Old smatch warnings:
+drivers/vhost/vhost.c:241 vhost_worker_queue() error: we previously assumed 'worker' could be null (see line 241)
+
+vim +/worker +721 drivers/vhost/vhost.c
+
+1cdaafa1b8b4ef Mike Christie 2023-06-26  718  static void vhost_worker_destroy(struct vhost_dev *dev,
+1cdaafa1b8b4ef Mike Christie 2023-06-26  719  				 struct vhost_worker *worker)
+1a5f8090c6de99 Mike Christie 2023-03-10  720  {
+e4dec2edddbd54 Cindy Lu      2024-11-05 @721  	if (!worker && !worker->fn)
+
+Same thing.  && vs ||.
+
+1a5f8090c6de99 Mike Christie 2023-03-10  722  		return;
+1a5f8090c6de99 Mike Christie 2023-03-10  723  
+1cdaafa1b8b4ef Mike Christie 2023-06-26  724  	WARN_ON(!llist_empty(&worker->work_list));
+1cdaafa1b8b4ef Mike Christie 2023-06-26  725  	xa_erase(&dev->worker_xa, worker->id);
+e4dec2edddbd54 Cindy Lu      2024-11-05  726  	worker->fn->stop(dev->inherit_owner ? (void *)worker->vtsk :
+e4dec2edddbd54 Cindy Lu      2024-11-05  727  					      (void *)worker->task);
+e4dec2edddbd54 Cindy Lu      2024-11-05  728  	kfree(worker->fn);
+1cdaafa1b8b4ef Mike Christie 2023-06-26  729  	kfree(worker);
+1cdaafa1b8b4ef Mike Christie 2023-06-26  730  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
