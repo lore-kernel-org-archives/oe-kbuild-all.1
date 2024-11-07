@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D933217F5C;
-	Thu,  7 Nov 2024 20:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DCFFC08
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 21:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731012216; cv=none; b=X5a1nWFj47+8cvGRoVmJx2DOiZ0tNOaokivlW+ZE2XptmSBgBq40XBX5xzNYxJ98H+8SwLTiBcytlI7NpAmSSD6zX6gHzptwAcCFsknt2f00olO0hvwLI+IjqMdP5tCLWtNDAM+zb1KfHAGIyZb8h1GgDEKAt4pDeGSTAm+21a8=
+	t=1731015277; cv=none; b=PtRC5LIk0LWXSh9nOWrey8eZs1QyKyrFeg9kKluo9RufJiGqSXZu2/FvR8SvHizlDsChOm1vIcqVEhlLC/7eC7BVAG+Hla7vTbWSySgjcbYBYFI4tHRj5u4sdO5Q09lHblrh2uUISwNbri7CLR6SmdslEWsPxD77oM1n8PXa1ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731012216; c=relaxed/simple;
-	bh=y6ha6PbD3HilLPfJs2LLlgYjyadjBLnc4ntOhI/UGMA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z4wOZnj/LwnpFMmvhPAXDTZ1eYph4Q+a1I/92CrO7QEKJDxs4TMAGFOvGe32Apm8sF0d2IqmgaqRl9nIe51N8cfRQclZrlXCuvmmeuom+OHNFKdPpBr4XwDyxEJLpM+F4bD4HtIICghVjyi+vbB33AIt5ZYg3QmPEukMqYikcvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czGJ5vPl; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1731015277; c=relaxed/simple;
+	bh=OAmYolTxHa/GIHWVjjw2c1QU9dASHnYQ0Kbd5IxUiPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bfR0Q3P2QxHnJPKU1ag0RVNptNN+IIQ5LwjCELRPnSzLMsTR+JyC5s0/SiSBDReiLvxWpOs3XBI0KSnHiVsg5/SYrbBBB/zQGPY0v4rkn0c+qGpIkrrtX+ILP4lSzV6n1BverwAeoZimA/bf6cyM+HWQqraoznEZYKYY9Ry02yw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=II7JH7rz; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czGJ5vPl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="II7JH7rz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731012215; x=1762548215;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y6ha6PbD3HilLPfJs2LLlgYjyadjBLnc4ntOhI/UGMA=;
-  b=czGJ5vPlh7lmm0ByYWbWuRfq3P16z6qIr1HOwt+BKJYS+B74iHGTRYJp
-   avPym/lcpIjy/Md9xty+2FII2Bto+HBeWxw4o6dECn2cZXaaCKRm4mQKa
-   5pgBXjBCrsnKMSUOkgtS86UAvsMyXMEjLRZDdZHdNgp4k01+My/k2laVO
-   sLrITFgztqhPP3xzvi0yFKTu1uuEXGZvVvXKVzG8/LGQvfMV/WJprysnv
-   Fwn3SXuef64kOf2nJCjVdpNZPoObFN7R2aJQV2VZEn4FsVveoje2nTT33
-   BZvDcWFpMgpxUhCpDnjcicJpjg0N2UqnJx41FTefQmiTGOs5ABHpDQkPm
-   g==;
-X-CSE-ConnectionGUID: s+jwRAiASceUuJnXo5tkNw==
-X-CSE-MsgGUID: SQuQ0dp4Ra6f8FsxE5LW+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="42254537"
-X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="42254537"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 12:43:35 -0800
-X-CSE-ConnectionGUID: DXtFXtcFQLaMvnC72LjI6Q==
-X-CSE-MsgGUID: vVrUlfwHSv288JvqU1N1eA==
-X-ExtLoop1: 1
+  t=1731015276; x=1762551276;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OAmYolTxHa/GIHWVjjw2c1QU9dASHnYQ0Kbd5IxUiPs=;
+  b=II7JH7rzqAvUGqWoMARlEJLkbKwoH5AofyF7rwlTVvjG326SKjHz8Bv+
+   5qjJ4QWt89CY38iJ382FUifGNu+7nywgAXJD+d4c7/2dHKQmzNUs3deNl
+   hzx3wgwWg6UQIvt3z4OvOgiSilv/R2LwfnQ9SJIH2UIhNjeC/mITYWtCX
+   ypj1penkr0conOwhaNn2VMx2XN/s22S2Rzyj/MlRWm58gEZz2rtoKZDMx
+   sd846pkWYV/jmUYtN/engk4mEnziffTQkMM9LOe7XOOUQA5U3NtL6SJK/
+   1DONSKUrXmSQ2oc9GG2CWeECwbcBD+HHJTzyANqLxtIVhJqGPy+BMXjZM
+   Q==;
+X-CSE-ConnectionGUID: JfnMCWetQVyaNmkKvNtdfA==
+X-CSE-MsgGUID: lIzScPGFT0yVF+s3LrwZEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31054874"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="90046116"
+   d="scan'208";a="31054874"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 13:34:34 -0800
+X-CSE-ConnectionGUID: vsaqzR6oRB+Vv03J4Ochtg==
+X-CSE-MsgGUID: mQQzxnHGQaOoQB4EvY1m8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="85428215"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2024 12:43:31 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 07 Nov 2024 13:34:32 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t99Lk-000qem-1n;
-	Thu, 07 Nov 2024 20:43:28 +0000
-Date: Fri, 8 Nov 2024 04:43:12 +0800
+	id 1t9A98-000qgo-0E;
+	Thu, 07 Nov 2024 21:34:30 +0000
+Date: Fri, 8 Nov 2024 05:34:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, Peter Huewe <peterhuewe@gmx.de>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Roberto Sassu <roberto.sassu@huawei.com>,
-	Mimi Zohar <zohar@linux.ibm.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] tpm: Opt-in in disable PCR integrity protection
-Message-ID: <202411080436.fb2O1apj-lkp@intel.com>
-References: <20241107095138.78209-1-jarkko@kernel.org>
+To: Carlos Bilbao <cbilbao@digitalocean.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Michael S. Tsirkin" <mst@redhat.com>,
+	Dragos Tatulea <dtatulea@nvidia.com>
+Subject: [linux-next:master 9473/10190]
+ drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202411080535.Xq60FSHw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,106 +63,234 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107095138.78209-1-jarkko@kernel.org>
 
-Hi Jarkko,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on char-misc/char-misc-testing]
-[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.12-rc6 next-20241107]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-Opt-in-in-disable-PCR-integrity-protection/20241107-175515
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20241107095138.78209-1-jarkko%40kernel.org
-patch subject: [PATCH v2] tpm: Opt-in in disable PCR integrity protection
-config: arm-randconfig-003-20241108 (https://download.01.org/0day-ci/archive/20241108/202411080436.fb2O1apj-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080436.fb2O1apj-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   74741a050b79d31d8d2eeee12c77736596d0a6b2
+commit: 09e317f5d07e3fb5bc09674eb94e38e138fef4bf [9473/10190] vdpa/mlx5: Set speed and duplex of vDPA devices to UNKNOWN
+config: i386-randconfig-061-20241107 (https://download.01.org/0day-ci/archive/20241108/202411080535.Xq60FSHw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080535.Xq60FSHw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411080436.fb2O1apj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411080535.Xq60FSHw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] speed @@     got restricted __virtio32 @@
+   drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse:     expected restricted __le32 [usertype] speed
+   drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse:     got restricted __virtio32
 
-   In file included from drivers/char/tpm/tpm2-cmd.c:14:
-   In file included from drivers/char/tpm/tpm.h:28:
-   include/linux/tpm_eventlog.h:167:6: warning: variable 'mapping_size' set but not used [-Wunused-but-set-variable]
-           int mapping_size;
-               ^
->> drivers/char/tpm/tpm2-cmd.c:253:42: error: too few arguments to function call, expected 4, have 3
-                   tpm_buf_append_name(chip, &buf, pcr_idx);
-                   ~~~~~~~~~~~~~~~~~~~                    ^
-   include/linux/tpm.h:504:6: note: 'tpm_buf_append_name' declared here
-   void tpm_buf_append_name(struct tpm_chip *chip, struct tpm_buf *buf,
-        ^
-   1 warning and 1 error generated.
+vim +3910 drivers/vdpa/mlx5/net/mlx5_vnet.c
 
-
-vim +253 drivers/char/tpm/tpm2-cmd.c
-
-   222	
-   223	/**
-   224	 * tpm2_pcr_extend() - extend a PCR value
-   225	 *
-   226	 * @chip:	TPM chip to use.
-   227	 * @pcr_idx:	index of the PCR.
-   228	 * @digests:	list of pcr banks and corresponding digest values to extend.
-   229	 *
-   230	 * Return: Same as with tpm_transmit_cmd.
-   231	 */
-   232	int tpm2_pcr_extend(struct tpm_chip *chip, u32 pcr_idx,
-   233			    struct tpm_digest *digests)
-   234	{
-   235		struct tpm_buf buf;
-   236		int rc;
-   237		int i;
-   238	
-   239		if (!disable_pcr_integrity_protection) {
-   240			rc = tpm2_start_auth_session(chip);
-   241			if (rc)
-   242				return rc;
-   243		}
-   244	
-   245		rc = tpm_buf_init(&buf, TPM2_ST_SESSIONS, TPM2_CC_PCR_EXTEND);
-   246		if (rc) {
-   247			if (!disable_pcr_integrity_protection)
-   248				tpm2_end_auth_session(chip);
-   249			return rc;
-   250		}
-   251	
-   252		if (!disable_pcr_integrity_protection) {
- > 253			tpm_buf_append_name(chip, &buf, pcr_idx);
-   254			tpm_buf_append_hmac_session(chip, &buf, 0, NULL, 0);
-   255		} else {
-   256			tpm_buf_append_handle(chip, &buf, pcr_idx);
-   257			tpm_buf_append_auth(chip, &buf, 0, NULL, 0);
-   258		}
-   259	
-   260		tpm_buf_append_u32(&buf, chip->nr_allocated_banks);
-   261	
-   262		for (i = 0; i < chip->nr_allocated_banks; i++) {
-   263			tpm_buf_append_u16(&buf, digests[i].alg_id);
-   264			tpm_buf_append(&buf, (const unsigned char *)&digests[i].digest,
-   265				       chip->allocated_banks[i].digest_size);
-   266		}
-   267	
-   268		if (!disable_pcr_integrity_protection)
-   269			tpm_buf_fill_hmac_session(chip, &buf);
-   270		rc = tpm_transmit_cmd(chip, &buf, 0, "attempting extend a PCR value");
-   271		if (!disable_pcr_integrity_protection)
-   272			rc = tpm_buf_check_hmac_response(chip, &buf, rc);
-   273	
-   274		tpm_buf_destroy(&buf);
-   275	
-   276		return rc;
-   277	}
-   278	
+  3822	
+  3823	static int mlx5_vdpa_dev_add(struct vdpa_mgmt_dev *v_mdev, const char *name,
+  3824				     const struct vdpa_dev_set_config *add_config)
+  3825	{
+  3826		struct mlx5_vdpa_mgmtdev *mgtdev = container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
+  3827		struct virtio_net_config *config;
+  3828		struct mlx5_core_dev *pfmdev;
+  3829		struct mlx5_vdpa_dev *mvdev;
+  3830		struct mlx5_vdpa_net *ndev;
+  3831		struct mlx5_core_dev *mdev;
+  3832		u64 device_features;
+  3833		u32 max_vqs;
+  3834		u16 mtu;
+  3835		int err;
+  3836	
+  3837		if (mgtdev->ndev)
+  3838			return -ENOSPC;
+  3839	
+  3840		mdev = mgtdev->madev->mdev;
+  3841		device_features = mgtdev->mgtdev.supported_features;
+  3842		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) {
+  3843			if (add_config->device_features & ~device_features) {
+  3844				dev_warn(mdev->device,
+  3845					 "The provisioned features 0x%llx are not supported by this device with features 0x%llx\n",
+  3846					 add_config->device_features, device_features);
+  3847				return -EINVAL;
+  3848			}
+  3849			device_features &= add_config->device_features;
+  3850		} else {
+  3851			device_features &= ~BIT_ULL(VIRTIO_NET_F_MRG_RXBUF);
+  3852		}
+  3853		if (!(device_features & BIT_ULL(VIRTIO_F_VERSION_1) &&
+  3854		      device_features & BIT_ULL(VIRTIO_F_ACCESS_PLATFORM))) {
+  3855			dev_warn(mdev->device,
+  3856				 "Must provision minimum features 0x%llx for this device",
+  3857				 BIT_ULL(VIRTIO_F_VERSION_1) | BIT_ULL(VIRTIO_F_ACCESS_PLATFORM));
+  3858			return -EOPNOTSUPP;
+  3859		}
+  3860	
+  3861		if (!(MLX5_CAP_DEV_VDPA_EMULATION(mdev, virtio_queue_type) &
+  3862		    MLX5_VIRTIO_EMULATION_CAP_VIRTIO_QUEUE_TYPE_SPLIT)) {
+  3863			dev_warn(mdev->device, "missing support for split virtqueues\n");
+  3864			return -EOPNOTSUPP;
+  3865		}
+  3866	
+  3867		max_vqs = min_t(int, MLX5_CAP_DEV_VDPA_EMULATION(mdev, max_num_virtio_queues),
+  3868				1 << MLX5_CAP_GEN(mdev, log_max_rqt_size));
+  3869		if (max_vqs < 2) {
+  3870			dev_warn(mdev->device,
+  3871				 "%d virtqueues are supported. At least 2 are required\n",
+  3872				 max_vqs);
+  3873			return -EAGAIN;
+  3874		}
+  3875	
+  3876		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_NET_CFG_MAX_VQP)) {
+  3877			if (add_config->net.max_vq_pairs > max_vqs / 2)
+  3878				return -EINVAL;
+  3879			max_vqs = min_t(u32, max_vqs, 2 * add_config->net.max_vq_pairs);
+  3880		} else {
+  3881			max_vqs = 2;
+  3882		}
+  3883	
+  3884		ndev = vdpa_alloc_device(struct mlx5_vdpa_net, mvdev.vdev, mdev->device, &mgtdev->vdpa_ops,
+  3885					 MLX5_VDPA_NUMVQ_GROUPS, MLX5_VDPA_NUM_AS, name, false);
+  3886		if (IS_ERR(ndev))
+  3887			return PTR_ERR(ndev);
+  3888	
+  3889		ndev->mvdev.max_vqs = max_vqs;
+  3890		mvdev = &ndev->mvdev;
+  3891		mvdev->mdev = mdev;
+  3892	
+  3893		ndev->vqs = kcalloc(max_vqs, sizeof(*ndev->vqs), GFP_KERNEL);
+  3894		ndev->event_cbs = kcalloc(max_vqs + 1, sizeof(*ndev->event_cbs), GFP_KERNEL);
+  3895		if (!ndev->vqs || !ndev->event_cbs) {
+  3896			err = -ENOMEM;
+  3897			goto err_alloc;
+  3898		}
+  3899		ndev->cur_num_vqs = MLX5V_DEFAULT_VQ_COUNT;
+  3900	
+  3901		mvqs_set_defaults(ndev);
+  3902		allocate_irqs(ndev);
+  3903		init_rwsem(&ndev->reslock);
+  3904		config = &ndev->config;
+  3905	
+  3906		/*
+  3907		 * mlx5_vdpa vDPA devices currently don't support reporting or
+  3908		 * setting the speed or duplex.
+  3909		 */
+> 3910		config->speed  = cpu_to_mlx5vdpa32(mvdev, SPEED_UNKNOWN);
+  3911		config->duplex = DUPLEX_UNKNOWN;
+  3912	
+  3913		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_NET_CFG_MTU)) {
+  3914			err = config_func_mtu(mdev, add_config->net.mtu);
+  3915			if (err)
+  3916				goto err_alloc;
+  3917		}
+  3918	
+  3919		if (device_features & BIT_ULL(VIRTIO_NET_F_MTU)) {
+  3920			err = query_mtu(mdev, &mtu);
+  3921			if (err)
+  3922				goto err_alloc;
+  3923	
+  3924			ndev->config.mtu = cpu_to_mlx5vdpa16(mvdev, mtu);
+  3925		}
+  3926	
+  3927		if (device_features & BIT_ULL(VIRTIO_NET_F_STATUS)) {
+  3928			if (get_link_state(mvdev))
+  3929				ndev->config.status |= cpu_to_mlx5vdpa16(mvdev, VIRTIO_NET_S_LINK_UP);
+  3930			else
+  3931				ndev->config.status &= cpu_to_mlx5vdpa16(mvdev, ~VIRTIO_NET_S_LINK_UP);
+  3932		}
+  3933	
+  3934		if (add_config->mask & (1 << VDPA_ATTR_DEV_NET_CFG_MACADDR)) {
+  3935			memcpy(ndev->config.mac, add_config->net.mac, ETH_ALEN);
+  3936		/* No bother setting mac address in config if not going to provision _F_MAC */
+  3937		} else if ((add_config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) == 0 ||
+  3938			   device_features & BIT_ULL(VIRTIO_NET_F_MAC)) {
+  3939			err = mlx5_query_nic_vport_mac_address(mdev, 0, 0, config->mac);
+  3940			if (err)
+  3941				goto err_alloc;
+  3942		}
+  3943	
+  3944		if (!is_zero_ether_addr(config->mac)) {
+  3945			pfmdev = pci_get_drvdata(pci_physfn(mdev->pdev));
+  3946			err = mlx5_mpfs_add_mac(pfmdev, config->mac);
+  3947			if (err)
+  3948				goto err_alloc;
+  3949		} else if ((add_config->mask & BIT_ULL(VDPA_ATTR_DEV_FEATURES)) == 0) {
+  3950			/*
+  3951			 * We used to clear _F_MAC feature bit if seeing
+  3952			 * zero mac address when device features are not
+  3953			 * specifically provisioned. Keep the behaviour
+  3954			 * so old scripts do not break.
+  3955			 */
+  3956			device_features &= ~BIT_ULL(VIRTIO_NET_F_MAC);
+  3957		} else if (device_features & BIT_ULL(VIRTIO_NET_F_MAC)) {
+  3958			/* Don't provision zero mac address for _F_MAC */
+  3959			mlx5_vdpa_warn(&ndev->mvdev,
+  3960				       "No mac address provisioned?\n");
+  3961			err = -EINVAL;
+  3962			goto err_alloc;
+  3963		}
+  3964	
+  3965		if (device_features & BIT_ULL(VIRTIO_NET_F_MQ)) {
+  3966			config->max_virtqueue_pairs = cpu_to_mlx5vdpa16(mvdev, max_vqs / 2);
+  3967			ndev->rqt_size = max_vqs / 2;
+  3968		} else {
+  3969			ndev->rqt_size = 1;
+  3970		}
+  3971	
+  3972		mlx5_cmd_init_async_ctx(mdev, &mvdev->async_ctx);
+  3973	
+  3974		ndev->mvdev.mlx_features = device_features;
+  3975		mvdev->vdev.dma_dev = &mdev->pdev->dev;
+  3976		err = mlx5_vdpa_alloc_resources(&ndev->mvdev);
+  3977		if (err)
+  3978			goto err_alloc;
+  3979	
+  3980		err = mlx5_vdpa_init_mr_resources(mvdev);
+  3981		if (err)
+  3982			goto err_alloc;
+  3983	
+  3984		if (MLX5_CAP_GEN(mvdev->mdev, umem_uid_0)) {
+  3985			err = mlx5_vdpa_create_dma_mr(mvdev);
+  3986			if (err)
+  3987				goto err_alloc;
+  3988		}
+  3989	
+  3990		err = alloc_fixed_resources(ndev);
+  3991		if (err)
+  3992			goto err_alloc;
+  3993	
+  3994		ndev->cvq_ent.mvdev = mvdev;
+  3995		INIT_WORK(&ndev->cvq_ent.work, mlx5_cvq_kick_handler);
+  3996		mvdev->wq = create_singlethread_workqueue("mlx5_vdpa_wq");
+  3997		if (!mvdev->wq) {
+  3998			err = -ENOMEM;
+  3999			goto err_alloc;
+  4000		}
+  4001	
+  4002		mvdev->vdev.mdev = &mgtdev->mgtdev;
+  4003		err = _vdpa_register_device(&mvdev->vdev, max_vqs + 1);
+  4004		if (err)
+  4005			goto err_reg;
+  4006	
+  4007		mgtdev->ndev = ndev;
+  4008	
+  4009		/* For virtio-vdpa, the device was set up during device register. */
+  4010		if (ndev->setup)
+  4011			return 0;
+  4012	
+  4013		down_write(&ndev->reslock);
+  4014		err = setup_vq_resources(ndev, false);
+  4015		up_write(&ndev->reslock);
+  4016		if (err)
+  4017			goto err_setup_vq_res;
+  4018	
+  4019		return 0;
+  4020	
+  4021	err_setup_vq_res:
+  4022		_vdpa_unregister_device(&mvdev->vdev);
+  4023	err_reg:
+  4024		destroy_workqueue(mvdev->wq);
+  4025	err_alloc:
+  4026		put_device(&mvdev->vdev.dev);
+  4027		return err;
+  4028	}
+  4029	
 
 -- 
 0-DAY CI Kernel Test Service
