@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B0528F4;
-	Thu,  7 Nov 2024 01:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9DC01361;
+	Thu,  7 Nov 2024 01:54:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730941310; cv=none; b=KT5y4NJem1PSqHiRVRoCd4cc3wyKF9fiRJXaMXz+/Lr+P1qKEcGTzzF5m1q4v7oJlnnoO+AIyucEyP1r7bAhvIxHHCy5yE0EwGzfB7GheYxrcnpaLbDtE/417ROKihzxEPES0OxaEaE6r2QZquJQzFqOSgqAt7uSOEboLAFYuWw=
+	t=1730944492; cv=none; b=hj5Hdli7XeKIu4lz3OVOCLC2m5BBXFKiSECU35CNTGL2U0/y1qf93iZApmBYUtWmHIfdDDGerhZy02WJ7+VzMHdNhreF9+xnwAYhghFLO7OtzexhiTH9YcKoVv+PNJr86nFqEzCNx0kahNIM0yMFKJe3p4GZBexMEvUC3WY9XM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730941310; c=relaxed/simple;
-	bh=blCQL2vIPmAnC+tdCWBp5Zt3BTIEOE11enihy2eDjjU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IsQxL2vhjkVYnVsElAuKTDGLHwFdjdx652HpOKoDzBNnOKKSMRVboX1WOPYnRv0T2VHvdWQCwBmI6uec5KgucHlyrpCuGmxOKZJbCEUFiuIMDz3Lpt7vAp1J53lD0VNRuck01yu04zdqj9JWo0hKThZ2zgm2j+d/ty1MDN7YXRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0wN2hnz; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1730944492; c=relaxed/simple;
+	bh=w+Y6Lwf5JDYY0/xIq9e6Dah7/yW1euPbJSUJGLOOlIY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7exMve+Ml4dRIZqyajl8gKqyG8s0PR+6Dnwysek3RCTvGx/lbIJ+alpUcyoGQZJl/qxEReH4LBZgP+ZWgTSVE+rzHcPGQTKYO594HZkU8mawR8HACPMZgEOtFxdGDg8H/g7OEPAi2X1xpvBmhDcE/OqhNKUME5mUypSTIpHUuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=magZJ8ep; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0wN2hnz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="magZJ8ep"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730941308; x=1762477308;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=blCQL2vIPmAnC+tdCWBp5Zt3BTIEOE11enihy2eDjjU=;
-  b=b0wN2hnzxCUMDCcy1VVwLoM1GSc0yuwE1/bMmQMQZRySb2G/g2u0W5NR
-   KPCHhxgevN23rXsZcwhcfFwwDhWBpp1mW/1Qy8Kk+yFiaP7VPKyp0bgBX
-   VAf308VFCxse6NQDDD1o0uQA+kacsbuu2rNxVQM549uLTrVm1Pwoky4hP
-   ZmjGGEzCNqhv7n/jU1tMsjY6mKTZ7rsJrB7pLsI5wKgN3FqNzoDRn4nfn
-   tSg1x/haUW3e+xbRQb1vpDxr5RKpNiZETa/V1Ky+OIOztmABng4zLUc+v
-   6MDrio7x+WhbOYtE1pRkrlzrxPEpMop7qodOkZPuBPOkbFX4cb2lBX6gj
-   w==;
-X-CSE-ConnectionGUID: +/bzqsfgRW61kyN0cfYhzQ==
-X-CSE-MsgGUID: 35rNheUcTZaX8z/10RuWJg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34462969"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34462969"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 17:01:45 -0800
-X-CSE-ConnectionGUID: fIAGDzFPSP2VmPuB9PHgNg==
-X-CSE-MsgGUID: 04Y6j90UTzWvHytbiTpjqg==
+  t=1730944489; x=1762480489;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w+Y6Lwf5JDYY0/xIq9e6Dah7/yW1euPbJSUJGLOOlIY=;
+  b=magZJ8eprPjIkFKlOUO+CZ8Y4U/J2CwWPJ+PjfMMFyhnNnUqKJuthcUT
+   Wf37dH40MBLSnvlcLlnbiUsV2Ac3rqi3VCsIxfxkdpo0RGB/G1/H9EV5P
+   4bf+BPgDZGZrINFkihIWHjNc7W3Xh9Tez89o+zzbQp6Jv5VEpIOHdUIOR
+   7mdwopcyVRAeT2H6oMy8XOOpog8L29QJ8sIGnn/h3qiiC/pBToVrwtBk2
+   PCrvHdp54SoVM8V6zLw5ZxeYAwbVoGU54Acqi5n8tBQf//XHSA+3v0zAK
+   B6JXMrGZhMDdKcCdcj1fnTN0JvrxSH6zun70UF/RVgUdJV2iv/l6wweGn
+   g==;
+X-CSE-ConnectionGUID: Pfqoiqq6QUS6VWhwuA0kew==
+X-CSE-MsgGUID: si+kFzCcTMCLK4Ftw96W3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="41392276"
+X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
+   d="scan'208";a="41392276"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 17:54:49 -0800
+X-CSE-ConnectionGUID: eJvCJw2rQre2GD14Rj2awQ==
+X-CSE-MsgGUID: S6GF0vGjSoSiw853pHJvgg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="89637172"
+X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
+   d="scan'208";a="84823236"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Nov 2024 17:01:45 -0800
+  by orviesa010.jf.intel.com with ESMTP; 06 Nov 2024 17:54:46 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8qu6-000pb0-0v;
-	Thu, 07 Nov 2024 01:01:42 +0000
-Date: Thu, 7 Nov 2024 09:01:15 +0800
+	id 1t8rjQ-000peU-1c;
+	Thu, 07 Nov 2024 01:54:44 +0000
+Date: Thu, 7 Nov 2024 09:54:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [vbabka:b4/slub-percpu-sheaves 5/9] kernel/fork.c:532:2: error:
- #endif without #if
-Message-ID: <202411070802.Wbvv86Ld-lkp@intel.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>, intel-xe@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	matthew.d.roper@intel.com, jani.nikula@intel.com,
+	Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [PATCH] drm/i915/hdcp: Handle HDCP Line Rekeying for HDCP 1.4
+Message-ID: <202411070920.hut0uhH0-lkp@intel.com>
+References: <20241106174041.860223-1-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,56 +65,179 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241106174041.860223-1-suraj.kandpal@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slub-percpu-sheaves
-head:   c9a0c0d9abbb215ecaca59e751140fc4f46652af
-commit: 7d84a5e7aa7522ecd72d1aaff0b9ce6421d7c99a [5/9] mm, vma: use sheaves for vm_area_struct cache
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241107/202411070802.Wbvv86Ld-lkp@intel.com/config)
+Hi Suraj,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on next-20241106]
+[cannot apply to linus/master drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.12-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-i915-hdcp-Handle-HDCP-Line-Rekeying-for-HDCP-1-4/20241107-015848
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20241106174041.860223-1-suraj.kandpal%40intel.com
+patch subject: [PATCH] drm/i915/hdcp: Handle HDCP Line Rekeying for HDCP 1.4
+config: i386-defconfig (https://download.01.org/0day-ci/archive/20241107/202411070920.hut0uhH0-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070802.Wbvv86Ld-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070920.hut0uhH0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070802.Wbvv86Ld-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070920.hut0uhH0-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/fork.c:35:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:8:
+   In file included from drivers/gpu/drm/i915/display/intel_hdcp.c:12:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
    In file included from include/linux/mm.h:2213:
    include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
      518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from kernel/fork.c:47:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> kernel/fork.c:532:2: error: #endif without #if
-     532 | #endif
-         |  ^
-   3 warnings and 1 error generated.
+   drivers/gpu/drm/i915/display/intel_hdcp.c:54:13: warning: variable 'rekey_bit' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_device.h:211:2: note: expanded from macro 'IS_DISPLAY_VERx100_STEP'
+     211 |         (IS_DISPLAY_VERx100((__i915), (ipver), (ipver)) && \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     212 |          IS_DISPLAY_STEP((__i915), (from), (until)))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:59:35: note: uninitialized use occurs here
+      59 |         intel_de_rmw(display, rekey_reg, rekey_bit, enable ? 0 : rekey_bit);
+         |                                          ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_de.h:109:67: note: expanded from macro 'intel_de_rmw'
+     109 | #define intel_de_rmw(p,...) __intel_de_rmw(__to_intel_display(p), __VA_ARGS__)
+         |                                                                   ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:54:9: note: remove the 'if' if its condition is always true
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:54:13: warning: variable 'rekey_bit' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_device.h:211:3: note: expanded from macro 'IS_DISPLAY_VERx100_STEP'
+     211 |         (IS_DISPLAY_VERx100((__i915), (ipver), (ipver)) && \
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_device.h:190:49: note: expanded from macro 'IS_DISPLAY_VERx100'
+     190 | #define IS_DISPLAY_VERx100(__i915, from, until) ( \
+         |                                                 ^~~
+     191 |         BUILD_BUG_ON_ZERO((from) < 200) + \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     192 |         (DISPLAY_VERx100(__i915) >= (from) && \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     193 |          DISPLAY_VERx100(__i915) <= (until)))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:59:35: note: uninitialized use occurs here
+      59 |         intel_de_rmw(display, rekey_reg, rekey_bit, enable ? 0 : rekey_bit);
+         |                                          ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_de.h:109:67: note: expanded from macro 'intel_de_rmw'
+     109 | #define intel_de_rmw(p,...) __intel_de_rmw(__to_intel_display(p), __VA_ARGS__)
+         |                                                                   ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:54:13: note: remove the '&&' if its condition is always true
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                    ^
+   drivers/gpu/drm/i915/display/intel_display_device.h:211:3: note: expanded from macro 'IS_DISPLAY_VERx100_STEP'
+     211 |         (IS_DISPLAY_VERx100((__i915), (ipver), (ipver)) && \
+         |          ^
+   drivers/gpu/drm/i915/display/intel_display_device.h:190:49: note: expanded from macro 'IS_DISPLAY_VERx100'
+     190 | #define IS_DISPLAY_VERx100(__i915, from, until) ( \
+         |                                                 ^
+   drivers/gpu/drm/i915/display/intel_hdcp.c:41:15: note: initialize the variable 'rekey_bit' to silence this warning
+      41 |         u32 rekey_bit;
+         |                      ^
+         |                       = 0
+>> drivers/gpu/drm/i915/display/intel_hdcp.c:54:13: warning: variable 'rekey_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_device.h:211:2: note: expanded from macro 'IS_DISPLAY_VERx100_STEP'
+     211 |         (IS_DISPLAY_VERx100((__i915), (ipver), (ipver)) && \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     212 |          IS_DISPLAY_STEP((__i915), (from), (until)))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:59:24: note: uninitialized use occurs here
+      59 |         intel_de_rmw(display, rekey_reg, rekey_bit, enable ? 0 : rekey_bit);
+         |                               ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_de.h:109:67: note: expanded from macro 'intel_de_rmw'
+     109 | #define intel_de_rmw(p,...) __intel_de_rmw(__to_intel_display(p), __VA_ARGS__)
+         |                                                                   ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:54:9: note: remove the 'if' if its condition is always true
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/i915/display/intel_hdcp.c:54:13: warning: variable 'rekey_reg' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_device.h:211:3: note: expanded from macro 'IS_DISPLAY_VERx100_STEP'
+     211 |         (IS_DISPLAY_VERx100((__i915), (ipver), (ipver)) && \
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display_device.h:190:49: note: expanded from macro 'IS_DISPLAY_VERx100'
+     190 | #define IS_DISPLAY_VERx100(__i915, from, until) ( \
+         |                                                 ^~~
+     191 |         BUILD_BUG_ON_ZERO((from) < 200) + \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     192 |         (DISPLAY_VERx100(__i915) >= (from) && \
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     193 |          DISPLAY_VERx100(__i915) <= (until)))
+         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:59:24: note: uninitialized use occurs here
+      59 |         intel_de_rmw(display, rekey_reg, rekey_bit, enable ? 0 : rekey_bit);
+         |                               ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_de.h:109:67: note: expanded from macro 'intel_de_rmw'
+     109 | #define intel_de_rmw(p,...) __intel_de_rmw(__to_intel_display(p), __VA_ARGS__)
+         |                                                                   ^~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_hdcp.c:54:13: note: remove the '&&' if its condition is always true
+      54 |         } else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+         |                    ^
+   drivers/gpu/drm/i915/display/intel_display_device.h:211:3: note: expanded from macro 'IS_DISPLAY_VERx100_STEP'
+     211 |         (IS_DISPLAY_VERx100((__i915), (ipver), (ipver)) && \
+         |          ^
+   drivers/gpu/drm/i915/display/intel_display_device.h:190:49: note: expanded from macro 'IS_DISPLAY_VERx100'
+     190 | #define IS_DISPLAY_VERx100(__i915, from, until) ( \
+         |                                                 ^
+   drivers/gpu/drm/i915/display/intel_hdcp.c:40:2: note: variable 'rekey_reg' is declared here
+      40 |         i915_reg_t rekey_reg;
+         |         ^
+   5 warnings generated.
 
 
-vim +532 kernel/fork.c
+vim +54 drivers/gpu/drm/i915/display/intel_hdcp.c
 
-7d84a5e7aa7522 Vlastimil Babka   2024-07-10  527  
-7d84a5e7aa7522 Vlastimil Babka   2024-07-10  528  	vma_numab_state_free(vma);
-7d84a5e7aa7522 Vlastimil Babka   2024-07-10  529  	free_anon_vma_name(vma);
-7d84a5e7aa7522 Vlastimil Babka   2024-07-10  530  	vma_lock_free(vma);
-20cce633f4254c Michel Lespinasse 2023-02-27  531  }
-20cce633f4254c Michel Lespinasse 2023-02-27 @532  #endif
-20cce633f4254c Michel Lespinasse 2023-02-27  533  
-
-:::::: The code at line 532 was first introduced by commit
-:::::: 20cce633f4254cc0df39665449726e3172518f6c mm: rcu safe VMA freeing
-
-:::::: TO: Michel Lespinasse <michel@lespinasse.org>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    33	
+    34	static void
+    35	intel_hdcp_adjust_hdcp_line_rekeying(struct intel_encoder *encoder,
+    36					     struct intel_hdcp *hdcp,
+    37					     bool enable)
+    38	{
+    39		struct intel_display *display = to_intel_display(encoder);
+    40		i915_reg_t rekey_reg;
+    41		u32 rekey_bit;
+    42	
+    43		/* Here we assume HDMI is in TMDS mode of operation */
+    44		if (encoder->type != INTEL_OUTPUT_HDMI)
+    45			return;
+    46	
+    47		if (DISPLAY_VER(display) >= 30) {
+    48			rekey_reg = TRANS_DDI_FUNC_CTL(display, hdcp->cpu_transcoder);
+    49			rekey_bit = XE3_TRANS_DDI_HDCP_LINE_REKEY_DISABLE;
+    50		} else if (IS_DISPLAY_VERx100_STEP(display, 1401, STEP_B0, STEP_FOREVER) ||
+    51			   IS_DISPLAY_VERx100_STEP(display, 2000, STEP_B0, STEP_FOREVER)) {
+    52			rekey_reg = TRANS_DDI_FUNC_CTL(display, hdcp->cpu_transcoder);
+    53			rekey_bit = TRANS_DDI_HDCP_LINE_REKEY_DISABLE;
+  > 54		} else if (IS_DISPLAY_VERx100_STEP(display, 1400, STEP_D0, STEP_FOREVER)) {
+    55			rekey_reg = MTL_CHICKEN_TRANS(hdcp->cpu_transcoder);
+    56			rekey_bit = HDCP_LINE_REKEY_DISABLE;
+    57		}
+    58	
+    59		intel_de_rmw(display, rekey_reg, rekey_bit, enable ? 0 : rekey_bit);
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
