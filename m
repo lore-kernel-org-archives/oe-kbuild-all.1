@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604033207
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 01:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B0528F4;
+	Thu,  7 Nov 2024 01:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730941309; cv=none; b=u6pjwHO2OVkVwtDgTM6isbNnn8GrmHmUBDEdOhA2r35kheiwllrz7LJiN9GRwhhY+CCYrEgU+uMS3oOW+R6M2XX43sduhisb+Oy+G1p6mZV2EtnsFifaR3v9np3ILOdTvds9eFqk5u6FNMEaFJaUpuN+5GC7Eq6f2rHUbsKp838=
+	t=1730941310; cv=none; b=KT5y4NJem1PSqHiRVRoCd4cc3wyKF9fiRJXaMXz+/Lr+P1qKEcGTzzF5m1q4v7oJlnnoO+AIyucEyP1r7bAhvIxHHCy5yE0EwGzfB7GheYxrcnpaLbDtE/417ROKihzxEPES0OxaEaE6r2QZquJQzFqOSgqAt7uSOEboLAFYuWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730941309; c=relaxed/simple;
-	bh=8LZPvUCN9C3yUR3J6KQF9rZje6rFNhSf2IWdy4LztfM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dAkJwVzZKiKiZs3E8viqI0t4j9fbhlNAFcgoUomp9MAxhjXhsI//0S9zwFCJMtFQdMCMXLuuwMs2jBQ6vNWVecSk2wDuRoq9cTQYfvbsts79q68wHNEIUwe1HqFl7wY9AN3cY2jk2Z3KKPhmDwU2IafnOGFNMIEsUSO8kuJKQZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lvhu9dgh; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1730941310; c=relaxed/simple;
+	bh=blCQL2vIPmAnC+tdCWBp5Zt3BTIEOE11enihy2eDjjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IsQxL2vhjkVYnVsElAuKTDGLHwFdjdx652HpOKoDzBNnOKKSMRVboX1WOPYnRv0T2VHvdWQCwBmI6uec5KgucHlyrpCuGmxOKZJbCEUFiuIMDz3Lpt7vAp1J53lD0VNRuck01yu04zdqj9JWo0hKThZ2zgm2j+d/ty1MDN7YXRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0wN2hnz; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lvhu9dgh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0wN2hnz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1730941308; x=1762477308;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8LZPvUCN9C3yUR3J6KQF9rZje6rFNhSf2IWdy4LztfM=;
-  b=Lvhu9dghzo6t/W3NQZH4YkvzZM7Av0NSw6wvfoJ/QZQiF8fSZ3pfw92C
-   jptB+OEXXtwmLcDGB5Ss/TtPQ2VWQceOv82gYxzmXc9dX+Ap1H78Ecqjl
-   H+VtWYMiyDWvuIFZTXZmj35yk3mYtZomby3LwfnoihivdV4VTjwwdMkw4
-   Hp7SwK7O62YYBB3hFxLYaB7aDHUUF89Ce9POFwsz+2hh1LYh/EQNbxtYQ
-   eq9UMsm7VSpSxBYTkwBb66n8t5GbJedo1zyLKiizI+kGOlJIV9rSC9qBt
-   RLmT7BRMPHpbnhRqMdPqJKNvBnq0Tqs619/9rE5c4XJLTErsk/qZxxWBf
-   A==;
-X-CSE-ConnectionGUID: 2W79t0cjTCeultwfZBIN0w==
-X-CSE-MsgGUID: QqGVk0ldS4yXHmBqqvCVnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30868871"
-X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
-   d="scan'208";a="30868871"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 17:01:48 -0800
-X-CSE-ConnectionGUID: w39IjmtKRLq/XpI8W46YJw==
-X-CSE-MsgGUID: tU/9JlygSBWKwC5v93+JRQ==
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=blCQL2vIPmAnC+tdCWBp5Zt3BTIEOE11enihy2eDjjU=;
+  b=b0wN2hnzxCUMDCcy1VVwLoM1GSc0yuwE1/bMmQMQZRySb2G/g2u0W5NR
+   KPCHhxgevN23rXsZcwhcfFwwDhWBpp1mW/1Qy8Kk+yFiaP7VPKyp0bgBX
+   VAf308VFCxse6NQDDD1o0uQA+kacsbuu2rNxVQM549uLTrVm1Pwoky4hP
+   ZmjGGEzCNqhv7n/jU1tMsjY6mKTZ7rsJrB7pLsI5wKgN3FqNzoDRn4nfn
+   tSg1x/haUW3e+xbRQb1vpDxr5RKpNiZETa/V1Ky+OIOztmABng4zLUc+v
+   6MDrio7x+WhbOYtE1pRkrlzrxPEpMop7qodOkZPuBPOkbFX4cb2lBX6gj
+   w==;
+X-CSE-ConnectionGUID: +/bzqsfgRW61kyN0cfYhzQ==
+X-CSE-MsgGUID: 35rNheUcTZaX8z/10RuWJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34462969"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="34462969"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2024 17:01:45 -0800
+X-CSE-ConnectionGUID: fIAGDzFPSP2VmPuB9PHgNg==
+X-CSE-MsgGUID: 04Y6j90UTzWvHytbiTpjqg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,264,1725346800"; 
-   d="scan'208";a="88828063"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="89637172"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 06 Nov 2024 17:01:44 -0800
+  by orviesa003.jf.intel.com with ESMTP; 06 Nov 2024 17:01:45 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8qu6-000pb4-12;
+	id 1t8qu6-000pb0-0v;
 	Thu, 07 Nov 2024 01:01:42 +0000
-Date: Thu, 7 Nov 2024 09:01:17 +0800
+Date: Thu, 7 Nov 2024 09:01:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yassine Oudjana <y.oudjana@protonmail.com>,
-	Sean Wang <sean.wang@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andy Teng <andy.teng@mediatek.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Yassine Oudjana <y.oudjana@protonmail.com>,
-	linux-mediatek@lists.infradead.org, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v7 7/7] pinctrl: mediatek: Add MT6735 pinctrl driver
-Message-ID: <202411070804.SS4EF03K-lkp@intel.com>
-References: <20241106100741.173825-8-y.oudjana@protonmail.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:b4/slub-percpu-sheaves 5/9] kernel/fork.c:532:2: error:
+ #endif without #if
+Message-ID: <202411070802.Wbvv86Ld-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,34 +61,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106100741.173825-8-y.oudjana@protonmail.com>
 
-Hi Yassine,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linusw-pinctrl/devel]
-[also build test ERROR on linusw-pinctrl/for-next robh/for-next linus/master v6.12-rc6 next-20241106]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Oudjana/dt-bindings-pinctrl-mediatek-mt6779-pinctrl-Pull-pinctrl-node-changes-from-MT6795-document/20241106-181127
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241106100741.173825-8-y.oudjana%40protonmail.com
-patch subject: [PATCH v7 7/7] pinctrl: mediatek: Add MT6735 pinctrl driver
-config: arm64-randconfig-002-20241107 (https://download.01.org/0day-ci/archive/20241107/202411070804.SS4EF03K-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070804.SS4EF03K-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git b4/slub-percpu-sheaves
+head:   c9a0c0d9abbb215ecaca59e751140fc4f46652af
+commit: 7d84a5e7aa7522ecd72d1aaff0b9ce6421d7c99a [5/9] mm, vma: use sheaves for vm_area_struct cache
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241107/202411070802.Wbvv86Ld-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070802.Wbvv86Ld-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411070804.SS4EF03K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411070802.Wbvv86Ld-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> aarch64-linux-ld: drivers/pinctrl/mediatek/pinctrl-mt6735.o:(.data+0xa0): undefined reference to `mtk_paris_pinctrl_pm_ops'
+   In file included from kernel/fork.c:35:
+   In file included from include/linux/mempolicy.h:15:
+   In file included from include/linux/pagemap.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from kernel/fork.c:47:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> kernel/fork.c:532:2: error: #endif without #if
+     532 | #endif
+         |  ^
+   3 warnings and 1 error generated.
+
+
+vim +532 kernel/fork.c
+
+7d84a5e7aa7522 Vlastimil Babka   2024-07-10  527  
+7d84a5e7aa7522 Vlastimil Babka   2024-07-10  528  	vma_numab_state_free(vma);
+7d84a5e7aa7522 Vlastimil Babka   2024-07-10  529  	free_anon_vma_name(vma);
+7d84a5e7aa7522 Vlastimil Babka   2024-07-10  530  	vma_lock_free(vma);
+20cce633f4254c Michel Lespinasse 2023-02-27  531  }
+20cce633f4254c Michel Lespinasse 2023-02-27 @532  #endif
+20cce633f4254c Michel Lespinasse 2023-02-27  533  
+
+:::::: The code at line 532 was first introduced by commit
+:::::: 20cce633f4254cc0df39665449726e3172518f6c mm: rcu safe VMA freeing
+
+:::::: TO: Michel Lespinasse <michel@lespinasse.org>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
