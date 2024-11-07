@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D6F1DF273;
-	Thu,  7 Nov 2024 09:26:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D708F1E0DF7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 09:36:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730971570; cv=none; b=h/vrwvXxWyvabpekLAujm6n6WQ2Tw2i87DvFdM0A1fccnFXB0JQ/8M26ZVoBUn/QcFCDyAMDUwjo03kjaQIRCQ1gtojDFOtuw8MO17T2E+a99FCzDJO/mwhw/6o1USFmLrGtjkddy+Zhjv/tb7oXaH7Xez0lsWE09N0Y0IPHqPI=
+	t=1730972168; cv=none; b=uXvwavngH2vL5VJqUSlyeO3v+2McaFbN3zqSL0g0Nphg3tV7y6p5JLCZwxPNJT0QKeJTF742Jw7z/rH8Aeg9Br1VHW428S8Nbr0I5sNLh+QN8XcUiWyLImAxMaF0ucjHLH2cgmgSVVdTyg6WD3s4SqzrDiwlw7SJvHXHzpemIMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730971570; c=relaxed/simple;
-	bh=twoE0mHCMrSMAan0IqQlrUN0/vRsEvXNM3l7TF+WJlo=;
+	s=arc-20240116; t=1730972168; c=relaxed/simple;
+	bh=mB6MVB4b7gF6TXIDCHMbq8tLAQaO1lxgKeME80EOWEs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SfrkHyLWswDc0FIt7M0J6DcQKqwC61aU03fqjLrNvRXfH0KQU6/WXOtiBVoOKxU/i4tsc7yH1iv20DuCZ2qU6jv9KhyRTq+F/JDSTNa73XntgaZRkStf51R6B2TIIy1f252DD+VnlsHAOxeiz5BLP8Z3VdSQJmV+T83m6ywArao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DuBwHW3a; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=NBl92lbkEpE1mri9fWlwxhctEQA6ID9XZHEncxWnYGhzvemcCnHXa53HMMsWFisKIAOG6j5qDBxjYVsF5Ku4pGoHF2rkqILEdac4msyhqlQUrf7UFemVxVM/VHY4AKlaOVq7uB58evVpeThsmaklvnIvQ5lRm/Qb7VfaD/Qt+Ns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W/LF5sRX; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DuBwHW3a"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W/LF5sRX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1730971569; x=1762507569;
+  t=1730972167; x=1762508167;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=twoE0mHCMrSMAan0IqQlrUN0/vRsEvXNM3l7TF+WJlo=;
-  b=DuBwHW3aMksURHWUxNfWaNwWZopzH/WAlmhKua3Defng/fr7DCttrUF7
-   DsdRDbbqfqKC0O93t1Cz4SAvQXTgnu3KvS7xrz5Yckm6A6fwnIQUZHrZW
-   WzHRW+f5MrjHl2uJ7Pvjb2ZfRr0cf9OKW43Z+ivyyibd14h6CjW4VJs+c
-   i9fJhabqKMP4zjrqfLv3+2WJxJqXji0dWwOXvDw1LoZoWub3tSf2QrQLZ
-   sq6w8QuJbRF6QrzDOtP6Ruujfl+Mkv0mQWyDCtjg0OTCtQ53lPZK1p8XR
-   WaPDEUlTggU8JI3t7k089o4pywDAR2lxTV4EGF+mcrFqWiIQVvZERJCWO
+  bh=mB6MVB4b7gF6TXIDCHMbq8tLAQaO1lxgKeME80EOWEs=;
+  b=W/LF5sRX0ZwH9XMu0mUJwxdmIbcWR2ymBrWBq5XF196qOD3N1YEOZdT9
+   yxvZ0xWI41EJxQ+XN5/xtkBbXLn83u/ySvXUNYux5pgrO8GeZSfoxoHI+
+   e3fJvM14f4YuE7ru1dEubJW7TcdTBYIPOijWbFxqqjKR6H5wsVihjailb
+   X1gogh4MhptWKlE6L5IeBt6er6AIeRyJ95dv/0EF4W5lYGs6vrB9Xondg
+   2+Wc5zDj+zZYFyT1+M93PQkEL2zLWv7GvgrnikxFiXTjW4R+Ckblns6HG
+   Y66ehZlOef1++/8Fz5yYhuwgf70JqRUKSlIMbWegYY8fZUAq/g6khJmdB
    w==;
-X-CSE-ConnectionGUID: 2bunznm8SMe+kJBFutc2rQ==
-X-CSE-MsgGUID: WJLCpsrxQq+HT/ompeCKFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11248"; a="30685794"
-X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="30685794"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 01:26:08 -0800
-X-CSE-ConnectionGUID: xbTobc4LTyaiPpv/RNpBBA==
-X-CSE-MsgGUID: rWcsSOrxR0mJJlYHzx8h6w==
+X-CSE-ConnectionGUID: odfh0/1cTviGxIGLDY7F5g==
+X-CSE-MsgGUID: tkyu3jrLS7WknVv3MtdXig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41908052"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41908052"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 01:36:07 -0800
+X-CSE-ConnectionGUID: vHkGxGmZT/mZVkdWe7nFuQ==
+X-CSE-MsgGUID: EvoS3kjmSamiqpQnEnEbQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,265,1725346800"; 
-   d="scan'208";a="115828579"
+   d="scan'208";a="84561418"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Nov 2024 01:26:04 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 07 Nov 2024 01:36:05 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t8ymA-000q3A-14;
-	Thu, 07 Nov 2024 09:26:02 +0000
-Date: Thu, 7 Nov 2024 17:25:02 +0800
+	id 1t8yvq-000q3q-21;
+	Thu, 07 Nov 2024 09:36:02 +0000
+Date: Thu, 7 Nov 2024 17:35:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alistair Francis <alistair23@gmail.com>, alex.gaynor@gmail.com,
-	benno.lossin@proton.me, gary@garyguo.net,
-	linux-kernel@vger.kernel.org, ojeda@kernel.org,
-	rust-for-linux@vger.kernel.org, bjorn3_gh@protonmail.com,
-	alistair.francis@wdc.com, me@kloenk.dev, a.hindborg@kernel.org,
-	tmgross@umich.edu, boqun.feng@gmail.com, aliceryhl@google.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	alistair23@gmail.com
-Subject: Re: [PATCH 01/13] rust: bindings: Support some inline static
- functions
-Message-ID: <202411071741.ceQcuasR-lkp@intel.com>
-References: <20241107020831.1561063-2-alistair.francis@wdc.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hans de Goede <hdegoede@redhat.com>,
+	linux-mmc@vger.kernel.org
+Subject: Re: [PATCH] mmc: sdhci-pci: Add DMI quirk for missing CD GPIO on
+ Vexia Edu Atla 10 tablet
+Message-ID: <202411071730.x3HIZimE-lkp@intel.com>
+References: <20241106215927.40482-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,120 +66,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107020831.1561063-2-alistair.francis@wdc.com>
+In-Reply-To: <20241106215927.40482-1-hdegoede@redhat.com>
 
-Hi Alistair,
+Hi Hans,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on v6.12-rc6]
-[also build test ERROR on linus/master]
-[cannot apply to rust/rust-next next-20241106]
+[auto build test WARNING on ulf-hansson-mmc-mirror/next]
+[also build test WARNING on linus/master v6.12-rc6 next-20241106]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alistair-Francis/rust-bindings-Support-some-inline-static-functions/20241107-101321
-base:   v6.12-rc6
-patch link:    https://lore.kernel.org/r/20241107020831.1561063-2-alistair.francis%40wdc.com
-patch subject: [PATCH 01/13] rust: bindings: Support some inline static functions
-config: arm64-randconfig-003-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071741.ceQcuasR-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411071741.ceQcuasR-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-de-Goede/mmc-sdhci-pci-Add-DMI-quirk-for-missing-CD-GPIO-on-Vexia-Edu-Atla-10-tablet/20241107-060048
+base:   https://git.linaro.org/people/ulf.hansson/mmc-mirror.git next
+patch link:    https://lore.kernel.org/r/20241106215927.40482-1-hdegoede%40redhat.com
+patch subject: [PATCH] mmc: sdhci-pci: Add DMI quirk for missing CD GPIO on Vexia Edu Atla 10 tablet
+config: i386-randconfig-061-20241107 (https://download.01.org/0day-ci/archive/20241107/202411071730.x3HIZimE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411071730.x3HIZimE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411071741.ceQcuasR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411071730.x3HIZimE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mmc/host/sdhci-pci-core.c:2068:28: sparse: sparse: symbol 'sdhci_pci_dmi_cd_gpio_overrides' was not declared. Should it be static?
 
-   In file included from arch/arm64/kernel/asm-offsets.c:12:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
-   In file included from rust/helpers/helpers.c:10:
-   In file included from rust/helpers/blk.c:3:
-   In file included from include/linux/blk-mq.h:5:
-   In file included from include/linux/blkdev.h:9:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings generated.
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
->> rust/extern.c:1:10: fatal error: 'bindings/bindings_helper.h' file not found
-       1 | #include "bindings/bindings_helper.h"
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
-   make[3]: *** [scripts/Makefile.build:229: rust/extern.o] Error 1 shuffle=940008358
-   make[3]: Target 'rust/' not remade because of errors.
-   make[2]: *** [Makefile:1209: prepare] Error 2 shuffle=940008358
-   make[1]: *** [Makefile:224: __sub-make] Error 2 shuffle=940008358
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2 shuffle=940008358
-   make: Target 'prepare' not remade because of errors.
+vim +/sdhci_pci_dmi_cd_gpio_overrides +2068 drivers/mmc/host/sdhci-pci-core.c
 
-
-vim +1 rust/extern.c
+  2067	
+> 2068	const struct dmi_system_id sdhci_pci_dmi_cd_gpio_overrides[] = {
+  2069		{
+  2070			/* Vexia Edu Atla 10 tablet 9V version */
+  2071			.matches = {
+  2072				DMI_MATCH(DMI_BOARD_VENDOR, "AMI Corporation"),
+  2073				DMI_MATCH(DMI_BOARD_NAME, "Aptio CRB"),
+  2074				/* Above strings are too generic, also match on BIOS date */
+  2075				DMI_MATCH(DMI_BIOS_DATE, "08/25/2014"),
+  2076			},
+  2077			.driver_data = (void *)&vexia_edu_atla10_cd_gpios,
+  2078		},
+  2079		{ }
+  2080	};
+  2081	
 
 -- 
 0-DAY CI Kernel Test Service
