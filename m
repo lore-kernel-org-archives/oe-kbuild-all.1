@@ -1,64 +1,64 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00E71DBB0D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 21:43:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6EC155398
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 21:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731015789; cv=none; b=D6Odp75dJFXzkxTaNFBWeUPwjRAtmRdoENvdMTxwpy2s82LJXIr9kDLkG6w52dNqNv0y2hil2VqZOgkeBwjiijv0KahPwT8g1Crz7E8/EQ/Y7o8kfsv/9Czl1xvQpgpd/HW/pmmC85/lEmp4ACy+G7xFXfC7AuZW2SJrSTN6vCY=
+	t=1731016130; cv=none; b=pKY6R+ihZVlCrxJSb284IAS9RnKjKAdV2B6duR2YYmCmMP02cJzlJ6ZLAExr7fd8PK65XO9Z/Xv6OiooDIMNq6yqMks+7UdjjtcZ4+iXPDBZdRdY8tnEZFA8wvigvR7YBs0/EUgKabbpelKptuP2xZVYor87sevlyFPK63oqOQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731015789; c=relaxed/simple;
-	bh=R8rrQS1gF50oXHlYQE3JuQby/625baeA8L+QvnalpXA=;
+	s=arc-20240116; t=1731016130; c=relaxed/simple;
+	bh=UUiOWRslliEtPYbRepkUEkGcIzeSn6bXr/KpFIUWjys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=LAQdtgYymqzakFWWMwlmzrKc42WHa9Wwa8dzodJ3KuL+018tu1P/BjBJHDoz4B1X1e36NrBfWiun9oW6T1PlPgjjrPc10+tmM+89S1oyPskNIDfJHjUdOu2rLWmedGcbUzXkvDLy6OXgt7ZexIpLdNJ9ieg3AU7J6LOfkC3ONHI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YDSy8Jlc; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type:Content-Disposition; b=CdsjIC30RS8nJsZvPfTXE4a6y+qJ6/w2VjF0lNBGzPQEovzq48pMy6PWfJIV5R7rEfZqO+PQskqORA4wCgCfwjTK4sx7O5usr1lHkT+5BZk0AvHZN6H47RvWqYFUcj6ibpUvNjcAEXe+Uyfi+WTqF/vcElPyGmiBKG+1M0ozYgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N6OENuRl; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YDSy8Jlc"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N6OENuRl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1731015786;
+	s=mimecast20190719; t=1731016127;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=YCBJYIc+gZaFqcH/kMhXnStnCvMEDdTjDagRSJEFPHk=;
-	b=YDSy8JlcJkZ+4GkDPD7CC1qE5mpLaO3USZyPMWaY3US3qqMQCPXxF47fPae1bXFHo8ef+S
-	+QmvjFGrc0v91MuufyaRH6AEhqQR4p9TktdLlfNmaKGrNDX1LYxrFAs+Q9/+nDGelgCNm9
-	T1rEZb3fzc5eVTn8kLPIlPnKJls8YeY=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=pw/17vEQArIwYy0AEvJtnGHtIjVGW6R5nxCDMrBYCz4=;
+	b=N6OENuRlh3LCMkn9WCvKQUXvNbF4FVAgI3y0bnkDfbHbjJjLBcvQ5PsUWCfrZpUXMWwe2I
+	mzkNTM0CooinBcfIDMZ3mtzDNDQUSgVFjDuI5igl5zRITO6Rz4HjGBoyUOCvDoGinLR+0S
+	UfGnC4mra4J7NC+ygIieTc7fzPbIxtE=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-275-6DYzD3q3NJyeCwH4c336ow-1; Thu, 07 Nov 2024 16:43:05 -0500
-X-MC-Unique: 6DYzD3q3NJyeCwH4c336ow-1
-X-Mimecast-MFC-AGG-ID: 6DYzD3q3NJyeCwH4c336ow
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-a99efe7369dso144246366b.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Nov 2024 13:43:04 -0800 (PST)
+ us-mta-654-uOQSzDtqMsqxM0HDWKKkjg-1; Thu, 07 Nov 2024 16:48:45 -0500
+X-MC-Unique: uOQSzDtqMsqxM0HDWKKkjg-1
+X-Mimecast-MFC-AGG-ID: uOQSzDtqMsqxM0HDWKKkjg
+Received: by mail-ed1-f71.google.com with SMTP id 4fb4d7f45d1cf-5c9338a16cdso2776036a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Nov 2024 13:48:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731015784; x=1731620584;
+        d=1e100.net; s=20230601; t=1731016125; x=1731620925;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YCBJYIc+gZaFqcH/kMhXnStnCvMEDdTjDagRSJEFPHk=;
-        b=LNmcbZqFmhM6Yve8SvdEKuXVmjxn3lRmXPvl59c0Jx8WZnnS5FI69o1YjTQQkhlMd7
-         cmd/W4Vj8N48HQr1mQe5WTqRF/4dpmkKPDbsxMl6IBbF3TNLc3Ecd59xdJB/P68IaLOR
-         bAd/Wgggg1eZLqJUxGg+diFLksmcoaCgYWrxmxhWZWk1VF0JJuBuE8f+6HYrTHIU15DZ
-         idMbM6rbObfCEQc7OyR36lMLN5eiVgdvCeaT3WMdd2sjhUWej6mTNlJ4oBWOU5m44aMv
-         woFrc9ZZ8tSlNJ00DuSO++D6k4ifudDrz6ViTvWXFFQntwKmz6/fncJc3nXfQqntNs+g
-         mgug==
-X-Forwarded-Encrypted: i=1; AJvYcCU3YrW1Kor3C2m5cEZeJN/nxef+P5Bi6iklmUPU2AQNXXpTsCf8Lv1swd2nR2HTr83Tg0HYbWzgH5Mi6+tk@lists.linux.dev
-X-Gm-Message-State: AOJu0YzKn/knr1EfLLwELaWfBbZC0LNPIpApkDEfiq9yYxzUHDyhkBuk
-	bEgNCubVqu9x2CSNZwZ1amcrLf60Jh3B4gYTJKcqUi5tA8Lw0uvnyMQ1isFM/K1Xbj9XfGJ5rN1
-	AleDALgcWPbaBYWsggXCvuiBbkzYSRUibk32ZIW8GsinfNOGurLOgD7u6sB2IJYE=
-X-Received: by 2002:a17:907:3e29:b0:a9a:f19:8c2a with SMTP id a640c23a62f3a-a9eec764f79mr117823466b.6.1731015783729;
-        Thu, 07 Nov 2024 13:43:03 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFJW0OsfqjsANzyex+Nc1eJEyVOk1n2M/Hw8yttgd+h4hnFUGPt5uA5k6rkI4R2Agbm00TWxA==
-X-Received: by 2002:a17:907:3e29:b0:a9a:f19:8c2a with SMTP id a640c23a62f3a-a9eec764f79mr117820866b.6.1731015783322;
-        Thu, 07 Nov 2024 13:43:03 -0800 (PST)
+        bh=pw/17vEQArIwYy0AEvJtnGHtIjVGW6R5nxCDMrBYCz4=;
+        b=PGLoovZuHJkss9TzFHcGk1FIV1vVV81571Smc16BifDsJNHquo4SiRMm6PuAKdEHnL
+         KXLzMLadEcGMOXIS0hLPbnSqEk0C6052AZSTW2omTPdPZU50boyVIHEK/Ue7Q7g6WbTH
+         ZolbagjcbkU1kHSECC/ub97dyeq3QYwF0RmWs9BuAyxlNkCRaMC8shU6HoRy821Fdzni
+         Cg43vKvi3Fx9NpZKhWsrb4fe/wlqcnStAt5xb4VwUYRUxiRy9JbkXwdWFeNhh6VDhfqF
+         tidNRCd8NdmFyyUk9e+zS5ep4xSyglLkcFvOnWGqjMGyui/9huKE6AKsDmtUgQwAnrn5
+         A09Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWqTBd3l4cDvTMgYtobEkaNQ6QVJTvq1P0sieffh+idAN9q80b0nHX0Lolvn73mnbpovZyMRuoiThb/hnMt@lists.linux.dev
+X-Gm-Message-State: AOJu0YzoarTmJ0iJpUoCSUgsJmXP1c1fe50kXI732EBj6pGhzPPg8qRX
+	Gs7NZTfm4wK9r0GioXv4MZXDZSpvO9vFRolvfIRy7Rz1ZGhMROvpMWOfp2QieWXkrTu+/b/D2dq
+	/WZ3brDYLLvQNtsvyUDJwZSzpnzlzun2PUkwTwpYnUSqj+CXsqr9YVywyQpHRvnE=
+X-Received: by 2002:a05:6402:540e:b0:5c9:66c:660e with SMTP id 4fb4d7f45d1cf-5cf0973654dmr1141867a12.13.1731016124627;
+        Thu, 07 Nov 2024 13:48:44 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IGvqxJ4xcVu3HBnz3Ks59rfSIuYVC8pI01ZxNmHUTmZE14YYjVwg7OAvaColwyDXYPkNe6Ncg==
+X-Received: by 2002:a05:6402:540e:b0:5c9:66c:660e with SMTP id 4fb4d7f45d1cf-5cf0973654dmr1141842a12.13.1731016124111;
+        Thu, 07 Nov 2024 13:48:44 -0800 (PST)
 Received: from redhat.com ([2a02:14f:179:39a6:9751:f8aa:307a:2952])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a439e0sm145807766b.47.2024.11.07.13.42.59
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03c7ce0asm1234528a12.85.2024.11.07.13.48.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Nov 2024 13:43:02 -0800 (PST)
-Date: Thu, 7 Nov 2024 16:42:56 -0500
+        Thu, 07 Nov 2024 13:48:42 -0800 (PST)
+Date: Thu, 7 Nov 2024 16:48:37 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: kernel test robot <lkp@intel.com>
 Cc: Carlos Bilbao <cbilbao@digitalocean.com>, oe-kbuild-all@lists.linux.dev,
@@ -66,7 +66,7 @@ Cc: Carlos Bilbao <cbilbao@digitalocean.com>, oe-kbuild-all@lists.linux.dev,
 Subject: Re: [linux-next:master 9473/10190]
  drivers/vdpa/mlx5/net/mlx5_vnet.c:3910:24: sparse: sparse: incorrect type in
  assignment (different base types)
-Message-ID: <20241107164212-mutt-send-email-mst@kernel.org>
+Message-ID: <20241107164504-mutt-send-email-mst@kernel.org>
 References: <202411080535.Xq60FSHw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -76,10 +76,12 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 In-Reply-To: <202411080535.Xq60FSHw-lkp@intel.com>
 X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: b8YWIf08zv1McFoWKOcoeAOZayot4l8oGU6_RN6VChA_1731015784
+X-Mimecast-MFC-PROC-ID: yxxOETgcnDMcKJBvx5XM_xvAnSp2WGxr8wGZWDoGslM_1731016125
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+
+I dropped the patch for now, I think it's wrong. CB.
 
 On Fri, Nov 08, 2024 at 05:34:27AM +0800, kernel test robot wrote:
 > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
@@ -190,10 +192,22 @@ On Fri, Nov 08, 2024 at 05:34:27AM +0800, kernel test robot wrote:
 >   3908		 * setting the speed or duplex.
 >   3909		 */
 > > 3910		config->speed  = cpu_to_mlx5vdpa32(mvdev, SPEED_UNKNOWN);
-
-Indeed, speed is just __le. No need for fancy accessors.
-
 >   3911		config->duplex = DUPLEX_UNKNOWN;
+
+
+Looking at this in more detail, so 
+
+1. why not just clear the feature bits?
+
+2. you should not expose SPEED_UNKNOWN in UAPI, it happens to work but
+   really there's no intent to devices to actually say "I do not know
+   the duplex" - unknown here was intended so we can later add
+   new values and userspace will say "I don't know how to interpret it"
+   rather than crashing. Same for duplex.
+
+
+
+
 >   3912	
 >   3913		if (add_config->mask & BIT_ULL(VDPA_ATTR_DEV_NET_CFG_MTU)) {
 >   3914			err = config_func_mtu(mdev, add_config->net.mtu);
