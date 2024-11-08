@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8DE80054;
-	Fri,  8 Nov 2024 03:33:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2FF168B1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 04:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731036804; cv=none; b=fMT6uiZmgEC08sHwxpwD48iaYeNvMFwifcHIU8hUQ+LBMO2N2B1vAKF9SxwEHOCq8+25j19E6ErmNM+NZQZDKrDJoD0UAQE8+CWAxGX0O/Yk804bBqBhtc8tawffuXFlnCwIlUwWpv+/2AfpHSbIHBUfD0rAP8S6Cqct7D9ItQo=
+	t=1731039714; cv=none; b=h8Dkxgx9FiSMTkIa4VPQSMfRJn2aHeC9N+l3+bAuo2i+TrSH8SZtOtTLFyGiR8fFHUb9+V0QrwMtJmkhPO6oSxuSeTFTw5Y3vswZ0DGpm9TZaekafBq8FDgRs0b1GFe/u1FIoAisY8awboSH4frIQl0TxH8k1AGYF8YUJW1sics=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731036804; c=relaxed/simple;
-	bh=1oelaTEkSV+bSCefqXbPHDw+t94mMNUMg7MsV6tgbeM=;
+	s=arc-20240116; t=1731039714; c=relaxed/simple;
+	bh=1n2L2doiBZ2X85DwBXNbtzaJ+cTWmnfXCmDSppPtlYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kzcsOBcTy0w/1x8QHMVFCSc/hcA+gJki+iS7kKTBewaIosEqMDZJP9cqhJMBalBRWMDFbn019IMI/fzh22l4KZllXMyBZI97newq8Vs5eP+ndrfnMC+v1IooBWyc6oHBGPDsArTth9j/C0cAASZMbR0tt1uGkmQ1Bu3diRKI4c4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uh+PCvgb; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=nGNS/Q2onAbtoJsVFqy4J/nRyMfn91J8MLPSk/SOYeFr7JCOHnvhb5lV7WW+0POymMN5VHT3qUgHcb7YAfmRNs7/1NevRAd1IP3swsRWxP+qtowYKn/AJZlxZJc2cB3uUVblUwJI2e4R9tn3FhpYa30W5xzq0GCffnKBL0UBR3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EQr1+wiI; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uh+PCvgb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EQr1+wiI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731036802; x=1762572802;
+  t=1731039712; x=1762575712;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1oelaTEkSV+bSCefqXbPHDw+t94mMNUMg7MsV6tgbeM=;
-  b=Uh+PCvgbNZl6oPkf8pvBkK3TyiWFkSvD1FEDY6Cx7nB0GLn3jAADWM5Z
-   dxoeJRMtjGgmERmdC//tTJEAyUNCOlsB2vWJCheLtQlg7yUp5wA1jScSl
-   Ym9K2zociz29s0IDWx1EExnrVh6OpCjgI5PTMlTt7nANXxQhgr1bdeE94
-   roOJX6NGPWR4+7McEbXEUk+MqOorFm4Mk2xzBaDC18ixgZxOhLJB0h5BP
-   rUlRUVxrEwprFF1XgfA9VNLky1e1iYUMnBhTYNBsxelgRMHg4rOeef/21
-   FOF17LF+VjOmYGeRIo77QIApkkUJ9HI0awKFsVt0NlsAtPZXKHV3fjPL6
-   g==;
-X-CSE-ConnectionGUID: 2r9c6baIRPSALCrJjJ1JDg==
-X-CSE-MsgGUID: IJ7BPBk2RfW6OzlkwDVG8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="33765718"
+  bh=1n2L2doiBZ2X85DwBXNbtzaJ+cTWmnfXCmDSppPtlYE=;
+  b=EQr1+wiIxJYWSByfAZlfnIe7QakaRkFdcbhTlfoBdgX02w/FVpXDT1bx
+   HXkoraHg8PphAP2LDwifTYBPbNWmxqybg6NxRvi57xAswKBIWXuHQWat7
+   E02xdg1oppexsWGN2bfuM68kuzaI5/LZ6o4NmSGmaFK95cJTabaf8XZHa
+   agbFAHE5RYHTc4DjbhUiBpMl87ly3lx1x98lI3qc9S5qlLfT9r9XaRFSw
+   ziqxZsBxlNWxTRwJmcAsHKYKrGnPjV/PTFxNT8xUXAcJ2Vloo9oDmRmSm
+   zZM/H7FDe/DiZqCD/w79dHxexDyxrOVkrDVZiXmAS/uWzWZY7SVyyiAyV
+   A==;
+X-CSE-ConnectionGUID: hOVxWW/3TEOZnX0YBwI51Q==
+X-CSE-MsgGUID: liUv38iJSHaJZu6wByVeHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34696147"
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="33765718"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 19:33:22 -0800
-X-CSE-ConnectionGUID: 7M2WknmYTU6N9FOKmXmD5A==
-X-CSE-MsgGUID: mxBUZzZUQNODDs5vTfCchQ==
+   d="scan'208";a="34696147"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 20:21:52 -0800
+X-CSE-ConnectionGUID: Y0PcV1vwTCKm5JHftQYVfw==
+X-CSE-MsgGUID: jytUMIO2S7WVovrh9bs/VQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="84873096"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="90188296"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Nov 2024 19:29:47 -0800
+  by orviesa003.jf.intel.com with ESMTP; 07 Nov 2024 20:21:48 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9Fgv-000qyk-0m;
-	Fri, 08 Nov 2024 03:29:45 +0000
-Date: Fri, 8 Nov 2024 11:29:17 +0800
+	id 1t9GVG-000r0k-1Z;
+	Fri, 08 Nov 2024 04:21:46 +0000
+Date: Fri, 8 Nov 2024 12:21:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
 	Jakub Kicinski <kuba@kernel.org>,
@@ -56,13 +56,12 @@ To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
 	Kaiyuan Zhang <kaiyuanz@google.com>,
 	Samiullah Khawaja <skhawaja@google.com>,
 	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
 	Jesper Dangaard Brouer <hawk@kernel.org>,
 	Ilias Apalodimas <ilias.apalodimas@linaro.org>
 Subject: Re: [PATCH net-next v2 5/5] netmem: add netmem_prefetch
-Message-ID: <202411081105.Z1kEMaBE-lkp@intel.com>
+Message-ID: <202411081130.CxioaC2A-lkp@intel.com>
 References: <20241107212309.3097362-6-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -84,116 +83,29 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-page_poo
 base:   net-next/main
 patch link:    https://lore.kernel.org/r/20241107212309.3097362-6-almasrymina%40google.com
 patch subject: [PATCH net-next v2 5/5] netmem: add netmem_prefetch
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241108/202411081105.Z1kEMaBE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081105.Z1kEMaBE-lkp@intel.com/reproduce)
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241108/202411081130.CxioaC2A-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081130.CxioaC2A-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411081105.Z1kEMaBE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081130.CxioaC2A-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:19:
-   In file included from include/linux/msi.h:24:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from arch/s390/kernel/asm-offsets.c:11:
-   In file included from include/linux/kvm_host.h:41:
-   In file included from include/linux/kvm_para.h:5:
-   In file included from include/uapi/linux/kvm_para.h:37:
-   In file included from arch/s390/include/asm/kvm_para.h:25:
-   In file included from arch/s390/include/asm/diag.h:12:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:40:
->> include/net/netmem.h:179:2: error: call to undeclared function 'prefetch'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from include/linux/skbuff.h:40,
+                    from include/linux/if_ether.h:19,
+                    from arch/s390/include/asm/diag.h:12,
+                    from arch/s390/include/asm/kvm_para.h:25,
+                    from include/uapi/linux/kvm_para.h:37,
+                    from include/linux/kvm_para.h:5,
+                    from include/linux/kvm_host.h:41,
+                    from arch/s390/kernel/asm-offsets.c:11:
+   include/net/netmem.h: In function 'netmem_prefetch':
+>> include/net/netmem.h:179:9: error: implicit declaration of function 'prefetch' [-Wimplicit-function-declaration]
      179 |         prefetch(netmem_to_page(netmem));
-         |         ^
-   16 warnings and 1 error generated.
+         |         ^~~~~~~~
    make[3]: *** [scripts/Makefile.build:102: arch/s390/kernel/asm-offsets.s] Error 1
    make[3]: Target 'prepare' not remade because of errors.
    make[2]: *** [Makefile:1203: prepare0] Error 2
