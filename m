@@ -1,71 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91AA194A75;
-	Fri,  8 Nov 2024 05:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 526EF16415;
+	Fri,  8 Nov 2024 06:34:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731042836; cv=none; b=ecxtOdoEifgOuLmgGkIbFtwJjA+nVhlDCT7SM+pBdDo70XQGWzy4UxmK/I58EtfMmKRWyP8Mzrxc0bFdMBAy+WjqrAwDfNCuHu8mx7zk0+dvVDVJCky2I+wq1ny2oq49oPqxuui6Jepz5mK8/LwuwzawcVTem1Ysu53GA8YflFI=
+	t=1731047698; cv=none; b=JsYL3QXlHU2DKzfWQWbnNcsgkMV/Ih1y0BL0DJyXbT4FMnHMsWfgiZFyM6QnTOm2DAKi3W47CoZAstI/8k+jFeg3GDHwB/KBlleR1AU3P2PVpWqSi9WcR1yQJnEj7l4FIXkIliqmSrnKJExWcOt8IDYpQkBiBC6K0GKhlOiw4Ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731042836; c=relaxed/simple;
-	bh=pYc9Qbhl30laTpqG2U4WFIYnywiRC9RUCYu1mKTYEf0=;
+	s=arc-20240116; t=1731047698; c=relaxed/simple;
+	bh=qcJepw3kzuGhsqbdPfpdXYinNejlVwGzf3p+yU7vB70=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KJWrouJzZf1ck6CJlx8bvxVcRIxKaPhvBVphf88XBPKmy5P/Q5l43JutgC2QDcSjLU6WFvp8UddwQfo+F1gj6OFfh44zGo760dE9yrZ8tTwkqA6GfYkD2Ma4IJuyZ5Wo0W09FgU8dTa39GuKUOE/iSwdE9SLDBFE18TXAyVg01A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ect/Yf32; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=Il2amB14rbXzBO4vd5Qj+SNjkSPPZAG4yE6m2ARLLb0s6zTLB/BMsFHyQ2CBOzkvt1VI8mS9WenfKLhrqKCDO93egBLubPmiea7PDwcMgTaUxpTKkD2RHbk97rWUuLmGSfTF7r77nERVv56NXwFig/IAzJ4LxdbN6Gu2Px6SqBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nkPCGGEp; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ect/Yf32"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nkPCGGEp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731042835; x=1762578835;
+  t=1731047695; x=1762583695;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pYc9Qbhl30laTpqG2U4WFIYnywiRC9RUCYu1mKTYEf0=;
-  b=ect/Yf32HSgJ6Ac7i/jFTpKf2wbSVQn+wlIrwVbPZmz6H2tMMkrR2L0Q
-   e5q6wP8521eX7uPDHwhDCwjLBQRzAfJ6x6XS0m3DA3gbXRLp3Jyh+wKZs
-   4JoWT7nrR0D9HYHyjpFunSAg8jTDXd0ZnpPq2sqpSLJQaANXqGcaVnySQ
-   VNBDtbRGKOP9rZBXCoNM9Zr6z4qpdWAepziUB9XAp3KocNC17jBWtQk6f
-   pA/4s0gnmohhBCgesCfAAIC8ylDisNrrkTwabHdDVhMw0YLDTG3BQOjx3
-   w1JOazPzV22ALARl3mAmV+b5A9b0ayfSfmjG/uaSHxRqhyFVWMdu83Twu
-   w==;
-X-CSE-ConnectionGUID: IF5kDn+dS3SAkr647gxcKg==
-X-CSE-MsgGUID: 00QuXcKdQw+TYJNGcabGgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34842598"
+  bh=qcJepw3kzuGhsqbdPfpdXYinNejlVwGzf3p+yU7vB70=;
+  b=nkPCGGEpH/DsGR15qadZl+AO6oVknVFM6LSiKw8lAEUWkzRhBi5r7Zwv
+   ZqiQ94oBPF1fAl5FOL7R8Zev7NjMmJy+PNqyq0eul1mp6BLi2mo+0m3hh
+   kry63PNAydkTqEh23Zx8Z3ZvX/+iWhaKTyKfUrNevQX7uMTEnfq0xCaXO
+   l6x5LjmxR+2nTBBIruRCWK7T8uZcorLYkOb4zxDwAMuyQ172EDsTp3Lfd
+   CyP71/a0onFGTSQASY2l6mCxVoAXZoNLdGbS3i53PDWhmUSEld6sFDZGi
+   eDwVQ1IyCHNNvzFPPJULMW1iCPlIZNaGkDZKco9XJKTK6P4sP/1SRM5qr
+   A==;
+X-CSE-ConnectionGUID: N+OXVC33R5e0/1bqXa0ehA==
+X-CSE-MsgGUID: F5M4m5ART9u1BVfU6t0Iyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="31022746"
 X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="34842598"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 21:13:54 -0800
-X-CSE-ConnectionGUID: hj1jmGEURHufH/7Z2oU9RA==
-X-CSE-MsgGUID: nD8TOoO9TvCWTbnMnhN+5A==
+   d="scan'208";a="31022746"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 22:34:54 -0800
+X-CSE-ConnectionGUID: gRpwQlKFRBy1Uxpk0HPmDg==
+X-CSE-MsgGUID: /GugtLWPTYumiRZOWTS7cg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="90033772"
+   d="scan'208";a="85325910"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 07 Nov 2024 21:13:50 -0800
+  by orviesa009.jf.intel.com with ESMTP; 07 Nov 2024 22:34:53 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9HJc-000r3c-0f;
-	Fri, 08 Nov 2024 05:13:48 +0000
-Date: Fri, 8 Nov 2024 13:13:17 +0800
+	id 1t9Ia2-000r6R-00;
+	Fri, 08 Nov 2024 06:34:50 +0000
+Date: Fri, 8 Nov 2024 14:34:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jing Zhang <jingzhangos@google.com>, KVM <kvm@vger.kernel.org>,
-	KVMARM <kvmarm@lists.linux.dev>,
-	ARMLinux <linux-arm-kernel@lists.infradead.org>,
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@google.com>,
-	Joey Gouly <joey.gouly@arm.com>, Zenghui Yu <yuzenghui@huawei.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Kunkun Jiang <jiangkunkun@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
-	Andre Przywara <andre.przywara@arm.com>,
-	Colton Lewis <coltonlewis@google.com>,
-	Raghavendra Rao Ananta <rananta@google.com>,
-	Shusen Li <lishusen2@huawei.com>, Eric Auger <eauger@redhat.com>,
-	Jing Zhang <jingzhangos@google.com>
-Subject: Re: [PATCH v4 3/5] KVM: arm64: vgic-its: Add a data length check in
- vgic_its_save_*
-Message-ID: <202411081338.47eReEKu-lkp@intel.com>
-References: <20241107214137.428439-4-jingzhangos@google.com>
+To: Florian Westphal <fw@strlen.de>, netfilter-devel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Florian Westphal <fw@strlen.de>,
+	Nadia Pinaeva <n.m.pinaeva@gmail.com>,
+	Pablo Neira Ayuso <pablo@netfilter.org>
+Subject: Re: [PATCH nf-next] netfilter: conntrack: add conntrack event
+ timestamp
+Message-ID: <202411081404.HNJI5WdG-lkp@intel.com>
+References: <20241107194117.32116-1-fw@strlen.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,75 +66,419 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107214137.428439-4-jingzhangos@google.com>
+In-Reply-To: <20241107194117.32116-1-fw@strlen.de>
 
-Hi Jing,
+Hi Florian,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 59b723cd2adbac2a34fc8e12c74ae26ae45bf230]
+[auto build test ERROR on netfilter-nf/main]
+[also build test ERROR on linus/master v6.12-rc6 next-20241107]
+[cannot apply to nf-next/master horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jing-Zhang/KVM-selftests-aarch64-Add-VGIC-selftest-for-save-restore-ITS-table-mappings/20241108-054433
-base:   59b723cd2adbac2a34fc8e12c74ae26ae45bf230
-patch link:    https://lore.kernel.org/r/20241107214137.428439-4-jingzhangos%40google.com
-patch subject: [PATCH v4 3/5] KVM: arm64: vgic-its: Add a data length check in vgic_its_save_*
-config: arm64-randconfig-004-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081338.47eReEKu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081338.47eReEKu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-conntrack-add-conntrack-event-timestamp/20241108-034444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20241107194117.32116-1-fw%40strlen.de
+patch subject: [PATCH nf-next] netfilter: conntrack: add conntrack event timestamp
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241108/202411081404.HNJI5WdG-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081404.HNJI5WdG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411081338.47eReEKu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081404.HNJI5WdG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   arch/arm64/kvm/vgic/vgic-its.c: In function 'vgic_its_save_collection_table':
->> arch/arm64/kvm/vgic/vgic-its.c:2495:13: warning: unused variable 'val' [-Wunused-variable]
-    2495 |         u64 val;
-         |             ^~~
+   In file included from net/netfilter/nf_conntrack_core.c:15:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from net/netfilter/nf_conntrack_core.c:15:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/netfilter/nf_conntrack_core.c:15:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/netfilter/nf_conntrack_core.c:15:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from net/netfilter/nf_conntrack_core.c:41:
+   In file included from include/net/netfilter/nf_conntrack_core.h:18:
+   include/net/netfilter/nf_conntrack_ecache.h:24:2: error: unknown type name 'local64_t'; did you mean 'local_t'?
+      24 |         local64_t timestamp;            /* event timestamp, in nanoseconds */
+         |         ^~~~~~~~~
+         |         local_t
+   include/asm-generic/local.h:25:3: note: 'local_t' declared here
+      25 | } local_t;
+         |   ^
+   In file included from net/netfilter/nf_conntrack_core.c:41:
+   In file included from include/net/netfilter/nf_conntrack_core.h:18:
+>> include/net/netfilter/nf_conntrack_ecache.h:118:6: error: call to undeclared function 'local64_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     118 |         if (local64_read(&e->timestamp) && READ_ONCE(e->cache) == 0)
+         |             ^
+>> include/net/netfilter/nf_conntrack_ecache.h:119:3: error: call to undeclared function 'local64_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     119 |                 local64_set(&e->timestamp, ktime_get_real_ns());
+         |                 ^
+   7 warnings and 3 errors generated.
+--
+   In file included from net/netfilter/nf_conntrack_ecache.c:14:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:10:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from net/netfilter/nf_conntrack_ecache.c:14:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/netfilter/nf_conntrack_ecache.c:14:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/netfilter/nf_conntrack_ecache.c:14:
+   In file included from include/linux/netfilter.h:6:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from net/netfilter/nf_conntrack_ecache.c:25:
+   In file included from include/net/netfilter/nf_conntrack_core.h:18:
+   include/net/netfilter/nf_conntrack_ecache.h:24:2: error: unknown type name 'local64_t'; did you mean 'local_t'?
+      24 |         local64_t timestamp;            /* event timestamp, in nanoseconds */
+         |         ^~~~~~~~~
+         |         local_t
+   include/asm-generic/local.h:25:3: note: 'local_t' declared here
+      25 | } local_t;
+         |   ^
+   In file included from net/netfilter/nf_conntrack_ecache.c:25:
+   In file included from include/net/netfilter/nf_conntrack_core.h:18:
+>> include/net/netfilter/nf_conntrack_ecache.h:118:6: error: call to undeclared function 'local64_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     118 |         if (local64_read(&e->timestamp) && READ_ONCE(e->cache) == 0)
+         |             ^
+>> include/net/netfilter/nf_conntrack_ecache.h:119:3: error: call to undeclared function 'local64_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     119 |                 local64_set(&e->timestamp, ktime_get_real_ns());
+         |                 ^
+>> net/netfilter/nf_conntrack_ecache.c:168:6: error: call to undeclared function 'local64_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     168 |         if (local64_read(&e->timestamp))
+         |             ^
+>> net/netfilter/nf_conntrack_ecache.c:169:3: error: call to undeclared function 'local64_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     169 |                 local64_set(&e->timestamp, ktime_get_real_ns());
+         |                 ^
+   net/netfilter/nf_conntrack_ecache.c:318:2: error: call to undeclared function 'local64_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     318 |         local64_set(&e->timestamp, ts);
+         |         ^
+   7 warnings and 6 errors generated.
+--
+   In file included from net/netfilter/nf_conntrack_netlink.c:25:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from net/netfilter/nf_conntrack_netlink.c:25:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from net/netfilter/nf_conntrack_netlink.c:25:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from net/netfilter/nf_conntrack_netlink.c:25:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   In file included from net/netfilter/nf_conntrack_netlink.c:38:
+   In file included from include/net/netfilter/nf_conntrack_core.h:18:
+   include/net/netfilter/nf_conntrack_ecache.h:24:2: error: unknown type name 'local64_t'; did you mean 'local_t'?
+      24 |         local64_t timestamp;            /* event timestamp, in nanoseconds */
+         |         ^~~~~~~~~
+         |         local_t
+   include/asm-generic/local.h:25:3: note: 'local_t' declared here
+      25 | } local_t;
+         |   ^
+   In file included from net/netfilter/nf_conntrack_netlink.c:38:
+   In file included from include/net/netfilter/nf_conntrack_core.h:18:
+>> include/net/netfilter/nf_conntrack_ecache.h:118:6: error: call to undeclared function 'local64_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     118 |         if (local64_read(&e->timestamp) && READ_ONCE(e->cache) == 0)
+         |             ^
+>> include/net/netfilter/nf_conntrack_ecache.h:119:3: error: call to undeclared function 'local64_set'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     119 |                 local64_set(&e->timestamp, ktime_get_real_ns());
+         |                 ^
+>> net/netfilter/nf_conntrack_netlink.c:392:12: error: call to undeclared function 'local64_read'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     392 |                 u64 ts = local64_read(&e->timestamp);
+         |                          ^
+   7 warnings and 4 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +/val +2495 arch/arm64/kvm/vgic/vgic-its.c
+vim +/local64_read +118 include/net/netfilter/nf_conntrack_ecache.h
 
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2484  
-0aa34b37a78d06 arch/arm64/kvm/vgic/vgic-its.c Sebastian Ott      2024-07-23  2485  /*
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2486   * vgic_its_save_collection_table - Save the collection table into
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2487   * guest RAM
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2488   */
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2489  static int vgic_its_save_collection_table(struct vgic_its *its)
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2490  {
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2491  	const struct vgic_its_abi *abi = vgic_its_get_abi(its);
-c2385eaa6c5a87 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-10-26  2492  	u64 baser = its->baser_coll_table;
-8ad50c8985d805 virt/kvm/arm/vgic/vgic-its.c   Kristina Martsenko 2018-09-26  2493  	gpa_t gpa = GITS_BASER_ADDR_48_to_52(baser);
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2494  	struct its_collection *collection;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09 @2495  	u64 val;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2496  	size_t max_size, filled = 0;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2497  	int ret, cte_esz = abi->cte_esz;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2498  
-c2385eaa6c5a87 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-10-26  2499  	if (!(baser & GITS_BASER_VALID))
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2500  		return 0;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2501  
-c2385eaa6c5a87 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-10-26  2502  	max_size = GITS_BASER_NR_PAGES(baser) * SZ_64K;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2503  
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2504  	list_for_each_entry(collection, &its->collection_list, coll_list) {
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2505  		ret = vgic_its_save_cte(its, collection, gpa, cte_esz);
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2506  		if (ret)
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2507  			return ret;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2508  		gpa += cte_esz;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2509  		filled += cte_esz;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2510  	}
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2511  
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2512  	if (filled == max_size)
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2513  		return 0;
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2514  
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2515  	/*
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2516  	 * table is not fully filled, add a last dummy element
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2517  	 * with valid bit unset
-ea1ad53e1e31a3 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2017-01-09  2518  	 */
-c4380c338c9607 arch/arm64/kvm/vgic/vgic-its.c Kunkun Jiang       2024-11-07  2519  	return vgic_its_write_entry_lock(its, gpa, 0, cte_esz);
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2520  }
-3b65808f4b2914 virt/kvm/arm/vgic/vgic-its.c   Eric Auger         2016-12-24  2521  
+    20	
+    21	struct nf_conntrack_ecache {
+    22		unsigned long cache;		/* bitops want long */
+    23	#ifdef CONFIG_NF_CONNTRACK_TIMESTAMP
+  > 24		local64_t timestamp;		/* event timestamp, in nanoseconds */
+    25	#endif
+    26		u16 ctmask;			/* bitmask of ct events to be delivered */
+    27		u16 expmask;			/* bitmask of expect events to be delivered */
+    28		u32 missed;			/* missed events */
+    29		u32 portid;			/* netlink portid of destroyer */
+    30	};
+    31	
+    32	static inline struct nf_conntrack_ecache *
+    33	nf_ct_ecache_find(const struct nf_conn *ct)
+    34	{
+    35	#ifdef CONFIG_NF_CONNTRACK_EVENTS
+    36		return nf_ct_ext_find(ct, NF_CT_EXT_ECACHE);
+    37	#else
+    38		return NULL;
+    39	#endif
+    40	}
+    41	
+    42	static inline bool nf_ct_ecache_exist(const struct nf_conn *ct)
+    43	{
+    44	#ifdef CONFIG_NF_CONNTRACK_EVENTS
+    45		return nf_ct_ext_exist(ct, NF_CT_EXT_ECACHE);
+    46	#else
+    47		return false;
+    48	#endif
+    49	}
+    50	
+    51	#ifdef CONFIG_NF_CONNTRACK_EVENTS
+    52	
+    53	/* This structure is passed to event handler */
+    54	struct nf_ct_event {
+    55		struct nf_conn *ct;
+    56		u32 portid;
+    57		int report;
+    58	};
+    59	
+    60	struct nf_exp_event {
+    61		struct nf_conntrack_expect *exp;
+    62		u32 portid;
+    63		int report;
+    64	};
+    65	
+    66	struct nf_ct_event_notifier {
+    67		int (*ct_event)(unsigned int events, const struct nf_ct_event *item);
+    68		int (*exp_event)(unsigned int events, const struct nf_exp_event *item);
+    69	};
+    70	
+    71	void nf_conntrack_register_notifier(struct net *net,
+    72					   const struct nf_ct_event_notifier *nb);
+    73	void nf_conntrack_unregister_notifier(struct net *net);
+    74	
+    75	void nf_ct_deliver_cached_events(struct nf_conn *ct);
+    76	int nf_conntrack_eventmask_report(unsigned int eventmask, struct nf_conn *ct,
+    77					  u32 portid, int report);
+    78	
+    79	bool nf_ct_ecache_ext_add(struct nf_conn *ct, u16 ctmask, u16 expmask, gfp_t gfp);
+    80	#else
+    81	
+    82	static inline void nf_ct_deliver_cached_events(const struct nf_conn *ct)
+    83	{
+    84	}
+    85	
+    86	static inline int nf_conntrack_eventmask_report(unsigned int eventmask,
+    87							struct nf_conn *ct,
+    88							u32 portid,
+    89							int report)
+    90	{
+    91		return 0;
+    92	}
+    93	
+    94	static inline bool nf_ct_ecache_ext_add(struct nf_conn *ct, u16 ctmask, u16 expmask, gfp_t gfp)
+    95	{
+    96		return false;
+    97	}
+    98	#endif
+    99	
+   100	static inline void
+   101	nf_conntrack_event_cache(enum ip_conntrack_events event, struct nf_conn *ct)
+   102	{
+   103	#ifdef CONFIG_NF_CONNTRACK_EVENTS
+   104		struct net *net = nf_ct_net(ct);
+   105		struct nf_conntrack_ecache *e;
+   106	
+   107		if (!rcu_access_pointer(net->ct.nf_conntrack_event_cb))
+   108			return;
+   109	
+   110		e = nf_ct_ecache_find(ct);
+   111		if (e == NULL)
+   112			return;
+   113	
+   114	#ifdef CONFIG_NF_CONNTRACK_TIMESTAMP
+   115		/* renew only if this is the first cached event, so that the
+   116		 * timestamp reflects the first, not the last, generated event.
+   117		 */
+ > 118		if (local64_read(&e->timestamp) && READ_ONCE(e->cache) == 0)
+ > 119			local64_set(&e->timestamp, ktime_get_real_ns());
+   120	#endif
+   121	
+   122		set_bit(event, &e->cache);
+   123	#endif
+   124	}
+   125	
 
 -- 
 0-DAY CI Kernel Test Service
