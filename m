@@ -1,73 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FAE1AA1C1
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 20:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6261D17A5BE
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 20:51:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731097223; cv=none; b=VOS6m63izmLz/fb//MKxiQsuNOVK1IGZ5mcAw7Sdm3yu/36a1Drrk84srpDITK5C2cMRmU5sfOhHbnDgXpDDNPcHoCE9HEta6sGwgdVC1OX265fc3xR92Di2NpFesXAHGY6Zq5QIHsUxq9DxvtJ1UV5M3+HEczbaBTcY/2Fw+0Q=
+	t=1731099085; cv=none; b=TkQ4eWORROWDDUAEFuGuXd/T/+XoOCAcSCYMpQ8vVgtikFIh5BO4qu8fjfXFBEQMs/e4Q5rfofnv/ZirfwrZual7sZs4UU/cbrmZw73U+KYlbMNcO4MZHQSDALoYCCruRHH8MWkyDnWz1btjiMnsL1aV6a3sMtM55nrNX0qtels=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731097223; c=relaxed/simple;
-	bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
+	s=arc-20240116; t=1731099085; c=relaxed/simple;
+	bh=dOVIx5TcyX42BPBZj2a+etO5eUjZ45VMOao/Q70JuWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mt/rso5Ex38XXopCxRX/qLy+vCNC5XkV/v7mPkbY9iiq3ldh+k5ALTMvTWVB79xWk3f5usae6TJzagUQOFAvQ6K5dYA8arl4MXyHdHFD0D8D/Q4EV2lnxib2Hfo/B1UOM4QPzNVVWVEaP9jaTqvM4Qjb52I3YHlS0ZZIb0dWiK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIfSu7OZ; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=M0mlI6/jDFBZXRxKcOgrLX85ZSP5svy8xp1IDxr2yxBiWsY+/4/AAVGw99FhOKb1H2WUBTdo422KVyPO/qJnxA74qLZ2rLcUkku5gblu0VKqtfu5oC8Z62+9uHSu16YeS3SA+sUpuZ09U7dAQjU0BlQh1TC3lYQqf8ffssfmBjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eAPomj4c; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIfSu7OZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eAPomj4c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731097222; x=1762633222;
+  t=1731099083; x=1762635083;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
-  b=YIfSu7OZlO0S5pIz0+o6DcB5cBXet2ETi1kIEf6ZEaMeHuhHrPG4fZ3u
-   EWicq8pafqNLZZSJCqKuCKKcRVIHQXOwa7mmlkf+yWWkCJWF2q/gij2Hd
-   qP8bzGJ/qEBX+piki0impNfyyp6SHpd3xawE/TgYfOG9q//mnOQ1sUYGn
-   wF3+Jn+qSjyhfVRRqDeZauPPEU71cXKmMjfYQYIy5WjN4RFBIkK3TLNeM
-   uyxd94ayyJO+dQ7UcyTgeVZYw99tIMOY7j7DZaOgma6405KZw38ZHOeAX
-   6Nz7sLq0pa8lzSuXWM/G/wvIzfPVvzBph2iEbfoysXSTlzQRDPO8A67Ac
-   A==;
-X-CSE-ConnectionGUID: Q9Rh2hHYSzKpdH7FBPHxyA==
-X-CSE-MsgGUID: Af+MzqLqTpyes6U/pjCepQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34780334"
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="34780334"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 12:20:21 -0800
-X-CSE-ConnectionGUID: z9jpa/nIQaS3xVbzK89FJg==
-X-CSE-MsgGUID: RntjX9eYQR62U2yHDkNiXQ==
+  bh=dOVIx5TcyX42BPBZj2a+etO5eUjZ45VMOao/Q70JuWw=;
+  b=eAPomj4cPs15qd6c8of0EE9OGEoYUx5aeUp0iWqEAbWR5omnbCARS5JY
+   gXMYEx9RSQU7KFuLb+3UNaPKY325MdWtPbuDPSOPUmV6yKm+NWyjMDUN5
+   uUuoJ9SJB63QmnzMp1hQePyAigzuW8UyY4qjTaTkthf7yvc6LY7/HHJUf
+   RRqz5GN9W6CYOdPClpyQkFlKsm0FmCuEOva0gaUhnCNOge8Bi7Sl44SSq
+   06G1VclQ818ZJS770nf+ySMr8XOPuZME42ByFBiZgmsDpEdayLPhezxrQ
+   c5r4AMl7XsIrBlr5y5tDtZUu9UC4fMR2QJo6lWWNiRPosCVqyKQrPXUWC
+   w==;
+X-CSE-ConnectionGUID: Z64sJ+toTHGr8b6VY/eqfA==
+X-CSE-MsgGUID: f3VaKj8nRfSJB1bVFHn4iA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="31097603"
+X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
+   d="scan'208";a="31097603"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 12:51:22 -0800
+X-CSE-ConnectionGUID: jpUrmjM4QDmg7pGLtvzH+Q==
+X-CSE-MsgGUID: FMqk57uaRay2ZoFslIfbCg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="90835236"
+X-IronPort-AV: E=Sophos;i="6.12,139,1728975600"; 
+   d="scan'208";a="85636572"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 12:20:17 -0800
+  by orviesa009.jf.intel.com with ESMTP; 08 Nov 2024 12:51:18 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9VSo-000rlS-2Y;
-	Fri, 08 Nov 2024 20:20:14 +0000
-Date: Sat, 9 Nov 2024 04:19:54 +0800
+	id 1t9Vwq-000rnO-14;
+	Fri, 08 Nov 2024 20:51:16 +0000
+Date: Sat, 9 Nov 2024 04:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-Message-ID: <202411090451.quuiocP9-lkp@intel.com>
-References: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
+To: Adrian Huang <adrianhuang0701@gmail.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Raghavendra K T <raghavendra.kt@amd.com>,
+	linux-kernel@vger.kernel.org, Adrian Huang <ahuang12@lenovo.com>,
+	Jiwei Sun <sunjw10@lenovo.com>
+Subject: Re: [PATCH 1/1] sched/numa: Fix memory leak due to the overwritten
+ vma->numab_state
+Message-ID: <202411090453.EFAEFpnv-lkp@intel.com>
+References: <20241108133139.25326-1-ahuang12@lenovo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,48 +76,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
+In-Reply-To: <20241108133139.25326-1-ahuang12@lenovo.com>
 
-Hi Yoshihiro,
+Hi Adrian,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on tip/smp/core]
-[also build test WARNING on linus/master v6.12-rc6]
-[cannot apply to arm64/for-next/core arm-perf/for-next/perf next-20241108]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on tip/master tip/sched/core peterz-queue/sched/core linus/master v6.12-rc6 next-20241108]
+[cannot apply to tip/auto-latest]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20241108-134245
-base:   tip/smp/core
-patch link:    https://lore.kernel.org/r/20241108054006.2550856-2-fj5100bi%40fujitsu.com
-patch subject: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Huang/sched-numa-Fix-memory-leak-due-to-the-overwritten-vma-numab_state/20241108-213420
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241108133139.25326-1-ahuang12%40lenovo.com
+patch subject: [PATCH 1/1] sched/numa: Fix memory leak due to the overwritten vma->numab_state
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241109/202411090453.EFAEFpnv-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090453.EFAEFpnv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411090451.quuiocP9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411090453.EFAEFpnv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/perf/fujitsu_mac_pmu.c:604:36: warning: 'fujitsu_mac_pmu_acpi_match' defined but not used [-Wunused-const-variable=]
-     604 | static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/damon/vaddr.c:736:
+   mm/damon/tests/vaddr-kunit.h: In function 'damon_test_three_regions_in_vmas':
+>> mm/damon/tests/vaddr-kunit.h:92:1: warning: the frame size of 2168 bytes is larger than 2048 bytes [-Wframe-larger-than=]
+      92 | }
+         | ^
 
 
-vim +/fujitsu_mac_pmu_acpi_match +604 drivers/perf/fujitsu_mac_pmu.c
+vim +92 mm/damon/tests/vaddr-kunit.h
 
-   603	
- > 604	static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
-   605		{ "FUJI200C", },
-   606		{ }
-   607	};
-   608	MODULE_DEVICE_TABLE(acpi, fujitsu_mac_pmu_acpi_match);
-   609	
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  38  
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  39  /*
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  40   * Test __damon_va_three_regions() function
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  41   *
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  42   * In case of virtual memory address spaces monitoring, DAMON converts the
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  43   * complex and dynamic memory mappings of each target task to three
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  44   * discontiguous regions which cover every mapped areas.  However, the three
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  45   * regions should not include the two biggest unmapped areas in the original
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  46   * mapping, because the two biggest areas are normally the areas between 1)
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  47   * heap and the mmap()-ed regions, and 2) the mmap()-ed regions and stack.
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  48   * Because these two unmapped areas are very huge but obviously never accessed,
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  49   * covering the region is just a waste.
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  50   *
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  51   * '__damon_va_three_regions() receives an address space of a process.  It
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  52   * first identifies the start of mappings, end of mappings, and the two biggest
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  53   * unmapped areas.  After that, based on the information, it constructs the
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  54   * three regions and returns.  For more detail, refer to the comment of
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  55   * 'damon_init_regions_of()' function definition in 'mm/damon.c' file.
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  56   *
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  57   * For example, suppose virtual address ranges of 10-20, 20-25, 200-210,
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  58   * 210-220, 300-305, and 307-330 (Other comments represent this mappings in
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  59   * more short form: 10-20-25, 200-210-220, 300-305, 307-330) of a process are
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  60   * mapped.  To cover every mappings, the three regions should start with 10,
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  61   * and end with 305.  The process also has three unmapped areas, 25-200,
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  62   * 220-300, and 305-307.  Among those, 25-200 and 220-300 are the biggest two
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  63   * unmapped areas, and thus it should be converted to three regions of 10-25,
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  64   * 200-220, and 300-330.
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  65   */
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  66  static void damon_test_three_regions_in_vmas(struct kunit *test)
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  67  {
+d0cf3dd47f0d5d mm/damon/vaddr-test.h        Liam R. Howlett 2022-09-06  68  	static struct mm_struct mm;
+ba7196e566516f mm/damon/tests/vaddr-kunit.h Leo Stone       2024-09-22  69  	struct damon_addr_range regions[3] = {0};
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  70  	/* 10-20-25, 200-210-220, 300-305, 307-330 */
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  71  	struct vm_area_struct vmas[] = {
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  72  		(struct vm_area_struct) {.vm_start = 10, .vm_end = 20},
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  73  		(struct vm_area_struct) {.vm_start = 20, .vm_end = 25},
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  74  		(struct vm_area_struct) {.vm_start = 200, .vm_end = 210},
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  75  		(struct vm_area_struct) {.vm_start = 210, .vm_end = 220},
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  76  		(struct vm_area_struct) {.vm_start = 300, .vm_end = 305},
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  77  		(struct vm_area_struct) {.vm_start = 307, .vm_end = 330},
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  78  	};
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  79  
+f0679f9e6d88ae mm/damon/tests/vaddr-kunit.h SeongJae Park   2024-09-04  80  	mt_init_flags(&mm.mm_mt, MT_FLAGS_ALLOC_RANGE | MT_FLAGS_USE_RCU);
+34403fa579514a mm/damon/vaddr-test.h        Liam R. Howlett 2023-01-20  81  	if (__link_vmas(&mm.mm_mt, vmas, ARRAY_SIZE(vmas)))
+34403fa579514a mm/damon/vaddr-test.h        Liam R. Howlett 2023-01-20  82  		kunit_skip(test, "Failed to create VMA tree");
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  83  
+d0cf3dd47f0d5d mm/damon/vaddr-test.h        Liam R. Howlett 2022-09-06  84  	__damon_va_three_regions(&mm, regions);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  85  
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  86  	KUNIT_EXPECT_EQ(test, 10ul, regions[0].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  87  	KUNIT_EXPECT_EQ(test, 25ul, regions[0].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  88  	KUNIT_EXPECT_EQ(test, 200ul, regions[1].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  89  	KUNIT_EXPECT_EQ(test, 220ul, regions[1].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  90  	KUNIT_EXPECT_EQ(test, 300ul, regions[2].start);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  91  	KUNIT_EXPECT_EQ(test, 330ul, regions[2].end);
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07 @92  }
+17ccae8bb5c928 mm/damon/vaddr-test.h        SeongJae Park   2021-09-07  93  
 
 -- 
 0-DAY CI Kernel Test Service
