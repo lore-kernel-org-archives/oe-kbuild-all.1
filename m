@@ -1,65 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C3421CFBD;
-	Fri,  8 Nov 2024 17:36:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E6B233D63;
+	Fri,  8 Nov 2024 18:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731087378; cv=none; b=HEFndx6HCyabFnlkhBGZKhNzr49jmfcqAk4SyViKxu8sMOzhiuW2o6gZPvaKzBY18o7ABkeFQdMkq2lUZNJ4JtvrAzJM449xsLDW/FNcvBpM58+Q3/RX0b73g94k9D+bFX0lIw7ioRpUV/w5jDTCacuozUCApsgbSrVm6RfcBkM=
+	t=1731089841; cv=none; b=YhgJEuL5tfmIkp+dskpgNOESxQ+B47dQh7X0Pq2CFG0gpLH5UvNaNC5WBZn3bvYv5cZ29y0Xzg2PrSCBUSK7PDJI3ttXP2RpN8Baf5ql4MrWAy6mI2EL3w+hFvjSwNqNp1fKZ2nYIp0gRoxDhmR3/zqx1+Io5Tg3aabW3wqO16E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731087378; c=relaxed/simple;
-	bh=VYRtOv+nPghOh1Cg4oPCcRkHkKNpWrkOKEbceRGuIs0=;
+	s=arc-20240116; t=1731089841; c=relaxed/simple;
+	bh=4PaET6TkzgrHWZkK4MiM2Mhki+6QUcpFOgMPv7bRVLs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CoznZV6sIndSafdpvZ50GuwE1fCqymvq6Th+nJyESjoX4LC80OOo0wxRzJ9KRGbCqTCQz8nqLzw6C7T6G8fnwd2qAR6D9AVoR4YlaW1XFILIBmkO270uHmmvYLp/ZyKHL2vF6IPnf9jeZt/mP7uCpS0+Xz60GHApDzDffJSQG7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVc15i7+; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=giKW24MFUoqN4Q3oXEiJakplj+3DoN5RHc1js+mmbtXhtVD01PGG3SaJ+AaZyy+tqW6PhtXaDDmQXEX6TzIUdYppIzr6/o4ESWUCje+rZz2yJpAneEFv1eFe4+RDDNQXXfVj0ki6m2cQncKMqArHwbjZsJoaO2vudzzf2kYynyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2bLNFfA; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVc15i7+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2bLNFfA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731087377; x=1762623377;
+  t=1731089840; x=1762625840;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VYRtOv+nPghOh1Cg4oPCcRkHkKNpWrkOKEbceRGuIs0=;
-  b=aVc15i7+9+hpW2dpu4rYldYMu2runTPoriREkG3WTsij3xEXhyRWsgdG
-   LNAY7SJh91MYZq2lKBSww0xFkNuAknvtUL4YVmdvMLT19obfuXOhTMOz1
-   fTujmROAqAS9ziUKYA8Rc55uic5YN0GHPmYaFQq2TPlWJ1uzQg4H0eVbr
-   2LFc0CjZ8O3Y8sVlxyR6W9pYW7pL+jUJfKTBAjKe4S33N7tPVv7niYR7r
-   h3tl+uUEMvLkVoi3MuD63CNeCERvr88aKlWqEzYU6UeSbDrNj3GPUIvnu
-   P8+w3QFtXoBKWr2nhYfs443+5Q9MfoZx/WezrR7RF0Fa4IdmET01CWjBs
+  bh=4PaET6TkzgrHWZkK4MiM2Mhki+6QUcpFOgMPv7bRVLs=;
+  b=A2bLNFfAXkdfVPNsfTHKYx2z59prseowJXGDjZVaPrAYGAnOT1cH5Tba
+   XQEx8rKuPR3wl6mBbIsCce/03V7PsAbFljWpwoug8k0S2zNMzyihPNVVx
+   KmUZkHIwqSHGHxzhGF1Q9atxgLP0zXdQ0VYKxkD98GrFYduTi4I+2FLi8
+   R2+gRht+w4lnmlClX4Kch4Tf+fUBX6Zr5CGjHYpxkYx3jAHdYPCc1NURP
+   /wPgDD494S8GoB62dU1uQSLyZqKFvshaj7C6wnITi33kd2g3K1PnQ6XOQ
+   VvD0Nlh8QfKyjS2WOzeM6vmMKRkskxg190gU9v7sTt/ShCYwREpC7ZXjT
    g==;
-X-CSE-ConnectionGUID: p7eBU/CcQrWH+1nbHVCDpw==
-X-CSE-MsgGUID: rnNscdtdQNCSc5WULsdpKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34765142"
+X-CSE-ConnectionGUID: uYTcSLq8RV2S9lLuJohmIQ==
+X-CSE-MsgGUID: kKjqVFOORL2OIq1Owble1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="42368555"
 X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="34765142"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 09:36:16 -0800
-X-CSE-ConnectionGUID: fSSNJeBoT1iCWbyIt3pcaw==
-X-CSE-MsgGUID: P11TbQ9UQRKLr4/jfFZM5Q==
+   d="scan'208";a="42368555"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 10:17:19 -0800
+X-CSE-ConnectionGUID: lsmZQr7uTgq1VgyQw1S59w==
+X-CSE-MsgGUID: b1luBi1TSSGnldkvh/IxyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="108951162"
+   d="scan'208";a="123200075"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 08 Nov 2024 09:36:13 -0800
+  by orviesa001.jf.intel.com with ESMTP; 08 Nov 2024 10:17:16 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9Su3-000reg-0e;
-	Fri, 08 Nov 2024 17:36:11 +0000
-Date: Sat, 9 Nov 2024 01:36:04 +0800
+	id 1t9TXk-000rh8-21;
+	Fri, 08 Nov 2024 18:17:12 +0000
+Date: Sat, 9 Nov 2024 02:17:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Ramon Cristopher M. Calam" <ramoncristopher.calam@analog.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Cristopher Calam <ramoncristopher.calam@analog.com>
-Subject: Re: [PATCH 1/2] regulator: lt8722: Add driver for LT8722
-Message-ID: <202411090141.pm0JwBtT-lkp@intel.com>
-References: <20241108093544.9492-2-ramoncristopher.calam@analog.com>
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 13/15] media: i2c: ds90ub913: Add error handling to
+ ub913_hw_init()
+Message-ID: <202411090151.d5LTbJyn-lkp@intel.com>
+References: <20241108-ub9xx-fixes-v2-13-c7db3b2ad89f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,57 +70,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108093544.9492-2-ramoncristopher.calam@analog.com>
+In-Reply-To: <20241108-ub9xx-fixes-v2-13-c7db3b2ad89f@ideasonboard.com>
 
-Hi Ramon,
+Hi Tomi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on e18da71634d12a94a15138947538ef2f0ac22746]
+[auto build test ERROR on 98f7e32f20d28ec452afb208f9cffc08448a2652]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ramon-Cristopher-M-Calam/regulator-lt8722-Add-driver-for-LT8722/20241108-174141
-base:   e18da71634d12a94a15138947538ef2f0ac22746
-patch link:    https://lore.kernel.org/r/20241108093544.9492-2-ramoncristopher.calam%40analog.com
-patch subject: [PATCH 1/2] regulator: lt8722: Add driver for LT8722
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241109/202411090141.pm0JwBtT-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090141.pm0JwBtT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/media-i2c-ds90ub9x3-Fix-extra-fwnode_handle_put/20241108-173952
+base:   98f7e32f20d28ec452afb208f9cffc08448a2652
+patch link:    https://lore.kernel.org/r/20241108-ub9xx-fixes-v2-13-c7db3b2ad89f%40ideasonboard.com
+patch subject: [PATCH v2 13/15] media: i2c: ds90ub913: Add error handling to ub913_hw_init()
+config: x86_64-buildonly-randconfig-002-20241108 (https://download.01.org/0day-ci/archive/20241109/202411090151.d5LTbJyn-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090151.d5LTbJyn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411090141.pm0JwBtT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411090151.d5LTbJyn-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/regulator/lt8722-regulator.c:8:10: fatal error: 'asm/unaligned.h' file not found
-       8 | #include <asm/unaligned.h>
-         |          ^~~~~~~~~~~~~~~~~
-   1 error generated.
+   In file included from drivers/media/i2c/ds90ub913.c:16:
+   In file included from include/linux/i2c-atr.h:14:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2232:
+   include/linux/vmstat.h:517:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     517 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/media/i2c/ds90ub913.c:751:5: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     751 |                                 FIELD_PREP(UB913_REG_GENERAL_CFG_PCLK_RISING,
+         |                                 ^
+   1 warning and 1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
+vim +/FIELD_PREP +751 drivers/media/i2c/ds90ub913.c
 
-vim +8 drivers/regulator/lt8722-regulator.c
-
-   > 8	#include <asm/unaligned.h>
-     9	#include <linux/bitfield.h>
-    10	#include <linux/bits.h>
-    11	#include <linux/crc8.h>
-    12	#include <linux/delay.h>
-    13	#include <linux/gpio.h>
-    14	#include <linux/math.h>
-    15	#include <linux/module.h>
-    16	#include <linux/regulator/driver.h>
-    17	#include <linux/regulator/machine.h>
-    18	#include <linux/regulator/of_regulator.h>
-    19	#include <linux/spi/spi.h>
-    20	#include <linux/util_macros.h>
-    21	
+   722	
+   723	static int ub913_hw_init(struct ub913_data *priv)
+   724	{
+   725		struct device *dev = &priv->client->dev;
+   726		bool mode_override;
+   727		u8 mode;
+   728		int ret;
+   729		u8 v;
+   730	
+   731		ret = ub913_read(priv, UB913_REG_MODE_SEL, &v);
+   732		if (ret)
+   733			return ret;
+   734	
+   735		if (!(v & UB913_REG_MODE_SEL_MODE_UP_TO_DATE))
+   736			return dev_err_probe(dev, -ENODEV,
+   737					     "Mode value not stabilized\n");
+   738	
+   739		mode_override = v & UB913_REG_MODE_SEL_MODE_OVERRIDE;
+   740		mode = v & UB913_REG_MODE_SEL_MODE_MASK;
+   741	
+   742		dev_dbg(dev, "mode from %s: %#x\n",
+   743			mode_override ? "reg" : "deserializer", mode);
+   744	
+   745		ret = ub913_i2c_master_init(priv);
+   746		if (ret)
+   747			return dev_err_probe(dev, ret, "i2c master init failed\n");
+   748	
+   749		ret = ub913_update_bits(priv, UB913_REG_GENERAL_CFG,
+   750					UB913_REG_GENERAL_CFG_PCLK_RISING,
+ > 751					FIELD_PREP(UB913_REG_GENERAL_CFG_PCLK_RISING,
+   752						   priv->pclk_polarity_rising));
+   753	
+   754		if (ret)
+   755			return ret;
+   756	
+   757		return 0;
+   758	}
+   759	
 
 -- 
 0-DAY CI Kernel Test Service
