@@ -1,119 +1,121 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432D7EAE7
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 02:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62908D528
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 03:00:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731034615; cv=none; b=nkAlh2KUe6AcFfnDFmDqfkuszzml6O93uAs4JqHQ+Jp7gqsg1iRiEVcPQqt57OYBFHOW0s42q7qLA3JqRS7fh6WwMSl7bNMsCukuv6L0/IVQLY8w/1XxLcMvwYdiWY1mUL5z4mrGvX1G9iGcKliDFkDf5ClTrthSDQOSSRS7Paw=
+	t=1731034852; cv=none; b=MSMyskLzJKTcozNx6Qavbb8YpVdQVqloMlrw1ske0Ox6jWA1UxKC3tjkduI/3NNneOBM8Dh37zVomomQHMWlgsLEH5ihVx6iAf/QdM2eIe+3fU7OZo8lBRn2Y1vqJcVNrY7GoSBReKRKL34QOPDpmOXK/JODmR1ngqGzAdzLVV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731034615; c=relaxed/simple;
-	bh=alNLUomFOrw/dXZvCeCRW/AHRkTVyrDOna3U5uTWQBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JrrBlOe4jmMgVHEZPkySo7gqkpOZWwnyCtSPpXyeb/lpc2NN5HUOZ2xHbEQBRLlfZciOW5uekEiLM/SSxIm4afsOQMpBU/LDH4/QhCWh4DUH0bMqLWNMewtw4Ar3Z5NDXtm3rFLxkEdK+tw8+w7qtTPSfA1N3juX9gb9x160wn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iRwbcJ4S; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731034852; c=relaxed/simple;
+	bh=1lqzFGn1eXbAen/HouRQEXecZLXqEsPyxz4EZS5zSGs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g4aKuEwnZdzeXm6doFjRE+jBtWkfJFbLDY4SDo7l/2sEduYHPaskWNR1bbrit11ptZGgWBevJSlAWvnOK53HQqcixUNpB8K6BTSJRoIgOblVb69qusKkLpQMvrWLsO5fQOL3taDbePKpqh2d7rm21pgxqq2Uz+t1utOzXs5j/LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZZZm+XAj; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iRwbcJ4S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731034614; x=1762570614;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=alNLUomFOrw/dXZvCeCRW/AHRkTVyrDOna3U5uTWQBQ=;
-  b=iRwbcJ4SZt+wI7DcwsK/oAy54IGh+IoepR7sBB6EjdG7/Tj+djQ7rHP8
-   54PgrMhKXzwiMBXIVIHS3r/ahgv0DaxmOPGA8e9ZgZ72Sw3YUixgX7IOn
-   HvgrQQcUC4/BlXcEKZhNIgxT78XoEArXfUc0Uhx20JZ0tN9t6mUUcfJBL
-   DTMOe3bJhP12ogDpWS2mEZf98ljg/1yIDB7iqkz70ydpNPy0R9fLWELNH
-   4BHfN3cN9TKV0pp/oPTkPSWV/MiTjejdm1u4P3D+jtDaNseIrZxfMDPBO
-   pRZGXFDftYmE9+xqdSc3+QD9FzwGpbfg5LHqiIQtHX+h1SksbSQTBFniq
-   Q==;
-X-CSE-ConnectionGUID: YB40Fo53RQuLZqRLmGGwYw==
-X-CSE-MsgGUID: GaKBIkuNSjqSOFe6+rtF7w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="31132181"
-X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="31132181"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 18:56:54 -0800
-X-CSE-ConnectionGUID: 2z1C/yRsSBWGCgbO0A4C5g==
-X-CSE-MsgGUID: Nwl1tYVrSdam3UOxzimk7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="85503149"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Nov 2024 18:56:45 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9FAx-000qx8-0J;
-	Fri, 08 Nov 2024 02:56:43 +0000
-Date: Fri, 8 Nov 2024 10:56:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Pavel Begunkov <asml.silence@gmail.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Subject: Re: [PATCH net-next v2 5/5] netmem: add netmem_prefetch
-Message-ID: <202411081014.jmz4uf6C-lkp@intel.com>
-References: <20241107212309.3097362-6-almasrymina@google.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZZZm+XAj"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-6e5a5a59094so15907607b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 07 Nov 2024 19:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731034849; x=1731639649; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gpzEZp7ZlditrMUaR0RY215WGeQ8zIPi7Ck1Zq/zD0c=;
+        b=ZZZm+XAjFNCY/r00O9Wgp5vaoAf3kNdVQcRezHrM/cV1kfWFFgfvsAoFAiMK381r2x
+         E4OEx4TCUTRnnEzFvXkFl5g+uyDQx3zHg6jPhg2JAwvAY+uE4a2moR5iE3agLZCWNHS7
+         fWvo20Oq3KXOqDi/xzDULdddmWZuQ6OSmIJUjgVmsMGxrGV3mCj354mcFbmlBF+cEwzX
+         t2RAWseEOlUWS+8rMwf4mlts3E7+2ClY4FrBtZvyJzhs9gZZApkxEiVvvZAU0lwTIxae
+         kykpgvCAbHNp3zK1Mzw1iEd107I7pUbqd0dCqowepIFNB+Yj0E6y3kO085v8yR/5RUPY
+         uZTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731034849; x=1731639649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gpzEZp7ZlditrMUaR0RY215WGeQ8zIPi7Ck1Zq/zD0c=;
+        b=DZbvgdcijjrSHxTZ/rF5bPbTkwPsDtU9n0/8ujCwz7O6YUQ4go7t+VpPsWCcij6FG+
+         w0NXhgmjoqz7oCjlUToA4rXQGIn9UNBN+bJKX2xgr71ID2v3Vt91VJvbn6ZExfAihq5l
+         dmW1BjSK6MrqlF8RwZRT3QC3++Le1b19o+dds3osoLzsX8c+4yimYUfdKKVOVIcgzlHV
+         ROax5OWc3JzW9I367OyhO2uFtRLODEKpAAs8/wJt23ZHVX6tAN6qq6ssPqp95rDCkBQd
+         Ux17lDT40KxlchatgUNoCKVmaRkLeajirFc4ApzdYAw3nN6tqtS7rL40TTgZYle54RHg
+         5j4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVvfROIMCv/PwVnL/LiIsxQ07BEWTAF67C70f5aubJnU60PClYUKUZ6tvscYQy77Bmc7y2y0Z+5Y6RVHMJE@lists.linux.dev
+X-Gm-Message-State: AOJu0YytiWVRVyMo1G6UERCEsoCitptTGL02CtSQV33YjiQ2aJhC68t8
+	ZFIMTv148IAQVj6AvUbVNT+en+kcn74WZz/NCSasui3r/aB/ALpyyPsCH9dveGmyMk/GTq+auRk
+	xrbJEGF+KvJBGRJygSQ/R4V87SaVkLdd0Na1S
+X-Google-Smtp-Source: AGHT+IHR4yckEoMuQ7L6FZx8C9n+6mGcTLb5/EhQ62bRePk5jVdh0KVFPZSYTuKhRFZX0cTeNXh9dAaW7vwAUxwoHQM=
+X-Received: by 2002:a05:690c:c93:b0:6e3:3336:7932 with SMTP id
+ 00721157ae682-6eaddf8dc3emr16216267b3.27.1731034849279; Thu, 07 Nov 2024
+ 19:00:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241107212309.3097362-6-almasrymina@google.com>
+References: <20241105184333.2305744-5-jthoughton@google.com> <202411061526.RAuCXKJh-lkp@intel.com>
+In-Reply-To: <202411061526.RAuCXKJh-lkp@intel.com>
+From: James Houghton <jthoughton@google.com>
+Date: Thu, 7 Nov 2024 22:00:13 -0500
+Message-ID: <CADrL8HU3KzDxrLsxD1+578zG6E__AjK3TMCfs-nQAnqFTZM2vQ@mail.gmail.com>
+Subject: Re: [PATCH v8 04/11] KVM: x86/mmu: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+To: kernel test robot <lkp@intel.com>
+Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	oe-kbuild-all@lists.linux.dev, David Matlack <dmatlack@google.com>, 
+	David Rientjes <rientjes@google.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Wei Xu <weixugc@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mina,
+On Wed, Nov 6, 2024 at 3:22=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> Hi James,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on a27e0515592ec9ca28e0d027f42568c47b314784]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton/KVM=
+-Remove-kvm_handle_hva_range-helper-functions/20241106-025133
+> base:   a27e0515592ec9ca28e0d027f42568c47b314784
+> patch link:    https://lore.kernel.org/r/20241105184333.2305744-5-jthough=
+ton%40google.com
+> patch subject: [PATCH v8 04/11] KVM: x86/mmu: Relax locking for kvm_test_=
+age_gfn and kvm_age_gfn
+> config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241106=
+/202411061526.RAuCXKJh-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241106/202411061526.RAuCXKJh-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411061526.RAuCXKJh-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    arch/x86/kvm/mmu/tdp_mmu.c: In function 'kvm_tdp_mmu_age_spte':
+> >> arch/x86/kvm/mmu/tdp_mmu.c:1189:23: warning: ignoring return value of =
+'__tdp_mmu_set_spte_atomic' declared with attribute 'warn_unused_result' [-=
+Wunused-result]
+>     1189 |                 (void)__tdp_mmu_set_spte_atomic(iter, new_spte=
+);
+>          |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~
+>
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-page_pool-rename-page_pool_alloc_netmem-to-_netmems/20241108-052530
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241107212309.3097362-6-almasrymina%40google.com
-patch subject: [PATCH net-next v2 5/5] netmem: add netmem_prefetch
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20241108/202411081014.jmz4uf6C-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081014.jmz4uf6C-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411081014.jmz4uf6C-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/skbuff.h:40,
-                    from net/ipv4/tcp_vegas.c:37:
-   include/net/netmem.h: In function 'netmem_prefetch':
-   include/net/netmem.h:179:9: error: implicit declaration of function 'prefetch' [-Wimplicit-function-declaration]
-     179 |         prefetch(netmem_to_page(netmem));
-         |         ^~~~~~~~
-   net/ipv4/tcp_vegas.c: At top level:
->> net/ipv4/tcp_vegas.c:46:12: warning: 'gamma' defined but not used [-Wunused-variable]
-      46 | static int gamma = 1;
-         |            ^~~~~
-
-
-vim +/gamma +46 net/ipv4/tcp_vegas.c
-
-7752237e9f07b3 Stephen Hemminger 2007-04-23  43  
-8d3a564da34e58 Doug Leith        2008-12-09  44  static int alpha = 2;
-8d3a564da34e58 Doug Leith        2008-12-09  45  static int beta  = 4;
-8d3a564da34e58 Doug Leith        2008-12-09 @46  static int gamma = 1;
-b87d8561d8667d Stephen Hemminger 2005-06-23  47  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Well, I saw this compiler warning in my latest rebase and thought the
+`(void)` would fix it. I guess the next best way to fix it would be to
+assign to an `int __maybe_unused`. I'll do for a v9, or Sean if you're
+going to take the series (maybe? :)), go ahead and apply whatever fix
+you like.
