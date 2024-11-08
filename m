@@ -1,58 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBF71171C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 09:45:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B674431
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 10:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731059161; cv=none; b=B2CzW7BdecEGKTYGtXOjxtzqCYXBYg/3u1LxQcF3fg/Ucv4iVNUn09j5Lk83QyBWkRyE4ANtA4yDkBp8nOpvRZlAzafp115nDiwson7ogzM+QigqOcTxwe1FgN1BvwZ4riR+fKJgZp/yWemzwEVl+m28ScVLTjEC/+J8BXNlyBI=
+	t=1731060127; cv=none; b=m9eKWeI6+/b6jGZ9F9Ilmhebnch/yIrL1pQkI55/vSEiCRWSAn9sg1ZmzKSEawP6XcbXMch2nXtBrUtaFtfyZTiQXvfRTL3Z8eHSJ2mP7gWMBdpWj8NbXisTCxP+HsRcF93XeYxyDQvUpvNel1Kqm36IkcDZcq7AJdoquGQnaVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731059161; c=relaxed/simple;
-	bh=XWLHBu5ep21al5qhSca2w9xbi6vzV3nJZox+0jJptQ4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ttPyOlj28T7x9RCdP4DwfWi2s7P6IQh0ClExRDlEdgKkuhENhtvUQOfQAuFhBOI7MAK/AvhJMFFNW/IGdXq/4D1IvhzB68FBBwT347fo/Ils7KtSCYhpHmeKi27qKrPEwJIU9BkH/EjY08zi59pwdDhijyDoy0nFAhUE9C5UiR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lcVXJlS7; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1731060127; c=relaxed/simple;
+	bh=vNPTOO3/Q878nn/1s8YQUcfCEdeZMqU82Y10Eyz5/Cw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FxAEFCvSIWZri3mgbpW1u/VYGTVoy0p6XQRLN/YSmmzJrIQFFp+y54ako5fHWfDT8LA08Oodk5pYzhza7igYfpzD/cKc+M+cXAITT28gf8MfWP1k0pcG/iJBVlm7Y87HUSGe+gcHB1oMpZ8xxINupQABTcFFasT49MrSHiZY35g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ayTXJQQi; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lcVXJlS7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ayTXJQQi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731059160; x=1762595160;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=XWLHBu5ep21al5qhSca2w9xbi6vzV3nJZox+0jJptQ4=;
-  b=lcVXJlS7wPYERYe8pOEo9byjB6kZwlLDQ6gFFzHsSZs93P3MO1PKcpVa
-   4UD/k/ve/jGpXMOr/5Tx1B17uYZuVkvp+a3h79khnLDlzMg3oL2t57ZXl
-   9Qtp3JAU0aGFtSODDLdBjeb2epTgZLWqgGBncPHRjkFpdEPp8MQUFJR+n
-   N0tRkAuJuCQV64ooph4RWcYni8M7WUDPYUftLrpVNdBH+8qByVgETqjCU
-   BLfc0v9FxJcnQFE41KdkAdrKDyBekhGJUW703Y/nnVkOJcLNAY4bUxVwx
-   xDTcSkeOamfn45jtEk6wCnhKkBqbqmttxllgmnNGCM1ys4z2koUbOxALO
-   w==;
-X-CSE-ConnectionGUID: bA8C9JfoSVOJ4pOeac9oiw==
-X-CSE-MsgGUID: AuFOVrUuQaCzAYKy5hFy1A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34874600"
+  t=1731060124; x=1762596124;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vNPTOO3/Q878nn/1s8YQUcfCEdeZMqU82Y10Eyz5/Cw=;
+  b=ayTXJQQiIsIKI/ytcl0to2r5LJpqZyI2/9p8ymUft8bBJ2wxqdGz+//g
+   2XdAlj2Fn1n9iwBfOHF4i71PphFxCxvJVSmOdUk8AwZPKzajHOajGV3vB
+   +zONvhWkvCboFM9Y+3uo8c4CP9SgIeIoQzt91VvENlOBjWGbwe9umf8hM
+   l5cSDjc37wPhpxVVwxqORaAcTBTDGNCuaQ87B/E8tkq77/nPsa0zq/5k+
+   DQUqBFEUXI7S8OaIVeLOvqns5e55EWYs1g2Sc1GduTqLmGWhAf9v+Khc6
+   OBDZ0mDQeFF5JII8ulrYdCGB/P4oedvJfsVjwMt9mcQa9Ohx4f6N1KwDJ
+   A==;
+X-CSE-ConnectionGUID: CBUPBbPmSDeakrA65NYCzw==
+X-CSE-MsgGUID: R7+8mtdFS/SC1G9tG/bUCQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="34722202"
 X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="34874600"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 01:45:59 -0800
-X-CSE-ConnectionGUID: QRKrxpKmTdq/iPDGYT3XYw==
-X-CSE-MsgGUID: I2o+kIeySZmfMZPv1zd6vg==
+   d="scan'208";a="34722202"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 02:02:03 -0800
+X-CSE-ConnectionGUID: j7dM2lqaSKmcfpBXCRNMMA==
+X-CSE-MsgGUID: N4REgU5dS/W2IKojCKP0Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
-   d="scan'208";a="90119340"
+   d="scan'208";a="85876821"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2024 01:45:58 -0800
+  by orviesa007.jf.intel.com with ESMTP; 08 Nov 2024 02:01:59 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9LYy-000rHW-0O;
-	Fri, 08 Nov 2024 09:45:56 +0000
-Date: Fri, 8 Nov 2024 17:45:26 +0800
+	id 1t9LoS-000rI0-14;
+	Fri, 08 Nov 2024 10:01:56 +0000
+Date: Fri, 8 Nov 2024 18:01:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rex Nie <rex.nie@jaguarmicro.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] USB: core: remove dead code in do_proc_bulk()
-Message-ID: <Zy3dtuBq-EPJ1Efo@7253daef1eba>
+To: Stas Sergeev <stsp2@yandex.ru>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Stas Sergeev <stsp2@yandex.ru>,
+	Eric Biederman <ebiederm@xmission.com>,
+	Andy Lutomirski <luto@kernel.org>, Aleksa Sarai <cyphar@cyphar.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Jeff Layton <jlayton@kernel.org>,
+	John Johansen <john.johansen@canonical.com>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Casey Schaufler <casey@schaufler-ca.com>,
+	Adrian Ratiu <adrian.ratiu@collabora.com>,
+	Felix Moessbauer <felix.moessbauer@siemens.com>,
+	Jens Axboe <axboe@kernel.dk>, Oleg Nesterov <oleg@redhat.com>,
+	"Serge E. Hallyn" <serge@hallyn.com>, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH 2/2] procfs: implement PROCFS_SET_GROUPS ioctl
+Message-ID: <202411081749.pXnGtt8H-lkp@intel.com>
+References: <20241107215821.1514623-3-stsp2@yandex.ru>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +75,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108094255.2133-1-rex.nie@jaguarmicro.com>
+In-Reply-To: <20241107215821.1514623-3-stsp2@yandex.ru>
 
-Hi,
+Hi Stas,
 
-Thanks for your patch.
+kernel test robot noticed the following build errors:
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on linus/master v6.12-rc6 next-20241107]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+url:    https://github.com/intel-lab-lkp/linux/commits/Stas-Sergeev/procfs-avoid-some-usages-of-seq_file-private-data/20241108-060856
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20241107215821.1514623-3-stsp2%40yandex.ru
+patch subject: [PATCH 2/2] procfs: implement PROCFS_SET_GROUPS ioctl
+config: arc-randconfig-001-20241108 (https://download.01.org/0day-ci/archive/20241108/202411081749.pXnGtt8H-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081749.pXnGtt8H-lkp@intel.com/reproduce)
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] USB: core: remove dead code in do_proc_bulk()
-Link: https://lore.kernel.org/stable/20241108094255.2133-1-rex.nie%40jaguarmicro.com
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081749.pXnGtt8H-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   fs/proc/base.c: In function 'do_proc_setgroups':
+>> fs/proc/base.c:891:15: error: implicit declaration of function 'set_current_groups'; did you mean 'get_current_groups'? [-Werror=implicit-function-declaration]
+     891 |         err = set_current_groups(gi);
+         |               ^~~~~~~~~~~~~~~~~~
+         |               get_current_groups
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
+
+
+vim +891 fs/proc/base.c
+
+   870	
+   871	static int do_proc_setgroups(const struct cred *task_cred,
+   872				     const struct cred *cur_cred,
+   873				     const struct cred *f_cred)
+   874	{
+   875		struct group_info *cgi = get_group_info(cur_cred->group_info);
+   876		struct group_info *gi = get_group_info(task_cred->group_info);
+   877		int err;
+   878	
+   879		/* Make sure groups didn't change since file open. */
+   880		err = -EPERM;
+   881		if (f_cred->group_info != gi)
+   882			goto out_gi;
+   883		/* Don't error if the process is setting the same list again. */
+   884		err = 0;
+   885		if (cgi == gi)
+   886			goto out_gi;
+   887	
+   888		err = -EPERM;
+   889		if (!can_borrow_groups(cur_cred, f_cred))
+   890			goto out_gi;
+ > 891		err = set_current_groups(gi);
+   892	
+   893	out_gi:
+   894		put_group_info(gi);
+   895		put_group_info(cgi);
+   896		return err;
+   897	}
+   898	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
