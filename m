@@ -1,69 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B231AA1ED;
-	Fri,  8 Nov 2024 19:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FAE1AA1C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 20:20:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731092962; cv=none; b=Y2WDLCAX8A67uUx/NKdNCdW5Cd8clIgm4WSwa/lvi8LdhJ4iiuKcIgepgfu67kbR8EnifpQiXaIZXf3t1ib0zsraBWerZS/HvtFp1AF1CmoFK4vEyg7bM6P9uN0B8v1a9w4MpY34FWE+bxoyRQ66QQdkimQNm47+5ksqLyM/HjU=
+	t=1731097223; cv=none; b=VOS6m63izmLz/fb//MKxiQsuNOVK1IGZ5mcAw7Sdm3yu/36a1Drrk84srpDITK5C2cMRmU5sfOhHbnDgXpDDNPcHoCE9HEta6sGwgdVC1OX265fc3xR92Di2NpFesXAHGY6Zq5QIHsUxq9DxvtJ1UV5M3+HEczbaBTcY/2Fw+0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731092962; c=relaxed/simple;
-	bh=R+CGtLg7J7cZFkaK6iEbxTqVB/sl271eFJkHFX8PQlI=;
+	s=arc-20240116; t=1731097223; c=relaxed/simple;
+	bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IusGCqn759Hu1FkFnVgdqIzJYz0hDUaPlH+3E5Ih80JHIAgm1Og+rdWsPJUbdt72lRDa/2lN+XUck+oRvlAckdDFVl5SY/ZaNS27xIK6ST1Z18cDUIrPd5qnczr5CWO+yr+j4pqEDuJjplR8BxXpiKdYZeYmi492uGFlVcCbjpQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KebCbmGh; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=mt/rso5Ex38XXopCxRX/qLy+vCNC5XkV/v7mPkbY9iiq3ldh+k5ALTMvTWVB79xWk3f5usae6TJzagUQOFAvQ6K5dYA8arl4MXyHdHFD0D8D/Q4EV2lnxib2Hfo/B1UOM4QPzNVVWVEaP9jaTqvM4Qjb52I3YHlS0ZZIb0dWiK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YIfSu7OZ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KebCbmGh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YIfSu7OZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731092961; x=1762628961;
+  t=1731097222; x=1762633222;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R+CGtLg7J7cZFkaK6iEbxTqVB/sl271eFJkHFX8PQlI=;
-  b=KebCbmGh19EEBAcHD3JOc6i0JRSGd/9MQXY2t7pITZRqSUFd9h0ei+IG
-   CLPYXI18NAXQfL4VIvxZaNccch7aQR7IIxBYIacwxd3DAHQ2l7GLSB6g0
-   /8c4Ie9SfB7/qLyOjyzFofdZZCPu5mwhxOsBoCfOxr2MJmeeSZl1gz26W
-   BUzBOOhaj6kSJ8u9oFhnQxJEe0/YVF+maFvWfj7gUgETrmQEqXKRk0F/i
-   /maBcl5xSCFsZrgpZt/XgJuj9NVD4N+314ulRA7L4yEPVz2jbTIqgha04
-   ZqQ6nj9ozbhFZWoBLTaBh8d6GOEELYDJwoRWlcl95p1cXIX8AtsDDtQcW
-   w==;
-X-CSE-ConnectionGUID: 6eJx8FfVQ/W4req4YQlxAQ==
-X-CSE-MsgGUID: ie5UH/UsRyGCejOQyGlVQA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="42086778"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="42086778"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 11:09:20 -0800
-X-CSE-ConnectionGUID: XD1n0tMySAq3Ut+3KlDDLQ==
-X-CSE-MsgGUID: YGwNEXImR2OgQ2epJ63MLA==
+  bh=Cex5OFKLdepISNlr/zMsoMKZr4c1wz925xujO/RtmjM=;
+  b=YIfSu7OZlO0S5pIz0+o6DcB5cBXet2ETi1kIEf6ZEaMeHuhHrPG4fZ3u
+   EWicq8pafqNLZZSJCqKuCKKcRVIHQXOwa7mmlkf+yWWkCJWF2q/gij2Hd
+   qP8bzGJ/qEBX+piki0impNfyyp6SHpd3xawE/TgYfOG9q//mnOQ1sUYGn
+   wF3+Jn+qSjyhfVRRqDeZauPPEU71cXKmMjfYQYIy5WjN4RFBIkK3TLNeM
+   uyxd94ayyJO+dQ7UcyTgeVZYw99tIMOY7j7DZaOgma6405KZw38ZHOeAX
+   6Nz7sLq0pa8lzSuXWM/G/wvIzfPVvzBph2iEbfoysXSTlzQRDPO8A67Ac
+   A==;
+X-CSE-ConnectionGUID: Q9Rh2hHYSzKpdH7FBPHxyA==
+X-CSE-MsgGUID: Af+MzqLqTpyes6U/pjCepQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34780334"
+X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
+   d="scan'208";a="34780334"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 12:20:21 -0800
+X-CSE-ConnectionGUID: z9jpa/nIQaS3xVbzK89FJg==
+X-CSE-MsgGUID: RntjX9eYQR62U2yHDkNiXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,138,1728975600"; 
-   d="scan'208";a="90231501"
+   d="scan'208";a="90835236"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Nov 2024 11:09:15 -0800
+  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 12:20:17 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9UM5-000ria-11;
-	Fri, 08 Nov 2024 19:09:13 +0000
-Date: Sat, 9 Nov 2024 03:08:22 +0800
+	id 1t9VSo-000rlS-2Y;
+	Fri, 08 Nov 2024 20:20:14 +0000
+Date: Sat, 9 Nov 2024 04:19:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Romanov <avromanov@salutedevices.com>, neil.armstrong@linaro.org,
-	clabbe@baylibre.com, herbert@gondor.apana.org.au,
-	davem@davemloft.net, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, khilman@baylibre.com, jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com, vadim.fedorenko@linux.dev
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-crypto@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, kernel@salutedevices.com,
-	Alexey Romanov <avromanov@salutedevices.com>
-Subject: Re: [PATCH v10 09/22] crypto: amlogic - Process more than MAXDESCS
- descriptors
-Message-ID: <202411090235.a7vEgZQo-lkp@intel.com>
-References: <20241108102907.1788584-10-avromanov@salutedevices.com>
+To: Yoshihiro Furudera <fj5100bi@fujitsu.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Bjorn Andersson <andersson@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <202411090451.quuiocP9-lkp@intel.com>
+References: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,125 +76,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108102907.1788584-10-avromanov@salutedevices.com>
+In-Reply-To: <20241108054006.2550856-2-fj5100bi@fujitsu.com>
 
-Hi Alexey,
+Hi Yoshihiro,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on next-20241108]
-[cannot apply to herbert-crypto-2.6/master robh/for-next linus/master v6.12-rc6]
+[auto build test WARNING on tip/smp/core]
+[also build test WARNING on linus/master v6.12-rc6]
+[cannot apply to arm64/for-next/core arm-perf/for-next/perf next-20241108]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexey-Romanov/crypto-amlogic-Don-t-hardcode-IRQ-count/20241108-183503
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20241108102907.1788584-10-avromanov%40salutedevices.com
-patch subject: [PATCH v10 09/22] crypto: amlogic - Process more than MAXDESCS descriptors
-config: x86_64-buildonly-randconfig-002-20241109 (https://download.01.org/0day-ci/archive/20241109/202411090235.a7vEgZQo-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090235.a7vEgZQo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yoshihiro-Furudera/perf-Fujitsu-Add-the-Uncore-MAC-PMU-driver/20241108-134245
+base:   tip/smp/core
+patch link:    https://lore.kernel.org/r/20241108054006.2550856-2-fj5100bi%40fujitsu.com
+patch subject: [PATCH 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411090451.quuiocP9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411090235.a7vEgZQo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411090451.quuiocP9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/crypto/amlogic/amlogic-gxl-cipher.c:14:
-   In file included from include/crypto/scatterwalk.h:16:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/crypto/amlogic/amlogic-gxl-cipher.c:235:13: warning: variable 'new_iv_phys' set but not used [-Wunused-but-set-variable]
-     235 |         dma_addr_t new_iv_phys;
-         |                    ^
-   2 warnings generated.
+>> drivers/perf/fujitsu_mac_pmu.c:604:36: warning: 'fujitsu_mac_pmu_acpi_match' defined but not used [-Wunused-const-variable=]
+     604 | static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/new_iv_phys +235 drivers/crypto/amlogic/amlogic-gxl-cipher.c
+vim +/fujitsu_mac_pmu_acpi_match +604 drivers/perf/fujitsu_mac_pmu.c
 
-   220	
-   221	static int meson_kick_hardware(struct cipher_ctx *ctx)
-   222	{
-   223		struct meson_cipher_req_ctx *rctx = skcipher_request_ctx(ctx->areq);
-   224		struct crypto_skcipher *tfm = crypto_skcipher_reqtfm(ctx->areq);
-   225		struct meson_cipher_tfm_ctx *op = crypto_skcipher_ctx(tfm);
-   226		struct skcipher_alg *alg = crypto_skcipher_alg(tfm);
-   227		struct meson_alg_template *algt = container_of(alg,
-   228							       struct meson_alg_template,
-   229							       alg.skcipher.base);
-   230		struct meson_dev *mc = op->mc;
-   231		unsigned int ivsize = crypto_skcipher_ivsize(tfm);
-   232		unsigned int blockmode = algt->blockmode;
-   233		enum dma_data_direction new_iv_dir;
-   234		struct scatterlist *sg_head;
- > 235		dma_addr_t new_iv_phys;
-   236		void *new_iv;
-   237		int err;
-   238	
-   239		if (blockmode == DESC_OPMODE_CBC) {
-   240			struct scatterlist *sg_current;
-   241			unsigned int offset;
-   242	
-   243			if (rctx->op_dir == MESON_ENCRYPT) {
-   244				sg_current = ctx->dst_sg;
-   245				sg_head = ctx->areq->dst;
-   246				offset = ctx->dst_offset;
-   247				new_iv_dir = DMA_FROM_DEVICE;
-   248			} else {
-   249				sg_current = ctx->src_sg;
-   250				sg_head = ctx->areq->src;
-   251				offset = ctx->src_offset;
-   252				new_iv_dir = DMA_TO_DEVICE;
-   253			}
-   254	
-   255			if (ctx->areq->src == ctx->areq->dst)
-   256				new_iv_dir = DMA_BIDIRECTIONAL;
-   257	
-   258			offset -= ivsize;
-   259			new_iv = sg_virt(sg_current) + offset;
-   260			new_iv_phys = sg_dma_address(sg_current) + offset;
-   261		}
-   262	
-   263		if (blockmode == DESC_OPMODE_CBC &&
-   264		    rctx->op_dir == MESON_DECRYPT) {
-   265			dma_sync_sg_for_cpu(mc->dev, sg_head,
-   266					    sg_nents(sg_head), new_iv_dir);
-   267			memcpy(ctx->areq->iv, new_iv, ivsize);
-   268		}
-   269	
-   270		reinit_completion(&mc->chanlist[rctx->flow].complete);
-   271		meson_dma_start(mc, rctx->flow);
-   272		err = wait_for_completion_interruptible_timeout(&mc->chanlist[rctx->flow].complete,
-   273								msecs_to_jiffies(500));
-   274		if (err == 0) {
-   275			dev_err(mc->dev, "DMA timeout for flow %d\n", rctx->flow);
-   276			return -EINVAL;
-   277		} else if (err < 0) {
-   278			dev_err(mc->dev, "Waiting for DMA completion is failed (%d)\n", err);
-   279			return err;
-   280		}
-   281	
-   282		if (blockmode == DESC_OPMODE_CBC &&
-   283		    rctx->op_dir == MESON_ENCRYPT) {
-   284			dma_sync_sg_for_cpu(mc->dev, sg_head,
-   285					    sg_nents(sg_head), new_iv_dir);
-   286			memcpy(ctx->areq->iv, new_iv, ivsize);
-   287		}
-   288	
-   289		ctx->tloffset = 0;
-   290	
-   291		return 0;
-   292	}
-   293	
+   603	
+ > 604	static const struct acpi_device_id fujitsu_mac_pmu_acpi_match[] = {
+   605		{ "FUJI200C", },
+   606		{ }
+   607	};
+   608	MODULE_DEVICE_TABLE(acpi, fujitsu_mac_pmu_acpi_match);
+   609	
 
 -- 
 0-DAY CI Kernel Test Service
