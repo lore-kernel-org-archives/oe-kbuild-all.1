@@ -1,174 +1,123 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393981F706C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 10:30:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99FCF1E5713
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 10:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731061807; cv=none; b=LYv6nmrzPCRCrSqz/M7t7aZVEUqpfkV+/R+R6VjR4ODcfNCWo3SUgp8ZJrDNhK3G03mRYvJJ6Hcvkwne0S1BzhI8bnhh6uytz2IFdF6S1oRaBS9pVhdd5/povqdHGM2GZ3B0XiXtHNDTAV24iVflFGh9xOLgLde4VYiA5PbgLys=
+	t=1731061982; cv=none; b=FJOZ4w+fa88zSOwsAqaXYsA/JlixGu8IBUSww/DtIr02kycuDQDESEtCzzLue9XLeRt4e9Q7rfDayhxlGNr6yYUUbehN65D1520kBx+M1Ai3IsONbEix3Yu6UCKhhwlx7SmGh/nAuwgpkTRS5GpXuCSK/QRHRkTLAT+MA8k3I1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731061807; c=relaxed/simple;
-	bh=0KEauaZdc7iNy8LfrhzAhwMnl4u2pDYZpJto3PxhWNk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZW3XvNmJvowtAs1JmlCt/ATwpNgOtCV8D0+NQZne73XgRh77FdSmn3q8/mjn1WRuRha5s7LTtwjEHdq6fhs95YXx3Po6TOFWDVGDJrpfqGGbjtWpp4Sk5At3nsafBETs1sqkMtYDuzZa+bHvCHqhLvdmmsJk8SflC7kf5hdTIKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4XlFZ20sT5z9sSR;
-	Fri,  8 Nov 2024 11:30:02 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id v0IgesT6yvwB; Fri,  8 Nov 2024 11:30:02 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4XlFZ14LVSz9rvV;
-	Fri,  8 Nov 2024 11:30:01 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 5B07E8B781;
-	Fri,  8 Nov 2024 11:30:01 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id ff_n68pslpCE; Fri,  8 Nov 2024 11:30:01 +0100 (CET)
-Received: from [192.168.232.253] (unknown [192.168.232.253])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id D7FE48B77A;
-	Fri,  8 Nov 2024 11:30:00 +0100 (CET)
-Message-ID: <2010cc7a-7f49-4c5b-b684-8e08ff8d17ed@csgroup.eu>
-Date: Fri, 8 Nov 2024 11:30:00 +0100
+	s=arc-20240116; t=1731061982; c=relaxed/simple;
+	bh=kWzMq+mQIBVzpnhWxF/FGM+XcSzgelMD7JdsBun0KCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DgQcJuqjyukFrSWDoqOiBjvJXoveeioPlWsuzDfFWcFPQ6m9HkFjUicoPXgNmSfvuhhAtKIg7y/ruHxgPNGxJAQ3ONaKJ5ClkSqQjs7BOra0pEoEI5KfiXrVsx9dcE0qL6EsTGzCV3wx2qBTIEss+uRmuL7Uhw8a7ZSvWRZ/yl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DiqyqE0d; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DiqyqE0d"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731061980; x=1762597980;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kWzMq+mQIBVzpnhWxF/FGM+XcSzgelMD7JdsBun0KCE=;
+  b=DiqyqE0d11rshoWaQ09Hw9JCkBs9evA5pzxEOCMh771n3Qn6yU6oFojb
+   A+9JFzMeehtzn1O+zEpZDsvCdvOEEvm8pLejO0NPp+Oy0fGfrJcDBn020
+   DwivMX3feyYBI6qaoZ/88rvra4MuDnv020n0Iz2wmyTWBixQ2eaSCrqM7
+   AnWAUBaJIhtwTxVyVf1HZY0QqbYlV+5Y+zAgeBv1pXhaAGxUDsXsfz9hd
+   unLoYFcazh0RtvasuCIWjPwFkKW+B1d2zkxbT9D7XOmWxZKf+lsgUfCOC
+   4vvFXwjQj2RyW4Esc+nRRSQ47L7000PDCgpQtOiqgZrnw60uDqU830hEJ
+   g==;
+X-CSE-ConnectionGUID: 30wQeKbuQvm1iVsZM1QcFQ==
+X-CSE-MsgGUID: XZxnwKCpRGCfSgYCqAiVYA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53501345"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="53501345"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 02:33:00 -0800
+X-CSE-ConnectionGUID: kbBJjTLmRp6fzz+Qel9YXw==
+X-CSE-MsgGUID: XDLIJ6gJRwabFtdb/xAMPw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="90142568"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 08 Nov 2024 02:32:59 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9MIT-000rKC-0Y;
+	Fri, 08 Nov 2024 10:32:57 +0000
+Date: Fri, 8 Nov 2024 18:32:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roopni Devanathan <quic_rdevanat@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 1/4] wifi: ath12k: Support Downlink Pager Stats
+Message-ID: <202411081807.5xCRctRm-lkp@intel.com>
+References: <20241106044548.3530128-2-quic_rdevanat@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/net/ethernet/freescale/ucc_geth.c:2454:64: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-To: Linus Walleij <linus.walleij@linaro.org>,
- kernel test robot <lkp@intel.com>,
- "linuxppc-dev@lists.ozlabs.org list" <linuxppc-dev@lists.ozlabs.org>,
- netdev <netdev@vger.kernel.org>
-Cc: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>
-References: <202410301531.7Vr9UkCn-lkp@intel.com>
- <CACRpkdbW5kheaWPzKip9ucEwK2uv+Cmf5SwT1necfa3Ynct6Ag@mail.gmail.com>
-Content-Language: fr-FR
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-In-Reply-To: <CACRpkdbW5kheaWPzKip9ucEwK2uv+Cmf5SwT1necfa3Ynct6Ag@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241106044548.3530128-2-quic_rdevanat@quicinc.com>
+
+Hi Roopni,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d63fbff74ab1af1573c1dca20cfe1e876f8ffa62]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Roopni-Devanathan/wifi-ath12k-Support-Downlink-Pager-Stats/20241106-124653
+base:   d63fbff74ab1af1573c1dca20cfe1e876f8ffa62
+patch link:    https://lore.kernel.org/r/20241106044548.3530128-2-quic_rdevanat%40quicinc.com
+patch subject: [PATCH v4 1/4] wifi: ath12k: Support Downlink Pager Stats
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241108/202411081807.5xCRctRm-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081807.5xCRctRm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081807.5xCRctRm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c: In function 'ath12k_htt_print_dlpager_entry':
+>> drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2549:13: warning: variable 'ts_hi' set but not used [-Wunused-but-set-variable]
+    2549 |         u32 ts_hi;
+         |             ^~~~~
+>> drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c:2548:13: warning: variable 'ts_lo' set but not used [-Wunused-but-set-variable]
+    2548 |         u32 ts_lo;
+         |             ^~~~~
 
 
+vim +/ts_hi +2549 drivers/net/wireless/ath/ath12k/debugfs_htt_stats.c
 
-Le 08/11/2024 à 09:18, Linus Walleij a écrit :
-> On Wed, Oct 30, 2024 at 8:05 AM kernel test robot <lkp@intel.com> wrote:
-> 
->> tree:   https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C5a1ff6cef1f642fba00a08dcffce0903%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638666507603442752%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=2dgpku3%2BPjovwZxpedYowAAB%2BR%2FeyxOc0Ys3kE0KK6E%3D&reserved=0 master
->> head:   c1e939a21eb111a6d6067b38e8e04b8809b64c4e
->> commit: b28d1ccf921a4333be14017d82066386d419e638 powerpc/io: Expect immutable pointer in virt_to_phys() prototype
-> 
-> Ugh Stanislav do you have ideas around this one?
-> 
->>     drivers/net/ethernet/freescale/ucc_geth.c:244:21: sparse:     got restricted __be32 [noderef] __iomem *
->>     drivers/net/ethernet/freescale/ucc_geth.c:405:22: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got restricted __be16 [noderef] [usertype] __iomem * @@
-> 
-> They all look the same, it's from this:
-> 
-> static void set_mac_addr(__be16 __iomem *reg, u8 *mac)
-> {
->      out_be16(&reg[0], ((u16)mac[5] << 8) | mac[4]);
->      out_be16(&reg[1], ((u16)mac[3] << 8) | mac[2]);
->      out_be16(&reg[2], ((u16)mac[1] << 8) | mac[0]);
-> }
-> 
-> Is it simply that we need a paranthesis extra around the thing casted
-> to (u16) else it becomes u32?
+  2544	
+  2545	static void ath12k_htt_print_dlpager_entry(const struct ath12k_htt_pgs_info *pg_info,
+  2546						   int idx, char *str_buf)
+  2547	{
+> 2548		u32 ts_lo;
+> 2549		u32 ts_hi;
+  2550		u64 page_timestamp;
+  2551		u16 index = 0;
+  2552	
+  2553		ts_lo = le32_to_cpu(pg_info->ts_lsb);
+  2554		ts_hi = le32_to_cpu(pg_info->ts_msb);
+  2555		page_timestamp = ath12k_le32hilo_to_u64(pg_info->ts_msb, pg_info->ts_lsb);
+  2556	
+  2557		index += snprintf(&str_buf[index], ATH12K_HTT_MAX_STRING_LEN - index,
+  2558				  "Index - %u ; Page Number - %u ; ",
+  2559				  idx, le32_to_cpu(pg_info->page_num));
+  2560		index += snprintf(&str_buf[index], ATH12K_HTT_MAX_STRING_LEN - index,
+  2561				  "Num of pages - %u ; Timestamp - %lluus\n",
+  2562				  le32_to_cpu(pg_info->num_pgs), page_timestamp);
+  2563	}
+  2564	
 
-Not at all. The one you point here are:
-
-drivers/net/ethernet/freescale/ucc_geth.c:405:22: warning: incorrect 
-type in argument 1 (different base types)
-drivers/net/ethernet/freescale/ucc_geth.c:405:22:    expected unsigned 
-short volatile [noderef] [usertype] __iomem *addr
-drivers/net/ethernet/freescale/ucc_geth.c:405:22:    got restricted 
-__be16 [noderef] [usertype] __iomem *
-drivers/net/ethernet/freescale/ucc_geth.c:406:22: warning: incorrect 
-type in argument 1 (different base types)
-drivers/net/ethernet/freescale/ucc_geth.c:406:22:    expected unsigned 
-short volatile [noderef] [usertype] __iomem *addr
-drivers/net/ethernet/freescale/ucc_geth.c:406:22:    got restricted 
-__be16 [noderef] [usertype] __iomem *
-drivers/net/ethernet/freescale/ucc_geth.c:407:22: warning: incorrect 
-type in argument 1 (different base types)
-drivers/net/ethernet/freescale/ucc_geth.c:407:22:    expected unsigned 
-short volatile [noderef] [usertype] __iomem *addr
-drivers/net/ethernet/freescale/ucc_geth.c:407:22:    got restricted 
-__be16 [noderef] [usertype] __iomem *
-drivers/net/ethernet/freescale/ucc_geth.c:449:23: warning: incorrect 
-type in argument 1 (different base types)
-drivers/net/ethernet/freescale/ucc_geth.c:449:23:    expected restricted 
-__be16 [noderef] [usertype] __iomem *reg
-drivers/net/ethernet/freescale/ucc_geth.c:449:23:    got unsigned short 
-[noderef] __iomem *
-
-The problem is the __be16 in the function prototype.
-
-	set_mac_addr(&p_82xx_addr_filt->taddr.h, p_enet_addr);
-
-p_82xx_addr_filt->taddr.h is a u16
-and out_be16() expects a u16*
-
-So the following fixes the above warnings:
-
-diff --git a/drivers/net/ethernet/freescale/ucc_geth.c 
-b/drivers/net/ethernet/freescale/ucc_geth.c
-index ab421243a419..bbfc289dd73c 100644
---- a/drivers/net/ethernet/freescale/ucc_geth.c
-+++ b/drivers/net/ethernet/freescale/ucc_geth.c
-@@ -400,7 +400,7 @@ static void put_enet_addr_container(struct 
-enet_addr_container *enet_addr_cont)
-  	kfree(enet_addr_cont);
-  }
-
--static void set_mac_addr(__be16 __iomem *reg, u8 *mac)
-+static void set_mac_addr(u16 __iomem *reg, u8 *mac)
-  {
-  	out_be16(&reg[0], ((u16)mac[5] << 8) | mac[4]);
-  	out_be16(&reg[1], ((u16)mac[3] << 8) | mac[2]);
-
-
-
-For the other ones, most of them are because out_beXX() expects uXX* not 
-__beXX *.
-
-It looks like the warnings go away if you replace out_be32() by 
-iowrite32be(), which has been possible since commit 894fa235eb4c 
-("powerpc: inline iomap accessors") (out_beXX/in_beXX should anyway not 
-be used outside arch/powerpc/):
-
-diff --git a/drivers/net/ethernet/freescale/ucc_geth.c 
-b/drivers/net/ethernet/freescale/ucc_geth.c
-index ab421243a419..625b58b3efc8 100644
---- a/drivers/net/ethernet/freescale/ucc_geth.c
-+++ b/drivers/net/ethernet/freescale/ucc_geth.c
-@@ -241,12 +241,12 @@ static struct sk_buff *get_new_skb(struct 
-ucc_geth_private *ugeth,
-  		    (((unsigned)skb->data) & (UCC_GETH_RX_DATA_BUF_ALIGNMENT -
-  					      1)));
-
--	out_be32(&((struct qe_bd __iomem *)bd)->buf,
-+	iowrite32be(
-  		      dma_map_single(ugeth->dev,
-  				     skb->data,
-  				     ugeth->ug_info->uf_info.max_rx_buf_length +
-  				     UCC_GETH_RX_DATA_BUF_ALIGNMENT,
--				     DMA_FROM_DEVICE));
-+				     DMA_FROM_DEVICE), &((struct qe_bd __iomem *)bd)->buf);
-
-  	out_be32((u32 __iomem *)bd,
-  			(R_E | R_I | (in_be32((u32 __iomem*)bd) & R_W)));
-
-
-Christophe
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
