@@ -1,94 +1,187 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F4371E22FA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 11:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13961BD9D1
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 11:57:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731066092; cv=none; b=eMzz7u7ApK/ZOlAgiJKkSqhYSaW9s1Wa+sr+5z+YLIqaj5cq4u9wHmsRaTTYCrDo8ZBpeeRVBxa0rmBe2vGDgDOTqh2654eLTrMotS05X3YYyofakKE97/ZvsseKZ2SM8vekkQxnrEpoKgyIfmSdvMr9Tvnytf01qf5ntxdj/78=
+	t=1731067027; cv=none; b=I97nkXo+DRd80OD9gR++HaZzjduSgttojtVXVGANmJHzFwgZcJrcT2dDLVep3lKolA48OG5W7ScWp0Dq4cAPOfSpOY5SohAhwIJzwxLnS0MG+F9CBPU5iafEATQqfGboU7Y8h0l8odTmmXfG4GFp5cMWmjDKElQ+krLTeFeIq5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731066092; c=relaxed/simple;
-	bh=uY/iMbf3Vk3sXbHtDhy0LKeHEHnsP2OiGaIvmYFRXgM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UWmkGTSP4XE4Ls3ecqfnBo0gvtghcndo8F5FCcIGVkGXyqHpGBtAyR+Ib0X4rDQ9jTVn3JDK47BKcNEnyBbb2oG058rq/cghNKqKFgLkHgPOsVntbXXsFTOXkbtdlo4yHWc+x5tMDdnU2mDUQ8RIuJB9SaFDy3Ddhr1649qQKf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dxu4vtpj; arc=none smtp.client-ip=209.85.208.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731067027; c=relaxed/simple;
+	bh=EveuqbByIvqeTP/6ObYua5o0CjnfvPp/1xNR6BVpaRo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K/WlAWxeDUMKMST78BX52odrAbeQvSujlHXFb7xvidDjHQJMwdYriv7jzaNoP3JKXC2C0Qvm0NibnW7FZfTWc2OSNfMh4wnfWlA2kG0gZX0lhnZaZ/5VO3WIF4ahY1K7WPV9vXNSTQ+aoHss72U2HgPIpvTFwCFiTFhjvTTyn9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l18ylfOQ; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dxu4vtpj"
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb3110b964so17730031fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 08 Nov 2024 03:41:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731066088; x=1731670888; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CXSvbTMRrcj6fCxF0ufHCuWCloLz1hIjGxoKK8AG/+o=;
-        b=dxu4vtpjhmA4FCQ4ve/1Y53/UsWxfiC3GtAq9Rb1kRDeYXqFDBkuj9bqK5KgibRvXZ
-         6GTe3FdicNGRo1Iy2PU1losqW8DHAzNsRtQBhyx7dab39rPTKQrp5/gwWRSAijyx0aWx
-         hCjOL3orXHWwaT7zg35jeRhGGlubYFERTkMFz2x220ZfYtgGvewEWGkaEXFH2HTGmtog
-         WactoeiEzHKEBAQhpBBnobyjKjtPKwWZ+HaqUWpCkN0aDrlAUO0TS759pSa4i5rEyAPh
-         iJVPqyZHASX1zZCP6auwr7fK7VWxtP3+kk57M1nNBbftf1CZW1wR8Iqj3/1/uR1QWs9c
-         i+jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731066088; x=1731670888;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CXSvbTMRrcj6fCxF0ufHCuWCloLz1hIjGxoKK8AG/+o=;
-        b=WFYCZZiayTSpp7Yu83ib756CbkCwdXJZi41Fe1htEPZSf3y4o36yJk1j13hPySOvDw
-         0po2xeX2cHJ6IXR0bDuoZdr2iRt8LJThyU/TFzP1LU4CfUAEFm1k29yR/gMWXvVw0kOX
-         2GH6bDg15n+ODYwLFVWn2bsPccNLMJBUJv4OtLj3U+/8mysZ3mW9OB7+Drsk1YZcz6V2
-         Yym+1/kS7qg6Jkn0XJy/QvPtuwEq6d99Aswkg41lO8VFtMjN43sMo5uo4Ijp5NBK8abO
-         qRffX00pgpc+l6xK3vdvWw+9uzz/uToqio4spGPXSemnSUtQOrBtAQd1gtCUMgzCebb/
-         eAXQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVrzjOfCpBbyURJ+PGTuM6oL2Radd+1jvq6D+4Kxg9czy2WygsrEBwhuaPGnEEWOtV2M3O+sDwdE8b/6snq@lists.linux.dev
-X-Gm-Message-State: AOJu0YzSTfdUnlMxG9UwdHLFZhgvQFyJdGB8oMdNnHs7Ab+PlJwSoD4O
-	3I2j2Q1SbjCcJUKOKLNWCDFDIa1c5BhcxPzVPrbmc4Dh3hVbT/Dm7GUb7kVLTHFYiEY/VkXBsOG
-	wgKNSdxGnHP014+M+guGAXvzlAzPWdFEVXABa1Q==
-X-Google-Smtp-Source: AGHT+IG6dsbVHDy06kTkj5zAs70A2/MyWRJqE/mKAm1qvOYLwYQg1hL1cr+88CsDKtRlIRo2uCMtTHRVmKF8kaDiYQk=
-X-Received: by 2002:a05:651c:1515:b0:2ef:243b:6dce with SMTP id
- 38308e7fff4ca-2ff20185abfmr11928261fa.10.1731066088370; Fri, 08 Nov 2024
- 03:41:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l18ylfOQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731067026; x=1762603026;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EveuqbByIvqeTP/6ObYua5o0CjnfvPp/1xNR6BVpaRo=;
+  b=l18ylfOQULh5dugGVyRHQcmxcJo1qU6h4V6tvLSTy4eK0EkZ3xHAIUpm
+   U7+ap1jsuNrEOiA42bQ1Xj/z+6MKOjoeAmcL9WmOZ+CyIqnLhPa6LPnA9
+   cmpcMlDPfrDkJdrppbiFZWHtdU5VA/nhX+qTAxeumBa5hiisnscqRcvHk
+   JxTzVOnKSiENVYYTlQrVdTZG0R7oW71fdv7sXWIllkdmc9U3QyQ/01Wx/
+   Q7tCYiKR9ovBfn4C19jwHNTG8kxmIXsqQITWne6fGLOgIBFRMdO+fcl+5
+   DjXptCdJuwd7B6jWwr++4wgf8FXtQvAwcmm87PvaVFaTcoTPvNAmxkNb5
+   w==;
+X-CSE-ConnectionGUID: 0cL50qDQQSyyhznSfXYKAw==
+X-CSE-MsgGUID: +PMBivAqSquny/ZWsOaIMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30802184"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30802184"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 03:57:05 -0800
+X-CSE-ConnectionGUID: /EEMz8mmTO++jIhQBgkzKQ==
+X-CSE-MsgGUID: 7rX4ZepGT3G09oCq+RqpOw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="85756919"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 08 Nov 2024 03:57:02 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9Nbn-000rNy-0H;
+	Fri, 08 Nov 2024 11:56:59 +0000
+Date: Fri, 8 Nov 2024 19:56:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jocelyn Falempe <jfalempe@redhat.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	John Ogness <john.ogness@linutronix.de>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	"Guilherme G . Piccoli" <gpiccoli@igalia.com>,
+	bluescreen_avenger@verizon.net,
+	Caleb Connolly <caleb.connolly@linaro.org>,
+	Petr Mladek <pmladek@suse.com>, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
+Subject: Re: [PATCH v7 2/7] drm/client: Always select DRM_CLIENT_LIB
+Message-ID: <202411081923.vkZSFxL2-lkp@intel.com>
+References: <20241108082025.1004653-3-jfalempe@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202410301531.7Vr9UkCn-lkp@intel.com> <CACRpkdbW5kheaWPzKip9ucEwK2uv+Cmf5SwT1necfa3Ynct6Ag@mail.gmail.com>
- <2010cc7a-7f49-4c5b-b684-8e08ff8d17ed@csgroup.eu>
-In-Reply-To: <2010cc7a-7f49-4c5b-b684-8e08ff8d17ed@csgroup.eu>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Fri, 8 Nov 2024 12:41:17 +0100
-Message-ID: <CACRpkdYQ6Pfn_Y7FJh7MV2Mb8etDXFCJEUrgq=c3JDxkSPOndA@mail.gmail.com>
-Subject: Re: drivers/net/ethernet/freescale/ucc_geth.c:2454:64: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: kernel test robot <lkp@intel.com>, 
-	"linuxppc-dev@lists.ozlabs.org list" <linuxppc-dev@lists.ozlabs.org>, netdev <netdev@vger.kernel.org>, 
-	Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, Michael Ellerman <mpe@ellerman.id.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241108082025.1004653-3-jfalempe@redhat.com>
 
-On Fri, Nov 8, 2024 at 11:30=E2=80=AFAM Christophe Leroy
-<christophe.leroy@csgroup.eu> wrote:
+Hi Jocelyn,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on baf4afc5831438b35de4b0e951b9cd58435a6d99]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-panic-Move-drawing-functions-to-drm_draw/20241108-162222
+base:   baf4afc5831438b35de4b0e951b9cd58435a6d99
+patch link:    https://lore.kernel.org/r/20241108082025.1004653-3-jfalempe%40redhat.com
+patch subject: [PATCH v7 2/7] drm/client: Always select DRM_CLIENT_LIB
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241108/202411081923.vkZSFxL2-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081923.vkZSFxL2-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081923.vkZSFxL2-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/gpu/drm/drm_client_setup.c:25:6: error: redefinition of 'drm_client_setup'
+      25 | void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
+         |      ^~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_client_setup.c:3:
+   include/drm/drm_client_setup.h:16:20: note: previous definition of 'drm_client_setup' with type 'void(struct drm_device *, const struct drm_format_info *)'
+      16 | static inline void drm_client_setup(struct drm_device *dev,
+         |                    ^~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_client_setup.c:43:6: error: redefinition of 'drm_client_setup_with_fourcc'
+      43 | void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_client_setup.c:3:
+   include/drm/drm_client_setup.h:19:20: note: previous definition of 'drm_client_setup_with_fourcc' with type 'void(struct drm_device *, u32)' {aka 'void(struct drm_device *, unsigned int)'}
+      19 | static inline void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/drm_client_setup.c:60:6: error: redefinition of 'drm_client_setup_with_color_mode'
+      60 | void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/drm_client_setup.c:3:
+   include/drm/drm_client_setup.h:21:20: note: previous definition of 'drm_client_setup_with_color_mode' with type 'void(struct drm_device *, unsigned int)'
+      21 | static inline void drm_client_setup_with_color_mode(struct drm_device *dev,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-> The problem is the __be16 in the function prototype.
->
->         set_mac_addr(&p_82xx_addr_filt->taddr.h, p_enet_addr);
->
-> p_82xx_addr_filt->taddr.h is a u16
-> and out_be16() expects a u16*
->
-> So the following fixes the above warnings:
+vim +/drm_client_setup +25 drivers/gpu/drm/drm_client_setup.c
 
-Ah you are right of course, thanks! :)
+d07fdf9225922d Thomas Zimmermann 2024-09-24   8  
+d07fdf9225922d Thomas Zimmermann 2024-09-24   9  /**
+d07fdf9225922d Thomas Zimmermann 2024-09-24  10   * drm_client_setup() - Setup in-kernel DRM clients
+d07fdf9225922d Thomas Zimmermann 2024-09-24  11   * @dev: DRM device
+d07fdf9225922d Thomas Zimmermann 2024-09-24  12   * @format: Preferred pixel format for the device. Use NULL, unless
+d07fdf9225922d Thomas Zimmermann 2024-09-24  13   *          there is clearly a driver-preferred format.
+d07fdf9225922d Thomas Zimmermann 2024-09-24  14   *
+d07fdf9225922d Thomas Zimmermann 2024-09-24  15   * This function sets up the in-kernel DRM clients. Restore, hotplug
+d07fdf9225922d Thomas Zimmermann 2024-09-24  16   * events and teardown are all taken care of.
+d07fdf9225922d Thomas Zimmermann 2024-09-24  17   *
+d07fdf9225922d Thomas Zimmermann 2024-09-24  18   * Drivers should call drm_client_setup() after registering the new
+d07fdf9225922d Thomas Zimmermann 2024-09-24  19   * DRM device with drm_dev_register(). This function is safe to call
+d07fdf9225922d Thomas Zimmermann 2024-09-24  20   * even when there are no connectors present. Setup will be retried
+d07fdf9225922d Thomas Zimmermann 2024-09-24  21   * on the next hotplug event.
+d07fdf9225922d Thomas Zimmermann 2024-09-24  22   *
+d07fdf9225922d Thomas Zimmermann 2024-09-24  23   * The clients are destroyed by drm_dev_unregister().
+d07fdf9225922d Thomas Zimmermann 2024-09-24  24   */
+d07fdf9225922d Thomas Zimmermann 2024-09-24 @25  void drm_client_setup(struct drm_device *dev, const struct drm_format_info *format)
+d07fdf9225922d Thomas Zimmermann 2024-09-24  26  {
+d07fdf9225922d Thomas Zimmermann 2024-09-24  27  	int ret;
+d07fdf9225922d Thomas Zimmermann 2024-09-24  28  
+d07fdf9225922d Thomas Zimmermann 2024-09-24  29  	ret = drm_fbdev_client_setup(dev, format);
+d07fdf9225922d Thomas Zimmermann 2024-09-24  30  	if (ret)
+d07fdf9225922d Thomas Zimmermann 2024-09-24  31  		drm_warn(dev, "Failed to set up DRM client; error %d\n", ret);
+d07fdf9225922d Thomas Zimmermann 2024-09-24  32  }
+d07fdf9225922d Thomas Zimmermann 2024-09-24  33  EXPORT_SYMBOL(drm_client_setup);
+d07fdf9225922d Thomas Zimmermann 2024-09-24  34  
+d07fdf9225922d Thomas Zimmermann 2024-09-24  35  /**
+d07fdf9225922d Thomas Zimmermann 2024-09-24  36   * drm_client_setup_with_fourcc() - Setup in-kernel DRM clients for color mode
+d07fdf9225922d Thomas Zimmermann 2024-09-24  37   * @dev: DRM device
+d07fdf9225922d Thomas Zimmermann 2024-09-24  38   * @fourcc: Preferred pixel format as 4CC code for the device
+d07fdf9225922d Thomas Zimmermann 2024-09-24  39   *
+d07fdf9225922d Thomas Zimmermann 2024-09-24  40   * This function sets up the in-kernel DRM clients. It is equivalent
+d07fdf9225922d Thomas Zimmermann 2024-09-24  41   * to drm_client_setup(), but expects a 4CC code as second argument.
+d07fdf9225922d Thomas Zimmermann 2024-09-24  42   */
+d07fdf9225922d Thomas Zimmermann 2024-09-24 @43  void drm_client_setup_with_fourcc(struct drm_device *dev, u32 fourcc)
+d07fdf9225922d Thomas Zimmermann 2024-09-24  44  {
+d07fdf9225922d Thomas Zimmermann 2024-09-24  45  	drm_client_setup(dev, drm_format_info(fourcc));
+d07fdf9225922d Thomas Zimmermann 2024-09-24  46  }
+d07fdf9225922d Thomas Zimmermann 2024-09-24  47  EXPORT_SYMBOL(drm_client_setup_with_fourcc);
+d07fdf9225922d Thomas Zimmermann 2024-09-24  48  
+d07fdf9225922d Thomas Zimmermann 2024-09-24  49  /**
+d07fdf9225922d Thomas Zimmermann 2024-09-24  50   * drm_client_setup_with_color_mode() - Setup in-kernel DRM clients for color mode
+d07fdf9225922d Thomas Zimmermann 2024-09-24  51   * @dev: DRM device
+d07fdf9225922d Thomas Zimmermann 2024-09-24  52   * @color_mode: Preferred color mode for the device
+d07fdf9225922d Thomas Zimmermann 2024-09-24  53   *
+d07fdf9225922d Thomas Zimmermann 2024-09-24  54   * This function sets up the in-kernel DRM clients. It is equivalent
+d07fdf9225922d Thomas Zimmermann 2024-09-24  55   * to drm_client_setup(), but expects a color mode as second argument.
+d07fdf9225922d Thomas Zimmermann 2024-09-24  56   *
+d07fdf9225922d Thomas Zimmermann 2024-09-24  57   * Do not use this function in new drivers. Prefer drm_client_setup() with a
+d07fdf9225922d Thomas Zimmermann 2024-09-24  58   * format of NULL.
+d07fdf9225922d Thomas Zimmermann 2024-09-24  59   */
+d07fdf9225922d Thomas Zimmermann 2024-09-24 @60  void drm_client_setup_with_color_mode(struct drm_device *dev, unsigned int color_mode)
+d07fdf9225922d Thomas Zimmermann 2024-09-24  61  {
+d07fdf9225922d Thomas Zimmermann 2024-09-24  62  	u32 fourcc = drm_driver_color_mode_format(dev, color_mode);
+d07fdf9225922d Thomas Zimmermann 2024-09-24  63  
+d07fdf9225922d Thomas Zimmermann 2024-09-24  64  	drm_client_setup_with_fourcc(dev, fourcc);
+d07fdf9225922d Thomas Zimmermann 2024-09-24  65  }
+d07fdf9225922d Thomas Zimmermann 2024-09-24  66  EXPORT_SYMBOL(drm_client_setup_with_color_mode);
+dadd28d4142f9a Thomas Zimmermann 2024-10-14  67  
 
-Let's wait to the big rework you mentioned to land and I will try
-to remember to revisit this in the v6.13 kernel cycle.
-
-Yours,
-Linus Walleij
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
