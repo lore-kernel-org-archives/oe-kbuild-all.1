@@ -1,108 +1,144 @@
-Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FC411E25EA
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 11:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.17.235.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1DDE3FB9C
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 11:26:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731064653; cv=none; b=SWkeg52yz6EmAtjQwv8FsLeMZ9JkHMRBc86GF5Hfs6QBqW/CwnP0rhI87/Mj/KDP0HQbXtQEK1JGOwIXihD5wmQ+Guumyjy6DJwXcW6cWSHrIZJQL6eC8Ovz+zuxyu1ayN+hJ/+m0eC5KaCP/SPMevcFNe8Owz/kefi27/M6Ykk=
+	t=1731065170; cv=none; b=fn1uIvNvabz27F3lJDc/b2O/fFN/9ulClhydUgXtmzaHDmA8QIYyc0mHPGYwgGLBU9LJIXKs/wbg81pTJsaxBf48U1nlOyP943Im5+5pJ19GnzvpIyBv3JiRkw3+Mdwsx4ewr+vdJuAx7xxuInJUwYLuOLiu/7Un5UCfunZygio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731064653; c=relaxed/simple;
-	bh=IE3H64dNQq6c0bCyu50h6oFeZV+uAfBveuuEvTA6ZoI=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=UKIy2umeNkguhxzY+HH+/C/4+uuI2mydRdODZEmHqkumZ8M96UzKYE/VUT/J/0pZ0UCyvyXDPFYGeL1Sw8zuFJCziCetG45FvzU0Qt9Uea2v/U8UvhQOktzh7fLteSQog3s9mZ7LPdJLgaNg1nOC12amcvUAUllvmzIdX431c54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu; spf=pass smtp.mailfrom=csgroup.eu; arc=none smtp.client-ip=93.17.235.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=csgroup.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=csgroup.eu
-Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
-	by localhost (Postfix) with ESMTP id 4XlGcn3jX0z9sSL;
-	Fri,  8 Nov 2024 12:17:29 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from pegase2.c-s.fr ([172.26.127.65])
-	by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id jedhCAK4NTvb; Fri,  8 Nov 2024 12:17:29 +0100 (CET)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-	by pegase2.c-s.fr (Postfix) with ESMTP id 4XlGcn2v6Rz9rvV;
-	Fri,  8 Nov 2024 12:17:29 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id 4F1248B780;
-	Fri,  8 Nov 2024 12:17:29 +0100 (CET)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-	by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-	with ESMTP id s51MEc62SJBS; Fri,  8 Nov 2024 12:17:29 +0100 (CET)
-Received: from [192.168.232.253] (PO25383.IDSI0.si.c-s.fr [192.168.232.253])
-	by messagerie.si.c-s.fr (Postfix) with ESMTP id DF8D88B77A;
-	Fri,  8 Nov 2024 12:17:28 +0100 (CET)
-Message-ID: <98b8084f-8f66-4e87-b182-dda6bf0c3d57@csgroup.eu>
-Date: Fri, 8 Nov 2024 12:17:28 +0100
+	s=arc-20240116; t=1731065170; c=relaxed/simple;
+	bh=0+ge+/Rcb9ZiQmSIKTsHdoYQ1uzdC64gDpNAib8hkwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bAyxLfOGTsDSgx8LzFz/BNEpzTyc0PMNnzqYd89PMR/3lVnOoq+Ro6EpVbFroTfAZANSxCScpbvm4hVhDWH9xnEw1c+qwyvyxT9p/O/FGePvE7/FqVQByuCr9dM2VhDnv5879eoCSkUQsKCOnyhfEmh8YN8DPp5dRSoux/LI9n0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2cThlHc; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2cThlHc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731065169; x=1762601169;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0+ge+/Rcb9ZiQmSIKTsHdoYQ1uzdC64gDpNAib8hkwQ=;
+  b=f2cThlHcoJHB+JzffHfZ6s14AQXdOj4dOhvkE1E/H+xk7BGMsJTudpKU
+   6gc1k0j6mtURV1kGoDkd3+7O+ALg+GU94AvR2v9QzKUJeAMpc5J7Q6bSe
+   H6PMZamDsEFlfvbAU4LVnrbiWhgmRJsP7BSXQVCXqUDm9Edbej/hxs2Q6
+   VNiEnScXn1wNs+aX4zHRMKonMcbKxbuva6lJGPzfMUXyTDadZFQ9EbmLO
+   5uG1PqxBAF7nDCG4jRR4cvXpSjsoYFwOJzKMNiO7/2ua5QXsTcHiUgfN0
+   2C76SYLTSAom2u11n1TRpdHNkdL8NCiw8SmhpSti8QB24Set4D1h94dJj
+   w==;
+X-CSE-ConnectionGUID: JJPKTMn1TQS2p+20LZILtw==
+X-CSE-MsgGUID: v36j4w25SlGX9rBhtCq4Nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30799749"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30799749"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 03:26:08 -0800
+X-CSE-ConnectionGUID: BoVfgHG/Sqi/BuIE1Z8Fmw==
+X-CSE-MsgGUID: FZWxUu/5SAy/9TGBziW+lw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,137,1728975600"; 
+   d="scan'208";a="90652907"
+Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 03:26:00 -0800
+Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1t9N7m-000rMS-1T;
+	Fri, 08 Nov 2024 11:25:58 +0000
+Date: Fri, 8 Nov 2024 19:25:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Baolin Wang <baolin.wang@linux.alibaba.com>, akpm@linux-foundation.org,
+	hughd@google.com
+Cc: oe-kbuild-all@lists.linux.dev, willy@infradead.org, david@redhat.com,
+	wangkefeng.wang@huawei.com, 21cnbao@gmail.com, ryan.roberts@arm.com,
+	ioworker0@gmail.com, da.gomez@samsung.com,
+	baolin.wang@linux.alibaba.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] mm: shmem: add large folio support for tmpfs
+Message-ID: <202411081926.LQ3wEK7l-lkp@intel.com>
+References: <e2f4e483f75e54be0654fafb2147822faacac16d.1731038280.git.baolin.wang@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: drivers/net/ethernet/freescale/ucc_geth.c:2454:64: sparse:
- sparse: incorrect type in argument 1 (different address spaces)
-From: Christophe Leroy <christophe.leroy@csgroup.eu>
-To: Linus Walleij <linus.walleij@linaro.org>,
- kernel test robot <lkp@intel.com>,
- "linuxppc-dev@lists.ozlabs.org list" <linuxppc-dev@lists.ozlabs.org>,
- netdev <netdev@vger.kernel.org>
-Cc: Stanislav Kinsburskii <stanislav.kinsburskii@gmail.com>,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- Michael Ellerman <mpe@ellerman.id.au>
-References: <202410301531.7Vr9UkCn-lkp@intel.com>
- <CACRpkdbW5kheaWPzKip9ucEwK2uv+Cmf5SwT1necfa3Ynct6Ag@mail.gmail.com>
- <2010cc7a-7f49-4c5b-b684-8e08ff8d17ed@csgroup.eu>
-Content-Language: fr-FR
-In-Reply-To: <2010cc7a-7f49-4c5b-b684-8e08ff8d17ed@csgroup.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e2f4e483f75e54be0654fafb2147822faacac16d.1731038280.git.baolin.wang@linux.alibaba.com>
+
+Hi Baolin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20241108]
+[cannot apply to linus/master v6.12-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Baolin-Wang/mm-factor-out-the-order-calculation-into-a-new-helper/20241108-121545
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/e2f4e483f75e54be0654fafb2147822faacac16d.1731038280.git.baolin.wang%40linux.alibaba.com
+patch subject: [PATCH 3/4] mm: shmem: add large folio support for tmpfs
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241108/202411081926.LQ3wEK7l-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411081926.LQ3wEK7l-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411081926.LQ3wEK7l-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/shmem.c:567: warning: Function parameter or struct member 'write_end' not described in 'shmem_mapping_size_orders'
+>> mm/shmem.c:567: warning: Excess function parameter 'size' description in 'shmem_mapping_size_orders'
 
 
+vim +567 mm/shmem.c
 
-Le 08/11/2024 à 11:30, Christophe Leroy a écrit :
-> 
-> 
-> Le 08/11/2024 à 09:18, Linus Walleij a écrit :
->> On Wed, Oct 30, 2024 at 8:05 AM kernel test robot <lkp@intel.com> wrote:
->>
->>> tree:   
->>> https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Ftorvalds%2Flinux.git&data=05%7C02%7Cchristophe.leroy2%40cs-soprasteria.com%7C5a1ff6cef1f642fba00a08dcffce0903%7C8b87af7d86474dc78df45f69a2011bb5%7C0%7C0%7C638666507603442752%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=2dgpku3%2BPjovwZxpedYowAAB%2BR%2FeyxOc0Ys3kE0KK6E%3D&reserved=0 master
->>> head:   c1e939a21eb111a6d6067b38e8e04b8809b64c4e
->>> commit: b28d1ccf921a4333be14017d82066386d419e638 powerpc/io: Expect 
->>> immutable pointer in virt_to_phys() prototype
->>
->> Ugh Stanislav do you have ideas around this one?
->>
->>>     drivers/net/ethernet/freescale/ucc_geth.c:244:21: sparse:     got 
->>> restricted __be32 [noderef] __iomem *
->>>     drivers/net/ethernet/freescale/ucc_geth.c:405:22: sparse: sparse: 
->>> incorrect type in argument 1 (different base types) @@     expected 
->>> unsigned short volatile [noderef] [usertype] __iomem *addr @@     got 
->>> restricted __be16 [noderef] [usertype] __iomem * @@
->>
->> They all look the same, it's from this:
->>
->> static void set_mac_addr(__be16 __iomem *reg, u8 *mac)
->> {
->>      out_be16(&reg[0], ((u16)mac[5] << 8) | mac[4]);
->>      out_be16(&reg[1], ((u16)mac[3] << 8) | mac[2]);
->>      out_be16(&reg[2], ((u16)mac[1] << 8) | mac[0]);
->> }
->>
->> Is it simply that we need a paranthesis extra around the thing casted
->> to (u16) else it becomes u32?
-> 
-> Not at all. The one you point here are:
-> 
+   551	
+   552	/**
+   553	 * shmem_mapping_size_orders - Get allowable folio orders for the given file size.
+   554	 * @mapping: Target address_space.
+   555	 * @index: The page index.
+   556	 * @size: The suggested size of the folio to create.
+   557	 *
+   558	 * This returns a high order for folios (when supported) based on the file size
+   559	 * which the mapping currently allows at the given index. The index is relevant
+   560	 * due to alignment considerations the mapping might have. The returned order
+   561	 * may be less than the size passed.
+   562	 *
+   563	 * Return: The orders.
+   564	 */
+   565	static inline unsigned int
+   566	shmem_mapping_size_orders(struct address_space *mapping, pgoff_t index, loff_t write_end)
+ > 567	{
+   568		unsigned int order;
+   569		size_t size;
+   570	
+   571		if (!mapping_large_folio_support(mapping) || !write_end)
+   572			return 0;
+   573	
+   574		/* Calculate the write size based on the write_end */
+   575		size = write_end - (index << PAGE_SHIFT);
+   576		order = filemap_get_order(size);
+   577		if (!order)
+   578			return 0;
+   579	
+   580		/* If we're not aligned, allocate a smaller folio */
+   581		if (index & ((1UL << order) - 1))
+   582			order = __ffs(index);
+   583	
+   584		order = min_t(size_t, order, MAX_PAGECACHE_ORDER);
+   585		return order > 0 ? BIT(order + 1) - 1 : 0;
+   586	}
+   587	
 
-...
-
-Note however that there is work in progress on this driver that will 
-impact hundreds of lines, so maybe wait until that is done ? See 
-https://patchwork.kernel.org/project/netdevbpf/cover/20241107170255.1058124-1-maxime.chevallier@bootlin.com/
-
-Christophe
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
