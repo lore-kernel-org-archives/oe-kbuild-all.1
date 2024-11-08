@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F1C14012
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 01:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C941BD9D9
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 01:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731030223; cv=none; b=qyCOw1uxzmkWN2LhkI5RBgodU7HtIqN1nyYbC77jkZgjbEcns1XI9RcPMdORlLhI3/Vuj2Hh2NqD5CTncG8A+Qnj6tMmstKtrgcrTLJ/MkgLtJ8mHQmI6gvSkz1KB1t71Is+P2mYuMqBcKCkmGB8LpPL4vh6ig+dxpNsQJgjb5Y=
+	t=1731030947; cv=none; b=ERpLqhbEt7PAju+ERASWEE0XLG5B2EAkWPgxYV8szHvnGl1Do2I03RLOf7F7nKK5kdqlXOGw1s4iGj/ahWTKcObIhzpKjwueON+PmNu4uTxNkY+/OMXpuBft5cuj/nRXMBk9BnXqEg7Ly5x9YwelrTuWIThWQ3RMhFUrSsrmM7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731030223; c=relaxed/simple;
-	bh=KNlrjQcUN3qc2KAHf08/BfjlLow3oJ+TaeoVcmO+wuI=;
+	s=arc-20240116; t=1731030947; c=relaxed/simple;
+	bh=ltx9LvhO7jDkXantAxEy0W4DABjxEuwiQL0xJLNs8Zw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X1wbknsjDfhzUFllxYpiZyQkuJT89JKEU8H1AeUT9IVxDtnPK8hrSX4T9Bxzt3MHQYYfGDfAFQJ4ahb5kEtmu7Dx8zXqfJ53bvcD8kkgAQpaRNo/skbHWlsjFrvLALy2PvugeZcaXsaNn7PbnBUxkSjqQRT2D92daegVByNaqkw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k70cgERd; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=SADjyJERvjW/MiwzDqdqwb16Chiw+jPLrtSenkEZmwNOEycFpX1qrxYa3WDLXvOj8Cwv06UIodGVqJL9wIw19FDGhWd1gp5GR0qFkFVYIXo1uetibWf0+iaR7o2GOb4wUdrAT3WTe/UWfWECrEZSFzgJzOJWuulD7HenR4evIxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBxLzL8a; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k70cgERd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBxLzL8a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731030223; x=1762566223;
+  t=1731030946; x=1762566946;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KNlrjQcUN3qc2KAHf08/BfjlLow3oJ+TaeoVcmO+wuI=;
-  b=k70cgERdd7gvEEdPVf7DKx1lZzxjM/fVqHQV9Dl5fDRShTlYc9VIUcZb
-   nj3PWZcPTuLiCiWSjza+CO4lPoAJjwS3YKE7xqx4sOJ6oQ9cYsqu3Zd35
-   OC8RZLW3IeBO0PDzPxsqGtB0aJgaqJ/zJo0jZeD1WR92XmEEnfCA+fZd1
-   3d+smMA30hf/DY/IdU/E+XMo79HmiaV43KBYI5vY9WPiqB4+r9ga1mehC
-   e2Fko1SHbC3ZJcP77qjv185LLJ5Qd3EMwG/BL0vUN13C2028tRyb7TJ/5
-   YcpqUnt3A6zwbTeFxw2NrYmbL3l0c1cESAyjFtbupsZGC9qurGZPTWxw5
-   w==;
-X-CSE-ConnectionGUID: RPWm/D+gSWSpjs1YYmjdww==
-X-CSE-MsgGUID: y0uLLR4FRSCm9i/PrQxfUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="42007146"
+  bh=ltx9LvhO7jDkXantAxEy0W4DABjxEuwiQL0xJLNs8Zw=;
+  b=IBxLzL8aO7jwF1JuyrWSVC3WX00fHS5n2Gd/WxjV++yT0KFlNup+2fqZ
+   DwW7bRkAEXeeD/pHaN+I152Cv+O9A5+KRU5YAHy1BP72j088wAn2aSzqw
+   A0gRscBg3AOCIoaajoplgfp/BfrxC3y6z36r62dzdLcmnFcoMUUF3LUSW
+   QCJvwyR1Lel3VbC+JF2ZUM/cslXrV7634/5F6TB1P8QbWYwFfgmBvEkot
+   j3zBJH4evZCDTHiYraez4DPtH756T8uFLrll7hDst8003dImodxxuYKZ0
+   pcsPrgbzLGKrPvjrEJTVaomDZn3eRjR7RogRo5Xls5rPDpgfNEPVGbgLL
+   Q==;
+X-CSE-ConnectionGUID: kSeEHBuUS/2ggzX4a57ucQ==
+X-CSE-MsgGUID: 832MlumFT72CtzP2jUJJUw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31072775"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="42007146"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 17:43:43 -0800
-X-CSE-ConnectionGUID: sEwgVBN/SS2tjxDM9PmTLQ==
-X-CSE-MsgGUID: JBIyxKNvR2uB+rtTqshuoQ==
+   d="scan'208";a="31072775"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 17:55:45 -0800
+X-CSE-ConnectionGUID: Za+JHk8pRzeOIdKdoS+u/w==
+X-CSE-MsgGUID: m353ayLMRJeOm1dE0PYKcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="85469152"
+   d="scan'208";a="89865670"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 07 Nov 2024 17:43:41 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 07 Nov 2024 17:55:41 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9E2E-000qsg-2K;
-	Fri, 08 Nov 2024 01:43:38 +0000
-Date: Fri, 8 Nov 2024 09:43:33 +0800
+	id 1t9EDr-000qtc-0w;
+	Fri, 08 Nov 2024 01:55:39 +0000
+Date: Fri, 8 Nov 2024 09:54:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eduard Zingerman <eddyz87@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC bpf-next 03/11] bpf: shared BPF/native kfuncs
-Message-ID: <202411080908.XHv8PmQG-lkp@intel.com>
-References: <20241107175040.1659341-4-eddyz87@gmail.com>
+To: Vadim Fedorenko <vadfed@meta.com>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Mykola Lysenko <mykolal@fb.com>, Jakub Kicinski <kuba@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, bpf@vger.kernel.org,
+	Martin KaFai Lau <martin.lau@linux.dev>
+Subject: Re: [PATCH bpf-next v4 2/4] bpf: add bpf_cpu_cycles_to_ns helper
+Message-ID: <202411080952.bCRm4YHx-lkp@intel.com>
+References: <20241107211206.2814069-2-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +69,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241107175040.1659341-4-eddyz87@gmail.com>
+In-Reply-To: <20241107211206.2814069-2-vadfed@meta.com>
 
-Hi Eduard,
+Hi Vadim,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eduard-Zingerman/bpf-use-branch-predictions-in-opt_hard_wire_dead_code_branches/20241108-015243
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-add-bpf_cpu_cycles_to_ns-helper/20241108-051950
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241107175040.1659341-4-eddyz87%40gmail.com
-patch subject: [RFC bpf-next 03/11] bpf: shared BPF/native kfuncs
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241108/202411080908.XHv8PmQG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080908.XHv8PmQG-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241107211206.2814069-2-vadfed%40meta.com
+patch subject: [PATCH bpf-next v4 2/4] bpf: add bpf_cpu_cycles_to_ns helper
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241108/202411080952.bCRm4YHx-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080952.bCRm4YHx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411080908.XHv8PmQG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411080952.bCRm4YHx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/bpf/verifier.c: In function 'inlinable_kfuncs_init':
->> kernel/bpf/verifier.c:20910:46: warning: taking address of expression of type 'void'
-   20910 |         return bpf_register_inlinable_kfuncs(&inlinable_kfuncs_data,
-         |                                              ^
-   kernel/bpf/verifier.c:20911:44: warning: taking address of expression of type 'void'
-   20911 |                                            &inlinable_kfuncs_data_end - &inlinable_kfuncs_data);
-         |                                            ^
-   kernel/bpf/verifier.c:20911:73: warning: taking address of expression of type 'void'
-   20911 |                                            &inlinable_kfuncs_data_end - &inlinable_kfuncs_data);
-         |                                                                         ^
-   /tmp/cccS126M.s: Assembler messages:
->> /tmp/cccS126M.s:12: Warning: ignoring changed section attributes for .data
-   /tmp/cccS126M.s:15: Error: file not found: kernel/bpf/inlinable_kfuncs.bpf.linked.o
+   kernel/bpf/helpers.c:3030:18: warning: extra tokens at end of #ifdef directive
+    3030 | #ifdef IS_ENABLED(CONFIG_GENERIC_GETTIMEOFDAY)
+         |                  ^
+   kernel/bpf/helpers.c: In function 'bpf_get_cpu_cycles':
+   kernel/bpf/helpers.c:3033:16: error: implicit declaration of function '__arch_get_hw_counter' [-Wimplicit-function-declaration]
+    3033 |         return __arch_get_hw_counter(1, NULL);
+         |                ^~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/helpers.c: In function 'bpf_cpu_cycles_to_ns':
+   kernel/bpf/helpers.c:3038:38: error: implicit declaration of function '__arch_get_k_vdso_data' [-Wimplicit-function-declaration]
+    3038 |         const struct vdso_data *vd = __arch_get_k_vdso_data();
+         |                                      ^~~~~~~~~~~~~~~~~~~~~~
+>> kernel/bpf/helpers.c:3038:38: error: initialization of 'const struct vdso_data *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   kernel/bpf/helpers.c:3040:42: error: invalid use of undefined type 'const struct vdso_data'
+    3040 |         return mul_u64_u32_shr(cycles, vd->mult, vd->shift);
+         |                                          ^~
+   kernel/bpf/helpers.c:3040:52: error: invalid use of undefined type 'const struct vdso_data'
+    3040 |         return mul_u64_u32_shr(cycles, vd->mult, vd->shift);
+         |                                                    ^~
+   kernel/bpf/helpers.c: At top level:
+   kernel/bpf/helpers.c:3135:18: warning: extra tokens at end of #ifdef directive
+    3135 | #ifdef IS_ENABLED(CONFIG_GENERIC_GETTIMEOFDAY)
+         |                  ^
+   kernel/bpf/helpers.c: In function 'bpf_cpu_cycles_to_ns':
+   kernel/bpf/helpers.c:3041:1: warning: control reaches end of non-void function [-Wreturn-type]
+    3041 | }
+         | ^
 
 
-vim +/void +20910 kernel/bpf/verifier.c
+vim +3038 kernel/bpf/helpers.c
 
- 20907	
- 20908	static int __init inlinable_kfuncs_init(void)
- 20909	{
- 20910		return bpf_register_inlinable_kfuncs(&inlinable_kfuncs_data,
- 20911						   &inlinable_kfuncs_data_end - &inlinable_kfuncs_data);
- 20912	}
- 20913	
+  3035	
+  3036	__bpf_kfunc u64 bpf_cpu_cycles_to_ns(u64 cycles)
+  3037	{
+> 3038		const struct vdso_data *vd = __arch_get_k_vdso_data();
+  3039	
+  3040		return mul_u64_u32_shr(cycles, vd->mult, vd->shift);
+  3041	}
+  3042	#endif
+  3043	__bpf_kfunc_end_defs();
+  3044	
 
 -- 
 0-DAY CI Kernel Test Service
