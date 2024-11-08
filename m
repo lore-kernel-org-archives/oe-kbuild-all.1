@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB01A218D9C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  7 Nov 2024 23:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5793918D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  8 Nov 2024 00:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731022121; cv=none; b=fQFmW8l8bJl2LPTOuzgwhOdZj+d9jR9sSQrsl+3tuFMZhdIDjwEF2Vp23aQnur/lH0yjs6RQzUZfW2IIqm5oO9H2aL/pOPfMCSmT7uaHSLbTsM7z80eBuLYcjqI6RBacRqCBs8+fOiXOLrzK6EnZFLfIQC+P8nfy1nP6LwXHx70=
+	t=1731024642; cv=none; b=V+hkba2iOS8vOGCkVZpJ5iTAkS96W0vEW+thmuvqojwCSZokhztsCivWuc/b7A/N3wjRz2J5J7fe0vMBXx9jngljmYdgIBuaMbUNZ2fRUk397vIMen8LN7YME4AU3b9/CgyXaxXkeK5+UQbNu8MdUGF62RsMB77u6aj8XYsptPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731022121; c=relaxed/simple;
-	bh=SEbnMhgXq6Z+MNd4VAmz3f5tZMGJCluPIgXxr/HUNgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LVRxKPV8Nb65KTxOFs8LRQlNvvGuuSCfAxA425r+UTcSDLrA+f2bGhE3evXCOU93NtYBtL3IOkK3ZhDk5sCmUOOm3JUpT60jh4UZzDqvvUfQIw+rMpURLlJ7ilIOr34yC2TqwOr3f+82LcHa0Ae/l+K25L54I664CKR0ot6nfzw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M5j9O7/U; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1731024642; c=relaxed/simple;
+	bh=oz0Kbp4MCkiGsbN1VoVn3BR02sk9JjCagSuI4ET2614=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J7+zttFuuZy+L1quDPAwcxDphED4te8lX0878ugIErKVXgzJSgwkw7471zHmMEygTlIy6va2Oxa6FsILyS5Dz++H522VW1tGMzMgoMHtZs4ytXvrEHcCdNbjY/fRFJa2lXlPXVR9CYY6WxqgQfQwwPoi/1+3nYq4TRVD2WM58GA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mHfl09Ei; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M5j9O7/U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mHfl09Ei"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731022119; x=1762558119;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SEbnMhgXq6Z+MNd4VAmz3f5tZMGJCluPIgXxr/HUNgM=;
-  b=M5j9O7/UyLhy2qdUD1ZhYWLX4wVfszf2IrpzZkwfllGhxBp24znmb/G8
-   AQjNg7rfqE0zfv7DJTukp/2P1Fk1HfUxeQZtOlqcqs1mZLRaglOuoj7v7
-   8nmyMgNEycXfr2WllbR0bhVil2Br+d5tNn4g6J7EotaGnmen/++0pJpuy
-   SFrgazMsWJB4JuMaUqxfyn2crYm6T0scyyrrKqrMm98SKxQkoSJDjW7we
-   7vxl/IxyavALHOQCGkcyoo+Zte9G5xo7wAem0hZXG4ezOqodRKEYQGKLf
-   DbF0sSrMXTR2aVKirsc/I45lQ1gw7AGpvxSKqdK4KaeMkKCPk7j+FbeiK
-   g==;
-X-CSE-ConnectionGUID: RwMxPGHATK6MkwdnL8siJw==
-X-CSE-MsgGUID: ipBuudS2RGGHLoUyr97DhA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30667480"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="30667480"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 15:28:38 -0800
-X-CSE-ConnectionGUID: 4o/RT8nZSUqk3Sclk7Hk+w==
-X-CSE-MsgGUID: QyLJfyBeRY2pH6qsKSV86g==
+  t=1731024640; x=1762560640;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oz0Kbp4MCkiGsbN1VoVn3BR02sk9JjCagSuI4ET2614=;
+  b=mHfl09EiaBQ0cm7CF9Mq3wbiW4ZkkQS8+kScCZZpOZ68icWP40lh2TGW
+   8T3vHyvxwUFQByaUzrx237iCk1yQYlvyZAqG/vs+PBU4J3Jtl1KoOmOu3
+   Jo34jX9Yb5fvlTd53IZ8EZDj7DfQxce/4zz9NDWfMggOug0abTIqim+S1
+   1WTx9iaaxd9DNMmFzkXQf2IbGAL4/nzSCxzG5MOUfD8y9MoktgU9z3dFc
+   bgmn/GxkcCz+xRATmFC2AEBfmnG3sMEnZx1zp1fghupyOXCEHOTD/6V8c
+   T+kuRNwcbnhLO7EHmxnhg/1DCYKduLd1RDh95k5SjHycQYke90U1heURw
+   Q==;
+X-CSE-ConnectionGUID: UInEsRu0TlStpQWVAuPdnw==
+X-CSE-MsgGUID: 2zVQZc4UT9mi52JSZ+8iJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11249"; a="41495780"
+X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
+   d="scan'208";a="41495780"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2024 16:10:40 -0800
+X-CSE-ConnectionGUID: WhoXpdTaRcKQsRRqLX2csg==
+X-CSE-MsgGUID: NwmjCmU8TwSHw5tFwINjqQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,136,1728975600"; 
-   d="scan'208";a="85476852"
+   d="scan'208";a="122799433"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 07 Nov 2024 15:28:36 -0800
+  by orviesa001.jf.intel.com with ESMTP; 07 Nov 2024 16:10:38 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9BvW-000qmY-1j;
-	Thu, 07 Nov 2024 23:28:34 +0000
-Date: Fri, 8 Nov 2024 07:28:01 +0800
+	id 1t9CaC-000qoG-0Z;
+	Fri, 08 Nov 2024 00:10:36 +0000
+Date: Fri, 8 Nov 2024 08:09:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Gregory CLEMENT <gregory.clement@bootlin.com>
-Subject: [linux-next:master 9088/10190]
- arch/arm64/boot/dts/marvell/armada-7040-db.dtb: sata@540000: Unevaluated
- properties are not allowed ('iommus' was unexpected)
-Message-ID: <202411080749.0I7buKua-lkp@intel.com>
+To: Florian Westphal <fw@strlen.de>, netfilter-devel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Florian Westphal <fw@strlen.de>,
+	Nadia Pinaeva <n.m.pinaeva@gmail.com>,
+	Pablo Neira Ayuso <pablo@netfilter.org>
+Subject: Re: [PATCH nf-next] netfilter: conntrack: add conntrack event
+ timestamp
+Message-ID: <202411080731.bDRRTgah-lkp@intel.com>
+References: <20241107194117.32116-1-fw@strlen.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,152 +65,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241107194117.32116-1-fw@strlen.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   74741a050b79d31d8d2eeee12c77736596d0a6b2
-commit: facbe7092f8a92dd991ef8c1162136f7767ee3c4 [9088/10190] arm64: dts: marvell: Drop undocumented SATA phy names
-config: arm64-randconfig-051-20241106 (https://download.01.org/0day-ci/archive/20241108/202411080749.0I7buKua-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080749.0I7buKua-lkp@intel.com/reproduce)
+Hi Florian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on netfilter-nf/main]
+[also build test WARNING on linus/master v6.12-rc6 next-20241107]
+[cannot apply to nf-next/master horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Florian-Westphal/netfilter-conntrack-add-conntrack-event-timestamp/20241108-034444
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20241107194117.32116-1-fw%40strlen.de
+patch subject: [PATCH nf-next] netfilter: conntrack: add conntrack event timestamp
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241108/202411080731.bDRRTgah-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241108/202411080731.bDRRTgah-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411080749.0I7buKua-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411080731.bDRRTgah-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
->> arch/arm64/boot/dts/marvell/armada-7040-db.dtb: sata@540000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: pca9555@21: 'pinctrl-0' is a dependency of 'pinctrl-names'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/pinctrl-consumer.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-db.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
---
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-7k-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
->> arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: sata@540000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
-   arch/arm64/boot/dts/marvell/armada-7040-mochabin.dtb: crypto@800000: 'dma-coherent' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
---
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cps-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: sata@540000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/spi@700680/flash@0: failed to match any schema with compatible: ['st,w25q32']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: /cp1/config-space@f4000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
-   arch/arm64/boot/dts/marvell/armada-8040-clearfog-gt-8k.dtb: crypto@800000: 'dma-coherent' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: sata@540000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin.dtb: mmc@780000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
---
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'dr_mode', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: sata-port@0: 'anyOf' conditional failed, one must be fixed:
-   	'phys' is a required property
-   	'target-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: sata@540000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
-   arch/arm64/boot/dts/marvell/armada-8040-mcbin-singleshot.dtb: mmc@780000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
---
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: gpio@140: Unevaluated properties are not allowed ('gpio-ranges' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/gpio/gpio-mvebu.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/system-controller@440000/pinctrl: failed to match any schema with compatible: ['marvell,armada-8k-cpm-pinctrl']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: system-controller@400000: compatible: ['syscon', 'simple-mfd'] is too short
-   	from schema $id: http://devicetree.org/schemas/mfd/syscon-common.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/system-controller@400000/thermal-sensor@70: failed to match any schema with compatible: ['marvell,armada-cp110-thermal']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@500000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: usb@510000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-xhci.yaml#
->> arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: sata@540000: Unevaluated properties are not allowed ('iommus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/ata/ahci-platform.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/spi@700600: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/spi@700680: failed to match any schema with compatible: ['marvell,armada-380-spi']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: trng@760000: compatible:0: 'marvell,armada-8k-rng' is not one of ['ti,omap2-rng', 'ti,omap4-rng', 'inside-secure,safexcel-eip76']
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: trng@760000: compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76'] is too long
-   	from schema $id: http://devicetree.org/schemas/rng/omap_rng.yaml#
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: /cp0/config-space@f2000000/trng@760000: failed to match any schema with compatible: ['marvell,armada-8k-rng', 'inside-secure,safexcel-eip76']
-   arch/arm64/boot/dts/marvell/armada-8040-puzzle-m801.dtb: mmc@780000: Unevaluated properties are not allowed ('dma-coherent', 'iommus' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/marvell,xenon-sdhci.yaml#
+All warnings (new ones prefixed by >>):
+
+>> net/netfilter/nf_conntrack_netlink.c:386:1: warning: 'ctnetlink_dump_event_timestamp' defined but not used [-Wunused-function]
+     386 | ctnetlink_dump_event_timestamp(struct sk_buff *skb, const struct nf_conn *ct)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ctnetlink_dump_event_timestamp +386 net/netfilter/nf_conntrack_netlink.c
+
+   384	
+   385	static int
+ > 386	ctnetlink_dump_event_timestamp(struct sk_buff *skb, const struct nf_conn *ct)
+   387	{
+   388	#ifdef CONFIG_NF_CONNTRACK_TIMESTAMP
+   389		const struct nf_conntrack_ecache *e = nf_ct_ecache_find(ct);
+   390	
+   391		if (e) {
+   392			u64 ts = local64_read(&e->timestamp);
+   393	
+   394			if (ts)
+   395				return nla_put_be64(skb, CTA_TIMESTAMP_EVENT,
+   396						    cpu_to_be64(ts), CTA_TIMESTAMP_PAD);
+   397		}
+   398	#endif
+   399		return 0;
+   400	}
+   401	
 
 -- 
 0-DAY CI Kernel Test Service
