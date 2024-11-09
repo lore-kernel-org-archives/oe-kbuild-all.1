@@ -1,75 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CA519E7F9
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 20:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541D613E043;
+	Sat,  9 Nov 2024 20:31:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731183604; cv=none; b=rElUmIhXUS5xN3mHRTS2XpEIiDi4ZSf0PpYCT1QoKKUjiPsq6Jon/sNv3hiEpaC+aC7AMLy5t9yKw57RQBaGrRR3JG/+AB+MuFX6Npgc/IQ1cJhZaYwndVle3CLEuCIGCIfv3qNLmQF7JpT8mBqEpMgIEH7Pq+ZzHthQs293ve0=
+	t=1731184268; cv=none; b=pTqlMBX4f+k3CCUA3my6e6YdLWpJq/ubZNYBe2Dg8am6tnq6b1KogWgieiToOKnYh/F3r6ZZ9gWBt1UC3CdegllXSffseQUpw/tnM7+kg25049c4yhU3ww9RwFliMTlrvVFHp1+xIIelrisGhXeKdM3DYrMV0IhpcvS7Lp1sJV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731183604; c=relaxed/simple;
-	bh=k1SNTfKh5aZYqQJx6ZACI0/uVQVUJ/Vb3beFxFxNBRs=;
+	s=arc-20240116; t=1731184268; c=relaxed/simple;
+	bh=lwc+6sp3mcJ5Ad0yQLyDMLqBIcNpYLMMzahip6ZIWmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Prm/Zy/jF+J7T9A61EavfiXhrAQfnE2p0W+ehZtpcOZ1AVw8u1dKxzDN+rvxSJWomNQtiuXpV+xfE/B7CNNewUVzZGanWgv2ZFKtkj44XlAkazX03z1AioPalR2BlNrfWnSLmzViMJ32fbP1ExBJKeMkTM/OFgSiJmUXk47FqGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h9iM346J; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mi0JP+xcWak6OX3CBozMfkoV0fTOI6tQuBDxdDGYnNxXecnOUhFDFgO/7ceq/gbAQS+/z4XgBahuyFJ35HkWfagDjd4OfEf1kGSWC/DGkJFTqWCT9iomcf+5llJHL0F8rvozj8maWyCFxjiIYiaVNrD3NcjL5yblD5IAxI0t5O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9oYKpxD; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h9iM346J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9oYKpxD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731183603; x=1762719603;
+  t=1731184264; x=1762720264;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k1SNTfKh5aZYqQJx6ZACI0/uVQVUJ/Vb3beFxFxNBRs=;
-  b=h9iM346Jh07psTvt723Ehfxo8bGbaRDhvkIIs1w+lgmiLb1/Qo70QZWC
-   r4TCiUOHldMl1srcWaw0OnYgrY7zo+OvHHQzcEYfc5CmJJFQq9GJSblHX
-   81AIDg99E8Hm3C5JR7qNx02Wax8KOrypr73sdECS/ZRB3Jy0fwX/4MFNd
-   NR1ZLgKoCRvp268dapOxJm2qYjlNOBIGRcioP4IEK20otz9CmVNgTLHNV
-   begCu6+Q8um0CXfzFdHbVF5GQK6GXSbMcQmuBlQuqX6czvTlpF/NPuUTL
-   4TQclUbx6/p+E+CedluAU4aZ7C7jDrbojgxh+tUt8c/Fxj9PjcV5flACV
+  bh=lwc+6sp3mcJ5Ad0yQLyDMLqBIcNpYLMMzahip6ZIWmI=;
+  b=m9oYKpxDl36q0mQ2H5UPuGv9IX/5g5hizmK7EulooXW1oMFEqO5Ymc4b
+   t7FSXPY/NCMtNVvlx3jYDMhaLepsVifPbYnFgGRDQKnqy2i4jr/kC6baE
+   FIxgajU+Gui6T/dVadPEu8v6RRQA5ExvJ/F/r9e0Jl2rCovTDmWdCm/fi
+   uZVPe22RrinOjWpNBeZq6C09iQx3N+A9Sj32HDJkJqeCqkrCxo00HR6Pc
+   M92ibTbKNTvFKJJotMKiQDFnP+q2f+81qaEwJbknf9wRHu4KFBzvIXdiC
+   Mc++WGLfKzma04lWMqs0F5BCJ2s+n0uQ2umx4hTgW/Mky3VhixnhCHXY7
    Q==;
-X-CSE-ConnectionGUID: mhTAUEo2SWWwCnSpL3R9RA==
-X-CSE-MsgGUID: ndzMzbpLS1GFDaohS+Dqow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="33901667"
+X-CSE-ConnectionGUID: FATNOYMZRPm+WhmQ4Ehvlg==
+X-CSE-MsgGUID: fC400d2bQrWq4696f+oskQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="31146957"
 X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="33901667"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 12:20:02 -0800
-X-CSE-ConnectionGUID: EaNgekS5RXOF8qipqvVGCg==
-X-CSE-MsgGUID: 8ujJZnVnS0eRwRiV/lCqpQ==
+   d="scan'208";a="31146957"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 12:31:03 -0800
+X-CSE-ConnectionGUID: SqYXoFcpRpS+1UQ6kzFulw==
+X-CSE-MsgGUID: gbPkTUaOTr+b6WNW2HVVlg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="86090487"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="91027501"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Nov 2024 12:19:58 -0800
+  by orviesa003.jf.intel.com with ESMTP; 09 Nov 2024 12:30:58 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9rw4-000sbe-0B;
-	Sat, 09 Nov 2024 20:19:56 +0000
-Date: Sun, 10 Nov 2024 04:19:43 +0800
+	id 1t9s6i-000sby-0c;
+	Sat, 09 Nov 2024 20:30:56 +0000
+Date: Sun, 10 Nov 2024 04:29:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Romain Gantois <romain.gantois@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Romain Gantois <romain.gantois@bootlin.com>
-Subject: Re: [PATCH 9/9] misc: add FPC202 dual port controller driver
-Message-ID: <202411100412.QeOt1w0W-lkp@intel.com>
-References: <20241108-fpc202-v1-9-fe42c698bc92@bootlin.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 3/7] drm/vc4: use drm_hdmi_connector_mode_valid()
+Message-ID: <202411100456.0JcsAx2b-lkp@intel.com>
+References: <20241109-hdmi-mode-valid-v3-3-5348c2368076@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,38 +79,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241108-fpc202-v1-9-fe42c698bc92@bootlin.com>
+In-Reply-To: <20241109-hdmi-mode-valid-v3-3-5348c2368076@linaro.org>
 
-Hi Romain,
+Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
+[auto build test WARNING on 929beafbe7acce3267c06115e13e03ff6e50548a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-misc-Describe-TI-FPC202-dual-port-controller/20241108-234053
-base:   9852d85ec9d492ebef56dc5f229416c925758edc
-patch link:    https://lore.kernel.org/r/20241108-fpc202-v1-9-fe42c698bc92%40bootlin.com
-patch subject: [PATCH 9/9] misc: add FPC202 dual port controller driver
-config: openrisc-randconfig-r123-20241109 (https://download.01.org/0day-ci/archive/20241110/202411100412.QeOt1w0W-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241110/202411100412.QeOt1w0W-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-display-hdmi-add-generic-mode_valid-helper/20241109-203557
+base:   929beafbe7acce3267c06115e13e03ff6e50548a
+patch link:    https://lore.kernel.org/r/20241109-hdmi-mode-valid-v3-3-5348c2368076%40linaro.org
+patch subject: [PATCH v3 3/7] drm/vc4: use drm_hdmi_connector_mode_valid()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411100456.0JcsAx2b-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100456.0JcsAx2b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411100412.QeOt1w0W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411100456.0JcsAx2b-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/misc/ti_fpc202.c:270:20: sparse: sparse: symbol 'fpc202_atr_ops' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/fpc202_atr_ops +270 drivers/misc/ti_fpc202.c
+   drivers/gpu/drm/vc4/vc4_hdmi.c: In function 'vc4_hdmi_encoder_mode_valid':
+>> drivers/gpu/drm/vc4/vc4_hdmi.c:1762:68: warning: passing argument 2 of 'drm_hdmi_connector_mode_valid' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+    1762 |         return drm_hdmi_connector_mode_valid(&vc4_hdmi->connector, mode);
+         |                                                                    ^~~~
+   In file included from drivers/gpu/drm/vc4/vc4_hdmi.c:35:
+   include/drm/display/drm_hdmi_state_helper.h:25:56: note: expected 'struct drm_display_mode *' but argument is of type 'const struct drm_display_mode *'
+      25 |                               struct drm_display_mode *mode);
+         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
-   269	
- > 270	struct i2c_atr_ops fpc202_atr_ops = {
-   271		.attach_addr = fpc202_attach_addr,
-   272		.detach_addr = fpc202_detach_addr,
-   273	};
-   274	
+
+vim +1762 drivers/gpu/drm/vc4/vc4_hdmi.c
+
+  1749	
+  1750	static enum drm_mode_status
+  1751	vc4_hdmi_encoder_mode_valid(struct drm_encoder *encoder,
+  1752				    const struct drm_display_mode *mode)
+  1753	{
+  1754		struct vc4_hdmi *vc4_hdmi = encoder_to_vc4_hdmi(encoder);
+  1755	
+  1756		if (vc4_hdmi->variant->unsupported_odd_h_timings &&
+  1757		    !(mode->flags & DRM_MODE_FLAG_DBLCLK) &&
+  1758		    ((mode->hdisplay % 2) || (mode->hsync_start % 2) ||
+  1759		     (mode->hsync_end % 2) || (mode->htotal % 2)))
+  1760			return MODE_H_ILLEGAL;
+  1761	
+> 1762		return drm_hdmi_connector_mode_valid(&vc4_hdmi->connector, mode);
+  1763	}
+  1764	
 
 -- 
 0-DAY CI Kernel Test Service
