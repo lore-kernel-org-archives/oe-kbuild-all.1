@@ -1,280 +1,140 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272C419F47E
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 22:14:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF993145A03
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 22:36:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731190446; cv=none; b=Lp+YQTR/To+FhQLUGCgGvrE3uVBkOvV4RSA2Rt9YGP57OBIBI6CVWN2swsYgREWO5JbwUCqq10rOdqMzKQtcY190Myc4TUSoN3lcrTEnmjsyDizd1XH7YlxOidQT5Pnc2bBm+8hIF33LUmoMWVIlUoIx/6AWUX52zRlzLVLYYWg=
+	t=1731191807; cv=none; b=kcvUvYkhrO0TEaka++W//uRTXLge87Ysq5TzhpZWP+OiJyZMesEjAXTfUMD+v+/5QM+uzf7VUgEXu29WBAPO7tW2UCdwPWpuAs2SR2I1+2Onqaj/DTYU9SWw9NWOiP1CMoEKeOQ+n9t4lyx0sG1/2UfU0agr8lEzG1Zj2r7JRm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731190446; c=relaxed/simple;
-	bh=MJTZlKYAnCCCPVKnf2cD2ta+565CfLimxKCkMawUU2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O/U8lCjtnRDbteYD5gh1YWwFvj+yHPUR5bQ2Q4XGiPrIbCi+rrtVdQRzXcp//c+l9SVatvE8Pw4YvcOrme6Hrf3keXOR8fxMD9sZKs/mRst1LBJb2iwFdZzgEG918G1SKUXalOykKS0xp3BJOqFNLRJLfbguYiiwzVLGWHwPjik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WyPOVpgZ; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731191807; c=relaxed/simple;
+	bh=eC0FLbe0qNbwANw7fYphdjAUMux1sNKUx7mA9iyztrs=;
+	h=Date:From:To:cc:Subject:Message-ID:MIME-Version:Content-Type; b=rAfSMvNBKBbnxkEgi/jkVowrbNnS97slCsTTXCjDvezk6xvcPRnMWvb4BrRZviGNTFNXZDaAsBaF1f4T+Ss+iyVIZpCWzuHUbqImgge1HtR/hmPybijqhcL21X3KWa4SMPh70OzxM0pYM6YNUN2dftDbec+/hVIlavmZY6AAIw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=pkxu/I3G; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WyPOVpgZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731190444; x=1762726444;
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="pkxu/I3G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MJTZlKYAnCCCPVKnf2cD2ta+565CfLimxKCkMawUU2g=;
-  b=WyPOVpgZorcCMvWVZJdsPdyGcjl4wwK9VLeJyCEDeZiGtKusn+lObvGe
-   w8L6uxSfHa894XkkTJ5XcrbwEtlzKLagfkY3rGz7seFh0iYLsf3WpDTtU
-   oT9ZK7VSTG25iaT+TheqaNcJy+IfgUtkSaRwCmkJHBfUdkWVkVh6YDVf7
-   0bDnG9EUrFkDp8YsTpWXUw8NIiAOxNzKB18QQ5PHzo/TPKVHEV3Fbgr8D
-   6PTF/2UCcqDbOqHCMMakYNCa/86bRrQe68/fq39ElmgeGMns2mXNZ3RtT
-   GZ8huFGbY8Ty7SpTzSHrxdCJ0Uih0U244N2dTj630fvNkNBbV5OX4U5GQ
-   w==;
-X-CSE-ConnectionGUID: XvGSnA6lTrmvfCc0GWh2YQ==
-X-CSE-MsgGUID: 0O1UIXkoQUGPShwY7hFk8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="33904032"
-X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="33904032"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 14:14:04 -0800
-X-CSE-ConnectionGUID: L53iCD0tTYihz1Ij8cQ9dg==
-X-CSE-MsgGUID: BRtujejmT0Ko0B6NTCOSLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="86168251"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 09 Nov 2024 14:14:01 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9tiR-000shT-1X;
-	Sat, 09 Nov 2024 22:13:59 +0000
-Date: Sun, 10 Nov 2024 06:13:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Boyuan Zhang <boyuan.zhang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Infrastructure <z1.linuxinfra@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:amd-staging-drm-next 1235/1265]
- drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:994: warning: Function parameter or
- struct member 'inst' not described in 'vcn_v4_0_5_start'
-Message-ID: <202411100611.w8JTQoGO-lkp@intel.com>
+  bh=l/btgNFizxV2bHkbEACIZFP8EeNhVLEaFeXf0Qeo4gM=;
+  b=pkxu/I3GDCI0da4hkHXOhJiz3GE27BFrrm2BkB3TZF+bLNxHdBpKnS4P
+   sabu0ShNcfreVVUu8eDmRZ2KmmPq94KKFv6XLcSUMFwdXC8AW+Z1WIUhf
+   PgXU1fT8PjmH1e0v6Lyx/LqxtfXcpriYokLFmXmEGfZ0kiMEMlPwAOOU4
+   Q=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.12,142,1728943200"; 
+   d="scan'208";a="193071758"
+Received: from unknown (HELO hadrien) ([50.226.245.43])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 23:36:40 +0100
+Date: Sat, 9 Nov 2024 17:36:38 -0500 (EST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 2303/10559] drivers/gpio/gpio-mvebu.c:910:7-16:
+ opportunity for str_hi_lo(out & msk) (fwd)
+Message-ID: <b984e927-16b5-5a8c-a0d4-97a4ae49885a@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   51898784baa73c81c9401a271cf94e9ae1d026e1
-commit: 9f226435a6846c8669d6dea57360cb5c9e0c3adf [1235/1265] drm/amdgpu: power vcn 4_0_5 by instance
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411100611.w8JTQoGO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100611.w8JTQoGO-lkp@intel.com/reproduce)
+
+
+---------- Forwarded message ----------
+Date: Sun, 10 Nov 2024 03:58:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [linux-next:master 2303/10559] drivers/gpio/gpio-mvebu.c:910:7-16:
+    opportunity for str_hi_lo(out & msk)
+
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   929beafbe7acce3267c06115e13e03ff6e50548a
+commit: 956ee0c5c969c9caf6744e166f5a80526be10c5b [2303/10559] gpio: mvebu: allow building the module with COMPILE_TEST=y
+:::::: branch date: 2 days ago
+:::::: commit date: 5 weeks ago
+config: loongarch-randconfig-r064-20241110 (https://download.01.org/0day-ci/archive/20241110/202411100336.QRGrlbYy-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411100611.w8JTQoGO-lkp@intel.com/
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202411100336.QRGrlbYy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpio/gpio-mvebu.c:910:7-16: opportunity for str_hi_lo(out & msk)
+>> drivers/gpio/gpio-mvebu.c:916:6-30: opportunity for str_hi_lo(( data_in ^ in_pol ) & msk)
+>> drivers/gpio/gpio-mvebu.c:917:6-18: opportunity for str_lo_hi(in_pol & msk)
 
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:994: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_5_start'
->> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:1203: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_5_stop'
+vim +910 drivers/gpio/gpio-mvebu.c
 
+a4ba5e1b92b69b Simon Guinot     2013-03-24  882
+a4ba5e1b92b69b Simon Guinot     2013-03-24  883  static void mvebu_gpio_dbg_show(struct seq_file *s, struct gpio_chip *chip)
+a4ba5e1b92b69b Simon Guinot     2013-03-24  884  {
+bbe760041a05d5 Linus Walleij    2015-12-07  885  	struct mvebu_gpio_chip *mvchip = gpiochip_get_data(chip);
+a4ba5e1b92b69b Simon Guinot     2013-03-24  886  	u32 out, io_conf, blink, in_pol, data_in, cause, edg_msk, lvl_msk;
+86661fd7faacbb Andy Shevchenko  2020-06-15  887  	const char *label;
+a4ba5e1b92b69b Simon Guinot     2013-03-24  888  	int i;
+a4ba5e1b92b69b Simon Guinot     2013-03-24  889
+b6730b20837e74 Gregory CLEMENT  2017-06-12  890  	regmap_read(mvchip->regs, GPIO_OUT_OFF + mvchip->offset, &out);
+b6730b20837e74 Gregory CLEMENT  2017-06-12  891  	regmap_read(mvchip->regs, GPIO_IO_CONF_OFF + mvchip->offset, &io_conf);
+b6730b20837e74 Gregory CLEMENT  2017-06-12  892  	regmap_read(mvchip->regs, GPIO_BLINK_EN_OFF + mvchip->offset, &blink);
+b6730b20837e74 Gregory CLEMENT  2017-06-12  893  	regmap_read(mvchip->regs, GPIO_IN_POL_OFF + mvchip->offset, &in_pol);
+b6730b20837e74 Gregory CLEMENT  2017-06-12  894  	regmap_read(mvchip->regs, GPIO_DATA_IN_OFF + mvchip->offset, &data_in);
+2233bf7a92e784 Thomas Petazzoni 2017-05-19  895  	cause	= mvebu_gpio_read_edge_cause(mvchip);
+2233bf7a92e784 Thomas Petazzoni 2017-05-19  896  	edg_msk	= mvebu_gpio_read_edge_mask(mvchip);
+2233bf7a92e784 Thomas Petazzoni 2017-05-19  897  	lvl_msk	= mvebu_gpio_read_level_mask(mvchip);
+a4ba5e1b92b69b Simon Guinot     2013-03-24  898
+86661fd7faacbb Andy Shevchenko  2020-06-15  899  	for_each_requested_gpio(chip, i, label) {
+a4ba5e1b92b69b Simon Guinot     2013-03-24  900  		u32 msk;
+a4ba5e1b92b69b Simon Guinot     2013-03-24  901  		bool is_out;
+a4ba5e1b92b69b Simon Guinot     2013-03-24  902
+d2cabc4a23f8de Ralph Sennhauser 2017-03-17  903  		msk = BIT(i);
+a4ba5e1b92b69b Simon Guinot     2013-03-24  904  		is_out = !(io_conf & msk);
+a4ba5e1b92b69b Simon Guinot     2013-03-24  905
+a4ba5e1b92b69b Simon Guinot     2013-03-24  906  		seq_printf(s, " gpio-%-3d (%-20.20s)", chip->base + i, label);
+a4ba5e1b92b69b Simon Guinot     2013-03-24  907
+a4ba5e1b92b69b Simon Guinot     2013-03-24  908  		if (is_out) {
+a4ba5e1b92b69b Simon Guinot     2013-03-24  909  			seq_printf(s, " out %s %s\n",
+a4ba5e1b92b69b Simon Guinot     2013-03-24 @910  				   out & msk ? "hi" : "lo",
+a4ba5e1b92b69b Simon Guinot     2013-03-24  911  				   blink & msk ? "(blink )" : "");
+a4ba5e1b92b69b Simon Guinot     2013-03-24  912  			continue;
+a4ba5e1b92b69b Simon Guinot     2013-03-24  913  		}
+a4ba5e1b92b69b Simon Guinot     2013-03-24  914
+a4ba5e1b92b69b Simon Guinot     2013-03-24  915  		seq_printf(s, " in  %s (act %s) - IRQ",
+a4ba5e1b92b69b Simon Guinot     2013-03-24 @916  			   (data_in ^ in_pol) & msk  ? "hi" : "lo",
+a4ba5e1b92b69b Simon Guinot     2013-03-24 @917  			   in_pol & msk ? "lo" : "hi");
+a4ba5e1b92b69b Simon Guinot     2013-03-24  918  		if (!((edg_msk | lvl_msk) & msk)) {
+a4319a611bcdc3 Andrew Lunn      2015-01-10  919  			seq_puts(s, " disabled\n");
+a4ba5e1b92b69b Simon Guinot     2013-03-24  920  			continue;
+a4ba5e1b92b69b Simon Guinot     2013-03-24  921  		}
+a4ba5e1b92b69b Simon Guinot     2013-03-24  922  		if (edg_msk & msk)
+a4319a611bcdc3 Andrew Lunn      2015-01-10  923  			seq_puts(s, " edge ");
+a4ba5e1b92b69b Simon Guinot     2013-03-24  924  		if (lvl_msk & msk)
+a4319a611bcdc3 Andrew Lunn      2015-01-10  925  			seq_puts(s, " level");
+a4ba5e1b92b69b Simon Guinot     2013-03-24  926  		seq_printf(s, " (%s)\n", cause & msk ? "pending" : "clear  ");
+a4ba5e1b92b69b Simon Guinot     2013-03-24  927  	}
+a4ba5e1b92b69b Simon Guinot     2013-03-24  928  }
+a4ba5e1b92b69b Simon Guinot     2013-03-24  929  #else
+a4ba5e1b92b69b Simon Guinot     2013-03-24  930  #define mvebu_gpio_dbg_show NULL
+a4ba5e1b92b69b Simon Guinot     2013-03-24  931  #endif
+a4ba5e1b92b69b Simon Guinot     2013-03-24  932
 
-vim +994 drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c
+:::::: The code at line 910 was first introduced by commit
+:::::: a4ba5e1b92b69b9c7a15529657bb1cebed4539f3 gpio: mvebu: add dbg_show function
 
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   984  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   985  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   986  /**
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   987   * vcn_v4_0_5_start - VCN start
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   988   *
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   989   * @adev: amdgpu_device pointer
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   990   *
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   991   * Start VCN block
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   992   */
-9f226435a6846c Boyuan Zhang       2024-10-01   993  static int vcn_v4_0_5_start(struct amdgpu_device *adev, unsigned int inst)
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  @994  {
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   995  	volatile struct amdgpu_vcn4_fw_shared *fw_shared;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   996  	struct amdgpu_ring *ring;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   997  	uint32_t tmp;
-9f226435a6846c Boyuan Zhang       2024-10-01   998  	int j, k, r;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13   999  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1000  	if (adev->pm.dpm_enabled)
-9f226435a6846c Boyuan Zhang       2024-10-01  1001  		amdgpu_dpm_enable_vcn(adev, true, inst);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1002  
-9f226435a6846c Boyuan Zhang       2024-10-01  1003  	if (adev->vcn.harvest_config & (1 << inst))
-9f226435a6846c Boyuan Zhang       2024-10-01  1004  		return 0;
-0b071245ddd985 Tim Huang          2024-07-23  1005  
-9f226435a6846c Boyuan Zhang       2024-10-01  1006  	fw_shared = adev->vcn.inst[inst].fw_shared.cpu_addr;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1007  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1008  	if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
-9f226435a6846c Boyuan Zhang       2024-10-01  1009  		r = vcn_v4_0_5_start_dpg_mode(adev, inst, adev->vcn.indirect_sram);
-9f226435a6846c Boyuan Zhang       2024-10-01  1010  		return r;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1011  	}
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1012  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1013  	/* disable VCN power gating */
-9f226435a6846c Boyuan Zhang       2024-10-01  1014  	vcn_v4_0_5_disable_static_power_gating(adev, inst);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1015  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1016  	/* set VCN status busy */
-9f226435a6846c Boyuan Zhang       2024-10-01  1017  	tmp = RREG32_SOC15(VCN, inst, regUVD_STATUS) | UVD_STATUS__UVD_BUSY;
-9f226435a6846c Boyuan Zhang       2024-10-01  1018  	WREG32_SOC15(VCN, inst, regUVD_STATUS, tmp);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1019  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1020  	/*SW clock gating */
-9f226435a6846c Boyuan Zhang       2024-10-01  1021  	vcn_v4_0_5_disable_clock_gating(adev, inst);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1022  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1023  	/* enable VCPU clock */
-9f226435a6846c Boyuan Zhang       2024-10-01  1024  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_VCPU_CNTL),
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1025  			UVD_VCPU_CNTL__CLK_EN_MASK, ~UVD_VCPU_CNTL__CLK_EN_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1026  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1027  	/* disable master interrupt */
-9f226435a6846c Boyuan Zhang       2024-10-01  1028  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_MASTINT_EN), 0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1029  			~UVD_MASTINT_EN__VCPU_EN_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1030  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1031  	/* enable LMI MC and UMC channels */
-9f226435a6846c Boyuan Zhang       2024-10-01  1032  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_LMI_CTRL2), 0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1033  			~UVD_LMI_CTRL2__STALL_ARB_UMC_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1034  
-9f226435a6846c Boyuan Zhang       2024-10-01  1035  	tmp = RREG32_SOC15(VCN, inst, regUVD_SOFT_RESET);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1036  	tmp &= ~UVD_SOFT_RESET__LMI_SOFT_RESET_MASK;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1037  	tmp &= ~UVD_SOFT_RESET__LMI_UMC_SOFT_RESET_MASK;
-9f226435a6846c Boyuan Zhang       2024-10-01  1038  	WREG32_SOC15(VCN, inst, regUVD_SOFT_RESET, tmp);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1039  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1040  	/* setup regUVD_LMI_CTRL */
-9f226435a6846c Boyuan Zhang       2024-10-01  1041  	tmp = RREG32_SOC15(VCN, inst, regUVD_LMI_CTRL);
-9f226435a6846c Boyuan Zhang       2024-10-01  1042  	WREG32_SOC15(VCN, inst, regUVD_LMI_CTRL, tmp |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1043  			UVD_LMI_CTRL__WRITE_CLEAN_TIMER_EN_MASK |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1044  			UVD_LMI_CTRL__MASK_MC_URGENT_MASK |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1045  			UVD_LMI_CTRL__DATA_COHERENCY_EN_MASK |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1046  			UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1047  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1048  	/* setup regUVD_MPC_CNTL */
-9f226435a6846c Boyuan Zhang       2024-10-01  1049  	tmp = RREG32_SOC15(VCN, inst, regUVD_MPC_CNTL);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1050  	tmp &= ~UVD_MPC_CNTL__REPLACEMENT_MODE_MASK;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1051  	tmp |= 0x2 << UVD_MPC_CNTL__REPLACEMENT_MODE__SHIFT;
-9f226435a6846c Boyuan Zhang       2024-10-01  1052  	WREG32_SOC15(VCN, inst, regUVD_MPC_CNTL, tmp);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1053  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1054  	/* setup UVD_MPC_SET_MUXA0 */
-9f226435a6846c Boyuan Zhang       2024-10-01  1055  	WREG32_SOC15(VCN, inst, regUVD_MPC_SET_MUXA0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1056  			((0x1 << UVD_MPC_SET_MUXA0__VARA_1__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1057  			 (0x2 << UVD_MPC_SET_MUXA0__VARA_2__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1058  			 (0x3 << UVD_MPC_SET_MUXA0__VARA_3__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1059  			 (0x4 << UVD_MPC_SET_MUXA0__VARA_4__SHIFT)));
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1060  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1061  	/* setup UVD_MPC_SET_MUXB0 */
-9f226435a6846c Boyuan Zhang       2024-10-01  1062  	WREG32_SOC15(VCN, inst, regUVD_MPC_SET_MUXB0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1063  			((0x1 << UVD_MPC_SET_MUXB0__VARB_1__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1064  			 (0x2 << UVD_MPC_SET_MUXB0__VARB_2__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1065  			 (0x3 << UVD_MPC_SET_MUXB0__VARB_3__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1066  			 (0x4 << UVD_MPC_SET_MUXB0__VARB_4__SHIFT)));
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1067  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1068  	/* setup UVD_MPC_SET_MUX */
-9f226435a6846c Boyuan Zhang       2024-10-01  1069  	WREG32_SOC15(VCN, inst, regUVD_MPC_SET_MUX,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1070  			((0x0 << UVD_MPC_SET_MUX__SET_0__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1071  			 (0x1 << UVD_MPC_SET_MUX__SET_1__SHIFT) |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1072  			 (0x2 << UVD_MPC_SET_MUX__SET_2__SHIFT)));
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1073  
-9f226435a6846c Boyuan Zhang       2024-10-01  1074  	vcn_v4_0_5_mc_resume(adev, inst);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1075  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1076  	/* VCN global tiling registers */
-9f226435a6846c Boyuan Zhang       2024-10-01  1077  	WREG32_SOC15(VCN, inst, regUVD_GFX10_ADDR_CONFIG,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1078  			adev->gfx.config.gb_addr_config);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1079  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1080  	/* unblock VCPU register access */
-9f226435a6846c Boyuan Zhang       2024-10-01  1081  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_RB_ARB_CTRL), 0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1082  			~UVD_RB_ARB_CTRL__VCPU_DIS_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1083  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1084  	/* release VCPU reset to boot */
-9f226435a6846c Boyuan Zhang       2024-10-01  1085  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_VCPU_CNTL), 0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1086  			~UVD_VCPU_CNTL__BLK_RST_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1087  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1088  	for (j = 0; j < 10; ++j) {
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1089  		uint32_t status;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1090  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1091  		for (k = 0; k < 100; ++k) {
-9f226435a6846c Boyuan Zhang       2024-10-01  1092  			status = RREG32_SOC15(VCN, inst, regUVD_STATUS);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1093  			if (status & 2)
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1094  				break;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1095  			mdelay(10);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1096  			if (amdgpu_emu_mode == 1)
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1097  				msleep(1);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1098  		}
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1099  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1100  		if (amdgpu_emu_mode == 1) {
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1101  			r = -1;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1102  			if (status & 2) {
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1103  				r = 0;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1104  				break;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1105  			}
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1106  		} else {
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1107  			r = 0;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1108  			if (status & 2)
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1109  				break;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1110  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1111  			dev_err(adev->dev,
-9f226435a6846c Boyuan Zhang       2024-10-01  1112  				"VCN[%d] is not responding, trying to reset VCPU!!!\n", inst);
-9f226435a6846c Boyuan Zhang       2024-10-01  1113  			WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_VCPU_CNTL),
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1114  						UVD_VCPU_CNTL__BLK_RST_MASK,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1115  						~UVD_VCPU_CNTL__BLK_RST_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1116  			mdelay(10);
-9f226435a6846c Boyuan Zhang       2024-10-01  1117  			WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_VCPU_CNTL), 0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1118  					~UVD_VCPU_CNTL__BLK_RST_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1119  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1120  			mdelay(10);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1121  			r = -1;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1122  		}
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1123  	}
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1124  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1125  	if (r) {
-9f226435a6846c Boyuan Zhang       2024-10-01  1126  		dev_err(adev->dev, "VCN[%d] is not responding, giving up!!!\n", inst);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1127  		return r;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1128  	}
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1129  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1130  	/* enable master interrupt */
-9f226435a6846c Boyuan Zhang       2024-10-01  1131  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_MASTINT_EN),
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1132  			UVD_MASTINT_EN__VCPU_EN_MASK,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1133  			~UVD_MASTINT_EN__VCPU_EN_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1134  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1135  	/* clear the busy bit of VCN_STATUS */
-9f226435a6846c Boyuan Zhang       2024-10-01  1136  	WREG32_P(SOC15_REG_OFFSET(VCN, inst, regUVD_STATUS), 0,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1137  			~(2 << UVD_STATUS__VCPU_REPORT__SHIFT));
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1138  
-9f226435a6846c Boyuan Zhang       2024-10-01  1139  	ring = &adev->vcn.inst[inst].ring_enc[0];
-9f226435a6846c Boyuan Zhang       2024-10-01  1140  	WREG32_SOC15(VCN, inst, regVCN_RB1_DB_CTRL,
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1141  			ring->doorbell_index << VCN_RB1_DB_CTRL__OFFSET__SHIFT |
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1142  			VCN_RB1_DB_CTRL__EN_MASK);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1143  
-9f226435a6846c Boyuan Zhang       2024-10-01  1144  	WREG32_SOC15(VCN, inst, regUVD_RB_BASE_LO, ring->gpu_addr);
-9f226435a6846c Boyuan Zhang       2024-10-01  1145  	WREG32_SOC15(VCN, inst, regUVD_RB_BASE_HI, upper_32_bits(ring->gpu_addr));
-9f226435a6846c Boyuan Zhang       2024-10-01  1146  	WREG32_SOC15(VCN, inst, regUVD_RB_SIZE, ring->ring_size / 4);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1147  
-9f226435a6846c Boyuan Zhang       2024-10-01  1148  	tmp = RREG32_SOC15(VCN, inst, regVCN_RB_ENABLE);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1149  	tmp &= ~(VCN_RB_ENABLE__RB1_EN_MASK);
-9f226435a6846c Boyuan Zhang       2024-10-01  1150  	WREG32_SOC15(VCN, inst, regVCN_RB_ENABLE, tmp);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1151  	fw_shared->sq.queue_mode |= FW_QUEUE_RING_RESET;
-9f226435a6846c Boyuan Zhang       2024-10-01  1152  	WREG32_SOC15(VCN, inst, regUVD_RB_RPTR, 0);
-9f226435a6846c Boyuan Zhang       2024-10-01  1153  	WREG32_SOC15(VCN, inst, regUVD_RB_WPTR, 0);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1154  
-9f226435a6846c Boyuan Zhang       2024-10-01  1155  	tmp = RREG32_SOC15(VCN, inst, regUVD_RB_RPTR);
-9f226435a6846c Boyuan Zhang       2024-10-01  1156  	WREG32_SOC15(VCN, inst, regUVD_RB_WPTR, tmp);
-9f226435a6846c Boyuan Zhang       2024-10-01  1157  	ring->wptr = RREG32_SOC15(VCN, inst, regUVD_RB_WPTR);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1158  
-9f226435a6846c Boyuan Zhang       2024-10-01  1159  	tmp = RREG32_SOC15(VCN, inst, regVCN_RB_ENABLE);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1160  	tmp |= VCN_RB_ENABLE__RB1_EN_MASK;
-9f226435a6846c Boyuan Zhang       2024-10-01  1161  	WREG32_SOC15(VCN, inst, regVCN_RB_ENABLE, tmp);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1162  	fw_shared->sq.queue_mode &= ~(FW_QUEUE_RING_RESET | FW_QUEUE_DPG_HOLD_OFF);
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1163  
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1164  	return 0;
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1165  }
-547aad32edac17 Saleemkhan Jamadar 2023-06-13  1166  
-
-:::::: The code at line 994 was first introduced by commit
-:::::: 547aad32edac17a3ec4989d8aad2426d0cbeb590 drm/amdgpu: add VCN4 ip block support
-
-:::::: TO: Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Simon Guinot <simon.guinot@sequanux.org>
+:::::: CC: Linus Walleij <linus.walleij@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
