@@ -1,154 +1,280 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDFBBC8FF
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 14:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A501C155322;
+	Sat,  9 Nov 2024 14:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731161990; cv=none; b=jFgH9NNEY2hUcQuCz3MIs2UyRvDA4JMkAYdo7kvj8xOJnu1hJTNMve8M7+KMEbqgMBl9fwF1F9R+zg2fKsTS6Rgp2RGG39VRIX6p3Am6ym3buenlLH3QIVJy+6DghfyDcrZSJPQyTLQzxAHffbflDyFvy7CIX0+lrnkixs29LL8=
+	t=1731163487; cv=none; b=IyqOkKQzF5QHyUgU9x0iEnz7t/sK1pjEE5Z6RZ6bETUI3cCGivA+/WhUFTiFh+GYOGShb8qeHIvVpJhzKokxV5xy9MgqVPOcObs+vMIENMNDHAmwARrcIKlnMj3dtiv1WapTSfFzFAwdrMVt+0oo8l2+U4GbJAE1ktqgZ+Wz70Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731161990; c=relaxed/simple;
-	bh=KzAMOBMPqWFkSe7wXFQWsv7FyIi6jNtNbD0utuSCrJk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=opC22EN+pu/KUXG3WpvL8RQXXByaltgGGXpaI3QGqDJIE4XN0R7zunjHBhYOdcYTVimXYJwnwqya4rqEDI29QWGwrzNvMy87AEgk0pgTgQHZKLvB0c2i2eM/rLGAElCoUSov7UV5NeUKDI1Dml/qz6O55AXffnp+y0N0c94WI/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RAkuzwjy; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731163487; c=relaxed/simple;
+	bh=weSm0YjYu27aKnLWXNTkSsfDtVn2MLb2C0lRPRWOg8c=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=R5ahO1vNi3Xi4pEnaGAfuPMdNmljiUI64XcRN6JmtPHaLkRLPjVp9Y+y+clTAgJtI4ItbuPIlYc/r7tkxcG1EGzFeHH6GqJNYXH0g1EVaF2Nay0v1NnMqcTyFZT5eQDnVYKP9/5bsx09TwKbI/Jto/U1uTUAu6eQ6ZKB6vW+I0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pbslrb+k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RAkuzwjy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731161988; x=1762697988;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KzAMOBMPqWFkSe7wXFQWsv7FyIi6jNtNbD0utuSCrJk=;
-  b=RAkuzwjyoAn0gAIKjwzak4+icC1o5ravydHcnw4Ftd5qnXbRDftzi2eR
-   7wjiW3Kd6YMLMvlfLzUeTkiZThnN3Zw1eAnicJzkrdk2xb+IR9jArtiHt
-   Hd+V7WfVoqpeMkSF6rZxn932SrWPEurwQiT+kTA2xHgD+0XT7WWn6DXha
-   gbJJ+FYVIVa8mXXpjfcch2qEYfyaE+7EKiEkXkY8J6J05gJ8ghCepqAra
-   mcTTO6ZMJkfuQGVmIJRFyQBTI6w+6CcYoSgsuSR4V9evD8EyZbXIkzNGN
-   KPcLw37acy8ATosyQxioUUNm61vC1tPXZvUJNZQxWrq7S33ax8IDf7p1r
-   Q==;
-X-CSE-ConnectionGUID: hrzah58NT1mIEerGZsu+vg==
-X-CSE-MsgGUID: WYv1VoY5TIG7hRxb0j5A0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31188605"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31188605"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 06:19:47 -0800
-X-CSE-ConnectionGUID: e3En9C4FTHWOjlqwJQ52ZQ==
-X-CSE-MsgGUID: lHrKfx66Qyes2WNweDoU4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="90939914"
-Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Nov 2024 06:19:46 -0800
-Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1t9mJT-000sP0-2V;
-	Sat, 09 Nov 2024 14:19:43 +0000
-Date: Sat, 9 Nov 2024 22:19:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hongchen Zhang <zhanghongchen@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1438/1438] include/linux/mmzone.h:1788:2: error:
- #error Allocator MAX_ORDER exceeds SECTION_SIZE
-Message-ID: <202411092211.P2HT5L3S-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pbslrb+k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09594C4CED2;
+	Sat,  9 Nov 2024 14:44:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1731163487;
+	bh=weSm0YjYu27aKnLWXNTkSsfDtVn2MLb2C0lRPRWOg8c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pbslrb+kTQlwJK6bP7byxrN2O2mB3WGD4Xdy3HCkndKW1I0GjjFyxRUfV/Hr5xDXK
+	 fDm7gwORHdcyDCi1d/LMILegcpWbPzgdGea13R1mLscaaeAgIfD3sV+C/yl/+e7EYr
+	 JkGbvTIWqim9l7OBTwrxWw/X0odnclUysx3Pwz1XitXaDlOSDzHWWUpyeO/gqNoS0Q
+	 zeRXKZbvqC54Xoh3NaqU/M/aJz4oKCdD4C1Be1j1WWQhW40XoFjlhMfrQvncJKlf+y
+	 lIoSd7NUzlUNyO8Nud62OFD0gNBY00PhdjPOqCpVAzYwOCtCk+J2TANGjNLNKL4Vuz
+	 LDeXprXmqu7gQ==
+Date: Sat, 9 Nov 2024 14:44:38 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Per-Daniel Olsson <perdaniel.olsson@axis.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, rickard.andersson@axis.com, kernel@axis.com
+Subject: Re: [PATCH v5 2/2] iio: light: Add support for TI OPT4060 color
+ sensor
+Message-ID: <20241109144438.575249df@jic23-huawei>
+In-Reply-To: <202411070820.GxSGRFR6-lkp@intel.com>
+References: <20241106120036.986755-3-perdaniel.olsson@axis.com>
+	<202411070820.GxSGRFR6-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi zhangtianyang,
+On Thu, 7 Nov 2024 08:39:56 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-FYI, the error/warning still remains.
+> Hi Per-Daniel,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on jic23-iio/togreg]
+> [also build test ERROR on robh/for-next linus/master v6.12-rc6 next-20241106]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Per-Daniel-Olsson/dt-bindings-iio-light-Document-TI-OPT4060-RGBW-sensor/20241106-200407
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+> patch link:    https://lore.kernel.org/r/20241106120036.986755-3-perdaniel.olsson%40axis.com
+> patch subject: [PATCH v5 2/2] iio: light: Add support for TI OPT4060 color sensor
+> config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241107/202411070820.GxSGRFR6-lkp@intel.com/config)
+> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241107/202411070820.GxSGRFR6-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411070820.GxSGRFR6-lkp@intel.com/
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   36c1a71a1d2064b5fe3b05c035cc0104992c8c73
-commit: c93eb12529e21dbb59796132f4fdf75fad4eddaf [1438/1438] LoongArch: Adapted SECTION_SIZE_BITS with page size
-config: loongarch-randconfig-002-20241109 (https://download.01.org/0day-ci/archive/20241109/202411092211.P2HT5L3S-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411092211.P2HT5L3S-lkp@intel.com/reproduce)
+As you have probably realized, your series crossed with a change of parameter type.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411092211.P2HT5L3S-lkp@intel.com/
+If there is nothing else to warrant a respin I can fix this up whilst applying.
 
-All errors (new ones prefixed by >>):
+Jonathan
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/loongarch/kernel/asm-offsets.c:9:
->> include/linux/mmzone.h:1788:2: error: #error Allocator MAX_ORDER exceeds SECTION_SIZE
-    1788 | #error Allocator MAX_ORDER exceeds SECTION_SIZE
-         |  ^~~~~
-   arch/loongarch/kernel/asm-offsets.c:18:6: warning: no previous prototype for 'output_ptreg_defines' [-Wmissing-prototypes]
-      18 | void output_ptreg_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:65:6: warning: no previous prototype for 'output_task_defines' [-Wmissing-prototypes]
-      65 | void output_task_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:80:6: warning: no previous prototype for 'output_thread_info_defines' [-Wmissing-prototypes]
-      80 | void output_thread_info_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:96:6: warning: no previous prototype for 'output_thread_defines' [-Wmissing-prototypes]
-      96 | void output_thread_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:132:6: warning: no previous prototype for 'output_thread_fpu_defines' [-Wmissing-prototypes]
-     132 | void output_thread_fpu_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:173:6: warning: no previous prototype for 'output_thread_lbt_defines' [-Wmissing-prototypes]
-     173 | void output_thread_lbt_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:183:6: warning: no previous prototype for 'output_mm_defines' [-Wmissing-prototypes]
-     183 | void output_mm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:215:6: warning: no previous prototype for 'output_sc_defines' [-Wmissing-prototypes]
-     215 | void output_sc_defines(void)
-         |      ^~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:223:6: warning: no previous prototype for 'output_signal_defines' [-Wmissing-prototypes]
-     223 | void output_signal_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:261:6: warning: no previous prototype for 'output_smpboot_defines' [-Wmissing-prototypes]
-     261 | void output_smpboot_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
-   arch/loongarch/kernel/asm-offsets.c:294:6: warning: no previous prototype for 'output_kvm_defines' [-Wmissing-prototypes]
-     294 | void output_kvm_defines(void)
-         |      ^~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:116: arch/loongarch/kernel/asm-offsets.s] Error 1 shuffle=1449408134
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1202: prepare0] Error 2 shuffle=1449408134
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:234: __sub-make] Error 2 shuffle=1449408134
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:234: __sub-make] Error 2 shuffle=1449408134
-   make: Target 'prepare' not remade because of errors.
+> 
+> All error/warnings (new ones prefixed by >>):
+> 
+>    In file included from drivers/iio/light/opt4060.c:11:
+>    In file included from include/linux/i2c.h:19:
+>    In file included from include/linux/regulator/consumer.h:35:
+>    In file included from include/linux/suspend.h:5:
+>    In file included from include/linux/swap.h:9:
+>    In file included from include/linux/memcontrol.h:21:
+>    In file included from include/linux/mm.h:2213:
+>    include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+>      504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      505 |                            item];
+>          |                            ~~~~
+>    include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+>      511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      512 |                            NR_VM_NUMA_EVENT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~~
+>    include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+>      518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+>          |                               ~~~~~~~~~~~ ^ ~~~
+>    include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+>      524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+>      525 |                            NR_VM_NUMA_EVENT_ITEMS +
+>          |                            ~~~~~~~~~~~~~~~~~~~~~~
+> >> drivers/iio/light/opt4060.c:847:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]  
+>      847 |                 u32 th_lo, th_hi;
+>          |                 ^
+>    drivers/iio/light/opt4060.c:884:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+>      884 |                 u32 th_lo, th_hi;
+>          |                 ^
+> >> drivers/iio/light/opt4060.c:977:24: error: incompatible function pointer types initializing 'int (*)(struct iio_dev *, const struct iio_chan_spec *, enum iio_event_type, enum iio_event_direction, bool)' (aka 'int (*)(struct iio_dev *, const struct iio_chan_spec *, enum iio_event_type, enum iio_event_direction, _Bool)') with an expression of type 'int (struct iio_dev *, const struct iio_chan_spec *, enum iio_event_type, enum iio_event_direction, int)' [-Wincompatible-function-pointer-types]  
+>      977 |         .write_event_config = opt4060_write_event_config,
+>          |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>    6 warnings and 1 error generated.
+> 
+> 
+> vim +977 drivers/iio/light/opt4060.c
+> 
+>    829	
+>    830	static int opt4060_read_event(struct iio_dev *indio_dev,
+>    831				      const struct iio_chan_spec *chan,
+>    832				      enum iio_event_type type,
+>    833				      enum iio_event_direction dir,
+>    834				      enum iio_event_info info,
+>    835				      int *val, int *val2)
+>    836	{
+>    837		int ret;
+>    838		struct opt4060_chip *chip = iio_priv(indio_dev);
+>    839	
+>    840		if (chan->type != IIO_INTENSITY)
+>    841			return -EINVAL;
+>    842		if (type != IIO_EV_TYPE_THRESH)
+>    843			return -EINVAL;
+>    844	
+>    845		switch (info) {
+>    846		case IIO_EV_INFO_VALUE:
+>  > 847			u32 th_lo, th_hi;  
+>    848	
+>    849			ret = opt4060_get_thresholds(chip, &th_lo, &th_hi);
+>    850			if (ret)
+>    851				return ret;
+>    852			if (dir == IIO_EV_DIR_FALLING) {
+>    853				*val = th_lo;
+>    854				ret = IIO_VAL_INT;
+>    855			} else if (dir == IIO_EV_DIR_RISING) {
+>    856				*val = th_hi;
+>    857				ret = IIO_VAL_INT;
+>    858			}
+>    859			return ret;
+>    860		case IIO_EV_INFO_PERIOD:
+>    861			return opt4060_read_ev_period(chip, val, val2);
+>    862		default:
+>    863			return -EINVAL;
+>    864		}
+>    865	}
+>    866	
+>    867	static int opt4060_write_event(struct iio_dev *indio_dev,
+>    868				       const struct iio_chan_spec *chan,
+>    869				       enum iio_event_type type,
+>    870				       enum iio_event_direction dir,
+>    871				       enum iio_event_info info,
+>    872				       int val, int val2)
+>    873	{
+>    874		struct opt4060_chip *chip = iio_priv(indio_dev);
+>    875		int ret;
+>    876	
+>    877		if (chan->type != IIO_INTENSITY)
+>    878			return -EINVAL;
+>    879		if (type != IIO_EV_TYPE_THRESH)
+>    880			return -EINVAL;
+>    881	
+>    882		switch (info) {
+>    883		case IIO_EV_INFO_VALUE:
+>    884			u32 th_lo, th_hi;
+>    885	
+>    886			ret = opt4060_get_thresholds(chip, &th_lo, &th_hi);
+>    887			if (ret)
+>    888				return ret;
+>    889			if (dir == IIO_EV_DIR_FALLING)
+>    890				th_lo = val;
+>    891			else if (dir == IIO_EV_DIR_RISING)
+>    892				th_hi = val;
+>    893			return opt4060_set_thresholds(chip, th_lo, th_hi);
+>    894		case IIO_EV_INFO_PERIOD:
+>    895			return opt4060_write_ev_period(chip, val, val2);
+>    896		default:
+>    897			return -EINVAL;
+>    898		}
+>    899	}
+>    900	
+>    901	static int opt4060_read_event_config(struct iio_dev *indio_dev,
+>    902					     const struct iio_chan_spec *chan,
+>    903					     enum iio_event_type type,
+>    904					     enum iio_event_direction dir)
+>    905	{
+>    906		int ch_sel, ch_idx = chan->scan_index;
+>    907		struct opt4060_chip *chip = iio_priv(indio_dev);
+>    908		int ret;
+>    909	
+>    910		if (chan->type != IIO_INTENSITY)
+>    911			return -EINVAL;
+>    912		if (type != IIO_EV_TYPE_THRESH)
+>    913			return -EINVAL;
+>    914	
+>    915		ret = opt4060_get_channel_sel(chip, &ch_sel);
+>    916		if (ret)
+>    917			return ret;
+>    918	
+>    919		if (((dir == IIO_EV_DIR_FALLING) && chip->thresh_event_lo_active) ||
+>    920		    ((dir == IIO_EV_DIR_RISING) && chip->thresh_event_hi_active))
+>    921			return ch_sel == ch_idx;
+>    922	
+>    923		return ret;
+>    924	}
+>    925	
+>    926	static int opt4060_write_event_config(struct iio_dev *indio_dev,
+>    927					      const struct iio_chan_spec *chan,
+>    928					      enum iio_event_type type,
+>    929					      enum iio_event_direction dir, int state)
+>    930	{
+>    931		int ch_sel, ch_idx = chan->scan_index;
+>    932		struct opt4060_chip *chip = iio_priv(indio_dev);
+>    933		int ret;
+>    934	
+>    935		if (chan->type != IIO_INTENSITY)
+>    936			return -EINVAL;
+>    937		if (type != IIO_EV_TYPE_THRESH)
+>    938			return -EINVAL;
+>    939	
+>    940		ret = opt4060_get_channel_sel(chip, &ch_sel);
+>    941		if (ret)
+>    942			return ret;
+>    943	
+>    944		if (state) {
+>    945			/* Only one channel can be active at the same time */
+>    946			if ((chip->thresh_event_lo_active ||
+>    947				chip->thresh_event_hi_active) && (ch_idx != ch_sel))
+>    948				return -EBUSY;
+>    949			if (dir == IIO_EV_DIR_FALLING)
+>    950				chip->thresh_event_lo_active = true;
+>    951			else if (dir == IIO_EV_DIR_RISING)
+>    952				chip->thresh_event_hi_active = true;
+>    953			ret = opt4060_set_channel_sel(chip, ch_idx);
+>    954			if (ret)
+>    955				return ret;
+>    956		} else {
+>    957			if (ch_idx == ch_sel) {
+>    958				if (dir == IIO_EV_DIR_FALLING)
+>    959					chip->thresh_event_lo_active = false;
+>    960				else if (dir == IIO_EV_DIR_RISING)
+>    961					chip->thresh_event_hi_active = false;
+>    962			}
+>    963		}
+>    964	
+>    965		return opt4060_event_set_state(indio_dev, chip->thresh_event_hi_active |
+>    966					       chip->thresh_event_lo_active);
+>    967	}
+>    968	
+>    969	static const struct iio_info opt4060_info = {
+>    970		.read_raw = opt4060_read_raw,
+>    971		.write_raw = opt4060_write_raw,
+>    972		.write_raw_get_fmt = opt4060_write_raw_get_fmt,
+>    973		.read_avail = opt4060_read_available,
+>    974		.read_event_value = opt4060_read_event,
+>    975		.write_event_value = opt4060_write_event,
+>    976		.read_event_config = opt4060_read_event_config,
+>  > 977		.write_event_config = opt4060_write_event_config,  
+>    978	};
+>    979	
+> 
 
-
-vim +1788 include/linux/mmzone.h
-
-d41dee369bff3b Andy Whitcroft     2005-06-23  1783  
-835c134ec4dd75 Mel Gorman         2007-10-16  1784  #define SECTION_BLOCKFLAGS_BITS \
-d9c2340052278d Mel Gorman         2007-10-16  1785  	((1UL << (PFN_SECTION_SHIFT - pageblock_order)) * NR_PAGEBLOCK_BITS)
-835c134ec4dd75 Mel Gorman         2007-10-16  1786  
-23baf831a32c04 Kirill A. Shutemov 2023-03-15  1787  #if (MAX_ORDER + PAGE_SHIFT) > SECTION_SIZE_BITS
-d41dee369bff3b Andy Whitcroft     2005-06-23 @1788  #error Allocator MAX_ORDER exceeds SECTION_SIZE
-d41dee369bff3b Andy Whitcroft     2005-06-23  1789  #endif
-d41dee369bff3b Andy Whitcroft     2005-06-23  1790  
-
-:::::: The code at line 1788 was first introduced by commit
-:::::: d41dee369bff3b9dcb6328d4d822926c28cc2594 [PATCH] sparsemem memory model
-
-:::::: TO: Andy Whitcroft <apw@shadowen.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
