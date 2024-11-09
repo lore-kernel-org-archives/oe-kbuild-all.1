@@ -1,58 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6EC629CF4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 20:19:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38CA519E7F9
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 20:20:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731183601; cv=none; b=K6xUHMXsfixVJa3nyPq3Io89cAiCAN73r8GGAEuf2yO+IUK8xV/fTyfU2j762wHA5RyHQnBQche4/oKfU6ZzoBHuYTAdrcm05DiNsZSCAfYLft3waziVeAv0Gqj+tXgCKFgklHacKfmkGi9bPCqQfN1AERiTKBs0XTCYjSKFlpM=
+	t=1731183604; cv=none; b=rElUmIhXUS5xN3mHRTS2XpEIiDi4ZSf0PpYCT1QoKKUjiPsq6Jon/sNv3hiEpaC+aC7AMLy5t9yKw57RQBaGrRR3JG/+AB+MuFX6Npgc/IQ1cJhZaYwndVle3CLEuCIGCIfv3qNLmQF7JpT8mBqEpMgIEH7Pq+ZzHthQs293ve0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731183601; c=relaxed/simple;
-	bh=eJcMy5tNr6V6ZmQV/fcB7+y5cQXZoLz41nM+GTggixI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=c//8+bCVYkKvAB2ODkM4BFHpKXbu03XHdxPJWNi9vi9VLwg+l1qlcMgABwZCpfb152DysWQQ+Hnm7UCfpijVbezPkeBAeC7fcBDrOF5SZACxIcyxaCLCIz6fU/XfbU9jc/xPowHhhlFTDxrCmTFGA/BTVFPGYLmRH28JbOMd2Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L7QZbnRp; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1731183604; c=relaxed/simple;
+	bh=k1SNTfKh5aZYqQJx6ZACI0/uVQVUJ/Vb3beFxFxNBRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Prm/Zy/jF+J7T9A61EavfiXhrAQfnE2p0W+ehZtpcOZ1AVw8u1dKxzDN+rvxSJWomNQtiuXpV+xfE/B7CNNewUVzZGanWgv2ZFKtkj44XlAkazX03z1AioPalR2BlNrfWnSLmzViMJ32fbP1ExBJKeMkTM/OFgSiJmUXk47FqGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h9iM346J; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L7QZbnRp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h9iM346J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731183599; x=1762719599;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eJcMy5tNr6V6ZmQV/fcB7+y5cQXZoLz41nM+GTggixI=;
-  b=L7QZbnRpNrUISK/W/4UYTxCJUx4hSbZYx1JlBEgiLzwe8aPxuZGcV8zi
-   +p5MmoYHwZCCyFS1c+zXkgSak0bv2P3uRNcm7yh6DXQYUXzT9DBeysA+t
-   dSz4NMDhayLMw3zSl3m0onVK7YCb3wRUPkbUC7TvjMtYdbJqv6dwP4dQk
-   IrvxtW7g8vmMurVP2FGJ62uefWmGCUfNYhAL/6CKQv8GcBW9W43zL1tJ2
-   TEVrDhKVZzORthLJ6Wavb4RzFjTR8pdaQCvRHqEXPzaj0/vcj+vtwbHVK
-   dlBlVpWZZbrPBEQgZLWDgdFKVeZBsPjQeBJSYXcb3xe7ZIDSstENtJ6l3
-   w==;
-X-CSE-ConnectionGUID: mc+Z9caHSTC81iJc+ak4Qg==
-X-CSE-MsgGUID: IIGQ+AMxSl+rozed1tRCCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="33901663"
+  t=1731183603; x=1762719603;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k1SNTfKh5aZYqQJx6ZACI0/uVQVUJ/Vb3beFxFxNBRs=;
+  b=h9iM346Jh07psTvt723Ehfxo8bGbaRDhvkIIs1w+lgmiLb1/Qo70QZWC
+   r4TCiUOHldMl1srcWaw0OnYgrY7zo+OvHHQzcEYfc5CmJJFQq9GJSblHX
+   81AIDg99E8Hm3C5JR7qNx02Wax8KOrypr73sdECS/ZRB3Jy0fwX/4MFNd
+   NR1ZLgKoCRvp268dapOxJm2qYjlNOBIGRcioP4IEK20otz9CmVNgTLHNV
+   begCu6+Q8um0CXfzFdHbVF5GQK6GXSbMcQmuBlQuqX6czvTlpF/NPuUTL
+   4TQclUbx6/p+E+CedluAU4aZ7C7jDrbojgxh+tUt8c/Fxj9PjcV5flACV
+   Q==;
+X-CSE-ConnectionGUID: mhTAUEo2SWWwCnSpL3R9RA==
+X-CSE-MsgGUID: ndzMzbpLS1GFDaohS+Dqow==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="33901667"
 X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="33901663"
+   d="scan'208";a="33901667"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 12:19:59 -0800
-X-CSE-ConnectionGUID: GcI3WkPWQ3CmQaF19PWm9g==
-X-CSE-MsgGUID: YEJSiWF/TxicV+P74r8a5w==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 12:20:02 -0800
+X-CSE-ConnectionGUID: EaNgekS5RXOF8qipqvVGCg==
+X-CSE-MsgGUID: 8ujJZnVnS0eRwRiV/lCqpQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="86090488"
+   d="scan'208";a="86090487"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 09 Nov 2024 12:19:58 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9rw4-000sba-04;
+	id 1t9rw4-000sbe-0B;
 	Sat, 09 Nov 2024 20:19:56 +0000
 Date: Sun, 10 Nov 2024 04:19:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2024-11-08 57/70] ERROR: modpost:
- "dpcm_process_paths" [sound/soc/snd-soc-core.ko] undefined!
-Message-ID: <202411100416.K0Kg95hJ-lkp@intel.com>
+To: Romain Gantois <romain.gantois@bootlin.com>,
+	Wolfram Sang <wsa-dev@sang-engineering.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Romain Gantois <romain.gantois@bootlin.com>
+Subject: Re: [PATCH 9/9] misc: add FPC202 dual port controller driver
+Message-ID: <202411100412.QeOt1w0W-lkp@intel.com>
+References: <20241108-fpc202-v1-9-fe42c698bc92@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +78,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241108-fpc202-v1-9-fe42c698bc92@bootlin.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2024-11-08
-head:   e9ab69de24b2818ae26f88e606ccea272bfa1705
-commit: c1383d0943f0a4626e60faa314a46a23c3948995 [57/70] ASoC: soc-pcm: remove dpcm_process_paths()
-config: i386-randconfig-141-20241109 (https://download.01.org/0day-ci/archive/20241110/202411100416.K0Kg95hJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100416.K0Kg95hJ-lkp@intel.com/reproduce)
+Hi Romain,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 9852d85ec9d492ebef56dc5f229416c925758edc]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-misc-Describe-TI-FPC202-dual-port-controller/20241108-234053
+base:   9852d85ec9d492ebef56dc5f229416c925758edc
+patch link:    https://lore.kernel.org/r/20241108-fpc202-v1-9-fe42c698bc92%40bootlin.com
+patch subject: [PATCH 9/9] misc: add FPC202 dual port controller driver
+config: openrisc-randconfig-r123-20241109 (https://download.01.org/0day-ci/archive/20241110/202411100412.QeOt1w0W-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241110/202411100412.QeOt1w0W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411100416.K0Kg95hJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411100412.QeOt1w0W-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/misc/ti_fpc202.c:270:20: sparse: sparse: symbol 'fpc202_atr_ops' was not declared. Should it be static?
 
->> ERROR: modpost: "dpcm_process_paths" [sound/soc/snd-soc-core.ko] undefined!
+vim +/fpc202_atr_ops +270 drivers/misc/ti_fpc202.c
+
+   269	
+ > 270	struct i2c_atr_ops fpc202_atr_ops = {
+   271		.attach_addr = fpc202_attach_addr,
+   272		.detach_addr = fpc202_detach_addr,
+   273	};
+   274	
 
 -- 
 0-DAY CI Kernel Test Service
