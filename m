@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FB913BC12
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 19:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A6C1A00E2
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 19:48:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731179279; cv=none; b=jpjTH1f7JhR3bMpFAT/kUiw69JLknC8ls2Fcwc/bmPCylNN1b0dymPhOLaWfSw+0nPPtDJRUA/Naer28QA8U6NHUjDJZi1L6FtfIDK5aNimpoeWy0ciR5rZ6Vm4saFIXS0h84PnnZHrzeqG41G3tEDC3LjOXOnBbCQ8Zh4GCsZc=
+	t=1731181740; cv=none; b=oZmrQ5M0q7gj2x0d1yzPGSDlQde1GvHljbv4VyBDY7xFqSKdD5fK3lAor1aLbBFaeD72CfCcLun83L7zW91e86JOjSIuw40oPXZDVkSoCYNWIQWxzKgi1c0Avw7JKZ1QRt55qPXjz/t7wYCRiRJoMIVPy65w8Vc+AIcrY+QwUuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731179279; c=relaxed/simple;
-	bh=YhXLKJoUY2V6d01By10hfZxAK4PUL10+hBXrvju7prA=;
+	s=arc-20240116; t=1731181740; c=relaxed/simple;
+	bh=p+5hW/4XdczdspYWeJqLYvwJMRlBFzCYjH9685sQW9I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ny/I8rRY5DYXtjvdns/BJph/C/eRHqCi0y7Y2d2XpFf8sUi2W7QGuunHlgsCedTiXlCL5WGkXC18ankcQzT84h7NVoMmbgVjyL7yKNtJrYlMa/8nv9xa3E9KEpUiMqlghz9VsCsBz43X0YM9J2anJ8KI6Ho4StkezeTV+9QI92Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BEhjD6nI; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=rOBElHbR6jYLADGRIZ51Kdmdfqpj/T4ukHvyl8w+Ku5pH8xhNBiIBxOeUSwGhlWlsa5uTuKkwYttgs7K4NJjhWLRv61RAvxZ/WMuPuD+zjyp1n95iDoeB6u+ahIe7ZATwkayrFJoLIz4WRajqyvoVw5C79Up9SUvBhUcrSekBcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auu7dDtI; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BEhjD6nI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auu7dDtI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731179276; x=1762715276;
+  t=1731181738; x=1762717738;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YhXLKJoUY2V6d01By10hfZxAK4PUL10+hBXrvju7prA=;
-  b=BEhjD6nITiHVy44KzeDUCaY8n4bSfpwcJCtKl+u+HFJ6cpn3kj7sLxwq
-   HHLAWZrXZdtcexuLXcHbfWrCaimk0Rudls/3cnIflbs/Cc2ACBRDIrRj/
-   t7InPmC0BMixybFcrtX1dbD7+XkNPJ259c1AES4P/ZjAS1yfaI0ARBlnF
-   +6tJnx0OHJb/i4Z6aWcdB2QMVNEeGG8amtVC0FVsyizvX+2kAlrBBqmsy
-   4quFYVhvqqT/uhNmpyseNPJv3oIY4mMhEXWER560SqJ6+VzoyZlZzuSNV
-   UnJ8cu0BDrYQE+g8C7kcCkZNc1532eFfn5MaU67qXaZAJWjfBOmpb7zZE
-   g==;
-X-CSE-ConnectionGUID: 428iE/VQScy8gJbR3XRblw==
-X-CSE-MsgGUID: qSJKXj+FSO+0jP4pAOKv/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="42137854"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="42137854"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 11:07:56 -0800
-X-CSE-ConnectionGUID: nDUyBZCwSACp/+XQZZAl6w==
-X-CSE-MsgGUID: 7yRV2RIaT3e//CclXaTrGA==
+  bh=p+5hW/4XdczdspYWeJqLYvwJMRlBFzCYjH9685sQW9I=;
+  b=auu7dDtI2agl1/CHaopKShQeCj1NwZWN2hWabUIdZiPKHeypVDIF9IT4
+   Ib+oHSJE56D54tQkWSAJLbvEBOT1COlVOmA+7xusZzKyLibPlXcDcloi8
+   IrEBh1Iu7jrPNqFq/pUJOdy3X3wdDijJ+HvMVfCfz4/ApSXqVjdpAPCqi
+   WmNIeCzxBaL9jaglccM76imId5Ws1jRn/Hkkz+xKgPt94WED9JF92h6S8
+   3elg3lfGriCm8ItRZsy5Hie++I5On5VJUFAqvOT1gM2OFr1ccb0jNYbsK
+   kl5FqwMnkG7WGQIw42JZjuxs2vpBJ0ND/WZa3wJWen3AihNmzGuLKJNrP
+   A==;
+X-CSE-ConnectionGUID: X/uEZ0qRTG+auMpxaxnv5w==
+X-CSE-MsgGUID: vFsce1k3RhCQYo9cQNyX1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="41666565"
+X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
+   d="scan'208";a="41666565"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 11:48:57 -0800
+X-CSE-ConnectionGUID: SdkwZ6L0T8W+NygATKQi6Q==
+X-CSE-MsgGUID: Si9FxzVBSx2fnQy+fqzzJA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,141,1728975600"; 
-   d="scan'208";a="86459719"
+   d="scan'208";a="117007855"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 09 Nov 2024 11:07:55 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 09 Nov 2024 11:48:56 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9qoK-000sYg-2e;
-	Sat, 09 Nov 2024 19:07:52 +0000
-Date: Sun, 10 Nov 2024 03:07:23 +0800
+	id 1t9rS1-000saI-2E;
+	Sat, 09 Nov 2024 19:48:53 +0000
+Date: Sun, 10 Nov 2024 03:48:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-f9d942cf7d57 1/1491] WARNING: modpost:
- module configfs uses symbol dget_parent from namespace
- VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
- import it.
-Message-ID: <202411100534.v0Ys2JOq-lkp@intel.com>
+To: Boyuan Zhang <boyuan.zhang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [agd5f:amd-staging-drm-next 1231/1265]
+ drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1094: warning: Function parameter or
+ struct member 'inst' not described in 'vcn_v4_0_3_start'
+Message-ID: <202411100329.CZeyrW18-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,159 +65,209 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-f9d942cf7d57
-head:   ef2c757e09b49fa8c905e77b7c1e55ccf2be08ee
-commit: 7af46bb010c480a7e7fad519fd2ffd9590255a97 [1/1491] Merge branch 'android15-6.6' into android15-6.6-desktop
-config: x86_64-randconfig-161-20241109 (https://download.01.org/0day-ci/archive/20241110/202411100534.v0Ys2JOq-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100534.v0Ys2JOq-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   51898784baa73c81c9401a271cf94e9ae1d026e1
+commit: 5e90b2e1bb11c259eaf7bf0be4b3669dd6295d74 [1231/1265] drm/amdgpu: power vcn 4_0_3 by instance
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411100329.CZeyrW18-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100329.CZeyrW18-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411100534.v0Ys2JOq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411100329.CZeyrW18-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-fusionhdtv-mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-gadmei-rm008z.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-geekbox.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-genius-tvgo-a11mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-gotview7135.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-hauppauge.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-hisi-poplar.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-hisi-tv-demo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-imon-mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-imon-pad.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-imon-rsc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-iodata-bctv7e.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-it913x-v1.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-it913x-v2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kaiomy.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-khadas.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-khamsin.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kworld-315u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kworld-pc150u.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-kworld-plus-tv-analog.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-leadtek-y04g0051.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-lme2510.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-manli.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-mecool-kiii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-mecool-kii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-medion-x10.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-minix-neo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-digivox-iii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-digivox-ii.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-tvanywhere.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-msi-tvanywhere-plus.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-nebula.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-nec-terratec-cinergy-xs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-norwood.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-npgtech.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-odroid.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pctv-sedna.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pine64.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-color.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-grey.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pinnacle-pctv-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-002t.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-mk12.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview-new.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pixelview.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-powercolor-real-angel.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-proteus-2309.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-purpletv.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-pv951.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-rc6-mce.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-real-audio-220-32-keys.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-reddo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-snapstream-firefly.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-streamzap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-su3000.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx3mini.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tanix-tx5max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tbs-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-ts35.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-technisat-usb2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-c-pci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-s2-hd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-cinergy-xs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim-2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-terratec-slim.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tevii-nec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tivo.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand-02.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-total-media-in-hand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-trekstor.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-tt-1500.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan1027.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-twinhan-dtv-cab-ci.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-vega-s9x.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-m1f.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-s350.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videomate-tv-pvr.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-videostrong-kii-pro.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-hub.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-wetek-play2.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-winfast-usbii-deluxe.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-x96max.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-360.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-xbox-dvd.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/keymaps/rc-zx-irdec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/rc/rc-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-bootrom.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-log.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/greybus/gb-vibrator.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/pcmcia/pcmcia_rsrc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/asus_atk0110.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
-WARNING: modpost: drivers/hwmon/smsc47m1: section mismatch in reference: smsc47m1_driver+0x8 (section: .data) -> smsc47m1_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
->> WARNING: modpost: module configfs uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-WARNING: modpost: module configfs uses symbol iunique from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-WARNING: modpost: module configfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-WARNING: modpost: module configfs uses symbol generic_read_dir from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
-WARNING: modpost: module configfs uses symbol kern_path from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1094: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_3_start'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1300: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_3_stop'
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1626: warning: Function parameter or struct member 'ip_block' not described in 'vcn_v4_0_3_set_powergating_state'
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1626: warning: Excess function parameter 'handle' description in 'vcn_v4_0_3_set_powergating_state'
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
-   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=n] && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+
+vim +1094 drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c
+
+d117fd296456b0 Samir Dhume  2023-07-17  1085  
+b889ef4ac98837 James Zhu    2022-05-24  1086  /**
+b889ef4ac98837 James Zhu    2022-05-24  1087   * vcn_v4_0_3_start - VCN start
+b889ef4ac98837 James Zhu    2022-05-24  1088   *
+b889ef4ac98837 James Zhu    2022-05-24  1089   * @adev: amdgpu_device pointer
+b889ef4ac98837 James Zhu    2022-05-24  1090   *
+b889ef4ac98837 James Zhu    2022-05-24  1091   * Start VCN block
+b889ef4ac98837 James Zhu    2022-05-24  1092   */
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1093  static int vcn_v4_0_3_start(struct amdgpu_device *adev, unsigned int inst)
+b889ef4ac98837 James Zhu    2022-05-24 @1094  {
+cf1f3737c2d336 James Zhu    2022-07-11  1095  	volatile struct amdgpu_vcn4_fw_shared *fw_shared;
+b889ef4ac98837 James Zhu    2022-05-24  1096  	struct amdgpu_ring *ring;
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1097  	int j, k, r, vcn_inst;
+b889ef4ac98837 James Zhu    2022-05-24  1098  	uint32_t tmp;
+b889ef4ac98837 James Zhu    2022-05-24  1099  
+b889ef4ac98837 James Zhu    2022-05-24  1100  	if (adev->pm.dpm_enabled)
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1101  		amdgpu_dpm_enable_vcn(adev, true, inst);
+b889ef4ac98837 James Zhu    2022-05-24  1102  
+762702ebd32459 James Zhu    2022-07-11  1103  	if (adev->pg_flags & AMD_PG_SUPPORT_VCN_DPG) {
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1104  		r = vcn_v4_0_3_start_dpg_mode(adev, inst, adev->vcn.indirect_sram);
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1105  		return r;
+762702ebd32459 James Zhu    2022-07-11  1106  	}
+b889ef4ac98837 James Zhu    2022-05-24  1107  
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1108  	vcn_inst = GET_INST(VCN, inst);
+b889ef4ac98837 James Zhu    2022-05-24  1109  	/* set VCN status busy */
+fd91d38b527595 Lijo Lazar   2023-02-17  1110  	tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_STATUS) |
+fd91d38b527595 Lijo Lazar   2023-02-17  1111  		  UVD_STATUS__UVD_BUSY;
+fd91d38b527595 Lijo Lazar   2023-02-17  1112  	WREG32_SOC15(VCN, vcn_inst, regUVD_STATUS, tmp);
+b889ef4ac98837 James Zhu    2022-05-24  1113  
+b889ef4ac98837 James Zhu    2022-05-24  1114  	/*SW clock gating */
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1115  	vcn_v4_0_3_disable_clock_gating(adev, inst);
+b889ef4ac98837 James Zhu    2022-05-24  1116  
+b889ef4ac98837 James Zhu    2022-05-24  1117  	/* enable VCPU clock */
+fd91d38b527595 Lijo Lazar   2023-02-17  1118  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_VCPU_CNTL),
+fd91d38b527595 Lijo Lazar   2023-02-17  1119  		 UVD_VCPU_CNTL__CLK_EN_MASK,
+fd91d38b527595 Lijo Lazar   2023-02-17  1120  		 ~UVD_VCPU_CNTL__CLK_EN_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1121  
+b889ef4ac98837 James Zhu    2022-05-24  1122  	/* disable master interrupt */
+fd91d38b527595 Lijo Lazar   2023-02-17  1123  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_MASTINT_EN), 0,
+b889ef4ac98837 James Zhu    2022-05-24  1124  		 ~UVD_MASTINT_EN__VCPU_EN_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1125  
+b889ef4ac98837 James Zhu    2022-05-24  1126  	/* enable LMI MC and UMC channels */
+fd91d38b527595 Lijo Lazar   2023-02-17  1127  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_LMI_CTRL2), 0,
+b889ef4ac98837 James Zhu    2022-05-24  1128  		 ~UVD_LMI_CTRL2__STALL_ARB_UMC_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1129  
+fd91d38b527595 Lijo Lazar   2023-02-17  1130  	tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_SOFT_RESET);
+b889ef4ac98837 James Zhu    2022-05-24  1131  	tmp &= ~UVD_SOFT_RESET__LMI_SOFT_RESET_MASK;
+b889ef4ac98837 James Zhu    2022-05-24  1132  	tmp &= ~UVD_SOFT_RESET__LMI_UMC_SOFT_RESET_MASK;
+fd91d38b527595 Lijo Lazar   2023-02-17  1133  	WREG32_SOC15(VCN, vcn_inst, regUVD_SOFT_RESET, tmp);
+b889ef4ac98837 James Zhu    2022-05-24  1134  
+b889ef4ac98837 James Zhu    2022-05-24  1135  	/* setup regUVD_LMI_CTRL */
+fd91d38b527595 Lijo Lazar   2023-02-17  1136  	tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_LMI_CTRL);
+fd91d38b527595 Lijo Lazar   2023-02-17  1137  	WREG32_SOC15(VCN, vcn_inst, regUVD_LMI_CTRL,
+fd91d38b527595 Lijo Lazar   2023-02-17  1138  			 tmp | UVD_LMI_CTRL__WRITE_CLEAN_TIMER_EN_MASK |
+b889ef4ac98837 James Zhu    2022-05-24  1139  				 UVD_LMI_CTRL__MASK_MC_URGENT_MASK |
+b889ef4ac98837 James Zhu    2022-05-24  1140  				 UVD_LMI_CTRL__DATA_COHERENCY_EN_MASK |
+b889ef4ac98837 James Zhu    2022-05-24  1141  				 UVD_LMI_CTRL__VCPU_DATA_COHERENCY_EN_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1142  
+b889ef4ac98837 James Zhu    2022-05-24  1143  	/* setup regUVD_MPC_CNTL */
+fd91d38b527595 Lijo Lazar   2023-02-17  1144  	tmp = RREG32_SOC15(VCN, vcn_inst, regUVD_MPC_CNTL);
+b889ef4ac98837 James Zhu    2022-05-24  1145  	tmp &= ~UVD_MPC_CNTL__REPLACEMENT_MODE_MASK;
+b889ef4ac98837 James Zhu    2022-05-24  1146  	tmp |= 0x2 << UVD_MPC_CNTL__REPLACEMENT_MODE__SHIFT;
+fd91d38b527595 Lijo Lazar   2023-02-17  1147  	WREG32_SOC15(VCN, vcn_inst, regUVD_MPC_CNTL, tmp);
+b889ef4ac98837 James Zhu    2022-05-24  1148  
+b889ef4ac98837 James Zhu    2022-05-24  1149  	/* setup UVD_MPC_SET_MUXA0 */
+fd91d38b527595 Lijo Lazar   2023-02-17  1150  	WREG32_SOC15(VCN, vcn_inst, regUVD_MPC_SET_MUXA0,
+b889ef4ac98837 James Zhu    2022-05-24  1151  			 ((0x1 << UVD_MPC_SET_MUXA0__VARA_1__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1152  			  (0x2 << UVD_MPC_SET_MUXA0__VARA_2__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1153  			  (0x3 << UVD_MPC_SET_MUXA0__VARA_3__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1154  			  (0x4 << UVD_MPC_SET_MUXA0__VARA_4__SHIFT)));
+b889ef4ac98837 James Zhu    2022-05-24  1155  
+b889ef4ac98837 James Zhu    2022-05-24  1156  	/* setup UVD_MPC_SET_MUXB0 */
+fd91d38b527595 Lijo Lazar   2023-02-17  1157  	WREG32_SOC15(VCN, vcn_inst, regUVD_MPC_SET_MUXB0,
+b889ef4ac98837 James Zhu    2022-05-24  1158  			 ((0x1 << UVD_MPC_SET_MUXB0__VARB_1__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1159  			  (0x2 << UVD_MPC_SET_MUXB0__VARB_2__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1160  			  (0x3 << UVD_MPC_SET_MUXB0__VARB_3__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1161  			  (0x4 << UVD_MPC_SET_MUXB0__VARB_4__SHIFT)));
+b889ef4ac98837 James Zhu    2022-05-24  1162  
+b889ef4ac98837 James Zhu    2022-05-24  1163  	/* setup UVD_MPC_SET_MUX */
+fd91d38b527595 Lijo Lazar   2023-02-17  1164  	WREG32_SOC15(VCN, vcn_inst, regUVD_MPC_SET_MUX,
+b889ef4ac98837 James Zhu    2022-05-24  1165  			 ((0x0 << UVD_MPC_SET_MUX__SET_0__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1166  			  (0x1 << UVD_MPC_SET_MUX__SET_1__SHIFT) |
+b889ef4ac98837 James Zhu    2022-05-24  1167  			  (0x2 << UVD_MPC_SET_MUX__SET_2__SHIFT)));
+b889ef4ac98837 James Zhu    2022-05-24  1168  
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1169  	vcn_v4_0_3_mc_resume(adev, inst);
+b889ef4ac98837 James Zhu    2022-05-24  1170  
+b889ef4ac98837 James Zhu    2022-05-24  1171  	/* VCN global tiling registers */
+fd91d38b527595 Lijo Lazar   2023-02-17  1172  	WREG32_SOC15(VCN, vcn_inst, regUVD_GFX8_ADDR_CONFIG,
+b889ef4ac98837 James Zhu    2022-05-24  1173  			 adev->gfx.config.gb_addr_config);
+fd91d38b527595 Lijo Lazar   2023-02-17  1174  	WREG32_SOC15(VCN, vcn_inst, regUVD_GFX10_ADDR_CONFIG,
+b889ef4ac98837 James Zhu    2022-05-24  1175  			 adev->gfx.config.gb_addr_config);
+b889ef4ac98837 James Zhu    2022-05-24  1176  
+b889ef4ac98837 James Zhu    2022-05-24  1177  	/* unblock VCPU register access */
+fd91d38b527595 Lijo Lazar   2023-02-17  1178  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_RB_ARB_CTRL), 0,
+b889ef4ac98837 James Zhu    2022-05-24  1179  		 ~UVD_RB_ARB_CTRL__VCPU_DIS_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1180  
+b889ef4ac98837 James Zhu    2022-05-24  1181  	/* release VCPU reset to boot */
+fd91d38b527595 Lijo Lazar   2023-02-17  1182  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_VCPU_CNTL), 0,
+b889ef4ac98837 James Zhu    2022-05-24  1183  		 ~UVD_VCPU_CNTL__BLK_RST_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1184  
+b889ef4ac98837 James Zhu    2022-05-24  1185  	for (j = 0; j < 10; ++j) {
+b889ef4ac98837 James Zhu    2022-05-24  1186  		uint32_t status;
+b889ef4ac98837 James Zhu    2022-05-24  1187  
+b889ef4ac98837 James Zhu    2022-05-24  1188  		for (k = 0; k < 100; ++k) {
+fd91d38b527595 Lijo Lazar   2023-02-17  1189  			status = RREG32_SOC15(VCN, vcn_inst,
+fd91d38b527595 Lijo Lazar   2023-02-17  1190  						  regUVD_STATUS);
+b889ef4ac98837 James Zhu    2022-05-24  1191  			if (status & 2)
+b889ef4ac98837 James Zhu    2022-05-24  1192  				break;
+b889ef4ac98837 James Zhu    2022-05-24  1193  			mdelay(10);
+b889ef4ac98837 James Zhu    2022-05-24  1194  		}
+b889ef4ac98837 James Zhu    2022-05-24  1195  		r = 0;
+b889ef4ac98837 James Zhu    2022-05-24  1196  		if (status & 2)
+b889ef4ac98837 James Zhu    2022-05-24  1197  			break;
+b889ef4ac98837 James Zhu    2022-05-24  1198  
+b889ef4ac98837 James Zhu    2022-05-24  1199  		DRM_DEV_ERROR(adev->dev,
+b889ef4ac98837 James Zhu    2022-05-24  1200  			"VCN decode not responding, trying to reset the VCPU!!!\n");
+fd91d38b527595 Lijo Lazar   2023-02-17  1201  		WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst,
+fd91d38b527595 Lijo Lazar   2023-02-17  1202  					  regUVD_VCPU_CNTL),
+b889ef4ac98837 James Zhu    2022-05-24  1203  			 UVD_VCPU_CNTL__BLK_RST_MASK,
+b889ef4ac98837 James Zhu    2022-05-24  1204  			 ~UVD_VCPU_CNTL__BLK_RST_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1205  		mdelay(10);
+fd91d38b527595 Lijo Lazar   2023-02-17  1206  		WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst,
+fd91d38b527595 Lijo Lazar   2023-02-17  1207  					  regUVD_VCPU_CNTL),
+fd91d38b527595 Lijo Lazar   2023-02-17  1208  			 0, ~UVD_VCPU_CNTL__BLK_RST_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1209  
+b889ef4ac98837 James Zhu    2022-05-24  1210  		mdelay(10);
+b889ef4ac98837 James Zhu    2022-05-24  1211  		r = -1;
+b889ef4ac98837 James Zhu    2022-05-24  1212  	}
+b889ef4ac98837 James Zhu    2022-05-24  1213  
+b889ef4ac98837 James Zhu    2022-05-24  1214  	if (r) {
+b889ef4ac98837 James Zhu    2022-05-24  1215  		DRM_DEV_ERROR(adev->dev, "VCN decode not responding, giving up!!!\n");
+b889ef4ac98837 James Zhu    2022-05-24  1216  		return r;
+b889ef4ac98837 James Zhu    2022-05-24  1217  	}
+b889ef4ac98837 James Zhu    2022-05-24  1218  
+b889ef4ac98837 James Zhu    2022-05-24  1219  	/* enable master interrupt */
+fd91d38b527595 Lijo Lazar   2023-02-17  1220  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_MASTINT_EN),
+b889ef4ac98837 James Zhu    2022-05-24  1221  		 UVD_MASTINT_EN__VCPU_EN_MASK,
+b889ef4ac98837 James Zhu    2022-05-24  1222  		 ~UVD_MASTINT_EN__VCPU_EN_MASK);
+b889ef4ac98837 James Zhu    2022-05-24  1223  
+b889ef4ac98837 James Zhu    2022-05-24  1224  	/* clear the busy bit of VCN_STATUS */
+fd91d38b527595 Lijo Lazar   2023-02-17  1225  	WREG32_P(SOC15_REG_OFFSET(VCN, vcn_inst, regUVD_STATUS), 0,
+b889ef4ac98837 James Zhu    2022-05-24  1226  		 ~(2 << UVD_STATUS__VCPU_REPORT__SHIFT));
+b889ef4ac98837 James Zhu    2022-05-24  1227  
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1228  	ring = &adev->vcn.inst[inst].ring_enc[0];
+5e90b2e1bb11c2 Boyuan Zhang 2024-10-01  1229  	fw_shared = adev->vcn.inst[inst].fw_shared.cpu_addr;
+b889ef4ac98837 James Zhu    2022-05-24  1230  
+b889ef4ac98837 James Zhu    2022-05-24  1231  	/* program the RB_BASE for ring buffer */
+fd91d38b527595 Lijo Lazar   2023-02-17  1232  	WREG32_SOC15(VCN, vcn_inst, regUVD_RB_BASE_LO,
+b889ef4ac98837 James Zhu    2022-05-24  1233  			 lower_32_bits(ring->gpu_addr));
+fd91d38b527595 Lijo Lazar   2023-02-17  1234  	WREG32_SOC15(VCN, vcn_inst, regUVD_RB_BASE_HI,
+b889ef4ac98837 James Zhu    2022-05-24  1235  			 upper_32_bits(ring->gpu_addr));
+b889ef4ac98837 James Zhu    2022-05-24  1236  
+fd91d38b527595 Lijo Lazar   2023-02-17  1237  	WREG32_SOC15(VCN, vcn_inst, regUVD_RB_SIZE,
+fd91d38b527595 Lijo Lazar   2023-02-17  1238  			 ring->ring_size / sizeof(uint32_t));
+b889ef4ac98837 James Zhu    2022-05-24  1239  
+b889ef4ac98837 James Zhu    2022-05-24  1240  	/* resetting ring, fw should not check RB ring */
+fd91d38b527595 Lijo Lazar   2023-02-17  1241  	tmp = RREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE);
+da044aaeb31ac1 James Zhu    2022-12-17  1242  	tmp &= ~(VCN_RB_ENABLE__RB_EN_MASK);
+fd91d38b527595 Lijo Lazar   2023-02-17  1243  	WREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE, tmp);
+b889ef4ac98837 James Zhu    2022-05-24  1244  
+b889ef4ac98837 James Zhu    2022-05-24  1245  	/* Initialize the ring buffer's read and write pointers */
+fd91d38b527595 Lijo Lazar   2023-02-17  1246  	WREG32_SOC15(VCN, vcn_inst, regUVD_RB_RPTR, 0);
+fd91d38b527595 Lijo Lazar   2023-02-17  1247  	WREG32_SOC15(VCN, vcn_inst, regUVD_RB_WPTR, 0);
+b889ef4ac98837 James Zhu    2022-05-24  1248  
+fd91d38b527595 Lijo Lazar   2023-02-17  1249  	tmp = RREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE);
+da044aaeb31ac1 James Zhu    2022-12-17  1250  	tmp |= VCN_RB_ENABLE__RB_EN_MASK;
+fd91d38b527595 Lijo Lazar   2023-02-17  1251  	WREG32_SOC15(VCN, vcn_inst, regVCN_RB_ENABLE, tmp);
+b889ef4ac98837 James Zhu    2022-05-24  1252  
+fd91d38b527595 Lijo Lazar   2023-02-17  1253  	ring->wptr = RREG32_SOC15(VCN, vcn_inst, regUVD_RB_WPTR);
+762702ebd32459 James Zhu    2022-07-11  1254  	fw_shared->sq.queue_mode &=
+762702ebd32459 James Zhu    2022-07-11  1255  		cpu_to_le32(~(FW_QUEUE_RING_RESET | FW_QUEUE_DPG_HOLD_OFF));
+b889ef4ac98837 James Zhu    2022-05-24  1256  
+b889ef4ac98837 James Zhu    2022-05-24  1257  	return 0;
+b889ef4ac98837 James Zhu    2022-05-24  1258  }
+b889ef4ac98837 James Zhu    2022-05-24  1259  
+
+:::::: The code at line 1094 was first introduced by commit
+:::::: b889ef4ac98837838c38f7b9f72bba2f33ee367d drm/amdgpu/vcn: add vcn support for VCN4_0_3
+
+:::::: TO: James Zhu <James.Zhu@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
