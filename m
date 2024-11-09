@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBB6194AFB
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 23:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 432BB194AFB;
+	Sat,  9 Nov 2024 23:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731195970; cv=none; b=CmIFV1Ap2C1KBhmCC/zlJbefElqWtVLhdGOPNtq3OZi0Ao0p91URYEm4K2eH8KWCSZIqRIU5s+5/72sQoB9vUDoWrkyE7EVk1I/XNRy7+B8SuG6UlfDnhxgLXvbTm8WwFQYkRhGPfJKCgvCClqxaXCp5tsMCK6IMv/NbBxNze4Y=
+	t=1731196629; cv=none; b=FjprSNNzDWglbuNuLblT3sh3/i2tQOwc9ZG7olwM+OXPGosDVruJ9cfrG5jVXq2fDZgWGQafAs958zHQcxXn0dOxJxjXs6ZbK1+IaHm2iNN2V/kOaIQRICZ/SLpTb4VsL2a1rzW6GYZEf78gnRBIWb1ULBRtO2iR+JMhZMkKAbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731195970; c=relaxed/simple;
-	bh=pYLrqg0RBAlLP/P2QvwUbnmxPxiYUQ+kcVAYOcIZwxE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GFNlxo+EbfAszsAXH3thZ6Hn5Z9FMoXHmK7DMhQEG+iP07KYek4bc70qsUyg//sp5ZSTNcCCjimPpHrKmlBGDobWJfm10oNs2frtzbrmcUcm8l30P81FLg080hN+ROpLEawAtd5birz1LkRvIRq9HUYorAbVKVVYtQs2b0auw34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mkNnBGwF; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1731196629; c=relaxed/simple;
+	bh=dKAgHJZZvOFr+heWDCpsFUk9DYtKmjRghL7zdlTh6U0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=k/HG4UOZVBltJ44W1C/bE8RyNWrQO79YJhenDnCiWDPt5fKtb4s/9dlu1YN2M11Foj8qZxXERwUDremS5eZDAo7wQaiMzuqGctP/5mR1byEnOvOEvHCF93HMIa32Ko/2NoVjWSbui2WaHFzMKtCJEKa25gpgprRYEPeVR+Au46A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hS5sz2kq; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mkNnBGwF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hS5sz2kq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731195969; x=1762731969;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pYLrqg0RBAlLP/P2QvwUbnmxPxiYUQ+kcVAYOcIZwxE=;
-  b=mkNnBGwFB01WYZGC2QpJ9FeaoqfW2Mqw+ID3Nh/UqVGYbp44AyhycZTl
-   V1fbrwsRvnvq3u3KlpFjzbLwuXAAOZ/jDghX47YstsUx3OBirvfaQ0O3u
-   2XEE8zuqHbX6svsix6rybGE1SawXyu81h0e9f4SYXJTpmerYi9+4Lu2+3
-   NVlZV8heiD+HL1jKIK6eGfIU5TfZ2CYFMNf0WIRRXBif3UCv0gwW+LZX8
-   VYKd40hRbG+ouhlZdcxwkzdDC9spL8LlUtUHdOkgs80h+0++D+F8520DO
-   IASp+btaYxNN6liFy0fz9+J2z0xllxr0wo2mlYjfk7wd2Um+qJl9ocoSk
-   A==;
-X-CSE-ConnectionGUID: HQ6ZQiq5QFGiEWQwP3BRzA==
-X-CSE-MsgGUID: pZSRdrIeRA24ekzjk8IeYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53608776"
+  t=1731196628; x=1762732628;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dKAgHJZZvOFr+heWDCpsFUk9DYtKmjRghL7zdlTh6U0=;
+  b=hS5sz2kqn4bAiWxQUPmLTWow7oO63PtD1TSM5FHwBPWlUZ8f/Hk4uTwQ
+   lUhVhtPc31lBcIf/ua154vCFmVpVhrEdi7LC0qPVEMBN+WO+J+8buZIyw
+   W6nXLcwqPbmCJMWbh+ZeCnqAJ5Rr+LLV0Sq2twvMEUnHwE0+qoez6MWxT
+   K3McDXz/bKSbnNX9YzrxxHhLXrshkqwdm54qQaeWM5E5nYb15Vm6cpgGZ
+   4IfreiqLYWY/IzmuQgdz1BmsshE6z2V4GUGvBxGqlkX6IpJZ5AnVzu3kT
+   9YggxVZZIKpeOYogsek7xNbMPZmYRm6qE1OoKd6CiScZ80IbLxgIyYjdQ
+   w==;
+X-CSE-ConnectionGUID: AnuUnAGJR/CUEmuvcBBXRg==
+X-CSE-MsgGUID: F/30fGXqQOyvk/u1LBIdBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31204929"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53608776"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 15:46:09 -0800
-X-CSE-ConnectionGUID: x6nyOXvNS5aYX9Aia9e2fg==
-X-CSE-MsgGUID: eo7rNjmZR0K0Dz6J4HwabA==
+   d="scan'208";a="31204929"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 15:57:07 -0800
+X-CSE-ConnectionGUID: 9kdPLtHRRpyo6rPMvT+IAQ==
+X-CSE-MsgGUID: BtZ+4GNFTLSuxUpngAR8rA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="86303661"
+   d="scan'208";a="117131868"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Nov 2024 15:46:05 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 09 Nov 2024 15:57:05 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9v9X-000smE-0F;
-	Sat, 09 Nov 2024 23:46:03 +0000
-Date: Sun, 10 Nov 2024 07:45:48 +0800
+	id 1t9vKB-000smQ-0X;
+	Sat, 09 Nov 2024 23:57:03 +0000
+Date: Sun, 10 Nov 2024 07:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mayank Rana <quic_mrana@quicinc.com>, jingoohan1@gmail.com,
-	manivannan.sadhasivam@linaro.org, will@kernel.org,
-	lpieralisi@kernel.org, kw@linux.com, robh@kernel.org,
-	bhelgaas@google.com, krzk@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_krichai@quicinc.com, Mayank Rana <quic_mrana@quicinc.com>
-Subject: Re: [PATCH v3 4/4] PCI: qcom: Add Qualcomm SA8255p based PCIe root
- complex functionality
-Message-ID: <202411100738.kCgjRkIv-lkp@intel.com>
-References: <20241106221341.2218416-5-quic_mrana@quicinc.com>
+To: Dmitry Vyukov <dvyukov@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [dvyukov:dvyukov-prot-kernonly 1/1] include/linux/mman.h:109:67:
+ error: use of undeclared identifier 'PROT_KERNONLY'
+Message-ID: <202411100710.Xsw5WJSG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,47 +61,127 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241106221341.2218416-5-quic_mrana@quicinc.com>
 
-Hi Mayank,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus mani-mhi/mhi-next robh/for-next linus/master v6.12-rc6 next-20241108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mayank-Rana/PCI-dwc-Export-dwc-MSI-controller-related-APIs/20241107-061634
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20241106221341.2218416-5-quic_mrana%40quicinc.com
-patch subject: [PATCH v3 4/4] PCI: qcom: Add Qualcomm SA8255p based PCIe root complex functionality
-config: powerpc-randconfig-r131-20241109 (https://download.01.org/0day-ci/archive/20241110/202411100738.kCgjRkIv-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce: (https://download.01.org/0day-ci/archive/20241110/202411100738.kCgjRkIv-lkp@intel.com/reproduce)
+tree:   https://github.com/dvyukov/linux dvyukov-prot-kernonly
+head:   37187db99b42dfb9784b42cb759c3f628de0d808
+commit: 37187db99b42dfb9784b42cb759c3f628de0d808 [1/1] mm: add PROT_KERNONLY
+config: mips-mtx1_defconfig (https://download.01.org/0day-ci/archive/20241110/202411100710.Xsw5WJSG-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411100710.Xsw5WJSG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411100738.kCgjRkIv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411100710.Xsw5WJSG-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/pci/controller/dwc/pcie-qcom.c:1613:27: sparse: sparse: symbol 'pci_qcom_ecam_ops' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/pci_qcom_ecam_ops +1613 drivers/pci/controller/dwc/pcie-qcom.c
+   In file included from mm/filemap.c:26:
+>> include/linux/mman.h:109:67: error: use of undeclared identifier 'PROT_KERNONLY'
+           return (prot & ~(PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM | PROT_KERNONLY)) == 0;
+                                                                            ^
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+                  _calc_vm_trans(prot, PROT_KERNONLY,  VM_KERNONLY) |
+                                       ^
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+                  _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:135:48: note: expanded from macro '_calc_vm_trans'
+     ((bit1) <= (bit2) ? ((x) & (bit1)) * ((bit2) / (bit1)) \
+                                                  ^ ~~~~~~
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+                  _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+      : ((x) & (bit1)) / ((bit1) / (bit2))))
+                       ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
+                  _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+      : ((x) & (bit1)) / ((bit1) / (bit2))))
+                       ^ ~~~~~~~~~~~~~~~~~
+   3 warnings and 7 errors generated.
+--
+   In file included from mm/swap.c:21:
+>> include/linux/mman.h:109:67: error: use of undeclared identifier 'PROT_KERNONLY'
+           return (prot & ~(PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM | PROT_KERNONLY)) == 0;
+                                                                            ^
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+                  _calc_vm_trans(prot, PROT_KERNONLY,  VM_KERNONLY) |
+                                       ^
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:147:30: error: use of undeclared identifier 'PROT_KERNONLY'
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+                  _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:135:48: note: expanded from macro '_calc_vm_trans'
+     ((bit1) <= (bit2) ? ((x) & (bit1)) * ((bit2) / (bit1)) \
+                                                  ^ ~~~~~~
+   include/linux/mman.h:159:9: warning: division by zero is undefined [-Wdivision-by-zero]
+                  _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+      : ((x) & (bit1)) / ((bit1) / (bit2))))
+                       ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:160:9: warning: division by zero is undefined [-Wdivision-by-zero]
+                  _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:136:21: note: expanded from macro '_calc_vm_trans'
+      : ((x) & (bit1)) / ((bit1) / (bit2))))
+                       ^ ~~~~~~~~~~~~~~~~~
+   In file included from mm/swap.c:44:
+   In file included from include/trace/events/pagemap.h:83:
+   In file included from include/trace/define_trace.h:102:
+   In file included from include/trace/trace_events.h:21:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:7:
+   include/linux/poll.h:136:27: warning: division by zero is undefined [-Wdivision-by-zero]
+                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+                                           ^~~~~~~~~
+   include/linux/poll.h:134:32: note: expanded from macro 'M'
+   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:120:51: note: expanded from macro '__MAP'
+           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+                                                            ^ ~~~~~~~~~
+   include/linux/poll.h:136:39: warning: division by zero is undefined [-Wdivision-by-zero]
+                   M(RDNORM) | M(RDBAND) | M(WRNORM) | M(WRBAND) |
+                                                       ^~~~~~~~~
+   include/linux/poll.h:134:32: note: expanded from macro 'M'
+   #define M(X) (__force __poll_t)__MAP(val, POLL##X, (__force __u16)EPOLL##X)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/poll.h:120:51: note: expanded from macro '__MAP'
+           (from < to ? (v & from) * (to/from) : (v & from) / (from/to))
+                                                            ^ ~~~~~~~~~
+   5 warnings and 7 errors generated.
 
-  1611	
-  1612	/* ECAM ops */
-> 1613	const struct pci_ecam_ops pci_qcom_ecam_ops = {
-  1614		.init		= qcom_pcie_ecam_host_init,
-  1615		.pci_ops	= {
-  1616			.map_bus	= pci_ecam_map_bus,
-  1617			.read		= pci_generic_config_read,
-  1618			.write		= pci_generic_config_write,
-  1619		}
-  1620	};
-  1621	
+
+vim +/PROT_KERNONLY +109 include/linux/mman.h
+
+    99	
+   100	#ifndef arch_validate_prot
+   101	/*
+   102	 * This is called from mprotect().  PROT_GROWSDOWN and PROT_GROWSUP have
+   103	 * already been masked out.
+   104	 *
+   105	 * Returns true if the prot flags are valid
+   106	 */
+   107	static inline bool arch_validate_prot(unsigned long prot, unsigned long addr)
+   108	{
+ > 109		return (prot & ~(PROT_READ | PROT_WRITE | PROT_EXEC | PROT_SEM | PROT_KERNONLY)) == 0;
+   110	}
+   111	#define arch_validate_prot arch_validate_prot
+   112	#endif
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
