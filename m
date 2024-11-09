@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440C31E51D;
-	Sat,  9 Nov 2024 05:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C391481CD
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  9 Nov 2024 06:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731131139; cv=none; b=ikSBYXXwx3WMq+HlAxqOzegALBg+ssJ+JBiE6Je0HCg8d39SxSAvH2F7fV//KTFnoBXFt47y9Z3/BTkg9DKR69ArfN7lnS3sjQftZ9OZJTZONeHu9D6gHU8FvOKmM/lu9TL+nJhugl6ld3KKMHwaLFwCW2d8puwPjC3duPCAVDU=
+	t=1731132399; cv=none; b=h7zlaV4vdcqA/5TTKAzV1VWbd070P7QBStWCIdNyCFz+RL+8j+uspPlWXAP/83zcF83WSLQ5F1EOL51CObbPGVYBYW8NlWseGssBksaFBUbJV1vlOmF4kbfN0oJ4eFLOwtMrbpKBvuR/LGNoUTwma1wAzVt21Q8BuJ1OT5B4I20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731131139; c=relaxed/simple;
-	bh=7vW5JeGxQy+/KyLJe2zFNuH+Xv75pirG3cgdjNC3Urw=;
+	s=arc-20240116; t=1731132399; c=relaxed/simple;
+	bh=n3h0ytP7z5N3KOGDUFudj9p5ohcbk8AZYM708mEBh08=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=H8koeksGrvx79kgPicPjBVUPUjH2Fu0JW/3QzZzeeuGFHRmhRp1wjPMNtR/qQWRNHOU0gPDw9e+k+LGK8SzlP5XbEvujk5zILL/ipifIie/AjhNVFDHFF620H6rOJvu3Fv/300fmeOXi82PmlPlTxgbH42ijRNJ/A0NiwGIX0L8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwV9IdjU; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=MXSxo4Ak+fjc1nv+Rp48KFjyr73eOc7W7bsznRgF7hOjZHdkHSlp2Z8iar+cY2IbSCfe6t2PGgZroD2MdG2hKkWt4M0CcxWmmrkaxGT2Lq9Ufog9IjwrFgAHNq1DACI0KV5Anh+v55G1aqBf7+kAIL6X5w2J7DLlAunMOIX/RkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iaoNAaSZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwV9IdjU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iaoNAaSZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731131138; x=1762667138;
+  t=1731132398; x=1762668398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7vW5JeGxQy+/KyLJe2zFNuH+Xv75pirG3cgdjNC3Urw=;
-  b=DwV9IdjU+lFewYmowlW309gb8NW8MwANY11I1E4EfYTLQCz847fVcLE5
-   rk8Gslgk8aLMKFo2ZE/A0O957m21Bnv+BCsonZuJE0m8aOhHmFwW6jaSc
-   hn/QUwh0rnuMMyDLARw3Qa3xShG5UaFVmIDp/AZpVD5TY29aP9Gf5pd9C
-   P3NMbdpAk3AWp/k2j5SUY1PFsgFccWr2iOmaXgP6LI8jkUEL1f3hAutrD
-   siaJhLF0+QPtH4Tfc2Y6XpTeUBunt/aX+wk2Zwot+TfUiQlCSPWSyrDmT
-   kkzhrk/lSbH0ePy49K/7JaSRaO8GA+qIQaBPQ9jSJ5BUsKsFKTWmgf85d
-   A==;
-X-CSE-ConnectionGUID: 4w19BEauSoyIO9br8D3YyA==
-X-CSE-MsgGUID: euiJVFMNQo6ETw1EH/GkOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11250"; a="34805320"
-X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="34805320"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 21:45:35 -0800
-X-CSE-ConnectionGUID: +Sl1ERDIRJyt/6D7grcpbQ==
-X-CSE-MsgGUID: l8jp5i0cTOmU6ki2fZLCaw==
+  bh=n3h0ytP7z5N3KOGDUFudj9p5ohcbk8AZYM708mEBh08=;
+  b=iaoNAaSZvhE5kHGPdIANogFxfDtMfw+e8iDeeVyddhc5eekDLYTYmqTX
+   YoMoNEHceS9vuCQnMS6ohJLi7NT1VHDEadglIEF5p9JSKAD7cMIy07IcM
+   /Sy4fYBZN0DDJM81B23gguB6+cLMF7gOQeDgy3+6aMohP9qd8RaWbZHBI
+   d6fvCjCOguSlLqw8vbBYvTIjA1Oi7uU1h7gQgLEsBO+CZOlnBkmrTAuMQ
+   7URMFjUSSb7e9vgnTzWeqd2/ik/1NdIZg/ishHW67no+lFtst9ARG4YWA
+   M5l9rByhnbFZ2WG2QPlD18UXeERlToYfxZdbT4ncJneuXiuPxXeNEJJKJ
+   Q==;
+X-CSE-ConnectionGUID: R9/f8iGDTD+uU2IrmOY59g==
+X-CSE-MsgGUID: 7UyABtFcQ76s0SppZydbiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30786595"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30786595"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2024 22:06:36 -0800
+X-CSE-ConnectionGUID: JJ9vbQkvThuhMLq1NL+gVA==
+X-CSE-MsgGUID: M8y/mo4MQjyR1hVXtPj0Jw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,140,1728975600"; 
-   d="scan'208";a="90996118"
+   d="scan'208";a="89860092"
 Received: from lkp-server01.sh.intel.com (HELO a48cf1aa22e8) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 08 Nov 2024 21:45:34 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 08 Nov 2024 22:06:35 -0800
 Received: from kbuild by a48cf1aa22e8 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1t9eHr-000s6m-1Q;
-	Sat, 09 Nov 2024 05:45:31 +0000
-Date: Sat, 9 Nov 2024 13:45:04 +0800
+	id 1t9ecC-000s7s-2h;
+	Sat, 09 Nov 2024 06:06:32 +0000
+Date: Sat, 9 Nov 2024 14:06:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [mhiramat:topic/fprobe-on-fgraph 19/19]
- kernel/trace/bpf_trace.c:1029:7: error: call to undeclared function
- 'arch_frace_get_symaddr'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202411091312.JGB0J5W5-lkp@intel.com>
+ kernel/trace/bpf_trace.c:1031:1: warning: control reaches end of non-void
+ function
+Message-ID: <202411091453.q96QZ724-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,109 +66,48 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-on-fgraph
 head:   45b6f29f12043a3d5cb155ac4e09fa61229ebb00
 commit: 45b6f29f12043a3d5cb155ac4e09fa61229ebb00 [19/19] bpf: Use ftrace_get_symaddr() in get_entry_ip()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241109/202411091312.JGB0J5W5-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411091312.JGB0J5W5-lkp@intel.com/reproduce)
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241109/202411091453.q96QZ724-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241109/202411091453.q96QZ724-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411091312.JGB0J5W5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411091453.q96QZ724-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from kernel/trace/bpf_trace.c:8:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/bpf_trace.c:356:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     356 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:402:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     402 |         .arg1_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:457:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     457 |         .arg1_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:459:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     459 |         .arg3_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   kernel/trace/bpf_trace.c:501:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     501 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:503:35: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     503 |         .arg4_type      = ARG_PTR_TO_MEM | PTR_MAYBE_NULL | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~
-   kernel/trace/bpf_trace.c:518:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     518 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:542:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     542 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:706:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-     706 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:1009:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1009 |         .arg3_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
->> kernel/trace/bpf_trace.c:1029:7: error: call to undeclared function 'arch_frace_get_symaddr'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   In file included from include/linux/ftrace.h:23,
+                    from include/linux/kprobes.h:28,
+                    from kernel/trace/bpf_trace.c:15:
+   kernel/trace/bpf_trace.c: In function 'get_entry_ip':
+>> arch/x86/include/asm/ftrace.h:56:41: error: implicit declaration of function 'arch_frace_get_symaddr'; did you mean 'arch_ftrace_get_symaddr'? [-Werror=implicit-function-declaration]
+      56 | #define ftrace_get_symaddr(fentry_ip)   arch_frace_get_symaddr(fentry_ip)
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/bpf_trace.c:1029:14: note: in expansion of macro 'ftrace_get_symaddr'
     1029 |         if (!ftrace_get_symaddr(fentry_ip))
-         |              ^
-   arch/x86/include/asm/ftrace.h:56:39: note: expanded from macro 'ftrace_get_symaddr'
-      56 | #define ftrace_get_symaddr(fentry_ip)   arch_frace_get_symaddr(fentry_ip)
-         |                                         ^
-   kernel/trace/bpf_trace.c:1029:7: note: did you mean 'arch_ftrace_get_symaddr'?
-   arch/x86/include/asm/ftrace.h:56:39: note: expanded from macro 'ftrace_get_symaddr'
-      56 | #define ftrace_get_symaddr(fentry_ip)   arch_frace_get_symaddr(fentry_ip)
-         |                                         ^
-   arch/x86/include/asm/ftrace.h:37:29: note: 'arch_ftrace_get_symaddr' declared here
-      37 | static inline unsigned long arch_ftrace_get_symaddr(unsigned long fentry_ip)
-         |                             ^
-   kernel/trace/bpf_trace.c:1189:41: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1189 |         .arg3_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_UNINIT | MEM_ALIGNED,
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:1206:41: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1206 |         .arg2_type      = ARG_PTR_TO_FIXED_SIZE_MEM | MEM_UNINIT | MEM_ALIGNED,
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:1624:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1624 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:1849:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1849 |         .arg4_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   kernel/trace/bpf_trace.c:1904:30: warning: bitwise operation between different enumeration types ('enum bpf_arg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    1904 |         .arg2_type      = ARG_PTR_TO_MEM | MEM_RDONLY,
-         |                           ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~
-   19 warnings and 1 error generated.
+         |              ^~~~~~~~~~~~~~~~~~
+>> kernel/trace/bpf_trace.c:1031:1: warning: control reaches end of non-void function [-Wreturn-type]
+    1031 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/arch_frace_get_symaddr +1029 kernel/trace/bpf_trace.c
+vim +1031 kernel/trace/bpf_trace.c
 
-  1026	
-  1027	static unsigned long get_entry_ip(unsigned long fentry_ip)
-  1028	{
-> 1029		if (!ftrace_get_symaddr(fentry_ip))
-  1030			return fentry_ip;
-  1031	}
-  1032	
+9b99edcae5c80c Jiri Olsa                 2021-07-14  1026  
+c09eb2e578eb16 Jiri Olsa                 2022-09-26  1027  static unsigned long get_entry_ip(unsigned long fentry_ip)
+c09eb2e578eb16 Jiri Olsa                 2022-09-26  1028  {
+45b6f29f12043a Masami Hiramatsu (Google  2024-09-13  1029) 	if (!ftrace_get_symaddr(fentry_ip))
+c09eb2e578eb16 Jiri Olsa                 2022-09-26  1030  		return fentry_ip;
+a8497506cd2c0f Andrii Nakryiko           2024-03-19 @1031  }
+c09eb2e578eb16 Jiri Olsa                 2022-09-26  1032  
+
+:::::: The code at line 1031 was first introduced by commit
+:::::: a8497506cd2c0fc90a64f6f5d2744a0ddb2c81eb bpf: Avoid get_kernel_nofault() to fetch kprobe entry IP
+
+:::::: TO: Andrii Nakryiko <andrii@kernel.org>
+:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
 
 -- 
 0-DAY CI Kernel Test Service
