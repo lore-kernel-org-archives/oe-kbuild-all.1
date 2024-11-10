@@ -1,81 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B47D14A62B;
-	Sun, 10 Nov 2024 20:28:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21F9C14B080
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 20:49:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731270529; cv=none; b=nQsDPoCZaEmXYQInqFZoHnF3xOsOnkUP8nJ68jCg8m2y5jJg/20eDc7P83fsRIarEAT2JjNjlbPchUQr88gpKLdsOwlAtLqc/xeJ+PQ7o/3W9i0spJJbC6ZubjNQBzzSV3FmDDwZcRcNlb/gd31lO3x+3qHyHeZg2fFK2R49CFk=
+	t=1731271787; cv=none; b=XOPk1nRv9C5xC8f8mI1PJ/Q23qifv9sBhXEeAqYE3kZIckRQ3B4dleqSrrx3sQSdo5ZVhl4xIw9v+d0EDCA0x0fBoXAiESDx+Ngop8n8GiBlv6+5HELWIzUU1Byaro/Msle+ZzYjeyyEADNYzBpp1N9GHgkNX5890S/uBGT93S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731270529; c=relaxed/simple;
-	bh=FvnTiVPgZAi2hqZnRMSEkHuWe8Mf6RYiWEemVzAI0ZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q7rZMF+9PiSwMWm4sxrMJ9tKLRxuKmSafa4JE1LVPsege+9XpFZuKwIU4kx0xvnI2hxeZ43cpxzvNLOLd71oKQKUDmnVZAhLigDLL8ykMOf1wZ1xkXmILSMz3yl+IoUrcso7h67hzv28CVOyglNFmhYiX/Zn2+u+PpfaphXg+4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8O8zOri; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1731271787; c=relaxed/simple;
+	bh=cjiHVEPj94n+29xPATa9ZhYL1lTTIjoDVOIz2Z4NRHo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q6rdrlTb1xImMMST+WI4oKAdoHoPWiFWBPC65HmY0UcofX78fOFJz7XR1wDXNSITV3agYxY4skqcuxwVyCYYFxg5l+LQOSvuWWzPpPekG7OV3NV40HwBYszLv/SVvj24/ql4VUJDso/eNYqY2wuOJZR4eWi4ZOeD81LiiWVzM8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P5CfsIPY; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8O8zOri"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P5CfsIPY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731270527; x=1762806527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FvnTiVPgZAi2hqZnRMSEkHuWe8Mf6RYiWEemVzAI0ZE=;
-  b=g8O8zOriLnYV5RrKp4PdBVOh70Q4B/pf6bF2+ik0OlWrT10fAZr52EYK
-   9Ay/ue4CQc63ZmRXG1N51mgV5ySDpmBdd9AEzxXvb+wsfsd1tOoNrjsRI
-   9qG/IM5qpqeYjx13qCsNVaKFIgyIfs+vkXBZWd2Y/40gNPZPP7Cgk0XaK
-   M2WAxIreEsfNSj+n3x2ULkpmxbrNv7E2OkWrjdUuXxUZOGnbBBT7Y3ce1
-   4WecUx7yD68Zl5bkxbgVrGqJkJ7jTRYpFh6c36WazMw9Esz7WiSg22adF
-   dlChv5UuMU5l9qP+oc2629yCzabVmBSsj0v7I8Cb2Z55HL3ZmRFuU0HUS
-   g==;
-X-CSE-ConnectionGUID: KYHXWN8dRieLbrjjCyouKQ==
-X-CSE-MsgGUID: yWMqsdSUSDqJZQNIskBc/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="30480875"
-X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="30480875"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 12:28:46 -0800
-X-CSE-ConnectionGUID: rRkfPIAPRI+FgYG14Dvbxw==
-X-CSE-MsgGUID: Z77/dryGTv+u8YvCuAQbpQ==
+  t=1731271785; x=1762807785;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cjiHVEPj94n+29xPATa9ZhYL1lTTIjoDVOIz2Z4NRHo=;
+  b=P5CfsIPYCOOqLOk2q9mW/NQBf0Zn/gfOYjlHWgc7c25ZhW/65reOqdPc
+   6Bai8Zb2WSdcOzrf3wKviMKB8OsHvrSSZkSD1Yiuf6+sKyK3XpRyuYDBg
+   Nro2DsSW9pK0tGQfvpR3AbtnLQhGw4FBOO3kL6roOMFcutflelTbWs7Pi
+   Xz6fRHFH0frvc8HAuwtaqz+t41xQyl/acs1lry9V3j3iOp4Et3G0n+uwl
+   R5rEPvQxOodDypOZ0ZEGvJmwnING4Fvoo0X0PPQ4ayfqUg2quh7bIsgub
+   b+rBedAjg4QpZa/Zab6lS/q3ljCxfQnIGCkeSe2VsnuA57FcN68Q2Vx19
+   A==;
+X-CSE-ConnectionGUID: y6e5K2IRRWuHf1ilB2cbsQ==
+X-CSE-MsgGUID: jk9FIgSYQY+9OG+lmei6Iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31245516"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31245516"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 12:49:45 -0800
+X-CSE-ConnectionGUID: 6+HX6Q9/T/yhjbzWGhdrmQ==
+X-CSE-MsgGUID: jLoOL0exTd6nZ3AQPmmcWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="87012007"
+   d="scan'208";a="109871700"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Nov 2024 12:28:40 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 10 Nov 2024 12:49:43 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAEY2-0000NZ-0x;
-	Sun, 10 Nov 2024 20:28:38 +0000
-Date: Mon, 11 Nov 2024 04:28:00 +0800
+	id 1tAEsP-0000O5-0t;
+	Sun, 10 Nov 2024 20:49:41 +0000
+Date: Mon, 11 Nov 2024 04:49:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Chandrasekar Ramakrishnan <rcsekar@samsung.com>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Kurt Kanzenbach <kurt@linutronix.de>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Chris Snook <chris.snook@gmail.com>,
-	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Doug Berger <opendmb@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	linux-can@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] net: modernize ioremap in probe
-Message-ID: <202411110419.EQz0nIvL-lkp@intel.com>
-References: <20241109233641.8313-1-rosenp@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 1/1]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: regulators:
+ vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
+Message-ID: <202411110458.8cnBWt0E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,190 +62,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241109233641.8313-1-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-[also build test WARNING on next-20241108]
-[cannot apply to mkl-can-next/testing net/main linus/master v6.12-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-modernize-ioremap-in-probe/20241110-073751
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241109233641.8313-1-rosenp%40gmail.com
-patch subject: [PATCH] net: modernize ioremap in probe
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241111/202411110419.EQz0nIvL-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411110419.EQz0nIvL-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   213f014f54af1757a6058da8cb226e8168dc9ec5
+commit: 4a0390578cd1530eebdeb92848d84c6627ad87b0 [1/1] CHROMIUM: dts: arm64: mt8186: Edit dts for skitty
+config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241111/202411110458.8cnBWt0E-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.1.0
+dtschema version: 2024.10.dev6+g12c3cd5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411110458.8cnBWt0E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411110419.EQz0nIvL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411110458.8cnBWt0E-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/freescale/xgmac_mdio.c:16:
-   In file included from include/linux/acpi_mdio.h:9:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/net/ethernet/freescale/xgmac_mdio.c:16:
-   In file included from include/linux/acpi_mdio.h:9:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/freescale/xgmac_mdio.c:16:
-   In file included from include/linux/acpi_mdio.h:9:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/net/ethernet/freescale/xgmac_mdio.c:16:
-   In file included from include/linux/acpi_mdio.h:9:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/net/ethernet/freescale/xgmac_mdio.c:395:45: warning: variable 'res' is uninitialized when used here [-Wuninitialized]
-     395 |         snprintf(bus->id, MII_BUS_ID_SIZE, "%pa", &res->start);
-         |                                                    ^~~
-   drivers/net/ethernet/freescale/xgmac_mdio.c:375:22: note: initialize the variable 'res' to silence this warning
-     375 |         struct resource *res;
-         |                             ^
-         |                              = NULL
-   8 warnings generated.
-
-
-vim +/res +395 drivers/net/ethernet/freescale/xgmac_mdio.c
-
-909bea73485fab5 Tobias Waldekranz 2022-01-26  370  
-33897cc869eef8b Bill Pemberton    2012-12-03  371  static int xgmac_mdio_probe(struct platform_device *pdev)
-9f35a7342cff0be Timur Tabi        2012-08-20  372  {
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  373  	struct fwnode_handle *fwnode;
-73ee5442978b2dd Shaohui Xie       2015-03-16  374  	struct mdio_fsl_priv *priv;
-15e7064e8793352 Calvin Johnson    2021-06-11  375  	struct resource *res;
-15e7064e8793352 Calvin Johnson    2021-06-11  376  	struct mii_bus *bus;
-9f35a7342cff0be Timur Tabi        2012-08-20  377  	int ret;
-9f35a7342cff0be Timur Tabi        2012-08-20  378  
-229f4bb47512ece Calvin Johnson    2020-06-22  379  	/* In DPAA-1, MDIO is one of the many FMan sub-devices. The FMan
-229f4bb47512ece Calvin Johnson    2020-06-22  380  	 * defines a register space that spans a large area, covering all the
-229f4bb47512ece Calvin Johnson    2020-06-22  381  	 * subdevice areas. Therefore, MDIO cannot claim exclusive access to
-229f4bb47512ece Calvin Johnson    2020-06-22  382  	 * this register area.
-229f4bb47512ece Calvin Johnson    2020-06-22  383  	 */
-9f35a7342cff0be Timur Tabi        2012-08-20  384  
-1d14eb15dc2c396 Tobias Waldekranz 2022-01-26  385  	bus = devm_mdiobus_alloc_size(&pdev->dev, sizeof(struct mdio_fsl_priv));
-9f35a7342cff0be Timur Tabi        2012-08-20  386  	if (!bus)
-9f35a7342cff0be Timur Tabi        2012-08-20  387  		return -ENOMEM;
-9f35a7342cff0be Timur Tabi        2012-08-20  388  
-9f35a7342cff0be Timur Tabi        2012-08-20  389  	bus->name = "Freescale XGMAC MDIO Bus";
-c0fc8e6dcee40cf Andrew Lunn       2023-01-09  390  	bus->read = xgmac_mdio_read_c22;
-c0fc8e6dcee40cf Andrew Lunn       2023-01-09  391  	bus->write = xgmac_mdio_write_c22;
-c0fc8e6dcee40cf Andrew Lunn       2023-01-09  392  	bus->read_c45 = xgmac_mdio_read_c45;
-c0fc8e6dcee40cf Andrew Lunn       2023-01-09  393  	bus->write_c45 = xgmac_mdio_write_c45;
-9f35a7342cff0be Timur Tabi        2012-08-20  394  	bus->parent = &pdev->dev;
-229f4bb47512ece Calvin Johnson    2020-06-22 @395  	snprintf(bus->id, MII_BUS_ID_SIZE, "%pa", &res->start);
-9f35a7342cff0be Timur Tabi        2012-08-20  396  
-73ee5442978b2dd Shaohui Xie       2015-03-16  397  	priv = bus->priv;
-865bbb2945a1614 Rosen Penev       2024-11-09  398  	priv->mdio_base = devm_platform_ioremap_resource(pdev, 0);
-865bbb2945a1614 Rosen Penev       2024-11-09  399  	if (IS_ERR(priv->mdio_base))
-865bbb2945a1614 Rosen Penev       2024-11-09  400  		return PTR_ERR(priv->mdio_base);
-9f35a7342cff0be Timur Tabi        2012-08-20  401  
-15e7064e8793352 Calvin Johnson    2021-06-11  402  	/* For both ACPI and DT cases, endianness of MDIO controller
-15e7064e8793352 Calvin Johnson    2021-06-11  403  	 * needs to be specified using "little-endian" property.
-15e7064e8793352 Calvin Johnson    2021-06-11  404  	 */
-229f4bb47512ece Calvin Johnson    2020-06-22  405  	priv->is_little_endian = device_property_read_bool(&pdev->dev,
-07bf2e11ad05868 Julia Lawall      2016-08-05  406  							   "little-endian");
-73ee5442978b2dd Shaohui Xie       2015-03-16  407  
-6198c722019774d Tobias Waldekranz 2022-01-18  408  	priv->has_a009885 = device_property_read_bool(&pdev->dev,
-6198c722019774d Tobias Waldekranz 2022-01-18  409  						      "fsl,erratum-a009885");
-229f4bb47512ece Calvin Johnson    2020-06-22  410  	priv->has_a011043 = device_property_read_bool(&pdev->dev,
-1d3ca681b9d9575 Madalin Bucur     2020-01-22  411  						      "fsl,erratum-a011043");
-1d3ca681b9d9575 Madalin Bucur     2020-01-22  412  
-909bea73485fab5 Tobias Waldekranz 2022-01-26  413  	xgmac_mdio_set_suppress_preamble(bus);
-909bea73485fab5 Tobias Waldekranz 2022-01-26  414  
-dd8f467eda72cda Tobias Waldekranz 2022-01-26  415  	ret = xgmac_mdio_set_mdc_freq(bus);
-dd8f467eda72cda Tobias Waldekranz 2022-01-26  416  	if (ret)
-dd8f467eda72cda Tobias Waldekranz 2022-01-26  417  		return ret;
-dd8f467eda72cda Tobias Waldekranz 2022-01-26  418  
-105b0468d7b2e67 zhaoxiao          2022-08-18  419  	fwnode = dev_fwnode(&pdev->dev);
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  420  	if (is_of_node(fwnode))
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  421  		ret = of_mdiobus_register(bus, to_of_node(fwnode));
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  422  	else if (is_acpi_node(fwnode))
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  423  		ret = acpi_mdiobus_register(bus, fwnode);
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  424  	else
-ac53c26433b51f1 Marcin Wojtas     2021-06-25  425  		ret = -EINVAL;
-9f35a7342cff0be Timur Tabi        2012-08-20  426  	if (ret) {
-9f35a7342cff0be Timur Tabi        2012-08-20  427  		dev_err(&pdev->dev, "cannot register MDIO bus\n");
-9f35a7342cff0be Timur Tabi        2012-08-20  428  		return ret;
-9f35a7342cff0be Timur Tabi        2012-08-20  429  	}
-9f35a7342cff0be Timur Tabi        2012-08-20  430  
-1d14eb15dc2c396 Tobias Waldekranz 2022-01-26  431  	platform_set_drvdata(pdev, bus);
-9f35a7342cff0be Timur Tabi        2012-08-20  432  
-9f35a7342cff0be Timur Tabi        2012-08-20  433  	return 0;
-9f35a7342cff0be Timur Tabi        2012-08-20  434  }
-9f35a7342cff0be Timur Tabi        2012-08-20  435  
+dtcheck warnings: (new ones prefixed by >>)
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /: failed to match any schema with compatible: ['google,skitty-sku1', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /: failed to match any schema with compatible: ['google,skitty-sku1', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /: failed to match any schema with compatible: ['google,skitty-sku1', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: touchscreen@10: 'hid-descr-addr', 'post-power-on-delay-ms', 'vdd-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku1.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
+--
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /: failed to match any schema with compatible: ['google,skitty-sku2', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /: failed to match any schema with compatible: ['google,skitty-sku2', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /: failed to match any schema with compatible: ['google,skitty-sku2', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: soc: thermal-zones: 'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku2.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
 
 -- 
 0-DAY CI Kernel Test Service
