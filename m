@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F5B10A3E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 15:12:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A4354670
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 15:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731251537; cv=none; b=S9xx91pzxHToWYydJmGYIg+vQzOAIf13lKP3UEaKoNZ4CTcpOMkfKj0m4eAw1jhumr4oxTLOfVrf9UlpglC1TMWl7WsRNWPfIWTKJIvmMI+xICHJDNUYMD6ST7QCAloqfrLI7S7XOYnDygw0AGlsbP2+xEJLtSGLIxHveA1COhA=
+	t=1731254001; cv=none; b=aKQ77hgwxGPmiQu3aBMr9kbo84WNhHZYHFYSofC6+f+4Xasun4AbaKPwgHLh9avzcC9deNI0gTW4qi/k5DGNIgN0nBoKckvJ/P3+/otjAkc01s1QpXd8fkyMJfhDPnbNcwmo99Als8DA0eNNAfocgNUGm1BvEmsELQZ7hgyaVpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731251537; c=relaxed/simple;
-	bh=y1D4eU3fbGsALGXijtgIH1mqveXaVZ+dTlPgloNPxps=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l7v4L1OORtZtzq2WvDv781CRywNtBMVoXRAotJUlGjUDRK7dGkD0514QYd8w3geb9dY1IqgNTlddMdOqWlKIwef7NkK0UZ+zDWP+8duRR/3wONEcCWorK/o+FVl3V17LqsfqTlK7QfWUnXQoaFNKFUjErKE0DVmrdfS+qXElw0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ecfjBZYh; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1731254001; c=relaxed/simple;
+	bh=jvD2CCTe+oFNrodgQj6jd2E9spr6i3/DFNz2P5FA7lc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KheI1w7tu4rqVZRjqpR7KlVutv891J2j2AoK0u3MMINtHGfBqsDPquKBtojuEcLdyvb2CgEOBZQZ90bnvisDkDZsnI6N/mKWsMDs6C2y6iLkPNN+TClHtcam66S481PIPqvoySA3sES/OqyxeF20w6/HvOytO09allgZY68JBvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEDqGYFC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ecfjBZYh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEDqGYFC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731251535; x=1762787535;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=y1D4eU3fbGsALGXijtgIH1mqveXaVZ+dTlPgloNPxps=;
-  b=ecfjBZYhNd9sd9UsDATOEU86DgbVu0WvvaNK2iXMp9hOwna0onnHyjxO
-   mYrA2Mt5QDQGQkmJ/r+VDig3YSjwnTRmzu1FEp4sD4cV3hwI1JLy5ICw8
-   hDaGgdz9+Sr798X5RhYNtVREo2b/PKFmlnRCf5C4BTmmwNqxK5ekre/t/
-   6ocO/w5mIkFiSRnRLAY09YolHhXJwXYj/iquv5kF/nUdQ75wurRrK9C0G
-   bU/AXD661vw9KfwyKPGKOF/7NCFOfexPD5V7dkWY1Sudg4BQZB/E25zNs
-   Ov9OFJbAxvBFcZwlXvXtv+UTeUH7jYiELA9Az5fhRoaadZ3gwOWTLOV3S
-   w==;
-X-CSE-ConnectionGUID: iNzt+9LSQ46NZNFBrerZRg==
-X-CSE-MsgGUID: vItRAvbLRyeyjWUOcK3j/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="18691797"
+  t=1731253999; x=1762789999;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jvD2CCTe+oFNrodgQj6jd2E9spr6i3/DFNz2P5FA7lc=;
+  b=YEDqGYFCDUuYhSQbYRS+z/zZXYhpXiXlFMqID5wr6CO3SG7J24Hv58pv
+   RDAD5dTM3IofNqQOG9V18uhdq/nCU5qEX9d7nKXHte2xodQndQ2TYhfx2
+   qJUO5MyU2QKDUo89dgn19+K3yjlz8yzxpcQ5ON+6Iy29P6J9+3TwpcMSe
+   AuiN9oMFESDdKkINgBX4AD9E11/MBxgoOVKvoXZ57Iym7uF18HbeepkmJ
+   EmWHahWPoPJukTc7H04uGYEUVWRgjIORh/vGwHOFITjawZubPLJbuDDi6
+   JQY2tf66esvICa42HtwGQYt99FC1SfzznjOb/Ehm8JBcSEAeSbLngPF0F
+   g==;
+X-CSE-ConnectionGUID: VAKFf9YET8a6gXtG7CoPVw==
+X-CSE-MsgGUID: Ro4oPR5XRjKK4EMV24wS5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41697748"
 X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="18691797"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 07:12:15 -0800
-X-CSE-ConnectionGUID: WskQWaHTQMy/8RAMPcIkJw==
-X-CSE-MsgGUID: lvv7SjN8S12NmgapIstYwg==
+   d="scan'208";a="41697748"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 07:53:19 -0800
+X-CSE-ConnectionGUID: yGlTB8FqT9qEoPc4TbJENA==
+X-CSE-MsgGUID: LDhMPhzvTGeSkyRgbqxGtQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="86205415"
+   d="scan'208";a="117333324"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Nov 2024 07:12:13 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2024 07:53:17 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tA9bm-0000CT-2q;
-	Sun, 10 Nov 2024 15:12:10 +0000
-Date: Sun, 10 Nov 2024 23:11:16 +0800
+	id 1tAAFV-0000DV-2r;
+	Sun, 10 Nov 2024 15:53:13 +0000
+Date: Sun, 10 Nov 2024 23:52:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julian Vetter <jvetter@kalrayinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Yann Sionneau <ysionneau@kalrayinc.com>
-Subject: [linux-next:master 6632/10559]
- drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse: sparse: incorrect type in
- argument 2 (different address spaces)
-Message-ID: <202411102342.H8WZP17i-lkp@intel.com>
+To: Karol Przybylski <karprzy7@gmail.com>, hverkuil@xs4all.nl,
+	mchehab@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Karol Przybylski <karprzy7@gmail.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: Re: [PATCH] media: cec: extron-da-hd-4k-plus: add return check for
+ wait_for_completion*()
+Message-ID: <202411102341.VuOHMHGh-lkp@intel.com>
+References: <20241110125814.1899076-1-karprzy7@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +66,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241110125814.1899076-1-karprzy7@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   929beafbe7acce3267c06115e13e03ff6e50548a
-commit: 0110feaaf6d0610d0089ae4897387df9a963b5f0 [6632/10559] arm64: Use new fallback IO memcpy/memset
-config: arm64-randconfig-r111-20241110 (https://download.01.org/0day-ci/archive/20241110/202411102342.H8WZP17i-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241110/202411102342.H8WZP17i-lkp@intel.com/reproduce)
+Hi Karol,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linuxtv-media-stage/master]
+[also build test ERROR on linus/master v6.12-rc6 next-20241108]
+[cannot apply to media-tree/master sailus-media-tree/streams sailus-media-tree/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Przybylski/media-cec-extron-da-hd-4k-plus-add-return-check-for-wait_for_completion/20241110-210018
+base:   https://git.linuxtv.org/media_stage.git master
+patch link:    https://lore.kernel.org/r/20241110125814.1899076-1-karprzy7%40gmail.com
+patch subject: [PATCH] media: cec: extron-da-hd-4k-plus: add return check for wait_for_completion*()
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241110/202411102341.VuOHMHGh-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411102341.VuOHMHGh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411102342.H8WZP17i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411102341.VuOHMHGh-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *src @@     got void * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse:     expected void const volatile [noderef] __iomem *src
-   drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse:     got void *
-   drivers/remoteproc/qcom_q6v5_pas.c:575:26: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *mem_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:575:26: sparse:     expected void *mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:575:26: sparse:     got void [noderef] __iomem *
-   drivers/remoteproc/qcom_q6v5_pas.c:600:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *dtb_mem_region @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/qcom_q6v5_pas.c:600:30: sparse:     expected void *dtb_mem_region
-   drivers/remoteproc/qcom_q6v5_pas.c:600:30: sparse:     got void [noderef] __iomem *
-   drivers/remoteproc/qcom_q6v5_pas.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/firmware.h):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +137 drivers/remoteproc/qcom_q6v5_pas.c
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_read_edid':
+>> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:563:17: error: 'ret' undeclared (first use in this function); did you mean 'net'?
+     563 |                 ret = wait_for_completion_killable_timeout(&extron->edid_completion,
+         |                 ^~~
+         |                 net
+   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:563:17: note: each undeclared identifier is reported only once for each function it appears in
 
-b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson     2016-08-22  121  
-181da4bcc3d4bb drivers/remoteproc/qcom_q6v5_pas.c Krzysztof Kozlowski 2023-05-07  122  static void adsp_segment_dump(struct rproc *rproc, struct rproc_dump_segment *segment,
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  123  		       void *dest, size_t offset, size_t size)
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  124  {
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  125  	struct qcom_adsp *adsp = rproc->priv;
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  126  	int total_offset;
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  127  
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  128  	total_offset = segment->da + segment->offset + offset - adsp->mem_phys;
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  129  	if (total_offset < 0 || total_offset + size > adsp->mem_size) {
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  130  		dev_err(adsp->dev,
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  131  			"invalid copy request for segment %pad with offset %zu and size %zu)\n",
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  132  			&segment->da, offset, size);
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  133  		memset(dest, 0xff, size);
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  134  		return;
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  135  	}
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  136  
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02 @137  	memcpy_fromio(dest, adsp->mem_region + total_offset, size);
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  138  }
-a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          2022-11-02  139  
 
-:::::: The code at line 137 was first introduced by commit
-:::::: a376c10d45a8e6ee5ea55791193f90625b35e156 remoteproc: qcom: pas: Adjust the phys addr wrt the mem region
+vim +563 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
 
-:::::: TO: Yogesh Lal <quic_ylal@quicinc.com>
-:::::: CC: Bjorn Andersson <andersson@kernel.org>
+   540	
+   541	static void extron_read_edid(struct extron_port *port)
+   542	{
+   543		struct extron *extron = port->extron;
+   544		char cmd[10], reply[10];
+   545		unsigned int idx;
+   546	
+   547		idx = port->port.port + (port->is_input ? 0 : extron->num_in_ports);
+   548		snprintf(cmd, sizeof(cmd), "WR%uEDID", idx);
+   549		snprintf(reply, sizeof(reply), "EdidR%u", idx);
+   550		if (mutex_lock_interruptible(&extron->edid_lock))
+   551			return;
+   552		if (port->read_edid)
+   553			goto unlock;
+   554		extron->edid_bytes_read = 0;
+   555		extron->edid_port = port;
+   556		port->edid_blocks = 0;
+   557		if (!port->has_edid)
+   558			goto no_edid;
+   559	
+   560		extron->edid_reading = true;
+   561	
+   562		if (!extron_send_and_wait(extron, port, cmd, reply)) {
+ > 563			ret = wait_for_completion_killable_timeout(&extron->edid_completion,
+   564							     msecs_to_jiffies(1000));
+   565			if (ret < 0)
+   566				goto unlock;
+   567		}
+   568		if (port->edid_blocks) {
+   569			extron_parse_edid(port);
+   570			port->read_edid = true;
+   571			if (!port->is_input)
+   572				v4l2_ctrl_s_ctrl(port->ctrl_tx_edid_present, 1);
+   573		}
+   574	no_edid:
+   575		extron->edid_reading = false;
+   576	unlock:
+   577		mutex_unlock(&extron->edid_lock);
+   578		cancel_delayed_work_sync(&extron->work_update_edid);
+   579		if (manufacturer_name[0])
+   580			schedule_delayed_work(&extron->work_update_edid,
+   581					      msecs_to_jiffies(1000));
+   582	}
+   583	
 
 -- 
 0-DAY CI Kernel Test Service
