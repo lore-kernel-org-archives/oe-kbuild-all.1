@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DEF714264A
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 10:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1D62556E;
+	Sun, 10 Nov 2024 10:53:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731232970; cv=none; b=a12wZknjJdHpXXxeNkQ1tN5/Q1psLv4QOgnU5Bx2Wuf2Gu4PsSj1GMcaZRNqqcoXGM4Q/z3f7RuQpF7UnNzlj/lWldE09MoyfsqZFAqcF68CicEqoCTvwfTsdNHG7QF8RXPzW2DY+ZJ9GEF/fx4p8JsLEgxBMx8YnRxe2KpomgQ=
+	t=1731236035; cv=none; b=EM6CxQA9xEFyXG16BrdO0x7dy8TdTKDkAX+s/lfiSgsaPLDazfB5rcEoWJG8UbVitf9RWebSqzlIu/urPTspuV2aCQFxpxVWNsI3CajSIw5EgJVTGalGPUm/GARA7qp1bI2N3hONR+anY1oqcvJefUgVy6da+s3akiuZH/tZAKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731232970; c=relaxed/simple;
-	bh=fu+qE5dBiFIuPvorgywk6UHUwoRBu159jlmYlc912os=;
+	s=arc-20240116; t=1731236035; c=relaxed/simple;
+	bh=zzMt0OYWbVG1DCByliP6/KgNFDeJTzkn4VABlK9VMeQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ha0lbUXBDWcHgh+ApZy4d7HaivyX+c46EmU6MDbUXR/CwIpnK9QlMD8z7eUJdPMeE9okwGx+4kx2lJx9anVt7A1Lui9SIgXM91U/MB7fZnspYHyvg0m9UfJyfZepA2qIV4uGtYw6E8uieJsw0XP7f8o9vHSFJEzewhXeWvz4w0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XyePcLOY; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=RBu8Xmf7hAkPZRI8YEBv1hJQwHcwLpWZOCpgmhM9rNoarctGWS45buw2vKEFc93vx/DChwzMZYi+BuETScctIXBBaXYOjjqH5OHqSHCX2aWpzRueISVQHY6DW7vnXcGBUSS3hhD/kTMlogPqE/A7JzDgzJySJM+tR0Ym7s8CEh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyd/MLMM; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XyePcLOY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyd/MLMM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731232968; x=1762768968;
+  t=1731236033; x=1762772033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fu+qE5dBiFIuPvorgywk6UHUwoRBu159jlmYlc912os=;
-  b=XyePcLOY7hGDP5EsKDZb5Zobqbq2GRuSFDWcDatNaK6S1O5gmeceGhEE
-   SNnUF8alT4Cf4GGnH8v/9Wl783AhNStx1qj5zTmJWdc3IzevNJzVhDghL
-   QR2pmBDKVbwwK93Hbctp2uuePgzFLkmiRJs9KsPu/msPsuODHdpJVRCS1
-   kh116IxsOUk48zSEbEzyb3tWgdJxnL4cD2iDf5UYhHKxh6hPzzqxyFv9V
-   3oeInmzjTMD3wYkS/8dBbXKkd/ImKsBOKAtXDypqC5NVWHUSZg2c/sYgJ
-   VwhFfOy2Of9XvS71OgpNFaaCh64bzvlf5R2wXzQ5ULdXGh4m60ux/AG3v
+  bh=zzMt0OYWbVG1DCByliP6/KgNFDeJTzkn4VABlK9VMeQ=;
+  b=kyd/MLMMBE/qVcOHXG0Bi7W46sthd2FpIog2F4qNyhDVVyC+YDqea6Z2
+   gdiw4OzkUWRUtMNeC5KT87VQAC1MuOtVMAtoyLJrjDRgCMNNt0yCMVj2r
+   ZbsRPixzXFecUTOWBkk6nGbbKDEYKnXRbntjQzb8ux6V1UdYAvUeRpX61
+   8gpX4mTZ5RYywy5egawGPve5vdziAQSoNEQoc3SHLfbnSxrYOsqILxnVH
+   wQn5oEWo/VmjoFYG1EmFqIxay1bFMslATOiz2qFQdRSneZNuvF4AQIfbL
+   4y9Rfl9Wbgoz8nhQoPbftMxNS3z1Chtqfl7r4uJE9WSpwQ5f+fEMvYQsz
    Q==;
-X-CSE-ConnectionGUID: SreNTsKfSo2/cHS1LRt1Pw==
-X-CSE-MsgGUID: gT+PoQlnTLCXxrIMQCy2yQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41621710"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41621710"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 02:02:48 -0800
-X-CSE-ConnectionGUID: DETPvoC7Qj+NhILYhcjAUw==
-X-CSE-MsgGUID: 8sTnxNH5Rb+ZhfGpCp3UZA==
+X-CSE-ConnectionGUID: 2Pjr5jmSTrKktKwxRuyE5w==
+X-CSE-MsgGUID: 4jEiYA8GSIyOg2hEslU3wA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="30464566"
+X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
+   d="scan'208";a="30464566"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 02:53:52 -0800
+X-CSE-ConnectionGUID: pS9VAJIYQiW3JWUwfedTMQ==
+X-CSE-MsgGUID: B2IrAF3TTrOa9JsfDAULhg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="86710719"
+   d="scan'208";a="90910803"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 10 Nov 2024 02:02:46 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2024 02:53:51 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tA4mK-00004f-2X;
-	Sun, 10 Nov 2024 10:02:44 +0000
-Date: Sun, 10 Nov 2024 18:02:06 +0800
+	id 1tA5Zk-00005z-2l;
+	Sun, 10 Nov 2024 10:53:48 +0000
+Date: Sun, 10 Nov 2024 18:53:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 1/1]
- arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /: compatible:
- 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202411101712.OdklZW6K-lkp@intel.com>
+To: Ryan Lee <ryan.lee@canonical.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	John Johansen <john.johansen@canonical.com>
+Subject: [jj-apparmor:apparmor-next 2/16] security/apparmor/domain.c:696:3:
+ warning: label followed by a declaration is a C23 extension
+Message-ID: <202411101808.AI8YG6cs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +63,215 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   213f014f54af1757a6058da8cb226e8168dc9ec5
-commit: c93894e12a9ffd3c061054d839aa1e46a1f76f1d [1/1] UPSTREAM: arm64: dts: mt8183: Add kukui katsu board
-config: arm64-randconfig-051-20241030 (https://download.01.org/0day-ci/archive/20241110/202411101712.OdklZW6K-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.1.0
-dtschema version: 2024.10.dev6+g12c3cd5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411101712.OdklZW6K-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
+head:   8c4f7960ae8a7a03a43f814e4af471b8e6ea3391
+commit: ee650b3820f3d127a31c589101b60fbb28e53989 [2/16] apparmor: properly handle cx/px lookup failure for complain
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411101808.AI8YG6cs-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411101808.AI8YG6cs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411101712.OdklZW6K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411101808.AI8YG6cs-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:87.27-121.4: Warning (unit_address_vs_reg): /soc/i2c@11009000/sensor_main: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:123.33-129.4: Warning (unit_address_vs_reg): /soc/i2c@11009000/camera_main_af: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1662.18-1668.6: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1669.18-1672.6: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:146.25-179.4: Warning (i2c_bus_reg): /soc/i2c@11008000/sensor_sub: I2C bus unit address format error, expected "3d"
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:87.27-121.4: Warning (i2c_bus_reg): /soc/i2c@11009000/sensor_main: I2C bus unit address format error, expected "10"
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-kakadu.dtsi:123.33-129.4: Warning (i2c_bus_reg): /soc/i2c@11009000/camera_main_af: I2C bus unit address format error, expected "c"
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1186.21-1196.5: Warning (unique_unit_address_if_enabled): /soc/svs@1100b000: duplicate unit-address (also used in node /soc/thermal@1100b000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:1963.28-1967.5: Warning (unique_unit_address_if_enabled): /soc/syscon@16000000: duplicate unit-address (also used in node /soc/vcodec@16000000)
-   arch/arm64/boot/dts/mediatek/mt8183.dtsi:2077.27-2081.5: Warning (unique_unit_address_if_enabled): /soc/syscon@1a000000: duplicate unit-address (also used in node /soc/camisp@1a000000)
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['google,katsu-sku32', 'google,katsu', 'mediatek,mt8183'] is too long
-   	['google,katsu-sku32', 'google,katsu', 'mediatek,mt8183'] is too short
-   	'google,katsu-sku32' is not one of ['mediatek,mt2701-evb']
-   	'google,katsu-sku32' is not one of ['mediatek,mt2712-evb']
-   	'google,katsu-sku32' is not one of ['mediatek,mt6580-evbp1']
-   	'google,katsu-sku32' is not one of ['prestigio,pmt5008-3g']
-   	'google,katsu-sku32' is not one of ['fairphone,fp1', 'mundoreader,bq-aquaris5']
-   	'google,katsu-sku32' is not one of ['mediatek,mt6592-evb']
-   	'google,katsu-sku32' is not one of ['mediatek,mt6755-evb']
-   	'google,katsu-sku32' is not one of ['mediatek,mt6765-evb']
---
-   	'mediatek,mt8365' was expected
-   	'mediatek,mt8516' was expected
-   	'google,elm-rev6' was expected
-   	'google,hana-rev4' was expected
-   	'google,kakadu' was expected
-   	'google,steelix-rev0-sku196608' was expected
-   	'google,tentacruel-sku262145' was expected
-   	'google,tentacruel-sku262149' was expected
-   	'google,spherion-rev1' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /: failed to match any schema with compatible: ['google,katsu-sku32', 'google,katsu', 'mediatek,mt8183']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /: failed to match any schema with compatible: ['google,katsu-sku32', 'google,katsu', 'mediatek,mt8183']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@c530000: failed to match any schema with compatible: ['mediatek,mt8183-mcucfg', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/interrupt-controller@c530a80: failed to match any schema with compatible: ['mediatek,mt8183-sysirq', 'mediatek,mt6577-sysirq']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: pinctrl@10005000: mmc0-pins-default:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-clk:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: pinctrl@10005000: mmc0-pins-uhs:pins-ds:mediatek,pull-down-adv: 10 is not one of [0, 1, 2, 3]
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: pinctrl@10005000: mmc1-pins-default:pins-cmd-dat:mediatek,pull-up-adv: 10 is not one of [0, 1, 2, 3]
---
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: i2c@11009000: Unevaluated properties are not allowed ('camera_main_af', 'sensor_main' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mt65xx.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: sensor_main: clocks: [[19, 4], [19, 100]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: sensor_main: clock-names: ['xvclk', 'freq_mux'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: sensor_main: 'lens-focus' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/spi@1100a000/cr50@0: failed to match any schema with compatible: ['google,cr50']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/thermal@1100b000: failed to match any schema with compatible: ['mediatek,mt8183-thermal']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: it6505dptx@5c: interrupts: [[152, 8], [152, 0]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: it6505dptx@5c: 'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: it6505dptx@5c: 'hpd-gpios', 'no-laneswap', 'port' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
---
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dsi@14014000: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dpi@14015000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dpi@14015000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: dpi@14015000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: mdp3-ccorr@1401c000: 'mediatek,mdp3-id' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek-mdp3.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@15020000: failed to match any schema with compatible: ['mediatek,mt8183-imgsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/dip@15022000: failed to match any schema with compatible: ['mediatek,mt8183-dip']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/fd@1502b000: failed to match any schema with compatible: ['mediatek,mt8183-fd']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@16000000: failed to match any schema with compatible: ['mediatek,mt8183-vdecsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@16000000: reg: [[0, 369098752, 0, 4096], [0, 369229824, 0, 4096], [0, 369233920, 0, 2048], [0, 369235968, 0, 2048], [0, 369238016, 0, 4096], [0, 369242112, 0, 4096], [0, 369246208, 0, 4096], [0, 369250304, 0, 4096], [0, 369256448, 0, 2048], [0, 369258496, 0, 2048], [0, 369260544, 0, 2048], [0, 369263616, 0, 1024]] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@16000000: 'mediatek,vdecsys' is a required property
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@16000000: clock-names:0: 'vdec' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-decoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@16000000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: vcodec@17020000: 'mediatek,larb' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@19000000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_conn', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@19010000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_adl', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@19180000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core0', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@19280000: failed to match any schema with compatible: ['mediatek,mt8183-ipu_core1', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/syscon@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camsys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/camisp@1a000000: failed to match any schema with compatible: ['mediatek,mt8183-camisp']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /soc/seninf@1a040000: failed to match any schema with compatible: ['mediatek,mt8183-seninf']
->> arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: thermal-zones: 'tboard1', 'tboard2', 'tzts1', 'tzts2', 'tzts3', 'tzts4', 'tzts5', 'tztsABB' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: /mt8183-sound: failed to match any schema with compatible: ['mediatek,mt8183_da7219_rt1015p']
-   arch/arm64/boot/dts/mediatek/mt8183-kukui-katsu-sku32.dtb: bt-sco: '#sound-dai-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/linux,bt-sco.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from security/apparmor/domain.c:16:
+   In file included from include/linux/syscalls.h:93:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from security/apparmor/domain.c:16:
+   In file included from include/linux/syscalls.h:93:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from security/apparmor/domain.c:16:
+   In file included from include/linux/syscalls.h:93:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from security/apparmor/domain.c:16:
+   In file included from include/linux/syscalls.h:93:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:9:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> security/apparmor/domain.c:696:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
+     696 |                 struct aa_profile *new_profile = NULL;
+         |                 ^
+   8 warnings generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MODVERSIONS
+   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
+   Selected by [y]:
+   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +696 security/apparmor/domain.c
+
+898127c34ec032 John Johansen             2010-07-29  630  
+90c436a64a6e20 John Johansen             2022-09-19  631  static struct aa_label *profile_transition(const struct cred *subj_cred,
+90c436a64a6e20 John Johansen             2022-09-19  632  					   struct aa_profile *profile,
+93c98a484c4900 John Johansen             2017-06-09  633  					   const struct linux_binprm *bprm,
+93c98a484c4900 John Johansen             2017-06-09  634  					   char *buffer, struct path_cond *cond,
+93c98a484c4900 John Johansen             2017-06-09  635  					   bool *secure_exec)
+898127c34ec032 John Johansen             2010-07-29  636  {
+1ad22fcc4d0d2f John Johansen             2022-09-05  637  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
+1ad22fcc4d0d2f John Johansen             2022-09-05  638  						    typeof(*rules), list);
+93c98a484c4900 John Johansen             2017-06-09  639  	struct aa_label *new = NULL;
+93c98a484c4900 John Johansen             2017-06-09  640  	const char *info = NULL, *name = NULL, *target = NULL;
+98b824ff8984fd John Johansen             2023-04-28  641  	aa_state_t state = rules->file->start[AA_CLASS_FILE];
+2d679f3cb0eaa6 John Johansen             2017-05-29  642  	struct aa_perms perms = {};
+93c98a484c4900 John Johansen             2017-06-09  643  	bool nonewprivs = false;
+b1d9e6b0646d0e Casey Schaufler           2015-05-02  644  	int error = 0;
+898127c34ec032 John Johansen             2010-07-29  645  
+93c98a484c4900 John Johansen             2017-06-09  646  	AA_BUG(!profile);
+93c98a484c4900 John Johansen             2017-06-09  647  	AA_BUG(!bprm);
+93c98a484c4900 John Johansen             2017-06-09  648  	AA_BUG(!buffer);
+898127c34ec032 John Johansen             2010-07-29  649  
+4227c333f65cdd John Johansen             2017-05-23  650  	error = aa_path_name(&bprm->file->f_path, profile->path_flags, buffer,
+72c8a768641dc6 John Johansen             2017-05-22  651  			     &name, &info, profile->disconnected);
+898127c34ec032 John Johansen             2010-07-29  652  	if (error) {
+637f688dc3dc30 John Johansen             2017-06-09  653  		if (profile_unconfined(profile) ||
+93c98a484c4900 John Johansen             2017-06-09  654  		    (profile->label.flags & FLAG_IX_ON_NAME_ERROR)) {
+93c98a484c4900 John Johansen             2017-06-09  655  			AA_DEBUG("name lookup ix on error");
+898127c34ec032 John Johansen             2010-07-29  656  			error = 0;
+93c98a484c4900 John Johansen             2017-06-09  657  			new = aa_get_newest_label(&profile->label);
+93c98a484c4900 John Johansen             2017-06-09  658  		}
+898127c34ec032 John Johansen             2010-07-29  659  		name = bprm->filename;
+898127c34ec032 John Johansen             2010-07-29  660  		goto audit;
+898127c34ec032 John Johansen             2010-07-29  661  	}
+898127c34ec032 John Johansen             2010-07-29  662  
+637f688dc3dc30 John Johansen             2017-06-09  663  	if (profile_unconfined(profile)) {
+8e51f9087f4024 Matthew Garrett           2018-02-08  664  		new = find_attach(bprm, profile->ns,
+8e51f9087f4024 Matthew Garrett           2018-02-08  665  				  &profile->ns->base.profiles, name, &info);
+93c98a484c4900 John Johansen             2017-06-09  666  		if (new) {
+93c98a484c4900 John Johansen             2017-06-09  667  			AA_DEBUG("unconfined attached to new label");
+93c98a484c4900 John Johansen             2017-06-09  668  			return new;
+898127c34ec032 John Johansen             2010-07-29  669  		}
+93c98a484c4900 John Johansen             2017-06-09  670  		AA_DEBUG("unconfined exec no attachment");
+93c98a484c4900 John Johansen             2017-06-09  671  		return aa_get_newest_label(&profile->label);
+898127c34ec032 John Johansen             2010-07-29  672  	}
+898127c34ec032 John Johansen             2010-07-29  673  
+93c98a484c4900 John Johansen             2017-06-09  674  	/* find exec permissions for name */
+98b824ff8984fd John Johansen             2023-04-28  675  	state = aa_str_perms(rules->file, state, name, cond, &perms);
+898127c34ec032 John Johansen             2010-07-29  676  	if (perms.allow & MAY_EXEC) {
+898127c34ec032 John Johansen             2010-07-29  677  		/* exec permission determine how to transition */
+8e51f9087f4024 Matthew Garrett           2018-02-08  678  		new = x_to_label(profile, bprm, name, perms.xindex, &target,
+8e51f9087f4024 Matthew Garrett           2018-02-08  679  				 &info);
+93c98a484c4900 John Johansen             2017-06-09  680  		if (new && new->proxy == profile->label.proxy && info) {
+93c98a484c4900 John Johansen             2017-06-09  681  			/* hack ix fallback - improve how this is detected */
+93c98a484c4900 John Johansen             2017-06-09  682  			goto audit;
+93c98a484c4900 John Johansen             2017-06-09  683  		} else if (!new) {
+93c98a484c4900 John Johansen             2017-06-09  684  			info = "profile transition not found";
+ee650b3820f3d1 Ryan Lee                  2024-08-23  685  			/* remove MAY_EXEC to audit as failure or complaint */
+17322cc3f9ba57 John Johansen             2013-02-18  686  			perms.allow &= ~MAY_EXEC;
+ee650b3820f3d1 Ryan Lee                  2024-08-23  687  			if (COMPLAIN_MODE(profile)) {
+ee650b3820f3d1 Ryan Lee                  2024-08-23  688  				/* create null profile instead of failing */
+ee650b3820f3d1 Ryan Lee                  2024-08-23  689  				goto create_learning_profile;
+ee650b3820f3d1 Ryan Lee                  2024-08-23  690  			}
+ee650b3820f3d1 Ryan Lee                  2024-08-23  691  			error = -EACCES;
+898127c34ec032 John Johansen             2010-07-29  692  		}
+898127c34ec032 John Johansen             2010-07-29  693  	} else if (COMPLAIN_MODE(profile)) {
+ee650b3820f3d1 Ryan Lee                  2024-08-23  694  create_learning_profile:
+93c98a484c4900 John Johansen             2017-06-09  695  		/* no exec permission - learning mode */
+5d7c44ef5e4f01 John Johansen             2017-11-20 @696  		struct aa_profile *new_profile = NULL;
+df323337e507a0 Sebastian Andrzej Siewior 2019-05-03  697  
+58f89ce58bb4f5 John Johansen             2022-10-03  698  		new_profile = aa_new_learning_profile(profile, false, name,
+5d7c44ef5e4f01 John Johansen             2017-11-20  699  						      GFP_KERNEL);
+898127c34ec032 John Johansen             2010-07-29  700  		if (!new_profile) {
+898127c34ec032 John Johansen             2010-07-29  701  			error = -ENOMEM;
+898127c34ec032 John Johansen             2010-07-29  702  			info = "could not create null profile";
+93c98a484c4900 John Johansen             2017-06-09  703  		} else {
+898127c34ec032 John Johansen             2010-07-29  704  			error = -EACCES;
+93c98a484c4900 John Johansen             2017-06-09  705  			new = &new_profile->label;
+93c98a484c4900 John Johansen             2017-06-09  706  		}
+898127c34ec032 John Johansen             2010-07-29  707  		perms.xindex |= AA_X_UNSAFE;
+898127c34ec032 John Johansen             2010-07-29  708  	} else
+898127c34ec032 John Johansen             2010-07-29  709  		/* fail exec */
+898127c34ec032 John Johansen             2010-07-29  710  		error = -EACCES;
+898127c34ec032 John Johansen             2010-07-29  711  
+93c98a484c4900 John Johansen             2017-06-09  712  	if (!new)
+93c98a484c4900 John Johansen             2017-06-09  713  		goto audit;
+93c98a484c4900 John Johansen             2017-06-09  714  
+c29bceb3967398 John Johansen             2012-04-12  715  
+93c98a484c4900 John Johansen             2017-06-09  716  	if (!(perms.xindex & AA_X_UNSAFE)) {
+93c98a484c4900 John Johansen             2017-06-09  717  		if (DEBUG_ON) {
+93c98a484c4900 John Johansen             2017-06-09  718  			dbg_printk("apparmor: scrubbing environment variables"
+93c98a484c4900 John Johansen             2017-06-09  719  				   " for %s profile=", name);
+8ac2ca328ec935 Sebastian Andrzej Siewior 2019-04-05  720  			aa_label_printk(new, GFP_KERNEL);
+93c98a484c4900 John Johansen             2017-06-09  721  			dbg_printk("\n");
+93c98a484c4900 John Johansen             2017-06-09  722  		}
+93c98a484c4900 John Johansen             2017-06-09  723  		*secure_exec = true;
+93c98a484c4900 John Johansen             2017-06-09  724  	}
+93c98a484c4900 John Johansen             2017-06-09  725  
+93c98a484c4900 John Johansen             2017-06-09  726  audit:
+90c436a64a6e20 John Johansen             2022-09-19  727  	aa_audit_file(subj_cred, profile, &perms, OP_EXEC, MAY_EXEC, name,
+90c436a64a6e20 John Johansen             2022-09-19  728  		      target, new,
+93c98a484c4900 John Johansen             2017-06-09  729  		      cond->uid, info, error);
+93c98a484c4900 John Johansen             2017-06-09  730  	if (!new || nonewprivs) {
+93c98a484c4900 John Johansen             2017-06-09  731  		aa_put_label(new);
+93c98a484c4900 John Johansen             2017-06-09  732  		return ERR_PTR(error);
+93c98a484c4900 John Johansen             2017-06-09  733  	}
+93c98a484c4900 John Johansen             2017-06-09  734  
+93c98a484c4900 John Johansen             2017-06-09  735  	return new;
+93c98a484c4900 John Johansen             2017-06-09  736  }
+93c98a484c4900 John Johansen             2017-06-09  737  
+
+:::::: The code at line 696 was first introduced by commit
+:::::: 5d7c44ef5e4f0149c9fb99faeae41e930485a1ec apparmor: fix locking when creating a new complain profile.
+
+:::::: TO: John Johansen <john.johansen@canonical.com>
+:::::: CC: John Johansen <john.johansen@canonical.com>
 
 -- 
 0-DAY CI Kernel Test Service
