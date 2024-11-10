@@ -1,216 +1,146 @@
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F8218E1F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 20:22:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159E0136353
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 20:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731270131; cv=none; b=NMer8Gf2HDCcjYGaLvc7KYKSkGnQL9qrOTILrqJXHFHm3lsrF4BT24RRG+zflOhnkIKpSG7uFrcmdd/49LstGKO+VgH+uIk4D1ESlrd1dFuHd+Tlr4d7IruqQlSCLa8tGYcO4JzOaUywFeFyZx+lVBHQwZAlgD0huMZ4jCRtTsM=
+	t=1731270523; cv=none; b=WPpIgS57oemavJqg4TdO1+brbn6EKy23nPWLWcvooCdZ5n4SDqVvbmbt262yBUCV6WGgdLKiB4p7N87fNTlM96YcSFQBNZYookHORUOgM7fCG3fVl04qQ++mFNHy8GE06pYgWK+CHkVXJWv96tgNDj+I83RlkR8du2YOzf+opbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731270131; c=relaxed/simple;
-	bh=R9yTDrxST4ET4wrKWuYfvcg2/WdvffwRcYMlutrPtac=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=oQQu7G0yau7WdfJt8mOMXq737AbtR4WsflGOOiR9wJBperkLisoe8TjRWpmssI3e6e6r6CB4u8ub3W2U/+R9TIXTXevCLFcEjN2ZNY1KYZazA6meLS4rCD8cl0UxK1J+nz5y15iUNrDd/kIuGA9mE/IV3CcYBgtrUfInFFFExss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=LfKohP61; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cf59Uy9B; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1731270523; c=relaxed/simple;
+	bh=Vu6Wvi8Bl5qCK22fkhXVns86v6ZHhSFm5xGPqMVziT0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=drjSr9gb/BL1fZwe9ZVO4FTCsyXWHvOymrvlyQQz3ldrYXaAUr+WmPkUEDSgWxVRjqcfJC3Cs3Qx3nrsxUkD9/HpcRqc9I9QMCMzfNcwuCv/S2qvQnwUVuKG/ouRsYcnfcNsjQDyWYYALHTdso0IBGSTlpL/hL5gV9iDAAVQWQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FEFT96Q5; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="LfKohP61";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="cf59Uy9B"
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id E920F114013A;
-	Sun, 10 Nov 2024 15:22:06 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-10.internal (MEProxy); Sun, 10 Nov 2024 15:22:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1731270126;
-	 x=1731356526; bh=BwUNf1yUscqYVhQDcb8MsnLrYZ5TFpYoEIR4rZXbico=; b=
-	LfKohP61XkOurLEezGA9UaqfTO6X/j8SxuUPcgZops0h0eMa4RRqh8Q4lEZ0ltW3
-	uhXbzzQBZubrnszUSUH9WlEcPb+lkovgHTbkVGQCudf3W8x2TYuiUEIZwvGcrtPk
-	QxTr4z5OQPP3eqoqJdwdbXwJjaASnhMmcMAc/DSCahg68yr6J1II7LPlIWvkSWUH
-	DYGI0S3ljLJ1K7Mzz+EnOQeE82AfbEPDNbtlvkbKBDcenDY3cAL84OzjE7P9Y8uP
-	isyevvD8Y7GgxPx8AeXwtTVafbzKChJ1Bp+Tu7h/of0qfJKbll3Z4d7AxWbP8J6M
-	gcjjKWvojdnsP3DGX4cmaQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1731270126; x=
-	1731356526; bh=BwUNf1yUscqYVhQDcb8MsnLrYZ5TFpYoEIR4rZXbico=; b=c
-	f59Uy9BuMgGgRmD6vJoYin9pjzmSJdZwh3enhJFtOdjaL79dWVLNMr0kEEGSOLTc
-	iy+QrjKi1USkVa6ZYV2d3RV/Lt+z6W5fDWdNKcNlk+5snYqgJezCI6UVgwxGpWV9
-	5vg7+o6l45iAPQHgDttECuxv5m1nC+Y3kaahAFDe1SDQeRsWTVcBz22I/WWnY7KU
-	5V02L4d9xhWM79kbqqLJxLFKMRhfYwEryOWcAxTdqHcJ/q+tsgzZ+YQY5Bc0OT2I
-	w2ee6xDUw68k1Pgfd44Riz8ICjOATAGxYhT7AmXKjkdIOaAquEyZybx9UZDi0tIs
-	ayPsvg4RE7ZfOQzu+U/EA==
-X-ME-Sender: <xms:7hUxZzTYv_kd-U85p4PnKROuB-n9rnRcMm67b5kH0Z6iRQ3zxkfOHw>
-    <xme:7hUxZ0zi02LQBYWWjfxJ8poq04ggalB6fss7gA6vtXRenDtQsEuAntJikdrENg2-5
-    sRXNRxL9CgRqpTZho8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddruddtgddufeegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhepheektdeuteeugfevuddvtdeikefftdevkeetudel
-    jeffffeikeevfeefieefhfegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptddurd
-    horhhgpdhgihhthhhusgdrtghomhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgr
-    mhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhope
-    dutddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheptggrthgrlhhinhdrmhgrrhhi
-    nhgrshesrghrmhdrtghomhdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtg
-    hpthhtohepjhhvvghtthgvrheskhgrlhhrrgihihhntgdrtghomhdprhgtphhtthhopeih
-    shhiohhnnhgvrghusehkrghlrhgrhihinhgtrdgtohhmpdhrtghpthhtoheprghnuggvrh
-    hsshhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprggsvghlrdhvvghsrgeslhhi
-    nhgrrhhordhorhhgpdhrtghpthhtohepughmihhtrhihrdgsrghrhihshhhkohhvsehlih
-    hnrghrohdrohhrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhs
-    rdhlihhnuhigrdguvghvpdhrtghpthhtohepqhhuihgtpghrmhgrihhnrgesqhhuihgtih
-    hntgdrtghomh
-X-ME-Proxy: <xmx:7hUxZ4369-4ThQL4hZtROl6o4kDvG09xA0ux3j-kmjTyUJRjfl802w>
-    <xmx:7hUxZzDIjw_1kNGpy887kLC2MCZQZlYwELhuLGem9xG0Yfq0DKLnEA>
-    <xmx:7hUxZ8gglzZr3VH7GBehgGeKRQorABF6qylnaxK9bsphJxdT_Ixp_A>
-    <xmx:7hUxZ3pBEy9u_lWhd6bKVxk2FbveUdld7Jcs6pYne8mU-kFPAoouNw>
-    <xmx:7hUxZ_NU5-WDX9en9CS-6W6nkZ94UdaJ8luWEkUYCd5bb1DTyJTlmOwA>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2FFE22220071; Sun, 10 Nov 2024 15:22:06 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FEFT96Q5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731270522; x=1762806522;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Vu6Wvi8Bl5qCK22fkhXVns86v6ZHhSFm5xGPqMVziT0=;
+  b=FEFT96Q55POsf5JkTPloqE5yHvNC5Z7b30wxuepmEJs+6tPrJxU3ckUE
+   y5GIoClaikSmjmkztZiIKkIz1X6kSenTbpO4mKcx5mip493A0M4ErCkrj
+   I6L+Uls4hjIM0pmNPQsd2SWJvBa7BIBKMms6yc7DIiiiaMFKhJ3ydccP3
+   9xTB7u1SNHnU1tLla5DjfTJrUJrRZBIu2tBjrcA1E7L6cFI4+Zu+Le4G+
+   1Xr1r+kjxKfRiZapigOTz7Q9R9uLo9ANUXZwlg+g4IVjbUaEl12g7o54G
+   5+nvS0GQ1AXChYbZwBSYENuT0LyzBZb1vYP86tg84ENLA0+NF+UdCH/Ff
+   w==;
+X-CSE-ConnectionGUID: hEM2k3M4QZ2bKc5joQLeSA==
+X-CSE-MsgGUID: oundHfnCSaevTswoLluqmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="30480863"
+X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
+   d="scan'208";a="30480863"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 12:28:41 -0800
+X-CSE-ConnectionGUID: 14NnQA2ATCyciL+iuDb+bg==
+X-CSE-MsgGUID: UWSp8lbZReOuqLwwgI3ikQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
+   d="scan'208";a="87012008"
+Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 10 Nov 2024 12:28:40 -0800
+Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAEY2-0000Nb-11;
+	Sun, 10 Nov 2024 20:28:38 +0000
+Date: Mon, 11 Nov 2024 04:27:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: kernel/sched/ext.c:3538:31: warning: bitwise operation between
+ different enumeration types ('enum scx_enq_flags' and 'enum scx_deq_flags')
+Message-ID: <202411110405.iwIkOMKq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Date: Sun, 10 Nov 2024 21:21:02 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Julian Vetter" <jvetter@kalrayinc.com>
-Cc: oe-kbuild-all@lists.linux.dev,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Yann Sionneau" <ysionneau@kalrayinc.com>,
- "Dmitry Baryshkov" <dmitry.baryshkov@linaro.org>,
- "Richard Maina" <quic_rmaina@quicinc.com>,
- "Sibi Sankar" <quic_sibis@quicinc.com>,
- "Bjorn Andersson" <andersson@kernel.org>, "Abel Vesa" <abel.vesa@linaro.org>
-Message-Id: <2b7c9ca1-3fc4-4804-8d9e-ee503569b4fd@app.fastmail.com>
-In-Reply-To: <202411102342.H8WZP17i-lkp@intel.com>
-References: <202411102342.H8WZP17i-lkp@intel.com>
-Subject: Re: [linux-next:master 6632/10559] drivers/remoteproc/qcom_q6v5_pas.c:137:46:
- sparse: sparse: incorrect type in argument 2 (different address spaces)
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Nov 10, 2024, at 16:11, kernel test robot wrote:
-> tree:   
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git 
-> master
-> head:   929beafbe7acce3267c06115e13e03ff6e50548a
-> commit: 0110feaaf6d0610d0089ae4897387df9a963b5f0 [6632/10559] arm64: 
-> Use new fallback IO memcpy/memset
-> config: arm64-randconfig-r111-20241110 
-> (https://download.01.org/0day-ci/archive/20241110/202411102342.H8WZP17i-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 14.2.0
-> reproduce: 
-> (https://download.01.org/0day-ci/archive/20241110/202411102342.H8WZP17i-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202411102342.H8WZP17i-lkp@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->>> drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *src @@     got void * @@
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de2f378f2b771b39594c04695feee86476743a69
+commit: f0e1a0643a59bf1f922fa209cec86a170b784f3f sched_ext: Implement BPF extensible scheduler class
+date:   5 months ago
+config: powerpc-randconfig-r054-20241110 (https://download.01.org/0day-ci/archive/20241111/202411110405.iwIkOMKq-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411110405.iwIkOMKq-lkp@intel.com/reproduce)
 
-Thanks for the report. This is clearly a preexisting bug, and
-the patch I committed only added a few extra warnings on top of
-the earlier ones.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411110405.iwIkOMKq-lkp@intel.com/
 
-I've added a few people to Cc that touched the driver recently,
-hopefully one of them can find a way to address this properly
-by consistently using the correct types.
+All warnings (new ones prefixed by >>):
 
-       Arnd
+   In file included from kernel/sched/build_policy.c:25:
+   In file included from include/linux/livepatch.h:13:
+   In file included from include/linux/ftrace.h:10:
+   In file included from include/linux/trace_recursion.h:5:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/powerpc/include/asm/hardirq.h:6:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/powerpc/include/asm/io.h:24:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from kernel/sched/build_policy.c:61:
+   kernel/sched/ext.c:3322:35: warning: bitwise operation between different enumeration types ('enum bpf_type_flag' and 'enum bpf_reg_type') [-Wenum-enum-conversion]
+    3322 |                 info->reg_type = PTR_MAYBE_NULL | PTR_TO_BTF_ID | PTR_TRUSTED;
+         |                                  ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+>> kernel/sched/ext.c:3538:31: warning: bitwise operation between different enumeration types ('enum scx_enq_flags' and 'enum scx_deq_flags') [-Wenum-enum-conversion]
+    3538 |         WRITE_ONCE(v, SCX_ENQ_WAKEUP | SCX_DEQ_SLEEP);
+         |                       ~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:61:18: note: expanded from macro 'WRITE_ONCE'
+      61 |         __WRITE_ONCE(x, val);                                           \
+         |                         ^~~
+   include/asm-generic/rwonce.h:55:33: note: expanded from macro '__WRITE_ONCE'
+      55 |         *(volatile typeof(x) *)&(x) = (val);                            \
+         |                                        ^~~
+   3 warnings generated.
 
->    drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse:     expected void 
-> const volatile [noderef] __iomem *src
->    drivers/remoteproc/qcom_q6v5_pas.c:137:46: sparse:     got void *
->    drivers/remoteproc/qcom_q6v5_pas.c:575:26: sparse: sparse: incorrect 
-> type in assignment (different address spaces) @@     expected void 
-> *mem_region @@     got void [noderef] __iomem * @@
->    drivers/remoteproc/qcom_q6v5_pas.c:575:26: sparse:     expected void 
-> *mem_region
->    drivers/remoteproc/qcom_q6v5_pas.c:575:26: sparse:     got void 
-> [noderef] __iomem *
->    drivers/remoteproc/qcom_q6v5_pas.c:600:30: sparse: sparse: incorrect 
-> type in assignment (different address spaces) @@     expected void 
-> *dtb_mem_region @@     got void [noderef] __iomem * @@
->    drivers/remoteproc/qcom_q6v5_pas.c:600:30: sparse:     expected void 
-> *dtb_mem_region
->    drivers/remoteproc/qcom_q6v5_pas.c:600:30: sparse:     got void 
-> [noderef] __iomem *
->    drivers/remoteproc/qcom_q6v5_pas.c: note: in included file (through 
-> include/linux/mmzone.h, include/linux/gfp.h, include/linux/firmware.h):
->    include/linux/page-flags.h:237:46: sparse: sparse: self-comparison 
-> always evaluates to false
->    include/linux/page-flags.h:237:46: sparse: sparse: self-comparison 
-> always evaluates to false
->
-> vim +137 drivers/remoteproc/qcom_q6v5_pas.c
->
-> b9e718e950c3df drivers/remoteproc/qcom_adsp_pil.c Bjorn Andersson     
-> 2016-08-22  121  
-> 181da4bcc3d4bb drivers/remoteproc/qcom_q6v5_pas.c Krzysztof Kozlowski 
-> 2023-05-07  122  static void adsp_segment_dump(struct rproc *rproc, 
-> struct rproc_dump_segment *segment,
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  123  		       void *dest, size_t offset, size_t size)
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  124  {
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  125  	struct qcom_adsp *adsp = rproc->priv;
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  126  	int total_offset;
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  127  
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  128  	total_offset = segment->da + segment->offset + offset 
-> - adsp->mem_phys;
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  129  	if (total_offset < 0 || total_offset + size > 
-> adsp->mem_size) {
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  130  		dev_err(adsp->dev,
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  131  			"invalid copy request for segment %pad with offset 
-> %zu and size %zu)\n",
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  132  			&segment->da, offset, size);
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  133  		memset(dest, 0xff, size);
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  134  		return;
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  135  	}
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  136  
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02 @137  	memcpy_fromio(dest, adsp->mem_region + total_offset, 
-> size);
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  138  }
-> a376c10d45a8e6 drivers/remoteproc/qcom_q6v5_pas.c Yogesh Lal          
-> 2022-11-02  139  
->
-> :::::: The code at line 137 was first introduced by commit
-> :::::: a376c10d45a8e6ee5ea55791193f90625b35e156 remoteproc: qcom: pas: 
-> Adjust the phys addr wrt the mem region
->
-> :::::: TO: Yogesh Lal <quic_ylal@quicinc.com>
-> :::::: CC: Bjorn Andersson <andersson@kernel.org>
->
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+
+vim +3538 kernel/sched/ext.c
+
+  3523	
+  3524	
+  3525	/********************************************************************************
+  3526	 * System integration and init.
+  3527	 */
+  3528	
+  3529	void __init init_sched_ext_class(void)
+  3530	{
+  3531		s32 cpu, v;
+  3532	
+  3533		/*
+  3534		 * The following is to prevent the compiler from optimizing out the enum
+  3535		 * definitions so that BPF scheduler implementations can use them
+  3536		 * through the generated vmlinux.h.
+  3537		 */
+> 3538		WRITE_ONCE(v, SCX_ENQ_WAKEUP | SCX_DEQ_SLEEP);
+  3539	
+  3540		BUG_ON(rhashtable_init(&dsq_hash, &dsq_hash_params));
+  3541		init_dsq(&scx_dsq_global, SCX_DSQ_GLOBAL);
+  3542	#ifdef CONFIG_SMP
+  3543		BUG_ON(!alloc_cpumask_var(&idle_masks.cpu, GFP_KERNEL));
+  3544		BUG_ON(!alloc_cpumask_var(&idle_masks.smt, GFP_KERNEL));
+  3545	#endif
+  3546		for_each_possible_cpu(cpu) {
+  3547			struct rq *rq = cpu_rq(cpu);
+  3548	
+  3549			init_dsq(&rq->scx.local_dsq, SCX_DSQ_LOCAL);
+  3550			INIT_LIST_HEAD(&rq->scx.runnable_list);
+  3551		}
+  3552	}
+  3553	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
