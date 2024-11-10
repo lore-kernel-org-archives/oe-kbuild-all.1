@@ -1,154 +1,147 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6A4354670
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 15:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447143A8F7
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 16:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731254001; cv=none; b=aKQ77hgwxGPmiQu3aBMr9kbo84WNhHZYHFYSofC6+f+4Xasun4AbaKPwgHLh9avzcC9deNI0gTW4qi/k5DGNIgN0nBoKckvJ/P3+/otjAkc01s1QpXd8fkyMJfhDPnbNcwmo99Als8DA0eNNAfocgNUGm1BvEmsELQZ7hgyaVpY=
+	t=1731254659; cv=none; b=CnyM7j3f8bPnR4IBtv52E+hmolmOZn4DzBF69RVSJHkP411iq60/vuH+cLQOTnaAENNiEDqL439K907FUFp0tcq/7C0kuToLC8yoPAZ7O35rQa4Up9RSoxBPf+4yB3AG6cEanoddYMX2Dbty5SjnsObw+/H6Jg0j2iYWbWHNnt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731254001; c=relaxed/simple;
-	bh=jvD2CCTe+oFNrodgQj6jd2E9spr6i3/DFNz2P5FA7lc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KheI1w7tu4rqVZRjqpR7KlVutv891J2j2AoK0u3MMINtHGfBqsDPquKBtojuEcLdyvb2CgEOBZQZ90bnvisDkDZsnI6N/mKWsMDs6C2y6iLkPNN+TClHtcam66S481PIPqvoySA3sES/OqyxeF20w6/HvOytO09allgZY68JBvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEDqGYFC; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731254659; c=relaxed/simple;
+	bh=nHRE6WZmDmxm6cz61isRvnuji8FzBy90v8oGifTA5xI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gTNxcLUummE9zBVeAVfuqkMh0/6jOxbOidoy9mesff7tEm4NQpweBubrUgt6oJ70hIGnpRQ+uE6jsNwwimhXXrVrAzKfQ66LauhsEFK1yyRdgUko0rryRXr9NakQxQvCMPmWhHWQ+ntgBkLvtBcU5YzvUVffQBy2RE5SV864qY0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2bUD9zju; arc=none smtp.client-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEDqGYFC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731253999; x=1762789999;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jvD2CCTe+oFNrodgQj6jd2E9spr6i3/DFNz2P5FA7lc=;
-  b=YEDqGYFCDUuYhSQbYRS+z/zZXYhpXiXlFMqID5wr6CO3SG7J24Hv58pv
-   RDAD5dTM3IofNqQOG9V18uhdq/nCU5qEX9d7nKXHte2xodQndQ2TYhfx2
-   qJUO5MyU2QKDUo89dgn19+K3yjlz8yzxpcQ5ON+6Iy29P6J9+3TwpcMSe
-   AuiN9oMFESDdKkINgBX4AD9E11/MBxgoOVKvoXZ57Iym7uF18HbeepkmJ
-   EmWHahWPoPJukTc7H04uGYEUVWRgjIORh/vGwHOFITjawZubPLJbuDDi6
-   JQY2tf66esvICa42HtwGQYt99FC1SfzznjOb/Ehm8JBcSEAeSbLngPF0F
-   g==;
-X-CSE-ConnectionGUID: VAKFf9YET8a6gXtG7CoPVw==
-X-CSE-MsgGUID: Ro4oPR5XRjKK4EMV24wS5w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41697748"
-X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="41697748"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 07:53:19 -0800
-X-CSE-ConnectionGUID: yGlTB8FqT9qEoPc4TbJENA==
-X-CSE-MsgGUID: LDhMPhzvTGeSkyRgbqxGtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
-   d="scan'208";a="117333324"
-Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2024 07:53:17 -0800
-Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tAAFV-0000DV-2r;
-	Sun, 10 Nov 2024 15:53:13 +0000
-Date: Sun, 10 Nov 2024 23:52:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Karol Przybylski <karprzy7@gmail.com>, hverkuil@xs4all.nl,
-	mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Karol Przybylski <karprzy7@gmail.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH] media: cec: extron-da-hd-4k-plus: add return check for
- wait_for_completion*()
-Message-ID: <202411102341.VuOHMHGh-lkp@intel.com>
-References: <20241110125814.1899076-1-karprzy7@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2bUD9zju"
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6e5a5a59094so33477547b3.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 08:04:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731254657; x=1731859457; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5CNLnBAFHpBPWxzZ1Zk0tYkCjdbAVe0IGKVgCD+DJas=;
+        b=2bUD9zjuWN94M9JciR09wSUq6m5E7I1aocx/d6/oxLPcODHKf6qfQZmhgup0dZhvzZ
+         V6BaZBUDgbG/B62LQJuwt4Qyd64vhr0q5jTH+NBeV5sRDYgRC6DiZB0FI7rIt12z6Atg
+         i6btjC6FlTcAr9VzAkkh+UaFv9LMkiK+VjPWJhLMUmTth+e9zPYmBfmX/SAMxVo2J6tB
+         ZfZsKjyumK51ZMGQrTIKYnxo44D4LRZ7rFA48lyKApK0m8SBwnkvTaYID3ohBYJLplId
+         cmy45jvquiUlQXABuv8iq3TJbvRmX4w6fS0b919Nsp9Xbx8U3zhsZI0ZddLweV1+EEQu
+         SVbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731254657; x=1731859457;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5CNLnBAFHpBPWxzZ1Zk0tYkCjdbAVe0IGKVgCD+DJas=;
+        b=UPolGoc+Zhi/tGBfxbJBZ97+jGSoKOyACHMJNTE0c0Zu/eiD0k9YE3jM59/tWmPu9X
+         2GOgWKZCX/b6jU1GDUxd75FAV6aQ4XMb1yq4Q6ht/eaFbdf3nPuuoeR8Kj77nwygtcJ4
+         SqEp2Dl2AnJbUybD+SZu8s9Dr5GeliRX82pPumn6NBCpYxtLWO2lr3tXcGUKK9d3p7ka
+         sjk7h0ZZBG4sK1+R8sNl6Q5h5ZSu3xwqtxQaB8iM4dS+9eJ0FHD8OSP70TPy5Ne/ZJvQ
+         NXyvECx+/JR65Hx/B52X7WWrNcII/4fmkA9qtpjRzCUwWiZElVICDRBVySh4NxTccV7p
+         z+bg==
+X-Forwarded-Encrypted: i=1; AJvYcCXwsI9WKaUe9atOVpXSTtBDe6/nkdUbUQFi8dQSvyAZg9a8xKNCTgJOgY2TH+FtWbAk4p55Bdbd4C5sFzlM@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy/Au/KZC+8MSdPgUW3N4rYFIZtbRXJktH+MP/JibLQ9EOHXRyr
+	Aw9NTx1W/8nr5y4UT0LfvQlB9Wc6WTlJTR4i/wO6G+7ytudVSoCOuqcsXAsRKCz0e9h3p+eMqjn
+	WCZyFwDB7jRrmKDZYaYhBmqfDD0qqa0BUOaZa
+X-Google-Smtp-Source: AGHT+IHYOc+K90gPkGm8yETeFrM7lrTDeWTKOwf1O8X62M9lupAJjFOOS+Dl9aJoc/4r3l5hr7bVY/C4FysxiRvsleM=
+X-Received: by 2002:a05:690c:3501:b0:6dd:d0fa:159e with SMTP id
+ 00721157ae682-6eaddf8e3b9mr101861267b3.30.1731254657264; Sun, 10 Nov 2024
+ 08:04:17 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241110125814.1899076-1-karprzy7@gmail.com>
+References: <202411091538.PGSTqUBi-lkp@intel.com>
+In-Reply-To: <202411091538.PGSTqUBi-lkp@intel.com>
+From: Willem de Bruijn <willemb@google.com>
+Date: Sun, 10 Nov 2024 11:03:40 -0500
+Message-ID: <CA+FuTScwvZDxX6OVAnde+hBCKp5P5UF74jFAL-6HEQ3v1Wg_sA@mail.gmail.com>
+Subject: Re: net/ipv4/inet_diag.c:1511:17: sparse: sparse: Using plain integer
+ as NULL pointer
+To: kernel test robot <lkp@intel.com>
+Cc: Eric Dumazet <edumazet@google.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
+	Guillaume Nault <gnault@redhat.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
+	David Howells <dhowells@redhat.com>, linux-hexagon@vger.kernel.org, bcain@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Karol,
+On Sat, Nov 9, 2024 at 3:00=E2=80=AFAM kernel test robot <lkp@intel.com> wr=
+ote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t master
+> head:   da4373fbcf006deda90e5e6a87c499e0ff747572
+> commit: 223f55196bbdb182a9b8de6108a0834b5e5e832e inet_diag: allow concurr=
+ent operations
+> date:   10 months ago
+> config: hexagon-randconfig-r112-20241109 (https://download.01.org/0day-ci=
+/archive/20241109/202411091538.PGSTqUBi-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5=
+92c0fe55f6d9a811028b5f3507be91458ab2713)
+> reproduce: (https://download.01.org/0day-ci/archive/20241109/202411091538=
+.PGSTqUBi-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411091538.PGSTqUBi-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> net/ipv4/inet_diag.c:1511:17: sparse: sparse: Using plain integer as N=
+ULL pointer
+>
+> vim +1511 net/ipv4/inet_diag.c
+>
+>   1503
+>   1504  int inet_diag_register(const struct inet_diag_handler *h)
+>   1505  {
+>   1506          const __u16 type =3D h->idiag_type;
+>   1507
+>   1508          if (type >=3D IPPROTO_MAX)
+>   1509                  return -EINVAL;
+>   1510
+> > 1511          return !cmpxchg((const struct inet_diag_handler **)&inet_=
+diag_table[type],
+>   1512                          NULL, h) ? 0 : -EEXIST;
+>   1513  }
+>   1514  EXPORT_SYMBOL_GPL(inet_diag_register);
+>   1515
 
-kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linuxtv-media-stage/master]
-[also build test ERROR on linus/master v6.12-rc6 next-20241108]
-[cannot apply to media-tree/master sailus-media-tree/streams sailus-media-tree/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The code is still present in latest net-next.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Karol-Przybylski/media-cec-extron-da-hd-4k-plus-add-return-check-for-wait_for_completion/20241110-210018
-base:   https://git.linuxtv.org/media_stage.git master
-patch link:    https://lore.kernel.org/r/20241110125814.1899076-1-karprzy7%40gmail.com
-patch subject: [PATCH] media: cec: extron-da-hd-4k-plus: add return check for wait_for_completion*()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241110/202411102341.VuOHMHGh-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411102341.VuOHMHGh-lkp@intel.com/reproduce)
+But this appears specific to the hexagon architecture. Specifically to
+that initialization of __oldval to 0.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411102341.VuOHMHGh-lkp@intel.com/
+define arch_cmpxchg(ptr, old, new)                             \
+({                                                              \
+        __typeof__(ptr) __ptr =3D (ptr);                          \
+        __typeof__(*(ptr)) __old =3D (old);                       \
+        __typeof__(*(ptr)) __new =3D (new);                       \
+        __typeof__(*(ptr)) __oldval =3D 0;                        \
 
-All errors (new ones prefixed by >>):
+While here *ptr is of type const struct inet_diag_handler *.
 
-   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In function 'extron_read_edid':
->> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:563:17: error: 'ret' undeclared (first use in this function); did you mean 'net'?
-     563 |                 ret = wait_for_completion_killable_timeout(&extron->edid_completion,
-         |                 ^~~
-         |                 net
-   drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:563:17: note: each undeclared identifier is reported only once for each function it appears in
+Another typeof as cast seems to fix it:
 
++++ b/arch/hexagon/include/asm/cmpxchg.h
+@@ -56,7 +56,7 @@ __arch_xchg(unsigned long x, volatile void *ptr, int size=
+)
+        __typeof__(ptr) __ptr =3D (ptr);                          \
+        __typeof__(*(ptr)) __old =3D (old);                       \
+        __typeof__(*(ptr)) __new =3D (new);                       \
+-       __typeof__(*(ptr)) __oldval =3D 0;                        \
++       __typeof__(*(ptr)) __oldval =3D (__typeof__(*(ptr))) 0;   \
 
-vim +563 drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+Easily reproduced with
 
-   540	
-   541	static void extron_read_edid(struct extron_port *port)
-   542	{
-   543		struct extron *extron = port->extron;
-   544		char cmd[10], reply[10];
-   545		unsigned int idx;
-   546	
-   547		idx = port->port.port + (port->is_input ? 0 : extron->num_in_ports);
-   548		snprintf(cmd, sizeof(cmd), "WR%uEDID", idx);
-   549		snprintf(reply, sizeof(reply), "EdidR%u", idx);
-   550		if (mutex_lock_interruptible(&extron->edid_lock))
-   551			return;
-   552		if (port->read_edid)
-   553			goto unlock;
-   554		extron->edid_bytes_read = 0;
-   555		extron->edid_port = port;
-   556		port->edid_blocks = 0;
-   557		if (!port->has_edid)
-   558			goto no_edid;
-   559	
-   560		extron->edid_reading = true;
-   561	
-   562		if (!extron_send_and_wait(extron, port, cmd, reply)) {
- > 563			ret = wait_for_completion_killable_timeout(&extron->edid_completion,
-   564							     msecs_to_jiffies(1000));
-   565			if (ret < 0)
-   566				goto unlock;
-   567		}
-   568		if (port->edid_blocks) {
-   569			extron_parse_edid(port);
-   570			port->read_edid = true;
-   571			if (!port->is_input)
-   572				v4l2_ctrl_s_ctrl(port->ctrl_tx_edid_present, 1);
-   573		}
-   574	no_edid:
-   575		extron->edid_reading = false;
-   576	unlock:
-   577		mutex_unlock(&extron->edid_lock);
-   578		cancel_delayed_work_sync(&extron->work_update_edid);
-   579		if (manufacturer_name[0])
-   580			schedule_delayed_work(&extron->work_update_edid,
-   581					      msecs_to_jiffies(1000));
-   582	}
-   583	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+make LLVM=3D1 ARCH=3Dhexagon defconfig
+make C=3D1 LLVM=3D1 ARCH=3Dhexagon net/ipv4/inet_diag.o
