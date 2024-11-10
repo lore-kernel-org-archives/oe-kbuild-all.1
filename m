@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7DB12AD20
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 07:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4378E153801
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 09:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731223786; cv=none; b=YzwU0cliykKOzFn0ameThDSV1A4DvC6Jrz6JrQtRhPjbLbbAhL3A2rKvKm+kRK7yYvpyVabH1Uai6dtORUhtRrVipj9OXpxk3q/fajylzY9Up2QVYnJx7zggNEWw0z8pIOmFXvg8uyP6h/r4o2LPf7G3vLk7HNnDJMAMlARYp1o=
+	t=1731231709; cv=none; b=XQDnfWq1RQ6Hk++RgEmCrAfsSnXQKK1USiT/11ltiqbP37NNMViHaWHog6klVSWqAYIujhw/q+RrMHBiBY2wz3nIMx6l/aqaQgKuR1DgkTdTXgRsk4LJtYF30xYQm0ehPozNelktXlbd8HRO6PYzF3EghehxzzaBIpkmpxNqdmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731223786; c=relaxed/simple;
-	bh=n/YUBUXLhf4ZLdw6pJ8Gxeq7+Ra+m6W/ECeYYfQsaRo=;
+	s=arc-20240116; t=1731231709; c=relaxed/simple;
+	bh=O6gcBtee8F7pDHU8XSKzSZ8bhN8r1JiN22kEQ9b+yhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PNGgMdauveP7t5QSd4k8QCetLlLwppn+ZOC4r9/iKDxtyHT/byw1h/7Ic9nAluNNzlleYqSUfHp7NTQwYb+8ngFTxUCA+2gJBm0+9jmGvqZ0slJ3Haq0Gtx15pMJ70+qfkPazYZWe87MR4wAuV5CmZoDwtT0Ec7lOd0ItSo61o8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YraPHf6R; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=B5cmAuqOnbOEs1U4rA9RVOkqDz7UyeZSpDvcn0qp0fbdhEwZwQN/9wsPBRnQAzvWYzPrpZmrWGrLtc6+M/3nNAJ1u7U6dfph8NlZTksT9c2ubs/laPcvjJm03pAxV9bcfTi6dvmKmWr4m+47aDvdca9ZGZh5XbkK0+k2zVz4CNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g1S/OGKo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YraPHf6R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g1S/OGKo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731223785; x=1762759785;
+  t=1731231707; x=1762767707;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n/YUBUXLhf4ZLdw6pJ8Gxeq7+Ra+m6W/ECeYYfQsaRo=;
-  b=YraPHf6RZPVwD5JZUIPu9OupKFir90V0htBNv2kpt4aCFf0wDuB2+zkA
-   BM7uAErqALINcdWWQiKk1Ue0cyKulBEG9lXztUNvQXuHeK8WsLOE8g88M
-   Zqd4sN4aFuIpPWK0ZU7CRMBRhGbnYi6W6yrk0ZNqXmf57PSEN6TAb6WEf
-   wfq7GXebyiW0xeUCJqgJdU0gT4egKE0OqeXD/znxRA3d3RvKSYSG3pHdB
-   Lrlo4HXLnO3GY1f0qwrYFK6cFKPEeFnPnYI7u2fG5oy+J15r5e7VBRqTq
-   nVWJ81QVerVJYY4cP21wiHe5qxHG72o6YTDg114yYUI4bZ0XIYi9EiqaT
+  bh=O6gcBtee8F7pDHU8XSKzSZ8bhN8r1JiN22kEQ9b+yhY=;
+  b=g1S/OGKopO8UbqAb1+tPfUJX51sPLmaAxh1lE29IbmmS20KNollDaba/
+   P6S6DUrnBUROjJED3rOewEFSl88MtW4q9fc4IRfc8GPzTEARJhPnpKr4H
+   jwN/ONCuwldxLgBi6B4OEwg2X+c7Y+aFPnPItftFExOioZbO68/g5TxxC
+   pdFagdspIhMosauClri4WNT+/kbAFcCrnFDfd/1YcH+INvwsYUipNxe6G
+   4ILfjEPtRUpb/T5G1AQqYk7+yqs52WlMd7A0xU2YBzCLvDNFASGN2SSS2
+   zyWWen5VUJJWVWYhSNdpRCWKVd+32a8185555Suln2khFOQCmz6OEmxpr
    w==;
-X-CSE-ConnectionGUID: XbF3xV3gQmy2DO8xkKgpHg==
-X-CSE-MsgGUID: cmKBaGnUTyKNsw+GVAFqow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="34842644"
-X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="34842644"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2024 23:29:39 -0800
-X-CSE-ConnectionGUID: 9vCSC28KSkC7d/3CNz2k9Q==
-X-CSE-MsgGUID: 2kojNjG3S/e7iI4C08xoxA==
+X-CSE-ConnectionGUID: 6bxpUuhCRvKudJXc23rhkQ==
+X-CSE-MsgGUID: 5I1PUhm7QGyFpCWTUqaqhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30914252"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30914252"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 01:41:47 -0800
+X-CSE-ConnectionGUID: pHFv7Ze3TemACIde+2843g==
+X-CSE-MsgGUID: IAduJv4URA6jJFLa097/4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="91426609"
+   d="scan'208";a="86694296"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Nov 2024 23:29:37 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 10 Nov 2024 01:41:45 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tA2O7-00001p-0P;
-	Sun, 10 Nov 2024 07:29:35 +0000
-Date: Sun, 10 Nov 2024 15:28:49 +0800
+	id 1tA4Rz-00004D-19;
+	Sun, 10 Nov 2024 09:41:43 +0000
+Date: Sun, 10 Nov 2024 17:41:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mhiramat:topic/fprobe-on-fgraph 18/19]
- arch/arm64/kernel/ftrace.c:147:15: warning: no previous prototype for
- 'arch_ftrace_get_symaddr'
-Message-ID: <202411101546.DAbUjmQW-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Michael Ellerman <mpe@ellerman.id.au>
+Subject: arch/powerpc/platforms/44x/uic.c:40:12: sparse: sparse: symbol
+ 'primary_uic' was not declared. Should it be static?
+Message-ID: <202411101746.lD8YdVzY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,91 +63,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-on-fgraph
-head:   4c4bd9c0c8cdbefa8d3ae3b53bc2546220803661
-commit: ee530bd1add777c02ba82a7d8f942cfda0ae272a [18/19] ftrace: Add ftrace_get_symaddr to convert fentry_ip to symaddr
-config: arm64-randconfig-003-20241110 (https://download.01.org/0day-ci/archive/20241110/202411101546.DAbUjmQW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411101546.DAbUjmQW-lkp@intel.com/reproduce)
+Hi Christophe,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   de2f378f2b771b39594c04695feee86476743a69
+commit: d5d1a1a55a7f227c0f41847b0598982f0a93170d powerpc/platforms: Move files from 4xx to 44x
+date:   5 months ago
+config: powerpc-randconfig-r133-20241110 (https://download.01.org/0day-ci/archive/20241110/202411101746.lD8YdVzY-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce: (https://download.01.org/0day-ci/archive/20241110/202411101746.lD8YdVzY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411101546.DAbUjmQW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411101746.lD8YdVzY-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/platforms/44x/uic.c:40:12: sparse: sparse: symbol 'primary_uic' was not declared. Should it be static?
+   arch/powerpc/platforms/44x/uic.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+--
+>> arch/powerpc/platforms/44x/pci.c:116:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *cell @@     got unsigned int const [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:116:54: sparse:     expected restricted __be32 const [usertype] *cell
+   arch/powerpc/platforms/44x/pci.c:116:54: sparse:     got unsigned int const [usertype] *
+>> arch/powerpc/platforms/44x/pci.c:117:74: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted __be32 const [usertype] *in_addr @@     got unsigned int const [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:117:74: sparse:     expected restricted __be32 const [usertype] *in_addr
+   arch/powerpc/platforms/44x/pci.c:117:74: sparse:     got unsigned int const [usertype] *
+   arch/powerpc/platforms/44x/pci.c:118:52: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __be32 const [usertype] *cell @@     got unsigned int const [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:118:52: sparse:     expected restricted __be32 const [usertype] *cell
+   arch/powerpc/platforms/44x/pci.c:118:52: sparse:     got unsigned int const [usertype] *
+>> arch/powerpc/platforms/44x/pci.c:1528:30: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/44x/pci.c:1528:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned char const volatile [noderef] [usertype] __iomem *addr @@     got unsigned char [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:1528:30: sparse:     expected unsigned char const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/44x/pci.c:1528:30: sparse:     got unsigned char [usertype] *
+   arch/powerpc/platforms/44x/pci.c:1531:33: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/44x/pci.c:1531:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short const volatile [noderef] [usertype] __iomem *addr @@     got unsigned short [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:1531:33: sparse:     expected unsigned short const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/44x/pci.c:1531:33: sparse:     got unsigned short [usertype] *
+   arch/powerpc/platforms/44x/pci.c:1534:33: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/44x/pci.c:1534:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int const volatile [noderef] [usertype] __iomem *addr @@     got unsigned int [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:1534:33: sparse:     expected unsigned int const volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/44x/pci.c:1534:33: sparse:     got unsigned int [usertype] *
+   arch/powerpc/platforms/44x/pci.c:1585:24: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/44x/pci.c:1585:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned char volatile [noderef] [usertype] __iomem *addr @@     got unsigned char [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:1585:24: sparse:     expected unsigned char volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/44x/pci.c:1585:24: sparse:     got unsigned char [usertype] *
+   arch/powerpc/platforms/44x/pci.c:1588:27: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/44x/pci.c:1588:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short volatile [noderef] [usertype] __iomem *addr @@     got unsigned short [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:1588:27: sparse:     expected unsigned short volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/44x/pci.c:1588:27: sparse:     got unsigned short [usertype] *
+   arch/powerpc/platforms/44x/pci.c:1591:27: sparse: sparse: cast removes address space '__iomem' of expression
+>> arch/powerpc/platforms/44x/pci.c:1591:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned int volatile [noderef] [usertype] __iomem *addr @@     got unsigned int [usertype] * @@
+   arch/powerpc/platforms/44x/pci.c:1591:27: sparse:     expected unsigned int volatile [noderef] [usertype] __iomem *addr
+   arch/powerpc/platforms/44x/pci.c:1591:27: sparse:     got unsigned int [usertype] *
+   arch/powerpc/platforms/44x/pci.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:240:46: sparse: sparse: self-comparison always evaluates to false
 
->> arch/arm64/kernel/ftrace.c:147:15: warning: no previous prototype for 'arch_ftrace_get_symaddr' [-Wmissing-prototypes]
-     147 | unsigned long arch_ftrace_get_symaddr(unsigned long fentry_ip)
-         |               ^~~~~~~~~~~~~~~~~~~~~~~
+vim +/primary_uic +40 arch/powerpc/platforms/44x/uic.c
 
+e58923ed14370e arch/powerpc/sysdev/uic.c David Gibson 2007-04-18  39  
+e58923ed14370e arch/powerpc/sysdev/uic.c David Gibson 2007-04-18 @40  struct uic *primary_uic;
+e58923ed14370e arch/powerpc/sysdev/uic.c David Gibson 2007-04-18  41  
 
-vim +/arch_ftrace_get_symaddr +147 arch/arm64/kernel/ftrace.c
+:::::: The code at line 40 was first introduced by commit
+:::::: e58923ed14370e0facc5eb2c3923216adc3bf260 [POWERPC] Add arch/powerpc driver for UIC, PPC4xx interrupt controller
 
-   145	
-   146	/* Convert fentry_ip to the symbol address without kallsyms */
- > 147	unsigned long arch_ftrace_get_symaddr(unsigned long fentry_ip)
-   148	{
-   149		u32 insn;
-   150	
-   151		/*
-   152		 * When using patchable-function-entry without pre-function NOPS, ftrace
-   153		 * entry is the address of the first NOP after the function entry point.
-   154		 *
-   155		 * The compiler has either generated:
-   156		 *
-   157		 * func+00:	func:	NOP		// To be patched to MOV X9, LR
-   158		 * func+04:		NOP		// To be patched to BL <caller>
-   159		 *
-   160		 * Or:
-   161		 *
-   162		 * func-04:		BTI	C
-   163		 * func+00:	func:	NOP		// To be patched to MOV X9, LR
-   164		 * func+04:		NOP		// To be patched to BL <caller>
-   165		 *
-   166		 * The fentry_ip is the address of `BL <caller>` which is at `func + 4`
-   167		 * bytes in either case.
-   168		 */
-   169		if (!IS_ENABLED(CONFIG_DYNAMIC_FTRACE_WITH_CALL_OPS))
-   170			return fentry_ip - AARCH64_INSN_SIZE;
-   171	
-   172		/*
-   173		 * When using patchable-function-entry with pre-function NOPs, BTI is
-   174		 * a bit different.
-   175		 *
-   176		 * func+00:	func:	NOP		// To be patched to MOV X9, LR
-   177		 * func+04:		NOP		// To be patched to BL <caller>
-   178		 *
-   179		 * Or:
-   180		 *
-   181		 * func+00:	func:	BTI	C
-   182		 * func+04:		NOP		// To be patched to MOV X9, LR
-   183		 * func+08:		NOP		// To be patched to BL <caller>
-   184		 *
-   185		 * The fentry_ip is the address of `BL <caller>` which is at either
-   186		 * `func + 4` or `func + 8` depends on whether there is a BTI.
-   187		 */
-   188	
-   189		/* If there is no BTI, the func address should be one instruction before. */
-   190		if (!IS_ENABLED(CONFIG_ARM64_BTI_KERNEL))
-   191			return fentry_ip - AARCH64_INSN_SIZE;
-   192	
-   193		/* We want to be extra safe in case entry ip is on the page edge,
-   194		 * but otherwise we need to avoid get_kernel_nofault()'s overhead.
-   195		 */
-   196		if ((fentry_ip & ~PAGE_MASK) < AARCH64_INSN_SIZE * 2) {
-   197			if (get_kernel_nofault(insn, (u32 *)(fentry_ip - AARCH64_INSN_SIZE * 2)))
-   198				return 0;
-   199		} else {
-   200			insn = *(u32 *)(fentry_ip - AARCH64_INSN_SIZE * 2);
-   201		}
-   202	
-   203		if (aarch64_insn_is_bti(le32_to_cpu((__le32)insn)))
-   204			return fentry_ip - AARCH64_INSN_SIZE * 2;
-   205	
-   206		return fentry_ip - AARCH64_INSN_SIZE;
-   207	}
-   208	
+:::::: TO: David Gibson <david@gibson.dropbear.id.au>
+:::::: CC: Paul Mackerras <paulus@samba.org>
 
 -- 
 0-DAY CI Kernel Test Service
