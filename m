@@ -1,59 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1D62556E;
-	Sun, 10 Nov 2024 10:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D1722556E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 10:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731236035; cv=none; b=EM6CxQA9xEFyXG16BrdO0x7dy8TdTKDkAX+s/lfiSgsaPLDazfB5rcEoWJG8UbVitf9RWebSqzlIu/urPTspuV2aCQFxpxVWNsI3CajSIw5EgJVTGalGPUm/GARA7qp1bI2N3hONR+anY1oqcvJefUgVy6da+s3akiuZH/tZAKM=
+	t=1731236039; cv=none; b=Nk38vrNfN3nQbZpgdzVwgjTa+E+q/HHI69a/VWmJaYV/ZrgphBIMJWckjDmpJ5iG+NWky+aWnC1qLYHuhjl1CYCQSOQ4hlQZ12SGNZE9uuinxh1ITJyWb/Ms5uBiVszy3n71XemSvOncHWbN9zc4fxcjG/AVKmVvBNotV0JWhvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731236035; c=relaxed/simple;
-	bh=zzMt0OYWbVG1DCByliP6/KgNFDeJTzkn4VABlK9VMeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RBu8Xmf7hAkPZRI8YEBv1hJQwHcwLpWZOCpgmhM9rNoarctGWS45buw2vKEFc93vx/DChwzMZYi+BuETScctIXBBaXYOjjqH5OHqSHCX2aWpzRueISVQHY6DW7vnXcGBUSS3hhD/kTMlogPqE/A7JzDgzJySJM+tR0Ym7s8CEh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyd/MLMM; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1731236039; c=relaxed/simple;
+	bh=jepY9rdVvObl0SrjcpatpRHlR9HaeeZYJ/sYwE/vpoY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EzabaCMEUQubRrPBkw9+qulqVRe1uq/X1mJHklol7hteEh6V7HuuKgP+UBkp9oITa57NNbfI4P8l04crOXWRuVnzjqDIu5rMUxTJvNz2pBn4i4mvyDOsjStNHdXJrKiDcmUHE4XVam6bIRPj8/XetepjV89PFYPJNJw7PhSduW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HAkoY2sc; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyd/MLMM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HAkoY2sc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731236033; x=1762772033;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zzMt0OYWbVG1DCByliP6/KgNFDeJTzkn4VABlK9VMeQ=;
-  b=kyd/MLMMBE/qVcOHXG0Bi7W46sthd2FpIog2F4qNyhDVVyC+YDqea6Z2
-   gdiw4OzkUWRUtMNeC5KT87VQAC1MuOtVMAtoyLJrjDRgCMNNt0yCMVj2r
-   ZbsRPixzXFecUTOWBkk6nGbbKDEYKnXRbntjQzb8ux6V1UdYAvUeRpX61
-   8gpX4mTZ5RYywy5egawGPve5vdziAQSoNEQoc3SHLfbnSxrYOsqILxnVH
-   wQn5oEWo/VmjoFYG1EmFqIxay1bFMslATOiz2qFQdRSneZNuvF4AQIfbL
-   4y9Rfl9Wbgoz8nhQoPbftMxNS3z1Chtqfl7r4uJE9WSpwQ5f+fEMvYQsz
-   Q==;
-X-CSE-ConnectionGUID: 2Pjr5jmSTrKktKwxRuyE5w==
-X-CSE-MsgGUID: 4jEiYA8GSIyOg2hEslU3wA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11251"; a="30464566"
-X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="30464566"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 02:53:52 -0800
-X-CSE-ConnectionGUID: pS9VAJIYQiW3JWUwfedTMQ==
-X-CSE-MsgGUID: B2IrAF3TTrOa9JsfDAULhg==
+  t=1731236037; x=1762772037;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jepY9rdVvObl0SrjcpatpRHlR9HaeeZYJ/sYwE/vpoY=;
+  b=HAkoY2sc/+lWZE14Rf9p52WT1wXYjV9pubNceVjx4eeuvl1D8szicE7b
+   dVDyqv23ydcPz4ACJjYl1NpD5qmbjT9+d7swEAZhexq7YlDi40zdqpb0i
+   djNPBmNwpppxlsAENURtzVKJFODsxgveNPvbSjXlkX8cuRG4JQer6AhMu
+   R2U+ijt19f2moAYIjCM0SK/n1irknLW1tylmNKvPeLkHexWfPvj31wBKU
+   dIVpJOnzLJvi7QzR3JA3R5tO5qHmPW9EDW0q8eB4OcOBivet/6BfTgSUF
+   ywD4yBHPUq0ovmp4OJZbeqflv4D0AJhFT9XeI39T4qyQGPKmKznP1BBgL
+   w==;
+X-CSE-ConnectionGUID: 03/TOMvlTuGpkr3ECd/yhg==
+X-CSE-MsgGUID: 7hNd44kxQ/GVgYNEsHCuOw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="42158849"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="42158849"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 02:53:56 -0800
+X-CSE-ConnectionGUID: Yf3RBR74Su+OBTikUs2MNg==
+X-CSE-MsgGUID: QPOnByq+TyuTok3dCYLBMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,142,1728975600"; 
-   d="scan'208";a="90910803"
+   d="scan'208";a="86115574"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Nov 2024 02:53:51 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 10 Nov 2024 02:53:51 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tA5Zk-00005z-2l;
+	id 1tA5Zk-00005x-2h;
 	Sun, 10 Nov 2024 10:53:48 +0000
 Date: Sun, 10 Nov 2024 18:53:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Lee <ryan.lee@canonical.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	John Johansen <john.johansen@canonical.com>
-Subject: [jj-apparmor:apparmor-next 2/16] security/apparmor/domain.c:696:3:
- warning: label followed by a declaration is a C23 extension
-Message-ID: <202411101808.AI8YG6cs-lkp@intel.com>
+To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Marc Kleine-Budde <mkl@pengutronix.de>,
+	Vincent Mailhol <mailhol.vincent@wanadoo.fr>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Vladimir Oltean <olteanv@gmail.com>, Chen-Yu Tsai <wens@csie.org>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Samuel Holland <samuel@sholland.org>,
+	Pantelis Antoniou <pantelis.antoniou@gmail.com>,
+	Marcin Wojtas <marcin.s.wojtas@gmail.com>,
+	Byungho An <bh74.an@samsung.com>,
+	Kevin Brace <kevinbrace@bracecomputerlab.com>,
+	Francois Romieu <romieu@fr.zoreil.com>,
+	Michal Simek <monstr@monstr.eu>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Zhao Qiang <qiang.zhao@nxp.com>, linux-can@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH net-next] net: use pdev instead of OF funcs
+Message-ID: <202411101834.A8QNRx3c-lkp@intel.com>
+References: <20241109233821.8619-1-rosenp@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,216 +80,275 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241109233821.8619-1-rosenp@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jj/linux-apparmor.git apparmor-next
-head:   8c4f7960ae8a7a03a43f814e4af471b8e6ea3391
-commit: ee650b3820f3d127a31c589101b60fbb28e53989 [2/16] apparmor: properly handle cx/px lookup failure for complain
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241110/202411101808.AI8YG6cs-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411101808.AI8YG6cs-lkp@intel.com/reproduce)
+Hi Rosen,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-use-pdev-instead-of-OF-funcs/20241110-073939
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241109233821.8619-1-rosenp%40gmail.com
+patch subject: [PATCH net-next] net: use pdev instead of OF funcs
+config: powerpc-ge_imp3a_defconfig (https://download.01.org/0day-ci/archive/20241110/202411101834.A8QNRx3c-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241110/202411101834.A8QNRx3c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411101808.AI8YG6cs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411101834.A8QNRx3c-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from security/apparmor/domain.c:16:
-   In file included from include/linux/syscalls.h:93:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from security/apparmor/domain.c:16:
-   In file included from include/linux/syscalls.h:93:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from security/apparmor/domain.c:16:
-   In file included from include/linux/syscalls.h:93:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from security/apparmor/domain.c:16:
-   In file included from include/linux/syscalls.h:93:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:9:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> security/apparmor/domain.c:696:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     696 |                 struct aa_profile *new_profile = NULL;
-         |                 ^
-   8 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for MODVERSIONS
-   Depends on [n]: MODULES [=y] && !COMPILE_TEST [=y]
-   Selected by [y]:
-   - RANDSTRUCT_FULL [=y] && (CC_HAS_RANDSTRUCT [=y] || GCC_PLUGINS [=n]) && MODULES [=y]
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_free_rx':
+   drivers/net/ethernet/freescale/ucc_geth.c:1810:31: warning: variable 'uf_info' set but not used [-Wunused-but-set-variable]
+    1810 |         struct ucc_fast_info *uf_info;
+         |                               ^~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_free_tx':
+   drivers/net/ethernet/freescale/ucc_geth.c:1849:31: warning: variable 'uf_info' set but not used [-Wunused-but-set-variable]
+    1849 |         struct ucc_fast_info *uf_info;
+         |                               ^~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_alloc_tx':
+   drivers/net/ethernet/freescale/ucc_geth.c:2142:31: warning: variable 'uf_info' set but not used [-Wunused-but-set-variable]
+    2142 |         struct ucc_fast_info *uf_info;
+         |                               ^~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_alloc_rx':
+   drivers/net/ethernet/freescale/ucc_geth.c:2204:31: warning: variable 'uf_info' set but not used [-Wunused-but-set-variable]
+    2204 |         struct ucc_fast_info *uf_info;
+         |                               ^~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_startup':
+   drivers/net/ethernet/freescale/ucc_geth.c:2271:13: warning: variable 'ifstat' set but not used [-Wunused-but-set-variable]
+    2271 |         u32 ifstat, i, j, size, l2qt, l3qt;
+         |             ^~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c:2261:62: warning: variable 'p_82xx_addr_filt' set but not used [-Wunused-but-set-variable]
+    2261 |         struct ucc_geth_82xx_address_filtering_pram __iomem *p_82xx_addr_filt;
+         |                                                              ^~~~~~~~~~~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_rx':
+   drivers/net/ethernet/freescale/ucc_geth.c:2996:13: warning: variable 'bdBuffer' set but not used [-Wunused-but-set-variable]
+    2996 |         u8 *bdBuffer;
+         |             ^~~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_irq_handler':
+   drivers/net/ethernet/freescale/ucc_geth.c:3149:31: warning: variable 'ug_info' set but not used [-Wunused-but-set-variable]
+    3149 |         struct ucc_geth_info *ug_info;
+         |                               ^~~~~~~
+   drivers/net/ethernet/freescale/ucc_geth.c: In function 'ucc_geth_probe':
+>> drivers/net/ethernet/freescale/ucc_geth.c:3608:42: error: expected ')' before numeric constant
+    3608 |         res = platform_get_resource(ofdev 0, IORESOURCE_MEM);
+         |                                    ~     ^~
+         |                                          )
+>> drivers/net/ethernet/freescale/ucc_geth.c:3608:15: error: too few arguments to function 'platform_get_resource'
+    3608 |         res = platform_get_resource(ofdev 0, IORESOURCE_MEM);
+         |               ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/net/ethernet/freescale/ucc_geth.c:36:
+   include/linux/platform_device.h:58:25: note: declared here
+      58 | extern struct resource *platform_get_resource(struct platform_device *,
+         |                         ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +696 security/apparmor/domain.c
+vim +3608 drivers/net/ethernet/freescale/ucc_geth.c
 
-898127c34ec032 John Johansen             2010-07-29  630  
-90c436a64a6e20 John Johansen             2022-09-19  631  static struct aa_label *profile_transition(const struct cred *subj_cred,
-90c436a64a6e20 John Johansen             2022-09-19  632  					   struct aa_profile *profile,
-93c98a484c4900 John Johansen             2017-06-09  633  					   const struct linux_binprm *bprm,
-93c98a484c4900 John Johansen             2017-06-09  634  					   char *buffer, struct path_cond *cond,
-93c98a484c4900 John Johansen             2017-06-09  635  					   bool *secure_exec)
-898127c34ec032 John Johansen             2010-07-29  636  {
-1ad22fcc4d0d2f John Johansen             2022-09-05  637  	struct aa_ruleset *rules = list_first_entry(&profile->rules,
-1ad22fcc4d0d2f John Johansen             2022-09-05  638  						    typeof(*rules), list);
-93c98a484c4900 John Johansen             2017-06-09  639  	struct aa_label *new = NULL;
-93c98a484c4900 John Johansen             2017-06-09  640  	const char *info = NULL, *name = NULL, *target = NULL;
-98b824ff8984fd John Johansen             2023-04-28  641  	aa_state_t state = rules->file->start[AA_CLASS_FILE];
-2d679f3cb0eaa6 John Johansen             2017-05-29  642  	struct aa_perms perms = {};
-93c98a484c4900 John Johansen             2017-06-09  643  	bool nonewprivs = false;
-b1d9e6b0646d0e Casey Schaufler           2015-05-02  644  	int error = 0;
-898127c34ec032 John Johansen             2010-07-29  645  
-93c98a484c4900 John Johansen             2017-06-09  646  	AA_BUG(!profile);
-93c98a484c4900 John Johansen             2017-06-09  647  	AA_BUG(!bprm);
-93c98a484c4900 John Johansen             2017-06-09  648  	AA_BUG(!buffer);
-898127c34ec032 John Johansen             2010-07-29  649  
-4227c333f65cdd John Johansen             2017-05-23  650  	error = aa_path_name(&bprm->file->f_path, profile->path_flags, buffer,
-72c8a768641dc6 John Johansen             2017-05-22  651  			     &name, &info, profile->disconnected);
-898127c34ec032 John Johansen             2010-07-29  652  	if (error) {
-637f688dc3dc30 John Johansen             2017-06-09  653  		if (profile_unconfined(profile) ||
-93c98a484c4900 John Johansen             2017-06-09  654  		    (profile->label.flags & FLAG_IX_ON_NAME_ERROR)) {
-93c98a484c4900 John Johansen             2017-06-09  655  			AA_DEBUG("name lookup ix on error");
-898127c34ec032 John Johansen             2010-07-29  656  			error = 0;
-93c98a484c4900 John Johansen             2017-06-09  657  			new = aa_get_newest_label(&profile->label);
-93c98a484c4900 John Johansen             2017-06-09  658  		}
-898127c34ec032 John Johansen             2010-07-29  659  		name = bprm->filename;
-898127c34ec032 John Johansen             2010-07-29  660  		goto audit;
-898127c34ec032 John Johansen             2010-07-29  661  	}
-898127c34ec032 John Johansen             2010-07-29  662  
-637f688dc3dc30 John Johansen             2017-06-09  663  	if (profile_unconfined(profile)) {
-8e51f9087f4024 Matthew Garrett           2018-02-08  664  		new = find_attach(bprm, profile->ns,
-8e51f9087f4024 Matthew Garrett           2018-02-08  665  				  &profile->ns->base.profiles, name, &info);
-93c98a484c4900 John Johansen             2017-06-09  666  		if (new) {
-93c98a484c4900 John Johansen             2017-06-09  667  			AA_DEBUG("unconfined attached to new label");
-93c98a484c4900 John Johansen             2017-06-09  668  			return new;
-898127c34ec032 John Johansen             2010-07-29  669  		}
-93c98a484c4900 John Johansen             2017-06-09  670  		AA_DEBUG("unconfined exec no attachment");
-93c98a484c4900 John Johansen             2017-06-09  671  		return aa_get_newest_label(&profile->label);
-898127c34ec032 John Johansen             2010-07-29  672  	}
-898127c34ec032 John Johansen             2010-07-29  673  
-93c98a484c4900 John Johansen             2017-06-09  674  	/* find exec permissions for name */
-98b824ff8984fd John Johansen             2023-04-28  675  	state = aa_str_perms(rules->file, state, name, cond, &perms);
-898127c34ec032 John Johansen             2010-07-29  676  	if (perms.allow & MAY_EXEC) {
-898127c34ec032 John Johansen             2010-07-29  677  		/* exec permission determine how to transition */
-8e51f9087f4024 Matthew Garrett           2018-02-08  678  		new = x_to_label(profile, bprm, name, perms.xindex, &target,
-8e51f9087f4024 Matthew Garrett           2018-02-08  679  				 &info);
-93c98a484c4900 John Johansen             2017-06-09  680  		if (new && new->proxy == profile->label.proxy && info) {
-93c98a484c4900 John Johansen             2017-06-09  681  			/* hack ix fallback - improve how this is detected */
-93c98a484c4900 John Johansen             2017-06-09  682  			goto audit;
-93c98a484c4900 John Johansen             2017-06-09  683  		} else if (!new) {
-93c98a484c4900 John Johansen             2017-06-09  684  			info = "profile transition not found";
-ee650b3820f3d1 Ryan Lee                  2024-08-23  685  			/* remove MAY_EXEC to audit as failure or complaint */
-17322cc3f9ba57 John Johansen             2013-02-18  686  			perms.allow &= ~MAY_EXEC;
-ee650b3820f3d1 Ryan Lee                  2024-08-23  687  			if (COMPLAIN_MODE(profile)) {
-ee650b3820f3d1 Ryan Lee                  2024-08-23  688  				/* create null profile instead of failing */
-ee650b3820f3d1 Ryan Lee                  2024-08-23  689  				goto create_learning_profile;
-ee650b3820f3d1 Ryan Lee                  2024-08-23  690  			}
-ee650b3820f3d1 Ryan Lee                  2024-08-23  691  			error = -EACCES;
-898127c34ec032 John Johansen             2010-07-29  692  		}
-898127c34ec032 John Johansen             2010-07-29  693  	} else if (COMPLAIN_MODE(profile)) {
-ee650b3820f3d1 Ryan Lee                  2024-08-23  694  create_learning_profile:
-93c98a484c4900 John Johansen             2017-06-09  695  		/* no exec permission - learning mode */
-5d7c44ef5e4f01 John Johansen             2017-11-20 @696  		struct aa_profile *new_profile = NULL;
-df323337e507a0 Sebastian Andrzej Siewior 2019-05-03  697  
-58f89ce58bb4f5 John Johansen             2022-10-03  698  		new_profile = aa_new_learning_profile(profile, false, name,
-5d7c44ef5e4f01 John Johansen             2017-11-20  699  						      GFP_KERNEL);
-898127c34ec032 John Johansen             2010-07-29  700  		if (!new_profile) {
-898127c34ec032 John Johansen             2010-07-29  701  			error = -ENOMEM;
-898127c34ec032 John Johansen             2010-07-29  702  			info = "could not create null profile";
-93c98a484c4900 John Johansen             2017-06-09  703  		} else {
-898127c34ec032 John Johansen             2010-07-29  704  			error = -EACCES;
-93c98a484c4900 John Johansen             2017-06-09  705  			new = &new_profile->label;
-93c98a484c4900 John Johansen             2017-06-09  706  		}
-898127c34ec032 John Johansen             2010-07-29  707  		perms.xindex |= AA_X_UNSAFE;
-898127c34ec032 John Johansen             2010-07-29  708  	} else
-898127c34ec032 John Johansen             2010-07-29  709  		/* fail exec */
-898127c34ec032 John Johansen             2010-07-29  710  		error = -EACCES;
-898127c34ec032 John Johansen             2010-07-29  711  
-93c98a484c4900 John Johansen             2017-06-09  712  	if (!new)
-93c98a484c4900 John Johansen             2017-06-09  713  		goto audit;
-93c98a484c4900 John Johansen             2017-06-09  714  
-c29bceb3967398 John Johansen             2012-04-12  715  
-93c98a484c4900 John Johansen             2017-06-09  716  	if (!(perms.xindex & AA_X_UNSAFE)) {
-93c98a484c4900 John Johansen             2017-06-09  717  		if (DEBUG_ON) {
-93c98a484c4900 John Johansen             2017-06-09  718  			dbg_printk("apparmor: scrubbing environment variables"
-93c98a484c4900 John Johansen             2017-06-09  719  				   " for %s profile=", name);
-8ac2ca328ec935 Sebastian Andrzej Siewior 2019-04-05  720  			aa_label_printk(new, GFP_KERNEL);
-93c98a484c4900 John Johansen             2017-06-09  721  			dbg_printk("\n");
-93c98a484c4900 John Johansen             2017-06-09  722  		}
-93c98a484c4900 John Johansen             2017-06-09  723  		*secure_exec = true;
-93c98a484c4900 John Johansen             2017-06-09  724  	}
-93c98a484c4900 John Johansen             2017-06-09  725  
-93c98a484c4900 John Johansen             2017-06-09  726  audit:
-90c436a64a6e20 John Johansen             2022-09-19  727  	aa_audit_file(subj_cred, profile, &perms, OP_EXEC, MAY_EXEC, name,
-90c436a64a6e20 John Johansen             2022-09-19  728  		      target, new,
-93c98a484c4900 John Johansen             2017-06-09  729  		      cond->uid, info, error);
-93c98a484c4900 John Johansen             2017-06-09  730  	if (!new || nonewprivs) {
-93c98a484c4900 John Johansen             2017-06-09  731  		aa_put_label(new);
-93c98a484c4900 John Johansen             2017-06-09  732  		return ERR_PTR(error);
-93c98a484c4900 John Johansen             2017-06-09  733  	}
-93c98a484c4900 John Johansen             2017-06-09  734  
-93c98a484c4900 John Johansen             2017-06-09  735  	return new;
-93c98a484c4900 John Johansen             2017-06-09  736  }
-93c98a484c4900 John Johansen             2017-06-09  737  
-
-:::::: The code at line 696 was first introduced by commit
-:::::: 5d7c44ef5e4f0149c9fb99faeae41e930485a1ec apparmor: fix locking when creating a new complain profile.
-
-:::::: TO: John Johansen <john.johansen@canonical.com>
-:::::: CC: John Johansen <john.johansen@canonical.com>
+  3555	
+  3556	static int ucc_geth_probe(struct platform_device* ofdev)
+  3557	{
+  3558		struct device *device = &ofdev->dev;
+  3559		struct device_node *np = ofdev->dev.of_node;
+  3560		struct net_device *dev = NULL;
+  3561		struct ucc_geth_private *ugeth = NULL;
+  3562		struct ucc_geth_info *ug_info;
+  3563		struct resource *res;
+  3564		int err, ucc_num, max_speed = 0;
+  3565		const unsigned int *prop;
+  3566		phy_interface_t phy_interface;
+  3567		static const int enet_to_speed[] = {
+  3568			SPEED_10, SPEED_10, SPEED_10,
+  3569			SPEED_100, SPEED_100, SPEED_100,
+  3570			SPEED_1000, SPEED_1000, SPEED_1000, SPEED_1000,
+  3571		};
+  3572		static const phy_interface_t enet_to_phy_interface[] = {
+  3573			PHY_INTERFACE_MODE_MII, PHY_INTERFACE_MODE_RMII,
+  3574			PHY_INTERFACE_MODE_RGMII, PHY_INTERFACE_MODE_MII,
+  3575			PHY_INTERFACE_MODE_RMII, PHY_INTERFACE_MODE_RGMII,
+  3576			PHY_INTERFACE_MODE_GMII, PHY_INTERFACE_MODE_RGMII,
+  3577			PHY_INTERFACE_MODE_TBI, PHY_INTERFACE_MODE_RTBI,
+  3578			PHY_INTERFACE_MODE_SGMII,
+  3579		};
+  3580	
+  3581		ugeth_vdbg("%s: IN", __func__);
+  3582	
+  3583		prop = of_get_property(np, "cell-index", NULL);
+  3584		if (!prop) {
+  3585			prop = of_get_property(np, "device-id", NULL);
+  3586			if (!prop)
+  3587				return -ENODEV;
+  3588		}
+  3589	
+  3590		ucc_num = *prop - 1;
+  3591		if ((ucc_num < 0) || (ucc_num > 7))
+  3592			return -ENODEV;
+  3593	
+  3594		ug_info = devm_kmemdup(&ofdev->dev, &ugeth_primary_info,
+  3595				       sizeof(*ug_info), GFP_KERNEL);
+  3596		if (!ug_info)
+  3597			return -ENOMEM;
+  3598	
+  3599		ug_info->uf_info.ucc_num = ucc_num;
+  3600	
+  3601		err = ucc_geth_parse_clock(np, "rx", &ug_info->uf_info.rx_clock);
+  3602		if (err)
+  3603			return err;
+  3604		err = ucc_geth_parse_clock(np, "tx", &ug_info->uf_info.tx_clock);
+  3605		if (err)
+  3606			return err;
+  3607	
+> 3608		res = platform_get_resource(ofdev 0, IORESOURCE_MEM);
+  3609		if (!res)
+  3610			return -ENODEV;
+  3611	
+  3612		ug_info->uf_info.regs = res->start;
+  3613		ug_info->uf_info.irq = platform_get_irq(ofdev, 0);
+  3614	
+  3615		ug_info->phy_node = of_parse_phandle(np, "phy-handle", 0);
+  3616		if (!ug_info->phy_node && of_phy_is_fixed_link(np)) {
+  3617			/*
+  3618			 * In the case of a fixed PHY, the DT node associated
+  3619			 * to the PHY is the Ethernet MAC DT node.
+  3620			 */
+  3621			err = of_phy_register_fixed_link(np);
+  3622			if (err)
+  3623				return err;
+  3624			ug_info->phy_node = of_node_get(np);
+  3625		}
+  3626	
+  3627		/* Find the TBI PHY node.  If it's not there, we don't support SGMII */
+  3628		ug_info->tbi_node = of_parse_phandle(np, "tbi-handle", 0);
+  3629	
+  3630		/* get the phy interface type, or default to MII */
+  3631		prop = of_get_property(np, "phy-connection-type", NULL);
+  3632		if (!prop) {
+  3633			/* handle interface property present in old trees */
+  3634			prop = of_get_property(ug_info->phy_node, "interface", NULL);
+  3635			if (prop != NULL) {
+  3636				phy_interface = enet_to_phy_interface[*prop];
+  3637				max_speed = enet_to_speed[*prop];
+  3638			} else
+  3639				phy_interface = PHY_INTERFACE_MODE_MII;
+  3640		} else {
+  3641			phy_interface = to_phy_interface((const char *)prop);
+  3642		}
+  3643	
+  3644		/* get speed, or derive from PHY interface */
+  3645		if (max_speed == 0)
+  3646			switch (phy_interface) {
+  3647			case PHY_INTERFACE_MODE_GMII:
+  3648			case PHY_INTERFACE_MODE_RGMII:
+  3649			case PHY_INTERFACE_MODE_RGMII_ID:
+  3650			case PHY_INTERFACE_MODE_RGMII_RXID:
+  3651			case PHY_INTERFACE_MODE_RGMII_TXID:
+  3652			case PHY_INTERFACE_MODE_TBI:
+  3653			case PHY_INTERFACE_MODE_RTBI:
+  3654			case PHY_INTERFACE_MODE_SGMII:
+  3655				max_speed = SPEED_1000;
+  3656				break;
+  3657			default:
+  3658				max_speed = SPEED_100;
+  3659				break;
+  3660			}
+  3661	
+  3662		if (max_speed == SPEED_1000) {
+  3663			unsigned int snums = qe_get_num_of_snums();
+  3664	
+  3665			/* configure muram FIFOs for gigabit operation */
+  3666			ug_info->uf_info.urfs = UCC_GETH_URFS_GIGA_INIT;
+  3667			ug_info->uf_info.urfet = UCC_GETH_URFET_GIGA_INIT;
+  3668			ug_info->uf_info.urfset = UCC_GETH_URFSET_GIGA_INIT;
+  3669			ug_info->uf_info.utfs = UCC_GETH_UTFS_GIGA_INIT;
+  3670			ug_info->uf_info.utfet = UCC_GETH_UTFET_GIGA_INIT;
+  3671			ug_info->uf_info.utftt = UCC_GETH_UTFTT_GIGA_INIT;
+  3672			ug_info->numThreadsTx = UCC_GETH_NUM_OF_THREADS_4;
+  3673	
+  3674			/* If QE's snum number is 46/76 which means we need to support
+  3675			 * 4 UECs at 1000Base-T simultaneously, we need to allocate
+  3676			 * more Threads to Rx.
+  3677			 */
+  3678			if ((snums == 76) || (snums == 46))
+  3679				ug_info->numThreadsRx = UCC_GETH_NUM_OF_THREADS_6;
+  3680			else
+  3681				ug_info->numThreadsRx = UCC_GETH_NUM_OF_THREADS_4;
+  3682		}
+  3683	
+  3684		if (netif_msg_probe(&debug))
+  3685			pr_info("UCC%1d at 0x%8llx (irq = %d)\n",
+  3686				ug_info->uf_info.ucc_num + 1,
+  3687				(u64)ug_info->uf_info.regs,
+  3688				ug_info->uf_info.irq);
+  3689	
+  3690		/* Create an ethernet device instance */
+  3691		dev = devm_alloc_etherdev(&ofdev->dev, sizeof(*ugeth));
+  3692		if (!dev) {
+  3693			err = -ENOMEM;
+  3694			goto err_deregister_fixed_link;
+  3695		}
+  3696	
+  3697		ugeth = netdev_priv(dev);
+  3698		spin_lock_init(&ugeth->lock);
+  3699	
+  3700		/* Create CQs for hash tables */
+  3701		INIT_LIST_HEAD(&ugeth->group_hash_q);
+  3702		INIT_LIST_HEAD(&ugeth->ind_hash_q);
+  3703	
+  3704		dev_set_drvdata(device, dev);
+  3705	
+  3706		/* Set the dev->base_addr to the gfar reg region */
+  3707		dev->base_addr = (unsigned long)(ug_info->uf_info.regs);
+  3708	
+  3709		SET_NETDEV_DEV(dev, device);
+  3710	
+  3711		/* Fill in the dev structure */
+  3712		uec_set_ethtool_ops(dev);
+  3713		dev->netdev_ops = &ucc_geth_netdev_ops;
+  3714		dev->watchdog_timeo = TX_TIMEOUT;
+  3715		INIT_WORK(&ugeth->timeout_work, ucc_geth_timeout_work);
+  3716		netif_napi_add(dev, &ugeth->napi, ucc_geth_poll);
+  3717		dev->mtu = 1500;
+  3718		dev->max_mtu = 1518;
+  3719	
+  3720		ugeth->msg_enable = netif_msg_init(debug.msg_enable, UGETH_MSG_DEFAULT);
+  3721		ugeth->phy_interface = phy_interface;
+  3722		ugeth->max_speed = max_speed;
+  3723	
+  3724		/* Carrier starts down, phylib will bring it up */
+  3725		netif_carrier_off(dev);
+  3726	
+  3727		err = devm_register_netdev(&ofdev->dev, dev);
+  3728		if (err) {
+  3729			if (netif_msg_probe(ugeth))
+  3730				pr_err("%s: Cannot register net device, aborting\n",
+  3731				       dev->name);
+  3732			goto err_deregister_fixed_link;
+  3733		}
+  3734	
+  3735		err = of_get_ethdev_address(np, dev);
+  3736		if (err == -EPROBE_DEFER)
+  3737			goto err_deregister_fixed_link;
+  3738	
+  3739		ugeth->ug_info = ug_info;
+  3740		ugeth->dev = device;
+  3741		ugeth->ndev = dev;
+  3742		ugeth->node = np;
+  3743	
+  3744		return 0;
+  3745	
+  3746	err_deregister_fixed_link:
+  3747		if (of_phy_is_fixed_link(np))
+  3748			of_phy_deregister_fixed_link(np);
+  3749		of_node_put(ug_info->tbi_node);
+  3750		of_node_put(ug_info->phy_node);
+  3751		return err;
+  3752	}
+  3753	
 
 -- 
 0-DAY CI Kernel Test Service
