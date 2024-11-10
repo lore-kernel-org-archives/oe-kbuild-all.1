@@ -1,106 +1,105 @@
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D87761531D2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 21:06:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=44.202.169.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA5DC155385
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 10 Nov 2024 21:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731272815; cv=none; b=H6/1YRPoeHi6ShHkSvIvqRsWrM1IjhkmwtIOiFAwF6/Az0kHNODeUneCeA35TA9B8pOPOkCkaKgrxQiYYBQ0RENoYbbFYgX+WKZeStCgTqALAxPZMUrtXhZYGWqbgXekVw78Jm4yYbS0ceyEcczaLcnV2e9hIWE3n93sIofwbPw=
+	t=1731274251; cv=none; b=IG34mqYuBwwhhDBwQeFJbLYfnx5SUuSRMxTikCfenkRX3dqrU9VilxSvJpk32Yu7tTxoe0wR5tvJlsxR5ljkJAbpeQErf79AFWJU5SCxwDW/FKWWoEymd7mz0dNLWqBkx+evvTBr44y8ycHcFudpgbsc+r5No/03A9AhniX+z9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731272815; c=relaxed/simple;
-	bh=RoImXjp7MGcwr2e4G5suORPS+HAf6mNHd56YA4Mr25Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5ZyL8DrJ14rO2JbJi21dK6DdkSuc0C6EuQ1ZhYSpUTP/ZNZvXYT7eo38/MmARb6RMAbC899gC4i0a7sruxfxmxnYSSoItKI87yG1xZjegsubH7V75dmdifZYv60dBl5JA+MOccDfpcH8nTEM3kQsDpOhkXR6x/GmkFbAgD7nas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com; spf=pass smtp.mailfrom=embeddedor.com; dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b=NAy9tZrN; arc=none smtp.client-ip=44.202.169.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=embeddedor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=embeddedor.com
+	s=arc-20240116; t=1731274251; c=relaxed/simple;
+	bh=hwY0sL7Ycs6ZFJZSKJNWeEC6F6IXxalbnOhVkFll4cg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PNy2n66VMZwAzFADWuVdtj8t0Er1GyeFb7+qgBq6RywiGrKUD/Xm57eUAmKkhj1dG0uiNkJKss3LpcjEtiGFtEMIqHFbj/k34u5cOiSHpZmlrHkrT1In/tSyV/3r/6inAIfExYXNYVfHj3M19TsatjvxygdTEaScFgy7wEXMPq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mghTK/87; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=embeddedor.com header.i=@embeddedor.com header.b="NAy9tZrN"
-Received: from eig-obgw-5006a.ext.cloudfilter.net ([10.0.29.179])
-	by cmsmtp with ESMTPS
-	id A0Gyt9YLQiA19AF8wt1teL; Sun, 10 Nov 2024 21:06:46 +0000
-Received: from gator4166.hostgator.com ([108.167.133.22])
-	by cmsmtp with ESMTPS
-	id AF8vtmmGyqkY8AF8wt7w4M; Sun, 10 Nov 2024 21:06:46 +0000
-X-Authority-Analysis: v=2.4 cv=VNzbncPX c=1 sm=1 tr=0 ts=67312066
- a=1YbLdUo/zbTtOZ3uB5T3HA==:117 a=GtNDhlRIH4u8wNL3EA3KcA==:17
- a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=7T7KSl7uo7wA:10
- a=-Klr6mLr8pg6UDE4wXQA:9 a=QEXdDO2ut3YA:10 a=Xt_RvD8W3m28Mn_h3AK8:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=embeddedor.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=o0adg+1j4txtlNvaOHyqcPDOTVdpAEqtR1MV+0wO+Sw=; b=NAy9tZrNaniaQh4hyIvSgpyzDD
-	V0XirQl0MX+kQO9HdMzmjwyDcuYiVYhWWBm7H0zgEbRnZhkSnVMu62462gQ5QXUpeFJiV+Y/xEdh6
-	Bp6h2z+SUg1wBOadFIbo/gwBlbVEXo27RyB2RCRQlZ2fnytt0VhMYHo6zjX6ZgupvjBL8U1CPYeOr
-	dxOJZu94C5VPzZAui9oiek7Jev3VBlRjoV8eKk0oPN4UCvDpwCb0pE+e702ndeRHq32NL9uVVvigE
-	bKjVpDI0N62+j4AS/937s73ndjDHobyxriVuAsR2XLP8k3C9rdGpN0qrUU6DpGMYB30QW5yxRYSFZ
-	VqUsM5sQ==;
-Received: from [177.238.21.80] (port=43976 helo=[192.168.0.21])
-	by gator4166.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96.2)
-	(envelope-from <gustavo@embeddedor.com>)
-	id 1tAF8v-0045Jd-02;
-	Sun, 10 Nov 2024 15:06:45 -0600
-Message-ID: <8bc69322-f630-4235-9ee0-501e02623dd7@embeddedor.com>
-Date: Sun, 10 Nov 2024 15:06:35 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mghTK/87"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731274249; x=1762810249;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hwY0sL7Ycs6ZFJZSKJNWeEC6F6IXxalbnOhVkFll4cg=;
+  b=mghTK/8762WKxsSXYrv0QzWJenkWEe8YZ2+IqmGIhCMVN3YCjPPJ7sLa
+   YZS5D9rGoaVFp7ncBJVhgQs6LxGRbJHW+m/sZ3LQULtDgWDU8Y0414f86
+   hDyUFowR+dopujHTK1tEv+/vW4ElW58wnq5GoFf9siMyh06sJ/E5zgKHi
+   7DnLRNWFj48vcRJ7AGYXo+vbuBAiSzNH6JTqc8fGWVJPn6qHyUlTnqrHN
+   eqa3cVaiYaY1R4ld7AaP5Xav4gyZmau4BHsYpHJ0YEl0xUxNezvale4q2
+   P+apPZB3Mz95lOnx1I1ZJgJeT5M7XDPz9u6NaS3pyqDCBuhm1j/Wege2E
+   Q==;
+X-CSE-ConnectionGUID: QFw30iN2QI2Uio9czdOMIQ==
+X-CSE-MsgGUID: YTY78sNOSmyGAVXoaqFfvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41692309"
+X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
+   d="scan'208";a="41692309"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 13:30:48 -0800
+X-CSE-ConnectionGUID: x6ESbaDxQ+SxXMvP6twC/w==
+X-CSE-MsgGUID: xxgRjlstSsqflt90xFiBjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,143,1728975600"; 
+   d="scan'208";a="90525542"
+Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Nov 2024 13:30:47 -0800
+Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAFW8-0000Pp-2I;
+	Sun, 10 Nov 2024 21:30:44 +0000
+Date: Mon, 11 Nov 2024 05:30:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linyunsheng:net-pp-inflight-fix_v4_1110 4/8]
+ net/core/page_pool.c:337 __page_pool_item_init() warn: inconsistent
+ indenting
+Message-ID: <202411110505.EXmIxHSv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] scsi: Replace zero-length array with flexible array
- member
-To: Thorsten Blum <thorsten.blum@linux.dev>, Lee Duncan <lduncan@suse.com>,
- Chris Leech <cleech@redhat.com>, Mike Christie
- <michael.christie@oracle.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org,
- open-iscsi@googlegroups.com, linux-scsi@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20241110151749.3311-2-thorsten.blum@linux.dev>
- <202411110336.IDRXgcR4-lkp@intel.com>
-Content-Language: en-US
-From: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
-In-Reply-To: <202411110336.IDRXgcR4-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator4166.hostgator.com
-X-AntiAbuse: Original Domain - lists.linux.dev
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - embeddedor.com
-X-BWhitelist: no
-X-Source-IP: 177.238.21.80
-X-Source-L: No
-X-Exim-ID: 1tAF8v-0045Jd-02
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: ([192.168.0.21]) [177.238.21.80]:43976
-X-Source-Auth: gustavo@embeddedor.com
-X-Email-Count: 5
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: Z3V6aWRpbmU7Z3V6aWRpbmU7Z2F0b3I0MTY2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfGb205AapUU6V+99b9f69JpqhvbVQkrLfthr7Y3ARNqTGiqPYJs01a9H28nw9yFeM3aZg2eBaqjVKmezE7jDizBh8GMeBOhp8Wk+jRHl2gPcQLaTHuNx
- +M9HHj8u+KSsnxvFF9QTMhCbJncNruI2KvEfvzNSMezhyVkzfWclCJJd6LBjjlEn8FPGhy/pmR3h4ItWt3YYnlknGP2xvGWvMikPhTLtSpAmxxRH/w9gHWUS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+tree:   https://github.com/gestionlin/linux.git net-pp-inflight-fix_v4_1110
+head:   94c2f79ad577e3fc5fc89e6a779097bac7a666d5
+commit: bb3639f9dabded28e04223bfd2830423e2722d63 [4/8] use list
+config: i386-randconfig-141-20241111 (https://download.01.org/0day-ci/archive/20241111/202411110505.EXmIxHSv-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411110505.EXmIxHSv-lkp@intel.com/
 
->     In file included from drivers/scsi/scsi_transport_iscsi.c:23:
->>> include/scsi/scsi_bsg_iscsi.h:62:18: error: flexible array member in a struct with no named members
->        62 |         uint32_t vendor_rsp[];
->           |                  ^~~~~~~~~~
+smatch warnings:
+net/core/page_pool.c:337 __page_pool_item_init() warn: inconsistent indenting
 
-This won't be an issue in the near future, but for now just use DECLARE_FLEX_ARRAY().
+vim +337 net/core/page_pool.c
 
-Thanks
---
-Gustavo
+   321	
+   322	#define ITEMS_PER_PAGE	(PAGE_SIZE -					\
+   323				 offsetof(struct page_pool_item_block, items)) /\
+   324				sizeof(struct page_pool_item)
+   325	
+   326	static void __page_pool_item_init(struct page_pool *pool, struct page *page)
+   327	{
+   328		struct page_pool_item_block *block = page_address(page);
+   329		struct page_pool_item *items = block->items;
+   330		unsigned int i;
+   331	
+   332		list_add(&block->list, &pool->item_blocks);
+   333		block->pp = pool;
+   334	
+   335		for (i = 0; i < ITEMS_PER_PAGE; i++) {
+   336			items[i].state = PAGE_POOL_ITEM_UNUSED;
+ > 337			 __llist_add(&items[i].lentry, &pool->hold_items);
+   338		}
+   339	}
+   340	
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
