@@ -1,32 +1,66 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E4F6F06B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 11:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB88912F59C;
+	Mon, 11 Nov 2024 12:01:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731324949; cv=none; b=OK8dV0TwWD/C+IRUo1UOp+19NwKyB2V6Njx65qnD2XktOUEZ4F3lbslYenuOCzaMIFEef8wQdP4UaavtmcNOR6T/yJNmEm519DLLZlCDF2cYVUivFPu2yNo5eqx6gU/+gGz+76nqlT9jTP9UfXYQKaHiXW7OG1UhGqGMah2wIyg=
+	t=1731326484; cv=none; b=Zsh52CxMhrBHmpy4pK6F3otfdSnGqDEl4wtSRsHOCfZLiohPig8MI/Abh/XVTs5JIgmV/0wnUCstR+vkrv0mMYpPtTOgTMfFE52kBs3Uk66LO6drzd7mfRUxnoWzloP2a+/L7Q59jC0ZbrPT9iOeRgxkYcu+rSKtW57L5QYAE/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731324949; c=relaxed/simple;
-	bh=w1xipc7gSmhwuU6Zd2QbPLZh9gkKSihZgyj5wm28sMw=;
+	s=arc-20240116; t=1731326484; c=relaxed/simple;
+	bh=zVuvjtKAs+LjZH1OYuewCYgzwIIhVlFF6h3ovVOjueM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LalrcvelKydI3Pls2XCHfg+e2B32kL4L9Knqi99LIQrZ+RDBq7gJGRN95BssKINv/aGmUbLr5kyOCXwmrdZRJ/O62G+IxfzobtTYpFnCwrQ06Uarmi96ut+Z3GeJxwRvYOnWDLzD9CCtMwOzAcfZ8WZhvwKNZ/t7HZ1WjkfrkTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0F72368D07; Mon, 11 Nov 2024 12:35:43 +0100 (CET)
-Date: Mon, 11 Nov 2024 12:35:42 +0100
-From: Christoph Hellwig <hch@lst.de>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Guixin Liu <kanie@linux.alibaba.com>, Keith Busch <kbusch@kernel.org>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] nvmet: fix the error of point math issue
-Message-ID: <20241111113542.GA30234@lst.de>
-References: <20241111104035.31770-1-kanie@linux.alibaba.com> <f4ce4ae4-fb33-467b-937c-444a46eb6f02@stanley.mountain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBqlhPMdKL43q10KgzfFBijdSieErjt3by9JtqFPRCjsIXtmVquCMNuDeODO5HloJCw7XSXNN8TITgS4xa7GWQEXu3J9rGjI0+eo6bYjFPlHS3by2eSu/xoNmZkOfHRmFmuLGY3/RKYFN4UMlKxmlUqidviPpHHCZ+zvTDYnWxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ufns7pd4; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ufns7pd4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731326483; x=1762862483;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zVuvjtKAs+LjZH1OYuewCYgzwIIhVlFF6h3ovVOjueM=;
+  b=Ufns7pd4OP0DNefefIumqxTm8QQpSUGZ78Zca4AWP6VNXVkwETXBXUFJ
+   P192/UyLct6zxFJ43w1LUeIZHMy7aAy1kAVUozdOmO+1xUgvOZPZ6qnZh
+   xuI3hMKtxkgaWSOcHUfbezGgzPurkgOrkUU3ZdRmzUowxzCYrCuPOnxUf
+   GSCI6bb7GmKdgLIO5gWDKpLW1wiXxeiU7v/Wx6Qc3kW2L2a7TFDLAdw7Q
+   Cj2wcmXCW65+vgw2vVV4NF/Qjdp1Nspq7eL3u0vD7gHkU89qRZCZYJxSW
+   Z4Zq8wc53cOuJwJ4fT6drD6SV4lP4NRZ0XnXFwOGiXro8IKc/PTFayFyu
+   A==;
+X-CSE-ConnectionGUID: Z+Xj4cqXQwyqKIn5fkUr8w==
+X-CSE-MsgGUID: qxhydzpgRRasTHJux+giNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31088998"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31088998"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 04:01:22 -0800
+X-CSE-ConnectionGUID: rcCRq3O5TAKxfIenzt6Qsw==
+X-CSE-MsgGUID: Vp/HE32DSgeoXzxisVcxYg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,145,1728975600"; 
+   d="scan'208";a="124453001"
+Received: from lkp-server01.sh.intel.com (HELO dc8184e5aea1) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2024 04:01:19 -0800
+Received: from kbuild by dc8184e5aea1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAT6a-0000G9-1N;
+	Mon, 11 Nov 2024 12:01:16 +0000
+Date: Mon, 11 Nov 2024 20:01:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: Zhao Qunqin <zhaoqunqin@loongson.cn>, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, chenhuacai@kernel.org,
+	bp@alien8.de
+Cc: oe-kbuild-all@lists.linux.dev, linux-edac@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel@xen0n.name, tony.luck@intel.com, james.morse@arm.com,
+	mchehab@kernel.org, rric@kernel.org, loongarch@lists.linux.dev,
+	Zhao Qunqin <zhaoqunqin@loongson.cn>
+Subject: Re: [PATCH v7 2/2] EDAC: Add EDAC driver for loongson memory
+ controller
+Message-ID: <202411111918.lhNjQmXB-lkp@intel.com>
+References: <20241111060939.5349-3-zhaoqunqin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -35,19 +69,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f4ce4ae4-fb33-467b-937c-444a46eb6f02@stanley.mountain>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20241111060939.5349-3-zhaoqunqin@loongson.cn>
 
-On Mon, Nov 11, 2024 at 01:48:57PM +0300, Dan Carpenter wrote:
-> On Mon, Nov 11, 2024 at 06:40:35PM +0800, Guixin Liu wrote:
-> > Fix the wrong place of parenthesis of ctrl_eds and data point in
-> > nvmet_execute_pr_report(), switch to "void *" first and then do
-> > the addtion.
-> > 
-> > Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
-> 
-> This needs a Fixes tag so that the stable tools know not to apply it to old
-> kernels.
+Hi Zhao,
 
-We might still be able to fold it in as it's near the top of the
-nvme tree not send upstream yet.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on e14232afa94445e03fc3a0291b07a68f3408c120]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhao-Qunqin/dt-bindings-EDAC-for-ls3a5000-memory-controller/20241111-141155
+base:   e14232afa94445e03fc3a0291b07a68f3408c120
+patch link:    https://lore.kernel.org/r/20241111060939.5349-3-zhaoqunqin%40loongson.cn
+patch subject: [PATCH v7 2/2] EDAC: Add EDAC driver for loongson memory controller
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241111/202411111918.lhNjQmXB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111918.lhNjQmXB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411111918.lhNjQmXB-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/edac/loongson_edac.c: In function 'read_ecc':
+>> drivers/edac/loongson_edac.c:28:15: error: implicit declaration of function 'readq'; did you mean 'readl'? [-Werror=implicit-function-declaration]
+      28 |         ecc = readq(pvt->ecc_base + ECC_CS_COUNT_REG);
+         |               ^~~~~
+         |               readl
+   cc1: some warnings being treated as errors
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
+
+
+vim +28 drivers/edac/loongson_edac.c
+
+    18	
+    19	static int read_ecc(struct mem_ctl_info *mci)
+    20	{
+    21		struct loongson_edac_pvt *pvt = mci->pvt_info;
+    22		u64 ecc;
+    23		int cs;
+    24	
+    25		if (!pvt->ecc_base)
+    26			return pvt->last_ce_count;
+    27	
+  > 28		ecc = readq(pvt->ecc_base + ECC_CS_COUNT_REG);
+    29		/* cs0 -- cs3 */
+    30		cs = ecc & 0xff;
+    31		cs += (ecc >> 8) & 0xff;
+    32		cs += (ecc >> 16) & 0xff;
+    33		cs += (ecc >> 24) & 0xff;
+    34	
+    35		return cs;
+    36	}
+    37	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
