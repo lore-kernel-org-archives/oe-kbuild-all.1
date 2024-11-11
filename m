@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5115F12EBDB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 03:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537BC1E495
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 04:50:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731297518; cv=none; b=knjNldnbWBzR1HzRCF5rcU6OZfoKup5JhWpHjEZ+3OtbclcKqOSMdTGxkYs2+f2DnalXrW8DqpxB8kcKDBwj8tX7jjkFAHuRpHYHhV0nq/6KJQDXE6xhQL/gDmTbgGg7gG1ezrJOLdzWAC1V7Pw+bq3r5CUYjo4GC/k/n0FJw+4=
+	t=1731300648; cv=none; b=dNK5ZqFNKzUmr7pODZ5UZAJln0xLkTve2VNoJevZA8CC97hnZYOLeM5SS4O5tbRb3Dre88gEMrM7aSQbsGt+UkB1utty+VWAwNGib3445RMWBjblbIzeiqfpJNEVm6WadFFyaq/3+vr5alM6npioToxlyv9JL7YRKhwMoNSYK5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731297518; c=relaxed/simple;
-	bh=7dftOBenfsrHTN4GHTETpijwE1SSS0BFPVX6P+PqJH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yc+TgXCBxoprkmcZ3jTusHyCztyA+shJQhP7upb3CCxIQBfCbIgYciwrWt3x7sEzrVzRjEsGt+J6jtVLRPqkTo58mFqsbacDhkza5Kian+r/WYwc9L7DEgSP09bRm0A4z30pqGnI7dFn3udO8r8y65FoENwRhAfVnGCW08e1WGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hdYTtJTM; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1731300648; c=relaxed/simple;
+	bh=RuazcIG+VDnyhGSj6Tb+4qNdqW9iMNJuooSwyNQQ2WU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKAnbaCsgTA7QyaksIQ94o/eVlXjVzbA2cohkoeeDyTaUvsYsJ0Cq6L/KnZVD4ZJPLu+RwhuBnlMn0iRDrdTsrpmy045v4rdxbeUAvS+yNxfMLskWzHt8/BT+wHkaAZ9f6cNf0hPfYypEB6RGTx2NEr9wgCjTD7vxTHJjWDa9AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0ZOjaLI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hdYTtJTM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0ZOjaLI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731297516; x=1762833516;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7dftOBenfsrHTN4GHTETpijwE1SSS0BFPVX6P+PqJH4=;
-  b=hdYTtJTMo3keWJ9rWjC+MWtiVDD/ujadNQNkTG3d20HnmDWrp6JrBmBs
-   4/chBFiDjflJjGYnkmtOrWxhvqC4BhQJAK1gTI7L0AW5SVXakUr4+17/N
-   pqdoqtpCkRyjRGHgxSW0+nlAezELN7Hx/Rx5V780xUvqBL62HabmK6htu
-   lnow2iy2s7QwFnDakQr86kWAGvI3uiBg1O99XKiY7WSDvlA3KeWHLjci+
-   Vgpfa/GtXDXwguoyXfw3XoDZL0S2lhTFdgJaXeCUlANf/EEurTXB8e4dp
-   m5bLkRsXAphEkpLQKZt2o7pALUkWLi3mTWwSYi4+UHkUxQqbMyW0i7lkK
-   w==;
-X-CSE-ConnectionGUID: ilHGM9i2RoWK+jBnuBUT2A==
-X-CSE-MsgGUID: MUf9sKG0RX2JjXp30FlpPQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53657206"
+  t=1731300646; x=1762836646;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RuazcIG+VDnyhGSj6Tb+4qNdqW9iMNJuooSwyNQQ2WU=;
+  b=W0ZOjaLIMdzDxms+TUDV/FCremlyjTjhBnng8ngSzkB4LEanfq7BAEoj
+   TBzKfFMNTJPm4ZvHA7aE/YxY0P7q/Ih4OQ9RpyGH5rBZRJuIiGjm1Mlt6
+   eWT0SbyvW6gmBFuhjeOAIeskiGpr4cKHIxWEOAP788SFj5b/5qk65c/9b
+   jwChOf6vGdvTaEmaP73I4Ymsm1AwK9fAIaK+4RpC8FsFiqZGwRFvjcEeR
+   xYMKHmH/C+PbIu4muWDIIqhascN4fUbvMHqrr6ViOtUHfn8XHwm0sDl69
+   TMbDSt+eec2tx+OR/ckTDr2p2MURhfkbp7CTr9i0q+fhkuFt9D5CL9r1L
+   A==;
+X-CSE-ConnectionGUID: 7UTYKC5nQiiX9er+tzcYWg==
+X-CSE-MsgGUID: RDLV9JWBSK2/IDO1Y5VnuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31056977"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53657206"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 19:58:36 -0800
-X-CSE-ConnectionGUID: bndGXzUKRkKjLk4wEawDRw==
-X-CSE-MsgGUID: cYItB0zSScO/EN8d7rV7yA==
+   d="scan'208";a="31056977"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 20:50:46 -0800
+X-CSE-ConnectionGUID: 1bGUFPnhSq+CpdOqFcRtCw==
+X-CSE-MsgGUID: cV/dLXKZSeqBYbj9LS4nMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="86676027"
+   d="scan'208";a="117545126"
 Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 10 Nov 2024 19:58:34 -0800
+  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2024 20:50:43 -0800
 Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tALZQ-0000g6-11;
-	Mon, 11 Nov 2024 03:58:32 +0000
-Date: Mon, 11 Nov 2024 11:58:26 +0800
+	id 1tAMNs-0000iC-1U;
+	Mon, 11 Nov 2024 04:50:40 +0000
+Date: Mon, 11 Nov 2024 12:49:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [mhiramat:topic/fprobe-on-fgraph 18/19]
- arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
-Message-ID: <202411111420.efjmlOE1-lkp@intel.com>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Hillf Danton <hdanton@sina.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org,
+	gregkh@linuxfoundation.org, tglx@linutronix.de,
+	syzbot <syzbot+6ea37e2e6ffccf41a7e6@syzkaller.appspotmail.com>
+Subject: Re: [PATCH] kernfs: Use RCU for kernfs_node::name lookup.
+Message-ID: <202411111204.JebDWFvY-lkp@intel.com>
+References: <20241108222406.n5azgO98@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,96 +68,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241108222406.n5azgO98@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mhiramat/linux.git topic/fprobe-on-fgraph
-head:   0b2c6214cb26d94f883e8935b878dcae1f76af1b
-commit: ee530bd1add777c02ba82a7d8f942cfda0ae272a [18/19] ftrace: Add ftrace_get_symaddr to convert fentry_ip to symaddr
-config: arm64-randconfig-r111-20241110 (https://download.01.org/0day-ci/archive/20241111/202411111420.efjmlOE1-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241111/202411111420.efjmlOE1-lkp@intel.com/reproduce)
+Hi Sebastian,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.12-rc7 next-20241108]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/kernfs-Use-RCU-for-kernfs_node-name-lookup/20241109-062450
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20241108222406.n5azgO98%40linutronix.de
+patch subject: [PATCH] kernfs: Use RCU for kernfs_node::name lookup.
+config: x86_64-randconfig-122-20241111 (https://download.01.org/0day-ci/archive/20241111/202411111204.JebDWFvY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111204.JebDWFvY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411111420.efjmlOE1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411111204.JebDWFvY-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
->> arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
->> arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
->> arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
->> arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
->> arch/arm64/kernel/ftrace.c:203:33: sparse: sparse: cast to restricted __le32
-   arch/arm64/kernel/ftrace.c: note: in included file (through include/linux/mmzone.h, include/linux/topology.h, include/linux/irq.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+>> fs/sysfs/dir.c:126:51: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *new_name @@     got char const [noderef] __rcu *name @@
+   fs/sysfs/dir.c:126:51: sparse:     expected char const *new_name
+   fs/sysfs/dir.c:126:51: sparse:     got char const [noderef] __rcu *name
+--
+>> arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1363:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *name @@     got char const [noderef] __rcu *name @@
+   arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1363:65: sparse:     expected char const *name
+   arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1363:65: sparse:     got char const [noderef] __rcu *name
+   arch/x86/kernel/cpu/resctrl/pseudo_lock.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:3654:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char const [noderef] __rcu *name @@
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3654:27: sparse:     expected char const *
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3654:27: sparse:     got char const [noderef] __rcu *name
+>> arch/x86/kernel/cpu/resctrl/rdtgroup.c:3793:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const *name @@     got char const [noderef] __rcu *name @@
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3793:45: sparse:     expected char const *name
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3793:45: sparse:     got char const [noderef] __rcu *name
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3879:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const *name @@     got char const [noderef] __rcu *name @@
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3879:42: sparse:     expected char const *name
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3879:42: sparse:     got char const [noderef] __rcu *name
+   arch/x86/kernel/cpu/resctrl/rdtgroup.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-vim +203 arch/arm64/kernel/ftrace.c
+vim +126 fs/sysfs/dir.c
 
-   145	
-   146	/* Convert fentry_ip to the symbol address without kallsyms */
-   147	unsigned long arch_ftrace_get_symaddr(unsigned long fentry_ip)
-   148	{
-   149		u32 insn;
-   150	
-   151		/*
-   152		 * When using patchable-function-entry without pre-function NOPS, ftrace
-   153		 * entry is the address of the first NOP after the function entry point.
-   154		 *
-   155		 * The compiler has either generated:
-   156		 *
-   157		 * func+00:	func:	NOP		// To be patched to MOV X9, LR
-   158		 * func+04:		NOP		// To be patched to BL <caller>
-   159		 *
-   160		 * Or:
-   161		 *
-   162		 * func-04:		BTI	C
-   163		 * func+00:	func:	NOP		// To be patched to MOV X9, LR
-   164		 * func+04:		NOP		// To be patched to BL <caller>
-   165		 *
-   166		 * The fentry_ip is the address of `BL <caller>` which is at `func + 4`
-   167		 * bytes in either case.
-   168		 */
-   169		if (!IS_ENABLED(CONFIG_DYNAMIC_FTRACE_WITH_CALL_OPS))
-   170			return fentry_ip - AARCH64_INSN_SIZE;
-   171	
-   172		/*
-   173		 * When using patchable-function-entry with pre-function NOPs, BTI is
-   174		 * a bit different.
-   175		 *
-   176		 * func+00:	func:	NOP		// To be patched to MOV X9, LR
-   177		 * func+04:		NOP		// To be patched to BL <caller>
-   178		 *
-   179		 * Or:
-   180		 *
-   181		 * func+00:	func:	BTI	C
-   182		 * func+04:		NOP		// To be patched to MOV X9, LR
-   183		 * func+08:		NOP		// To be patched to BL <caller>
-   184		 *
-   185		 * The fentry_ip is the address of `BL <caller>` which is at either
-   186		 * `func + 4` or `func + 8` depends on whether there is a BTI.
-   187		 */
-   188	
-   189		/* If there is no BTI, the func address should be one instruction before. */
-   190		if (!IS_ENABLED(CONFIG_ARM64_BTI_KERNEL))
-   191			return fentry_ip - AARCH64_INSN_SIZE;
-   192	
-   193		/* We want to be extra safe in case entry ip is on the page edge,
-   194		 * but otherwise we need to avoid get_kernel_nofault()'s overhead.
-   195		 */
-   196		if ((fentry_ip & ~PAGE_MASK) < AARCH64_INSN_SIZE * 2) {
-   197			if (get_kernel_nofault(insn, (u32 *)(fentry_ip - AARCH64_INSN_SIZE * 2)))
-   198				return 0;
-   199		} else {
-   200			insn = *(u32 *)(fentry_ip - AARCH64_INSN_SIZE * 2);
-   201		}
-   202	
- > 203		if (aarch64_insn_is_bti(le32_to_cpu((__le32)insn)))
-   204			return fentry_ip - AARCH64_INSN_SIZE * 2;
-   205	
-   206		return fentry_ip - AARCH64_INSN_SIZE;
-   207	}
-   208	
+ca1bab38195d66 Eric W. Biederman 2009-11-20  116  
+e34ff4906199d2 Tejun Heo         2013-09-11  117  int sysfs_move_dir_ns(struct kobject *kobj, struct kobject *new_parent_kobj,
+e34ff4906199d2 Tejun Heo         2013-09-11  118  		      const void *new_ns)
+8a82472f86bf69 Cornelia Huck     2006-11-20  119  {
+324a56e16e44ba Tejun Heo         2013-12-11  120  	struct kernfs_node *kn = kobj->sd;
+324a56e16e44ba Tejun Heo         2013-12-11  121  	struct kernfs_node *new_parent;
+8a82472f86bf69 Cornelia Huck     2006-11-20  122  
+324a56e16e44ba Tejun Heo         2013-12-11  123  	new_parent = new_parent_kobj && new_parent_kobj->sd ?
+324a56e16e44ba Tejun Heo         2013-12-11  124  		new_parent_kobj->sd : sysfs_root_kn;
+51225039f3cf9d Tejun Heo         2007-06-14  125  
+adc5e8b58f4886 Tejun Heo         2013-12-11 @126  	return kernfs_rename_ns(kn, new_parent, kn->name, new_ns);
+8a82472f86bf69 Cornelia Huck     2006-11-20  127  }
+87d2846fcf8811 Eric W. Biederman 2015-05-13  128  
 
 -- 
 0-DAY CI Kernel Test Service
