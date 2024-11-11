@@ -1,67 +1,59 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4738157E78
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 10:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C53D156C52
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 11:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731322144; cv=none; b=MEP6BtvhT9mcYHS1avubeMKzj0jCfqaHdbznfUipA3gBti0mlY8U0EVYjpVjEE22x/Di7kO92KYEm4P5M9STIAKtotYdSMJ7GgcYbe38VO+kORkmNRLhF7dMRIMfHjqDymZFgRmkaGf2WTM9mkX1Tp3jzT9YgPqUzNw3aJw9KHM=
+	t=1731323295; cv=none; b=GkOhFKXfbPjWpQw1MunmWea0ujiefNejmWCyof9V0X/LFa08GSnOZvCZCuEMEz3WciL00LPNF3eTMDMRQrBcOzBiNVI8fq5QbhRHmC0K8B4ncse6npZ6vp1O9QFKk6VnIm67q+eTDMgmwSfUo4WiHDRA3yeVo1JozpFY0HMtQdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731322144; c=relaxed/simple;
-	bh=1qCgNxM6GribbPBDPQcQMfgTEkJnK/L813KEb/XFF1Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sc2XB2557HJcxMZv4RRZeOdHI/Gdw3ao5sRS3lFsYY+hHDNghXmW2RLSwbpzTnFjdcBbwBbYQbG2I4RQ6ZtmSUBb9RTbo2GdTT5y1fb1t0xq3Yom+Snwuij+Whh5zytRTFeX9HJlZg6p/nafXQ5BXRAtsSweqi0sJgcwlLjLKUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FriRyzYE; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731323295; c=relaxed/simple;
+	bh=iP091bDByOoJ2tJPOC9rHuOMeKftI1DInm1WsqzK700=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gJkgnbn4kS9S1pYbM48NkPiPtH0DaIhDswosGXCYyQ0FkrG3OyOLD1ztGMOzl5DN0gUXKZjZ5MdTc5CavVz3Xvapy+K9lE8F7gK4IFAYTGs4quaqBYNueV4er3yYcFv6N4wSoAZ+TOttrqN1kCaeeWcNvn8qhOyOKEC/RUypd3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YJ7NJA03; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FriRyzYE"
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cb15b84544so6425855a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 02:49:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731322141; x=1731926941; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xiKwMDavE0Kq8c9ykbojMaa6POsVYsPkZQQqGOgNLKw=;
-        b=FriRyzYEekJ2e8eKCZcwR1doqGuHhmdJXNlyGKwf2UEXbjIq0AcrWV9ZmEc+tSMC2K
-         s+a31Rdbxn+yHey+7FAzV80fX9YBC/7b/GF+kwvhBk5dd+SWGtqN5D8x/j0dl8z4qrB9
-         fV4LfmZI/7zOizsNI2QUJyVISfAkEAypXL0LaBGwMPiB+y50ozF36PinwkbPE5iRMFf6
-         sWNq2OYDBEMKICnDiUHArDMe7Gyj9Ad8tzle+MU9IrtD6MhBQD/sGWl+PXUP6p0OAhhi
-         bco5E+7WvAo8y8rMTH2jo+Hm3AfIm5/OtckzYebrZL/l2Gn2K42+3+URcclECuyls3VA
-         IBFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731322141; x=1731926941;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xiKwMDavE0Kq8c9ykbojMaa6POsVYsPkZQQqGOgNLKw=;
-        b=uPdwUZNRYskNrA2Tt5sCwb4RvAFxAYpoXy7lKgxhMqmgtdoeM3/WOkrLCzpK+wpimx
-         IS6xvjFhTnXSUM/Me3yPxscznu9XM6WSy6QFfVxR6jHI6/I6/xJwuGF5SQei9Z6+jg7c
-         dWsxRceBrT+1tEuxNdlycVLzKylSG6oWSiBb2Esb8lBNRcTMA0eqMrlyRDbEBm+OgyRy
-         VawDn9jdNnxDhScxJknrgKTCnW170jS3YMrtKqgjiRl42qAmyj6b73zoKRg+sphS/4XC
-         5ThVQzbqWDsUew2umpmyBjRb+CVq67v65RAydGB6pX2UoHiplNwh2tefOtcHb5AahOjG
-         CS1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVHy/R2G9xad6SBWNzUMrxG6BWY3P7rRWobgu2M4Nx3PECtB1kvIDSaqfkKiZ5rHP676oVd0FCV9ml8WZzL@lists.linux.dev
-X-Gm-Message-State: AOJu0YzVvUJzAu/JY8Ta6faKBpHYNW1ZMs6jZBWJyPCD48IQbA9FNwqE
-	87EcVfyeMwnuwQzwDtOE7JblcvPADUWmN4UeR231SfhEgWRkuEcBNTpwJlJHdLJRpnpgTEPNbDM
-	C50I=
-X-Google-Smtp-Source: AGHT+IGKAUF9p1z1VW/AC38KwD61jBHbbtopi+iHnRoH4aSUgaxyItp9800qusnbCJWRILFlGW0mbg==
-X-Received: by 2002:a17:906:730d:b0:a9a:a5a:1d47 with SMTP id a640c23a62f3a-a9eefeb27a3mr1192531766b.2.1731322141215;
-        Mon, 11 Nov 2024 02:49:01 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9ee0a17651sm578830266b.38.2024.11.11.02.49.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 02:49:00 -0800 (PST)
-Date: Mon, 11 Nov 2024 13:48:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Guixin Liu <kanie@linux.alibaba.com>
-Cc: Keith Busch <kbusch@kernel.org>, Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
-	Chaitanya Kulkarni <kch@nvidia.com>, linux-nvme@lists.infradead.org,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] nvmet: fix the error of point math issue
-Message-ID: <f4ce4ae4-fb33-467b-937c-444a46eb6f02@stanley.mountain>
-References: <20241111104035.31770-1-kanie@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YJ7NJA03"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731323294; x=1762859294;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=iP091bDByOoJ2tJPOC9rHuOMeKftI1DInm1WsqzK700=;
+  b=YJ7NJA031T5ymY/SHqoqCUuhbSYfmY430MVL692MOiDNnBxMQf/MGfPu
+   bQ+9H7d98ywD23HRh4jf+KH3jU2lcuO+uC9CCreJkqNXzxzmGKLrFhEtm
+   Zu2BFiSfAoa62DmJM262nel02C/ACxk6d/6/CJPUACGTLvSA0IfHbzYOT
+   D5FiCh15FQHEJJBnwqrWpB1Ou+lQjfwnvYIqqgiYvXxF+TV6RTyUSmnj0
+   ujStzo+/iVa9X6L6G/dXVKTQcw4FK0Rg/s8MKF4eRV1kJhFDU7ZxRyLQo
+   d2RW2SyVosEpLBa9X2DUcaqV41WysmWHyHiA5CAqLJMrpUfWCp/aVA/gi
+   w==;
+X-CSE-ConnectionGUID: ogfxiiO9TuSpycS1gwVqYg==
+X-CSE-MsgGUID: 73i2UU3hQuet/X7+S0BXPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53686018"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="53686018"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 03:08:13 -0800
+X-CSE-ConnectionGUID: YDXOXB0TRieHpeLsWAGHYg==
+X-CSE-MsgGUID: kdNTj+4tQNmwKlDTr/ogbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="124428329"
+Received: from lkp-server01.sh.intel.com (HELO dc8184e5aea1) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2024 03:08:12 -0800
+Received: from kbuild by dc8184e5aea1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tASHB-0000Cv-2U;
+	Mon, 11 Nov 2024 11:08:09 +0000
+Date: Mon, 11 Nov 2024 19:08:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 39/175]
+ drivers/gpu/drm/udl/udl_cursor.c:68:49: sparse: sparse: cast to restricted
+ __le32
+Message-ID: <202411111944.YFNeZzwE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,18 +62,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241111104035.31770-1-kanie@linux.alibaba.com>
 
-On Mon, Nov 11, 2024 at 06:40:35PM +0800, Guixin Liu wrote:
-> Fix the wrong place of parenthesis of ctrl_eds and data point in
-> nvmet_execute_pr_report(), switch to "void *" first and then do
-> the addtion.
-> 
-> Signed-off-by: Guixin Liu <kanie@linux.alibaba.com>
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   f365b9f33df7b7d0f82b6b5b8ee9ccc7667c01f7
+commit: fac766c5a86ca5aa0baa0eebbd67bd9e3252a03c [39/175] CHROMIUM: drm/udl: Implement cursor.
+config: i386-randconfig-063-20241111 (https://download.01.org/0day-ci/archive/20241111/202411111944.YFNeZzwE-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111944.YFNeZzwE-lkp@intel.com/reproduce)
 
-This needs a Fixes tag so that the stable tools know not to apply it to old
-kernels.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411111944.YFNeZzwE-lkp@intel.com/
 
-regards,
-dan carpenter
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/udl/udl_cursor.c:68:49: sparse: sparse: cast to restricted __le32
 
+vim +68 drivers/gpu/drm/udl/udl_cursor.c
+
+    58	
+    59	int udl_cursor_download(struct udl_cursor *cursor,
+    60			const struct iosys_map *map)
+    61	{
+    62		uint32_t *src_ptr, *dst_ptr;
+    63		size_t i;
+    64	
+    65		src_ptr = map->vaddr;
+    66		dst_ptr = cursor->buffer;
+    67		for (i = 0; i < UDL_CURSOR_BUF; ++i)
+  > 68			dst_ptr[i] = cursor_blend_val32(le32_to_cpu(src_ptr[i]));
+    69		return 0;
+    70	}
+    71	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
