@@ -1,141 +1,122 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537BC1E495
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 04:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD28312CD96;
+	Mon, 11 Nov 2024 07:14:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731300648; cv=none; b=dNK5ZqFNKzUmr7pODZ5UZAJln0xLkTve2VNoJevZA8CC97hnZYOLeM5SS4O5tbRb3Dre88gEMrM7aSQbsGt+UkB1utty+VWAwNGib3445RMWBjblbIzeiqfpJNEVm6WadFFyaq/3+vr5alM6npioToxlyv9JL7YRKhwMoNSYK5o=
+	t=1731309255; cv=none; b=i10I4IxHvbnXzYJIJHz7/AR+fGj0AwxFGPXHpBf6nbJl6JVqTX/DFP5FvFu0u7I2WPgyIQ0vrpWh55mD9xouqOkqDCKocv3WTzGX3+r/MxcU8mRNHy+hWmfBQZjKIAtZvgc2ObfhqZkUAi0OwCAlAbDQ0ODxD73p8+ZrIAA8rck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731300648; c=relaxed/simple;
-	bh=RuazcIG+VDnyhGSj6Tb+4qNdqW9iMNJuooSwyNQQ2WU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eKAnbaCsgTA7QyaksIQ94o/eVlXjVzbA2cohkoeeDyTaUvsYsJ0Cq6L/KnZVD4ZJPLu+RwhuBnlMn0iRDrdTsrpmy045v4rdxbeUAvS+yNxfMLskWzHt8/BT+wHkaAZ9f6cNf0hPfYypEB6RGTx2NEr9wgCjTD7vxTHJjWDa9AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0ZOjaLI; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0ZOjaLI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731300646; x=1762836646;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RuazcIG+VDnyhGSj6Tb+4qNdqW9iMNJuooSwyNQQ2WU=;
-  b=W0ZOjaLIMdzDxms+TUDV/FCremlyjTjhBnng8ngSzkB4LEanfq7BAEoj
-   TBzKfFMNTJPm4ZvHA7aE/YxY0P7q/Ih4OQ9RpyGH5rBZRJuIiGjm1Mlt6
-   eWT0SbyvW6gmBFuhjeOAIeskiGpr4cKHIxWEOAP788SFj5b/5qk65c/9b
-   jwChOf6vGdvTaEmaP73I4Ymsm1AwK9fAIaK+4RpC8FsFiqZGwRFvjcEeR
-   xYMKHmH/C+PbIu4muWDIIqhascN4fUbvMHqrr6ViOtUHfn8XHwm0sDl69
-   TMbDSt+eec2tx+OR/ckTDr2p2MURhfkbp7CTr9i0q+fhkuFt9D5CL9r1L
-   A==;
-X-CSE-ConnectionGUID: 7UTYKC5nQiiX9er+tzcYWg==
-X-CSE-MsgGUID: RDLV9JWBSK2/IDO1Y5VnuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31056977"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31056977"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2024 20:50:46 -0800
-X-CSE-ConnectionGUID: 1bGUFPnhSq+CpdOqFcRtCw==
-X-CSE-MsgGUID: cV/dLXKZSeqBYbj9LS4nMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="117545126"
-Received: from lkp-server01.sh.intel.com (HELO 7b17a4138caf) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Nov 2024 20:50:43 -0800
-Received: from kbuild by 7b17a4138caf with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tAMNs-0000iC-1U;
-	Mon, 11 Nov 2024 04:50:40 +0000
-Date: Mon, 11 Nov 2024 12:49:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
-	Hillf Danton <hdanton@sina.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Marco Elver <elver@google.com>, linux-kernel@vger.kernel.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de,
-	syzbot <syzbot+6ea37e2e6ffccf41a7e6@syzkaller.appspotmail.com>
-Subject: Re: [PATCH] kernfs: Use RCU for kernfs_node::name lookup.
-Message-ID: <202411111204.JebDWFvY-lkp@intel.com>
-References: <20241108222406.n5azgO98@linutronix.de>
+	s=arc-20240116; t=1731309255; c=relaxed/simple;
+	bh=34OLCIHJ1bYChjoa3WCtiTSvNQcl0f9H02uyZ1GOTUI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=Xgoc8xrjIiV1BZjIvTLX+Iy5hMBs9V+tvMC5+t+/vaZSlipFPbHNAjLM3nGhiZuUsdTjV6wkhBklS2UAanTW7uK9GirFkhA51Q2u5cdkT6sqSaOgeKquIOPR2HQg3vPEfv79vDuK/uVr9EnRRuRvQhRWz7PZH8f1e9WGjGzavfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
+Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
+	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwAXePGzrjFnhKz2AA--.22647S2;
+	Mon, 11 Nov 2024 15:13:55 +0800 (CST)
+Received: from shuaijiakun1288$phytium.com.cn ( [218.76.62.144] ) by
+ ajax-webmail-mail (Coremail) ; Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
+Date: Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From: =?UTF-8?B?5biF5a625Z2k?= <shuaijiakun1288@phytium.com.cn>
+To: "Dan Carpenter" <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, kernel@openeuler.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [openeuler:OLK-5.10 2284/2284] drivers/gpu/drm/ast/ast_mm.c:116
+ ast_pci_host_is_5c01() error: we previously assumed 'child' could be null
+ (see line 109)
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version 2024.1-cmXT6 build
+ 20240812(cfb32469) Copyright (c) 2002-2024 www.mailtech.cn
+ mispb-4edfefde-e422-4ddc-8a36-c3f99eb8cd32-icoremail.net
+In-Reply-To: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
+References: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
+Content-Transfer-Encoding: base64
+X-CM-CTRLDATA: D91mVGZvb3Rlcl90eHQ9MzA0MTozODM=
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241108222406.n5azgO98@linutronix.de>
+Message-ID: <43289c58.646f.1931a126647.Coremail.shuaijiakun1288@phytium.com.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:AQAAfwAHX3uxrjFnMstNAA--.8539W
+X-CM-SenderInfo: 5vkxtx5mldy3bqrsmmo6sk53xlxphulrpou0/1tbiAQAGCGcxDp8C
+	lwABsc
+Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=shuaijiaku
+	n1288@phytium.com.cn;
+X-Coremail-Antispam: 1Uk129KBjvJXoW3WryfGw48Zw4xGF15ZFy8Grg_yoW3Aw13p3
+	WfJ3yUAr1UG3W7X3yfKw18ArW8A3yUWr47JrnrtFy5Zw1DJr4DWr9xKrWxJ3Wjga1jgrs8
+	Kwnrur4Yvr1jq37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
+	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
+	UUUUU
 
-Hi Sebastian,
+SGkgRGFuLCAKClRoYW5rIHlvdSBmb3IgeW91ciByZXBvcnQgYW5kIHdlIGhhdmUgbm90aWNlZCB0
+aGlzIGJ1Zy4gSXQgd2lsbCBiZSBoYW5kbGVkIGFuZCB1cGxvYWRlZCBpbiBhIHNlcGFyYXRlIGNv
+bW1pdC4KCkhhdmUgYSBnb29kIGRheSBeX14KCj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+IOWP
+keS7tuS6ujogIkRhbiBDYXJwZW50ZXIiIDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+Cj4g5Y+R
+6YCB5pe26Ze0OjIwMjQtMTEtMDYgMTc6MDA6NTAgKOaYn+acn+S4iSkKPiDmlLbku7bkuro6IG9l
+LWtidWlsZEBsaXN0cy5saW51eC5kZXYsIGtlcm5lbEBvcGVuZXVsZXIub3JnLCAiSmlha3VuIFNo
+dWFpIiA8c2h1YWlqaWFrdW4xMjg4QHBoeXRpdW0uY29tLmNuPgo+IOaKhOmAgTogbGtwQGludGVs
+LmNvbSwgb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYKPiDkuLvpopg6IFtvcGVuZXVsZXI6
+T0xLLTUuMTAgMjI4NC8yMjg0XSBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tbS5jOjExNiBhc3Rf
+cGNpX2hvc3RfaXNfNWMwMSgpIGVycm9yOiB3ZSBwcmV2aW91c2x5IGFzc3VtZWQgJ2NoaWxkJyBj
+b3VsZCBiZSBudWxsIChzZWUgbGluZSAxMDkpCj4gCj4gdHJlZTogICBodHRwczovL2dpdGVlLmNv
+bS9vcGVuZXVsZXIva2VybmVsLmdpdCBPTEstNS4xMAo+IGhlYWQ6ICAgZjcwNWU5MDlhMDFlZTlh
+ZTc1NTQyNDU3Y2E5NWIwNTVkYWUxNzdhMAo+IGNvbW1pdDogOTY4ZWU0MzZlNGQwY2UwOTk5NGY3
+NDAxNWRjMTYzZWYyODBjY2MxZSBbMjI4NC8yMjg0XSBkcm0vYXN0OiBGaXhlZCBkaXNwbGF5IGVy
+cm9yIGZvciBwczIzeHggd2hlbiB1c2luZyBhc3QgYm1jIGNhcmQKPiBjb25maWc6IHg4Nl82NC1y
+YW5kY29uZmlnLTE2MS0yMDI0MTAyOSAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9h
+cmNoaXZlLzIwMjQxMTA2LzIwMjQxMTA2MDYxMi5HWW13Wngxay1sa3BAaW50ZWwuY29tL2NvbmZp
+ZykKPiBjb21waWxlcjogZ2NjLTEyIChEZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjAKPiAKPiBJZiB5
+b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVz
+dCBhIG5ldyB2ZXJzaW9uIG9mCj4gdGhlIHNhbWUgcGF0Y2gvY29tbWl0KSwga2luZGx5IGFkZCBm
+b2xsb3dpbmcgdGFncwo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50
+ZWwuY29tPgo+IHwgUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAbGlu
+YXJvLm9yZz4KPiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI0MTEwNjA2
+MTIuR1ltd1p4MWstbGtwQGludGVsLmNvbS8KPiAKPiBzbWF0Y2ggd2FybmluZ3M6Cj4gZHJpdmVy
+cy9ncHUvZHJtL2FzdC9hc3RfbW0uYzoxMTYgYXN0X3BjaV9ob3N0X2lzXzVjMDEoKSBlcnJvcjog
+d2UgcHJldmlvdXNseSBhc3N1bWVkICdjaGlsZCcgY291bGQgYmUgbnVsbCAoc2VlIGxpbmUgMTA5
+KQo+IAo+IHZpbSArL2NoaWxkICsxMTYgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW0uYwo+IAo+
+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMDQgIHN0YXRpYyBib29s
+IGFzdF9wY2lfaG9zdF9pc181YzAxKHN0cnVjdCBwY2lfYnVzICpidXMpCj4gOTY4ZWU0MzZlNGQw
+Y2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNSAgewo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1
+biBTaHVhaSAyMDI0LTA1LTE0ICAxMDYgIAlzdHJ1Y3QgcGNpX2J1cyAqY2hpbGQgPSBidXM7Cj4g
+OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNyAgCXN0cnVjdCBwY2lf
+ZGV2ICpyb290ID0gTlVMTDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0x
+NCAgMTA4ICAKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCBAMTA5ICAJ
+d2hpbGUgKGNoaWxkKSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIF5eXl5eCj4gV2UgbG9vcCB1bnRpbCBjaGlsZCBpcyBOVUxMCj4gCj4g
+OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDExMCAgCQlpZiAoY2hpbGQt
+PnBhcmVudC0+cGFyZW50KQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0
+ICAxMTEgIAkJCWNoaWxkID0gY2hpbGQtPnBhcmVudDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4g
+U2h1YWkgMjAyNC0wNS0xNCAgMTEyICAJCWVsc2UKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
+YWkgMjAyNC0wNS0xNCAgMTEzICAJCQlicmVhazsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
+YWkgMjAyNC0wNS0xNCAgMTE0ICAJfQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0
+LTA1LTE0ICAxMTUgIAo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0IEAx
+MTYgIAlyb290ID0gY2hpbGQtPnNlbGY7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eCj4gRGVyZWZlcmVuY2UKPiAKPiA5
+NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE3ICAKPiA5NjhlZTQzNmU0
+ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE4ICAJaWYgKChyb290LT52ZW5kb3IgPT0g
+MHgxZGI3KSAmJiAocm9vdC0+ZGV2aWNlID09IDB4NWMwMSkpCj4gOTY4ZWU0MzZlNGQwY2UgSmlh
+a3VuIFNodWFpIDIwMjQtMDUtMTQgIDExOSAgCQlyZXR1cm4gdHJ1ZTsKPiA5NjhlZTQzNmU0ZDBj
+ZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTIwICAJcmV0dXJuIGZhbHNlOwo+IDk2OGVlNDM2
+ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMjEgIH0KPiAKPiAtLSAKPiAwLURBWSBD
+SSBLZXJuZWwgVGVzdCBTZXJ2aWNlCj4gaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0
+cy93aWtpCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgrluIXlrrblnaQgTWVuZGV6
+IFNodWFpIHwg6L2v5Lu26YCC6YWN5bel56iL5biICjE4Mi0wMTIwLTUyMjkgICAgICDmuZbljZfn
+nIHplb/mspnluILlvIDnpo/ljLroipnok4nkuK3ot68x5q61MjE55Y+35a+M5YW05pe25LujVDLl
+hpnlrZfmpbwyMOalvAoNCg0K5L+h5oGv5a6J5YWo5aOw5piO77ya5pys6YKu5Lu25YyF5ZCr5L+h
+5oGv5b2S5Y+R5Lu25Lq65omA5Zyo57uE57uH5omA5pyJLOWPkeS7tuS6uuaJgOWcqOe7hOe7h+Wv
+ueivpemCruS7tuaLpeacieaJgOacieadg+WIqeOAguivt+aOpeaUtuiAheazqOaEj+S/neWvhizm
+nKrnu4/lj5Hku7bkurrkuabpnaLorrjlj68s5LiN5b6X5ZCR5Lu75L2V56ys5LiJ5pa557uE57uH
+5ZKM5Liq5Lq66YCP6Zyy5pys6YKu5Lu25omA5ZCr5L+h5oGv44CCDQpJbmZvcm1hdGlvbiBTZWN1
+cml0eSBOb3RpY2U6IFRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBtYWlsIGlzIHNv
+bGVseSBwcm9wZXJ0eSBvZiB0aGUgc2VuZGVyJ3Mgb3JnYW5pemF0aW9uLlRoaXMgbWFpbCBjb21t
+dW5pY2F0aW9uIGlzIGNvbmZpZGVudGlhbC5SZWNpcGllbnRzIG5hbWVkIGFib3ZlIGFyZSBvYmxp
+Z2F0ZWQgdG8gbWFpbnRhaW4gc2VjcmVjeSBhbmQgYXJlIG5vdCBwZXJtaXR0ZWQgdG8gZGlzY2xv
+c2UgdGhlIGNvbnRlbnRzIG9mIHRoaXMgY29tbXVuaWNhdGlvbiB0byBvdGhlcnMu
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.12-rc7 next-20241108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Andrzej-Siewior/kernfs-Use-RCU-for-kernfs_node-name-lookup/20241109-062450
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20241108222406.n5azgO98%40linutronix.de
-patch subject: [PATCH] kernfs: Use RCU for kernfs_node::name lookup.
-config: x86_64-randconfig-122-20241111 (https://download.01.org/0day-ci/archive/20241111/202411111204.JebDWFvY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111204.JebDWFvY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411111204.JebDWFvY-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> fs/sysfs/dir.c:126:51: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected char const *new_name @@     got char const [noderef] __rcu *name @@
-   fs/sysfs/dir.c:126:51: sparse:     expected char const *new_name
-   fs/sysfs/dir.c:126:51: sparse:     got char const [noderef] __rcu *name
---
->> arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1363:65: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const *name @@     got char const [noderef] __rcu *name @@
-   arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1363:65: sparse:     expected char const *name
-   arch/x86/kernel/cpu/resctrl/pseudo_lock.c:1363:65: sparse:     got char const [noderef] __rcu *name
-   arch/x86/kernel/cpu/resctrl/pseudo_lock.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
---
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:3654:27: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected char const * @@     got char const [noderef] __rcu *name @@
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3654:27: sparse:     expected char const *
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3654:27: sparse:     got char const [noderef] __rcu *name
->> arch/x86/kernel/cpu/resctrl/rdtgroup.c:3793:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const *name @@     got char const [noderef] __rcu *name @@
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3793:45: sparse:     expected char const *name
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3793:45: sparse:     got char const [noderef] __rcu *name
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3879:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected char const *name @@     got char const [noderef] __rcu *name @@
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3879:42: sparse:     expected char const *name
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c:3879:42: sparse:     got char const [noderef] __rcu *name
-   arch/x86/kernel/cpu/resctrl/rdtgroup.c: note: in included file (through include/linux/smp.h, include/linux/lockdep.h, include/linux/spinlock.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +126 fs/sysfs/dir.c
-
-ca1bab38195d66 Eric W. Biederman 2009-11-20  116  
-e34ff4906199d2 Tejun Heo         2013-09-11  117  int sysfs_move_dir_ns(struct kobject *kobj, struct kobject *new_parent_kobj,
-e34ff4906199d2 Tejun Heo         2013-09-11  118  		      const void *new_ns)
-8a82472f86bf69 Cornelia Huck     2006-11-20  119  {
-324a56e16e44ba Tejun Heo         2013-12-11  120  	struct kernfs_node *kn = kobj->sd;
-324a56e16e44ba Tejun Heo         2013-12-11  121  	struct kernfs_node *new_parent;
-8a82472f86bf69 Cornelia Huck     2006-11-20  122  
-324a56e16e44ba Tejun Heo         2013-12-11  123  	new_parent = new_parent_kobj && new_parent_kobj->sd ?
-324a56e16e44ba Tejun Heo         2013-12-11  124  		new_parent_kobj->sd : sysfs_root_kn;
-51225039f3cf9d Tejun Heo         2007-06-14  125  
-adc5e8b58f4886 Tejun Heo         2013-12-11 @126  	return kernfs_rename_ns(kn, new_parent, kn->name, new_ns);
-8a82472f86bf69 Cornelia Huck     2006-11-20  127  }
-87d2846fcf8811 Eric W. Biederman 2015-05-13  128  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
