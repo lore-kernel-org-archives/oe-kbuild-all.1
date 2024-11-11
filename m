@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31FB717838C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 10:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC4513D276;
+	Mon, 11 Nov 2024 10:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731320773; cv=none; b=N/wQD7gzPoUHShuGySgv2r2+qUfjnZElJU+YvMIvACmwLg/UlbgRa7u/BxQ5Dzb7fFf0gx0Xi4eELnYALOZoxSpAf2CXufXTJyptQwAHdllafYT6A69N7QZkSeo181Nq1ubMYXayDs0W1mGGm6iJStb7T/qTr0x85cnTaKxRsh0=
+	t=1731321433; cv=none; b=OnSIeu2D6pwZ2Sk7Cn80MvSgfhc/X0ANBglVBsHCXG96XnEHTtXGvl/KjaNc5GkOXW1ELOfwjGw3v7PzNz7sz//Ayawzo8YS1qT90EAFHC7O0NbcCPFk7bXd6Ola/2UXxe719Wmpvx5pU8z4szeTzkLRlA/CFmY6+ariyInV7zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731320773; c=relaxed/simple;
-	bh=APD2TjIxAvb8PHQKlfqdSkDm3jLyE2wTGiDrAbkSdZs=;
+	s=arc-20240116; t=1731321433; c=relaxed/simple;
+	bh=lbBtDcDQ9kheWZRjMZF8X46phct9ThmwwCKiRgasnlw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sQTsLshniffpUpCg2zHyDG7eGAyTFQws5imM+KXE8MtYenUf2KXbAJQK5PlC6irIdobkQYQmdyvovhMkthNMRf5RvkPcIVqjv6y/WNdeRvx1+ZN1B7HyRZiIRRaqh3/gnRgWSGa1UReMO0vQIBpnq9fZNgFFj6ZJ7QL0vwrVJEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SOQyFlMU; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=qwcWuPeNwJMR8dsClTFteIsT79Y9FE7pHRRXkke10SN7gOc7xpYVWoNNtt5MvEZtJ4vuuinuRnN0wgHGjmPH/ceJwVBjwSZdOLYwwb4o2/IfZTYTvuO04OG+0hpcNoFm8XCQZSAkWd9zMsjtomQ+snC7ASsvt1/J9DxmSCW5EG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVCqWgJi; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SOQyFlMU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVCqWgJi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731320771; x=1762856771;
+  t=1731321432; x=1762857432;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=APD2TjIxAvb8PHQKlfqdSkDm3jLyE2wTGiDrAbkSdZs=;
-  b=SOQyFlMU3pvB5LamO75XwOxBAtQryiTd9n/FzeTSYFNYNFs8+lD5RGZx
-   r8v8UMbOdrR3qbOdDd0oDrUzjRDtPMWVCpRcUBideJlEnI+mv4Ga9aDC+
-   QHxr056fegGP6VWtGTHv0TLoDefAYtIadC7t7eCEq3aPUpmbtc65bhq6c
-   Fk57SgDCwpocP/mEOhNdXOetuH5AYc0A6sbfg1V+m+o5NfldSD5vKlF6n
-   Rj24P85WHPI8v1GQgtBArHEAswCTBt84GxC3UgPnShdJ7MMikTOTl/fEt
-   +BpLu+j0XcAEqv345Y5S1Ex7Lo7/AHkSYmSaolOXZfHY9viAm8QnTAk5/
-   Q==;
-X-CSE-ConnectionGUID: PkmzmCjtQcSYaQl8eMzGGg==
-X-CSE-MsgGUID: 1M8M5kuwRT+RJ5XFQ6C7BA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31080897"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31080897"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 02:26:10 -0800
-X-CSE-ConnectionGUID: r9yjkMffQou478zgqlPq1w==
-X-CSE-MsgGUID: DDTqgKjKTZK25QJi2u1k/g==
+  bh=lbBtDcDQ9kheWZRjMZF8X46phct9ThmwwCKiRgasnlw=;
+  b=mVCqWgJi/yXfXUpgHVaHMfGKtxYs+SPNrWjMRJ+REELPb7gRCRr7rXJp
+   axByxvV525F9nsM1DRbkdBs501OmtrlH7/Sdj7BOshqIg75dwHZYC5X9v
+   vXv1HdfTZ8PsxATaCbF21xS6dR2PPfbxiwwtj4LMGypRnWYAdQr4c6xoT
+   kxqKZ/QkuWDvTG6rfCMA+//fdnOeG6n5NNg/OrlLoV05jZ99H6CAqQhZF
+   cgOmvRYGzvMUY52hImsp9pm9VEB7kldvjWOFpAk6WBymLQdy5UhQyJN9o
+   W3eqhgoEqTHZ3nDh2RsRu5ODvBVBSBqvwZULS1uagybvv4txBetrZuCD+
+   A==;
+X-CSE-ConnectionGUID: wrd+TTQqSbO7KzeS0Inj/Q==
+X-CSE-MsgGUID: nt00cNcOTKuI42cFgClwmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11252"; a="41736483"
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="41736483"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 02:37:12 -0800
+X-CSE-ConnectionGUID: 7xxRbpz/To+LaU8KVyt60w==
+X-CSE-MsgGUID: 3KYomZw+R7urgEfELjxcIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
-   d="scan'208";a="91369316"
+   d="scan'208";a="124420917"
 Received: from lkp-server01.sh.intel.com (HELO dc8184e5aea1) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Nov 2024 02:26:07 -0800
+  by orviesa001.jf.intel.com with ESMTP; 11 Nov 2024 02:37:08 -0800
 Received: from kbuild by dc8184e5aea1 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tARcS-0000An-0A;
-	Mon, 11 Nov 2024 10:26:04 +0000
-Date: Mon, 11 Nov 2024 18:25:59 +0800
+	id 1tARn7-0000BT-0h;
+	Mon, 11 Nov 2024 10:37:05 +0000
+Date: Mon, 11 Nov 2024 18:36:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jacob Keller <jacob.e.keller@intel.com>,
 	Vladimir Oltean <olteanv@gmail.com>,
@@ -58,13 +58,13 @@ To: Jacob Keller <jacob.e.keller@intel.com>,
 	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
 	Masahiro Yamada <masahiroy@kernel.org>,
 	netdev <netdev@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Linux Memory Management List <linux-mm@kvack.org>,
 	linux-kbuild@vger.kernel.org,
 	Jacob Keller <jacob.e.keller@intel.com>
 Subject: Re: [PATCH net-next v5 3/9] lib: packing: add pack_fields() and
  unpack_fields()
-Message-ID: <202411111823.Y2NHM1AE-lkp@intel.com>
+Message-ID: <202411111817.tgnRn8v3-lkp@intel.com>
 References: <20241111-packing-pack-fields-and-ice-implementation-v5-3-80c07349e6b7@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -86,57 +86,65 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Jacob-Keller/lib-packing-
 base:   774ca6d3bf24287ff60b7d6dd4171ebb6e47760a
 patch link:    https://lore.kernel.org/r/20241111-packing-pack-fields-and-ice-implementation-v5-3-80c07349e6b7%40intel.com
 patch subject: [PATCH net-next v5 3/9] lib: packing: add pack_fields() and unpack_fields()
-config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241111/202411111823.Y2NHM1AE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111823.Y2NHM1AE-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241111/202411111817.tgnRn8v3-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111817.tgnRn8v3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411111823.Y2NHM1AE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411111817.tgnRn8v3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from scripts/mod/packed_fields.c:15:
-   scripts/mod/packed_fields.c: In function 'handle_packed_field_symbol':
->> scripts/mod/packed_fields.c:134:23: warning: format '%u' expects argument of type 'unsigned int', but argument 5 has type 'Elf64_Xword' {aka 'long unsigned int'} [-Wformat=]
+>> scripts/mod/packed_fields.c:135:29: warning: format specifies type 'unsigned int' but the argument has type 'Elf64_Xword' (aka 'unsigned long') [-Wformat]
      134 |                 error("[%s.ko] \"%s\" has size %u which is not a multiple of the field size (%zu)\n",
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     135 |                       mod->name, symname, sym->st_size, field_size);
-         |                                           ~~~~~~~~~~~~
-         |                                              |
-         |                                              Elf64_Xword {aka long unsigned int}
-   scripts/mod/modpost.h:207:51: note: in definition of macro 'error'
-     207 | #define error(fmt, args...)     modpost_log(true, fmt, ##args)
-         |                                                   ^~~
-   scripts/mod/packed_fields.c:134:49: note: format string is defined here
-     134 |                 error("[%s.ko] \"%s\" has size %u which is not a multiple of the field size (%zu)\n",
-         |                                                ~^
-         |                                                 |
-         |                                                 unsigned int
+         |                                                ~~
          |                                                %lu
+     135 |                       mod->name, symname, sym->st_size, field_size);
+         |                                           ^~~~~~~~~~~~
+   scripts/mod/modpost.h:207:54: note: expanded from macro 'error'
+     207 | #define error(fmt, args...)     modpost_log(true, fmt, ##args)
+         |                                                   ~~~    ^~~~
+   1 warning generated.
 --
-   In file included from scripts/mod/packed_fields.c:15:
-   scripts/mod/packed_fields.c: In function 'handle_packed_field_symbol':
->> scripts/mod/packed_fields.c:134:23: warning: format '%u' expects argument of type 'unsigned int', but argument 5 has type 'Elf64_Xword' {aka 'long unsigned int'} [-Wformat=]
+>> scripts/mod/packed_fields.c:135:29: warning: format specifies type 'unsigned int' but the argument has type 'Elf64_Xword' (aka 'unsigned long') [-Wformat]
      134 |                 error("[%s.ko] \"%s\" has size %u which is not a multiple of the field size (%zu)\n",
-         |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     135 |                       mod->name, symname, sym->st_size, field_size);
-         |                                           ~~~~~~~~~~~~
-         |                                              |
-         |                                              Elf64_Xword {aka long unsigned int}
-   scripts/mod/modpost.h:207:51: note: in definition of macro 'error'
-     207 | #define error(fmt, args...)     modpost_log(true, fmt, ##args)
-         |                                                   ^~~
-   scripts/mod/packed_fields.c:134:49: note: format string is defined here
-     134 |                 error("[%s.ko] \"%s\" has size %u which is not a multiple of the field size (%zu)\n",
-         |                                                ~^
-         |                                                 |
-         |                                                 unsigned int
+         |                                                ~~
          |                                                %lu
+     135 |                       mod->name, symname, sym->st_size, field_size);
+         |                                           ^~~~~~~~~~~~
+   scripts/mod/modpost.h:207:54: note: expanded from macro 'error'
+     207 | #define error(fmt, args...)     modpost_log(true, fmt, ##args)
+         |                                                   ~~~    ^~~~
+   1 warning generated.
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
 
 
-vim +134 scripts/mod/packed_fields.c
+vim +135 scripts/mod/packed_fields.c
 
     99	
    100	void handle_packed_field_symbol(struct module *mod, struct elf_info *info,
@@ -173,7 +181,8 @@ vim +134 scripts/mod/packed_fields.c
    131	
    132		/* check that the data is a multiple of the size */
    133		if (sym->st_size % field_size != 0) {
- > 134			error("[%s.ko] \"%s\" has size %u which is not a multiple of the field size (%zu)\n",
+   134			error("[%s.ko] \"%s\" has size %u which is not a multiple of the field size (%zu)\n",
+ > 135			      mod->name, symname, sym->st_size, field_size);
 
 -- 
 0-DAY CI Kernel Test Service
