@@ -1,122 +1,420 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD28312CD96;
-	Mon, 11 Nov 2024 07:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4528018E1F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 08:03:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731309255; cv=none; b=i10I4IxHvbnXzYJIJHz7/AR+fGj0AwxFGPXHpBf6nbJl6JVqTX/DFP5FvFu0u7I2WPgyIQ0vrpWh55mD9xouqOkqDCKocv3WTzGX3+r/MxcU8mRNHy+hWmfBQZjKIAtZvgc2ObfhqZkUAi0OwCAlAbDQ0ODxD73p8+ZrIAA8rck=
+	t=1731312235; cv=none; b=kxpaGPuZTbvSkpAAbg3D3dLpLnIMLxyLO+n0FY8RUZFVIhqgF3Ea8BCNJ1oTOVgZfZIC6o6Cv1fHNf58SOq4L9Bj1UxSB0o45VErUmi3bbfeXC2ZBmEyFxUkl1i01VBAwLHjvpld+AxfopD+WWFJHGcSG/GDuCtRX10zhhQqLc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731309255; c=relaxed/simple;
-	bh=34OLCIHJ1bYChjoa3WCtiTSvNQcl0f9H02uyZ1GOTUI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=Xgoc8xrjIiV1BZjIvTLX+Iy5hMBs9V+tvMC5+t+/vaZSlipFPbHNAjLM3nGhiZuUsdTjV6wkhBklS2UAanTW7uK9GirFkhA51Q2u5cdkT6sqSaOgeKquIOPR2HQg3vPEfv79vDuK/uVr9EnRRuRvQhRWz7PZH8f1e9WGjGzavfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn; spf=pass smtp.mailfrom=phytium.com.cn; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=phytium.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=phytium.com.cn
-Received: from prodtpl.icoremail.net (unknown [10.12.1.20])
-	by hzbj-icmmx-6 (Coremail) with SMTP id AQAAfwAXePGzrjFnhKz2AA--.22647S2;
-	Mon, 11 Nov 2024 15:13:55 +0800 (CST)
-Received: from shuaijiakun1288$phytium.com.cn ( [218.76.62.144] ) by
- ajax-webmail-mail (Coremail) ; Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
-Date: Mon, 11 Nov 2024 15:13:53 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5biF5a625Z2k?= <shuaijiakun1288@phytium.com.cn>
-To: "Dan Carpenter" <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, kernel@openeuler.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [openeuler:OLK-5.10 2284/2284] drivers/gpu/drm/ast/ast_mm.c:116
- ast_pci_host_is_5c01() error: we previously assumed 'child' could be null
- (see line 109)
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.1-cmXT6 build
- 20240812(cfb32469) Copyright (c) 2002-2024 www.mailtech.cn
- mispb-4edfefde-e422-4ddc-8a36-c3f99eb8cd32-icoremail.net
-In-Reply-To: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
-References: <95bc6882-d0db-42e3-a320-6ac680f5202c@suswa.mountain>
-Content-Transfer-Encoding: base64
-X-CM-CTRLDATA: D91mVGZvb3Rlcl90eHQ9MzA0MTozODM=
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1731312235; c=relaxed/simple;
+	bh=Kevjc30jbqG01uV06gIjOBkUvdpkmEOhpz+LOwSchbk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OCfKPifvrs/mFyKKL7OGbJsrqqh5jaa2/3BJfZFtXEvxUw6t+l8ST+uo2goc0gOC3pZmzkLnYI+EZ5IBuWDUC55LqEWXM72SxyG5C3fVHxVRxYoiBaYszUpx9OSdK6+kRvfWuGE4JOOd5qLR346YDZ4FXApg7hQBibV4tYMxfDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjWacl/F; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjWacl/F"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731312234; x=1762848234;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Kevjc30jbqG01uV06gIjOBkUvdpkmEOhpz+LOwSchbk=;
+  b=BjWacl/FyVf3aqmHFhqwRoivLNZOwPtIsakUWMfW9cNCapi4OC8qPtsU
+   ynGvaG38J0Aj3l0NNLW2jbeM1ccmX6ljMVTkhgMsF/ynM4H2i6Tp1mvQ8
+   M/QL60fkK1e66jWUd5KISRnXM3nMm9Hv8Q9/WBgaGA6+yuKeGCWjto5hk
+   yiFmhZ5bQQ+zogobkgUsIYuKTuRsGoU2Dt3/HFDdRWcdo40ZuahdhglSu
+   YVAT/o1m2lCgXuJZTuxBDXzZCikxmjngvsYrM5BPJONmhPM7gxwHamU0m
+   aFdlv98PP6F/StGwPH3HV4VyP4E9q2kY2BhjZ03UUc/uwrwyLcNAaMKwF
+   A==;
+X-CSE-ConnectionGUID: 7f6/k6IpTm+jyYMon88+Sw==
+X-CSE-MsgGUID: CmA4qnA3QO2bLKgeQdZukQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="30964344"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="30964344"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2024 00:03:52 -0800
+X-CSE-ConnectionGUID: WGBP6pfNS4mcO92pIpoj7g==
+X-CSE-MsgGUID: v/wBNfyqSb219PTSquPsxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,144,1728975600"; 
+   d="scan'208";a="86549967"
+Received: from lkp-server01.sh.intel.com (HELO dc8184e5aea1) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 11 Nov 2024 00:03:50 -0800
+Received: from kbuild by dc8184e5aea1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tAPOm-00006V-0H;
+	Mon, 11 Nov 2024 08:03:48 +0000
+Date: Mon, 11 Nov 2024 16:02:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2415/2415]
+ arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r2'
+ in asm
+Message-ID: <202411111507.aqaGF8sw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <43289c58.646f.1931a126647.Coremail.shuaijiakun1288@phytium.com.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:AQAAfwAHX3uxrjFnMstNAA--.8539W
-X-CM-SenderInfo: 5vkxtx5mldy3bqrsmmo6sk53xlxphulrpou0/1tbiAQAGCGcxDp8C
-	lwABsc
-Authentication-Results: hzbj-icmmx-6; spf=neutral smtp.mail=shuaijiaku
-	n1288@phytium.com.cn;
-X-Coremail-Antispam: 1Uk129KBjvJXoW3WryfGw48Zw4xGF15ZFy8Grg_yoW3Aw13p3
-	WfJ3yUAr1UG3W7X3yfKw18ArW8A3yUWr47JrnrtFy5Zw1DJr4DWr9xKrWxJ3Wjga1jgrs8
-	Kwnrur4Yvr1jq37anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUj1kv1TuYvTs0mT0YCTnIWj
-	DUYxn0WfASr-VFAU7a7-sFnT9fnUUIcSsGvfJ3UbIYCTnIWIevJa73UjIFyTuYvj4RJUUU
-	UUUUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-SGkgRGFuLCAKClRoYW5rIHlvdSBmb3IgeW91ciByZXBvcnQgYW5kIHdlIGhhdmUgbm90aWNlZCB0
-aGlzIGJ1Zy4gSXQgd2lsbCBiZSBoYW5kbGVkIGFuZCB1cGxvYWRlZCBpbiBhIHNlcGFyYXRlIGNv
-bW1pdC4KCkhhdmUgYSBnb29kIGRheSBeX14KCj4gLS0tLS3ljp/lp4vpgq7ku7YtLS0tLQo+IOWP
-keS7tuS6ujogIkRhbiBDYXJwZW50ZXIiIDxkYW4uY2FycGVudGVyQGxpbmFyby5vcmc+Cj4g5Y+R
-6YCB5pe26Ze0OjIwMjQtMTEtMDYgMTc6MDA6NTAgKOaYn+acn+S4iSkKPiDmlLbku7bkuro6IG9l
-LWtidWlsZEBsaXN0cy5saW51eC5kZXYsIGtlcm5lbEBvcGVuZXVsZXIub3JnLCAiSmlha3VuIFNo
-dWFpIiA8c2h1YWlqaWFrdW4xMjg4QHBoeXRpdW0uY29tLmNuPgo+IOaKhOmAgTogbGtwQGludGVs
-LmNvbSwgb2Uta2J1aWxkLWFsbEBsaXN0cy5saW51eC5kZXYKPiDkuLvpopg6IFtvcGVuZXVsZXI6
-T0xLLTUuMTAgMjI4NC8yMjg0XSBkcml2ZXJzL2dwdS9kcm0vYXN0L2FzdF9tbS5jOjExNiBhc3Rf
-cGNpX2hvc3RfaXNfNWMwMSgpIGVycm9yOiB3ZSBwcmV2aW91c2x5IGFzc3VtZWQgJ2NoaWxkJyBj
-b3VsZCBiZSBudWxsIChzZWUgbGluZSAxMDkpCj4gCj4gdHJlZTogICBodHRwczovL2dpdGVlLmNv
-bS9vcGVuZXVsZXIva2VybmVsLmdpdCBPTEstNS4xMAo+IGhlYWQ6ICAgZjcwNWU5MDlhMDFlZTlh
-ZTc1NTQyNDU3Y2E5NWIwNTVkYWUxNzdhMAo+IGNvbW1pdDogOTY4ZWU0MzZlNGQwY2UwOTk5NGY3
-NDAxNWRjMTYzZWYyODBjY2MxZSBbMjI4NC8yMjg0XSBkcm0vYXN0OiBGaXhlZCBkaXNwbGF5IGVy
-cm9yIGZvciBwczIzeHggd2hlbiB1c2luZyBhc3QgYm1jIGNhcmQKPiBjb25maWc6IHg4Nl82NC1y
-YW5kY29uZmlnLTE2MS0yMDI0MTAyOSAoaHR0cHM6Ly9kb3dubG9hZC4wMS5vcmcvMGRheS1jaS9h
-cmNoaXZlLzIwMjQxMTA2LzIwMjQxMTA2MDYxMi5HWW13Wngxay1sa3BAaW50ZWwuY29tL2NvbmZp
-ZykKPiBjb21waWxlcjogZ2NjLTEyIChEZWJpYW4gMTIuMi4wLTE0KSAxMi4yLjAKPiAKPiBJZiB5
-b3UgZml4IHRoZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVz
-dCBhIG5ldyB2ZXJzaW9uIG9mCj4gdGhlIHNhbWUgcGF0Y2gvY29tbWl0KSwga2luZGx5IGFkZCBm
-b2xsb3dpbmcgdGFncwo+IHwgUmVwb3J0ZWQtYnk6IGtlcm5lbCB0ZXN0IHJvYm90IDxsa3BAaW50
-ZWwuY29tPgo+IHwgUmVwb3J0ZWQtYnk6IERhbiBDYXJwZW50ZXIgPGRhbi5jYXJwZW50ZXJAbGlu
-YXJvLm9yZz4KPiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvci8yMDI0MTEwNjA2
-MTIuR1ltd1p4MWstbGtwQGludGVsLmNvbS8KPiAKPiBzbWF0Y2ggd2FybmluZ3M6Cj4gZHJpdmVy
-cy9ncHUvZHJtL2FzdC9hc3RfbW0uYzoxMTYgYXN0X3BjaV9ob3N0X2lzXzVjMDEoKSBlcnJvcjog
-d2UgcHJldmlvdXNseSBhc3N1bWVkICdjaGlsZCcgY291bGQgYmUgbnVsbCAoc2VlIGxpbmUgMTA5
-KQo+IAo+IHZpbSArL2NoaWxkICsxMTYgZHJpdmVycy9ncHUvZHJtL2FzdC9hc3RfbW0uYwo+IAo+
-IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMDQgIHN0YXRpYyBib29s
-IGFzdF9wY2lfaG9zdF9pc181YzAxKHN0cnVjdCBwY2lfYnVzICpidXMpCj4gOTY4ZWU0MzZlNGQw
-Y2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNSAgewo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1
-biBTaHVhaSAyMDI0LTA1LTE0ICAxMDYgIAlzdHJ1Y3QgcGNpX2J1cyAqY2hpbGQgPSBidXM7Cj4g
-OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDEwNyAgCXN0cnVjdCBwY2lf
-ZGV2ICpyb290ID0gTlVMTDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0x
-NCAgMTA4ICAKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCBAMTA5ICAJ
-d2hpbGUgKGNoaWxkKSB7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIF5eXl5eCj4gV2UgbG9vcCB1bnRpbCBjaGlsZCBpcyBOVUxMCj4gCj4g
-OTY4ZWU0MzZlNGQwY2UgSmlha3VuIFNodWFpIDIwMjQtMDUtMTQgIDExMCAgCQlpZiAoY2hpbGQt
-PnBhcmVudC0+cGFyZW50KQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0
-ICAxMTEgIAkJCWNoaWxkID0gY2hpbGQtPnBhcmVudDsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4g
-U2h1YWkgMjAyNC0wNS0xNCAgMTEyICAJCWVsc2UKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
-YWkgMjAyNC0wNS0xNCAgMTEzICAJCQlicmVhazsKPiA5NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1
-YWkgMjAyNC0wNS0xNCAgMTE0ICAJfQo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0
-LTA1LTE0ICAxMTUgIAo+IDk2OGVlNDM2ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0IEAx
-MTYgIAlyb290ID0gY2hpbGQtPnNlbGY7Cj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIF5eXl5eXl5eXl5eCj4gRGVyZWZlcmVuY2UKPiAKPiA5
-NjhlZTQzNmU0ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE3ICAKPiA5NjhlZTQzNmU0
-ZDBjZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTE4ICAJaWYgKChyb290LT52ZW5kb3IgPT0g
-MHgxZGI3KSAmJiAocm9vdC0+ZGV2aWNlID09IDB4NWMwMSkpCj4gOTY4ZWU0MzZlNGQwY2UgSmlh
-a3VuIFNodWFpIDIwMjQtMDUtMTQgIDExOSAgCQlyZXR1cm4gdHJ1ZTsKPiA5NjhlZTQzNmU0ZDBj
-ZSBKaWFrdW4gU2h1YWkgMjAyNC0wNS0xNCAgMTIwICAJcmV0dXJuIGZhbHNlOwo+IDk2OGVlNDM2
-ZTRkMGNlIEppYWt1biBTaHVhaSAyMDI0LTA1LTE0ICAxMjEgIH0KPiAKPiAtLSAKPiAwLURBWSBD
-SSBLZXJuZWwgVGVzdCBTZXJ2aWNlCj4gaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xrcC10ZXN0
-cy93aWtpCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgrluIXlrrblnaQgTWVuZGV6
-IFNodWFpIHwg6L2v5Lu26YCC6YWN5bel56iL5biICjE4Mi0wMTIwLTUyMjkgICAgICDmuZbljZfn
-nIHplb/mspnluILlvIDnpo/ljLroipnok4nkuK3ot68x5q61MjE55Y+35a+M5YW05pe25LujVDLl
-hpnlrZfmpbwyMOalvAoNCg0K5L+h5oGv5a6J5YWo5aOw5piO77ya5pys6YKu5Lu25YyF5ZCr5L+h
-5oGv5b2S5Y+R5Lu25Lq65omA5Zyo57uE57uH5omA5pyJLOWPkeS7tuS6uuaJgOWcqOe7hOe7h+Wv
-ueivpemCruS7tuaLpeacieaJgOacieadg+WIqeOAguivt+aOpeaUtuiAheazqOaEj+S/neWvhizm
-nKrnu4/lj5Hku7bkurrkuabpnaLorrjlj68s5LiN5b6X5ZCR5Lu75L2V56ys5LiJ5pa557uE57uH
-5ZKM5Liq5Lq66YCP6Zyy5pys6YKu5Lu25omA5ZCr5L+h5oGv44CCDQpJbmZvcm1hdGlvbiBTZWN1
-cml0eSBOb3RpY2U6IFRoZSBpbmZvcm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBtYWlsIGlzIHNv
-bGVseSBwcm9wZXJ0eSBvZiB0aGUgc2VuZGVyJ3Mgb3JnYW5pemF0aW9uLlRoaXMgbWFpbCBjb21t
-dW5pY2F0aW9uIGlzIGNvbmZpZGVudGlhbC5SZWNpcGllbnRzIG5hbWVkIGFib3ZlIGFyZSBvYmxp
-Z2F0ZWQgdG8gbWFpbnRhaW4gc2VjcmVjeSBhbmQgYXJlIG5vdCBwZXJtaXR0ZWQgdG8gZGlzY2xv
-c2UgdGhlIGNvbnRlbnRzIG9mIHRoaXMgY29tbXVuaWNhdGlvbiB0byBvdGhlcnMu
+Hi Andre,
 
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a2a2cb652cf3f4686ab13778fb11f4591b5cfb17
+commit: 78d8f4f7a298a5d259b2163121ea20b9e60e93f7 [2415/2415] arm64: Add support for SMCCC TRNG entropy source
+config: arm64-randconfig-003-20241111 (https://download.01.org/0day-ci/archive/20241111/202411111507.aqaGF8sw-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241111/202411111507.aqaGF8sw-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411111507.aqaGF8sw-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   arch/arm64/Makefile:44: Detected assembler with broken .inst; disassembly will be unreliable
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:17:
+   In file included from include/linux/lockdep.h:14:
+   In file included from include/linux/smp.h:102:
+   In file included from include/linux/preempt.h:78:
+   In file included from arch/arm64/include/asm/preempt.h:5:
+   In file included from include/linux/thread_info.h:14:
+   In file included from include/linux/thread_bits.h:32:
+   In file included from arch/arm64/include/asm/thread_info.h:18:
+   arch/arm64/include/asm/stack_pointer.h:8:51: error: register 'sp' unsuitable for global register variables on this target
+       8 | register unsigned long current_stack_pointer asm ("sp");
+         |                                                   ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r0' in asm
+      20 |         arm_smccc_1_1_invoke(ARM_SMCCC_TRNG_VERSION, &res);
+         |         ^
+   include/linux/arm-smccc.h:412:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     412 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:378:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+     378 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:336:33: note: expanded from macro '__arm_smccc_1_1'
+     336 |                 register unsigned long r0 asm("r0");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:412:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     412 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:378:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+     378 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:337:33: note: expanded from macro '__arm_smccc_1_1'
+     337 |                 register unsigned long r1 asm("r1");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+>> arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r2' in asm
+   include/linux/arm-smccc.h:412:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     412 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:378:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+     378 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:338:33: note: expanded from macro '__arm_smccc_1_1'
+     338 |                 register unsigned long r2 asm("r2");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r3' in asm
+   include/linux/arm-smccc.h:412:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     412 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:378:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+     378 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:339:33: note: expanded from macro '__arm_smccc_1_1'
+     339 |                 register unsigned long r3 asm("r3");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:412:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     412 |                         arm_smccc_1_1_hvc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:378:32: note: expanded from macro 'arm_smccc_1_1_hvc'
+     378 | #define arm_smccc_1_1_hvc(...)  __arm_smccc_1_1(SMCCC_HVC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:340:3: note: expanded from macro '__arm_smccc_1_1'
+     340 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/arm-smccc.h:321:37: note: expanded from macro '___declare_args'
+     321 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^
+   <scratch space>:168:1: note: expanded from here
+     168 | __declare_arg_0
+         | ^
+   include/linux/arm-smccc.h:275:34: note: expanded from macro '__declare_arg_0'
+     275 |         register unsigned long arg0 asm("r0") = (u32)a0
+         |                                         ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:415:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     415 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:362:32: note: expanded from macro 'arm_smccc_1_1_smc'
+     362 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:336:33: note: expanded from macro '__arm_smccc_1_1'
+     336 |                 register unsigned long r0 asm("r0");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r1' in asm
+   include/linux/arm-smccc.h:415:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     415 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:362:32: note: expanded from macro 'arm_smccc_1_1_smc'
+     362 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:337:33: note: expanded from macro '__arm_smccc_1_1'
+     337 |                 register unsigned long r1 asm("r1");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+>> arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r2' in asm
+   include/linux/arm-smccc.h:415:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     415 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:362:32: note: expanded from macro 'arm_smccc_1_1_smc'
+     362 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:338:33: note: expanded from macro '__arm_smccc_1_1'
+     338 |                 register unsigned long r2 asm("r2");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r3' in asm
+   include/linux/arm-smccc.h:415:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     415 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:362:32: note: expanded from macro 'arm_smccc_1_1_smc'
+     362 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:339:33: note: expanded from macro '__arm_smccc_1_1'
+     339 |                 register unsigned long r3 asm("r3");                    \
+         |                                               ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:415:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     415 |                         arm_smccc_1_1_smc(__VA_ARGS__);                 \
+         |                         ^
+   include/linux/arm-smccc.h:362:32: note: expanded from macro 'arm_smccc_1_1_smc'
+     362 | #define arm_smccc_1_1_smc(...)  __arm_smccc_1_1(SMCCC_SMC_INST, __VA_ARGS__)
+         |                                 ^
+   include/linux/arm-smccc.h:340:3: note: expanded from macro '__arm_smccc_1_1'
+     340 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/arm-smccc.h:321:37: note: expanded from macro '___declare_args'
+     321 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^
+   <scratch space>:170:1: note: expanded from here
+     170 | __declare_arg_0
+         | ^
+   include/linux/arm-smccc.h:275:34: note: expanded from macro '__declare_arg_0'
+     275 |         register unsigned long arg0 asm("r0") = (u32)a0
+         |                                         ^
+   In file included from arch/arm64/kernel/asm-offsets.c:10:
+   In file included from include/linux/arm_sdei.h:8:
+   In file included from include/acpi/ghes.h:5:
+   In file included from include/acpi/apei.h:9:
+   In file included from include/linux/acpi.h:13:
+   In file included from include/linux/irqdomain.h:35:
+   In file included from include/linux/of.h:17:
+   In file included from include/linux/kobject.h:21:
+   In file included from include/linux/sysfs.h:17:
+   In file included from include/linux/kernfs.h:13:
+   In file included from include/linux/mutex.h:19:
+   In file included from arch/arm64/include/asm/processor.h:45:
+   In file included from arch/arm64/include/asm/pointer_auth.h:6:
+   In file included from include/linux/random.h:121:
+   arch/arm64/include/asm/archrandom.h:20:2: error: unknown register name 'r0' in asm
+   include/linux/arm-smccc.h:418:4: note: expanded from macro 'arm_smccc_1_1_invoke'
+     418 |                         __fail_smccc_1_1(__VA_ARGS__);                  \
+         |                         ^
+   include/linux/arm-smccc.h:387:3: note: expanded from macro '__fail_smccc_1_1'
+     387 |                 __declare_args(__count_args(__VA_ARGS__), __VA_ARGS__); \
+         |                 ^
+   include/linux/arm-smccc.h:322:37: note: expanded from macro '__declare_args'
+     322 | #define __declare_args(count, ...)  ___declare_args(count, __VA_ARGS__)
+         |                                     ^
+   include/linux/arm-smccc.h:321:37: note: expanded from macro '___declare_args'
+     321 | #define ___declare_args(count, ...) __declare_arg_ ## count(__VA_ARGS__)
+         |                                     ^
+   <scratch space>:172:1: note: expanded from here
+     172 | __declare_arg_0
+         | ^
+   include/linux/arm-smccc.h:275:34: note: expanded from macro '__declare_arg_0'
+     275 |         register unsigned long arg0 asm("r0") = (u32)a0
+         |                                         ^
+
+
+vim +/r2 +20 arch/arm64/include/asm/archrandom.h
+
+    15	
+    16	static inline bool __init smccc_probe_trng(void)
+    17	{
+    18		struct arm_smccc_res res;
+    19	
+  > 20		arm_smccc_1_1_invoke(ARM_SMCCC_TRNG_VERSION, &res);
+    21		if ((s32)res.a0 < 0)
+    22			return false;
+    23	
+    24		return res.a0 >= ARM_SMCCC_TRNG_MIN_VERSION;
+    25	}
+    26	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
