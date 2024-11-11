@@ -1,64 +1,74 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF06B15DBBA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 09:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213EC149C55
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 09:40:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731316814; cv=none; b=lgiwekFZL3UEpDvXo+xFZ/ku/l2yTclYL6bivXuD8VPhG2BCRuHovj2DVGFDceIjooqXB84wVHRjDaykSu8gzS7ahOmZDSWyQIff9lzAk93UEK1vrg+ZJ/Vx86Cidxm4GJGxahVYXWp5Rd7OXnZGGIIi4wRhEtrxAiNwJE5wu6U=
+	t=1731318007; cv=none; b=uW+GstLxxRl5MHAZC5AnM20686DMjenUguo4SWB70tCnUSIMRNWzWA69FNRRNYQhnHTJfSMgVduClKZ011mYQs0AYpFovDn/bnb8Ws1o0ftJ9zIHSFch9+Q8wcqBIZYqAtnOJKAI96ChSnLFsR29Shu2eNjp/lVDrU29oH2hyz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731316814; c=relaxed/simple;
-	bh=XWWW83rbAXH/TMH29gNpNbYFia8yDROevjztoSrdyi4=;
+	s=arc-20240116; t=1731318007; c=relaxed/simple;
+	bh=SrePIxSbFYjj2HfNvSNCaCC5bOfkmhdL4/yJT9sPHp8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=V6zO1r032GMZcfL2WULlCS2Wqga+7Yo4hM+VmAOsLzRtqwO7efTXKR6zl29xUapBdBmGJdkq739rIQInCswx3Qoxlh25XA5yRNGuQOwJRqcsdYLPxQmF/PyFticQi5PGdegCoVZ1UpEDPLA5Slr5cGuzX3UmU3KeKA+c2soQL+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=m2SQv/lN; arc=none smtp.client-ip=209.85.208.50
+	 Content-Disposition:In-Reply-To; b=jpOMKBMpVNvaEY2MDnKYNgvyeJZBNiEoa24LldcHj9w8Wc8FKwgM0qcP//tfsZhJ2XBJraLvcDMER32x2k19MFn1xcRdTnYHQBxYzwr2qTKS6bfvLtbXt/t6xtIPifb6vsRVDS2qECcFp39HmKNwM028CRKP5ohDUbGTH4jw6Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fgJLu4nm; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="m2SQv/lN"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5c9634c9160so5273481a12.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 01:20:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fgJLu4nm"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5cefc36c5d4so6002453a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 01:40:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731316811; x=1731921611; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=txI650kvavqwu1E5P3JWdoyYqrsr/gXCFqbHgGdVt6g=;
-        b=m2SQv/lNpE4EH0f6ZDbvPaGDjFOxL01PvtmGfUaMotxAGIWHZUQlr43NBxrod/6TO/
-         rjLyitWXnBSyt/xOsCKVJOI7Zap4xiLxiha2bc2vXuIbZ9+EGOH6R97fPM1+t4OU+pN2
-         YqT3izxmNy7TEQSVLYAoN0ewHzGTv7CmDAn7NEYKFDhHuvVWg7F4N2eo7yAyX+SZbZDv
-         7gyjwZkxBPdo62zRICf/y4ejxuMAUa/V295Ea4bTyLc/PlNu2ob1clWGP00cYcB93rO5
-         GpgDB1W8yjs3doSIv+9M7XsuxSrhAf+KULJ4nhfBjXWaORKJMragfQWJ/TlaPORLHL1j
-         igKA==
+        d=linaro.org; s=google; t=1731318002; x=1731922802; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=8uq+o2vFZJUqX4/y2uQm9wgc0uDfnPCbnfiej+5FcGg=;
+        b=fgJLu4nmUvUIXCy4vpCrofcaYrVgycY7R4UqoM+YYQqTS4kwu/SZqdY8hEn9yJ8/vI
+         MSKRPB/cLq0BAGQ6kiT0HNdRgiIANUGAbsg5ZHwxls4/w6sBFQC4LVTNTKUr+qgS1r6I
+         MhTcBQAiyM+DrB1X4dq05ksX5WgvgHReXzYe3OkqiCbeJuuNY2VcwzhymSDHEs0vZ0tM
+         sItnUtaaWeili/uUCG4cT2fD1iKiQ3EUBh36iuXWZfTqWG9+ZTA9lfK6Le5W6SZsYwN6
+         4OcurqhOLgVf5p+JITL/qyl6+v8X6gCx2TScJTBKoUysprxg/XszjZF84FMFWElX/oRO
+         kHuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731316811; x=1731921611;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=txI650kvavqwu1E5P3JWdoyYqrsr/gXCFqbHgGdVt6g=;
-        b=Fz4INk4UhWZaYG/ZNRazEi73Kgtt/vBolRWSxaSxRpkfyyW+99gYhY+OBQz6Yn+k0o
-         WtdHlFtvnZagDLf0e+Hel3XBVmf4nBQT4JUxFZPMvXFZL4MfMRRaPVLk7IXvwtDXvU8s
-         nyPhum7aiVOZqRWiCcJkgS+Ruj/hkaBbEjaL75+LB0oydpEBx639P87MzT9DhbjZ0GRA
-         gBJSloNZLUM9qR6KHUu6rOmzPijRMefX6mV3MFryV6H2PI09HSIlF+riMvtIoHkq8wPA
-         Gz8rF31WnJWJAdRlijoM/C1HrcK8sjuDFm6rJkGTrui5lVs7o5VjmHCiPpZSCiqzkZKU
-         sPrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXQTT+ie5VUQRMhAtbb2Mff1w41bsvUH0+yIc5VsR/zdFaTag6aaz7H9yuRfoHu3hBsHApqM5v4k9slpsmt@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw2hGD7ENUaD3ejJrqnMesqmNlWAk7kncMrVDzQ876CcLKmFRJi
-	xULLGAbHrTVAkJpwCoaJTibtvLkn0Z4KWplXYBVfEb28ClWox77Bccn0kXSQCkE=
-X-Google-Smtp-Source: AGHT+IFnvt80oF+INr79ZSij3OyDfBtMUb78u/qtYn+ivS8iT8NgXfFD676hs7vHEI/HME/x2c+0rA==
-X-Received: by 2002:a50:8ad4:0:b0:5cf:f2c:384f with SMTP id 4fb4d7f45d1cf-5cf0f2c38e2mr6704079a12.1.1731316811055;
-        Mon, 11 Nov 2024 01:20:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731318002; x=1731922802;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8uq+o2vFZJUqX4/y2uQm9wgc0uDfnPCbnfiej+5FcGg=;
+        b=srRC+3k/rM6XnEwkiuXeVyeZpHSGkTt1Oqn5jmYTWijqwn4nxUkpqznig3qKH64cYG
+         lc5sBmsVmwvt288NkkKCKdW4dOAP7cnJou88MXp0XevrdPo5Sf0AsNlzRZi4SP6Aaeu4
+         VZdsuloJPOxEzoyCdC6PYOrJx+bmZsApWa6eJjg9FaL/u6H41Jc69P1W4NlMBY9lPUg1
+         JhYRF2QYvtueX74ashuMcRLisJB3NqYk7cpUejFFMsBDHrvl/cW/8nYC/6bdI0uZsT82
+         XGwrXVAL/ZdSPyP9W3y/8aONMVCLrakM6RoTXbvX7ZUS8G2tiITNa7XmGRbQklWA8YyW
+         XBJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrL8+fZEpcGO9SmOv1LOGcw1Q9/CMyDceNSjnJ9QYn3+v0xyEhuBSNuIJctScGtFEpr06qoTlOTrqmxHQM@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy54ziOaDwp7Q3AR7gWD6xHRgfu3flTmPHk9ivK5OwvVojb99tV
+	Y39Q7escL6sxAilglAxXMPhQX+wH3tlzwTnC4De+MEQPbZi8JJ5StVDQrC+T/q4=
+X-Google-Smtp-Source: AGHT+IEtwIpih366270iEmy7zBPiGHFqTs9kQiN6axsaFrcWpMU4sHgBmIXXbVCyVCYkUQP1Knn9+w==
+X-Received: by 2002:a05:6402:3198:b0:5ce:c9ae:347e with SMTP id 4fb4d7f45d1cf-5cf0a45d167mr7750194a12.30.1731318002466;
+        Mon, 11 Nov 2024 01:40:02 -0800 (PST)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03bb765asm4755367a12.48.2024.11.11.01.20.10
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf03bb85f5sm4646840a12.53.2024.11.11.01.40.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 01:20:10 -0800 (PST)
-Date: Mon, 11 Nov 2024 12:20:07 +0300
+        Mon, 11 Nov 2024 01:40:01 -0800 (PST)
+Date: Mon, 11 Nov 2024 12:39:58 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Geoffrey D. Bennett" <g@b4.vu>
+To: oe-kbuild@lists.linux.dev, Vitalii Mordan <mordan@ispras.ru>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Takashi Iwai <tiwai@suse.de>
-Subject: sound/usb/mixer_scarlett2.c:4972
- scarlett2_ioctl_select_flash_segment() warn: potential spectre issue
- 'private->flash_segment_nums' [r] (local cap)
-Message-ID: <acf8826e-d236-4759-bd5c-e81de992b006@stanley.mountain>
+	Vitalii Mordan <mordan@ispras.ru>,
+	Jose Abreu <joabreu@synopsys.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>, netdev@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org, Fedor Pchelkin <pchelkin@ispras.ru>,
+	Alexey Khoroshilov <khoroshilov@ispras.ru>,
+	Vadim Mutilin <mutilin@ispras.ru>
+Subject: Re: [PATCH net v2]: stmmac: dwmac-intel-plat: fix call balance of
+ tx_clk handling routines
+Message-ID: <e1b263d8-adc0-455b-adf1-9247fae1b320@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,67 +77,128 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241108173334.2973603-1-mordan@ispras.ru>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   de2f378f2b771b39594c04695feee86476743a69
-commit: 6a7508e64ee3e8320c886020bcdcd70f7fcbff2c ALSA: scarlett2: Add ioctl commands to erase flash segments
-date:   11 months ago
-config: x86_64-randconfig-161-20241110 (https://download.01.org/0day-ci/archive/20241110/202411101058.RkdgFPCg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Vitalii,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vitalii-Mordan/stmmac-dwmac-intel-plat-fix-call-balance-of-tx_clk-handling-routines/20241109-013647
+base:   net/main
+patch link:    https://lore.kernel.org/r/20241108173334.2973603-1-mordan%40ispras.ru
+patch subject: [PATCH net v2]: stmmac: dwmac-intel-plat: fix call balance of tx_clk handling routines
+config: arm-randconfig-r071-20241110 (https://download.01.org/0day-ci/archive/20241111/202411110911.fxtHBKSw-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411101058.RkdgFPCg-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411110911.fxtHBKSw-lkp@intel.com/
 
 smatch warnings:
-sound/usb/mixer_scarlett2.c:4972 scarlett2_ioctl_select_flash_segment() warn: potential spectre issue 'private->flash_segment_nums' [r] (local cap)
-sound/usb/mixer_scarlett2.c:4973 scarlett2_ioctl_select_flash_segment() warn: possible spectre second half.  'segment_num'
+drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c:163 intel_eth_plat_probe() error: we previously assumed 'dwmac->data' could be null (see line 101)
 
-vim +4972 sound/usb/mixer_scarlett2.c
+vim +163 drivers/net/ethernet/stmicro/stmmac/dwmac-intel-plat.c
 
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4957  /* Select a flash segment for erasing (and possibly writing to) */
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4958  static int scarlett2_ioctl_select_flash_segment(
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4959  	struct usb_mixer_interface *mixer,
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4960  	unsigned long arg)
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4961  {
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4962  	struct scarlett2_data *private = mixer->private_data;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4963  	int segment_id, segment_num;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4964  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4965  	if (get_user(segment_id, (int __user *)arg))
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4966  		return -EFAULT;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4967  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4968  	/* Check the segment ID and segment number */
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4969  	if (segment_id < 0 || segment_id >= SCARLETT2_SEGMENT_ID_COUNT)
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4970  		return -EINVAL;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4971  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20 @4972  	segment_num = private->flash_segment_nums[segment_id];
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   75  static int intel_eth_plat_probe(struct platform_device *pdev)
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   76  {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   77  	struct plat_stmmacenet_data *plat_dat;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   78  	struct stmmac_resources stmmac_res;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   79  	struct intel_dwmac *dwmac;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   80  	unsigned long rate;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   81  	int ret;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   82  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   83  	ret = stmmac_get_platform_resources(pdev, &stmmac_res);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   84  	if (ret)
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   85  		return ret;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   86  
+abea8fd5e801a6 Jisheng Zhang        2023-09-16   87  	plat_dat = devm_stmmac_probe_config_dt(pdev, stmmac_res.mac);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   88  	if (IS_ERR(plat_dat)) {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   89  		dev_err(&pdev->dev, "dt configuration failed\n");
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   90  		return PTR_ERR(plat_dat);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   91  	}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   92  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   93  	dwmac = devm_kzalloc(&pdev->dev, sizeof(*dwmac), GFP_KERNEL);
+abea8fd5e801a6 Jisheng Zhang        2023-09-16   94  	if (!dwmac)
+abea8fd5e801a6 Jisheng Zhang        2023-09-16   95  		return -ENOMEM;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   96  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   97  	dwmac->dev = &pdev->dev;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   98  	dwmac->tx_clk = NULL;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26   99  
+b0377116decdee Rob Herring          2023-10-09  100  	dwmac->data = device_get_match_data(&pdev->dev);
+b0377116decdee Rob Herring          2023-10-09 @101  	if (dwmac->data) {
+                                                            ^^^^^^^^^^^
+Check for NULL
 
-I suspect this does need an array_index_nospec().
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  102  		if (dwmac->data->fix_mac_speed)
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  103  			plat_dat->fix_mac_speed = dwmac->data->fix_mac_speed;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  104  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  105  		/* Enable TX clock */
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  106  		if (dwmac->data->tx_clk_en) {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  107  			dwmac->tx_clk = devm_clk_get(&pdev->dev, "tx_clk");
+abea8fd5e801a6 Jisheng Zhang        2023-09-16  108  			if (IS_ERR(dwmac->tx_clk))
+abea8fd5e801a6 Jisheng Zhang        2023-09-16  109  				return PTR_ERR(dwmac->tx_clk);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  110  
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  111  			ret = clk_prepare_enable(dwmac->tx_clk);
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  112  			if (ret) {
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  113  				dev_err(&pdev->dev,
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  114  					"Failed to enable tx_clk\n");
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  115  				return ret;
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  116  			}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  117  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  118  			/* Check and configure TX clock rate */
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  119  			rate = clk_get_rate(dwmac->tx_clk);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  120  			if (dwmac->data->tx_clk_rate &&
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  121  			    rate != dwmac->data->tx_clk_rate) {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  122  				rate = dwmac->data->tx_clk_rate;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  123  				ret = clk_set_rate(dwmac->tx_clk, rate);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  124  				if (ret) {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  125  					dev_err(&pdev->dev,
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  126  						"Failed to set tx_clk\n");
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  127  					goto err_tx_clk_disable;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  128  				}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  129  			}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  130  		}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  131  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  132  		/* Check and configure PTP ref clock rate */
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  133  		rate = clk_get_rate(plat_dat->clk_ptp_ref);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  134  		if (dwmac->data->ptp_ref_clk_rate &&
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  135  		    rate != dwmac->data->ptp_ref_clk_rate) {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  136  			rate = dwmac->data->ptp_ref_clk_rate;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  137  			ret = clk_set_rate(plat_dat->clk_ptp_ref, rate);
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  138  			if (ret) {
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  139  				dev_err(&pdev->dev,
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  140  					"Failed to set clk_ptp_ref\n");
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  141  				goto err_tx_clk_disable;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  142  			}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  143  		}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  144  	}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  145  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  146  	plat_dat->bsp_priv = dwmac;
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  147  	plat_dat->eee_usecs_rate = plat_dat->clk_ptp_rate;
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  148  
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  149  	if (plat_dat->eee_usecs_rate > 0) {
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  150  		u32 tx_lpi_usec;
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  151  
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  152  		tx_lpi_usec = (plat_dat->eee_usecs_rate / 1000000) - 1;
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  153  		writel(tx_lpi_usec, stmmac_res.addr + GMAC_1US_TIC_COUNTER);
+b4c5f83ae3f3e2 Rusaimi Amira Ruslan 2020-09-28  154  	}
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  155  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  156  	ret = stmmac_dvr_probe(&pdev->dev, plat_dat, &stmmac_res);
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  157  	if (ret)
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  158  		goto err_tx_clk_disable;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  159  
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  160  	return 0;
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  161  
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  162  err_tx_clk_disable:
+bd8cfad17c9530 Vitalii Mordan       2024-11-08 @163  	if (dwmac->data->tx_clk_en)
+                                                            ^^^^^^^^^^^^^
+Unchecked dereference
 
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20 @4973  	if (segment_num < SCARLETT2_SEGMENT_NUM_MIN ||
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4974  	    segment_num > SCARLETT2_SEGMENT_NUM_MAX) {
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4975  		usb_audio_err(mixer->chip,
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4976  			      "%s: invalid segment number %d\n",
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4977  			      __func__, segment_id);
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4978  		return -EFAULT;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4979  	}
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4980  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4981  	/* If erasing, wait for it to complete */
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4982  	if (private->flash_write_state == SCARLETT2_FLASH_WRITE_STATE_ERASING) {
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4983  		int err = scarlett2_wait_for_erase(mixer);
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4984  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4985  		if (err < 0)
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4986  			return err;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4987  	}
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4988  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4989  	/* Save the selected segment ID and set the state to SELECTED */
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4990  	private->selected_flash_segment_id = segment_id;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4991  	private->flash_write_state = SCARLETT2_FLASH_WRITE_STATE_SELECTED;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4992  
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4993  	return 0;
-6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4994  }
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  164  		clk_disable_unprepare(dwmac->tx_clk);
+bd8cfad17c9530 Vitalii Mordan       2024-11-08  165  	return ret;
+9efc9b2b04c74e Rusaimi Amira Ruslan 2020-08-26  166  }
 
 -- 
 0-DAY CI Kernel Test Service
