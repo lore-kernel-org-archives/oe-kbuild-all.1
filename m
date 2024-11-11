@@ -1,162 +1,162 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A8015A84E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 14:38:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763451BC58
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 14:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731335889; cv=none; b=Sk2ZZwg/BhiPdZGC+q3X9+LHDmiZecdvrcYDeyLykHpwzoe8jyGQ0mCaY3UxGHr7CwvJsHp4btaNHws1iBgppSx+tKeABWTpNBs7FWlPEw4t6ZFnxClj5WPRiSECdx6mxKMhfkKrFg/uxvd7viDDBgMI7m7lnaLUR7gY316pmA8=
+	t=1731336383; cv=none; b=VklK1ZTBaumlWd3tXZ8g/jZd1FGrx/lmmsJKnTka78lJWzGlqFduoKe6MKZUsy2ScAQNnTnciGhezXmCUba6RwFuBVWwR+nsLbOZTx4ogeVzOvfoWwVNnho59yoTjjNewKSnQXKGi26xSDQ1XTBuVHqvy5g47MODOpBKY3Qp4eU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731335889; c=relaxed/simple;
-	bh=eIbpCH3N+aGO6TfKkkqVCK9xklSEB5TeMAcZkNfjCQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kVOaI3C6lraxn0Sm75r4ibWTxgpTfmv5ot7vuoBjNhEIzTKk3OW14YgAzi1ur4lHe/ImQ5iRWG/+7o41TvOhdPpxcfo852NgsyfqxsPt9xq1FXcizY97XTIrVZ+uFEYz2+/0OcWOWE60y5Vbblk4OX9y9BFoaQ9MZe+qGahTJYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oIiP7Dln; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lk/HBW1u; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=oIiP7Dln; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=lk/HBW1u; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1731336383; c=relaxed/simple;
+	bh=/kcz22q+Xh7P78+qXf2Q5/TRZ7aOm71yZ8yTr7zBPg4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Qv0Elqxm/pgk6x+54TZc9XdupNFTSApUTMZ5h6C10D/LlafcA+Lnn91ydteUqqco0jIcuZPHPk2KyWFFGb3lrfwrCLMs8f6x90aXj6NQjPYasg99k+Oa1ZGTntMOICMhDg+DjLgLuc4EOINq65vu/bHp+HaEulvZCbESAyN0fMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dVBx0HdS; arc=none smtp.client-ip=209.85.219.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oIiP7Dln";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lk/HBW1u";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="oIiP7Dln";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="lk/HBW1u"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id ABB4321991;
-	Mon, 11 Nov 2024 14:38:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1731335885;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ykNWf+Lf5L33SgxJzxwLCMaf0zZhwI199v+Mmc36alQ=;
-	b=oIiP7DlnipV4+hc1/JtVY0OSJ8nUUCnMG37OCHBQVLAb5Helj5oQzzYul+Wm2G8BfOo2tu
-	XGLaVfgmZR0FE25Cet9HRUyNPUKcbE249eXulIZ8LViAw6qIAxraJHiaH1/D5gyWDFWeqH
-	02eJUKqB3fyqi0S+Kosdex2RxDTZd6s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1731335885;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ykNWf+Lf5L33SgxJzxwLCMaf0zZhwI199v+Mmc36alQ=;
-	b=lk/HBW1uFJFyVhU4RCoznHHj0nuOGA4+Fc4yNXMWldmIAtAu6DWjZyCeFe+SikaJV1gwR6
-	G0CJf5R776WN8aDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=oIiP7Dln;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="lk/HBW1u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1731335885;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ykNWf+Lf5L33SgxJzxwLCMaf0zZhwI199v+Mmc36alQ=;
-	b=oIiP7DlnipV4+hc1/JtVY0OSJ8nUUCnMG37OCHBQVLAb5Helj5oQzzYul+Wm2G8BfOo2tu
-	XGLaVfgmZR0FE25Cet9HRUyNPUKcbE249eXulIZ8LViAw6qIAxraJHiaH1/D5gyWDFWeqH
-	02eJUKqB3fyqi0S+Kosdex2RxDTZd6s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1731335885;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ykNWf+Lf5L33SgxJzxwLCMaf0zZhwI199v+Mmc36alQ=;
-	b=lk/HBW1uFJFyVhU4RCoznHHj0nuOGA4+Fc4yNXMWldmIAtAu6DWjZyCeFe+SikaJV1gwR6
-	G0CJf5R776WN8aDQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 8B4AC13301;
-	Mon, 11 Nov 2024 14:38:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id u3vJIc0WMmcDawAAD6G6ig
-	(envelope-from <dsterba@suse.cz>); Mon, 11 Nov 2024 14:38:05 +0000
-Date: Mon, 11 Nov 2024 15:38:04 +0100
-From: David Sterba <dsterba@suse.cz>
-To: linux-btrfs@vger.kernel.org
-Cc: Mark Harmstone <maharmstone@fb.com>, oe-kbuild-all@lists.linux.dev,
-	David Sterba <dsterba@suse.com>, kernel test robot <lkp@intel.com>
-Subject: Re: [linux-next:master 8334/9360] fs/btrfs/ioctl.c:4975:9-16:
- WARNING opportunity for kmemdup
-Message-ID: <20241111143804.GP31418@suse.cz>
-Reply-To: dsterba@suse.cz
-References: <202411050846.GI8oh5IK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dVBx0HdS"
+Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e29047bec8fso4274791276.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 11 Nov 2024 06:46:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1731336380; x=1731941180; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kuBjXOdgMWI3BuIwD303XNDgcqUxAXweoBqiSwzCoBg=;
+        b=dVBx0HdS8vbm2EJNFWwqZQV1ozXeyTv/IiKXPxikwld5rIlMfGXwxDPxKJiP0Oj6hW
+         B1W6dSZRF5JrQMrJHn3qjxn+Mt/r1c3No5lHTgpSa8DrfMcnVtJHueMnPaVo/k18H6oO
+         XkSmlP/J/MOpJnn/QZgOZcN7NjQlRIShGnKC3ENT8c+eGGpxbZ7btB3jWyY811VG2liw
+         Y1OjEFPAFtAXGgtqVzsdqn9RJ645Yt3D+oGU2r5ZVUT6xCJqOyQHaE9T4o2xLcqYTkNr
+         Qoc6jEoN0rHpMFfEIQAt7Y10OyF/JMKbcSJTZWR/RcbB/J/q7i8PrvaqT29WR4mr/dyE
+         rvDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731336380; x=1731941180;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kuBjXOdgMWI3BuIwD303XNDgcqUxAXweoBqiSwzCoBg=;
+        b=STXubMiSaTpuLouON7UKpnMaYdrlQmxF4wzCAIJOfCL+LZ9JxVYvCPT0TjlaHgZo7/
+         BVBAEuZ3YtixUyEHEwd5xNq1BrUl7c/lfyOmpvA2MVgyZLMvDQIAxeRgIFO12cAzVNiG
+         gMw4NnjjXGT2ZtHAZELE6YZm1v/3xk11T+qejDLed2BIks4Hy2yoBwBD/3Et/cUXx0Rl
+         k2Dvwhds0H0OOfkMn9UpjNfZhOj/+7DefKVvy+dauifD1FgZimxx3vl5JPnSVzh8jach
+         D1GV5QwCTEjL6MkwoAs7BCq7YDItwqzUXvf+PaVq4a2GFj3I5YGdP91/Qz50lS0Qw4/m
+         VXSg==
+X-Forwarded-Encrypted: i=1; AJvYcCUmRTZQmv2zzoLON7+1Pu9D2NM3Rz7Wf8cQ6o0DoNfG67C6dxEEW1k73kQuGY8/JJwtDVEzOEW6oG/RMTE1@lists.linux.dev
+X-Gm-Message-State: AOJu0YztnfXJtQDrnOVtct1wW2uLKzgG0nBzo7UDrBfFn4ZlOFdSxevM
+	hABG8wTOk8AH44osid733U32qxOYsDWpGbfX2ZDHWzUk1dUKdJXRTiZXjRtXc1EXTNa6OMPM4gd
+	jvnoeUS7IK3khs4DSeY1t9l8NkloinVLP4fAD
+X-Google-Smtp-Source: AGHT+IHtSkbI5TN9NEyh4i69sExMuFBKZk46/8zghhMcwS5mYXDhpMaAhdiuGEKOMx1i5ec0vF2dtkGDnKuXtuAsqeI=
+X-Received: by 2002:a05:6902:1023:b0:e29:2560:914c with SMTP id
+ 3f1490d57ef6-e337fdc0170mr10470151276.9.1731336380318; Mon, 11 Nov 2024
+ 06:46:20 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <202411050846.GI8oh5IK-lkp@intel.com>
-User-Agent: Mutt/1.5.23.1-rc1 (2014-03-12)
-X-Rspamd-Queue-Id: ABB4321991
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.21 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	HAS_REPLYTO(0.30)[dsterba@suse.cz];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_ALL(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	REPLYTO_ADDR_EQ_FROM(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:replyto,suse.cz:dkim,suse.cz:mid];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DKIM_TRACE(0.00)[suse.cz:+]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -4.21
-X-Spam-Flag: NO
+References: <20241105184333.2305744-5-jthoughton@google.com>
+ <202411061526.RAuCXKJh-lkp@intel.com> <CADrL8HU3KzDxrLsxD1+578zG6E__AjK3TMCfs-nQAnqFTZM2vQ@mail.gmail.com>
+ <Zy6UefSlo8vwHxew@google.com>
+In-Reply-To: <Zy6UefSlo8vwHxew@google.com>
+From: James Houghton <jthoughton@google.com>
+Date: Mon, 11 Nov 2024 09:45:44 -0500
+Message-ID: <CADrL8HUY0qeDW+g0MPeBdYe9C7i0sXJN_gHVPX0nEeDRVbp-6Q@mail.gmail.com>
+Subject: Re: [PATCH v8 04/11] KVM: x86/mmu: Relax locking for kvm_test_age_gfn
+ and kvm_age_gfn
+To: Sean Christopherson <seanjc@google.com>
+Cc: kernel test robot <lkp@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, oe-kbuild-all@lists.linux.dev, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, Wei Xu <weixugc@google.com>, Yu Zhao <yuzhao@google.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, kvm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 05, 2024 at 08:05:14AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   1ffec08567f426a1c593e038cadc61bdc38cb467
-> commit: 48b8a3df6d216bf9641bebf1efa1a3e1bdc9520d [8334/9360] btrfs: add io_uring command for encoded reads (ENCODED_READ ioctl)
-> config: x86_64-randconfig-103-20241104 (https://download.01.org/0day-ci/archive/20241105/202411050846.GI8oh5IK-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411050846.GI8oh5IK-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> fs/btrfs/ioctl.c:4975:9-16: WARNING opportunity for kmemdup
-> 
-> vim +4975 fs/btrfs/ioctl.c
-> 
->   4869	static int btrfs_uring_encoded_read(struct io_uring_cmd *cmd, unsigned int issue_flags)
->   4870	{
+On Fri, Nov 8, 2024 at 5:45=E2=80=AFPM Sean Christopherson <seanjc@google.c=
+om> wrote:
+>
+> On Thu, Nov 07, 2024, James Houghton wrote:
+> > On Wed, Nov 6, 2024 at 3:22=E2=80=AFAM kernel test robot <lkp@intel.com=
+> wrote:
+> > >
+> > > Hi James,
+> > >
+> > > kernel test robot noticed the following build warnings:
+> > >
+> > > [auto build test WARNING on a27e0515592ec9ca28e0d027f42568c47b314784]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/James-Houghton=
+/KVM-Remove-kvm_handle_hva_range-helper-functions/20241106-025133
+> > > base:   a27e0515592ec9ca28e0d027f42568c47b314784
+> > > patch link:    https://lore.kernel.org/r/20241105184333.2305744-5-jth=
+oughton%40google.com
+> > > patch subject: [PATCH v8 04/11] KVM: x86/mmu: Relax locking for kvm_t=
+est_age_gfn and kvm_age_gfn
+> > > config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/2024=
+1106/202411061526.RAuCXKJh-lkp@intel.com/config)
+> > > compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> > > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/a=
+rchive/20241106/202411061526.RAuCXKJh-lkp@intel.com/reproduce)
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202411061526.RAuCXKJh=
+-lkp@intel.com/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > >    arch/x86/kvm/mmu/tdp_mmu.c: In function 'kvm_tdp_mmu_age_spte':
+> > > >> arch/x86/kvm/mmu/tdp_mmu.c:1189:23: warning: ignoring return value=
+ of '__tdp_mmu_set_spte_atomic' declared with attribute 'warn_unused_result=
+' [-Wunused-result]
+> > >     1189 |                 (void)__tdp_mmu_set_spte_atomic(iter, new_=
+spte);
+> > >          |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+> > >
+> >
+> > Well, I saw this compiler warning in my latest rebase and thought the
+> > `(void)` would fix it. I guess the next best way to fix it would be to
+> > assign to an `int __maybe_unused`. I'll do for a v9, or Sean if you're
+> > going to take the series (maybe? :)), go ahead and apply whatever fix
+> > you like.
+>
+> Heh, actually, the compiler is correct.  Ignoring the return value is a b=
+ug.
+> KVM should instead return immediately, as falling through to the tracepoi=
+nt will
+> log bogus information.  E.g. will show a !PRESENT SPTE, instead of whatev=
+er the
+> current SPTE actually is (iter->old_spte will have been updating to the c=
+urrent
+> value of the SPTE).
+>
+>         trace_kvm_tdp_mmu_spte_changed(iter->as_id, iter->gfn, iter->leve=
+l,
+>                                        iter->old_spte, new_spte);
+>
+> diff --git a/arch/x86/kvm/mmu/tdp_mmu.c b/arch/x86/kvm/mmu/tdp_mmu.c
+> index f5b4f1060fff..cc8ae998b7c8 100644
+> --- a/arch/x86/kvm/mmu/tdp_mmu.c
+> +++ b/arch/x86/kvm/mmu/tdp_mmu.c
+> @@ -1186,7 +1186,8 @@ static void kvm_tdp_mmu_age_spte(struct tdp_iter *i=
+ter)
+>                  * It is safe for the following cmpxchg to fail. Leave th=
+e
+>                  * Accessed bit set, as the spte is most likely young any=
+way.
+>                  */
+> -               (void)__tdp_mmu_set_spte_atomic(iter, new_spte);
+> +               if (__tdp_mmu_set_spte_atomic(iter, new_spte))
+> +                       return;
+>         }
+>
+>         trace_kvm_tdp_mmu_spte_changed(iter->as_id, iter->gfn, iter->leve=
+l,
+>
 
->   4970			/*
->   4971			 * If we've optimized things by storing the iovecs on the stack,
->   4972			 * undo this.
->   4973			 */
->   4974			if (!iov) {
-> > 4975				iov = kmalloc(sizeof(struct iovec) * args.iovcnt, GFP_NOFS);
->   4976				if (!iov) {
->   4977					unlock_extent(io_tree, start, lockend, &cached_state);
->   4978					btrfs_inode_unlock(inode, BTRFS_ILOCK_SHARED);
->   4979					ret = -ENOMEM;
->   4980					goto out_acct;
->   4981				}
->   4982	
->   4983				memcpy(iov, iovstack, sizeof(struct iovec) * args.iovcnt);
-
-Yeah, easy patch if anybody wants to send it.
+Oh yes, you're right. Thanks Sean! The diff LGTM.
