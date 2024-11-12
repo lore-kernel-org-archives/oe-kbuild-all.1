@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7A2213135
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 23:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2126714C59C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 23:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731454354; cv=none; b=f53bniy07/mWxB1bm+hV7oFYTxR6G8XAgoItCclwx0MaY9OZZIaQhn/YHPGkRwLw8fLngwR9TdimL7BMYvsK0Qbb9tWE7ykqjw3L+XH0qc7CCFKdargKJLJob1NJcfY9C/1COfP6h1BHvvRBFZSKZTFF22Q138CPQgJ0CvGeQmA=
+	t=1731455615; cv=none; b=TXrPKjf9p1SpeARd8+34UogTYHGLW5imkMNueW6NkLQTewLac5yAIjufailugFLgQFrUzm4hTajJXyO1P2yCBivB4qJud1fUlNIyfiJnLuzwkAik2X53uFV4ZcxkaH8FxuCayOiM7HJPJGhXr328Iqj2YHWXsgB5MrSkH9msEtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731454354; c=relaxed/simple;
-	bh=EIfqWucAhxJ5J4BlP9Kum2VBHWGBONbmCFP93j3leeo=;
+	s=arc-20240116; t=1731455615; c=relaxed/simple;
+	bh=oSUbfgtuRkTHVM3fQX6f9C0gIWBXwuzRLUO8xzXYseI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cMl0SoOlA+IBbK7SXi4dUed/psesninLLlHm11mVr2c3VwEVH605Vy9gEHhaCcCurQDCPHEqGxFrtixq2O2OgL6juVNa5QOSErkxvRl4HO83q1AJbsBverdPly5J0LHehu/6HCigVmHtIo48Re7Mg/jO3qnhw2rulIO5lrsh/4o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JMPr7AdE; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=HWTlKX5hQyMk4HS/J3WZnN6xSNiDK6k7jU4MR9BxWqsmJzAsrxCo4JSgk7p1CPwCu6wNEgB2Z37Kf2xwTdZURT4SQktn/9jS8OtA8EkOeEaOq59zvKYpD5GT+Qr6ijsOLzCntVOJu7981rYLbOIDwBm6Deu+lloibVxkQ2zrTQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fgersf3v; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JMPr7AdE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fgersf3v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731454352; x=1762990352;
+  t=1731455614; x=1762991614;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EIfqWucAhxJ5J4BlP9Kum2VBHWGBONbmCFP93j3leeo=;
-  b=JMPr7AdEAhGuHAxUe3IhFSqREyNd7vCURxYtJTiDtOks83Q5K+BSTLZK
-   RU7ArWs1CqaXhOnqxqiAls0eqncZyZ2UbQHD9EicmAr2CRBGvy3k3Iepy
-   PSacSCFZR34xYIVY/m0prSfK7gu2xK8/txsTj8c2jtjzppYgt3TsHSpNf
-   o+pYv0R7LT+p4K0NbniZ7PUeARBsmaSBbQgJdBSXE3OqS6x978KlEi3lM
-   09hkucbg0vJIZjdHBsPVLER4J40DySEw4y5Y8vaeJG6xjN+gxVB+HHnDp
-   TDHDqg1XPTVrxwoyXMrP/vvu0vFPneuQo5PRqnCKrqP0a+tfsQiXS2/cd
-   A==;
-X-CSE-ConnectionGUID: KfyMca3zQ9aNdbmuj2eh/Q==
-X-CSE-MsgGUID: jCEBNTD2SEmz+lx5zGJ5bQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="56711088"
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="56711088"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 15:32:29 -0800
-X-CSE-ConnectionGUID: fSTanrcJT9252SIkhySjTw==
-X-CSE-MsgGUID: 1Q0gYumJSuecDxqlXFEMag==
+  bh=oSUbfgtuRkTHVM3fQX6f9C0gIWBXwuzRLUO8xzXYseI=;
+  b=Fgersf3v7/edd8KuQBTsn0GiV8oTKIR1AfnlEjUnyYoWXwdsFY5JVEoT
+   bCZSJpnLZOUARiTWaaDMJ208mpyczCCkJYwdw86SiI5zI84vcUBVLgyV+
+   D+62RD+yDUYkdJrOxUAWeQcRn8L2m69IvYSEcVNTs92z1suoMMrFvIjAO
+   qR0ZXjDk530cDhgzX/95DmK3Fb8XZUWImdXgY4ADRQ6KwwAelce5PbQ+6
+   YfD1G5LymF0MNIZ7Er9GjhG/iWM/slnboJoRJE3ygT0OCTqGlg4ZAR9SY
+   XbNyuRyUpvQQfZ5fLhKFBPoRIzLJlMhL0/bF2cggpDH58xjlx/LDRSCz1
+   w==;
+X-CSE-ConnectionGUID: Gtzpx5peQMWUVC9FwFBjqA==
+X-CSE-MsgGUID: bkCJd5XFR+m17vHY4ZdT3g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41884257"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41884257"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 15:53:33 -0800
+X-CSE-ConnectionGUID: w/CJc9+hTq+VtbZJWfBUUA==
+X-CSE-MsgGUID: BbAsW6HqQVicp+zBpiNvlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="125201379"
+   d="scan'208";a="87591340"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 12 Nov 2024 15:32:28 -0800
+  by orviesa010.jf.intel.com with ESMTP; 12 Nov 2024 15:53:32 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tB0Mz-0001pd-1S;
-	Tue, 12 Nov 2024 23:32:25 +0000
-Date: Wed, 13 Nov 2024 07:32:16 +0800
+	id 1tB0hN-0001qX-0E;
+	Tue, 12 Nov 2024 23:53:29 +0000
+Date: Wed, 13 Nov 2024 07:53:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, JangShui Yang <yangjiangshui@h-partners.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1290/1290]
- drivers/iommu/arm-smmu-v3.c:2896:41: error: 'pci_bus_type' undeclared; did
- you mean 'pci_pcie_type'?
-Message-ID: <202411130719.5GGQe3oi-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2417/2417]
+ drivers/ub/urma/ubcore/ubcore_ctp.c:114:42: warning: the comparison will
+ always evaluate as 'false' for the address of 'head' will never be NULL
+Message-ID: <202411130755.ZXqCXQU2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,85 +63,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi luochunsheng,
+Hi WenChen,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   58ec866c31299a4b0d63a01cb026877c5f85e4d9
-commit: d70a672bcf377261c1b9f07009d22aef935e7b92 [1290/1290] iommu: smmu-v3 support Virtualization feature when 3408iMR/3416iMRraid card exist
-config: arm64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241113/202411130719.5GGQe3oi-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130719.5GGQe3oi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   400fd9ccb52e01bf78acae2bbc1710923a15f033
+commit: 6d14be01fcb032c478cd4669b32526fda0393195 [2417/2417] urma: upload kernel patch for 20240318_happy_birthday
+config: x86_64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241113/202411130755.ZXqCXQU2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130755.ZXqCXQU2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411130719.5GGQe3oi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411130755.ZXqCXQU2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_init_strtab_2lvl':
->> drivers/iommu/arm-smmu-v3.c:2896:41: error: 'pci_bus_type' undeclared (first use in this function); did you mean 'pci_pcie_type'?
-    2896 |                 ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
-         |                                         ^~~~~~~~~~~~
-         |                                         pci_pcie_type
-   drivers/iommu/arm-smmu-v3.c:2896:41: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/arm-smmu-v3.c: In function 'arm_smmu_write_strtab_ent':
-   drivers/iommu/arm-smmu-v3.c:1229:28: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1229 |                         if (disable_bypass)
-         |                            ^
-   drivers/iommu/arm-smmu-v3.c:1231:17: note: here
-    1231 |                 default:
-         |                 ^~~~~~~
+   drivers/ub/urma/ubcore/ubcore_ctp.c: In function 'ubcore_find_remove_ctp':
+>> drivers/ub/urma/ubcore/ubcore_ctp.c:114:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     114 |         if (&dev->ht[UBCORE_HT_CTP].head == NULL) {
+         |                                          ^~
+   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
+                    from drivers/ub/urma/ubcore/ubcore_ctp.c:23:
+   include/urma/ubcore_types.h:162:28: note: 'head' declared here
+     162 |         struct hlist_head *head;
+         |                            ^~~~
+--
+   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tpg':
+>> drivers/ub/urma/ubcore/ubcore_tpg.c:113:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     113 |         if (&dev->ht[UBCORE_HT_TPG].head == NULL) {
+         |                                          ^~
+   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
+                    from drivers/ub/urma/ubcore/ubcore_tpg.c:23:
+   include/urma/ubcore_types.h:162:28: note: 'head' declared here
+     162 |         struct hlist_head *head;
+         |                            ^~~~
+   drivers/ub/urma/ubcore/ubcore_tpg.c: In function 'ubcore_find_remove_tp_node':
+   drivers/ub/urma/ubcore/ubcore_tpg.c:149:44: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     149 |         if (&dev->ht[UBCORE_HT_UB_TP].head == NULL) {
+         |                                            ^~
+   include/urma/ubcore_types.h:162:28: note: 'head' declared here
+     162 |         struct hlist_head *head;
+         |                            ^~~~
+--
+   drivers/ub/urma/ubcore/ubcore_utp.c: In function 'ubcore_find_remove_utp':
+>> drivers/ub/urma/ubcore/ubcore_utp.c:139:42: warning: the comparison will always evaluate as 'false' for the address of 'head' will never be NULL [-Waddress]
+     139 |         if (&dev->ht[UBCORE_HT_UTP].head == NULL) {
+         |                                          ^~
+   In file included from drivers/ub/urma/ubcore/ubcore_hash_table.h:24,
+                    from drivers/ub/urma/ubcore/ubcore_utp.c:23:
+   include/urma/ubcore_types.h:162:28: note: 'head' declared here
+     162 |         struct hlist_head *head;
+         |                            ^~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PGP_KEY_PARSER
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y] && ASYMMETRIC_PUBLIC_KEY_SUBTYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD [=y] && CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=y]
 
 
-vim +2896 drivers/iommu/arm-smmu-v3.c
+vim +114 drivers/ub/urma/ubcore/ubcore_ctp.c
 
-  2861	
-  2862		/* Calculate the L1 size, capped to the SIDSIZE. */
-  2863		size = STRTAB_L1_SZ_SHIFT - (ilog2(STRTAB_L1_DESC_DWORDS) + 3);
-  2864		size = min(size, smmu->sid_bits - STRTAB_SPLIT);
-  2865		cfg->num_l1_ents = 1 << size;
-  2866	
-  2867		size += STRTAB_SPLIT;
-  2868		if (size < smmu->sid_bits)
-  2869			dev_warn(smmu->dev,
-  2870				 "2-level strtab only covers %u/%u bits of SID\n",
-  2871				 size, smmu->sid_bits);
-  2872	
-  2873		l1size = cfg->num_l1_ents * (STRTAB_L1_DESC_DWORDS << 3);
-  2874		strtab = dmam_alloc_coherent(smmu->dev, l1size, &cfg->strtab_dma,
-  2875					     GFP_KERNEL | __GFP_ZERO);
-  2876		if (!strtab) {
-  2877			dev_err(smmu->dev,
-  2878				"failed to allocate l1 stream table (%u bytes)\n",
-  2879				size);
-  2880			return -ENOMEM;
-  2881		}
-  2882		cfg->strtab = strtab;
-  2883	
-  2884		/* Configure strtab_base_cfg for 2 levels */
-  2885		reg  = FIELD_PREP(STRTAB_BASE_CFG_FMT, STRTAB_BASE_CFG_FMT_2LVL);
-  2886		reg |= FIELD_PREP(STRTAB_BASE_CFG_LOG2SIZE, size);
-  2887		reg |= FIELD_PREP(STRTAB_BASE_CFG_SPLIT, STRTAB_SPLIT);
-  2888		cfg->strtab_base_cfg = reg;
-  2889	
-  2890	#ifdef CONFIG_SMMU_BYPASS_DEV
-  2891		ret = arm_smmu_init_l1_strtab(smmu);
-  2892		if (ret)
-  2893			return ret;
-  2894	
-  2895		if (smmu_bypass_devices_num) {
-> 2896			ret = bus_for_each_dev(&pci_bus_type, NULL, (void *)smmu,
-  2897				arm_smmu_prepare_init_l2_strtab);
-  2898		}
-  2899		return ret;
-  2900	#else
-  2901		return arm_smmu_init_l1_strtab(smmu);
-  2902	#endif
-  2903	}
-  2904	
+   108	
+   109	struct ubcore_ctp *ubcore_find_remove_ctp(struct ubcore_device *dev, uint32_t idx)
+   110	{
+   111		struct ubcore_ctp *ctp;
+   112	
+   113		spin_lock(&dev->ht[UBCORE_HT_CTP].lock);
+ > 114		if (&dev->ht[UBCORE_HT_CTP].head == NULL) {
 
 -- 
 0-DAY CI Kernel Test Service
