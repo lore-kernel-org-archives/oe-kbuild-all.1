@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 920B321745E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 22:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C1D219C9E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 22:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731449962; cv=none; b=O7jDY/m9DZxMRPUHy+1DdfNcCRinvqRFGKFu3fHzHVJWUl94ZUkbpgnBXNsXtNFEhO+5IMtVaKqCTDiXpdk65zzBtz0HUdcka0HSbNwfVvlHpR1IVWc6PGpLxTV1TpeSnchsja7ZGcWLih/u4auodnzSq0skL9yfbBjK3DevN2c=
+	t=1731451765; cv=none; b=cbJwvX9KsYLiI632QGmhUJYxHQv2pAzriBR4p7OAejqiexYnE7kW89Bxhfh7idZUB0SdZEnP+TLnn9sQ02dRNL/7rEEsRVPV7IimjgaMT/yh2XQABzWxJT/aUOljvyftX4sCKpKNHYeL22UkPTt1mPluJDQZIe7mYRdEg7p9b0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731449962; c=relaxed/simple;
-	bh=HdJ9k0FB5z8DlUNb5womfVN9VPCvQsrMXWXwxjfRttc=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fri3V79sjTn1aUACzOUi3yAqTcRjrWHGNRDmGn53hFKnqxSggdWDVZTj15wm4Ty5x5g0ADDwnOrRChluf5SAfsogvpGRuIAEasQvTRT2d1KtoWi0e32qwcMuHp15kGQ1qZBV0HCLPqQzg0X9Oc4CTx6xu3W2o1S5i2fc7pZZDJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AZVfz7V0; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1731451765; c=relaxed/simple;
+	bh=yJgHrgXtHnIAUMXI9bTuH0W5C1YkIkH3pkOd5dsNThQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TWyqPM+Tjas6os/oQgXlo9HIS7bcs6yQg0RmddI9MQcXbpf4zjzM0P8DLym7Bnyjx5nP1qGEFvtVVL0zViQ844VvTlKVFBbeU9dCmHn5d4jVA9XzKNFhXII7PWG1D9sRMVyPD0z0yitYGooexhnbUYnbTHzRFqCohOWg+BBl7Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bDDlOD3c; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AZVfz7V0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bDDlOD3c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731449960; x=1762985960;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=HdJ9k0FB5z8DlUNb5womfVN9VPCvQsrMXWXwxjfRttc=;
-  b=AZVfz7V0uf2vdXoLVsws23GuM8J3WEvzQ2Iat191kIGvDXiyckQCtC0p
-   FX2J71Fd0TO6XuYif/TZg2gqaOXJsULTYCNiRdnY8dvWxwTF/O8PMl6te
-   5KOSJI5tQbywUenqDYkTnr1OwLX/ZQBnA1EIu5+YQOn7e7G9JcL7mSCDS
-   liD26bZJhSz5vrmzRMj4dvDkScSrWA5NgaxHtiA84ptKBjniGAGXa9ThS
-   PrWONsSHzA6gOYj4eWdt24rWshp0PXo1L/V7VI+hl8tp7Bt1eeL8tsvDs
-   LZfW5sXtUgR7vSFTpD0p4EA/jIBrsUPq90NgdZwmJKaWHghFc2ibC0JKp
-   A==;
-X-CSE-ConnectionGUID: LcKHSSWqQSyUMrmGRuXItQ==
-X-CSE-MsgGUID: MtXlDj7TTROuFPwbzqNOYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31405531"
+  t=1731451764; x=1762987764;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yJgHrgXtHnIAUMXI9bTuH0W5C1YkIkH3pkOd5dsNThQ=;
+  b=bDDlOD3cpdTNahmJDqAOKi4SnJtJae4lAr1Pm68lcvx634D+c6Y+np4h
+   dRRsYUW3uToU67ptKKKwi+o2G/hOLtumt5CXPt5Z7plGM3CyTjHSyufsk
+   Mw51YS9SJ9k7Q7K/JGt8YQpSgxO68UvYX9bpl33rJ0ugMx7QnFSf8Ovxd
+   nQAeoLLViOVSZyySUZ0A7l8vGPrlAG45HuBIhDt4INOhGxhbUaSW1wD+/
+   uv3wgqui53mPgkslY8XcFPfFE2qOxqob+4ibKOXY3o8JqyTk7WWraIzfe
+   P2sDbLeJNHCy3DxDgXeZI72XDf0bd/cEuZf4q68uPcmMtEDvPP03KddS/
+   g==;
+X-CSE-ConnectionGUID: j7fzNju3T7aIK3pJ+96kTg==
+X-CSE-MsgGUID: SJPTNQFIRfCqYeN5E+NGgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31545262"
 X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="31405531"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:19:19 -0800
-X-CSE-ConnectionGUID: 977g/0CkTueLA5XHoOUkAA==
-X-CSE-MsgGUID: YmNzmc4OQtSz5uKd3/u//A==
+   d="scan'208";a="31545262"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:49:23 -0800
+X-CSE-ConnectionGUID: B+qUYgHGSJKWhD+bYq9r6A==
+X-CSE-MsgGUID: 6a1hvEKARBuqCSAPE2tiZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="118608011"
+   d="scan'208";a="88487214"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 12 Nov 2024 14:19:18 -0800
+  by orviesa008.jf.intel.com with ESMTP; 12 Nov 2024 14:49:21 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAzEC-0001mb-0r
-	for oe-kbuild-all@lists.linux.dev;
-	Tue, 12 Nov 2024 22:19:16 +0000
-Date: Wed, 13 Nov 2024 06:18:16 +0800
+	id 1tAzhH-0001nZ-28;
+	Tue, 12 Nov 2024 22:49:19 +0000
+Date: Wed, 13 Nov 2024 06:48:40 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/dovetail-xenomai 3837/13313]
- arch/x86/kernel/dumpstack.c:412:9: warning: format specifies type 'char *'
- but the argument has type 'int'
-Message-ID: <202411130655.q66UaSkM-lkp@intel.com>
+To: Melon Liu <melon1335@163.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [rmk:for-next 3/7] arch/arm/mm/ioremap.c:130:46: error: implicit
+ declaration of function 'kasan_mem_to_shadow'; did you mean
+ 'kmsan_init_shadow'?
+Message-ID: <202411130616.1lKfkhp9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,135 +65,40 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Philippe,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/dovetail-xenomai
-head:   8025dd14d72f1eee946ab67036c7a3a569861654
-commit: 09c7bb5439e48682e81937413314d9cf3759d81e [3837/13313] x86: irq_pipeline: add IRQ pipeline core
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241113/202411130655.q66UaSkM-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130655.q66UaSkM-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rmk/linux.git for-next
+head:   315cfa0efa30b8f1c9b8d6b8b5cc9e6c337906ff
+commit: 15c0b4cb0223a5cf9783e3759be115c1ca643368 [3/7] ARM: 9427/1: mm: Fix stack recursion caused by KASAN
+config: arm-netwinder_defconfig (https://download.01.org/0day-ci/archive/20241113/202411130616.1lKfkhp9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130616.1lKfkhp9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411130655.q66UaSkM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411130616.1lKfkhp9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/dumpstack.c:5:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2178:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kernel/dumpstack.c:412:9: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
-     411 |                "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-         |                                ~~
-         |                                %d
-     412 |                ++die_counter, pr,
-         |                ^~~~~~~~~~~~~
-   include/linux/printk.h:478:60: note: expanded from macro 'printk'
-     478 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                     ~~~    ^~~~~~~~~~~
-   include/linux/printk.h:450:19: note: expanded from macro 'printk_index_wrap'
-     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^~~~~~~~~~~
->> arch/x86/kernel/dumpstack.c:418:9: warning: data argument not used by format string [-Wformat-extra-args]
-     410 |         printk(KERN_DEFAULT
-         |         ~~~~~~~~~~~~~~~~~~~
-     411 |                "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     412 |                ++die_counter, pr,
-         |                ~~~~~~~~~~~~~~~~~~
-     413 |                IS_ENABLED(CONFIG_SMP)     ? " SMP"             : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     414 |                debug_pagealloc_enabled()  ? " DEBUG_PAGEALLOC" : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     415 |                IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     416 |                IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     417 |                (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "",
-         |                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     418 |                irqs_pipelined()           ? " IRQ_PIPELINE"    : "");
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:478:60: note: expanded from macro 'printk'
-     478 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/linux/printk.h:450:19: note: expanded from macro 'printk_index_wrap'
-     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                         ~~~~    ^
->> arch/x86/kernel/dumpstack.c:411:61: warning: multiple unsequenced modifications to 'die_counter' [-Wunsequenced]
-     411 |                "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-         |                                                                    ^
-     412 |                ++die_counter, pr,
-         |                ~~
-   include/linux/printk.h:478:60: note: expanded from macro 'printk'
-     478 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-         |                                                            ^~~~~~~~~~~
-   include/linux/printk.h:450:19: note: expanded from macro 'printk_index_wrap'
-     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   8 warnings generated.
+   arch/arm/mm/ioremap.c: In function 'sync_vmalloc_pgds':
+>> arch/arm/mm/ioremap.c:130:46: error: implicit declaration of function 'kasan_mem_to_shadow'; did you mean 'kmsan_init_shadow'? [-Wimplicit-function-declaration]
+     130 |                 sync_pgds(mm, (unsigned long)kasan_mem_to_shadow(
+         |                                              ^~~~~~~~~~~~~~~~~~~
+         |                                              kmsan_init_shadow
 
 
-vim +412 arch/x86/kernel/dumpstack.c
+vim +130 arch/arm/mm/ioremap.c
 
-878719e831d9e07 Neil Horman      2008-10-23  396  
-aa49f20462c90df Jann Horn        2019-12-19  397  static void __die_header(const char *str, struct pt_regs *regs, long err)
-878719e831d9e07 Neil Horman      2008-10-23  398  {
-cb376c26971ff54 Thomas Gleixner  2019-07-26  399  	const char *pr = "";
-cb376c26971ff54 Thomas Gleixner  2019-07-26  400  
-09c7bb5439e4868 Philippe Gerum   2019-04-24  401  	irq_pipeline_oops();
-09c7bb5439e4868 Philippe Gerum   2019-04-24  402  
-602bd705da334f2 Borislav Petkov  2018-04-17  403  	/* Save the regs of the first oops for the executive summary later. */
-602bd705da334f2 Borislav Petkov  2018-04-17  404  	if (!die_counter)
-602bd705da334f2 Borislav Petkov  2018-04-17  405  		exec_summary_regs = *regs;
-602bd705da334f2 Borislav Petkov  2018-04-17  406  
-cb376c26971ff54 Thomas Gleixner  2019-07-26  407  	if (IS_ENABLED(CONFIG_PREEMPTION))
-cb376c26971ff54 Thomas Gleixner  2019-07-26  408  		pr = IS_ENABLED(CONFIG_PREEMPT_RT) ? " PREEMPT_RT" : " PREEMPT";
-cb376c26971ff54 Thomas Gleixner  2019-07-26  409  
-b0f4c4b32c8e3aa Prarit Bhargava  2012-01-26  410  	printk(KERN_DEFAULT
-09c7bb5439e4868 Philippe Gerum   2019-04-24 @411  	       "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
-cb376c26971ff54 Thomas Gleixner  2019-07-26 @412  	       pr,
-8fad7ec51e1b9e2 Rasmus Villemoes 2016-03-26  413  	       IS_ENABLED(CONFIG_SMP)     ? " SMP"             : "",
-8fad7ec51e1b9e2 Rasmus Villemoes 2016-03-26  414  	       debug_pagealloc_enabled()  ? " DEBUG_PAGEALLOC" : "",
-5f26d76c3fd67c4 Vlastimil Babka  2017-12-19  415  	       IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
-5f26d76c3fd67c4 Vlastimil Babka  2017-12-19  416  	       IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
-09c7bb5439e4868 Philippe Gerum   2019-04-24  417  	       (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "",
-09c7bb5439e4868 Philippe Gerum   2019-04-24 @418  	       irqs_pipelined()           ? " IRQ_PIPELINE"    : "");
-aa49f20462c90df Jann Horn        2019-12-19  419  }
-aa49f20462c90df Jann Horn        2019-12-19  420  NOKPROBE_SYMBOL(__die_header);
-8fad7ec51e1b9e2 Rasmus Villemoes 2016-03-26  421  
-
-:::::: The code at line 412 was first introduced by commit
-:::::: cb376c26971ff54f25980ec1f0ae2f06d6a69df0 x86/dumpstack: Indicate PREEMPT_RT in dumps
-
-:::::: TO: Thomas Gleixner <tglx@linutronix.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   125	
+   126	static inline void sync_vmalloc_pgds(struct mm_struct *mm)
+   127	{
+   128		sync_pgds(mm, VMALLOC_START, VMALLOC_END);
+   129		if (IS_ENABLED(CONFIG_KASAN_VMALLOC))
+ > 130			sync_pgds(mm, (unsigned long)kasan_mem_to_shadow(
+   131						(void *)VMALLOC_START),
+   132				      (unsigned long)kasan_mem_to_shadow(
+   133						(void *)VMALLOC_END));
+   134	}
+   135	
 
 -- 
 0-DAY CI Kernel Test Service
