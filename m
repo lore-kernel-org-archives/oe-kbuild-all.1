@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97E3222EE7F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 10:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29E881F77A7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 11:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731407969; cv=none; b=oi7WEmG720zEQlg3/86r9wYiNB/k7lNa/vAva3vGmBKAIM7dxZRxPvYepSSH+1Dsd7DWvMlSJstJ8tOqP3qmvLyBubrYDBCObRYUFpykhANJJGmr8uJasgj80yG4dEqsY/4EiT14TQDNFN9VN9yMVBTrWC8wsrO4MLWemnp8zjw=
+	t=1731409314; cv=none; b=Qy1KPDRStdmz05mJv7xSFQxLqg/DuI7xf4jbVXSgvLWgS9qqVDOj/exCJdh5rdE5Te05jDWdlV/Xb869B+qMjmTp1u19K+k7aB7nHQVbRx2/i0EvFmrWg7PGTo3BxZKk9EqpBkgr/L69pv2MKaXRiF+UD+lUpMNEg+iqUyGMUGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731407969; c=relaxed/simple;
-	bh=TnIiOnF1wqFWtB0GnZGUgThTMXjgr7lgvOJgh9Y2oHg=;
+	s=arc-20240116; t=1731409314; c=relaxed/simple;
+	bh=7E0NSXMIJz9HuAzLZ0FouCKApjmOcCmbkJjyv+pjarw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VIXFW3fCdrbTVOGfYXJoF7cS1nZ480BiG605hkNBpu7qsdJ9P58oErZZc5VHpMD6J4MvoDlasGcGvZl+khweMSF8g3F0wx+saEOzZo5RD6UvmHDGa8Qq8J1bz9dYamH3FfNvs4tG310BiMbkHlIVhhiiewUp+xn4T6lSoVs6TfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jAi4VP6Z; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=dFX5wKQFT+/rd/3AwFIkGElr+h7thGxDXSl70KCtxscFLschdcdUEF1Ed/XjM0NKWbywqYIN7RKOXg3SQVIFSiNxHQ71RFsIn6eBT5Tla1g5m/NwBc6ttUpOWxr2epGWFKuqsCLIbKNiFgj9z22oX+3hyi1rgWkdRbixLPgjkAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3eF3AqZ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jAi4VP6Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3eF3AqZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731407968; x=1762943968;
+  t=1731409312; x=1762945312;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TnIiOnF1wqFWtB0GnZGUgThTMXjgr7lgvOJgh9Y2oHg=;
-  b=jAi4VP6ZEKcYB+h2k68166NPArNwmNdZesI0AqOqMtkABYDktJjB6nR6
-   +wyiTNcD2kx5bH+bOT8ZEXwXT/mxcXxUGrl9+WwhxbBP6YHeB2lYq0WYJ
-   UPdsyoghLxmJc+GZd6QuSNL/Pi/Kjm23hVhRHIpk5A6AVLllq+E+rnlV2
-   J7Gn71ZScI4OvK8SIo7z9ovZj8PRv19UMFBgbP4UKT0zkf1KMsxU/pMMw
-   AXYj4du5ceOO83HgolpgWvsbTeH4LLIgJjl860o9c0TwVzDzKkcKPs0Oc
-   FqwAJUPJ5WGFKvAh/0NplNHwbax3z9SYHnjeO/DtWTFDcO0DpLWkRA8is
-   g==;
-X-CSE-ConnectionGUID: Yidezu0lS9Gi6FspIHEiYA==
-X-CSE-MsgGUID: QvY1uXkvSFWC3Lga/n1Oyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="42638698"
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="42638698"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 02:39:25 -0800
-X-CSE-ConnectionGUID: GOV0UJudRiCoMrOT7nhCSg==
-X-CSE-MsgGUID: l9tSmif+Q7StVA/pjNrGTw==
+  bh=7E0NSXMIJz9HuAzLZ0FouCKApjmOcCmbkJjyv+pjarw=;
+  b=M3eF3AqZb2eilpOCSUc/Q97VHQOyoKXJUH+HYn48FwrnTJ2RqTrVTvW+
+   sIk8ax+nTVSPiQ6rhq0sWOUGZCzi9djLWgR9E2JDsGpWtCx05wTmwebS0
+   MOIIpKo26lUksaM1gvF3fVKg8qTJ8COomCrEi27+d76d0C94dtT1ML9Sf
+   J4HiHST1SOYLZ0QuM9itNqUKvXkiiRQXbJS6zIhxjiVVa4o04CAIGyh39
+   DDdWs4YJGmEA0BEp7Nm4ZhIszraLgF/R/HyM0q9t0JXC1g6qCrtApgDVn
+   ddfkbltp1iQF2QPZOs49VCHRtMWj3fe3RycF6zB7iBt4oALJqq27GxdYb
+   A==;
+X-CSE-ConnectionGUID: p/gnBe+3QMOTwEJMMBkHTw==
+X-CSE-MsgGUID: t3mU+oJrQ3SDFTgSoSfPqA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31003960"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31003960"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:01:52 -0800
+X-CSE-ConnectionGUID: oQBSbn/FQZ6W5xptscsF7g==
+X-CSE-MsgGUID: Qe2dkwpLQqOlwqw62eLlLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="91412084"
+   d="scan'208";a="87822409"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 02:39:22 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 12 Nov 2024 03:01:38 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAoIq-0000tx-1t;
-	Tue, 12 Nov 2024 10:39:20 +0000
-Date: Tue, 12 Nov 2024 18:39:10 +0800
+	id 1tAoeO-000193-0B;
+	Tue, 12 Nov 2024 11:01:36 +0000
+Date: Tue, 12 Nov 2024 19:00:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chunhai Guo <guochunhai@vivo.com>, xiang@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, chao@kernel.org, huyue2@coolpad.com,
-	jefflexu@linux.alibaba.com, dhavale@google.com,
-	linux-erofs@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Chunhai Guo <guochunhai@vivo.com>
-Subject: Re: [PATCH] erofs: clean up the cache if cached decompression is
- disabled
-Message-ID: <202411121801.vd2yHEHx-lkp@intel.com>
-References: <20241112031513.528474-1-guochunhai@vivo.com>
+To: Hajime Tazaki <thehajime@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH v2 10/13] x86/um: nommu: signal handling
+Message-ID: <202411121813.Hw3xdCby-lkp@intel.com>
+References: <5a769da2dcc8e7f9b89fbdbc4bccd0b8a1660309.1731290567.git.thehajime@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,81 +62,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112031513.528474-1-guochunhai@vivo.com>
+In-Reply-To: <5a769da2dcc8e7f9b89fbdbc4bccd0b8a1660309.1731290567.git.thehajime@gmail.com>
 
-Hi Chunhai,
+Hi Hajime,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on xiang-erofs/dev-test]
-[also build test ERROR on xiang-erofs/dev xiang-erofs/fixes linus/master v6.12-rc7 next-20241112]
+[auto build test WARNING on uml/next]
+[also build test WARNING on next-20241112]
+[cannot apply to kees/for-next/execve uml/fixes linus/master v6.12-rc7]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunhai-Guo/erofs-clean-up-the-cache-if-cached-decompression-is-disabled/20241112-105927
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20241112031513.528474-1-guochunhai%40vivo.com
-patch subject: [PATCH] erofs: clean up the cache if cached decompression is disabled
-config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121801.vd2yHEHx-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hajime-Tazaki/fs-binfmt_elf_efpic-add-architecture-hook-elf_arch_finalize_exec/20241111-182943
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
+patch link:    https://lore.kernel.org/r/5a769da2dcc8e7f9b89fbdbc4bccd0b8a1660309.1731290567.git.thehajime%40gmail.com
+patch subject: [RFC PATCH v2 10/13] x86/um: nommu: signal handling
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20241112/202411121813.Hw3xdCby-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121801.vd2yHEHx-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121813.Hw3xdCby-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121801.vd2yHEHx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411121813.Hw3xdCby-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/seq_file.h:9,
-                    from fs/erofs/super.c:8:
-   fs/erofs/super.c: In function 'erofs_fc_reconfigure':
->> fs/erofs/super.c:749:32: error: 'struct erofs_sb_info' has no member named 'umount_mutex'
-     749 |                 mutex_lock(&sbi->umount_mutex);
-         |                                ^~
-   include/linux/mutex.h:166:44: note: in definition of macro 'mutex_lock'
-     166 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-         |                                            ^~~~
->> fs/erofs/super.c:750:17: error: implicit declaration of function 'z_erofs_shrink_scan' [-Werror=implicit-function-declaration]
-     750 |                 z_erofs_shrink_scan(sbi, ~0UL);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   fs/erofs/super.c:751:34: error: 'struct erofs_sb_info' has no member named 'umount_mutex'
-     751 |                 mutex_unlock(&sbi->umount_mutex);
-         |                                  ^~
-   cc1: some warnings being treated as errors
+   arch/um/os-Linux/signal.c: In function 'hard_handler':
+>> arch/um/os-Linux/signal.c:202:13: warning: variable 'is_segv' set but not used [-Wunused-but-set-variable]
+     202 |         int is_segv = 0;
+         |             ^~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +749 fs/erofs/super.c
+vim +/is_segv +202 arch/um/os-Linux/signal.c
 
-   731	
-   732	static int erofs_fc_reconfigure(struct fs_context *fc)
-   733	{
-   734		struct super_block *sb = fc->root->d_sb;
-   735		struct erofs_sb_info *sbi = EROFS_SB(sb);
-   736		struct erofs_sb_info *new_sbi = fc->s_fs_info;
-   737	
-   738		DBG_BUGON(!sb_rdonly(sb));
-   739	
-   740		if (new_sbi->fsid || new_sbi->domain_id)
-   741			erofs_info(sb, "ignoring reconfiguration for fsid|domain_id.");
-   742	
-   743		if (test_opt(&new_sbi->opt, POSIX_ACL))
-   744			fc->sb_flags |= SB_POSIXACL;
-   745		else
-   746			fc->sb_flags &= ~SB_POSIXACL;
-   747	
-   748		if (new_sbi->opt.cache_strategy == EROFS_ZIP_CACHE_DISABLED) {
- > 749			mutex_lock(&sbi->umount_mutex);
- > 750			z_erofs_shrink_scan(sbi, ~0UL);
-   751			mutex_unlock(&sbi->umount_mutex);
-   752		}
-   753		sbi->opt = new_sbi->opt;
-   754	
-   755		fc->sb_flags |= SB_RDONLY;
-   756		return 0;
-   757	}
-   758	
+   196	
+   197	static void hard_handler(int sig, siginfo_t *si, void *p)
+   198	{
+   199		ucontext_t *uc = p;
+   200		mcontext_t *mc = &uc->uc_mcontext;
+   201		unsigned long pending = 1UL << sig;
+ > 202		int is_segv = 0;
+   203	
+   204		do {
+   205			int nested, bail;
+   206	
+   207			/*
+   208			 * pending comes back with one bit set for each
+   209			 * interrupt that arrived while setting up the stack,
+   210			 * plus a bit for this interrupt, plus the zero bit is
+   211			 * set if this is a nested interrupt.
+   212			 * If bail is true, then we interrupted another
+   213			 * handler setting up the stack.  In this case, we
+   214			 * have to return, and the upper handler will deal
+   215			 * with this interrupt.
+   216			 */
+   217			bail = to_irq_stack(&pending);
+   218			if (bail)
+   219				return;
+   220	
+   221			nested = pending & 1;
+   222			pending &= ~1;
+   223	
+   224			while ((sig = ffs(pending)) != 0){
+   225				sig--;
+   226				is_segv = (sig == SIGSEGV) ? 1 : 0;
+   227				pending &= ~(1 << sig);
+   228				(*handlers[sig])(sig, (struct siginfo *)si, mc);
+   229			}
+   230	
+   231			/*
+   232			 * Again, pending comes back with a mask of signals
+   233			 * that arrived while tearing down the stack.  If this
+   234			 * is non-zero, we just go back, set up the stack
+   235			 * again, and handle the new interrupts.
+   236			 */
+   237			if (!nested)
+   238				pending = from_irq_stack(nested);
+   239		} while (pending);
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
