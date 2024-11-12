@@ -1,59 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5701F20E309
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 09:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22CD41AAE06;
+	Tue, 12 Nov 2024 09:37:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731404237; cv=none; b=NbE7Q7p/Ds6zHE160nUYAc22bEFEAJtMnDgdkxikj//HD9C1llJl+l8wf/5YV+1lYleXK7YnkR4PviqCenZhDskrfMbbYmh2/DNWEhTwZF8cfEBbVFs8cirwixFgX8uCMQEAwoWpsGIvtNiPzrr4D/UzwovuexLFArJSH2GsBj4=
+	t=1731404244; cv=none; b=q0CLu2URvw9FJ586WRZIUQ3ZLSFqk70Z6f/x0dfjwGGSEjevgl/RNLjseAL1RFpfloOlxwpb7toEB1TW84P1QQ+aMrNdCLVEwpXvZAt563jVL/ltHJVKXg+SH5d1MxTMOLt+lK/DySyvYuxCaa9EpTw9ImBHo82MxpAAMIfH+xQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731404237; c=relaxed/simple;
-	bh=j1sJh+yv6ZDYJKKonCTcg6G0pMPLmx6xDBVtIlIRfjI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QFCqbP2gH+bB7NRf/1+D9QM1z32Kso7WInB+keN/euK8GH597MvxTLBAd/fRCmcPRaFeQX7JAJ656FU5se17+ssU6qgi8EMenXNLoXMCKCTiSq7JXYdS+r9Hgn/6qdXB9DeA8uEHo3S2YNHNIHRNBXkxNk9rs5Bi8xXtBnGDmQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWoD4eAe; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1731404244; c=relaxed/simple;
+	bh=x6RpGeAnIQkUeeqnZeB9oJx8eLP+7qJn7Agivvr1kH0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hb5qGruG8R040cuIBukhiIM86G4pG2OS3WgAWjRD9oirqCWJJ2I+gtxv85PAMOdmk0Y7qARcXlmDmip5sU6XFXp5WUsBjT/Wks/B19sBILHwJO6W/tEplOTLN/mRGEggzeojTJ3F1jmumN4PLugf8ZZUkDcRWRK3FE6Je9XTRTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0kBBUyf; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWoD4eAe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0kBBUyf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731404235; x=1762940235;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=j1sJh+yv6ZDYJKKonCTcg6G0pMPLmx6xDBVtIlIRfjI=;
-  b=jWoD4eAeDUL8m6qp3zfL59e06pxnRKBBv6jK3JXyHduMvCxBV2dGXAqY
-   7pYwOUI54HfnATDQR4cHkysJBlFJMwtugNA75QX6tVMR73Zj1YeXZJ1sS
-   8LSrCaz+1BjDrQ9Tkq1XLqXzln0VroHs4oGlcVWAXEXfG59Ab9WjmQ/4g
-   HSFE2Hql6lnDaTJn2+O/GLZ/zNffzfj0Bzv1oAfGHxbk+UGQLIYCh+jLY
-   Yfo88BTuyjR5EWzw2B6TG2ZTCAFfxIqZyjnZFyg5U/KWhaE6qt3OFb/9q
-   K7F/Lh0yZ6scq8mMxUaCK5/h8QUVHJ4/zLe4hrWg3y2VfGYHJiqq2O9Fr
-   Q==;
-X-CSE-ConnectionGUID: 9ue62jK2TRKhyH0MDpfUdg==
-X-CSE-MsgGUID: 8Yt1IAk2Ss+xl1WaiPNgLw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="31324313"
+  t=1731404242; x=1762940242;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x6RpGeAnIQkUeeqnZeB9oJx8eLP+7qJn7Agivvr1kH0=;
+  b=b0kBBUyfBENUJe+rJC4pXXkievIb6u6xKrXdvT6snA8k39iKwmTjx3ug
+   VebbZNx7UcjiVI+bZbzIeuHgTvyN5ponuI6owtUAjLnufpwBuKRWv9wkA
+   rWWw4wgA0MP/8tsTRx61BO5/hLu76dHjnzDNQkF1OsU1hwgWwG+h9Jye8
+   baC4EFnCR73+XPRBPGraYkQ5PJuvZJVy42YsAaSAov2+EeAgxGeOobsTC
+   B4QK7z2zIdoS3ZrBF9MS/Dw800XrlXbrLygQgrB9AzEsctMz5EOwUOUVw
+   lIpNAgAPwTEAD1xTj2Oo3lZqTFU9166tgOnuciZM2/IFjMQCNzWpKUMyh
+   A==;
+X-CSE-ConnectionGUID: BtzDurMnRUGRJrhd1/Z9JQ==
+X-CSE-MsgGUID: Ja4hndCKSUCECTxf3JF9IA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="31324338"
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="31324313"
+   d="scan'208";a="31324338"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:37:12 -0800
-X-CSE-ConnectionGUID: 2RVy3QdGQpapY51N3oGpOQ==
-X-CSE-MsgGUID: cix8ayfqSLKFcjo/C4pwVA==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:37:21 -0800
+X-CSE-ConnectionGUID: hI9Z+u1QTGCwCowQKLlgfg==
+X-CSE-MsgGUID: qS5Oh+8QSOOoIlWEEEnIVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="87726528"
+   d="scan'208";a="87726566"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2024 01:37:12 -0800
+  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2024 01:37:11 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAnKd-0000fy-2e;
+	id 1tAnKd-0000fh-1o;
 	Tue, 12 Nov 2024 09:37:07 +0000
-Date: Tue, 12 Nov 2024 17:36:42 +0800
+Date: Tue, 12 Nov 2024 17:36:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Li Shuo <lishuo@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2418/2418]
- drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may
- be truncated copying 32 bytes from a string of length 439
-Message-ID: <202411121753.yQqZUvdw-lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	willy@infradead.org, liam.howlett@oracle.com,
+	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
+	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
+	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
+	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
+	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
+	hughd@google.com, minchan@google.com, jannh@google.com,
+	shakeel.butt@linux.dev, souravpanda@google.com,
+	pasha.tatashin@soleen.com, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, kernel-team@android.com,
+	surenb@google.com
+Subject: Re: [PATCH 2/4] mm: move per-vma lock into vm_area_struct
+Message-ID: <202411121742.VK3YF84e-lkp@intel.com>
+References: <20241111205506.3404479-3-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,163 +73,291 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241111205506.3404479-3-surenb@google.com>
 
-Hi Li,
+Hi Suren,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   400fd9ccb52e01bf78acae2bbc1710923a15f033
-commit: b2a83bcdafcaaaa60199147d04798d431cc800cc [2418/2418] DRM: Phytium display DRM driver
-config: arm64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121753.yQqZUvdw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121753.yQqZUvdw-lkp@intel.com/reproduce)
+[auto build test WARNING on 931086f2a88086319afb57cd3925607e8cda0a9f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/mm-introduce-vma_start_read_locked-_nested-helpers/20241112-050531
+base:   931086f2a88086319afb57cd3925607e8cda0a9f
+patch link:    https://lore.kernel.org/r/20241111205506.3404479-3-surenb%40google.com
+patch subject: [PATCH 2/4] mm: move per-vma lock into vm_area_struct
+config: um-defconfig (https://download.01.org/0day-ci/archive/20241112/202411121742.VK3YF84e-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121742.VK3YF84e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121753.yQqZUvdw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411121742.VK3YF84e-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/gpu/drm/phytium/phytium_dp.c:503:6: warning: no previous prototype for 'phytium_dp_coding_8b10b_need_enable' [-Wmissing-prototypes]
-     503 | bool phytium_dp_coding_8b10b_need_enable(unsigned char test_pattern)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:520:6: warning: no previous prototype for 'phytium_dp_scrambled_need_enable' [-Wmissing-prototypes]
-     520 | bool phytium_dp_scrambled_need_enable(unsigned char test_pattern)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:653:6: warning: no previous prototype for 'phytium_dp_hw_enable_audio' [-Wmissing-prototypes]
-     653 | void phytium_dp_hw_enable_audio(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:822:6: warning: no previous prototype for 'phytium_dp_hw_disable_video' [-Wmissing-prototypes]
-     822 | void phytium_dp_hw_disable_video(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:833:6: warning: no previous prototype for 'phytium_dp_hw_video_is_enable' [-Wmissing-prototypes]
-     833 | bool phytium_dp_hw_video_is_enable(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:844:6: warning: no previous prototype for 'phytium_dp_hw_enable_video' [-Wmissing-prototypes]
-     844 | void phytium_dp_hw_enable_video(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:856:6: warning: no previous prototype for 'phytium_dp_hw_config_video' [-Wmissing-prototypes]
-     856 | void phytium_dp_hw_config_video(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:945:6: warning: no previous prototype for 'phytium_dp_hw_disable_output' [-Wmissing-prototypes]
-     945 | void phytium_dp_hw_disable_output(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:957:6: warning: no previous prototype for 'phytium_dp_hw_enable_output' [-Wmissing-prototypes]
-     957 | void phytium_dp_hw_enable_output(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:969:6: warning: no previous prototype for 'phytium_dp_hw_enable_input_source' [-Wmissing-prototypes]
-     969 | void phytium_dp_hw_enable_input_source(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:980:6: warning: no previous prototype for 'phytium_dp_hw_disable_input_source' [-Wmissing-prototypes]
-     980 | void phytium_dp_hw_disable_input_source(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:990:6: warning: no previous prototype for 'phytium_dp_hw_output_is_enable' [-Wmissing-prototypes]
-     990 | bool phytium_dp_hw_output_is_enable(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1027:6: warning: no previous prototype for 'phytium_dp_hw_hpd_irq_setup' [-Wmissing-prototypes]
-    1027 | void phytium_dp_hw_hpd_irq_setup(struct phytium_dp_device *phytium_dp, bool enable)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1042:5: warning: no previous prototype for 'phytium_dp_hw_init' [-Wmissing-prototypes]
-    1042 | int phytium_dp_hw_init(struct phytium_dp_device *phytium_dp)
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1220:6: warning: no previous prototype for 'phytium_dp_dpcd_sink_dpms' [-Wmissing-prototypes]
-    1220 | void phytium_dp_dpcd_sink_dpms(struct phytium_dp_device *phytium_dp, int mode)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1445:5: warning: no previous prototype for 'phytium_dp_get_link_train_fallback_values' [-Wmissing-prototypes]
-    1445 | int phytium_dp_get_link_train_fallback_values(struct phytium_dp_device *phytium_dp)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1494:5: warning: no previous prototype for 'phytium_dp_start_link_train' [-Wmissing-prototypes]
-    1494 | int phytium_dp_start_link_train(struct phytium_dp_device *phytium_dp)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1799:6: warning: no previous prototype for 'phytium_dp_hpd_poll_handler' [-Wmissing-prototypes]
-    1799 | void phytium_dp_hpd_poll_handler(struct phytium_display_private *priv)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:1946:6: warning: no previous prototype for 'phytium_dp_fast_link_train' [-Wmissing-prototypes]
-    1946 | bool phytium_dp_fast_link_train(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:2137:6: warning: no previous prototype for 'phytium_dp_adjust_link_train_parameter' [-Wmissing-prototypes]
-    2137 | void phytium_dp_adjust_link_train_parameter(struct phytium_dp_device *phytium_dp)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:2197:1: warning: no previous prototype for 'phytium_encoder_mode_valid' [-Wmissing-prototypes]
-    2197 | phytium_encoder_mode_valid(struct drm_encoder *encoder, const struct drm_display_mode *mode)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c:2447:5: warning: no previous prototype for 'phytium_get_encoder_crtc_mask' [-Wmissing-prototypes]
-    2447 | int phytium_get_encoder_crtc_mask(struct phytium_dp_device *phytium_dp, int port)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/phytium/phytium_dp.c: In function 'phytium_connector_add_common_modes':
->> drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may be truncated copying 32 bytes from a string of length 439 [-Wstringop-truncation]
-     300 |                 strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         ^
+   In file included from ipc/msg.c:30:
+   In file included from include/linux/mm.h:1143:
+   In file included from include/linux/huge_mm.h:7:
+   In file included from include/linux/fs.h:33:
+   In file included from include/linux/percpu-rwsem.h:7:
+   In file included from include/linux/rcuwait.h:6:
+   In file included from include/linux/sched/signal.h:6:
+   include/linux/signal.h:255:10: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     255 |         case 2: set->sig[1] = -1;
+         |                 ^        ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   In file included from ipc/msg.c:30:
+   In file included from include/linux/mm.h:2234:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from ipc/msg.c:33:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from ipc/msg.c:33:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from ipc/msg.c:33:
+   In file included from include/linux/security.h:35:
+   In file included from include/linux/bpf.h:31:
+   In file included from include/linux/memcontrol.h:13:
+   In file included from include/linux/cgroup.h:26:
+   In file included from include/linux/kernel_stat.h:8:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> ipc/msg.c:497:20: warning: implicit conversion from 'int' to 'unsigned short' changes value from 32768000 to 0 [-Wconstant-conversion]
+     497 |         msginfo->msgseg = MSGSEG;
+         |                         ~ ^~~~~~
+   include/uapi/linux/msg.h:87:38: note: expanded from macro 'MSGSEG'
+      87 | #define MSGSEG (__MSGSEG <= 0xffff ? __MSGSEG : 0xffff)
+         |                                      ^~~~~~~~
+   include/uapi/linux/msg.h:86:36: note: expanded from macro '__MSGSEG'
+      86 | #define __MSGSEG ((MSGPOOL * 1024) / MSGSSZ) /* max no. of segments */
+         |                   ~~~~~~~~~~~~~~~~~^~~~~~~~
+   63 warnings and 3 errors generated.
+--
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:11:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   include/linux/mm.h:877:2: error: call to undeclared function 'vma_lock_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     877 |         vma_lock_init(&vma->vm_lock);
+         |         ^
+   include/linux/mm.h:877:2: note: did you mean 'osq_lock_init'?
+   include/linux/osq_lock.h:23:20: note: 'osq_lock_init' declared here
+      23 | static inline void osq_lock_init(struct optimistic_spin_queue *lock)
+         |                    ^
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:11:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   include/linux/mm.h:877:22: error: no member named 'vm_lock' in 'struct vm_area_struct'
+     877 |         vma_lock_init(&vma->vm_lock);
+         |                        ~~~  ^
+   include/linux/mm.h:878:7: error: no member named 'vm_lock_seq' in 'struct vm_area_struct'
+     878 |         vma->vm_lock_seq = UINT_MAX;
+         |         ~~~  ^
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:11:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2234:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:11:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:11:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/tty/tty_port.c:8:
+   In file included from include/linux/tty.h:11:
+   In file included from include/linux/tty_port.h:5:
+   In file included from include/linux/kfifo.h:40:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> drivers/tty/tty_port.c:266:2: warning: implicit conversion from 'unsigned long' to 'unsigned int' changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     266 |         INIT_KFIFO(port->xmit_fifo);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kfifo.h:136:69: note: expanded from macro 'INIT_KFIFO'
+     136 |         __kfifo->mask = __is_kfifo_ptr(__tmp) ? 0 : ARRAY_SIZE(__tmp->buf) - 1;\
+         |                       ~                             ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   14 warnings and 3 errors generated.
 
 
-vim +/strncpy +300 drivers/gpu/drm/phytium/phytium_dp.c
+vim +497 ipc/msg.c
 
-   244	
-   245	static int phytium_connector_add_common_modes(struct phytium_dp_device *phytium_dp)
-   246	{
-   247		int i = 0, ret = 0;
-   248		struct drm_device *dev =  phytium_dp->dev;
-   249		struct drm_display_mode *mode = NULL, *current_mode = NULL;
-   250		struct drm_display_mode *native_mode = &phytium_dp->native_mode;
-   251		bool mode_existed = false;
-   252		struct mode_size {
-   253			char name[DRM_DISPLAY_MODE_LEN];
-   254			int w;
-   255			int h;
-   256		} common_mode[] = {
-   257			{  "640x480",  640,  480},
-   258			{  "800x600",  800,  600},
-   259			{ "1024x768", 1024,  768},
-   260			{ "1280x720", 1280,  720},
-   261			{ "1280x800", 1280,  800},
-   262			{"1280x1024", 1280, 1024},
-   263			{ "1440x900", 1440,  900},
-   264			{"1680x1050", 1680, 1050},
-   265			{"1600x1200", 1600, 1200},
-   266			{"1920x1080", 1920, 1080},
-   267			{"1920x1200", 1920, 1200}
-   268		};
-   269	
-   270		if (native_mode->clock == 0)
-   271			return ret;
-   272	
-   273		for (i = 0; i < ARRAY_SIZE(common_mode); i++) {
-   274			mode_existed = false;
-   275	
-   276			if (common_mode[i].w > native_mode->hdisplay ||
-   277			    common_mode[i].h > native_mode->vdisplay ||
-   278			    (common_mode[i].w == native_mode->hdisplay &&
-   279			    common_mode[i].h == native_mode->vdisplay))
-   280				continue;
-   281	
-   282			list_for_each_entry(current_mode, &phytium_dp->connector.probed_modes, head) {
-   283				if (common_mode[i].w == current_mode->hdisplay &&
-   284				    common_mode[i].h == current_mode->vdisplay) {
-   285					mode_existed = true;
-   286					break;
-   287				}
-   288			}
-   289	
-   290			if (mode_existed)
-   291				continue;
-   292	
-   293			mode = drm_mode_duplicate(dev, native_mode);
-   294			if (mode == NULL)
-   295				continue;
-   296	
-   297			mode->hdisplay = common_mode[i].w;
-   298			mode->vdisplay = common_mode[i].h;
-   299			mode->type &= ~DRM_MODE_TYPE_PREFERRED;
- > 300			strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
-   301			drm_mode_probed_add(&phytium_dp->connector, mode);
-   302			ret++;
-   303		}
-   304	
-   305		return ret;
-   306	}
-   307	
+a0d092fc2df845 Pierre Peiffer  2008-04-29  476  
+156d9ed1260ee5 Al Viro         2017-07-09  477  static int msgctl_info(struct ipc_namespace *ns, int msqid,
+156d9ed1260ee5 Al Viro         2017-07-09  478  			 int cmd, struct msginfo *msginfo)
+a0d092fc2df845 Pierre Peiffer  2008-04-29  479  {
+2cafed30f150f7 Davidlohr Bueso 2013-07-08  480  	int err;
+27c331a1746142 Manfred Spraul  2018-08-21  481  	int max_idx;
+5a06a363ef4844 Ingo Molnar     2006-07-30  482  
+5a06a363ef4844 Ingo Molnar     2006-07-30  483  	/*
+5a06a363ef4844 Ingo Molnar     2006-07-30  484  	 * We must not return kernel stack data.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  485  	 * due to padding, it's not enough
+^1da177e4c3f41 Linus Torvalds  2005-04-16  486  	 * to set all member fields.
+^1da177e4c3f41 Linus Torvalds  2005-04-16  487  	 */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  488  	err = security_msg_queue_msgctl(NULL, cmd);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  489  	if (err)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  490  		return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  491  
+156d9ed1260ee5 Al Viro         2017-07-09  492  	memset(msginfo, 0, sizeof(*msginfo));
+156d9ed1260ee5 Al Viro         2017-07-09  493  	msginfo->msgmni = ns->msg_ctlmni;
+156d9ed1260ee5 Al Viro         2017-07-09  494  	msginfo->msgmax = ns->msg_ctlmax;
+156d9ed1260ee5 Al Viro         2017-07-09  495  	msginfo->msgmnb = ns->msg_ctlmnb;
+156d9ed1260ee5 Al Viro         2017-07-09  496  	msginfo->msgssz = MSGSSZ;
+156d9ed1260ee5 Al Viro         2017-07-09 @497  	msginfo->msgseg = MSGSEG;
+d9a605e40b1376 Davidlohr Bueso 2013-09-11  498  	down_read(&msg_ids(ns).rwsem);
+72d1e611082eda Jiebin Sun      2022-09-14  499  	if (cmd == MSG_INFO)
+156d9ed1260ee5 Al Viro         2017-07-09  500  		msginfo->msgpool = msg_ids(ns).in_use;
+72d1e611082eda Jiebin Sun      2022-09-14  501  	max_idx = ipc_get_maxidx(&msg_ids(ns));
+72d1e611082eda Jiebin Sun      2022-09-14  502  	up_read(&msg_ids(ns).rwsem);
+72d1e611082eda Jiebin Sun      2022-09-14  503  	if (cmd == MSG_INFO) {
+72d1e611082eda Jiebin Sun      2022-09-14  504  		msginfo->msgmap = min_t(int,
+72d1e611082eda Jiebin Sun      2022-09-14  505  				     percpu_counter_sum(&ns->percpu_msg_hdrs),
+72d1e611082eda Jiebin Sun      2022-09-14  506  				     INT_MAX);
+72d1e611082eda Jiebin Sun      2022-09-14  507  		msginfo->msgtql = min_t(int,
+72d1e611082eda Jiebin Sun      2022-09-14  508  		                     percpu_counter_sum(&ns->percpu_msg_bytes),
+72d1e611082eda Jiebin Sun      2022-09-14  509  				     INT_MAX);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  510  	} else {
+156d9ed1260ee5 Al Viro         2017-07-09  511  		msginfo->msgmap = MSGMAP;
+156d9ed1260ee5 Al Viro         2017-07-09  512  		msginfo->msgpool = MSGPOOL;
+156d9ed1260ee5 Al Viro         2017-07-09  513  		msginfo->msgtql = MSGTQL;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  514  	}
+27c331a1746142 Manfred Spraul  2018-08-21  515  	return (max_idx < 0) ? 0 : max_idx;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  516  }
+2cafed30f150f7 Davidlohr Bueso 2013-07-08  517  
 
 -- 
 0-DAY CI Kernel Test Service
