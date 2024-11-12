@@ -1,63 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFC520010B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 14:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2434D201023;
+	Tue, 12 Nov 2024 15:02:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731423142; cv=none; b=gqHpAIrGEeHMHZ07S6QGwT3TCFAUmeweKVDmMkENE6tVSSki5W+Hi2ikMmy+JqIYU7joQ9Ui7sejEmgM/3nmIyEMK3THmiPui33FpdIJAxHB7I4PWAajAFjdNqexV2F9TxhaZeXU+Ks8qsIf+zKCkBi8TCAKFKfZaIlYchLUCSg=
+	t=1731423741; cv=none; b=KF0JCIurdsNGo5OYx/CUCFUYww4TxvaXqVLF2eP3+q5ancM+VRMQEMy8UBsRBANju7+A9bN8QigmtCf9TqtTI8T+W5Z7omyTtg1VeWOGy+xGVp6kRM/k5JP0Tyl6pw+8Gx7pcKTEEAt8UhQn8UdX56LnwIq7LatpSYaO1pm3ZW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731423142; c=relaxed/simple;
-	bh=XxmjXbd3NELFVsWVdW6o2Zxqx8IqBr4HxPuGWI6cATE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uKO0ZcP7u7GcUp77Tei5bRPQotMqc4xWCFfTBESVn67Haw4ZogVX8WWaWKjFBJEMpm6x93N8n4cT9h9tFofezjA7lsALfGx7MDPXoCyFGqR3IfUlme7I3MZL48PFRmtcwJc9emn3+ZvT4vf3U1uMo7BfvSHavaRpiA/ghT7KgaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gw7suwbH; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1731423741; c=relaxed/simple;
+	bh=LCokbYw/7s9ukfBNYLEMgQ2OE1Se3GV7PwY/SYYCRwE=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VFTVixzV0bngjSeBV1HynmDveZKCng0snM7P6/JKAqxDxWSvvZqdCslR2JBsMQT8yJhV7T9HwKkkogjzkXZQeRL5x6Sc9cbSUWnOVlDT5gMj2BmsI1r1UeP2tukOrF9id9jxdq6g4mthXdh6adZDP1NeqQc74G8eFoZev/fJmfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7bHo7gR; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gw7suwbH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7bHo7gR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731423141; x=1762959141;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XxmjXbd3NELFVsWVdW6o2Zxqx8IqBr4HxPuGWI6cATE=;
-  b=gw7suwbHdWNPwD4yYfqvC7+3pp+IKU96UM6duCl6DHgHQNfcowfCz3NI
-   3kSVS3AV7YxTQpOsdO89tdU7pljQQQdB4LeXu5oy09qFwzqDph3ok9ju4
-   Hhg2pMhO6UXA0tWcsStvvkPiUU6FOSX5V6TC8xJZiyDBObwbohCFKiHJg
-   3eZUeDMQzhk10FO/FtUn2cW5/ITEzxExf9mJAE3XqEzAg+oppu6qJVEE9
-   xTZfQIy9IqwINe0dYSd1i4UzAKJHQ59plDFIDz1VP1sh0cIe6gPN4G8K/
-   UB+/n4XLTRu1DsbzuVC7qz6TlA73iEmDjWa+zeKerw4OTafgtu1iRuj3r
-   A==;
-X-CSE-ConnectionGUID: NSfKbBHnQS+8tIbMDOKdLw==
-X-CSE-MsgGUID: onmSHZs9QzOcuLX0ez3BDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="41885679"
-X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="41885679"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 06:52:20 -0800
-X-CSE-ConnectionGUID: ckdD5CfLSzipX2yz0R4Ubw==
-X-CSE-MsgGUID: f3iIhOODQomMGy2XCI5DuQ==
+  t=1731423741; x=1762959741;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=LCokbYw/7s9ukfBNYLEMgQ2OE1Se3GV7PwY/SYYCRwE=;
+  b=V7bHo7gRl0pb7kKTMgH6kWNfRc5L4Gokyl0npQzz9Lmz6BeWB3SYMTIV
+   uT4tW6c2R6pOLT7ZddhWc49WwlKQn1YQLpeM9lsNk2FTxEZaQq3xT+ZIG
+   W32SK+XgFdJPEO51A5FkCxIgFPF3gUebx52tD/QioPWp5paWJeMGn6hQ4
+   jswg8PWIu9gGsJvCrpW8AfaInBzH2efiRsHK0aWIqxKuH5fKV83VL3ib3
+   kUMEnxkn12drpQDudXrtYRwcTPywlZYRGhs9okyiVvWRRXCpB58Bnaq1l
+   bJSaN5H99srWl0kOIfxe+pb4Os1kVHGya4aBBFALhZ/9vIZvnlxYLzSI6
+   w==;
+X-CSE-ConnectionGUID: 3BSXLvFDStu5GpZSqhDTnA==
+X-CSE-MsgGUID: awIRrl7kS0qtKVmNcJxZGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31115765"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31115765"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 07:02:20 -0800
+X-CSE-ConnectionGUID: pfXbU8ZSR+GFzBOg2BGXeg==
+X-CSE-MsgGUID: a0j30aXuQty5444SCzNuWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="87259015"
+   d="scan'208";a="87623461"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Nov 2024 06:52:17 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 12 Nov 2024 07:02:18 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAsFb-0001RK-2e;
-	Tue, 12 Nov 2024 14:52:15 +0000
-Date: Tue, 12 Nov 2024 22:51:40 +0800
+	id 1tAsPI-0001Rs-2J;
+	Tue, 12 Nov 2024 15:02:16 +0000
+Date: Tue, 12 Nov 2024 23:02:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chunhai Guo <guochunhai@vivo.com>, xiang@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, chao@kernel.org, huyue2@coolpad.com,
-	jefflexu@linux.alibaba.com, dhavale@google.com,
-	linux-erofs@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Chunhai Guo <guochunhai@vivo.com>
-Subject: Re: [PATCH] erofs: add sysfs node to drop all compression-related
- caches
-Message-ID: <202411122209.OQ3CcFg1-lkp@intel.com>
-References: <20241112091403.586545-1-guochunhai@vivo.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [dwmw2:kexec-debug 9/9] vmlinux.o: warning: objtool: pr_nybble+0xe:
+ RET before UNTRAIN
+Message-ID: <202411122239.LxvpNmxd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,91 +60,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112091403.586545-1-guochunhai@vivo.com>
 
-Hi Chunhai,
+TO: David Woodhouse <dwmw@amazon.co.uk>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on xiang-erofs/dev-test]
-[also build test ERROR on xiang-erofs/dev xiang-erofs/fixes linus/master v6.12-rc7 next-20241112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunhai-Guo/erofs-add-sysfs-node-to-drop-all-compression-related-caches/20241112-170412
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20241112091403.586545-1-guochunhai%40vivo.com
-patch subject: [PATCH] erofs: add sysfs node to drop all compression-related caches
-config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241112/202411122209.OQ3CcFg1-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122209.OQ3CcFg1-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug
+head:   2b3693312ccb50042f84abbf2daa041b925a803f
+commit: 2b3693312ccb50042f84abbf2daa041b925a803f [9/9] [DO NOT MERGE] x86/kexec: enable DEBUG
+config: x86_64-randconfig-006-20241112 (https://download.01.org/0day-ci/archive/20241112/202411122239.LxvpNmxd-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122239.LxvpNmxd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411122209.OQ3CcFg1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411122239.LxvpNmxd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/erofs/sysfs.c: In function 'erofs_attr_store':
->> fs/erofs/sysfs.c:175:17: error: implicit declaration of function 'z_erofs_shrink_scan' [-Werror=implicit-function-declaration]
-     175 |                 z_erofs_shrink_scan(sbi, ~0UL);
-         |                 ^~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/z_erofs_shrink_scan +175 fs/erofs/sysfs.c
-
-   132	
-   133	static ssize_t erofs_attr_store(struct kobject *kobj, struct attribute *attr,
-   134							const char *buf, size_t len)
-   135	{
-   136		struct erofs_sb_info *sbi = container_of(kobj, struct erofs_sb_info,
-   137							s_kobj);
-   138		struct erofs_attr *a = container_of(attr, struct erofs_attr, attr);
-   139		unsigned char *ptr = __struct_ptr(sbi, a->struct_type, a->offset);
-   140		unsigned long t;
-   141		int ret;
-   142	
-   143		switch (a->attr_id) {
-   144		case attr_pointer_ui:
-   145			if (!ptr)
-   146				return 0;
-   147			ret = kstrtoul(skip_spaces(buf), 0, &t);
-   148			if (ret)
-   149				return ret;
-   150			if (t != (unsigned int)t)
-   151				return -ERANGE;
-   152	#ifdef CONFIG_EROFS_FS_ZIP
-   153			if (!strcmp(a->attr.name, "sync_decompress") &&
-   154			    (t > EROFS_SYNC_DECOMPRESS_FORCE_OFF))
-   155				return -EINVAL;
-   156	#endif
-   157			*(unsigned int *)ptr = t;
-   158			return len;
-   159		case attr_pointer_bool:
-   160			if (!ptr)
-   161				return 0;
-   162			ret = kstrtoul(skip_spaces(buf), 0, &t);
-   163			if (ret)
-   164				return ret;
-   165			if (t != 0 && t != 1)
-   166				return -EINVAL;
-   167			*(bool *)ptr = !!t;
-   168			return len;
-   169		case attr_drop_caches:
-   170			ret = kstrtoul(skip_spaces(buf), 0, &t);
-   171			if (ret)
-   172				return ret;
-   173			if (t != 1)
-   174				return -EINVAL;
- > 175			z_erofs_shrink_scan(sbi, ~0UL);
-   176			return len;
-   177		}
-   178		return 0;
-   179	}
-   180	
+>> vmlinux.o: warning: objtool: pr_nybble+0xe: RET before UNTRAIN
 
 -- 
 0-DAY CI Kernel Test Service
