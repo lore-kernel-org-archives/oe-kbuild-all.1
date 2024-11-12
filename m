@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 006472170DD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 21:27:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E79A21A6F3;
+	Tue, 12 Nov 2024 22:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731446835; cv=none; b=YkCeStb8KIVUQMTcfMuGUn8FFZ2WESAXzJjFtLIbRmyCC5OKtcaWcvasZZ+8NrxschfPgRdXCP+bg+wyrWKlJR/FiIXAc01iOor0h5sPA5Q02N1EYVMCbMCcoc9VB3l4KqiAH29cNsfbksUdt0eTrMv3t6kkDMezRwdRw0jFdTE=
+	t=1731449309; cv=none; b=eHKKPYRE3rFzx+538M79rTT79BaFOVUbbEdCuDJe36hyP6g5GkaNj3llwcARqyf+R9MTCGhJg0s0JGajKiEy+EWqvJkBQeEHo9VySJpgnVfgxjL7OLFIBR1c4t6IGJuWXW+i5VbhWfJsw0PRbj8tO0MNGzW33Z3GhsL8+yWgFh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731446835; c=relaxed/simple;
-	bh=pGL3qLDlWDQOjUA8hjs4x+ToJqZbiBUEZRsQQTIQgW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uKEETE1MtJX2EicnpO1zJ393AtOeDXAkCTF0xohIyy42woWnMyCqn9nuGQfpP0QpOVaGvMwd8Gbd2Cz89stwdEG0vrFlc71a8OE2w+PQqW+0SqGptsCrXgJ2gpcd0bu15OGweTMM4ZhkfaNO4c4nPU4+GTR3CmILk0t6Bmc0IkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DlQgOisK; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1731449309; c=relaxed/simple;
+	bh=bwOLoyFxYfjUqtJNi/9ZCqz09dTnm3t/9bGtqoLlI8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RKHQfcGLgRyBxi1H+LMZzAaZzRLPQuqMv9nj0jGyc1fPaW298/9lKcMiz0ugYrRvDTgNZJj5Ix4XaprLMBhbbzUz93aVgYRwjPUn+M+GTL7m9XXFYvnpI9fY13yzKblwBUI7FPOGpGBBMGsVy9fFd5K9dXlcLzqNQGy/zdP0NBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBWf8euF; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DlQgOisK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBWf8euF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731446833; x=1762982833;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pGL3qLDlWDQOjUA8hjs4x+ToJqZbiBUEZRsQQTIQgW8=;
-  b=DlQgOisKBN0XlfJoWg7Fz90Km+0H20hz/pmPZXGKX5hdCSHm1zo19+l6
-   UAt5Bz/GGUeSq9kvsd1pTd9d8lhvOiPecVeg8lLEl3kR2quKF1tVvBxhs
-   ajy02NLJ9iwNySoMKFX7yGm/HXkLbcTcoU+2JXLVNXOshhpCkxIqux2Tr
-   tutIVzEX9RMxW2m1NLZJ/7BofnJylw89lXcxQHBuAESrAU/BtDbYGDvrF
-   4zbfeLmA6uQhCgS78phaxeS8LBM2/H/KRGvyO0PPM/puuid5OBWHfmxWp
-   Wp//qzNFBRyI7vU2iSi7wo3iqCVrZC3wTG56HlF/D+Vthw/DvLv4IP+H5
-   A==;
-X-CSE-ConnectionGUID: +U1dLhpbSDqTIOafCnS/QQ==
-X-CSE-MsgGUID: mQko1g8ESRqwlzSD9KwYxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31480759"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31480759"
+  t=1731449307; x=1762985307;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bwOLoyFxYfjUqtJNi/9ZCqz09dTnm3t/9bGtqoLlI8U=;
+  b=aBWf8euFQz8tfOd07uClcsqePuVHvR7//RFIYqYdqHUfxJN+3ngwCqOO
+   HiPkYMaZHRrVrcLG5swxtVxM9KEy4Rksrm2QHSkIZOdfC8+BrANHQ/DQq
+   E1OHqCWHMly1prxt0ZtMsiWFeRr3w/0Bi5IU7M6lwuwNASdD/QjGOKzgg
+   SRxV824CddIQa/tE6/rovl+O0mhCVzXl/Cu0pR9ONuQu+yAOZGtep/XxC
+   Cc8oBanvcD69QJzgstIPFcT50XKI3qKkiwm64+OIG8Ctq9jWyTeloBV2+
+   nhUnn7QS9+OVw4k/PPnLVGpOxXP+eKCd1pCP2tBMiqGO7Pv9b9Hch+4Oz
+   g==;
+X-CSE-ConnectionGUID: CkVMRlVVSLOkf34HiCUurQ==
+X-CSE-MsgGUID: RcUYskraTk6+oAX3OALa5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42722544"
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="42722544"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 13:27:12 -0800
-X-CSE-ConnectionGUID: yG+jp4hARZq1WBCWZSZeRw==
-X-CSE-MsgGUID: yvUOm93BSyu+IC8O8Sl42A==
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 14:08:27 -0800
+X-CSE-ConnectionGUID: QGh9vjHLSpKorf74bKXSXg==
+X-CSE-MsgGUID: sKP0TcqbSXmgHwe8OkVCnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="91702126"
+   d="scan'208";a="91712794"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 13:27:11 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 14:08:16 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAyPl-0001kI-0f;
-	Tue, 12 Nov 2024 21:27:09 +0000
-Date: Wed, 13 Nov 2024 05:26:24 +0800
+	id 1tAz3W-0001lf-1j;
+	Tue, 12 Nov 2024 22:08:14 +0000
+Date: Wed, 13 Nov 2024 06:07:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1290/1290] arch/arm64/mm/init.c:790:17:
- error: 'pmu_nmi_enable' undeclared; did you mean 'perf_pmu_enable'?
-Message-ID: <202411130527.FCTcx7wa-lkp@intel.com>
+To: Daniel Wagner <wagi@kernel.org>, Jens Axboe <axboe@kernel.dk>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Keith Busch <kbusch@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+	virtualization@lists.linux.dev, linux-scsi@vger.kernel.org,
+	megaraidlinux.pdl@broadcom.com, mpi3mr-linuxdrv.pdl@broadcom.com,
+	MPT-FusionLinux.pdl@broadcom.com, storagedev@microchip.com,
+	linux-nvme@lists.infradead.org, Daniel Wagner <wagi@kernel.org>
+Subject: Re: [PATCH v3 3/8] virtio: hookup irq_get_affinity callback
+Message-ID: <202411130521.UOBdW8Rv-lkp@intel.com>
+References: <20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,59 +76,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8@kernel.org>
 
-Hi Xu,
+Hi Daniel,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   58ec866c31299a4b0d63a01cb026877c5f85e4d9
-commit: 0c40cea7cfc2d1d9762e6fbbb531a43e6dac95ca [1290/1290] NMI: Enable arm-pmu interrupt as NMI in Acensed.
-config: arm64-randconfig-003-20241112 (https://download.01.org/0day-ci/archive/20241113/202411130527.FCTcx7wa-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130527.FCTcx7wa-lkp@intel.com/reproduce)
+[auto build test WARNING on c9af98a7e8af266bae73e9d662b8341da1ec5824]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Wagner/driver-core-bus-add-irq_get_affinity-callback-to-bus_type/20241112-213257
+base:   c9af98a7e8af266bae73e9d662b8341da1ec5824
+patch link:    https://lore.kernel.org/r/20241112-refactor-blk-affinity-helpers-v3-3-573bfca0cbd8%40kernel.org
+patch subject: [PATCH v3 3/8] virtio: hookup irq_get_affinity callback
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241113/202411130521.UOBdW8Rv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130521.UOBdW8Rv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411130527.FCTcx7wa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411130521.UOBdW8Rv-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/arm64/mm/init.c:469:13: warning: no previous prototype for 'arm64_memblock_init' [-Wmissing-prototypes]
-     469 | void __init arm64_memblock_init(void)
-         |             ^~~~~~~~~~~~~~~~~~~
-   arch/arm64/mm/init.c: In function 'ascend_enable_all_features':
-   arch/arm64/mm/init.c:787:17: error: 'mem_sleep_current' undeclared (first use in this function)
-     787 |                 mem_sleep_current = PM_SUSPEND_ON;
-         |                 ^~~~~~~~~~~~~~~~~
-   arch/arm64/mm/init.c:787:17: note: each undeclared identifier is reported only once for each function it appears in
->> arch/arm64/mm/init.c:790:17: error: 'pmu_nmi_enable' undeclared (first use in this function); did you mean 'perf_pmu_enable'?
-     790 |                 pmu_nmi_enable = true;
-         |                 ^~~~~~~~~~~~~~
-         |                 perf_pmu_enable
+>> drivers/virtio/virtio.c:389: warning: Function parameter or struct member 'irq_veq' not described in 'virtio_irq_get_affinity'
+>> drivers/virtio/virtio.c:389: warning: Excess function parameter 'irq_vec' description in 'virtio_irq_get_affinity'
 
 
-vim +790 arch/arm64/mm/init.c
+vim +389 drivers/virtio/virtio.c
 
-   774	
-   775	void ascend_enable_all_features(void)
-   776	{
-   777		if (IS_ENABLED(CONFIG_ASCEND_DVPP_MMAP))
-   778			enable_mmap_dvpp = 1;
-   779	
-   780		if (IS_ENABLED(CONFIG_ASCEND_IOPF_HIPRI))
-   781			enable_iopf_hipri = 1;
-   782	
-   783		if (IS_ENABLED(CONFIG_ASCEND_CHARGE_MIGRATE_HUGEPAGES))
-   784			enable_charge_mighp = 1;
-   785	
-   786		if (IS_ENABLED(CONFIG_SUSPEND))
-   787			mem_sleep_current = PM_SUSPEND_ON;
-   788	
-   789		if (IS_ENABLED(CONFIG_PMU_WATCHDOG))
- > 790			pmu_nmi_enable = true;
-   791	
+   379	
+   380	/**
+   381	 * virtio_irq_get_affinity - get IRQ affinity mask for device
+   382	 * @_d: ptr to dev structure
+   383	 * @irq_vec: interrupt vector number
+   384	 *
+   385	 * Return the CPU affinity mask for @_d and @irq_vec.
+   386	 */
+   387	static const struct cpumask *virtio_irq_get_affinity(struct device *_d,
+   388							     unsigned int irq_veq)
+ > 389	{
+   390		struct virtio_device *dev = dev_to_virtio(_d);
+   391	
+   392		if (!dev->config->get_vq_affinity)
+   393			return NULL;
+   394	
+   395		return dev->config->get_vq_affinity(dev, irq_veq);
+   396	}
+   397	
 
 -- 
 0-DAY CI Kernel Test Service
