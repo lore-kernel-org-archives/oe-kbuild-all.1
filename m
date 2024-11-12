@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804B620E013
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 09:37:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5701F20E309
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 09:37:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731404235; cv=none; b=Aqh+JjX4lpeOgm/THQ3hvfH46AHo+R81e/oFYAWhSAB1x2VSwyXeUUWSWN9LYGwYl4Szu8pf+6DhcYKr2npnt+u9c9i817Kn/yeUVVqjV4/y399S1l4V+M9zN9mYWIjmr3iD/e0s0dailvOo43j8SP6RJDzGdDsh+di0YkiZvJ4=
+	t=1731404237; cv=none; b=NbE7Q7p/Ds6zHE160nUYAc22bEFEAJtMnDgdkxikj//HD9C1llJl+l8wf/5YV+1lYleXK7YnkR4PviqCenZhDskrfMbbYmh2/DNWEhTwZF8cfEBbVFs8cirwixFgX8uCMQEAwoWpsGIvtNiPzrr4D/UzwovuexLFArJSH2GsBj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731404235; c=relaxed/simple;
-	bh=sa9o6tJLuPEt4doSHckjMjO+65m1SV01OWp1P2w3aW4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eVz9fAWki3EgQR8JO00tfnWuPMUt+MFQ1aD1f5y/AdK3ZhDz5/PUrXrE1Bs2pT9UmJyzMGdGTRx7gAiloWse42iaVtpBF3OapONQCAlfhlE2Dt0/wuHH6Eml+kjRgt4xmFA8G2lUs0kWs/s146hf9RxSH5ldFZLWWz5T7tHMB/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cFKqPlg5; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1731404237; c=relaxed/simple;
+	bh=j1sJh+yv6ZDYJKKonCTcg6G0pMPLmx6xDBVtIlIRfjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QFCqbP2gH+bB7NRf/1+D9QM1z32Kso7WInB+keN/euK8GH597MvxTLBAd/fRCmcPRaFeQX7JAJ656FU5se17+ssU6qgi8EMenXNLoXMCKCTiSq7JXYdS+r9Hgn/6qdXB9DeA8uEHo3S2YNHNIHRNBXkxNk9rs5Bi8xXtBnGDmQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jWoD4eAe; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cFKqPlg5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jWoD4eAe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731404233; x=1762940233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sa9o6tJLuPEt4doSHckjMjO+65m1SV01OWp1P2w3aW4=;
-  b=cFKqPlg5hQen9rDZnqrYPA/kkRWEQz5XNki1GgzypBnK8w8sMQDD9qcu
-   gCQmHA8+k6sTQou6ahAjTsXZGfduE2jlUo43I5SLXeWimFwzsac2V7DWH
-   Qdza7XGQzlRuZ/jSsDQvJaQ54oELHW1c8tJIRlBo6FzF4i/g3kn0thnl1
-   56vfnH54v1J3MKR+JIw/y/gbdHCw1/a17lUNymkXCTHkDjbRRVmbKgeKi
-   MS2/AbT6Oxx5s4WKC9qbDh97scqIxrqWJuuwqFvtUAz2ZPYhIfT5TOdD5
-   3rPUVUs85l23RCMCWlYNDWtxWDbDxmx2YZSVJz7pAfqLocebbPqAX8Wj2
-   A==;
-X-CSE-ConnectionGUID: XTr22w7ARXumkJ9Pp/YlHw==
-X-CSE-MsgGUID: tZaf4uEjS2CPwNWYA9uzUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="31324310"
+  t=1731404235; x=1762940235;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=j1sJh+yv6ZDYJKKonCTcg6G0pMPLmx6xDBVtIlIRfjI=;
+  b=jWoD4eAeDUL8m6qp3zfL59e06pxnRKBBv6jK3JXyHduMvCxBV2dGXAqY
+   7pYwOUI54HfnATDQR4cHkysJBlFJMwtugNA75QX6tVMR73Zj1YeXZJ1sS
+   8LSrCaz+1BjDrQ9Tkq1XLqXzln0VroHs4oGlcVWAXEXfG59Ab9WjmQ/4g
+   HSFE2Hql6lnDaTJn2+O/GLZ/zNffzfj0Bzv1oAfGHxbk+UGQLIYCh+jLY
+   Yfo88BTuyjR5EWzw2B6TG2ZTCAFfxIqZyjnZFyg5U/KWhaE6qt3OFb/9q
+   K7F/Lh0yZ6scq8mMxUaCK5/h8QUVHJ4/zLe4hrWg3y2VfGYHJiqq2O9Fr
+   Q==;
+X-CSE-ConnectionGUID: 9ue62jK2TRKhyH0MDpfUdg==
+X-CSE-MsgGUID: 8Yt1IAk2Ss+xl1WaiPNgLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="31324313"
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="31324310"
+   d="scan'208";a="31324313"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:37:11 -0800
-X-CSE-ConnectionGUID: T4p8b4V4QAKl0jAGQaorIg==
-X-CSE-MsgGUID: q7Kel42VRcGmmOcxnFcM1Q==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:37:12 -0800
+X-CSE-ConnectionGUID: 2RVy3QdGQpapY51N3oGpOQ==
+X-CSE-MsgGUID: cix8ayfqSLKFcjo/C4pwVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="87726525"
+   d="scan'208";a="87726528"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2024 01:37:11 -0800
+  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2024 01:37:12 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAnKd-0000fn-2G;
+	id 1tAnKd-0000fy-2e;
 	Tue, 12 Nov 2024 09:37:07 +0000
-Date: Tue, 12 Nov 2024 17:36:44 +0800
+Date: Tue, 12 Nov 2024 17:36:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org,
-	linux-api@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
-Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
-Message-ID: <202411121722.Oxq727h0-lkp@intel.com>
-References: <20241111234006.5942-13-ouster@cs.stanford.edu>
+To: kernel@openeuler.org, Li Shuo <lishuo@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2418/2418]
+ drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may
+ be truncated copying 32 bytes from a string of length 439
+Message-ID: <202411121753.yQqZUvdw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,109 +62,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241111234006.5942-13-ouster@cs.stanford.edu>
 
-Hi John,
+Hi Li,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241112-074535
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40cs.stanford.edu
-patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
-config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20241112/202411121722.Oxq727h0-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121722.Oxq727h0-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   400fd9ccb52e01bf78acae2bbc1710923a15f033
+commit: b2a83bcdafcaaaa60199147d04798d431cc800cc [2418/2418] DRM: Phytium display DRM driver
+config: arm64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121753.yQqZUvdw-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121753.yQqZUvdw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121722.Oxq727h0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411121753.yQqZUvdw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/mips/include/asm/div64.h:89,
-                    from include/linux/math.h:6,
-                    from include/linux/kernel.h:27,
-                    from include/linux/cpumask.h:11,
-                    from arch/mips/include/asm/processor.h:15,
-                    from arch/mips/include/asm/thread_info.h:16,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/mips/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/audit.h:12,
-                    from net/homa/homa_impl.h:12,
-                    from net/homa/homa_outgoing.c:7:
-   net/homa/homa_outgoing.c: In function 'homa_new_data_packet':
->> include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   net/homa/homa_outgoing.c:108:9: note: in expansion of macro 'do_div'
-     108 |         do_div(segs, max_seg_data);
-         |         ^~~~~~
-   In file included from arch/mips/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from net/homa/homa_impl.h:10:
->> include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/homa/homa_outgoing.c:108:9: note: in expansion of macro 'do_div'
-     108 |         do_div(segs, max_seg_data);
-         |         ^~~~~~
-   net/homa/homa_outgoing.c: In function 'homa_message_out_fill':
->> include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
-     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
-         |                                   ^~
-   net/homa/homa_outgoing.c:233:9: note: in expansion of macro 'do_div'
-     233 |         do_div(segs_per_gso, max_seg_data);
-         |         ^~~~~~
->> include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
-     234 |         } else if (likely(((n) >> 32) == 0)) {          \
-         |                                ^~
-   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   net/homa/homa_outgoing.c:233:9: note: in expansion of macro 'do_div'
-     233 |         do_div(segs_per_gso, max_seg_data);
-         |         ^~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:503:6: warning: no previous prototype for 'phytium_dp_coding_8b10b_need_enable' [-Wmissing-prototypes]
+     503 | bool phytium_dp_coding_8b10b_need_enable(unsigned char test_pattern)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:520:6: warning: no previous prototype for 'phytium_dp_scrambled_need_enable' [-Wmissing-prototypes]
+     520 | bool phytium_dp_scrambled_need_enable(unsigned char test_pattern)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:653:6: warning: no previous prototype for 'phytium_dp_hw_enable_audio' [-Wmissing-prototypes]
+     653 | void phytium_dp_hw_enable_audio(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:822:6: warning: no previous prototype for 'phytium_dp_hw_disable_video' [-Wmissing-prototypes]
+     822 | void phytium_dp_hw_disable_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:833:6: warning: no previous prototype for 'phytium_dp_hw_video_is_enable' [-Wmissing-prototypes]
+     833 | bool phytium_dp_hw_video_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:844:6: warning: no previous prototype for 'phytium_dp_hw_enable_video' [-Wmissing-prototypes]
+     844 | void phytium_dp_hw_enable_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:856:6: warning: no previous prototype for 'phytium_dp_hw_config_video' [-Wmissing-prototypes]
+     856 | void phytium_dp_hw_config_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:945:6: warning: no previous prototype for 'phytium_dp_hw_disable_output' [-Wmissing-prototypes]
+     945 | void phytium_dp_hw_disable_output(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:957:6: warning: no previous prototype for 'phytium_dp_hw_enable_output' [-Wmissing-prototypes]
+     957 | void phytium_dp_hw_enable_output(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:969:6: warning: no previous prototype for 'phytium_dp_hw_enable_input_source' [-Wmissing-prototypes]
+     969 | void phytium_dp_hw_enable_input_source(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:980:6: warning: no previous prototype for 'phytium_dp_hw_disable_input_source' [-Wmissing-prototypes]
+     980 | void phytium_dp_hw_disable_input_source(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:990:6: warning: no previous prototype for 'phytium_dp_hw_output_is_enable' [-Wmissing-prototypes]
+     990 | bool phytium_dp_hw_output_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1027:6: warning: no previous prototype for 'phytium_dp_hw_hpd_irq_setup' [-Wmissing-prototypes]
+    1027 | void phytium_dp_hw_hpd_irq_setup(struct phytium_dp_device *phytium_dp, bool enable)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1042:5: warning: no previous prototype for 'phytium_dp_hw_init' [-Wmissing-prototypes]
+    1042 | int phytium_dp_hw_init(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1220:6: warning: no previous prototype for 'phytium_dp_dpcd_sink_dpms' [-Wmissing-prototypes]
+    1220 | void phytium_dp_dpcd_sink_dpms(struct phytium_dp_device *phytium_dp, int mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1445:5: warning: no previous prototype for 'phytium_dp_get_link_train_fallback_values' [-Wmissing-prototypes]
+    1445 | int phytium_dp_get_link_train_fallback_values(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1494:5: warning: no previous prototype for 'phytium_dp_start_link_train' [-Wmissing-prototypes]
+    1494 | int phytium_dp_start_link_train(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1799:6: warning: no previous prototype for 'phytium_dp_hpd_poll_handler' [-Wmissing-prototypes]
+    1799 | void phytium_dp_hpd_poll_handler(struct phytium_display_private *priv)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1946:6: warning: no previous prototype for 'phytium_dp_fast_link_train' [-Wmissing-prototypes]
+    1946 | bool phytium_dp_fast_link_train(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2137:6: warning: no previous prototype for 'phytium_dp_adjust_link_train_parameter' [-Wmissing-prototypes]
+    2137 | void phytium_dp_adjust_link_train_parameter(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2197:1: warning: no previous prototype for 'phytium_encoder_mode_valid' [-Wmissing-prototypes]
+    2197 | phytium_encoder_mode_valid(struct drm_encoder *encoder, const struct drm_display_mode *mode)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2447:5: warning: no previous prototype for 'phytium_get_encoder_crtc_mask' [-Wmissing-prototypes]
+    2447 | int phytium_get_encoder_crtc_mask(struct phytium_dp_device *phytium_dp, int port)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c: In function 'phytium_connector_add_common_modes':
+>> drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may be truncated copying 32 bytes from a string of length 439 [-Wstringop-truncation]
+     300 |                 strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +222 include/asm-generic/div64.h
+vim +/strncpy +300 drivers/gpu/drm/phytium/phytium_dp.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
-^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
-^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
-461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
-461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
-461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
-461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
-911918aa7ef6f8 Nicolas Pitre      2015-11-02 @234  	} else if (likely(((n) >> 32) == 0)) {		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  238  		__rem = __div64_32(&(n), __base);	\
-c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
-^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
-^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
+   244	
+   245	static int phytium_connector_add_common_modes(struct phytium_dp_device *phytium_dp)
+   246	{
+   247		int i = 0, ret = 0;
+   248		struct drm_device *dev =  phytium_dp->dev;
+   249		struct drm_display_mode *mode = NULL, *current_mode = NULL;
+   250		struct drm_display_mode *native_mode = &phytium_dp->native_mode;
+   251		bool mode_existed = false;
+   252		struct mode_size {
+   253			char name[DRM_DISPLAY_MODE_LEN];
+   254			int w;
+   255			int h;
+   256		} common_mode[] = {
+   257			{  "640x480",  640,  480},
+   258			{  "800x600",  800,  600},
+   259			{ "1024x768", 1024,  768},
+   260			{ "1280x720", 1280,  720},
+   261			{ "1280x800", 1280,  800},
+   262			{"1280x1024", 1280, 1024},
+   263			{ "1440x900", 1440,  900},
+   264			{"1680x1050", 1680, 1050},
+   265			{"1600x1200", 1600, 1200},
+   266			{"1920x1080", 1920, 1080},
+   267			{"1920x1200", 1920, 1200}
+   268		};
+   269	
+   270		if (native_mode->clock == 0)
+   271			return ret;
+   272	
+   273		for (i = 0; i < ARRAY_SIZE(common_mode); i++) {
+   274			mode_existed = false;
+   275	
+   276			if (common_mode[i].w > native_mode->hdisplay ||
+   277			    common_mode[i].h > native_mode->vdisplay ||
+   278			    (common_mode[i].w == native_mode->hdisplay &&
+   279			    common_mode[i].h == native_mode->vdisplay))
+   280				continue;
+   281	
+   282			list_for_each_entry(current_mode, &phytium_dp->connector.probed_modes, head) {
+   283				if (common_mode[i].w == current_mode->hdisplay &&
+   284				    common_mode[i].h == current_mode->vdisplay) {
+   285					mode_existed = true;
+   286					break;
+   287				}
+   288			}
+   289	
+   290			if (mode_existed)
+   291				continue;
+   292	
+   293			mode = drm_mode_duplicate(dev, native_mode);
+   294			if (mode == NULL)
+   295				continue;
+   296	
+   297			mode->hdisplay = common_mode[i].w;
+   298			mode->vdisplay = common_mode[i].h;
+   299			mode->type &= ~DRM_MODE_TYPE_PREFERRED;
+ > 300			strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
+   301			drm_mode_probed_add(&phytium_dp->connector, mode);
+   302			ret++;
+   303		}
+   304	
+   305		return ret;
+   306	}
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
