@@ -1,58 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8722003CA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 15:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F2F200B8D;
+	Tue, 12 Nov 2024 15:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731425005; cv=none; b=K0mvWOdWbktFYxnR85fPWPLdaKQiLhBy7h2YnHstMQaiaXw21Y5hHwP8tQ9JFqQ36XcQqLX+L1O6QRrsWbcmycAqhp0pnw/It89M06+DHb+GHLa1hwXNPNOkH57Wu9i2XCHS6cxC2+7YXtVLPmP+nhh/Xuasv69jK5bo0NOasXU=
+	t=1731425007; cv=none; b=IKJNVMmUOkrb9UZswwA4mhuVj1DPeNaxSFLpcJq2Z8Jr1XMp33XxF6abppNuoExn18LCtX/hscJiMk3rLOvm/4gLrCs5ngmgOsjjqGBej4v9CKuc+MRqYJ2AU5Ul8RVNXRtv1U7T0mFp9ohiKgKtIeb/Y8JeQakUeXJRtH/pJG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731425005; c=relaxed/simple;
-	bh=z1QRJl4o/FVr3yQxRkug8L3aAPvX99rJcMsZvep3Dpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fjL+bePcfLaeHlflZ97Os1Ji20uyJP1WYKHCHyrycP8CCfLRvsxKtBF5sxHQtDs2YGXT7vDibbflvU7AHQH3nWr4Fa7uSztpjNNwKRNdjhDFXD83Cupbus65ZP5X+RxlilWPEsBnyAKRJRqcQSPw0JuyfoQ75Jxj3JVugovZRT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epvNeo/5; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1731425007; c=relaxed/simple;
+	bh=ZmGj6kivjIzqiKqxOJZckDsly2u9MG2i7lK+kggaPuk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lEnDP147gnu4Hjac1YflsjB9C/mopSgAHxwPZySk+aexD47Y6ken3vnXy6vEn6U3+/5tzVvdqHkw4bn+QyPOL93eXQLRJSS1zJwTVEZWVjKOZAfz5YRtrt3VK6BN6hq9GJhq82TJ7YFQDsqoKIL28YkDoIlanMGhqy6XbSCZNv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OEZkoJIo; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epvNeo/5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OEZkoJIo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731425003; x=1762961003;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z1QRJl4o/FVr3yQxRkug8L3aAPvX99rJcMsZvep3Dpk=;
-  b=epvNeo/5IFJm+xNTkONAXOFD3YZ8bR6BnOqG6KQi0MzLDXsjI7O7S9eI
-   B+7f2Hv7hrYqvKyOvbDI2bmXioMKNvfnEGJ1DXJeXm+0x7RhreaniJjxp
-   PESWtRHtDXqljEicTVChKuFH++jAkCUQgGD8MH6+w2rldCKTyaVJvCiR1
-   hJSfrvRGVXln6RelYwar1eUjSAI4tIEF7Sz04JZ50gkxw76UZiTn6JEya
-   ypLy92xkRwlVpCC8heY7nJ0sv+s6kQqsnv+Ai0h+1JlUQ495IpI7YItMN
-   P7uQCQPYNhDklMNrf6kiAvTtsNZk3r9sXyqOVARW4Ao097wgg9oxjPfD+
-   A==;
-X-CSE-ConnectionGUID: Jtuf6pSxTtepa2GJWBHtSA==
-X-CSE-MsgGUID: ojlH9S1PQRe6QDrXRAsLgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="18875192"
+  t=1731425005; x=1762961005;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZmGj6kivjIzqiKqxOJZckDsly2u9MG2i7lK+kggaPuk=;
+  b=OEZkoJIoFl3aRkjyZwt3K6H9PBsCTl57+oqySU/3jECFrYmFlU20BYhK
+   OR8TC31YWWp6+RgkcIwqlCY9fo5QlXJjWzktprpF4N8qCuJEsL6JV7hFc
+   qreBUp+Xno7gk398Hp9bNTUG9rQI20WkIA6eV4ImPBeiyKOeRYZbZ5LHb
+   heR8oEjS9WLmCEBWkCKbTKAbRV5ymBKi56jwiNbsNyoS1WZcUH7VyFFof
+   U7bV4DF4zX2XnPHpOUXInPBXrcg251wD3d86bXK2uHATkwPLlxdfZ3gN9
+   /fzair6wfwvVfOxXzEawb7xiea5DdMCCywe7PqC6x9etUtvI8sXesomve
+   Q==;
+X-CSE-ConnectionGUID: Tx4YoHrDS+WRoxlQrfDDqw==
+X-CSE-MsgGUID: kA4hYARsSI6tsvdpNp0AmA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="18875196"
 X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="18875192"
+   d="scan'208";a="18875196"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 07:23:22 -0800
-X-CSE-ConnectionGUID: YzVYwgzfSf2ZTObKeO0ywA==
-X-CSE-MsgGUID: kpOF8E+OSWWGf+Ha0hq/Lg==
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 07:23:25 -0800
+X-CSE-ConnectionGUID: 2TDWEbCQS8Wpe20GYEZoBw==
+X-CSE-MsgGUID: L5YTJwh1R5W+IzvL53fAUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="87477545"
+   d="scan'208";a="87477543"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 12 Nov 2024 07:23:21 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAsje-0001T3-2i;
+	id 1tAsje-0001Sv-2P;
 	Tue, 12 Nov 2024 15:23:18 +0000
-Date: Tue, 12 Nov 2024 23:22:31 +0800
+Date: Tue, 12 Nov 2024 23:22:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:sound-cleanup-2024-11-12-2 70/86]
- sound/soc/soc-pcm.c:746:16: warning: variable 'ret' set but not used
-Message-ID: <202411122315.AAsrxtVY-lkp@intel.com>
+To: mjchen <mjchen0829@gmail.com>, dmitry.torokhov@gmail.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	sudeep.holla@arm.com, peng.fan@nxp.com, arnd@arndb.de,
+	linux-arm-kernel@lists.infradead.org, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	mjchen@nuvoton.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/2] input: keypad: add new keypad driver for MA35D1
+Message-ID: <202411122236.79vmA2JS-lkp@intel.com>
+References: <20241112053059.3361-3-mjchen0829@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,58 +67,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241112053059.3361-3-mjchen0829@gmail.com>
 
-tree:   https://github.com/morimoto/linux sound-cleanup-2024-11-12-2
-head:   e9ee7637473b0ebd74e4147970a2b809e0b19bc9
-commit: 1e7a7e779fe45dfb74c2e275f18f1a1b1238c3c0 [70/86] ASoC: soc-pcm: makes soc_pcm_components_close() void
-config: i386-randconfig-141-20241112 (https://download.01.org/0day-ci/archive/20241112/202411122315.AAsrxtVY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122315.AAsrxtVY-lkp@intel.com/reproduce)
+Hi mjchen,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next soc/for-next linus/master v6.12-rc7 next-20241112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/mjchen/dt-bindings-input-Add-Nuvoton-MA35D1-keypad/20241112-133327
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20241112053059.3361-3-mjchen0829%40gmail.com
+patch subject: [PATCH v2 2/2] input: keypad: add new keypad driver for MA35D1
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20241112/202411122236.79vmA2JS-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122236.79vmA2JS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411122315.AAsrxtVY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411122236.79vmA2JS-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   sound/soc/soc-pcm.c: In function 'soc_pcm_components_close':
->> sound/soc/soc-pcm.c:746:16: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     746 |         int i, ret = 0;
-         |                ^~~
+   In file included from drivers/input/keyboard/ma35d1_keypad.c:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/input/keyboard/ma35d1_keypad.c:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/input/keyboard/ma35d1_keypad.c:7:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/input/keyboard/ma35d1_keypad.c:83:46: warning: shift count >= width of type [-Wshift-count-overflow]
+      83 |         pressed_keys  = key_event[0] | key_event[1] << 32;
+         |                                                     ^  ~~
+   drivers/input/keyboard/ma35d1_keypad.c:84:46: warning: shift count >= width of type [-Wshift-count-overflow]
+      84 |         released_keys = key_event[2] | key_event[3] << 32;
+         |                                                     ^  ~~
+   drivers/input/keyboard/ma35d1_keypad.c:130:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     130 |         val |= FIELD_PREP(KCOL, (keypad->kpi_col - 1)) | FIELD_PREP(KROW, (keypad->kpi_row - 1));
+         |                ^
+   8 warnings and 1 error generated.
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
+vim +83 drivers/input/keyboard/ma35d1_keypad.c
 
-vim +/ret +746 sound/soc/soc-pcm.c
-
-e7ecfdb794fef1f Kuninori Morimoto 2019-05-13  740  
-1e7a7e779fe45df Kuninori Morimoto 2024-11-12  741  static void soc_pcm_components_close(struct snd_pcm_substream *substream,
-51aff91ad123e03 Kuninori Morimoto 2020-09-28  742  				    int rollback)
-244e293690a6e07 Charles Keepax    2018-06-19  743  {
-2679a5b2f7d99e3 Kuninori Morimoto 2023-09-11  744  	struct snd_soc_pcm_runtime *rtd = snd_soc_substream_to_rtd(substream);
-244e293690a6e07 Charles Keepax    2018-06-19  745  	struct snd_soc_component *component;
-33be10b563dc56c Kuninori Morimoto 2021-07-27 @746  	int i, ret = 0;
-244e293690a6e07 Charles Keepax    2018-06-19  747  
-613fb50059cf19a Kuninori Morimoto 2020-01-10  748  	for_each_rtd_components(rtd, i, component) {
-33be10b563dc56c Kuninori Morimoto 2021-07-27  749  		int r = snd_soc_component_close(component, substream, rollback);
-e82ebffce3ec075 Kuninori Morimoto 2020-02-10  750  		if (r < 0)
-e82ebffce3ec075 Kuninori Morimoto 2020-02-10  751  			ret = r; /* use last ret */
-e82ebffce3ec075 Kuninori Morimoto 2020-02-10  752  
-51aff91ad123e03 Kuninori Morimoto 2020-09-28  753  		snd_soc_component_module_put_when_close(component, substream, rollback);
-244e293690a6e07 Charles Keepax    2018-06-19  754  	}
-244e293690a6e07 Charles Keepax    2018-06-19  755  }
-244e293690a6e07 Charles Keepax    2018-06-19  756  
-
-:::::: The code at line 746 was first introduced by commit
-:::::: 33be10b563dc56c33d28562ff83065a89647e443 ASoC: soc-pcm: cleanup cppcheck warning at soc_pcm_components_close()
-
-:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+    59	
+    60	static void ma35d1_keypad_scan_matrix(struct ma35d1_keypad *keypad, unsigned int status)
+    61	{
+    62		struct input_dev *input_dev = keypad->input_dev;
+    63		unsigned int code;
+    64		unsigned int key;
+    65		unsigned long pressed_keys = 0, released_keys = 0;
+    66		unsigned int row_shift = get_count_order(keypad->kpi_col);
+    67		unsigned short *keymap = input_dev->keycode;
+    68		unsigned long key_event[4];
+    69		unsigned int index;
+    70	
+    71		/* Read key event status */
+    72		key_event[0] = readl(keypad->mmio_base + KPI_KPE0);
+    73		key_event[1] = readl(keypad->mmio_base + KPI_KPE1);
+    74		key_event[2] = readl(keypad->mmio_base + KPI_KRE0);
+    75		key_event[3] = readl(keypad->mmio_base + KPI_KRE1);
+    76	
+    77		/* Clear key event status */
+    78		writel(key_event[0], (keypad->mmio_base + KPI_KPE0));
+    79		writel(key_event[1], (keypad->mmio_base + KPI_KPE1));
+    80		writel(key_event[2], (keypad->mmio_base + KPI_KRE0));
+    81		writel(key_event[3], (keypad->mmio_base + KPI_KRE1));
+    82	
+  > 83		pressed_keys  = key_event[0] | key_event[1] << 32;
+    84		released_keys = key_event[2] | key_event[3] << 32;
+    85	
+    86		/* Process pressed keys */
+    87		for_each_set_bit(index, &pressed_keys, KEY_EVENT_BITS) {
+    88			code = MATRIX_SCAN_CODE(index / 8, (index % 8), row_shift);
+    89			key = keymap[code];
+    90	
+    91			input_event(input_dev, EV_MSC, MSC_SCAN, code);
+    92			input_report_key(input_dev, key, 1);
+    93		}
+    94	
+    95		/* Process released keys */
+    96		for_each_set_bit(index, &released_keys, KEY_EVENT_BITS) {
+    97			code = MATRIX_SCAN_CODE(index / 8, (index % 8), row_shift);
+    98			key = keymap[code];
+    99	
+   100			input_event(input_dev, EV_MSC, MSC_SCAN, code);
+   101			input_report_key(input_dev, key, 0);
+   102		}
+   103	
+   104		input_sync(input_dev);
+   105	}
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
