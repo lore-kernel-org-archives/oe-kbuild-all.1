@@ -1,60 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A991ABEC2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 09:37:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A461E4AD
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 09:37:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731404233; cv=none; b=m6wz/T01m2iEFR0tT1t+GAz9Nc/EFqY95+DM4TT7eC1oQyDRoppIiWCowzmwJli4Pm5pryB3SMuUfpyO/kPewbrVER0Iea0DnmdIBMSWkN0cVQ0C4ClX+niS6KTZBbiPh8kZ84s886Kvnr5DNK8Xub74G78/kOYc8TWifXpbeDk=
+	t=1731404235; cv=none; b=al6v/9IpZrA84MC+6z8BzzXc98+Dh+nuU0+oQ32aBjelfQQ3jU/zaEOvn3X5j070dgyaFsfEoNZm38x3PJEsKg5skG5Arn7JwlDN5lTJI4Hh2+8qWkoADYNQ3Gc1ifFxckafcE6v01hl4ip+sqU5+EYs6b52NnWRNKdhJLqRfV8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731404233; c=relaxed/simple;
-	bh=FD/eikd5qMHaYwD/uU93xvbkgscrHyMZ1c5VM2bNoqY=;
+	s=arc-20240116; t=1731404235; c=relaxed/simple;
+	bh=BG88lmT+d3ZawoP/5WJSguMy0D/EvYsOfiqns+IETtQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ukbAmaCqyENbFhTeDc2+aj6dZr9sVLuBiUwYLeyDM9/I8j4miYvXczP7mxPyzzPHMAZFQa000XmFuFodUF9cMg2pXDHuqCCGiTMs6sLJwkdMlYLybN6s2RMu2EOSwhBE+ygbnc4fqu3DB/UkhcepaiHMV2joMv/jcnXU93EGyEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NwnTGsXK; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=RdwQT/7A6ne6+U/novlQydSUfbUbmbSaqpGOm8s9LbQOTVcBYLK0TKHYcQJKiHmkin9020H3S4dqQ3uBJ4ufN8dUY59p1YDZdlGtUov0+/jjiFE1u/UL0jeYj4rwHrAHDbW/AIrjTctzga+KD+oqmyLMBqBGkKPSNDoLGygsM5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hV9/utza; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NwnTGsXK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hV9/utza"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731404231; x=1762940231;
+  t=1731404233; x=1762940233;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FD/eikd5qMHaYwD/uU93xvbkgscrHyMZ1c5VM2bNoqY=;
-  b=NwnTGsXKRJS+AFPgNk2Azl+nQ6LeTJ8NtyMsFT8vVdJRn5BBk0oFopFv
-   WsN5km9xmIqGxOPxBrCqxMds8t3fwpTA0HznlXKy9qT7fI2wAXRCHhr16
-   /J+y96WFy7KKeEhizX++eNCQO/Iq91w7pb4dMrrzYqJ1HG9psXHQtJXBP
-   VCk3SCPbXRoAsDTAL4QkVcgkwnxFVAQDI2+xZpo9ye+/N0+h6DFJSh0Vs
-   +zpo25lRxL19eQCpUtOg/ZaiwRN342GxuJNHpKZk87CTRkb2UyrVS8S76
-   iBCw8DaDobOp1ubaAP/pTq9LVaTvk7Ay6DdPpQ3OJhRoKzA2fmbDqCrRL
-   Q==;
-X-CSE-ConnectionGUID: NEyh0Vz5RS6iVGoVslgbbg==
-X-CSE-MsgGUID: tDNG/EqBTA2bygUTo5hm9w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="31324303"
+  bh=BG88lmT+d3ZawoP/5WJSguMy0D/EvYsOfiqns+IETtQ=;
+  b=hV9/utzasAHZqqgb1SKiuoOpQKvKPggrTO4BgY+LGIoK9W2/Q5SgSwoq
+   M+YrW7hiW4eB4hpwgx18dZjl57MyK8cSwGebwTV8aMcDq2u/TTKIw3dbg
+   kcujLr5WPdPCNvsZGx08m6yOe4wzgYstJnAlAkXbKPoghIAGsX4oqL0YR
+   qYSOzmrqUeo3itQou5PlsXIlJ06a/OJ//xynz7kUUupLmJ0RN94jBf4hz
+   C5Mn6yVm0NpxdQNv5j7JeYnfUUIJjEZr3E/cAqFrFwAnz1XdJ0V6+/+2/
+   u2Qop+Uxs+qyVe+f6WBM/Yn2ckTiJ82mbd8ld8RaVaX5LjqMNIPKPbzzF
+   A==;
+X-CSE-ConnectionGUID: gmpqwSndSSqkOcg10iqIpg==
+X-CSE-MsgGUID: XPLY2q4ZTKqWfMMm/6ko5w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="31324307"
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="31324303"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:37:10 -0800
-X-CSE-ConnectionGUID: O1KHx7zxSEqMfGYNqFmp9A==
-X-CSE-MsgGUID: pXbrb84pQ1mgU7rObFzI2Q==
+   d="scan'208";a="31324307"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:37:11 -0800
+X-CSE-ConnectionGUID: uznwFk1lQj6Hj/ss8jzqjw==
+X-CSE-MsgGUID: FrAaMaVFR46Dsllk7XcSsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="86945102"
+   d="scan'208";a="87726523"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Nov 2024 01:37:10 -0800
+  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2024 01:37:10 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAnKd-0000fp-2K;
+	id 1tAnKd-0000fj-23;
 	Tue, 12 Nov 2024 09:37:07 +0000
-Date: Tue, 12 Nov 2024 17:36:45 +0800
+Date: Tue, 12 Nov 2024 17:36:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hajime Tazaki <thehajime@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v2 08/13] um: nommu: configure fs register on host
- syscall invocation
-Message-ID: <202411121758.PVa39iuK-lkp@intel.com>
-References: <894d17f7924e7d31bfd5d6595ee84158f7411e47.1731290567.git.thehajime@gmail.com>
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org,
+	linux-api@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+Message-ID: <202411121707.Uash8uoM-lkp@intel.com>
+References: <20241111234006.5942-13-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +63,130 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <894d17f7924e7d31bfd5d6595ee84158f7411e47.1731290567.git.thehajime@gmail.com>
+In-Reply-To: <20241111234006.5942-13-ouster@cs.stanford.edu>
 
-Hi Hajime,
+Hi John,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on uml/next]
-[also build test WARNING on next-20241112]
-[cannot apply to kees/for-next/execve uml/fixes linus/master v6.12-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Hajime-Tazaki/fs-binfmt_elf_efpic-add-architecture-hook-elf_arch_finalize_exec/20241111-182943
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
-patch link:    https://lore.kernel.org/r/894d17f7924e7d31bfd5d6595ee84158f7411e47.1731290567.git.thehajime%40gmail.com
-patch subject: [RFC PATCH v2 08/13] um: nommu: configure fs register on host syscall invocation
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20241112/202411121758.PVa39iuK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121758.PVa39iuK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241112-074535
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241112/202411121707.Uash8uoM-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121707.Uash8uoM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121758.PVa39iuK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411121707.Uash8uoM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/um/os-Linux/cpu.c:18: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * get_host_cpu_features() return true with X86_FEATURE_FSGSBASE even
+   In file included from ./arch/openrisc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/kernel.h:27,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/sched.h:2145,
+                    from include/linux/audit.h:12,
+                    from net/homa/homa_impl.h:12,
+                    from net/homa/homa_outgoing.c:7:
+   net/homa/homa_outgoing.c: In function 'homa_new_data_packet':
+   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   net/homa/homa_outgoing.c:108:9: note: in expansion of macro 'do_div'
+     108 |         do_div(segs, max_seg_data);
+         |         ^~~~~~
+   In file included from include/asm-generic/bug.h:5,
+                    from arch/openrisc/include/asm/bug.h:5,
+                    from include/linux/bug.h:5,
+                    from net/homa/homa_impl.h:10:
+   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   net/homa/homa_outgoing.c:108:9: note: in expansion of macro 'do_div'
+     108 |         do_div(segs, max_seg_data);
+         |         ^~~~~~
+>> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    int *
+   net/homa/homa_outgoing.c:108:9: note: in expansion of macro 'do_div'
+     108 |         do_div(segs, max_seg_data);
+         |         ^~~~~~
+   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'int *'
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
+   net/homa/homa_outgoing.c: In function 'homa_message_out_fill':
+   include/asm-generic/div64.h:222:35: warning: comparison of distinct pointer types lacks a cast [-Wcompare-distinct-pointer-types]
+     222 |         (void)(((typeof((n)) *)0) == ((uint64_t *)0));  \
+         |                                   ^~
+   net/homa/homa_outgoing.c:233:9: note: in expansion of macro 'do_div'
+     233 |         do_div(segs_per_gso, max_seg_data);
+         |         ^~~~~~
+   include/asm-generic/div64.h:234:32: warning: right shift count >= width of type [-Wshift-count-overflow]
+     234 |         } else if (likely(((n) >> 32) == 0)) {          \
+         |                                ^~
+   include/linux/compiler.h:76:45: note: in definition of macro 'likely'
+      76 | # define likely(x)      __builtin_expect(!!(x), 1)
+         |                                             ^
+   net/homa/homa_outgoing.c:233:9: note: in expansion of macro 'do_div'
+     233 |         do_div(segs_per_gso, max_seg_data);
+         |         ^~~~~~
+>> include/asm-generic/div64.h:238:36: error: passing argument 1 of '__div64_32' from incompatible pointer type [-Wincompatible-pointer-types]
+     238 |                 __rem = __div64_32(&(n), __base);       \
+         |                                    ^~~~
+         |                                    |
+         |                                    int *
+   net/homa/homa_outgoing.c:233:9: note: in expansion of macro 'do_div'
+     233 |         do_div(segs_per_gso, max_seg_data);
+         |         ^~~~~~
+   include/asm-generic/div64.h:213:38: note: expected 'uint64_t *' {aka 'long long unsigned int *'} but argument is of type 'int *'
+     213 | extern uint32_t __div64_32(uint64_t *dividend, uint32_t divisor);
+         |                            ~~~~~~~~~~^~~~~~~~
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
+vim +/__div64_32 +238 include/asm-generic/div64.h
 
-vim +18 arch/um/os-Linux/cpu.c
-
-    16	
-    17	/**
-  > 18	 * get_host_cpu_features() return true with X86_FEATURE_FSGSBASE even
-    19	 * if the kernel is older and disabled using fsgsbase instruction.
-    20	 * thus detection is based on whether SIGILL is raised or not.
-    21	 */
-    22	static jmp_buf jmpbuf;
-    23	static void sigill(int sig, siginfo_t *si, void *ctx_void)
-    24	{
-    25		siglongjmp(jmpbuf, 1);
-    26	}
-    27	
+^1da177e4c3f41 Linus Torvalds     2005-04-16  215  
+^1da177e4c3f41 Linus Torvalds     2005-04-16  216  /* The unnecessary pointer compare is there
+^1da177e4c3f41 Linus Torvalds     2005-04-16  217   * to check for type safety (n must be 64bit)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  218   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  219  # define do_div(n,base) ({				\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  220  	uint32_t __base = (base);			\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  221  	uint32_t __rem;					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  222  	(void)(((typeof((n)) *)0) == ((uint64_t *)0));	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  223  	if (__builtin_constant_p(__base) &&		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  224  	    is_power_of_2(__base)) {			\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  225  		__rem = (n) & (__base - 1);		\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  226  		(n) >>= ilog2(__base);			\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  227  	} else if (__builtin_constant_p(__base) &&	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  228  		   __base != 0) {			\
+461a5e51060c93 Nicolas Pitre      2015-10-30  229  		uint32_t __res_lo, __n_lo = (n);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  230  		(n) = __div64_const32(n, __base);	\
+461a5e51060c93 Nicolas Pitre      2015-10-30  231  		/* the remainder can be computed with 32-bit regs */ \
+461a5e51060c93 Nicolas Pitre      2015-10-30  232  		__res_lo = (n);				\
+461a5e51060c93 Nicolas Pitre      2015-10-30  233  		__rem = __n_lo - __res_lo * __base;	\
+911918aa7ef6f8 Nicolas Pitre      2015-11-02  234  	} else if (likely(((n) >> 32) == 0)) {		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  235  		__rem = (uint32_t)(n) % __base;		\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  236  		(n) = (uint32_t)(n) / __base;		\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  237  	} else {					\
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @238  		__rem = __div64_32(&(n), __base);	\
+c747ce4706190e Geert Uytterhoeven 2021-08-11  239  	}						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  240  	__rem;						\
+^1da177e4c3f41 Linus Torvalds     2005-04-16  241   })
+^1da177e4c3f41 Linus Torvalds     2005-04-16  242  
 
 -- 
 0-DAY CI Kernel Test Service
