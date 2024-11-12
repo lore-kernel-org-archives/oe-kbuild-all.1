@@ -1,70 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF75120EA2D;
-	Tue, 12 Nov 2024 09:47:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADC0320BB49
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 09:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731404844; cv=none; b=AoI9qgF8Z4wAjWzyo8bmL1ThWN3DTEAlNvYkjJVrVRvYkH2boKAdWYWemASBIgFQjXmT7yz04h4eItk8ybOOoBqSPim61tpxV7g1NUfBGp5UiZM48wikxXgw7tFs0HWLEtNBM7Oh9K4/AkVgFAZXLDUiyWWPKPzCjLUJygSd+og=
+	t=1731405495; cv=none; b=QHDSSuvKGQe9eyobajtrG6T0pEz5ffy29PajZg3t11v1tpzO92JeFu3C6cAGGXqU2js61qOya3wOrMBHEVi1sfqHf3DMeVVRvYwrV1LDeVgkLS2qU+US8PSLih89AqHhiIDQydQSu0vDEKV6MXKU//e/9scbd79bbp9/dDWsFxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731404844; c=relaxed/simple;
-	bh=0UQNzu2yoylWuobadC3WUbMF9p/Em6JuBrZB7HyucUk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f0UK5DyUVytWIDFclPZlYsn+P//BLmu5XvGJ9CH4ITkp1ye6L2WV3zvTdiUGZBMBqIDcXr0EVdYp1+n3TXyM0m7CtyWOYQcYc9ErdBW1PXccynpwf8A9p7mfUtxxz5MZm8/TRf/fURt5Ag9inu4YqM6UobmJ877sKb4whqcdd9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ENFIVRfb; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1731405495; c=relaxed/simple;
+	bh=muZkVBfDK9xmWRjGVnQc3ZNTipQ4IxYAfxVbaToEE2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ta3Q+FEJNz0XbyZbz0lQ5rnglKdAQ7KRh1RHbL4PoOPrPcXmNpLppernJqlWZTjjpYIb9eCo5dWuBZgOZTwCKxkI9T1rp55J1iGBv4KQXMFI0GiXYWLH6b4iV6TyVQRbq6fWcN4LuX/GeYZirLZkYELk67RwE9lz/TL6D1g3VUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gemV5rJa; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ENFIVRfb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gemV5rJa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731404842; x=1762940842;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0UQNzu2yoylWuobadC3WUbMF9p/Em6JuBrZB7HyucUk=;
-  b=ENFIVRfbmR+gzVx8AMa9s3nT9nPIOld0drDqraIK3V0eMA/gSg8/303H
-   RkaHr2A9ThNGh3PfsIRekSof3V8vSsOk7wCPT4X1ahmo1x5o9e1el/Oar
-   3PQ/9KMuN41yqrWgwToczznU6Zt9Wz4PqVupVasIGULResEASPI+cfIrG
-   oXZkVbh6xYfBIWBD821zoTR7hcDWfPxULVIIMPOQTCRsxaAkQJGevD+8y
-   WAbUZWVDlID3s7vNrNp7ih0j1hn3HNy1t48P0inNCXCz/SG9x/tV7SwAW
-   kORcki3Qfl5tShkNGi1qGMFpsaNc4Iz40t4MNayGg81b8xvek3Qowf5E9
-   w==;
-X-CSE-ConnectionGUID: LLgRHixsQG6Y8Cjx1upcnA==
-X-CSE-MsgGUID: 9MchnI+NRCS/chPkjK0k7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31383958"
+  t=1731405494; x=1762941494;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=muZkVBfDK9xmWRjGVnQc3ZNTipQ4IxYAfxVbaToEE2o=;
+  b=gemV5rJaV+ZPzRMQYS+miZz5rHA8rDWlL7Ds1W9aHBrGhCBBRI/uNarn
+   sNu8+JsP2+z+19S874hq3MG3aSxnVvjPmWwqB0GtucSI6DdnQzeC/RLAb
+   CR4fP1k6xh8z9bVVqulc3/rd/Bok7koMlq7lWXMCtUVTlPNlI0XdXioUb
+   Yqj8YGTxWf1fv/fZM87MEAep6x1D+/HXdEGVw9Os3StXvZDtOwnVlTh7J
+   hFdOBuHLhDnECcbEEqHDyGS6ivyX0Jv98uG2xmyXvqug2MkAor5O34tw2
+   P/wY+yxL71mb3CwkXtxDimAzeudVA3OyLwqHWbYZyghFTLW8OlQPNp0gb
+   A==;
+X-CSE-ConnectionGUID: eM9t01IsT5uSU2jWd/DwQQ==
+X-CSE-MsgGUID: QgRJ4Wi3QcuMRVRWYxQjEg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31086979"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31383958"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:47:19 -0800
-X-CSE-ConnectionGUID: pikEPHG3Tn++GpNCZJPLQg==
-X-CSE-MsgGUID: uCP6iulXQL6ohMeG68rL0g==
+   d="scan'208";a="31086979"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 01:58:13 -0800
+X-CSE-ConnectionGUID: R/Ub/eKeS9iMsWVupGIKyA==
+X-CSE-MsgGUID: /y8xY+D2QqSWyx+QY8D48A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="92318218"
+   d="scan'208";a="87788733"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Nov 2024 01:47:12 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 12 Nov 2024 01:58:12 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAnUL-0000gb-0i;
-	Tue, 12 Nov 2024 09:47:09 +0000
-Date: Tue, 12 Nov 2024 17:47:05 +0800
+	id 1tAnf0-0000gx-06;
+	Tue, 12 Nov 2024 09:58:10 +0000
+Date: Tue, 12 Nov 2024 17:57:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, minchan@google.com, jannh@google.com,
-	shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com,
-	surenb@google.com
-Subject: Re: [PATCH 2/4] mm: move per-vma lock into vm_area_struct
-Message-ID: <202411121745.VmaDStMg-lkp@intel.com>
-References: <20241111205506.3404479-3-surenb@google.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 9715/30000] kismet: WARNING: unmet
+ direct dependencies detected for CRYPTO_ZSTD when selected by INCREMENTAL_FS
+Message-ID: <202411121721.OhliqFKU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,352 +61,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241111205506.3404479-3-surenb@google.com>
 
-Hi Suren,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 931086f2a88086319afb57cd3925607e8cda0a9f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/mm-introduce-vma_start_read_locked-_nested-helpers/20241112-050531
-base:   931086f2a88086319afb57cd3925607e8cda0a9f
-patch link:    https://lore.kernel.org/r/20241111205506.3404479-3-surenb%40google.com
-patch subject: [PATCH 2/4] mm: move per-vma lock into vm_area_struct
-config: um-x86_64_defconfig (https://download.01.org/0day-ci/archive/20241112/202411121745.VmaDStMg-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121745.VmaDStMg-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   104cc535f91241da2629d8e2d5abcf57a97b0afd
+commit: c3e816a56786096a2f1521a3445a5f6b056af6f9 [9715/30000] ANDROID: Incremental fs: Add zstd compression support
+config: x86_64-kismet-CONFIG_CRYPTO_ZSTD-CONFIG_INCREMENTAL_FS-0-0 (https://download.01.org/0day-ci/archive/20241112/202411121721.OhliqFKU-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241112/202411121721.OhliqFKU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121745.VmaDStMg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411121721.OhliqFKU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from ipc/util.c:47:
->> include/linux/mm.h:877:2: error: call to undeclared function 'vma_lock_init'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           vma_lock_init(&vma->vm_lock);
-           ^
-   include/linux/mm.h:877:2: note: did you mean 'osq_lock_init'?
-   include/linux/osq_lock.h:23:20: note: 'osq_lock_init' declared here
-   static inline void osq_lock_init(struct optimistic_spin_queue *lock)
-                      ^
-   In file included from ipc/util.c:47:
-   include/linux/mm.h:877:22: error: no member named 'vm_lock' in 'struct vm_area_struct'
-           vma_lock_init(&vma->vm_lock);
-                          ~~~  ^
-   include/linux/mm.h:878:7: error: no member named 'vm_lock_seq' in 'struct vm_area_struct'
-           vma->vm_lock_seq = UINT_MAX;
-           ~~~  ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                           set->sig[1] | set->sig[0]) == 0;
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[1] | set->sig[0]) == 0;
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/util.c:47:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
---
-   In file included from ipc/msgutil.c:9:
-   In file included from include/linux/security.h:33:
->> include/linux/mm.h:877:2: error: call to undeclared function 'vma_lock_init'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           vma_lock_init(&vma->vm_lock);
-           ^
-   include/linux/mm.h:877:2: note: did you mean 'osq_lock_init'?
-   include/linux/osq_lock.h:23:20: note: 'osq_lock_init' declared here
-   static inline void osq_lock_init(struct optimistic_spin_queue *lock)
-                      ^
-   In file included from ipc/msgutil.c:9:
-   In file included from include/linux/security.h:33:
-   include/linux/mm.h:877:22: error: no member named 'vm_lock' in 'struct vm_area_struct'
-           vma_lock_init(&vma->vm_lock);
-                          ~~~  ^
-   include/linux/mm.h:878:7: error: no member named 'vm_lock_seq' in 'struct vm_area_struct'
-           vma->vm_lock_seq = UINT_MAX;
-           ~~~  ^
-   In file included from ipc/msgutil.c:9:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   In file included from ipc/msgutil.c:9:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                     ^
-   In file included from ipc/msgutil.c:9:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from arch/um/include/asm/hardirq.h:5:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   12 warnings and 3 errors generated.
---
-   In file included from ipc/msg.c:30:
->> include/linux/mm.h:877:2: error: call to undeclared function 'vma_lock_init'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           vma_lock_init(&vma->vm_lock);
-           ^
-   include/linux/mm.h:877:2: note: did you mean 'osq_lock_init'?
-   include/linux/osq_lock.h:23:20: note: 'osq_lock_init' declared here
-   static inline void osq_lock_init(struct optimistic_spin_queue *lock)
-                      ^
-   In file included from ipc/msg.c:30:
-   include/linux/mm.h:877:22: error: no member named 'vm_lock' in 'struct vm_area_struct'
-           vma_lock_init(&vma->vm_lock);
-                          ~~~  ^
-   include/linux/mm.h:878:7: error: no member named 'vm_lock_seq' in 'struct vm_area_struct'
-           vma->vm_lock_seq = UINT_MAX;
-           ~~~  ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[3] | set->sig[2] |
-                                         ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:99:4: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                           set->sig[1] | set->sig[0]) == 0;
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:101:11: warning: array index 1 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return (set->sig[1] | set->sig[0]) == 0;
-                           ^        ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                   return  (set1->sig[3] == set2->sig[3]) &&
-                                            ^         ~
-   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
-           unsigned long sig[_NSIG_WORDS];
-           ^
-   In file included from ipc/msg.c:30:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (which contains 1 element) [-Warray-bounds]
-                           (set1->sig[2] == set2->sig[2]) &&
-..
-
-
-vim +/vma_lock_init +877 include/linux/mm.h
-
-   868	
-   869	static inline void vma_init(struct vm_area_struct *vma, struct mm_struct *mm)
-   870	{
-   871		memset(vma, 0, sizeof(*vma));
-   872		vma->vm_mm = mm;
-   873		vma->vm_ops = &vma_dummy_vm_ops;
-   874		INIT_LIST_HEAD(&vma->anon_vma_chain);
-   875		vma_mark_detached(vma, false);
-   876		vma_numab_state_init(vma);
- > 877		vma_lock_init(&vma->vm_lock);
-   878		vma->vm_lock_seq = UINT_MAX;
-   879	}
-   880	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CRYPTO_ZSTD when selected by INCREMENTAL_FS
+   WARNING: unmet direct dependencies detected for LEDS_CLASS
+     Depends on [n]: NEW_LEDS [=n]
+     Selected by [y]:
+     - LG_LAPTOP [=y] && X86 [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && ACPI_WMI [=y] && INPUT [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_ZSTD
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - INCREMENTAL_FS [=y] && BLOCK [=y]
+   
+   WARNING: unmet direct dependencies detected for CRYPTO_SHA256
+     Depends on [n]: CRYPTO [=n]
+     Selected by [y]:
+     - INCREMENTAL_FS [=y] && BLOCK [=y]
+   
+   WARNING: unmet direct dependencies detected for SND_SOC_MAX98357A
+     Depends on [n]: SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && GPIOLIB [=n]
+     Selected by [y]:
+     - SND_SOC_STORM [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] && SND_SOC_QCOM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
