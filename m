@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E02DF1422D8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 13:39:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFC520010B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 14:52:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731418751; cv=none; b=bTnDIJIR5YTR3UISbgqFOLMhTnIe8w2NzmrKdPcVRRnUXSrqD2HQ3WU6DwN6Mou3qQl0ZLBgS6/6P0y33p6Sb8HEfnNBCRt8EWP6TAhlUDeaBW/4DXBCmyRay/fVwa3q262Bfk+4Ue62djMYrL8D2ySka/1R5hnFfg+JGpFacSQ=
+	t=1731423142; cv=none; b=gqHpAIrGEeHMHZ07S6QGwT3TCFAUmeweKVDmMkENE6tVSSki5W+Hi2ikMmy+JqIYU7joQ9Ui7sejEmgM/3nmIyEMK3THmiPui33FpdIJAxHB7I4PWAajAFjdNqexV2F9TxhaZeXU+Ks8qsIf+zKCkBi8TCAKFKfZaIlYchLUCSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731418751; c=relaxed/simple;
-	bh=UcNrkuK2BXHCzDxwfcozpXk/mzdMdxhY10JkcwwVAkk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m/SFMwYoikxxej8BHfeTmTmeDhX1g8MvPQ9HNQqgX1/xVbvTIvaiP9Xogh5QogbVINIBoPZOFcZ+IE88xyxuNW3FgOXWgVExUtLO0UmdkdQxwRaBAoJ8tbNPq4iY4aU2pzoBwRPAvAVkDBXI2llEJ40GyfIqQUCDbKHWnVFzYug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3CZoYFZ; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1731423142; c=relaxed/simple;
+	bh=XxmjXbd3NELFVsWVdW6o2Zxqx8IqBr4HxPuGWI6cATE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uKO0ZcP7u7GcUp77Tei5bRPQotMqc4xWCFfTBESVn67Haw4ZogVX8WWaWKjFBJEMpm6x93N8n4cT9h9tFofezjA7lsALfGx7MDPXoCyFGqR3IfUlme7I3MZL48PFRmtcwJc9emn3+ZvT4vf3U1uMo7BfvSHavaRpiA/ghT7KgaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gw7suwbH; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3CZoYFZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gw7suwbH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731418749; x=1762954749;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UcNrkuK2BXHCzDxwfcozpXk/mzdMdxhY10JkcwwVAkk=;
-  b=n3CZoYFZAY+iWE9fl7GWDgPNs5DVGYaL8w7TPeRnSgMPtGvJfAml2622
-   iu3UNUI3h3RJj0nWlgUIzmB2/DAnTlOEQhkGYo77RDGNGGeQLqZm88xuk
-   1dz+Cjx8KdpxkaiOmDFLgDTBToVG91z0A+rgs/LXQRNJ53tXRL/nvFr8k
-   3yWfW+j7y9wQp9moCWkRtHY0/akxglr0qUs/MDObjc0MRfFIxLbKsIXQQ
-   wMKACxwzrTqBqezpo/0mOHToN5sM5F5isxwWYf3CRIHNSxBTqUNsf8FzO
-   JV6nI+P2SKT5vo61ZOxytXr5VMNJ6095Z5X3i2GI7pN/KQfJr0ZkaFqYC
+  t=1731423141; x=1762959141;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XxmjXbd3NELFVsWVdW6o2Zxqx8IqBr4HxPuGWI6cATE=;
+  b=gw7suwbHdWNPwD4yYfqvC7+3pp+IKU96UM6duCl6DHgHQNfcowfCz3NI
+   3kSVS3AV7YxTQpOsdO89tdU7pljQQQdB4LeXu5oy09qFwzqDph3ok9ju4
+   Hhg2pMhO6UXA0tWcsStvvkPiUU6FOSX5V6TC8xJZiyDBObwbohCFKiHJg
+   3eZUeDMQzhk10FO/FtUn2cW5/ITEzxExf9mJAE3XqEzAg+oppu6qJVEE9
+   xTZfQIy9IqwINe0dYSd1i4UzAKJHQ59plDFIDz1VP1sh0cIe6gPN4G8K/
+   UB+/n4XLTRu1DsbzuVC7qz6TlA73iEmDjWa+zeKerw4OTafgtu1iRuj3r
    A==;
-X-CSE-ConnectionGUID: IU9qD/0+RV+j27fCLth6xQ==
-X-CSE-MsgGUID: hlw6gPdxRmWfVMa35GniqQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="35185192"
+X-CSE-ConnectionGUID: NSfKbBHnQS+8tIbMDOKdLw==
+X-CSE-MsgGUID: onmSHZs9QzOcuLX0ez3BDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="41885679"
 X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="35185192"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 05:39:08 -0800
-X-CSE-ConnectionGUID: 2g1GstnLQYCWsppvCTNDqA==
-X-CSE-MsgGUID: x+q/7aN4SlWcL2iX2i6Dyw==
+   d="scan'208";a="41885679"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 06:52:20 -0800
+X-CSE-ConnectionGUID: ckdD5CfLSzipX2yz0R4Ubw==
+X-CSE-MsgGUID: f3iIhOODQomMGy2XCI5DuQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
-   d="scan'208";a="87888659"
+   d="scan'208";a="87259015"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2024 05:39:07 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 12 Nov 2024 06:52:17 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAr6n-0001MT-0M;
-	Tue, 12 Nov 2024 13:39:05 +0000
-Date: Tue, 12 Nov 2024 21:38:34 +0800
+	id 1tAsFb-0001RK-2e;
+	Tue, 12 Nov 2024 14:52:15 +0000
+Date: Tue, 12 Nov 2024 22:51:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1290/1290]
- drivers/clocksource/arm_arch_timer.c:554:44: error:
- 'hisi_161010101_read_cntvct_el0' undeclared
-Message-ID: <202411122158.hK6m4BFI-lkp@intel.com>
+To: Chunhai Guo <guochunhai@vivo.com>, xiang@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, chao@kernel.org, huyue2@coolpad.com,
+	jefflexu@linux.alibaba.com, dhavale@google.com,
+	linux-erofs@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	Chunhai Guo <guochunhai@vivo.com>
+Subject: Re: [PATCH] erofs: add sysfs node to drop all compression-related
+ caches
+Message-ID: <202411122209.OQ3CcFg1-lkp@intel.com>
+References: <20241112091403.586545-1-guochunhai@vivo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +66,91 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241112091403.586545-1-guochunhai@vivo.com>
 
-Hi Yang,
+Hi Chunhai,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   078e0901be705959736f37cb993768ed39658448
-commit: e63b4759933f6a5c5ce6cdc1d11c7bf2201d0612 [1290/1290] arm64: arch_timer: only do cntvct workaround on VDSO path on D05
-config: arm64-randconfig-002-20241112 (https://download.01.org/0day-ci/archive/20241112/202411122158.hK6m4BFI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122158.hK6m4BFI-lkp@intel.com/reproduce)
+[auto build test ERROR on xiang-erofs/dev-test]
+[also build test ERROR on xiang-erofs/dev xiang-erofs/fixes linus/master v6.12-rc7 next-20241112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chunhai-Guo/erofs-add-sysfs-node-to-drop-all-compression-related-caches/20241112-170412
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+patch link:    https://lore.kernel.org/r/20241112091403.586545-1-guochunhai%40vivo.com
+patch subject: [PATCH] erofs: add sysfs node to drop all compression-related caches
+config: x86_64-randconfig-161-20241112 (https://download.01.org/0day-ci/archive/20241112/202411122209.OQ3CcFg1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122209.OQ3CcFg1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411122158.hK6m4BFI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411122209.OQ3CcFg1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/clocksource/arm_arch_timer.c: In function 'arch_timer_enable_workaround':
->> drivers/clocksource/arm_arch_timer.c:554:44: error: 'hisi_161010101_read_cntvct_el0' undeclared (first use in this function)
-     554 |                 if (wa->read_cntvct_el0 == hisi_161010101_read_cntvct_el0) {
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clocksource/arm_arch_timer.c:554:44: note: each undeclared identifier is reported only once for each function it appears in
+   fs/erofs/sysfs.c: In function 'erofs_attr_store':
+>> fs/erofs/sysfs.c:175:17: error: implicit declaration of function 'z_erofs_shrink_scan' [-Werror=implicit-function-declaration]
+     175 |                 z_erofs_shrink_scan(sbi, ~0UL);
+         |                 ^~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/hisi_161010101_read_cntvct_el0 +554 drivers/clocksource/arm_arch_timer.c
+vim +/z_erofs_shrink_scan +175 fs/erofs/sysfs.c
 
-   527	
-   528	static
-   529	void arch_timer_enable_workaround(const struct arch_timer_erratum_workaround *wa,
-   530					  bool local)
-   531	{
-   532		int i;
-   533	
-   534		if (local) {
-   535			__this_cpu_write(timer_unstable_counter_workaround, wa);
-   536		} else {
-   537			for_each_possible_cpu(i)
-   538				per_cpu(timer_unstable_counter_workaround, i) = wa;
-   539		}
-   540	
-   541		/*
-   542		 * Use the locked version, as we're called from the CPU
-   543		 * hotplug framework. Otherwise, we end-up in deadlock-land.
-   544		 */
-   545		static_branch_enable_cpuslocked(&arch_timer_read_ool_enabled);
-   546	
-   547		/*
-   548		 * Don't use the vdso fastpath if errata require using the
-   549		 * out-of-line counter accessor. We may change our mind pretty
-   550		 * late in the game (with a per-CPU erratum, for example), so
-   551		 * change both the default value and the vdso itself.
-   552		 */
-   553		if (wa->read_cntvct_el0) {
- > 554			if (wa->read_cntvct_el0 == hisi_161010101_read_cntvct_el0) {
-   555				clocksource_counter.archdata.vdso_direct = true;
-   556				vdso_default = true;
-   557				vdso_fix = true;
-   558			} else {
-   559				clocksource_counter.archdata.vdso_direct = false;
-   560				vdso_default = false;
-   561			}
-   562		}
-   563	}
-   564	
+   132	
+   133	static ssize_t erofs_attr_store(struct kobject *kobj, struct attribute *attr,
+   134							const char *buf, size_t len)
+   135	{
+   136		struct erofs_sb_info *sbi = container_of(kobj, struct erofs_sb_info,
+   137							s_kobj);
+   138		struct erofs_attr *a = container_of(attr, struct erofs_attr, attr);
+   139		unsigned char *ptr = __struct_ptr(sbi, a->struct_type, a->offset);
+   140		unsigned long t;
+   141		int ret;
+   142	
+   143		switch (a->attr_id) {
+   144		case attr_pointer_ui:
+   145			if (!ptr)
+   146				return 0;
+   147			ret = kstrtoul(skip_spaces(buf), 0, &t);
+   148			if (ret)
+   149				return ret;
+   150			if (t != (unsigned int)t)
+   151				return -ERANGE;
+   152	#ifdef CONFIG_EROFS_FS_ZIP
+   153			if (!strcmp(a->attr.name, "sync_decompress") &&
+   154			    (t > EROFS_SYNC_DECOMPRESS_FORCE_OFF))
+   155				return -EINVAL;
+   156	#endif
+   157			*(unsigned int *)ptr = t;
+   158			return len;
+   159		case attr_pointer_bool:
+   160			if (!ptr)
+   161				return 0;
+   162			ret = kstrtoul(skip_spaces(buf), 0, &t);
+   163			if (ret)
+   164				return ret;
+   165			if (t != 0 && t != 1)
+   166				return -EINVAL;
+   167			*(bool *)ptr = !!t;
+   168			return len;
+   169		case attr_drop_caches:
+   170			ret = kstrtoul(skip_spaces(buf), 0, &t);
+   171			if (ret)
+   172				return ret;
+   173			if (t != 1)
+   174				return -EINVAL;
+ > 175			z_erofs_shrink_scan(sbi, ~0UL);
+   176			return len;
+   177		}
+   178		return 0;
+   179	}
+   180	
 
 -- 
 0-DAY CI Kernel Test Service
