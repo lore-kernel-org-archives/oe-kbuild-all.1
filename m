@@ -1,70 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB0E2123E0;
-	Tue, 12 Nov 2024 10:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F030322EE69
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 10:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731406765; cv=none; b=KdF7AkXt6yySFUZcDGhSrE1SQhQP6KysAURhv7Vmr/pU39ux6PSnF6ya4cOjaWLOytc8l/OQELRMJcuWlZdOmFrzH2est3xWCcdkNi1DpZac6FFFYPxw3SeUVolAvvZAOmGjpcqEPdBiRbP+ox4eFwYQQqTqCBpPXDggJKw7bqI=
+	t=1731407967; cv=none; b=QKo4GUCjpWN12rb8wAS3rTLeLpZSTO9XqgtG7xMi3uBwbBRickz4pq0wUFX5xM0AV8nDRnk2K6zKLQUzkCBPorYgSY7XzwnJkxiWqxIx5d9/yYeTRLX9ZUJuiD66GccV4hXi2OafatUdnCMWeVkR7T4BfY89d/1+muxGWqCEtrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731406765; c=relaxed/simple;
-	bh=hOV0Cyam6/MaGDK/wCOTgJNkoOmx/0lpY0GypN54K+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=crIJ0Rxe/W6TPRg+u7cQuDQylfhRdu/K5Sib/+upBFtQPyFq5ygb+FTyT+FDHGUrh8N3EBLpdLuqkgN/mNTQlXIuT1VYIgetCadvVGryEVlvLxSlOvBG/GUHy52vv2ZeiJ3snfSrIasQBsMbvQOzVBHriPN0up+Njx5DullyVBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ObsaxiO8; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1731407967; c=relaxed/simple;
+	bh=ePoPGYJEKPnZ++BmMhr70STyN0+bMY16muwHTNMQdnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lXyMzmH68Bs/a+l8sPHhOS/gY7aR7ORrbcNqXshkq/JC9KbYyXf/UJcSX+VbYDCpUej44MGBpcjePqoOisywY/rDSJss4SvyoDu+iydr+obJuciWfV6icqg20WiLamjpZZOIrLmHEg2MyGB8MmEz5KlBDyeMHP5/EQO8HBiiZps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eUqN4mPK; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ObsaxiO8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eUqN4mPK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731406763; x=1762942763;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hOV0Cyam6/MaGDK/wCOTgJNkoOmx/0lpY0GypN54K+s=;
-  b=ObsaxiO8wCxBjuGXOnW89falT4/h5sl30+kAUdTrGVqHyf6o7N/ih4To
-   Hr82Ut8Q48ZYeygBwy++d+IbHK174po3XTxbOzeFYkgnfaKPqA6Trs6B6
-   PwbpbL2W2fZZs/chXoTz4cfJZQb5Yr9sI/lMWHIXUony5ceVbz/IF2bjQ
-   9UWi+B8La9UlVCsoFAR5g5aNfZ/LqMPisAP3QXhBGjC94+zPp3F2y7VHL
-   pjdHwvprF+WQ62DLv2IIunaar4WZ2CBQzdPRLM3ptlgnOHpH1AdW5iPMi
-   EcyRUQJv+JWYdCnt8UVrdP0d3AqTvqV1tejh9C46erWDPEdUNn+6BnYio
-   Q==;
-X-CSE-ConnectionGUID: yjT69TdzR8mxGBsk0iulMQ==
-X-CSE-MsgGUID: Bnr8ZfVwSiKGCA//hRjeBw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31405560"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31405560"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 02:19:22 -0800
-X-CSE-ConnectionGUID: OvNBB8TvQ8qCQI2O7h2cYQ==
-X-CSE-MsgGUID: GV6Wll5HRcGYT+8l9mpCVw==
+  t=1731407965; x=1762943965;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ePoPGYJEKPnZ++BmMhr70STyN0+bMY16muwHTNMQdnQ=;
+  b=eUqN4mPKXufVCZh6XGoNEwwL+xLU6fBKmzGS2mvDb0sz6NOliw3bQWdV
+   PP5kVmjliUyQn07WSd2CsxW74gFhVR+c1RoVt5nDuoseuUdUtyDwPjzYm
+   6XZGWBqGXMcZ1hSQDfOCEBCUwxkyAzLdgugidDo1y0jHsQw9sE4ERNpD7
+   FwE3jy+FNcB8FyECnyXpS+5DFCa1II81z3kqyy5CpicPwTIDnuFIjZGWR
+   ShoQA2tCh2FLOrbgrVmhw54Lan9tb2GLBeGrIdtect3zCezHP4HLNdy6l
+   hN/GpVXllPA5xC+ZhjTX1h7+NnW528nxpUczdtxX4Ymlr+bSM5xsdqpLg
+   g==;
+X-CSE-ConnectionGUID: mGdrSiH4Rumgo3t1FCWwNg==
+X-CSE-MsgGUID: cwJDmpQoQgOcEG40qEIKKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="42638694"
+X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
+   d="scan'208";a="42638694"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 02:39:25 -0800
+X-CSE-ConnectionGUID: lJUIRA2uTjOVX32LtQU7Ag==
+X-CSE-MsgGUID: Egn54nfpT1Oq8xRjzSv1Pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="87802267"
+   d="scan'208";a="91412083"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 12 Nov 2024 02:19:14 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 02:39:22 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tAnzL-0000hp-20;
-	Tue, 12 Nov 2024 10:19:11 +0000
-Date: Tue, 12 Nov 2024 18:18:46 +0800
+	id 1tAoIq-0000tz-1z;
+	Tue, 12 Nov 2024 10:39:20 +0000
+Date: Tue, 12 Nov 2024 18:39:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, vbabka@suse.cz,
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, minchan@google.com, jannh@google.com,
-	shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com,
-	surenb@google.com
-Subject: Re: [PATCH 2/4] mm: move per-vma lock into vm_area_struct
-Message-ID: <202411121840.hE2wZKgE-lkp@intel.com>
-References: <20241111205506.3404479-3-surenb@google.com>
+To: Boyuan Zhang <boyuan.zhang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Infrastructure <z1.linuxinfra@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>
+Subject: [agd5f:amd-staging-drm-next 1282/1302]
+ drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:1165: warning: Function parameter or
+ struct member 'inst' not described in 'vcn_v5_0_0_set_unified_ring_funcs'
+Message-ID: <202411121837.AwQbWjmK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,321 +65,238 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241111205506.3404479-3-surenb@google.com>
 
-Hi Suren,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 931086f2a88086319afb57cd3925607e8cda0a9f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/mm-introduce-vma_start_read_locked-_nested-helpers/20241112-050531
-base:   931086f2a88086319afb57cd3925607e8cda0a9f
-patch link:    https://lore.kernel.org/r/20241111205506.3404479-3-surenb%40google.com
-patch subject: [PATCH 2/4] mm: move per-vma lock into vm_area_struct
-config: hexagon-randconfig-002-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121840.hE2wZKgE-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121840.hE2wZKgE-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
+head:   0bd74ab31ce2ca6e35c9f7f7c9b72bd9c78619ed
+commit: 6887ed045cc767247ccfaa048917314eb91e76eb [1282/1302] drm/amdgpu: set funcs for each vcn instance
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20241112/202411121837.AwQbWjmK-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121837.AwQbWjmK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121840.hE2wZKgE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411121837.AwQbWjmK-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-         |                            ^
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:10: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                 ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:20: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:1143:
-   In file included from include/linux/huge_mm.h:7:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:3: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                 ^        ~
-   include/uapi/asm-generic/signal.h:62:2: note: array 'sig' declared here
-      62 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:12:
-   In file included from include/linux/mm.h:2234:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/hexagon/include/asm/dma.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/hexagon/include/asm/dma.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/dma/direct.c:7:
-   In file included from include/linux/memblock.h:13:
-   In file included from arch/hexagon/include/asm/dma.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> kernel/dma/direct.c:147:20: warning: shift count >= width of type [-Wshift-count-overflow]
-     146 |                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     147 |                     phys_limit < DMA_BIT_MASK(64) &&
-         |                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-     148 |                     !(gfp & (GFP_DMA32 | GFP_DMA))) {
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:52: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                    ^~~~
->> kernel/dma/direct.c:147:20: warning: shift count >= width of type [-Wshift-count-overflow]
-     146 |                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     147 |                     phys_limit < DMA_BIT_MASK(64) &&
-         |                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-     148 |                     !(gfp & (GFP_DMA32 | GFP_DMA))) {
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:61: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                             ^~~~
->> kernel/dma/direct.c:147:20: warning: shift count >= width of type [-Wshift-count-overflow]
-     146 |                 if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     147 |                     phys_limit < DMA_BIT_MASK(64) &&
-         |                     ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
-     148 |                     !(gfp & (GFP_DMA32 | GFP_DMA))) {
-         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^
-   include/linux/compiler.h:55:47: note: expanded from macro 'if'
-      55 | #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-         |                            ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:57:86: note: expanded from macro '__trace_if_var'
-      57 | #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __trace_if_value(cond))
-         |                                                                     ~~~~~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:68:3: note: expanded from macro '__trace_if_value'
-      68 |         (cond) ?                                        \
-         |          ^~~~
-   38 warnings and 3 errors generated.
+   drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:767: warning: Function parameter or struct member 'inst' not described in 'vcn_v5_0_0_start'
+   drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:949: warning: Function parameter or struct member 'inst' not described in 'vcn_v5_0_0_stop'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:1165: warning: Function parameter or struct member 'inst' not described in 'vcn_v5_0_0_set_unified_ring_funcs'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c:1336: warning: Function parameter or struct member 'inst' not described in 'vcn_v5_0_0_set_irq_funcs'
 --
-   In file included from drivers/iio/adc/fsl-imx25-gcq.c:12:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/iio/adc/fsl-imx25-gcq.c:12:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/iio/adc/fsl-imx25-gcq.c:12:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/iio/adc/fsl-imx25-gcq.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   include/linux/mm.h:877:2: error: call to undeclared function 'vma_lock_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     877 |         vma_lock_init(&vma->vm_lock);
-         |         ^
-   include/linux/mm.h:877:2: note: did you mean 'osq_lock_init'?
-   include/linux/osq_lock.h:23:20: note: 'osq_lock_init' declared here
-      23 | static inline void osq_lock_init(struct optimistic_spin_queue *lock)
-         |                    ^
-   In file included from drivers/iio/adc/fsl-imx25-gcq.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   include/linux/mm.h:877:22: error: no member named 'vm_lock' in 'struct vm_area_struct'
-     877 |         vma_lock_init(&vma->vm_lock);
-         |                        ~~~  ^
-   include/linux/mm.h:878:7: error: no member named 'vm_lock_seq' in 'struct vm_area_struct'
-     878 |         vma->vm_lock_seq = UINT_MAX;
-         |         ~~~  ^
-   In file included from drivers/iio/adc/fsl-imx25-gcq.c:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2234:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iio/adc/fsl-imx25-gcq.c:116:8: warning: shift count is negative [-Wshift-count-negative]
-     116 |                      MX25_ADCQ_ITEM(0, chan->channel));
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mfd/imx25-tsadc.h:54:3: note: expanded from macro 'MX25_ADCQ_ITEM'
-      54 |                 _MX25_ADCQ_ITEM((item) - 8, (x)) : _MX25_ADCQ_ITEM((item), (x)))
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/mfd/imx25-tsadc.h:52:39: note: expanded from macro '_MX25_ADCQ_ITEM'
-      52 | #define _MX25_ADCQ_ITEM(item, x)        ((x) << ((item) * 4))
-         |                                              ^  ~~~~~~~~~~~~
-   8 warnings and 3 errors generated.
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:1093: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_start'
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:1551: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_stop'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:1939: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_set_unified_ring_funcs'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0.c:2147: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_set_irq_funcs'
+--
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1104: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_3_start'
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1310: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_3_stop'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1545: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_3_set_unified_ring_funcs'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_3.c:1736: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_3_set_irq_funcs'
+--
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:996: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_5_start'
+   drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:1205: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_5_stop'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:1428: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_5_set_unified_ring_funcs'
+>> drivers/gpu/drm/amd/amdgpu/vcn_v4_0_5.c:1599: warning: Function parameter or struct member 'inst' not described in 'vcn_v4_0_5_set_irq_funcs'
 
 
-vim +147 kernel/dma/direct.c
+vim +1165 drivers/gpu/drm/amd/amdgpu/vcn_v5_0_0.c
 
-aea7e2a86a94b25 kernel/dma/direct.c Christoph Hellwig      2021-10-21  117  
-26749b3201ab05e kernel/dma/direct.c Christoph Hellwig      2020-06-15  118  static struct page *__dma_direct_alloc_pages(struct device *dev, size_t size,
-92826e967535db2 kernel/dma/direct.c Christoph Hellwig      2022-04-23  119  		gfp_t gfp, bool allow_highmem)
-a8463d4b0e47d1f lib/dma-noop.c      Christian Borntraeger  2016-02-02  120  {
-90ae409f9eb3bca kernel/dma/direct.c Christoph Hellwig      2019-08-20  121  	int node = dev_to_node(dev);
-080321d3b3139b3 lib/dma-direct.c    Christoph Hellwig      2017-12-22  122  	struct page *page = NULL;
-a7ba70f1787f977 kernel/dma/direct.c Nicolas Saenz Julienne 2019-11-21  123  	u64 phys_limit;
-a8463d4b0e47d1f lib/dma-noop.c      Christian Borntraeger  2016-02-02  124  
-633d5fce78a61e8 kernel/dma/direct.c David Rientjes         2020-06-11  125  	WARN_ON_ONCE(!PAGE_ALIGNED(size));
-633d5fce78a61e8 kernel/dma/direct.c David Rientjes         2020-06-11  126  
-aea7e2a86a94b25 kernel/dma/direct.c Christoph Hellwig      2021-10-21  127  	if (is_swiotlb_for_alloc(dev))
-aea7e2a86a94b25 kernel/dma/direct.c Christoph Hellwig      2021-10-21  128  		return dma_direct_alloc_swiotlb(dev, size);
-aea7e2a86a94b25 kernel/dma/direct.c Christoph Hellwig      2021-10-21  129  
-25a4ce564921db0 kernel/dma/direct.c Petr Tesarik           2023-02-20  130  	gfp |= dma_direct_optimal_gfp_mask(dev, &phys_limit);
-633d5fce78a61e8 kernel/dma/direct.c David Rientjes         2020-06-11  131  	page = dma_alloc_contiguous(dev, size, gfp);
-92826e967535db2 kernel/dma/direct.c Christoph Hellwig      2022-04-23  132  	if (page) {
-92826e967535db2 kernel/dma/direct.c Christoph Hellwig      2022-04-23  133  		if (!dma_coherent_ok(dev, page_to_phys(page), size) ||
-92826e967535db2 kernel/dma/direct.c Christoph Hellwig      2022-04-23  134  		    (!allow_highmem && PageHighMem(page))) {
-633d5fce78a61e8 kernel/dma/direct.c David Rientjes         2020-06-11  135  			dma_free_contiguous(dev, page, size);
-90ae409f9eb3bca kernel/dma/direct.c Christoph Hellwig      2019-08-20  136  			page = NULL;
-90ae409f9eb3bca kernel/dma/direct.c Christoph Hellwig      2019-08-20  137  		}
-92826e967535db2 kernel/dma/direct.c Christoph Hellwig      2022-04-23  138  	}
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  139  again:
-90ae409f9eb3bca kernel/dma/direct.c Christoph Hellwig      2019-08-20  140  	if (!page)
-633d5fce78a61e8 kernel/dma/direct.c David Rientjes         2020-06-11  141  		page = alloc_pages_node(node, gfp, get_order(size));
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  142  	if (page && !dma_coherent_ok(dev, page_to_phys(page), size)) {
-f689a3ab7b8ece9 kernel/dma/direct.c Chen Yu                2024-08-31  143  		__free_pages(page, get_order(size));
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  144  		page = NULL;
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  145  
-de7eab301de7886 lib/dma-direct.c    Takashi Iwai           2018-04-16  146  		if (IS_ENABLED(CONFIG_ZONE_DMA32) &&
-a7ba70f1787f977 kernel/dma/direct.c Nicolas Saenz Julienne 2019-11-21 @147  		    phys_limit < DMA_BIT_MASK(64) &&
-de7eab301de7886 lib/dma-direct.c    Takashi Iwai           2018-04-16  148  		    !(gfp & (GFP_DMA32 | GFP_DMA))) {
-de7eab301de7886 lib/dma-direct.c    Takashi Iwai           2018-04-16  149  			gfp |= GFP_DMA32;
-de7eab301de7886 lib/dma-direct.c    Takashi Iwai           2018-04-16  150  			goto again;
-de7eab301de7886 lib/dma-direct.c    Takashi Iwai           2018-04-16  151  		}
-de7eab301de7886 lib/dma-direct.c    Takashi Iwai           2018-04-16  152  
-fbce251baa6e357 kernel/dma/direct.c Christoph Hellwig      2019-02-13  153  		if (IS_ENABLED(CONFIG_ZONE_DMA) && !(gfp & GFP_DMA)) {
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  154  			gfp = (gfp & ~GFP_DMA32) | GFP_DMA;
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  155  			goto again;
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  156  		}
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  157  	}
-95f183916d4b0bc lib/dma-direct.c    Christoph Hellwig      2018-01-09  158  
-b18814e767a4455 kernel/dma/direct.c Christoph Hellwig      2018-11-04  159  	return page;
-b18814e767a4455 kernel/dma/direct.c Christoph Hellwig      2018-11-04  160  }
-b18814e767a4455 kernel/dma/direct.c Christoph Hellwig      2018-11-04  161  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1156  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1157  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1158   * vcn_v5_0_0_set_unified_ring_funcs - set unified ring functions
+b6d1a06320519ac Sonny Jiang          2023-04-25  1159   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1160   * @adev: amdgpu_device pointer
+b6d1a06320519ac Sonny Jiang          2023-04-25  1161   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1162   * Set unified ring functions
+b6d1a06320519ac Sonny Jiang          2023-04-25  1163   */
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1164  static void vcn_v5_0_0_set_unified_ring_funcs(struct amdgpu_device *adev, int inst)
+b6d1a06320519ac Sonny Jiang          2023-04-25 @1165  {
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1166  	if (adev->vcn.harvest_config & (1 << inst))
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1167  		return;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1168  
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1169  	adev->vcn.inst[inst].ring_enc[0].funcs = &vcn_v5_0_0_unified_ring_vm_funcs;
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1170  	adev->vcn.inst[inst].ring_enc[0].me = inst;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1171  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1172  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1173  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1174   * vcn_v5_0_0_is_idle - check VCN block is idle
+b6d1a06320519ac Sonny Jiang          2023-04-25  1175   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1176   * @handle: amdgpu_device pointer
+b6d1a06320519ac Sonny Jiang          2023-04-25  1177   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1178   * Check whether VCN block is idle
+b6d1a06320519ac Sonny Jiang          2023-04-25  1179   */
+b6d1a06320519ac Sonny Jiang          2023-04-25  1180  static bool vcn_v5_0_0_is_idle(void *handle)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1181  {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1182  	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1183  	int i, ret = 1;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1184  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1185  	for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1186  		if (adev->vcn.harvest_config & (1 << i))
+b6d1a06320519ac Sonny Jiang          2023-04-25  1187  			continue;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1188  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1189  		ret &= (RREG32_SOC15(VCN, i, regUVD_STATUS) == UVD_STATUS__IDLE);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1190  	}
+b6d1a06320519ac Sonny Jiang          2023-04-25  1191  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1192  	return ret;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1193  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1194  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1195  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1196   * vcn_v5_0_0_wait_for_idle - wait for VCN block idle
+b6d1a06320519ac Sonny Jiang          2023-04-25  1197   *
+991c4e135a47fd3 Sunil Khatri         2024-10-02  1198   * @ip_block: Pointer to the amdgpu_ip_block for this hw instance.
+b6d1a06320519ac Sonny Jiang          2023-04-25  1199   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1200   * Wait for VCN block idle
+b6d1a06320519ac Sonny Jiang          2023-04-25  1201   */
+d8b02111508526a Sunil Khatri         2024-09-30  1202  static int vcn_v5_0_0_wait_for_idle(struct amdgpu_ip_block *ip_block)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1203  {
+d8b02111508526a Sunil Khatri         2024-09-30  1204  	struct amdgpu_device *adev = ip_block->adev;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1205  	int i, ret = 0;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1206  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1207  	for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1208  		if (adev->vcn.harvest_config & (1 << i))
+b6d1a06320519ac Sonny Jiang          2023-04-25  1209  			continue;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1210  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1211  		ret = SOC15_WAIT_ON_RREG(VCN, i, regUVD_STATUS, UVD_STATUS__IDLE,
+b6d1a06320519ac Sonny Jiang          2023-04-25  1212  			UVD_STATUS__IDLE);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1213  		if (ret)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1214  			return ret;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1215  	}
+b6d1a06320519ac Sonny Jiang          2023-04-25  1216  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1217  	return ret;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1218  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1219  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1220  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1221   * vcn_v5_0_0_set_clockgating_state - set VCN block clockgating state
+b6d1a06320519ac Sonny Jiang          2023-04-25  1222   *
+e24ee44724c5b19 Srinivasan Shanmugam 2024-11-06  1223   * @ip_block: amdgpu_ip_block pointer
+b6d1a06320519ac Sonny Jiang          2023-04-25  1224   * @state: clock gating state
+b6d1a06320519ac Sonny Jiang          2023-04-25  1225   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1226   * Set VCN block clockgating state
+b6d1a06320519ac Sonny Jiang          2023-04-25  1227   */
+12bdba8c6e0fec7 Boyuan Zhang         2024-10-07  1228  static int vcn_v5_0_0_set_clockgating_state(struct amdgpu_ip_block *ip_block,
+12bdba8c6e0fec7 Boyuan Zhang         2024-10-07  1229  					  enum amd_clockgating_state state)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1230  {
+12bdba8c6e0fec7 Boyuan Zhang         2024-10-07  1231  	struct amdgpu_device *adev = ip_block->adev;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1232  	bool enable = (state == AMD_CG_STATE_GATE) ? true : false;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1233  	int i;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1234  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1235  	for (i = 0; i < adev->vcn.num_vcn_inst; ++i) {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1236  		if (adev->vcn.harvest_config & (1 << i))
+b6d1a06320519ac Sonny Jiang          2023-04-25  1237  			continue;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1238  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1239  		if (enable) {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1240  			if (RREG32_SOC15(VCN, i, regUVD_STATUS) != UVD_STATUS__IDLE)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1241  				return -EBUSY;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1242  			vcn_v5_0_0_enable_clock_gating(adev, i);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1243  		} else {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1244  			vcn_v5_0_0_disable_clock_gating(adev, i);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1245  		}
+b6d1a06320519ac Sonny Jiang          2023-04-25  1246  	}
+b6d1a06320519ac Sonny Jiang          2023-04-25  1247  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1248  	return 0;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1249  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1250  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1251  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1252   * vcn_v5_0_0_set_powergating_state - set VCN block powergating state
+b6d1a06320519ac Sonny Jiang          2023-04-25  1253   *
+e24ee44724c5b19 Srinivasan Shanmugam 2024-11-06  1254   * @ip_block: amdgpu_ip_block pointer
+b6d1a06320519ac Sonny Jiang          2023-04-25  1255   * @state: power gating state
+b6d1a06320519ac Sonny Jiang          2023-04-25  1256   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1257   * Set VCN block powergating state
+b6d1a06320519ac Sonny Jiang          2023-04-25  1258   */
+c9188ea9675f468 Boyuan Zhang         2024-09-29  1259  static int vcn_v5_0_0_set_powergating_state(struct amdgpu_ip_block *ip_block,
+c9188ea9675f468 Boyuan Zhang         2024-09-29  1260  		enum amd_powergating_state state)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1261  {
+c9188ea9675f468 Boyuan Zhang         2024-09-29  1262  	struct amdgpu_device *adev = ip_block->adev;
+f31471fc722a0da Boyuan Zhang         2024-09-29  1263  	int inst = ip_block->instance;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1264  	int ret;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1265  
+f31471fc722a0da Boyuan Zhang         2024-09-29  1266  	if (state == adev->vcn.inst[inst].cur_state)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1267  		return 0;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1268  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1269  	if (state == AMD_PG_STATE_GATE)
+125ac87dc334a06 Boyuan Zhang         2024-10-01  1270  		ret = vcn_v5_0_0_stop(adev, inst);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1271  	else
+125ac87dc334a06 Boyuan Zhang         2024-10-01  1272  		ret = vcn_v5_0_0_start(adev, inst);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1273  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1274  	if (!ret)
+f31471fc722a0da Boyuan Zhang         2024-09-29  1275  		adev->vcn.inst[inst].cur_state = state;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1276  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1277  	return ret;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1278  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1279  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1280  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1281   * vcn_v5_0_0_process_interrupt - process VCN block interrupt
+b6d1a06320519ac Sonny Jiang          2023-04-25  1282   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1283   * @adev: amdgpu_device pointer
+b6d1a06320519ac Sonny Jiang          2023-04-25  1284   * @source: interrupt sources
+b6d1a06320519ac Sonny Jiang          2023-04-25  1285   * @entry: interrupt entry from clients and sources
+b6d1a06320519ac Sonny Jiang          2023-04-25  1286   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1287   * Process VCN block interrupt
+b6d1a06320519ac Sonny Jiang          2023-04-25  1288   */
+b6d1a06320519ac Sonny Jiang          2023-04-25  1289  static int vcn_v5_0_0_process_interrupt(struct amdgpu_device *adev, struct amdgpu_irq_src *source,
+b6d1a06320519ac Sonny Jiang          2023-04-25  1290  	struct amdgpu_iv_entry *entry)
+b6d1a06320519ac Sonny Jiang          2023-04-25  1291  {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1292  	uint32_t ip_instance;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1293  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1294  	switch (entry->client_id) {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1295  	case SOC15_IH_CLIENTID_VCN:
+b6d1a06320519ac Sonny Jiang          2023-04-25  1296  		ip_instance = 0;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1297  		break;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1298  	case SOC15_IH_CLIENTID_VCN1:
+b6d1a06320519ac Sonny Jiang          2023-04-25  1299  		ip_instance = 1;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1300  		break;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1301  	default:
+b6d1a06320519ac Sonny Jiang          2023-04-25  1302  		DRM_ERROR("Unhandled client id: %d\n", entry->client_id);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1303  		return 0;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1304  	}
+b6d1a06320519ac Sonny Jiang          2023-04-25  1305  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1306  	DRM_DEBUG("IH: VCN TRAP\n");
+b6d1a06320519ac Sonny Jiang          2023-04-25  1307  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1308  	switch (entry->src_id) {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1309  	case VCN_4_0__SRCID__UVD_ENC_GENERAL_PURPOSE:
+b6d1a06320519ac Sonny Jiang          2023-04-25  1310  		amdgpu_fence_process(&adev->vcn.inst[ip_instance].ring_enc[0]);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1311  		break;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1312  	case VCN_4_0__SRCID_UVD_POISON:
+b6d1a06320519ac Sonny Jiang          2023-04-25  1313  		amdgpu_vcn_process_poison_irq(adev, source, entry);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1314  		break;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1315  	default:
+b6d1a06320519ac Sonny Jiang          2023-04-25  1316  		DRM_ERROR("Unhandled interrupt: %d %d\n",
+b6d1a06320519ac Sonny Jiang          2023-04-25  1317  			  entry->src_id, entry->src_data[0]);
+b6d1a06320519ac Sonny Jiang          2023-04-25  1318  		break;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1319  	}
+b6d1a06320519ac Sonny Jiang          2023-04-25  1320  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1321  	return 0;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1322  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1323  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1324  static const struct amdgpu_irq_src_funcs vcn_v5_0_0_irq_funcs = {
+b6d1a06320519ac Sonny Jiang          2023-04-25  1325  	.process = vcn_v5_0_0_process_interrupt,
+b6d1a06320519ac Sonny Jiang          2023-04-25  1326  };
+b6d1a06320519ac Sonny Jiang          2023-04-25  1327  
+b6d1a06320519ac Sonny Jiang          2023-04-25  1328  /**
+b6d1a06320519ac Sonny Jiang          2023-04-25  1329   * vcn_v5_0_0_set_irq_funcs - set VCN block interrupt irq functions
+b6d1a06320519ac Sonny Jiang          2023-04-25  1330   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1331   * @adev: amdgpu_device pointer
+b6d1a06320519ac Sonny Jiang          2023-04-25  1332   *
+b6d1a06320519ac Sonny Jiang          2023-04-25  1333   * Set VCN block interrupt irq functions
+b6d1a06320519ac Sonny Jiang          2023-04-25  1334   */
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1335  static void vcn_v5_0_0_set_irq_funcs(struct amdgpu_device *adev, int inst)
+b6d1a06320519ac Sonny Jiang          2023-04-25 @1336  {
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1337  	if (adev->vcn.harvest_config & (1 << inst))
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1338  		return;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1339  
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1340  	adev->vcn.inst[inst].irq.num_types = adev->vcn.num_enc_rings + 1;
+6887ed045cc7672 Boyuan Zhang         2024-10-05  1341  	adev->vcn.inst[inst].irq.funcs = &vcn_v5_0_0_irq_funcs;
+b6d1a06320519ac Sonny Jiang          2023-04-25  1342  }
+b6d1a06320519ac Sonny Jiang          2023-04-25  1343  
+
+:::::: The code at line 1165 was first introduced by commit
+:::::: b6d1a06320519ac3bfda6ce81067a1bc409b9cff drm/amdgpu: add VCN_5_0_0 IP block support
+
+:::::: TO: Sonny Jiang <sonny.jiang@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 -- 
 0-DAY CI Kernel Test Service
