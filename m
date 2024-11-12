@@ -1,63 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BE42309A3;
-	Tue, 12 Nov 2024 11:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EDE13698E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 13:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731411830; cv=none; b=Gym+YPTebsEIQwHPxFmoN5QjW8u6U3/wCy4RMx9DXK7dXgOhIEZ3q/CBWhqjb/xZL1mcsnsZRC5n3eSPrd5i1Dx0PFlK6DSuMeWnYCyFxeDKPmOFkIETquyPxCSU8pnGnicQJm5O0AB6XwGUCodsV/W/zPwH9g2gw+KyUv5xKRs=
+	t=1731416763; cv=none; b=GnfME/QZkyOEHdiy8QZxWwqWJe0DLrvDZrsF1CBuyRjSJ+9T/VE0fLG1kAVZxUyDSkc3e5yKyS3ElvhTFb3xcE62xm1ZNGU6lMZFkAIwRh16ylw/smXj9ULE0hcmDtdYYeSXUIBGT9Wbd7W8RBsPtop2Zn7XUHkiD31c0+tzgBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731411830; c=relaxed/simple;
-	bh=PO4EqrQG8RsV0jjl15L5FZ6DGDHaLJ4T2Tt9UahcMr0=;
+	s=arc-20240116; t=1731416763; c=relaxed/simple;
+	bh=+eNuL3PJiA9W0bwntX3Jqcme9OdBpWzlzr43Judry/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NRNzqEZT8CXUiK2rUP3W4fVAzFe2uw1oH4J4xDDUIEPhYWp7vfyjHHRN1XvP5JUhuMDMm3HClfQFfuSHNbr4og1fIo1dH2Co57uAFFGC+ropju8yuXbn1gEfO6WOfRWi5gUbWkDf7fYSXPismMCzCCvWlI+jE8nhraEMCB++mv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cx6HBuuw; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBzKA3OtmzMv/Sv9Rkp5+kPyQJhtuOVBP7r6zVFn16dDMU/CDJKznZA3IHbFmsOyEfL7Y6uBaad/A/KGzaiZ+HZtPsSqZghgzEgeo38Yw5ezT0Wb4G6tQ/L7wFH+Y0DtrNqeEger6H3ntIV1oneQHGjc7Ao+AoRQZ7LQupr+NuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k76cPTL8; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cx6HBuuw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k76cPTL8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731411829; x=1762947829;
+  t=1731416761; x=1762952761;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PO4EqrQG8RsV0jjl15L5FZ6DGDHaLJ4T2Tt9UahcMr0=;
-  b=Cx6HBuuwMUsw8Kz+tPnCB7/mG6jevxWYcrv3paxRQJ/BMtSKJOq5IQlN
-   fsZ6FyrgDZ0wL29d59a1ZeZ6LXQSYqZmCm2ds4YKvI71ifDYzHCXymzsF
-   HgEMEfeKXAIXX5m0+ziSp6Y7W0OcV7x8s8UjwdMb7YNJ8qQjiB5F0YzvN
-   KoN021rpMYOLgVb2dD40e6FC06IMY7aC1mottSoxcUeFC9t6DYAJxgCTk
-   VylMxVuCM6pNGfmfmF7Ygq6LwoFypQCisxkcNWIWwzMTQLgTaFGHryPQS
-   hqDO2/Hii91JitwSVIgM2EjPKSkjhw3ojgOF9GukokMCwbCMh3x9ypiuU
-   Q==;
-X-CSE-ConnectionGUID: +vd4UlwrQo6bXjomipZCZw==
-X-CSE-MsgGUID: Q5OThq87Ra+inlFYhdqgcw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="34943597"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="34943597"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 03:43:48 -0800
-X-CSE-ConnectionGUID: JRXgTNxdSRqQi1bW9R5BFg==
-X-CSE-MsgGUID: 93AprrR1TuSu8jYshNm7mg==
+  bh=+eNuL3PJiA9W0bwntX3Jqcme9OdBpWzlzr43Judry/k=;
+  b=k76cPTL8kxD2buoRY+QO0ZWu/fmsTGIUK3amtKtp0UuKOLffOP1+Emyz
+   COg9Dw+zpjEGRa2eb8iq+QfpZ/fMtbpxa22g0jJ7SA/w3/16GHxgNn0gP
+   RU740vajItDabfIR2QT/g/Y7erIrkJk8o2Phva5KnvaUIC0M3XorHgkB7
+   BXKBfFVjfU5piBiKa1/U1LscdaimdDNU8icko2sOuuz0uHuRcQgQ7xTRr
+   8oFR2elDJ6DET0c35LHurUJGxrgbNf0S+7RkU4Rwjo59pxSHRMyErk6hT
+   e5l6VGu4w4v4M59D/qSp1tecGS12eEQ8azh69kHQOPJ4YdsuGTkrB4cgu
+   g==;
+X-CSE-ConnectionGUID: Y3FFnTPsSNilp0Cwh9D/mg==
+X-CSE-MsgGUID: nWI2uKrrTeCfQN0r3z6nbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11253"; a="48759293"
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
+   d="scan'208";a="48759293"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 05:06:01 -0800
+X-CSE-ConnectionGUID: 7tsVhCQWRGSYICI3Z6ocSA==
+X-CSE-MsgGUID: OEV09uSvS4SGN2RmsBLBdw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,147,1728975600"; 
-   d="scan'208";a="110705762"
+X-IronPort-AV: E=Sophos;i="6.12,148,1728975600"; 
+   d="scan'208";a="87616891"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Nov 2024 03:43:45 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Nov 2024 05:05:59 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tApJ8-0001Ev-1f;
-	Tue, 12 Nov 2024 11:43:42 +0000
-Date: Tue, 12 Nov 2024 19:42:55 +0800
+	id 1tAqai-0001K5-24;
+	Tue, 12 Nov 2024 13:05:56 +0000
+Date: Tue, 12 Nov 2024 21:05:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chunhai Guo <guochunhai@vivo.com>, xiang@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, chao@kernel.org,
-	huyue2@coolpad.com, jefflexu@linux.alibaba.com, dhavale@google.com,
-	linux-erofs@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-	Chunhai Guo <guochunhai@vivo.com>
-Subject: Re: [PATCH] erofs: clean up the cache if cached decompression is
- disabled
-Message-ID: <202411121928.BzWJRXSl-lkp@intel.com>
-References: <20241112031513.528474-1-guochunhai@vivo.com>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	Wentong Wu <wentong.wu@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v4 3/3] usb: misc: ljca: add firmware version sysfs
+ attribute
+Message-ID: <202411122028.tylKQSQx-lkp@intel.com>
+References: <20241112075514.680712-3-stanislaw.gruszka@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,85 +67,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112031513.528474-1-guochunhai@vivo.com>
+In-Reply-To: <20241112075514.680712-3-stanislaw.gruszka@linux.intel.com>
 
-Hi Chunhai,
+Hi Stanislaw,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on xiang-erofs/dev-test]
-[also build test ERROR on xiang-erofs/dev xiang-erofs/fixes linus/master v6.12-rc7 next-20241112]
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus westeri-thunderbolt/next linus/master v6.12-rc7 next-20241112]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunhai-Guo/erofs-clean-up-the-cache-if-cached-decompression-is-disabled/20241112-105927
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-patch link:    https://lore.kernel.org/r/20241112031513.528474-1-guochunhai%40vivo.com
-patch subject: [PATCH] erofs: clean up the cache if cached decompression is disabled
-config: x86_64-randconfig-004-20241112 (https://download.01.org/0day-ci/archive/20241112/202411121928.BzWJRXSl-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411121928.BzWJRXSl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislaw-Gruszka/usb-misc-ljca-set-small-runtime-autosuspend-delay/20241112-155844
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20241112075514.680712-3-stanislaw.gruszka%40linux.intel.com
+patch subject: [PATCH v4 3/3] usb: misc: ljca: add firmware version sysfs attribute
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241112/202411122028.tylKQSQx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241112/202411122028.tylKQSQx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411121928.BzWJRXSl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411122028.tylKQSQx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from fs/erofs/super.c:10:
-   In file included from include/linux/fs_context.h:14:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> fs/erofs/super.c:749:20: error: no member named 'umount_mutex' in 'struct erofs_sb_info'
-     749 |                 mutex_lock(&sbi->umount_mutex);
-         |                             ~~~  ^
-   include/linux/mutex.h:166:44: note: expanded from macro 'mutex_lock'
-     166 | #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-         |                                            ^~~~
->> fs/erofs/super.c:750:3: error: call to undeclared function 'z_erofs_shrink_scan'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     750 |                 z_erofs_shrink_scan(sbi, ~0UL);
-         |                 ^
-   fs/erofs/super.c:751:22: error: no member named 'umount_mutex' in 'struct erofs_sb_info'
-     751 |                 mutex_unlock(&sbi->umount_mutex);
-         |                               ~~~  ^
-   1 warning and 3 errors generated.
+>> drivers/usb/misc/usb-ljca.c:169: warning: Function parameter or struct member 'fw_version' not described in 'ljca_adapter'
+>> drivers/usb/misc/usb-ljca.c:169: warning: Function parameter or struct member 'fw_version_valid' not described in 'ljca_adapter'
 
 
-vim +749 fs/erofs/super.c
+vim +169 drivers/usb/misc/usb-ljca.c
 
-   731	
-   732	static int erofs_fc_reconfigure(struct fs_context *fc)
-   733	{
-   734		struct super_block *sb = fc->root->d_sb;
-   735		struct erofs_sb_info *sbi = EROFS_SB(sb);
-   736		struct erofs_sb_info *new_sbi = fc->s_fs_info;
-   737	
-   738		DBG_BUGON(!sb_rdonly(sb));
-   739	
-   740		if (new_sbi->fsid || new_sbi->domain_id)
-   741			erofs_info(sb, "ignoring reconfiguration for fsid|domain_id.");
-   742	
-   743		if (test_opt(&new_sbi->opt, POSIX_ACL))
-   744			fc->sb_flags |= SB_POSIXACL;
-   745		else
-   746			fc->sb_flags &= ~SB_POSIXACL;
-   747	
-   748		if (new_sbi->opt.cache_strategy == EROFS_ZIP_CACHE_DISABLED) {
- > 749			mutex_lock(&sbi->umount_mutex);
- > 750			z_erofs_shrink_scan(sbi, ~0UL);
-   751			mutex_unlock(&sbi->umount_mutex);
-   752		}
-   753		sbi->opt = new_sbi->opt;
-   754	
-   755		fc->sb_flags |= SB_RDONLY;
-   756		return 0;
-   757	}
-   758	
+acd6199f195d6de Wentong Wu        2023-10-09  114  
+acd6199f195d6de Wentong Wu        2023-10-09  115  /**
+acd6199f195d6de Wentong Wu        2023-10-09  116   * struct ljca_adapter - represent a ljca adapter
+acd6199f195d6de Wentong Wu        2023-10-09  117   *
+acd6199f195d6de Wentong Wu        2023-10-09  118   * @intf: the usb interface for this ljca adapter
+acd6199f195d6de Wentong Wu        2023-10-09  119   * @usb_dev: the usb device for this ljca adapter
+acd6199f195d6de Wentong Wu        2023-10-09  120   * @dev: the specific device info of the usb interface
+acd6199f195d6de Wentong Wu        2023-10-09  121   * @rx_pipe: bulk in pipe for receive data from firmware
+acd6199f195d6de Wentong Wu        2023-10-09  122   * @tx_pipe: bulk out pipe for send data to firmware
+acd6199f195d6de Wentong Wu        2023-10-09  123   * @rx_urb: urb used for the bulk in pipe
+acd6199f195d6de Wentong Wu        2023-10-09  124   * @rx_buf: buffer used to receive command response and event
+acd6199f195d6de Wentong Wu        2023-10-09  125   * @rx_len: length of rx buffer
+acd6199f195d6de Wentong Wu        2023-10-09  126   * @ex_buf: external buffer to save command response
+acd6199f195d6de Wentong Wu        2023-10-09  127   * @ex_buf_len: length of external buffer
+acd6199f195d6de Wentong Wu        2023-10-09  128   * @actual_length: actual length of data copied to external buffer
+acd6199f195d6de Wentong Wu        2023-10-09  129   * @tx_buf: buffer used to download command to firmware
+acd6199f195d6de Wentong Wu        2023-10-09  130   * @tx_buf_len: length of tx buffer
+acd6199f195d6de Wentong Wu        2023-10-09  131   * @lock: spinlock to protect tx_buf and ex_buf
+acd6199f195d6de Wentong Wu        2023-10-09  132   * @cmd_completion: completion object as the command receives ack
+acd6199f195d6de Wentong Wu        2023-10-09  133   * @mutex: mutex to avoid command download concurrently
+acd6199f195d6de Wentong Wu        2023-10-09  134   * @client_list: client device list
+acd6199f195d6de Wentong Wu        2023-10-09  135   * @disconnect: usb disconnect ongoing or not
+acd6199f195d6de Wentong Wu        2023-10-09  136   * @reset_id: used to reset firmware
+acd6199f195d6de Wentong Wu        2023-10-09  137   */
+acd6199f195d6de Wentong Wu        2023-10-09  138  struct ljca_adapter {
+acd6199f195d6de Wentong Wu        2023-10-09  139  	struct usb_interface *intf;
+acd6199f195d6de Wentong Wu        2023-10-09  140  	struct usb_device *usb_dev;
+acd6199f195d6de Wentong Wu        2023-10-09  141  	struct device *dev;
+acd6199f195d6de Wentong Wu        2023-10-09  142  
+acd6199f195d6de Wentong Wu        2023-10-09  143  	unsigned int rx_pipe;
+acd6199f195d6de Wentong Wu        2023-10-09  144  	unsigned int tx_pipe;
+acd6199f195d6de Wentong Wu        2023-10-09  145  
+acd6199f195d6de Wentong Wu        2023-10-09  146  	struct urb *rx_urb;
+acd6199f195d6de Wentong Wu        2023-10-09  147  	void *rx_buf;
+acd6199f195d6de Wentong Wu        2023-10-09  148  	unsigned int rx_len;
+acd6199f195d6de Wentong Wu        2023-10-09  149  
+acd6199f195d6de Wentong Wu        2023-10-09  150  	u8 *ex_buf;
+acd6199f195d6de Wentong Wu        2023-10-09  151  	u8 ex_buf_len;
+acd6199f195d6de Wentong Wu        2023-10-09  152  	u8 actual_length;
+acd6199f195d6de Wentong Wu        2023-10-09  153  
+acd6199f195d6de Wentong Wu        2023-10-09  154  	void *tx_buf;
+acd6199f195d6de Wentong Wu        2023-10-09  155  	u8 tx_buf_len;
+acd6199f195d6de Wentong Wu        2023-10-09  156  
+acd6199f195d6de Wentong Wu        2023-10-09  157  	spinlock_t lock;
+acd6199f195d6de Wentong Wu        2023-10-09  158  
+acd6199f195d6de Wentong Wu        2023-10-09  159  	struct completion cmd_completion;
+acd6199f195d6de Wentong Wu        2023-10-09  160  	struct mutex mutex;
+acd6199f195d6de Wentong Wu        2023-10-09  161  
+acd6199f195d6de Wentong Wu        2023-10-09  162  	struct list_head client_list;
+1368856f90435bb Stanislaw Gruszka 2024-11-12  163  	struct ljca_fw_version fw_version;
+acd6199f195d6de Wentong Wu        2023-10-09  164  
+acd6199f195d6de Wentong Wu        2023-10-09  165  	bool disconnect;
+1368856f90435bb Stanislaw Gruszka 2024-11-12  166  	bool fw_version_valid;
+acd6199f195d6de Wentong Wu        2023-10-09  167  
+acd6199f195d6de Wentong Wu        2023-10-09  168  	u32 reset_id;
+acd6199f195d6de Wentong Wu        2023-10-09 @169  };
+acd6199f195d6de Wentong Wu        2023-10-09  170  
 
 -- 
 0-DAY CI Kernel Test Service
