@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E170A7DA7F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 13:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9F117C68
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 13:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731504202; cv=none; b=hvVUi8Anex9b4CFy+TWK5gH6QWsLsniYavi1ckvfiXFASTZHABccfHhNqJAfEUcRiRWlanRuUIy3Cb7le/UboSZOWUCvjJPAJkUqHdPKrNyR5/jLaq8bGjhryaPdC6kpP+HGxlq4ynTEM4gxnO8nAeCtY5n5Xujd4faCNoTEuPw=
+	t=1731506010; cv=none; b=Fshbfwih0f+4et1xaIO4r26pjqhG0/6O1EtiHTWdAMFdtgqfn0Kzip5pmxv2CJfZmBeYmstNwSQYzTfTjPYm6abp5MT2ib5OUM2a/ZW7mFNIbZfwYHaZKAIl2/qVEieQdcqnnJW0GyBcf+jNJE7hTo/FF4zcFgYSiiM8qTP9Aes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731504202; c=relaxed/simple;
-	bh=Gg2SCIXCVRFKCYEQ+hWgamTJyRG5uQ/VH43udAER+Ig=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fLMU3wQaIB03TuwbHIu9/Zbi/2qQVRID3VV5kNkqVPd3IRkUQQYRsrUQJ8l63gKRDfMwgx1QDBe+mTGjpyL3hYrAEr6AiUCliyUIk2ADrKu/GyMk3dLp1uCxBLRJ1kImFRhCK7UcrDtSeB+6Y4WWh9hiqCen3PBPpDIxbEwBxhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jgyJl5jk; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1731506010; c=relaxed/simple;
+	bh=e02wCo6/bCN5ygIPiqX/XjikMX8Gq9j4vtdOtzb6vsc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yci/CMWo9W+tlc6hP/jkOcFwid5WmqHG9JiXcLpRKQ3TGXEcrdFK31hj2GAmwMvkeCJlpMx333gG9rWgR/1L/PWKMPfIc88vEUsf4Xz4TrPFPcGJo/aMG6bZzulTjhnED+B41wfrQZnJcxYgc5T7OomhQgEbOWzglw1mxRAN7A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lneoRFzP; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jgyJl5jk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lneoRFzP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731504199; x=1763040199;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Gg2SCIXCVRFKCYEQ+hWgamTJyRG5uQ/VH43udAER+Ig=;
-  b=jgyJl5jkwmSzDKvdkqP57MMjpyANzW0mM2Dzw3jOtfhBjvI7Ng5D+72b
-   Vu1EF0B4BuHo6P5pE5ZQVm6eVyyf+cBW4jw1QXHjla8j7XDAYoWG2N55m
-   Hyk1e8h/uTGJGzzeRdxLrp65zbh1yepZXe6lngS/UU+ZKDavs55RF5SQc
-   h5J4LyDkAUZg0mIQf4DqcOUuuAgp57K7kxyuZToRP5Ea/bK3UQ70Lw7OW
-   XyWhxsKVWekX1Vv5RWQWP5CtN9lhKavUY4OrH1avkBzXE6ZJqHXhzTMcz
-   rupG4YMIub5cjzWkr1zypTGV+nK1fA/bX0n6+pf8f8MQXeSPfPjb6X/5l
-   Q==;
-X-CSE-ConnectionGUID: 1yhLL/GVTBisv+lQ9ml3HQ==
-X-CSE-MsgGUID: lRNNnsxgSGqKKWgsHaGzKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31277701"
-X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="31277701"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 05:23:18 -0800
-X-CSE-ConnectionGUID: P2gEA26fRAid8QMoX9gV9A==
-X-CSE-MsgGUID: SqjD7/zuRZKcoFTH+nOSWw==
+  t=1731506009; x=1763042009;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e02wCo6/bCN5ygIPiqX/XjikMX8Gq9j4vtdOtzb6vsc=;
+  b=lneoRFzPJO/3UTfgm3wNKUb7CMpQB/bpgVsvRF6vIs91C2gKqxHs/pEG
+   hhFgrEGPLsQJ8jzzBd3X/KL3Sf2u2VWkMlN31oGhg5cYatBCbnXY9e+Il
+   dWkPkCj9iHWhf3uXIhG8k1dvFm7D/2hm3QLhHL6eZL2SA6oXc5LIS+Poh
+   gzwzUdyuTI99LNRkjP9PsTjkCXvBJ0rUsrLRmoOafWbFSyatcqqmnm/36
+   CJinaGJl60tVEemSPQoi/SHYGDUf+49AyLI9GS27tRKxCFSb0yBhv0sC5
+   PkW/I6BPyonk+s1MIikT2a1Aoaw+x7nAKw6jQfpC2WqW5cBzzXYaWRLm4
+   A==;
+X-CSE-ConnectionGUID: Mx9ng4EVRRqPp+tGALoopA==
+X-CSE-MsgGUID: 1IqqyyWLQvu6/pjnEpVLGQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41961110"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41961110"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 05:53:28 -0800
+X-CSE-ConnectionGUID: LHGpgglRQBiIK+ZXfwC8+Q==
+X-CSE-MsgGUID: f7Hfiq3BQZGpYPD5b8TPcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="92644570"
+   d="scan'208";a="87869712"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 05:23:16 -0800
+  by orviesa009.jf.intel.com with ESMTP; 13 Nov 2024 05:53:27 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBDL0-0000Pn-1H;
-	Wed, 13 Nov 2024 13:23:14 +0000
-Date: Wed, 13 Nov 2024 21:22:21 +0800
+	id 1tBDoC-0000Qv-2j;
+	Wed, 13 Nov 2024 13:53:24 +0000
+Date: Wed, 13 Nov 2024 21:52:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1291/1291]
- drivers/char/svm.c:312:17-38: WARNING: atomic_dec_and_test variation before
- object free at line 335.
-Message-ID: <202411132134.HfBsR3KA-lkp@intel.com>
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org,
+	linux-api@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+Message-ID: <202411132114.VB5yFmtR-lkp@intel.com>
+References: <20241111234006.5942-13-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +63,59 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241111234006.5942-13-ouster@cs.stanford.edu>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
-commit: 4cdb60f56180d6ef7c10bd0e50ddda96ebc9f783 [1291/1291] svm: implement unpin pages to dec refcount
-config: arm64-randconfig-r063-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132134.HfBsR3KA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+Hi John,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241112-074535
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+config: riscv-randconfig-r112-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132114.VB5yFmtR-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce: (https://download.01.org/0day-ci/archive/20241113/202411132114.VB5yFmtR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132134.HfBsR3KA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411132114.VB5yFmtR-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/char/svm.c:312:17-38: WARNING: atomic_dec_and_test variation before object free at line 335.
+sparse warnings: (new ones prefixed by >>)
+>> net/homa/homa_sock.c:201:31: sparse: sparse: cast removes address space '__rcu' of expression
+   net/homa/homa_sock.c:248:17: sparse: sparse: context imbalance in 'homa_sock_shutdown' - different lock contexts for basic block
+   net/homa/homa_sock.c:303:21: sparse: sparse: context imbalance in 'homa_sock_bind' - different lock contexts for basic block
 
-vim +312 drivers/char/svm.c
+vim +/__rcu +201 net/homa/homa_sock.c
 
-   304	
-   305	static void svm_remove_sdma(struct svm_process *process,
-   306				    struct svm_sdma *sdma, bool try_rm)
-   307	{
-   308		int null_count = 0;
-   309	
-   310		mutex_lock(&process->mutex);
-   311	
- > 312		if (try_rm && (!atomic64_dec_and_test(&sdma->ref))) {
-   313			mutex_unlock(&process->mutex);
-   314			return;
-   315		}
-   316	
-   317		rb_erase(&sdma->node, &process->sdma_list);
-   318		RB_CLEAR_NODE(&sdma->node);
-   319		mutex_unlock(&process->mutex);
-   320	
-   321		while (sdma->nr_pages--) {
-   322			if (sdma->pages[sdma->nr_pages] == NULL) {
-   323				pr_err("null pointer, nr_pages:%d.\n", sdma->nr_pages);
-   324				null_count++;
-   325				continue;
-   326			}
-   327	
-   328			put_page(sdma->pages[sdma->nr_pages]);
-   329		}
-   330	
-   331		if (null_count)
-   332			dump_stack();
-   333	
-   334		kfree(sdma->pages);
- > 335		kfree(sdma);
-   336	}
-   337	
+8ddf00265eb650 John Ousterhout 2024-11-11  183  
+8ddf00265eb650 John Ousterhout 2024-11-11  184  /*
+8ddf00265eb650 John Ousterhout 2024-11-11  185   * homa_sock_unlink() - Unlinks a socket from its socktab and does
+8ddf00265eb650 John Ousterhout 2024-11-11  186   * related cleanups. Once this method returns, the socket will not be
+8ddf00265eb650 John Ousterhout 2024-11-11  187   * discoverable through the socktab.
+8ddf00265eb650 John Ousterhout 2024-11-11  188   */
+8ddf00265eb650 John Ousterhout 2024-11-11  189  void homa_sock_unlink(struct homa_sock *hsk)
+8ddf00265eb650 John Ousterhout 2024-11-11  190  {
+8ddf00265eb650 John Ousterhout 2024-11-11  191  	struct homa_socktab *socktab = hsk->homa->port_map;
+8ddf00265eb650 John Ousterhout 2024-11-11  192  	struct homa_socktab_scan *scan;
+8ddf00265eb650 John Ousterhout 2024-11-11  193  
+8ddf00265eb650 John Ousterhout 2024-11-11  194  	/* If any scans refer to this socket, advance them to refer to
+8ddf00265eb650 John Ousterhout 2024-11-11  195  	 * the next socket instead.
+8ddf00265eb650 John Ousterhout 2024-11-11  196  	 */
+8ddf00265eb650 John Ousterhout 2024-11-11  197  	spin_lock_bh(&socktab->write_lock);
+8ddf00265eb650 John Ousterhout 2024-11-11  198  	list_for_each_entry(scan, &socktab->active_scans, scan_links) {
+8ddf00265eb650 John Ousterhout 2024-11-11  199  		if (!scan->next || scan->next->sock != hsk)
+8ddf00265eb650 John Ousterhout 2024-11-11  200  			continue;
+8ddf00265eb650 John Ousterhout 2024-11-11 @201  		scan->next = (struct homa_socktab_links *)hlist_next_rcu(&scan
+8ddf00265eb650 John Ousterhout 2024-11-11  202  				->next->hash_links);
+8ddf00265eb650 John Ousterhout 2024-11-11  203  	}
+8ddf00265eb650 John Ousterhout 2024-11-11  204  	hlist_del_rcu(&hsk->socktab_links.hash_links);
+8ddf00265eb650 John Ousterhout 2024-11-11  205  	spin_unlock_bh(&socktab->write_lock);
+8ddf00265eb650 John Ousterhout 2024-11-11  206  }
+8ddf00265eb650 John Ousterhout 2024-11-11  207  
 
 -- 
 0-DAY CI Kernel Test Service
