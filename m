@@ -1,92 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD22D230984
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 10:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720C01F81A0
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 11:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731495503; cv=none; b=o1mNa/OwCWp+yCNJ/5MCAX06xsbZvQu6tCM3wsDOt92iqLfDVdQQ9rPOKr0B66Nzvrl37tCza4Y5lvJpjYOCVdpM2LURCmsiVMJviuEj9hRB4t1c8X2YqjHRSUdBCsSxJoKU/vbdcV+/6ekxs2xuMqim5KB2DAoKQGS8BXTcGv4=
+	t=1731496564; cv=none; b=LeOqEWrCDCdo0/TVhAGagsv8p9XBT84H0ELqJfq+mQI7byceKCJCwp4p0oQgDisTj0vIXXd7jFbiuR7bT8K0qyH1oDucMf5OxquKGc/0yBCcexdCJjXpu9gkbyFJkedHEGnPYZHUA3IRClzCayxB5p97PQ+RCdO+8BznaIL7L98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731495503; c=relaxed/simple;
-	bh=ZjTRsOF4qwzLsDiCUTq+yM1yuZi+CSMqTmTWlNn1XbU=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:Message-ID:
-	 MIME-Version:Content-Type; b=cxjvLymqKWNKywh0vOMIYOpNwBOTc5lvPxk7rf7JQjZYFNtzkkPz8zPDlDWtMxGpoh7pdZNdBjqZhwtKYsY0+ZQcKVpYEGzY3S7gxdvmaxAIF2sfr4xlsOUZiahmKMEocCzEV5pwGpgcQyWvnZih77TlYCkOmcSK80cKs0XpzVA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlJMiHfe; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731496564; c=relaxed/simple;
+	bh=PqHxdEM7ZRC0oVC3jmv5WbRXsM49r6We4wzRqp0BivQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g8g85iqlkLsXjeySPul7KI0x1uGB3cKMhtM/9Di7yA6zXIMJGXpAGI9II9Q6kPiriYUwaXQtSd+f+nx9yo7Q9prDBHwGfJIF6p4TUk0aYXh0zBn/I6u+CTzrREcTbo6x46QLg2XnpuYmw5yNxMMwkk4MKmm1/55j/wkAbUyeNEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bx9/WtRN; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LlJMiHfe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF682C4CECD;
-	Wed, 13 Nov 2024 10:58:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1731495503;
-	bh=ZjTRsOF4qwzLsDiCUTq+yM1yuZi+CSMqTmTWlNn1XbU=;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To:From;
-	b=LlJMiHfeVwv+O1yoEQl0PLijxDj9yEa2UrHg6x6hfWKFbmjT/MEX9q1n+H7S3rPba
-	 9oB0fGCLUaLZ6gaIUmaE7k1khvDai2HijLZqVyqDf3Gb3LKAYMygmOp76VnHVmLZaV
-	 8OxI3KuBvuNC+BMvA54o7OQs5b+3tb/qfE75s+cKylvIGResq7r/01bd/NtWNp/gSO
-	 vWZSOnuqF4XeVQS8RBIIkSbbTj9z/AeSV6Q8AGMoOX0TAPKXbBD86lPKUgaN9ysBK4
-	 sHWK1gWMquOw9FM43nVYMhTEpBG9G5PPeO760k+XtT8vxVFw+R1xUshSNCCSambjwe
-	 vlitQF+vVMDCA==
-From: Kalle Valo <kvalo@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Jakub Kicinski <kuba@kernel.org>,  oe-kbuild-all@lists.linux.dev,  Jeff
- Johnson <jjohnson@kernel.org>,  ath12k@lists.infradead.org,  Jeff Johnson
- <quic_jjohnson@quicinc.com>
-Subject: Re: [ath:master 2/4]
- drivers/net/ethernet/intel/ice/ice_ptp.c:165:15: error: implicit
- declaration of function 'ice_read_sma_ctrl'; did you mean
- 'ice_read_sr_word'?
-References: <202411131838.DE0FWg8Q-lkp@intel.com>
-Date: Wed, 13 Nov 2024 12:58:19 +0200
-In-Reply-To: <202411131838.DE0FWg8Q-lkp@intel.com> (kernel test robot's
-	message of "Wed, 13 Nov 2024 18:31:45 +0800")
-Message-ID: <87ldxn2yes.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bx9/WtRN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731496562; x=1763032562;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PqHxdEM7ZRC0oVC3jmv5WbRXsM49r6We4wzRqp0BivQ=;
+  b=bx9/WtRNGhyAP4LDsAlrOIH8X42aIJyUIZ1mY1FRw93i7j6zaicKWcJt
+   gPRE09tDcvBHQrEyBzxXPbWtifEiuBPPWakz1UQpdQ+pVrD14T1PTvqu1
+   rVI+XiZcPMVB3vIICxnobnMHYpPdptORBLhhIUPmQI1PyJtlctLnweKT/
+   Lk5pQhM3NP3daMZuiQj6n4IAKifOGBoERG+ljzXu3dVeCGrkEdR9yLhfk
+   kJfyCzZ8eBho8vQdxDXSPInP7FwddqgV8aLLbgO6tvhXmFa1w7LE9U0WI
+   +2NlSMTA6dzGknqrLDTEp+cvGenA7MJWseEeIkhaPu3Y3A+xYMkxV+pw4
+   A==;
+X-CSE-ConnectionGUID: MJjS9TFnT5uv+vaIGBWl+w==
+X-CSE-MsgGUID: Olw23c00R5elrIRXZlkZ/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41944516"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="41944516"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 03:16:01 -0800
+X-CSE-ConnectionGUID: 18H5tZmSQDq2z5+ii8Pwqg==
+X-CSE-MsgGUID: W6Kxr6LbRhaBE6oirOjRUQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="92774443"
+Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 13 Nov 2024 03:16:01 -0800
+Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tBBLq-0000I5-02;
+	Wed, 13 Nov 2024 11:15:58 +0000
+Date: Wed, 13 Nov 2024 19:15:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android11-5.4 6661/30000] kismet: WARNING: unmet
+ direct dependencies detected for DMA_VIRTUAL_CHANNELS when selected by
+ GKI_HIDDEN_SND_SOC_CONFIGS
+Message-ID: <202411131936.ZgQVWm6e-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> writes:
+tree:   https://android.googlesource.com/kernel/common android11-5.4
+head:   069e12986fd81e33097f806c8f2787f5d5416bfd
+commit: dd17237d7284a4f7a881bd3c746e299f5b4675da [6661/30000] ANDROID: gki: build-in DMA_VIRTUAL_CHANNELS
+config: x86_64-kismet-CONFIG_DMA_VIRTUAL_CHANNELS-CONFIG_GKI_HIDDEN_SND_SOC_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20241113/202411131936.ZgQVWm6e-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241113/202411131936.ZgQVWm6e-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git master
-> head:   fc6f018eda7f9054e427f731db1e8b200f22873c
-> commit: 33e2bcda33620fc43cc948627be525ddb342c446 [2/4] Merge branch 'ath-current'
-> config: arc-allyesconfig
-> (https://download.01.org/0day-ci/archive/20241113/202411131838.DE0FWg8Q-lkp@intel.com/config)
-> compiler: arceb-elf-gcc (GCC) 13.2.0
-> reproduce (this is a W=1 build):
-> (https://download.01.org/0day-ci/archive/20241113/202411131838.DE0FWg8Q-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411131838.DE0FWg8Q-lkp@intel.com/
->
-> All error/warnings (new ones prefixed by >>):
->
->    drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_set_sma_cfg':
->>> drivers/net/ethernet/intel/ice/ice_ptp.c:165:15: error: implicit
->>> declaration of function 'ice_read_sma_ctrl'; did you mean
->>> 'ice_read_sr_word'? [-Werror=implicit-function-declaration]
->      165 |         err = ice_read_sma_ctrl(&pf->hw, &data);
->          |               ^~~~~~~~~~~~~~~~~
->          |               ice_read_sr_word
->>> drivers/net/ethernet/intel/ice/ice_ptp.c:187:16: error: implicit
->>> declaration of function 'ice_write_sma_ctrl'; did you mean
->>> 'ice_write_intrl'? [-Werror=implicit-function-declaration]
->      187 |         return ice_write_sma_ctrl(&pf->hw, data);
->          |                ^~~~~~~~~~~~~~~~~~
->          |                ice_write_intrl
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411131936.ZgQVWm6e-lkp@intel.com/
 
-Our ath.git master branch is an integration branch of other branches and
-it's not sent forward to other trees. Looks like we did a merge error in
-the master branch but no action needed as it's only within ath.git.
-We'll try to fix it the next time we update the master branch.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for DMA_VIRTUAL_CHANNELS when selected by GKI_HIDDEN_SND_SOC_CONFIGS
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+     Depends on [n]: SOUND [=n] && !UML && SND [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   
+   WARNING: unmet direct dependencies detected for DMA_VIRTUAL_CHANNELS
+     Depends on [n]: DMADEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
 
 -- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
