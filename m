@@ -1,129 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D270249EB
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 15:15:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246971531DC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 16:06:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731510952; cv=none; b=uSfET99APQu0+mE7OOPu6/4Xuq+N0xt9t9q5cHlyZTjAMz0vRGaTNd6n9YRiPY0GjFuazj/1mjYPPq+WtFpSMJ9+R7lGdhLaJmVmgckOgXQZc6OrOV6t/N9nMfEfbLOWg5OIt9UA5QOhPLwade/AVg6g3mNfbDEzZMnoe5I+5V0=
+	t=1731513992; cv=none; b=NKgh5osC+79vgibBDBinCQ2GVCdS6z0ayEIFWiatSpe2XgoJDmE0KVQQjtaMyhEpCv8k0Mh/GozJIcE7642YTB5NE4xsLVMB78q0pjMvDJDUbckF8BgRYm+QsO06nfcakX0vkM9P5KVeLyWoC45tWf6+/QUvnWytOMV89iCV+Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731510952; c=relaxed/simple;
-	bh=JhrXWLVz5TqDi4En0Q75Dc2ws2MZm6MJ9SaBdLtEnew=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F30g8Evbe2/8ju1yaj6JFSV2XL1RJnqZqV+TdMoFvYvfVdKuR7zGfCDnTZrPqLyp7TehREvdpT7+t93b/IW/5lr4uesD0W2qO+PtF/nxX4/n23eTJleRrQYmpFsaaoEOZ64cRvdQX4ZkRA5nOsHQr61ux8cH+O2mSlapBUNsL1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZNHJwQU; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731513992; c=relaxed/simple;
+	bh=/61tckc2Gvva0IjqLR4twi+5tEAoFG/umkrlrT1i4gY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=tYFu5MuANPG+7a4U9AAMZOosticKDvuVmAmnquCSgHZ0jr5IxIoOaEYj8pxlMgHrlpSZv72MQ/30P2XKC3BGMO2YPWC4lRQhMogWInL/iZBAg/sKOw9oCJhOEZE/9KviZD0WAV0spQTbRrx+DTB3Gw1SPm+pBySYm0l13+kmpJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=KY3503hH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZNHJwQU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731510949; x=1763046949;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JhrXWLVz5TqDi4En0Q75Dc2ws2MZm6MJ9SaBdLtEnew=;
-  b=QZNHJwQUvAiplIGY4tqhYmN+5WoMpjKI8Pe6WorGjt1/IJ64iPw50gym
-   vikO3ZDptrZklG/TlilC8lp0phC40rcn3uSYmi02du+HG9uft5CffcSxV
-   1aGsB17rlTpBN2Dhj/3sKjmEXQX/D0Wd+FywGXabFMhmuogvoxfNW6kdh
-   Ts9sY3WeLdcGIS1TKC0lllF8RwCcix9h8/+R+N1vw24WhIvEnWQQpX8Hc
-   PYpreCe9FZ3uGiW/aBzCzYFXH2eZ34J28OcQFDJSQT5lmSjVq6jSr7TPS
-   o0jajCklsSlcTo8EhIM5KjVY8rDrTZnHU6ftRVRr5FZk46mYeXI+oZPwi
-   g==;
-X-CSE-ConnectionGUID: IQ6h2kTMS1WL4N3PvbQAPw==
-X-CSE-MsgGUID: VVs0uLXTS3ezwGYkti0EUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42798075"
-X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="42798075"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 07:15:48 -0800
-X-CSE-ConnectionGUID: tYXLNLpWTIiOWLLJqzlZZA==
-X-CSE-MsgGUID: dBAWsRlPSNOPjg4ktmatJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="118725341"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2024 07:15:47 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBF5s-0000UG-2W;
-	Wed, 13 Nov 2024 15:15:44 +0000
-Date: Wed, 13 Nov 2024 23:14:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
- drivers/misc/uacce/uacce.c:739:6: error: implicit declaration of function
- 'module_refcount'
-Message-ID: <202411132335.bYokl2ag-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="KY3503hH"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ADACUoX016376;
+	Wed, 13 Nov 2024 16:06:07 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	fu8TqwnYdHnzFM2WSD8ADeLbZYDzCJLxQSMIuTVBUdI=; b=KY3503hHs86v2hrd
+	sT6YYfGM3hDR3GLfMJATeyS6SHXF36Tjv4cjsftts/dONGr/FoQog2S9z9qWJ+rr
+	mSaN8nc1F4YjS9QOZLgZ4eCMV0YCOM0JLYwCcko4tosoYWFI8Gj5kyTxP//JUbJb
+	9LO9bk70c72XYFgRGd85NSBZsA7N8GPv30dkg6ot6AF48NKTQaFSu+uAR5+O5GMw
+	Ul0ykncJt4y7vmasvFvwatS78R+qR1ESX2EfsdNOIvlMvMVnUJKOkABiavdr2Fzf
+	vqPHxttkoGdpOhog8u9DcPH/f5bNY4ApuvX8D91v3ewitpR4n95O0Ir/77Vlu2ki
+	KjxMMg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42v1vfw0hd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 16:06:07 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ADG66nx020556
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 16:06:06 GMT
+Received: from [10.48.243.207] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 13 Nov
+ 2024 08:06:05 -0800
+Message-ID: <e571606e-b472-4a0b-a293-6716957649f7@quicinc.com>
+Date: Wed, 13 Nov 2024 08:06:05 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ath:master 2/4] drivers/net/ethernet/intel/ice/ice_ptp.c:165:15:
+ error: implicit declaration of function 'ice_read_sma_ctrl'; did you mean
+ 'ice_read_sr_word'?
+To: Kalle Valo <kvalo@kernel.org>, kernel test robot <lkp@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+        Jeff
+ Johnson <jjohnson@kernel.org>, <ath12k@lists.infradead.org>
+References: <202411131838.DE0FWg8Q-lkp@intel.com> <87ldxn2yes.fsf@kernel.org>
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <87ldxn2yes.fsf@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01c.na.qualcomm.com (10.47.97.35) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ASzHMa1VuaLzXwYEaOeArvIken1YCnVU
+X-Proofpoint-ORIG-GUID: ASzHMa1VuaLzXwYEaOeArvIken1YCnVU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
+ suspectscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
+ mlxlogscore=999 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411130134
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
-commit: 451823febcb610969f048556cedc41b5e08fafb1 [1294/1294] UACCE backport from mainline
-config: x86_64-buildonly-randconfig-002-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132335.bYokl2ag-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132335.bYokl2ag-lkp@intel.com/reproduce)
+On 11/13/2024 2:58 AM, Kalle Valo wrote:
+> kernel test robot <lkp@intel.com> writes:
+> 
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git master
+>> head:   fc6f018eda7f9054e427f731db1e8b200f22873c
+>> commit: 33e2bcda33620fc43cc948627be525ddb342c446 [2/4] Merge branch 'ath-current'
+>> config: arc-allyesconfig
+>> (https://download.01.org/0day-ci/archive/20241113/202411131838.DE0FWg8Q-lkp@intel.com/config)
+>> compiler: arceb-elf-gcc (GCC) 13.2.0
+>> reproduce (this is a W=1 build):
+>> (https://download.01.org/0day-ci/archive/20241113/202411131838.DE0FWg8Q-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202411131838.DE0FWg8Q-lkp@intel.com/
+>>
+>> All error/warnings (new ones prefixed by >>):
+>>
+>>    drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_set_sma_cfg':
+>>>> drivers/net/ethernet/intel/ice/ice_ptp.c:165:15: error: implicit
+>>>> declaration of function 'ice_read_sma_ctrl'; did you mean
+>>>> 'ice_read_sr_word'? [-Werror=implicit-function-declaration]
+>>      165 |         err = ice_read_sma_ctrl(&pf->hw, &data);
+>>          |               ^~~~~~~~~~~~~~~~~
+>>          |               ice_read_sr_word
+>>>> drivers/net/ethernet/intel/ice/ice_ptp.c:187:16: error: implicit
+>>>> declaration of function 'ice_write_sma_ctrl'; did you mean
+>>>> 'ice_write_intrl'? [-Werror=implicit-function-declaration]
+>>      187 |         return ice_write_sma_ctrl(&pf->hw, data);
+>>          |                ^~~~~~~~~~~~~~~~~~
+>>          |                ice_write_intrl
+> 
+> Our ath.git master branch is an integration branch of other branches and
+> it's not sent forward to other trees. Looks like we did a merge error in
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132335.bYokl2ag-lkp@intel.com/
+By "we" Kalle means me. :)
+I did a bad conflict resolution and have locally validated the correct
+resolution and will be updating ath/{main,master} shortly
 
-All errors (new ones prefixed by >>):
+> the master branch but no action needed as it's only within ath.git.
+> We'll try to fix it the next time we update the master branch.
+> 
 
->> drivers/misc/uacce/uacce.c:739:6: error: implicit declaration of function 'module_refcount' [-Werror,-Wimplicit-function-declaration]
-     739 |         if (module_refcount(uacce->pdev->driver->owner) > 0)
-         |             ^
-   drivers/misc/uacce/uacce.c:1032:16: warning: unused variable 'uacce' [-Wunused-variable]
-    1032 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
-         |                       ^~~~~
-   drivers/misc/uacce/uacce.c:1046:16: warning: unused variable 'uacce' [-Wunused-variable]
-    1046 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
-         |                       ^~~~~
-   2 warnings and 1 error generated.
-
-
-vim +/module_refcount +739 drivers/misc/uacce/uacce.c
-
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  717  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  718  /*
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  719   * While user space releases a queue, all the relatives on the queue
-76dbd49be7fc95 drivers/uacce/uacce.c xuzaibo        2019-07-11  720   * should be released imediately by this putting.
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  721   */
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  722  static void uacce_put_queue(struct uacce_queue *q)
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  723  {
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  724  	struct uacce *uacce = q->uacce;
-e3234bd66f0c97 drivers/uacce/uacce.c xuzaibo        2019-05-13  725  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  726  	/*
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  727  	 * To do: we should vm_munmap mmio and dus regions, currently we munmap
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  728  	 * mmio and dus region before put queue.
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  729  	 */
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  730  	if (uacce->ops->stop_queue)
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  731  		uacce->ops->stop_queue(q);
-299b4bc20a682a drivers/uacce/uacce.c lingmingqiang  2019-05-06  732  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  733  	if (uacce->ops->put_queue)
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  734  		uacce->ops->put_queue(q);
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  735  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  736  	q->state = UACCE_Q_ZOMBIE;
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  737  	q->filep->private_data = NULL;
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  738  	uacce_queue_drain(q);
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20 @739  	if (module_refcount(uacce->pdev->driver->owner) > 0)
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  740  		module_put(uacce->pdev->driver->owner);
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  741  }
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  742  
-
-:::::: The code at line 739 was first introduced by commit
-:::::: f7acb5166348bf6c75ac40c5e6e14726bc3ca578 uacce: Remove uacce mode 1 relatives
-
-:::::: TO: Yu'an Wang <wangyuan46@huawei.com>
-:::::: CC: Yang Yingliang <yangyingliang@huawei.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
