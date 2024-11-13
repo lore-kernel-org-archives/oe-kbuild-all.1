@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA3D920694C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 17:58:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E5692036EE
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 18:40:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731520692; cv=none; b=ClIsZN/FnuFhLMZz5Ciz1YvhjlZIrULAmNO8tAzfEdGpoRiIiFSdhB1BiQppiunLD8NecJIPcVI2byuMURYP8DKGyLMGql97JSDQGyACdt2PKI+JMFTzuek1ydXdNaYS+KAaYq1Mm1Ij5eESh9flzb8yhkwlklRog59uiBi6FVw=
+	t=1731523212; cv=none; b=PQ3bHF1/DWGTach+f4ytwywsqvkrOInpCrXgXeG5jDRJjE+DPkjqcu72SupYZU3vQkqfrEqQp0h39t6tEvWUjA8ItN+BnPQ5peLPURFoD07m6k2taPS9v0Su66MWFf1Rr1MuE89MWaUxFAzJbVKiBOhcVjLqHBxWatjzi5JXBkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731520692; c=relaxed/simple;
-	bh=faWalIyVIG2cFG7+jPlwAYn07vjQFuWZUKaHRiRuR8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2yFsR55DEsMD1HF9i9pjFzfLeOLLzRfCI7C47rZCthpo2h6aWPfzKtSgsFCtqDf1vr3X2yJoBMQPL5rt9qtdksgjzfM9qo4jtol7XgpN2f1+N0PmMM/Ek8uBptY7vX5kfBIfXAyTcPmH5CycvrIbe30Z7yaMPyGdyaWO6YNozk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vbb4sQ7D; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1731523212; c=relaxed/simple;
+	bh=XcAQSeXllJlBWc3PZb/zjZFaaU0cw+x1txNYV2YYgGQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rPkhwYTjCtd8cuWNZLoRrzgV5o8wUJ70SMJYHB5CPhWGHQnow6kSdNFOz4ripyg6fnmL3LBssqbNEmcftWA5DqlKsTRkYCb3W4J0HeKbzCtgEQL7/PCHYjeES/mD80fHnisxQ5m2KLunc5ihqGgAFzEefhVIAbTbpi08FSYfnhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ntxv39tn; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vbb4sQ7D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ntxv39tn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731520690; x=1763056690;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=faWalIyVIG2cFG7+jPlwAYn07vjQFuWZUKaHRiRuR8E=;
-  b=Vbb4sQ7D1OT9K7COTN9U6c3/wVosfVsLLu4wMky3dhHs/6LqNuBkk/dW
-   ILrD/hM66bRpzsQuD12xBn0y1CVI0EX+nWy7mi5CFtGvXaIv1Ax6qROKi
-   9PMn0q6QIa2vMVDH406/0wbeD8DAbp7xMvgxjlo5Qhu/g0lZLvStsGc8C
-   iJ0/vAmCQz8OSieZ1o2ZPnFlPFrDU0StMT4GLI4X9Lo/+QzFYSFLCXboS
-   acL9atEKNyWiU+7dgXHBYyhDhNMI0TENvrNK48EDuTEKzPBN18V6x2sbN
-   RVqEax9A8TaEueslMpNAyvLIUELCo41ZPosBsIZQOqWbpSxusSrqRe7CN
-   A==;
-X-CSE-ConnectionGUID: 9YJHqGgOSDiiJoXQtADrkQ==
-X-CSE-MsgGUID: 2ndf/1p6TCStrgbOOTGa/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53972263"
+  t=1731523210; x=1763059210;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XcAQSeXllJlBWc3PZb/zjZFaaU0cw+x1txNYV2YYgGQ=;
+  b=Ntxv39tn+KSl011VQx17jdhbjLjcMkFRd01GxKroCN9YWc+2N6VCOivi
+   ASwJp3HDIn3MCpzl7/UGwBckiMZdPXHi/iL2tvb+VJ2tvjZUOx58xzIhg
+   UPWziwDzbFv/TxxbW4UAxQWxLl5Y8UlT+8Tsu8ASYaHJk/AuE9linZOCb
+   eUt++Z7FgZ6Xq5M71gDOxGya7cN6f8eXh/6mJgDz2dYOrqCZn6GkFVObG
+   itoEF/cidYm0jMP9OM2gwntzn8N/XARYYldhV9dVQSQ/cYzwAtLW1vc6H
+   50uv2LU1C9jeRg8gYquon/KS4+mM+OjhS3VP7ZSL6rdktuUynxwPTkrWG
+   w==;
+X-CSE-ConnectionGUID: cCO2OR0bSv69dp7B9ToS1A==
+X-CSE-MsgGUID: 330LdHs/QUeya2KlIaD+EA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="48885853"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53972263"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 09:58:09 -0800
-X-CSE-ConnectionGUID: qPvyOlvBQSy3MTCGYkYepA==
-X-CSE-MsgGUID: uZHB1VCBTOSYMIkD/g4alg==
+   d="scan'208";a="48885853"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 10:40:10 -0800
+X-CSE-ConnectionGUID: 56ZE4Yy9QCCAKcrhjFOnAQ==
+X-CSE-MsgGUID: ClrE0whsTF27Nt7bJ4RN9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="118756535"
+   d="scan'208";a="88375985"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2024 09:58:06 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 13 Nov 2024 10:40:09 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBHcx-0000bN-1o;
-	Wed, 13 Nov 2024 17:58:03 +0000
-Date: Thu, 14 Nov 2024 01:57:55 +0800
+	id 1tBIHe-0000d1-2R;
+	Wed, 13 Nov 2024 18:40:06 +0000
+Date: Thu, 14 Nov 2024 02:39:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kartik <kkartik@nvidia.com>, linux@armlinux.org.uk,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org,
-	theo.lebrun@bootlin.com, linus.walleij@linaro.org,
-	ilpo.jarvinen@linux.intel.com, l.sanfilippo@kunbus.com,
-	konradybcio@kernel.org, christophe.jaillet@wanadoo.fr,
-	arnd@arndb.de, linux-kernel@vger.kernel.org,
-	linux-serial@vger.kernel.org
+To: kernel@openeuler.org, Tian Wei <tianwei@phytium.com.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] serial: amba-pl011: Fix RX stall when DMA is used
-Message-ID: <202411140119.QKkmNN97-lkp@intel.com>
-References: <20241113051023.3125-1-kkartik@nvidia.com>
+Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
+ drivers/gpio/gpio-phytium-platform.c:30:36: warning:
+ 'phytium_gpio_acpi_match' defined but not used
+Message-ID: <202411140242.XxdoeZ1Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,69 +62,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113051023.3125-1-kkartik@nvidia.com>
 
-Hi Kartik,
+Hi Tian,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tty/tty-testing]
-[also build test ERROR on tty/tty-next tty/tty-linus usb/usb-testing usb/usb-next usb/usb-linus soc/for-next linus/master v6.12-rc7 next-20241113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kartik/serial-amba-pl011-Fix-RX-stall-when-DMA-is-used/20241113-131203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-testing
-patch link:    https://lore.kernel.org/r/20241113051023.3125-1-kkartik%40nvidia.com
-patch subject: [PATCH] serial: amba-pl011: Fix RX stall when DMA is used
-config: arm64-randconfig-003-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140119.QKkmNN97-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
+commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [1294/1294] gpio: add phytium gpio driver
+config: arm64-randconfig-001-20241114 (https://download.01.org/0day-ci/archive/20241114/202411140242.XxdoeZ1Z-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140119.QKkmNN97-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140242.XxdoeZ1Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140119.QKkmNN97-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411140242.XxdoeZ1Z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/tty/serial/amba-pl011.c: In function 'pl011_unthrottle_rx':
->> drivers/tty/serial/amba-pl011.c:1822:16: error: 'struct uart_amba_port' has no member named 'using_rx_dma'
-    1822 |         if (uap->using_rx_dma) {
-         |                ^~
->> drivers/tty/serial/amba-pl011.c:1823:20: error: 'struct uart_amba_port' has no member named 'dmacr'
-    1823 |                 uap->dmacr |= UART011_RXDMAE;
-         |                    ^~
-   drivers/tty/serial/amba-pl011.c:1824:32: error: 'struct uart_amba_port' has no member named 'dmacr'
-    1824 |                 pl011_write(uap->dmacr, uap, REG_DMACR);
-         |                                ^~
+>> drivers/gpio/gpio-phytium-platform.c:30:36: warning: 'phytium_gpio_acpi_match' defined but not used [-Wunused-const-variable=]
+      30 | static const struct acpi_device_id phytium_gpio_acpi_match[] = {
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
+   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   Selected by [y]:
+   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
 
 
-vim +1822 drivers/tty/serial/amba-pl011.c
+vim +/phytium_gpio_acpi_match +30 drivers/gpio/gpio-phytium-platform.c
 
-  1808	
-  1809	static void pl011_unthrottle_rx(struct uart_port *port)
-  1810	{
-  1811		struct uart_amba_port *uap = container_of(port, struct uart_amba_port, port);
-  1812		unsigned long flags;
-  1813	
-  1814		uart_port_lock_irqsave(&uap->port, &flags);
-  1815	
-  1816		uap->im = UART011_RTIM;
-  1817		if (!pl011_dma_rx_running(uap))
-  1818			uap->im |= UART011_RXIM;
-  1819	
-  1820		pl011_write(uap->im, uap, REG_IMSC);
-  1821	
-> 1822		if (uap->using_rx_dma) {
-> 1823			uap->dmacr |= UART011_RXDMAE;
-  1824			pl011_write(uap->dmacr, uap, REG_DMACR);
-  1825		}
-  1826	
-  1827		uart_port_unlock_irqrestore(&uap->port, flags);
-  1828	}
-  1829	
+    29	
+  > 30	static const struct acpi_device_id phytium_gpio_acpi_match[] = {
+    31		{ "PHYT0001", 0 },
+    32		{ }
+    33	};
+    34	MODULE_DEVICE_TABLE(acpi, phytium_gpio_acpi_match);
+    35	
 
 -- 
 0-DAY CI Kernel Test Service
