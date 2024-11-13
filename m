@@ -1,96 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69649207A16;
-	Wed, 13 Nov 2024 21:16:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3422309AC
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 21:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731532601; cv=none; b=DxduOU8UR/jM605Ifoa4hhsU/Mq0ATumbvHDaXAMZVPlTSHbfpOm8TbuLVCpkK770Gd6svJPLMYbASkqJSvfS1clPtr+aUGjlZM4eNRg5FLNTT/RLXLi6gB8BvBolVI3NF5cvm1o55ZKiECPrvN/2ogktZOi6VHSw94oh8Lv46Y=
+	t=1731533663; cv=none; b=lf5REP7/dk9bxh9lArvvQVMDKU7oWD83pEPq3ByM6VCrYhekieAXq2jIPp5YbZjHuy9VBqtKOfgoRE+EyxiwW6cxXU8LRk2HjC9yUv5i3tZoABsHqq84Snsvv/07kVn/kuldKKfSa3qHiUH5tjHFJPAmstBacJaqSg5FnGs+MII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731532601; c=relaxed/simple;
-	bh=03wuwAMfX/K1xKI+KUwDaxJqXKn6A3vcvMH1wpG3UUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ebgEo7guQvfDWQ08+ZCz2f4ovqWKVhzhMaBIraLSNQHU9Ky0LnLNBc+I/jvH01cor4uyRhyZldmiOjvUrC/EZyxHchBQAqnkXQNxNB0jp5WvX7nJMIrO02GGL+oYRXv/8F2+zCb0XVRSOqOOo6Cie/b+FFlbMh9sRiYQ/rse/fY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XLa9xc8u; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731533663; c=relaxed/simple;
+	bh=YQUGDO3Cta2CcEkmesoEKTiVe3nWFN/7LLbF1A3X258=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FHnHe+s+HVgCjDPa/4nRbPeDCmZRy9goqjFyW97os3YXaL15JV/PAgqrVj++IQiNWlnbUZmkPwwswYQlkX5EELOXx9B3uP5UabxMoil8J/BD8n174rCC+FGFKbewjmRAWEA/YSmTMvkM32oqjWI52eiPx+9jRQc1wPexwnYiuHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=dK0c60yR; arc=none smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XLa9xc8u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731532600; x=1763068600;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=03wuwAMfX/K1xKI+KUwDaxJqXKn6A3vcvMH1wpG3UUc=;
-  b=XLa9xc8uzDgUfT/5mk0I6U+YEC+wjt0QG6fQSg2A3JtoQkLOlTq+mQlz
-   LWkh55sQPTaEb16LhA0/IVQ1wbBB3tdrRnfcUdAZ0oJa5eWstT2C0Q37E
-   OIXwn6iuYT8Jrt3VINfovH/soDG4moZ7ht4MNjuNwv8HVpDDv7uRa1gNe
-   n65MJOtQqxY5M1HC+CQiAXCFVT7Klb04NtFQ8PzUfVvYz/XfpJfrTvVCH
-   pUeoRPS37S2qsXvcnAWIeYdGBqhk/7w6NhUaWKUiva9egQCjXxlf1GCIY
-   DJo2qtyQMtf9gEnsNXptF7FeALiseTBDRMCl85KCNrkrj9MUHvsea7kDx
-   Q==;
-X-CSE-ConnectionGUID: gSexmyhNTUye/E0X0Unoiw==
-X-CSE-MsgGUID: FDvQrdDWRjO+7fNKHoLS6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53990745"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53990745"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 13:16:38 -0800
-X-CSE-ConnectionGUID: 4NGEhYoKTUeN/NmYf4faHQ==
-X-CSE-MsgGUID: D/QV0AUFTfSQeTpmCMq9tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="93056463"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 13 Nov 2024 13:16:37 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBKj4-0000j4-0I;
-	Wed, 13 Nov 2024 21:16:34 +0000
-Date: Thu, 14 Nov 2024 05:15:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
-	Boqun Feng <boqun.feng@gmail.com>
-Subject: [linux-next:master 8233/11277] error[E0425]: cannot find function
- `rust_do_trace_rust_sample_loaded` in crate `$crate::bindings`
-Message-ID: <202411140520.VL33V6fD-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="dK0c60yR"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-288acc703c8so333769fac.0
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 13:34:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1731533661; x=1732138461; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h//6f6yRnsv+Kcuje0jdigABLyMDMKttVZvN8rP9+9U=;
+        b=dK0c60yRsrp/UfY0HjK+X5YUQm9nepVU2pGcnsTLrIUcNSMQB34C4UWDlpzg0Stbeq
+         SyBjVLalapeRBG7UPpVL+1eokmXJkZdHFf6MHiyN0ZO1cjrSQyEjK7jAvmvpTOAxx3J/
+         zJUEVYpWBJeL+sj+f5eYubbM6rgkabmnjOINE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731533661; x=1732138461;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h//6f6yRnsv+Kcuje0jdigABLyMDMKttVZvN8rP9+9U=;
+        b=Cj10BA7NrAw7WvJc+JenTiN4mjBcbu1Q7kpbqQyNdsxCvnCePgVKVQzM6v+zClLYKW
+         zdsiIS/hVhbbQ79ygI05fWFaXRb63xO1Zvzgyk6PVGhGJTExFgE2MxACQJ57MKA5fCVa
+         xVu5DZRQKj5FnNu4FqzyQfLUG1H5rcxdp/1HRdbCHUrgPdvDlKkaglqgPtZ+X41ywgp3
+         a8FWpbBQZlo/Yv4oftoBB+pbfb8LgelvxbjNwrDMbkgxyqe5XQKVQEze8O6h2SlfLO1S
+         q/AQmXzqVzMkW+ultLI8JItHdNXu1Wo4NC0Qbp71GXOVP3vFSTsQalT9MYgyq7/wtopr
+         E3HA==
+X-Gm-Message-State: AOJu0Yylq8lgRhyRL4tgNBBCjbq9SLcT14jjWJokZd+l8ZkWNNlk+mjO
+	qUOd/3BE27NvaLwFREpGxHebxfj7wiyqHUcBOJGpToi6jswDxG/2dmwu02kNXG6fFSpxfd3Orae
+	4I3k1XP17TCnuT0MHbNk6AQKE3PHbnjqpFOwDRo0j4dfib28=
+X-Gm-Gg: ASbGncuOHL+nwef4C6LZ4TKHSlRfQXEM+0wX8WmTNPhhke2+9lNjoT0snhA/xYllhvA
+	xCT3F4KbeNyx7KL4E2AQbvKYdtLnFSfHO
+X-Google-Smtp-Source: AGHT+IFcP1sPXt8B0fq2a59ffiTmxjVRbfc/n+s0Ve6q/MxIM2ZSLrBRUM64VoyjvMMvU0ZrE+pbmmGawsDTAbRR4vU=
+X-Received: by 2002:a05:6870:ad93:b0:277:db1c:7c6a with SMTP id
+ 586e51a60fabf-295601cec47mr3991647fac.7.1731533661090; Wed, 13 Nov 2024
+ 13:34:21 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20241014215022.68530-2-jeffxu@google.com> <202410181124.TWvcRfi7-lkp@intel.com>
+In-Reply-To: <202410181124.TWvcRfi7-lkp@intel.com>
+From: Jeff Xu <jeffxu@chromium.org>
+Date: Wed, 13 Nov 2024 13:34:10 -0800
+Message-ID: <CABi2SkXrFrF_LUGZ-b8oT+5056w9mpaf3Y9fAW9E6z7m2fyupw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/1] exec: seal system mappings
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bd05b9a700c10473c2f52bf12c5c5938c30e80b0
-commit: 91d39024e1b02914cc5e2dbc137908e29b269ce4 [8233/11277] rust: samples: add tracepoint to Rust sample
-config: x86_64-randconfig-013-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140520.VL33V6fD-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140520.VL33V6fD-lkp@intel.com/reproduce)
+On Thu, Oct 17, 2024 at 8:44=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi,
+>
+> [This is a private test report for your RFC patch.]
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on akpm-mm/mm-everything]
+> [also build test ERROR on brauner-vfs/vfs.all perf-tools-next/perf-tools-=
+next tip/perf/core perf-tools/perf-tools linus/master v6.12-rc3 next-202410=
+17]
+> [cannot apply to kees/for-next/execve kees/for-next/pstore kees/for-next/=
+kspp tip/x86/asm acme/perf/core]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/jeffxu-chromium-or=
+g/exec-seal-system-mappings/20241015-055145
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ev=
+erything
+> patch link:    https://lore.kernel.org/r/20241014215022.68530-2-jeffxu%40=
+google.com
+> patch subject: [RFC PATCH v2 1/1] exec: seal system mappings
+> config: i386-allyesconfig (https://download.01.org/0day-ci/archive/202410=
+18/202410181124.TWvcRfi7-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20241018/202410181124.TWvcRfi7-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202410181124.TWvcRfi7-lkp=
+@intel.com/
+>
+This is fixed in V3.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140520.VL33V6fD-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> error[E0425]: cannot find function `rust_do_trace_rust_sample_loaded` in crate `$crate::bindings`
-   --> samples/rust/rust_print.rs:87:5
-   |
-   87 | /     kernel::declare_trace! {
-   88 | |         /// # Safety
-   89 | |         ///
-   90 | |         /// Always safe to call.
-   91 | |         unsafe fn rust_sample_loaded(magic: c_int);
-   92 | |     }
-   | |_____^ not found in `$crate::bindings`
-   |
-   = note: this error originates in the macro `kernel::declare_trace` (in Nightly builds, run with -Z macro-backtrace for more info)
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> All errors (new ones prefixed by >>):
+>
+>    kernel/events/uprobes.c: In function 'xol_add_vma':
+> >> kernel/events/uprobes.c:1507:70: error: 'VM_SEALED' undeclared (first =
+use in this function); did you mean 'VM_SHARED'?
+>     1507 |                                 VM_EXEC|VM_MAYEXEC|VM_DONTCOPY=
+|VM_IO|VM_SEALED,
+>          |                                                               =
+       ^~~~~~~~~
+>          |                                                               =
+       VM_SHARED
+>    kernel/events/uprobes.c:1507:70: note: each undeclared identifier is r=
+eported only once for each function it appears in
+>
+V3 revert to V1's behavior for uprobes, so no longer have changes in uprobe=
+s.c
