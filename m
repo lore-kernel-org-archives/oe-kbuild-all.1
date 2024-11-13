@@ -1,142 +1,128 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72009167D83
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 17:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA9513D8B1
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 17:16:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731517627; cv=none; b=C9ZgOJbJ4m8VA+QkaIGCot2A9mApTtjfg1yyhER4h3BCjyhJbNZhbODej6DVDni7QeIJuwFPb9YWuLFaX+fixiSo234JWrgjcV0l82t1p2CrpyOpBhGnSVFovcPCgvJmEcAN3VPKKl3zhn+lJ0jWdXZWBgaInlJ045y6ag1t5X4=
+	t=1731518191; cv=none; b=Drnl5wogAAfmAWnMBLWO/2181LJzixcMU6Ui1ttYbLmomTPASlYypvGHiHAjf8jot0i93WI3+2sLAC07RX9REWgTyZjIkaQti/MJgH53uRJJu6/d/E9F7NTC8VXEkhwXTXRcqqm5IzT/SHrvAsIjcIr3b65IdWscKs7R1zmz9yw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731517627; c=relaxed/simple;
-	bh=KUtgGXM7Nx7TD+ujpP03MUbGBKhv1vaZgHBC+W193BY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lutB5XukX1S6DBNQdeLaKPhmVwT2S8KZBjlbDQ9vAAuCG+vU+MQb/i5KoMPvFtQPiIigGtqPwv6ZW0IhczN2e+q+RV+hie0K5KmdwIYuFMq+FwsUKhZnBQAXt/FRXsbzeyo8Ou2VzdSsQ+aNoasEWShfN+8SaYbxJd3I3IupF2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XWacmP6q; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731518191; c=relaxed/simple;
+	bh=en7TYb6TirQTq7kkRvUmoo/k01jN6qgNnms0aJqCRAU=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
+	 In-Reply-To:Content-Type; b=O3z/5Scq4TBKpNZUeKAEw+ahhRiIEQGveZvs5oqg6rlik3rWUkLnXKx+1LSOZ4qDFkvP/pF3E+m+JoCH3/guNowjOH87OS5CjVAS4Wgkmf761D+goYQGmEv0X3STjl1KeiQKls/cu6QCxiM0qTTnYTqwKpdi92awlu/RkBaqlJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RuREIlFY; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XWacmP6q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731517626; x=1763053626;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KUtgGXM7Nx7TD+ujpP03MUbGBKhv1vaZgHBC+W193BY=;
-  b=XWacmP6qEGypFnimaBWMGTr+2oMJIfgiKvJnoyGsYJKqKIfdGit8qe9+
-   u6xtpqRPOovcS+cJx+0ICNBbETjiTMDKUcnrWSnYYI1cC+BSX5WiJ/Q/z
-   abtj8CM3HZ7F51qaMPA91YrtjeD89sO42gjHvq6DfcgHlTc7v0zhEZOOw
-   TQYvd2PgbcpvxQchLrtVy04XFCfW0AdGlWTAXhahPsJBMkv5dzS4jfkF3
-   76EHulYi1LxXkktwSqYe34lo0T/vrRoDL2Z19jzjR+2j9z7+0LTbMFY7T
-   HJF9V94m1EKPWjlcMAgK9OXAfnukvb6z6PL0mBQO6XppHCw6NBL4JYK3x
-   A==;
-X-CSE-ConnectionGUID: uyIEbtCOScaNedLpEjg3Lg==
-X-CSE-MsgGUID: Jo1Z8O7gTCKes9l2kyLkfw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31386971"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31386971"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 09:07:03 -0800
-X-CSE-ConnectionGUID: 4A0kKNEGR3+3x7j9kn2oxw==
-X-CSE-MsgGUID: ARzdSNAGSqmY0e4nv+xMrA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="88094058"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Nov 2024 09:07:02 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBGpX-0000Zl-0C;
-	Wed, 13 Nov 2024 17:06:59 +0000
-Date: Thu, 14 Nov 2024 01:06:42 +0800
-From: kernel test robot <lkp@intel.com>
-To: Qi Xi <xiqi2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: fs/proc/vmcore.c:424:19: warning: 'mmap_vmcore_fault' defined but
- not used
-Message-ID: <202411140156.2o0nS4fl-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RuREIlFY"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ADH1OrX021966;
+	Wed, 13 Nov 2024 17:16:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	8g77kHJp6HNf9b386cn6ZLjFnZjpzGTHSTOQcBWu1m4=; b=RuREIlFY1iZhosun
+	IAbc2Lmj1IMoi+DB+68FDTUf9S13WvMZ4rcsV1tLtq9O6yDFgteSRsuZu0gceIlt
+	pICKky1wO/b0EhujrANwrzciXfX3rqoL9AahuF63xkE/pRmFAW/j6qQODyJnkpPr
+	IF1oHFqb0y2+2u9lJCFbmRBykD28qglRFWDuB9uLDvypZWFzriRZ4RG3rAnwWg2A
+	bqtzXUGyYyTd4NQNHwrFYRid/smAVNoba1VZlIdCYT+u4BoQlhg2gF3aKkZgUSZF
+	DIlPbwPCwzjLmt4s9QLxKutaW7WzCbUNfdYZ9ikS9ldaiMraPKA4t148crgQ74pR
+	fZmsiA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42vsg5189m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 17:16:20 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 4ADHGAOv007511
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 13 Nov 2024 17:16:10 GMT
+Received: from [10.48.243.207] (10.49.16.6) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 13 Nov
+ 2024 09:16:09 -0800
+Message-ID: <76d0d0d3-d21b-4ce8-b6be-9bfc1cefa748@quicinc.com>
+Date: Wed, 13 Nov 2024 09:16:08 -0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [ath:master 2/4] drivers/net/ethernet/intel/ice/ice_ptp.c:165:15:
+ error: implicit declaration of function 'ice_read_sma_ctrl'; did you mean
+ 'ice_read_sr_word'?
+From: Jeff Johnson <quic_jjohnson@quicinc.com>
+To: Kalle Valo <kvalo@kernel.org>, kernel test robot <lkp@intel.com>
+CC: Jakub Kicinski <kuba@kernel.org>, <oe-kbuild-all@lists.linux.dev>,
+        Jeff
+ Johnson <jjohnson@kernel.org>, <ath12k@lists.infradead.org>
+References: <202411131838.DE0FWg8Q-lkp@intel.com> <87ldxn2yes.fsf@kernel.org>
+ <e571606e-b472-4a0b-a293-6716957649f7@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <e571606e-b472-4a0b-a293-6716957649f7@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nalasex01b.na.qualcomm.com (10.47.209.197) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: O7FKMSoWARlOEPCxK3flpHgdfS4kCSDM
+X-Proofpoint-ORIG-GUID: O7FKMSoWARlOEPCxK3flpHgdfS4kCSDM
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 phishscore=0 malwarescore=0 lowpriorityscore=0
+ mlxscore=0 mlxlogscore=999 impostorscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2411130144
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   f1b785f4c7870c42330b35522c2514e39a1e28e7
-commit: b8ee299855f08539e04d6c1a6acb3dc9e5423c00 fs/proc: fix compile warning about variable 'vmcore_mmap_ops'
-date:   6 days ago
-config: riscv-randconfig-r071-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140156.2o0nS4fl-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140156.2o0nS4fl-lkp@intel.com/reproduce)
+On 11/13/2024 8:06 AM, Jeff Johnson wrote:
+> On 11/13/2024 2:58 AM, Kalle Valo wrote:
+>> kernel test robot <lkp@intel.com> writes:
+>>
+>>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git master
+>>> head:   fc6f018eda7f9054e427f731db1e8b200f22873c
+>>> commit: 33e2bcda33620fc43cc948627be525ddb342c446 [2/4] Merge branch 'ath-current'
+>>> config: arc-allyesconfig
+>>> (https://download.01.org/0day-ci/archive/20241113/202411131838.DE0FWg8Q-lkp@intel.com/config)
+>>> compiler: arceb-elf-gcc (GCC) 13.2.0
+>>> reproduce (this is a W=1 build):
+>>> (https://download.01.org/0day-ci/archive/20241113/202411131838.DE0FWg8Q-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202411131838.DE0FWg8Q-lkp@intel.com/
+>>>
+>>> All error/warnings (new ones prefixed by >>):
+>>>
+>>>    drivers/net/ethernet/intel/ice/ice_ptp.c: In function 'ice_ptp_set_sma_cfg':
+>>>>> drivers/net/ethernet/intel/ice/ice_ptp.c:165:15: error: implicit
+>>>>> declaration of function 'ice_read_sma_ctrl'; did you mean
+>>>>> 'ice_read_sr_word'? [-Werror=implicit-function-declaration]
+>>>      165 |         err = ice_read_sma_ctrl(&pf->hw, &data);
+>>>          |               ^~~~~~~~~~~~~~~~~
+>>>          |               ice_read_sr_word
+>>>>> drivers/net/ethernet/intel/ice/ice_ptp.c:187:16: error: implicit
+>>>>> declaration of function 'ice_write_sma_ctrl'; did you mean
+>>>>> 'ice_write_intrl'? [-Werror=implicit-function-declaration]
+>>>      187 |         return ice_write_sma_ctrl(&pf->hw, data);
+>>>          |                ^~~~~~~~~~~~~~~~~~
+>>>          |                ice_write_intrl
+>>
+>> Our ath.git master branch is an integration branch of other branches and
+>> it's not sent forward to other trees. Looks like we did a merge error in
+> 
+> By "we" Kalle means me. :)
+> I did a bad conflict resolution and have locally validated the correct
+> resolution and will be updating ath/{main,master} shortly
+> 
+>> the master branch but no action needed as it's only within ath.git.
+>> We'll try to fix it the next time we update the master branch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140156.2o0nS4fl-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> fs/proc/vmcore.c:424:19: warning: 'mmap_vmcore_fault' defined but not used [-Wunused-function]
-     424 | static vm_fault_t mmap_vmcore_fault(struct vm_fault *vmf)
-         |                   ^~~~~~~~~~~~~~~~~
+this issue should now be resolved
 
 
-vim +/mmap_vmcore_fault +424 fs/proc/vmcore.c
-
-9cb218131de1c59 Michael Holzheu         2013-09-11  416  
-9cb218131de1c59 Michael Holzheu         2013-09-11  417  /*
-9cb218131de1c59 Michael Holzheu         2013-09-11  418   * The vmcore fault handler uses the page cache and fills data using the
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  419)  * standard __read_vmcore() function.
-9cb218131de1c59 Michael Holzheu         2013-09-11  420   *
-9cb218131de1c59 Michael Holzheu         2013-09-11  421   * On s390 the fault handler is used for memory regions that can't be mapped
-9cb218131de1c59 Michael Holzheu         2013-09-11  422   * directly with remap_pfn_range().
-9cb218131de1c59 Michael Holzheu         2013-09-11  423   */
-36f062042b0fd9f Souptick Joarder        2018-08-21 @424  static vm_fault_t mmap_vmcore_fault(struct vm_fault *vmf)
-9cb218131de1c59 Michael Holzheu         2013-09-11  425  {
-9cb218131de1c59 Michael Holzheu         2013-09-11  426  #ifdef CONFIG_S390
-11bac80004499ea Dave Jiang              2017-02-24  427  	struct address_space *mapping = vmf->vma->vm_file->f_mapping;
-9cb218131de1c59 Michael Holzheu         2013-09-11  428  	pgoff_t index = vmf->pgoff;
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  429) 	struct iov_iter iter;
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  430) 	struct kvec kvec;
-9cb218131de1c59 Michael Holzheu         2013-09-11  431  	struct page *page;
-9cb218131de1c59 Michael Holzheu         2013-09-11  432  	loff_t offset;
-9cb218131de1c59 Michael Holzheu         2013-09-11  433  	int rc;
-9cb218131de1c59 Michael Holzheu         2013-09-11  434  
-9cb218131de1c59 Michael Holzheu         2013-09-11  435  	page = find_or_create_page(mapping, index, GFP_KERNEL);
-9cb218131de1c59 Michael Holzheu         2013-09-11  436  	if (!page)
-9cb218131de1c59 Michael Holzheu         2013-09-11  437  		return VM_FAULT_OOM;
-9cb218131de1c59 Michael Holzheu         2013-09-11  438  	if (!PageUptodate(page)) {
-09cbfeaf1a5a67b Kirill A. Shutemov      2016-04-01  439  		offset = (loff_t) index << PAGE_SHIFT;
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  440) 		kvec.iov_base = page_address(page);
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  441) 		kvec.iov_len = PAGE_SIZE;
-de4eda9de2d957e Al Viro                 2022-09-15  442  		iov_iter_kvec(&iter, ITER_DEST, &kvec, 1, PAGE_SIZE);
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  443) 
-4a22fd20379ca89 Matthew Wilcox (Oracle  2022-04-29  444) 		rc = __read_vmcore(&iter, &offset);
-9cb218131de1c59 Michael Holzheu         2013-09-11  445  		if (rc < 0) {
-9cb218131de1c59 Michael Holzheu         2013-09-11  446  			unlock_page(page);
-09cbfeaf1a5a67b Kirill A. Shutemov      2016-04-01  447  			put_page(page);
-b5c212374c85353 Souptick Joarder        2018-10-30  448  			return vmf_error(rc);
-9cb218131de1c59 Michael Holzheu         2013-09-11  449  		}
-9cb218131de1c59 Michael Holzheu         2013-09-11  450  		SetPageUptodate(page);
-9cb218131de1c59 Michael Holzheu         2013-09-11  451  	}
-9cb218131de1c59 Michael Holzheu         2013-09-11  452  	unlock_page(page);
-9cb218131de1c59 Michael Holzheu         2013-09-11  453  	vmf->page = page;
-9cb218131de1c59 Michael Holzheu         2013-09-11  454  	return 0;
-9cb218131de1c59 Michael Holzheu         2013-09-11  455  #else
-9cb218131de1c59 Michael Holzheu         2013-09-11  456  	return VM_FAULT_SIGBUS;
-9cb218131de1c59 Michael Holzheu         2013-09-11  457  #endif
-9cb218131de1c59 Michael Holzheu         2013-09-11  458  }
-9cb218131de1c59 Michael Holzheu         2013-09-11  459  
-
-:::::: The code at line 424 was first introduced by commit
-:::::: 36f062042b0fd9f8e41b97a472f52139886ca26f fs/proc/vmcore.c: use new typedef vm_fault_t
-
-:::::: TO: Souptick Joarder <jrdr.linux@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
