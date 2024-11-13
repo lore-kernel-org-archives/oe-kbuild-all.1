@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9F117C68
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 13:53:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6146D111A8;
+	Wed, 13 Nov 2024 14:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731506010; cv=none; b=Fshbfwih0f+4et1xaIO4r26pjqhG0/6O1EtiHTWdAMFdtgqfn0Kzip5pmxv2CJfZmBeYmstNwSQYzTfTjPYm6abp5MT2ib5OUM2a/ZW7mFNIbZfwYHaZKAIl2/qVEieQdcqnnJW0GyBcf+jNJE7hTo/FF4zcFgYSiiM8qTP9Aes=
+	t=1731506617; cv=none; b=Q5C6VQBjOCcN5p7FJYZqae8Y75FRHsoJE/Hyne/J5XiNP0HzsiH9LmiEDBDdThKh8bDXdG3j4ZtS0Lcx7Ag9wEWY2xV6KQXn57a69UVvFxWCwyfahBHjh8f5n8zoiCNfoRkl6NsOD7jZHvBhaeGOWzES2DfPM+vb/U7r3ksh4xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731506010; c=relaxed/simple;
-	bh=e02wCo6/bCN5ygIPiqX/XjikMX8Gq9j4vtdOtzb6vsc=;
+	s=arc-20240116; t=1731506617; c=relaxed/simple;
+	bh=mQwM7MUR+K6GisLt//X9jfcRj3guSvU+ov8rpExK3DU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yci/CMWo9W+tlc6hP/jkOcFwid5WmqHG9JiXcLpRKQ3TGXEcrdFK31hj2GAmwMvkeCJlpMx333gG9rWgR/1L/PWKMPfIc88vEUsf4Xz4TrPFPcGJo/aMG6bZzulTjhnED+B41wfrQZnJcxYgc5T7OomhQgEbOWzglw1mxRAN7A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lneoRFzP; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=iGkKlVmgSBvjW5XZ4zBbrGE7hxVtcF1V9oUZRGUi8yC2dHXUm3ZiqwPKbd1PjYDNst/fUDvlmal+SgBzEjqChmG/uk1t82ljJo2Lx/OQzeZ9CIIqy4BxbzKH4a3XqLv3QeV1rLB2wt9qeIbBPAMDUq6y8arofSX6cEKyNFAe6Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gf/paZAQ; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lneoRFzP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gf/paZAQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731506009; x=1763042009;
+  t=1731506616; x=1763042616;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=e02wCo6/bCN5ygIPiqX/XjikMX8Gq9j4vtdOtzb6vsc=;
-  b=lneoRFzPJO/3UTfgm3wNKUb7CMpQB/bpgVsvRF6vIs91C2gKqxHs/pEG
-   hhFgrEGPLsQJ8jzzBd3X/KL3Sf2u2VWkMlN31oGhg5cYatBCbnXY9e+Il
-   dWkPkCj9iHWhf3uXIhG8k1dvFm7D/2hm3QLhHL6eZL2SA6oXc5LIS+Poh
-   gzwzUdyuTI99LNRkjP9PsTjkCXvBJ0rUsrLRmoOafWbFSyatcqqmnm/36
-   CJinaGJl60tVEemSPQoi/SHYGDUf+49AyLI9GS27tRKxCFSb0yBhv0sC5
-   PkW/I6BPyonk+s1MIikT2a1Aoaw+x7nAKw6jQfpC2WqW5cBzzXYaWRLm4
-   A==;
-X-CSE-ConnectionGUID: Mx9ng4EVRRqPp+tGALoopA==
-X-CSE-MsgGUID: 1IqqyyWLQvu6/pjnEpVLGQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="41961110"
+  bh=mQwM7MUR+K6GisLt//X9jfcRj3guSvU+ov8rpExK3DU=;
+  b=Gf/paZAQd98W63r7o6fzrVj12z7pcnaWZwJHURYRNhogPjqGmZRrHtgp
+   CB5xSOYq3FfNLVmEtOYEAzuoUa+p/tLDzhAU9+Gm/XYg9Tsn/XotZqitk
+   YoSouwGQe5bjN2qJ1f+AS+UJF0Q3VuT9zVC6LcxhHDebHJrfOabcqcJvy
+   LuMyJTNd/EOTi0+ax2/TGK2EIHD/wLVD2KLROopnqAQrS9FAhdlqPi9Ry
+   VR/ijmCAiDEJ+YIQHEurRp+nTAoKGykn3OC8yHPhn6GePDR95mRcpl6qZ
+   pd+MjourUcp7LlAta/g97djLOhddrNGOt24WtE8M9UP4vK0S2NlnG49nS
+   Q==;
+X-CSE-ConnectionGUID: 4nC0nQxFRKyAx9WJkYvhig==
+X-CSE-MsgGUID: 6953wCAgT0KFoOOqExPEyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31555512"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="41961110"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 05:53:28 -0800
-X-CSE-ConnectionGUID: LHGpgglRQBiIK+ZXfwC8+Q==
-X-CSE-MsgGUID: f7Hfiq3BQZGpYPD5b8TPcg==
+   d="scan'208";a="31555512"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:03:35 -0800
+X-CSE-ConnectionGUID: EXvLhkO9RHuITBa/hoTiBg==
+X-CSE-MsgGUID: drpgI0sYT1q0bkphm50NpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="87869712"
+   d="scan'208";a="111194773"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 13 Nov 2024 05:53:27 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Nov 2024 06:03:32 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBDoC-0000Qv-2j;
-	Wed, 13 Nov 2024 13:53:24 +0000
-Date: Wed, 13 Nov 2024 21:52:59 +0800
+	id 1tBDxy-0000RV-0p;
+	Wed, 13 Nov 2024 14:03:30 +0000
+Date: Wed, 13 Nov 2024 22:03:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org,
-	linux-api@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, John Ousterhout <ouster@cs.stanford.edu>
-Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
-Message-ID: <202411132114.VB5yFmtR-lkp@intel.com>
-References: <20241111234006.5942-13-ouster@cs.stanford.edu>
+To: Liu Chao <liuchao173@huawei.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	lixiaokeng@huawei.com, caihe@huawei.com
+Subject: Re: [PATCH] Add interface to trigger backtrace on specified CPUs
+Message-ID: <202411132108.ZvhAmel0-lkp@intel.com>
+References: <20241112125609.1406586-1-liuchao173@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +63,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241111234006.5942-13-ouster@cs.stanford.edu>
+In-Reply-To: <20241112125609.1406586-1-liuchao173@huawei.com>
 
-Hi John,
+Hi Liu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on linus/master v6.12-rc7 next-20241113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241112-074535
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40cs.stanford.edu
-patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
-config: riscv-randconfig-r112-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132114.VB5yFmtR-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Chao/Add-interface-to-trigger-backtrace-on-specified-CPUs/20241112-210050
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20241112125609.1406586-1-liuchao173%40huawei.com
+patch subject: [PATCH] Add interface to trigger backtrace on specified CPUs
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241113/202411132108.ZvhAmel0-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce: (https://download.01.org/0day-ci/archive/20241113/202411132114.VB5yFmtR-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132108.ZvhAmel0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132114.VB5yFmtR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411132108.ZvhAmel0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/homa/homa_sock.c:201:31: sparse: sparse: cast removes address space '__rcu' of expression
-   net/homa/homa_sock.c:248:17: sparse: sparse: context imbalance in 'homa_sock_shutdown' - different lock contexts for basic block
-   net/homa/homa_sock.c:303:21: sparse: sparse: context imbalance in 'homa_sock_bind' - different lock contexts for basic block
+All errors (new ones prefixed by >>):
 
-vim +/__rcu +201 net/homa/homa_sock.c
+>> kernel/backtrace.c:29:12: error: use of undeclared identifier 'no_llseek'; did you mean 'noop_llseek'?
+      29 |         .llseek = no_llseek,
+         |                   ^~~~~~~~~
+         |                   noop_llseek
+   include/linux/fs.h:3241:15: note: 'noop_llseek' declared here
+    3241 | extern loff_t noop_llseek(struct file *file, loff_t offset, int whence);
+         |               ^
+   1 error generated.
 
-8ddf00265eb650 John Ousterhout 2024-11-11  183  
-8ddf00265eb650 John Ousterhout 2024-11-11  184  /*
-8ddf00265eb650 John Ousterhout 2024-11-11  185   * homa_sock_unlink() - Unlinks a socket from its socktab and does
-8ddf00265eb650 John Ousterhout 2024-11-11  186   * related cleanups. Once this method returns, the socket will not be
-8ddf00265eb650 John Ousterhout 2024-11-11  187   * discoverable through the socktab.
-8ddf00265eb650 John Ousterhout 2024-11-11  188   */
-8ddf00265eb650 John Ousterhout 2024-11-11  189  void homa_sock_unlink(struct homa_sock *hsk)
-8ddf00265eb650 John Ousterhout 2024-11-11  190  {
-8ddf00265eb650 John Ousterhout 2024-11-11  191  	struct homa_socktab *socktab = hsk->homa->port_map;
-8ddf00265eb650 John Ousterhout 2024-11-11  192  	struct homa_socktab_scan *scan;
-8ddf00265eb650 John Ousterhout 2024-11-11  193  
-8ddf00265eb650 John Ousterhout 2024-11-11  194  	/* If any scans refer to this socket, advance them to refer to
-8ddf00265eb650 John Ousterhout 2024-11-11  195  	 * the next socket instead.
-8ddf00265eb650 John Ousterhout 2024-11-11  196  	 */
-8ddf00265eb650 John Ousterhout 2024-11-11  197  	spin_lock_bh(&socktab->write_lock);
-8ddf00265eb650 John Ousterhout 2024-11-11  198  	list_for_each_entry(scan, &socktab->active_scans, scan_links) {
-8ddf00265eb650 John Ousterhout 2024-11-11  199  		if (!scan->next || scan->next->sock != hsk)
-8ddf00265eb650 John Ousterhout 2024-11-11  200  			continue;
-8ddf00265eb650 John Ousterhout 2024-11-11 @201  		scan->next = (struct homa_socktab_links *)hlist_next_rcu(&scan
-8ddf00265eb650 John Ousterhout 2024-11-11  202  				->next->hash_links);
-8ddf00265eb650 John Ousterhout 2024-11-11  203  	}
-8ddf00265eb650 John Ousterhout 2024-11-11  204  	hlist_del_rcu(&hsk->socktab_links.hash_links);
-8ddf00265eb650 John Ousterhout 2024-11-11  205  	spin_unlock_bh(&socktab->write_lock);
-8ddf00265eb650 John Ousterhout 2024-11-11  206  }
-8ddf00265eb650 John Ousterhout 2024-11-11  207  
+
+vim +29 kernel/backtrace.c
+
+    25	
+    26	static const struct file_operations backtrace_fops = {
+    27		.owner  = THIS_MODULE,
+    28		.write  = backtrace_write,
+  > 29		.llseek = no_llseek,
+    30	};
+    31	
 
 -- 
 0-DAY CI Kernel Test Service
