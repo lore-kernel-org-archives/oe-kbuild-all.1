@@ -1,149 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87CE189510
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 09:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A041F9ABF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 09:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731490795; cv=none; b=luZc9v7lCubZJjxsHlm84FglQ1NtxRl377iGuHUojK4Y1IY+wVEoBCUkXcESApgBVYYbOsW7JaiLwCiTl09WnPcI8DDUnAQLaAmJhtgPAAeYTRALq1WEW29KMOUVqUhD2fNijdgd0wdGK7JYIrv1+B8Ugk+BGAqLZ80I8VXphUA=
+	t=1731491888; cv=none; b=BWc5Dmb7sOepJbnTkPCmMDigVMq1IDVo0UlbpvgAkBC3TkHmeympulEE6SuFmy35HJ4S9QeTaQthQdX3w5lEPpKm5bTT/4Jc9A+acaAiUtzfZZT+o/PBiSLYsSyZutF+OzRZUCwWmDsMduP5UXjh/v+CzlINDSAGSYHXJWnzQ+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731490795; c=relaxed/simple;
-	bh=g0Er6a09/kvhBUIyp89V4jG41q3DWR0+PaYSmmH8f/k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OqTsbcuO04u8FP72RgXfNSITotZ5/UHfxtXr0U4DzZQ+jcT4mT7zBUzZV8h14nb1uN+K4/lapAvoy0G8R7u3Wx4UBe3bfWVOH4o+aJb9WRwf8Ww/yJqGRqXgUlkLaUWEaqTDMA91/0qoEbitJ14neJXlUB0TEEnrXe2i2ZBU7yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YOA2LUPB; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731491888; c=relaxed/simple;
+	bh=zCFLEZy5aTA+4J3FIVz2N6opIz30miSPIvxPL8D5Y9Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kNw4PcUnZkUgKDqb+vNslUo6cmGLuHmgGoEcldpBIlS57WpuR9ryuex9CkiB5rHfYhbp60YsnOxKFC6RTJ/F61fVNPjY8s/ri/JuITFWt/54JEQc6dT2LSxpm2uMWXUScA5RIAPlyWgOwmh9C/cwaaaK+/tMbQr8W3X0fPFvbro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W5HY/n0P; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YOA2LUPB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731490793; x=1763026793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g0Er6a09/kvhBUIyp89V4jG41q3DWR0+PaYSmmH8f/k=;
-  b=YOA2LUPB4epVuwRBDPRZHadLBsvt1HmQMrr50GqNCgzfSGUlyZ+AD4f1
-   uvh2mAHBnYgra8PclEyb1WA5FhjgtdVdmkR1qqDDeTh8SQ3H+EPWlIQC4
-   MSbBeRPwA+4yo2YpUsyhDmdJqkh6VSWq3umLxhucDgd0JqbyEN67IOAMW
-   x60HwNgB9RxPR26e9fkEntJaFIKqr8aUbFhaBKnmVc6gIzBciRfdqUVgv
-   HnmmLtDsETSwZBHUusbTzW+Ty2MywIU3Sg/g7/++bAuMpWaSlEUb2aU4+
-   wI8aHzq4XbhOOUmSgbDrXSK4c/Ua/QSuvs2dCNuei42bwl9oSm6I1GD7p
-   Q==;
-X-CSE-ConnectionGUID: Hx5mPM8sS3629yvBtjG+5Q==
-X-CSE-MsgGUID: CY9wz2s5Q0qWrtMz/Po53w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="48881511"
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="48881511"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 01:39:53 -0800
-X-CSE-ConnectionGUID: cPLHfaO3QiKAFtjewtcmSw==
-X-CSE-MsgGUID: UFjyCy2WScWg1p9lPGwudA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="118755399"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 13 Nov 2024 01:39:50 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tB9ql-0000CT-2I;
-	Wed, 13 Nov 2024 09:39:47 +0000
-Date: Wed, 13 Nov 2024 17:39:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ragavendra <ragavendra.bn@gmail.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, unicorn_wang@outlook.com, inochiama@outlook.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Ragavendra <ragavendra.bn@gmail.com>
-Subject: Re: [PATCH] clk:sophgo:clk-cv18xx-pll: Remove uninitialized u32
- parameter and variable
-Message-ID: <202411131735.aLFcuMe3-lkp@intel.com>
-References: <20241113025318.3667350-1-ragavendra.bn@gmail.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W5HY/n0P"
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so5426031fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 01:58:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731491884; x=1732096684; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fom8AqvF+q2A1nOBLnUjkUl0XPsEoa1C+RL1OWNsSr4=;
+        b=W5HY/n0PAWjou0WNApKqH6XUhdYwFCNMpd39o5j8gdqdY36jDmcaHo4sTSxng9du+V
+         mK0g6xUqOTz73kn/rW2YUuZjlt+Sqd1eKWMHJ+ia6gCCAGHgNoxdvjFxoF6MPynVjMyW
+         ow/DYqWcnny2dbS5c9T5iudaudCafTMo4T6HyaS5i7BnB+ExOvkRCXHEW6ihQT+d4Zb6
+         bztMrlYRGW+eRdH8p6ntRZE3qpr4+iXTIL4TlmjE5ilCNJKpN+1X3sFk7o2RrnwW7C7e
+         X7Ql0u31q2apNFqzRajJjny/1E9NWQDHcv7peT5rhuUdQi3kfeagyY9DiCvdtsQaPoMW
+         rslQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731491884; x=1732096684;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fom8AqvF+q2A1nOBLnUjkUl0XPsEoa1C+RL1OWNsSr4=;
+        b=R9hvdGfK9OICP6u3ZVQNhOmqn24Qw6Vza/G3xehAsPXCBXU02EFXjjW7IFWbA/I8Yv
+         n3sxIB7LA50v8SHx9QCSpdQzMe18uwHUc5UMrkHzFu8jZzF8L+4K9VfskO7aDUnTvyg8
+         hqavbb2uVlZF6MS6nSUrXFO9YAeGEUUvRNJyWlMcMeNkBffKWrU1TctC5si2uXaYowkC
+         5eFPwvgnYg36uUZATyApsFwtLS4zWWp549xSJ1t+fjkoV/TgSQ9GEjTzTwmJU6LKRWwO
+         RSbQhIjgJ7JzOsHqLNazBHocM+W4jOwRZ1C2AuD4hnImPgMa6bLWLZHvn0aB4TX9bx37
+         js9g==
+X-Forwarded-Encrypted: i=1; AJvYcCXCBM62FxnetwWuNHi1/JZa+O6AQdbTTelnHhou3N5tnehcYRFIKbBo4eQzxvKmntk603rNMGVyatUqCPmq@lists.linux.dev
+X-Gm-Message-State: AOJu0YxL1bdNXYyIMrXx8CJXn3z6pHTwDeDQB4FM4+0aY4gUIbNOeQ6K
+	7bcQLG1KsUHgIA+givBZT3QPb2PN1Orq1hERguHWVfm9UQyNgDJ0jA3TgTxhmjtXmGVIwBdIhqP
+	m9pm/4C0nCgS0cRewNN9qhc25uct0P1rYv6C9pQ==
+X-Google-Smtp-Source: AGHT+IFlkHCzFh0mS9soQneXfx9T2NE04g3UcKAj9g+gyGyGGy4VU8E216X14iovLQ7up0pQVAOI+qXIM5/G1dFksNA=
+X-Received: by 2002:a05:651c:554:b0:2fb:49d7:8009 with SMTP id
+ 38308e7fff4ca-2ff1f4188b3mr66440781fa.3.1731491884375; Wed, 13 Nov 2024
+ 01:58:04 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241113025318.3667350-1-ragavendra.bn@gmail.com>
+References: <202411131732.BNe0iugn-lkp@intel.com>
+In-Reply-To: <202411131732.BNe0iugn-lkp@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 13 Nov 2024 10:57:53 +0100
+Message-ID: <CACRpkdaQPqY+H0OxLjzOVDHSNS4TTi4weDDvLGs6OymVpjPNZA@mail.gmail.com>
+Subject: Re: [esmil:th1520 2/48] drivers/pinctrl/pinctrl-th1520.c:457:9:
+ error: call to undeclared function 'pinconf_generic_parse_dt_config'; ISO C99
+ and later do not support implicit function declarations
+To: kernel test robot <lkp@intel.com>
+Cc: Emil Renner Berthing <emil.renner.berthing@canonical.com>, oe-kbuild-all@lists.linux.dev, 
+	Drew Fustini <dfustini@tenstorrent.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ragavendra,
+This randconfig is for Hexagon which is a bit insane to begin with but OK.
 
-kernel test robot noticed the following build errors:
+On Wed, Nov 13, 2024 at 10:28=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
 
-[auto build test ERROR on sophgo/for-next]
-[also build test ERROR on sophgo/fixes linus/master v6.12-rc7 next-20241112]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >> drivers/pinctrl/pinctrl-th1520.c:457:9: error: call to undeclared func=
+tion 'pinconf_generic_parse_dt_config'; ISO C99 and later do not support im=
+plicit function declarations [-Wimplicit-function-declaration]
+>      457 |                 ret =3D pinconf_generic_parse_dt_config(child,=
+ pctldev, &configs, &nconfigs);
+>          |                       ^
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ragavendra/clk-sophgo-clk-cv18xx-pll-Remove-uninitialized-u32-parameter-and-variable/20241113-105536
-base:   https://github.com/sophgo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20241113025318.3667350-1-ragavendra.bn%40gmail.com
-patch subject: [PATCH] clk:sophgo:clk-cv18xx-pll: Remove uninitialized u32 parameter and variable
-config: i386-buildonly-randconfig-005-20241113 (https://download.01.org/0day-ci/archive/20241113/202411131735.aLFcuMe3-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411131735.aLFcuMe3-lkp@intel.com/reproduce)
+This is because in this config:
+# CONFIG_OF is not set
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411131735.aLFcuMe3-lkp@intel.com/
+But HOW is that even possible? The Kconfig fragment for TH1520 reads:
 
-All errors (new ones prefixed by >>):
+config PINCTRL_TH1520
+    tristate "Pinctrl driver for the T-Head TH1520 SoC"
+    depends on ARCH_THEAD || COMPILE_TEST
+    depends on OF
+    select GENERIC_PINMUX_FUNCTIONS
+    select GENERIC_PINCONF
+    select PINMUX
 
-   drivers/clk/sophgo/clk-cv18xx-pll.c: In function 'ipll_find_rate':
->> drivers/clk/sophgo/clk-cv18xx-pll.c:80:18: error: 'value' undeclared (first use in this function)
-      80 |                 *value = detected;
-         |                  ^~~~~
-   drivers/clk/sophgo/clk-cv18xx-pll.c:80:18: note: each undeclared identifier is reported only once for each function it appears in
+depends on OF!
 
-
-vim +/value +80 drivers/clk/sophgo/clk-cv18xx-pll.c
-
-80fd61ec46124e Inochi Amaoto 2024-03-09  46  
-d666c0d9d14eb5 Ragavendra    2024-11-12  47  
-80fd61ec46124e Inochi Amaoto 2024-03-09  48  static int ipll_find_rate(const struct cv1800_clk_pll_limit *limit,
-d666c0d9d14eb5 Ragavendra    2024-11-12  49  			  unsigned long prate, unsigned long *rate)
-80fd61ec46124e Inochi Amaoto 2024-03-09  50  {
-80fd61ec46124e Inochi Amaoto 2024-03-09  51  	unsigned long best_rate = 0;
-80fd61ec46124e Inochi Amaoto 2024-03-09  52  	unsigned long trate = *rate;
-80fd61ec46124e Inochi Amaoto 2024-03-09  53  	unsigned long pre_div_sel = 0, div_sel = 0, post_div_sel = 0;
-80fd61ec46124e Inochi Amaoto 2024-03-09  54  	unsigned long pre, div, post;
-d666c0d9d14eb5 Ragavendra    2024-11-12  55  	u32 detected = 0;
-80fd61ec46124e Inochi Amaoto 2024-03-09  56  	unsigned long tmp;
-80fd61ec46124e Inochi Amaoto 2024-03-09  57  
-80fd61ec46124e Inochi Amaoto 2024-03-09  58  	for_each_pll_limit_range(pre, &limit->pre_div) {
-80fd61ec46124e Inochi Amaoto 2024-03-09  59  		for_each_pll_limit_range(div, &limit->div) {
-80fd61ec46124e Inochi Amaoto 2024-03-09  60  			for_each_pll_limit_range(post, &limit->post_div) {
-80fd61ec46124e Inochi Amaoto 2024-03-09  61  				tmp = ipll_calc_rate(prate, pre, div, post);
-80fd61ec46124e Inochi Amaoto 2024-03-09  62  
-80fd61ec46124e Inochi Amaoto 2024-03-09  63  				if (tmp > trate)
-80fd61ec46124e Inochi Amaoto 2024-03-09  64  					continue;
-80fd61ec46124e Inochi Amaoto 2024-03-09  65  
-80fd61ec46124e Inochi Amaoto 2024-03-09  66  				if ((trate - tmp) < (trate - best_rate)) {
-80fd61ec46124e Inochi Amaoto 2024-03-09  67  					best_rate = tmp;
-80fd61ec46124e Inochi Amaoto 2024-03-09  68  					pre_div_sel = pre;
-80fd61ec46124e Inochi Amaoto 2024-03-09  69  					div_sel = div;
-80fd61ec46124e Inochi Amaoto 2024-03-09  70  					post_div_sel = post;
-80fd61ec46124e Inochi Amaoto 2024-03-09  71  				}
-80fd61ec46124e Inochi Amaoto 2024-03-09  72  			}
-80fd61ec46124e Inochi Amaoto 2024-03-09  73  		}
-80fd61ec46124e Inochi Amaoto 2024-03-09  74  	}
-80fd61ec46124e Inochi Amaoto 2024-03-09  75  
-80fd61ec46124e Inochi Amaoto 2024-03-09  76  	if (best_rate) {
-80fd61ec46124e Inochi Amaoto 2024-03-09  77  		detected = PLL_SET_PRE_DIV_SEL(detected, pre_div_sel);
-80fd61ec46124e Inochi Amaoto 2024-03-09  78  		detected = PLL_SET_POST_DIV_SEL(detected, post_div_sel);
-80fd61ec46124e Inochi Amaoto 2024-03-09  79  		detected = PLL_SET_DIV_SEL(detected, div_sel);
-80fd61ec46124e Inochi Amaoto 2024-03-09 @80  		*value = detected;
-80fd61ec46124e Inochi Amaoto 2024-03-09  81  		*rate = best_rate;
-80fd61ec46124e Inochi Amaoto 2024-03-09  82  		return 0;
-80fd61ec46124e Inochi Amaoto 2024-03-09  83  	}
-80fd61ec46124e Inochi Amaoto 2024-03-09  84  
-80fd61ec46124e Inochi Amaoto 2024-03-09  85  	return -EINVAL;
-80fd61ec46124e Inochi Amaoto 2024-03-09  86  }
-80fd61ec46124e Inochi Amaoto 2024-03-09  87  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yours,
+Linus Walleij
