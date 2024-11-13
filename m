@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ECC121C192
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 23:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA74D800
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 00:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731455616; cv=none; b=plEsQ9Tnco86FTkMalvNv2XpW28fvZP3xwHRWpVI3hk8CxIz5NgPeUszGOZF2EwU2fLdsTx07cTQFxdGyqLYPSRGLKgbDpsJJjIoK0FFHMpqVcPYPL5GZoizpPjUOhQSblpU37y6+Yd0C1ZRFgNLeP22EeBG1YwZHjxA7i0U5Eo=
+	t=1731456275; cv=none; b=RUmXyGFP5oPRwxbCC0CvtM4BJNQ/wq3Jb5Tctk1m80Hx1hv44uctiNtSQDmksXCX99F2z0ump4cFIvAc7plFFSozgsyGV6xYHuigG/y139fvcM1JzJt5O6rrEtVIto7vcZo24LAjsjxJQfwjPhroqUErE0YnnUnaCR4PXogQWpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731455616; c=relaxed/simple;
-	bh=1iGzqigt47bXsGjFo4BNZ+3OU9eCj9hR6h9/qZTH5/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=NKZMfIU5Ntu0bEXNStvFxi24ztcLl9AOBsAo4FJZrrjtvoKx8O153Qj9NGuoEqNBjGXZB1Lb6J7YbqVYHGfDbjMzFI7x8mvo8DSLa9hgQOk6Nqr57v1dWbXeqyPhFYKertaBBr1YSlj3JxIg3VDxD6y+cUdmbIpcL/c+5UErmxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L2vwBWIM; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1731456275; c=relaxed/simple;
+	bh=hr+JvaAOUR0aQ8+EOdfaOLuL9l6O4mSj8NnemXWwii0=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=g/+qA7n6wwVISnXTXUM+/MDQCzHYhNS4jSDHy8hIslvaaHihgD+rFQXOm9UnSqif9lAXLAmbI0hjc3Q1QwBbN3BnfNWFdzDhP/K4+dDcqaa3unVILUh/DqOVQDEtjTtfXi5b+WstjyPeNiVi88KGGgUcUNGcxrIa4jFEXE0nA48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGNRE7ZO; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L2vwBWIM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGNRE7ZO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731455614; x=1762991614;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=1iGzqigt47bXsGjFo4BNZ+3OU9eCj9hR6h9/qZTH5/8=;
-  b=L2vwBWIMXRAmwu2dpIk4xiY5rwM+7NvQRQCftaBXi/QYow8tDQfGHyDi
-   iBunBv/fAkO3AVDygQRhEG+HsF7dZpELp+IdFzeEu5SCumf9pfP4MtBNx
-   Tev8bWpqbT9eNWSavrf9+FGwFEUBQ70m8IN95wwViRAOxZNHKKW6VWPyu
-   SSgW4nTq/pVcAzKE26TdZKKLbels2Rk7hCjKXMe8xgIcx0dqAVT47CX5o
-   yBTORWNft5Kyg8lEINppFBO013hMExi1vCYxnqiUKBjSDKF0b+fjleQ/F
-   kOzhkKVQ2UF+ga6WpF6vYLv/yqEecZXqydy4B//Uob6mdRGuV/a1hDl5A
-   g==;
-X-CSE-ConnectionGUID: twJbr0qwTFyYc7vd4dDsbg==
-X-CSE-MsgGUID: 6jremMGUQJSCfUNKK2JHRQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="48831690"
+  t=1731456274; x=1762992274;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=hr+JvaAOUR0aQ8+EOdfaOLuL9l6O4mSj8NnemXWwii0=;
+  b=AGNRE7ZOOW5hQazzTanz/hUsWgHCUkFfy4YdukIUDWQRDhmbPJM3aTss
+   iIF+Ej2bFukoQ9NiDSfz4TwCUCoZ4pgmo2ARkW3UJi33U6fmEq1Ng/fIH
+   F+VLXkTcqoyNv/HOYJgrPYFo0nrLMDu9h+PLoc373dwZ/eqEBkcbdFPCN
+   7SEliRnu4YIO/grV2iFDVzhrvULgWSNGeXHm4O6Z9Z1BHLe3hpearUe/h
+   o/AXzq5nFLH6CUA1xOmXP6yNcPHWN4/vG3nEffCFOSwTXEP/+lKnO6sMp
+   4PuJeRAzyi6fPTMLHjfntHhlvRmHAhv45xLcIOn+9rCtNRUD8GE3nKkLm
+   A==;
+X-CSE-ConnectionGUID: A0/u/S2bQLOOCSe3xZySnQ==
+X-CSE-MsgGUID: 3yslzrkiQOezeMp6m1NszA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31426783"
 X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="48831690"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 15:53:34 -0800
-X-CSE-ConnectionGUID: bpbye+LeTNC55BtAFdUg2w==
-X-CSE-MsgGUID: dzdiTPWTSJyTNXFclb2A+Q==
+   d="scan'208";a="31426783"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 16:04:33 -0800
+X-CSE-ConnectionGUID: fJ89JTK/TyaX8uH5t/Bwqw==
+X-CSE-MsgGUID: FtxBfpIZSAuIfL50586aoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="88104711"
+   d="scan'208";a="87852626"
 Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Nov 2024 15:53:31 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Nov 2024 16:04:32 -0800
 Received: from kbuild by bcfed0da017c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tB0hN-0001qT-08;
-	Tue, 12 Nov 2024 23:53:29 +0000
-Date: Wed, 13 Nov 2024 07:52:58 +0800
+	id 1tB0s1-0001qv-2x
+	for oe-kbuild-all@lists.linux.dev;
+	Wed, 13 Nov 2024 00:04:29 +0000
+Date: Wed, 13 Nov 2024 08:03:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Makhalov <alexey.makhalov@broadcom.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] MAINTAINERS: update Alexey Makhalov's email address
-Message-ID: <ZzPqWm-YO9lFYcfU@541d46c0cbaf>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [intel-lts:6.6/dovetail-xenomai 3837/13313]
+ arch/x86/kernel/dumpstack.c:412:16: warning: operation on 'die_counter' may
+ be undefined
+Message-ID: <202411130711.w9B78q3F-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +62,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112235013.331902-1-alexey.makhalov@broadcom.com>
 
-Hi,
+tree:   https://github.com/intel/linux-intel-lts.git 6.6/dovetail-xenomai
+head:   8025dd14d72f1eee946ab67036c7a3a569861654
+commit: 09c7bb5439e48682e81937413314d9cf3759d81e [3837/13313] x86: irq_pipeline: add IRQ pipeline core
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241113/202411130711.w9B78q3F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130711.w9B78q3F-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411130711.w9B78q3F-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+   In file included from include/linux/kernel.h:30,
+                    from include/linux/cpumask.h:10,
+                    from include/linux/mm_types_task.h:14,
+                    from include/linux/mm_types.h:5,
+                    from include/linux/buildid.h:5,
+                    from include/linux/kallsyms.h:10,
+                    from arch/x86/kernel/dumpstack.c:5:
+   arch/x86/kernel/dumpstack.c: In function '__die_header':
+   include/linux/kern_levels.h:17:25: warning: format '%s' expects argument of type 'char *', but argument 5 has type 'int' [-Wformat=]
+      17 | #define KERN_DEFAULT    ""              /* the default kernel loglevel */
+         |                         ^~
+   include/linux/printk.h:450:25: note: in definition of macro 'printk_index_wrap'
+     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   arch/x86/kernel/dumpstack.c:410:9: note: in expansion of macro 'printk'
+     410 |         printk(KERN_DEFAULT
+         |         ^~~~~~
+   arch/x86/kernel/dumpstack.c:410:16: note: in expansion of macro 'KERN_DEFAULT'
+     410 |         printk(KERN_DEFAULT
+         |                ^~~~~~~~~~~~
+>> include/linux/kern_levels.h:17:25: warning: too many arguments for format [-Wformat-extra-args]
+      17 | #define KERN_DEFAULT    ""              /* the default kernel loglevel */
+         |                         ^~
+   include/linux/printk.h:450:25: note: in definition of macro 'printk_index_wrap'
+     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   arch/x86/kernel/dumpstack.c:410:9: note: in expansion of macro 'printk'
+     410 |         printk(KERN_DEFAULT
+         |         ^~~~~~
+   arch/x86/kernel/dumpstack.c:410:16: note: in expansion of macro 'KERN_DEFAULT'
+     410 |         printk(KERN_DEFAULT
+         |                ^~~~~~~~~~~~
+>> arch/x86/kernel/dumpstack.c:412:16: warning: operation on 'die_counter' may be undefined [-Wsequence-point]
+     412 |                ++die_counter, pr,
+         |                ^~~~~~~~~~~~~
+   include/linux/printk.h:450:33: note: in definition of macro 'printk_index_wrap'
+     450 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   arch/x86/kernel/dumpstack.c:410:9: note: in expansion of macro 'printk'
+     410 |         printk(KERN_DEFAULT
+         |         ^~~~~~
+--
+>> arch/x86/kernel/apic/apic.c:2184: warning: Function parameter or member 'spurious_interrupt' not described in 'DEFINE_IDTENTRY_IRQ_PIPELINED'
+>> arch/x86/kernel/apic/apic.c:2184: warning: expecting prototype for spurious_interrupt(). Prototype was for DEFINE_IDTENTRY_IRQ_PIPELINED() instead
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH] MAINTAINERS: update Alexey Makhalov's email address
-Link: https://lore.kernel.org/stable/20241112235013.331902-1-alexey.makhalov%40broadcom.com
+
+vim +/die_counter +412 arch/x86/kernel/dumpstack.c
+
+878719e831d9e0 Neil Horman      2008-10-23  396  
+aa49f20462c90d Jann Horn        2019-12-19  397  static void __die_header(const char *str, struct pt_regs *regs, long err)
+878719e831d9e0 Neil Horman      2008-10-23  398  {
+cb376c26971ff5 Thomas Gleixner  2019-07-26  399  	const char *pr = "";
+cb376c26971ff5 Thomas Gleixner  2019-07-26  400  
+09c7bb5439e486 Philippe Gerum   2019-04-24  401  	irq_pipeline_oops();
+09c7bb5439e486 Philippe Gerum   2019-04-24  402  
+602bd705da334f Borislav Petkov  2018-04-17  403  	/* Save the regs of the first oops for the executive summary later. */
+602bd705da334f Borislav Petkov  2018-04-17  404  	if (!die_counter)
+602bd705da334f Borislav Petkov  2018-04-17  405  		exec_summary_regs = *regs;
+602bd705da334f Borislav Petkov  2018-04-17  406  
+cb376c26971ff5 Thomas Gleixner  2019-07-26  407  	if (IS_ENABLED(CONFIG_PREEMPTION))
+cb376c26971ff5 Thomas Gleixner  2019-07-26  408  		pr = IS_ENABLED(CONFIG_PREEMPT_RT) ? " PREEMPT_RT" : " PREEMPT";
+cb376c26971ff5 Thomas Gleixner  2019-07-26  409  
+b0f4c4b32c8e3a Prarit Bhargava  2012-01-26  410  	printk(KERN_DEFAULT
+09c7bb5439e486 Philippe Gerum   2019-04-24  411  	       "%s: %04lx [#%d]%s%s%s%s%s%s\n", str, err & 0xffff, ++die_counter,
+cb376c26971ff5 Thomas Gleixner  2019-07-26 @412  	       pr,
+8fad7ec51e1b9e Rasmus Villemoes 2016-03-26  413  	       IS_ENABLED(CONFIG_SMP)     ? " SMP"             : "",
+8fad7ec51e1b9e Rasmus Villemoes 2016-03-26  414  	       debug_pagealloc_enabled()  ? " DEBUG_PAGEALLOC" : "",
+5f26d76c3fd67c Vlastimil Babka  2017-12-19  415  	       IS_ENABLED(CONFIG_KASAN)   ? " KASAN"           : "",
+5f26d76c3fd67c Vlastimil Babka  2017-12-19  416  	       IS_ENABLED(CONFIG_PAGE_TABLE_ISOLATION) ?
+09c7bb5439e486 Philippe Gerum   2019-04-24  417  	       (boot_cpu_has(X86_FEATURE_PTI) ? " PTI" : " NOPTI") : "",
+09c7bb5439e486 Philippe Gerum   2019-04-24  418  	       irqs_pipelined()           ? " IRQ_PIPELINE"    : "");
+aa49f20462c90d Jann Horn        2019-12-19  419  }
+aa49f20462c90d Jann Horn        2019-12-19  420  NOKPROBE_SYMBOL(__die_header);
+8fad7ec51e1b9e Rasmus Villemoes 2016-03-26  421  
+
+:::::: The code at line 412 was first introduced by commit
+:::::: cb376c26971ff54f25980ec1f0ae2f06d6a69df0 x86/dumpstack: Indicate PREEMPT_RT in dumps
+
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
