@@ -1,59 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5974418BC0E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 22:50:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C00292AE84;
+	Wed, 13 Nov 2024 22:50:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731538251; cv=none; b=iXZyOX/zZ1MvyOHYDR6mmnbtKlpm7W7m9whdV6P2nOWVQmZa8S4erKnfoqKQ/IOI0IQWmG4x0L+/PTDwU86gNqv11vB2VyrFNLmppnlEHBy9TBDpU1KCn90Pd47zC1WcOWYonhAc4gccxOIhH+bVYao7dUkYaV8U6VtRZtmHYak=
+	t=1731538251; cv=none; b=cqWzhw3Hmb7UmuZJ+3wKVn5ArrPSvc2J1hU0UyOvwjMcDjZ1idroMdAfIV05K9Zd13+R+3cfjwEkzy7goTQSgPjRruxquDNSZ1+6PrVjR7oK6mCQSj78lwKbbhEiOEyZ0lSBBtmT12T5SEq6cThQcKkZYHQMhyxSZdQ71vCWuzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731538251; c=relaxed/simple;
-	bh=6toVV5zZpAqyUXN4Ze8SgSgulyrXTOusoriOePCbo9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WVg7ULbu/KkFRYWeULhFXWGbTJ87qklh8FvObwynvzSZS8KjImVZgCTAvHVtTi6iZvcedR78Iu9oChqp4zobFGtM264lQZY7xSTeFb6aZd104GI0sCgdAHM2geVfEuyEKTGiDgZ63GjJMKbfzZGPA+4rrMYWP/8p4qhgGJc0xbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwX+kGs0; arc=none smtp.client-ip=192.198.163.19
+	bh=CYdGGDWei4FClN5/v5jTSMS1CfPN4qDt7+CJVB8J8vQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D+PIFwzmW8+RHXH+FkFsOmXK7veZSP5nF8RxdIVoMPL1D1Cr+DEPD85oTfOT+uwP/XZOC3t+kj1HgRGsg3Nwf9WaTS4F1DDLn5k3fGBeTECmA0y9hzTplStN+hG0iZT46AAZESatMoUeQqn3Id1JVjcZoPrCR2r6gvr2oYSb2s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j5mRqkTn; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwX+kGs0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j5mRqkTn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731538248; x=1763074248;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6toVV5zZpAqyUXN4Ze8SgSgulyrXTOusoriOePCbo9o=;
-  b=AwX+kGs03QGYeIZLpsIGyPHD9v0JmhcXrLcAzyr4JJ+cVbAb56BncqoE
-   RPXJMjtk6IHn39prkyd7ibNTFxqc/nV8bUbBECkp88hrAs30j2oVW86wY
-   VPr9ah4zUz4A7JaQgn8Nx0VXfN4dvEGyAl0gDpQ6OfXlB78gypqGDnkJs
-   BC8JgKlTONKQk0RSj9c9ALkAhbgi2qU1elbGcc6EBmZ8BS0ueHd5jMArk
-   jIAiqN4DmjijxOGKQqsWzmsLT4pec7rDMTUUAfYgH/zk4TnDkwb0n9Jms
-   i1zAwHfz3ZiaZYw8PkTB83czn21VYiHnGCTevkcH57TwczjLpud37Fd2V
+  t=1731538249; x=1763074249;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CYdGGDWei4FClN5/v5jTSMS1CfPN4qDt7+CJVB8J8vQ=;
+  b=j5mRqkTnuluF+5brLKAoV5ggTMeVTNM+B0rl3k1FEsMuJcRIIQF/bLdG
+   mW84cysYJTRuKk24Vfu7LvTGui+FvHg5nfMrwCh1wik0r6xVrEPIwXuGD
+   JpJUHjMR29pVyQ4heTNGbSgtC3cBhTHVj3LHBVCl/CpKJ1/JCygnBpLL+
+   YubWAUApR9erWo5bnRDyuuGY9V+EWEsJbykXQeKlPT9AVIGzuDG6TJ502
+   kwUDkHeZdeCe1qeEir8H8BDHX4s9uKpzPi7cbuHBEtg+NBE03dxf9unEZ
+   y2H4iYudGK4icUL2D+i59XiCDk8ztBzcrkcEXH6UnG0/CyGzpXZSBr74u
    Q==;
-X-CSE-ConnectionGUID: N9NMsJlZRuO7C87iYUpSTQ==
-X-CSE-MsgGUID: CTts3Xe1SKiR+K2MRhJ+6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30862585"
+X-CSE-ConnectionGUID: JV1MhVqlRFykLITy1B8rBA==
+X-CSE-MsgGUID: Slsh0VWmQAyslnyLLPIf6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30862594"
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="30862585"
+   d="scan'208";a="30862594"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 14:50:46 -0800
-X-CSE-ConnectionGUID: b4z9UBeNTU65bUIzT7Nzfg==
-X-CSE-MsgGUID: 5der/EVsTje2vbrm5WBWSw==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 14:50:48 -0800
+X-CSE-ConnectionGUID: GFIBXakPTKK+vdZihgFWfw==
+X-CSE-MsgGUID: fQSc/1U1QhCMkC7OS8ilzA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="88806294"
+   d="scan'208";a="88806293"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 13 Nov 2024 14:50:45 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBMCB-0000o9-0t;
+	id 1tBMCB-0000nz-0T;
 	Wed, 13 Nov 2024 22:50:43 +0000
-Date: Thu, 14 Nov 2024 06:50:38 +0800
+Date: Thu, 14 Nov 2024 06:50:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tj-sched-ext:scx-api-rename-dispatch-v2 36/38]
- select_cpu_dispatch.bpf.c:32:2: warning: label followed by a declaration is
- a C23 extension
-Message-ID: <202411140656.z07YDfik-lkp@intel.com>
+To: Erin Shepherd <erin.shepherd@e43.eu>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+	Chuck Lever <chuck.lever@oracle.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>, linux-nfs@vger.kernel.org,
+	Erin Shepherd <erin.shepherd@e43.eu>
+Subject: Re: [PATCH v2 2/3] exportfs: allow fs to disable CAP_DAC_READ_SEARCH
+ check
+Message-ID: <202411140603.E03vXsdz-lkp@intel.com>
+References: <20241113-pidfs_fh-v2-2-9a4d28155a37@e43.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,141 +70,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241113-pidfs_fh-v2-2-9a4d28155a37@e43.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/sched_ext.git scx-api-rename-dispatch-v2
-head:   02d0b499d4fbbe1774069509aad0920f06f4df03
-commit: 6fb3113c1be677723097094830f8600b49a5afc7 [36/38] sched_ext: Rename scx_bpf_dispatch[_vtime]() to scx_bpf_dsq_insert[_vtime]()
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140656.z07YDfik-lkp@intel.com/reproduce)
+Hi Erin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 14b6320953a3f856a3f93bf9a0e423395baa593d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Erin-Shepherd/pseudofs-add-support-for-export_ops/20241114-020539
+base:   14b6320953a3f856a3f93bf9a0e423395baa593d
+patch link:    https://lore.kernel.org/r/20241113-pidfs_fh-v2-2-9a4d28155a37%40e43.eu
+patch subject: [PATCH v2 2/3] exportfs: allow fs to disable CAP_DAC_READ_SEARCH check
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241114/202411140603.E03vXsdz-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140603.E03vXsdz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140656.z07YDfik-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411140603.E03vXsdz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from select_cpu_dispatch.bpf.c:11:
-   tools/sched_ext/include/scx/common.bpf.h:33:17: error: use of undeclared identifier 'SCX_DSQ_FLAG_BUILTIN'
-      33 |         _Static_assert(SCX_DSQ_FLAG_BUILTIN,
-         |                        ^
-   tools/sched_ext/include/scx/common.bpf.h:44:49: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      44 | void scx_bpf_dispatch_from_dsq_set_slice(struct bpf_iter_scx_dsq *it__iter, u64 slice) __ksym __weak;
-         |                                                 ^
-   tools/sched_ext/include/scx/common.bpf.h:45:49: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      45 | void scx_bpf_dispatch_from_dsq_set_vtime(struct bpf_iter_scx_dsq *it__iter, u64 vtime) __ksym __weak;
-         |                                                 ^
-   tools/sched_ext/include/scx/common.bpf.h:46:39: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      46 | bool scx_bpf_dispatch_from_dsq(struct bpf_iter_scx_dsq *it__iter, struct task_struct *p, u64 dsq_id, u64 enq_flags) __ksym __weak;
-         |                                       ^
-   tools/sched_ext/include/scx/common.bpf.h:47:45: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      47 | bool scx_bpf_dispatch_vtime_from_dsq(struct bpf_iter_scx_dsq *it__iter, struct task_struct *p, u64 dsq_id, u64 enq_flags) __ksym __weak;
-         |                                             ^
-   tools/sched_ext/include/scx/common.bpf.h:52:33: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      52 | int bpf_iter_scx_dsq_new(struct bpf_iter_scx_dsq *it, u64 dsq_id, u64 flags) __ksym __weak;
-         |                                 ^
-   tools/sched_ext/include/scx/common.bpf.h:53:50: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      53 | struct task_struct *bpf_iter_scx_dsq_next(struct bpf_iter_scx_dsq *it) __ksym __weak;
-         |                                                  ^
-   tools/sched_ext/include/scx/common.bpf.h:54:38: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      54 | void bpf_iter_scx_dsq_destroy(struct bpf_iter_scx_dsq *it) __ksym __weak;
-         |                                      ^
-   select_cpu_dispatch.bpf.c:18:15: error: use of undeclared identifier 'SCX_DSQ_LOCAL'
-      18 |         u64 dsq_id = SCX_DSQ_LOCAL;
-         |                      ^
-   select_cpu_dispatch.bpf.c:28:11: error: use of undeclared identifier 'SCX_DSQ_GLOBAL'
-      28 |         dsq_id = SCX_DSQ_GLOBAL;
-         |                  ^
-   select_cpu_dispatch.bpf.c:32:2: error: static assertion failed due to requirement 'false': scx_bpf_dispatch() renamed to scx_bpf_dsq_insert()
-      32 |         scx_bpf_dispatch(p, dsq_id, SCX_SLICE_DFL, 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/sched_ext/include/scx/compat.bpf.h:58:17: note: expanded from macro 'scx_bpf_dispatch'
-      58 |         _Static_assert(false, "scx_bpf_dispatch() renamed to scx_bpf_dsq_insert()")
-         |                        ^~~~~
->> select_cpu_dispatch.bpf.c:32:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-   tools/sched_ext/include/scx/compat.bpf.h:58:2: note: expanded from macro 'scx_bpf_dispatch'
-      58 |         _Static_assert(false, "scx_bpf_dispatch() renamed to scx_bpf_dsq_insert()")
-         |         ^
-   select_cpu_dispatch.bpf.c:37:22: error: variable has incomplete type 'struct sched_ext_ops'
-      37 | struct sched_ext_ops select_cpu_dispatch_ops = {
-         |                      ^
-   select_cpu_dispatch.bpf.c:37:8: note: forward declaration of 'struct sched_ext_ops'
-      37 | struct sched_ext_ops select_cpu_dispatch_ops = {
-         |        ^
-   8 warnings and 5 errors generated.
---
-   In file included from select_cpu_vtime.bpf.c:13:
-   tools/sched_ext/include/scx/common.bpf.h:33:17: error: use of undeclared identifier 'SCX_DSQ_FLAG_BUILTIN'
-      33 |         _Static_assert(SCX_DSQ_FLAG_BUILTIN,
-         |                        ^
-   tools/sched_ext/include/scx/common.bpf.h:44:49: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      44 | void scx_bpf_dispatch_from_dsq_set_slice(struct bpf_iter_scx_dsq *it__iter, u64 slice) __ksym __weak;
-         |                                                 ^
-   tools/sched_ext/include/scx/common.bpf.h:45:49: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      45 | void scx_bpf_dispatch_from_dsq_set_vtime(struct bpf_iter_scx_dsq *it__iter, u64 vtime) __ksym __weak;
-         |                                                 ^
-   tools/sched_ext/include/scx/common.bpf.h:46:39: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      46 | bool scx_bpf_dispatch_from_dsq(struct bpf_iter_scx_dsq *it__iter, struct task_struct *p, u64 dsq_id, u64 enq_flags) __ksym __weak;
-         |                                       ^
-   tools/sched_ext/include/scx/common.bpf.h:47:45: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      47 | bool scx_bpf_dispatch_vtime_from_dsq(struct bpf_iter_scx_dsq *it__iter, struct task_struct *p, u64 dsq_id, u64 enq_flags) __ksym __weak;
-         |                                             ^
-   tools/sched_ext/include/scx/common.bpf.h:52:33: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      52 | int bpf_iter_scx_dsq_new(struct bpf_iter_scx_dsq *it, u64 dsq_id, u64 flags) __ksym __weak;
-         |                                 ^
-   tools/sched_ext/include/scx/common.bpf.h:53:50: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      53 | struct task_struct *bpf_iter_scx_dsq_next(struct bpf_iter_scx_dsq *it) __ksym __weak;
-         |                                                  ^
-   tools/sched_ext/include/scx/common.bpf.h:54:38: warning: declaration of 'struct bpf_iter_scx_dsq' will not be visible outside of this function [-Wvisibility]
-      54 | void bpf_iter_scx_dsq_destroy(struct bpf_iter_scx_dsq *it) __ksym __weak;
-         |                                      ^
-   select_cpu_vtime.bpf.c:30:17: error: no member named 'scx' in 'struct task_struct'
-      30 |         u64 vtime = p->scx.dsq_vtime;
-         |                     ~  ^
-   select_cpu_vtime.bpf.c:32:38: error: use of undeclared identifier 'SCX_SLICE_DFL'
-      32 |         if (vtime_before(vtime, vtime_now - SCX_SLICE_DFL))
-         |                                             ^
-   select_cpu_vtime.bpf.c:33:22: error: use of undeclared identifier 'SCX_SLICE_DFL'
-      33 |                 return vtime_now - SCX_SLICE_DFL;
-         |                                    ^
-   select_cpu_vtime.bpf.c:50:2: error: static assertion failed due to requirement 'false': scx_bpf_dispatch_vtime() renamed to scx_bpf_dsq_insert_vtime()
-      50 |         scx_bpf_dispatch_vtime(p, VTIME_DSQ, SCX_SLICE_DFL, task_vtime(p), 0);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   tools/sched_ext/include/scx/compat.bpf.h:61:17: note: expanded from macro 'scx_bpf_dispatch_vtime'
-      61 |         _Static_assert(false, "scx_bpf_dispatch_vtime() renamed to scx_bpf_dsq_insert_vtime()")
-         |                        ^~~~~
->> select_cpu_vtime.bpf.c:50:2: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-   tools/sched_ext/include/scx/compat.bpf.h:61:2: note: expanded from macro 'scx_bpf_dispatch_vtime'
-      61 |         _Static_assert(false, "scx_bpf_dispatch_vtime() renamed to scx_bpf_dsq_insert_vtime()")
-         |         ^
-   select_cpu_vtime.bpf.c:62:33: error: no member named 'scx' in 'struct task_struct'
-      62 |         if (vtime_before(vtime_now, p->scx.dsq_vtime))
-         |                                     ~  ^
-   select_cpu_vtime.bpf.c:63:18: error: no member named 'scx' in 'struct task_struct'
-      63 |                 vtime_now = p->scx.dsq_vtime;
-         |                             ~  ^
-   select_cpu_vtime.bpf.c:69:5: error: no member named 'scx' in 'struct task_struct'
-      69 |         p->scx.dsq_vtime += (SCX_SLICE_DFL - p->scx.slice) * 100 / p->scx.weight;
-         |         ~  ^
-   select_cpu_vtime.bpf.c:69:42: error: no member named 'scx' in 'struct task_struct'
-      69 |         p->scx.dsq_vtime += (SCX_SLICE_DFL - p->scx.slice) * 100 / p->scx.weight;
-         |                                              ~  ^
-   select_cpu_vtime.bpf.c:69:23: error: use of undeclared identifier 'SCX_SLICE_DFL'
-      69 |         p->scx.dsq_vtime += (SCX_SLICE_DFL - p->scx.slice) * 100 / p->scx.weight;
-         |                              ^
-   select_cpu_vtime.bpf.c:69:64: error: no member named 'scx' in 'struct task_struct'
-      69 |         p->scx.dsq_vtime += (SCX_SLICE_DFL - p->scx.slice) * 100 / p->scx.weight;
-         |                                                                    ~  ^
-   select_cpu_vtime.bpf.c:74:5: error: no member named 'scx' in 'struct task_struct'
-      74 |         p->scx.dsq_vtime = vtime_now;
-         |         ~  ^
-   select_cpu_vtime.bpf.c:83:22: error: variable has incomplete type 'struct sched_ext_ops'
-      83 | struct sched_ext_ops select_cpu_vtime_ops = {
-         |                      ^
-   select_cpu_vtime.bpf.c:83:8: note: forward declaration of 'struct sched_ext_ops'
-      83 | struct sched_ext_ops select_cpu_vtime_ops = {
-         |        ^
-   8 warnings and 13 errors generated.
+   In file included from fs/fhandle.c:2:
+   In file included from include/linux/syscalls.h:93:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:6:
+   In file included from include/linux/ring_buffer.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/fhandle.c:242:28: error: initializing 'struct export_operations *' with an expression of type 'const struct export_operations *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+     242 |         struct export_operations *nop = root->mnt->mnt_sb->s_export_op;
+         |                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+
+
+vim +242 fs/fhandle.c
+
+   237	
+   238	static inline bool may_decode_fh(struct handle_to_path_ctx *ctx,
+   239					 unsigned int o_flags)
+   240	{
+   241		struct path *root = &ctx->root;
+ > 242		struct export_operations *nop = root->mnt->mnt_sb->s_export_op;
+   243	
+   244		if (nop && nop->flags & EXPORT_OP_UNRESTRICTED_OPEN)
+   245			return true;
+   246	
+   247		if (capable(CAP_DAC_READ_SEARCH))
+   248			return true;
+   249	
+   250		/*
+   251		 * Allow relaxed permissions of file handles if the caller has the
+   252		 * ability to mount the filesystem or create a bind-mount of the
+   253		 * provided @mountdirfd.
+   254		 *
+   255		 * In both cases the caller may be able to get an unobstructed way to
+   256		 * the encoded file handle. If the caller is only able to create a
+   257		 * bind-mount we need to verify that there are no locked mounts on top
+   258		 * of it that could prevent us from getting to the encoded file.
+   259		 *
+   260		 * In principle, locked mounts can prevent the caller from mounting the
+   261		 * filesystem but that only applies to procfs and sysfs neither of which
+   262		 * support decoding file handles.
+   263		 *
+   264		 * Restrict to O_DIRECTORY to provide a deterministic API that avoids a
+   265		 * confusing api in the face of disconnected non-dir dentries.
+   266		 *
+   267		 * There's only one dentry for each directory inode (VFS rule)...
+   268		 */
+   269		if (!(o_flags & O_DIRECTORY))
+   270			return false;
+   271	
+   272		if (ns_capable(root->mnt->mnt_sb->s_user_ns, CAP_SYS_ADMIN))
+   273			ctx->flags = HANDLE_CHECK_PERMS;
+   274		else if (is_mounted(root->mnt) &&
+   275			 ns_capable(real_mount(root->mnt)->mnt_ns->user_ns,
+   276				    CAP_SYS_ADMIN) &&
+   277			 !has_locked_children(real_mount(root->mnt), root->dentry))
+   278			ctx->flags = HANDLE_CHECK_PERMS | HANDLE_CHECK_SUBTREE;
+   279		else
+   280			return false;
+   281	
+   282		/* Are we able to override DAC permissions? */
+   283		if (!ns_capable(current_user_ns(), CAP_DAC_READ_SEARCH))
+   284			return false;
+   285	
+   286		ctx->fh_flags = EXPORT_FH_DIR_ONLY;
+   287		return true;
+   288	}
+   289	
 
 -- 
 0-DAY CI Kernel Test Service
