@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF56170A03
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 08:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39ABA1BD9E9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 09:28:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731485873; cv=none; b=D/IkojiMrq1BMTO/OtHnk0mh5NZNTIsQZjV619YL3VwnW/avqn8uzmdlMqF3I2FzpRsyIlbU/LQ5TQxulcZm6C3Fup+uXWCFs9rvTrfrgoBBmbVPXl3IC4GLY7cv9UIk0N4ZCQ8sq+RA1vT3/RMdqIGCg3qmEOyzeCk4B/4pF0g=
+	t=1731490133; cv=none; b=foZY0A17MY2EaxmZAO+x2E47ULwclZ8UlhXi6HruvDdKD3mLcpzKNmESWn+3Reem7iiAvyvC/80r2cH3x7s1REbO+6R1NpLgv0dA1qApLl4Own4wzujbobwktU5J4B7vOYjPLi+MmX3FbozrW+BbohpjKYEU5UDgnVjv7YTGumo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731485873; c=relaxed/simple;
-	bh=UJ4ttMOresGgNJ2a5vZaaKdD1JP2YF6vYqynwGSzWXc=;
+	s=arc-20240116; t=1731490133; c=relaxed/simple;
+	bh=WvewV6NQfc75vQJGSzRQMdl24PUh+BJCxUzCHnraLc8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=enJE08POT/k6lfq6fn4sIpDLYrq2g0PiT5dUaB2lFvEPtY5dnEE07Pcv5khE2OIfME8UD9pswrxqS7THKD/m2EYsnuTkFw9L1KoNoo3gD9XCZ0Lhtng+/lUDxHaC0XUPhA+M0e9kxhl43bz/IwMtXoIMDfUAzUUqFB2t6qXce+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTJy2ffS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=BHpv0Eo4bTMJlsZ1zQSsjXiBgYz/7fELSe5vtptyCV9NFdq1i/KqZQXuORPq7YLXEDqBjh0uS8f9yVguiePSCSxmFqz4m6RUTzFe5ZObTCsd+PWqqEVfij8TryWRwAnQNtcR+U0y/a/zlz8YnUXl5+qJeUFsMvCbc31HI9fdUWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NTcMGISF; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTJy2ffS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NTcMGISF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731485872; x=1763021872;
+  t=1731490131; x=1763026131;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UJ4ttMOresGgNJ2a5vZaaKdD1JP2YF6vYqynwGSzWXc=;
-  b=CTJy2ffS80IwMsSTOSLnr9L5CgNfkUJPYsszZr2u0G1k6TuskM0ef8cT
-   ITZzlsARLHbrDZx3pGLA2fwVMWgLkWzWn4JVfTCXQ1auxaPdK7n2TO456
-   P0GEA959yZspMpZBX1XgV8Cc1+Xk3k/txhyfF5mm1KbDv39Ak9iO4myZP
-   QJu/c27pwSp1l+n80Zg+peRiIg6vQtN8yr06xLhtDPzeDwbp2AtE5+SNw
-   g5gK697umXc2wvZUz+/fFyQ+YZwBg/BRo7WGFMjn1aGJegHC+0xK33+gL
-   q1o/Ts/a65uwjESaXHrPrf7m7ie5nnM2XDy4LAjxJtTAlPpEj+0D3FN14
+  bh=WvewV6NQfc75vQJGSzRQMdl24PUh+BJCxUzCHnraLc8=;
+  b=NTcMGISFdOcjXw5sTkVcrwqFrSw8bCi5GuCGRbRYwPCUMHg0r7IU6CEG
+   t0g3K5HgHwCEoz4C9HGtC26Y/YjFK9fmzIE6jb2lUuqJX8umXWsJYFWa1
+   GoYyjztTxVbCizpWE4PVpp0EXmF01Nc39t+cMoVg+jcgUc1l9QBu7EpMi
+   B+iNWd084+I4I4AWupSHQxj9ZDw7qs0XDkermu1cXeF/QqlVTJpkplCts
+   5odbwjtwVqmbFdd6xrgpdssr4U5muoQfu9yaH/uBpqpMRa+Wz6vCJoBPd
+   Wanl23q5db9BNqPbsQsXa7GmzP4D5k+vH8fpV0C2xsg/rtnU+Eimarpo/
    w==;
-X-CSE-ConnectionGUID: u/2VS6R4RU+mQa3xpOnmOg==
-X-CSE-MsgGUID: g8C8JEvuTu+3Va8WcxkQYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="18974291"
+X-CSE-ConnectionGUID: c791m438TmuZ6S6VKIbBZw==
+X-CSE-MsgGUID: CH41ewbzQDeedOYT0ewt9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="30772343"
 X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="18974291"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 00:17:44 -0800
-X-CSE-ConnectionGUID: LeytM5DhQEOGjmWoLrQ9ew==
-X-CSE-MsgGUID: m8YKsLaPQD6mxixxcM2lTQ==
+   d="scan'208";a="30772343"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 01:28:50 -0800
+X-CSE-ConnectionGUID: bskk5mhlQKGYh5FsWrrPBw==
+X-CSE-MsgGUID: 0bWa0AiNQu27BaLcBMvtFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="92573533"
+   d="scan'208";a="91858843"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 00:16:46 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 13 Nov 2024 01:28:48 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tB8YH-00008V-2S;
-	Wed, 13 Nov 2024 08:16:37 +0000
-Date: Wed, 13 Nov 2024 16:16:00 +0800
+	id 1tB9g6-0000C1-2h;
+	Wed, 13 Nov 2024 09:28:46 +0000
+Date: Wed, 13 Nov 2024 17:28:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Malloy Liu <liuqi1610@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1291/1291]
- drivers/mmc/host/phytium-mci-pci.c:48:15: error: implicit declaration of
- function 'pcim_enable_device'; did you mean 'pci_enable_device'?
-Message-ID: <202411131629.7UL1eTyi-lkp@intel.com>
+To: Emil Renner Berthing <emil.renner.berthing@canonical.com>
+Cc: oe-kbuild-all@lists.linux.dev, Drew Fustini <dfustini@tenstorrent.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: [esmil:th1520 2/48] drivers/pinctrl/pinctrl-th1520.c:457:9: error:
+ call to undeclared function 'pinconf_generic_parse_dt_config'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202411131732.BNe0iugn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,189 +64,197 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Malloy,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d047cc727adb896a530936ced8c98485e6654a11
-commit: d65622e6edee11f7fcbd295bdb5aef86e12dfef3 [1291/1291] mmc: add support for Phytium MMC
-config: arm64-randconfig-003-20241113 (https://download.01.org/0day-ci/archive/20241113/202411131629.7UL1eTyi-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411131629.7UL1eTyi-lkp@intel.com/reproduce)
+tree:   https://github.com/esmil/linux th1520
+head:   b0b9c5dfe5239c799b6da7dadef7586860b61313
+commit: a731cec45ec032408be9a21ab8e1ecc5a1f33ce1 [2/48] pinctrl: Add driver for the T-Head TH1520 SoC
+config: hexagon-randconfig-r053-20241113 (https://download.01.org/0day-ci/archive/20241113/202411131732.BNe0iugn-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411131732.BNe0iugn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411131629.7UL1eTyi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411131732.BNe0iugn-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mmc/host/phytium-mci-pci.c: In function 'phytium_mci_pci_probe':
->> drivers/mmc/host/phytium-mci-pci.c:48:15: error: implicit declaration of function 'pcim_enable_device'; did you mean 'pci_enable_device'? [-Werror=implicit-function-declaration]
-      48 |         ret = pcim_enable_device(pdev);
-         |               ^~~~~~~~~~~~~~~~~~
-         |               pci_enable_device
->> drivers/mmc/host/phytium-mci-pci.c:61:9: error: implicit declaration of function 'pci_enable_msi'; did you mean 'pci_enable_sriov'? [-Werror=implicit-function-declaration]
-      61 |         pci_enable_msi(pdev);
-         |         ^~~~~~~~~~~~~~
-         |         pci_enable_sriov
-   drivers/mmc/host/phytium-mci-pci.c: At top level:
->> drivers/mmc/host/phytium-mci-pci.c:180:1: warning: data definition has no type or storage class
-     180 | module_pci_driver(phytium_mci_pci_driver);
-         | ^~~~~~~~~~~~~~~~~
->> drivers/mmc/host/phytium-mci-pci.c:180:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Werror=implicit-int]
->> drivers/mmc/host/phytium-mci-pci.c:180:1: warning: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->> drivers/mmc/host/phytium-mci-pci.c:171:26: warning: 'phytium_mci_pci_driver' defined but not used [-Wunused-variable]
-     171 | static struct pci_driver phytium_mci_pci_driver = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from drivers/pinctrl/pinctrl-th1520.c:13:
+   In file included from include/linux/io.h:14:
+   In file included from arch/hexagon/include/asm/io.h:328:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> drivers/pinctrl/pinctrl-th1520.c:457:9: error: call to undeclared function 'pinconf_generic_parse_dt_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     457 |                 ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
+         |                       ^
+   drivers/pinctrl/pinctrl-th1520.c:457:9: note: did you mean 'pinconf_generic_dump_config'?
+   drivers/pinctrl/pinconf.h:117:6: note: 'pinconf_generic_dump_config' declared here
+     117 | void pinconf_generic_dump_config(struct pinctrl_dev *pctldev,
+         |      ^
+   6 warnings and 1 error generated.
 
 
-vim +48 drivers/mmc/host/phytium-mci-pci.c
+vim +/pinconf_generic_parse_dt_config +457 drivers/pinctrl/pinctrl-th1520.c
 
-    40	
-    41	static int
-    42	phytium_mci_pci_probe(struct pci_dev *pdev, const struct pci_device_id *pid)
-    43	{
-    44		struct phytium_mci_host *host;
-    45		struct mmc_host *mmc;
-    46		int ret;
-    47	
-  > 48		ret = pcim_enable_device(pdev);
-    49	
-    50		if (ret)
-    51			return ret;
-    52		pci_set_master(pdev);
-    53	
-    54		mmc = mmc_alloc_host(sizeof(struct phytium_mci_host), &pdev->dev);
-    55	
-    56		if (!mmc)
-    57			return -ENOMEM;
-    58	
-    59		host = mmc_priv(mmc);
-    60	
-  > 61		pci_enable_msi(pdev);
-    62	
-    63		host->irq = pdev->irq;
-    64		host->irq_flags = IRQF_SHARED;
-    65		host->dev = &pdev->dev;
-    66		ret = pcim_iomap_regions(pdev, 1 << PCI_BAR_NO, pci_name(pdev));
-    67	
-    68		if (ret) {
-    69			dev_err(&pdev->dev, "I/O memory remapping failed\n");
-    70			goto host_free;
-    71		}
-    72	
-    73		host->base = pcim_iomap_table(pdev)[PCI_BAR_NO];
-    74		host->is_use_dma = 1;
-    75		host->is_device_x100 = 1;
-    76	
-    77		if (pdev->devfn == 2) {
-    78			host->caps = emmc_caps;
-    79			host->caps2 = emmc_caps2;
-    80		} else {
-    81			host->caps = sd_caps;
-    82			host->caps2 = sd_caps2;
-    83			mmc->f_max = 25000000; /* stable frequency */
-    84		}
-    85	
-    86		host->mmc = mmc;
-    87		host->clk_rate = MCI_CLK;
-    88	
-    89		dev_info(&pdev->dev,
-    90			"%s %d:[bar %d] addr:0x%llx size:0x%llx km:0x%llx devfn:%d\n",
-    91			 __func__, __LINE__, PCI_BAR_NO, pci_resource_start(pdev, 0),
-    92			 pci_resource_len(pdev, 0), (uint64_t)host->base, pdev->devfn);
-    93	
-    94		dev_dbg(&pdev->dev, "%s %d:irq:0x%x\n", __func__, __LINE__, host->irq);
-    95	
-    96		ret = phytium_mci_common_probe(host);
-    97	
-    98		if (ret == MCI_REALEASE_MEM) {
-    99			ret = -ENOMEM;
-   100			goto release_mem;
-   101		} else if (ret) {
-   102			goto release;
-   103		}
-   104		pci_set_drvdata(pdev, mmc);
-   105		dev_info(&pdev->dev,
-   106			"%s %d: probe phytium mci successful.\n", __func__, __LINE__);
-   107		return 0;
-   108	
-   109	release:
-   110		phytium_mci_deinit_hw(host);
-   111	release_mem:
-   112	
-   113		if (host->dma.adma_table) {
-   114			dma_free_coherent(&pdev->dev,
-   115				MAX_BD_NUM * sizeof(struct phytium_adma2_64_desc),
-   116				host->dma.adma_table, host->dma.adma_addr);
-   117		}
-   118	host_free:
-   119		mmc_free_host(mmc);
-   120		pci_disable_device(pdev);
-   121		return ret;
-   122	}
-   123	
-   124	static void phytium_mci_pci_remove(struct pci_dev *pdev)
-   125	{
-   126		struct phytium_mci_host *host;
-   127		struct mmc_host *mmc;
-   128	
-   129		mmc = pci_get_drvdata(pdev);
-   130		if (!mmc) {
-   131			dev_info(&pdev->dev,
-   132				"%s %d: mmc is null.\n", __func__, __LINE__);
-   133			return;
-   134		}
-   135		host = mmc_priv(mmc);
-   136		if (!host) {
-   137			dev_info(&pdev->dev,
-   138				"%s %d: host is null.\n", __func__, __LINE__);
-   139			mmc_remove_host(mmc);
-   140			mmc_free_host(mmc);
-   141			return;
-   142		}
-   143	
-   144		del_timer(&host->hotplug_timer);
-   145	
-   146		mmc_remove_host(host->mmc);
-   147	
-   148		if (host->dma.adma_table) {
-   149			dma_free_coherent(&pdev->dev,
-   150				MAX_BD_NUM * sizeof(struct phytium_adma2_64_desc),
-   151				host->dma.adma_table, host->dma.adma_addr);
-   152		}
-   153		phytium_mci_deinit_hw(host);
-   154		mmc_free_host(mmc);
-   155		pci_set_drvdata(pdev, NULL);
-   156	}
-   157	
-   158	static const struct pci_device_id phytium_mci_pci_tbl[] = {
-   159		{
-   160			.vendor		= 0x1DB7,
-   161			.device		= 0xDC28,
-   162			.subvendor	= PCI_ANY_ID,
-   163			.subdevice	= PCI_ANY_ID,
-   164			.class		= 0x5,
-   165			.class_mask	= 0,
-   166		},
-   167		{}
-   168	};
-   169	MODULE_DEVICE_TABLE(pci, phytium_mci_pci_tbl);
-   170	
- > 171	static struct pci_driver phytium_mci_pci_driver = {
-   172		.name		= "phytium-mci-pci",
-   173		.id_table	= phytium_mci_pci_tbl,
-   174		.probe		= phytium_mci_pci_probe,
-   175		.remove		= phytium_mci_pci_remove,
-   176		.driver	= {
-   177			.pm	= &phytium_mci_dev_pm_ops,
-   178		}
-   179	};
- > 180	module_pci_driver(phytium_mci_pci_driver);
-   181	
+   413	
+   414	static int th1520_pinctrl_dt_node_to_map(struct pinctrl_dev *pctldev,
+   415						 struct device_node *np,
+   416						 struct pinctrl_map **maps,
+   417						 unsigned int *num_maps)
+   418	{
+   419		struct th1520_pinctrl *thp = pinctrl_dev_get_drvdata(pctldev);
+   420		struct device_node *child;
+   421		struct pinctrl_map *map;
+   422		unsigned long *configs;
+   423		unsigned int nconfigs;
+   424		unsigned int nmaps;
+   425		int ret;
+   426	
+   427		nmaps = 0;
+   428		for_each_available_child_of_node(np, child) {
+   429			int npins = of_property_count_strings(child, "pins");
+   430	
+   431			if (npins <= 0) {
+   432				of_node_put(child);
+   433				dev_err(thp->pctl->dev, "no pins selected for %pOFn.%pOFn\n",
+   434					np, child);
+   435				return -EINVAL;
+   436			}
+   437			nmaps += npins;
+   438			if (of_property_present(child, "function"))
+   439				nmaps += npins;
+   440		}
+   441	
+   442		map = kcalloc(nmaps, sizeof(*map), GFP_KERNEL);
+   443		if (!map)
+   444			return -ENOMEM;
+   445	
+   446		nmaps = 0;
+   447		mutex_lock(&thp->mutex);
+   448		for_each_available_child_of_node(np, child) {
+   449			unsigned int rollback = nmaps;
+   450			enum th1520_muxtype muxtype;
+   451			struct property *prop;
+   452			const char *funcname;
+   453			const char **pgnames;
+   454			const char *pinname;
+   455			int npins;
+   456	
+ > 457			ret = pinconf_generic_parse_dt_config(child, pctldev, &configs, &nconfigs);
+   458			if (ret) {
+   459				dev_err(thp->pctl->dev, "%pOFn.%pOFn: error parsing pin config\n",
+   460					np, child);
+   461				goto put_child;
+   462			}
+   463	
+   464			if (!of_property_read_string(child, "function", &funcname)) {
+   465				muxtype = th1520_muxtype_get(funcname);
+   466				if (!muxtype) {
+   467					dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown function '%s'\n",
+   468						np, child, funcname);
+   469					ret = -EINVAL;
+   470					goto free_configs;
+   471				}
+   472	
+   473				funcname = devm_kasprintf(thp->pctl->dev, GFP_KERNEL, "%pOFn.%pOFn",
+   474							  np, child);
+   475				if (!funcname) {
+   476					ret = -ENOMEM;
+   477					goto free_configs;
+   478				}
+   479	
+   480				npins = of_property_count_strings(child, "pins");
+   481				pgnames = devm_kcalloc(thp->pctl->dev, npins, sizeof(*pgnames), GFP_KERNEL);
+   482				if (!pgnames) {
+   483					ret = -ENOMEM;
+   484					goto free_configs;
+   485				}
+   486			} else {
+   487				funcname = NULL;
+   488			}
+   489	
+   490			npins = 0;
+   491			of_property_for_each_string(child, "pins", prop, pinname) {
+   492				unsigned int i;
+   493	
+   494				for (i = 0; i < thp->desc.npins; i++) {
+   495					if (!strcmp(pinname, thp->desc.pins[i].name))
+   496						break;
+   497				}
+   498				if (i == thp->desc.npins) {
+   499					nmaps = rollback;
+   500					dev_err(thp->pctl->dev, "%pOFn.%pOFn: unknown pin '%s'\n",
+   501						np, child, pinname);
+   502					goto free_configs;
+   503				}
+   504	
+   505				if (nconfigs) {
+   506					map[nmaps].type = PIN_MAP_TYPE_CONFIGS_PIN;
+   507					map[nmaps].data.configs.group_or_pin = thp->desc.pins[i].name;
+   508					map[nmaps].data.configs.configs = configs;
+   509					map[nmaps].data.configs.num_configs = nconfigs;
+   510					nmaps += 1;
+   511				}
+   512				if (funcname) {
+   513					pgnames[npins++] = thp->desc.pins[i].name;
+   514					map[nmaps].type = PIN_MAP_TYPE_MUX_GROUP;
+   515					map[nmaps].data.mux.function = funcname;
+   516					map[nmaps].data.mux.group = thp->desc.pins[i].name;
+   517					nmaps += 1;
+   518				}
+   519			}
+   520	
+   521			if (funcname) {
+   522				ret = pinmux_generic_add_function(pctldev, funcname, pgnames,
+   523								  npins, (void *)muxtype);
+   524				if (ret < 0) {
+   525					dev_err(thp->pctl->dev, "error adding function %s\n", funcname);
+   526					goto put_child;
+   527				}
+   528			}
+   529		}
+   530	
+   531		*maps = map;
+   532		*num_maps = nmaps;
+   533		mutex_unlock(&thp->mutex);
+   534		return 0;
+   535	
+   536	free_configs:
+   537		kfree(configs);
+   538	put_child:
+   539		of_node_put(child);
+   540		th1520_pinctrl_dt_free_map(pctldev, map, nmaps);
+   541		mutex_unlock(&thp->mutex);
+   542		return ret;
+   543	}
+   544	
 
 -- 
 0-DAY CI Kernel Test Service
