@@ -1,133 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A32761DD55A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 12:51:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D22201036;
+	Wed, 13 Nov 2024 12:52:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731502276; cv=none; b=Iv/zg8FhlmAPaFUTZ4Gjsnb3g8MpOmSO+iDG1aLsqUDHaIgT6rNClGTY8hhMMGunkrH9zMqkZi2H2F0KBBtydov9b582yIb2hBkKvEl1ZCz2t709Kb/2ZVbnUq+WsFgaXgWwZisiyXwFXt07IH+WH0f7kDrCcWV/J9DWTNYquoo=
+	t=1731502330; cv=none; b=OReBDL/l1DwTq0ctBsjsH91o0Hdctp08pC0qrnXcSq+FbeVwXLhgmfjy98VrngZ6+A4wXe7JGd/y9ZOuORy3JEcMSr0vtebswMPAv+ikzC5bspV15Zer4hbCvE84VPon1HvtnFpT6N3fKKnpWJuUz2Cp3RoBeC6awpwlknrXJVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731502276; c=relaxed/simple;
-	bh=up32KFavyQeLfZiIXMSjqzgGIirR3ln+iZHVq7xHUaY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GrcOR517GBJP3niblyaD3mTgPRyw1F+cyKV36vfg/bEDv3IiZj/Tu3DA1Jzr7gR7MMScWHQz8n2GSevJFOe5R37u0njZAVM6Qr9OpvNqbJDpasolCHjIg1LH4DGJ6wQVIgQCZyLwtGd34Tgls6+yt6f3kkc1P2Nt/5q0f8v78C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ETvA8vtA; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731502330; c=relaxed/simple;
+	bh=WyQtWstneepLTMrBEOxqmjc4pBnC9IHUU4ANmA4Wuko=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BX/DHlNdenn9KGj9judAk4VG8Jb6V50FmsHa3whF79tt8aMdZ3goDg2+Gb2nbinDoLSjQTbO6WBQ3hf1SQR59PNaz6greIkTgGcHOmVuNMT8uhA6oGwGBJeq/COWnS25gVvl16/dlM9sxKUMsDjS1EHiQZ9sNJjebwgWLiK5UUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=IHUDcSP2; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=KMiNBHHY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=wkemOI1K; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Y6ueXzEI; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ETvA8vtA"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731502274; x=1763038274;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=up32KFavyQeLfZiIXMSjqzgGIirR3ln+iZHVq7xHUaY=;
-  b=ETvA8vtAMN0Kb5yuBhhwse9I3Myrdge7yYduU7k1X3gdPVJWxLnYIuLy
-   7mCFKwtASmgH3TgsKxQdbIko70orAuKW7mP5VriaiRcIu1rQh3PmfFfTd
-   MgpEj5fhGnT5Y+kh5j2xo8JBR8AmSB6ihbUL9qNGcuRiiD764kgYYaJtS
-   oLQKQUd3q+JbbbFhb3VHfIjG2J22qiq//Bph74e8Mujjvn+DLdthQd2+S
-   eOAAq4RryWexrf7Tj+q0ejbK3JF+T1V7KtflnIYtBTp9lPFlClunEuqcA
-   u5WIhghNfQEmuSkqvDHT7LamgQj8CjgX01NHaq/Rrhgxmw9OZ8Z1OPP4q
-   A==;
-X-CSE-ConnectionGUID: bnNF1dpOTZy/EW/KsNIRfw==
-X-CSE-MsgGUID: S6LaCdu8Q/iBxb8CWFWiiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="48901436"
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="48901436"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 04:51:13 -0800
-X-CSE-ConnectionGUID: 3+xce7mhS62D/Px4h2uyTw==
-X-CSE-MsgGUID: oCfeUcNrSuaO3yO5fp9dkw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="92828917"
-Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Nov 2024 04:51:12 -0800
-Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBCpx-0000OD-2D;
-	Wed, 13 Nov 2024 12:51:09 +0000
-Date: Wed, 13 Nov 2024 20:50:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android11-5.4 922/30000] ld.lld: error:
- -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.
-  Try: 'ld.lld --help'
-Message-ID: <202411132007.YQ25gIF4-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="IHUDcSP2";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="KMiNBHHY";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="wkemOI1K";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Y6ueXzEI"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D35E8211A6;
+	Wed, 13 Nov 2024 12:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731502326; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RXMTi7XagrYYq8p3dCB7a2Ily+1vyXEOoAQIYNf5jKI=;
+	b=IHUDcSP2+7HUcHkdqFFlo9ALydEhDMlVp4hJuQRMGjw1291RuERW+9zmog0+1cLNx0pOPi
+	vdCVfCP7gCbdpomlfa49W1cVch2U+uqWQffw1NKMmBS3Bw2SGBhTEOyCNLVhaA+pQV29l7
+	VZJWPZqKwcTLQcufAy5GtCxmW7jXXBk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731502326;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RXMTi7XagrYYq8p3dCB7a2Ily+1vyXEOoAQIYNf5jKI=;
+	b=KMiNBHHYWkVwlHO5UW8Cq/WORSsCv1VpUIXIjsP4V218gzqeS1iJc3EbfxZurtoIicmCTb
+	L0OEERNlFXNkD1Bg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=wkemOI1K;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Y6ueXzEI
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1731502325; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RXMTi7XagrYYq8p3dCB7a2Ily+1vyXEOoAQIYNf5jKI=;
+	b=wkemOI1KnQgOqwGUAFOJR4wNUoUDwSxfHpoozU0V0ByTlJjAMbVl8D9Or7FX3Xcqbsj/B3
+	2XFDZlSfmM6pX0E831+Ckps2LdTZZtjCxfeGRKuaORrAn0xMVvTwLqnjsXo3PzlxCNB9dX
+	gyP57lGVkmBbJfYc3BIo6CG+4O9Ng5k=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1731502325;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=RXMTi7XagrYYq8p3dCB7a2Ily+1vyXEOoAQIYNf5jKI=;
+	b=Y6ueXzEIGI4x1qlYKJ4oM7VPwPwIulMwV8C0D5ZH8CvROcLKi107VL6NWGG45TKYA1jW/o
+	FvLecEJDlohC+gAw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9977A13301;
+	Wed, 13 Nov 2024 12:52:05 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id msknJPWgNGc2OAAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Wed, 13 Nov 2024 12:52:05 +0000
+Date: Wed, 13 Nov 2024 13:52:05 +0100
+Message-ID: <87o72juwi2.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	"Geoffrey D. Bennett" <g@b4.vu>,
+	lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: Re: sound/usb/mixer_scarlett2.c:4972 scarlett2_ioctl_select_flash_segment() warn: potential spectre issue 'private->flash_segment_nums' [r] (local cap)
+In-Reply-To: <acf8826e-d236-4759-bd5c-e81de992b006@stanley.mountain>
+References: <acf8826e-d236-4759-bd5c-e81de992b006@stanley.mountain>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Rspamd-Queue-Id: D35E8211A6
+X-Spam-Score: -3.51
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.996];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,01.org:url,suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,intel.com:email];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Spam-Flag: NO
+X-Spam-Level: 
 
-Hi Sami,
+On Mon, 11 Nov 2024 10:20:07 +0100,
+Dan Carpenter wrote:
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   de2f378f2b771b39594c04695feee86476743a69
+> commit: 6a7508e64ee3e8320c886020bcdcd70f7fcbff2c ALSA: scarlett2: Add ioctl commands to erase flash segments
+> date:   11 months ago
+> config: x86_64-randconfig-161-20241110 (https://download.01.org/0day-ci/archive/20241110/202411101058.RkdgFPCg-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202411101058.RkdgFPCg-lkp@intel.com/
+> 
+> smatch warnings:
+> sound/usb/mixer_scarlett2.c:4972 scarlett2_ioctl_select_flash_segment() warn: potential spectre issue 'private->flash_segment_nums' [r] (local cap)
+> sound/usb/mixer_scarlett2.c:4973 scarlett2_ioctl_select_flash_segment() warn: possible spectre second half.  'segment_num'
+> 
+> vim +4972 sound/usb/mixer_scarlett2.c
+> 
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4957  /* Select a flash segment for erasing (and possibly writing to) */
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4958  static int scarlett2_ioctl_select_flash_segment(
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4959  	struct usb_mixer_interface *mixer,
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4960  	unsigned long arg)
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4961  {
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4962  	struct scarlett2_data *private = mixer->private_data;
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4963  	int segment_id, segment_num;
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4964  
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4965  	if (get_user(segment_id, (int __user *)arg))
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4966  		return -EFAULT;
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4967  
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4968  	/* Check the segment ID and segment number */
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4969  	if (segment_id < 0 || segment_id >= SCARLETT2_SEGMENT_ID_COUNT)
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4970  		return -EINVAL;
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20  4971  
+> 6a7508e64ee3e8 Geoffrey D. Bennett 2023-12-20 @4972  	segment_num = private->flash_segment_nums[segment_id];
+> 
+> I suspect this does need an array_index_nospec().
 
-FYI, the error/warning still remains.
+I'm not sure whether it can really leak, but sure,
+array_index_nospec() can't hurt.
 
-tree:   https://android.googlesource.com/kernel/common android11-5.4
-head:   069e12986fd81e33097f806c8f2787f5d5416bfd
-commit: 6f0e552d0f4018b3731866fd18f32c1295175a91 [922/30000] ANDROID: x86, build: allow LTO_CLANG and THINLTO to be selected
-config: x86_64-buildonly-randconfig-002-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132007.YQ25gIF4-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132007.YQ25gIF4-lkp@intel.com/reproduce)
+Care to submit a fix patch with that?  Thanks!
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132007.YQ25gIF4-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   clang: warning: argument unused during compilation: '-MD' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-MF arch/x86/lib/.lib-ksyms.o.d' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-nostdinc' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-isystem /opt/cross/clang-ab51eccf88/lib/clang/19/include' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D __KERNEL__' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D KBUILD_EXTRA_WARN1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D __ASSEMBLY__' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-Werror=unknown-warning-option' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SIGNAL_FRAME=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SECTIONS=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SSSE3=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX2=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX512=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA1_NI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA256_NI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CC_USING_FENTRY' [-Wunused-command-line-argument]
->> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
-   ld.lld: Did you mean '--stackrealign=8'?
---
-   clang: warning: argument unused during compilation: '-MD' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-MF lib/.lib-ksyms.o.d' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-nostdinc' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-isystem /opt/cross/clang-ab51eccf88/lib/clang/19/include' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-include include/linux/kconfig.h' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D __KERNEL__' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D KBUILD_EXTRA_WARN1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D __ASSEMBLY__' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-Werror=unknown-warning-option' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SIGNAL_FRAME=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_CFI_SECTIONS=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SSSE3=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX2=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_AVX512=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA1_NI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CONFIG_AS_SHA256_NI=1' [-Wunused-command-line-argument]
-   clang: warning: argument unused during compilation: '-D CC_USING_FENTRY' [-Wunused-command-line-argument]
->> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
-   ld.lld: Did you mean '--stackrealign=8'?
---
->> ld.lld: error: -plugin-opt=-: ld.lld: Unknown command line argument '-stack-alignment=8'.  Try: 'ld.lld --help'
-   ld.lld: Did you mean '--stackrealign=8'?
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Takashi
