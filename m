@@ -1,93 +1,141 @@
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3716FD5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 00:34:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF613FC7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 01:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731458088; cv=none; b=oZP36RFtqqTDZBy7hcDXYcdGwVRA2r/ENkoSZaXWCw7NZSyZZfQp9I2JT2+XqWyrwGQ1SyoHqZFs40cu/G0Ot4yVOhYv1fTBCViBWl5KYLgEuc/V9HlEOBEcQnvFNi8sd4J9VNJHCHL8yFInpXmxyGPXFxHojU349u5f+2tN+eg=
+	t=1731460005; cv=none; b=EcLfVDRgibLchlx2iHWlgnlt+526s/ehYNH8rUTDApJiFTCWF+p+2nJV23pv3ilyPtd9++Z8xLU25uLAqit+7+dxhSnnM6yJJ977SwNt39JacMourmmE5tOIvsPTHeUlkEwTWu23nBYwxROhrj67Nt0Cyij2A1twwhPcugpI6NY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731458088; c=relaxed/simple;
-	bh=QiUDwNk4UMES6wGicm1D28MfcRMHLrzXGFWadiGQHAU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KC/DZRh8v/ISyPVfJUkARIuc3XLpHtte/YcwS1PiEgHWcmg036yfrAbel9rIhliTo+E6IHnQQWCGwnBkNfnUC4s8MGs5g5q7fIkUrbBDd+DHjUIc9589Vy0tBsU+ucHl9xHsLAfMI9JUf2+M/5L3ow0v+3dETyE2uHKWWLtT0rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vmD7Yzq8; arc=none smtp.client-ip=209.85.208.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1731460005; c=relaxed/simple;
+	bh=jUOI7YM6MSLcyJwnqrB7V58PYe0qyz24mpLSBFMB2VU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EZjEdWxjH1WZP70ucnE0mBoXLiwRrp6zeu5pwsZ/qLaRxTudRxJ7TG6PfOQN45i9BeKyFfxcSWTIu1iwbS+VskgA3/aBXyRe5OzW6ClOEXwMGX0pHXpmEZc3mNNyIxrftWY2CR1adoNyB1SSLOZ94glVwI2JXV/RsdU8eBG4RQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UKVbaMHl; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vmD7Yzq8"
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so42212861fa.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 16:34:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731458085; x=1732062885; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ogOg66A2FuJAzMUKERxnGXu1VO1CtrKNlAN/1i/CxyE=;
-        b=vmD7Yzq8hUZLSvM8gQIRzOMDqvKG+w072WwphCf76PiAPIJnb1SQ/tb+RlT63Ouu9A
-         KwWjMPW72l8UOQtEnkKOEvbTMdqgCBAtT9expYyy2kGITErzVavtQf8cQtFuAqUsTZNq
-         7VGCWIvAjoHPVxHYFndaP9I34W4v5lcKCApdEbZ5MOs3+IKzuaQcEkv0kZ2qVyuWszSR
-         ewuWcpU57NQgfcL+9+kGbFuNrAhcyxpHUIceulVGu5jYQwRzs2hp11BECTFss+z/F+nY
-         wO41nOOSNcLSoAlBNPxczHvsXGPuTW5w+yI6LsS/VBCdI5DzTPWOSlRSAbPYQKPEiF0h
-         ubrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731458085; x=1732062885;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ogOg66A2FuJAzMUKERxnGXu1VO1CtrKNlAN/1i/CxyE=;
-        b=ansPRtiD/fzn7UVk2QN8PRv3hoWeWT5sgddYhFpl/ZuWATJgxLhVvQuNRs2DtLZ/qj
-         izKqeiuAjHf9fu8f0AN0jMNZAx0YuGPVaHLAkGMDHTMXWCbBIIShWD/pBKaZDQ4RgMcy
-         iCyQLhz88U7f5zG8E9Hkf7c8hAasybNUAhXSouKHfbGgnF9snKAEfhqe1Z7oYCaEhNyL
-         Op+quqo1y1LH8iJTev0uFu5jt5H0eq3WVam/nuq380b7D1g/roWFjJhW1NH0bVQdB8Qn
-         je1yLT6QUMGrmCmGVoUCx4XBC9DIeM0YJzWvZ6RZGXRrFfs8l3JG5pDA2TeBYnxMPYFK
-         0/KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVu/cvEg02h+Xun4KHBg/WquReF1y7O5ABQpG7e8qjAhFkXPHZgOzT6NFrOXwJThBIBIdM1xalBoNa5CyOn@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy0BREpAvvuqjX7Aul0kTaEaopB5wrrSm8ZfVZJNZnkSVSNnj+S
-	I8M/NEr6IFUHNFz5kc78cz67x6hsTyFNxG0eXcf/wIV2i3JnQsrLJOwVPYHMvWn4uojsBFQIBWD
-	VVNIcELX2OrM+Qu1+yAvopCmGBhnlI1gyUszGtA==
-X-Google-Smtp-Source: AGHT+IFlNvK0Gy6cSkO4IzErgm7ADkSViIPub9WwdcozidP+qaoN6N8pZdtVPNFON2giZ9czwvKjliN3wa7tSJ0bZz0=
-X-Received: by 2002:a05:651c:1542:b0:2fb:5038:3eb4 with SMTP id
- 38308e7fff4ca-2ff202686a4mr99911001fa.29.1731458085445; Tue, 12 Nov 2024
- 16:34:45 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UKVbaMHl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731460003; x=1762996003;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jUOI7YM6MSLcyJwnqrB7V58PYe0qyz24mpLSBFMB2VU=;
+  b=UKVbaMHlBXt//1psrCZveNKWcV1SVvJ1QhRZbbOr4mHArrzgoHhNa8Wk
+   q8QmadqvS1cLldwMVn9mrC+57SFTZJuj3kCGF/DsuBlihEGsdpR5eVWoR
+   trLBybJOWZIUQ0OlGw8nTbkUySqpFwp8vF58BsePA9I2IAABpV9qTw0a4
+   aUsIK24B6FH9IKbsCxRQu41tXap/vxzCtp/Xs1N0Mp33AxCQP9u+9vqkz
+   +0l044mxJEANvuJCgT4TXdFjjbDQ+et2WgMzf0ZDx+gJRxEaOtIsMWY0+
+   w4mbNKgxOq+5BuhNH3c7ShWgA5/q0OeIoQxvzcrlNbDK7K8a70lxaIBZM
+   g==;
+X-CSE-ConnectionGUID: HXyJPf/sRt60QHq7ProF5A==
+X-CSE-MsgGUID: i/o3Ck1bRMmbaeS8D6a81A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="30730133"
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="30730133"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 17:06:43 -0800
+X-CSE-ConnectionGUID: FyxkOQ9zSl+fFiGokKVcwA==
+X-CSE-MsgGUID: 9IgAG/SiQpi6Ys4JK01k2w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
+   d="scan'208";a="88119007"
+Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 12 Nov 2024 17:06:41 -0800
+Received: from kbuild by bcfed0da017c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tB1qB-0001u5-0y;
+	Wed, 13 Nov 2024 01:06:39 +0000
+Date: Wed, 13 Nov 2024 09:06:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Abdul Rahim <abdul.rahim@myyahoo.com>, xiubli@redhat.com,
+	idryomov@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Abdul Rahim <abdul.rahim@myyahoo.com>
+Subject: Re: [PATCH] Use strscpy() instead of strcpy()
+Message-ID: <202411130853.c11sinW2-lkp@intel.com>
+References: <20241111221037.92853-1-abdul.rahim@myyahoo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202411130711.xfVEiMKn-lkp@intel.com>
-In-Reply-To: <202411130711.xfVEiMKn-lkp@intel.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 13 Nov 2024 01:34:34 +0100
-Message-ID: <CACRpkdYADg4fg2VgRxFBwp1STLbX062zjbZXQ9snOf_p6NvcEA@mail.gmail.com>
-Subject: Re: [rmk:for-next 3/7] arch/arm/mm/ioremap.c:130:32: error: call to
- undeclared function 'kasan_mem_to_shadow'; ISO C99 and later do not support
- implicit function declarations
-To: kernel test robot <lkp@intel.com>
-Cc: Melon Liu <melon1335@163.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241111221037.92853-1-abdul.rahim@myyahoo.com>
 
-On Wed, Nov 13, 2024 at 12:11=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
+Hi Abdul,
 
-> >> arch/arm/mm/ioremap.c:130:32: error: call to undeclared function 'kasa=
-n_mem_to_shadow'; ISO C99 and later do not support implicit function declar=
-ations [-Wimplicit-function-declaration]
->      130 |                 sync_pgds(mm, (unsigned long)kasan_mem_to_shad=
-ow(
->          |                                              ^
->    1 warning and 1 error generated.
+kernel test robot noticed the following build errors:
 
-I mentioned this in a comment to 9429/1 that it supercedes 9427/1 since the
-author didn't send a new version to solve this issue. Maybe I should have
-mailed some more...
+[auto build test ERROR on ceph-client/testing]
+[also build test ERROR on ceph-client/for-linus linus/master v6.12-rc7 next-20241112]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-9429/1, 9430/1 and 9431/1 can be applied cleanly in its place.
+url:    https://github.com/intel-lab-lkp/linux/commits/Abdul-Rahim/Use-strscpy-instead-of-strcpy/20241112-064257
+base:   https://github.com/ceph/ceph-client.git testing
+patch link:    https://lore.kernel.org/r/20241111221037.92853-1-abdul.rahim%40myyahoo.com
+patch subject: [PATCH] Use strscpy() instead of strcpy()
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241113/202411130853.c11sinW2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130853.c11sinW2-lkp@intel.com/reproduce)
 
-Sorry for the mess. Tell me if you want me to re-send them!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411130853.c11sinW2-lkp@intel.com/
 
-Yours,
-Linus Walleij
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/bitfield.h:10,
+                    from include/linux/fortify-string.h:5,
+                    from include/linux/string.h:390,
+                    from include/linux/ceph/ceph_debug.h:7,
+                    from fs/ceph/export.c:2:
+   fs/ceph/export.c: In function '__get_snap_name':
+>> include/linux/build_bug.h:16:51: error: negative width in bit-field '<anonymous>'
+      16 | #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+         |                                                   ^
+   include/linux/compiler.h:243:33: note: in expansion of macro 'BUILD_BUG_ON_ZERO'
+     243 | #define __must_be_array(a)      BUILD_BUG_ON_ZERO(__same_type((a), &(a)[0]))
+         |                                 ^~~~~~~~~~~~~~~~~
+   include/linux/string.h:79:47: note: in expansion of macro '__must_be_array'
+      79 |         sized_strscpy(dst, src, sizeof(dst) + __must_be_array(dst) +    \
+         |                                               ^~~~~~~~~~~~~~~
+   include/linux/args.h:25:24: note: in expansion of macro '__strscpy0'
+      25 | #define __CONCAT(a, b) a ## b
+         |                        ^
+   include/linux/args.h:26:27: note: in expansion of macro '__CONCAT'
+      26 | #define CONCATENATE(a, b) __CONCAT(a, b)
+         |                           ^~~~~~~~
+   include/linux/string.h:113:9: note: in expansion of macro 'CONCATENATE'
+     113 |         CONCATENATE(__strscpy, COUNT_ARGS(__VA_ARGS__))(dst, src, __VA_ARGS__)
+         |         ^~~~~~~~~~~
+   fs/ceph/export.c:455:25: note: in expansion of macro 'strscpy'
+     455 |                         strscpy(name, fsc->mount_options->snapdir_name);
+         |                         ^~~~~~~
+
+
+vim +16 include/linux/build_bug.h
+
+bc6245e5efd70c Ian Abbott       2017-07-10   6  
+bc6245e5efd70c Ian Abbott       2017-07-10   7  #ifdef __CHECKER__
+bc6245e5efd70c Ian Abbott       2017-07-10   8  #define BUILD_BUG_ON_ZERO(e) (0)
+bc6245e5efd70c Ian Abbott       2017-07-10   9  #else /* __CHECKER__ */
+bc6245e5efd70c Ian Abbott       2017-07-10  10  /*
+bc6245e5efd70c Ian Abbott       2017-07-10  11   * Force a compilation error if condition is true, but also produce a
+8788994376d84d Rikard Falkeborn 2019-12-04  12   * result (of value 0 and type int), so the expression can be used
+bc6245e5efd70c Ian Abbott       2017-07-10  13   * e.g. in a structure initializer (or where-ever else comma expressions
+bc6245e5efd70c Ian Abbott       2017-07-10  14   * aren't permitted).
+bc6245e5efd70c Ian Abbott       2017-07-10  15   */
+8788994376d84d Rikard Falkeborn 2019-12-04 @16  #define BUILD_BUG_ON_ZERO(e) ((int)(sizeof(struct { int:(-!!(e)); })))
+527edbc18a70e7 Masahiro Yamada  2019-01-03  17  #endif /* __CHECKER__ */
+527edbc18a70e7 Masahiro Yamada  2019-01-03  18  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
