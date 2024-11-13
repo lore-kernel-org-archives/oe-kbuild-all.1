@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6957882D98
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 03:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D77742AA9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 04:00:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731469217; cv=none; b=eb1ato6PAjQRby2gxDuPVS/P/5H+gZhOu6RuEoLIXfX23rBZjc8Os0ETc5kRK1lhdIzzooctEtvRKbDAj/nbVnIxP0ta+7W5KN0oFBhaHWIlUfvCAXQfddBeJXbn29ZH10RuZVMEcOtFvJNDNYOabi9NiyKug/BaXNAD1OlsACk=
+	t=1731470419; cv=none; b=TczJlP47LXxs+Why6o1Igc/l1slmXkkYOM1hsoAIfBDDWOWZak7ktoDtwhhbDUj2bFgzCW/899fA4jUyzO4jaHiglBg2oDYhiGolPW5imOC7bmMowfBfyme2C5HU+BzoX4U3++2uP47Z+fjaAD0RZD6LkJkSFfiiAr2ZuRg+NRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731469217; c=relaxed/simple;
-	bh=D7V9gF5Lga9ELDlrnbuv96Bq1VbNSZUbIgtD+5/MQy0=;
+	s=arc-20240116; t=1731470419; c=relaxed/simple;
+	bh=A2FqQ4qmW1xm2h1NPAUpdRfDMVxNGww2Ydj6ShxHURA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SNzvRLrUw2cJstadHqcxkRRMM98OHS/B96g4zxsMBw7WCauGKCu9tLVOmGpPioVdyR9FNGlpNF4XUXfnIO7qW2yfnDtv3XQp2udbwdLhHEGOaUf9S5S98CEnn4eHyWtgdVANZPrNcgw7PawG2gL2DOAc58QTVlb6TUz7rFS8K8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f1bVQpUz; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=aLZAQLAgoBwPNbJuQ1jikX55eFNytkim2jFnKOFz2jOo3lXK5SQbXcZrx5xEMh/mMrc02/Q+bKCHqBxMl2A6qwTl/SA3iSNyvwAFAlEwbGMzVAQl2+pPLmKfgmgVEW45gYblNhVfRTqQdTgCX/yO0BbL+uMLYmaBDglK3c/S4tM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zudec+R2; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f1bVQpUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zudec+R2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731469216; x=1763005216;
+  t=1731470417; x=1763006417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D7V9gF5Lga9ELDlrnbuv96Bq1VbNSZUbIgtD+5/MQy0=;
-  b=f1bVQpUzG9rCNCo4L72f8aM+izdC3i7xoHTq836svcQMu6M7Aejz3CaA
-   0xF2uXGJT+LiKsSEGQr/ujE+t2gNZPXDdf9lJ4L33Ofk3VqUp7usg9MFI
-   7RrBPFDcdFe859DXOq2flJnlKBLi40dC90Pqjh8XU/Rwbl9dyzUkOMxS8
-   YHiJ5I0bbkwaFOYAdH1EbAoG7ZQA6KaXfqX0jbtIJh6FlArDp6z3GT0VK
-   aj0B+vUUYMjbDjgVLnEe0JoISAkb2kdX/7EAm6woNFbQyvPZ8MmiWUeH5
-   8HJQM9Bc7GTMVJvve7FOEN9qmkuPSbYBHKuZm8mYu9Y0D4OtXIPsTywoP
-   Q==;
-X-CSE-ConnectionGUID: mIsO391CTseWQmn1GKyiNQ==
-X-CSE-MsgGUID: JrhgO+KxSt26svsv1LB5fg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="42459156"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="42459156"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 19:40:15 -0800
-X-CSE-ConnectionGUID: iZF+I2/SRLmZcMqgbvbaKQ==
-X-CSE-MsgGUID: IncL898KRWWj64QEGnQ2lA==
+  bh=A2FqQ4qmW1xm2h1NPAUpdRfDMVxNGww2Ydj6ShxHURA=;
+  b=Zudec+R2kyG/mfUGiPItYS2e/A+27OJaVPM94RlTgRN8GKHoS1xlB8EI
+   wdwABEvGOl1Z/Yxz168fJcZyEu4W5OBpd9162VGwb89PtQ+AAkR/4Y0Z6
+   d4m8Xk3kt9Z2Uu5COlzaBuBdEDh5GMIPkYDoviI5POmH1Yt188yENnCbE
+   qNNnyKH1rH3TtStmv2kxUyqrMZO3AEcTenA4ahT6x2P8Og5hW+U9j+EvR
+   piZE0vBWxjPOnnS5hAQiyivV3Jo5vIuc10o29rxULEXIipjU/2i2/gNst
+   isfXqtBMTgqfwp8B9/jLaOjCet0kU3lPpQ33dXvqSVimWdnmfz8V9hNwI
+   w==;
+X-CSE-ConnectionGUID: fCn2vEpESviXNeks8ruYpQ==
+X-CSE-MsgGUID: Rt9PCXZHTyO1wscX/Bx4Kw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="41952137"
+X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
+   d="scan'208";a="41952137"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 20:00:17 -0800
+X-CSE-ConnectionGUID: LGiklfxMSF2cNm8C9XlYqQ==
+X-CSE-MsgGUID: rjW5WLknSQ+4XACuX8dFnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,150,1728975600"; 
-   d="scan'208";a="88125387"
+   d="scan'208";a="87894186"
 Received: from lkp-server01.sh.intel.com (HELO c782e932e0d3) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Nov 2024 19:40:13 -0800
+  by orviesa006.jf.intel.com with ESMTP; 12 Nov 2024 20:00:16 -0800
 Received: from kbuild by c782e932e0d3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tB4El-000022-2b;
-	Wed, 13 Nov 2024 03:40:11 +0000
-Date: Wed, 13 Nov 2024 11:39:26 +0800
+	id 1tB4Y9-000039-1p;
+	Wed, 13 Nov 2024 04:00:13 +0000
+Date: Wed, 13 Nov 2024 12:00:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
+To: Jeff Layton <jlayton@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg 9/11] drivers/virtio/virtio_msg_ffa.c:275:15:
- error: no member named 'dma_ops' in 'struct device'
-Message-ID: <202411131101.ikvhzAnR-lkp@intel.com>
+Subject: [jlayton:statmount 5/5] samples/vfs/mountinfo.c:122:21: warning:
+ format '%lx' expects argument of type 'long unsigned int', but argument 2
+ has type 'uint64_t' {aka 'long long unsigned int'}
+Message-ID: <202411131139.1qjgvfqh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,128 +63,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg
-head:   35f2209e839886e0462f56dbce8ca7b55d45ee79
-commit: a13985c7651d364cf90f1869cff2ad678352d933 [9/11] virtio: msg: Add DMA OPs support
-config: arm64-randconfig-r073-20241113 (https://download.01.org/0day-ci/archive/20241113/202411131101.ikvhzAnR-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411131101.ikvhzAnR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git statmount
+head:   b362a0ea5036587314ee0f8f5cbc491cd4ded303
+commit: b362a0ea5036587314ee0f8f5cbc491cd4ded303 [5/5] samples: add a mnt-ns-walk program to demonstrate statmount()/listmount()
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241113/202411131139.1qjgvfqh-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411131139.1qjgvfqh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411131101.ikvhzAnR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411131139.1qjgvfqh-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/virtio/virtio_msg_ffa.c:20:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/virtio/virtio_msg_ffa.c:275:15: error: no member named 'dma_ops' in 'struct device'
-     275 |         ffa_dev->dev.dma_ops = &virtio_msg_dma_ops;
-         |         ~~~~~~~~~~~~ ^
-   4 warnings and 1 error generated.
+   samples/vfs/mountinfo.c: In function 'dump_mountinfo':
+>> samples/vfs/mountinfo.c:122:21: warning: format '%lx' expects argument of type 'long unsigned int', but argument 2 has type 'uint64_t' {aka 'long long unsigned int'} [-Wformat=]
+     122 |         printf("0x%lx 0x%lx %u:%u %s %s ", mnt_id, buf->mnt_parent_id,
+         |                   ~~^                      ~~~~~~
+         |                     |                      |
+         |                     long unsigned int      uint64_t {aka long long unsigned int}
+         |                   %llx
+>> samples/vfs/mountinfo.c:122:27: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type '__u64' {aka 'long long unsigned int'} [-Wformat=]
+     122 |         printf("0x%lx 0x%lx %u:%u %s %s ", mnt_id, buf->mnt_parent_id,
+         |                         ~~^                        ~~~~~~~~~~~~~~~~~~
+         |                           |                           |
+         |                           long unsigned int           __u64 {aka long long unsigned int}
+         |                         %llx
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +275 drivers/virtio/virtio_msg_ffa.c
+vim +122 samples/vfs/mountinfo.c
 
-   252	
-   253	static int virtio_msg_ffa_probe(struct ffa_device *ffa_dev)
-   254	{
-   255		struct virtio_msg_ffa_device *vmfdev;
-   256		struct device *dev = &ffa_dev->dev;
-   257		struct virtio_msg_device *vmdev;
-   258		u64 features, count;
-   259		int ret, i;
-   260	
-   261		vmfdev = devm_kzalloc(dev, sizeof(*vmfdev), GFP_KERNEL);
-   262		if (!vmfdev)
-   263			return -ENOMEM;
-   264	
-   265		ffa_dev->ops->msg_ops->mode_32bit_set(ffa_dev);
-   266	
-   267		ida_init(&vmfdev->area_id_map);
-   268	
-   269		vmfdev->ffa_dev = ffa_dev;
-   270		INIT_LIST_HEAD(&vmfdev->area_list);
-   271		mutex_init(&vmfdev->lock);
-   272	
-   273		/* Set DMA OPs for the channel bus device */
-   274	#if defined(CONFIG_VIRTIO_MSG_DMA_OPS)
- > 275		ffa_dev->dev.dma_ops = &virtio_msg_dma_ops;
-   276	#endif
-   277	
-   278		ret = vmsg_ffa_bus_activate(vmfdev, &features, &count);
-   279		if (ret)
-   280			goto ida_free;
-   281	
-   282		/* We only support direct messages for now */
-   283		if (!(features & VIRTIO_MSG_FFA_FEATURE_DIRECT_MSG_SUPP)) {
-   284			ret = -ENODEV;
-   285			goto out;
-   286		}
-   287	
-   288		/* FIXME: Don't support indirect messages for now */
-   289		features &= ~VIRTIO_MSG_FFA_FEATURE_INDIRECT_MSG_SUPP;
-   290	
-   291		if (!count) {
-   292			ret = -ENODEV;
-   293			goto out;
-   294		}
-   295	
-   296		ret = vmsg_ffa_bus_configure(vmfdev, features);
-   297		if (ret)
-   298			goto out;
-   299	
-   300		vmfdev->vmdevs = devm_kcalloc(dev, count, sizeof(*vmfdev->vmdevs), GFP_KERNEL);
-   301		if (!vmfdev->vmdevs) {
-   302			ret = -ENOMEM;
-   303			goto out;
-   304		}
-   305	
-   306		for (i = 0; i < count; i++) {
-   307			vmdev = &vmfdev->vmdevs[i];
-   308			vmdev->dev_id = i;
-   309			vmdev->ops = &vmf_ops;
-   310			vmdev->vdev.dev.parent = &ffa_dev->dev;
-   311			vmdev->priv = vmfdev;
-   312	
-   313			/*
-   314			 * Register all virtio devices, they will fetch their ids and
-   315			 * register the right device type.
-   316			 */
-   317			ret = virtio_msg_register(vmdev);
-   318			if (ret)
-   319				pr_err("Failed to register virtio msg device with id: %d\n", i);
-   320		}
-   321	
-   322		ffa_dev_set_drvdata(ffa_dev, vmfdev);
-   323		return 0;
-   324	
-   325	out:
-   326		vmsg_ffa_bus_deactivate(vmfdev);
-   327	ida_free:
-   328		ida_destroy(&vmfdev->area_id_map);
-   329		return ret;
-   330	
+   106	
+   107	static int dump_mountinfo(uint64_t mnt_id, uint64_t mnt_ns_id)
+   108	{
+   109		int ret;
+   110		struct statmount *buf = alloca(STATMOUNT_BUFSIZE);
+   111		const uint64_t mask = STATMOUNT_SB_BASIC | STATMOUNT_MNT_BASIC |
+   112					STATMOUNT_PROPAGATE_FROM | STATMOUNT_FS_TYPE |
+   113					STATMOUNT_MNT_ROOT | STATMOUNT_MNT_POINT |
+   114					STATMOUNT_MNT_OPTS | STATMOUNT_FS_SUBTYPE |
+   115					STATMOUNT_SB_SOURCE;
+   116	
+   117		ret = statmount(mnt_id, mnt_ns_id, mask, buf, STATMOUNT_BUFSIZE, 0);
+   118		if (ret < 0) {
+   119			perror("statmount");
+   120			return 1;
+   121		}
+ > 122		printf("0x%lx 0x%lx %u:%u %s %s ", mnt_id, buf->mnt_parent_id,
+   123					   buf->sb_dev_major, buf->sb_dev_minor,
+   124					   &buf->str[buf->mnt_root],
+   125					   &buf->str[buf->mnt_point]);
+   126		show_mnt_attrs(buf->mnt_attr);
+   127		show_propagation(buf);
+   128	
+   129		printf(" - %s", &buf->str[buf->fs_type]);
+   130		if (buf->mask & STATMOUNT_FS_SUBTYPE)
+   131			printf(".%s", &buf->str[buf->fs_subtype]);
+   132		if (buf->mask & STATMOUNT_SB_SOURCE)
+   133			printf(" %s", &buf->str[buf->sb_source]);
+   134		else
+   135			printf(":none");
+   136	
+   137		show_sb_flags(buf->sb_flags);
+   138		printf(",%s\n", &buf->str[buf->mnt_opts]);
+   139		return 0;
+   140	}
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
