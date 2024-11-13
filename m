@@ -1,83 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23484C6C;
-	Wed, 13 Nov 2024 14:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D270249EB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 15:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731508487; cv=none; b=nTEOlZawSQM/lutT8a3RVqGermjwAL9+Ie4gKUkSFlnPJyOQP2Rhotbc9wxXZQ7ZYNzlY7T7ZLorSaXlS2XKK918dSpG1rwsPfrO6T+ziLkRJ8EY/Wsx5AdEqnWskUn/nOTCRs+9tINPB2R20QCnziuQT3M5zcwllKsf0H0/KnI=
+	t=1731510952; cv=none; b=uSfET99APQu0+mE7OOPu6/4Xuq+N0xt9t9q5cHlyZTjAMz0vRGaTNd6n9YRiPY0GjFuazj/1mjYPPq+WtFpSMJ9+R7lGdhLaJmVmgckOgXQZc6OrOV6t/N9nMfEfbLOWg5OIt9UA5QOhPLwade/AVg6g3mNfbDEzZMnoe5I+5V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731508487; c=relaxed/simple;
-	bh=dM5isGoT8gvEzdUI7m24PY0e10UMd7maYxFQPVEb2S8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r4C1fLQvfgCl5a8/MovDWiG/Q5y6/UVYtAURvdatFEuoo0PiYirwzf6M27ZTeQaZC3C/iEbNBLNcc6jN2boFDwGtr38QIg7adc198Nz7odhDF4RZcLC1Hl7D2hH6M+tWiTFrjlWcODsbINfaGyjQJaTIPvl3ZA3nzt7EMnsl/CY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZzN44L7; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1731510952; c=relaxed/simple;
+	bh=JhrXWLVz5TqDi4En0Q75Dc2ws2MZm6MJ9SaBdLtEnew=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=F30g8Evbe2/8ju1yaj6JFSV2XL1RJnqZqV+TdMoFvYvfVdKuR7zGfCDnTZrPqLyp7TehREvdpT7+t93b/IW/5lr4uesD0W2qO+PtF/nxX4/n23eTJleRrQYmpFsaaoEOZ64cRvdQX4ZkRA5nOsHQr61ux8cH+O2mSlapBUNsL1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZNHJwQU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZzN44L7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZNHJwQU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731508486; x=1763044486;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dM5isGoT8gvEzdUI7m24PY0e10UMd7maYxFQPVEb2S8=;
-  b=gZzN44L7zIYrx7ClEs5xnnBbMJbhlFnnEac41s5WzlUiLqQ61c3lXSak
-   K3Xzr35ZSD/i5wXCEfOZyi7i/wY5j5bwMCHeAm3cDeCJK7CXDd48oqxk2
-   fuYCIBPHljkK65sEgLJfLnhfHjHTQA9dfdzzAhHY/9blOf+vSq5EUC8fc
-   rsIJZ19ZVo/hk1DXPJ8SHQEhdce04666v/TllpGYTAzjRYLie5BrbGSwC
-   Co8OgovfxuwM0ClyxQlubl3RAlPMZzlHrSunJVSIvHtSFpRoucWUVqW+I
-   tqV4IVMSA/IW8vEnZ8HVEuqQ3hwdukK2lhdha0VCPEg3i1L5P8pKzxZru
+  t=1731510949; x=1763046949;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=JhrXWLVz5TqDi4En0Q75Dc2ws2MZm6MJ9SaBdLtEnew=;
+  b=QZNHJwQUvAiplIGY4tqhYmN+5WoMpjKI8Pe6WorGjt1/IJ64iPw50gym
+   vikO3ZDptrZklG/TlilC8lp0phC40rcn3uSYmi02du+HG9uft5CffcSxV
+   1aGsB17rlTpBN2Dhj/3sKjmEXQX/D0Wd+FywGXabFMhmuogvoxfNW6kdh
+   Ts9sY3WeLdcGIS1TKC0lllF8RwCcix9h8/+R+N1vw24WhIvEnWQQpX8Hc
+   PYpreCe9FZ3uGiW/aBzCzYFXH2eZ34J28OcQFDJSQT5lmSjVq6jSr7TPS
+   o0jajCklsSlcTo8EhIM5KjVY8rDrTZnHU6ftRVRr5FZk46mYeXI+oZPwi
    g==;
-X-CSE-ConnectionGUID: cb5VjEV0SYiIwA4vM+pNhg==
-X-CSE-MsgGUID: J9nzizQnSBWHvE7zPooeUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="19010668"
+X-CSE-ConnectionGUID: IQ6h2kTMS1WL4N3PvbQAPw==
+X-CSE-MsgGUID: VVs0uLXTS3ezwGYkti0EUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="42798075"
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="19010668"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:34:45 -0800
-X-CSE-ConnectionGUID: Mp0B/uQKTpulc6xwndRd1g==
-X-CSE-MsgGUID: dPCbY9paSP+5GgUIMsiBpg==
+   d="scan'208";a="42798075"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 07:15:48 -0800
+X-CSE-ConnectionGUID: tYXLNLpWTIiOWLLJqzlZZA==
+X-CSE-MsgGUID: dBAWsRlPSNOPjg4ktmatJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="88050341"
+   d="scan'208";a="118725341"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Nov 2024 06:34:39 -0800
+  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2024 07:15:47 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBES4-0000Sj-2J;
-	Wed, 13 Nov 2024 14:34:36 +0000
-Date: Wed, 13 Nov 2024 22:34:11 +0800
+	id 1tBF5s-0000UG-2W;
+	Wed, 13 Nov 2024 15:15:44 +0000
+Date: Wed, 13 Nov 2024 23:14:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chester Lin <chester62515@gmail.com>,
-	Matthias Brugger <mbrugger@suse.com>,
-	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>,
-	Larisa Grigore <larisa.grigore@nxp.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>, Lee Jones <lee@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Dong Aisheng <aisheng.dong@nxp.com>, Jacky Bai <ping.bai@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Christophe Lizzi <clizzi@redhat.com>,
-	Alberto Ruiz <aruizrui@redhat.com>,
-	Enric Balletbo <eballetb@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	imx@lists.linux.dev,
-	Andrei Stefanescu <andrei.stefanescu@oss.nxp.com>
-Subject: Re: [PATCH v6 7/7] MAINTAINERS: add MAINTAINER for NXP SIUL2 MFD
- driver
-Message-ID: <202411132227.SO6y3U3E-lkp@intel.com>
-References: <20241113101124.1279648-8-andrei.stefanescu@oss.nxp.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
+ drivers/misc/uacce/uacce.c:739:6: error: implicit declaration of function
+ 'module_refcount'
+Message-ID: <202411132335.bYokl2ag-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,41 +62,67 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113101124.1279648-8-andrei.stefanescu@oss.nxp.com>
 
-Hi Andrei,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on linusw-pinctrl/for-next lee-mfd/for-mfd-next shawnguo/for-next linus/master v6.12-rc7 next-20241113]
-[cannot apply to lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrei-Stefanescu/dt-bindings-mfd-add-support-for-the-NXP-SIUL2-module/20241113-181639
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git devel
-patch link:    https://lore.kernel.org/r/20241113101124.1279648-8-andrei.stefanescu%40oss.nxp.com
-patch subject: [PATCH v6 7/7] MAINTAINERS: add MAINTAINER for NXP SIUL2 MFD driver
-reproduce: (https://download.01.org/0day-ci/archive/20241113/202411132227.SO6y3U3E-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
+commit: 451823febcb610969f048556cedc41b5e08fafb1 [1294/1294] UACCE backport from mainline
+config: x86_64-buildonly-randconfig-002-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132335.bYokl2ag-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132335.bYokl2ag-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132227.SO6y3U3E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411132335.bYokl2ag-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Documentation/userspace-api/netlink/netlink-raw.rst: :doc:`tc<../../networking/netlink_spec/tc>`
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
-   Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
->> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/nxp,siul2.yaml
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/reserved-memory/qcom
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
-   Using alabaster theme
+>> drivers/misc/uacce/uacce.c:739:6: error: implicit declaration of function 'module_refcount' [-Werror,-Wimplicit-function-declaration]
+     739 |         if (module_refcount(uacce->pdev->driver->owner) > 0)
+         |             ^
+   drivers/misc/uacce/uacce.c:1032:16: warning: unused variable 'uacce' [-Wunused-variable]
+    1032 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
+         |                       ^~~~~
+   drivers/misc/uacce/uacce.c:1046:16: warning: unused variable 'uacce' [-Wunused-variable]
+    1046 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
+         |                       ^~~~~
+   2 warnings and 1 error generated.
+
+
+vim +/module_refcount +739 drivers/misc/uacce/uacce.c
+
+1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  717  
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  718  /*
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  719   * While user space releases a queue, all the relatives on the queue
+76dbd49be7fc95 drivers/uacce/uacce.c xuzaibo        2019-07-11  720   * should be released imediately by this putting.
+1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  721   */
+f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  722  static void uacce_put_queue(struct uacce_queue *q)
+1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  723  {
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  724  	struct uacce *uacce = q->uacce;
+e3234bd66f0c97 drivers/uacce/uacce.c xuzaibo        2019-05-13  725  
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  726  	/*
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  727  	 * To do: we should vm_munmap mmio and dus regions, currently we munmap
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  728  	 * mmio and dus region before put queue.
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  729  	 */
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  730  	if (uacce->ops->stop_queue)
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  731  		uacce->ops->stop_queue(q);
+299b4bc20a682a drivers/uacce/uacce.c lingmingqiang  2019-05-06  732  
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  733  	if (uacce->ops->put_queue)
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  734  		uacce->ops->put_queue(q);
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  735  
+8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  736  	q->state = UACCE_Q_ZOMBIE;
+f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  737  	q->filep->private_data = NULL;
+f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  738  	uacce_queue_drain(q);
+f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20 @739  	if (module_refcount(uacce->pdev->driver->owner) > 0)
+f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  740  		module_put(uacce->pdev->driver->owner);
+1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  741  }
+1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  742  
+
+:::::: The code at line 739 was first introduced by commit
+:::::: f7acb5166348bf6c75ac40c5e6e14726bc3ca578 uacce: Remove uacce mode 1 relatives
+
+:::::: TO: Yu'an Wang <wangyuan46@huawei.com>
+:::::: CC: Yang Yingliang <yangyingliang@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
