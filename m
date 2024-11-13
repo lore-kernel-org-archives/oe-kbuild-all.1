@@ -1,91 +1,201 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10D1245009
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 14:20:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DA243172
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 14:24:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731507622; cv=none; b=RyaDrwwQ+poz0K8Iy0ORFtz/wIcqGtxEpOP5me4uvjPiQgqYTZip7bJz0a816Ldz7qPAEbHtjPUnDYb8jg3m8K0pLpgZS7AEmmgTkmeFxkYhd/zERXz5jrpOK3aCAxAHXcGC9K8Fccq+3gPtRLXSHaGG6b2FtSSOKrh5qFvptcE=
+	t=1731507882; cv=none; b=hb6yFXyOYFtCI9bwq4Og7pO64GUjUOsAzErNweXo8IoCp5Yzba/bI6s35xm8KjuQr530/1vDlg6DX6y1hH/luT7MmD387MNC7ZarlBvDvzNk5MawIXpsHsbiHf2X01I2IYlGhPq3gatgUIdXV0oGU9T3J4WzXu8Lh/8OIOqbL5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731507622; c=relaxed/simple;
-	bh=P17KMoRtkJg6aHvEyApGXy0PV005D3bHiugmndAKsZ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d2aNlGXIEjp6igODTfZqH0fSNUqCqrmRc8y5cg/FdTlyNhKAH6hzC45g7mByrDIgn8xM4ThBlPwHxZgwvGY9Kjg1TQO/UE3bL6F0w4OVmcwFRmpztCd9XW4i7N/T5uTVoFY2/K9rfB7IB5lpvEk3kjj6HBcz4Q0mqSD4VuCLfGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=im73hmVV; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1731507882; c=relaxed/simple;
+	bh=ws7Ey+lJkmVFdE1AlrpzTJv+jGOv0M/DhiGA1wiru90=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r1WkMAaWvPhiTK6Dx83rOgbYqj5eDr7MP/GtcySr698nxxKGHuNrUfB1c4TGj1EBNV23XHunsTc1kAPahtvjfgTom9WWzgDDhaJCQOGlqRiJagLY9kPlqWliwq1OHdLZdTQ4Wm6waP1aMavbnLBwS98WRBjxDVlc4TiXdQ9pzdg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EB2l4uwe; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="im73hmVV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=SlB5MYusK8b1mv7/1MZmVvegYIaryfpg+zAbobQyH78=; b=im73hmVVpi6xpLao3e5pgmuxUK
-	XZ6r0bFi2obo11fIc0c9c7wZh2EPJ+Lq/303PvQaydRbs02kSaAb46tnbBqmAGTcvaZTYrxNjvmmC
-	ee493QwASJG+9BtQ29OtMyaVnCP82RBwhZ5TSU0+DV4MpiKdUZcjAuDtH7eajSNDOGgM0NUdxqr5o
-	8rgsz/0/wEo5LWLoaiG2J5IE1A4hHGnqIgPS5ysFf3Ftl5BuVEwBoc3FEUINvmye3K7jDzfQHluGT
-	wHa8Uiwp+OpjonVWAX9IMTaIt3d5vitS5bPhpSkvl+zVo/dtjZ+HEpSnN1jco1+XKw9FC1ps77wEZ
-	Ors8NdYg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:43462)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1tBEE2-0006Mu-1i;
-	Wed, 13 Nov 2024 14:20:07 +0000
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1tBEDy-00006E-10;
-	Wed, 13 Nov 2024 14:20:02 +0000
-Date: Wed, 13 Nov 2024 14:20:02 +0000
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Linus Walleij <linus.walleij@linaro.org>
-Cc: kernel test robot <lkp@intel.com>, Melon Liu <melon1335@163.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [rmk:for-next 3/7] arch/arm/mm/ioremap.c:130:32: error: call to
- undeclared function 'kasan_mem_to_shadow'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <ZzS1ko8pWGvYj895@shell.armlinux.org.uk>
-References: <202411130711.xfVEiMKn-lkp@intel.com>
- <CACRpkdYADg4fg2VgRxFBwp1STLbX062zjbZXQ9snOf_p6NvcEA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EB2l4uwe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731507880; x=1763043880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ws7Ey+lJkmVFdE1AlrpzTJv+jGOv0M/DhiGA1wiru90=;
+  b=EB2l4uwe99hibMEtTvoiDMGmAwMqQ2nSg34Xw4ggqG9hKHqG8GxQBrdL
+   VkrbpjQxagLj7cDJ+rwfWkXdSXhYHxsGdb3Ougp4G78RZEjQ9n9fysgfo
+   si+sq9PbSANV56qyc0vexDP1SMvK9AK8eBLbu1SasIK4Jc76DZX+QqbWC
+   0T8MCY+wxbTPYHyB25WumJkQewvTIwKpCY1ksdUv6zPYnea1mB/n2+isb
+   8KAkVijm6z1pN6aOMMhEyX8mRxoXYN/+4ZZ7m3MqLQs/5EP9nOiNLdpjN
+   Q3OR7XEAVWWGnRHW5UIZ7mUi+qRhZD2jmWKGHcCPzw3MvldEGFcpEr/Jq
+   Q==;
+X-CSE-ConnectionGUID: wkVxeJJlRumdKPXzxaMVMg==
+X-CSE-MsgGUID: 4lo/+9n/TLO5dkvZGeqkxA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31512120"
+X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
+   d="scan'208";a="31512120"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:24:39 -0800
+X-CSE-ConnectionGUID: 17wKxF5oTAWI0jU5vmlpIQ==
+X-CSE-MsgGUID: wgwkm5TWRmaGqymWIJx7lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
+   d="scan'208";a="87786355"
+Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 13 Nov 2024 06:24:38 -0800
+Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tBEIN-0000SL-3D;
+	Wed, 13 Nov 2024 14:24:35 +0000
+Date: Wed, 13 Nov 2024 22:23:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, zhangchangzhong <zhangchangzhong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1290/1290]
+ kernel/sched/grid/qos.c:84:31: error: 'struct mempolicy' has no member named
+ 'v'
+Message-ID: <202411132206.ErjpyMwe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CACRpkdYADg4fg2VgRxFBwp1STLbX062zjbZXQ9snOf_p6NvcEA@mail.gmail.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-On Wed, Nov 13, 2024 at 01:34:34AM +0100, Linus Walleij wrote:
-> On Wed, Nov 13, 2024 at 12:11 AM kernel test robot <lkp@intel.com> wrote:
-> 
-> > >> arch/arm/mm/ioremap.c:130:32: error: call to undeclared function 'kasan_mem_to_shadow'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-> >      130 |                 sync_pgds(mm, (unsigned long)kasan_mem_to_shadow(
-> >          |                                              ^
-> >    1 warning and 1 error generated.
-> 
-> I mentioned this in a comment to 9429/1 that it supercedes 9427/1 since the
-> author didn't send a new version to solve this issue. Maybe I should have
-> mailed some more...
+Hi Wang,
 
-Sorry, missed that comment.
+FYI, the error/warning still remains.
 
-> 9429/1, 9430/1 and 9431/1 can be applied cleanly in its place.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
+commit: ce35ded5d5774f055f6850b15032066ff4936414 [1290/1290] sched: smart grid: init sched_grid_qos structure on QOS purpose
+config: arm64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241113/202411132206.ErjpyMwe-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132206.ErjpyMwe-lkp@intel.com/reproduce)
 
-I initially applied all of them, deciding that 9427/1 was a fix and
-the other three were development. On merging the two branches, the
-conflicts looked horrible, so I dropped the "development" stuff rather
-than the apparent "fix" patch, clearly I should've looked closer and
-done the opposite.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411132206.ErjpyMwe-lkp@intel.com/
 
-Now corrected, assuming tonight's build is clean, no further action
-should be required.
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/grid/qos.c:19:
+   kernel/sched/grid/qos.c: In function 'sched_grid_preferred_interleave_nid':
+>> kernel/sched/grid/qos.c:84:31: error: 'struct mempolicy' has no member named 'v'
+      84 |         if (nodes_equal(policy->v.nodes, *preferred_nmask))
+         |                               ^~
+   include/linux/nodemask.h:202:41: note: in definition of macro 'nodes_equal'
+     202 |                         __nodes_equal(&(src1), &(src2), MAX_NUMNODES)
+         |                                         ^~~~
+   kernel/sched/grid/qos.c:91:32: error: 'struct mempolicy' has no member named 'v'
+      91 |         nodes_and(nmask, policy->v.nodes, *preferred_nmask);
+         |                                ^~
+   include/linux/nodemask.h:162:47: note: in definition of macro 'nodes_and'
+     162 |                         __nodes_and(&(dst), &(src1), &(src2), MAX_NUMNODES)
+         |                                               ^~~~
+>> kernel/sched/grid/qos.c:95:31: error: 'struct task_struct' has no member named 'il_prev'
+      95 |         next = next_node_in(me->il_prev, nmask);
+         |                               ^~
+   include/linux/nodemask.h:278:46: note: in definition of macro 'next_node_in'
+     278 | #define next_node_in(n, src) __next_node_in((n), &(src))
+         |                                              ^
+   kernel/sched/grid/qos.c:97:19: error: 'struct task_struct' has no member named 'il_prev'
+      97 |                 me->il_prev = next;
+         |                   ^~
+   In file included from kernel/sched/grid/qos.c:20:
+   include/linux/mempolicy.h: At top level:
+   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
+     329 | static long __do_mbind(unsigned long start, unsigned long len,
+         |             ^~~~~~~~~~
+
+
+vim +84 kernel/sched/grid/qos.c
+
+  > 19	#include <linux/nodemask.h>
+    20	#include <linux/mempolicy.h>
+    21	#include <linux/slab.h>
+    22	#include <linux/sched.h>
+    23	#include <linux/sched/grid_qos.h>
+    24	#include "internal.h"
+    25	
+    26	static int qos_affinity_set(struct task_struct *p)
+    27	{
+    28		int n;
+    29		struct sched_grid_qos_affinity *affinity = &p->grid_qos->affinity;
+    30	
+    31		nodes_clear(affinity->mem_preferred_node_mask);
+    32		/*
+    33		 * We want the memory allocation to be as close to the CPU
+    34		 * as possible, and adjust after getting memory bandwidth usage.
+    35		 */
+    36		for (n = 0; n < nr_node_ids; n++)
+    37			if (cpumask_intersects(cpumask_of_node(n), p->prefer_cpus))
+    38				node_set(n, affinity->mem_preferred_node_mask);
+    39	
+    40		return 0;
+    41	}
+    42	
+    43	int sched_grid_qos_fork(struct task_struct *p, struct task_struct *orig)
+    44	{
+    45		struct sched_grid_qos *qos;
+    46	
+    47		qos = kzalloc(sizeof(*qos), GFP_KERNEL);
+    48		if (!qos)
+    49			return -ENOMEM;
+    50	
+    51		qos_power_init(&qos->power);
+    52		qos_stat_init(&qos->stat);
+    53	
+    54		nodes_clear(qos->affinity.mem_preferred_node_mask);
+    55		if (likely(orig->grid_qos))
+    56			qos->affinity = orig->grid_qos->affinity;
+    57		qos->affinity_set = qos_affinity_set;
+    58		p->grid_qos = qos;
+    59	
+    60		return 0;
+    61	}
+    62	
+    63	void sched_grid_qos_free(struct task_struct *p)
+    64	{
+    65		kfree(p->grid_qos);
+    66		p->grid_qos = NULL;
+    67	}
+    68	
+    69	/* dynamic select a more appropriate preferred interleave nid for process */
+    70	int sched_grid_preferred_interleave_nid(struct mempolicy *policy)
+    71	{
+    72		nodemask_t nmask;
+    73		unsigned int next;
+    74		struct task_struct *me = current;
+    75		nodemask_t *preferred_nmask = NULL;
+    76	
+    77		if (likely(me->grid_qos))
+    78			preferred_nmask =
+    79				&me->grid_qos->affinity.mem_preferred_node_mask;
+    80	
+    81		if (!preferred_nmask || !policy)
+    82			return NUMA_NO_NODE;
+    83	
+  > 84		if (nodes_equal(policy->v.nodes, *preferred_nmask))
+    85			return NUMA_NO_NODE;
+    86		/*
+    87		 * We perceive the actual consumption of memory bandwidth
+    88		 * in each node and post a preferred interleave nid in
+    89		 * more appropriate range.
+    90		 */
+  > 91		nodes_and(nmask, policy->v.nodes, *preferred_nmask);
+    92		if (nodes_empty(nmask))
+    93			return NUMA_NO_NODE;
+    94	
+  > 95		next = next_node_in(me->il_prev, nmask);
+    96		if (next < MAX_NUMNODES)
+    97			me->il_prev = next;
+    98		return next;
+    99	}
+   100	
 
 -- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
