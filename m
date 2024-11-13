@@ -1,105 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BBA382
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 00:14:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3716FD5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 00:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731456877; cv=none; b=ZSU/+95IHUcsSPbyfbaiUn+uWwv3OgUjkSgGZDGB7Ax5hlPAPHphEgj1nod3qcScN0HIW3X+ExGxrvSXhFp0HVjZ9qWpjLrMUSg1mDn8srUjnxB4UGJSmIkrP3wGmrh/o11SgiXwSOsrgfDj0glwV1TEuFGk/YRGUfing+pD1hI=
+	t=1731458088; cv=none; b=oZP36RFtqqTDZBy7hcDXYcdGwVRA2r/ENkoSZaXWCw7NZSyZZfQp9I2JT2+XqWyrwGQ1SyoHqZFs40cu/G0Ot4yVOhYv1fTBCViBWl5KYLgEuc/V9HlEOBEcQnvFNi8sd4J9VNJHCHL8yFInpXmxyGPXFxHojU349u5f+2tN+eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731456877; c=relaxed/simple;
-	bh=wgocs9VZhC3L763hhcseqs4EVe2IDGgPxL7+pj/ELW0=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SqDuITWgb9fVbRKBrrPJDrt3/ytMnrGmTuh4bfvYHw6jirKGHRKErTOvz9wxBLtSeSs14moPB/Z4hv1SorQ7ss0fl6JuSUjwWsuJoF8ruUSovJGQeo6YxkdnALML2BSRK3MvSECy/Z+PoymgXLxrDYz+LVg37z4P6rRXNzTVSqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h0tL3AvO; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731458088; c=relaxed/simple;
+	bh=QiUDwNk4UMES6wGicm1D28MfcRMHLrzXGFWadiGQHAU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KC/DZRh8v/ISyPVfJUkARIuc3XLpHtte/YcwS1PiEgHWcmg036yfrAbel9rIhliTo+E6IHnQQWCGwnBkNfnUC4s8MGs5g5q7fIkUrbBDd+DHjUIc9589Vy0tBsU+ucHl9xHsLAfMI9JUf2+M/5L3ow0v+3dETyE2uHKWWLtT0rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vmD7Yzq8; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h0tL3AvO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731456877; x=1762992877;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=wgocs9VZhC3L763hhcseqs4EVe2IDGgPxL7+pj/ELW0=;
-  b=h0tL3AvOIZ9ZjHyvjoZQ4VmNbUfYWuXjdRVa8DA+zRQtK7lxCJagT1LN
-   LiCvkcQe7AakIbYfed0e1Efys6YfMhYVk1k6By5CnfQptPe807iL/LYZb
-   6j6b6NKU5nNxitlWF5+59AUAj+kb0Ha8vUTX59PZQ0lSESRdC60BDCM8d
-   BhDibHK0ZeutvTq8rDowLdwXPxPaFMvOW41yUObPDvuovwa0ENicixIyu
-   2OCV1wHo4ss/tm843JX3deVql4nAHVPb0bjlYOz3nKdF59sx+pqN01Eid
-   blinIavdisiO2Ehk6cPFl8JtK++kLgdhwpyEVoSLrmhAxghd1OBEqniIa
-   w==;
-X-CSE-ConnectionGUID: D3sifUl+TzOmHaWK6LokSg==
-X-CSE-MsgGUID: ROv83cH/Trm9ZVF6ydlBDw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="53875978"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="53875978"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2024 16:14:36 -0800
-X-CSE-ConnectionGUID: s8muOC0FTIG8q7E+krcmVA==
-X-CSE-MsgGUID: pGTe6CNRQ+uOTCDuy/E6zA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,149,1728975600"; 
-   d="scan'208";a="91737004"
-Received: from lkp-server01.sh.intel.com (HELO bcfed0da017c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 12 Nov 2024 16:14:35 -0800
-Received: from kbuild by bcfed0da017c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tB11k-0001rZ-2W
-	for oe-kbuild-all@lists.linux.dev;
-	Wed, 13 Nov 2024 00:14:32 +0000
-Date: Wed, 13 Nov 2024 08:13:46 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [intel-lts:6.6/dovetail-xenomai 3877/13313]
- kernel/irq/chip.c:551:13: warning: no previous prototype for function
- 'forward_irq_event'
-Message-ID: <202411130846.wV5behCn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vmD7Yzq8"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb50e84ec7so42212861fa.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 12 Nov 2024 16:34:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731458085; x=1732062885; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ogOg66A2FuJAzMUKERxnGXu1VO1CtrKNlAN/1i/CxyE=;
+        b=vmD7Yzq8hUZLSvM8gQIRzOMDqvKG+w072WwphCf76PiAPIJnb1SQ/tb+RlT63Ouu9A
+         KwWjMPW72l8UOQtEnkKOEvbTMdqgCBAtT9expYyy2kGITErzVavtQf8cQtFuAqUsTZNq
+         7VGCWIvAjoHPVxHYFndaP9I34W4v5lcKCApdEbZ5MOs3+IKzuaQcEkv0kZ2qVyuWszSR
+         ewuWcpU57NQgfcL+9+kGbFuNrAhcyxpHUIceulVGu5jYQwRzs2hp11BECTFss+z/F+nY
+         wO41nOOSNcLSoAlBNPxczHvsXGPuTW5w+yI6LsS/VBCdI5DzTPWOSlRSAbPYQKPEiF0h
+         ubrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731458085; x=1732062885;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ogOg66A2FuJAzMUKERxnGXu1VO1CtrKNlAN/1i/CxyE=;
+        b=ansPRtiD/fzn7UVk2QN8PRv3hoWeWT5sgddYhFpl/ZuWATJgxLhVvQuNRs2DtLZ/qj
+         izKqeiuAjHf9fu8f0AN0jMNZAx0YuGPVaHLAkGMDHTMXWCbBIIShWD/pBKaZDQ4RgMcy
+         iCyQLhz88U7f5zG8E9Hkf7c8hAasybNUAhXSouKHfbGgnF9snKAEfhqe1Z7oYCaEhNyL
+         Op+quqo1y1LH8iJTev0uFu5jt5H0eq3WVam/nuq380b7D1g/roWFjJhW1NH0bVQdB8Qn
+         je1yLT6QUMGrmCmGVoUCx4XBC9DIeM0YJzWvZ6RZGXRrFfs8l3JG5pDA2TeBYnxMPYFK
+         0/KQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVu/cvEg02h+Xun4KHBg/WquReF1y7O5ABQpG7e8qjAhFkXPHZgOzT6NFrOXwJThBIBIdM1xalBoNa5CyOn@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy0BREpAvvuqjX7Aul0kTaEaopB5wrrSm8ZfVZJNZnkSVSNnj+S
+	I8M/NEr6IFUHNFz5kc78cz67x6hsTyFNxG0eXcf/wIV2i3JnQsrLJOwVPYHMvWn4uojsBFQIBWD
+	VVNIcELX2OrM+Qu1+yAvopCmGBhnlI1gyUszGtA==
+X-Google-Smtp-Source: AGHT+IFlNvK0Gy6cSkO4IzErgm7ADkSViIPub9WwdcozidP+qaoN6N8pZdtVPNFON2giZ9czwvKjliN3wa7tSJ0bZz0=
+X-Received: by 2002:a05:651c:1542:b0:2fb:5038:3eb4 with SMTP id
+ 38308e7fff4ca-2ff202686a4mr99911001fa.29.1731458085445; Tue, 12 Nov 2024
+ 16:34:45 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <202411130711.xfVEiMKn-lkp@intel.com>
+In-Reply-To: <202411130711.xfVEiMKn-lkp@intel.com>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Wed, 13 Nov 2024 01:34:34 +0100
+Message-ID: <CACRpkdYADg4fg2VgRxFBwp1STLbX062zjbZXQ9snOf_p6NvcEA@mail.gmail.com>
+Subject: Re: [rmk:for-next 3/7] arch/arm/mm/ioremap.c:130:32: error: call to
+ undeclared function 'kasan_mem_to_shadow'; ISO C99 and later do not support
+ implicit function declarations
+To: kernel test robot <lkp@intel.com>
+Cc: Melon Liu <melon1335@163.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Philippe,
+On Wed, Nov 13, 2024 at 12:11=E2=80=AFAM kernel test robot <lkp@intel.com> =
+wrote:
 
-FYI, the error/warning still remains.
+> >> arch/arm/mm/ioremap.c:130:32: error: call to undeclared function 'kasa=
+n_mem_to_shadow'; ISO C99 and later do not support implicit function declar=
+ations [-Wimplicit-function-declaration]
+>      130 |                 sync_pgds(mm, (unsigned long)kasan_mem_to_shad=
+ow(
+>          |                                              ^
+>    1 warning and 1 error generated.
 
-tree:   https://github.com/intel/linux-intel-lts.git 6.6/dovetail-xenomai
-head:   8025dd14d72f1eee946ab67036c7a3a569861654
-commit: eecd1ea84eb02b73c7daca82302f32a7e90941e2 [3877/13313] genirq: irq_pipeline: fix boot hang w/ IRQ_PIPELINE off
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241113/202411130846.wV5behCn-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411130846.wV5behCn-lkp@intel.com/reproduce)
+I mentioned this in a comment to 9429/1 that it supercedes 9427/1 since the
+author didn't send a new version to solve this issue. Maybe I should have
+mailed some more...
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411130846.wV5behCn-lkp@intel.com/
+9429/1, 9430/1 and 9431/1 can be applied cleanly in its place.
 
-All warnings (new ones prefixed by >>):
+Sorry for the mess. Tell me if you want me to re-send them!
 
->> kernel/irq/chip.c:551:13: warning: no previous prototype for function 'forward_irq_event' [-Wmissing-prototypes]
-     551 | irqreturn_t forward_irq_event(struct irq_desc *desc)
-         |             ^
-   kernel/irq/chip.c:551:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     551 | irqreturn_t forward_irq_event(struct irq_desc *desc)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/forward_irq_event +551 kernel/irq/chip.c
-
-   550	
- > 551	irqreturn_t forward_irq_event(struct irq_desc *desc)
-   552	{
-   553		return IRQ_NONE;
-   554	}
-   555	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yours,
+Linus Walleij
