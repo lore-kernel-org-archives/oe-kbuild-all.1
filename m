@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DA243172
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 14:24:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F7E1DF75C;
+	Wed, 13 Nov 2024 14:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731507882; cv=none; b=hb6yFXyOYFtCI9bwq4Og7pO64GUjUOsAzErNweXo8IoCp5Yzba/bI6s35xm8KjuQr530/1vDlg6DX6y1hH/luT7MmD387MNC7ZarlBvDvzNk5MawIXpsHsbiHf2X01I2IYlGhPq3gatgUIdXV0oGU9T3J4WzXu8Lh/8OIOqbL5w=
+	t=1731508483; cv=none; b=oeQnbbtrs382gGTBkKT3lXCmM8CTVhZk3Cg9Dm5O82A2UfNryo0fDIgOyVw0xexSzyCo6RGIUNYVgFw+iVJEVf1uqYrHgWO2PTrrc5oPTTrkM1dMQ5S55U2xq40UKJhXh2+DZS0dRVIwu9pqfONhYVqNt6GaqVuK67nvOnEfMMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731507882; c=relaxed/simple;
-	bh=ws7Ey+lJkmVFdE1AlrpzTJv+jGOv0M/DhiGA1wiru90=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r1WkMAaWvPhiTK6Dx83rOgbYqj5eDr7MP/GtcySr698nxxKGHuNrUfB1c4TGj1EBNV23XHunsTc1kAPahtvjfgTom9WWzgDDhaJCQOGlqRiJagLY9kPlqWliwq1OHdLZdTQ4Wm6waP1aMavbnLBwS98WRBjxDVlc4TiXdQ9pzdg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EB2l4uwe; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1731508483; c=relaxed/simple;
+	bh=XL2q9gFed17spZbib9zirJervoZJ0UWFCGGZgQVhTfs=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C2NEKEAZ5hOZ/Zt0JhrEXtmc6sd9qzjSpTGfeucudCqXLMW6kyvzyp6BIWANE8jAZiBJyCeTb9ZAVZAyrI9TooBDVXmfEtqbw0OBEqJbu/D+7OP2GbBKg3/ezy5a5bOI6/36xLB9gZa2+dqY5avHXHhn/DcxP8uYHveGSFHtiZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AMxrIBUu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EB2l4uwe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AMxrIBUu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731507880; x=1763043880;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ws7Ey+lJkmVFdE1AlrpzTJv+jGOv0M/DhiGA1wiru90=;
-  b=EB2l4uwe99hibMEtTvoiDMGmAwMqQ2nSg34Xw4ggqG9hKHqG8GxQBrdL
-   VkrbpjQxagLj7cDJ+rwfWkXdSXhYHxsGdb3Ougp4G78RZEjQ9n9fysgfo
-   si+sq9PbSANV56qyc0vexDP1SMvK9AK8eBLbu1SasIK4Jc76DZX+QqbWC
-   0T8MCY+wxbTPYHyB25WumJkQewvTIwKpCY1ksdUv6zPYnea1mB/n2+isb
-   8KAkVijm6z1pN6aOMMhEyX8mRxoXYN/+4ZZ7m3MqLQs/5EP9nOiNLdpjN
-   Q3OR7XEAVWWGnRHW5UIZ7mUi+qRhZD2jmWKGHcCPzw3MvldEGFcpEr/Jq
-   Q==;
-X-CSE-ConnectionGUID: wkVxeJJlRumdKPXzxaMVMg==
-X-CSE-MsgGUID: 4lo/+9n/TLO5dkvZGeqkxA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="31512120"
+  t=1731508482; x=1763044482;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=XL2q9gFed17spZbib9zirJervoZJ0UWFCGGZgQVhTfs=;
+  b=AMxrIBUu2A6G/wZa6mheGTE0r4I+sgZXyFcQaBnfDOZEdJA9takcgoJN
+   HPi89kLCWHsuzRfMzZE1uZ06kUebyt1r+84YTa05/bhsUSEWWhy4RT4Ti
+   p8KUbtONhRK35fuRPJ7eMLH3crNvhIzJE/BJ35szG/rWocYocoBD6qiYK
+   VF57hMxFXj0n89OR8YHXAfrr9kxcqHj8575JDAUd46pIuAZBzhPM1QVGt
+   K5Yz2NhnFDJXWmhPeYEcmahKTp9I7JJOui/K9OSm7xWtL4O85U3mNbEaO
+   c8njf+ZCoX/hen15KcMCqXnuldsRGIuoyTuGn77NKV+5nHP9VPaLPbbnQ
+   A==;
+X-CSE-ConnectionGUID: V9YOiycJRgeTz6qd6BhduQ==
+X-CSE-MsgGUID: 5bOr+7BFQtShQV+gm2FhHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11254"; a="19010663"
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="31512120"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:24:39 -0800
-X-CSE-ConnectionGUID: 17wKxF5oTAWI0jU5vmlpIQ==
-X-CSE-MsgGUID: wgwkm5TWRmaGqymWIJx7lA==
+   d="scan'208";a="19010663"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:34:40 -0800
+X-CSE-ConnectionGUID: QsdnP0vkQSuL7NV1/I8Clg==
+X-CSE-MsgGUID: mNmQvNSHT7yLZ3gabdEUzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="87786355"
+   d="scan'208";a="88050340"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Nov 2024 06:24:38 -0800
+  by orviesa006.jf.intel.com with ESMTP; 13 Nov 2024 06:34:39 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBEIN-0000SL-3D;
-	Wed, 13 Nov 2024 14:24:35 +0000
-Date: Wed, 13 Nov 2024 22:23:51 +0800
+	id 1tBES4-0000Sl-2M;
+	Wed, 13 Nov 2024 14:34:36 +0000
+Date: Wed, 13 Nov 2024 22:34:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, zhangchangzhong <zhangchangzhong@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1290/1290]
- kernel/sched/grid/qos.c:84:31: error: 'struct mempolicy' has no member named
- 'v'
-Message-ID: <202411132206.ErjpyMwe-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: Re: [net-next PATCH v3 5/6] octeontx2-af: CN20K mbox implementation
+ for AF's VF
+Message-ID: <202411132224.WDBx1t3k-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,138 +61,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Wang,
+In-Reply-To: <20241112185326.819546-6-saikrishnag@marvell.com>
+References: <20241112185326.819546-6-saikrishnag@marvell.com>
+TO: Sai Krishna <saikrishnag@marvell.com>
+TO: davem@davemloft.net
+TO: edumazet@google.com
+TO: kuba@kernel.org
+TO: pabeni@redhat.com
+TO: netdev@vger.kernel.org
+TO: linux-kernel@vger.kernel.org
+TO: sgoutham@marvell.com
+TO: gakula@marvell.com
+TO: lcherian@marvell.com
+TO: jerinj@marvell.com
+TO: hkelam@marvell.com
+TO: sbhatta@marvell.com
+TO: andrew+netdev@lunn.ch
+TO: kalesh-anakkur.purayil@broadcom.com
+CC: Sai Krishna <saikrishnag@marvell.com>
 
-FYI, the error/warning still remains.
+Hi Sai,
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
-commit: ce35ded5d5774f055f6850b15032066ff4936414 [1290/1290] sched: smart grid: init sched_grid_qos structure on QOS purpose
-config: arm64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241113/202411132206.ErjpyMwe-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132206.ErjpyMwe-lkp@intel.com/reproduce)
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Krishna/octeontx2-Set-appropriate-PF-VF-masks-and-shifts-based-on-silicon/20241113-030302
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241112185326.819546-6-saikrishnag%40marvell.com
+patch subject: [net-next PATCH v3 5/6] octeontx2-af: CN20K mbox implementation for AF's VF
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241113/202411132224.WDBx1t3k-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132224.WDBx1t3k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132206.ErjpyMwe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411132224.WDBx1t3k-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/grid/qos.c:19:
-   kernel/sched/grid/qos.c: In function 'sched_grid_preferred_interleave_nid':
->> kernel/sched/grid/qos.c:84:31: error: 'struct mempolicy' has no member named 'v'
-      84 |         if (nodes_equal(policy->v.nodes, *preferred_nmask))
-         |                               ^~
-   include/linux/nodemask.h:202:41: note: in definition of macro 'nodes_equal'
-     202 |                         __nodes_equal(&(src1), &(src2), MAX_NUMNODES)
-         |                                         ^~~~
-   kernel/sched/grid/qos.c:91:32: error: 'struct mempolicy' has no member named 'v'
-      91 |         nodes_and(nmask, policy->v.nodes, *preferred_nmask);
-         |                                ^~
-   include/linux/nodemask.h:162:47: note: in definition of macro 'nodes_and'
-     162 |                         __nodes_and(&(dst), &(src1), &(src2), MAX_NUMNODES)
-         |                                               ^~~~
->> kernel/sched/grid/qos.c:95:31: error: 'struct task_struct' has no member named 'il_prev'
-      95 |         next = next_node_in(me->il_prev, nmask);
-         |                               ^~
-   include/linux/nodemask.h:278:46: note: in definition of macro 'next_node_in'
-     278 | #define next_node_in(n, src) __next_node_in((n), &(src))
-         |                                              ^
-   kernel/sched/grid/qos.c:97:19: error: 'struct task_struct' has no member named 'il_prev'
-      97 |                 me->il_prev = next;
-         |                   ^~
-   In file included from kernel/sched/grid/qos.c:20:
-   include/linux/mempolicy.h: At top level:
-   include/linux/mempolicy.h:329:13: warning: '__do_mbind' defined but not used [-Wunused-function]
-     329 | static long __do_mbind(unsigned long start, unsigned long len,
-         |             ^~~~~~~~~~
+   In file included from drivers/net/ethernet/marvell/octeontx2/af/rvu.c:12:
+   In file included from include/linux/pci.h:1650:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/rvu.c:589:33: warning: arithmetic between different enumeration types ('enum rvu_af_int_vec_e' and 'enum rvu_pf_int_vec_e') [-Wenum-enum-conversion]
+     589 |                 min_vecs = RVU_AF_INT_VEC_CNT + RVU_PF_INT_VEC_CNT;
+         |                            ~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu.c:2989:54: warning: arithmetic between different enumeration types ('enum rvu_af_cn20k_int_vec_e' and 'enum rvu_mbox_pf_int_vec_e') [-Wenum-enum-conversion]
+    2989 |                 return (pfvf->msix.max >= RVU_AF_CN20K_INT_VEC_CNT +
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~~ ^
+    2990 |                         RVU_MBOX_PF_INT_VEC_CNT) && offset;
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/rvu.c:2992:47: warning: arithmetic between different enumeration types ('enum rvu_af_int_vec_e' and 'enum rvu_pf_int_vec_e') [-Wenum-enum-conversion]
+    2992 |         return (pfvf->msix.max >= RVU_AF_INT_VEC_CNT + RVU_PF_INT_VEC_CNT) &&
+         |                                   ~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~
+   7 warnings generated.
 
 
-vim +84 kernel/sched/grid/qos.c
+vim +2989 drivers/net/ethernet/marvell/octeontx2/af/rvu.c
 
-  > 19	#include <linux/nodemask.h>
-    20	#include <linux/mempolicy.h>
-    21	#include <linux/slab.h>
-    22	#include <linux/sched.h>
-    23	#include <linux/sched/grid_qos.h>
-    24	#include "internal.h"
-    25	
-    26	static int qos_affinity_set(struct task_struct *p)
-    27	{
-    28		int n;
-    29		struct sched_grid_qos_affinity *affinity = &p->grid_qos->affinity;
-    30	
-    31		nodes_clear(affinity->mem_preferred_node_mask);
-    32		/*
-    33		 * We want the memory allocation to be as close to the CPU
-    34		 * as possible, and adjust after getting memory bandwidth usage.
-    35		 */
-    36		for (n = 0; n < nr_node_ids; n++)
-    37			if (cpumask_intersects(cpumask_of_node(n), p->prefer_cpus))
-    38				node_set(n, affinity->mem_preferred_node_mask);
-    39	
-    40		return 0;
-    41	}
-    42	
-    43	int sched_grid_qos_fork(struct task_struct *p, struct task_struct *orig)
-    44	{
-    45		struct sched_grid_qos *qos;
-    46	
-    47		qos = kzalloc(sizeof(*qos), GFP_KERNEL);
-    48		if (!qos)
-    49			return -ENOMEM;
-    50	
-    51		qos_power_init(&qos->power);
-    52		qos_stat_init(&qos->stat);
-    53	
-    54		nodes_clear(qos->affinity.mem_preferred_node_mask);
-    55		if (likely(orig->grid_qos))
-    56			qos->affinity = orig->grid_qos->affinity;
-    57		qos->affinity_set = qos_affinity_set;
-    58		p->grid_qos = qos;
-    59	
-    60		return 0;
-    61	}
-    62	
-    63	void sched_grid_qos_free(struct task_struct *p)
-    64	{
-    65		kfree(p->grid_qos);
-    66		p->grid_qos = NULL;
-    67	}
-    68	
-    69	/* dynamic select a more appropriate preferred interleave nid for process */
-    70	int sched_grid_preferred_interleave_nid(struct mempolicy *policy)
-    71	{
-    72		nodemask_t nmask;
-    73		unsigned int next;
-    74		struct task_struct *me = current;
-    75		nodemask_t *preferred_nmask = NULL;
-    76	
-    77		if (likely(me->grid_qos))
-    78			preferred_nmask =
-    79				&me->grid_qos->affinity.mem_preferred_node_mask;
-    80	
-    81		if (!preferred_nmask || !policy)
-    82			return NUMA_NO_NODE;
-    83	
-  > 84		if (nodes_equal(policy->v.nodes, *preferred_nmask))
-    85			return NUMA_NO_NODE;
-    86		/*
-    87		 * We perceive the actual consumption of memory bandwidth
-    88		 * in each node and post a preferred interleave nid in
-    89		 * more appropriate range.
-    90		 */
-  > 91		nodes_and(nmask, policy->v.nodes, *preferred_nmask);
-    92		if (nodes_empty(nmask))
-    93			return NUMA_NO_NODE;
-    94	
-  > 95		next = next_node_in(me->il_prev, nmask);
-    96		if (next < MAX_NUMNODES)
-    97			me->il_prev = next;
-    98		return next;
-    99	}
-   100	
+  2975	
+  2976	static int rvu_afvf_msix_vectors_num_ok(struct rvu *rvu)
+  2977	{
+  2978		struct rvu_pfvf *pfvf = &rvu->pf[0];
+  2979		int offset;
+  2980	
+  2981		pfvf = &rvu->pf[0];
+  2982		offset = rvu_read64(rvu, BLKADDR_RVUM, RVU_PRIV_PFX_INT_CFG(0)) & 0x3ff;
+  2983	
+  2984		/* Make sure there are enough MSIX vectors configured so that
+  2985		 * VF interrupts can be handled. Offset equal to zero means
+  2986		 * that PF vectors are not configured and overlapping AF vectors.
+  2987		 */
+  2988		if (is_cn20k(rvu->pdev))
+> 2989			return (pfvf->msix.max >= RVU_AF_CN20K_INT_VEC_CNT +
+  2990				RVU_MBOX_PF_INT_VEC_CNT) && offset;
+  2991	
+  2992		return (pfvf->msix.max >= RVU_AF_INT_VEC_CNT + RVU_PF_INT_VEC_CNT) &&
+  2993		       offset;
+  2994	}
+  2995	
 
 -- 
 0-DAY CI Kernel Test Service
