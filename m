@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6146D111A8;
-	Wed, 13 Nov 2024 14:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0741F5824
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 14:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731506617; cv=none; b=Q5C6VQBjOCcN5p7FJYZqae8Y75FRHsoJE/Hyne/J5XiNP0HzsiH9LmiEDBDdThKh8bDXdG3j4ZtS0Lcx7Ag9wEWY2xV6KQXn57a69UVvFxWCwyfahBHjh8f5n8zoiCNfoRkl6NsOD7jZHvBhaeGOWzES2DfPM+vb/U7r3ksh4xk=
+	t=1731507281; cv=none; b=ZpJIVvJd2/w+QhQ5HgZgwpTBSMl+kKwUpVZ6EYUPS8v2xOQ+3wgmr6xx7+Dfa/oUuIC0/l3BjQtJ/mgz3lKu6G8kNxzFN8/V2jJfXV++DwFpAfr+SiSLEsgg+Pehp6bePQ4kCUdiHrWgMmz7lcBk7bNkFroJsC/jQVkN5YC/r5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731506617; c=relaxed/simple;
-	bh=mQwM7MUR+K6GisLt//X9jfcRj3guSvU+ov8rpExK3DU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iGkKlVmgSBvjW5XZ4zBbrGE7hxVtcF1V9oUZRGUi8yC2dHXUm3ZiqwPKbd1PjYDNst/fUDvlmal+SgBzEjqChmG/uk1t82ljJo2Lx/OQzeZ9CIIqy4BxbzKH4a3XqLv3QeV1rLB2wt9qeIbBPAMDUq6y8arofSX6cEKyNFAe6Io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gf/paZAQ; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1731507281; c=relaxed/simple;
+	bh=WUwcO7JnI9D3dDBvmPx447K9tlfv5E2YDArIsyh7iPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hL0X91VfUx1NCCvHhfijQA6jVFcCYuPw1lTABja6lFLqYtF+pLdGkVG9IcDWOacUynBkWeWJDRLlDNSFjwpdCHuKnoxL99RhyfRI6pk3y4vHO65TKYktUgYMtbc1ZlMf9oKyRaQxPb1bv7XcsdWGQ1i/1IT1gYzP0zC7yXZXtA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCEPuxwV; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gf/paZAQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCEPuxwV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731506616; x=1763042616;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mQwM7MUR+K6GisLt//X9jfcRj3guSvU+ov8rpExK3DU=;
-  b=Gf/paZAQd98W63r7o6fzrVj12z7pcnaWZwJHURYRNhogPjqGmZRrHtgp
-   CB5xSOYq3FfNLVmEtOYEAzuoUa+p/tLDzhAU9+Gm/XYg9Tsn/XotZqitk
-   YoSouwGQe5bjN2qJ1f+AS+UJF0Q3VuT9zVC6LcxhHDebHJrfOabcqcJvy
-   LuMyJTNd/EOTi0+ax2/TGK2EIHD/wLVD2KLROopnqAQrS9FAhdlqPi9Ry
-   VR/ijmCAiDEJ+YIQHEurRp+nTAoKGykn3OC8yHPhn6GePDR95mRcpl6qZ
-   pd+MjourUcp7LlAta/g97djLOhddrNGOt24WtE8M9UP4vK0S2NlnG49nS
+  t=1731507279; x=1763043279;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WUwcO7JnI9D3dDBvmPx447K9tlfv5E2YDArIsyh7iPc=;
+  b=bCEPuxwV+da1sxJcy3ba3dYl2O5+ejy//gwhFO63/Z7ezVGeKJM/8o46
+   sigMX7IMWw2x2dPKhE4rmws2+Hme+OaQMDYj/sOWi84j9N30Sfkezc3TM
+   V3vWqtpOiAC7BpZAOQmzuDQYc5sOxQ0DcKILywO7UPGwLf31A9tz8NrFs
+   7WoW/ta6QwTdeD3UvqbGYcsfbMhBSh3lD3vaWUU7GgSoN4WlrUMJHxZW7
+   v6j3DuBJ86Vo9Np87J8g8XvU3wQLaUz35gCCE79IhRwmdauuwLM24N3dk
+   Dx5C3lLA34vV/BntUjQ0m8pfyknhaRSeSvG2gDV+hMzS3Qg2BVqgKz+jG
    Q==;
-X-CSE-ConnectionGUID: 4nC0nQxFRKyAx9WJkYvhig==
-X-CSE-MsgGUID: 6953wCAgT0KFoOOqExPEyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31555512"
+X-CSE-ConnectionGUID: oQ6EfQSEQQGhQSonGQ4+IA==
+X-CSE-MsgGUID: O5xvdJdWSaWZSTsWLNMC4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31573539"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31555512"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:03:35 -0800
-X-CSE-ConnectionGUID: EXvLhkO9RHuITBa/hoTiBg==
-X-CSE-MsgGUID: drpgI0sYT1q0bkphm50NpA==
+   d="scan'208";a="31573539"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 06:14:38 -0800
+X-CSE-ConnectionGUID: XOXAqdGkR/i+vheypyzpLA==
+X-CSE-MsgGUID: GZzsP5+9SPy0dXpc4Fq0Xg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,151,1728975600"; 
-   d="scan'208";a="111194773"
+   d="scan'208";a="92655150"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Nov 2024 06:03:32 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 06:14:37 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBDxy-0000RV-0p;
-	Wed, 13 Nov 2024 14:03:30 +0000
-Date: Wed, 13 Nov 2024 22:03:20 +0800
+	id 1tBE8h-0000Rp-0V;
+	Wed, 13 Nov 2024 14:14:35 +0000
+Date: Wed, 13 Nov 2024 22:13:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Liu Chao <liuchao173@huawei.com>, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	lixiaokeng@huawei.com, caihe@huawei.com
-Subject: Re: [PATCH] Add interface to trigger backtrace on specified CPUs
-Message-ID: <202411132108.ZvhAmel0-lkp@intel.com>
-References: <20241112125609.1406586-1-liuchao173@huawei.com>
+To: Alexander Lobakin <aleksander.lobakin@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Yury Norov <yury.norov@gmail.com>
+Subject: lib/test_bitmap.c:1269:2: error: call to '__compiletime_assert_289'
+ declared with 'error' attribute: BUILD_BUG_ON failed:
+ !__builtin_constant_p(res)
+Message-ID: <202411132242.qENJ48EG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,52 +64,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112125609.1406586-1-liuchao173@huawei.com>
 
-Hi Liu,
+Hi Alexander,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on linus/master v6.12-rc7 next-20241113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Liu-Chao/Add-interface-to-trigger-backtrace-on-specified-CPUs/20241112-210050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20241112125609.1406586-1-liuchao173%40huawei.com
-patch subject: [PATCH] Add interface to trigger backtrace on specified CPUs
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241113/202411132108.ZvhAmel0-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f1b785f4c7870c42330b35522c2514e39a1e28e7
+commit: 7adaf37f7f104a7ee5f150af491674ccbbfc4114 lib/bitmap: add compile-time test for __assign_bit() optimization
+date:   8 months ago
+config: s390-randconfig-r131-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132242.qENJ48EG-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241113/202411132108.ZvhAmel0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20241113/202411132242.qENJ48EG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411132108.ZvhAmel0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411132242.qENJ48EG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/backtrace.c:29:12: error: use of undeclared identifier 'no_llseek'; did you mean 'noop_llseek'?
-      29 |         .llseek = no_llseek,
-         |                   ^~~~~~~~~
-         |                   noop_llseek
-   include/linux/fs.h:3241:15: note: 'noop_llseek' declared here
-    3241 | extern loff_t noop_llseek(struct file *file, loff_t offset, int whence);
-         |               ^
-   1 error generated.
+   In file included from lib/test_bitmap.c:11:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:173:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2208:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> lib/test_bitmap.c:1269:2: error: call to '__compiletime_assert_289' declared with 'error' attribute: BUILD_BUG_ON failed: !__builtin_constant_p(res)
+    1269 |         BUILD_BUG_ON(!__builtin_constant_p(res));
+         |         ^
+   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^
+   include/linux/compiler_types.h:460:2: note: expanded from macro 'compiletime_assert'
+     460 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:448:2: note: expanded from macro '_compiletime_assert'
+     448 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ^
+   include/linux/compiler_types.h:441:4: note: expanded from macro '__compiletime_assert'
+     441 |                         prefix ## suffix();                             \
+         |                         ^
+   <scratch space>:88:1: note: expanded from here
+      88 | __compiletime_assert_289
+         | ^
+   1 warning and 1 error generated.
 
 
-vim +29 kernel/backtrace.c
+vim +1269 lib/test_bitmap.c
 
-    25	
-    26	static const struct file_operations backtrace_fops = {
-    27		.owner  = THIS_MODULE,
-    28		.write  = backtrace_write,
-  > 29		.llseek = no_llseek,
-    30	};
-    31	
+291f93ca339f5b Barry Song        2021-08-06  1227  
+2356d198d2b4dd Yury Norov        2023-07-17  1228  /*
+2356d198d2b4dd Yury Norov        2023-07-17  1229   * FIXME: Clang breaks compile-time evaluations when KASAN and GCOV are enabled.
+2356d198d2b4dd Yury Norov        2023-07-17  1230   * To workaround it, GCOV is force-disabled in Makefile for this configuration.
+2356d198d2b4dd Yury Norov        2023-07-17  1231   */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1232  static void __init test_bitmap_const_eval(void)
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1233  {
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1234  	DECLARE_BITMAP(bitmap, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1235  	unsigned long initvar = BIT(2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1236  	unsigned long bitopvar = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1237  	unsigned long var = 0;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1238  	int res;
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1239  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1240  	/*
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1241  	 * Compilers must be able to optimize all of those to compile-time
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1242  	 * constants on any supported optimization level (-O2, -Os) and any
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1243  	 * architecture. Otherwise, trigger a build bug.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1244  	 * The whole function gets optimized out then, there's nothing to do
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1245  	 * in runtime.
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1246  	 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1247  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1248  	/* Equals to `unsigned long bitmap[1] = { GENMASK(6, 5), }` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1249  	bitmap_clear(bitmap, 0, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1250  	if (!test_bit(7, bitmap))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1251  		bitmap_set(bitmap, 5, 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1252  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1253  	/* Equals to `unsigned long bitopvar = BIT(20)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1254  	__change_bit(31, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1255  	bitmap_shift_right(&bitopvar, &bitopvar, 11, BITS_PER_LONG);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1256  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1257  	/* Equals to `unsigned long var = BIT(25)` */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1258  	var |= BIT(25);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1259  	if (var & BIT(0))
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1260  		var ^= GENMASK(9, 6);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1261  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1262  	/* __const_hweight<32|64>(GENMASK(6, 5)) == 2 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1263  	res = bitmap_weight(bitmap, 20);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1264  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1265  	BUILD_BUG_ON(res != 2);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1266  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1267  	/* !(BIT(31) & BIT(18)) == 1 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1268  	res = !test_bit(18, &bitopvar);
+dc34d5036692c6 Alexander Lobakin 2022-06-24 @1269  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1270  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1271  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1272  	/* BIT(2) & GENMASK(14, 8) == 0 */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1273  	res = initvar & GENMASK(14, 8);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1274  	BUILD_BUG_ON(!__builtin_constant_p(res));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1275  	BUILD_BUG_ON(res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1276  
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1277  	/* ~BIT(25) */
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1278  	BUILD_BUG_ON(!__builtin_constant_p(~var));
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1279  	BUILD_BUG_ON(~var != ~BIT(25));
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1280  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1281  	/* ~BIT(25) | BIT(25) == ~0UL */
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1282  	bitmap_complement(&var, &var, BITS_PER_LONG);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1283  	__assign_bit(25, &var, true);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1284  
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1285  	/* !(~(~0UL)) == 1 */
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1286  	res = bitmap_full(&var, BITS_PER_LONG);
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1287  	BUILD_BUG_ON(!__builtin_constant_p(res));
+7adaf37f7f104a Alexander Lobakin 2024-03-27  1288  	BUILD_BUG_ON(!res);
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1289  }
+dc34d5036692c6 Alexander Lobakin 2022-06-24  1290  
+
+:::::: The code at line 1269 was first introduced by commit
+:::::: dc34d5036692c614eef23c1130ee42a201c316bf lib: test_bitmap: add compile-time optimization/evaluations assertions
+
+:::::: TO: Alexander Lobakin <alexandr.lobakin@intel.com>
+:::::: CC: Yury Norov <yury.norov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
