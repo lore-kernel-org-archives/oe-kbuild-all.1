@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DA213FD99
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 14:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2E312A1CA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 14:10:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731592812; cv=none; b=gfWdffwJfE5GzgJoi0bRP2oXo/kcFs9ACaeCrXy36N1so6RMD2A8p4zZnnGEptFk2AuxpO37ZNOxsf56hXbRCzz7WUxs8XdRSLkauDKGtoDI10gK8nyz3DRivfxsFuxnqnNbF2sHgGLunwdZ2/LHrw93EZTj2jAMOz92XBduS00=
+	t=1731593402; cv=none; b=f2OkdZRfxVKkGeRaOlaeowWteRehTkO9XFXtpubeW6KyNqgACbR5Z39If+ZKivCqbgobl6zPJQ/Ar2B/h6waUBBxkXtw8qYCIiWostK7CC3TMe5lSnBAu95WbysvFdiffzKe7ZeTVy7iGuYwDGloxoXHfE4ToZryO5iODtiNMIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731592812; c=relaxed/simple;
-	bh=vLtp6WjIxdRbLk/3pmLTuLEzbufxUmWlcSMl/rbI+a8=;
+	s=arc-20240116; t=1731593402; c=relaxed/simple;
+	bh=AK482gybuMrmeTh4RN4J77hxcISsrDwZmGWYTaXNCfg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HqMXjsIbkLoNaqVEQYx7rqVUePtRizP52ZxJjLnUT3hjOm5XvHFN+hBJTYanWOpf+cKL9tk56vF4lh2tOJNdoPhDk3uF+yRcB1IL1hpwhC1V8E7rBL68tNJ69fYk6GC4aL4bTpkjv+5i52KOuvsC2NGb/J3pJPzyljPa/1ocWvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kdvA5wk7; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=H3uCGE2i/T4TFDou8P2Zcl6EjgVt0oLp5pD/YxhvNM2+LavY9xxBIPil0+Q+Kjp1JThaf45q8YdC1T9AzqoAKas4SbF4OYtfP6gWD7FJBokAj2hsPz7rhlWkcTHCuqmXTP3dddb5C9Le0WhTtJGzgqdSVCaYdrg82+SfNI9zVi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDoUK9UF; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kdvA5wk7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDoUK9UF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731592808; x=1763128808;
+  t=1731593401; x=1763129401;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vLtp6WjIxdRbLk/3pmLTuLEzbufxUmWlcSMl/rbI+a8=;
-  b=kdvA5wk7BkCCpQFXxFy8HDpdQMI8Df5rChsmRmmZrI7h2G7fk9lCdZaI
-   1nm+nH+EZp6om/PNUyigrxToNoqvIWMJTxyyo0RGDmXT0gPJArIsWUnfD
-   Nmrix6VsjcjpfSqUfMQEu1s8OQ8JUhcHjmRSVwvu8gQTcO0fIBYOFg2Ij
-   IZM5e7aIiFKARVPXQNhrNWL4FkeVsz9vS23e7gSf3KJvFwSWUWBzfhSdm
-   1VxMRXA95m/LIsFBeFk9p0nzrRarN4p/0RVz0RTKfbu3vOEkrbImXjllE
-   PmpXDw4FY7lD3f8w/49kLLUSZl+YBljxrzEVGesA7FlPowCZG4u3PoCs5
+  bh=AK482gybuMrmeTh4RN4J77hxcISsrDwZmGWYTaXNCfg=;
+  b=nDoUK9UF/hZAaBA/b34rhsX71rggHvsJ25Pa1xVyeL6fBRe+3eMrf/vN
+   u8n4dvI29c8KJVTcEntqzlGGUeosot4/ohJZIqLmEB+4DclQ5ZBXeXMmA
+   oqkUbiz8DFEzIS0Wx31DK+MIN8TdxY/dbmQC3i/Nu8oFFUbuR8FJu+wLt
+   RMqjzknKURdGmduoeGqbSwXRqEjtMHu7CZ9zlZOhapBCNm1x+n9YQfGQl
+   Hd5NB4R/DiuuddtjXD9Yt2dZOy/x1HC1927wbZl3WFUBw1nxl63jPGMJi
+   qCxP2JOnNodoCIc6jj5f2BYegu6vuZJmisgG5i/+z9nNYT60+2YkNxP9z
    w==;
-X-CSE-ConnectionGUID: oteYGQVESNCv0GqOPl4VMg==
-X-CSE-MsgGUID: gQzYMuc/QMOLx2vBLE1DVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="35461616"
+X-CSE-ConnectionGUID: NOYlBPzeQHuM5h4WXcl5rQ==
+X-CSE-MsgGUID: Ba6HwQoqQguMb0135Wq/vg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="49058500"
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="35461616"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 06:00:00 -0800
-X-CSE-ConnectionGUID: c+byLENcSMyQ1L3gOIZ3MQ==
-X-CSE-MsgGUID: 63j8XE/DRO6O/AIYWtonvw==
+   d="scan'208";a="49058500"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 06:10:00 -0800
+X-CSE-ConnectionGUID: zgznjMSjQV6I0EnBynT4jQ==
+X-CSE-MsgGUID: mt477hI0RF+Su8iro2YseA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="92664557"
+   d="scan'208";a="111515653"
 Received: from lkp-server01.sh.intel.com (HELO c7bc087bbc55) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2024 05:59:59 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 14 Nov 2024 06:10:00 -0800
 Received: from kbuild by c7bc087bbc55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBaO4-00004l-2m;
-	Thu, 14 Nov 2024 13:59:56 +0000
-Date: Thu, 14 Nov 2024 21:57:31 +0800
+	id 1tBaXl-000051-1a;
+	Thu, 14 Nov 2024 14:09:57 +0000
+Date: Thu, 14 Nov 2024 22:09:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Mike Snitzer <snitzer@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 5/14] mm/page_alloc.c:1363:25: sparse:
- sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202411142129.yxq1CZH6-lkp@intel.com>
+Subject: [snitzer:nfs-localio-for-next 29/31] fs/nfs/client.c:246:9: error:
+ implicit declaration of function 'nfs_localio_disable_client'; did you mean
+ 'nfs_localio_file_init'?
+Message-ID: <202411142248.UXoYZhuB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,106 +63,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   14bff9b9205aef5c9fba8ae471ada76148266697
-commit: a85227c886b7a22cd53bdfcf0740b6e0bd623351 [5/14] ANDROID: page_alloc: add vendor hook to bypass free_pages_prepare
-config: i386-randconfig-061-20241114 (https://download.01.org/0day-ci/archive/20241114/202411142129.yxq1CZH6-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next
+head:   cfedadbf2d21c1e63694d79b40d00573aa80af75
+commit: 528d24b1cf5cfdcbb711a1d5de98f94930527ecc [29/31] nfs/localio: remove redundant code and simplify LOCALIO enablement
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241114/202411142248.UXoYZhuB-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411142129.yxq1CZH6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411142248.UXoYZhuB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411142129.yxq1CZH6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411142248.UXoYZhuB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:194:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
->> mm/page_alloc.c:1363:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
-   mm/page_alloc.c:1363:25: sparse:     expected restricted int flags
-   mm/page_alloc.c:1363:25: sparse:     got restricted fpi_t [usertype] fpi_flags
-   mm/page_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c:2539:6: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
-   mm/page_alloc.c:2670:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c:2904:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c:4641:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
-   mm/page_alloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All errors (new ones prefixed by >>):
 
-vim +1363 mm/page_alloc.c
+   fs/nfs/client.c: In function 'nfs_free_client':
+>> fs/nfs/client.c:246:9: error: implicit declaration of function 'nfs_localio_disable_client'; did you mean 'nfs_localio_file_init'? [-Werror=implicit-function-declaration]
+     246 |         nfs_localio_disable_client(clp);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         nfs_localio_file_init
+   cc1: some warnings being treated as errors
 
-  1351	
-  1352	static void __free_pages_ok(struct page *page, unsigned int order,
-  1353				    fpi_t fpi_flags)
-  1354	{
-  1355		unsigned long flags;
-  1356		int migratetype;
-  1357		unsigned long pfn = page_to_pfn(page);
-  1358		struct zone *zone = page_zone(page);
-  1359		bool skip_free_unref_page = false;
-  1360		bool skip_free_pages_prepare = false;
-  1361	
-  1362		trace_android_vh_free_pages_prepare_bypass(page, order,
-> 1363				fpi_flags, &skip_free_pages_prepare);
-  1364		if (skip_free_pages_prepare)
-  1365			goto skip_prepare;
-  1366	
-  1367		if (!free_pages_prepare(page, order, fpi_flags))
-  1368			return;
-  1369	skip_prepare:
-  1370		/*
-  1371		 * Calling get_pfnblock_migratetype() without spin_lock_irqsave() here
-  1372		 * is used to avoid calling get_pfnblock_migratetype() under the lock.
-  1373		 * This will reduce the lock holding time.
-  1374		 */
-  1375		migratetype = get_pfnblock_migratetype(page, pfn);
-  1376		trace_android_vh_free_unref_page_bypass(page, order, migratetype, &skip_free_unref_page);
-  1377		if (skip_free_unref_page)
-  1378			return;
-  1379	
-  1380		spin_lock_irqsave(&zone->lock, flags);
-  1381		if (unlikely(has_isolate_pageblock(zone) ||
-  1382			is_migrate_isolate(migratetype))) {
-  1383			migratetype = get_pfnblock_migratetype(page, pfn);
-  1384		}
-  1385		__free_one_page(page, pfn, zone, order, migratetype, fpi_flags);
-  1386		spin_unlock_irqrestore(&zone->lock, flags);
-  1387	
-  1388		__count_vm_events(PGFREE, 1 << order);
-  1389	}
-  1390	
+
+vim +246 fs/nfs/client.c
+
+   240	
+   241	/*
+   242	 * Destroy a shared client record
+   243	 */
+   244	void nfs_free_client(struct nfs_client *clp)
+   245	{
+ > 246		nfs_localio_disable_client(clp);
+   247	
+   248		/* -EIO all pending I/O */
+   249		if (!IS_ERR(clp->cl_rpcclient))
+   250			rpc_shutdown_client(clp->cl_rpcclient);
+   251	
+   252		put_net(clp->cl_net);
+   253		put_nfs_version(clp->cl_nfs_mod);
+   254		kfree(clp->cl_hostname);
+   255		kfree(clp->cl_acceptor);
+   256		kfree_rcu(clp, rcu);
+   257	}
+   258	EXPORT_SYMBOL_GPL(nfs_free_client);
+   259	
 
 -- 
 0-DAY CI Kernel Test Service
