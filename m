@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF45B225A8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 01:19:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC510225A8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 01:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731547147; cv=none; b=Fr3EzXuCz7H+RJVcpJHwKRaSAYVndHrjgFHSTCgJRXXykQMUTweaS7TT1/5ezdVKUM5Ck67PAvrq+K1XxELBcKJ5Tch8l4NoZn4oyVC490exGfuYKR0ENzdbj4dm14Soap3uBQ2rjml28DycAiPyrQ/ZnHtEL+7hZmRH4X9HZ74=
+	t=1731547796; cv=none; b=a/RTs6HlpriypaHHq+0PEl2FFXYY57iMQER8+Ruu+KEVBa5+mS5uRm31E96ec4QZKSD+BIPLBHKZ9S3dbn9y+JS0hL2QiAwM0AUbJzmClse6TChHg2QG7X9+htZ9Dl6/cUI/UADnEJU7S7Usq3r6X3hqdFB1ogj6U7mSyL1FCb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731547147; c=relaxed/simple;
-	bh=Sd2FXOM/6gN3BsSsnR6KlqFoUxb7WezHump7294fngI=;
+	s=arc-20240116; t=1731547796; c=relaxed/simple;
+	bh=X/ugtRT55emOqiAkVhGwzjoQ3kNpKoxLJ6zCV02f/qE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=B+dy7SqtnoUi28+je5Xk24Wj0NQuylSywy1kjjj9Pvb7fsax+uIVxjDRAAsNHLgbVEApEI17YxzfeXCuNNaF19R5j2qOG+kJN6f8Org3x6mzLa+itBawichUohLK2mLTCl4+ROoLR0LNhspdE61TxlBEEHeIk38QYnWqy4jhvmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+jZy9Cs; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=UHhhH72sNXmw4HGy+0BdefVTDGyio4npEvR2k6c5lIj2nCWG5Bqr1/gJjdNOdtX9voSlvjYr6f6MzC3H2BvdWVUHUXX8k3TViZqMSiO+AZFYX5kZlZlKzUBRxIr2F0xtnSl8FG8tyWxOJk2qABXE4mWuJuzKkRDHyHeLvpUrz6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCMrf58H; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+jZy9Cs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCMrf58H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731547145; x=1763083145;
+  t=1731547794; x=1763083794;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sd2FXOM/6gN3BsSsnR6KlqFoUxb7WezHump7294fngI=;
-  b=Q+jZy9Csj10260sTIw05Ex5xfBM5Ux3+SEoD2AtctYe+3zxCXUeWGTYX
-   H2cBFZ9rO4PFKkdTGKGQwjxbAcJh6L93CiWOmHH85SXLUMPkl8kKzc86E
-   W76N6muTAjnSzkKmTBjKYSB4Yy7pMW1fgdTSHRdiO4/nGPcpKJNK8a5ZN
-   wFsjZo9IQ8Aw5XQgX9HjNY2Ehd/w3YRafssPOFIt34rdqPOBv8PQ1eExH
-   ae6oChJLhs1G6UZxhn87iol/d7EV5meDatVOhLONo9aVPw/LKHxIPyUHp
-   7ZMiew8mLr2auyuM4enwIFbF/+GgY9ml1WGBJyMsXYvzMA4w4jxNxnZ4S
-   A==;
-X-CSE-ConnectionGUID: MjVW9cgISFmFDp/TTpD0Pw==
-X-CSE-MsgGUID: SVNJIl43SYKHu2+dtWBtlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="35395509"
-X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="35395509"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:19:04 -0800
-X-CSE-ConnectionGUID: oKGDpmwtRq61PW1iR7Dsiw==
-X-CSE-MsgGUID: EAHJdEGnShyYK3KUIkOkwA==
+  bh=X/ugtRT55emOqiAkVhGwzjoQ3kNpKoxLJ6zCV02f/qE=;
+  b=bCMrf58HnU2NiL2lTlaFY+XRo1I+3sifiqXvWE0J6DboVIbrjxxpwsmU
+   IpnxJWuDdYx+TBRy+4I5qMWztxofD/tUsEZ2BqaOVITA3g/e0X6mlW5Tt
+   mjtDx26EKn1PZRMiXe4aDDCnD4+QTvXvXbX/1ap6Ek1i1mtMS6bNKI4mS
+   sE0Kuk8SWPi4vttQkEAm8ndUydchJVjRsugVBQZewk4GZid3URJkMFQTf
+   HKjSXveswKdOMzn5oSLj9ztSQc2vnepzdCtKr6S6kGMShBEgR2GtNWIxQ
+   3BmIbSDAEiqgkLHGFblW+V3MA2abXQ23FNepkuT2ZqULKqkCrWqBsR4+o
+   w==;
+X-CSE-ConnectionGUID: hKsrcCqjR3S/3JrwEkNNew==
+X-CSE-MsgGUID: 0bqP7vjaSL+Tdp05LOVQ6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31239754"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="31239754"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:29:53 -0800
+X-CSE-ConnectionGUID: 52qz0shXRv+cwZ1gYe7s5g==
+X-CSE-MsgGUID: HkSXaLrfQb6rOExxcjYWZA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="88224627"
+   d="scan'208";a="88468710"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Nov 2024 17:19:03 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 13 Nov 2024 17:29:52 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBOVh-00011Z-0S;
-	Thu, 14 Nov 2024 01:19:01 +0000
-Date: Thu, 14 Nov 2024 09:18:24 +0800
+	id 1tBOg9-00012R-2x;
+	Thu, 14 Nov 2024 01:29:49 +0000
+Date: Thu, 14 Nov 2024 09:29:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1291/1291]
- kernel/watchdog_hld.c:123:13: error: implicit declaration of function
- 'is_hardlockup'
-Message-ID: <202411140951.wQy7SE1b-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
+ block/blk-io-hierarchy/debugfs.c:63:2: error: implicit declaration of
+ function 'hierarchy_show_slow_io'
+Message-ID: <202411140945.MlPVuer1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,101 +63,113 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Xiongfeng,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
 head:   a81d020c58c2c6a55ebaf15846470a9ecb69bd1a
-commit: 818ac22d9d2f02632b39ef1a4f472e6dbe0d417a [1291/1291] sdei_watchdog: fix compile error when CONFIG_HARDLOCKUP_DETECTOR is not set
-config: arm64-randconfig-004-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140951.wQy7SE1b-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140951.wQy7SE1b-lkp@intel.com/reproduce)
+commit: b2f723aef027af0f194ff0c9f53f8ae6a7cb7de3 [1294/1294] blk-io-hierarchy: support to recored the number of slow IO
+config: x86_64-randconfig-123-20241114 (https://download.01.org/0day-ci/archive/20241114/202411140945.MlPVuer1-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140945.MlPVuer1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140951.wQy7SE1b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411140945.MlPVuer1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/watchdog_hld.c: In function 'watchdog_hardlockup_check':
->> kernel/watchdog_hld.c:123:13: error: implicit declaration of function 'is_hardlockup' [-Werror=implicit-function-declaration]
-     123 |         if (is_hardlockup()) {
-         |             ^~~~~~~~~~~~~
->> kernel/watchdog_hld.c:142:21: error: 'sysctl_hardlockup_all_cpu_backtrace' undeclared (first use in this function)
-     142 |                 if (sysctl_hardlockup_all_cpu_backtrace &&
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/watchdog_hld.c:142:21: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+   block/blk-io-hierarchy/debugfs.c: note: in included file (through include/linux/kernel.h, include/linux/list.h, include/linux/wait.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   block/blk-io-hierarchy/debugfs.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/list.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   block/blk-io-hierarchy/debugfs.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   block/blk-io-hierarchy/debugfs.c:63:9: sparse: sparse: undefined identifier 'hierarchy_show_slow_io'
+   In file included from block/blk-io-hierarchy/debugfs.c:15:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-io-hierarchy/debugfs.c:63:2: error: implicit declaration of function 'hierarchy_show_slow_io' [-Werror,-Wimplicit-function-declaration]
+      63 |         hierarchy_show_slow_io(hstats_data, m);
+         |         ^
+   block/blk-io-hierarchy/debugfs.c:63:2: note: did you mean 'hierarchy_account_slow_io'?
+   block/blk-io-hierarchy/iodump.h:85:1: note: 'hierarchy_account_slow_io' declared here
+      85 | hierarchy_account_slow_io(struct hierarchy_stage *hstage,
+         | ^
+   1 warning and 1 error generated.
+--
+   In file included from block/blk-io-hierarchy/debugfs.c:15:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> block/blk-io-hierarchy/debugfs.c:63:2: error: implicit declaration of function 'hierarchy_show_slow_io' [-Werror,-Wimplicit-function-declaration]
+      63 |         hierarchy_show_slow_io(hstats_data, m);
+         |         ^
+   block/blk-io-hierarchy/debugfs.c:63:2: note: did you mean 'hierarchy_account_slow_io'?
+   block/blk-io-hierarchy/iodump.h:85:1: note: 'hierarchy_account_slow_io' declared here
+      85 | hierarchy_account_slow_io(struct hierarchy_stage *hstage,
+         | ^
+   1 warning and 1 error generated.
 
 Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
-   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
+   Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
    Selected by [y]:
-   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+   - SPI_PHYTIUM_PLAT [=y] && SPI [=y] && SPI_MASTER [=y]
 
 
-vim +/is_hardlockup +123 kernel/watchdog_hld.c
+vim +/hierarchy_show_slow_io +63 block/blk-io-hierarchy/debugfs.c
 
-7edaeb6841dfb2 Thomas Gleixner 2017-08-15  106  
-b8163908982cff Xiongfeng Wang  2019-01-28  107  void watchdog_hardlockup_check(struct pt_regs *regs)
-73ce0511c43686 Babu Moger      2016-12-14  108  {
-73ce0511c43686 Babu Moger      2016-12-14  109  	if (__this_cpu_read(watchdog_nmi_touch) == true) {
-73ce0511c43686 Babu Moger      2016-12-14  110  		__this_cpu_write(watchdog_nmi_touch, false);
-73ce0511c43686 Babu Moger      2016-12-14  111  		return;
-73ce0511c43686 Babu Moger      2016-12-14  112  	}
-73ce0511c43686 Babu Moger      2016-12-14  113  
-7edaeb6841dfb2 Thomas Gleixner 2017-08-15  114  	if (!watchdog_check_timestamp())
-7edaeb6841dfb2 Thomas Gleixner 2017-08-15  115  		return;
-7edaeb6841dfb2 Thomas Gleixner 2017-08-15  116  
-73ce0511c43686 Babu Moger      2016-12-14  117  	/* check for a hardlockup
-73ce0511c43686 Babu Moger      2016-12-14  118  	 * This is done by making sure our timer interrupt
-73ce0511c43686 Babu Moger      2016-12-14  119  	 * is incrementing.  The timer interrupt should have
-73ce0511c43686 Babu Moger      2016-12-14  120  	 * fired multiple times before we overflow'd.  If it hasn't
-73ce0511c43686 Babu Moger      2016-12-14  121  	 * then this is a good indication the cpu is stuck
-73ce0511c43686 Babu Moger      2016-12-14  122  	 */
-73ce0511c43686 Babu Moger      2016-12-14 @123  	if (is_hardlockup()) {
-73ce0511c43686 Babu Moger      2016-12-14  124  		int this_cpu = smp_processor_id();
-73ce0511c43686 Babu Moger      2016-12-14  125  
-73ce0511c43686 Babu Moger      2016-12-14  126  		/* only print hardlockups once */
-73ce0511c43686 Babu Moger      2016-12-14  127  		if (__this_cpu_read(hard_watchdog_warn) == true)
-73ce0511c43686 Babu Moger      2016-12-14  128  			return;
-73ce0511c43686 Babu Moger      2016-12-14  129  
-73ce0511c43686 Babu Moger      2016-12-14  130  		pr_emerg("Watchdog detected hard LOCKUP on cpu %d", this_cpu);
-73ce0511c43686 Babu Moger      2016-12-14  131  		print_modules();
-73ce0511c43686 Babu Moger      2016-12-14  132  		print_irqtrace_events(current);
-73ce0511c43686 Babu Moger      2016-12-14  133  		if (regs)
-73ce0511c43686 Babu Moger      2016-12-14  134  			show_regs(regs);
-73ce0511c43686 Babu Moger      2016-12-14  135  		else
-73ce0511c43686 Babu Moger      2016-12-14  136  			dump_stack();
-73ce0511c43686 Babu Moger      2016-12-14  137  
-73ce0511c43686 Babu Moger      2016-12-14  138  		/*
-73ce0511c43686 Babu Moger      2016-12-14  139  		 * Perform all-CPU dump only once to avoid multiple hardlockups
-73ce0511c43686 Babu Moger      2016-12-14  140  		 * generating interleaving traces
-73ce0511c43686 Babu Moger      2016-12-14  141  		 */
-73ce0511c43686 Babu Moger      2016-12-14 @142  		if (sysctl_hardlockup_all_cpu_backtrace &&
-73ce0511c43686 Babu Moger      2016-12-14  143  				!test_and_set_bit(0, &hardlockup_allcpu_dumped))
-73ce0511c43686 Babu Moger      2016-12-14  144  			trigger_allbutself_cpu_backtrace();
-73ce0511c43686 Babu Moger      2016-12-14  145  
-73ce0511c43686 Babu Moger      2016-12-14  146  		if (hardlockup_panic)
-73ce0511c43686 Babu Moger      2016-12-14  147  			nmi_panic(regs, "Hard LOCKUP");
-73ce0511c43686 Babu Moger      2016-12-14  148  
-73ce0511c43686 Babu Moger      2016-12-14  149  		__this_cpu_write(hard_watchdog_warn, true);
-73ce0511c43686 Babu Moger      2016-12-14  150  		return;
-73ce0511c43686 Babu Moger      2016-12-14  151  	}
-73ce0511c43686 Babu Moger      2016-12-14  152  
-73ce0511c43686 Babu Moger      2016-12-14  153  	__this_cpu_write(hard_watchdog_warn, false);
-73ce0511c43686 Babu Moger      2016-12-14  154  	return;
-73ce0511c43686 Babu Moger      2016-12-14  155  }
-6c19c0e5140a24 Xiongfeng Wang  2019-04-20  156  NOKPROBE_SYMBOL(watchdog_hardlockup_check);
-73ce0511c43686 Babu Moger      2016-12-14  157  
-
-:::::: The code at line 123 was first introduced by commit
-:::::: 73ce0511c43686095efd2f65ef564aab952e07bc kernel/watchdog.c: move hardlockup detector to separate file
-
-:::::: TO: Babu Moger <babu.moger@oracle.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    28	
+    29	static int __hierarchy_stats_show(struct hierarchy_stats_data *hstats_data,
+    30					  struct seq_file *m, enum stage_group stage)
+    31	{
+    32		u64 dispatched[NR_NEW_STAT_GROUPS] = {0};
+    33		u64 completed[NR_NEW_STAT_GROUPS] = {0};
+    34		u64 latency[NR_NEW_STAT_GROUPS] = {0};
+    35		int cpu;
+    36		int i;
+    37	
+    38		for_each_possible_cpu(cpu) {
+    39			struct hierarchy_stats *stat =
+    40				per_cpu_ptr(hstats_data->hstats, cpu);
+    41	
+    42			for (i = 0; i < NR_NEW_STAT_GROUPS; ++i) {
+    43				dispatched[i] += stat->dispatched[i];
+    44				completed[i] += stat->completed[i];
+    45				latency[i] += stage_is_rq(stage) ?
+    46					      stat->jiffies[i] : stat->nsecs[i];
+    47			}
+    48		}
+    49	
+    50		if (stage_is_rq(stage))
+    51			for (i = 0; i < NR_NEW_STAT_GROUPS; ++i)
+    52				latency[i] =
+    53					jiffies_to_msecs(latency[i]) * NSEC_PER_MSEC;
+    54	
+    55		seq_printf(m, "%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu",
+    56			   dispatched[STAT_READ], completed[STAT_READ],
+    57			   latency[STAT_READ], dispatched[STAT_WRITE],
+    58			   completed[STAT_WRITE], latency[STAT_WRITE],
+    59			   dispatched[STAT_DISCARD], completed[STAT_DISCARD],
+    60			   latency[STAT_DISCARD], dispatched[STAT_FLUSH],
+    61			   completed[STAT_FLUSH], latency[STAT_FLUSH]);
+    62	
+  > 63		hierarchy_show_slow_io(hstats_data, m);
+    64		seq_putc(m, '\n');
+    65		return 0;
+    66	}
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
