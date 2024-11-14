@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A951F9A82
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 12:24:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A3744384
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 14:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731587090; cv=none; b=UFaG1Jt9vl/hzC352XKahyG6IkpoHp2HCgg1n50Br2ZbbAjO8ZeWUc0ODEtCBvmHRdKF4JZi4//M6aZxwHN/EHwU+K/6Gxksm2drkS0xusxJRmaltoEjxQMtbXNwhcLeV/typMIF5nfXm7MwuiMp5ZrIlT1jUla1q7iQJwl/bGU=
+	t=1731592807; cv=none; b=SAEVuObs/3UPagV+zvmVemm/eJxmg72Dj0SHqo8h389KxhpLqMdeKDd4y/+NhjqQegDE2teCqhg1q608T+iny/tp6RGVQtUZi2wQP9vjAWBnoRp0SKJbz1x/6CyP6Euq9+0luXxsUIJ0kilK/I5DJBmcbbl3v6SFk08gyqiLiUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731587090; c=relaxed/simple;
-	bh=zWC78Ez4wygcebjhBfVEo1TDFz1zpsBRu4r+sFhAOBc=;
+	s=arc-20240116; t=1731592807; c=relaxed/simple;
+	bh=DiKHTGOuRAKcZqLGzV4cF7W7lSNZg9xPpHSJk7czPKM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iPZCpEMIwLHv5y2PBTHqyG23IwtL2zUi81daP5YblEoigeo7PI6zzhNTpEBqK/6Ji5y4pxGxKLEPjw65i6ytwHK52WJudYXLPC9uy2grqXAMNMWI+WZ136HIRgUc6Nv2dn5QdsBpPsYLcSyslNAJ4hB1UsYCp4pd7sYILCv4XqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ds3fxU7/; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=Gfny3Zq09J0/8abX71CoIoOrKWzwKrxrUv3b6hAhI0MEyW6dlaiCozHPoT11LwIqCS3RzhVaPmLpQWJlA4H2RQQHZA397AVu79qJdYYxtunymUBhbZrX0GXtZbcUunygdV8RXVnX2yWPgMECtOBuJK0AmGl3oCkk4pPlVsO8aqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XGdAANCW; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ds3fxU7/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XGdAANCW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731587088; x=1763123088;
+  t=1731592802; x=1763128802;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zWC78Ez4wygcebjhBfVEo1TDFz1zpsBRu4r+sFhAOBc=;
-  b=ds3fxU7/YB6cVZvbh9b4+PoezfPl3TisBVfeN9ewhcnhRs4a93DjiIDW
-   0TWszTedegv5lXSre7RK9uKkVoPT+3jV6tnPHZcBS7dgyref6qmfNlLQm
-   y390dG66OKeJ3pmbLWpI7TAquj2RZaUzBmTzPBg2kzg9a5JeBi6cxMHqT
-   FGTDUWImfzsBgrtGHB9cocz0cfLhTNV8iZY5pb3EdEgUYWKOLL6GCMaZU
-   6Now7brb7UOgLeXo4PDpGyKVgCrv9XQBcC3qK2gTQX74xBz3lAxi44Nv+
-   bR3KBgyC0qqX7TyiXHlGM7bejPGOUciB99WRvITw/MysceB42fQnD98vO
-   w==;
-X-CSE-ConnectionGUID: 7wSkG14FROmGB8NF3hXZlw==
-X-CSE-MsgGUID: IJSgXp39SBGyd9TaOC8/kw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="42147737"
+  bh=DiKHTGOuRAKcZqLGzV4cF7W7lSNZg9xPpHSJk7czPKM=;
+  b=XGdAANCW74IUCzTKFndlWFndvMBN0XW6So19onkY2pJTsTt3V+Qd6NET
+   kmTy/mkxe+9qi/LiowVb4/ziqnbKnjd/l/hRmKeLV4sA5TEWYRlr8qWpK
+   b0urX+DXCd13fBzPC4wM7jakp40tZrcDdnTIuANFX6AuUxhMMzmQgS8pS
+   5t0uc4kYGk5TDPwBG02ff9ExYkr6RIVfrhhwOmFRjdR8O0a94Zq5YhilI
+   fGuCi6b7lS3hN/BkKV65QZf4gUPSEfBb2FmX//4iftoMMN8QEjWqA0V14
+   JQnJWGPUBU+DSD/rON8toD+Y+kQprSFQPeMlGk4f4MSii3U4eNqeu9WJ3
+   Q==;
+X-CSE-ConnectionGUID: zEeoQ0AFT2ugsj58anPs+w==
+X-CSE-MsgGUID: iRcPIVx+SZajmEzdQC0pXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="35461614"
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="42147737"
+   d="scan'208";a="35461614"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 04:24:48 -0800
-X-CSE-ConnectionGUID: J5QD9cazSuylo95UBrzi7A==
-X-CSE-MsgGUID: Yln38l1LQcaPsTxuY+EN9A==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 06:00:00 -0800
+X-CSE-ConnectionGUID: gK2rGVwkTGqhGJXvI20OZg==
+X-CSE-MsgGUID: nkWhtyI2RKS8yrUWdqlZEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="92642226"
+   d="scan'208";a="92664556"
 Received: from lkp-server01.sh.intel.com (HELO c7bc087bbc55) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2024 04:24:47 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 14 Nov 2024 05:59:59 -0800
 Received: from kbuild by c7bc087bbc55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBYtw-000027-22;
-	Thu, 14 Nov 2024 12:24:44 +0000
-Date: Thu, 14 Nov 2024 20:23:48 +0800
+	id 1tBaO4-00004j-2i;
+	Thu, 14 Nov 2024 13:59:56 +0000
+Date: Thu, 14 Nov 2024 21:59:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1291/1291]
- drivers/char/svm.c:312:17-38: WARNING: atomic_dec_and_test variation before
- object free at line 335.
-Message-ID: <202411142057.pcqq5uGT-lkp@intel.com>
+Subject: [android-common:android12-5.10 4/7] block/blk-flush.c:484:65:
+ sparse: sparse: incorrect type in argument 3 (different base types)
+Message-ID: <202411142102.ylpZAg2c-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,56 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d5c3ef07e625af7ba8aded2f507f092bceab3cbc
-commit: 4cdb60f56180d6ef7c10bd0e50ddda96ebc9f783 [1291/1291] svm: implement unpin pages to dec refcount
-config: arm64-randconfig-r063-20241113 (https://download.01.org/0day-ci/archive/20241114/202411142057.pcqq5uGT-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   e733b347fbf8a8a5149461d848bf4e726141afaf
+commit: f76294a6557b6c99c9ca58d89232171cf693eac2 [4/7] ANDROID: add hooks into blk-flush.c for customized I/O scheduler
+config: x86_64-randconfig-121-20241114 (https://download.01.org/0day-ci/archive/20241114/202411142102.ylpZAg2c-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411142102.ylpZAg2c-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411142057.pcqq5uGT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411142102.ylpZAg2c-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/char/svm.c:312:17-38: WARNING: atomic_dec_and_test variation before object free at line 335.
+sparse warnings: (new ones prefixed by >>)
+>> block/blk-flush.c:484:65: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int flags @@     got restricted gfp_t [usertype] flags @@
+   block/blk-flush.c:484:65: sparse:     expected int flags
+   block/blk-flush.c:484:65: sparse:     got restricted gfp_t [usertype] flags
 
-vim +312 drivers/char/svm.c
+vim +484 block/blk-flush.c
 
-   304	
-   305	static void svm_remove_sdma(struct svm_process *process,
-   306				    struct svm_sdma *sdma, bool try_rm)
-   307	{
-   308		int null_count = 0;
-   309	
-   310		mutex_lock(&process->mutex);
-   311	
- > 312		if (try_rm && (!atomic64_dec_and_test(&sdma->ref))) {
-   313			mutex_unlock(&process->mutex);
-   314			return;
-   315		}
-   316	
-   317		rb_erase(&sdma->node, &process->sdma_list);
-   318		RB_CLEAR_NODE(&sdma->node);
-   319		mutex_unlock(&process->mutex);
-   320	
-   321		while (sdma->nr_pages--) {
-   322			if (sdma->pages[sdma->nr_pages] == NULL) {
-   323				pr_err("null pointer, nr_pages:%d.\n", sdma->nr_pages);
-   324				null_count++;
-   325				continue;
-   326			}
-   327	
-   328			put_page(sdma->pages[sdma->nr_pages]);
-   329		}
-   330	
-   331		if (null_count)
-   332			dump_stack();
-   333	
-   334		kfree(sdma->pages);
- > 335		kfree(sdma);
-   336	}
-   337	
+   469	
+   470	#include <trace/hooks/block.h>
+   471	struct blk_flush_queue *blk_alloc_flush_queue(int node, int cmd_size,
+   472						      gfp_t flags)
+   473	{
+   474		struct blk_flush_queue *fq;
+   475		int rq_sz = sizeof(struct request);
+   476		bool skip = false;
+   477	
+   478		fq = kzalloc_node(sizeof(*fq), flags, node);
+   479		if (!fq)
+   480			goto fail;
+   481	
+   482		spin_lock_init(&fq->mq_flush_lock);
+   483	
+ > 484		trace_android_vh_blk_alloc_flush_queue(&skip, cmd_size, flags, node,
+   485						       fq);
+   486		if (!skip) {
+   487			rq_sz = round_up(rq_sz + cmd_size, cache_line_size());
+   488			fq->flush_rq = kzalloc_node(rq_sz, flags, node);
+   489		}
+   490		if (!fq->flush_rq)
+   491			goto fail_rq;
+   492	
+   493		INIT_LIST_HEAD(&fq->flush_queue[0]);
+   494		INIT_LIST_HEAD(&fq->flush_queue[1]);
+   495		INIT_LIST_HEAD(&fq->flush_data_in_flight);
+   496	
+   497		lockdep_register_key(&fq->key);
+   498		lockdep_set_class(&fq->mq_flush_lock, &fq->key);
+   499	
+   500		return fq;
+   501	
+   502	 fail_rq:
+   503		kfree(fq);
+   504	 fail:
+   505		return NULL;
+   506	}
+   507	
 
 -- 
 0-DAY CI Kernel Test Service
