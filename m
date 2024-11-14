@@ -1,84 +1,143 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCFF1F26FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 07:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9971F584F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 08:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731570027; cv=none; b=ff2ohnaMBa5+QYWhTnOXQLr4VqRCNAzxN3OBFvmkeiNHIC9/Gr0/wQqxhm2ih6TiiOErlCZ5J0hSBaH7rxX24DfqvMNKUTUEMZ3ybvcO/v5F/FKirzx6o8TPBUr5ZdyydXgM0+sobZjreeiPWZlNIVJiOWhk8eSqt6UYVEwIVdc=
+	t=1731571262; cv=none; b=eVQk8Q7QZJ5lEzhUNnNfo/tPGJL5AKIeGerKvu+7Y1H6Q8hcMIkhD2cN5Nik/0AV1QhZTRghHZekqqUXvph5xJEv3o6ol5Mv/5Fwef8xu39MJ/1+STBoOxIi/N+EGqy7ti5nwdvY6/+mi8q+uq33FxqVSaZgBVwjnA6DZlJ3yMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731570027; c=relaxed/simple;
-	bh=Fl/odM5F+aCAqNT2I99hqJtZ1nhfTbsQV2C1i2L/K2w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QFM/2cXSdjP9oCbBLTOE+2BvKiYpW0yDy8p/wzaKtzLXtA1bd6V02D0wCjf+OsHwz6ag6mQCOlXLA1mMsMHhCdSPOGc2MuEX/erNxg0cs2QBptuiXcwgYfbprne9Spjzj46rQN3al4ncFQzu4eP2UoXPG6QrgUQxzgmAkMY7mcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wDfDo25p; arc=none smtp.client-ip=209.85.167.48
+	s=arc-20240116; t=1731571262; c=relaxed/simple;
+	bh=wOCWjPgHPHxlrLgnxw+VusgzvGF9XhbpJDgq//4tRjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XFzIdze/BJR7i/0/jyWQlUgCPKMA8xcYkJmGm9/up7MIzgx3FQpTrD6LULWa0KmLKxUw2Zn6H9uWTy/jklnf7+HWzyzOVEgW+SrEs5zOQ9utZ3RfmUtaS+iXuwCRW2bsGVZ9kW9YQiTQBsNEsxp2pu1C6CSNfeUbXEDo61ef5so=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F1p9t4Zu; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wDfDo25p"
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539f1292a9bso255530e87.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 23:40:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F1p9t4Zu"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4315e9e9642so3125375e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 00:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731570024; x=1732174824; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fl/odM5F+aCAqNT2I99hqJtZ1nhfTbsQV2C1i2L/K2w=;
-        b=wDfDo25p38FApEitaD8bXUC1ggWAiPdL3faudMUieKUuA3US6tnjG/gxLvuQuBG0mq
-         L3nuLI/AgWCgUwBjjKU49dtJsfkp6VTOdY7wlJCJNcL1mZNqX/N52uHY+4XimAJPHF2n
-         AxCqU9C11FiZtwgjGWKUywPgjHX+KRCSDfMOUXyhyPWBs1ZX8H0s9I18IWjd7OKszfbe
-         IY07WgKL8j6BzeNtI2fkNFsLG+UbH+7tGgz6kdxZs7cyn7TohoatYy+zAMHA+mXX5WLk
-         uDURREXSkzS9vCgPXR2v5/IK5BQz6Z9PUGHsl04ti4HpJrnqauoWzo1u+9w3uaOTsydC
-         XAsQ==
+        d=linaro.org; s=google; t=1731571258; x=1732176058; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pmP4R+KTmabCCg4llADCF0oCU+tvvoVH1i02bViR8w0=;
+        b=F1p9t4ZuXzkIzt+tBNgQVLt8Q1PPRGkdCly2obgqO+NugyxLg1mnGkavGtAl1U2tKe
+         D3MRE0hHMLvJcJx6Z0hSqCIYWK0G05JbuzfanthRJDbbDQCylj5E+90A4ogyCA2L5up1
+         ImMfmtNpTlOfO4M72Bu1cMhL5B2oDJ3CF6pPHVsZ1XuEk/cHqjwpMGThOVMNIGmcy0Hx
+         q+7nuvYGBhjeJshwGOezXc96LeRY2SFNqxH6Jaiv6LrNcc3vEyOsPz/FxaylM88wTDkR
+         mqPujuelnQ5qS78FxSbWJQ3+FCgo9ERqWhZrt5h9BR4RzyOT2dss4uGBfJFdWXDNxRWe
+         OoQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731570024; x=1732174824;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fl/odM5F+aCAqNT2I99hqJtZ1nhfTbsQV2C1i2L/K2w=;
-        b=omi//kFh1NMHDyKADV6Fh41S4BJJ8NGgkhfQ/aVrIsirfEgjUZd/eBpMClPS9gjhmR
-         qiiBRxLLfaals2MWsh4P3+WF2c9FMsxWxMwdwfGuuF0kBrC2LSGdqkqukstl43D91J/J
-         ZQDQCeLmG9CmwmuRtxVo7wArdGUdazYsjb5CQlav5raYMw06UkaO5tE10UR/eq6ja7WM
-         YYAXKdgzuyH36SjMn1B7ljAQJHIinXMj5oBJbbra5pxAgCw8ZKq9atz/TI7bWut0sjBW
-         PW/IQkAFW5LBMAix6vB9cuuXMjz/sEFdqxMDd0W6GA5B1PYmtgYdRGCtkH9oPxpdVNGf
-         pW9A==
-X-Forwarded-Encrypted: i=1; AJvYcCWAk5JcLRC8COZsibBABrGiPAptY1NjFoxuezTDIU/4SUEN3JKh+mnGHbfMnufSy7hpEa1d7Y/ZcnJbHnq7@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx3ha4k2ENwmJ7FZvjfTbXCPc7/RdfZ/BbSk18LH4FWcPXHTuS4
-	ouHKkb76m8Mjgz8e/Sqjenj+DCmQotockwtV4xDF6DeLtVWqaFzDvY1IyKO/q9YG5VknhmzMV55
-	dmwqPb5P3GOTmiNZUUoYmLBxRs8SE06NWyHnudw==
-X-Google-Smtp-Source: AGHT+IHzopnIUABF2fGujesawmVGJMGTGXfs17vJukoyhkPHV8apTP8RlwWNGTNzlDbmQ4vyJrLJN9Ot5KZLjlGTsug=
-X-Received: by 2002:a05:651c:2227:b0:2fb:382e:410f with SMTP id
- 38308e7fff4ca-2ff2025a3b8mr104313391fa.26.1731570023573; Wed, 13 Nov 2024
- 23:40:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731571258; x=1732176058;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pmP4R+KTmabCCg4llADCF0oCU+tvvoVH1i02bViR8w0=;
+        b=qzWiaRaccpOAMrJrsmzvfcxiemfgp+WntUMnUFDhZQQstMsvH4QqOiwAcXsEEG0SnA
+         J9HiJOh9spe1LSQN6RpRUXXofodnW3Ui5Am8ZhUD8xZyb0J3RfGPLjZ0s7FSUA8xLSRq
+         rcK5bSK9xWnLn9F2V0w+4kQFxS8ow7F99Gj67OpOV5Rr13tP1pACcRiY7IiVIpLe8O6q
+         UfK7ESon1aGJeAz1UnUmp1SpW6JGXXU4nGdmIizETkFzYwXGFsvSpksoWPwENIGhF8U3
+         Yfm7EwFEnLlSxT+rZUgyTHhISQaoypXRrHO3V+gFrmsfOzJBYbtiQ0xhdzttGc/RQpMZ
+         5MWg==
+X-Forwarded-Encrypted: i=1; AJvYcCXn6uWr+g13C5MnykRQJviXAfbAnd3RGYwD2f6Y2ier8ANilgp/w9sUoT4UDi+/SyATxL5HKsXRIU21NzTh@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbdkY+5lxUWB0FXWcLINnT6El/w7Z/JhqSsfKgHBSjCloiDxtG
+	D9GTIuh60GP+LA8WJWLJVq1HJBXz1A37j+3qPRppUu4tv1mgDJ90smdVn1Willc=
+X-Google-Smtp-Source: AGHT+IG31WYQ/X+72unRx69C1P/9iMZOs5trq1EXzJAGNdrj+lIds7pAsY6/bw5o7AELpMO6q2+fpA==
+X-Received: by 2002:a5d:47ac:0:b0:37d:5282:1339 with SMTP id ffacd0b85a97d-3820df6136cmr4676316f8f.22.1731571257780;
+        Thu, 14 Nov 2024 00:00:57 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821adae022sm748412f8f.44.2024.11.14.00.00.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 Nov 2024 00:00:57 -0800 (PST)
+Date: Thu, 14 Nov 2024 11:00:53 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-acpi@vger.kernel.org, devel@acpica.org,
+	linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 447/448] drivers/thermal/testing/zone.c:333
+ tt_zone_add_trip() error: uninitialized symbol 'tt_zone'.
+Message-ID: <d8da45d7-0a98-41c9-a9a8-49043caaa7af@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202411130711.xfVEiMKn-lkp@intel.com> <CACRpkdYADg4fg2VgRxFBwp1STLbX062zjbZXQ9snOf_p6NvcEA@mail.gmail.com>
- <ZzS1ko8pWGvYj895@shell.armlinux.org.uk>
-In-Reply-To: <ZzS1ko8pWGvYj895@shell.armlinux.org.uk>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 14 Nov 2024 08:40:12 +0100
-Message-ID: <CACRpkdYYJrXGj7c=kEwk=Oe4Sgo4tpMOeRq7p16MLBtMV=ZfyQ@mail.gmail.com>
-Subject: Re: [rmk:for-next 3/7] arch/arm/mm/ioremap.c:130:32: error: call to
- undeclared function 'kasan_mem_to_shadow'; ISO C99 and later do not support
- implicit function declarations
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: kernel test robot <lkp@intel.com>, Melon Liu <melon1335@163.com>, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Nov 13, 2024 at 3:20=E2=80=AFPM Russell King (Oracle)
-<linux@armlinux.org.uk> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   d1bf954af846f66ac2ea07b2457b4a089a009c08
+commit: 498ea32432db6f2a0bce88fd521e529a58a370c4 [447/448] thermal: testing: Use DEFINE_FREE() and __free() to simplify code
+config: x86_64-randconfig-161-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140825.w4TfKdbS-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
-> Now corrected, assuming tonight's build is clean, no further action
-> should be required.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411140825.w4TfKdbS-lkp@intel.com/
 
-Thanks Russell, much appreciated! Tested the linux-next
-tree this morning and all seems fine.
+New smatch warnings:
+drivers/thermal/testing/zone.c:333 tt_zone_add_trip() error: uninitialized symbol 'tt_zone'.
+drivers/thermal/testing/zone.c:333 tt_zone_add_trip() error: uninitialized symbol 'tt_zone'.
 
-Yours,
-Linus Walleij
+Old smatch warnings:
+drivers/thermal/testing/zone.c:188 tt_add_tz() error: uninitialized symbol 'tt_work'.
+drivers/thermal/testing/zone.c:240 tt_del_tz() error: uninitialized symbol 'tt_work'.
+drivers/thermal/testing/zone.c:335 tt_zone_add_trip() error: uninitialized symbol 'tt_trip'.
+drivers/thermal/testing/zone.c:390 tt_zone_register_tz() error: uninitialized symbol 'trips'.
+
+vim +/tt_zone +333 drivers/thermal/testing/zone.c
+
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  331  int tt_zone_add_trip(const char *arg)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  332  {
+498ea32432db6f Rafael J. Wysocki 2024-11-10 @333  	struct tt_thermal_zone *tt_zone __free(put_tt_zone);
+
+These __free() pointers need to be initialized to NULL otherwise it leads to an
+uninitialized variable when we return before they're assigned.
+
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  334  	struct tt_work *tt_work __free(kfree);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  335  	struct tt_trip *tt_trip __free(kfree);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  336  	int id;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  337  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  338  	tt_work = kzalloc(sizeof(*tt_work), GFP_KERNEL);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  339  	if (!tt_work)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  340  		return -ENOMEM;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  341  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  342  	tt_trip = kzalloc(sizeof(*tt_trip), GFP_KERNEL);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  343  	if (!tt_trip)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  344  		return -ENOMEM;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  345  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  346  	tt_zone = tt_get_tt_zone(arg);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  347  	if (IS_ERR(tt_zone))
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  348  		return PTR_ERR(tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  349  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  350  	id = ida_alloc(&tt_zone->ida, GFP_KERNEL);
+498ea32432db6f Rafael J. Wysocki 2024-11-10  351  	if (id < 0)
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  352  		return id;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  353  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  354  	tt_trip->trip.type = THERMAL_TRIP_ACTIVE;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  355  	tt_trip->trip.temperature = THERMAL_TEMP_INVALID;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  356  	tt_trip->trip.flags = THERMAL_TRIP_FLAG_RW;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  357  	tt_trip->id = id;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  358  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  359  	guard(tt_zone)(tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  360  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  361  	list_add_tail(&tt_trip->list_node, &tt_zone->trips);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  362  	tt_zone->num_trips++;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  363  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  364  	INIT_WORK(&tt_work->work, tt_zone_add_trip_work_fn);
+498ea32432db6f Rafael J. Wysocki 2024-11-10  365  	tt_work->tt_zone = no_free_ptr(tt_zone);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  366  	tt_work->tt_trip = no_free_ptr(tt_trip);
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  367  	schedule_work(&(no_free_ptr(tt_work)->work));
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  368  
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  369  	return 0;
+f6a034f2df426e Rafael J. Wysocki 2024-08-22  370  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
