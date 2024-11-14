@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419451E3DCF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 01:29:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6ED78494
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 01:30:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731547797; cv=none; b=MwI2LcUdIlijZ3n0BCp022hgh9Sw14T57mWIcyDLfMf1fcSOqRMSYp8gcUlRgbCG7IuOHAoB41KieXaPQthmZjL10crqRfyK27Scg0fcuwBM2yzqlZeWA/Jhc8zYE9IsaZ04ETpgt0oczFsaLvNVV1SwCdg55Swr3qiF6H9BkqM=
+	t=1731547855; cv=none; b=G7cy4lmLdbaizzrFOw4A3n4Rm6nH7QkKPbQjGHrNrPEN9JSKMV213SCRf17DQqCeeoqxnIQWfpyrhv9PTXFDItZg2SKCZ618jCEbMUd0iJRlSlNWib/Ny4T9SjynwXqik0ijXv0mkd62bwqAatZmNVvWQdKV8Wek0ui34o27fko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731547797; c=relaxed/simple;
-	bh=WgsVOWJCyil2uWXX8XBAE1GzISBtQeGgqP5BmlubFfM=;
+	s=arc-20240116; t=1731547855; c=relaxed/simple;
+	bh=xLPwM2VwFjQPpX6Lr3705TcB18M6NLh9JqM90xO682A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fsNKfPcJiLX0esJ/tKaFfQxVETFkUM3bspxZ2IECT0VQaNTjp+NzD1lVdxXuadu09pBjvTBo/kBeGd7WsNLdRfUdATm7nHRT4Lzi2tDxg0So8aCb1rCF+VQRVQ1WpDC2qUAZzHlf2UuFgQLdyT01lOZxrPSxxvuSCFmCTRV2Qrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjuMpYvX; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=K7tjgirJSkGkYbd/EjH0XgOKegSV8LrQ5WRuSZ4dqQX3Wo1jQxuSfBCm0CT4hgwfemHIZcNo5xLbDawvCj8r6vsBcGqZJy7K7FAIfO8Gh3SjIIuAAOKMnJH0NeOjLFcbxG8A9nbNkSbSvrKQuEgY9plNhNVCfxdb4jcJj2mVpis=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KOpL1ybX; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjuMpYvX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KOpL1ybX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731547796; x=1763083796;
+  t=1731547854; x=1763083854;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=WgsVOWJCyil2uWXX8XBAE1GzISBtQeGgqP5BmlubFfM=;
-  b=fjuMpYvXSj65YSX+jzIGO52FdIggJE5ogF0SKh807RGcP81IkUa0qS07
-   FdGAw3DQieD5w7ozl/KebSL/ovY3hY+GeRY0cAiUgctnsN9LX2TwXxyCN
-   bMdMwyw+SynW2VihhjrEEvuWPdlR9R9zDUfCjDG2jQxkyxbd5pT+RcXpE
-   We21hSb0Y++OjW1fxzAxaE7yafOaJM4yK3oEjzvfvPaRDDHiPiQho3MIk
-   2L+9z3/bHjig3BNTNB6ezeV2wpeKIOWeVntAZ0NpyfB3HXY601Adxd9It
-   KHFi8+MAHZ3aYhGkp81/Y66w/V2mp4xZj229hotTXoJRottPUniM0GwBM
-   g==;
-X-CSE-ConnectionGUID: NzLrziHXRo+LyoiXMcSqrA==
-X-CSE-MsgGUID: 89A2p0cWQzy3JD+KeP7R/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31239756"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31239756"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:29:54 -0800
-X-CSE-ConnectionGUID: WCzboegvRzGce8+dZWy1Nw==
-X-CSE-MsgGUID: hrz7GM3bTUiM3XnMor00dg==
+  bh=xLPwM2VwFjQPpX6Lr3705TcB18M6NLh9JqM90xO682A=;
+  b=KOpL1ybXlOJLOTLy4MByZhpspRPwHIi4jzmQykQHXmW6J1Z4hfAxr009
+   y1+QbKgK3OSgCSamwDDjl7Gt8nZhlevmLP//jnDtp2Ec7hFOtuhsOJpoa
+   SqXUDCbzG4N7irgkAA5pSw1RQQEdLqf0Gh7RZstPvGWeQDBTBiZ63qBNG
+   AfSW4+zVKSqA/5EaBZoa63oPR8Pbumh28FOqpcAAnBoJN2yIjEgJkgVbX
+   PAJGfQwyRvxwNBfVubmRXZqW4WdzNpd/G9qA6YYWjBWHa33tROzDY6vHE
+   1E28bFtbXspicn+xjYS2OyqBW5pN6cyCQWoWyVKNbDzecHaPpdztd7b1o
+   A==;
+X-CSE-ConnectionGUID: zabBgPcpRfqTeCY7o1FNuA==
+X-CSE-MsgGUID: lfJSx6MaQ765NritHe7YSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="42884793"
+X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
+   d="scan'208";a="42884793"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:30:54 -0800
+X-CSE-ConnectionGUID: o17ihUaOTNSbgne0v8xS4w==
+X-CSE-MsgGUID: oZgA0HcPSpuXchVH7rAeEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="88468719"
+   d="scan'208";a="88437431"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Nov 2024 17:29:52 -0800
+  by orviesa007.jf.intel.com with ESMTP; 13 Nov 2024 17:30:53 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBOg9-00012L-2f;
-	Thu, 14 Nov 2024 01:29:49 +0000
-Date: Thu, 14 Nov 2024 09:29:41 +0800
+	id 1tBOh8-00012f-0I;
+	Thu, 14 Nov 2024 01:30:50 +0000
+Date: Thu, 14 Nov 2024 09:30:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Michal Wajdeczko <michal.wajdeczko@intel.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] iov_iter: Provide copy_iomem_to|from_iter()
-Message-ID: <202411140935.iEbIWcpc-lkp@intel.com>
-References: <20241112200454.2211-2-michal.wajdeczko@intel.com>
+To: Prakash Sangappa <prakash.sangappa@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/4] Scheduler time extention
+Message-ID: <202411140916.EaVa0bnv-lkp@intel.com>
+References: <20241113000126.967713-3-prakash.sangappa@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,95 +62,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241112200454.2211-2-michal.wajdeczko@intel.com>
+In-Reply-To: <20241113000126.967713-3-prakash.sangappa@oracle.com>
 
-Hi Michal,
+Hi Prakash,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-xe/drm-xe-next]
-[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-nonmm-unstable linus/master v6.12-rc7 next-20241113]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on linus/master v6.12-rc7]
+[cannot apply to tip/sched/core tip/x86/asm tip/core/entry next-20241113]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wajdeczko/iov_iter-Provide-copy_iomem_to-from_iter/20241113-080831
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241112200454.2211-2-michal.wajdeczko%40intel.com
-patch subject: [PATCH v2 1/4] iov_iter: Provide copy_iomem_to|from_iter()
-config: x86_64-randconfig-123-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140935.iEbIWcpc-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Prakash-Sangappa/Introduce-per-thread-user-kernel-shared-structure/20241113-082854
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20241113000126.967713-3-prakash.sangappa%40oracle.com
+patch subject: [RFC PATCH 2/4] Scheduler time extention
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241114/202411140916.EaVa0bnv-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140935.iEbIWcpc-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140916.EaVa0bnv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140935.iEbIWcpc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411140916.EaVa0bnv-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> lib/iov_iter.c:373:47: sparse: sparse: cast removes address space '__iomem' of expression
-   lib/iov_iter.c:386:47: sparse: sparse: cast removes address space '__iomem' of expression
->> lib/iov_iter.c:349:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void * @@
-   lib/iov_iter.c:349:33: sparse:     expected void const volatile [noderef] __iomem *
-   lib/iov_iter.c:349:33: sparse:     got void *
-   lib/iov_iter.c:330:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void * @@
-   lib/iov_iter.c:330:37: sparse:     expected void const volatile [noderef] __iomem *
-   lib/iov_iter.c:330:37: sparse:     got void *
->> lib/iov_iter.c:362:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *to @@
-   lib/iov_iter.c:362:21: sparse:     expected void volatile [noderef] __iomem *
-   lib/iov_iter.c:362:21: sparse:     got void *to
->> lib/iov_iter.c:338:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void * @@
-   lib/iov_iter.c:338:24: sparse:     expected void volatile [noderef] __iomem *
-   lib/iov_iter.c:338:24: sparse:     got void *
+All warnings (new ones prefixed by >>):
 
-vim +/__iomem +373 lib/iov_iter.c
+>> kernel/entry/common.c:93: warning: Function parameter or struct member 'irq' not described in 'exit_to_user_mode_loop'
 
-   333	
-   334	static __always_inline
-   335	size_t memcpy_iomem_from_iter(void *iter_from, size_t progress, size_t len,
-   336				      void *to, void *priv2)
-   337	{
- > 338		memcpy_toio(to + progress, iter_from, len);
-   339		return 0;
-   340	}
-   341	
-   342	static __always_inline
-   343	size_t copy_iomem_to_user_iter(void __user *iter_to, size_t progress,
-   344				       size_t len, void *from, void *priv2)
-   345	{
-   346		unsigned char buf[SMP_CACHE_BYTES];
-   347		size_t chunk = min(len, sizeof(buf));
-   348	
- > 349		memcpy_fromio(buf, from + progress, chunk);
-   350		chunk -= copy_to_user_iter(iter_to, progress, chunk, buf, priv2);
-   351		return len - chunk;
-   352	}
-   353	
-   354	static __always_inline
-   355	size_t copy_iomem_from_user_iter(void __user *iter_from, size_t progress,
-   356					 size_t len, void *to, void *priv2)
-   357	{
-   358		unsigned char buf[SMP_CACHE_BYTES];
-   359		size_t chunk = min(len, sizeof(buf));
-   360	
-   361		chunk -= copy_from_user_iter(iter_from, progress, chunk, buf, priv2);
- > 362		memcpy_toio(to, buf, chunk);
-   363		return len - chunk;
-   364	}
-   365	
-   366	size_t copy_iomem_to_iter(const void __iomem *from, size_t bytes, struct iov_iter *i)
-   367	{
-   368		if (WARN_ON_ONCE(i->data_source))
-   369			return 0;
-   370		if (user_backed_iter(i))
-   371			might_fault();
-   372	
- > 373		return iterate_and_advance(i, bytes, (void *)from,
-   374					   copy_iomem_to_user_iter,
-   375					   memcpy_iomem_to_iter);
-   376	}
-   377	EXPORT_SYMBOL(copy_iomem_to_iter);
-   378	
+
+vim +93 kernel/entry/common.c
+
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   84  
+d68019471995ba Sven Schnelle       2023-12-18   85  /**
+d68019471995ba Sven Schnelle       2023-12-18   86   * exit_to_user_mode_loop - do any pending work before leaving to user space
+d68019471995ba Sven Schnelle       2023-12-18   87   * @regs:	Pointer to pt_regs on entry stack
+d68019471995ba Sven Schnelle       2023-12-18   88   * @ti_work:	TIF work flags as read by the caller
+d68019471995ba Sven Schnelle       2023-12-18   89   */
+d68019471995ba Sven Schnelle       2023-12-18   90  __always_inline unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
+4d4270d40543ca Prakash Sangappa    2024-11-13   91  						     unsigned long ti_work,
+4d4270d40543ca Prakash Sangappa    2024-11-13   92  						     bool irq)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  @93  {
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   94  	/*
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   95  	 * Before returning to user space ensure that all pending work
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   96  	 * items have been completed.
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   97  	 */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   98  	while (ti_work & EXIT_TO_USER_MODE_WORK) {
+a9f3a74a29af09 Thomas Gleixner     2020-07-22   99  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  100  		local_irq_enable_exit_to_user(ti_work);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  101  
+4d4270d40543ca Prakash Sangappa    2024-11-13  102  		if (ti_work & _TIF_NEED_RESCHED) {
+4d4270d40543ca Prakash Sangappa    2024-11-13  103  			if (irq && taskshrd_delay_resched())
+4d4270d40543ca Prakash Sangappa    2024-11-13  104  				clear_tsk_need_resched(current);
+4d4270d40543ca Prakash Sangappa    2024-11-13  105  			else
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  106  				schedule();
+4d4270d40543ca Prakash Sangappa    2024-11-13  107  		}
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  108  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  109  		if (ti_work & _TIF_UPROBE)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  110  			uprobe_notify_resume(regs);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  111  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  112  		if (ti_work & _TIF_PATCH_PENDING)
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  113  			klp_update_patch_state(current);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  114  
+12db8b690010cc Jens Axboe          2020-10-26  115  		if (ti_work & (_TIF_SIGPENDING | _TIF_NOTIFY_SIGNAL))
+8ba62d37949e24 Eric W. Biederman   2022-02-09  116  			arch_do_signal_or_restart(regs);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  117  
+a68de80f61f6af Sean Christopherson 2021-09-01  118  		if (ti_work & _TIF_NOTIFY_RESUME)
+03248addadf1a5 Eric W. Biederman   2022-02-09  119  			resume_user_mode_work(regs);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  120  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  121  		/* Architecture specific TIF work */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  122  		arch_exit_to_user_mode_work(regs, ti_work);
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  123  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  124  		/*
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  125  		 * Disable interrupts and reevaluate the work flags as they
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  126  		 * might have changed while interrupts and preemption was
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  127  		 * enabled above.
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  128  		 */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  129  		local_irq_disable_exit_to_user();
+47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  130  
+47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  131  		/* Check if any of the above work has queued a deferred wakeup */
+f268c3737ecaef Frederic Weisbecker 2021-05-27  132  		tick_nohz_user_enter_prepare();
+47b8ff194c1fd7 Frederic Weisbecker 2021-02-01  133  
+6ce895128b3bff Mark Rutland        2021-11-29  134  		ti_work = read_thread_flags();
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  135  	}
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  136  
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  137  	/* Return the latest work state for arch_exit_to_user_mode() */
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  138  	return ti_work;
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  139  }
+a9f3a74a29af09 Thomas Gleixner     2020-07-22  140  
 
 -- 
 0-DAY CI Kernel Test Service
