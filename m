@@ -1,66 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0978D1E3792
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 01:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419451E3DCF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 01:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731547796; cv=none; b=KfVTxgl19ELlEm4rzi9xzQ25mgsZGaXwIxWjVTPM4mdJl8+rXNClIZqcI4m2NT2vhKykkhzXArVc/Z/QyQUBrnKXDKh1aEi83zCUBq7DtyYqDW45EFUjqxh6T4V/WyAiDGTe82TbazLKJ+DVsoMg6tuPY5Io5dzsuwbD4ABFgM4=
+	t=1731547797; cv=none; b=MwI2LcUdIlijZ3n0BCp022hgh9Sw14T57mWIcyDLfMf1fcSOqRMSYp8gcUlRgbCG7IuOHAoB41KieXaPQthmZjL10crqRfyK27Scg0fcuwBM2yzqlZeWA/Jhc8zYE9IsaZ04ETpgt0oczFsaLvNVV1SwCdg55Swr3qiF6H9BkqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731547796; c=relaxed/simple;
-	bh=U4LWyp7oJNaY5Yh9s6TiGRN+bfgXwxV0//mlV5BDLk0=;
+	s=arc-20240116; t=1731547797; c=relaxed/simple;
+	bh=WgsVOWJCyil2uWXX8XBAE1GzISBtQeGgqP5BmlubFfM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXjTS0euwxozagQQYXHdIrGWAb+jb27gy6cVTLcs2NksxqgoKGyPuWS56YJbkBmfz50nfhpEMn3n49K5eG7CDTu9pxycvX5ahI+2k8lmSYCdNrgQmORPCn0TjuCz98wgiiClZ7PkbQbNfXYiXuM3P9LyE/W01ElbtYqARHssszA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gy9Rn2zx; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=fsNKfPcJiLX0esJ/tKaFfQxVETFkUM3bspxZ2IECT0VQaNTjp+NzD1lVdxXuadu09pBjvTBo/kBeGd7WsNLdRfUdATm7nHRT4Lzi2tDxg0So8aCb1rCF+VQRVQ1WpDC2qUAZzHlf2UuFgQLdyT01lOZxrPSxxvuSCFmCTRV2Qrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fjuMpYvX; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gy9Rn2zx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fjuMpYvX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731547795; x=1763083795;
+  t=1731547796; x=1763083796;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=U4LWyp7oJNaY5Yh9s6TiGRN+bfgXwxV0//mlV5BDLk0=;
-  b=gy9Rn2zxfwqF7IQ5pff/Tw2JCKw/+4TbIicoT67WNCFBsO7cAwgKn+tT
-   gk9RY6Rd3WhycJINfZx8CKOIJqh2SbjW5wQJTrzPV2YPQy0I/05q8jh26
-   D8MSULi5HtGjOVjcFXkXgTdZyroVmlqMv6N86zudZYydSzEFOb2yQlrfX
-   +E9lF5S2i9DwjTaEAEgMU4pYxebe/gnV3mNM6dx5leL0iEN1o69qybCU7
-   YGimFX+LgTQTs8Q968Wy9zYEvtFPIMiQjvO6M/tVxr20bLLHJ4Vtdzo+f
-   +IcC5JcjwPnZ2rvU0A6Sa6r5CNNV7gHj63I7HUVpoys+B71zEF3zHr7qd
-   Q==;
-X-CSE-ConnectionGUID: 5ktc0BGSTZSfULPoLridaA==
-X-CSE-MsgGUID: DQJ0XaYTQuGsFCiP3sf3Lg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31239755"
+  bh=WgsVOWJCyil2uWXX8XBAE1GzISBtQeGgqP5BmlubFfM=;
+  b=fjuMpYvXSj65YSX+jzIGO52FdIggJE5ogF0SKh807RGcP81IkUa0qS07
+   FdGAw3DQieD5w7ozl/KebSL/ovY3hY+GeRY0cAiUgctnsN9LX2TwXxyCN
+   bMdMwyw+SynW2VihhjrEEvuWPdlR9R9zDUfCjDG2jQxkyxbd5pT+RcXpE
+   We21hSb0Y++OjW1fxzAxaE7yafOaJM4yK3oEjzvfvPaRDDHiPiQho3MIk
+   2L+9z3/bHjig3BNTNB6ezeV2wpeKIOWeVntAZ0NpyfB3HXY601Adxd9It
+   KHFi8+MAHZ3aYhGkp81/Y66w/V2mp4xZj229hotTXoJRottPUniM0GwBM
+   g==;
+X-CSE-ConnectionGUID: NzLrziHXRo+LyoiXMcSqrA==
+X-CSE-MsgGUID: 89A2p0cWQzy3JD+KeP7R/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31239756"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31239755"
+   d="scan'208";a="31239756"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 17:29:54 -0800
-X-CSE-ConnectionGUID: PKFP/Z5wQT2aRHhsDUM/Wg==
-X-CSE-MsgGUID: LxTBu1dyTA22jRE/02sWgw==
+X-CSE-ConnectionGUID: WCzboegvRzGce8+dZWy1Nw==
+X-CSE-MsgGUID: hrz7GM3bTUiM3XnMor00dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="88468709"
+   d="scan'208";a="88468719"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 13 Nov 2024 17:29:52 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBOg9-00012N-2k;
+	id 1tBOg9-00012L-2f;
 	Thu, 14 Nov 2024 01:29:49 +0000
-Date: Thu, 14 Nov 2024 09:29:42 +0800
+Date: Thu, 14 Nov 2024 09:29:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Erin Shepherd <erin.shepherd@e43.eu>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-	Chuck Lever <chuck.lever@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>, linux-nfs@vger.kernel.org,
-	Erin Shepherd <erin.shepherd@e43.eu>
-Subject: Re: [PATCH v2 2/3] exportfs: allow fs to disable CAP_DAC_READ_SEARCH
- check
-Message-ID: <202411140905.a0ntnQQG-lkp@intel.com>
-References: <20241113-pidfs_fh-v2-2-9a4d28155a37@e43.eu>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] iov_iter: Provide copy_iomem_to|from_iter()
+Message-ID: <202411140935.iEbIWcpc-lkp@intel.com>
+References: <20241112200454.2211-2-michal.wajdeczko@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,90 +71,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113-pidfs_fh-v2-2-9a4d28155a37@e43.eu>
+In-Reply-To: <20241112200454.2211-2-michal.wajdeczko@intel.com>
 
-Hi Erin,
+Hi Michal,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 14b6320953a3f856a3f93bf9a0e423395baa593d]
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-nonmm-unstable linus/master v6.12-rc7 next-20241113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Erin-Shepherd/pseudofs-add-support-for-export_ops/20241114-020539
-base:   14b6320953a3f856a3f93bf9a0e423395baa593d
-patch link:    https://lore.kernel.org/r/20241113-pidfs_fh-v2-2-9a4d28155a37%40e43.eu
-patch subject: [PATCH v2 2/3] exportfs: allow fs to disable CAP_DAC_READ_SEARCH check
-config: openrisc-defconfig (https://download.01.org/0day-ci/archive/20241114/202411140905.a0ntnQQG-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140905.a0ntnQQG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wajdeczko/iov_iter-Provide-copy_iomem_to-from_iter/20241113-080831
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20241112200454.2211-2-michal.wajdeczko%40intel.com
+patch subject: [PATCH v2 1/4] iov_iter: Provide copy_iomem_to|from_iter()
+config: x86_64-randconfig-123-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140935.iEbIWcpc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140935.iEbIWcpc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140905.a0ntnQQG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411140935.iEbIWcpc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> lib/iov_iter.c:373:47: sparse: sparse: cast removes address space '__iomem' of expression
+   lib/iov_iter.c:386:47: sparse: sparse: cast removes address space '__iomem' of expression
+>> lib/iov_iter.c:349:33: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void * @@
+   lib/iov_iter.c:349:33: sparse:     expected void const volatile [noderef] __iomem *
+   lib/iov_iter.c:349:33: sparse:     got void *
+   lib/iov_iter.c:330:37: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem * @@     got void * @@
+   lib/iov_iter.c:330:37: sparse:     expected void const volatile [noderef] __iomem *
+   lib/iov_iter.c:330:37: sparse:     got void *
+>> lib/iov_iter.c:362:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void *to @@
+   lib/iov_iter.c:362:21: sparse:     expected void volatile [noderef] __iomem *
+   lib/iov_iter.c:362:21: sparse:     got void *to
+>> lib/iov_iter.c:338:24: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got void * @@
+   lib/iov_iter.c:338:24: sparse:     expected void volatile [noderef] __iomem *
+   lib/iov_iter.c:338:24: sparse:     got void *
 
-   fs/fhandle.c: In function 'may_decode_fh':
->> fs/fhandle.c:242:41: warning: initialization discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     242 |         struct export_operations *nop = root->mnt->mnt_sb->s_export_op;
-         |                                         ^~~~
+vim +/__iomem +373 lib/iov_iter.c
 
-
-vim +/const +242 fs/fhandle.c
-
-   237	
-   238	static inline bool may_decode_fh(struct handle_to_path_ctx *ctx,
-   239					 unsigned int o_flags)
-   240	{
-   241		struct path *root = &ctx->root;
- > 242		struct export_operations *nop = root->mnt->mnt_sb->s_export_op;
-   243	
-   244		if (nop && nop->flags & EXPORT_OP_UNRESTRICTED_OPEN)
-   245			return true;
-   246	
-   247		if (capable(CAP_DAC_READ_SEARCH))
-   248			return true;
-   249	
-   250		/*
-   251		 * Allow relaxed permissions of file handles if the caller has the
-   252		 * ability to mount the filesystem or create a bind-mount of the
-   253		 * provided @mountdirfd.
-   254		 *
-   255		 * In both cases the caller may be able to get an unobstructed way to
-   256		 * the encoded file handle. If the caller is only able to create a
-   257		 * bind-mount we need to verify that there are no locked mounts on top
-   258		 * of it that could prevent us from getting to the encoded file.
-   259		 *
-   260		 * In principle, locked mounts can prevent the caller from mounting the
-   261		 * filesystem but that only applies to procfs and sysfs neither of which
-   262		 * support decoding file handles.
-   263		 *
-   264		 * Restrict to O_DIRECTORY to provide a deterministic API that avoids a
-   265		 * confusing api in the face of disconnected non-dir dentries.
-   266		 *
-   267		 * There's only one dentry for each directory inode (VFS rule)...
-   268		 */
-   269		if (!(o_flags & O_DIRECTORY))
-   270			return false;
-   271	
-   272		if (ns_capable(root->mnt->mnt_sb->s_user_ns, CAP_SYS_ADMIN))
-   273			ctx->flags = HANDLE_CHECK_PERMS;
-   274		else if (is_mounted(root->mnt) &&
-   275			 ns_capable(real_mount(root->mnt)->mnt_ns->user_ns,
-   276				    CAP_SYS_ADMIN) &&
-   277			 !has_locked_children(real_mount(root->mnt), root->dentry))
-   278			ctx->flags = HANDLE_CHECK_PERMS | HANDLE_CHECK_SUBTREE;
-   279		else
-   280			return false;
-   281	
-   282		/* Are we able to override DAC permissions? */
-   283		if (!ns_capable(current_user_ns(), CAP_DAC_READ_SEARCH))
-   284			return false;
-   285	
-   286		ctx->fh_flags = EXPORT_FH_DIR_ONLY;
-   287		return true;
-   288	}
-   289	
+   333	
+   334	static __always_inline
+   335	size_t memcpy_iomem_from_iter(void *iter_from, size_t progress, size_t len,
+   336				      void *to, void *priv2)
+   337	{
+ > 338		memcpy_toio(to + progress, iter_from, len);
+   339		return 0;
+   340	}
+   341	
+   342	static __always_inline
+   343	size_t copy_iomem_to_user_iter(void __user *iter_to, size_t progress,
+   344				       size_t len, void *from, void *priv2)
+   345	{
+   346		unsigned char buf[SMP_CACHE_BYTES];
+   347		size_t chunk = min(len, sizeof(buf));
+   348	
+ > 349		memcpy_fromio(buf, from + progress, chunk);
+   350		chunk -= copy_to_user_iter(iter_to, progress, chunk, buf, priv2);
+   351		return len - chunk;
+   352	}
+   353	
+   354	static __always_inline
+   355	size_t copy_iomem_from_user_iter(void __user *iter_from, size_t progress,
+   356					 size_t len, void *to, void *priv2)
+   357	{
+   358		unsigned char buf[SMP_CACHE_BYTES];
+   359		size_t chunk = min(len, sizeof(buf));
+   360	
+   361		chunk -= copy_from_user_iter(iter_from, progress, chunk, buf, priv2);
+ > 362		memcpy_toio(to, buf, chunk);
+   363		return len - chunk;
+   364	}
+   365	
+   366	size_t copy_iomem_to_iter(const void __iomem *from, size_t bytes, struct iov_iter *i)
+   367	{
+   368		if (WARN_ON_ONCE(i->data_source))
+   369			return 0;
+   370		if (user_backed_iter(i))
+   371			might_fault();
+   372	
+ > 373		return iterate_and_advance(i, bytes, (void *)from,
+   374					   copy_iomem_to_user_iter,
+   375					   memcpy_iomem_to_iter);
+   376	}
+   377	EXPORT_SYMBOL(copy_iomem_to_iter);
+   378	
 
 -- 
 0-DAY CI Kernel Test Service
