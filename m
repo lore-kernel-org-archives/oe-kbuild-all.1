@@ -1,224 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EDD1F26DF;
-	Thu, 14 Nov 2024 07:37:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CCFF1F26FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 07:40:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731569829; cv=none; b=Z13tOj4iDZhq93AnuMVRVSOTIs6Fs42GkfQ2j4LUFNC5n09ooQIbYBZ/m2jH85VD+gf+BQqcCPYYL9+HM+W0uMC/pq0II1hMRjKyN2spRCBSDuR/nrW8tLgUvuTVn3n7vI+f8PMzEDLQ14fEh3zRBRRMF0A6xlMkCKpMQ3TBmr8=
+	t=1731570027; cv=none; b=ff2ohnaMBa5+QYWhTnOXQLr4VqRCNAzxN3OBFvmkeiNHIC9/Gr0/wQqxhm2ih6TiiOErlCZ5J0hSBaH7rxX24DfqvMNKUTUEMZ3ybvcO/v5F/FKirzx6o8TPBUr5ZdyydXgM0+sobZjreeiPWZlNIVJiOWhk8eSqt6UYVEwIVdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731569829; c=relaxed/simple;
-	bh=kOb2ZYhLdcrt1/fmMbUCYgTRegwUoDmTiVsCsnAKezo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sT027Kn83l1XI7/Sst+P49G3E+JtEHcoMMGtv/sQqVcuoRj/adwoXYJ0NlbTfpGs9RtHR5NhRfMfX/bpp4yt8Qqg6NDUfkW73mCwxbKk8Y/Q7rTVfn+Yol2JtcgdIKCM4NrbsdXcMF6ovYQyv/0tmYihsmjpN22/LhrYrmAljCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ekxl95xj; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1731570027; c=relaxed/simple;
+	bh=Fl/odM5F+aCAqNT2I99hqJtZ1nhfTbsQV2C1i2L/K2w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QFM/2cXSdjP9oCbBLTOE+2BvKiYpW0yDy8p/wzaKtzLXtA1bd6V02D0wCjf+OsHwz6ag6mQCOlXLA1mMsMHhCdSPOGc2MuEX/erNxg0cs2QBptuiXcwgYfbprne9Spjzj46rQN3al4ncFQzu4eP2UoXPG6QrgUQxzgmAkMY7mcI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wDfDo25p; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ekxl95xj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731569825; x=1763105825;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kOb2ZYhLdcrt1/fmMbUCYgTRegwUoDmTiVsCsnAKezo=;
-  b=Ekxl95xjPiqPr8JEk+gMIC6hDGC6aDt0+vZvF4pK8oh65XWOODVUxzff
-   kQCfc9GKBls5M6Fb9eUUpat+Ho+DDcL58jER+0BQ3+YSPxe5hensPYCre
-   igx4eWAfur6F/0Aigg0ePt3YjlUdWOmBCOpy68MXpQn/WaFKZSqbum1wh
-   SBRaJinR7cRQ2+3NYpPfTP4x+P2kVVH3khaDqsFDlEQzu8tU7Uzjuwn4f
-   rPDHjQ0dYkDpOOsp+XFU3xz3KS/FvkfNPcbMEn/SqU1Gz7tfRS4boGt+z
-   iVXNCXdhfZrnvA7PL/aHVcXM3+DKOvcoLW+5xOJVSP5/PzKWjI7lX41Y2
-   g==;
-X-CSE-ConnectionGUID: HlON4OgBQaS1xtXMgV5z2Q==
-X-CSE-MsgGUID: biBTs/F+QZeAtYh1f+6hlw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="30901579"
-X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
-   d="scan'208";a="30901579"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 23:37:05 -0800
-X-CSE-ConnectionGUID: x7vsDg8DR/+0mjqnT6TiPg==
-X-CSE-MsgGUID: jfLzm6z/S9yFSOX6eaLqkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
-   d="scan'208";a="93059751"
-Received: from lkp-server01.sh.intel.com (HELO 8eed2ac03994) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Nov 2024 23:37:01 -0800
-Received: from kbuild by 8eed2ac03994 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tBUPS-00005j-30;
-	Thu, 14 Nov 2024 07:36:58 +0000
-Date: Thu, 14 Nov 2024 15:36:22 +0800
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-hwmon@vger.kernel.org, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 4/5] hwmon: tmp108: Add support for I3C device
-Message-ID: <202411141530.qTxjCzf7-lkp@intel.com>
-References: <20241111-p3t1085-v3-4-bff511550aad@nxp.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wDfDo25p"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-539f1292a9bso255530e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 13 Nov 2024 23:40:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731570024; x=1732174824; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fl/odM5F+aCAqNT2I99hqJtZ1nhfTbsQV2C1i2L/K2w=;
+        b=wDfDo25p38FApEitaD8bXUC1ggWAiPdL3faudMUieKUuA3US6tnjG/gxLvuQuBG0mq
+         L3nuLI/AgWCgUwBjjKU49dtJsfkp6VTOdY7wlJCJNcL1mZNqX/N52uHY+4XimAJPHF2n
+         AxCqU9C11FiZtwgjGWKUywPgjHX+KRCSDfMOUXyhyPWBs1ZX8H0s9I18IWjd7OKszfbe
+         IY07WgKL8j6BzeNtI2fkNFsLG+UbH+7tGgz6kdxZs7cyn7TohoatYy+zAMHA+mXX5WLk
+         uDURREXSkzS9vCgPXR2v5/IK5BQz6Z9PUGHsl04ti4HpJrnqauoWzo1u+9w3uaOTsydC
+         XAsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731570024; x=1732174824;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fl/odM5F+aCAqNT2I99hqJtZ1nhfTbsQV2C1i2L/K2w=;
+        b=omi//kFh1NMHDyKADV6Fh41S4BJJ8NGgkhfQ/aVrIsirfEgjUZd/eBpMClPS9gjhmR
+         qiiBRxLLfaals2MWsh4P3+WF2c9FMsxWxMwdwfGuuF0kBrC2LSGdqkqukstl43D91J/J
+         ZQDQCeLmG9CmwmuRtxVo7wArdGUdazYsjb5CQlav5raYMw06UkaO5tE10UR/eq6ja7WM
+         YYAXKdgzuyH36SjMn1B7ljAQJHIinXMj5oBJbbra5pxAgCw8ZKq9atz/TI7bWut0sjBW
+         PW/IQkAFW5LBMAix6vB9cuuXMjz/sEFdqxMDd0W6GA5B1PYmtgYdRGCtkH9oPxpdVNGf
+         pW9A==
+X-Forwarded-Encrypted: i=1; AJvYcCWAk5JcLRC8COZsibBABrGiPAptY1NjFoxuezTDIU/4SUEN3JKh+mnGHbfMnufSy7hpEa1d7Y/ZcnJbHnq7@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3ha4k2ENwmJ7FZvjfTbXCPc7/RdfZ/BbSk18LH4FWcPXHTuS4
+	ouHKkb76m8Mjgz8e/Sqjenj+DCmQotockwtV4xDF6DeLtVWqaFzDvY1IyKO/q9YG5VknhmzMV55
+	dmwqPb5P3GOTmiNZUUoYmLBxRs8SE06NWyHnudw==
+X-Google-Smtp-Source: AGHT+IHzopnIUABF2fGujesawmVGJMGTGXfs17vJukoyhkPHV8apTP8RlwWNGTNzlDbmQ4vyJrLJN9Ot5KZLjlGTsug=
+X-Received: by 2002:a05:651c:2227:b0:2fb:382e:410f with SMTP id
+ 38308e7fff4ca-2ff2025a3b8mr104313391fa.26.1731570023573; Wed, 13 Nov 2024
+ 23:40:23 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241111-p3t1085-v3-4-bff511550aad@nxp.com>
+References: <202411130711.xfVEiMKn-lkp@intel.com> <CACRpkdYADg4fg2VgRxFBwp1STLbX062zjbZXQ9snOf_p6NvcEA@mail.gmail.com>
+ <ZzS1ko8pWGvYj895@shell.armlinux.org.uk>
+In-Reply-To: <ZzS1ko8pWGvYj895@shell.armlinux.org.uk>
+From: Linus Walleij <linus.walleij@linaro.org>
+Date: Thu, 14 Nov 2024 08:40:12 +0100
+Message-ID: <CACRpkdYYJrXGj7c=kEwk=Oe4Sgo4tpMOeRq7p16MLBtMV=ZfyQ@mail.gmail.com>
+Subject: Re: [rmk:for-next 3/7] arch/arm/mm/ioremap.c:130:32: error: call to
+ undeclared function 'kasan_mem_to_shadow'; ISO C99 and later do not support
+ implicit function declarations
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: kernel test robot <lkp@intel.com>, Melon Liu <melon1335@163.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Frank,
+On Wed, Nov 13, 2024 at 3:20=E2=80=AFPM Russell King (Oracle)
+<linux@armlinux.org.uk> wrote:
 
-kernel test robot noticed the following build errors:
+> Now corrected, assuming tonight's build is clean, no further action
+> should be required.
 
-[auto build test ERROR on 74741a050b79d31d8d2eeee12c77736596d0a6b2]
+Thanks Russell, much appreciated! Tested the linux-next
+tree this morning and all seems fine.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-Li/dt-bindings-hwmon-ti-tmp108-Add-nxp-p3t1085-compatible-string/20241112-013721
-base:   74741a050b79d31d8d2eeee12c77736596d0a6b2
-patch link:    https://lore.kernel.org/r/20241111-p3t1085-v3-4-bff511550aad%40nxp.com
-patch subject: [PATCH v3 4/5] hwmon: tmp108: Add support for I3C device
-config: arc-randconfig-001-20241114 (https://download.01.org/0day-ci/archive/20241114/202411141530.qTxjCzf7-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411141530.qTxjCzf7-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411141530.qTxjCzf7-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/device/driver.h:21,
-                    from include/linux/device.h:32,
-                    from drivers/hwmon/tmp108.c:8:
->> include/linux/module.h:131:49: error: redefinition of '__inittest'
-     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
-     262 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/i3c/device.h:233:9: note: in expansion of macro 'module_driver'
-     233 |         module_driver(__drv, i3c_driver_register, i3c_driver_unregister)
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:473:1: note: in expansion of macro 'module_i3c_driver'
-     473 | module_i3c_driver(p3t1085_driver);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/module.h:131:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
-     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
-     262 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/i2c.h:965:9: note: in expansion of macro 'module_driver'
-     965 |         module_driver(__i2c_driver, i2c_add_driver, \
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:444:1: note: in expansion of macro 'module_i2c_driver'
-     444 | module_i2c_driver(tmp108_driver);
-         | ^~~~~~~~~~~~~~~~~
->> include/linux/module.h:133:13: error: redefinition of 'init_module'
-     133 |         int init_module(void) __copy(initfn)                    \
-         |             ^~~~~~~~~~~
-   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
-     262 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/i3c/device.h:233:9: note: in expansion of macro 'module_driver'
-     233 |         module_driver(__drv, i3c_driver_register, i3c_driver_unregister)
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:473:1: note: in expansion of macro 'module_i3c_driver'
-     473 | module_i3c_driver(p3t1085_driver);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/module.h:133:13: note: previous definition of 'init_module' with type 'int(void)'
-     133 |         int init_module(void) __copy(initfn)                    \
-         |             ^~~~~~~~~~~
-   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
-     262 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/i2c.h:965:9: note: in expansion of macro 'module_driver'
-     965 |         module_driver(__i2c_driver, i2c_add_driver, \
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:444:1: note: in expansion of macro 'module_i2c_driver'
-     444 | module_i2c_driver(tmp108_driver);
-         | ^~~~~~~~~~~~~~~~~
->> include/linux/module.h:139:49: error: redefinition of '__exittest'
-     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
-     267 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/i3c/device.h:233:9: note: in expansion of macro 'module_driver'
-     233 |         module_driver(__drv, i3c_driver_register, i3c_driver_unregister)
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:473:1: note: in expansion of macro 'module_i3c_driver'
-     473 | module_i3c_driver(p3t1085_driver);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/module.h:139:49: note: previous definition of '__exittest' with type 'void (*(void))(void)'
-     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^~~~~~~~~~
-   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
-     267 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/i2c.h:965:9: note: in expansion of macro 'module_driver'
-     965 |         module_driver(__i2c_driver, i2c_add_driver, \
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:444:1: note: in expansion of macro 'module_i2c_driver'
-     444 | module_i2c_driver(tmp108_driver);
-         | ^~~~~~~~~~~~~~~~~
->> include/linux/module.h:141:14: error: redefinition of 'cleanup_module'
-     141 |         void cleanup_module(void) __copy(exitfn)                \
-         |              ^~~~~~~~~~~~~~
-   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
-     267 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/i3c/device.h:233:9: note: in expansion of macro 'module_driver'
-     233 |         module_driver(__drv, i3c_driver_register, i3c_driver_unregister)
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:473:1: note: in expansion of macro 'module_i3c_driver'
-     473 | module_i3c_driver(p3t1085_driver);
-         | ^~~~~~~~~~~~~~~~~
-   include/linux/module.h:141:14: note: previous definition of 'cleanup_module' with type 'void(void)'
-     141 |         void cleanup_module(void) __copy(exitfn)                \
-         |              ^~~~~~~~~~~~~~
-   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
-     267 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/i2c.h:965:9: note: in expansion of macro 'module_driver'
-     965 |         module_driver(__i2c_driver, i2c_add_driver, \
-         |         ^~~~~~~~~~~~~
-   drivers/hwmon/tmp108.c:444:1: note: in expansion of macro 'module_i2c_driver'
-     444 | module_i2c_driver(tmp108_driver);
-         | ^~~~~~~~~~~~~~~~~
-
-
-vim +/__inittest +131 include/linux/module.h
-
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  128  
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  129  /* Each module must use one module_init(). */
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  130  #define module_init(initfn)					\
-1f318a8bafcfba9 Arnd Bergmann  2017-02-01 @131  	static inline initcall_t __maybe_unused __inittest(void)		\
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  132  	{ return initfn; }					\
-cf68fffb66d60d9 Sami Tolvanen  2021-04-08 @133  	int init_module(void) __copy(initfn)			\
-cf68fffb66d60d9 Sami Tolvanen  2021-04-08  134  		__attribute__((alias(#initfn)));		\
-92efda8eb15295a Sami Tolvanen  2022-09-08  135  	___ADDRESSABLE(init_module, __initdata);
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  136  
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  137  /* This is only required if you want to be unloadable. */
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  138  #define module_exit(exitfn)					\
-1f318a8bafcfba9 Arnd Bergmann  2017-02-01 @139  	static inline exitcall_t __maybe_unused __exittest(void)		\
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  140  	{ return exitfn; }					\
-cf68fffb66d60d9 Sami Tolvanen  2021-04-08 @141  	void cleanup_module(void) __copy(exitfn)		\
-cf68fffb66d60d9 Sami Tolvanen  2021-04-08  142  		__attribute__((alias(#exitfn)));		\
-92efda8eb15295a Sami Tolvanen  2022-09-08  143  	___ADDRESSABLE(cleanup_module, __exitdata);
-0fd972a7d91d6e1 Paul Gortmaker 2015-05-01  144  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yours,
+Linus Walleij
