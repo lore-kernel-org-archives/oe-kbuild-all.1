@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A981318132F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 16:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1278F62
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 16:36:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731601460; cv=none; b=Brxo5DUarIMKXMQKXOSpD5f2XpDipPdma4+fEaD6VgVaRPbThCYRta8+yCiOiuHhnHQp1gQ7141HBJ5cHRAKNTLxVzf5Q3YhTPNyAx5aqh0Kh2gUEyjUQNN80g+UcY2dm5uYb0jm3vAvAYF0HYNWX0jwKyD2TGkKkqdEHyK5qR4=
+	t=1731602186; cv=none; b=aHCvM+aUdJrpZvZBHBEnGDoWv2m1dFqjvTOV0hzWptYlorJDQoSFtAb/EokGrMvkDWgpCX+p2OjPBk+02JklvkEsrvhesuY/57MGh31q9L5i14LvUoQGeD4xE6o21qHspSq/E1ImZSJwkpxkRDHCaWDDsELwLJcVTl2mAcEZRrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731601460; c=relaxed/simple;
-	bh=XcIzHffi+3MAJOclQIUfOKH6gKJrT52MhSC8y8klhPw=;
+	s=arc-20240116; t=1731602186; c=relaxed/simple;
+	bh=wVgd2Fkxolwq6zeqsBghnr0FSHrYA7pFdTgbYMsirPc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XU1i+PhluNkcdmhCDpVd3tUinvxqzFSu6XIzbBPOgYRYRt6wEs4nj88b1VwFR2p31Jk2Bnu7aJxcQJu3cDgTwRB84piQuMDNvGMOxT6XylXnyQsj2S8KYIVJi0EKt6KRy8ePE/H++cmnLfDJxrKhg4JUTbYSX5hkius0g3B4dbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNuip7wK; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=rkCV2WYf3u1q+Q7uoDvyN6pQDT8GSjo3YrN/dnoHZpW/eNIKqWV7Zi+erkXlQcbaxWjjhVMZILdpf/zTt4PDTPUu2asmZOWSmlDs63dLquXesQ3gzDJrkopfNp0rreXs6y7kculmLIoxAHdvpPtm+c/5xhX5emBsiGhUIfIVLRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EZ2965FD; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNuip7wK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZ2965FD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731601458; x=1763137458;
+  t=1731602184; x=1763138184;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=XcIzHffi+3MAJOclQIUfOKH6gKJrT52MhSC8y8klhPw=;
-  b=HNuip7wKkt04omVT956aojNiaP6bIu2Eg4hdKeNgFVC9JCR9EFYn06/A
-   /kLlqlZJqEZ5S/NWSCXzXgG4f6X8YCleo9wmBgnIclorI+hd49eebRz1u
-   tNeLw28pTfOcXxoe7yl8MsqxEJBIOBsAASQZCWliCzGrUEaRyqAIZu3KY
-   LHAqGU+SYca+oSUjTTAbJNYd4fpNAfHWnwKb6YKJkVm2wdZbohtKKYBLJ
-   c9Fp0pcHXcD9bY2rIi2QOeyGS2vrKBMDjKkIY2sTY1NvLAFC11R5j3bOo
-   kCxnVzdQHgCcdvS2EAsx87jLpljf3/C3WIezJOISZO4NmXB+pRGIJU4zf
+  bh=wVgd2Fkxolwq6zeqsBghnr0FSHrYA7pFdTgbYMsirPc=;
+  b=EZ2965FD6xDu3lmzoqdfG448zGZVgI0Czyo9sbQ66gvDXaAQzBRt2jch
+   Brop5WnCAGxFL+LEHcjnq9Fr9kquSC9k2q2iWY9t6W5bvI4ovC5mYCFHa
+   YGkC00ZIRKPrVHxj7KEI6DZYAzhuN8KXhW54WIXvw6s+VRXpldoX5+wqF
+   4Fsz5/lTlSAHervV6AISdiBEMo1NheyjLwEECfsldDmRNvPq2oWsuBNtR
+   amorYXv161Onj6ZP2z0mxpIX8ClJylo69c8Fd1NyN+YlBVT77ohu7UwQF
+   UiheLYZJMSzYNJ+cAon/Lqh8NAVfxAqdKIByPyBWRaOoQgywsTDKqaOcf
    A==;
-X-CSE-ConnectionGUID: cKMs2sFPTsSGqBMw3gktDw==
-X-CSE-MsgGUID: 8NGQywdwS7y31rOvQdwkDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="54097690"
+X-CSE-ConnectionGUID: ZutqOr6sSpupd+IN4iH99w==
+X-CSE-MsgGUID: btaUFNvGS3+KdYA8AnXh5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31724219"
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="54097690"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 08:24:13 -0800
-X-CSE-ConnectionGUID: CHziwfncSiuiL1pLiMQsSQ==
-X-CSE-MsgGUID: cdflLxgRTmu3bKyF2T9zpg==
+   d="scan'208";a="31724219"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 08:36:14 -0800
+X-CSE-ConnectionGUID: NtBsQJ8XRjScifSVybyiKw==
+X-CSE-MsgGUID: bOyoXgC3T5may4gSbin5rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="88666041"
+   d="scan'208";a="87827957"
 Received: from lkp-server01.sh.intel.com (HELO c7bc087bbc55) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Nov 2024 08:24:11 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 14 Nov 2024 08:36:12 -0800
 Received: from kbuild by c7bc087bbc55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBcdd-0000A4-05;
-	Thu, 14 Nov 2024 16:24:09 +0000
-Date: Fri, 15 Nov 2024 00:23:49 +0800
+	id 1tBcpF-0000AJ-2m;
+	Thu, 14 Nov 2024 16:36:09 +0000
+Date: Fri, 15 Nov 2024 00:35:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Atish Patra <atishp@rivosinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Atish Patra <Atish.Patra@wdc.com>
-Subject: [atishp04:b4/pmu_event_info 63/66]
- drivers/perf/riscv_pmu_sbi.c:305:74: warning: arithmetic between different
- enumeration types ('enum perf_hw_cache_id' and 'enum perf_hw_cache_op_id')
-Message-ID: <202411150030.LfME9FL5-lkp@intel.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:swap_pages.1 1/2] mm/swap_cgroup.c:152:17: warning:
+ variable 'length' is uninitialized when used here
+Message-ID: <202411150037.UPDfEt8x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,25 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/atishp04/linux b4/pmu_event_info
-head:   30789b82e05f60c9c1a5cfd7b1fb3e51460169a9
-commit: ff95fdf2b45981994b06f059cabb981c3b22d4ed [63/66] drivers/perf: riscv: Implement PMU event info function
-config: riscv-allmodconfig (https://download.01.org/0day-ci/archive/20241115/202411150030.LfME9FL5-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241115/202411150030.LfME9FL5-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git swap_pages.1
+head:   aeaf7a1c697bd0eefe5632f89b289c82ba39b177
+commit: c8954052619e6d17c4530852977306ec5590492a [1/2] mm: swap_cgroup: allocate swap_cgroup map using kcalloc
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241115/202411150037.UPDfEt8x-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241115/202411150037.UPDfEt8x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411150030.LfME9FL5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411150037.UPDfEt8x-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/perf/riscv_pmu_sbi.c:14:
-   In file included from include/linux/perf/riscv_pmu.h:12:
-   In file included from include/linux/perf_event.h:50:
-   In file included from include/linux/pid_namespace.h:7:
-   In file included from include/linux/mm.h:2213:
+   In file included from mm/swap_cgroup.c:2:
+   In file included from include/linux/swap_cgroup.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2211:
    include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
      504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
@@ -100,79 +99,52 @@ All warnings (new ones prefixed by >>):
          |                            ~~~~~~~~~~~~~~~~~~~~~ ^
      525 |                            NR_VM_NUMA_EVENT_ITEMS +
          |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/perf/riscv_pmu_sbi.c:305:74: warning: arithmetic between different enumeration types ('enum perf_hw_cache_id' and 'enum perf_hw_cache_op_id') [-Wenum-enum-conversion]
-     305 |         int num_events = ARRAY_SIZE(pmu_hw_event_map) + PERF_COUNT_HW_CACHE_MAX *
-         |                                                         ~~~~~~~~~~~~~~~~~~~~~~~ ^
-     306 |                          PERF_COUNT_HW_CACHE_OP_MAX * PERF_COUNT_HW_CACHE_RESULT_MAX;
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> mm/swap_cgroup.c:152:17: warning: variable 'length' is uninitialized when used here [-Wuninitialized]
+     152 |         ctrl->length = length;
+         |                        ^~~~~~
+   mm/swap_cgroup.c:140:22: note: initialize the variable 'length' to silence this warning
+     140 |         unsigned long length;
+         |                             ^
+         |                              = 0
    5 warnings generated.
 
 
-vim +305 drivers/perf/riscv_pmu_sbi.c
+vim +/length +152 mm/swap_cgroup.c
 
-   302	
-   303	static int pmu_sbi_check_event_info(void)
-   304	{
- > 305		int num_events = ARRAY_SIZE(pmu_hw_event_map) + PERF_COUNT_HW_CACHE_MAX *
-   306				 PERF_COUNT_HW_CACHE_OP_MAX * PERF_COUNT_HW_CACHE_RESULT_MAX;
-   307		struct riscv_pmu_event_info *event_info_shmem;
-   308		phys_addr_t base_addr;
-   309		int i, j, k, result = 0, count = 0;
-   310		struct sbiret ret;
-   311	
-   312		event_info_shmem = (struct riscv_pmu_event_info *)
-   313				   kcalloc(num_events, sizeof(*event_info_shmem), GFP_KERNEL);
-   314		if (!event_info_shmem) {
-   315			pr_err("Can not allocate memory for event info query\n");
-   316			return -ENOMEM;
-   317		}
-   318	
-   319		for (i = 0; i < ARRAY_SIZE(pmu_hw_event_map); i++)
-   320			event_info_shmem[count++].event_idx = pmu_hw_event_map[i].event_idx;
-   321	
-   322		for (i = 0; i < ARRAY_SIZE(pmu_cache_event_map); i++) {
-   323			for (int j = 0; j < ARRAY_SIZE(pmu_cache_event_map[i]); j++) {
-   324				for (int k = 0; k < ARRAY_SIZE(pmu_cache_event_map[i][j]); k++)
-   325					event_info_shmem[count++].event_idx =
-   326								pmu_cache_event_map[i][j][k].event_idx;
-   327			}
-   328		}
-   329	
-   330		base_addr = __pa(event_info_shmem);
-   331		if (IS_ENABLED(CONFIG_32BIT))
-   332			ret = sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_EVENT_GET_INFO, lower_32_bits(base_addr),
-   333					upper_32_bits(base_addr), count, 0, 0, 0);
-   334		else
-   335			ret = sbi_ecall(SBI_EXT_PMU, SBI_EXT_PMU_EVENT_GET_INFO, base_addr, 0,
-   336					count, 0, 0, 0);
-   337		if (ret.error) {
-   338			result = -EOPNOTSUPP;
-   339			goto free_mem;
-   340		}
-   341		/* Do we need some barriers here or priv mode transition will ensure that */
-   342		for (i = 0; i < ARRAY_SIZE(pmu_hw_event_map); i++) {
-   343			if (!(event_info_shmem[i].output & 0x01))
-   344				pmu_hw_event_map[i].event_idx = -ENOENT;
-   345		}
-   346	
-   347		count = ARRAY_SIZE(pmu_hw_event_map);
-   348	
-   349		for (i = 0; i < ARRAY_SIZE(pmu_cache_event_map); i++) {
-   350			for (j = 0; j < ARRAY_SIZE(pmu_cache_event_map[i]); j++) {
-   351				for (k = 0; k < ARRAY_SIZE(pmu_cache_event_map[i][j]); k++) {
-   352					if (!(event_info_shmem[count].output & 0x01))
-   353						pmu_cache_event_map[i][j][k].event_idx = -ENOENT;
-   354					count++;
-   355				}
-   356			}
-   357		}
-   358	
-   359	free_mem:
-   360		kfree(event_info_shmem);
-   361	
-   362		return result;
-   363	}
-   364	
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  136  
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  137  int swap_cgroup_swapon(int type, unsigned long max_pages)
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  138  {
+c8954052619e6d mm/swap_cgroup.c Roman Gushchin    2024-11-14  139  	struct swap_cgroup **map;
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  140  	unsigned long length;
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  141  	struct swap_cgroup_ctrl *ctrl;
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  142  
+c91bdc93589928 mm/swap_cgroup.c Johannes Weiner   2022-09-26  143  	if (mem_cgroup_disabled())
+c91bdc93589928 mm/swap_cgroup.c Johannes Weiner   2022-09-26  144  		return 0;
+c91bdc93589928 mm/swap_cgroup.c Johannes Weiner   2022-09-26  145  
+c8954052619e6d mm/swap_cgroup.c Roman Gushchin    2024-11-14  146  	map = vcalloc(max_pages, sizeof(struct swap_cgroup));
+c8954052619e6d mm/swap_cgroup.c Roman Gushchin    2024-11-14  147  	if (!map)
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  148  		goto nomem;
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  149  
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  150  	ctrl = &swap_cgroup_ctrl[type];
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  151  	mutex_lock(&swap_cgroup_mutex);
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07 @152  	ctrl->length = length;
+c8954052619e6d mm/swap_cgroup.c Roman Gushchin    2024-11-14  153  	ctrl->map = map;
+e9e58a4ec3b108 mm/page_cgroup.c KAMEZAWA Hiroyuki 2010-03-15  154  	spin_lock_init(&ctrl->lock);
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  155  	mutex_unlock(&swap_cgroup_mutex);
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  156  
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  157  	return 0;
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  158  nomem:
+1170532bb49f94 mm/swap_cgroup.c Joe Perches       2016-03-17  159  	pr_info("couldn't allocate enough memory for swap_cgroup\n");
+1170532bb49f94 mm/swap_cgroup.c Joe Perches       2016-03-17  160  	pr_info("swap_cgroup can be disabled by swapaccount=0 boot option\n");
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  161  	return -ENOMEM;
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  162  }
+27a7faa0779dd1 mm/page_cgroup.c KAMEZAWA Hiroyuki 2009-01-07  163  
+
+:::::: The code at line 152 was first introduced by commit
+:::::: 27a7faa0779dd13729196c1a818c294f44bbd1ee memcg: swap cgroup for remembering usage
+
+:::::: TO: KAMEZAWA Hiroyuki <kamezawa.hiroyu@jp.fujitsu.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
