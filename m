@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890761F60A;
-	Thu, 14 Nov 2024 14:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454151420A8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 15:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731594667; cv=none; b=diGcqvL3sm6T7JcT0xyXB4MSy7n+cgJ4TyxEOnOByMHEDsXDGXtsLgFFjGAiiFE9F9FOF4M3hP+R/DsgWaOFTfJ9l+qIiePo6Mv0hRU+DDanwIMaTaY8nj1t9rQdrR2TGGFyQYgYRAslbuY67/zhMUCG/kepIPyNtnCp1FAJL78=
+	t=1731598391; cv=none; b=mBC7kCbB/ofhB3A9b4fUVygyBnv4qL8fSm5S1RvkWuZ61VerfvIXHRsXT5MowuaUWz5nj3G3Thv2jmT89EwfeUIkSdUlzhb4cISDj0MzLJBbN+HOnciq85QLgH8EqyOEol0ouTHWWalpWn5zdPnr/6/zeOJvZprUmjX0eHhrzG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731594667; c=relaxed/simple;
-	bh=Ulcj3z8+CNtxtG8DxV0Tf0tnfvjmqLGb7ESTmLUruFk=;
+	s=arc-20240116; t=1731598391; c=relaxed/simple;
+	bh=G1eteGWhGs7qoxZjHc9W4xxDiaORnwo5ELPzngEFEr4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NQnNG4Keb/iT4mAF0CJ93j+op3m0DinHYJLKtmXCUp5FKrKON3pMTlcDmoS2LlytBwqz0I3+4C+XyY8c6FYHbIoUC3Rk+Fm///vkEg1B7BsNsO3jLxp7W8ncseTNi7nJ3CCXRfVfxkXrRAqX1w+ux9EH98OX3qyeav7i4AhVOw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VjqILsy2; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=DV4AqLDG+pTrgML95NDJWCRmzIzid1RQTKZmkeb4jtuSb9H4s2vT+KjEEm3S7l1HZZzDy8Bq7xGKjJEWaJ+L3zOP2ode+UOBIRZl/KVXTVrxAzjmdWtx7kjKaM8u9BNZvUqDrNg+0biE9LWxPiR3EnGKdXzfvNW/KSfR+jEA+8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MnP6kqYZ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VjqILsy2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MnP6kqYZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731594665; x=1763130665;
+  t=1731598388; x=1763134388;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ulcj3z8+CNtxtG8DxV0Tf0tnfvjmqLGb7ESTmLUruFk=;
-  b=VjqILsy2bY0kFgN4ZlbOQ8HI7N6pYSR/Pq1OG09nyZL99bLKEc8TgTze
-   Re8FNWtGVBiUkiFSGNPI9+a2fHAQxU8Pnho7Nh8tIy+s7I8Zxw0a7T7qK
-   o7CPvZhUPslMXhQr+FGI9kIKPg0T2XvMyJ1bTigagE7yMQk9ywf+G4AWz
-   3ylyBsGOOH33YOum8ji2h1AmqClLMqV98oCaxggTurH/p0S4dxwBGpp3y
-   GDYzsaENuOP6rVR/5EiMmU7wWXWUt94uWmbcwXEkdpJ2B0rsiZZYee++t
-   g/c7slJV6/1CyVdDc9eUd0o8ai4kpvDUuWojnGnegLi1TlFShLkYfhOoQ
-   g==;
-X-CSE-ConnectionGUID: ckiAKUa9Q0K+8day0ZhnFA==
-X-CSE-MsgGUID: bKLgftM9RUyzVDyx+fpPfA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31439548"
+  bh=G1eteGWhGs7qoxZjHc9W4xxDiaORnwo5ELPzngEFEr4=;
+  b=MnP6kqYZrYEWQ98ueGO95KO09kXkS/AjKibtZ9hg/4cjaYG7ElsZtwbY
+   POLtJAjyRA6v1pgnfEruoTusAg8b6fTYjhRx324yhvDZ8Q/oEVYlRLVKp
+   3p9hpKwpSg8DWhlpa0MBpLqcr7gsHhjfwCAeHFMZYP/mwpR+bVV4fqIYO
+   IP6h2m+VqpRuuilhFH2zXY41lOO9LikdZXzWK2uObozSgXe8+RyqDvcLc
+   cpGnQ9j3ISPep/knTu78smRFXcLxs1K+03k1bSna2iiM0+QRGOzfmmS/h
+   dy6ntFOkDTgaIlccsq30/pXEbS/hsLxmKeZf1bvsircTnPOupbL2c+FSm
+   w==;
+X-CSE-ConnectionGUID: c7idcJvWS2mRL90YXxcwsA==
+X-CSE-MsgGUID: fVOZ/EPERmeQck8hb8f2VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31654364"
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="31439548"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 06:31:03 -0800
-X-CSE-ConnectionGUID: 54Rrk5HbRFuSd04yV5Rulw==
-X-CSE-MsgGUID: B4PWwqfIQMmmuLuKKicC2w==
+   d="scan'208";a="31654364"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 07:33:07 -0800
+X-CSE-ConnectionGUID: pScZmwRlTAiUam4YSCydkg==
+X-CSE-MsgGUID: IRINVIaLRqOXH5j9JcJpuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="89000277"
+   d="scan'208";a="88245293"
 Received: from lkp-server01.sh.intel.com (HELO c7bc087bbc55) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 Nov 2024 06:31:02 -0800
+  by orviesa009.jf.intel.com with ESMTP; 14 Nov 2024 07:33:07 -0800
 Received: from kbuild by c7bc087bbc55 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBas7-00005h-2b;
-	Thu, 14 Nov 2024 14:30:59 +0000
-Date: Thu, 14 Nov 2024 22:30:43 +0800
+	id 1tBbqB-00007Z-2g;
+	Thu, 14 Nov 2024 15:33:03 +0000
+Date: Thu, 14 Nov 2024 23:32:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mike Snitzer <snitzer@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [snitzer:nfs-localio-for-next 29/31] fs/nfs/client.c:246:2: error:
- call to undeclared function 'nfs_localio_disable_client'; ISO C99 and later
- do not support implicit function declarations
-Message-ID: <202411142232.cZKw6Pvi-lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1291/1291]
+ drivers/char/svm.c:312:17-38: WARNING: atomic_dec_and_test variation before
+ object free at line 335.
+Message-ID: <202411142318.PmiGB1Ht-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git nfs-localio-for-next
-head:   cfedadbf2d21c1e63694d79b40d00573aa80af75
-commit: 528d24b1cf5cfdcbb711a1d5de98f94930527ecc [29/31] nfs/localio: remove redundant code and simplify LOCALIO enablement
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241114/202411142232.cZKw6Pvi-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411142232.cZKw6Pvi-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   5769bea33a24c5a60de09ceaeb12f349d1161f3b
+commit: 4cdb60f56180d6ef7c10bd0e50ddda96ebc9f783 [1291/1291] svm: implement unpin pages to dec refcount
+config: arm64-randconfig-r063-20241113 (https://download.01.org/0day-ci/archive/20241114/202411142318.PmiGB1Ht-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411142232.cZKw6Pvi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411142318.PmiGB1Ht-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/char/svm.c:312:17-38: WARNING: atomic_dec_and_test variation before object free at line 335.
 
-   In file included from fs/nfs/client.c:14:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/nfs/client.c:246:2: error: call to undeclared function 'nfs_localio_disable_client'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     246 |         nfs_localio_disable_client(clp);
-         |         ^
-   fs/nfs/client.c:246:2: note: did you mean 'nfs_localio_file_init'?
-   include/linux/nfs_fs.h:87:20: note: 'nfs_localio_file_init' declared here
-      87 | static inline void nfs_localio_file_init(struct nfs_file_localio *nfl)
-         |                    ^
-   4 warnings and 1 error generated.
+vim +312 drivers/char/svm.c
 
-
-vim +/nfs_localio_disable_client +246 fs/nfs/client.c
-
-   240	
-   241	/*
-   242	 * Destroy a shared client record
-   243	 */
-   244	void nfs_free_client(struct nfs_client *clp)
-   245	{
- > 246		nfs_localio_disable_client(clp);
-   247	
-   248		/* -EIO all pending I/O */
-   249		if (!IS_ERR(clp->cl_rpcclient))
-   250			rpc_shutdown_client(clp->cl_rpcclient);
-   251	
-   252		put_net(clp->cl_net);
-   253		put_nfs_version(clp->cl_nfs_mod);
-   254		kfree(clp->cl_hostname);
-   255		kfree(clp->cl_acceptor);
-   256		kfree_rcu(clp, rcu);
-   257	}
-   258	EXPORT_SYMBOL_GPL(nfs_free_client);
-   259	
+   304	
+   305	static void svm_remove_sdma(struct svm_process *process,
+   306				    struct svm_sdma *sdma, bool try_rm)
+   307	{
+   308		int null_count = 0;
+   309	
+   310		mutex_lock(&process->mutex);
+   311	
+ > 312		if (try_rm && (!atomic64_dec_and_test(&sdma->ref))) {
+   313			mutex_unlock(&process->mutex);
+   314			return;
+   315		}
+   316	
+   317		rb_erase(&sdma->node, &process->sdma_list);
+   318		RB_CLEAR_NODE(&sdma->node);
+   319		mutex_unlock(&process->mutex);
+   320	
+   321		while (sdma->nr_pages--) {
+   322			if (sdma->pages[sdma->nr_pages] == NULL) {
+   323				pr_err("null pointer, nr_pages:%d.\n", sdma->nr_pages);
+   324				null_count++;
+   325				continue;
+   326			}
+   327	
+   328			put_page(sdma->pages[sdma->nr_pages]);
+   329		}
+   330	
+   331		if (null_count)
+   332			dump_stack();
+   333	
+   334		kfree(sdma->pages);
+ > 335		kfree(sdma);
+   336	}
+   337	
 
 -- 
 0-DAY CI Kernel Test Service
