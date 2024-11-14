@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6223F18C913;
-	Wed, 13 Nov 2024 23:32:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD5A163
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 00:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731540775; cv=none; b=cKv3XwNxVEQC2D0qCjN55HB4i96KEOXU4QWiagrqzTfBSLlvWbvNMG2MBzsqa3PJDMxoD75JfGA6g5iBcSLdKo0e0PUCJRfFKU0W6RPqOg2+SIN0lY+qYkr2/HfL3Jt63cAgThngKyAFXjFAWSCEAGT7YjgVRtIixh6kzefDRQc=
+	t=1731542757; cv=none; b=n+x/soGWx+WH+ADg9eLEsTokTf7QCpuz8MT/g9vYBeRANI76QP8jr7uOnzqMrhJ2ZB7Yefv1i52/UtiYK1CWDSoBHIIK/Tan6F8UBLbpCmk8AJS1mKI2YEA2Wleu4ujlpoLVJ0fo9z9BpV8IpVr9LVoOlT/bRy+3vJtDUkbKY3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731540775; c=relaxed/simple;
-	bh=X2f0x2yBm/u15hTS6abC7J1o2sTyF6rPVS15P06IP7E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXXc+VaDEHKo6yuMqDLB2uWt1neKfzEWpNS+OaLPzvoMsMyZn36iXX0FG5QEpZqyJPHZkFYw1PSz4Z6+D6uzN6tX3xItOU9bg8tbba3oYYz37V+APELqaFl+VR6i42Iw5ChyoMPC0x43Y+DS9SNxJFBDGioLTbISWLESFXpoSRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dl9k00ct; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1731542757; c=relaxed/simple;
+	bh=3p1lINz0cFwl0Om6zTvJA1hgRhFEk8ssRGTk7kfatLQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O5eQzJ61NJLzSY24rgYxrJu8ZznNwtD6Ihwa9I8DMyqOLIXk0NOBsFNaBkZekhsG3hs9M3D4LSHG0rx6gocUj0Wju/gG39vo5MrOVoSFoFMtvFeaNlQ1PlrXuBAEdbuSJAp+oX4Rs5az2Jzjgz3DcNOAAUKRRsFjcz001/3rYj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fb8fmrFy; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dl9k00ct"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fb8fmrFy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731540773; x=1763076773;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=X2f0x2yBm/u15hTS6abC7J1o2sTyF6rPVS15P06IP7E=;
-  b=dl9k00ctgMYu0Z06H7RSucx3oWkxTYm9L9UDfC89cfjF9kAYTggDHzJp
-   BsefAmpuBpIaXDMJprQ4DzLtXGMPwJW/+KjQ30EX8MQHwQG8BGOlFuKIN
-   Mdxo3QqVgINtgMW5AQaSPk69yo7mJYlruw+LTO1rAbQWzqUV+zk77IL3J
-   PoASerP1owMhKAMLuquMdZ1G3VaxsSNhGWNfjdV6BbTiTB4wxYv4qw/cs
-   fdLHekVjbDBpkg8T1zgXukTzqrN6Z1jQdAo4O41mpoZIS/Fje8GfVT/Qs
-   p7t+3olApQ2eJGV1y65KaAz5CxF50StqmHjUriVjrBIy+zIoLU2ps0vKJ
+  t=1731542755; x=1763078755;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3p1lINz0cFwl0Om6zTvJA1hgRhFEk8ssRGTk7kfatLQ=;
+  b=Fb8fmrFy/D3aKRkFGbnqGN22lAXlon79xxzfqnqigOXL9T6u9MlcDogs
+   dgPAcMl2sL757wD8WCMazL8lM2evGnHTtYvRF92ckOSJe6u2FfvPjixz3
+   4hVZbiJReAyybPFrKb03H3sInHBr1wb7I8N4dXAOoFrzP4rN8u/d1BrfW
+   W0FsXb2ytu3AqaCLlymXOW39lcCk49RxAi1Uf5EKneNcWFQEcUzB4w9vt
+   IQTcZyPp3UjHvsQaXatCFyXA15CqAnB563VPEUipd+rlh9ZAmflar7O5O
+   CKyaV8f/LH+/Ro3UuX7QHe6hXI8tfNPIQE3rlItwDbshmclLAGFbuKJ/9
    g==;
-X-CSE-ConnectionGUID: sbcI+Y1HTlGXDokYnyFqSA==
-X-CSE-MsgGUID: BT9oNIC3TqOwsgHYZTpdsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31433481"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31433481"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 15:32:53 -0800
-X-CSE-ConnectionGUID: 8n2eSxNDRqe4t5LXyKI3Kg==
-X-CSE-MsgGUID: 1a6eHMKqSBWD4rx55yshUw==
+X-CSE-ConnectionGUID: u4Yq0dZeR5KXACJ+EYEANw==
+X-CSE-MsgGUID: fWOdhCRsS7SISfuhxzVOaQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="42073475"
+X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
+   d="scan'208";a="42073475"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 16:05:55 -0800
+X-CSE-ConnectionGUID: B0vCvuA5SOay6ObsmvOSaQ==
+X-CSE-MsgGUID: K06VeEjzRrutJALkF+v6pg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="92963441"
+   d="scan'208";a="111341294"
 Received: from lkp-server01.sh.intel.com (HELO 80bd855f15b3) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Nov 2024 15:32:50 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 13 Nov 2024 16:05:54 -0800
 Received: from kbuild by 80bd855f15b3 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBMqt-0000rR-1y;
-	Wed, 13 Nov 2024 23:32:47 +0000
-Date: Thu, 14 Nov 2024 07:32:15 +0800
+	id 1tBNMt-0000uX-2L;
+	Thu, 14 Nov 2024 00:05:51 +0000
+Date: Thu, 14 Nov 2024 08:05:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Somalapuram Amaranath <Amaranath.Somalapuram@amd.com>,
-	Matthew Brost <matthew.brost@intel.com>,
-	dri-devel@lists.freedesktop.org,
-	Paulo Zanoni <paulo.r.zanoni@intel.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v13 2/8] drm/ttm: Provide a shmem backup implementation
-Message-ID: <202411140712.uPD3DXCY-lkp@intel.com>
-References: <20241113183550.6228-3-thomas.hellstrom@linux.intel.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: mm/memory.c:3303:13: sparse: sparse: incorrect type in assignment
+ (different base types)
+Message-ID: <202411140757.G882BSgk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,71 +61,314 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113183550.6228-3-thomas.hellstrom@linux.intel.com>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on linus/master v6.12-rc7 next-20241113]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Balance-ttm_resource_cursor_init-and-ttm_resource_cursor_fini/20241114-023727
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241113183550.6228-3-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH v13 2/8] drm/ttm: Provide a shmem backup implementation
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241114/202411140712.uPD3DXCY-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140712.uPD3DXCY-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux linux-5.10-gen-rkr3.4
+head:   39141d792534c5703bb834861c47718008c85001
+commit: 5835d87162afa8424c692a73a10ef5723dcc183b FROMLIST: mm: make pte_unmap_same compatible with SPF
+date:   3 years, 10 months ago
+config: i386-randconfig-062-20241112 (https://download.01.org/0day-ci/archive/20241114/202411140757.G882BSgk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140757.G882BSgk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411140712.uPD3DXCY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411140757.G882BSgk-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/memory.c:2873:19: sparse: sparse: incorrect type in initializer (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
+   mm/memory.c:2873:19: sparse:     expected int ret
+   mm/memory.c:2873:19: sparse:     got restricted vm_fault_t
+   mm/memory.c:2918:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected int ret @@     got restricted vm_fault_t @@
+   mm/memory.c:2918:21: sparse:     expected int ret
+   mm/memory.c:2918:21: sparse:     got restricted vm_fault_t
+   mm/memory.c:3012:16: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted vm_fault_t @@     got int ret @@
+   mm/memory.c:3012:16: sparse:     expected restricted vm_fault_t
+   mm/memory.c:3012:16: sparse:     got int ret
+>> mm/memory.c:3303:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted vm_fault_t [usertype] ret @@     got int @@
+   mm/memory.c:3303:13: sparse:     expected restricted vm_fault_t [usertype] ret
+   mm/memory.c:3303:13: sparse:     got int
+   mm/memory.c:5262:22: sparse: sparse: cast removes address space '__user' of expression
+   mm/memory.c:253:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:287:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:321:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:957:17: sparse: sparse: context imbalance in 'copy_pte_range' - different lock contexts for basic block
+   mm/memory.c:1075:61: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:1112:61: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:1136:61: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:1637:16: sparse: sparse: context imbalance in '__get_locked_pte' - different lock contexts for basic block
+   mm/memory.c:1686:9: sparse: sparse: context imbalance in 'insert_page' - different lock contexts for basic block
+   mm/memory.c:2188:17: sparse: sparse: context imbalance in 'remap_pte_range' - different lock contexts for basic block
+   mm/memory.c:2223:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:2245:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:2267:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:2433:17: sparse: sparse: context imbalance in 'apply_to_pte_range' - unexpected unlock
+   mm/memory.c:2463:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:2491:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:2519:46: sparse: sparse: self-comparison always evaluates to false
+   mm/memory.c:2712:9: sparse: sparse: context imbalance in 'wp_page_copy' - different lock contexts for basic block
+   mm/memory.c:3060:17: sparse: sparse: context imbalance in 'wp_pfn_shared' - unexpected unlock
+   mm/memory.c:3123:19: sparse: sparse: context imbalance in 'do_wp_page' - different lock contexts for basic block
+   mm/memory.c:3719:19: sparse: sparse: context imbalance in 'pte_alloc_one_map' - different lock contexts for basic block
+   mm/memory.c:3947:17: sparse: sparse: context imbalance in 'finish_fault' - unexpected unlock
+   mm/memory.c:4056:9: sparse: sparse: context imbalance in 'do_fault_around' - unexpected unlock
+   mm/memory.c:4775:12: sparse: sparse: context imbalance in '__follow_pte_pmd' - wrong count at exit
+   mm/memory.c:4861:16: sparse: sparse: context imbalance in 'follow_pte_pmd' - different lock contexts for basic block
+   mm/memory.c:4921:9: sparse: sparse: context imbalance in 'follow_phys' - unexpected unlock
 
-   In file included from drivers/gpu/drm/ttm/ttm_backup.c:6:
-   In file included from include/drm/ttm/ttm_backup.h:10:
-   In file included from include/linux/shmem_fs.h:6:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/ttm/ttm_backup.c:17:9: error: casting from randomized structure pointer type 'struct file *' to 'struct ttm_backup *'
-      17 |         return (struct ttm_backup *)file;
-         |                ^
-   4 warnings and 1 error generated.
+vim +3303 mm/memory.c
 
-
-vim +17 drivers/gpu/drm/ttm/ttm_backup.c
-
-    14	
-    15	static struct ttm_backup *ttm_file_to_backup(struct file *file)
-    16	{
-  > 17		return (struct ttm_backup *)file;
-    18	}
-    19	
+  3283	
+  3284	/*
+  3285	 * We enter with non-exclusive mmap_lock (to exclude vma changes,
+  3286	 * but allow concurrent faults), and pte mapped but not yet locked.
+  3287	 * We return with pte unmapped and unlocked.
+  3288	 *
+  3289	 * We return with the mmap_lock locked or unlocked in the same cases
+  3290	 * as does filemap_fault().
+  3291	 */
+  3292	vm_fault_t do_swap_page(struct vm_fault *vmf)
+  3293	{
+  3294		struct vm_area_struct *vma = vmf->vma;
+  3295		struct page *page = NULL, *swapcache;
+  3296		swp_entry_t entry;
+  3297		pte_t pte;
+  3298		int locked;
+  3299		int exclusive = 0;
+  3300		vm_fault_t ret;
+  3301		void *shadow = NULL;
+  3302	
+> 3303		ret = pte_unmap_same(vmf);
+  3304		if (ret) {
+  3305			/*
+  3306			 * If pte != orig_pte, this means another thread did the
+  3307			 * swap operation in our back.
+  3308			 * So nothing else to do.
+  3309			 */
+  3310			if (ret == VM_FAULT_PTNOTSAME)
+  3311				ret = 0;
+  3312			goto out;
+  3313		}
+  3314	
+  3315		entry = pte_to_swp_entry(vmf->orig_pte);
+  3316		if (unlikely(non_swap_entry(entry))) {
+  3317			if (is_migration_entry(entry)) {
+  3318				migration_entry_wait(vma->vm_mm, vmf->pmd,
+  3319						     vmf->address);
+  3320			} else if (is_device_private_entry(entry)) {
+  3321				vmf->page = device_private_entry_to_page(entry);
+  3322				ret = vmf->page->pgmap->ops->migrate_to_ram(vmf);
+  3323			} else if (is_hwpoison_entry(entry)) {
+  3324				ret = VM_FAULT_HWPOISON;
+  3325			} else {
+  3326				print_bad_pte(vma, vmf->address, vmf->orig_pte, NULL);
+  3327				ret = VM_FAULT_SIGBUS;
+  3328			}
+  3329			goto out;
+  3330		}
+  3331	
+  3332	
+  3333		delayacct_set_flag(DELAYACCT_PF_SWAPIN);
+  3334		page = lookup_swap_cache(entry, vma, vmf->address);
+  3335		swapcache = page;
+  3336	
+  3337		if (!page) {
+  3338			struct swap_info_struct *si = swp_swap_info(entry);
+  3339	
+  3340			if (data_race(si->flags & SWP_SYNCHRONOUS_IO) &&
+  3341			    __swap_count(entry) == 1) {
+  3342				/* skip swapcache */
+  3343				gfp_t flags = GFP_HIGHUSER_MOVABLE;
+  3344	
+  3345				trace_android_rvh_set_skip_swapcache_flags(&flags);
+  3346				page = alloc_page_vma(flags, vma, vmf->address);
+  3347				if (page) {
+  3348					int err;
+  3349	
+  3350					__SetPageLocked(page);
+  3351					__SetPageSwapBacked(page);
+  3352					set_page_private(page, entry.val);
+  3353	
+  3354					/* Tell memcg to use swap ownership records */
+  3355					SetPageSwapCache(page);
+  3356					err = mem_cgroup_charge(page, vma->vm_mm,
+  3357								GFP_KERNEL);
+  3358					ClearPageSwapCache(page);
+  3359					if (err) {
+  3360						ret = VM_FAULT_OOM;
+  3361						goto out_page;
+  3362					}
+  3363	
+  3364					shadow = get_shadow_from_swap_cache(entry);
+  3365					if (shadow)
+  3366						workingset_refault(page, shadow);
+  3367	
+  3368					lru_cache_add(page);
+  3369					swap_readpage(page, true);
+  3370				}
+  3371			} else {
+  3372				page = swapin_readahead(entry, GFP_HIGHUSER_MOVABLE,
+  3373							vmf);
+  3374				swapcache = page;
+  3375			}
+  3376	
+  3377			if (!page) {
+  3378				/*
+  3379				 * Back out if the VMA has changed in our back during
+  3380				 * a speculative page fault or if somebody else
+  3381				 * faulted in this pte while we released the pte lock.
+  3382				 */
+  3383				if (!pte_map_lock(vmf)) {
+  3384					delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
+  3385					ret = VM_FAULT_RETRY;
+  3386					goto out;
+  3387				}
+  3388	
+  3389				if (likely(pte_same(*vmf->pte, vmf->orig_pte)))
+  3390					ret = VM_FAULT_OOM;
+  3391				delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
+  3392				goto unlock;
+  3393			}
+  3394	
+  3395			/* Had to read the page from swap area: Major fault */
+  3396			ret = VM_FAULT_MAJOR;
+  3397			count_vm_event(PGMAJFAULT);
+  3398			count_memcg_event_mm(vma->vm_mm, PGMAJFAULT);
+  3399		} else if (PageHWPoison(page)) {
+  3400			/*
+  3401			 * hwpoisoned dirty swapcache pages are kept for killing
+  3402			 * owner processes (which may be unknown at hwpoison time)
+  3403			 */
+  3404			ret = VM_FAULT_HWPOISON;
+  3405			delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
+  3406			goto out_release;
+  3407		}
+  3408	
+  3409		locked = lock_page_or_retry(page, vma->vm_mm, vmf->flags);
+  3410	
+  3411		delayacct_clear_flag(DELAYACCT_PF_SWAPIN);
+  3412		if (!locked) {
+  3413			ret |= VM_FAULT_RETRY;
+  3414			goto out_release;
+  3415		}
+  3416	
+  3417		/*
+  3418		 * Make sure try_to_free_swap or reuse_swap_page or swapoff did not
+  3419		 * release the swapcache from under us.  The page pin, and pte_same
+  3420		 * test below, are not enough to exclude that.  Even if it is still
+  3421		 * swapcache, we need to check that the page's swap has not changed.
+  3422		 */
+  3423		if (unlikely((!PageSwapCache(page) ||
+  3424				page_private(page) != entry.val)) && swapcache)
+  3425			goto out_page;
+  3426	
+  3427		page = ksm_might_need_to_copy(page, vma, vmf->address);
+  3428		if (unlikely(!page)) {
+  3429			ret = VM_FAULT_OOM;
+  3430			page = swapcache;
+  3431			goto out_page;
+  3432		}
+  3433	
+  3434		cgroup_throttle_swaprate(page, GFP_KERNEL);
+  3435	
+  3436		/*
+  3437		 * Back out if the VMA has changed in our back during a speculative
+  3438		 * page fault or if somebody else already faulted in this pte.
+  3439		 */
+  3440		if (!pte_map_lock(vmf)) {
+  3441			ret = VM_FAULT_RETRY;
+  3442			goto out_page;
+  3443		}
+  3444		if (unlikely(!pte_same(*vmf->pte, vmf->orig_pte)))
+  3445			goto out_nomap;
+  3446	
+  3447		if (unlikely(!PageUptodate(page))) {
+  3448			ret = VM_FAULT_SIGBUS;
+  3449			goto out_nomap;
+  3450		}
+  3451	
+  3452		/*
+  3453		 * The page isn't present yet, go ahead with the fault.
+  3454		 *
+  3455		 * Be careful about the sequence of operations here.
+  3456		 * To get its accounting right, reuse_swap_page() must be called
+  3457		 * while the page is counted on swap but not yet in mapcount i.e.
+  3458		 * before page_add_anon_rmap() and swap_free(); try_to_free_swap()
+  3459		 * must be called after the swap_free(), or it will never succeed.
+  3460		 */
+  3461	
+  3462		inc_mm_counter_fast(vma->vm_mm, MM_ANONPAGES);
+  3463		dec_mm_counter_fast(vma->vm_mm, MM_SWAPENTS);
+  3464		pte = mk_pte(page, vma->vm_page_prot);
+  3465		if ((vmf->flags & FAULT_FLAG_WRITE) && reuse_swap_page(page, NULL)) {
+  3466			pte = maybe_mkwrite(pte_mkdirty(pte), vma);
+  3467			vmf->flags &= ~FAULT_FLAG_WRITE;
+  3468			ret |= VM_FAULT_WRITE;
+  3469			exclusive = RMAP_EXCLUSIVE;
+  3470		}
+  3471		flush_icache_page(vma, page);
+  3472		if (pte_swp_soft_dirty(vmf->orig_pte))
+  3473			pte = pte_mksoft_dirty(pte);
+  3474		if (pte_swp_uffd_wp(vmf->orig_pte)) {
+  3475			pte = pte_mkuffd_wp(pte);
+  3476			pte = pte_wrprotect(pte);
+  3477		}
+  3478		set_pte_at(vma->vm_mm, vmf->address, vmf->pte, pte);
+  3479		arch_do_swap_page(vma->vm_mm, vma, vmf->address, pte, vmf->orig_pte);
+  3480		vmf->orig_pte = pte;
+  3481	
+  3482		/* ksm created a completely new copy */
+  3483		if (unlikely(page != swapcache && swapcache)) {
+  3484			page_add_new_anon_rmap(page, vma, vmf->address, false);
+  3485			lru_cache_add_inactive_or_unevictable(page, vma);
+  3486		} else {
+  3487			do_page_add_anon_rmap(page, vma, vmf->address, exclusive);
+  3488		}
+  3489	
+  3490		swap_free(entry);
+  3491		if (mem_cgroup_swap_full(page) ||
+  3492		    (vma->vm_flags & VM_LOCKED) || PageMlocked(page))
+  3493			try_to_free_swap(page);
+  3494		unlock_page(page);
+  3495		if (page != swapcache && swapcache) {
+  3496			/*
+  3497			 * Hold the lock to avoid the swap entry to be reused
+  3498			 * until we take the PT lock for the pte_same() check
+  3499			 * (to avoid false positives from pte_same). For
+  3500			 * further safety release the lock after the swap_free
+  3501			 * so that the swap count won't change under a
+  3502			 * parallel locked swapcache.
+  3503			 */
+  3504			unlock_page(swapcache);
+  3505			put_page(swapcache);
+  3506		}
+  3507	
+  3508		if (vmf->flags & FAULT_FLAG_WRITE) {
+  3509			ret |= do_wp_page(vmf);
+  3510			if (ret & VM_FAULT_ERROR)
+  3511				ret &= VM_FAULT_ERROR;
+  3512			goto out;
+  3513		}
+  3514	
+  3515		/* No need to invalidate - it was non-present before */
+  3516		update_mmu_cache(vma, vmf->address, vmf->pte);
+  3517	unlock:
+  3518		pte_unmap_unlock(vmf->pte, vmf->ptl);
+  3519	out:
+  3520		return ret;
+  3521	out_nomap:
+  3522		pte_unmap_unlock(vmf->pte, vmf->ptl);
+  3523	out_page:
+  3524		unlock_page(page);
+  3525	out_release:
+  3526		put_page(page);
+  3527		if (page != swapcache && swapcache) {
+  3528			unlock_page(swapcache);
+  3529			put_page(swapcache);
+  3530		}
+  3531		return ret;
+  3532	}
+  3533	
 
 -- 
 0-DAY CI Kernel Test Service
