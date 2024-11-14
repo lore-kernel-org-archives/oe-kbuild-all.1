@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B1829A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 03:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177E642052
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 14 Nov 2024 04:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731556184; cv=none; b=UjMD8v6qH3i/OKlfftQVv5a5ffy0mwV6d6njgbcdcFkpzrnp+fiwut9k2yQYqx1FKcgE3f8/mg1JwxlMjkbxx93+QGt3mMYG4aETuBZzFvDclZ9BloQvpOBpgAfLbYP+MLN0b/M58PH4Kngk4C0Jhzs+rWfwQsPaL9kJZrHTtEI=
+	t=1731558048; cv=none; b=jI4jofNLcZG3te1HXF8qV53avw3OTbr421j3moCuAxoXywSME8jU7s+3Te3Q7W9HDit44w3H8bGLTOrd29BT0sNnSG6SlGnbLYd0QlzhA5g4ZrhikKsCzl84J2PMTEx/2xxVv5RZF2D3m2bvRdgwcxLOfUv1NNW8Tl4xJT+fu9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731556184; c=relaxed/simple;
-	bh=KTNjYpg//eZiNk+8gP+YxF6yTXRngavg48KuU1zIUIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uplFo330XIcnExz/BatQuUAhhPEfFcJkcPoHyncI3RwdlKiDab6KdrYJxoP/Vf+utRlT/dNXcHHVvlpK/eWmc8h3FwEy6exdtvFUjHPTsEKED4ua1vyllfJF+Hbxlxo4xfFYTrx+wZlu4NKImENRWAgnuGCXUkvn+Z6NQ0+1/qE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRxmbpe7; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1731558048; c=relaxed/simple;
+	bh=YVIWZls2hfJ7VYSlPL8sAB0nPPFY4ogRaKErX/qfjPU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ATQkdlUl9eDI/XgCzYVNebqMUatsJbgnqwbJeSzQ+8lI+RnVOmsyWC+/Lzi8+UZ7N1RxTmFIpWYigQ+LxCckRjA40Ximbg2LWcGQAKM0ULYebfeQgeDVVAF+0BlzBc9eEf51euow1QnhqSZhfNABQ19UnWqProu5RS0kgy+/SXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFTr+5XP; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRxmbpe7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFTr+5XP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731556183; x=1763092183;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KTNjYpg//eZiNk+8gP+YxF6yTXRngavg48KuU1zIUIQ=;
-  b=dRxmbpe7BJuke9Ql+qybvHxMC7pWi/gmvGpUXzprQXNjMI4RvETv5IU4
-   u0JSlHpsg9j8+RCc9MJJ4cByE7670IZXz5o3IRLL2NmbRvsTZ6nAW0R1j
-   x1Xnn6+ZmE4pQoharG4uaxTOwxxyRPR0fS5YgfxCB+qn/gJqR/ZvJyxik
-   MUh6f7oMu+7PfTcJM7/9r7a6jj8DT5Sb44Jmu3U9amzT4OsjAdXtst36Z
-   yX8hNt088AyZGBc+r0LtyFPq54hWPwArZUdy4w1FLKByJf1d0ZLFiAfwD
-   z27n43a+TlcCojALfrTsNP+Dycqjy5dlVefKcyOfwAyn0+b+6Peo6r3rX
+  t=1731558046; x=1763094046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YVIWZls2hfJ7VYSlPL8sAB0nPPFY4ogRaKErX/qfjPU=;
+  b=nFTr+5XPBDHe/20QiXTYhRS1ON9pBxJsHkJXBucRgfTg1ukK50kmI4rX
+   g/q89Kcx5f2lKFyBgn1upiKgNTn0x8szT4NFPU6Uf0LPYrttEZIZA9FfB
+   iNSo2x3TVdkv+Fa04ueQcMCl4AEir/VBArlvI10FkZ4Suh/lH6Hi39jSZ
+   jubp9oXBRM2y8Gin2G0bRimkBXA3UVTEoZZrYnx+V8ONWcW4kqJ0/Dylp
+   qJRJGtBnHeEOU32OhbnvuvrHuWbHyf0n5x3GrysC2XEg3OxAzPuljxCEV
+   WyDA6cMFWr1KUziFwFnYMyUhLj8Cg2wjYZykeEoni+35OiUbrHnL2lW9T
    w==;
-X-CSE-ConnectionGUID: /EsiHYz4Q8aWoDaIduN6yQ==
-X-CSE-MsgGUID: 3Ra4K3QDQxaKp9fTn1ajrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11222"; a="31341524"
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="31341524"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 19:49:43 -0800
-X-CSE-ConnectionGUID: CcF8feQlRSKmt/YNTcQSnA==
-X-CSE-MsgGUID: QlrvY8bNR2Si/HQXRTglsw==
+X-CSE-ConnectionGUID: YlmO+VN2Qi+3iRQTQTIJCA==
+X-CSE-MsgGUID: F/R6IAigR62JnSleOn37cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11255"; a="35407494"
+X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
+   d="scan'208";a="35407494"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2024 20:20:45 -0800
+X-CSE-ConnectionGUID: UrnCjMjPTr2ogMm3HDdJkA==
+X-CSE-MsgGUID: B5mR+kraRmOUlR81jExqDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,152,1728975600"; 
-   d="scan'208";a="118894000"
+X-IronPort-AV: E=Sophos;i="6.12,153,1728975600"; 
+   d="scan'208";a="92875745"
 Received: from lkp-server01.sh.intel.com (HELO b014a344d658) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 13 Nov 2024 19:49:41 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 13 Nov 2024 20:20:43 -0800
 Received: from kbuild by b014a344d658 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBQrS-00005b-10;
-	Thu, 14 Nov 2024 03:49:38 +0000
-Date: Thu, 14 Nov 2024 11:48:49 +0800
+	id 1tBRLU-00006X-1t;
+	Thu, 14 Nov 2024 04:20:40 +0000
+Date: Thu, 14 Nov 2024 12:20:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Rick Wertenbroek <rick.wertenbroek@gmail.com>
-Subject: [pci:controller/rockchip 5/13]
- drivers/pci/controller/pcie-rockchip-ep.c:486:10: error: 'const struct
- pci_epc_ops' has no member named 'align_addr'
-Message-ID: <202411141106.4hI5VqIa-lkp@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Michal Wajdeczko <michal.wajdeczko@intel.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: Re: [PATCH v2 1/4] iov_iter: Provide copy_iomem_to|from_iter()
+Message-ID: <202411141227.4kDiZIXM-lkp@intel.com>
+References: <20241112200454.2211-2-michal.wajdeczko@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,51 +71,82 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241112200454.2211-2-michal.wajdeczko@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/rockchip
-head:   337657a3c24c92befb3ed11d6f15402faa09f7dd
-commit: 75b011d9006e703fe3a0706f9952e8510194cc07 [5/13] PCI: rockchip-ep: Implement the pci_epc_ops::align_addr() operation
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20241114/202411141106.4hI5VqIa-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411141106.4hI5VqIa-lkp@intel.com/reproduce)
+Hi Michal,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on brauner-vfs/vfs.all akpm-mm/mm-nonmm-unstable linus/master v6.12-rc7 next-20241113]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wajdeczko/iov_iter-Provide-copy_iomem_to-from_iter/20241113-080831
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20241112200454.2211-2-michal.wajdeczko%40intel.com
+patch subject: [PATCH v2 1/4] iov_iter: Provide copy_iomem_to|from_iter()
+config: arm-randconfig-r113-20241113 (https://download.01.org/0day-ci/archive/20241114/202411141227.4kDiZIXM-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce: (https://download.01.org/0day-ci/archive/20241114/202411141227.4kDiZIXM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411141106.4hI5VqIa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411141227.4kDiZIXM-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   lib/iov_iter.c:373:47: sparse: sparse: cast removes address space '__iomem' of expression
+   lib/iov_iter.c:386:47: sparse: sparse: cast removes address space '__iomem' of expression
+>> lib/iov_iter.c:349:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *from @@     got void * @@
+   lib/iov_iter.c:349:9: sparse:     expected void const volatile [noderef] __iomem *from
+   lib/iov_iter.c:349:9: sparse:     got void *
+   lib/iov_iter.c:330:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const volatile [noderef] __iomem *from @@     got void * @@
+   lib/iov_iter.c:330:9: sparse:     expected void const volatile [noderef] __iomem *from
+   lib/iov_iter.c:330:9: sparse:     got void *
+>> lib/iov_iter.c:362:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *to @@     got void *to @@
+   lib/iov_iter.c:362:9: sparse:     expected void volatile [noderef] __iomem *to
+   lib/iov_iter.c:362:9: sparse:     got void *to
+>> lib/iov_iter.c:338:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem *to @@     got void * @@
+   lib/iov_iter.c:338:9: sparse:     expected void volatile [noderef] __iomem *to
+   lib/iov_iter.c:338:9: sparse:     got void *
 
->> drivers/pci/controller/pcie-rockchip-ep.c:486:10: error: 'const struct pci_epc_ops' has no member named 'align_addr'
-     486 |         .align_addr     = rockchip_pcie_ep_align_addr,
-         |          ^~~~~~~~~~
->> drivers/pci/controller/pcie-rockchip-ep.c:486:27: error: initialization of 'int (*)(struct pci_epc *, u8,  u8,  phys_addr_t,  u64,  size_t)' {aka 'int (*)(struct pci_epc *, unsigned char,  unsigned char,  long long unsigned int,  long long unsigned int,  long unsigned int)'} from incompatible pointer type 'u64 (*)(struct pci_epc *, u64,  size_t *, size_t *)' {aka 'long long unsigned int (*)(struct pci_epc *, long long unsigned int,  long unsigned int *, long unsigned int *)'} [-Wincompatible-pointer-types]
-     486 |         .align_addr     = rockchip_pcie_ep_align_addr,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/pcie-rockchip-ep.c:486:27: note: (near initialization for 'rockchip_pcie_epc_ops.map_addr')
-   drivers/pci/controller/pcie-rockchip-ep.c:487:27: warning: initialized field overwritten [-Woverride-init]
-     487 |         .map_addr       = rockchip_pcie_ep_map_addr,
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/pcie-rockchip-ep.c:487:27: note: (near initialization for 'rockchip_pcie_epc_ops.map_addr')
+vim +349 lib/iov_iter.c
 
-
-vim +486 drivers/pci/controller/pcie-rockchip-ep.c
-
-   481	
-   482	static const struct pci_epc_ops rockchip_pcie_epc_ops = {
-   483		.write_header	= rockchip_pcie_ep_write_header,
-   484		.set_bar	= rockchip_pcie_ep_set_bar,
-   485		.clear_bar	= rockchip_pcie_ep_clear_bar,
- > 486		.align_addr	= rockchip_pcie_ep_align_addr,
-   487		.map_addr	= rockchip_pcie_ep_map_addr,
-   488		.unmap_addr	= rockchip_pcie_ep_unmap_addr,
-   489		.set_msi	= rockchip_pcie_ep_set_msi,
-   490		.get_msi	= rockchip_pcie_ep_get_msi,
-   491		.raise_irq	= rockchip_pcie_ep_raise_irq,
-   492		.start		= rockchip_pcie_ep_start,
-   493		.get_features	= rockchip_pcie_ep_get_features,
-   494	};
-   495	
+   333	
+   334	static __always_inline
+   335	size_t memcpy_iomem_from_iter(void *iter_from, size_t progress, size_t len,
+   336				      void *to, void *priv2)
+   337	{
+ > 338		memcpy_toio(to + progress, iter_from, len);
+   339		return 0;
+   340	}
+   341	
+   342	static __always_inline
+   343	size_t copy_iomem_to_user_iter(void __user *iter_to, size_t progress,
+   344				       size_t len, void *from, void *priv2)
+   345	{
+   346		unsigned char buf[SMP_CACHE_BYTES];
+   347		size_t chunk = min(len, sizeof(buf));
+   348	
+ > 349		memcpy_fromio(buf, from + progress, chunk);
+   350		chunk -= copy_to_user_iter(iter_to, progress, chunk, buf, priv2);
+   351		return len - chunk;
+   352	}
+   353	
+   354	static __always_inline
+   355	size_t copy_iomem_from_user_iter(void __user *iter_from, size_t progress,
+   356					 size_t len, void *to, void *priv2)
+   357	{
+   358		unsigned char buf[SMP_CACHE_BYTES];
+   359		size_t chunk = min(len, sizeof(buf));
+   360	
+   361		chunk -= copy_from_user_iter(iter_from, progress, chunk, buf, priv2);
+ > 362		memcpy_toio(to, buf, chunk);
+   363		return len - chunk;
+   364	}
+   365	
 
 -- 
 0-DAY CI Kernel Test Service
