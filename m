@@ -1,159 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D5531AAE33;
-	Thu, 14 Nov 2024 23:57:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B821370
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Nov 2024 01:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731628621; cv=none; b=dQ1dsBzqlC99w4xxL4/P85E60xYh4yb5w1btq2qEifyHJVYqsQwCcNHJEf+JcUbGIlEJqLSEF8DBmUV2HZpGztUwh09bof/YcICH+KCMk/Qi9eNEIkqf6nFI6vM/gUeHVohB9MqnPFdUAWWN1R+gz8t6yR1A0o1K4M8sQVVzqag=
+	t=1731632628; cv=none; b=fV/1AQnYXuJqfW+KaX5s0XJFAxFtghRDSho5ULJOy2da/LJrWLMU5Iqcs1lkpVa43qElB++61NV5hIRl8jHHRHHEsPkdg8sZ72hOxEIINfZMpt1YVJskwcdSIgXs/WDGfR/Ru1S1V5sFrmI3ZO++JrHnFsvFEZzSf0jG0XR20ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731628621; c=relaxed/simple;
-	bh=4LEMw7tFZ/I2l0o9tYXh+UZzqxJqnQPfsr1Kfeb3eLk=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=SmmZrAp/BbhZ0dFn975kS4CBRQDw0W2KdQx83BLoFbrNIoxHuGzR18PWbsFULr4kEIlGMRL+6Reo06Y47DokqtbzQ/7D80se9KwNy6MC63b2Z7hOIoPmWIoOmgRBP8QA8D5Uz7UJOZfNldn6X9YC0mc2I5Wy4LppauRIth7ER/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=c6tGHY2y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1731632628; c=relaxed/simple;
+	bh=oEy7H6X16ca7JDcSiuDeNP5IS5gDkErNm4gDU6181dE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=elaqzmnFzo7ky9eHZO5f4H1hSTXaae99yVornIzqLjTE2zfc1WzQ7+HQ6i3ga+aQpDdlZoaneb22AVe1Vawc7VOV8aGruFKc5AYR+X0XsYj1HPLD2ZhGOcUMC4u78uExQoIDlSBx3gq4r/i+9gwCfLMb7ObPRGUof/15I3itzkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QgxEdbp2; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="c6tGHY2y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23B65C4CECD;
-	Thu, 14 Nov 2024 23:56:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1731628621;
-	bh=4LEMw7tFZ/I2l0o9tYXh+UZzqxJqnQPfsr1Kfeb3eLk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=c6tGHY2yKKUHKw8OBYSweMkHUUuvnopjACx/RdLwVsviU+aQ3RYU9Oue96sB75Y0g
-	 NZQofGRg691A0PsHsb6yT90uzEYgigEcx8khpKRboxx2KYyHxlD3tfdbIG8Kf+rITz
-	 SLmrVxRfFQ5MUhjPy+ofIrr7W6rY08lqs0tful7Y=
-Date: Thu, 14 Nov 2024 15:56:56 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Qi Xi <xiqi2@huawei.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Linux Memory Management List
- <linux-mm@kvack.org>
-Subject: Re: fs/proc/vmcore.c:424:19: warning: 'mmap_vmcore_fault' defined
- but not used
-Message-Id: <20241114155656.a189f0b92d5596e4cb940d82@linux-foundation.org>
-In-Reply-To: <202411140156.2o0nS4fl-lkp@intel.com>
-References: <202411140156.2o0nS4fl-lkp@intel.com>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QgxEdbp2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731632627; x=1763168627;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oEy7H6X16ca7JDcSiuDeNP5IS5gDkErNm4gDU6181dE=;
+  b=QgxEdbp2hEArJ4+XBhSVfAtYtkFmCwJBhIOA4hHMihWIMpesKDTuAZZX
+   yMhf3fNsnmuYP640W1rq4PsCg8aYy6sU7jCRlirh4NCe52fUhgpf682Lc
+   D3PxzMLRRktm3sHUaYlU3KaZTNPS9S7dXNXOLhqdI22JzVxyi/PkWkKQL
+   Raoa98l6IniY8SLFpDejzhRY/EUGPJs47Egsw2C/nZbvEe8Bz8NlvDkE6
+   4wD23xIKNNMJz7JBVY1dA28Adrl8TwUO0LiDOK25lLiYvqGsaYLlMJlr0
+   6NMfqQN7ffVH1r77KOrq2vjMPsS3+WiVbqAbnFzkDlVYOjsG31BOIkRgP
+   g==;
+X-CSE-ConnectionGUID: 3nA7KXkfSXeJA6nRBsTLDg==
+X-CSE-MsgGUID: GPIBHpGqRVerYCF28mPsXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31523227"
+X-IronPort-AV: E=Sophos;i="6.12,155,1728975600"; 
+   d="scan'208";a="31523227"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 17:03:46 -0800
+X-CSE-ConnectionGUID: 4TvPDTn1T/m7DEsrjXwQlw==
+X-CSE-MsgGUID: KueSDaDYRcOBLnviizey7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,155,1728975600"; 
+   d="scan'208";a="88504585"
+Received: from lkp-server02.sh.intel.com (HELO f5eddd9a323a) ([10.239.97.151])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Nov 2024 17:03:44 -0800
+Received: from kbuild by f5eddd9a323a with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tBkkQ-00009p-1r;
+	Fri, 15 Nov 2024 01:03:42 +0000
+Date: Fri, 15 Nov 2024 09:03:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2]
+ include/trace/hooks/fault.h:12:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202411150835.Iay7SOlQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, 14 Nov 2024 01:06:42 +0800 kernel test robot <lkp@intel.com> wrote:
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   8d647cb15a3d7ad2067b883e01ce0527a5149c9a
+commit: 91af50bc097f60cecd36dcdd47193291ae8467c5 [2/2] ANDROID: arm64: add vendor hooks for kernel fault cases
+config: x86_64-randconfig-r133-20241114 (https://download.01.org/0day-ci/archive/20241115/202411150835.Iay7SOlQ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241115/202411150835.Iay7SOlQ-lkp@intel.com/reproduce)
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f1b785f4c7870c42330b35522c2514e39a1e28e7
-> commit: b8ee299855f08539e04d6c1a6acb3dc9e5423c00 fs/proc: fix compile warning about variable 'vmcore_mmap_ops'
-> date:   6 days ago
-> config: riscv-randconfig-r071-20241113 (https://download.01.org/0day-ci/archive/20241114/202411140156.2o0nS4fl-lkp@intel.com/config)
-> compiler: riscv32-linux-gcc (GCC) 14.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241114/202411140156.2o0nS4fl-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411140156.2o0nS4fl-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> fs/proc/vmcore.c:424:19: warning: 'mmap_vmcore_fault' defined but not used [-Wunused-function]
->      424 | static vm_fault_t mmap_vmcore_fault(struct vm_fault *vmf)
->          |                   ^~~~~~~~~~~~~~~~~
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411150835.Iay7SOlQ-lkp@intel.com/
 
-Thanks, I did this:
+sparse warnings: (new ones prefixed by >>)
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
+   include/trace/hooks/cpufreq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
+   include/trace/hooks/cgroup.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
+   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
+   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
+   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
+   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
+   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+   include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
+   include/trace/hooks/traps.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/traps.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/traps.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
+>> include/trace/hooks/fault.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/fault.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/fault.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: fs/proc/vmcore.c: fix warning when CONFIG_MMU=n
-Date: Thu Nov 14 03:44:21 PM PST 2024
+vim +12 include/trace/hooks/fault.h
 
->> fs/proc/vmcore.c:424:19: warning: 'mmap_vmcore_fault' defined but not used [-Wunused-function]
-     424 | static vm_fault_t mmap_vmcore_fault(struct vm_fault *vmf)
+    10	
+    11	struct pt_regs;
+  > 12	DECLARE_RESTRICTED_HOOK(android_rvh_do_sea,
+    13		TP_PROTO(unsigned long addr, unsigned long esr, struct pt_regs *regs),
+    14		TP_ARGS(addr, esr, regs), 1);
+    15	
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411140156.2o0nS4fl-lkp@intel.com/
-Cc: Qi Xi <xiqi2@huawei.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
----
-
- fs/proc/vmcore.c |   56 ++++++++++++++++++++++-----------------------
- 1 file changed, 28 insertions(+), 28 deletions(-)
-
---- a/fs/proc/vmcore.c~fs-proc-vmcorec-fix-warning-when-config_mmu=n
-+++ a/fs/proc/vmcore.c
-@@ -414,6 +414,34 @@ static ssize_t read_vmcore(struct kiocb
- 	return __read_vmcore(iter, &iocb->ki_pos);
- }
- 
-+/**
-+ * vmcore_alloc_buf - allocate buffer in vmalloc memory
-+ * @size: size of buffer
-+ *
-+ * If CONFIG_MMU is defined, use vmalloc_user() to allow users to mmap
-+ * the buffer to user-space by means of remap_vmalloc_range().
-+ *
-+ * If CONFIG_MMU is not defined, use vzalloc() since mmap_vmcore() is
-+ * disabled and there's no need to allow users to mmap the buffer.
-+ */
-+static inline char *vmcore_alloc_buf(size_t size)
-+{
-+#ifdef CONFIG_MMU
-+	return vmalloc_user(size);
-+#else
-+	return vzalloc(size);
-+#endif
-+}
-+
-+/*
-+ * Disable mmap_vmcore() if CONFIG_MMU is not defined. MMU is
-+ * essential for mmap_vmcore() in order to map physically
-+ * non-contiguous objects (ELF header, ELF note segment and memory
-+ * regions in the 1st kernel pointed to by PT_LOAD entries) into
-+ * virtually contiguous user-space in ELF layout.
-+ */
-+#ifdef CONFIG_MMU
-+
- /*
-  * The vmcore fault handler uses the page cache and fills data using the
-  * standard __read_vmcore() function.
-@@ -457,34 +485,6 @@ static vm_fault_t mmap_vmcore_fault(stru
- #endif
- }
- 
--/**
-- * vmcore_alloc_buf - allocate buffer in vmalloc memory
-- * @size: size of buffer
-- *
-- * If CONFIG_MMU is defined, use vmalloc_user() to allow users to mmap
-- * the buffer to user-space by means of remap_vmalloc_range().
-- *
-- * If CONFIG_MMU is not defined, use vzalloc() since mmap_vmcore() is
-- * disabled and there's no need to allow users to mmap the buffer.
-- */
--static inline char *vmcore_alloc_buf(size_t size)
--{
--#ifdef CONFIG_MMU
--	return vmalloc_user(size);
--#else
--	return vzalloc(size);
--#endif
--}
--
--/*
-- * Disable mmap_vmcore() if CONFIG_MMU is not defined. MMU is
-- * essential for mmap_vmcore() in order to map physically
-- * non-contiguous objects (ELF header, ELF note segment and memory
-- * regions in the 1st kernel pointed to by PT_LOAD entries) into
-- * virtually contiguous user-space in ELF layout.
-- */
--#ifdef CONFIG_MMU
--
- static const struct vm_operations_struct vmcore_mmap_ops = {
- 	.fault = mmap_vmcore_fault,
- };
-_
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
