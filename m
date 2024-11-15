@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0295EEAD0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Nov 2024 06:46:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9042AF05
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 15 Nov 2024 10:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731653182; cv=none; b=AzJwKQar9dcZMD9YlaTMRBFZmXJZPUvRBWZtc5wwVDIS/AR2qXG8rbb5SxN2rWybW6TfWICvF0y5HX0HAAsUGrYtz9BYNkVIlTXC/icQSHhfbrRcH9z2hnwWL+P16JszD2FOhFiaSru9og5P4ZXZIfx8IO2JXAP74+NIZu/95ug=
+	t=1731666806; cv=none; b=GPv3ufCFw4Il9VT6BY3iPslAF6hLWB53DtIYUUSepzl+xz65zpCXebzXoqE/biNtQY070RqQjCWYFmSb5UniJmFtD0KrMb9XoQhK2eHbTkHom1KeKPhFx4Zyy+AokhMFFNbtxH4douSQN9bqA/QtziwODNWwm6qdQ4mGPHTJSAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731653182; c=relaxed/simple;
-	bh=IY1tZ8nvV2U5GgSy3E0dDCNvs7sCe/1agHrt7fdNyAQ=;
+	s=arc-20240116; t=1731666806; c=relaxed/simple;
+	bh=OfdAe11W5vquQNWMkQLn1b/4XBWf+3RcA7JAeVly6+0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gqNb+LH0VBLOE+kmvSjhHI9wHK6+Tdu761k7QrNIfywrMcyhU/QJNh2onXY25RkPr6sdqgN0zwXYpa7bAnoelc7aXunLNK8/GAvHR/FJjwrWIlE37/Jxdj2bFWR7j/n+yN6/zfinzCqpY7f94sUIxXoHNZ0ouuEsFh60Pry7Je0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lt9CQhmu; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition:In-Reply-To; b=Nn4d1Acz0qeesbjDnvMbgMXyde86KVTdoPsMiWwlZzdaPNgidy3hME1GuQD/ZzBMqeHqwb3kV8plIQaIz3DpJIBh01o0D4JP5OChBECGopHfVFsTm9yHLI/7+fssjwRepI6SCiSYD2OMrhiIVx/q3a+xu2Xo88YCgoGqpOZOQs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9eT05MK; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lt9CQhmu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9eT05MK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731653180; x=1763189180;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IY1tZ8nvV2U5GgSy3E0dDCNvs7sCe/1agHrt7fdNyAQ=;
-  b=lt9CQhmuR6c3xyL3Hpd4fmhbb7wxsNuso73tbh9Roo1s2y/Sen7db3Ld
-   Secy3eKy9SsTciw/Ce8VU3y4wHgENB82wIiPph614pAucknnjrFvTv2l2
-   TLgSaKwOXSNQiSJMX49RvWa5aC5cuORvn6fZ0FhesvhPC8IrgCbvY+S4S
-   tVlW6icQRQlhVrmDn5UrgFfGdUXTPQU7LtUKFFkiintTnXqrQtTdSkvzh
-   Gyi9Jbv0bLAIjhzoj4GecWoMYQVu5NO47kcyYSDHYSAB+Aj+g0zbz7IWJ
-   3+X6QTbgE2OKxyNFQ/joWbm9I0fhn/fqlsiOFFffoF6ltPabG24Jy9678
-   A==;
-X-CSE-ConnectionGUID: EaVG+aJvTUu5oRcXS9Xezg==
-X-CSE-MsgGUID: 0whJ3t0PTNilkVuELBT4Yw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="31584357"
+  t=1731666803; x=1763202803;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=OfdAe11W5vquQNWMkQLn1b/4XBWf+3RcA7JAeVly6+0=;
+  b=B9eT05MKkHwd2f/OelyBT+9wijI65tTnU10JJjSR/AbYM55qKzt2C2Te
+   zRHPJCSuzXqy0uNdQnw3Mpp13tlKBm5w7Z8pixw8qi0JBBMHnxqr5pUy8
+   OAPYPijF6jjws/0eZ59um5nqx8mxsgKeR3xm7J+tfp+bf6PXXW8q6iTUp
+   gdgnExhjBTPonsev3HMycrhJTHs63y9sxRJGgUqSKdEAp+C74fuViiIkR
+   yJ1uMAGCiofj5zneWb7X2Y3WA4IZqvJ1jVduG5O3hhA9NwUTqPlJj6g/m
+   Boe9xrB5jSxWcpE1GkpaCiOQuntJgfCD6E/xu64J9Ngn5fkyKJAeyXW4f
+   Q==;
+X-CSE-ConnectionGUID: jkm6cYfYSPypc+fZxI9Vdg==
+X-CSE-MsgGUID: 9pgiCaGYT3eVHmF774F0Sw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11256"; a="49198158"
 X-IronPort-AV: E=Sophos;i="6.12,156,1728975600"; 
-   d="scan'208";a="31584357"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2024 14:12:29 -0800
-X-CSE-ConnectionGUID: CYkycrCJTgaYuNXmEw+70g==
-X-CSE-MsgGUID: JtWGEoJSRCmTFjlC2E/KTg==
+   d="scan'208";a="49198158"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2024 02:33:23 -0800
+X-CSE-ConnectionGUID: Ju40c+3HTzGbpk4mgLjwAA==
+X-CSE-MsgGUID: 50KtMn17R7uk1l5iXywO6A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,154,1728975600"; 
-   d="scan'208";a="119271515"
-Received: from lkp-server02.sh.intel.com (HELO f5eddd9a323a) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 14 Nov 2024 14:12:27 -0800
-Received: from kbuild by f5eddd9a323a with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.12,156,1728975600"; 
+   d="scan'208";a="111819426"
+Received: from lkp-server01.sh.intel.com (HELO 27edf348a570) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 15 Nov 2024 02:33:21 -0800
+Received: from kbuild by 27edf348a570 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tBi3B-000045-0y;
-	Thu, 14 Nov 2024 22:11:14 +0000
-Date: Fri, 15 Nov 2024 06:10:18 +0800
+	id 1tBtdf-0000Y5-1G;
+	Fri, 15 Nov 2024 10:33:19 +0000
+Date: Fri, 15 Nov 2024 18:33:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:io-uring-bpf/v1 2/3] io_uring/bpf.h:38:1: warning: no
- return statement in function returning non-void
-Message-ID: <202411150647.YcXkuiUU-lkp@intel.com>
+To: Dmitry Antipov <dmantipov@yandex.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 4.19/5.4/5.10] ceph: fix possible overflow in start_read()
+Message-ID: <ZzcjYqn4TePx7tvp@a3007fd3cfe9>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,47 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241115103124.1361582-1-dmantipov@yandex.ru>
 
-tree:   https://github.com/isilence/linux io-uring-bpf/v1
-head:   e4c5bc9551109bef91c53be43a4296f3d317f19a
-commit: cffec449e9f6a37b0701f2a8fdd37688db25be55 [2/3] io_uring/bpf: allow to register and run BPF programs
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241115/202411150647.YcXkuiUU-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241115/202411150647.YcXkuiUU-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411150647.YcXkuiUU-lkp@intel.com/
+Thanks for your patch.
 
-All warnings (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   In file included from io_uring/io_uring.c:107:
-   io_uring/bpf.h: In function 'io_run_bpf':
->> io_uring/bpf.h:38:1: warning: no return statement in function returning non-void [-Wreturn-type]
-      38 | }
-         | ^
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH 4.19/5.4/5.10] ceph: fix possible overflow in start_read()
+Link: https://lore.kernel.org/stable/20241115103124.1361582-1-dmantipov%40yandex.ru
 
-vim +38 io_uring/bpf.h
-
-    25	
-    26	#else
-    27	static inline int io_register_bpf(struct io_ring_ctx *ctx, void __user *arg,
-    28					  unsigned int nr_args)
-    29	{
-    30		return -EOPNOTSUPP;
-    31	}
-    32	static inline int io_unregister_bpf(struct io_ring_ctx *ctx)
-    33	{
-    34		return -EOPNOTSUPP;
-    35	}
-    36	static inline int io_run_bpf(struct io_ring_ctx *ctx)
-    37	{
-  > 38	}
-    39	#endif
-    40	
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
