@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64ABF9CB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 16:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D865BE4A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 17:05:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731774288; cv=none; b=ZPOxKoOjHpZyyd8rdwxa0hmVEgLWkWxihAm4crq35RE7NXLTlBQoTthayXgECvI+yxLIflEavcr15Jg415Jyc+H5/3fa/XqTRR66PIzcjAGC8zoo2guJ8XjrCOsQG/AH1XrEwke4kMybA4kpbLnXd7QrDPVciv5g7IWnVGn2SAw=
+	t=1731776753; cv=none; b=FPfZkiZOA7Piplh8FvM+tRoeOp/jo7s0fwVEAamIbGS1qbsuJSYBYMaokmB5V7HPsTzxWmZoOLa10qmOZtXqC/wNnd1P8NLKEQBsefg23HbSffZC1Rwitu3DJCWJjmE7e1agyGdjuBNbFdZpfrEpSDeTErLQwcKg4p5AimoQUfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731774288; c=relaxed/simple;
-	bh=5yK0cQ2vIUmpVGrKE+3BGCIl94U3Mf+S8KfP63Ytyys=;
+	s=arc-20240116; t=1731776753; c=relaxed/simple;
+	bh=+07b1zepdp4KOVxfwYxcYx8qwgbbRSD9HbR/Dq0XhzY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fOJb6S0wm37Xx4AlA9I3daUiLzsoMUAVBDiTL6gzBNjbIWU/VNT1s2Zs7MFJRzi88JWPionoh/XRd+eMrGTzOcv5olXkh7RkPtNr1zeUdTMOVZuqmP4T55oqzhOcgmIUxFGaqGSn0Gb3lpQFoTptKTKKJQp/sNKtgYyyzW9iLMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LE33RRv9; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=AbTNa9guPpA/dyovyf8ALjGtHaoIbHbyRrFBi+kw2b37ppqOo5z+HVzKTj9Bk1meImF1iaLqwCmfvUqhiHIeREW3zPeQKbMbBHYr9HVNbIxm97SGBDWgC1F13DtAhxREsTAA94XTdLyH4ha6EaoKwpW8KlkF3xQaYdFQknuRH2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS4P8y+v; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LE33RRv9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS4P8y+v"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731774285; x=1763310285;
+  t=1731776751; x=1763312751;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5yK0cQ2vIUmpVGrKE+3BGCIl94U3Mf+S8KfP63Ytyys=;
-  b=LE33RRv9Bu8KgMnrmhcBec5cXuOixvTsmsmyUi5vCdPYDKZdwUkLHQmq
-   Av8iflyyaEePBt1S7Eh6p08EbMKuXWpl35Vk1tegtAKKu9iaXVEDIGlwa
-   lzygvsCM3TU3UJFLfAzeT/4dFOlf+U3MreN3HRayoA788zgMV2fansblY
-   4iiKtiL01+RIutZOttYaGlLTyi7YQktPok8bMtfQHni7G8Bux1uDg7cBq
-   203tInzqPpn6bbmru58U5jj1xkJoMJhaCHO1Ox1Q+f8fKhx6R7xvfvSip
-   BcQWQsMqgk7ALSNOOURxP4DaVsd/zkMgMchlLasRjlBBrIVtcYVazxfMW
+  bh=+07b1zepdp4KOVxfwYxcYx8qwgbbRSD9HbR/Dq0XhzY=;
+  b=jS4P8y+vXwntciM3fCgcxc3GjHhw64ITFhTYwMJstaeNugqjJQN3n8Mi
+   uxiStk3eDMvJkF88A1yasq+GFs4sHsxylVTSkRf5zsipTqz6IN04vPiQT
+   aaK2l/GVb6gp3i/n3I+/J3XJlvpwk4J4joDByHxzVT7p5TFUK7EYseEI6
+   vVdY0ifZHF07TPpbtUl9pzMP5Wh40ruAXXJRKBwzBgrRgizznu+fK9kbS
+   CUNFKNIpihnt3ZMm82zHLBmTZH6WJ6WXfH6E4I9BawQvH++COS7wguJQ4
+   ICdB9B92SofGt7uxmtXqQlVTBpnB9U0owDEuhXd+mARC2NiAO+2OmE4Z9
    A==;
-X-CSE-ConnectionGUID: abEz6otEQUmHX+OwX/Rkyw==
-X-CSE-MsgGUID: eQmsFyJmT4u8i2xbagWoJQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31713581"
+X-CSE-ConnectionGUID: nnbGJXzjQhGMOc0C7F/AMg==
+X-CSE-MsgGUID: iKYQ2Bn0RvOVHx5lA/aMyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42298724"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="31713581"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 08:24:45 -0800
-X-CSE-ConnectionGUID: GCY81N71SjOXa/Y/MTxfag==
-X-CSE-MsgGUID: B41VgNyZQkOWG5uO/6qwgw==
+   d="scan'208";a="42298724"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 09:05:50 -0800
+X-CSE-ConnectionGUID: asVlhhMjQyOq5fn+P92jQA==
+X-CSE-MsgGUID: 6oXAlLfLSA2pQCqCFdO4nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="89221138"
+   d="scan'208";a="93775741"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Nov 2024 08:24:44 -0800
+  by orviesa005.jf.intel.com with ESMTP; 16 Nov 2024 09:05:49 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCLbF-0000uf-2k;
-	Sat, 16 Nov 2024 16:24:41 +0000
-Date: Sun, 17 Nov 2024 00:23:46 +0800
+	id 1tCMF0-0000zP-2o;
+	Sat, 16 Nov 2024 17:05:46 +0000
+Date: Sun, 17 Nov 2024 01:05:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-9dc491310679 14/66]
- mm/vmscan.c:1565:27: error: implicit declaration of function
- 'lru_raw_gen_from_flags'
-Message-ID: <202411170023.bAbbytdz-lkp@intel.com>
+Subject: [android-common:android15-6.6-desktop 31/67]
+ drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15:
+ warning: variable 'total_plane_size' set but not used
+Message-ID: <202411170155.beqqb5eF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,143 +63,107 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-9dc491310679
-head:   85b769c103dd3276826ee519cc574181563acb08
-commit: 29749af3cb36ba2c31106d631bffa86aa7f7e3de [14/66] CHROMIUM: mm/mglru: Improve isolated page access bit harvesting
-config: arm-vf610m4_defconfig (https://download.01.org/0day-ci/archive/20241117/202411170023.bAbbytdz-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170023.bAbbytdz-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   e2b6daceb83c9b9ae90fca4b78fc265484ded662
+commit: 524bbd4dd314fcf6877aeb31b393e8ab321b8014 [31/67] BACKPORT: FROMLIST: media: platform: mediatek: isp: Add Mediatek DIP driver
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411170155.beqqb5eF-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170155.beqqb5eF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170023.bAbbytdz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170155.beqqb5eF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/vmscan.c:1043:15: warning: no previous prototype for 'shrink_slab' [-Wmissing-prototypes]
-    1043 | unsigned long shrink_slab(gfp_t gfp_mask, int nid,
-         |               ^~~~~~~~~~~
-   mm/vmscan.c: In function 'folio_check_references':
->> mm/vmscan.c:1565:27: error: implicit declaration of function 'lru_raw_gen_from_flags' [-Wimplicit-function-declaration]
-    1565 |                 int gen = lru_raw_gen_from_flags(READ_ONCE(folio->flags));
-         |                           ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/arm/include/asm/bug.h:60,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/vmscan.c:15:
->> mm/vmscan.c:1567:45: error: 'ISOLATED_FOLIO_MIN' undeclared (first use in this function)
-    1567 |                 VM_WARN_ON_ONCE_FOLIO(gen < ISOLATED_FOLIO_MIN, folio);
-         |                                             ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
-      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
-         |                                                               ^
-   mm/vmscan.c:1567:17: note: in expansion of macro 'VM_WARN_ON_ONCE_FOLIO'
-    1567 |                 VM_WARN_ON_ONCE_FOLIO(gen < ISOLATED_FOLIO_MIN, folio);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:1567:45: note: each undeclared identifier is reported only once for each function it appears in
-    1567 |                 VM_WARN_ON_ONCE_FOLIO(gen < ISOLATED_FOLIO_MIN, folio);
-         |                                             ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
-      30 | #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
-         |                                                               ^
-   mm/vmscan.c:1567:17: note: in expansion of macro 'VM_WARN_ON_ONCE_FOLIO'
-    1567 |                 VM_WARN_ON_ONCE_FOLIO(gen < ISOLATED_FOLIO_MIN, folio);
-         |                 ^~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:9:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15: warning: variable 'total_plane_size' set but not used [-Wunused-but-set-variable]
+     411 |         unsigned int total_plane_size = 0;
+         |                      ^
+   6 warnings generated.
 
 
-vim +/lru_raw_gen_from_flags +1565 mm/vmscan.c
+vim +/total_plane_size +411 drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c
 
-  1539	
-  1540	static enum folio_references folio_check_references(struct folio *folio,
-  1541							  struct scan_control *sc)
-  1542	{
-  1543		int referenced_ptes, referenced_folio;
-  1544		unsigned long vm_flags;
-  1545		int ret = 0;
-  1546		bool trylock_failed = false;
-  1547	
-  1548	#ifdef CONFIG_ANDROID_VENDOR_OEM_DATA
-  1549		trace_android_vh_page_should_be_protected(folio, sc->nr_scanned,
-  1550			sc->priority, &sc->android_vendor_data1, &ret);
-  1551	#endif
-  1552		trace_android_vh_check_folio_look_around_ref(folio, &ret);
-  1553		if (ret)
-  1554			return ret;
-  1555	
-  1556		trace_android_vh_folio_trylock_set(folio);
-  1557		referenced_ptes = folio_referenced(folio, 1, sc->target_mem_cgroup,
-  1558						   &vm_flags);
-  1559		referenced_folio = folio_test_clear_referenced(folio);
-  1560		trace_android_vh_get_folio_trylock_result(folio, &trylock_failed);
-  1561		if (trylock_failed)
-  1562			return FOLIOREF_KEEP;
-  1563	
-  1564		if (lru_gen_enabled()) {
-> 1565			int gen = lru_raw_gen_from_flags(READ_ONCE(folio->flags));
-  1566	
-> 1567			VM_WARN_ON_ONCE_FOLIO(gen < ISOLATED_FOLIO_MIN, folio);
-  1568	
-  1569			if (gen > ISOLATED_FOLIO_MIN)
-  1570				referenced_ptes += gen - ISOLATED_FOLIO_MIN;
-  1571		}
-  1572	
-  1573		/*
-  1574		 * The supposedly reclaimable folio was found to be in a VM_LOCKED vma.
-  1575		 * Let the folio, now marked Mlocked, be moved to the unevictable list.
-  1576		 */
-  1577		if (vm_flags & VM_LOCKED)
-  1578			return FOLIOREF_ACTIVATE;
-  1579	
-  1580		/*
-  1581		 * There are two cases to consider.
-  1582		 * 1) Rmap lock contention: rotate.
-  1583		 * 2) Skip the non-shared swapbacked folio mapped solely by
-  1584		 *    the exiting or OOM-reaped process.
-  1585		 */
-  1586		if (referenced_ptes == -1)
-  1587			return FOLIOREF_KEEP;
-  1588	
-  1589		if (referenced_ptes) {
-  1590			/*
-  1591			 * All mapped folios start out with page table
-  1592			 * references from the instantiating fault, so we need
-  1593			 * to look twice if a mapped file/anon folio is used more
-  1594			 * than once.
-  1595			 *
-  1596			 * Mark it and spare it for another trip around the
-  1597			 * inactive list.  Another page table reference will
-  1598			 * lead to its activation.
-  1599			 *
-  1600			 * Note: the mark is set for activated folios as well
-  1601			 * so that recently deactivated but used folios are
-  1602			 * quickly recovered.
-  1603			 */
-  1604			folio_set_referenced(folio);
-  1605	
-  1606			if (referenced_folio || referenced_ptes > 1)
-  1607				return FOLIOREF_ACTIVATE;
-  1608	
-  1609			/*
-  1610			 * Activate file-backed executable folios after first usage.
-  1611			 */
-  1612			if ((vm_flags & VM_EXEC) && folio_is_file_lru(folio))
-  1613				return FOLIOREF_ACTIVATE;
-  1614	
-  1615			return FOLIOREF_KEEP;
-  1616		}
-  1617	
-  1618		/* Reclaim if clean, defer dirty folios to writeback */
-  1619		if (referenced_folio && folio_is_file_lru(folio))
-  1620			return FOLIOREF_RECLAIM_CLEAN;
-  1621	
-  1622		return FOLIOREF_RECLAIM;
-  1623	}
-  1624	
+   402	
+   403	static void mtk_dip_fill_ipi_img_param_mp(struct mtk_dip_pipe *pipe,
+   404						  struct img_image_buffer *b,
+   405						  struct mtk_dip_dev_buffer *dev_buf,
+   406						  char *buf_name)
+   407	{
+   408		struct v4l2_pix_format_mplane *pix_mp = &dev_buf->fmt.fmt.pix_mp;
+   409		const struct mtk_dip_dev_format *mdp_fmt = dev_buf->dev_fmt;
+   410		unsigned int i;
+ > 411		unsigned int total_plane_size = 0;
+   412	
+   413		b->usage = dev_buf->dma_port;
+   414		b->format.colorformat = dev_buf->dev_fmt->mdp_color;
+   415		b->format.width = dev_buf->fmt.fmt.pix_mp.width;
+   416		b->format.height = dev_buf->fmt.fmt.pix_mp.height;
+   417		b->format.ycbcr_prof =
+   418			mtk_dip_map_ycbcr_prof_mplane(pix_mp,
+   419						      dev_buf->dev_fmt->mdp_color);
+   420	
+   421		for (i = 0; i < pix_mp->num_planes; ++i) {
+   422			u32 stride = pix_mp->plane_fmt[i].bytesperline;
+   423	
+   424			/*
+   425			 * We use dip_mdp_fmt_get_plane_size() to get the plane sizes of
+   426			 * non-M multiple plane image buffers. In this case,
+   427			 * pix_mp->plane_fmt[0].sizeimage is the total size of all
+   428			 * b->format.plane_fmt[i].
+   429			 */
+   430			b->format.plane_fmt[i].stride = stride;
+   431			b->format.plane_fmt[i].size =
+   432				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
+   433							   pix_mp->height, i);
+   434			b->iova[i] = dev_buf->isp_daddr[i];
+   435			total_plane_size += b->format.plane_fmt[i].size;
+   436		}
+   437	
+   438		if (!mtk_dip_is_contig_mp_buffer(dev_buf))
+   439			return;
+   440	
+   441		for (; i < DIP_MCOLOR_GET_PLANE_COUNT(b->format.colorformat); ++i) {
+   442			u32 stride = dip_mdp_fmt_get_stride_contig
+   443					(mdp_fmt, b->format.plane_fmt[0].stride, i);
+   444	
+   445			b->format.plane_fmt[i].stride = stride;
+   446			b->format.plane_fmt[i].size =
+   447				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
+   448							   pix_mp->height, i);
+   449			b->iova[i] = b->iova[i - 1] + b->format.plane_fmt[i - 1].size;
+   450			total_plane_size += b->format.plane_fmt[i].size;
+   451		}
+   452	}
+   453	
 
 -- 
 0-DAY CI Kernel Test Service
