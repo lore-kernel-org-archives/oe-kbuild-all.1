@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D865BE4A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 17:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 811CF1822E5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 17:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731776753; cv=none; b=FPfZkiZOA7Piplh8FvM+tRoeOp/jo7s0fwVEAamIbGS1qbsuJSYBYMaokmB5V7HPsTzxWmZoOLa10qmOZtXqC/wNnd1P8NLKEQBsefg23HbSffZC1Rwitu3DJCWJjmE7e1agyGdjuBNbFdZpfrEpSDeTErLQwcKg4p5AimoQUfI=
+	t=1731776755; cv=none; b=lpwe3tv5gQuc2JLOWF35y9VjowpIvdnz7/qLg+qCmHBmIKAux/rxT67sxgCFktewWR08RIDCOeSMCIn8DXFeSRylyjrzHIe78/qOO5UGMIY5aIggu4otC1m3KwUk7wgsa53r/CSgaECFCfG69XCLdIlzUGM3cStKyQPJwsGSoiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731776753; c=relaxed/simple;
-	bh=+07b1zepdp4KOVxfwYxcYx8qwgbbRSD9HbR/Dq0XhzY=;
+	s=arc-20240116; t=1731776755; c=relaxed/simple;
+	bh=0y9PTAuQJ6B+rcpsMvKRn31NcwOaKpV4EgMXNkEQlcc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AbTNa9guPpA/dyovyf8ALjGtHaoIbHbyRrFBi+kw2b37ppqOo5z+HVzKTj9Bk1meImF1iaLqwCmfvUqhiHIeREW3zPeQKbMbBHYr9HVNbIxm97SGBDWgC1F13DtAhxREsTAA94XTdLyH4ha6EaoKwpW8KlkF3xQaYdFQknuRH2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jS4P8y+v; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=W8xy9CC1eUsyTe6lHsFSbAXiLstPzs6mdu41sd06O2iWbPF0678YMpPY8WUeEOiOpwRVqGwSPja/fWr9qFFsnEhJH+JtUpC+NKTiknsmwPpSi4tDXBZQ0h23LHsHzUb6JQM/U9fvzYzg7mgJzDNyeQkhYIQowIa74uE/ZqKSuxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qe8RvChH; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jS4P8y+v"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qe8RvChH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731776751; x=1763312751;
+  t=1731776753; x=1763312753;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+07b1zepdp4KOVxfwYxcYx8qwgbbRSD9HbR/Dq0XhzY=;
-  b=jS4P8y+vXwntciM3fCgcxc3GjHhw64ITFhTYwMJstaeNugqjJQN3n8Mi
-   uxiStk3eDMvJkF88A1yasq+GFs4sHsxylVTSkRf5zsipTqz6IN04vPiQT
-   aaK2l/GVb6gp3i/n3I+/J3XJlvpwk4J4joDByHxzVT7p5TFUK7EYseEI6
-   vVdY0ifZHF07TPpbtUl9pzMP5Wh40ruAXXJRKBwzBgrRgizznu+fK9kbS
-   CUNFKNIpihnt3ZMm82zHLBmTZH6WJ6WXfH6E4I9BawQvH++COS7wguJQ4
-   ICdB9B92SofGt7uxmtXqQlVTBpnB9U0owDEuhXd+mARC2NiAO+2OmE4Z9
-   A==;
-X-CSE-ConnectionGUID: nnbGJXzjQhGMOc0C7F/AMg==
-X-CSE-MsgGUID: iKYQ2Bn0RvOVHx5lA/aMyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42298724"
+  bh=0y9PTAuQJ6B+rcpsMvKRn31NcwOaKpV4EgMXNkEQlcc=;
+  b=Qe8RvChH7j747eNm8q41Ne+bFtThmnaREIPBxX1V78BMxInk1gnmGDJP
+   QuMDf/nMu9d/QjOlw9mEUhUiOjzmwqDU+b6YvfJTZRZGtliUaBFCT29j4
+   iQxG4syKX9HsOEpTbodMTUcfzuq8jDc0QRRlkBk9TeE8gY4XaQK3hEtRv
+   uJCh9EoH0l7VpfzmtEC+Zc4wvkKsvzXZ+MHTS5fgqieotBn4yqLVijdhT
+   1bP98qGn1Y7pCKCz1QbcnVKf9uLK3/bzwfNaEHuDBm18PBiYr2UMArx60
+   SCziQ8J41/ThSC9LWDqBURSr4hFebD0u3XWH7smf9/RWMatuRO1Mpyep4
+   w==;
+X-CSE-ConnectionGUID: sKFqVPGqTkKS5NdXXatexQ==
+X-CSE-MsgGUID: MZPuCUQqRgutU9hn+ZjIyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42298726"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="42298724"
+   d="scan'208";a="42298726"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 09:05:50 -0800
-X-CSE-ConnectionGUID: asVlhhMjQyOq5fn+P92jQA==
-X-CSE-MsgGUID: 6oXAlLfLSA2pQCqCFdO4nw==
+X-CSE-ConnectionGUID: igJbdNq/S2Sr7apXLd4Vfg==
+X-CSE-MsgGUID: ry67RdFRRc+X+2V0lW9V6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="93775741"
+   d="scan'208";a="93775742"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 16 Nov 2024 09:05:49 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCMF0-0000zP-2o;
+	id 1tCMF0-0000zL-2g;
 	Sat, 16 Nov 2024 17:05:46 +0000
-Date: Sun, 17 Nov 2024 01:05:13 +0800
+Date: Sun, 17 Nov 2024 01:05:10 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 31/67]
- drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15:
- warning: variable 'total_plane_size' set but not used
-Message-ID: <202411170155.beqqb5eF-lkp@intel.com>
+Subject: [android-common:android15-6.6-desktop-pkvm-ia-2024-15-11-v1 156/259]
+ arch/x86/kvm/x86.c:9954:5: warning: no previous prototype for
+ 'kvm_pkvm_hypercall'
+Message-ID: <202411170014.9Jb2vQho-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +63,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   e2b6daceb83c9b9ae90fca4b78fc265484ded662
-commit: 524bbd4dd314fcf6877aeb31b393e8ab321b8014 [31/67] BACKPORT: FROMLIST: media: platform: mediatek: isp: Add Mediatek DIP driver
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411170155.beqqb5eF-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170155.beqqb5eF-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop-pkvm-ia-2024-15-11-v1
+head:   ab957086535d11209d7d6dd96172900d714fb5fb
+commit: f8f823218b4ef3fc30f8cb32735799b1ede9a4c9 [156/259] ANDROID: pkvm: x86: Add the handler for hypercalls of PV MMIO operations
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241117/202411170014.9Jb2vQho-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170014.9Jb2vQho-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170155.beqqb5eF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170014.9Jb2vQho-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:9:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2253:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c:411:15: warning: variable 'total_plane_size' set but not used [-Wunused-but-set-variable]
-     411 |         unsigned int total_plane_size = 0;
-         |                      ^
-   6 warnings generated.
+>> arch/x86/kvm/x86.c:9954:5: warning: no previous prototype for 'kvm_pkvm_hypercall' [-Wmissing-prototypes]
+    9954 | int kvm_pkvm_hypercall(struct kvm_vcpu *vcpu)
+         |     ^~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c: In function 'kvm_pkvm_hypercall':
+   arch/x86/kvm/x86.c:9970:14: error: 'PKVM_GHC_IOREAD' undeclared (first use in this function); did you mean 'KVM_TRC_IO_READ'?
+    9970 |         case PKVM_GHC_IOREAD:
+         |              ^~~~~~~~~~~~~~~
+         |              KVM_TRC_IO_READ
+   arch/x86/kvm/x86.c:9970:14: note: each undeclared identifier is reported only once for each function it appears in
+   arch/x86/kvm/x86.c:9974:14: error: 'PKVM_GHC_IOWRITE' undeclared (first use in this function); did you mean 'KVM_TRC_IO_WRITE'?
+    9974 |         case PKVM_GHC_IOWRITE:
+         |              ^~~~~~~~~~~~~~~~
+         |              KVM_TRC_IO_WRITE
 
 
-vim +/total_plane_size +411 drivers/media/platform/mediatek/isp/isp_50/dip/mtk_dip-dev.c
+vim +/kvm_pkvm_hypercall +9954 arch/x86/kvm/x86.c
 
-   402	
-   403	static void mtk_dip_fill_ipi_img_param_mp(struct mtk_dip_pipe *pipe,
-   404						  struct img_image_buffer *b,
-   405						  struct mtk_dip_dev_buffer *dev_buf,
-   406						  char *buf_name)
-   407	{
-   408		struct v4l2_pix_format_mplane *pix_mp = &dev_buf->fmt.fmt.pix_mp;
-   409		const struct mtk_dip_dev_format *mdp_fmt = dev_buf->dev_fmt;
-   410		unsigned int i;
- > 411		unsigned int total_plane_size = 0;
-   412	
-   413		b->usage = dev_buf->dma_port;
-   414		b->format.colorformat = dev_buf->dev_fmt->mdp_color;
-   415		b->format.width = dev_buf->fmt.fmt.pix_mp.width;
-   416		b->format.height = dev_buf->fmt.fmt.pix_mp.height;
-   417		b->format.ycbcr_prof =
-   418			mtk_dip_map_ycbcr_prof_mplane(pix_mp,
-   419						      dev_buf->dev_fmt->mdp_color);
-   420	
-   421		for (i = 0; i < pix_mp->num_planes; ++i) {
-   422			u32 stride = pix_mp->plane_fmt[i].bytesperline;
-   423	
-   424			/*
-   425			 * We use dip_mdp_fmt_get_plane_size() to get the plane sizes of
-   426			 * non-M multiple plane image buffers. In this case,
-   427			 * pix_mp->plane_fmt[0].sizeimage is the total size of all
-   428			 * b->format.plane_fmt[i].
-   429			 */
-   430			b->format.plane_fmt[i].stride = stride;
-   431			b->format.plane_fmt[i].size =
-   432				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
-   433							   pix_mp->height, i);
-   434			b->iova[i] = dev_buf->isp_daddr[i];
-   435			total_plane_size += b->format.plane_fmt[i].size;
-   436		}
-   437	
-   438		if (!mtk_dip_is_contig_mp_buffer(dev_buf))
-   439			return;
-   440	
-   441		for (; i < DIP_MCOLOR_GET_PLANE_COUNT(b->format.colorformat); ++i) {
-   442			u32 stride = dip_mdp_fmt_get_stride_contig
-   443					(mdp_fmt, b->format.plane_fmt[0].stride, i);
-   444	
-   445			b->format.plane_fmt[i].stride = stride;
-   446			b->format.plane_fmt[i].size =
-   447				dip_mdp_fmt_get_plane_size(mdp_fmt, stride,
-   448							   pix_mp->height, i);
-   449			b->iova[i] = b->iova[i - 1] + b->format.plane_fmt[i - 1].size;
-   450			total_plane_size += b->format.plane_fmt[i].size;
-   451		}
-   452	}
-   453	
+  9953	
+> 9954	int kvm_pkvm_hypercall(struct kvm_vcpu *vcpu)
+  9955	{
+  9956		unsigned long val, nr;
+  9957		int size;
+  9958		gpa_t gpa;
+  9959		int ret;
+  9960	
+  9961		nr = kvm_rax_read(vcpu);
+  9962		gpa = kvm_rbx_read(vcpu);
+  9963		size = kvm_rcx_read(vcpu);
+  9964		val = kvm_rdx_read(vcpu);
+  9965	
+  9966		/*
+  9967		 * Reuse the sev_es handler to emulate the mmio.
+  9968		 */
+  9969		switch (nr) {
+  9970		case PKVM_GHC_IOREAD:
+  9971			ret = kvm_sev_es_mmio_read(vcpu, gpa, size,
+  9972					&vcpu->arch.regs[VCPU_REGS_RAX]);
+  9973			break;
+  9974		case PKVM_GHC_IOWRITE:
+  9975			ret = kvm_sev_es_mmio_write(vcpu, gpa, size, &val);
+  9976			break;
+  9977		default:
+  9978			ret = 1;
+  9979			break;
+  9980		}
+  9981	
+  9982		/*
+  9983		 * We assume calling this function will always success which will update
+  9984		 * the GUEST_RIP to skip the current instruction.
+  9985		 */
+  9986		static_call(kvm_x86_skip_emulated_instruction)(vcpu);
+  9987	
+  9988		return ret;
+  9989	}
+  9990	
 
 -- 
 0-DAY CI Kernel Test Service
