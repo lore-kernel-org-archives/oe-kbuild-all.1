@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A781990A8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 19:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DFF51392
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 19:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731785587; cv=none; b=lXOybCwSHqtmydaVE7YQtMBGrJPgGlpP/5Jj/ITG9NriFiF9+I77QACWnmL6CCxEb8IekA9horbwV3Nk5jj1FrlcDiedCTTTA0jkoFl2F0tve8tTAmY7Nq73SJ+yLDTwr8TlJL/mykQFaVVc9zxw4vN6kTue5DQ5s0BufPVx8Uw=
+	t=1731786297; cv=none; b=cHyo3tBHuUm3/rlQTkoFgaUh2u8WbvMLu1udGhD3f+KTLoxDYJDtdZpXzJ9bQiOxgEKczcQ3E/np6I21qw55xhr2p56KOfu5oWatRdVuplRUx71424yu6EGXpyQZ70gB9hTdBx20faNq3IdlIY2bRHEVS+6uzc4Mti8Mdb5KFyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731785587; c=relaxed/simple;
-	bh=wYxYzWLS+wHnAp1LZu8wWgo1KsgvElL3JcwQTAg4BA0=;
+	s=arc-20240116; t=1731786297; c=relaxed/simple;
+	bh=cVvRmHcI5BReFtHCDaLR0x1slgw/yeiRQK6h2DUi7Lw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UphPhNPF7fy/LokS0IM8tj98sGA07EgOlT5YxlFISxV/zR2v4ov1Dh7MPsbhFaBUs6P0wVYXdHx/EOnYLKjEnSwOIdadhQbo5pbUKQ58RJ0hl+aCaUBkm9zYXJk/3FU9aI603Ix5LVvQ5SO9lYbwL3y33YuGfTTN8KM8HXyzxTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMchVAB8; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=JBdIaaZ82I+rdlUt6EpJNc5qrApgwzcGr5KsDpCUya8cPbVzgdbJMkVJcmoLXZjNREl/U0IUSBpKGwqiR6kcyn1SpPjZ9HXfJF/Lcg1qwWRce9cyJ8T1SBXO9x3OjAFJwcfs/zpUf13xcWKkNNygM/XPpgQrutDM9aQlxYUAbmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MxufJ5HK; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMchVAB8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731785585; x=1763321585;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wYxYzWLS+wHnAp1LZu8wWgo1KsgvElL3JcwQTAg4BA0=;
-  b=UMchVAB8eEodlEucoVnD1bnnDUSxtM7HrCGuszh8jgrsar1z9TWUjyjC
-   KCtWWjuondV3OjIZ66dgWo0jCB8MpfkDbYEWNY3oCBDsGu2bMmWksQds9
-   EXJqBOW9H/fDWhok4ugPD3dV6ugPvTEaOsSHopejizvaQkiHEr2teCJqp
-   u5QiDQnw4VG5E4fai0n9djfAoRa9oNM+37X8l8JKvIBGkijWuNuIin2fe
-   Qm5h1G5FGqn7Ndihg7JLxlJDbzpPSw5Z4DM9YK/BdFJzEhA2FrgzxOUQg
-   C/T5N+Hm9XUVWSevhK+RdYE62z4MpLgpZbPSGcLm2o7Ydk65c768QB+Vk
-   Q==;
-X-CSE-ConnectionGUID: CAsE4BePRuiQgLDpZ1CWDg==
-X-CSE-MsgGUID: mXlcvX/kRUWmnQt15yhzRg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42421051"
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="42421051"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 11:33:03 -0800
-X-CSE-ConnectionGUID: ZcASEWJwRqixLkUFdov6Ag==
-X-CSE-MsgGUID: eESejrsuSUuMgp5ALAG35w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="112140900"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2024 11:33:01 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tCOXT-00013y-1r;
-	Sat, 16 Nov 2024 19:32:59 +0000
-Date: Sun, 17 Nov 2024 03:32:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474]
- security/integrity/ima/ima_virtcca.c:30:5: warning: no previous prototype
- for function 'ima_virtcca_init'
-Message-ID: <202411170355.mew4P3B3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MxufJ5HK"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-382376fcc4fso330584f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 11:44:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731786294; x=1732391094; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Yd0Ue5oQVWlCSG+t3RfaiOKPRWG47tjhtlFtgmrf2y8=;
+        b=MxufJ5HKL7+xEyA2KE+QeyZs3sIiRIJ6tVPf76dSjJ+0Ow8jhBiRkwIePI9PYHwOM8
+         v7tKltLnl1bQTBJxshxs0YbcgMo9MxOaHNA14HFUkbRK5q5vtke8wHQKRMs17ifcurng
+         9V57qTVkUBfmyOXQi7xbd7dVAfBMH0d7FpkGZx1OqOXhZd4dWM1N5ecG3szmaVgnnlfZ
+         HKpPfWCsMzAdiixx6DS+JAqf0A1JT1a5aaswTSScRiUegNouM1UW5Hmo+22LcH5TYu/F
+         LCs/UYoYwCY0axcLGJhLP9fbd6CsFesaCUmjTS0tOgdShM0SaoxTSCKgOBwLdv0P79yV
+         cIdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731786294; x=1732391094;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Yd0Ue5oQVWlCSG+t3RfaiOKPRWG47tjhtlFtgmrf2y8=;
+        b=XnBTJjHyL1VNVmW24BGqiyLj7mELq7DHdlZEF+3YtQjsulMI4VG0gPHDhd6pNBbaZz
+         eNdFL4F2MIJfKaam6iLzOL6t5shzabJGRCqs3NGkABc2hTjPl3pZxXODHMIfcUf+/TMB
+         4pIrLmRihiyoCB5OW/BCF1/zc1bbP703VGmYjmTVdgNrxn/Etej6j0yeSbn0qJVH3pt5
+         yEeMsd5aKFKo5Lemy2LOlD+TXMbrCY0XY8cFYJQCyHHQkwgp/MyNNRTXI+3RT7A73l+G
+         K8PhnDIAb8pM/4boCF8EXEZLaBlakQJcKWwwGJZcymDYxrsiMZsESHD3e/42DgkivJvE
+         Auog==
+X-Forwarded-Encrypted: i=1; AJvYcCXc5LlrAZH9kjkL7xKNo+AVT46wmO/nZXse4smlF7wfArGW36VLuFb/4r1itiAWJ7cnywZsRsmGm5lq1Qng@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz4uWbMR65SldCXRUbVHeKVbKlFd0HRfN6MfCnQanU3C0Eksv5O
+	7xa6Vs57IXjTajHIeHhgWiixMqO1FlCCzIk0tqHzBDeiHNlrilHU0hkMjr/Ygo4=
+X-Google-Smtp-Source: AGHT+IED3SQWzksMYz+uVeXJC+u8nZB1TMwiLWP80LbsNP2roIBh3HpyveR919wxorKDX8SacvvWVQ==
+X-Received: by 2002:a05:6000:4008:b0:382:37b2:87ff with SMTP id ffacd0b85a97d-38237b28b76mr2376092f8f.44.1731786293714;
+        Sat, 16 Nov 2024 11:44:53 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3821ae16108sm7982328f8f.66.2024.11.16.11.44.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 16 Nov 2024 11:44:53 -0800 (PST)
+Date: Sat, 16 Nov 2024 22:44:50 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl/fwctl 20/28] drivers/cxl/core/mbox.c:798 cxl_walk_cel()
+ error: we previously assumed 'cmd' could be null (see line 783)
+Message-ID: <5cad1d59-b95b-4100-9276-097a755eafc9@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,127 +66,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7c547c6bbe6b6a9cedf63d7cdadb2529404df633
-commit: 24ac42fb86c6acfcb89b76d3b2fd6fba9bfd89de [1474/1474] ima: rot: Adapt VirtCCA into Rot
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411170355.mew4P3B3-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170355.mew4P3B3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+head:   81cb57f64be6af29f39bde3b3ca4203975a84377
+commit: 044c18e2de67a0bebddea14ec307777a5a1df048 [20/28] cxl: Save Command Effects Log (CEL) effects for enabled commands
+config: x86_64-randconfig-161-20241116 (https://download.01.org/0day-ci/archive/20241117/202411170357.DFRoqGt8-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170355.mew4P3B3-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411170357.DFRoqGt8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/cxl/core/mbox.c:798 cxl_walk_cel() error: we previously assumed 'cmd' could be null (see line 783)
 
-   In file included from security/integrity/ima/ima_virtcca.c:7:
-   In file included from security/integrity/ima/ima.h:19:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:2247:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> security/integrity/ima/ima_virtcca.c:30:5: warning: no previous prototype for function 'ima_virtcca_init' [-Wmissing-prototypes]
-      30 | int ima_virtcca_init(struct ima_rot *rot)
-         |     ^
-   security/integrity/ima/ima_virtcca.c:30:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      30 | int ima_virtcca_init(struct ima_rot *rot)
-         | ^
-         | static 
->> security/integrity/ima/ima_virtcca.c:59:5: warning: no previous prototype for function 'ima_calc_virtcca_boot_aggregate' [-Wmissing-prototypes]
-      59 | int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
-         |     ^
-   security/integrity/ima/ima_virtcca.c:59:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      59 | int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
-         | ^
-         | static 
->> security/integrity/ima/ima_virtcca.c:81:5: warning: no previous prototype for function 'ima_virtcca_extend' [-Wmissing-prototypes]
-      81 | int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
-         |     ^
-   security/integrity/ima/ima_virtcca.c:81:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      81 | int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
-         | ^
-         | static 
-   8 warnings generated.
+vim +/cmd +798 drivers/cxl/core/mbox.c
 
+59f8d1510739e9 Dan Williams     2023-06-14  768  static void cxl_walk_cel(struct cxl_memdev_state *mds, size_t size, u8 *cel)
+4faf31b43468c5 Dan Williams     2021-09-08  769  {
+744cd0e20b0ed8 Dave Jiang       2024-06-17  770  	struct cxl_mailbox *cxl_mbox = &mds->cxlds.cxl_mbox;
+49be6dd807511d Dan Williams     2021-09-08  771  	struct cxl_cel_entry *cel_entry;
+4faf31b43468c5 Dan Williams     2021-09-08  772  	const int cel_entries = size / sizeof(*cel_entry);
+59f8d1510739e9 Dan Williams     2023-06-14  773  	struct device *dev = mds->cxlds.dev;
+4faf31b43468c5 Dan Williams     2021-09-08  774  	int i;
+4faf31b43468c5 Dan Williams     2021-09-08  775  
+49be6dd807511d Dan Williams     2021-09-08  776  	cel_entry = (struct cxl_cel_entry *) cel;
+4faf31b43468c5 Dan Williams     2021-09-08  777  
+4faf31b43468c5 Dan Williams     2021-09-08  778  	for (i = 0; i < cel_entries; i++) {
+4faf31b43468c5 Dan Williams     2021-09-08  779  		u16 opcode = le16_to_cpu(cel_entry[i].opcode);
+4faf31b43468c5 Dan Williams     2021-09-08  780  		struct cxl_mem_command *cmd = cxl_mem_find_command(opcode);
+d2f706058826b8 Ira Weiny        2023-09-03  781  		int enabled = 0;
+4faf31b43468c5 Dan Williams     2021-09-08  782  
+d2f706058826b8 Ira Weiny        2023-09-03 @783  		if (cmd) {
+                                                                    ^^^
+Apparently cmd can be NULL
 
-vim +/ima_virtcca_init +30 security/integrity/ima/ima_virtcca.c
+744cd0e20b0ed8 Dave Jiang       2024-06-17  784  			set_bit(cmd->info.id, cxl_mbox->enabled_cmds);
+d2f706058826b8 Ira Weiny        2023-09-03  785  			enabled++;
+d2f706058826b8 Ira Weiny        2023-09-03  786  		}
+d0abf5787adc03 Alison Schofield 2023-04-18  787  
+d2f706058826b8 Ira Weiny        2023-09-03  788  		if (cxl_is_poison_command(opcode)) {
+59f8d1510739e9 Dan Williams     2023-06-14  789  			cxl_set_poison_cmd_enabled(&mds->poison, opcode);
+d2f706058826b8 Ira Weiny        2023-09-03  790  			enabled++;
+d2f706058826b8 Ira Weiny        2023-09-03  791  		}
+d0abf5787adc03 Alison Schofield 2023-04-18  792  
+d2f706058826b8 Ira Weiny        2023-09-03  793  		if (cxl_is_security_command(opcode)) {
+ad64f5952ce3ea Davidlohr Bueso  2023-07-25  794  			cxl_set_security_cmd_enabled(&mds->security, opcode);
+d2f706058826b8 Ira Weiny        2023-09-03  795  			enabled++;
+d2f706058826b8 Ira Weiny        2023-09-03  796  		}
+ad64f5952ce3ea Davidlohr Bueso  2023-07-25  797  
+044c18e2de67a0 Dave Jiang       2024-11-06 @798  		cmd->info.effects = le16_to_cpu(cel_entry[i].effect);
+                                                                ^^^^^
+Unchecked dereference
 
-    29	
-  > 30	int ima_virtcca_init(struct ima_rot *rot)
-    31	{
-    32		int rc;
-    33	
-    34		if (!is_virtcca_cvm_world() || tsi_get_version() == SMCCC_RET_NOT_SUPPORTED)
-    35			return -ENODEV;
-    36	
-    37		rc = ima_virtcca_init_algo();
-    38		if (rc)
-    39			return rc;
-    40	
-    41		if (virtcca_algo != ima_hash_algo) {
-    42			pr_info("VirtCCA's algo (%s) is different from ima_hash_algo (%s)\n",
-    43					hash_algo_name[virtcca_algo], hash_algo_name[ima_hash_algo]);
-    44	
-    45			rot->allocated_banks = kcalloc(1, sizeof(*rot->allocated_banks), GFP_KERNEL);
-    46			if (!rot->allocated_banks)
-    47				return -ENOMEM;
-    48	
-    49			rot->nr_allocated_banks = 1;
-    50			rot->allocated_banks[0].alg_id = (virtcca_algo == HASH_ALGO_SHA512) ?
-    51							 TPM_ALG_SHA512 : TPM_ALG_SHA256;
-    52			rot->allocated_banks[0].digest_size = hash_digest_size[virtcca_algo];
-    53			rot->allocated_banks[0].crypto_id = virtcca_algo;
-    54		}
-    55	
-    56		return 0;
-    57	}
-    58	
-  > 59	int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
-    60	{
-    61		unsigned long result;
-    62		struct virtcca_cvm_measurement cm = { 0 };
-    63	
-    64		hash->algo = virtcca_algo;
-    65		hash->length = hash_digest_size[virtcca_algo];
-    66	
-    67		/* Read the measurement result of RIM as the boot aggregate */
-    68		cm.index = RIM_MEASUREMENT_SLOT;
-    69	
-    70		result = tsi_measurement_read(&cm);
-    71		if (result != TSI_SUCCESS) {
-    72			pr_err("Error reading cvm measurement 0 for boot aggregate\n");
-    73			return -EFAULT;
-    74		}
-    75	
-    76		memcpy(hash->digest, cm.value, hash->length);
-    77	
-    78		return 0;
-    79	}
-    80	
-  > 81	int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
+044c18e2de67a0 Dave Jiang       2024-11-06  799  
+d2f706058826b8 Ira Weiny        2023-09-03  800  		dev_dbg(dev, "Opcode 0x%04x %s\n", opcode,
+d2f706058826b8 Ira Weiny        2023-09-03  801  			enabled ? "enabled" : "unsupported by driver");
+4faf31b43468c5 Dan Williams     2021-09-08  802  	}
+4faf31b43468c5 Dan Williams     2021-09-08  803  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
