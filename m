@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB39194A59
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 23:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D561957FF;
+	Sat, 16 Nov 2024 23:10:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731798621; cv=none; b=KvB22lCVnrT3k96otIuwYr4Vd1kdx0PwPbIbARiQAYwz4XLeWZLuEX5+foolRAS46bWCyLak7ZnKSVsWbylJfBGR+1mudd5npBX4T3E5QY+LKaDWRLwC7xtktFI5vf7sx7+rdpZk4UyaN9x9yWoCW7+LKpmSgMTPvqFHMqh9/ak=
+	t=1731798623; cv=none; b=KAjTwDOeQaZ/0LUw0Wq1Wq4zJIWUMQnQ9y5JB5Zv4fJcfHzpdUuZS+XCgYxQ/FQBcMk9ZadZyiEiDKTnIe/PqhlMOA6sghQhO6zpc+nYvpNrp+i3rFdgrOvlveOQtCD5x+Q7HcgkRLJoZBwej6IDgQuHlGFoTUkVAtxW58PIIaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731798621; c=relaxed/simple;
-	bh=uBLYHkwHzUqh7O+u1dMI5Vb5+tlbxMNUg1hf3/CIAPw=;
+	s=arc-20240116; t=1731798623; c=relaxed/simple;
+	bh=Z/HkpWipnwhLBIY9kdd/Ia1KBf9aWjemqDYlqmxB1ug=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RHfaNH5duHbEA9ERPw41xpVPTt6bt/xgZWhu1ArFIu1AjR5WETpyvuyDXoPHD8x5zKZt0GNo19h/JYHAWsgeKP/qDWOc54rAXrz5oepVV7v7zyIPyxyko6uCreqNefaOjjN5nKPLTJsczYHJUAXGzDzf0BHuNABTIWG+LcZxwZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JSRHHsfn; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=rHPATOvOu2FMQmq+v6nJLRFlxs6FYUQjANE3ScjhhpzoIm80FU5D2E0OT3DoWElN7+Qbq9MLZTF6FJtugBM+AVVVz1XS4evYOJ8F3gN0z7AHRyy+zkTShtgHhwk9nZuR2ef3RCP69DGwPbuCs1GSF+OaEmruqvmNeSgNZZXVBGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qr/C0qZB; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JSRHHsfn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qr/C0qZB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731798619; x=1763334619;
+  t=1731798622; x=1763334622;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uBLYHkwHzUqh7O+u1dMI5Vb5+tlbxMNUg1hf3/CIAPw=;
-  b=JSRHHsfn6L+Nyzkh5Ud+sHLmdxkL+xyoDXqErG/skjeX3cUrEERIfcZD
-   kbyN8TRkDP1vrAGfi3JCdqL1kwfXPJ5zz5Lcgh59dIX/yyWTuas8m1Dff
-   9Kxd+E/5yVkavYztJy4MyDwHX6qqWvOUx1XGgEsYvVkBYP7xKA9MzHkpF
-   YHDgYi6jD3W3zljcJbWNP5KYJNnwnaGmMw3dAgOT8/Br0hKAfY8E/GL7D
-   NvYa9MlOer27QB/vqH0CR2FfkvM6R9lmg0z46+Qo6GBbxMermgRfTcSp7
-   arzU/7XZZ3ju57Hx/aQBzmmVLG6uu7RkpX7MQKODrSVSblWdl3/C1Ut5r
-   w==;
-X-CSE-ConnectionGUID: MqZ0v4J4RjqgZI6mul4+pQ==
-X-CSE-MsgGUID: S4Co/qoJTMeb36eoRRvJZQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31936051"
+  bh=Z/HkpWipnwhLBIY9kdd/Ia1KBf9aWjemqDYlqmxB1ug=;
+  b=Qr/C0qZBSdjnfxLIa+JybBYsAyOlP8naLkrfI9P3tjo66Y0mVPnTogNV
+   Rhhu3ReIl2H4mLSkfEwRdUzuLXcRfGHulbftPQjAWUmrtknAtjhxO7mR9
+   qZuFiL2lZlmnxfGAAuvsWvl4mjVwZjQMFMJXUfMrRdWPM9KmQYW7IUWhK
+   ocul0c8cCluIyoXKCKcNC+yZVYvX7kTeicAEaLZh9PjaUkyBP65CpjOLU
+   d67IKZMCm3QAnTpIzkIhSqPc18m8pD1CGCDhf6pR21UW1EGW0V0TyrSwJ
+   Rt3Jxxff7Hf6TOLodmD5kuTy+ms2yLo3ZKY/oZfk78nzgW/0z9meE2/CP
+   A==;
+X-CSE-ConnectionGUID: Fr2ARjUhROGC1AZ/owBVEA==
+X-CSE-MsgGUID: MWnxpHu7RPSbmmgWsEb2Ig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31936052"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="31936051"
+   d="scan'208";a="31936052"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 15:10:19 -0800
-X-CSE-ConnectionGUID: Cehklw+BRYm6MPZk6DfCSA==
-X-CSE-MsgGUID: tYv69yiJTfa/CZsq3FssVQ==
+X-CSE-ConnectionGUID: mLHCh854RHu0eag25PyN2Q==
+X-CSE-MsgGUID: p0sHHGDLSb2cqsYsjMZFKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="88636102"
+   d="scan'208";a="88636107"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 16 Nov 2024 15:10:17 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCRvi-00019z-2s;
+	id 1tCRvi-0001A1-2v;
 	Sat, 16 Nov 2024 23:10:14 +0000
-Date: Sun, 17 Nov 2024 07:09:42 +0800
+Date: Sun, 17 Nov 2024 07:09:43 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop-pkvm-ia-2024-15-11-v1 35/259]
- arch/x86/kvm/vmx/pkvm/hyp/init_finalise.c: mmu.h is included more than once.
-Message-ID: <202411170748.IYH5ISiY-lkp@intel.com>
+To: Dave Jiang <dave.jiang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [djiang:cxl/fwctl 21/28] drivers/fwctl/cxl/cxl.c:68:12: error: use
+ of undeclared identifier '__free_kvfree'; did you mean '__free_pages'?
+Message-ID: <202411170749.kYYAaKTi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,33 +62,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop-pkvm-ia-2024-15-11-v1
-head:   ab957086535d11209d7d6dd96172900d714fb5fb
-commit: c14be0a0537a7c27b78a353f30b00c5e0f2d4991 [35/259] ANDROID: pkvm: x86: Create MMU pgtable in init-finalise hypercall
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djiang/linux.git cxl/fwctl
+head:   81cb57f64be6af29f39bde3b3ca4203975a84377
+commit: 8d042dccf81ccdd81279cd26a9bbd89f705fea56 [21/28] fwctl/cxl: Add hw_info callback
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20241117/202411170749.kYYAaKTi-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170749.kYYAaKTi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170748.IYH5ISiY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170749.kYYAaKTi-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> arch/x86/kvm/vmx/pkvm/hyp/init_finalise.c: mmu.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +7 arch/x86/kvm/vmx/pkvm/hyp/init_finalise.c
+   drivers/fwctl/cxl/cxl.c:47:9: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      47 |         info = kzalloc(sizeof(*info), GFP_KERNEL);
+         |                ^
+   drivers/fwctl/cxl/cxl.c:47:7: error: incompatible integer to pointer conversion assigning to 'struct fwctl_info_cxl *' from 'int' [-Wint-conversion]
+      47 |         info = kzalloc(sizeof(*info), GFP_KERNEL);
+         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/fwctl/cxl/cxl.c:68:12: error: use of undeclared identifier '__free_kvfree'; did you mean '__free_pages'?
+      68 |         void *out __free(kvfree) = kvzalloc(*out_len, GFP_KERNEL);
+         |                   ^
+   include/linux/cleanup.h:200:33: note: expanded from macro '__free'
+     200 | #define __free(_name)   __cleanup(__free_##_name)
+         |                                   ^
+   <scratch space>:11:1: note: expanded from here
+      11 | __free_kvfree
+         | ^
+   include/linux/gfp.h:371:13: note: '__free_pages' declared here
+     371 | extern void __free_pages(struct page *page, unsigned int order);
+         |             ^
+>> drivers/fwctl/cxl/cxl.c:68:12: error: 'cleanup' function '__free_pages' must take 1 parameter
+      68 |         void *out __free(kvfree) = kvzalloc(*out_len, GFP_KERNEL);
+         |                   ^
+   include/linux/cleanup.h:200:33: note: expanded from macro '__free'
+     200 | #define __free(_name)   __cleanup(__free_##_name)
+         |                                   ^
+   <scratch space>:11:1: note: expanded from here
+      11 | __free_kvfree
+         | ^
+>> drivers/fwctl/cxl/cxl.c:68:29: error: call to undeclared function 'kvzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      68 |         void *out __free(kvfree) = kvzalloc(*out_len, GFP_KERNEL);
+         |                                    ^
+>> drivers/fwctl/cxl/cxl.c:68:8: error: incompatible integer to pointer conversion initializing 'void *' with an expression of type 'int' [-Wint-conversion]
+      68 |         void *out __free(kvfree) = kvzalloc(*out_len, GFP_KERNEL);
+         |               ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   6 errors generated.
 
-   > 7	#include <mmu.h>
-     8	#include <mmu/spte.h>
-     9	#include <asm/kvm_pkvm.h>
-    10	
-    11	#include <pkvm.h>
-    12	#include "pkvm_hyp.h"
-    13	#include "early_alloc.h"
-    14	#include "memory.h"
-    15	#include "pgtable.h"
-  > 16	#include "mmu.h"
-    17	#include "debug.h"
-    18	
+
+vim +68 drivers/fwctl/cxl/cxl.c
+
+    55	
+    56	static void *cxlctl_hw_info(struct fwctl_uctx *uctx, int commands, size_t *out_len)
+    57	{
+    58		struct cxlctl_uctx *cxlctl_uctx =
+    59			container_of(uctx, struct cxlctl_uctx, uctx);
+    60		struct fwctl_device *fwctl = uctx->fwctl;
+    61		struct cxlctl_dev *cxlctl =
+    62			container_of(fwctl, struct cxlctl_dev, fwctl);
+    63		int rc;
+    64	
+    65		if (commands > cxlctl_uctx->nr_commands)
+    66			return ERR_PTR(-EINVAL);
+    67	
+  > 68		void *out __free(kvfree) = kvzalloc(*out_len, GFP_KERNEL);
+    69		if (!out)
+    70			return ERR_PTR(-ENOMEM);
+    71	
+    72		rc = cxl_mailbox_user_commands_info_get(cxlctl->mbox,
+    73							commands, out, out_len);
+    74		if (rc)
+    75			return ERR_PTR(rc);
+    76	
+    77		return_ptr(out);
+    78	}
+    79	
 
 -- 
 0-DAY CI Kernel Test Service
