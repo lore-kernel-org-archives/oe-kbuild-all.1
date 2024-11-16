@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C76A191F6F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 19:33:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55A781990A8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 19:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731785584; cv=none; b=MhIFtkPH5jeQ3rSZ9fQWVwvKdC1BwWegCv65ioFMspmKv/ugZWovGtz1BrypI+qHsDbvr3P19g3500dRpYbFG9u79y4GEx4MmnfMvzdUJZW7xOtt6gKw5ECYMh405bYh9cTib+3lnBO4R5liJ/WyZiOSX1Ata29yXGZsYUGIstA=
+	t=1731785587; cv=none; b=lXOybCwSHqtmydaVE7YQtMBGrJPgGlpP/5Jj/ITG9NriFiF9+I77QACWnmL6CCxEb8IekA9horbwV3Nk5jj1FrlcDiedCTTTA0jkoFl2F0tve8tTAmY7Nq73SJ+yLDTwr8TlJL/mykQFaVVc9zxw4vN6kTue5DQ5s0BufPVx8Uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731785584; c=relaxed/simple;
-	bh=B4T9QYm5LcXuko+RR+60pRxQ/xocSLjPfOc7LcUZCgo=;
+	s=arc-20240116; t=1731785587; c=relaxed/simple;
+	bh=wYxYzWLS+wHnAp1LZu8wWgo1KsgvElL3JcwQTAg4BA0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jVpAKx8h+zuXkZfuT089q9L/kua+XEKgFlPNdY8GqLUXelY6RYpSuO7RW3mPnYnWO2ebE2vkiNJkyA166sp8JRL37KBJA20GlneePVQMBjfD3S5XBsSSGxgDvwylnkYBHKuWceqxQVUrJsMc3hP0Avsm3RiAVFth76SCpOQMqeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lcdfOhPo; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=UphPhNPF7fy/LokS0IM8tj98sGA07EgOlT5YxlFISxV/zR2v4ov1Dh7MPsbhFaBUs6P0wVYXdHx/EOnYLKjEnSwOIdadhQbo5pbUKQ58RJ0hl+aCaUBkm9zYXJk/3FU9aI603Ix5LVvQ5SO9lYbwL3y33YuGfTTN8KM8HXyzxTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMchVAB8; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lcdfOhPo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMchVAB8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731785583; x=1763321583;
+  t=1731785585; x=1763321585;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B4T9QYm5LcXuko+RR+60pRxQ/xocSLjPfOc7LcUZCgo=;
-  b=lcdfOhPoxvfG5MlTDeWoflaXP45lpkuDUQWNHGr9GZp5Vr+MuqaZJ4gP
-   R9mUA7zkJcXVKdBb6DcGb+nplla307uwudVH2IGtxvANlfLtX1Z5FHnZX
-   aThdodvS+iHmB3lYkAzHYKMGo2uSiiHQx/I16eGxUNKwMSmMW7Oz0NSYv
-   yu+r5zusY33dJS0EL+HfZbcHMV2MSRT8j7ahBAzt0lUcskliIcXu+EEF5
-   8uB2PsvlSy0+2gdm4IDZHnqSua6ymLRyFX+64ejG7VIZXXwh8xOz9VE0l
-   5DPdakpkHXf8GgISTIFA0p9bvdTEk/6QEdFJtF0h1qYdgpgYdqIh8ZWUk
+  bh=wYxYzWLS+wHnAp1LZu8wWgo1KsgvElL3JcwQTAg4BA0=;
+  b=UMchVAB8eEodlEucoVnD1bnnDUSxtM7HrCGuszh8jgrsar1z9TWUjyjC
+   KCtWWjuondV3OjIZ66dgWo0jCB8MpfkDbYEWNY3oCBDsGu2bMmWksQds9
+   EXJqBOW9H/fDWhok4ugPD3dV6ugPvTEaOsSHopejizvaQkiHEr2teCJqp
+   u5QiDQnw4VG5E4fai0n9djfAoRa9oNM+37X8l8JKvIBGkijWuNuIin2fe
+   Qm5h1G5FGqn7Ndihg7JLxlJDbzpPSw5Z4DM9YK/BdFJzEhA2FrgzxOUQg
+   C/T5N+Hm9XUVWSevhK+RdYE62z4MpLgpZbPSGcLm2o7Ydk65c768QB+Vk
    Q==;
-X-CSE-ConnectionGUID: eRUhYWaSTSOmo3f0ksZLhw==
-X-CSE-MsgGUID: IxMMJtzmRqudOCSitDttxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="49304890"
+X-CSE-ConnectionGUID: CAsE4BePRuiQgLDpZ1CWDg==
+X-CSE-MsgGUID: mXlcvX/kRUWmnQt15yhzRg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42421051"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="49304890"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 11:33:03 -0800
-X-CSE-ConnectionGUID: DEpxR7pITqm61ZxKbzv2FA==
-X-CSE-MsgGUID: 3rFoeZz/SnKbeeFTKn2JwQ==
+   d="scan'208";a="42421051"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 11:33:03 -0800
+X-CSE-ConnectionGUID: ZcASEWJwRqixLkUFdov6Ag==
+X-CSE-MsgGUID: eESejrsuSUuMgp5ALAG35w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="93311282"
+   d="scan'208";a="112140900"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Nov 2024 11:33:01 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2024 11:33:01 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCOXT-00013t-1j;
+	id 1tCOXT-00013y-1r;
 	Sat, 16 Nov 2024 19:32:59 +0000
-Date: Sun, 17 Nov 2024 03:32:20 +0800
+Date: Sun, 17 Nov 2024 03:32:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexei Starovoitov <ast@kernel.org>
+To: kernel@openeuler.org, GONG Ruiqi <gongruiqi1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ast-bpf:trylock 19/20] mm/page_alloc.c:2896:40: sparse: sparse:
- Using plain integer as NULL pointer
-Message-ID: <202411170306.Wz6PUPbG-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1474/1474]
+ security/integrity/ima/ima_virtcca.c:30:5: warning: no previous prototype
+ for function 'ima_virtcca_init'
+Message-ID: <202411170355.mew4P3B3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +63,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ast/bpf.git trylock
-head:   246f17ab718a8fa28d8d2a68d5972cec768ee23d
-commit: d115d192d94c6ce6ea38ac969ee023f110de8c42 [19/20] mm, bpf: Introduce __GFP_TRYLOCK for best effort page allocation
-config: x86_64-randconfig-123-20241116 (https://download.01.org/0day-ci/archive/20241117/202411170306.Wz6PUPbG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170306.Wz6PUPbG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   7c547c6bbe6b6a9cedf63d7cdadb2529404df633
+commit: 24ac42fb86c6acfcb89b76d3b2fd6fba9bfd89de [1474/1474] ima: rot: Adapt VirtCCA into Rot
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411170355.mew4P3B3-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170355.mew4P3B3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170306.Wz6PUPbG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170355.mew4P3B3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c:2630:6: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c:2723:33: sparse: sparse: context imbalance in 'free_unref_folios' - unexpected unlock
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c:3011:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
->> mm/page_alloc.c:2896:40: sparse: sparse: Using plain integer as NULL pointer
-   mm/page_alloc.c:4694:9: sparse: sparse: context imbalance in 'alloc_pages_bulk_noprof' - different lock contexts for basic block
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+All warnings (new ones prefixed by >>):
 
-vim +2896 mm/page_alloc.c
+   In file included from security/integrity/ima/ima_virtcca.c:7:
+   In file included from security/integrity/ima/ima.h:19:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2247:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> security/integrity/ima/ima_virtcca.c:30:5: warning: no previous prototype for function 'ima_virtcca_init' [-Wmissing-prototypes]
+      30 | int ima_virtcca_init(struct ima_rot *rot)
+         |     ^
+   security/integrity/ima/ima_virtcca.c:30:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      30 | int ima_virtcca_init(struct ima_rot *rot)
+         | ^
+         | static 
+>> security/integrity/ima/ima_virtcca.c:59:5: warning: no previous prototype for function 'ima_calc_virtcca_boot_aggregate' [-Wmissing-prototypes]
+      59 | int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
+         |     ^
+   security/integrity/ima/ima_virtcca.c:59:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      59 | int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
+         | ^
+         | static 
+>> security/integrity/ima/ima_virtcca.c:81:5: warning: no previous prototype for function 'ima_virtcca_extend' [-Wmissing-prototypes]
+      81 | int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
+         |     ^
+   security/integrity/ima/ima_virtcca.c:81:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      81 | int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
+         | ^
+         | static 
+   8 warnings generated.
 
-  2883	
-  2884	static __always_inline
-  2885	struct page *rmqueue_buddy(struct zone *preferred_zone, struct zone *zone,
-  2886				   unsigned int order, unsigned int alloc_flags,
-  2887				   int migratetype)
-  2888	{
-  2889		struct page *page;
-  2890		unsigned long flags;
-  2891	
-  2892		do {
-  2893			page = NULL;
-  2894			if (alloc_flags & ALLOC_TRYLOCK) {
-  2895				if (!spin_trylock_irqsave(&zone->lock, flags))
-> 2896					return 0;
-  2897			} else {
-  2898				spin_lock_irqsave(&zone->lock, flags);
-  2899			}
-  2900			if (alloc_flags & ALLOC_HIGHATOMIC)
-  2901				page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
-  2902			if (!page) {
-  2903				page = __rmqueue(zone, order, migratetype, alloc_flags);
-  2904	
-  2905				/*
-  2906				 * If the allocation fails, allow OOM handling access
-  2907				 * to HIGHATOMIC reserves as failing now is worse than
-  2908				 * failing a high-order atomic allocation in the
-  2909				 * future.
-  2910				 */
-  2911				if (!page && (alloc_flags & ALLOC_OOM))
-  2912					page = __rmqueue_smallest(zone, order, MIGRATE_HIGHATOMIC);
-  2913	
-  2914				if (!page) {
-  2915					spin_unlock_irqrestore(&zone->lock, flags);
-  2916					return NULL;
-  2917				}
-  2918			}
-  2919			spin_unlock_irqrestore(&zone->lock, flags);
-  2920		} while (check_new_pages(page, order));
-  2921	
-  2922		__count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
-  2923		zone_statistics(preferred_zone, zone, 1);
-  2924	
-  2925		return page;
-  2926	}
-  2927	
+
+vim +/ima_virtcca_init +30 security/integrity/ima/ima_virtcca.c
+
+    29	
+  > 30	int ima_virtcca_init(struct ima_rot *rot)
+    31	{
+    32		int rc;
+    33	
+    34		if (!is_virtcca_cvm_world() || tsi_get_version() == SMCCC_RET_NOT_SUPPORTED)
+    35			return -ENODEV;
+    36	
+    37		rc = ima_virtcca_init_algo();
+    38		if (rc)
+    39			return rc;
+    40	
+    41		if (virtcca_algo != ima_hash_algo) {
+    42			pr_info("VirtCCA's algo (%s) is different from ima_hash_algo (%s)\n",
+    43					hash_algo_name[virtcca_algo], hash_algo_name[ima_hash_algo]);
+    44	
+    45			rot->allocated_banks = kcalloc(1, sizeof(*rot->allocated_banks), GFP_KERNEL);
+    46			if (!rot->allocated_banks)
+    47				return -ENOMEM;
+    48	
+    49			rot->nr_allocated_banks = 1;
+    50			rot->allocated_banks[0].alg_id = (virtcca_algo == HASH_ALGO_SHA512) ?
+    51							 TPM_ALG_SHA512 : TPM_ALG_SHA256;
+    52			rot->allocated_banks[0].digest_size = hash_digest_size[virtcca_algo];
+    53			rot->allocated_banks[0].crypto_id = virtcca_algo;
+    54		}
+    55	
+    56		return 0;
+    57	}
+    58	
+  > 59	int ima_calc_virtcca_boot_aggregate(struct ima_digest_data *hash)
+    60	{
+    61		unsigned long result;
+    62		struct virtcca_cvm_measurement cm = { 0 };
+    63	
+    64		hash->algo = virtcca_algo;
+    65		hash->length = hash_digest_size[virtcca_algo];
+    66	
+    67		/* Read the measurement result of RIM as the boot aggregate */
+    68		cm.index = RIM_MEASUREMENT_SLOT;
+    69	
+    70		result = tsi_measurement_read(&cm);
+    71		if (result != TSI_SUCCESS) {
+    72			pr_err("Error reading cvm measurement 0 for boot aggregate\n");
+    73			return -EFAULT;
+    74		}
+    75	
+    76		memcpy(hash->digest, cm.value, hash->length);
+    77	
+    78		return 0;
+    79	}
+    80	
+  > 81	int ima_virtcca_extend(struct tpm_digest *digests_arg, const void *args)
 
 -- 
 0-DAY CI Kernel Test Service
