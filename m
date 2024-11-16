@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25B617BCA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 14:50:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBEB526AFF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 16 Nov 2024 15:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731768637; cv=none; b=iJOeVP3BsIhGaFxUfrywTdNbCfd4+o+9cjR/rKM7Ubf9hjHC3iMFLEbLvRWMOmbBx8OuH2lTgd3FDg8Wmh/ebM359Re9noVo2DSY7BhDLiWFK2piSOWHx/arHsuH44mrb+m0GzZAeCEpF+KP8MEb0K0VD9CmVR4V3N/1gyx1X2Y=
+	t=1731771101; cv=none; b=BFCMTs5emmmRoyyyj5jJOat4PPGB8AsRMsS/Pa7n+OzyoU9m4CnWUoulyGHCktkfsH5b8Yca9uwfknod3zX3eWtGmOm5ArDtjTvv5PA3gPzJavymXmlP/KIUdcHY62NAeGsrgkqe64p4gBZ5QT7FvS9gYHoV8Mfkd+aeBMZn+Gg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731768637; c=relaxed/simple;
-	bh=aNCZ64MCmt/N4DbLmTH85EEO8OSXwz2VH7eNqqs2mZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FFAit2ddnoUb0N9oB0II8R10SH6mmSdqMHVwkTawqwNC5fUbOxhTLHdww5gE7BIrHYd1+Fs2gCxGwuHV1XXLHGR6xtJqKhxtuprIf5t4NAn5FwZR2PwwPLA7Pc4dJ+uHcyohLwic+FZqX5qgxas7ULkuLQ/vyI4vgjZpnrlt0gc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EIjLpmPt; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1731771101; c=relaxed/simple;
+	bh=vS2dvSJLUe/fujMdzr9ygA6HwfnfI2BH0CAP8mdEdAw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZssiDIw8tF76B3viUJeYEDHEtxuuvquCFbikBQe1hfu1gk65ukj0zc5sEjRPEobxeowO0pPLwwmo7A2w0C+VpJI2equ/ar0gmEkc+yPianloFhvqQGGUFQbEmecDjPmG37rm3SKmpLh0mUpAtvmassdH98P7oN6xEmi/jge5i8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D4YewUXy; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EIjLpmPt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D4YewUXy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731768636; x=1763304636;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aNCZ64MCmt/N4DbLmTH85EEO8OSXwz2VH7eNqqs2mZ8=;
-  b=EIjLpmPtW9XJVb/0Lm1FHjsrHtIBsW6QbN0wRK84qCH57RuUOWdmMIjY
-   GJde51oG/Csig2ZEWrmNyBbU/qV43JGhQ+Abz4A00rg0iam2gemhvB9fg
-   CTvnslJsJwjBhK+tr+s+0IZ0HjOCMRJennC9zHMUezRoOFbOzD1C4eWCI
-   OWXul2cmdqAzkjoiL2UQd/TTiXbZsDj/WCj+UyRlLVOMVwqoe8iN9Z8/w
-   hEDM19kUqFUvvWPb/0ffRUSvjE4GedtJO/LOcAQsgQFL93wW0UB8xTxql
-   9taf77lmypC6ZNLHFQFDAp3P6PtHgzj5+PQZMXwRWfa/k3gvpH5joBxjj
-   w==;
-X-CSE-ConnectionGUID: IHuo1krcToCfJmISEbE3uA==
-X-CSE-MsgGUID: PUAyqEioTUyUzkeKdFBmTA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="49197540"
+  t=1731771099; x=1763307099;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vS2dvSJLUe/fujMdzr9ygA6HwfnfI2BH0CAP8mdEdAw=;
+  b=D4YewUXyPwI7Ox2s4sK5gFWkDXljCR6zmuDAf/m4IaZ4SMGJK89TeSk0
+   MizTxtSicqFWolW4E1Ib9UqrEFr5wwcfleSZ+WXePj1lnHxzR/6qbMsUb
+   zGsliCNHWmgxJnH7+3TS7yO7iUQ4SyACy1bAMIuSpSFwcoDRpMr0iCnHC
+   jt4Vha2OWSlIKlltVa6xKGd5AmcV40afVXQJrCTJ7//QXfVB882orw7ot
+   4AopfcVsG3FBUOy7QBbscFAZ+HRQUVslQA68uu7UacUrqJLK3pFIQE814
+   iIfPXhsDBPsSpAqf71tZFOikqi/weWoSBC0cYTovI5qJlNa4NC4BQ53qW
+   A==;
+X-CSE-ConnectionGUID: RpSE5NgAT1ydc9DzeZ9N/Q==
+X-CSE-MsgGUID: KpaPIvNxQGSCOj79xsQsrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="57177818"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="49197540"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 06:50:36 -0800
-X-CSE-ConnectionGUID: CuyfysNaStaHbS/lCrjC7g==
-X-CSE-MsgGUID: 8gfPGFzsR4OOG0b7jpoc+Q==
+   d="scan'208";a="57177818"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 07:31:37 -0800
+X-CSE-ConnectionGUID: fhbTy6D2TT20NIl+6Z25OA==
+X-CSE-MsgGUID: uIiDB+imTWKpAd+69ywuag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="88711502"
+   d="scan'208";a="93914373"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Nov 2024 06:50:31 -0800
+  by orviesa004.jf.intel.com with ESMTP; 16 Nov 2024 07:31:36 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCK84-0000hV-1f;
-	Sat, 16 Nov 2024 14:50:28 +0000
-Date: Sat, 16 Nov 2024 22:49:28 +0800
+	id 1tCKlq-0000nr-0F;
+	Sat, 16 Nov 2024 15:31:34 +0000
+Date: Sat, 16 Nov 2024 23:31:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Terry Bowman <terry.bowman@amd.com>, linux-cxl@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-	nifan.cxl@gmail.com, ming4.li@intel.com, dave@stgolabs.net,
-	jonathan.cameron@huawei.com, dave.jiang@intel.com,
-	alison.schofield@intel.com, vishal.l.verma@intel.com,
-	dan.j.williams@intel.com, bhelgaas@google.com, mahesh@linux.ibm.com,
-	ira.weiny@intel.com, oohall@gmail.com, Benjamin.Cheatham@amd.com,
-	rrichter@amd.com, nathan.fontenot@amd.com,
-	Smita.KoralahalliChannabasappa@amd.com, lukas@wunner.de
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 08/15] cxl/pci: Map CXL PCIe root port and downstream
- switch port RAS registers
-Message-ID: <202411161334.rczGLGKY-lkp@intel.com>
-References: <20241113215429.3177981-9-terry.bowman@amd.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+Subject: [linux-next:master 11324/11989] drivers/mmc/host/mmci.c:53:21:
+ warning: 'fmax' defined but not used
+Message-ID: <202411162349.DQCv4tkT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,63 +61,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241113215429.3177981-9-terry.bowman@amd.com>
 
-Hi Terry,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2d5404caa8c7bb5c4e0435f94b28834ae5456623]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Terry-Bowman/PCI-AER-Introduce-struct-cxl_err_handlers-and-add-to-struct-pci_driver/20241114-060000
-base:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
-patch link:    https://lore.kernel.org/r/20241113215429.3177981-9-terry.bowman%40amd.com
-patch subject: [PATCH v3 08/15] cxl/pci: Map CXL PCIe root port and downstream switch port RAS registers
-config: i386-randconfig-141-20241116 (https://download.01.org/0day-ci/archive/20241116/202411161334.rczGLGKY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241116/202411161334.rczGLGKY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   744cf71b8bdfcdd77aaf58395e068b7457634b2c
+commit: a3396b99990d8b4e5797e7b16fdeb64c15ae97bb [11324/11989] block: add a rq_list type
+config: arm64-randconfig-002-20241116 (https://download.01.org/0day-ci/archive/20241116/202411162349.DQCv4tkT-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241116/202411162349.DQCv4tkT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411161334.rczGLGKY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411162349.DQCv4tkT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/cxl/core/pci.c:782: warning: Excess function parameter 'host' description in 'cxl_dport_init_ras_reporting'
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+   include/linux/compiler.h:189:45: error: '__UNIQUE_ID_y_617' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_616'?
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:497:23: note: in definition of macro '__compiletime_assert'
+     497 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:29: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:37: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:189:45: note: each undeclared identifier is reported only once for each function it appears in
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:497:23: note: in definition of macro '__compiletime_assert'
+     497 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:517:9: note: in expansion of macro '_compiletime_assert'
+     517 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:29: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:189:37: note: in expansion of macro '__PASTE'
+     189 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   drivers/mmc/host/mmci.c: At top level:
+>> drivers/mmc/host/mmci.c:53:21: warning: 'fmax' defined but not used [-Wunused-variable]
+      53 | static unsigned int fmax = 515633;
+         |                     ^~~~
 
 
-vim +782 drivers/cxl/core/pci.c
+vim +/fmax +53 drivers/mmc/host/mmci.c
 
-d1a9def33d7043 Terry Bowman   2023-10-18  775  
-577a67662ff529 Li Ming        2024-08-30  776  /**
-577a67662ff529 Li Ming        2024-08-30  777   * cxl_dport_init_ras_reporting - Setup CXL RAS report on this dport
-577a67662ff529 Li Ming        2024-08-30  778   * @dport: the cxl_dport that needs to be initialized
-577a67662ff529 Li Ming        2024-08-30  779   * @host: host device for devm operations
-577a67662ff529 Li Ming        2024-08-30  780   */
-23f51024741fc0 Terry Bowman   2024-11-13  781  void cxl_dport_init_ras_reporting(struct cxl_dport *dport)
-f05fd10d138d8b Robert Richter 2023-10-27 @782  {
-23f51024741fc0 Terry Bowman   2024-11-13  783  	struct device *dport_dev = dport->dport_dev;
-23f51024741fc0 Terry Bowman   2024-11-13  784  	struct pci_host_bridge *host_bridge = to_pci_host_bridge(dport_dev);
-f05fd10d138d8b Robert Richter 2023-10-27  785  
-23f51024741fc0 Terry Bowman   2024-11-13  786  	if (dport->rch && host_bridge->native_aer) {
-23f51024741fc0 Terry Bowman   2024-11-13  787  		cxl_dport_map_rch_aer(dport);
-23f51024741fc0 Terry Bowman   2024-11-13  788  		cxl_disable_rch_root_ints(dport);
-23f51024741fc0 Terry Bowman   2024-11-13  789  	}
-6c5f3aacb2963d Terry Bowman   2023-10-18  790  
-23f51024741fc0 Terry Bowman   2024-11-13  791  	/* dport may have more than 1 downstream EP. Check if already mapped. */
-23f51024741fc0 Terry Bowman   2024-11-13  792  	if (dport->regs.ras)
-c8706cc15a5814 Li Ming        2024-08-30  793  		return;
-d1a9def33d7043 Terry Bowman   2023-10-18  794  
-23f51024741fc0 Terry Bowman   2024-11-13  795  	dport->reg_map.host = dport_dev;
-23f51024741fc0 Terry Bowman   2024-11-13  796  	if (cxl_map_component_regs(&dport->reg_map, &dport->regs.component,
-23f51024741fc0 Terry Bowman   2024-11-13  797  				   BIT(CXL_CM_CAP_CAP_ID_RAS))) {
-23f51024741fc0 Terry Bowman   2024-11-13  798  		dev_err(dport_dev, "Failed to map RAS capability.\n");
-23f51024741fc0 Terry Bowman   2024-11-13  799  		return;
-f05fd10d138d8b Robert Richter 2023-10-27  800  	}
-c8706cc15a5814 Li Ming        2024-08-30  801  }
-577a67662ff529 Li Ming        2024-08-30  802  EXPORT_SYMBOL_NS_GPL(cxl_dport_init_ras_reporting, CXL);
-f05fd10d138d8b Robert Richter 2023-10-27  803  
+c3647fdc6a5a48 drivers/mmc/host/mmci.c Ludovic Barre  2018-10-08  52  
+^1da177e4c3f41 drivers/mmc/mmci.c      Linus Torvalds 2005-04-16 @53  static unsigned int fmax = 515633;
+^1da177e4c3f41 drivers/mmc/mmci.c      Linus Torvalds 2005-04-16  54  
+
+:::::: The code at line 53 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
