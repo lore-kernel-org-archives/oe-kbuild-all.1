@@ -1,70 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2191D90AD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 15:39:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96E8481DD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 15:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731857991; cv=none; b=YcoZEyPJbpaqn3//+Eh3u+28PWQR3/ghfa+phMVSiuGqApFqSJHaJyOpG39r620cRsM3VJTAHV7GRA1bKh+kw9WpQTqwegqeZUmCgEOZ0cw45mmOfNFUf21r+XCqSq5dB4EI6E012MbK9dWmzbg2M3GnRJT/pjs9LtBArUvTaw0=
+	t=1731858651; cv=none; b=H5dvi8j8FfJRa8QtpysPLV59pQWP/GZkxcFQyvdnPlv/SJAE1bsbIptaDFVtc3NVgBG1b0TIoYHJiKeCUMRcWHGdiCoc/yJov+lp8dvKThOFa9sRtGbBP4nRotODMR/DFL5XS9RmLW9ciZTL3IvOGAGAtR/Ox6DyPtxgAqV5z/8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731857991; c=relaxed/simple;
-	bh=XmSeuzaftL/+vg3VZC9X4kbM8L1zfwEERGsn4yRkYaQ=;
+	s=arc-20240116; t=1731858651; c=relaxed/simple;
+	bh=rTKP8/CP011uFuzkCTsKOQIZpgMpakze64ZAd9/JTvw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gljltogfI8q/XoBEU5SnQFfycTFbOHx+6GS/oQyP1099VgXARmiVHt0AXmtjf95JRGh0cuPJPUAwA84LO+g3walQCdicHiYrheQzeHRbqeD3XHL7BCGFZP/FTS9erAVSFMUjpToZDw/xBiK5JP+TJBFpFClJ9G2QsCW9strpQpU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0oRXDBe; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=r5i4pogoAxYY4n/u6nytZr6s6oxtRsZhwP5hz/WjUPy4xPhNQtPqOpLEHLyqPKuI/vXue5vRRlngdO3ovTI55GnnG0iCcx89fq1YmpgPIReVaAK+41TESnGb4Go0rxMsh3UgyQz2I4zSbRWZVR0R8h6SlHIQjDYZrgoY0a3at9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqVMyXXs; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0oRXDBe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqVMyXXs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731857991; x=1763393991;
+  t=1731858649; x=1763394649;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=XmSeuzaftL/+vg3VZC9X4kbM8L1zfwEERGsn4yRkYaQ=;
-  b=T0oRXDBevZszsf+xh0EDtJ2NJ7JUQhbk4M9hefT26SXG3FHng2JMwbEL
-   /Meb4eXzQ6Kb5H4Y6GBoQlShXSIXaC9JLfkBmDYbblpSTXNVP9nh1ye1i
-   ens8Ymo6wshQszo1uzDvoPVpRx5JCptDh8rcKsQ6cVxBjLLnf1hPkuQ92
-   0zUIOefU7p3rxt/26twboAW1c/So2jZCF4vc+1k83QzoHMOrjGNMBQvvl
-   33pS1NY2WBJVBDAFrltwAXUsv+bBC9ALYk2p+kt1XhZSy487ACfBXBNoS
-   Dda620nWPgoOJyYbXZAgxqpb7LwDORsHSUIpuwe9mSDBNeic2Egcy9n8y
-   A==;
-X-CSE-ConnectionGUID: +tVTOYjQQViMLy6dToEllg==
-X-CSE-MsgGUID: /6UAu59BTZ+1+97R2A7bPw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42337228"
+  bh=rTKP8/CP011uFuzkCTsKOQIZpgMpakze64ZAd9/JTvw=;
+  b=IqVMyXXssopLMPjNVoCNwyiwi0dPM6rqAunDbV0YFRjje6IgHHcCYGz2
+   AXqGhRPJXLHoIOk9kjCwOQ3+qd9+vJnjCxFPWi3rbglRnAhhZoJMqnE4p
+   n3PP8guqxUxsuSwyDGdq990hwzxDoLOfRhg2xV0C/5qd2D1aASsyU91NN
+   J6VweX3ZUAedS7/PPeznF/FeOCYliuabOMpGlVOrvzsdhpgJwZCjII9WD
+   JbKbiXX0gVkCjRa6TAs37g6GDF/n4nf5o/l+qXvXoIeP6pyrxNdBXY8JJ
+   2zJvsN7vPktvFFYzCy3kxqEej1k7mFh1+Gyej8L4zVHbohqriXEk9/2Go
+   Q==;
+X-CSE-ConnectionGUID: bcy1W9F7SpqfFk+AxJevTQ==
+X-CSE-MsgGUID: hD6II9yeTc2P3sFypt2iiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42337549"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="42337228"
+   d="scan'208";a="42337549"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:39:50 -0800
-X-CSE-ConnectionGUID: spULzkbMQh6Qegr2EG1+AQ==
-X-CSE-MsgGUID: FtyVDRl0Rzaf2+ZwPyceVg==
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:50:48 -0800
+X-CSE-ConnectionGUID: JLjQqwncTrin7ITpXJlGpQ==
+X-CSE-MsgGUID: k2gpTkHVTUOxK73LXVDuVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="89431213"
+   d="scan'208";a="89432164"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2024 07:39:45 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2024 07:50:46 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tChNH-0001pV-0J;
-	Sun, 17 Nov 2024 15:39:43 +0000
-Date: Sun, 17 Nov 2024 23:39:35 +0800
+	id 1tChXv-0001pl-2c;
+	Sun, 17 Nov 2024 15:50:43 +0000
+Date: Sun, 17 Nov 2024 23:49:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: admiyo@os.amperecomputing.com, Sudeep Holla <sudeep.holla@arm.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH v7 1/2] mctp pcc: Check before sending MCTP PCC response
- ACK
-Message-ID: <202411172322.HO4ycC00-lkp@intel.com>
-References: <20241114024928.60004-2-admiyo@os.amperecomputing.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, l.rubusch@gmx.ch,
+	Lothar Rubusch <l.rubusch@gmail.com>
+Subject: Re: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
+Message-ID: <202411172311.p8Krv6kq-lkp@intel.com>
+References: <20241114231002.98595-16-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,73 +65,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114024928.60004-2-admiyo@os.amperecomputing.com>
+In-Reply-To: <20241114231002.98595-16-l.rubusch@gmail.com>
 
-Hi,
+Hi Lothar,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.12-rc7 next-20241115]
-[cannot apply to horms-ipvs/master]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.12-rc7 next-20241115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20241114-105151
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241114024928.60004-2-admiyo%40os.amperecomputing.com
-patch subject: [PATCH v7 1/2] mctp pcc: Check before sending MCTP PCC response ACK
-config: x86_64-randconfig-123-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172322.HO4ycC00-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172322.HO4ycC00-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241115-190245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241114231002.98595-16-l.rubusch%40gmail.com
+patch subject: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
+config: x86_64-randconfig-121-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172311.p8Krv6kq-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172311.p8Krv6kq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411172322.HO4ycC00-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411172311.p8Krv6kq-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/mailbox/pcc.c:283:34: sparse: sparse: Using plain integer as NULL pointer
->> drivers/mailbox/pcc.c:296:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int * @@
-   drivers/mailbox/pcc.c:296:27: sparse:     expected restricted __le32 const [usertype] *p
-   drivers/mailbox/pcc.c:296:27: sparse:     got unsigned int *
-   drivers/mailbox/pcc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+>> drivers/iio/accel/adxl345_core.c:383:6: sparse: sparse: symbol 'adxl345_empty_fifo' was not declared. Should it be static?
 
-vim +283 drivers/mailbox/pcc.c
+vim +/adxl345_empty_fifo +383 drivers/iio/accel/adxl345_core.c
 
-   272	
-   273	static void check_and_ack(struct pcc_chan_info *pchan, struct mbox_chan *chan)
-   274	{
-   275		struct acpi_pcct_ext_pcc_shared_memory pcc_hdr;
-   276	
-   277		if (pchan->type != ACPI_PCCT_TYPE_EXT_PCC_SLAVE_SUBSPACE)
-   278			return;
-   279		/* If the memory region has not been mapped, we cannot
-   280		 * determine if we need to send the message, but we still
-   281		 * need to set the cmd_update flag before returning.
-   282		 */
- > 283		if (pchan->chan.shmem == 0) {
-   284			pcc_chan_reg_read_modify_write(&pchan->cmd_update);
-   285			return;
-   286		}
-   287		memcpy_fromio(&pcc_hdr, pchan->chan.shmem,
-   288			      sizeof(struct acpi_pcct_ext_pcc_shared_memory));
-   289		/*
-   290		 * The PCC slave subspace channel needs to set the command complete bit
-   291		 * after processing message. If the PCC_ACK_FLAG is set, it should also
-   292		 * ring the doorbell.
-   293		 *
-   294		 * The PCC master subspace channel clears chan_in_use to free channel.
-   295		 */
- > 296		if (le32_to_cpup(&pcc_hdr.flags) & PCC_ACK_FLAG_MASK)
-   297			pcc_send_data(chan, NULL);
-   298		else
-   299			pcc_chan_reg_read_modify_write(&pchan->cmd_update);
-   300	}
-   301	
+   376	
+   377	/**
+   378	 * Empty the fifo. This is needed also in case of overflow or error handling.
+   379	 * Read out all remaining elements and reset the fifo_entries counter.
+   380	 *
+   381	 * @st: The instance to the state object of the sensor.
+   382	 */
+ > 383	void adxl345_empty_fifo(struct adxl34x_state *st)
+   384	{
+   385		int regval;
+   386		int fifo_entries;
+   387	
+   388		/* In case the HW is not "clean" just read out remaining elements */
+   389		adxl345_get_fifo_entries(st, &fifo_entries);
+   390		if (fifo_entries > 0)
+   391			adxl345_read_fifo_elements(st, fifo_entries);
+   392	
+   393		/* Reset the INT_SOURCE register by reading the register */
+   394		regmap_read(st->regmap, ADXL345_REG_INT_SOURCE, &regval);
+   395	}
+   396	
 
 -- 
 0-DAY CI Kernel Test Service
