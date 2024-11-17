@@ -1,59 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E9771B815;
-	Sun, 17 Nov 2024 05:04:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B7ECA6F
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 05:04:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731819900; cv=none; b=sBJhuQdL/hmDqKK37HDIrmDgy/Eu8TIDgu54er+Ih94YK6/cy1DpDJENxlBNY4lPpCtMH3i+xG/ponTh8DsTxPlNdaxJIhx1Tm2qlDkegsE1P+0voSEC8Kib7q9JnfB8HSa+6svXtqZ6U2ln6cMZZwBervSVfREd9vWL4/UUfYE=
+	t=1731819901; cv=none; b=uhaBokOlmb4leKzgcOV8AJrAs6U05LgTye7qwmOdzXdLIL53OUEpCIxgVMuJT4kL0iuGEfLHuKQ4t2QUh5rpMubYpoosiIg3lq5ttA4XtsdxzDhj6viVErpizK8FnwzbFSWO2ruVhYfBqsJ0RtwdFMa0a50coVUTdASa4sBaMFw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731819900; c=relaxed/simple;
-	bh=ndMyTrE/eufFAjs1aspgtRBjcU/z9cS6DONPFlZa8jY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pFIUM/BRR2R0gKXn1NK4/R/dFztpIv2B14S/CMn92eUZa5JD4BTuNWpj6aMC2ivndla9jC3z60vKyjHXbgFZa/WnFxSxKyMTZR0H++tl1XY9AK13/O2QmIm8sf1yk8ZcbudT8rx5cQbdvd/GIcX3EXERhNsQawgdm++NIezDBxM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kaAHqqNp; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1731819901; c=relaxed/simple;
+	bh=20y8OGZSQnC8J2Yf8YwMSVI1+a57Lz4nJCgsXlDc/Dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qt4bugdODzZjI9/mz5RVVAld6nTTbkPojQPst8si+K8mUzYOikWlyAtb9NiD7osX3uM7X44PWItpFpAXwcLJcfiDtjKFr71IroNcjcDnnzWUFarOdMfjsvBGjsDj6HJwNvhIz1iNFLiUZXwzzOa0qT9payuy7XCAJeurWHvtmv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5h7XVNe; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kaAHqqNp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5h7XVNe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1731819899; x=1763355899;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ndMyTrE/eufFAjs1aspgtRBjcU/z9cS6DONPFlZa8jY=;
-  b=kaAHqqNpAkK3uRvgbCNs1E3MxRXlPVxxUiKCL4Jf4Nk37uY6MCW2AcGb
-   kIi+Jvb62rm6jmZJwVaXqi6ktb+S7WRl+vTF+xZTfR7IPTmkwV6hIxTEy
-   vPxZoRNF66tpVLV9JkFFhoZXRhETsb9qwmX+dugtteaa3kSJns4IdFGYg
-   PV70vnTf7QRYWQSihGIxzeQfEDyjOynnAPpJ/sP+q524efuYy1VsPH6d6
-   Y24BiFI6CKNgdNlELLsHI0d1ZQKF1qnSeuIyfrrZxd47X8/r8Y305IYBP
-   Ltk992e1aIDT28i/II6uH+EAqzhe72mFbspxJF5uNHUXzrnh+xUh8oWMy
-   w==;
-X-CSE-ConnectionGUID: 4bDb4hRfTFma/L+SzTyBnQ==
-X-CSE-MsgGUID: mEx82E4DTFWBVx+uRDKBdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31713538"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=20y8OGZSQnC8J2Yf8YwMSVI1+a57Lz4nJCgsXlDc/Dg=;
+  b=l5h7XVNeL5Ww0pV6AGT0gsy2XsN498cVR5H9kXLijhcTkfnzJJ2Ld5UE
+   ux2uqCaXtmK5JNltEFx5SpkMitSq/smFwMhr0dDYEvgr4IYHvhSYpxSZE
+   rU6iQys8dvRVuGKm6fWqP2FELtk+JbvozL74abmgLO4zZEZWb1yMloXtB
+   IMSusLVJ1FjzDyHYF298GBJA3yAcNkdieTgxcWlDtUiIy/GxlAdH9Qd29
+   46D6aO4oTfSNXbjKK3Wzw/NRhOm5zCBj/jtrLtRG2/o2E1HFYeu9DcA7j
+   cvHabzGEymAGlIbCk2duahHnw2jwMyAfhzbhhWtIDPDmmYQbEgKwCA8s3
+   g==;
+X-CSE-ConnectionGUID: +4UxdYguSjy4QBFRaTh2hA==
+X-CSE-MsgGUID: qDHoV9AaQBa365VyXRurhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31713540"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="31713538"
+   d="scan'208";a="31713540"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:04:56 -0800
-X-CSE-ConnectionGUID: xqVdjCJqR4KpqTeAXtciOA==
-X-CSE-MsgGUID: PziM0WyNR3aBYvIf4Ho5kw==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:04:58 -0800
+X-CSE-ConnectionGUID: gHbq7c/7Sk234V0ozXvUwA==
+X-CSE-MsgGUID: j7H8LuLYS1eK/xhQ0aU1UQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="119853904"
+   d="scan'208";a="119853918"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 16 Nov 2024 21:04:54 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCXSu-0001Wz-1t;
+	id 1tCXSu-0001Wr-1P;
 	Sun, 17 Nov 2024 05:04:52 +0000
-Date: Sun, 17 Nov 2024 13:04:46 +0800
+Date: Sun, 17 Nov 2024 13:04:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ard Biesheuvel <ardb@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-efi@vger.kernel.org
-Subject: [efi:next 14/16] drivers/firmware/efi/libstub/file.c:221:3: warning:
- label followed by a declaration is a C23 extension
-Message-ID: <202411171305.mtelLSJK-lkp@intel.com>
+To: Arnd Bergmann <arnd@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Jonathan Cavitt <jonathan.cavitt@intel.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: rework FB_CORE dependency
+Message-ID: <202411171217.DZow6M4R-lkp@intel.com>
+References: <20241115152722.3537630-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +73,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241115152722.3537630-1-arnd@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
-head:   8e060452c658e09ce7bcdeaa19dc080d74176a56
-commit: 257f826a691aa9eff8767f0ca5b82a3368b3d02a [14/16] efi/libstub: Fix command line fallback handling when loading files
-config: arm-randconfig-002-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171305.mtelLSJK-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171305.mtelLSJK-lkp@intel.com/reproduce)
+Hi Arnd,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on next-20241115]
+[cannot apply to linus/master v6.12-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/drm-rework-FB_CORE-dependency/20241117-003714
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20241115152722.3537630-1-arnd%40kernel.org
+patch subject: [PATCH] drm: rework FB_CORE dependency
+config: arc-randconfig-052-20241117 (attached as .config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171217.DZow6M4R-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171305.mtelLSJK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171217.DZow6M4R-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/firmware/efi/libstub/file.c:11:
-   In file included from arch/arm/include/asm/efi.h:9:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/firmware/efi/libstub/file.c:221:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     221 |                 static const efi_char16_t builtin_cmdline[] = L"" CONFIG_CMDLINE;
-         |                 ^
-   2 warnings generated.
-
-
-vim +221 drivers/firmware/efi/libstub/file.c
-
-   177	
-   178	/*
-   179	 * Check the cmdline for a LILO-style file= arguments.
-   180	 *
-   181	 * We only support loading a file from the same filesystem as
-   182	 * the kernel image.
-   183	 */
-   184	efi_status_t handle_cmdline_files(efi_loaded_image_t *image,
-   185					  const efi_char16_t *optstr,
-   186					  int optstr_size,
-   187					  unsigned long soft_limit,
-   188					  unsigned long hard_limit,
-   189					  unsigned long *load_addr,
-   190					  unsigned long *load_size)
-   191	{
-   192		const bool ignore_load_options = false;
-   193		const efi_char16_t *cmdline = efi_table_attr(image, load_options);
-   194		u32 cmdline_len = efi_table_attr(image, load_options_size);
-   195		unsigned long efi_chunk_size = ULONG_MAX;
-   196		efi_file_protocol_t *volume = NULL;
-   197		efi_file_protocol_t *file;
-   198		unsigned long alloc_addr;
-   199		unsigned long alloc_size;
-   200		efi_status_t status;
-   201		bool twopass;
-   202		int offset;
-   203	
-   204		if (!load_addr || !load_size)
-   205			return EFI_INVALID_PARAMETER;
-   206	
-   207		efi_apply_loadoptions_quirk((const void **)&cmdline, &cmdline_len);
-   208		cmdline_len /= sizeof(*cmdline);
-   209	
-   210		if (IS_ENABLED(CONFIG_X86) && !efi_nochunk)
-   211			efi_chunk_size = EFI_READ_CHUNK_SIZE;
-   212	
-   213		alloc_addr = alloc_size = 0;
-   214	
-   215		if (!ignore_load_options && cmdline_len > 0) {
-   216			twopass = IS_ENABLED(CONFIG_CMDLINE_BOOL) ||
-   217				  IS_ENABLED(CONFIG_CMDLINE_EXTEND);
-   218		} else {
-   219	do_builtin:
-   220	#ifdef CONFIG_CMDLINE
- > 221			static const efi_char16_t builtin_cmdline[] = L"" CONFIG_CMDLINE;
+>> error: recursive dependency detected!
+   symbol BACKLIGHT_CLASS_DEVICE is selected by FB_BACKLIGHT
+   symbol FB_BACKLIGHT is selected by FB_SH_MOBILE_LCDC
+   symbol FB_SH_MOBILE_LCDC depends on FB_DEVICE
+   symbol FB_DEVICE depends on FB_CORE
+   symbol FB_CORE is selected by DRM_KMS_HELPER
+   symbol DRM_KMS_HELPER is selected by DRM_MIPI_DBI
+   symbol DRM_MIPI_DBI is selected by DRM_PANEL_ILITEK_ILI9341
+   symbol DRM_PANEL_ILITEK_ILI9341 depends on BACKLIGHT_CLASS_DEVICE
+   For a resolution refer to Documentation/kbuild/kconfig-language.rst
+   subsection "Kconfig recursive dependency limitations"
 
 -- 
 0-DAY CI Kernel Test Service
