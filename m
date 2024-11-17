@@ -1,62 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13258F54
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B11F4137E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731804389; cv=none; b=isLhytzjo59YiDwxqGxE99+rPYfVuBg7SCDuQ54VE8ECceEA8XnX4OZMFfX4l2iCnxRS01zMwaM4DXJqIVik7bRCXTOmIAJ11eR8r2KBWJIwWdcZTKhmIDYn2jfRfssX5398PiwLtP9DiJhASYhfFYZ+LdUlIFs91obxikV6+m0=
+	t=1731805050; cv=none; b=C5jUkvtnH5Xw3Z2ou+zsuHDt28XnVfmJ5+FB/raIPEVJpCb73uSzQvvwEbSyOP4+T1sparxcT5T5wnxtitq6d4fkPi/8PzO78mTUVV+QQgJLaoxzxJwFHq9qaarh+CfARMsVWRocXADWu3+I0uvy2jaaLHBZS4BoEL+fg5vg+uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731804389; c=relaxed/simple;
-	bh=PzXGeeIrOWYZEs2yRXxGZGL8FaOkxUAdrGfguYkWM5Y=;
+	s=arc-20240116; t=1731805050; c=relaxed/simple;
+	bh=5wrsNBo8Hnbij2o1ETYHg7Xe+kl2cGv/S/QTsTULEcw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XvVUFbB2mgOMKKlDdNKCw0DCYlJye/3zxgj6cYVfpGac/xob7eOMOlES2zNGoZvNANPEoPFxXpUJWOBU6u9Yt0U9DlIQ7m7DkQNgZeORyMVss1wa9g4qVZ0Z/KrblXM3NY2oZYU68k5ZRoKHeDDUt3u78nhFcs1WMqdgd6oJ1as=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPKyVcsI; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=e1GCvh7eF+JQxMbH8gQODPYkTZmrWvIJ+/koqqB0sOjKHxF/VKQ4g8wJtMFp6Sxddaz3KSTopF2XxEq2wLhPvlW5RUztt3NvcWnzpT61TgcrL6SXs7N9U3oyheoSit+spckN2yggxX+ZTmKQ2a6BGyMgPFguPAo7WrB4osGHxfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k/0l3Z5i; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPKyVcsI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k/0l3Z5i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731804387; x=1763340387;
+  t=1731805049; x=1763341049;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PzXGeeIrOWYZEs2yRXxGZGL8FaOkxUAdrGfguYkWM5Y=;
-  b=jPKyVcsIrnMWMSBY0RlEDx5M2kkUPnZf6G5pTe41rJ722Cis/GkvMJyd
-   Q9eFBgoEAkRnEtdnpPq7a2QDHiFuqkG0sdTBib+MuPySSPx3cyCZQd7YI
-   iMwApiGE6ptwIwRDsIJLU5Gup5pPwmgT/Yv3sc15VCMIfL99gxgtFnf/d
-   MRidNNUVvaRa4JfudzWcmDSLkPqWJamW7p7YZr98cnU2sXOiRMgyGWvoi
-   mdXdtPL1pkMlE1KPLFuMnIC+w8Zda3zDu8Tt4wdsBB/PFrPoSsd/0tJWq
-   mkgXMqBe5S+NRpdE75DeN7w4EOpBXopNXeX3L5L8GgrJDltOp5e7D6ayW
+  bh=5wrsNBo8Hnbij2o1ETYHg7Xe+kl2cGv/S/QTsTULEcw=;
+  b=k/0l3Z5i3pZP6FK3VIJgdAY2/ktdmY8WF83CnceT7SqvM+FSJo2bNl9d
+   gip3T49A4rs6KW7WjqvyOW1Y65D7/GRzQnNmEKuj7xrrIFNgW4hU8MXkj
+   /Rdx2/qVvo0KE4hP3hie9Qr0nYHK8PcIKogm2vik5WiuCDtXDZSnlX+89
+   WXgCRUz9iAIHQaifbga80MtvoyGKl/ZENvS9SRANv1OoH0qGORcdonShP
+   AfWbtbPQMEDa16Tsk7iCXTX967OGlmnRKMI1Z9nR/Yv75pHL7lQYVkUxK
+   9/FeZEsgo0uxq0F4ykR4zRPumE800RwiBJl0GfyFnTauLlwQhMw0+F0z5
    A==;
-X-CSE-ConnectionGUID: 7r/Ien5yTUOAm1uwlWPzvQ==
-X-CSE-MsgGUID: srFq322WR5SYWqd3csac8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="19393987"
+X-CSE-ConnectionGUID: rrSlC8kYT0+i9LQLQQ/2lw==
+X-CSE-MsgGUID: 8WCgOB6eRA+aqaBmcFHqAQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="35554504"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="19393987"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:46:27 -0800
-X-CSE-ConnectionGUID: 0LV3cbWDT+6oY7XfbwPSng==
-X-CSE-MsgGUID: Y+/tZA4MTXm8TYfHtBtseA==
+   d="scan'208";a="35554504"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:57:29 -0800
+X-CSE-ConnectionGUID: oONgtneyR4SfW7tr4TIMmA==
+X-CSE-MsgGUID: ehnUVlDnSlWqcJdGSl/ksA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="93724253"
+   d="scan'208";a="119736636"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 16 Nov 2024 16:46:25 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Nov 2024 16:57:26 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCTQk-0001CH-3D;
-	Sun, 17 Nov 2024 00:46:22 +0000
-Date: Sun, 17 Nov 2024 08:45:30 +0800
+	id 1tCTbP-0001CX-2I;
+	Sun, 17 Nov 2024 00:57:23 +0000
+Date: Sun, 17 Nov 2024 08:56:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, l.rubusch@gmx.ch,
-	Lothar Rubusch <l.rubusch@gmail.com>
-Subject: Re: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
-Message-ID: <202411170855.sbBnXXo4-lkp@intel.com>
-References: <20241114231002.98595-16-l.rubusch@gmail.com>
+To: Paul Benoit <paul@os.amperecomputing.com>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Paul Benoit <paul@os.amperecomputing.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] firmware: smccc: Support optional Arm SMC SOC_ID name
+Message-ID: <202411171059.1mPeDZMS-lkp@intel.com>
+References: <20241114030452.10149-1-paul@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,61 +67,132 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114231002.98595-16-l.rubusch@gmail.com>
+In-Reply-To: <20241114030452.10149-1-paul@os.amperecomputing.com>
 
-Hi Lothar,
+Hi Paul,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc7 next-20241115]
+[auto build test ERROR on soc/for-next]
+[also build test ERROR on linus/master v6.12-rc7 next-20241115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241115-190245
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241114231002.98595-16-l.rubusch%40gmail.com
-patch subject: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
-config: arc-randconfig-r052-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170855.sbBnXXo4-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170855.sbBnXXo4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Paul-Benoit/firmware-smccc-Support-optional-Arm-SMC-SOC_ID-name/20241114-113039
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20241114030452.10149-1-paul%40os.amperecomputing.com
+patch subject: [PATCH] firmware: smccc: Support optional Arm SMC SOC_ID name
+config: arm-randconfig-003-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171059.1mPeDZMS-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171059.1mPeDZMS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170855.sbBnXXo4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171059.1mPeDZMS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/iio/accel/adxl345_core.c:383:6: warning: no previous prototype for 'adxl345_empty_fifo' [-Wmissing-prototypes]
-     383 | void adxl345_empty_fifo(struct adxl34x_state *st)
-         |      ^~~~~~~~~~~~~~~~~~
+   drivers/firmware/smccc/smccc.c: In function 'arm_smccc_version_init':
+>> drivers/firmware/smccc/smccc.c:26:35: error: storage size of 'regs_1_2' isn't known
+      26 |         struct arm_smccc_1_2_regs regs_1_2;
+         |                                   ^~~~~~~~
+>> drivers/firmware/smccc/smccc.c:50:25: error: implicit declaration of function 'arm_smccc_1_2_smc'; did you mean 'arm_smccc_1_1_smc'? [-Wimplicit-function-declaration]
+      50 |                         arm_smccc_1_2_smc(
+         |                         ^~~~~~~~~~~~~~~~~
+         |                         arm_smccc_1_1_smc
+>> drivers/firmware/smccc/smccc.c:26:35: warning: unused variable 'regs_1_2' [-Wunused-variable]
+      26 |         struct arm_smccc_1_2_regs regs_1_2;
+         |                                   ^~~~~~~~
 
 
-vim +/adxl345_empty_fifo +383 drivers/iio/accel/adxl345_core.c
+vim +26 drivers/firmware/smccc/smccc.c
 
-   376	
-   377	/**
-   378	 * Empty the fifo. This is needed also in case of overflow or error handling.
-   379	 * Read out all remaining elements and reset the fifo_entries counter.
-   380	 *
-   381	 * @st: The instance to the state object of the sensor.
-   382	 */
- > 383	void adxl345_empty_fifo(struct adxl34x_state *st)
-   384	{
-   385		int regval;
-   386		int fifo_entries;
-   387	
-   388		/* In case the HW is not "clean" just read out remaining elements */
-   389		adxl345_get_fifo_entries(st, &fifo_entries);
-   390		if (fifo_entries > 0)
-   391			adxl345_read_fifo_elements(st, fifo_entries);
-   392	
-   393		/* Reset the INT_SOURCE register by reading the register */
-   394		regmap_read(st->regmap, ADXL345_REG_INT_SOURCE, &regval);
-   395	}
-   396	
+    22	
+    23	void __init arm_smccc_version_init(u32 version, enum arm_smccc_conduit conduit)
+    24	{
+    25		struct arm_smccc_res res;
+  > 26		struct arm_smccc_1_2_regs regs_1_2;
+    27	
+    28		smccc_version = version;
+    29		smccc_conduit = conduit;
+    30	
+    31		smccc_trng_available = smccc_probe_trng();
+    32	
+    33		if ((smccc_version >= ARM_SMCCC_VERSION_1_2) &&
+    34		    (smccc_conduit != SMCCC_CONDUIT_NONE)) {
+    35			arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_FEATURES_FUNC_ID,
+    36					     ARM_SMCCC_ARCH_SOC_ID, &res);
+    37			if ((s32)res.a0 >= 0) {
+    38				arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 0, &res);
+    39				smccc_soc_id_version = (s32)res.a0;
+    40				arm_smccc_1_1_invoke(ARM_SMCCC_ARCH_SOC_ID, 1, &res);
+    41				smccc_soc_id_revision = (s32)res.a0;
+    42	
+    43				/* Issue Number 1.6 of the Arm SMC Calling Convention
+    44				 * specification introduces an optional "name" string
+    45				 * to the ARM_SMCCC_ARCH_SOC_ID function.  Fetch it if
+    46				 * available.
+    47				 */
+    48				regs_1_2.a0 = ARM_SMCCC_ARCH_SOC_ID;
+    49				regs_1_2.a1 = 2;	/* SOC_ID name */
+  > 50				arm_smccc_1_2_smc(
+    51					(const struct arm_smccc_1_2_regs *)&regs_1_2,
+    52					(struct arm_smccc_1_2_regs *)&regs_1_2);
+    53	
+    54				if ((u32)regs_1_2.a0 == 0) {
+    55					unsigned long *destination =
+    56						(unsigned long *)smccc_soc_id_name;
+    57	
+    58					/*
+    59					 * Copy regs_1_2.a1..regs_1_2.a17 to the
+    60					 * smccc_soc_id_name string with consideration
+    61					 * to the endianness of the values in a1..a17.
+    62					 * As per Issue 1.6 of the Arm SMC Calling
+    63					 * Convention, the string will be NUL terminated
+    64					 * and padded, from the end of the string to
+    65					 * the end of the 136 byte buffer, with NULs.
+    66					 */
+    67					*destination++ =
+    68					    cpu_to_le64p((const __u64 *)&regs_1_2.a1);
+    69					*destination++ =
+    70					    cpu_to_le64p((const __u64 *)&regs_1_2.a2);
+    71					*destination++ =
+    72					    cpu_to_le64p((const __u64 *)&regs_1_2.a3);
+    73					*destination++ =
+    74					    cpu_to_le64p((const __u64 *)&regs_1_2.a4);
+    75					*destination++ =
+    76					    cpu_to_le64p((const __u64 *)&regs_1_2.a5);
+    77					*destination++ =
+    78					    cpu_to_le64p((const __u64 *)&regs_1_2.a6);
+    79					*destination++ =
+    80					    cpu_to_le64p((const __u64 *)&regs_1_2.a7);
+    81					*destination++ =
+    82					    cpu_to_le64p((const __u64 *)&regs_1_2.a8);
+    83					*destination++ =
+    84					    cpu_to_le64p((const __u64 *)&regs_1_2.a9);
+    85					*destination++ =
+    86					    cpu_to_le64p((const __u64 *)&regs_1_2.a10);
+    87					*destination++ =
+    88					    cpu_to_le64p((const __u64 *)&regs_1_2.a11);
+    89					*destination++ =
+    90					    cpu_to_le64p((const __u64 *)&regs_1_2.a12);
+    91					*destination++ =
+    92					    cpu_to_le64p((const __u64 *)&regs_1_2.a13);
+    93					*destination++ =
+    94					    cpu_to_le64p((const __u64 *)&regs_1_2.a14);
+    95					*destination++ =
+    96					    cpu_to_le64p((const __u64 *)&regs_1_2.a15);
+    97					*destination++ =
+    98					    cpu_to_le64p((const __u64 *)&regs_1_2.a16);
+    99					*destination++ =
+   100					    cpu_to_le64p((const __u64 *)&regs_1_2.a17);
+   101				}
+   102			}
+   103		}
+   104	}
+   105	
 
 -- 
 0-DAY CI Kernel Test Service
