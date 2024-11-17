@@ -1,60 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2EF9DDA9
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 03:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E875364A;
+	Sun, 17 Nov 2024 03:48:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731815327; cv=none; b=s6dvNJ0JfCLeig6d3yO0HE6K61Qgeim5rWUmSShCXMw1pI7OOfpzyGBosgPni+lEX0VxKW2h4pwrz+QLB05hOLaLs2Q+oRdejhD97RE4cezs/qbYVu/EwHVukFMokTdShMmr6nxP2akyztDI11HoxeeM2/9L/hJMumnefMaXKC4=
+	t=1731815329; cv=none; b=fNJzKebZXCTYcr3XgopKvBfONTc1csfiPQXJCElXZPOgk2GBZATFWnv+hKOP6ICVe6LI6Jex8D0SwxYtadqFTul+maTrCa3VS6c/jpUB6lmXuhLQ2Jz3lZxmGUaK53pchPLlb7TJrQ2xKgeC8r+DKZoFhDBdhY/kAmiDVrGyEJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731815327; c=relaxed/simple;
-	bh=FnHZPRLhtvg4f6HdN7oKZKLyjwwL1SaDhhFuNJo0LKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AGbpTVKsbgMwWVtqoi/KXCqvZs+CEd8CoqPcgjNOfmf6HlmTpDGRfEtZO0SvjbKmc3Q2MpiEgiVhK6I7mXCFT/XODAj0MTp1GX4E/rwJ1/tCKURxKn0eZDokgNZ60x+IeV5KSBqDvIU3TQZbwgN8SST0I0eKdpOVzVwnwYLP98M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GCrVcM3l; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1731815329; c=relaxed/simple;
+	bh=SU4ZxkobQzJFaYo6lLfeiNErr6NI3r+NOqva1u4xrZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S3q1UC6Ti048qwyEfDvyiMAUqpQVvCJTnhUhTtcDSKY8eKdIdBz1F0QGEzlUd/yjjbSBSTISf3F+FhBISCkYQ1N2EbIZaIw54y2RfrYbXAUsUZZJi/2Zxy2wA9SOtDNTXH/sOgEccmKk76CwvP507dn2u+Oqk1EdQ88OYTG07T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/9rmHZf; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GCrVcM3l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/9rmHZf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731815326; x=1763351326;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FnHZPRLhtvg4f6HdN7oKZKLyjwwL1SaDhhFuNJo0LKY=;
-  b=GCrVcM3l2gvrbAF5CzJIiDaGhN3NFRSkLfRCRjuZwPHws3YsWZS0JE0S
-   CZ73Dl1WPuuk26DaudIkLQNSy7CpWIOTPnH4m0x95SxMHrH5ezGYD1Tt3
-   Xx4JMk9P6Z4tkkfq+MoCHvK8nQncb14aj/UQgOxSUqXNExuFp68Yhp+uP
-   cl0uk3OBjrR08z0Mdv50fkfWv1MOEVJvf6wvhT60xvXyWzEggFxy6GMHm
-   JsFf1YjE9poFDE//mhQxpQxqBOriIt6w3SLnHnPwm1LaSU2zR+FtLenL0
-   VUJR2SuPM/l68bGq220Vz+YHoIq6smFI2/8KlP/Bvjc/GdZ1PxFViKEJn
-   A==;
-X-CSE-ConnectionGUID: 8Z5B2RwSQ4WIFX1GFw0cWw==
-X-CSE-MsgGUID: 0eC4RWP+RAiRbA2czNxPsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="35466399"
+  t=1731815328; x=1763351328;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SU4ZxkobQzJFaYo6lLfeiNErr6NI3r+NOqva1u4xrZ8=;
+  b=a/9rmHZfu13FNsS2W7WE6zGS8yVg/VxmlWQQ+K9uOGNr4yLsKEd7mJEy
+   nYzrBC752v/pkYnaxzIBvedKcvXALoyQjKGtsLh8yImKXiW3mwcaBWNBm
+   d3FdDb6xuGTFlZSUHJpbdnHTyHSrbA2TsnSi6prsa7IE711YnQndRj41g
+   m3TmVo7mz8TUI6a88Bj+0tQYtDOX20hlw9kboHLAhqo0PxbPUd+txI18z
+   h8HMxx0m95XdD/Fq5WmTyM3qLmtaM13enCgXGjOROFd5vKTBPWQ2P239v
+   YRQrJr4uygxwNwAtBb8204wajZkrlWyck1/8RpBfcDSXoY7sQr2kFRlAv
+   Q==;
+X-CSE-ConnectionGUID: o7TbTlZTSz6nyjYLEiIA0Q==
+X-CSE-MsgGUID: tnsy2SVmSGSztK8nc4dH6A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="35466403"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="35466399"
+   d="scan'208";a="35466403"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 19:48:46 -0800
-X-CSE-ConnectionGUID: 8SWtVWLJRIehCfqzWs3fCA==
-X-CSE-MsgGUID: ZXqw1N2JR7W5Sdhk+CrYnA==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 19:48:48 -0800
+X-CSE-ConnectionGUID: VuS+mxuWT86DTBpM0pcc2A==
+X-CSE-MsgGUID: h2jnVQGwSji8O1nIwLxjMA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="88906966"
+   d="scan'208";a="88906967"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 16 Nov 2024 19:48:44 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCWHC-0001N9-04;
-	Sun, 17 Nov 2024 03:48:42 +0000
-Date: Sun, 17 Nov 2024 11:48:07 +0800
+	id 1tCWHB-0001N7-2n;
+	Sun, 17 Nov 2024 03:48:41 +0000
+Date: Sun, 17 Nov 2024 11:48:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 13294/24209]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb:
- gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names',
- 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202411171104.zOjQ049J-lkp@intel.com>
+To: Kajol Jain <kjain@linux.ibm.com>, mpe@ellerman.id.au,
+	maddy@linux.ibm.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	atrajeev@linux.vnet.ibm.com, kjain@linux.ibm.com,
+	disgoel@linux.ibm.com, hbathini@linux.ibm.com, adubey@linux.ibm.com,
+	gautam@linux.ibm.com, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] powerpc/perf: Add perf interface to expose vpa
+ counters
+Message-ID: <202411171117.Eq9JtACb-lkp@intel.com>
+References: <20241114084013.1140010-1-kjain@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +68,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241114084013.1140010-1-kjain@linux.ibm.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   e2b6daceb83c9b9ae90fca4b78fc265484ded662
-commit: be652afcb2616a85686517a492bf7fd49ecf9007 [13294/24209] CHROMIUM: arm64: dts: mt8186: Add corsola-steelix and rusty board
-config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241117/202411171104.zOjQ049J-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.12.dev1+gcabb5b9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171104.zOjQ049J-lkp@intel.com/reproduce)
+Hi Kajol,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on powerpc/topic/ppc-kvm]
+[also build test WARNING on powerpc/next powerpc/fixes linus/master v6.12-rc7 next-20241115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kajol-Jain/docs-ABI-sysfs-bus-event_source-devices-vpa-pmu-Document-sysfs-event-format-entries-for-vpa_pmu/20241114-164451
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+patch link:    https://lore.kernel.org/r/20241114084013.1140010-1-kjain%40linux.ibm.com
+patch subject: [PATCH 1/4] powerpc/perf: Add perf interface to expose vpa counters
+config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20241117/202411171117.Eq9JtACb-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171117.Eq9JtACb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171104.zOjQ049J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171117.Eq9JtACb-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: gpu@13040000: sram-supply: False schema does not allow [[127]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: gpu@13040000: sram-supply: False schema does not allow [[127]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+All warnings (new ones prefixed by >>):
+
+   In file included from arch/powerpc/perf/vpa-pmu.c:10:
+   In file included from include/linux/perf_event.h:50:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/perf/vpa-pmu.c:87:32: warning: overlapping comparisons always evaluate to false [-Wtautological-overlap-compare]
+      87 |         if ((event->attr.config <= 0) && (event->attr.config > 3))
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
+
+
+vim +87 arch/powerpc/perf/vpa-pmu.c
+
+    72	
+    73	static int vpa_pmu_event_init(struct perf_event *event)
+    74	{
+    75		if (event->attr.type != event->pmu->type)
+    76			return -ENOENT;
+    77	
+    78		/* it does not support event sampling mode */
+    79		if (is_sampling_event(event))
+    80			return -EOPNOTSUPP;
+    81	
+    82		/* no branch sampling */
+    83		if (has_branch_stack(event))
+    84			return -EOPNOTSUPP;
+    85	
+    86		/* Invalid event code */
+  > 87		if ((event->attr.config <= 0) && (event->attr.config > 3))
+    88			return -EINVAL;
+    89	
+    90		return 0;
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
