@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C802915C0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 17:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA3EA945
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 17:55:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731865385; cv=none; b=BYE5jRwfz8KWEqem58XwBFpGOGJCcfmOj6xuf2Cwwd8s+Fpxlve0Ctyyft7zJSrK5kZv87VL28ePrYUAQCGoyriqfdr0OiMUzwrOPgbWW8hQRFM3Ohkv8BwXPdFu2qxDqe3ILC9j4H/a7V0fUmr0Id4wC020+5QwLwJ/PF4yL+Y=
+	t=1731866106; cv=none; b=CuApEk/58uRAqjZzWEGSWmCWXjQgJeYNjXg5Y1XLlHs8xIuSJ/KGLJFQfNe84Z02Itnml0kUwViqmtQmGsSO1zN1PxXvVwZBNr+mDtpu5mMitBtAZkIm2P4A++7jYeImTrPiYUc7EaU2kh8In1VJkcJqg1+cpu/FoizLJMqw39o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731865385; c=relaxed/simple;
-	bh=tlszz9IXYt1yRjxbwYuMZEFv3ffsD/TTMagf20s5lsA=;
+	s=arc-20240116; t=1731866106; c=relaxed/simple;
+	bh=Sw65og0GbHB9RRv91p8DbPRdjvBgdtpRnEdhjcYjN9c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JqPq2qUSxEba7NvVGGg0dwuQKVMrbMiTzu3Pk1BDTXFk6nx8MirjlQplaJeCU4Z9pwYxV8YlvvEx6gKPThTGtfdIg/UVqzghOUt7WYNL26R5aUR+VfnyOd9W9aQVY+nF2nPnM49AOj2W2BeQS+/EjpCNvoB/RNuSftPwBTn9PPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ao8VSw2F; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=R1E7IR3gZZ/Z/WJQrlO2zr6s8vbGOIjKlwzXnfY9y4XySwpPjtJBL6f/FcpHhClE+5z405e1maqQvUgvfh9DsxXAC/n3PzVpdCbAxjX7moq2N7zRGw3jaqKbI2MEvDU20P95Hz2h10VqtYE0oE5nN8B/LazRmMClrEKz0Vg9Bkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XzLaAxap; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ao8VSw2F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XzLaAxap"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731865383; x=1763401383;
+  t=1731866105; x=1763402105;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tlszz9IXYt1yRjxbwYuMZEFv3ffsD/TTMagf20s5lsA=;
-  b=ao8VSw2FyvQBVwIfzGSIapViuZvt+XcaxHBokd93oZ1hOE2bZ0q6tsrU
-   zvt64el5tPcSJ6mbdp48yabnj8leoacmM5w8gjGLkjIARI+XmpeK3e4W3
-   myur7vsWHbvP36PFa5N/aGega5DIxx6lFmxPv9RU7hoaFyo+bGqcZUiPe
-   7dRdqo4d/66J4ww+nRIJiXox7BF5Q6RPWYOd0a63EBG3JJmdhUX1HG6do
-   +Bh9qke7BVJgarkjaO08qRkJyADA05ORmBjE+kPo4zrInEISoegLXnrLS
-   r6fR/rDoFkR0MHVMBJIh1TcoR7fHRydIlIQws9ZZzqnktdzZG4hSMDlN6
-   A==;
-X-CSE-ConnectionGUID: fkRb1vXmTqKSlSJ/IrE+5Q==
-X-CSE-MsgGUID: q6zU7th0T1e8rRyFEFU6nw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31199131"
+  bh=Sw65og0GbHB9RRv91p8DbPRdjvBgdtpRnEdhjcYjN9c=;
+  b=XzLaAxapQ8JBEST/0/5BbN/40OrsKL2EWQYombbpP1Vmu0RaJnK9Twnr
+   TsXzvRIAu4xuE1l4K4CNxJWoScQepfhUSGCd/CWIZcxt4LFretc19Qj6j
+   KuDa7FvazBtn7Zz5NSE+jJ8oegt9dCnCpTXVfJ2sl/nQWHLSCwMHTgBP1
+   1iPAWHfV6aPuxvLrMSpYbZagkoHXYL5MIow4szmHWW91uu8A35B7FxENY
+   BclOd9JMcLLphV+aDa8XX3VxRrmlQ9IyheVaqdTsILMXNAQFqQqNU6DDD
+   +MRz0p543BvluiViQQ1OtAKUufTPW5GKr4G+hMEFGHCtC2D0v1Uc0TZMd
+   g==;
+X-CSE-ConnectionGUID: JHL9TZGaQ5Sqip6eem8gYQ==
+X-CSE-MsgGUID: 5EdVQR/IRtKFVE/9zwYw3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="35588663"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="31199131"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 09:43:03 -0800
-X-CSE-ConnectionGUID: 5xtRn/dlSVCOWAL/M2DUTQ==
-X-CSE-MsgGUID: L9UHKRPAQxqvz4TRo6zL6g==
+   d="scan'208";a="35588663"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 09:55:05 -0800
+X-CSE-ConnectionGUID: rgxx6xlwTryw+WWe7dlGcQ==
+X-CSE-MsgGUID: ao1ZnYs+Q5Od7uLJDnH5tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="93857063"
+   d="scan'208";a="89025073"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Nov 2024 09:43:02 -0800
+  by orviesa009.jf.intel.com with ESMTP; 17 Nov 2024 09:55:03 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCjIZ-0001yf-2k;
-	Sun, 17 Nov 2024 17:42:59 +0000
-Date: Mon, 18 Nov 2024 01:42:58 +0800
+	id 1tCjUC-0001yt-1q;
+	Sun, 17 Nov 2024 17:55:00 +0000
+Date: Mon, 18 Nov 2024 01:54:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeff Layton <jlayton@kernel.org>
+To: Pali =?unknown-8bit?B?Um9ow6Fy?= <pali@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jlayton:kdevops 3/4] samples/vfs/mountinfo.c:142:33: warning:
- format specifies type 'unsigned long' but the argument has type 'uint64_t'
- (aka 'unsigned long long')
-Message-ID: <202411180148.PJ9Z6Ra7-lkp@intel.com>
+Subject: [pali:cifs 10/20] fs/smb/client/reparse.c:422:48: sparse: sparse:
+ incorrect type in assignment (different base types)
+Message-ID: <202411180158.TiVIzJVS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,75 +62,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git kdevops
-head:   c265569fa15d396830f1587af9f2c0321ab80434
-commit: 896188dd738a68b11f1aa0041c014c8004157145 [3/4] samples: add a mountinfo program to demonstrate statmount()/listmount()
-config: i386-randconfig-053-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180148.PJ9Z6Ra7-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180148.PJ9Z6Ra7-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
+head:   f36b8c5bb788de2feea99660389db8e290cb36c5
+commit: 65b590a114d82083b7dd4df1ef39791906441813 [10/20] cifs: Add support for creating NFS-style symlinks
+config: x86_64-randconfig-122-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180158.TiVIzJVS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180158.TiVIzJVS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180148.PJ9Z6Ra7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180158.TiVIzJVS-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/smb/client/reparse.c:175:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got int @@
+   fs/smb/client/reparse.c:175:25: sparse:     expected restricted __le16 [usertype]
+   fs/smb/client/reparse.c:175:25: sparse:     got int
+   fs/smb/client/reparse.c:176:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got int @@
+   fs/smb/client/reparse.c:176:35: sparse:     expected restricted __le16 [usertype]
+   fs/smb/client/reparse.c:176:35: sparse:     got int
+   fs/smb/client/reparse.c:177:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got int @@
+   fs/smb/client/reparse.c:177:25: sparse:     expected restricted __le16 [usertype]
+   fs/smb/client/reparse.c:177:25: sparse:     got int
+>> fs/smb/client/reparse.c:422:48: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int @@
+   fs/smb/client/reparse.c:422:48: sparse:     expected restricted __le32 [usertype]
+   fs/smb/client/reparse.c:422:48: sparse:     got unsigned int
+   fs/smb/client/reparse.c:423:48: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] @@     got unsigned int @@
+   fs/smb/client/reparse.c:423:48: sparse:     expected restricted __le32 [usertype]
+   fs/smb/client/reparse.c:423:48: sparse:     got unsigned int
+   fs/smb/client/reparse.c:1002:45: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned short [usertype] *pwcs @@     got restricted __le16 [usertype] *[assigned] symname_utf16 @@
+   fs/smb/client/reparse.c:1002:45: sparse:     expected unsigned short [usertype] *pwcs
+   fs/smb/client/reparse.c:1002:45: sparse:     got restricted __le16 [usertype] *[assigned] symname_utf16
+   fs/smb/client/reparse.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
 
->> samples/vfs/mountinfo.c:142:33: warning: format specifies type 'unsigned long' but the argument has type 'uint64_t' (aka 'unsigned long long') [-Wformat]
-     142 |                 printf("0x%lx 0x%lx 0x%llx ", mnt_ns_id, mnt_id, buf->mnt_parent_id);
-         |                           ~~~                 ^~~~~~~~~
-         |                           %llx
-   samples/vfs/mountinfo.c:142:44: warning: format specifies type 'unsigned long' but the argument has type 'uint64_t' (aka 'unsigned long long') [-Wformat]
-     142 |                 printf("0x%lx 0x%lx 0x%llx ", mnt_ns_id, mnt_id, buf->mnt_parent_id);
-         |                                 ~~~                      ^~~~~~
-         |                                 %llx
-   2 warnings generated.
+vim +422 fs/smb/client/reparse.c
 
-
-vim +142 samples/vfs/mountinfo.c
-
-   124	
-   125	static int dump_mountinfo(uint64_t mnt_id, uint64_t mnt_ns_id)
-   126	{
-   127		int ret;
-   128		struct statmount *buf = alloca(STATMOUNT_BUFSIZE);
-   129		const uint64_t mask = STATMOUNT_SB_BASIC | STATMOUNT_MNT_BASIC |
-   130					STATMOUNT_PROPAGATE_FROM | STATMOUNT_FS_TYPE |
-   131					STATMOUNT_MNT_ROOT | STATMOUNT_MNT_POINT |
-   132					STATMOUNT_MNT_OPTS | STATMOUNT_FS_SUBTYPE |
-   133					STATMOUNT_SB_SOURCE;
-   134	
-   135		ret = statmount(mnt_id, mnt_ns_id, mask, buf, STATMOUNT_BUFSIZE, 0);
-   136		if (ret < 0) {
-   137			perror("statmount");
-   138			return 1;
-   139		}
-   140	
-   141		if (ext_format)
- > 142			printf("0x%lx 0x%lx 0x%llx ", mnt_ns_id, mnt_id, buf->mnt_parent_id);
-   143	
-   144		printf("%u %u %u:%u %s %s ", buf->mnt_id_old, buf->mnt_parent_id_old,
-   145					   buf->sb_dev_major, buf->sb_dev_minor,
-   146					   &buf->str[buf->mnt_root],
-   147					   &buf->str[buf->mnt_point]);
-   148		show_mnt_attrs(buf->mnt_attr);
-   149		show_propagation(buf);
-   150	
-   151		printf(" - %s", &buf->str[buf->fs_type]);
-   152		if (buf->mask & STATMOUNT_FS_SUBTYPE)
-   153			printf(".%s", &buf->str[buf->fs_subtype]);
-   154		if (buf->mask & STATMOUNT_SB_SOURCE)
-   155			printf(" %s ", &buf->str[buf->sb_source]);
-   156		else
-   157			printf(" :none ");
-   158	
-   159		show_sb_flags(buf->sb_flags);
-   160		if (buf->mask & STATMOUNT_MNT_OPTS)
-   161			printf(",%s", &buf->str[buf->mnt_opts]);
-   162		printf("\n");
-   163		return 0;
-   164	}
-   165	
+   406	
+   407	static int nfs_set_reparse_buf(struct reparse_posix_data *buf,
+   408				       mode_t mode, dev_t dev,
+   409				       __le16 *symname_utf16,
+   410				       int symname_utf16_len,
+   411				       struct kvec *iov)
+   412	{
+   413		u64 type;
+   414		u16 len, dlen;
+   415	
+   416		len = sizeof(*buf);
+   417	
+   418		switch ((type = reparse_mode_nfs_type(mode))) {
+   419		case NFS_SPECFILE_BLK:
+   420		case NFS_SPECFILE_CHR:
+   421			dlen = 2 * sizeof(__le32);
+ > 422			((__le32 *)buf->DataBuffer)[0] = MAJOR(dev);
+   423			((__le32 *)buf->DataBuffer)[1] = MINOR(dev);
+   424			break;
+   425		case NFS_SPECFILE_LNK:
+   426			dlen = symname_utf16_len;
+   427			memcpy(buf->DataBuffer, symname_utf16, symname_utf16_len);
+   428			break;
+   429		case NFS_SPECFILE_FIFO:
+   430		case NFS_SPECFILE_SOCK:
+   431			dlen = 0;
+   432			break;
+   433		default:
+   434			return -EOPNOTSUPP;
+   435		}
+   436	
+   437		buf->ReparseTag = cpu_to_le32(IO_REPARSE_TAG_NFS);
+   438		buf->Reserved = 0;
+   439		buf->InodeType = cpu_to_le64(type);
+   440		buf->ReparseDataLength = cpu_to_le16(len + dlen -
+   441						     sizeof(struct reparse_data_buffer));
+   442		iov->iov_base = buf;
+   443		iov->iov_len = len + dlen;
+   444		return 0;
+   445	}
+   446	
 
 -- 
 0-DAY CI Kernel Test Service
