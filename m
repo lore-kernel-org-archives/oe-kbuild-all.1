@@ -1,74 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0EF12561D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 05:59:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D87028F5
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 06:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731823146; cv=none; b=XFay3CQ6j43sPdMkpFwoDdQjTVzfWiX2r4Fuhazp+d5FO8U04rkvUz5MKukdvbFJpOdIjM9+J2VXDpgdnex4YMxd2gn7TAl18DMLtLWLUsypPDwX/B3EJt01O+C5eu+bTUDdzSWEdib4F5jFa7NfkPtxhjX2ZdvnmaNeCLWENP0=
+	t=1731825069; cv=none; b=IewSYHSB/EMXBRmYTOwIdl3awf6TSheX/Ao9HPRY1/G0dbRxl0No7TPtVzjRlLBaS2JIwOt8qvBSVV9oOVKPgQzBKPXmem6bXvC9voC2Jd5w8sn0znxU1nAHb9l+L61r4X6CUXQ/d09EIiDdU7LF3SaJaoaWgkOk4CE13O1aLs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731823146; c=relaxed/simple;
-	bh=JXzZ87r2R4QApQTlvo1KFc0dOMyqdnTVTxsRQDE9zB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qBtEC/gqETwq10u8ztizUwvzLuVXEKqkWykM3muYSg5A/6psyWQFqD2DyVziskgX/rQEotJqB5CmoO73G/t3+TKVn4wnyc3wzuoKq81lyhz40IvAP6DIDDTgKPe3xu76UgE3d5bFt2boLxUSswH8tfn8FHI/FlX/bVKXdde925g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G4ZG+lih; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1731825069; c=relaxed/simple;
+	bh=Lsp4q6IBsPmY53vrFSieT1nyTBQLZbrugkLZcqeG1BQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZraAK0cERFFsjVQM4iZUEYszRxCwfpXh7L4/KEjOrbtNgH8sYd+VuQ471IYi4kVmlgP7LRvXUIURj83pTdSQYWuSI068i3+2G0htR2+KgIvDQSoSzJyZEaVCl2Kf2mHamlOY+ehMQfzp/hv9jAsQIZBKse157E7FI+j86snMSpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epBoqeRJ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G4ZG+lih"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epBoqeRJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731823145; x=1763359145;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JXzZ87r2R4QApQTlvo1KFc0dOMyqdnTVTxsRQDE9zB8=;
-  b=G4ZG+liheS5HOjxQSctf7qtiBt73SgKVFhZsYrHGeWdslhrwGVqq2g2E
-   s+f5I38EB0LW2GtzC+KNaZP+a6nDNmsUOBNihRsa591QLdWva+y4dfHPs
-   aAXevAf/+IQWWTyOFrU6zow91wprQFGzO0VoNh6LVVN5QL86UHu2SQWCS
-   J5HKyRizOe2AFVmO11OgbPhlr4sHRDPMdMv/rhvPdZibb53GRCte6F6Ob
-   sDSTeGB+f+2PkIV7pozPuaOpv1LR0tSYVppLZaNXELnJEO2QOgPPveg23
-   KRS2tY/GkmtbGPqhtMtsH+mo38Urv9/G+OTMwE6/UBIal95wRsKdPUAKg
-   g==;
-X-CSE-ConnectionGUID: d0ten8mTQjaw7RFUlc1N0g==
-X-CSE-MsgGUID: kCggWiIvR0Kq3OaZimK19A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="43183453"
+  t=1731825064; x=1763361064;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Lsp4q6IBsPmY53vrFSieT1nyTBQLZbrugkLZcqeG1BQ=;
+  b=epBoqeRJjkwn/ToBvLpaS6gI24rAA9HG4ey/njMZps4KBU7PoGCBAPfZ
+   ooAdqOAFYJCFIr4j0dSaHtNlzL3Xb9IsYxfNiY3zett3k3UtPp0kYd1x5
+   nmDzJjTwfOVpe86i1C08VxQKaOxfxbzvgTwXl7KwWJPQmJpD1hOJEr0eg
+   pLaDRYI3nXITIkXY7oPTLD5br5wR3XZUjlwBkjT4zwql00X0Dk834Bo0Y
+   Slo2wHiFOyTiG/R1Y0JeBc6xfLvRpJnwnsf5eT8tPmVO+k4uEFItsX1VM
+   MamCfvHIJhuo19pmGSSpMe76ZDsI2AshaMiAhZJeiULgsirhSRB7LmLwa
+   A==;
+X-CSE-ConnectionGUID: Vl5arLjUS2211bLey5UpZA==
+X-CSE-MsgGUID: p3VGdh4YQyu4FiMrfu3AQA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="49322293"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="43183453"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:59:04 -0800
-X-CSE-ConnectionGUID: POm7vyX4TC6fMjdHIMjGMQ==
-X-CSE-MsgGUID: J7mQVOdOTp6avvQ+UDDERg==
+   d="scan'208";a="49322293"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 22:31:04 -0800
+X-CSE-ConnectionGUID: Hq5zgO+WSv2ECutw4mUcAA==
+X-CSE-MsgGUID: GDQN9cLETF6HOc19q0d4mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="89698889"
+   d="scan'208";a="119777306"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Nov 2024 21:59:00 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Nov 2024 22:31:02 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCYJF-0001a5-2d;
-	Sun, 17 Nov 2024 05:58:57 +0000
-Date: Sun, 17 Nov 2024 13:58:51 +0800
+	id 1tCYoG-0001bB-0W;
+	Sun, 17 Nov 2024 06:31:00 +0000
+Date: Sun, 17 Nov 2024 14:30:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	quic_mrana@quicinc.com, quic_vbadigan@quicinc.com,
-	kernel@quicinc.com, Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?unknown-8bit?Q?Wilczy=C5=84ski?= <kw@linux.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Subject: Re: [PATCH 2/4] PCI: of: Add API to retrieve equalization presets
- from device tree
-Message-ID: <202411171502.1POu4enK-lkp@intel.com>
-References: <20241116-presets-v1-2-878a837a4fee@quicinc.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2439/2439] arch/x86/kernel/fpu/core.o: warning:
+ objtool: can't decode instruction at .text:0x26e0
+Message-ID: <202411171458.FfbMIe5v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,56 +61,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241116-presets-v1-2-878a837a4fee@quicinc.com>
 
-Hi Krishna,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 81983758430957d9a5cb3333fe324fd70cf63e7e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/arm64-dts-qcom-x1e80100-Add-PCIe-lane-equalization-preset-properties/20241117-000950
-base:   81983758430957d9a5cb3333fe324fd70cf63e7e
-patch link:    https://lore.kernel.org/r/20241116-presets-v1-2-878a837a4fee%40quicinc.com
-patch subject: [PATCH 2/4] PCI: of: Add API to retrieve equalization presets from device tree
-config: parisc-defconfig (https://download.01.org/0day-ci/archive/20241117/202411171502.1POu4enK-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171502.1POu4enK-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   4cbb736395eb31ff181c4488182276601992fa0b
+commit: 592d168ba66d3bfe054e06e484c53267990f3606 [2439/2439] !13239  scsi: pm80xx: Set phy->enable_completion only when we wait for it
+config: x86_64-randconfig-073-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171458.FfbMIe5v-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171458.FfbMIe5v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171502.1POu4enK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171458.FfbMIe5v-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/pci/access.c:8:
->> drivers/pci/pci.h:803:12: warning: 'of_pci_get_equalization_presets' defined but not used [-Wunused-function]
-     803 | static int of_pci_get_equalization_presets(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/pci/msi/pcidev_msi.c:5:
->> drivers/pci/msi/../pci.h:803:12: warning: 'of_pci_get_equalization_presets' defined but not used [-Wunused-function]
-     803 | static int of_pci_get_equalization_presets(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/pci/pcie/aspm.c:27:
->> drivers/pci/pcie/../pci.h:803:12: warning: 'of_pci_get_equalization_presets' defined but not used [-Wunused-function]
-     803 | static int of_pci_get_equalization_presets(struct device *dev,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/of_pci_get_equalization_presets +803 drivers/pci/pci.h
-
-   802	
- > 803	static int of_pci_get_equalization_presets(struct device *dev,
-   804						   struct pci_eq_presets *presets,
-   805						   int num_lanes)
-   806	{
-   807		return 0;
-   808	}
-   809	#endif /* CONFIG_OF */
-   810	
+>> arch/x86/kernel/fpu/core.o: warning: objtool: can't decode instruction at .text:0x26e0
 
 -- 
 0-DAY CI Kernel Test Service
