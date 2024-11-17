@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 872BB8C1F;
-	Sun, 17 Nov 2024 00:24:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E4915C0
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:35:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731803069; cv=none; b=JJNCaIn1nCZd8z0VRvfW7aNUorGcuEgyWnurJ3R2ox551Aw2yzxdVt5GtrG8JHq3EAQtxCoJNn142xSddrH4fd+GC+cSCnManOTHHS12KshtXHI/rD9glNbLeXR4djkPiTPN/odLh5voHkSE7dkI2ZTknCEhTxzQK97zvKrkRcg=
+	t=1731803732; cv=none; b=k6xPh57FHwdZOpGQilHxxUmrvt+4EpjEbLL5iqXGIk1ukUhVl17HUCETFqXuQVGzxH3TPsYOdqU0B68HpCBIhvJLzZI26qcoPqCoK7Ndynho4AofM1z9/16pDsi6YGSBs5g6oYICkXQ5KREDz6HAAQ0naQuMmf7RabFg01Ax0eI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731803069; c=relaxed/simple;
-	bh=/S3xgJdTglNG4YO0xGpdr1vtUOJcSeyEmaIcEa1JT2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sVVvVdZO0+P75Czi00eRasMpIXbjIu95ubmh/u9KC41xFTYkwNTPwo135FrqRVZxblPYBlYxHrY2zME5vcgJkcrCjISgN3bMKn2jFUAEidqilwVUAtYNPr1r1G4QSI9M8WeH+p82opKFBbdvb0utu0qFYQEp62/sdYtPmziIzd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OSTrFcCj; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1731803732; c=relaxed/simple;
+	bh=0Ip7p5/sDU5L0F6uiB4z207X4Olq921W8AWZGfDwQfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oWpc3mKLc6UeiJ6Z78fosGRPYAiRQ83xIvoPoXyqKjeepZ0J4aFMTWRzaGR0YR32ZMcIiCtxYtFbmJfSePFqKy93yp5tM8OfqX7PJ+TyqXKcOvWw4ss/sVbJSJ2Ln9gYMBugQYB08ZeExs3AuP0OEq5oqxczQ1CHOLo6iH8yOG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFaaNC1W; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OSTrFcCj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFaaNC1W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731803068; x=1763339068;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/S3xgJdTglNG4YO0xGpdr1vtUOJcSeyEmaIcEa1JT2M=;
-  b=OSTrFcCjykOow3Wi67zkQaL1R5vzTT26Gqs+vqIZrLjXQWGeqDh8b8hr
-   Fq4CwKo4QitoT9eoR/PZLto588y6e8rdeOazD4KmvwtS+IPMf7ZAe8S52
-   erlJjHccTXkAsgnsVrS2l0m73Ks/uY9thnlJunDzjeRFRN5rwuuVOFsA0
-   vSjbSPO6rDU3lrlvzo1IEnmTkLX9dDOJzK85xmOjswMKl1x0/egtjVQE/
-   DgR+4Qak3m+C3sOhPtr2qOFasxTXaLYhmfvdR4AfnKzbQvO+eY8mgTeEY
-   kCgJdejhaHkCADw4nCiLtbIqegH+oVK80DWgxbitOkLFDidlgufZrWpDN
-   w==;
-X-CSE-ConnectionGUID: ZRm9wjGTShS5S687o3Tw3g==
-X-CSE-MsgGUID: 50RPJToSQ7qXnB4y+0vkkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="49215971"
+  t=1731803729; x=1763339729;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0Ip7p5/sDU5L0F6uiB4z207X4Olq921W8AWZGfDwQfw=;
+  b=dFaaNC1WSDpkKTvVLStkO0hIvKDNxD/j3Lae4g+W/YOLRqArAqIkZi/H
+   tKlW7W/APblahilrRDXCF0d4EY9X8btH1zmLa6O7mnGER97gg79kslF/a
+   RwhqtV6mLA63pFXhLlyEEpsyw3VJxngJ19q2QqE6W5YKiDUB+XclRCuZ0
+   vdnhafHlq15IvIz805kbZONQsKR9Ae2faYlDfIRp/pUyyZYP7vKnpjsSF
+   efoxTcHKFFWTby4yV4NluSYj1eexLAJCAh5HqeQm5AQd9kFNVT95cu+R/
+   GGivHQcwYx6WncI09l/sUiM2oC0Ch1b+OJYKetzsF7my+as7Gt+F4zvCR
+   A==;
+X-CSE-ConnectionGUID: FWE6+iFzQMCX1Wk8OXxrHg==
+X-CSE-MsgGUID: qe7leJ1uSeu0WJ78Koi9aA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54284812"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="49215971"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:24:25 -0800
-X-CSE-ConnectionGUID: AHJOrsXER+KBVfWeNUvEIA==
-X-CSE-MsgGUID: qE3evDH/SD2VkC4hPIDQEQ==
+   d="scan'208";a="54284812"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:35:29 -0800
+X-CSE-ConnectionGUID: AQWN9aISQ7294p08psRBcA==
+X-CSE-MsgGUID: 2HpbwD9ATUeFxS7dEZo0Ng==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="88883653"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="93914392"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 16 Nov 2024 16:24:23 -0800
+  by orviesa003.jf.intel.com with ESMTP; 16 Nov 2024 16:35:24 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCT5Q-0001BX-36;
-	Sun, 17 Nov 2024 00:24:20 +0000
-Date: Sun, 17 Nov 2024 08:23:44 +0800
+	id 1tCTG5-0001Bn-1s;
+	Sun, 17 Nov 2024 00:35:21 +0000
+Date: Sun, 17 Nov 2024 08:34:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/hwmon-thermal 2/3]
- include/linux/thermal.h:292:75: error: omitting the parameter name in a
- function definition is a C23 extension
-Message-ID: <202411170820.rVJmW6pO-lkp@intel.com>
+To: Saravana Kannan <saravanak@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Saravana Kannan <saravanak@google.com>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Marek Vasut <marex@denx.de>, Bird@google.com,
+	Tim <Tim.Bird@sony.com>, kernel-team@android.com,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 5/5] PM: sleep: Spread out async kworker threads
+ during dpm_resume*() phases
+Message-ID: <202411170802.SnHuptE7-lkp@intel.com>
+References: <20241114220921.2529905-6-saravanak@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +78,142 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241114220921.2529905-6-saravanak@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/hwmon-thermal
-head:   cabfa33b49cc42e6b5648560d9813c16fa1e94d1
-commit: a020a527900a03dc4215f48ba0f37329a04a1cc0 [2/3] thermal: core: Add stub for thermal_zone_device_update()
-config: hexagon-randconfig-001-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170820.rVJmW6pO-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170820.rVJmW6pO-lkp@intel.com/reproduce)
+Hi Saravana,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rafael-pm/linux-next]
+[also build test ERROR on rafael-pm/bleeding-edge tip/sched/core amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.12-rc7 next-20241115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Saravana-Kannan/PM-sleep-Fix-runtime-PM-issue-in-dpm_resume/20241115-183855
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241114220921.2529905-6-saravanak%40google.com
+patch subject: [PATCH v1 5/5] PM: sleep: Spread out async kworker threads during dpm_resume*() phases
+config: arm-s3c6400_defconfig (https://download.01.org/0day-ci/archive/20241117/202411170802.SnHuptE7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170802.SnHuptE7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170820.rVJmW6pO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170802.SnHuptE7-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/tiny/repaper.c:21:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/gpu/drm/tiny/repaper.c:21:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/tiny/repaper.c:21:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/gpu/drm/tiny/repaper.c:21:
-   In file included from include/linux/spi/spi.h:17:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: error: performing pointer arithmetic on a null pointer has undefined behavior [-Werror,-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   In file included from drivers/gpu/drm/tiny/repaper.c:22:
->> include/linux/thermal.h:292:75: error: omitting the parameter name in a function definition is a C23 extension [-Werror,-Wc23-extensions]
-     292 | static inline void thermal_zone_device_update(struct thermal_zone_device *,
-         |                                                                           ^
-   include/linux/thermal.h:293:37: error: omitting the parameter name in a function definition is a C23 extension [-Werror,-Wc23-extensions]
-     293 |                                               enum thermal_notify_event)
-         |                                                                        ^
-   9 errors generated.
+   arm-linux-gnueabi-ld: kernel/power/suspend.o: in function `suspend_enter':
+>> kernel/power/suspend.c:485:(.text+0x2f4): undefined reference to `sched_set_energy_aware'
+>> arm-linux-gnueabi-ld: kernel/power/suspend.c:485:(.text+0x48c): undefined reference to `sched_set_energy_aware'
+   arm-linux-gnueabi-ld: kernel/power/suspend.c:485:(.text+0x4c0): undefined reference to `sched_set_energy_aware'
+   arm-linux-gnueabi-ld: kernel/power/suspend.c:485:(.text+0x4d0): undefined reference to `sched_set_energy_aware'
+   arm-linux-gnueabi-ld: kernel/power/suspend.o: in function `suspend_devices_and_enter':
+   kernel/power/suspend.c:538:(.text+0x748): undefined reference to `sched_set_energy_aware'
 
 
-vim +292 include/linux/thermal.h
+vim +485 kernel/power/suspend.c
 
-   291	
- > 292	static inline void thermal_zone_device_update(struct thermal_zone_device *,
-   293						      enum thermal_notify_event)
-   294	{ }
-   295	
+   401	
+   402	/**
+   403	 * suspend_enter - Make the system enter the given sleep state.
+   404	 * @state: System sleep state to enter.
+   405	 * @wakeup: Returns information that the sleep state should not be re-entered.
+   406	 *
+   407	 * This function should be called after devices have been suspended.
+   408	 */
+   409	static int suspend_enter(suspend_state_t state, bool *wakeup)
+   410	{
+   411		int error;
+   412	
+   413		error = platform_suspend_prepare(state);
+   414		if (error)
+   415			goto Platform_finish;
+   416	
+   417		error = dpm_suspend_late(PMSG_SUSPEND);
+   418		if (error) {
+   419			pr_err("late suspend of devices failed\n");
+   420			goto Platform_finish;
+   421		}
+   422		error = platform_suspend_prepare_late(state);
+   423		if (error)
+   424			goto Devices_early_resume;
+   425	
+   426		error = dpm_suspend_noirq(PMSG_SUSPEND);
+   427		if (error) {
+   428			pr_err("noirq suspend of devices failed\n");
+   429			goto Platform_early_resume;
+   430		}
+   431		error = platform_suspend_prepare_noirq(state);
+   432		if (error)
+   433			goto Platform_wake;
+   434	
+   435		if (suspend_test(TEST_PLATFORM))
+   436			goto Platform_wake;
+   437	
+   438		if (state == PM_SUSPEND_TO_IDLE) {
+   439			s2idle_loop();
+   440			goto Platform_wake;
+   441		}
+   442	
+   443		error = pm_sleep_disable_secondary_cpus();
+   444		if (error || suspend_test(TEST_CPUS))
+   445			goto Enable_cpus;
+   446	
+   447		arch_suspend_disable_irqs();
+   448		BUG_ON(!irqs_disabled());
+   449	
+   450		system_state = SYSTEM_SUSPEND;
+   451	
+   452		error = syscore_suspend();
+   453		if (!error) {
+   454			*wakeup = pm_wakeup_pending();
+   455			if (!(suspend_test(TEST_CORE) || *wakeup)) {
+   456				trace_suspend_resume(TPS("machine_suspend"),
+   457					state, true);
+   458				error = suspend_ops->enter(state);
+   459				trace_suspend_resume(TPS("machine_suspend"),
+   460					state, false);
+   461			} else if (*wakeup) {
+   462				error = -EBUSY;
+   463			}
+   464			syscore_resume();
+   465		}
+   466	
+   467		system_state = SYSTEM_RUNNING;
+   468	
+   469		arch_suspend_enable_irqs();
+   470		BUG_ON(irqs_disabled());
+   471	
+   472	 Enable_cpus:
+   473		pm_sleep_enable_secondary_cpus();
+   474	
+   475	 Platform_wake:
+   476		platform_resume_noirq(state);
+   477		/*
+   478		 * We do this only for resume instead of suspend and resume for these
+   479		 * reasons:
+   480		 * - Performance is more important than power for resume.
+   481		 * - Power spent entering suspend is more important for suspend. Also,
+   482		 *   stangely, disabling EAS was making suspent a few milliseconds
+   483		 *   slower in my testing.
+   484		 */
+ > 485		sched_set_energy_aware(0);
+   486		dpm_resume_noirq(PMSG_RESUME);
+   487	
+   488	 Platform_early_resume:
+   489		platform_resume_early(state);
+   490	
+   491	 Devices_early_resume:
+   492		dpm_resume_early(PMSG_RESUME);
+   493	
+   494	 Platform_finish:
+   495		platform_resume_finish(state);
+   496		return error;
+   497	}
+   498	
 
 -- 
 0-DAY CI Kernel Test Service
