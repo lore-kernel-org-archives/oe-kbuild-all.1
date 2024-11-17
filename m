@@ -1,304 +1,205 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C00A2C9D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 02:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731809462; cv=fail; b=sDui4tkYJk2pILXSqwgIoLcftG+waBvPQBR0s1asU6BZpxTYYriggHlRiWElwkDVjl6Lhuh5GuL6Rlo9/Er3cANaCil8fq+kC/dlX5Lxp/F5Xn9hn3Io/D5DJdcbwnYfHX2XJvQouoPNFm9U1TudcMwqYdcPYNgeYD+SCfvK1Mw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731809462; c=relaxed/simple;
-	bh=YOVqplRLCirHE9xfK38lBnhKsf7xbWXu+Eln4RGkkco=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=YUsJ3R/niCpeQ9Du/2DGn3Z1Z0AD0PWHAlWpD+mZoF0Jt4gM4xb/MsugShI3pr3uVNpGcA2Ztx9yDZVAdHd+Qw+G0gjmQk22EW73yhrUXi1bnyKmpfGdXYwlYP88UU5jfaQfkALmqfNU3Y1RBSqxeWcZpJhQcjh4GlQrmkXj11k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DJP9a1Kq; arc=fail smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A29BA27;
+	Sun, 17 Nov 2024 02:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1731809499; cv=none; b=s3hzBeED/buR+LG3WWvVs7ubGdxsWDtOhvmunumPfbuMDXJ0szxZOrnmlYQnlKiTdL3lg0TNFdGJlRHWJUO8a6qNJqh6Mp7Cl29cAHfp50k5SY3+0rHEaGiFBagMfU9XfwbmDQcL2bd96SwDtazVgguk1BssXvwDHoX3BFfEc+c=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1731809499; c=relaxed/simple;
+	bh=tVZvsogeDvUitYLdBp6E51d/i6g5c7hpqZ3jcqdhnLw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o78PeB+mi0Q40LYaQvHPm0ozyVofm6fM06adTRmwhSaRCFQdKMTtQ3bTgG04lVp+N4cJGfrZ7VwWTbVLPzerfw27kqmAxb4ze/0MN24oh0HseoSWfedzASgt5nGbMnPG7pWPMOfcP/E9SQtrW6nQMRRrZv7cxlcmiua6I8WAPqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UO5hW9H/; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DJP9a1Kq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UO5hW9H/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731809461; x=1763345461;
+  t=1731809498; x=1763345498;
   h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=YOVqplRLCirHE9xfK38lBnhKsf7xbWXu+Eln4RGkkco=;
-  b=DJP9a1KqsoNhTYFUIKiF86r7S0YfiP+41KEE39GTt2QEFAzNR6Zs7lg7
-   PUZDV1eMbD8Bk27B9pMfRUQY3DaFDobvOYxNZmfK74om2ULB7AB7sGYQT
-   fGfv4DlIxemM/jQCJd9gQULuhtC9YP7NyIZbiZl0Mevn5LcmGOUPqDLD6
-   OKFkezmnX2RMdYJQLg2TZKGdD62qiZLmMemzUswmLjhPtSzJQP3Rm5+2M
-   iB2FACAm2wPqjRaxsPCJY7CF/XKAHw9/xSYJ6+CRlP+9Drhjd0kFTXvbP
-   1Ey9FHgNB2brIPoqydIupT+9h2J17s9EWVZjKOeHsGk0g8HSjnds7iI1i
-   w==;
-X-CSE-ConnectionGUID: QdNCD8qVR2y3WLoP3puHFA==
-X-CSE-MsgGUID: kPU0b2QTRSWLhn3DKoa/EA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31171306"
+   mime-version:in-reply-to;
+  bh=tVZvsogeDvUitYLdBp6E51d/i6g5c7hpqZ3jcqdhnLw=;
+  b=UO5hW9H/tCdwjj81pJRuAjYm7PWWMrYsO1if7GfKtnTrsXtFsWKVFA1a
+   57OAFGpvCmfbE1eQyfMj2RROt+d53eHHHulaTR92bdqmz/WHgp3SMNoNa
+   6MnyLzHZUd/mZPr0GpA+IQHudcPtMqQvSRcmFlQUoDZUaWPFaxz2MxK35
+   WC5ZdoQ1eczX3DivckWHwGmkpYmSM3eDtRRsfrmk6yK1beoSmIGf9ota8
+   RyJMrwqLAsD1S/hU77vLKtyudt3F5fnf1IlwAb9FVSeAqAGJlSSZ+uSNz
+   KmmvLuS4w9VSYl9KYprUNDXDfbiS27MhNOhMWSnUKN6tQn7gUwkqkrPXP
+   g==;
+X-CSE-ConnectionGUID: KtZ9SyZERmWIy49qOf8kzA==
+X-CSE-MsgGUID: KJlg2yxlSAymdmakHQCzWg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54287625"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="31171306"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 18:11:00 -0800
-X-CSE-ConnectionGUID: hkJl/Bk9T6G//HrQOT1u6A==
-X-CSE-MsgGUID: Y+QwqCO2To2MSj10ylxlWg==
+   d="scan'208";a="54287625"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 18:11:37 -0800
+X-CSE-ConnectionGUID: e+Uz3MTaRD66oL4grPliOQ==
+X-CSE-MsgGUID: hG/qfnzjSFSW1prYkRQJVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="93358508"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 16 Nov 2024 18:11:00 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Sat, 16 Nov 2024 18:10:59 -0800
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Sat, 16 Nov 2024 18:10:59 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Sat, 16 Nov 2024 18:10:59 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aZEUrCLqgnc9e1DYeT4endq9Xr8XjhZAEa/i/WV+Z6fC/DcFkpuSjcufEYv9Td4J+t7LD2scUDYIr/jviNY5X7lmazHWvdqmnyZ28ThWOPa+SMt9j6aEk/U6Gtb2w/me2nTyTPHoT3AyXCsEKDMJT0FygSuDQxgPG3wc5ODZfE/Z6JG91do2JN01xN9mH4y5e4wGd75AO29Jlg/ZOef84+Vj9u38yyw0/Qx49lOLdQCV33YqFfzZQdf+g6mR1roLbgHPjkEefi0OaikACHNAT+AbiJkG0O8/HcWAPTZZz/l0BxrQc3NTj/6sGHSiqWgjEyJm+d/j/PamG9X5mlkZhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yj8xQyh0ULkwjWmVXvDi1iaIk7wllww3Y7faqqYVs8A=;
- b=ogjeA0Six0+4caPvBXXblk52hcp6OSSixNxWPJ6kH0nbLVYKgvnojeGljstONBeWSuBxGDLPvnsDRC1hXAv6Jcn6MdMvRYBg9XlTtoGNLNLdju7+qkt8ZC31NXha0Hkek2Dvj6KyG0ZrQPl4ATErJXUpsSV87fGPSxnBYIs+tYAt8BWcTJXx7SN9Z+8vmx2M9kENOaXxsAdXxprXxuh/6ci1ceG1Jkxd43g7BwTEGSZVWt1gFz6HEnpyVBqxSIqxdxQdWRTvSPPJkK7VALcLFObdANsGUVb5BGdqNKmOdSpsHRshW7hr+ZOFzuVthSAHhMD3f/LUN8X1CPlonRN5wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
- by DS0PR11MB6400.namprd11.prod.outlook.com (2603:10b6:8:c7::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8158.19; Sun, 17 Nov 2024 02:10:51 +0000
-Received: from DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
- ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8137.027; Sun, 17 Nov 2024
- 02:10:51 +0000
-Date: Sun, 17 Nov 2024 10:10:43 +0800
-From: Philip Li <philip.li@intel.com>
-To: Randy Dunlap <rdunlap@infradead.org>
-CC: kernel test robot <lkp@intel.com>, <linux-renesas-soc@vger.kernel.org>,
-	Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>,
-	<oe-kbuild-all@lists.linux.dev>, <linux-kernel@vger.kernel.org>, Helge Deller
-	<deller@gmx.de>
-Subject: Re: drivers/video/fbdev/sh7760fb.c:363:31: sparse: sparse: incorrect
- type in argument 3 (different address spaces)
-Message-ID: <ZzlQo3KpJ9wYn6WX@rli9-mobl>
-References: <202411082014.qSQ9A5ho-lkp@intel.com>
- <66ab2ee4-bef3-4969-a14e-7804b62dca78@infradead.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <66ab2ee4-bef3-4969-a14e-7804b62dca78@infradead.org>
-X-ClientProxiedBy: SG2PR04CA0160.apcprd04.prod.outlook.com (2603:1096:4::22)
- To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+   d="scan'208";a="112185207"
+Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2024 18:11:30 -0800
+Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tCUl6-0001Dv-27;
+	Sun, 17 Nov 2024 02:11:28 +0000
+Date: Sun, 17 Nov 2024 10:10:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	alexander.deucher@amd.com, christian.koenig@amd.com,
+	ltuikov89@gmail.com, matthew.brost@intel.com,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, daniel@ffwll.ch,
+	dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
+	rostedt@goodmis.org, l.stach@pengutronix.de, matt.coster@imgtec.com,
+	frank.binns@imgtec.com, yuq825@gmail.com, robdclark@gmail.com,
+	kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
+	steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
+	thomas.hellstrom@linux.intel.com, tvrtko.ursulin@igalia.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v6 2/7] drm/sched: store the drm client_id in
+ drm_sched_fence
+Message-ID: <202411170920.6ntlbMfi-lkp@intel.com>
+References: <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|DS0PR11MB6400:EE_
-X-MS-Office365-Filtering-Correlation-Id: 589a6c7a-6d1d-45ea-6736-08dd06ad0eec
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?eSr2noNatwdbOl0tBJD0tA05PRSwfr7eHKwVZ8UNLStEZwLul00mdGwvL2eE?=
- =?us-ascii?Q?U2qLTee4olK01QC1DSaiu6BWRLhPzopCpXe8KlweWU7mfwhLlDo2yII+O7fw?=
- =?us-ascii?Q?s47Hgb/4HfFGNH+vanefNNHZWaGVlHLYC6q+3Dr8ajYqaxiZC+h2vksjcDiH?=
- =?us-ascii?Q?kyFRBfocuRsu2ufKcRI0gyOGzW/wmG/+M2yRgpf1sj68FRcJ4IbVCk8ksLxY?=
- =?us-ascii?Q?hKsZT5OijzBd/z5fdaIhneYEhCbmf/+daTbCiAEE2vUG/LC3gplJRDbU2NgF?=
- =?us-ascii?Q?fpsucKn/E79xUYtM88JlLag6vKHbQNhjAd3lxa3cBR3yJD6RBItYT7IBgtMl?=
- =?us-ascii?Q?i7stHeL+XV2/G8dg4A2qrM+y9fHYdA1CbSdqIDdDl7vRSetW0I7KjZR6XlcS?=
- =?us-ascii?Q?wkVXUrEdt3CaUe1JMwkmD6j5g96DpLQ1F7DmQ52YAsuBqALBukANnnSAoM9X?=
- =?us-ascii?Q?ksN0Glt213GwxMRiUU4vC2x7gBo/nF92IiTVNLgexyP/hMRCsI6n7iIy+Ng3?=
- =?us-ascii?Q?21LNCrO1YCMrdefSg53ANS4PgGPootHNLC/TaVm3bm8GbkTYcBOFlssVnxkV?=
- =?us-ascii?Q?djI1L0X/AygPIv+iLtIYhqGx3GGZGhK2zo+J3hbGKFZt8H1Br6buZ1V6e7MO?=
- =?us-ascii?Q?l0C9F/KuaPH4WrzNCcTijx072onxB7hkzVo9qpHK6DpHhI+hRoGn1ExUPVWD?=
- =?us-ascii?Q?oU+SQ9SykKoruUMnJ7m5w8w6HtVSqCrxWFtR9cquHa5czuRl9nhbR5WXfC56?=
- =?us-ascii?Q?aY2zdB4BjuMtWoChFrvSNeDjvg4vJdbXbIl+r/Ql5CWv6ePh6nG4VwGOWq7A?=
- =?us-ascii?Q?hWMKMw+L6IfRoKu723M8JkW8IGKQJyUA2gyiVuo5C0Lzl+htRWtidsrPkCii?=
- =?us-ascii?Q?e63VztlphNgWA1Z8qDLu9RR6I6eenO/zKLstKaWf40hD2yROROU8iPVdlJR5?=
- =?us-ascii?Q?HIr3UN1Pv1tvrMf3zqS/ZYFjeoLo5ji32Rf0nYHu2a8AKSWMQQ0X6IXiw8tE?=
- =?us-ascii?Q?W5DgfoZeZjBBVFG60pOWE28Ln8jBHgrmGi/u4ZrHDFbUMidUS8lsLetYNsPE?=
- =?us-ascii?Q?CTp1F1qSxsXIqJ6Cjp6ZngkCpHudloiZ7Z7arN/xTh3ocU8RIcbv+J5iMWRd?=
- =?us-ascii?Q?cNhvZD2MTMvp/3KHBsaGcJo8wgqqUT9rNkTALineG5ER52pQewp6oI0DceTQ?=
- =?us-ascii?Q?4emoBgWj1cjlXIE1Br/anam9ksWq7q7F1SXL3nfGz1s+I9q1JarZVhlh/E4c?=
- =?us-ascii?Q?ikzOgfrfnI/JLVB8qJrx+VB5LmX+pZAG4TYl2cbf7A=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pCSB4JMSZwc3nFxENeYnVH1d3IdYCFexoprlpYpO4/a/myeohn8jnFPPDJmU?=
- =?us-ascii?Q?QgFQe3LFCMNqNJgBVsP3O/5S/5gkF0AYR7dZBKQ8VyZDBlC9etA/Sx9MfXMq?=
- =?us-ascii?Q?od2YmV4P6/+s8jgV8ci4gakqFjfUguyXdjcVighftfbJr9rivVCILRrEQa9h?=
- =?us-ascii?Q?buLRUu8WI0Vfg8adBoo0kMbzTZ8ReePNbfOvYhi/bmeyt9TLHjFFIm0t6vTW?=
- =?us-ascii?Q?PbHgbe8DZsxzSshOldRHM23LTZ2BAhUu41FrWgipazOaQZLYq1nhvkOkqpvU?=
- =?us-ascii?Q?XC6GYXAUiR0w5Jt9C0JUO43/kXvIY7g2r4HeaSF4BcrgQDLydKpnkQIlcxY4?=
- =?us-ascii?Q?3zuDeoSQY5RTYzjHvOQtq4dF/31LcVhnNRqZ7s+EqIxOP3sdrgYlb7j25rBR?=
- =?us-ascii?Q?MdnIoyD8jXkl7uzZ+ObRN+Xl42LPzxyYOB6eYBGgCnkearLRU475cP5N4whE?=
- =?us-ascii?Q?76QF4gmBxJLvnPihyPX/j33MjydXLny+U15dzmCdKW6vIoX6XFjmqeK4yNmS?=
- =?us-ascii?Q?9/WWUCiql0m/laqQ0FPYZ7/uUrK1f1KUkTuax/h2GRtmrTDSYdrN4ntaWtYf?=
- =?us-ascii?Q?M27wmZQtmBR6AuVNenk0mbL+CgXFcXTUCwZRukhJlOQexQY62ZdHoMrC+o8Z?=
- =?us-ascii?Q?iMjSjoKt0nrjHLhjWcueterWYjH5A0B/vR2iLLQeJCSIrEEfgdlrGnqdccH0?=
- =?us-ascii?Q?N0IxCBfy81eK20Ps9J0vx9Cudc0y6PRE06jTU1E/3N8JP1gSD0NRY/9vwNSU?=
- =?us-ascii?Q?cJREpdC9Z9HEOQwrmD3EJM7ynSpxgt1HYQpvm3UaxQTavgKv3hKcYEBpQxwT?=
- =?us-ascii?Q?lCih5OKvhMUn5Y7lHrmP2N8BAq5Y73a1pjHKYfmDFWSDDaWrq8MAYgDNJA3Z?=
- =?us-ascii?Q?NHswXxMV131HDYqPsg41LYT+FK+KsJ9XUnqyN3dHJ75pf8lgqfRe2xd+Y4Ld?=
- =?us-ascii?Q?WxfqlpOzZ7W+LaeS1b+xGKYKeZaF+Bf/pbGyn8mgagDlJgr2QGgHHBK6qBTg?=
- =?us-ascii?Q?qEm1KIip7dRNOS1cIvUuBKVzp9tfIg7/h1F+uzvvw4b/UM6UtqRpIqwCU1DT?=
- =?us-ascii?Q?lvLAopJredDvwxrKFV23wCxKM2/gEYqjwmdugSYD3T3i8mPcgaujdwKnWW4e?=
- =?us-ascii?Q?Wr7U6I1X38+5VlVIXA5qqPN3ZLf9H5UUJSawoj4y73lwmFP7zUzj7f/Z67Ag?=
- =?us-ascii?Q?OGGYGEMbXL/FqZX8Ym543SrdB48AGeNEf/0cX+AgI/lGgVgioXWzh/CXgXJu?=
- =?us-ascii?Q?9EYWQ2ewHdfFVN6HdFGKCHaU/+V1vuF0J4s8y2d5yZJKj53JKg7hvSubNV8w?=
- =?us-ascii?Q?8qVzi1gcAoQrYatqS0L+rpBn2N1InXqPENSng7tqZCD0rqFFZEIUsvzvgo2F?=
- =?us-ascii?Q?7MlPzV1jPwNAZfSqVV4z84/ayfSgjW4qjhtdIUWByQrEB26iEK7h8OfIMGBP?=
- =?us-ascii?Q?LUmSEdkhhr++vjHuKKlIBg7qUCIIuTU7nFtXoiUbuWXB330ZP3SBfM9HznbQ?=
- =?us-ascii?Q?fuPnAYEAD6OzT8EH4juiJ9M6J44fMC3jlvyIW5ogoU4HqGNwIpILyqRjD9gx?=
- =?us-ascii?Q?hlIIOZs1mKKZkeHuDHsXy5jKfuvUXYiu/kTLzsrP?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 589a6c7a-6d1d-45ea-6736-08dd06ad0eec
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2024 02:10:51.4020
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dFTg2WRIB39vdEAxmVcvQq8IUqD2cHyCbyLYQwVdTbrmn9U5ktNz9oC79QnB/Y4Udi/ZXqDlnyn20m14mL9f6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6400
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
 
-On Thu, Nov 14, 2024 at 08:04:40PM -0800, Randy Dunlap wrote:
-> Hi robot,
-> 
-> On 11/8/24 4:27 AM, kernel test robot wrote:
-> > Hi Randy,
-> > 
-> > First bad commit (maybe != root cause):
-> > 
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   906bd684e4b1e517dd424a354744c5b0aebef8af
-> > commit: 51084f89d687e14d96278241e5200cde4b0985c7 fbdev: sh7760fb: allow modular build
-> 
-> The same warnings happen without this patch applied, so I suggest that you
-> backtrack to the commit that is listed near the end of your email. Thanks so much. :)
+Hi Pierre-Eric,
 
-Got it, thanks for the info. We will ignore this commit to avoid false report
-and adjust bisect process to capture the actual one.
+kernel test robot noticed the following build errors:
 
-Thanks
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20241115]
+[cannot apply to linus/master drm-misc/drm-misc-next v6.12-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> > date:   7 months ago
-> > config: sh-randconfig-r132-20241108 (https://download.01.org/0day-ci/archive/20241108/202411082014.qSQ9A5ho-lkp@intel.com/config)
-> > compiler: sh4-linux-gcc (GCC) 14.2.0
-> > reproduce: (https://download.01.org/0day-ci/archive/20241108/202411082014.qSQ9A5ho-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202411082014.qSQ9A5ho-lkp@intel.com/
-> > 
-> > sparse warnings: (new ones prefixed by >>)
-> >>> drivers/video/fbdev/sh7760fb.c:363:31: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void *cpu_addr @@     got char [noderef] __iomem *screen_base @@
-> >    drivers/video/fbdev/sh7760fb.c:363:31: sparse:     expected void *cpu_addr
-> >    drivers/video/fbdev/sh7760fb.c:363:31: sparse:     got char [noderef] __iomem *screen_base
-> >>> drivers/video/fbdev/sh7760fb.c:423:27: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected char [noderef] __iomem *screen_base @@     got void *[assigned] fbmem @@
-> >    drivers/video/fbdev/sh7760fb.c:423:27: sparse:     expected char [noderef] __iomem *screen_base
-> >    drivers/video/fbdev/sh7760fb.c:423:27: sparse:     got void *[assigned] fbmem
-> >    drivers/video/fbdev/sh7760fb.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-> >    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> >    include/linux/page-flags.h:242:46: sparse: sparse: self-comparison always evaluates to false
-> > 
-> > vim +363 drivers/video/fbdev/sh7760fb.c
-> > 
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  354  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  355  static void sh7760fb_free_mem(struct fb_info *info)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  356  {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  357  	struct sh7760fb_par *par = info->par;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  358  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  359  	if (!info->screen_base)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  360  		return;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  361  
-> > 8404e56f4bc1d1 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  362  	dma_free_coherent(info->device, info->screen_size,
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23 @363  			  info->screen_base, par->fbdma);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  364  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  365  	par->fbdma = 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  366  	info->screen_base = NULL;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  367  	info->screen_size = 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  368  }
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  369  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  370  /* allocate the framebuffer memory. This memory must be in Area3,
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  371   * (dictated by the DMA engine) and contiguous, at a 512 byte boundary.
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  372   */
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  373  static int sh7760fb_alloc_mem(struct fb_info *info)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  374  {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  375  	struct sh7760fb_par *par = info->par;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  376  	void *fbmem;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  377  	unsigned long vram;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  378  	int ret, bpp;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  379  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  380  	if (info->screen_base)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  381  		return 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  382  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  383  	/* get color info from register value */
-> > f08c6c53b8e157 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  384  	ret = sh7760fb_get_color_info(info, par->pd->lddfr, &bpp, NULL);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  385  	if (ret) {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  386  		printk(KERN_ERR "colinfo\n");
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  387  		return ret;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  388  	}
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  389  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  390  	/* min VRAM: xres_min = 16, yres_min = 1, bpp = 1: 2byte -> 1 page
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  391  	   max VRAM: xres_max = 1024, yres_max = 1024, bpp = 16: 2MB */
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  392  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  393  	vram = info->var.xres * info->var.yres;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  394  	if (info->var.grayscale) {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  395  		if (bpp == 1)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  396  			vram >>= 3;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  397  		else if (bpp == 2)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  398  			vram >>= 2;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  399  		else if (bpp == 4)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  400  			vram >>= 1;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  401  	} else if (bpp > 8)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  402  		vram *= 2;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  403  	if ((vram < 1) || (vram > 1024 * 2048)) {
-> > 46d86f3b3b1d22 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  404  		fb_dbg(info, "too much VRAM required. Check settings\n");
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  405  		return -ENODEV;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  406  	}
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  407  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  408  	if (vram < PAGE_SIZE)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  409  		vram = PAGE_SIZE;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  410  
-> > 8404e56f4bc1d1 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  411  	fbmem = dma_alloc_coherent(info->device, vram, &par->fbdma, GFP_KERNEL);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  412  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  413  	if (!fbmem)
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  414  		return -ENOMEM;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  415  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  416  	if ((par->fbdma & SH7760FB_DMA_MASK) != SH7760FB_DMA_MASK) {
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  417  		sh7760fb_free_mem(info);
-> > 8404e56f4bc1d1 drivers/video/fbdev/sh7760fb.c Thomas Zimmermann 2023-06-13  418  		dev_err(info->device, "kernel gave me memory at 0x%08lx, which is"
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  419  			"unusable for the LCDC\n", (unsigned long)par->fbdma);
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  420  		return -ENOMEM;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  421  	}
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  422  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23 @423  	info->screen_base = fbmem;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  424  	info->screen_size = vram;
-> > 537a1bf059fa31 drivers/video/sh7760fb.c       Krzysztof Helt    2009-06-30  425  	info->fix.smem_start = (unsigned long)info->screen_base;
-> > 537a1bf059fa31 drivers/video/sh7760fb.c       Krzysztof Helt    2009-06-30  426  	info->fix.smem_len = info->screen_size;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  427  
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  428  	return 0;
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  429  }
-> > 4a25e41831ee85 drivers/video/sh7760fb.c       Nobuhiro Iwamatsu 2008-07-23  430  
-> > 
-> > :::::: The code at line 363 was first introduced by commit
-> > :::::: 4a25e41831ee851c1365d8b41decc22493b18e6d video: sh7760fb: SH7760/SH7763 LCDC framebuffer driver
-> 
-> This one ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > 
-> > :::::: TO: Nobuhiro Iwamatsu <iwamatsu.nobuhiro@renesas.com>
-> > :::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-> > 
-> 
-> -- 
-> ~Randy
-> 
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Prayer/drm-debugfs-output-client_id-in-in-drm_clients_info/20241114-180547
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20241114100113.150647-3-pierre-eric.pelloux-prayer%40amd.com
+patch subject: [PATCH v6 2/7] drm/sched: store the drm client_id in drm_sched_fence
+config: arm-randconfig-002-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170920.6ntlbMfi-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170920.6ntlbMfi-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170920.6ntlbMfi-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:5:
+   In file included from include/drm/drm_debugfs.h:38:
+   In file included from include/drm/drm_gpuvm.h:34:
+   In file included from include/drm/drm_gem.h:42:
+   In file included from include/drm/drm_vma_manager.h:27:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/panthor/panthor_mmu.c:2472:57: error: too few arguments to function call, expected 5, have 4
+    2472 |         ret = drm_sched_job_init(&job->base, &vm->entity, 1, vm);
+         |               ~~~~~~~~~~~~~~~~~~                               ^
+   include/drm/gpu_scheduler.h:571:5: note: 'drm_sched_job_init' declared here
+     571 | int drm_sched_job_init(struct drm_sched_job *job,
+         |     ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     572 |                        struct drm_sched_entity *entity,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     573 |                        u32 credits, void *owner,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+     574 |                        uint64_t drm_client_id);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+--
+   In file included from drivers/gpu/drm/panthor/panthor_sched.c:6:
+   In file included from include/drm/drm_gem_shmem_helper.h:7:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/panthor/panthor_sched.c:3729:25: error: too few arguments to function call, expected 5, have 4
+    3727 |         ret = drm_sched_job_init(&job->base,
+         |               ~~~~~~~~~~~~~~~~~~
+    3728 |                                  &job->group->queues[job->queue_idx]->entity,
+    3729 |                                  credits, job->group);
+         |                                                     ^
+   include/drm/gpu_scheduler.h:571:5: note: 'drm_sched_job_init' declared here
+     571 | int drm_sched_job_init(struct drm_sched_job *job,
+         |     ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+     572 |                        struct drm_sched_entity *entity,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     573 |                        u32 credits, void *owner,
+         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~
+     574 |                        uint64_t drm_client_id);
+         |                        ~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+
+
+vim +2472 drivers/gpu/drm/panthor/panthor_mmu.c
+
+647810ec247641e Boris Brezillon 2024-02-29  2435  
+647810ec247641e Boris Brezillon 2024-02-29  2436  /**
+647810ec247641e Boris Brezillon 2024-02-29  2437   * panthor_vm_bind_job_create() - Create a VM_BIND job
+647810ec247641e Boris Brezillon 2024-02-29  2438   * @file: File.
+647810ec247641e Boris Brezillon 2024-02-29  2439   * @vm: VM targeted by the VM_BIND job.
+647810ec247641e Boris Brezillon 2024-02-29  2440   * @op: VM operation data.
+647810ec247641e Boris Brezillon 2024-02-29  2441   *
+647810ec247641e Boris Brezillon 2024-02-29  2442   * Return: A valid pointer on success, an ERR_PTR() otherwise.
+647810ec247641e Boris Brezillon 2024-02-29  2443   */
+647810ec247641e Boris Brezillon 2024-02-29  2444  struct drm_sched_job *
+647810ec247641e Boris Brezillon 2024-02-29  2445  panthor_vm_bind_job_create(struct drm_file *file,
+647810ec247641e Boris Brezillon 2024-02-29  2446  			   struct panthor_vm *vm,
+647810ec247641e Boris Brezillon 2024-02-29  2447  			   const struct drm_panthor_vm_bind_op *op)
+647810ec247641e Boris Brezillon 2024-02-29  2448  {
+647810ec247641e Boris Brezillon 2024-02-29  2449  	struct panthor_vm_bind_job *job;
+647810ec247641e Boris Brezillon 2024-02-29  2450  	int ret;
+647810ec247641e Boris Brezillon 2024-02-29  2451  
+647810ec247641e Boris Brezillon 2024-02-29  2452  	if (!vm)
+647810ec247641e Boris Brezillon 2024-02-29  2453  		return ERR_PTR(-EINVAL);
+647810ec247641e Boris Brezillon 2024-02-29  2454  
+647810ec247641e Boris Brezillon 2024-02-29  2455  	if (vm->destroyed || vm->unusable)
+647810ec247641e Boris Brezillon 2024-02-29  2456  		return ERR_PTR(-EINVAL);
+647810ec247641e Boris Brezillon 2024-02-29  2457  
+647810ec247641e Boris Brezillon 2024-02-29  2458  	job = kzalloc(sizeof(*job), GFP_KERNEL);
+647810ec247641e Boris Brezillon 2024-02-29  2459  	if (!job)
+647810ec247641e Boris Brezillon 2024-02-29  2460  		return ERR_PTR(-ENOMEM);
+647810ec247641e Boris Brezillon 2024-02-29  2461  
+647810ec247641e Boris Brezillon 2024-02-29  2462  	ret = panthor_vm_bind_prepare_op_ctx(file, vm, op, &job->ctx);
+647810ec247641e Boris Brezillon 2024-02-29  2463  	if (ret) {
+647810ec247641e Boris Brezillon 2024-02-29  2464  		kfree(job);
+647810ec247641e Boris Brezillon 2024-02-29  2465  		return ERR_PTR(ret);
+647810ec247641e Boris Brezillon 2024-02-29  2466  	}
+647810ec247641e Boris Brezillon 2024-02-29  2467  
+647810ec247641e Boris Brezillon 2024-02-29  2468  	INIT_WORK(&job->cleanup_op_ctx_work, panthor_vm_bind_job_cleanup_op_ctx_work);
+647810ec247641e Boris Brezillon 2024-02-29  2469  	kref_init(&job->refcount);
+647810ec247641e Boris Brezillon 2024-02-29  2470  	job->vm = panthor_vm_get(vm);
+647810ec247641e Boris Brezillon 2024-02-29  2471  
+647810ec247641e Boris Brezillon 2024-02-29 @2472  	ret = drm_sched_job_init(&job->base, &vm->entity, 1, vm);
+647810ec247641e Boris Brezillon 2024-02-29  2473  	if (ret)
+647810ec247641e Boris Brezillon 2024-02-29  2474  		goto err_put_job;
+647810ec247641e Boris Brezillon 2024-02-29  2475  
+647810ec247641e Boris Brezillon 2024-02-29  2476  	return &job->base;
+647810ec247641e Boris Brezillon 2024-02-29  2477  
+647810ec247641e Boris Brezillon 2024-02-29  2478  err_put_job:
+647810ec247641e Boris Brezillon 2024-02-29  2479  	panthor_vm_bind_job_put(&job->base);
+647810ec247641e Boris Brezillon 2024-02-29  2480  	return ERR_PTR(ret);
+647810ec247641e Boris Brezillon 2024-02-29  2481  }
+647810ec247641e Boris Brezillon 2024-02-29  2482  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
