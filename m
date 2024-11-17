@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687ED15445D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 23:36:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AF912309A7;
+	Sun, 17 Nov 2024 23:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731886593; cv=none; b=jJ+WILLKrxsgFCqRoNcwKksgrr57CQtqgOWypaJx5KBWBidEx0Nl8HzeZv6rTYxcfysXxmIvhCwQr/4JgtBGSyzhEiiktad1sCZQTw5kSslOutt5HskxWwSp2SW7T7+2YamAOfz21gNRztKIz0vw3xULLPBvdqWRniwBC5Eo0QU=
+	t=1731887260; cv=none; b=V4MlhR4JUfwMsz5cArAqXf3DvGD45Fn9WMy2RXhFiZMEqhFYcLU/qIbgxXm44MihJXIF7Z0CctCVu6K9Ik9eVkXX3pRZ8YB1N8pLNCofTJWM5cXJIEeu/ImBihdpdA16IoYXyCUKODZAN7uEBewdm+HHqKoPnx5oMCHfzMAnaq4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731886593; c=relaxed/simple;
-	bh=tuUO1UMAhmmPUoUqriVlKlOil5EFPM7fK426oGBLnQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uuc2Lt8CwuYym30+69cXQD3I1z0Z7Cm1y5GuMYGW9TwAxoNgY3c1vhKd/Ggxu0N2eDVyJFnk+wugoB9SZ7S1F/R4l+fWfZ7i2yKcaL37NR+196eannLY+DNDSxcU5qB9PFEcbaNpwtTuxWBqU4+6r2LGkvOqqeJ4egvVB0eUgv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1EKBu3V; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1731887260; c=relaxed/simple;
+	bh=P1BsP1cGK94H5aphr+CmIL8Z4amP2D/fjFOsmEmkSAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MmDD34LC5N2YE/IU+rWd29Rfn2H4aGsbGEBijDFz5WbkonS7f83kUBVjwNTV3up9dleoOJOtRo2CRJSKm64IZGOBuFq/btP7nchX0gkqNJDI7yy8nLuPuUd3gxofmTtojbdhrPSSXFg1/t/k1qg1it/kGHAyQWc3HtruwkuDgPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cISYT6ZU; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1EKBu3V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cISYT6ZU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731886592; x=1763422592;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tuUO1UMAhmmPUoUqriVlKlOil5EFPM7fK426oGBLnQM=;
-  b=B1EKBu3VzFKWblRjZhPMNZBTcoZoyDZgJP03t5BaTldu0Vydly/L55e6
-   HV5g/N92/0sFFZ82BEQSKthOsCCF9YrT+x5EVl5HeNl/U40b5FjNZsx2e
-   A8FMNYYrh1XL1T+d2DPi7lqS5m8Jvu2DG34wAEZu951czbNZhk3SM5bm2
-   YHhahRqDflW/R41zcxh9Ib0jr2V5GnmaWJVwkeiKAG0oCtOB7b6Traiq1
-   CTwmYynEsFWIr8BfBhYHFRHh5jtKGR9MAEH0C1QtlJw+QLGED/W87v6wV
-   SazDQrSDVxw4j9+3TKjzxvasLMiwQoBrgr+fYroJ/uCKw9OPMd4aCIOxZ
-   w==;
-X-CSE-ConnectionGUID: ZC3fqp0FSqa2n7Vu3xwsbg==
-X-CSE-MsgGUID: FQnoMTm7TK+5KpkLlSoIlA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42469444"
+  t=1731887259; x=1763423259;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P1BsP1cGK94H5aphr+CmIL8Z4amP2D/fjFOsmEmkSAs=;
+  b=cISYT6ZUl9xBnoVuzfPGhEEqRwe+fkay/ZQT5NHFywLx1UwwHEMt2QRC
+   RwhI4PjlkHeqwBsi0SirRnQawhOuuWz9cdFx/c6uqvVdSovy1JFKHyrlQ
+   bnmGmlDKMzFPpq+/2v975tP+qSAOdGmROC1y21uYwCkMtvAmAex2zsFyM
+   v4YrEPd7WiAMehFi94Tb40EyxoA64nJe1GJiv6hPlG8/TxZcEF7muTjW+
+   NQLtU9Ub99Z2iMJX5J5P2COWBVf+LTutYQy9JJMcL4d4QrFwRwtVjGR4Y
+   cy06pAW1BsL34HCHdyp9oQjYzvJw+QSXB23LiBz8LR1HKTh+u3sgUROPV
+   Q==;
+X-CSE-ConnectionGUID: uczItTQhSQqAf16IYMgGfA==
+X-CSE-MsgGUID: FkYlMTOhRCem2Ns44zeEKg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="35598057"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="42469444"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 15:36:31 -0800
-X-CSE-ConnectionGUID: EqUQ9toJT/qeoFryIpxMrw==
-X-CSE-MsgGUID: 1pPznnXfSF6jPaDioMf+Sg==
+   d="scan'208";a="35598057"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 15:47:38 -0800
+X-CSE-ConnectionGUID: y9QjnJUARW+Pfju8B/fzmQ==
+X-CSE-MsgGUID: IRZPKmHYQ56Dn9+mpxT1Dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="88638233"
+   d="scan'208";a="112357128"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Nov 2024 15:36:30 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2024 15:47:31 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCood-000273-1v;
-	Sun, 17 Nov 2024 23:36:27 +0000
-Date: Mon, 18 Nov 2024 07:36:15 +0800
+	id 1tCozI-00027l-2K;
+	Sun, 17 Nov 2024 23:47:28 +0000
+Date: Mon, 18 Nov 2024 07:46:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1297/1297] sound/core/seq/seq_queue.o:
- warning: objtool: missing symbol for section .text
-Message-ID: <202411180702.Swqtnm4B-lkp@intel.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	andrew@lunn.ch, hkallweit1@gmail.com, tmgross@umich.edu,
+	ojeda@kernel.org, alex.gaynor@gmail.com, gary@garyguo.net,
+	bjorn3_gh@protonmail.com, benno.lossin@proton.me,
+	a.hindborg@samsung.com, aliceryhl@google.com,
+	anna-maria@linutronix.de, frederic@kernel.org, tglx@linutronix.de,
+	arnd@arndb.de, jstultz@google.com, sboyd@kernel.org,
+	mingo@redhat.com, peterz@infradead.org, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	rostedt@goodmis.org, bsegall@google.com, mgorman@suse.de,
+	vschneid@redhat.com, Boqun Feng <boqun.feng@gmail.com>
+Subject: Re: [PATCH v6 6/7] rust: Add read_poll_timeout functions
+Message-ID: <202411180733.UATVgVuv-lkp@intel.com>
+References: <20241114070234.116329-7-fujita.tomonori@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +74,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241114070234.116329-7-fujita.tomonori@gmail.com>
 
-Hi Takashi,
+Hi FUJITA,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4c37b6449701a1fcb16050d4e517fa6d505673e1
-commit: 00976ad5271999ba06d24319fd1031b178aff832 [1297/1297] ALSA: seq: Fix leftovers at probe error path
-config: x86_64-buildonly-randconfig-004-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180702.Swqtnm4B-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180702.Swqtnm4B-lkp@intel.com/reproduce)
+[auto build test ERROR on 228ad72e7660e99821fd430a04ac31d7f8fe9fc4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/FUJITA-Tomonori/rust-time-Add-PartialEq-Eq-PartialOrd-Ord-trait-to-Ktime/20241114-151340
+base:   228ad72e7660e99821fd430a04ac31d7f8fe9fc4
+patch link:    https://lore.kernel.org/r/20241114070234.116329-7-fujita.tomonori%40gmail.com
+patch subject: [PATCH v6 6/7] rust: Add read_poll_timeout functions
+config: um-randconfig-002-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180733.UATVgVuv-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180733.UATVgVuv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180702.Swqtnm4B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180733.UATVgVuv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/core/seq/seq_queue.o: warning: objtool: missing symbol for section .text
+>> error[E0433]: failed to resolve: use of undeclared type `KBox`
+   --> rust/doctests_kernel_generated.rs:1821:12
+   |
+   1821 | let lock = KBox::pin_init(new_spinlock!(()), kernel::alloc::flags::GFP_KERNEL)?;
+   |            ^^^^
+   |            |
+   |            use of undeclared type `KBox`
+   |            help: a struct with a similar name exists: `Box`
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 -- 
 0-DAY CI Kernel Test Service
