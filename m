@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44573335B5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 10:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAFBB482ED
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 10:18:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731838102; cv=none; b=Fq+7Je38BAzF9WPGjZDZ/+NTbV13Y6eYs7Xf93GpffdEKd2kysOlGtsV66zjWPtOG/WcIX/zfeyA7ZHBAg3emIjs3Of7QtVGb/XGT2CNdI+SxUOTV6T9AH4RU9oEWbJpl2aCXz3r00tRf59UP0ygOafsxzOoh/neNaTyYTrxAMA=
+	t=1731838703; cv=none; b=mNqz7c1VLj1AlCMuH4jBLZZAPowR6iuGRztSajcEYiGW5gLUHdfr0Uo4rETN0mmZ6ZhSshjSER1uV1l3UkxSOW7imNuM/vDJmm7fJ2SxaZEGKDyTNCEJdJT0Oa+fXimIXOARigHneFughGdzNENF9MvJ0FjsxjSAa53433ycxDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731838102; c=relaxed/simple;
-	bh=ZAuLETqJm22DiJDTK3FUUm0SJpZFa5yoHIFPBrQW/FY=;
+	s=arc-20240116; t=1731838703; c=relaxed/simple;
+	bh=a+oryNx1xV7Ne3PRjpxeb2uPdpRl8x1hHuBO3vDR/wg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tDZ8BS2zNU5ZbaC1CZqk7HczTd5IUL1zIQ0u0sRwqjg7+syv6Kiq6OBMUn7i22URFz5hl6FA7BdY9zZEN9ivTDMd7XYcCCPIHLQXdAQ2bb5YxwpoH0g7b+A7ULh1YwkGyIBYLsPPZKh7Q2/DBFkzxW502ouly16kdC+f9483X8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iiC/4AdO; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=W9dKs/tfFyiizz/aa5+9tPzRsVJ3QmlMO/BIGfFbeiGqLvyhxSxnGN//kXVHTOqAoVpSZLJesq8WGJx10hnU2Jy4Xn3UDWiDH/fCPihgCAzjaNKWNvTru1T71FMGE1MvEgXDqt4I1dVaONYASYDcqWD0pkmXf/j8vKnvLB5Tuw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kU+4SrQL; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iiC/4AdO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kU+4SrQL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731838100; x=1763374100;
+  t=1731838700; x=1763374700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZAuLETqJm22DiJDTK3FUUm0SJpZFa5yoHIFPBrQW/FY=;
-  b=iiC/4AdOO6Stp9lS2aNUquiQGTeVsOiajp2bmQ8JVk9MzoBiUoJTpxc2
-   jrkia3gGQpnkU8tDcTptwFEjccgfQcEg7HWgVALnzdA1mwjfSlH96FjMM
-   45DWmnH7KtsskpQPDPscJjMdRunJwE9BMcy7byWBS9OCfyx3XANCVv78s
-   ZfUObpX7YUG0AgM2YVWdJE4Xgjt0SvJfhYywtfBNmR05XA6sG4CzGP8kX
-   TQ/kRQCf86lv2Clm/xlYi2sNgBfGTKiVEj/VlkM1xwuGKsAuVnl1eNPCp
-   DliXQ756UKCEc8eMCt/UmuecHNSdTJpimJGxDt1aC191gvKS4ar9FnpMb
+  bh=a+oryNx1xV7Ne3PRjpxeb2uPdpRl8x1hHuBO3vDR/wg=;
+  b=kU+4SrQLtt0LKjiutXYyDfYjn3mrv39kbtYf4nJet1wzOpniKHyFDwIT
+   yvAy9NN4KeelxoEPz5+miSMmqWRSQBfXEPeecSO/GOhflYFgDBXpDOBG/
+   XT4W80DzxXIN7bZ0O/tn4ZfgecutgqtueZPqExpf6cFkyeVoMCJMTjg7M
+   ry0nuJAHXzVahBc7QvE7bNvUJABs/i0H3Mt54TSChN5i1P4BWHAnwCKYy
+   KJ7j9MXIH9K0c4pirMheTZL/3tFprK8As4jHZuHlSvQdKOpjPuWtjR8w3
+   xn9hpAn5CgPL/YbLPX6BW/hPahivZuCyqSc1X3cniFdoMEX+Y4DUe7Z7A
    g==;
-X-CSE-ConnectionGUID: feyCSwxfSyWz03PdsnT5Fw==
-X-CSE-MsgGUID: kLUL361oRouukKPGx7i9ng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31183695"
+X-CSE-ConnectionGUID: 2Pl5vJR5Soqh6CaBh+bOhw==
+X-CSE-MsgGUID: N0hNTY5zRmiUXwk/jXXFcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31951824"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="31183695"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 02:08:20 -0800
-X-CSE-ConnectionGUID: 7Vtb1uVISxaUzAqIXWbLDQ==
-X-CSE-MsgGUID: jMs6vx1oQKmoMWJ8GYKuhA==
+   d="scan'208";a="31951824"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 02:18:20 -0800
+X-CSE-ConnectionGUID: THr7rR+/T6KAgQIE3ikPgQ==
+X-CSE-MsgGUID: LBlVJNsiQxqCNgcbphlRNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="89384189"
+   d="scan'208";a="93423716"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2024 02:08:18 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2024 02:18:19 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCcCW-0001g9-17;
-	Sun, 17 Nov 2024 10:08:16 +0000
-Date: Sun, 17 Nov 2024 18:08:00 +0800
+	id 1tCcMD-0001gR-0A;
+	Sun, 17 Nov 2024 10:18:17 +0000
+Date: Sun, 17 Nov 2024 18:18:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-desktop 13296/24209]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb:
- gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names',
- 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202411171858.ZNSYH5e3-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2439/2439]
+ include/linux/compiler_attributes.h:221:41: warning: attribute 'fallthrough'
+ not preceding a case label or default label
+Message-ID: <202411171805.sOdLtjgt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,67 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
-head:   e2b6daceb83c9b9ae90fca4b78fc265484ded662
-commit: cf0657f4c63837090d22ee50cec185af40c6cfa8 [13296/24209] CHROMIUM: arm64: dts: mt8186: Add corsola-magneton board
-config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241117/202411171858.ZNSYH5e3-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.12.dev1+gcabb5b9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171858.ZNSYH5e3-lkp@intel.com/reproduce)
+Hi Ze,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   4cbb736395eb31ff181c4488182276601992fa0b
+commit: 0695e18bbaebbfbe22b049104bbb9a4300a9f30c [2439/2439] mm: Add PMU based memory sampling abstract layer
+config: arm64-randconfig-004-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171805.sOdLtjgt-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171805.sOdLtjgt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171858.ZNSYH5e3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171805.sOdLtjgt-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: gpu@13040000: sram-supply: False schema does not allow [[127]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: gpu@13040000: sram-supply: False schema does not allow [[127]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/compiler_types.h:65,
+                    from <command-line>:
+   drivers/arm/spe/spe.c: In function '__arm_spe_dev_probe':
+>> include/linux/compiler_attributes.h:221:41: warning: attribute 'fallthrough' not preceding a case label or default label
+     221 | # define fallthrough                    __attribute__((__fallthrough__))
+         |                                         ^~~~~~~~~~~~~
+   drivers/arm/spe/spe.c:492:17: note: in expansion of macro 'fallthrough'
+     492 |                 fallthrough;
+         |                 ^~~~~~~~~~~
+>> include/linux/compiler_attributes.h:221:41: warning: attribute 'fallthrough' not preceding a case label or default label
+     221 | # define fallthrough                    __attribute__((__fallthrough__))
+         |                                         ^~~~~~~~~~~~~
+   drivers/arm/spe/spe.c:514:17: note: in expansion of macro 'fallthrough'
+     514 |                 fallthrough;
+         |                 ^~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for ARM_SPE_MEM_SAMPLING
+   Depends on [n]: ARM64 [=y] && !ARM_SPE_PMU [=y]
+   Selected by [y]:
+   - MEM_SAMPLING [=y] && ARM64 [=y]
+
+
+vim +/fallthrough +221 include/linux/compiler_attributes.h
+
+294f69e662d157 Joe Perches  2019-10-05  209  
+294f69e662d157 Joe Perches  2019-10-05  210  /*
+294f69e662d157 Joe Perches  2019-10-05  211   * Add the pseudo keyword 'fallthrough' so case statement blocks
+294f69e662d157 Joe Perches  2019-10-05  212   * must end with any of these keywords:
+294f69e662d157 Joe Perches  2019-10-05  213   *   break;
+294f69e662d157 Joe Perches  2019-10-05  214   *   fallthrough;
+294f69e662d157 Joe Perches  2019-10-05  215   *   goto <label>;
+294f69e662d157 Joe Perches  2019-10-05  216   *   return [expression];
+294f69e662d157 Joe Perches  2019-10-05  217   *
+294f69e662d157 Joe Perches  2019-10-05  218   *  gcc: https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html#Statement-Attributes
+294f69e662d157 Joe Perches  2019-10-05  219   */
+294f69e662d157 Joe Perches  2019-10-05  220  #if __has_attribute(__fallthrough__)
+294f69e662d157 Joe Perches  2019-10-05 @221  # define fallthrough                    __attribute__((__fallthrough__))
+294f69e662d157 Joe Perches  2019-10-05  222  #else
+294f69e662d157 Joe Perches  2019-10-05  223  # define fallthrough                    do {} while (0)  /* fallthrough */
+a3f8a30f3f0079 Miguel Ojeda 2018-08-30  224  #endif
+a3f8a30f3f0079 Miguel Ojeda 2018-08-30  225  
+
+:::::: The code at line 221 was first introduced by commit
+:::::: 294f69e662d1570703e9b56e95be37a9fd3afba5 compiler_attributes.h: Add 'fallthrough' pseudo keyword for switch/case use
+
+:::::: TO: Joe Perches <joe@perches.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
