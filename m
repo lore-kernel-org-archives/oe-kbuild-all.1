@@ -1,75 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E4915C0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:35:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1995DBE65;
+	Sun, 17 Nov 2024 00:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731803732; cv=none; b=k6xPh57FHwdZOpGQilHxxUmrvt+4EpjEbLL5iqXGIk1ukUhVl17HUCETFqXuQVGzxH3TPsYOdqU0B68HpCBIhvJLzZI26qcoPqCoK7Ndynho4AofM1z9/16pDsi6YGSBs5g6oYICkXQ5KREDz6HAAQ0naQuMmf7RabFg01Ax0eI=
+	t=1731803735; cv=none; b=JGjO5GOfTg1cyi34FvL+SIo/oohGrG24YN9TeNPnogggdxz4y8jFqjjPvGa7mj/9Xb5fI7f4fz90l/6tUnuDCxyPUVf/GgbnYx83qpTPmhskL55ctPfvFlLqncXIRcJX6dusdEB7Cstdkdgbhr73vFTAthug6gfaCE5vhWXhihQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731803732; c=relaxed/simple;
-	bh=0Ip7p5/sDU5L0F6uiB4z207X4Olq921W8AWZGfDwQfw=;
+	s=arc-20240116; t=1731803735; c=relaxed/simple;
+	bh=+LHhRpz2lexERE+0uND5ClfhDGYT/5XBFC6AkXESgWk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oWpc3mKLc6UeiJ6Z78fosGRPYAiRQ83xIvoPoXyqKjeepZ0J4aFMTWRzaGR0YR32ZMcIiCtxYtFbmJfSePFqKy93yp5tM8OfqX7PJ+TyqXKcOvWw4ss/sVbJSJ2Ln9gYMBugQYB08ZeExs3AuP0OEq5oqxczQ1CHOLo6iH8yOG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dFaaNC1W; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=HoI1ogpEUkizztv2r4lK/GKPffzHsikAF36aLCqktcdl2XzmsGnmrxZnax4BPK64AQPvGP8brfuWMiPP9NMVTkAG4QNUb8MNIDgY/qr4l0lSHg9rMyN35v6FoThl2o4ju54IRZkzaSvucNbzaMObdxSzSWTflevQGLu2+L/ZsHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mi7/ysLN; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dFaaNC1W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mi7/ysLN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731803729; x=1763339729;
+  t=1731803733; x=1763339733;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0Ip7p5/sDU5L0F6uiB4z207X4Olq921W8AWZGfDwQfw=;
-  b=dFaaNC1WSDpkKTvVLStkO0hIvKDNxD/j3Lae4g+W/YOLRqArAqIkZi/H
-   tKlW7W/APblahilrRDXCF0d4EY9X8btH1zmLa6O7mnGER97gg79kslF/a
-   RwhqtV6mLA63pFXhLlyEEpsyw3VJxngJ19q2QqE6W5YKiDUB+XclRCuZ0
-   vdnhafHlq15IvIz805kbZONQsKR9Ae2faYlDfIRp/pUyyZYP7vKnpjsSF
-   efoxTcHKFFWTby4yV4NluSYj1eexLAJCAh5HqeQm5AQd9kFNVT95cu+R/
-   GGivHQcwYx6WncI09l/sUiM2oC0Ch1b+OJYKetzsF7my+as7Gt+F4zvCR
+  bh=+LHhRpz2lexERE+0uND5ClfhDGYT/5XBFC6AkXESgWk=;
+  b=Mi7/ysLNxR3X82c7pje2eRKMd+iobH052f/85Yb8WOpv8TEDpLhr/4hB
+   quCLPGZLUzQ5EKaLQf8gFjW66ygFdjbvFQps9eO1vwGC95QwfhMT2+j5p
+   oX+PeLP5tWrcSwuugrI+03UTsaG+LBBRnYjQ3bVzJzlU0W8e78mtbshes
+   4q128XbkxEue2d7ryBNOHyzkFlunNpKnxscT0X7hAyE8QTBzMVyAHHbBG
+   smHPwXJzRLLF7h2krVQed895CNMtwCSz55KP19ZXTzN7Km+22U4IwJZ41
+   JZNuUdwh1QlGlKLMPSnPtI+uQXduXIeAHfoQZGuuVKOvx3FdN2AxSsQdo
    A==;
-X-CSE-ConnectionGUID: FWE6+iFzQMCX1Wk8OXxrHg==
-X-CSE-MsgGUID: qe7leJ1uSeu0WJ78Koi9aA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54284812"
+X-CSE-ConnectionGUID: k7rXPhBpR2eZpFYobnrz+Q==
+X-CSE-MsgGUID: Ey62IBzhTd+1c7dKWGruLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42858736"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="54284812"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:35:29 -0800
-X-CSE-ConnectionGUID: AQWN9aISQ7294p08psRBcA==
-X-CSE-MsgGUID: 2HpbwD9ATUeFxS7dEZo0Ng==
+   d="scan'208";a="42858736"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:35:33 -0800
+X-CSE-ConnectionGUID: MOXCFN+ARQaMP9B+Psbo8w==
+X-CSE-MsgGUID: tF+cqJTCTQSQlObjK1NfcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="93914392"
+X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
+   d="scan'208";a="88996188"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Nov 2024 16:35:24 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 16 Nov 2024 16:35:24 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCTG5-0001Bn-1s;
+	id 1tCTG5-0001Bl-1o;
 	Sun, 17 Nov 2024 00:35:21 +0000
-Date: Sun, 17 Nov 2024 08:34:31 +0800
+Date: Sun, 17 Nov 2024 08:34:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saravana Kannan <saravanak@google.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Saravana Kannan <saravanak@google.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marek Vasut <marex@denx.de>, Bird@google.com,
-	Tim <Tim.Bird@sony.com>, kernel-team@android.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 5/5] PM: sleep: Spread out async kworker threads
- during dpm_resume*() phases
-Message-ID: <202411170802.SnHuptE7-lkp@intel.com>
-References: <20241114220921.2529905-6-saravanak@google.com>
+To: Zhang Tianci <zhangtianci.1997@bytedance.com>, miklos@szeredi.hu
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	xieyongji@bytedance.com,
+	Zhang Tianci <zhangtianci.1997@bytedance.com>,
+	Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
+Subject: Re: [PATCH] fuse: check attributes staleness on fuse_iget()
+Message-ID: <202411170856.SfrPdEy1-lkp@intel.com>
+References: <20241114070905.48901-1-zhangtianci.1997@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,142 +66,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114220921.2529905-6-saravanak@google.com>
+In-Reply-To: <20241114070905.48901-1-zhangtianci.1997@bytedance.com>
 
-Hi Saravana,
+Hi Zhang,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge tip/sched/core amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.12-rc7 next-20241115]
+[auto build test WARNING on v6.12-rc7]
+[also build test WARNING on linus/master]
+[cannot apply to mszeredi-fuse/for-next next-20241115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Saravana-Kannan/PM-sleep-Fix-runtime-PM-issue-in-dpm_resume/20241115-183855
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241114220921.2529905-6-saravanak%40google.com
-patch subject: [PATCH v1 5/5] PM: sleep: Spread out async kworker threads during dpm_resume*() phases
-config: arm-s3c6400_defconfig (https://download.01.org/0day-ci/archive/20241117/202411170802.SnHuptE7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170802.SnHuptE7-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Tianci/fuse-check-attributes-staleness-on-fuse_iget/20241114-151838
+base:   v6.12-rc7
+patch link:    https://lore.kernel.org/r/20241114070905.48901-1-zhangtianci.1997%40bytedance.com
+patch subject: [PATCH] fuse: check attributes staleness on fuse_iget()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241117/202411170856.SfrPdEy1-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170856.SfrPdEy1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170802.SnHuptE7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170856.SfrPdEy1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: kernel/power/suspend.o: in function `suspend_enter':
->> kernel/power/suspend.c:485:(.text+0x2f4): undefined reference to `sched_set_energy_aware'
->> arm-linux-gnueabi-ld: kernel/power/suspend.c:485:(.text+0x48c): undefined reference to `sched_set_energy_aware'
-   arm-linux-gnueabi-ld: kernel/power/suspend.c:485:(.text+0x4c0): undefined reference to `sched_set_energy_aware'
-   arm-linux-gnueabi-ld: kernel/power/suspend.c:485:(.text+0x4d0): undefined reference to `sched_set_energy_aware'
-   arm-linux-gnueabi-ld: kernel/power/suspend.o: in function `suspend_devices_and_enter':
-   kernel/power/suspend.c:538:(.text+0x748): undefined reference to `sched_set_energy_aware'
+   In file included from fs/fuse/inode.c:9:
+   In file included from fs/fuse/fuse_i.h:22:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/fuse/inode.c:456:7: warning: variable 'fi' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     456 |                 if (!fi->submount_lookup) {
+         |                     ^~~~~~~~~~~~~~~~~~~~
+   fs/fuse/inode.c:493:13: note: uninitialized use occurs here
+     493 |         spin_lock(&fi->lock);
+         |                    ^~
+   fs/fuse/inode.c:456:3: note: remove the 'if' if its condition is always true
+     456 |                 if (!fi->submount_lookup) {
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/fuse/inode.c:434:23: note: initialize the variable 'fi' to silence this warning
+     434 |         struct fuse_inode *fi;
+         |                              ^
+         |                               = NULL
+   5 warnings generated.
 
 
-vim +485 kernel/power/suspend.c
+vim +456 fs/fuse/inode.c
 
-   401	
-   402	/**
-   403	 * suspend_enter - Make the system enter the given sleep state.
-   404	 * @state: System sleep state to enter.
-   405	 * @wakeup: Returns information that the sleep state should not be re-entered.
-   406	 *
-   407	 * This function should be called after devices have been suspended.
-   408	 */
-   409	static int suspend_enter(suspend_state_t state, bool *wakeup)
-   410	{
-   411		int error;
-   412	
-   413		error = platform_suspend_prepare(state);
-   414		if (error)
-   415			goto Platform_finish;
-   416	
-   417		error = dpm_suspend_late(PMSG_SUSPEND);
-   418		if (error) {
-   419			pr_err("late suspend of devices failed\n");
-   420			goto Platform_finish;
-   421		}
-   422		error = platform_suspend_prepare_late(state);
-   423		if (error)
-   424			goto Devices_early_resume;
-   425	
-   426		error = dpm_suspend_noirq(PMSG_SUSPEND);
-   427		if (error) {
-   428			pr_err("noirq suspend of devices failed\n");
-   429			goto Platform_early_resume;
-   430		}
-   431		error = platform_suspend_prepare_noirq(state);
-   432		if (error)
-   433			goto Platform_wake;
-   434	
-   435		if (suspend_test(TEST_PLATFORM))
-   436			goto Platform_wake;
-   437	
-   438		if (state == PM_SUSPEND_TO_IDLE) {
-   439			s2idle_loop();
-   440			goto Platform_wake;
-   441		}
-   442	
-   443		error = pm_sleep_disable_secondary_cpus();
-   444		if (error || suspend_test(TEST_CPUS))
-   445			goto Enable_cpus;
-   446	
-   447		arch_suspend_disable_irqs();
-   448		BUG_ON(!irqs_disabled());
-   449	
-   450		system_state = SYSTEM_SUSPEND;
-   451	
-   452		error = syscore_suspend();
-   453		if (!error) {
-   454			*wakeup = pm_wakeup_pending();
-   455			if (!(suspend_test(TEST_CORE) || *wakeup)) {
-   456				trace_suspend_resume(TPS("machine_suspend"),
-   457					state, true);
-   458				error = suspend_ops->enter(state);
-   459				trace_suspend_resume(TPS("machine_suspend"),
-   460					state, false);
-   461			} else if (*wakeup) {
-   462				error = -EBUSY;
-   463			}
-   464			syscore_resume();
-   465		}
-   466	
-   467		system_state = SYSTEM_RUNNING;
-   468	
-   469		arch_suspend_enable_irqs();
-   470		BUG_ON(irqs_disabled());
-   471	
-   472	 Enable_cpus:
-   473		pm_sleep_enable_secondary_cpus();
-   474	
-   475	 Platform_wake:
-   476		platform_resume_noirq(state);
-   477		/*
-   478		 * We do this only for resume instead of suspend and resume for these
-   479		 * reasons:
-   480		 * - Performance is more important than power for resume.
-   481		 * - Power spent entering suspend is more important for suspend. Also,
-   482		 *   stangely, disabling EAS was making suspent a few milliseconds
-   483		 *   slower in my testing.
-   484		 */
- > 485		sched_set_energy_aware(0);
-   486		dpm_resume_noirq(PMSG_RESUME);
-   487	
-   488	 Platform_early_resume:
-   489		platform_resume_early(state);
-   490	
-   491	 Devices_early_resume:
-   492		dpm_resume_early(PMSG_RESUME);
-   493	
-   494	 Platform_finish:
-   495		platform_resume_finish(state);
-   496		return error;
-   497	}
-   498	
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  427  
+b48badf013018e Miklos Szeredi    2008-04-30  428  struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
+1fb69e7817296d Miklos Szeredi    2007-10-18  429  			int generation, struct fuse_attr *attr,
+243f2d46af8e04 Zhang Tianci      2024-11-14  430  			u64 attr_valid, u64 attr_version,
+243f2d46af8e04 Zhang Tianci      2024-11-14  431  			u64 evict_ctr)
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  432  {
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  433  	struct inode *inode;
+9e6268db496a25 Miklos Szeredi    2005-09-09  434  	struct fuse_inode *fi;
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  435  	struct fuse_conn *fc = get_fuse_conn_super(sb);
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  436  
+bf109c64040f5b Max Reitz         2020-04-21  437  	/*
+bf109c64040f5b Max Reitz         2020-04-21  438  	 * Auto mount points get their node id from the submount root, which is
+bf109c64040f5b Max Reitz         2020-04-21  439  	 * not a unique identifier within this filesystem.
+bf109c64040f5b Max Reitz         2020-04-21  440  	 *
+bf109c64040f5b Max Reitz         2020-04-21  441  	 * To avoid conflicts, do not place submount points into the inode hash
+bf109c64040f5b Max Reitz         2020-04-21  442  	 * table.
+bf109c64040f5b Max Reitz         2020-04-21  443  	 */
+bf109c64040f5b Max Reitz         2020-04-21  444  	if (fc->auto_submounts && (attr->flags & FUSE_ATTR_SUBMOUNT) &&
+bf109c64040f5b Max Reitz         2020-04-21  445  	    S_ISDIR(attr->mode)) {
+c4d361f66ac91d Krister Johansen  2023-11-03  446  		struct fuse_inode *fi;
+c4d361f66ac91d Krister Johansen  2023-11-03  447  
+bf109c64040f5b Max Reitz         2020-04-21  448  		inode = new_inode(sb);
+bf109c64040f5b Max Reitz         2020-04-21  449  		if (!inode)
+bf109c64040f5b Max Reitz         2020-04-21  450  			return NULL;
+bf109c64040f5b Max Reitz         2020-04-21  451  
+facd61053cff10 Christian Brauner 2023-01-20  452  		fuse_init_inode(inode, attr, fc);
+c4d361f66ac91d Krister Johansen  2023-11-03  453  		fi = get_fuse_inode(inode);
+c4d361f66ac91d Krister Johansen  2023-11-03  454  		fi->nodeid = nodeid;
+c4d361f66ac91d Krister Johansen  2023-11-03  455  		fi->submount_lookup = fuse_alloc_submount_lookup();
+c4d361f66ac91d Krister Johansen  2023-11-03 @456  		if (!fi->submount_lookup) {
+c4d361f66ac91d Krister Johansen  2023-11-03  457  			iput(inode);
+c4d361f66ac91d Krister Johansen  2023-11-03  458  			return NULL;
+c4d361f66ac91d Krister Johansen  2023-11-03  459  		}
+c4d361f66ac91d Krister Johansen  2023-11-03  460  		/* Sets nlookup = 1 on fi->submount_lookup->nlookup */
+c4d361f66ac91d Krister Johansen  2023-11-03  461  		fuse_init_submount_lookup(fi->submount_lookup, nodeid);
+bf109c64040f5b Max Reitz         2020-04-21  462  		inode->i_flags |= S_AUTOMOUNT;
+bf109c64040f5b Max Reitz         2020-04-21  463  		goto done;
+bf109c64040f5b Max Reitz         2020-04-21  464  	}
+bf109c64040f5b Max Reitz         2020-04-21  465  
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  466  retry:
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  467  	inode = iget5_locked(sb, nodeid, fuse_inode_eq, fuse_inode_set, &nodeid);
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  468  	if (!inode)
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  469  		return NULL;
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  470  
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  471  	if ((inode->i_state & I_NEW)) {
+b0aa7606521790 Maxim Patlasov    2013-12-26  472  		inode->i_flags |= S_NOATIME;
+d31433c8b06d44 Maxim Patlasov    2014-04-28  473  		if (!fc->writeback_cache || !S_ISREG(attr->mode))
+b0aa7606521790 Maxim Patlasov    2013-12-26  474  			inode->i_flags |= S_NOCMTIME;
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  475  		inode->i_generation = generation;
+facd61053cff10 Christian Brauner 2023-01-20  476  		fuse_init_inode(inode, attr, fc);
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  477  		unlock_new_inode(inode);
+15db16837a35d8 Amir Goldstein    2021-06-21  478  	} else if (fuse_stale_inode(inode, generation, attr)) {
+15db16837a35d8 Amir Goldstein    2021-06-21  479  		/* nodeid was reused, any I/O on the old inode should fail */
+5d069dbe8aaf2a Miklos Szeredi    2020-12-10  480  		fuse_make_bad(inode);
+b1fe686a765e6c Miklos Szeredi    2024-02-28  481  		if (inode != d_inode(sb->s_root)) {
+b1fe686a765e6c Miklos Szeredi    2024-02-28  482  			remove_inode_hash(inode);
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  483  			iput(inode);
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  484  			goto retry;
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  485  		}
+b1fe686a765e6c Miklos Szeredi    2024-02-28  486  	}
+9e6268db496a25 Miklos Szeredi    2005-09-09  487  	fi = get_fuse_inode(inode);
+c9d8f5f0692d59 Kirill Tkhai      2018-11-09  488  	spin_lock(&fi->lock);
+9e6268db496a25 Miklos Szeredi    2005-09-09  489  	fi->nlookup++;
+c9d8f5f0692d59 Kirill Tkhai      2018-11-09  490  	spin_unlock(&fi->lock);
+c4d361f66ac91d Krister Johansen  2023-11-03  491  done:
+972f4c46d0a1bb Miklos Szeredi    2023-08-10  492  	fuse_change_attributes(inode, attr, NULL, attr_valid, attr_version);
+243f2d46af8e04 Zhang Tianci      2024-11-14  493  	spin_lock(&fi->lock);
+243f2d46af8e04 Zhang Tianci      2024-11-14  494  	if (evict_ctr < fuse_get_evict_ctr(fc))
+243f2d46af8e04 Zhang Tianci      2024-11-14  495  		fuse_invalidate_attr(inode);
+243f2d46af8e04 Zhang Tianci      2024-11-14  496  	spin_unlock(&fi->lock);
+1fb69e7817296d Miklos Szeredi    2007-10-18  497  
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  498  	return inode;
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  499  }
+d8a5ba45457e4a Miklos Szeredi    2005-09-09  500  
 
 -- 
 0-DAY CI Kernel Test Service
