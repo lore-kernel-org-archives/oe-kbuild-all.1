@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A29BA27;
-	Sun, 17 Nov 2024 02:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7EA28831
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 02:43:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731809499; cv=none; b=s3hzBeED/buR+LG3WWvVs7ubGdxsWDtOhvmunumPfbuMDXJ0szxZOrnmlYQnlKiTdL3lg0TNFdGJlRHWJUO8a6qNJqh6Mp7Cl29cAHfp50k5SY3+0rHEaGiFBagMfU9XfwbmDQcL2bd96SwDtazVgguk1BssXvwDHoX3BFfEc+c=
+	t=1731811424; cv=none; b=PD9LIWvXD8i9KpBUvKlCzK562RmSxocFDbTHOFUMq3hJc0sDikiK4cXKd1SJPBSotr9T6Mo7IttbY9zD7ZliOLXtwqxFqX1O5hD1LJhMPQFQ47Kba8INHk0dmgyAZ6oXPFlb4ZprtsU7A1Gc/Yoxqjqq0lJfzZhJPg3iz5Y5rbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731809499; c=relaxed/simple;
-	bh=tVZvsogeDvUitYLdBp6E51d/i6g5c7hpqZ3jcqdhnLw=;
+	s=arc-20240116; t=1731811424; c=relaxed/simple;
+	bh=xl/LUcVrd6dmSIr6nGl/n2X7RZ7jp9nSo28XTx5Qzak=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o78PeB+mi0Q40LYaQvHPm0ozyVofm6fM06adTRmwhSaRCFQdKMTtQ3bTgG04lVp+N4cJGfrZ7VwWTbVLPzerfw27kqmAxb4ze/0MN24oh0HseoSWfedzASgt5nGbMnPG7pWPMOfcP/E9SQtrW6nQMRRrZv7cxlcmiua6I8WAPqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UO5hW9H/; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=kKqoyEYFBfrmJyP9HXEv2SStVemjzNam/Y9dO0fE4oe/342jDVUQ+gG4IZv0BQX/xycXgIeZIUqY/dj0vgIQ7Cssvr/6g5GzOM+2Cwkth5ZnQMzzNsRAR1WP2qdKzkQ3qDxCn6JAylII88CgwIfLth3nNZ17pYzTaNIU5/11ZD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxytppLE; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UO5hW9H/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxytppLE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731809498; x=1763345498;
+  t=1731811423; x=1763347423;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=tVZvsogeDvUitYLdBp6E51d/i6g5c7hpqZ3jcqdhnLw=;
-  b=UO5hW9H/tCdwjj81pJRuAjYm7PWWMrYsO1if7GfKtnTrsXtFsWKVFA1a
-   57OAFGpvCmfbE1eQyfMj2RROt+d53eHHHulaTR92bdqmz/WHgp3SMNoNa
-   6MnyLzHZUd/mZPr0GpA+IQHudcPtMqQvSRcmFlQUoDZUaWPFaxz2MxK35
-   WC5ZdoQ1eczX3DivckWHwGmkpYmSM3eDtRRsfrmk6yK1beoSmIGf9ota8
-   RyJMrwqLAsD1S/hU77vLKtyudt3F5fnf1IlwAb9FVSeAqAGJlSSZ+uSNz
-   KmmvLuS4w9VSYl9KYprUNDXDfbiS27MhNOhMWSnUKN6tQn7gUwkqkrPXP
-   g==;
-X-CSE-ConnectionGUID: KtZ9SyZERmWIy49qOf8kzA==
-X-CSE-MsgGUID: KJlg2yxlSAymdmakHQCzWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54287625"
+  bh=xl/LUcVrd6dmSIr6nGl/n2X7RZ7jp9nSo28XTx5Qzak=;
+  b=hxytppLEWtX5mXf+BcPmRFjepmwRQGUP85WdiDLN/+8jvUy/aClcVbpA
+   pKQe3D5j070+PiOmouS2yNMQriqc28NUMfAlu5JFnZGdXcKZO2jb4XfWA
+   Zd3mPwj3dj7CYXrkECWlhwFlBb/nIijTS2MEcp54rMfXX5tE+w0N9rNc/
+   CbUmlEqoXE2uzq9IODKeHTqxlA09nXJ+Fmb/i+8FAd6fwrHjARS6+66Zd
+   vKqdCnowWLg3GpAdCedtWca7HnMNrZyuwJJZhgRpBvJ167TdFF/UcjbT3
+   AqVaBFZHhmM73Kc+jffgSGmTKXE8nnUkGeohgCBRhDfFcI9Eh/v0tQmEZ
+   w==;
+X-CSE-ConnectionGUID: VNtKCNz0S6Wv3OEK3KPkSQ==
+X-CSE-MsgGUID: 66825CJrRC6E7sq1fcN+sQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42434166"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="54287625"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 18:11:37 -0800
-X-CSE-ConnectionGUID: e+Uz3MTaRD66oL4grPliOQ==
-X-CSE-MsgGUID: hG/qfnzjSFSW1prYkRQJVA==
+   d="scan'208";a="42434166"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 18:43:42 -0800
+X-CSE-ConnectionGUID: wGCL00g4SUOclNMxZ0Tiww==
+X-CSE-MsgGUID: 0yg3kuyDSleNsOTORDEOLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="112185207"
+   d="scan'208";a="93362302"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2024 18:11:30 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 16 Nov 2024 18:43:35 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCUl6-0001Dv-27;
-	Sun, 17 Nov 2024 02:11:28 +0000
-Date: Sun, 17 Nov 2024 10:10:58 +0800
+	id 1tCVG9-0001Ft-06;
+	Sun, 17 Nov 2024 02:43:33 +0000
+Date: Sun, 17 Nov 2024 10:42:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
 	alexander.deucher@amd.com, christian.koenig@amd.com,
@@ -60,11 +60,11 @@ To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
 	kherbst@redhat.com, lyude@redhat.com, boris.brezillon@collabora.com,
 	steven.price@arm.com, mwen@igalia.com, mcanal@igalia.com,
 	thomas.hellstrom@linux.intel.com, tvrtko.ursulin@igalia.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+Cc: oe-kbuild-all@lists.linux.dev,
 	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
 Subject: Re: [PATCH v6 2/7] drm/sched: store the drm client_id in
  drm_sched_fence
-Message-ID: <202411170920.6ntlbMfi-lkp@intel.com>
+Message-ID: <202411171023.eCuLAjlT-lkp@intel.com>
 References: <20241114100113.150647-3-pierre-eric.pelloux-prayer@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -91,65 +91,37 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Pierre-Eric-Pelloux-Praye
 base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
 patch link:    https://lore.kernel.org/r/20241114100113.150647-3-pierre-eric.pelloux-prayer%40amd.com
 patch subject: [PATCH v6 2/7] drm/sched: store the drm client_id in drm_sched_fence
-config: arm-randconfig-002-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170920.6ntlbMfi-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170920.6ntlbMfi-lkp@intel.com/reproduce)
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411171023.eCuLAjlT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171023.eCuLAjlT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170920.6ntlbMfi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171023.eCuLAjlT-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:5:
-   In file included from include/drm/drm_debugfs.h:38:
-   In file included from include/drm/drm_gpuvm.h:34:
-   In file included from include/drm/drm_gem.h:42:
-   In file included from include/drm/drm_vma_manager.h:27:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/panthor/panthor_mmu.c:2472:57: error: too few arguments to function call, expected 5, have 4
+   drivers/gpu/drm/panthor/panthor_mmu.c: In function 'panthor_vm_bind_job_create':
+>> drivers/gpu/drm/panthor/panthor_mmu.c:2472:15: error: too few arguments to function 'drm_sched_job_init'
     2472 |         ret = drm_sched_job_init(&job->base, &vm->entity, 1, vm);
-         |               ~~~~~~~~~~~~~~~~~~                               ^
-   include/drm/gpu_scheduler.h:571:5: note: 'drm_sched_job_init' declared here
+         |               ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/panthor/panthor_mmu.c:10:
+   include/drm/gpu_scheduler.h:571:5: note: declared here
      571 | int drm_sched_job_init(struct drm_sched_job *job,
-         |     ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     572 |                        struct drm_sched_entity *entity,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     573 |                        u32 credits, void *owner,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~
-     574 |                        uint64_t drm_client_id);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+         |     ^~~~~~~~~~~~~~~~~~
 --
-   In file included from drivers/gpu/drm/panthor/panthor_sched.c:6:
-   In file included from include/drm/drm_gem_shmem_helper.h:7:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/gpu/drm/panthor/panthor_sched.c:3729:25: error: too few arguments to function call, expected 5, have 4
+   drivers/gpu/drm/panthor/panthor_sched.c: In function 'panthor_job_create':
+>> drivers/gpu/drm/panthor/panthor_sched.c:3727:15: error: too few arguments to function 'drm_sched_job_init'
     3727 |         ret = drm_sched_job_init(&job->base,
-         |               ~~~~~~~~~~~~~~~~~~
-    3728 |                                  &job->group->queues[job->queue_idx]->entity,
-    3729 |                                  credits, job->group);
-         |                                                     ^
-   include/drm/gpu_scheduler.h:571:5: note: 'drm_sched_job_init' declared here
+         |               ^~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/panthor/panthor_sched.c:8:
+   include/drm/gpu_scheduler.h:571:5: note: declared here
      571 | int drm_sched_job_init(struct drm_sched_job *job,
-         |     ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-     572 |                        struct drm_sched_entity *entity,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     573 |                        u32 credits, void *owner,
-         |                        ~~~~~~~~~~~~~~~~~~~~~~~~~
-     574 |                        uint64_t drm_client_id);
-         |                        ~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+         |     ^~~~~~~~~~~~~~~~~~
 
 
-vim +2472 drivers/gpu/drm/panthor/panthor_mmu.c
+vim +/drm_sched_job_init +2472 drivers/gpu/drm/panthor/panthor_mmu.c
 
 647810ec247641e Boris Brezillon 2024-02-29  2435  
 647810ec247641e Boris Brezillon 2024-02-29  2436  /**
