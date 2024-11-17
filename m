@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C4F1DA10E;
-	Sun, 17 Nov 2024 18:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8934A1D9A76
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 18:15:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731867308; cv=none; b=GG34hr12e4/02+eqMQNTuOuMwXzboKDBRAFBSBO+MLkjFY9WwqC0bIptZ/EzwMeGSkowrtyY2QA4QCvMf8BXg9Qb1+0t+9i75znjMedkuukf4b+9e5OpGzaa4VHfNrWRqF3fq/MUtv1KauJibjXfOMbfkMQrYcxH3SEOMKpOw04=
+	t=1731867313; cv=none; b=QvGt0UBlCbxqQwVhgmYiXOVfJYg27Y3KYTpV0e/h/lEvkhmL7Nz84qpZRobfwO76oBEURBDsE+uybQ+Dc4bP86LfbtOyRNYMnUWl0ekb+1zrxRnCXwrU+DndfNupba+rz4iz1RBeZQQ5cNu+BnYOsp3FKin622dU4XPPWMUzVwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731867308; c=relaxed/simple;
-	bh=/EB5LIEg/vG8YEd1UQtjsqS8CABq338uZfnO55MZ+hc=;
+	s=arc-20240116; t=1731867313; c=relaxed/simple;
+	bh=2VFpfNq+rG0zoC5knaR090ssQCY7131ZwgCWJh8jiMc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qxfW1jcTci2WaqaWkMDm+rCGnmMpoRfn2Qa38sK4Bb+GBCKoXLPq6mJpUpRsNtqnR72N8kbQZ8E/Bo0HxOvNDFR+VAuKaMUS9xMVUPCKCNX0fJj+daN2lEcj0evemFC8G2xN+QifD428GX01ePQ1KqirnH05Ly7cyyLDCdy24Ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VtZ8U5ps; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=bBx8IodWvg/TBTyoT8K8XvXMVK0dT9no5XYILpd/UQpdheK1YVsmZGjZ8IDOmlBvOfN2xTqkde5z2zYC8FlH+v54eRjbHN89YFsPZQBWFofEtG0sqxwkCp6UCii83Tgokhd0BavVvdhEMkuyILnKaa8lF3rOOQrTeJ1EM5XP6m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7Q3aVcB; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VtZ8U5ps"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7Q3aVcB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731867306; x=1763403306;
+  t=1731867309; x=1763403309;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/EB5LIEg/vG8YEd1UQtjsqS8CABq338uZfnO55MZ+hc=;
-  b=VtZ8U5psUPRwoq5hPDrHORiDk4XBBesKSgzySi/MFr9aYE1YIaksCMAo
-   mKENX+bDlQhM5Ogqha6fnQKxc54+5j0ba0ss3yVkwY8+aTVk0g1VptKUi
-   hgYI1qVMGfAdnRw+7pAk5x07THMe/50GcvQ9uUUNJ45Xf0GmJegtvtuaC
-   uIMPt7EnXMcDf62uXBoqH9QfRVBEpM9A8uf21aBSyQl244h6/8XJpkYg/
-   Z8iyqvNGt0M9FbEraC09u5U1Q0mr31Y0CY0oucmy6ww4xtfeshb8Fz253
-   XMXMLlxEN+2hitsrxF1urKZhua3HFWjIMUUcypaXViCwL0L+00DKRSU5p
+  bh=2VFpfNq+rG0zoC5knaR090ssQCY7131ZwgCWJh8jiMc=;
+  b=A7Q3aVcBoagHRZpKlKMYCh4bnS5K2FC/3eBvsSgplZuc4NCsoZQTlkAE
+   /CZ15YOWWHwpW9U5bom3eKtBMVsp/au0C90yt/YosNh9hWbRD6gZKdudh
+   jJ6MJP50neBHa/nofiEmty/P02aNvONzzeCPUo8oQQp3YtAPt5QP31BOD
+   WMiZRprCr5kt89BWGi14Oe5w06WDe6zPUxOAwrRZLd9133Lh7oAYSc4Ju
+   DBUc6j/ZIzlNbAHfsIaApZrWOqe5xuXjPpBS/cAKmmmFmM/hyHMwvMWLD
+   ogwljzG/wvPGhBSaVfv+7Hs8TlG+FeVma1/IxhsNioqcJ0oi7+l6udxua
    w==;
-X-CSE-ConnectionGUID: IT6h3LTkT7iEko7Lymlqlw==
-X-CSE-MsgGUID: wVDN/n1tTLOJcyp9DyPPwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31967298"
+X-CSE-ConnectionGUID: O+2cyhe5TMmp3f4wDV4lKQ==
+X-CSE-MsgGUID: 7x0r3veqQ+KbYbOz5Je0gQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31918009"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="31967298"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 10:15:05 -0800
-X-CSE-ConnectionGUID: OZFkhxa4QayEdUzxCPUoaw==
-X-CSE-MsgGUID: gn7BIWiySoSm9WxvzlRLJQ==
+   d="scan'208";a="31918009"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 10:15:06 -0800
+X-CSE-ConnectionGUID: FP+xx6OgRuGIa0EVjiT9dA==
+X-CSE-MsgGUID: NuKri9xCRciRemFBqn37Kw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="126561582"
+   d="scan'208";a="119967111"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Nov 2024 10:15:04 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2024 10:15:05 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCjna-0001zH-07;
+	id 1tCjna-0001zF-03;
 	Sun, 17 Nov 2024 18:15:02 +0000
-Date: Mon, 18 Nov 2024 02:14:39 +0800
+Date: Mon, 18 Nov 2024 02:14:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/b4-sysfs-const-bin_attr-cb 111/120]
- drivers/scsi/ipr.c:3386:8: warning: unused variable 'bin_attr_trace'
-Message-ID: <202411180246.AQdGPDg8-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-desktop 13309/24209]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb:
+ gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names',
+ 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202411180224.ZdNcpJkK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,61 +64,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-bin_attr-cb
-head:   216b83e0b4d86a2170ccde16f4a8117e32c02d85
-commit: e8fed0bb67c88ef43f708e0bfb819f69f5c9a1c2 [111/120] scsi/ipr macro
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241118/202411180246.AQdGPDg8-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180246.AQdGPDg8-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   e2b6daceb83c9b9ae90fca4b78fc265484ded662
+commit: b8b5f741f33c9d3a6e26c154436c18099e64a2a6 [13309/24209] CHROMIUM: arm64: dts: mt8186: Optimize corsola-steelix/rusty dts
+config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241118/202411180224.ZdNcpJkK-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180224.ZdNcpJkK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180246.AQdGPDg8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180224.ZdNcpJkK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/scsi/ipr.c:52:
-   In file included from include/linux/pci.h:1650:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/ipr.c:3386:8: warning: unused variable 'bin_attr_trace' [-Wunused-variable]
-    3386 | static BIN_ATTR_RO(trace, 0);
-         |        ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:376:22: note: expanded from macro 'BIN_ATTR_RO'
-     376 | struct bin_attribute bin_attr_##_name = __BIN_ATTR_RO(_name, _size)
-         |                      ^~~~~~~~~~~~~~~~
-   <scratch space>:85:1: note: expanded from here
-      85 | bin_attr_trace
-         | ^~~~~~~~~~~~~~
-   5 warnings generated.
-
-
-vim +/bin_attr_trace +3386 drivers/scsi/ipr.c
-
-  3385	
-> 3386	static BIN_ATTR_RO(trace, 0);
-  3387	#endif
-  3388	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: gpu@13040000: sram-supply: False schema does not allow [[128]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: gpu@13040000: sram-supply: False schema does not allow [[129]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
 
 -- 
 0-DAY CI Kernel Test Service
