@@ -1,73 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94321E4AB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 13:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D4B1CBE8D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 13:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731850483; cv=none; b=Mj0lzc8qV11gsYk97XaOeDq3TaiNP3/FR+8Z1/7wOM6npGLvnQHzsbFv260ZfqRn6GWJ3U6TCgQpqAdZpwxcVIVdnMUyZPj96X6P4SWlIONsCJ5Ek+zcxyI1Rl3w4FvpOYUTCJPwDBK+8p9WzxG9YUbFsn5FMsxSb5knNn/NMmI=
+	t=1731851081; cv=none; b=k86nY4VBxD9BU8lYIyCO6YFpEpq6I+0bxq9Oo8AIhC5Shxcntc8RxAXimawQMHLS/8mH4f+M8KDJMp8EXQ/g6XDpNQsmjG6Az59zbeNXMw9Jtt/HB/brRQfXbH+Y+Wi8WB8+S+oPcu1wW4RQZ5ceJpxC8JWtkJFiDNTQEF7XrnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731850483; c=relaxed/simple;
-	bh=B187G/gUaksl/fOU+jVWa2TR01jUHxL+V+NIxnNek3s=;
+	s=arc-20240116; t=1731851081; c=relaxed/simple;
+	bh=bzudhJQ6DLerwXyo13kvSCjAxnVApP3ZVF8C/ZXDAYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qnZvAlgU1Bi6sJcGo496J2U2ZkI1dj7H203m/mUZ6/8iACRTklkhJbF0H+Ug9siQK0tJgVNlmSRYPLqpXHlGEAnKAazCBLczUs5TMslQxE9TfttRgF9JUw4IVdfDiok5gS5VgznOFclkx0vEdW3WVGjRVvCQeMkOINBino8D6IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIw/hJFZ; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=HiY64cCJutW7RYvnIg9OtxhNAjXKN8cSq8N0QesCVPy6H9LOCCLCwJM9CEdoYsems0vdUAqWyLPyFdP5gGQpszG+7Q1YZY5jKo73iTBsR+7n8ukqbBxckfUTceRbCGqwZbDpSlrab1bfdo9YdKST6cEJswARWmvT1UPoK8xPqoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FvuCIQXU; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIw/hJFZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FvuCIQXU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731850482; x=1763386482;
+  t=1731851080; x=1763387080;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=B187G/gUaksl/fOU+jVWa2TR01jUHxL+V+NIxnNek3s=;
-  b=oIw/hJFZZcHSpN82A2O+NP4nWGYIlwLWI/3U13+ARkDGbtALN1lja3kT
-   YtbobYTQKiotE9bIwPAJnnoihqrWbMqkxaToYIAA9TruMuWlJ20rttr7h
-   cJW7Ut53BwXT0m9dAd+yvyhl9FBJIagiF0B28CHhrbgxuB0JKVL0zjQ2s
-   unfYRStl3fuU8glAL3y/4j4Ynwp4O4+9qvxyT5feXaAnnO25esd6r86+l
-   2pxm8hW3BHlLxwXs+G2yhoykLwONTtdIAcLaOem/F0T/Hfwu8ROlh829w
-   oMqxx9W5NJ0c16dYYN+gmCWY98KgWVB1LMSQ9pF29jusY/OLZWd+QFyDC
-   A==;
-X-CSE-ConnectionGUID: 6JU5h3wPRLG4CuX4zzmkyA==
-X-CSE-MsgGUID: EXh27rNEQgKRIbBunA8/hw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31904893"
+  bh=bzudhJQ6DLerwXyo13kvSCjAxnVApP3ZVF8C/ZXDAYM=;
+  b=FvuCIQXUw6AlSPyThJ73V2xXANjbhI8+yUyQHVZqT97LHzGl9lE6oolm
+   LBhkW78xfOI8zWioSzfeJLlXB/w/Sk3VT3dwm5PDCw+lUdln6EBR/t92e
+   WDKJOPX0ENDA6pP15Xi2WEvB9W3h4S1hrBrk6Sz5Hm5zXz4OhXMBFgwHd
+   I6Ir2PxXJMsK7wqq34RraHXU7hLTxsnKwwsd7Sit48jvMg8SbcKgSxK+7
+   ilaPXB/E/EJZkfW6nF3wSXQ6SsuQhOtOePGGunW61idRXaM+0oclWi/h9
+   LixzwcMJnW7YbO8HlZ913mgFnetxnVmUTfT4q+EqDy4OXNg7Bnk591DAS
+   Q==;
+X-CSE-ConnectionGUID: 7NCDnNQNTvOIfrAtbBrpng==
+X-CSE-MsgGUID: jiNnR0fjTKezEUDAFasU/w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42333470"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="31904893"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 05:34:41 -0800
-X-CSE-ConnectionGUID: gMfRsQC1RHerc2kLqKrJSg==
-X-CSE-MsgGUID: KFqujJ72QvqC2dpOS9fN2A==
+   d="scan'208";a="42333470"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 05:44:39 -0800
+X-CSE-ConnectionGUID: daUKfGchSWW2k7D27BkxTw==
+X-CSE-MsgGUID: yL/A4YVMTm6KYnbJx1UIvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="93447773"
+   d="scan'208";a="112283922"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2024 05:34:36 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2024 05:44:37 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCfQA-0001m5-1n;
-	Sun, 17 Nov 2024 13:34:34 +0000
-Date: Sun, 17 Nov 2024 21:34:06 +0800
+	id 1tCfZr-0001mD-0m;
+	Sun, 17 Nov 2024 13:44:35 +0000
+Date: Sun, 17 Nov 2024 21:44:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Saravana Kannan <saravanak@google.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, Saravana Kannan <saravanak@google.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Marek Vasut <marex@denx.de>, Bird@google.com,
-	Tim <Tim.Bird@sony.com>, kernel-team@android.com,
-	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 5/5] PM: sleep: Spread out async kworker threads
- during dpm_resume*() phases
-Message-ID: <202411172344.QqFap290-lkp@intel.com>
-References: <20241114220921.2529905-6-saravanak@google.com>
+To: Ryan Wilson <ryantimwilson@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net
+Cc: oe-kbuild-all@lists.linux.dev, ryantimwilson@meta.com
+Subject: Re: [PATCH bpf-next] bpf: Add multi-prog support for XDP BPF programs
+Message-ID: <202411172107.yHI94Ps2-lkp@intel.com>
+References: <20241114170721.3939099-1-ryantimwilson@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,55 +63,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114220921.2529905-6-saravanak@google.com>
+In-Reply-To: <20241114170721.3939099-1-ryantimwilson@gmail.com>
 
-Hi Saravana,
+Hi Ryan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge tip/sched/core amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Saravana-Kannan/PM-sleep-Fix-runtime-PM-issue-in-dpm_resume/20241115-183855
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241114220921.2529905-6-saravanak%40google.com
-patch subject: [PATCH v1 5/5] PM: sleep: Spread out async kworker threads during dpm_resume*() phases
-config: arm-randconfig-003-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172344.QqFap290-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172344.QqFap290-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wilson/bpf-Add-multi-prog-support-for-XDP-BPF-programs/20241115-015104
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241114170721.3939099-1-ryantimwilson%40gmail.com
+patch subject: [PATCH bpf-next] bpf: Add multi-prog support for XDP BPF programs
+config: x86_64-randconfig-122-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172107.yHI94Ps2-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172107.yHI94Ps2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411172344.QqFap290-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411172107.yHI94Ps2-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/dev.c:3387:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
+   net/core/dev.c:3387:23: sparse:     expected restricted __wsum [usertype] csum
+   net/core/dev.c:3387:23: sparse:     got unsigned int
+   net/core/dev.c:3387:23: sparse: sparse: cast from restricted __wsum
+>> net/core/dev.c:9416:76: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct bpf_mprog_entry *entry @@     got struct bpf_mprog_entry [noderef] __rcu * @@
+   net/core/dev.c:9416:76: sparse:     expected struct bpf_mprog_entry *entry
+   net/core/dev.c:9416:76: sparse:     got struct bpf_mprog_entry [noderef] __rcu *
+   net/core/dev.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   net/core/dev.c:3837:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
+   net/core/dev.c:4800:9: sparse: sparse: context imbalance in 'kick_defer_list_purge' - different lock contexts for basic block
+   net/core/dev.c:4901:19: sparse: sparse: context imbalance in 'enqueue_to_backlog' - different lock contexts for basic block
+   net/core/dev.c:5315:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
+   net/core/dev.c:5996:9: sparse: sparse: context imbalance in 'flush_backlog' - different lock contexts for basic block
+   net/core/dev.c:6123:9: sparse: sparse: context imbalance in 'process_backlog' - different lock contexts for basic block
 
-   In file included from kernel/sched/build_utility.c:88:
->> kernel/sched/topology.c:287:6: warning: no previous prototype for 'sched_set_energy_aware' [-Wmissing-prototypes]
-     287 | void sched_set_energy_aware(unsigned int enable)
-         |      ^~~~~~~~~~~~~~~~~~~~~~
+vim +9416 net/core/dev.c
 
-
-vim +/sched_set_energy_aware +287 kernel/sched/topology.c
-
-   286	
- > 287	void sched_set_energy_aware(unsigned int enable)
-   288	{
-   289		int state;
-   290	
-   291		if (!sched_is_eas_possible(cpu_active_mask))
-   292			return;
-   293	
-   294		sysctl_sched_energy_aware = enable;
-   295		state = static_branch_unlikely(&sched_energy_present);
-   296		if (state != sysctl_sched_energy_aware)
-   297			rebuild_sched_domains_energy();
-   298	}
-   299	
+  9409	
+  9410	u8 dev_xdp_prog_count(struct net_device *dev)
+  9411	{
+  9412		u8 count = 0;
+  9413		int i;
+  9414	
+  9415		for (i = 0; i < __MAX_XDP_MODE; i++)
+> 9416			if (dev->xdp_state[i] && xdp_entry_is_active(dev->xdp_state[i]))
+  9417				count++;
+  9418		return count;
+  9419	}
+  9420	EXPORT_SYMBOL_GPL(dev_xdp_prog_count);
+  9421	
 
 -- 
 0-DAY CI Kernel Test Service
