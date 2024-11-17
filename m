@@ -1,58 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33208BE49
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 03:27:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD40BE49;
+	Sun, 17 Nov 2024 03:27:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731814065; cv=none; b=YUM7b6DfSKru+oTt8qY6e/lF1fw2i2qmt1qBZLj3XIhT7jSzLTHef6hxb1RvnTLN+Jh2f1VTme9BPmwYas6HxlNTitRlOmqlLcHRGpMJ1N1v/ClhTnvJhvUdcRGfXsRttjVKdZjSyhCPfD2H5wRs3AGwx2/AymGl8Zo547R/C8Q=
+	t=1731814068; cv=none; b=QARSPhAQDqtq0hNDy7x/uo5EMTjP4NpINdbmiyGKpQQkew/EaJXSgDVtQK7NKglxR7ttgNTAUEX4BFlJNFkiABeev7naYTy+Atht4ezKmQYW7x76+T0sgzMlcHw/V4f2nGREfMA2RT34pUpTXKERAg6b8vRpDN/3TqjAnnB96XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731814065; c=relaxed/simple;
-	bh=2LJL7VUmIPJg7//5TqpSC9zwMy5DSn/vid8g5m99uj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SDEtCaGQjvUmQwZNu2MA4FNeW1X9Odx9iNIbpRaKU72ciBUgyaywHCPnRHW9h9Lm5MQdxraA3Gy7GQfp1wgc+SGKKePWuDDG9BvhR4hOx7mIro2OaFEnI2STWFzRbnIxfDvrx6bEjhtcrzd/MNUu5ml9HQ7eWYyPL8H366zJ5T4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLH47nEV; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1731814068; c=relaxed/simple;
+	bh=5ITUgTk83bVHTXHHqKXnQknCDI3cg7wq8bv7laRd1OE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hfn8S3TfkqoH15STRDEeHAHosYQ/p6FhmK4qw5tXhEjD+2iK1YZIQGhKlety2YBHG/RDulYoGRF8ba5CAD435gV/RPloQhhoDUwu/sIJaT3G0BvYX9027Rngcyr0YOxToH4x/pGot57AButECGxE2ZrgQoDS+cZqSF9W+3eCay4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnhmbhfM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLH47nEV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnhmbhfM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731814063; x=1763350063;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2LJL7VUmIPJg7//5TqpSC9zwMy5DSn/vid8g5m99uj4=;
-  b=jLH47nEVoSXL1qxmfNfUneldZYU7Pj0S0ycN3lm2DoilWSRE9/RZS6j8
-   uxp5pSrFArr4OeNf849CN70MO35POGVFlBHxgiAQHuesmahsDlodtfN/N
-   jnlJIclx0Af/0bfYxzF1l/TCCdL04ruA2gOdik5xJoab0LZsnZjqsyUNV
-   7Vt3jSjXSzZf5a/61AuHnUWFAyVIUneDz7UXSKj4xtL5lA3lX9ej5edQg
-   CFFpi178WsGRddlfqawW6MlEdRt6XUcy8sgnlf+AguCgxerIlx8YCIX2m
-   8TYCTAKTXnlga7psBWb6ZGesYacitZofcHemYtFCnzXGLMYSBEwFUW+a1
-   Q==;
-X-CSE-ConnectionGUID: C0sUrC5kSCK/PPKfeXhMEw==
-X-CSE-MsgGUID: yFcWwpvFRhOTzFtlNazV/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54289152"
+  t=1731814066; x=1763350066;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5ITUgTk83bVHTXHHqKXnQknCDI3cg7wq8bv7laRd1OE=;
+  b=ZnhmbhfMhLMrQNwxdbMG4BLC/du8PgXVYZNYualXOkWN+4kTl9ZVc4tv
+   sGcOehkG0kaBk3gSMSc04Y/ORwjhAyxDUlrJ/VQ0hPLboW4oGK1gqjeRt
+   fVIIrotrv21Zy+O6VkeHXagV6J28OzXZT0sLwHob5yLdkItJlXIHH1lHc
+   A1NGUK4myqXo/lJePquuS4CChDiMLktMrz942Lz6xIezgVVqdpMv0Pk4+
+   b/T7s5rvaF8a/DeJZCTTYlkBs/WimoqoZQlbV4+S7zRPPwvGYRb+0qV3p
+   UrQkRzNe+mhnW3lre1Qf0E/HkYQP27muiTn83gmfBQi0g9bB63bKnMZUj
+   g==;
+X-CSE-ConnectionGUID: 7j2mzFu9QC2Foh0//MMejQ==
+X-CSE-MsgGUID: I06hKiKJQcyJL2h/NY3zCw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="54289157"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="54289152"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 19:27:42 -0800
-X-CSE-ConnectionGUID: FarWNRtiQrikTCUA9RiITA==
-X-CSE-MsgGUID: FnE9w136TvaHsVlVY9ZK3A==
+   d="scan'208";a="54289157"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 19:27:46 -0800
+X-CSE-ConnectionGUID: xUENNUGtQCWbgkQ+iH8bSA==
+X-CSE-MsgGUID: ilK6R/C3R62WusFcHgBm3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="92983751"
+   d="scan'208";a="119844329"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Nov 2024 19:27:41 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 16 Nov 2024 19:27:41 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCVwp-0001Ku-0b;
-	Sun, 17 Nov 2024 03:27:39 +0000
-Date: Sun, 17 Nov 2024 11:26:42 +0800
+	id 1tCVwo-0001Kj-3C;
+	Sun, 17 Nov 2024 03:27:38 +0000
+Date: Sun, 17 Nov 2024 11:26:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Yejian <zhengyejian1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474] kernel/livepatch/core.c:97:12:
- warning: no previous prototype for function 'arch_klp_init_func'
-Message-ID: <202411171106.SNb1bUTk-lkp@intel.com>
+To: Christian Marangi <ansuelsmth@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Florian Fainelli <f.fainelli@gmail.com>,
+	Vladimir Oltean <olteanv@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, upstream@airoha.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org
+Subject: Re: [net-next PATCH v5 1/4] net: dsa: add devm_dsa_register_switch()
+Message-ID: <202411171135.vgruCFdx-lkp@intel.com>
+References: <20241112204743.6710-2-ansuelsmth@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,89 +78,129 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241112204743.6710-2-ansuelsmth@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7c547c6bbe6b6a9cedf63d7cdadb2529404df633
-commit: eabc33c6f2c91168537f10e9275b0921c9f78c45 [1474/1474] livepatch/ppc64: Implement livepatch without ftrace for ppc64be
-config: arm64-randconfig-003-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171106.SNb1bUTk-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171106.SNb1bUTk-lkp@intel.com/reproduce)
+Hi Christian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/net-dsa-add-devm_dsa_register_switch/20241113-045219
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20241112204743.6710-2-ansuelsmth%40gmail.com
+patch subject: [net-next PATCH v5 1/4] net: dsa: add devm_dsa_register_switch()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241117/202411171135.vgruCFdx-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171135.vgruCFdx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171106.SNb1bUTk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171135.vgruCFdx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/livepatch/core.c:97:12: warning: no previous prototype for function 'arch_klp_init_func' [-Wmissing-prototypes]
-   int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
-              ^
-   kernel/livepatch/core.c:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
-   ^
-   static 
-   kernel/livepatch/core.c:1756:12: warning: no previous prototype for function 'arch_klp_check_activeness_func' [-Wmissing-prototypes]
-   int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-              ^
-   kernel/livepatch/core.c:1756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-   ^
-   static 
-   kernel/livepatch/core.c:2011:14: warning: no previous prototype for function 'arch_klp_mem_alloc' [-Wmissing-prototypes]
-   void __weak *arch_klp_mem_alloc(size_t size)
-                ^
-   kernel/livepatch/core.c:2011:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak *arch_klp_mem_alloc(size_t size)
-   ^
-   static 
-   kernel/livepatch/core.c:2016:13: warning: no previous prototype for function 'arch_klp_mem_free' [-Wmissing-prototypes]
-   void __weak arch_klp_mem_free(void *mem)
-               ^
-   kernel/livepatch/core.c:2016:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_mem_free(void *mem)
-   ^
-   static 
-   kernel/livepatch/core.c:2021:13: warning: no previous prototype for function 'arch_klp_code_modify_prepare' [-Wmissing-prototypes]
-   void __weak arch_klp_code_modify_prepare(void)
-               ^
-   kernel/livepatch/core.c:2021:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_code_modify_prepare(void)
-   ^
-   static 
-   kernel/livepatch/core.c:2025:13: warning: no previous prototype for function 'arch_klp_code_modify_post_process' [-Wmissing-prototypes]
-   void __weak arch_klp_code_modify_post_process(void)
-               ^
-   kernel/livepatch/core.c:2025:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_code_modify_post_process(void)
-   ^
-   static 
-   kernel/livepatch/core.c:2038:12: warning: no previous prototype for function 'arch_klp_check_breakpoint' [-Wmissing-prototypes]
-   int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-              ^
-   kernel/livepatch/core.c:2038:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-   ^
-   static 
-   kernel/livepatch/core.c:2052:13: warning: no previous prototype for function 'arch_klp_set_brk_func' [-Wmissing-prototypes]
-   void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-               ^
-   kernel/livepatch/core.c:2052:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-   ^
-   static 
-   8 warnings generated.
-
-
-vim +/arch_klp_init_func +97 kernel/livepatch/core.c
-
-    96	
-  > 97	int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
-    98	{
-    99		return 0;
-   100	}
-   101	#endif /* CONFIG_LIVEPATCH_FTRACE */
-   102	
+   In file included from net/dsa/dsa.c:10:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from net/dsa/dsa.c:14:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from net/dsa/dsa.c:14:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from net/dsa/dsa.c:14:
+   In file included from include/linux/netdevice.h:38:
+   In file included from include/net/net_namespace.h:43:
+   In file included from include/linux/skbuff.h:28:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:9:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> <inline asm>:4:33: error: symbol '__export_symbol_dsa_register_switch' is already defined
+       4 | .section ".export_symbol","a" ; __export_symbol_dsa_register_switch: ; .asciz "GPL" ; .asciz "" ; .balign 8 ; .quad dsa_register_switch ; .previous
+         |                                 ^
+   16 warnings and 1 error generated.
 
 -- 
 0-DAY CI Kernel Test Service
