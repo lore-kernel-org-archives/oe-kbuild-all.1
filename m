@@ -1,58 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E349E18D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F73366
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731801746; cv=none; b=Gl+4rFYRmIKQGPh9zbp+qLtYTYG+qRwjU0eghxJvvu5FJEdxal+9Pvvu7rxX9j/iWxEoxj/FO555zy0nbt8cZx8/+Ii3HoUzVFQGnmgLOCwid18TN1SXWcWhj7tosIzT0z5Utk/o7uVRIxoBgL+0w6gFVjyq6YWwSGZ5bj4dpLo=
+	t=1731801747; cv=none; b=daKNCdgxDlA7r92UNnk/uc18eOagMtgmyk+9/GX5VPvyWAt/Y/q4b3LMd5aquXzFHrUrlsVNjCUkZ5Zgnc5LuVdu9lueUJihyD9pILiUwvFSc4Vm44oeqw/EiGdvNEaYTV8+/0CsxKv7jzkx016UjDcnf/Zp/YMjVUEYCa8HieA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731801746; c=relaxed/simple;
-	bh=DorU+fincB+wUs80ingtW090UheSZsA8c49Z+t1ey4w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HkCE/G9EWNi/xSUTbm422+z4PF5FTyjhJ569O3zry95cdePTQFRb5H7i5VWsBtt86Iv7PlgQaBE19yGy9DEKiDfYm4tp23ewda2ZIRrhjwOYAmkjp1J2vmhYKZGwQXcXe/kPSW4VetKePJVkn+QuM796QaKLe0LGrbIqbQUnNW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hx/A3P2r; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1731801747; c=relaxed/simple;
+	bh=gxKgLgaDLjJze/Htyj3X1BttLL7u3v4J/jz7At2NUZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bYD36t5zCkGsOKHAZR6AOSv+dTBrAj4XyTzoIGlInQoxR8lei4VJSzI3OokrLucTtdyEmfVFwHfTuAJRP3xg1YRDUn7L8nobJiAWXvAlKrFogklhaLMj/EaILjn56rFlvEQ/OOtmLE6G02JeYmJsCRwh1Kwk8kpmCbbdW47aUA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQZAVGRi; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hx/A3P2r"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQZAVGRi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731801744; x=1763337744;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DorU+fincB+wUs80ingtW090UheSZsA8c49Z+t1ey4w=;
-  b=hx/A3P2rDrDFsroG5LopllOGgKoUMGepk02H+77TFt2PVDwTdfeLmzSM
-   mXJ3JIvJRFVYndyAbPV4XiK4saFOvOR3qockCERi1g6Tn+r24ObflTLtO
-   HZuFEs0yy8TRj9mWagDNlIdKSTeoDYJWsZWTmiaiBK176xAgpn3twjNcH
-   c/xAwLiJgUhFmTJ1wOv8+ZC3n5t+EulXqUlV1P9WpvAJ8QSxw8Eph2dEh
-   YBVvNTLqLnb6TFiYjoY6aHm0TTM9ibJoYB+AkcljxyV1RmKMSYxfAycqv
-   jHmHCoRspuVVuPFDpJW6ovVh17awqf1w7s8hV8aLukjqR1C19JTpvfFWA
-   g==;
-X-CSE-ConnectionGUID: NVfmnnhETDCocW1wUYb+AA==
-X-CSE-MsgGUID: 2LwxLNe5SNOzCB0tI2Q4gQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31881958"
+  t=1731801745; x=1763337745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gxKgLgaDLjJze/Htyj3X1BttLL7u3v4J/jz7At2NUZ8=;
+  b=YQZAVGRiwo/sA4Y1oF/GgLOdu78rJonr4PkSot1wrvYC9qIHMKzKO7Dj
+   Qcwm5j3mjnv4PJa9SJwA2SsKw2Xqz4Zjvrno8AlekssGTLO9iup1q+cAN
+   G6BBVTV4wEF82vgmG+l4v88BHuMC1g/dpBiJXxAlzscNKY2oWxShpcVCn
+   YR4uainE+3+UDD1J2o9Qu2J0ZAZNBT0+CH1lqSiVKb5lP56bJc/Sp2Kzp
+   0p3TN5XuFBwtJ2napaqJ6MSpBPWVg5gH5cBwVmeykMyc5neFos8eftYI6
+   cQwPsZu+zF9xd31HuWf+TV6cqh3NaOrO2iNkwCIwmQ/6iFzDQ5q5ckiG4
+   Q==;
+X-CSE-ConnectionGUID: qXvWlHPRQqy6m66bqbU8/w==
+X-CSE-MsgGUID: EpIabrrQQDqAK/RNbGf3IQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="32027334"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="31881958"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:02:23 -0800
-X-CSE-ConnectionGUID: CPl5mGRgSl2ZWF5NtrQ5+A==
-X-CSE-MsgGUID: elrnib0AQbyQjdVJ/QUswg==
+   d="scan'208";a="32027334"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:02:25 -0800
+X-CSE-ConnectionGUID: AJMT17puQ4uybtOhMITHQQ==
+X-CSE-MsgGUID: 7wYf6vcVQbCNRNHNE56khQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="93341566"
+   d="scan'208";a="89289158"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 16 Nov 2024 16:02:22 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 16 Nov 2024 16:02:22 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCSk7-0001Az-1U;
+	id 1tCSk7-0001Av-1I;
 	Sun, 17 Nov 2024 00:02:19 +0000
-Date: Sun, 17 Nov 2024 08:02:14 +0800
+Date: Sun, 17 Nov 2024 08:02:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1297/1297] mm/share_pool.c:3736:12:
- warning: 'proc_overview_show' defined but not used
-Message-ID: <202411170716.qehM7edl-lkp@intel.com>
+To: Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>,
+	frattaroli.nicolas@gmail.com, linux-rockchip@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com, broonie@kernel.org,
+	perex@perex.cz, tiwai@suse.com, heiko@sntech.de,
+	linux-sound@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Dheeraj Reddy Jonnalagadda <dheeraj.linuxdev@gmail.com>
+Subject: Re: [PATCH sound-next] ASoC: rockchip: i2s-tdm: Fix a useless call
+ issue
+Message-ID: <202411170713.FymmFfl3-lkp@intel.com>
+References: <20241115114924.23843-1-dheeraj.linuxdev@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,62 +68,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241115114924.23843-1-dheeraj.linuxdev@gmail.com>
 
-Hi Tang,
+Hi Dheeraj,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4c37b6449701a1fcb16050d4e517fa6d505673e1
-commit: 1cfc25ccec44c17c19c892bd31d00d8f6fb23f9b [1297/1297] share_pool: Add proc node to show process overview info
-config: arm64-randconfig-002-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170716.qehM7edl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170716.qehM7edl-lkp@intel.com/reproduce)
+[auto build test WARNING on rockchip/for-next]
+[also build test WARNING on linus/master v6.12-rc7 next-20241115]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dheeraj-Reddy-Jonnalagadda/ASoC-rockchip-i2s-tdm-Fix-a-useless-call-issue/20241115-195011
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockchip.git for-next
+patch link:    https://lore.kernel.org/r/20241115114924.23843-1-dheeraj.linuxdev%40gmail.com
+patch subject: [PATCH sound-next] ASoC: rockchip: i2s-tdm: Fix a useless call issue
+config: loongarch-randconfig-r054-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170713.FymmFfl3-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170713.FymmFfl3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170716.qehM7edl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170713.FymmFfl3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/share_pool.c: In function 'sp_group_id_by_pid':
-   mm/share_pool.c:840:29: warning: ordered comparison of pointer with integer zero [-Wextra]
-     840 |         if (!spg_ids || num <= 0)
-         |                             ^~
-   mm/share_pool.c: In function 'sp_compact_nodes':
-   mm/share_pool.c:1689:9: error: implicit declaration of function 'sysctl_compaction_handler'; did you mean 'sysctl_memcg_qos_handler'? [-Werror=implicit-function-declaration]
-    1689 |         sysctl_compaction_handler(NULL, 1, NULL, NULL, NULL);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-         |         sysctl_memcg_qos_handler
-   mm/share_pool.c: At top level:
->> mm/share_pool.c:3736:12: warning: 'proc_overview_show' defined but not used [-Wunused-function]
-    3736 | static int proc_overview_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~~~~~
-   mm/share_pool.c:3693:12: warning: 'proc_stat_show' defined but not used [-Wunused-function]
-    3693 | static int proc_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~~
-   mm/share_pool.c:3635:12: warning: 'spa_stat_show' defined but not used [-Wunused-function]
-    3635 | static int spa_stat_show(struct seq_file *seq, void *offset)
-         |            ^~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+>> sound/soc/rockchip/rockchip_i2s_tdm.c:517:12: warning: 'rockchip_i2s_ch_to_io' defined but not used [-Wunused-function]
+     517 | static int rockchip_i2s_ch_to_io(unsigned int ch, bool substream_capture)
+         |            ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/proc_overview_show +3736 mm/share_pool.c
+vim +/rockchip_i2s_ch_to_io +517 sound/soc/rockchip/rockchip_i2s_tdm.c
 
-  3735	
-> 3736	static int proc_overview_show(struct seq_file *seq, void *offset)
-  3737	{
-  3738		seq_printf(seq, "%-8s %-16s %-9s %-9s %-9s %-10s %-10s %-8s\n",
-  3739			   "PID", "COMM", "SP_ALLOC", "SP_K2U", "SP_RES", "Non-SP_RES",
-  3740			   "Non-SP_Shm", "VIRT");
-  3741	
-  3742		down_read(&sp_proc_stat_sem);
-  3743		idr_for_each(&sp_proc_stat_idr, idr_proc_overview_cb, seq);
-  3744		up_read(&sp_proc_stat_sem);
-  3745		return 0;
-  3746	}
-  3747	
+081068fd641403 Nicolas Frattaroli 2021-10-01  516  
+081068fd641403 Nicolas Frattaroli 2021-10-01 @517  static int rockchip_i2s_ch_to_io(unsigned int ch, bool substream_capture)
+081068fd641403 Nicolas Frattaroli 2021-10-01  518  {
+081068fd641403 Nicolas Frattaroli 2021-10-01  519  	if (substream_capture) {
+081068fd641403 Nicolas Frattaroli 2021-10-01  520  		switch (ch) {
+081068fd641403 Nicolas Frattaroli 2021-10-01  521  		case I2S_CHN_4:
+081068fd641403 Nicolas Frattaroli 2021-10-01  522  			return I2S_IO_6CH_OUT_4CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  523  		case I2S_CHN_6:
+081068fd641403 Nicolas Frattaroli 2021-10-01  524  			return I2S_IO_4CH_OUT_6CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  525  		case I2S_CHN_8:
+081068fd641403 Nicolas Frattaroli 2021-10-01  526  			return I2S_IO_2CH_OUT_8CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  527  		default:
+081068fd641403 Nicolas Frattaroli 2021-10-01  528  			return I2S_IO_8CH_OUT_2CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  529  		}
+081068fd641403 Nicolas Frattaroli 2021-10-01  530  	} else {
+081068fd641403 Nicolas Frattaroli 2021-10-01  531  		switch (ch) {
+081068fd641403 Nicolas Frattaroli 2021-10-01  532  		case I2S_CHN_4:
+081068fd641403 Nicolas Frattaroli 2021-10-01  533  			return I2S_IO_4CH_OUT_6CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  534  		case I2S_CHN_6:
+081068fd641403 Nicolas Frattaroli 2021-10-01  535  			return I2S_IO_6CH_OUT_4CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  536  		case I2S_CHN_8:
+081068fd641403 Nicolas Frattaroli 2021-10-01  537  			return I2S_IO_8CH_OUT_2CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  538  		default:
+081068fd641403 Nicolas Frattaroli 2021-10-01  539  			return I2S_IO_2CH_OUT_8CH_IN;
+081068fd641403 Nicolas Frattaroli 2021-10-01  540  		}
+081068fd641403 Nicolas Frattaroli 2021-10-01  541  	}
+081068fd641403 Nicolas Frattaroli 2021-10-01  542  }
+081068fd641403 Nicolas Frattaroli 2021-10-01  543  
 
 -- 
 0-DAY CI Kernel Test Service
