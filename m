@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0781127442;
-	Sun, 17 Nov 2024 06:41:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756C1322E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 06:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731825668; cv=none; b=Jn2K9C3fajqh6ryz8VM0ckuFfXWGQ2TzHH6qmTr55k4ik6WceDGmhovptXsYUO9ZJXVd//K23rhBINlldCeodvIgoYrAbjSemILj69hPqW7wVj+CJtGlam4L6WCMGiT9Zq8N8c6jL6TPSlGDQnl3N9UXs0Pjdvzp6Dfx4tU7Ea0=
+	t=1731826328; cv=none; b=jy7cWLOHFbslgap+IbrAKrphuC1NF4HFMOUVOab34vGVYe5b563vUUII9Ca7n0FR8kGFqMWBYVOr/zRuaPbAMkYPnbfBJhGSn1NpSkrz7DN3GaZkQe8yN2Be7qXsCXr6Hu8VIl7dYqB4HzZ4ldF+hzIMF/SWx74VZpDFmqu9aUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731825668; c=relaxed/simple;
-	bh=2tUID49KtGGq/msLOwTgs8qkQ3cmylH0yEmJyLYeqWM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RSdoWd3KEiFuNvGCiSh10w3sDimvYPjfx8TPNYZ8bUfjEQCKP+IkrVSNP9MoYvsBXkrP+XIBUl+YNYigqE/XCXagvincHY0yptlqjoweMLU5x2ON1yWI11XIeKnxrCkwp1NpQrROhOQoXDJJlwa83H9pQPZgusuUSfgcMrDkZbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FSgPSHkE; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1731826328; c=relaxed/simple;
+	bh=IaqPp4lYfnN0re/mm4pI7WD2KarHahTRsuDW7j1zaWQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Wz8oWVzE3zNkBr5KFCEEk8JPkVTRGJEGSbjHDFG6G/K+nCv0qGHXyv32TjaabEbkznhLM3gXf6osuuM5vkf/o4TkzrFutoPVJ4H/7W7XDY3m33QmICiCv1MMaLHRwv1isciEFMWk8OEEm72OVgoY4HkSO9A4p4jAXSMv+7FScR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WP43aFzP; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FSgPSHkE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WP43aFzP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731825666; x=1763361666;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=2tUID49KtGGq/msLOwTgs8qkQ3cmylH0yEmJyLYeqWM=;
-  b=FSgPSHkEz+aIvRT3Smjvcz648Y23iLwPRRQZc+Z4RtGQtZdO1L1wgJVz
-   gRe6RfBj4cRxNpvnHXft+TBS7R3FfRixxQ0l+8h+x3PfvshhYWK1UaTdB
-   1kamFjGNo76340nZ3jL6XA6rx/RsBP94tmSr7zu5j641IEIu0pJ5E2j8X
-   NblfDfV8Lu02/5Vdp3RBWmgVT15kRihT7JLYjgO6DzuBwd3d+8UuysKjm
-   Qhs8i/xW+2aLGp2JSG47+nSFTLY9BAgCI9Gb7qNoNwXCBXyvwtIVu1YzD
-   2+HCsIdFb6Gc6zldYUcPK9/uPoD8mosgA5m2Hch789tOPjQKt6xdrR0Ti
-   Q==;
-X-CSE-ConnectionGUID: 61cAaltQTv66z7djE4W5fg==
-X-CSE-MsgGUID: 1LDJFhQrTNKWIxy/nRIQ6g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42425439"
+  t=1731826326; x=1763362326;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IaqPp4lYfnN0re/mm4pI7WD2KarHahTRsuDW7j1zaWQ=;
+  b=WP43aFzP27TkBHMM0d7M0B29ZrpGjSWpJF+ZvY11OksZuRYYgvED7ly6
+   1rHDWaK4V7jfXXMhSb9I/HPBx/zpmbCwZfga4NPHn2Ih9JuHTrqgNntUC
+   gR/AOa2Fnq0WuTb24X0DI+gWru9oKsaNzBr9v5u08UoxJy7Xq5hYcjs9E
+   g6iV7bWTQUULdBlXsGkCCADZiKEfab4o47KD0HjSGUaqqyzO7Qb/cGI5C
+   i/hSqNNO9eQcIVTteeuxB/bGsxhCWotz0I6mb13OhsMDdtMyDoF/X9YPX
+   BNWMezNnBfENNSQkgUdvo7NReLlBNMrg1RdUJyQSYBHTMIphKPRtAwEHG
+   g==;
+X-CSE-ConnectionGUID: 9iPz23t8S0GUItoKGU5EVg==
+X-CSE-MsgGUID: uHj0DGL+Tfuv32MO0U36VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="32037199"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="42425439"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 22:41:05 -0800
-X-CSE-ConnectionGUID: WWqbNtaUTyyDUfrCA5qEGQ==
-X-CSE-MsgGUID: XclpopwHTEqgxnYvPQ2F3Q==
+   d="scan'208";a="32037199"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 22:52:05 -0800
+X-CSE-ConnectionGUID: 4QxufEGMRoyzHsrrgVGVzA==
+X-CSE-MsgGUID: NW0Gw8ZpTn615SGQaXpNag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="93862317"
+   d="scan'208";a="112218125"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 Nov 2024 22:41:04 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 16 Nov 2024 22:52:04 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCYxx-0001bN-1f;
-	Sun, 17 Nov 2024 06:41:01 +0000
-Date: Sun, 17 Nov 2024 14:40:18 +0800
+	id 1tCZ8c-0001bh-1G;
+	Sun, 17 Nov 2024 06:52:02 +0000
+Date: Sun, 17 Nov 2024 14:51:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stefano Brivio <sbrivio@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC net 2/2] datagram, udp: Set local address and rehash
- socket atomically against lookup
-Message-ID: <202411171453.ewEGcIhx-lkp@intel.com>
-References: <20241114215414.3357873-3-sbrivio@redhat.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: drivers/base/core.c:1542:5: sparse: sparse: symbol
+ 'fw_devlink_relax_cycle' was not declared. Should it be static?
+Message-ID: <202411171439.1f74cGDB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,146 +61,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114215414.3357873-3-sbrivio@redhat.com>
 
-Hi Stefano,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Stefano-Brivio/datagram-Rehash-sockets-only-if-local-address-changed-for-their-family/20241115-060512
-base:   net/main
-patch link:    https://lore.kernel.org/r/20241114215414.3357873-3-sbrivio%40redhat.com
-patch subject: [PATCH RFC net 2/2] datagram, udp: Set local address and rehash socket atomically against lookup
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241117/202411171453.ewEGcIhx-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171453.ewEGcIhx-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux linux-5.10-gen-rkr3.4
+head:   39141d792534c5703bb834861c47718008c85001
+commit: 1df699c140a778ed678d7d4b2fa8ffb2c62573e1 UPSTREAM: driver core: Handle cycles in device links created by fw_devlink
+date:   3 years, 9 months ago
+config: i386-randconfig-062-20241112 (https://download.01.org/0day-ci/archive/20241117/202411171439.1f74cGDB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171439.1f74cGDB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171453.ewEGcIhx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171439.1f74cGDB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/core.c:1542:5: sparse: sparse: symbol 'fw_devlink_relax_cycle' was not declared. Should it be static?
 
-   In file included from net/core/sock.c:91:
-   In file included from include/linux/errqueue.h:6:
-   In file included from include/net/ip.h:22:
-   In file included from include/linux/ip.h:16:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> net/core/sock.c:649:40: error: no member named 'skc_v6_rcv_saddr' in 'struct sock_common'; did you mean 'skc_rcv_saddr'?
-     649 |                         sk->sk_prot->set_rcv_saddr(sk, &sk->sk_v6_rcv_saddr);
-         |                                                             ^
-   include/net/sock.h:376:37: note: expanded from macro 'sk_v6_rcv_saddr'
-     376 | #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
-         |                                     ^
-   include/net/sock.h:155:11: note: 'skc_rcv_saddr' declared here
-     155 |                         __be32  skc_rcv_saddr;
-         |                                 ^
-   4 warnings and 1 error generated.
---
-   In file included from net/ipv4/udp.c:77:
-   In file included from include/linux/bpf-cgroup.h:5:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> net/ipv4/udp.c:2061:7: error: no member named 'skc_v6_rcv_saddr' in 'struct sock_common'
-    2061 |                 sk->sk_v6_rcv_saddr = *(struct in6_addr *)addr;
-         |                 ~~~~^~~~~~~~~~~~~~~
-   include/net/sock.h:376:37: note: expanded from macro 'sk_v6_rcv_saddr'
-     376 | #define sk_v6_rcv_saddr __sk_common.skc_v6_rcv_saddr
-         |                                     ^
-   net/ipv4/udp.c:3663:27: warning: bitwise operation between different enumeration types ('enum bpf_reg_type' and 'enum bpf_type_flag') [-Wenum-enum-conversion]
-    3663 |                   PTR_TO_BTF_ID_OR_NULL | PTR_TRUSTED },
-         |                   ~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
-   5 warnings and 1 error generated.
+vim +/fw_devlink_relax_cycle +1542 drivers/base/core.c
 
-
-vim +649 net/core/sock.c
-
-   627	
-   628	static int sock_bindtoindex_locked(struct sock *sk, int ifindex)
-   629	{
-   630		int ret = -ENOPROTOOPT;
-   631	#ifdef CONFIG_NETDEVICES
-   632		struct net *net = sock_net(sk);
-   633	
-   634		/* Sorry... */
-   635		ret = -EPERM;
-   636		if (sk->sk_bound_dev_if && !ns_capable(net->user_ns, CAP_NET_RAW))
-   637			goto out;
-   638	
-   639		ret = -EINVAL;
-   640		if (ifindex < 0)
-   641			goto out;
-   642	
-   643		/* Paired with all READ_ONCE() done locklessly. */
-   644		WRITE_ONCE(sk->sk_bound_dev_if, ifindex);
-   645	
-   646		/* Force rehash if protocol needs it */
-   647		if (sk->sk_prot->set_rcv_saddr) {
-   648			if (IS_ENABLED(CONFIG_IPV6) && sk->sk_family == AF_INET6) {
- > 649				sk->sk_prot->set_rcv_saddr(sk, &sk->sk_v6_rcv_saddr);
-   650			} else if (sk->sk_family == AF_INET) {
-   651				struct inet_sock *inet = inet_sk(sk);
-   652	
-   653				sk->sk_prot->set_rcv_saddr(sk, &inet->inet_rcv_saddr);
-   654			}
-   655		}
-   656	
-   657		sk_dst_reset(sk);
-   658	
-   659		ret = 0;
-   660	
-   661	out:
-   662	#endif
-   663	
-   664		return ret;
-   665	}
-   666	
+  1527	
+  1528	/**
+  1529	 * fw_devlink_relax_cycle - Convert cyclic links to SYNC_STATE_ONLY links
+  1530	 * @con: Device to check dependencies for.
+  1531	 * @sup: Device to check against.
+  1532	 *
+  1533	 * Check if @sup depends on @con or any device dependent on it (its child or
+  1534	 * its consumer etc).  When such a cyclic dependency is found, convert all
+  1535	 * device links created solely by fw_devlink into SYNC_STATE_ONLY device links.
+  1536	 * This is the equivalent of doing fw_devlink=permissive just between the
+  1537	 * devices in the cycle. We need to do this because, at this point, fw_devlink
+  1538	 * can't tell which of these dependencies is not a real dependency.
+  1539	 *
+  1540	 * Return 1 if a cycle is found. Otherwise, return 0.
+  1541	 */
+> 1542	int fw_devlink_relax_cycle(struct device *con, void *sup)
+  1543	{
+  1544		struct device_link *link;
+  1545		int ret;
+  1546	
+  1547		if (con == sup)
+  1548			return 1;
+  1549	
+  1550		ret = device_for_each_child(con, sup, fw_devlink_relax_cycle);
+  1551		if (ret)
+  1552			return ret;
+  1553	
+  1554		list_for_each_entry(link, &con->links.consumers, s_node) {
+  1555			if ((link->flags & ~DL_FLAG_INFERRED) ==
+  1556			    (DL_FLAG_SYNC_STATE_ONLY | DL_FLAG_MANAGED))
+  1557				continue;
+  1558	
+  1559			if (!fw_devlink_relax_cycle(link->consumer, sup))
+  1560				continue;
+  1561	
+  1562			ret = 1;
+  1563	
+  1564			if (!(link->flags & DL_FLAG_INFERRED))
+  1565				continue;
+  1566	
+  1567			pm_runtime_drop_link(link);
+  1568			link->flags = DL_FLAG_MANAGED | FW_DEVLINK_FLAGS_PERMISSIVE;
+  1569			dev_dbg(link->consumer, "Relaxing link with %s\n",
+  1570				dev_name(link->supplier));
+  1571		}
+  1572		return ret;
+  1573	}
+  1574	
 
 -- 
 0-DAY CI Kernel Test Service
