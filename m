@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96E8481DD
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 15:50:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4F823AD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 16:31:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731858651; cv=none; b=H5dvi8j8FfJRa8QtpysPLV59pQWP/GZkxcFQyvdnPlv/SJAE1bsbIptaDFVtc3NVgBG1b0TIoYHJiKeCUMRcWHGdiCoc/yJov+lp8dvKThOFa9sRtGbBP4nRotODMR/DFL5XS9RmLW9ciZTL3IvOGAGAtR/Ox6DyPtxgAqV5z/8=
+	t=1731861115; cv=none; b=rzmC1c173kCPy9ehGGQNKDJnh4TSj8wwZXB2zwPHJoEo0jNrTFTfyeU7hFH39yJFtNzlxWOZbySgh/L1LFpegZXVlJOS8rNGAx0y6hxh+C0llb0GIe+evF05fhdpMcTgma+K+PcfPyqo3fNVPPMZjXN0oCFR9bUaeyKF9YMHcpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731858651; c=relaxed/simple;
-	bh=rTKP8/CP011uFuzkCTsKOQIZpgMpakze64ZAd9/JTvw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r5i4pogoAxYY4n/u6nytZr6s6oxtRsZhwP5hz/WjUPy4xPhNQtPqOpLEHLyqPKuI/vXue5vRRlngdO3ovTI55GnnG0iCcx89fq1YmpgPIReVaAK+41TESnGb4Go0rxMsh3UgyQz2I4zSbRWZVR0R8h6SlHIQjDYZrgoY0a3at9Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqVMyXXs; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1731861115; c=relaxed/simple;
+	bh=maGswvMzBuR76Xs5HKbPN41c3nXbTWBvERIIMgiGTd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=B+juhYSvGgzq1Y3LwXQoy0LgMASUKaUfGzPj8KI8+4i01UcwZaCJaLGGnOczibjyCk+vC8A25oefKbK0fZjkFWgFBuyqaV5XttUz1kun3OgbhvJIPpA7tUx0zZVPa+QpteMyZ52RO3ejQ/5MyRfZxm7ZeHBNAmdcj2Qa1sH05Hk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TvycShZV; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqVMyXXs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TvycShZV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731858649; x=1763394649;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rTKP8/CP011uFuzkCTsKOQIZpgMpakze64ZAd9/JTvw=;
-  b=IqVMyXXssopLMPjNVoCNwyiwi0dPM6rqAunDbV0YFRjje6IgHHcCYGz2
-   AXqGhRPJXLHoIOk9kjCwOQ3+qd9+vJnjCxFPWi3rbglRnAhhZoJMqnE4p
-   n3PP8guqxUxsuSwyDGdq990hwzxDoLOfRhg2xV0C/5qd2D1aASsyU91NN
-   J6VweX3ZUAedS7/PPeznF/FeOCYliuabOMpGlVOrvzsdhpgJwZCjII9WD
-   JbKbiXX0gVkCjRa6TAs37g6GDF/n4nf5o/l+qXvXoIeP6pyrxNdBXY8JJ
-   2zJvsN7vPktvFFYzCy3kxqEej1k7mFh1+Gyej8L4zVHbohqriXEk9/2Go
-   Q==;
-X-CSE-ConnectionGUID: bcy1W9F7SpqfFk+AxJevTQ==
-X-CSE-MsgGUID: hD6II9yeTc2P3sFypt2iiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42337549"
+  t=1731861113; x=1763397113;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=maGswvMzBuR76Xs5HKbPN41c3nXbTWBvERIIMgiGTd4=;
+  b=TvycShZV0jV2quPUBKbooqENHkLS7LwIR5d9fU/GXpRN4O7FECzc3bD4
+   hGR8CJJ9TPz2ems/bN0KwBuPv25XY+uHymGjS7KZ+SkNFTHgggKnEnQp8
+   mAXy0VQJROMJkXpNTvQUz3M1G5VbZsmPVLzusf1sLVSaM7+jhyPSrpz8W
+   YlQ2Rc5UhV0yNmy574+6YE5DojgBJ1+w7oaiJA3vobGAlnWaJW7NJltoE
+   iQq5yo4Sa7dwZANDMe3pwi3ye+dfpX9PTE+lZNX3fAZDt3JdRnKHgffPO
+   AfjQboqPmbcO/4O/3m4ZQGwNHNPZTw/O9t+SBbV+SPYep+7g5IvM29O1R
+   g==;
+X-CSE-ConnectionGUID: fIi5mOOjSt2p65OIt/xflg==
+X-CSE-MsgGUID: 168LgIlkQlqdiBQAXwGBNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="35490209"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="42337549"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:50:48 -0800
-X-CSE-ConnectionGUID: JLjQqwncTrin7ITpXJlGpQ==
-X-CSE-MsgGUID: k2gpTkHVTUOxK73LXVDuVQ==
+   d="scan'208";a="35490209"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 08:31:53 -0800
+X-CSE-ConnectionGUID: uShlhFmaSeOkpq/fjBEi3Q==
+X-CSE-MsgGUID: l5g0oSHSTrqfe4HzrTRBgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="89432164"
+   d="scan'208";a="119862106"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2024 07:50:46 -0800
+  by orviesa002.jf.intel.com with ESMTP; 17 Nov 2024 08:31:52 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tChXv-0001pl-2c;
-	Sun, 17 Nov 2024 15:50:43 +0000
-Date: Sun, 17 Nov 2024 23:49:59 +0800
+	id 1tCiBh-0001uo-1w;
+	Sun, 17 Nov 2024 16:31:49 +0000
+Date: Mon, 18 Nov 2024 00:30:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, l.rubusch@gmx.ch,
-	Lothar Rubusch <l.rubusch@gmail.com>
-Subject: Re: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
-Message-ID: <202411172311.p8Krv6kq-lkp@intel.com>
-References: <20241114231002.98595-16-l.rubusch@gmail.com>
+To: Christoph Hellwig <hch@lst.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned 65/75] fs/xfs/xfs_zone_alloc.c:26:5-24: WARNING:
+ atomic_dec_and_test variation before object free at line 28.
+Message-ID: <202411180059.YGgisY26-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,57 +61,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114231002.98595-16-l.rubusch@gmail.com>
 
-Hi Lothar,
+Hi Christoph,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241115-190245
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241114231002.98595-16-l.rubusch%40gmail.com
-patch subject: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
-config: x86_64-randconfig-121-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172311.p8Krv6kq-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172311.p8Krv6kq-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   2259694a0da179e06201614e2e37cd0f3c8669b3
+commit: e6b0267b322be73622992a9f99fc8e5c21a3ab3f [65/75] xfs: lockdep_assert_held takes a pointer to the lock
+config: x86_64-randconfig-103-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180059.YGgisY26-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411172311.p8Krv6kq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180059.YGgisY26-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iio/accel/adxl345_core.c:383:6: sparse: sparse: symbol 'adxl345_empty_fifo' was not declared. Should it be static?
+cocci warnings: (new ones prefixed by >>)
+>> fs/xfs/xfs_zone_alloc.c:26:5-24: WARNING: atomic_dec_and_test variation before object free at line 28.
 
-vim +/adxl345_empty_fifo +383 drivers/iio/accel/adxl345_core.c
+vim +26 fs/xfs/xfs_zone_alloc.c
 
-   376	
-   377	/**
-   378	 * Empty the fifo. This is needed also in case of overflow or error handling.
-   379	 * Read out all remaining elements and reset the fifo_entries counter.
-   380	 *
-   381	 * @st: The instance to the state object of the sensor.
-   382	 */
- > 383	void adxl345_empty_fifo(struct adxl34x_state *st)
-   384	{
-   385		int regval;
-   386		int fifo_entries;
-   387	
-   388		/* In case the HW is not "clean" just read out remaining elements */
-   389		adxl345_get_fifo_entries(st, &fifo_entries);
-   390		if (fifo_entries > 0)
-   391			adxl345_read_fifo_elements(st, fifo_entries);
-   392	
-   393		/* Reset the INT_SOURCE register by reading the register */
-   394		regmap_read(st->regmap, ADXL345_REG_INT_SOURCE, &regval);
-   395	}
-   396	
+1b9104b51569dbc Christoph Hellwig 2024-11-05  21  
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  22  void
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  23  xfs_open_zone_put(
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  24  	struct xfs_open_zone	*oz)
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  25  {
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09 @26  	if (atomic_dec_and_test(&oz->oz_ref)) {
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  27  		xfs_rtgroup_rele(oz->oz_rtg);
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09 @28  		kfree(oz);
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  29  	}
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  30  }
+2f5de4ae28a5883 Christoph Hellwig 2024-11-09  31  
+
+:::::: The code at line 26 was first introduced by commit
+:::::: 2f5de4ae28a5883ab65a767f5b0f1c7cc85bc0eb xfs: add a separate data structure for open zones
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 -- 
 0-DAY CI Kernel Test Service
