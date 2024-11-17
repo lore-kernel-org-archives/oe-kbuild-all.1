@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B7ECA6F
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 05:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2574F4ED;
+	Sun, 17 Nov 2024 05:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731819901; cv=none; b=uhaBokOlmb4leKzgcOV8AJrAs6U05LgTye7qwmOdzXdLIL53OUEpCIxgVMuJT4kL0iuGEfLHuKQ4t2QUh5rpMubYpoosiIg3lq5ttA4XtsdxzDhj6viVErpizK8FnwzbFSWO2ruVhYfBqsJ0RtwdFMa0a50coVUTdASa4sBaMFw=
+	t=1731820620; cv=none; b=U4MweYrkBHw+yE0fpRDKXtvOwTm6CRQZwcGs1dJ+bMz1c1BLe2HFcDb/Q66NeuXbsvn2JSpWZhepcszSlescBSoF5NOTl9SqTpxUZ5FO+MsX/yKCK7DA5ulrmdNDs9uUVOT+MTRN3XHZNcnhNdL/iKPjL4qjkua8nGaHmcvcHdk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731819901; c=relaxed/simple;
-	bh=20y8OGZSQnC8J2Yf8YwMSVI1+a57Lz4nJCgsXlDc/Dg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qt4bugdODzZjI9/mz5RVVAld6nTTbkPojQPst8si+K8mUzYOikWlyAtb9NiD7osX3uM7X44PWItpFpAXwcLJcfiDtjKFr71IroNcjcDnnzWUFarOdMfjsvBGjsDj6HJwNvhIz1iNFLiUZXwzzOa0qT9payuy7XCAJeurWHvtmv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5h7XVNe; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1731820620; c=relaxed/simple;
+	bh=9pXqJaB3ouG3j35hZbHpi5Gqxkq02ialnsbdWCe7his=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mak2ZFFZKoP3aOrQC4wgxDJd2b6kE+qcMFuU9o5g+zx7JVB36/+AFG+RqytFRg8+Xrp1llg62tmanOdZUj/WEFy00cnUluDXJxHSohSTeA1iuHSj731IcOftqiteMhq9qJCdqCUp3+cAhygpi7JXZHMjN3NDywW0ljqQ9ePW1vU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cu8dW1Ry; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5h7XVNe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cu8dW1Ry"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731819899; x=1763355899;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=20y8OGZSQnC8J2Yf8YwMSVI1+a57Lz4nJCgsXlDc/Dg=;
-  b=l5h7XVNeL5Ww0pV6AGT0gsy2XsN498cVR5H9kXLijhcTkfnzJJ2Ld5UE
-   ux2uqCaXtmK5JNltEFx5SpkMitSq/smFwMhr0dDYEvgr4IYHvhSYpxSZE
-   rU6iQys8dvRVuGKm6fWqP2FELtk+JbvozL74abmgLO4zZEZWb1yMloXtB
-   IMSusLVJ1FjzDyHYF298GBJA3yAcNkdieTgxcWlDtUiIy/GxlAdH9Qd29
-   46D6aO4oTfSNXbjKK3Wzw/NRhOm5zCBj/jtrLtRG2/o2E1HFYeu9DcA7j
-   cvHabzGEymAGlIbCk2duahHnw2jwMyAfhzbhhWtIDPDmmYQbEgKwCA8s3
-   g==;
-X-CSE-ConnectionGUID: +4UxdYguSjy4QBFRaTh2hA==
-X-CSE-MsgGUID: qDHoV9AaQBa365VyXRurhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31713540"
+  t=1731820619; x=1763356619;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9pXqJaB3ouG3j35hZbHpi5Gqxkq02ialnsbdWCe7his=;
+  b=Cu8dW1RygRDOIH3z5YhyaxBMVUBH4dDgrhX9Jq0Z3GX1axyF+nqbgUPX
+   4cVl4tx5CR3XQOMWKd/CinufQrJ7bc2i3wY7/TJ6CMZ0SYRWRFnalKN2+
+   o3qxfjLnDxGMmqckeHZyPP59V/VdxQO0SNCZVcc0J6i75qjKnUe/EkE3Y
+   zVGa3dt6pShh07W6ikbKxUcmfOjqideySkMbsWA9lTilDdjiDpLLInCsQ
+   vorF5ScOrl5DcMCwXRNUPL6mFtom1kUXpN7tv5YxXqqrDNWjWr4B8APnZ
+   vzOjVnwlGqlE9lcgX5cDEoEmHINJalUWtGEOA+Sv+bOjjX+eMw8VIQUIm
+   Q==;
+X-CSE-ConnectionGUID: KYut6LR5TgCZ9sTmfdorPA==
+X-CSE-MsgGUID: apMmVKNXTpKWKudkz8USyQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="43182547"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="31713540"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:04:58 -0800
-X-CSE-ConnectionGUID: gHbq7c/7Sk234V0ozXvUwA==
-X-CSE-MsgGUID: j7H8LuLYS1eK/xhQ0aU1UQ==
+   d="scan'208";a="43182547"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:16:58 -0800
+X-CSE-ConnectionGUID: vfx+C3iSRq+Sh4ruGa+3ww==
+X-CSE-MsgGUID: LoczF6rBTTmKBpeoWKhXgw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="119853918"
+   d="scan'208";a="88677866"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 16 Nov 2024 21:04:54 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 16 Nov 2024 21:16:57 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCXSu-0001Wr-1P;
-	Sun, 17 Nov 2024 05:04:52 +0000
-Date: Sun, 17 Nov 2024 13:04:45 +0800
+	id 1tCXeY-0001Yw-2O;
+	Sun, 17 Nov 2024 05:16:54 +0000
+Date: Sun, 17 Nov 2024 13:16:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, Arnd Bergmann <arnd@arndb.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Jonathan Cavitt <jonathan.cavitt@intel.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: rework FB_CORE dependency
-Message-ID: <202411171217.DZow6M4R-lkp@intel.com>
-References: <20241115152722.3537630-1-arnd@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:x86/ibt 5/8] arch/x86/kernel/traps.c:136:14: error:
+ call to undeclared function 'X86_MODRB_RM'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202411171303.coBhwMQi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,46 +62,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241115152722.3537630-1-arnd@kernel.org>
 
-Hi Arnd,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-exynos/exynos-drm-next]
-[also build test ERROR on next-20241115]
-[cannot apply to linus/master v6.12-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arnd-Bergmann/drm-rework-FB_CORE-dependency/20241117-003714
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20241115152722.3537630-1-arnd%40kernel.org
-patch subject: [PATCH] drm: rework FB_CORE dependency
-config: arc-randconfig-052-20241117 (attached as .config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-dtschema version: 2024.12.dev1+gcabb5b9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171217.DZow6M4R-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/ibt
+head:   72c0a686dca37ac0f2ed213b2be9487ae091bb99
+commit: 3b8ca79166ffec0c374f9efa2f30946f335c3442 [5/8] x86/traps: Cleanup and robustify decode_bug()
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241117/202411171303.coBhwMQi-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171303.coBhwMQi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171217.DZow6M4R-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171303.coBhwMQi-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> error: recursive dependency detected!
-   symbol BACKLIGHT_CLASS_DEVICE is selected by FB_BACKLIGHT
-   symbol FB_BACKLIGHT is selected by FB_SH_MOBILE_LCDC
-   symbol FB_SH_MOBILE_LCDC depends on FB_DEVICE
-   symbol FB_DEVICE depends on FB_CORE
-   symbol FB_CORE is selected by DRM_KMS_HELPER
-   symbol DRM_KMS_HELPER is selected by DRM_MIPI_DBI
-   symbol DRM_MIPI_DBI is selected by DRM_PANEL_ILITEK_ILI9341
-   symbol DRM_PANEL_ILITEK_ILI9341 depends on BACKLIGHT_CLASS_DEVICE
-   For a resolution refer to Documentation/kbuild/kconfig-language.rst
-   subsection "Kconfig recursive dependency limitations"
+   In file included from arch/x86/kernel/traps.c:17:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kernel/traps.c:136:14: error: call to undeclared function 'X86_MODRB_RM'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     136 |         case 0: if (X86_MODRB_RM(v) == 5)
+         |                     ^
+   4 warnings and 1 error generated.
+
+
+vim +/X86_MODRB_RM +136 arch/x86/kernel/traps.c
+
+    94	
+    95	/*
+    96	 * Check for UD1 or UD2, accounting for Address Size Override Prefixes.
+    97	 * If it's a UD1, further decode to determine its use:
+    98	 *
+    99	 * UBSan{0}:     67 0f b9 00             ud1    (%eax),%eax
+   100	 * UBSan{10}:    67 0f b9 40 10          ud1    0x10(%eax),%eax
+   101	 * static_call:  0f b9 cc                ud1    %esp,%ecx
+   102	 *
+   103	 * Notably UBSAN uses EAX, static_call uses ECX.
+   104	 */
+   105	__always_inline int decode_bug(unsigned long addr, s32 *imm, int *len)
+   106	{
+   107		unsigned long start = addr;
+   108		u8 v;
+   109	
+   110		if (addr < TASK_SIZE_MAX)
+   111			return BUG_NONE;
+   112	
+   113		v = *(u8 *)(addr++);
+   114		if (v == INSN_ASOP)
+   115			v = *(u8 *)(addr++);
+   116		if (v != OPCODE_ESCAPE)
+   117			return BUG_NONE;
+   118	
+   119		v = *(u8 *)(addr++);
+   120		if (v == SECOND_BYTE_OPCODE_UD2) {
+   121			*len = addr - start;
+   122			return BUG_UD2;
+   123		}
+   124	
+   125		if (v != SECOND_BYTE_OPCODE_UD1)
+   126			return BUG_NONE;
+   127	
+   128		*imm = 0;
+   129		v = *(u8 *)(addr++);		/* ModRM */
+   130	
+   131		if (X86_MODRM_MOD(v) != 3 && X86_MODRM_RM(v) == 4)
+   132			addr++;			/* SIB */
+   133	
+   134		/* Decode immediate, if present */
+   135		switch (X86_MODRM_MOD(v)) {
+ > 136		case 0: if (X86_MODRB_RM(v) == 5)
+   137				addr += 4; /* RIP + disp32 */
+   138			break;
+   139	
+   140		case 1: *imm = *(s8 *)addr;
+   141			addr += 1;
+   142			break;
+   143	
+   144		case 2: *imm = *(s32 *)addr;
+   145			addr += 4;
+   146			break;
+   147	
+   148		case 3: break;
+   149		}
+   150	
+   151		/* record instruction length */
+   152		*len = addr - start;
+   153	
+   154		if (X86_MODRM_REG(v) == 0)	/* EAX */
+   155			return BUG_UD1_UBSAN;
+   156	
+   157		return BUG_UD1;
+   158	}
+   159	
 
 -- 
 0-DAY CI Kernel Test Service
