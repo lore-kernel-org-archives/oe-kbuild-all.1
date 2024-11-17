@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61523D6D
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 01:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72663209
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 01:39:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731806915; cv=none; b=Rsg/yzbm5Bjec78tZiQrEd/HWSMT1hFLtkBGmQqvoOsaaMNM6YWR5BLbXuPhdflXjmGGGNyggDjDu/0yea/DcqKzsj8YDMaALuA21a620jt/pbP3Np9vTnuzyywoQ+soFUMG3DUbcaHgvq7WxhqbzUn/8WeWSz2uKa6sKgmr4jE=
+	t=1731807572; cv=none; b=Rh4vze2W3Rxw9DOR6LyO284qZCQ/gB0R1wN2hiRWR4MJH5No95JT1mgFGBits4M8zLa1gWLHtXLF+ne72D4KEogEQ/Vds5A1fjeJ4odABhEoujwxmkC2X7uV0lt7aP58bf9BqTh5lDT94k2wOzrAZuET/ETlW63IN33LRo1P49w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731806915; c=relaxed/simple;
-	bh=PCcdSgA/1OmuD7op38DOfI+lwyCKBvubLb11kK/+qzU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hyCpLM73J7PZEHJNJO0IisJCiSqZCpSlal/bOQGUAt6f3lmPFghKHSiVK67FxzZKavg6TxX3oSzZX9VWU34U24ZH0u7p3jDTq6Mu2sXjSo7s3DzxWwYyAmQFS96b8wmqhtD2oh7FtLsAA7XiM6fcrpceOx6i7l06S6S2WxZfgXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dGuHrdES; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1731807572; c=relaxed/simple;
+	bh=7iXnUdrE/WWbX2f5RmIbaii8k71BZN5cdloJ5wkYKfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DAREKcn+PoVBiLBVW86sdPeZ384U5vGCE3BecONiGsWuzOvWUn/L3Dqt4/rqWtdCfYYVvwfmAwUVOP3mrpL0X1n+2SY564v6ixyOJXohNW12VJlSOgFs8lVRy52aTuOwZcPQ0ywKjnD4UUx7qLYIEYzYhlmFVLcvnOHVmA6lzw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwaNVtDV; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dGuHrdES"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwaNVtDV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731806914; x=1763342914;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PCcdSgA/1OmuD7op38DOfI+lwyCKBvubLb11kK/+qzU=;
-  b=dGuHrdESBpBu22VX1gxz87t7qsF++E2U7atNxRLiwjrmxGfqdvFEl4f4
-   IpU7nNnPvJZ8N0zlSkkvKrMKBv/SHYx9sGJBWy3TvbOnYu/yAHeecQV3N
-   XgI5/wwfVxTyd9smPIko+h2H+5aH8HMd6KZY5mGbwvDr/RyIAfhy29CWY
-   5zCWTEFwdENal3fqrMBPIpAUWjZNdpiPlS+/x5chcM5XTMy+pux1FArjV
-   yLIRLrzdlLgSaDrGqXbDNlQVK3Z1Xjb/mN5sJsJdc6yD0/NcUlC6jo+wG
-   HjFhr6AdGvrw1PDurtyj9c2gJv+zUnk5VjktgAc6ZJKVGU+LtbPm/g59i
+  t=1731807571; x=1763343571;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7iXnUdrE/WWbX2f5RmIbaii8k71BZN5cdloJ5wkYKfw=;
+  b=lwaNVtDV3hjZAGsDrSRpWVJp8l/m1qMuZn2eTdcfXG3cTa75Suv37qHY
+   fspab+5RicVtzJftlpv3kax6Q1gKwkY3yiGgQ9xa/2vEXwLfDeQC33H6z
+   +hJDMnVER1NpvMy3KUbTWPHIVolm6mSi9iR5sMt+rf+oGSkaDMj3mTyOf
+   X7pi981uVNnnmQpr/5cQ7Eyo29vslX2gO85BVZ7FUOh8s0m95N0lVIbiD
+   dnQqF7fkPMEmaX4UFLGDWyk3WGNS9vZpJjL0ejOKhAwGxcln0Vj2SxKRF
+   p//AEZFcd6FhPIy2IKwv71FZlqmja5byuDblf7mBFQ+fzkSQmsb4/7X2F
    g==;
-X-CSE-ConnectionGUID: 5Vk3QTFIQsKIM3FqV3XYdw==
-X-CSE-MsgGUID: /n5u4LCkT/ip6vMuPMUzEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="57193718"
-X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="57193718"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 17:28:33 -0800
-X-CSE-ConnectionGUID: GL6swRqATFSUDV3BzVTWvg==
-X-CSE-MsgGUID: 9HkT9VndSEiCBGuUTd1rzw==
+X-CSE-ConnectionGUID: qzBIXjcyTVauqa3nJp1KPA==
+X-CSE-MsgGUID: 79/js7e9R06hYOHd9a53sA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="35463179"
+X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
+   d="scan'208";a="35463179"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 17:39:30 -0800
+X-CSE-ConnectionGUID: S8RRQ2bOTZOwf+8a+MmXnA==
+X-CSE-MsgGUID: +eN89Cc1QCeE165gWdWDPw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="93920878"
+X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
+   d="scan'208";a="119741584"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Nov 2024 17:28:29 -0800
+  by orviesa002.jf.intel.com with ESMTP; 16 Nov 2024 17:39:29 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCU5R-0001DB-2v;
-	Sun, 17 Nov 2024 01:28:25 +0000
-Date: Sun, 17 Nov 2024 09:28:11 +0800
+	id 1tCUG6-0001DP-28;
+	Sun, 17 Nov 2024 01:39:26 +0000
+Date: Sun, 17 Nov 2024 09:38:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: admiyo@os.amperecomputing.com, Sudeep Holla <sudeep.holla@arm.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH v7 1/2] mctp pcc: Check before sending MCTP PCC response
- ACK
-Message-ID: <202411170906.mCmSa3oY-lkp@intel.com>
-References: <20241114024928.60004-2-admiyo@os.amperecomputing.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [peterz-queue:module/namespace 8/8] ERROR: modpost: module kvmgt
+ uses symbol kvm_write_track_add_gfn from namespace
+ MODULE_kvm,kvm-intel,kvm-amd, but does not import it.
+Message-ID: <202411170952.NczwQqJK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,104 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114024928.60004-2-admiyo@os.amperecomputing.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on rafael-pm/linux-next]
-[also build test ERROR on rafael-pm/bleeding-edge linus/master v6.12-rc7 next-20241115]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20241114-105151
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20241114024928.60004-2-admiyo%40os.amperecomputing.com
-patch subject: [PATCH v7 1/2] mctp pcc: Check before sending MCTP PCC response ACK
-config: x86_64-randconfig-161-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170906.mCmSa3oY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170906.mCmSa3oY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git module/namespace
+head:   eddf030901699351844504fd2232ae7ea6d1e787
+commit: eddf030901699351844504fd2232ae7ea6d1e787 [8/8] x86/kvm: Testing...
+config: x86_64-rhel-8.3 (https://download.01.org/0day-ci/archive/20241117/202411170952.NczwQqJK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170952.NczwQqJK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170906.mCmSa3oY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170952.NczwQqJK-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   In file included from drivers/cpufreq/acpi-cpufreq.c:31:
-   In file included from include/acpi/cppc_acpi.h:17:
->> include/acpi/pcc.h:51:10: error: expected ';' after return statement
-      51 |         return 0
-         |                 ^
-         |                 ;
->> include/acpi/pcc.h:49:5: warning: no previous prototype for function 'pcc_mbox_ioremap' [-Wmissing-prototypes]
-      49 | int pcc_mbox_ioremap(struct mbox_chan *chan)
-         |     ^
-   include/acpi/pcc.h:49:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      49 | int pcc_mbox_ioremap(struct mbox_chan *chan)
-         | ^
-         | static 
-   1 warning and 1 error generated.
---
-   In file included from drivers/cpufreq/intel_pstate.c:30:
-   In file included from include/trace/events/power.h:12:
-   In file included from include/linux/trace_events.h:6:
-   In file included from include/linux/ring_buffer.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/cpufreq/intel_pstate.c:48:
-   In file included from include/acpi/cppc_acpi.h:17:
->> include/acpi/pcc.h:51:10: error: expected ';' after return statement
-      51 |         return 0
-         |                 ^
-         |                 ;
->> include/acpi/pcc.h:49:5: warning: no previous prototype for function 'pcc_mbox_ioremap' [-Wmissing-prototypes]
-      49 | int pcc_mbox_ioremap(struct mbox_chan *chan)
-         |     ^
-   include/acpi/pcc.h:49:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      49 | int pcc_mbox_ioremap(struct mbox_chan *chan)
-         | ^
-         | static 
-   4 warnings and 1 error generated.
-
-
-vim +51 include/acpi/pcc.h
-
-    36	
-    37	#ifdef CONFIG_PCC
-    38	extern struct pcc_mbox_chan *
-    39	pcc_mbox_request_channel(struct mbox_client *cl, int subspace_id);
-    40	extern void pcc_mbox_free_channel(struct pcc_mbox_chan *chan);
-    41	extern int pcc_mbox_ioremap(struct mbox_chan *chan);
-    42	#else
-    43	static inline struct pcc_mbox_chan *
-    44	pcc_mbox_request_channel(struct mbox_client *cl, int subspace_id)
-    45	{
-    46		return ERR_PTR(-ENODEV);
-    47	}
-    48	static inline void pcc_mbox_free_channel(struct pcc_mbox_chan *chan) { }
-  > 49	int pcc_mbox_ioremap(struct mbox_chan *chan)
-    50	{
-  > 51		return 0
-    52	};
-    53	#endif
-    54	
+>> ERROR: modpost: module kvmgt uses symbol kvm_write_track_add_gfn from namespace MODULE_kvm,kvm-intel,kvm-amd, but does not import it.
+>> ERROR: modpost: module kvmgt uses symbol kvm_write_track_remove_gfn from namespace MODULE_kvm,kvm-intel,kvm-amd, but does not import it.
+>> ERROR: modpost: module kvmgt uses symbol kvm_page_track_register_notifier from namespace MODULE_kvm,kvm-intel,kvm-amd, but does not import it.
+>> ERROR: modpost: module kvmgt uses symbol kvm_page_track_unregister_notifier from namespace MODULE_kvm,kvm-intel,kvm-amd, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
