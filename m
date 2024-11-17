@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB0B81CB32B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 14:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 408911CBE8D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 14:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731852342; cv=none; b=IGY8ieoFyi42/tUi+yWWLOuXkGNCYYbVNbUcx3TBBWzgYTOSTZPnYjQ8ueG4R/qHs2tbp0I9UbrKIbRa7qutrT8cjZLiQ2ED5Lss+z9RIbAJ1xlDRFujVxUSBkyqQknmBUTn6/uLZ0CBjEV8BiwYJ+ghdpljjVhBe5b6e9mtMew=
+	t=1731853002; cv=none; b=R2b4CxjwW/Mtj12rtf10A5+S9QHMtlpAnNTIZ5c8/9mPrnh1Jv6KpEIl6IVLx7C7CEXigsZvy8GffN9nZM8zpT5O3KdUUb5mSSTno3noMn3EyoC/OcjsLzlVpQ6Cct3q+MCA1t3HuCrigQWuXP0zWDGSTcLBWTVCCl/FrHyZEbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731852342; c=relaxed/simple;
-	bh=Cd6XoooyHXJe9+XdxD7M/of4C15jxuJAxjL8yUKHMqg=;
+	s=arc-20240116; t=1731853002; c=relaxed/simple;
+	bh=EXUzlyIBL5JgOOJLPTo2wIb6PqI5xflcc4it6s1E29M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ekzvb+BjHJTwF0ejGMComAJrVOXmzGCs3xI3NblHDeuY5CfjZ9IkCeRsW8yikUeAb9XS9p3lAW9KracjwKW2Rr8XbE88JmCWrqliLrD6tskWEGbCVEXwbbFi2Mmnk6QoHbiXwhRRPaMZbnfkm3n+oJgjmX+WOL7909yvcSSBneA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LntOGPI3; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=XEbUmYV0pErTyQb3KpVg7lJWUKvAPVaTEPrl98cuJZflkvfJaXxNuKZ+wMDL4dGqLLrzu0tAFc5/XqeABrBMqV0mIFpR3LpdGyOCscEXy2YEgcU3RdZjol23yvkZIhXIhyMirvFfXpTG6TpkoRWJUBpNWAtZi5czYzqsLkIpNVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WDP9lVV3; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LntOGPI3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WDP9lVV3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731852341; x=1763388341;
+  t=1731853002; x=1763389002;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Cd6XoooyHXJe9+XdxD7M/of4C15jxuJAxjL8yUKHMqg=;
-  b=LntOGPI3T1LUVD2v0/9fjvYvUqdeZfQcu7AdDKGhFt1j07cXyHdJaznk
-   K3KgBGwQKMuHqqZ6BQNy0ue6SyQX5PnehCqMB1JcxK4xopxiLpYhveIMy
-   VbSltjFXITSloW3xeaJ93K1tVvvZcAbo42QENcMzoMM0p7jrZq422D7WY
-   C29iDh3+6BWop43Aca45M7KPtfqFiSkKaFJJ52v1xu5WBBQeyGhS+ShTp
-   AZYjh25SZKDG9H3oX9ez/CO/QjX/Nrrcj3Yxk0infEsTMn/r7ctGASdk7
-   JgcOKghBwZRLcgGnz+CgyPQn8QZzxdhbcYrbdn2NN1MiQEO6sUnvt54Xn
+  bh=EXUzlyIBL5JgOOJLPTo2wIb6PqI5xflcc4it6s1E29M=;
+  b=WDP9lVV3MVkt4byyrf1SwEcfDiZEqCR6GTXNHLQxx3AXppgl7GD0hgvH
+   naeID3on8BdDC3muGTCAfTO/NBXa3N8dFrRofwTbxO24WgRG//pFv5ugg
+   kad4epO/ziKXdb00JDcyYf8kcaRDDKlfSNrrAxPG8X2RZQp/xPfsfuKi3
+   F5ORxf/vyFt8frm0D0yQozV3Gv0El50xWUBtfWVX6CJ9tXtbH7R7CfDdm
+   kAZT0atNxiF/haVFAbQ1U5sx3W6C7xhstNjwOHHpvyv9+1qz2gBWnahiV
+   Tb222sVFDMIMsH4aQJ6xBYgQX+CMIc6ZzroglqBICyhu0rlcwNL1XSltr
    Q==;
-X-CSE-ConnectionGUID: Ygv71VOiSqu/VleAOpy3MQ==
-X-CSE-MsgGUID: ZiZoOeSvTkaFvlriOcctAQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42334319"
+X-CSE-ConnectionGUID: pSDhhzRVR9m6Jxc0YQ+DnQ==
+X-CSE-MsgGUID: Is17HGtiQkGZBZUHXolsuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="49246571"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="42334319"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 06:05:41 -0800
-X-CSE-ConnectionGUID: MUfqqt05T76KUR9qMHvg6Q==
-X-CSE-MsgGUID: KykpxGoCRQ2RZe83+RToaA==
+   d="scan'208";a="49246571"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 06:16:41 -0800
+X-CSE-ConnectionGUID: EzkkFkYRT/ah+30aPbVxNg==
+X-CSE-MsgGUID: vXr3C8EITpiILJSfsrveEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="112286329"
+   d="scan'208";a="93452257"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2024 06:05:39 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 17 Nov 2024 06:16:40 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCfuC-0001mv-26;
-	Sun, 17 Nov 2024 14:05:36 +0000
-Date: Sun, 17 Nov 2024 22:05:25 +0800
+	id 1tCg4r-0001n9-0z;
+	Sun, 17 Nov 2024 14:16:37 +0000
+Date: Sun, 17 Nov 2024 22:16:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse: sparse:
- incompatible types in comparison expression (different address spaces):
-Message-ID: <202411172120.xEl8Vl4S-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 87/119]
+ sound/soc/codecs/tas2770.c:172:13: warning: variable 'ret' set but not used
+Message-ID: <202411172243.wZyTtHcA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +62,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4a5df37964673effcd9f84041f7423206a5ae5f2
-commit: 17573fd971f9e31ddee420eca8359ceff87e9e51 KVM: guest_memfd: extract __kvm_gmem_get_pfn()
-date:   6 months ago
-config: x86_64-randconfig-122-20241116 (https://download.01.org/0day-ci/archive/20241117/202411172120.xEl8Vl4S-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172120.xEl8Vl4S-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   3a76f715b4795098c50db9f139c961b292cb13a6
+commit: b181a019cf62ab12ac884c123d3b1e56f8253c11 [87/119] ASoC: tas2770: Power cycle amp on ISENSE/VSENSE change
+config: x86_64-buildonly-randconfig-004-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172243.wZyTtHcA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172243.wZyTtHcA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411172120.xEl8Vl4S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411172243.wZyTtHcA-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse:    struct file *
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:540:18: sparse:    struct file [noderef] __rcu *
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:121:17: sparse: sparse: context imbalance in 'kvm_gmem_invalidate_begin' - different lock contexts for basic block
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     expected struct file **f
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     got struct file [noderef] __rcu **
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     expected struct file **f
-   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:293:33: sparse:     got struct file [noderef] __rcu **
+All warnings (new ones prefixed by >>):
 
-vim +540 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
+   sound/soc/codecs/tas2770.c: In function 'sense_event':
+>> sound/soc/codecs/tas2770.c:172:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     172 |         int ret = 0;
+         |             ^~~
 
-   530	
-   531	static int __kvm_gmem_get_pfn(struct file *file, struct kvm_memory_slot *slot,
-   532			       gfn_t gfn, kvm_pfn_t *pfn, int *max_order, bool prepare)
-   533	{
-   534		pgoff_t index = gfn - slot->base_gfn + slot->gmem.pgoff;
-   535		struct kvm_gmem *gmem = file->private_data;
-   536		struct folio *folio;
-   537		struct page *page;
-   538		int r;
-   539	
- > 540		if (file != slot->gmem.file) {
-   541			WARN_ON_ONCE(slot->gmem.file);
-   542			return -EFAULT;
-   543		}
-   544	
-   545		gmem = file->private_data;
-   546		if (xa_load(&gmem->bindings, index) != slot) {
-   547			WARN_ON_ONCE(xa_load(&gmem->bindings, index));
-   548			return -EIO;
-   549		}
-   550	
-   551		folio = kvm_gmem_get_folio(file_inode(file), index, prepare);
-   552		if (IS_ERR(folio))
-   553			return PTR_ERR(folio);
-   554	
-   555		if (folio_test_hwpoison(folio)) {
-   556			r = -EHWPOISON;
-   557			goto out_unlock;
-   558		}
-   559	
-   560		page = folio_file_page(folio, index);
-   561	
-   562		*pfn = page_to_pfn(page);
-   563		if (max_order)
-   564			*max_order = 0;
-   565	
-   566		r = 0;
-   567	
-   568	out_unlock:
-   569		folio_unlock(folio);
-   570	
-   571		return r;
-   572	}
-   573	
+
+vim +/ret +172 sound/soc/codecs/tas2770.c
+
+   161	
+   162	static const struct snd_kcontrol_new isense_switch =
+   163		SOC_DAPM_SINGLE("Switch", TAS2770_PWR_CTRL, 3, 1, 1);
+   164	static const struct snd_kcontrol_new vsense_switch =
+   165		SOC_DAPM_SINGLE("Switch", TAS2770_PWR_CTRL, 2, 1, 1);
+   166	
+   167	static int sense_event(struct snd_soc_dapm_widget *w,
+   168	                          struct snd_kcontrol *kcontrol, int event)
+   169	{
+   170		struct snd_soc_component *component = snd_soc_dapm_to_component(w->dapm);
+   171		struct tas2770_priv *tas2770 = snd_soc_component_get_drvdata(component);
+ > 172		int ret = 0;
+   173	
+   174		/*
+   175		 * Powering up ISENSE/VSENSE requires a trip through the shutdown state.
+   176		 * Do that here to ensure that our changes are applied properly, otherwise
+   177		 * we might end up with non-functional IVSENSE if playback started earlier,
+   178		 * which would break software speaker protection.
+   179		 */
+   180	
+   181		switch (event) {
+   182		case SND_SOC_DAPM_PRE_REG:
+   183			ret = snd_soc_component_update_bits(component, TAS2770_PWR_CTRL,
+   184							    TAS2770_PWR_CTRL_MASK,
+   185							    TAS2770_PWR_CTRL_SHUTDOWN);
+   186			break;
+   187		case SND_SOC_DAPM_POST_REG:
+   188			ret = tas2770_update_pwr_ctrl(tas2770);
+   189			break;
+   190		}
+   191	
+   192		return 0;
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
