@@ -1,63 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4281D52B;
-	Sun, 17 Nov 2024 05:38:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB27179A3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 05:49:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731821883; cv=none; b=pL4yc/EjhqodK0esSIL2ZlLzaOJk0ZZftxN7qmv7vXt8GaL4FlwnyXBH6IUOVS/eNpw1OTYemxJ0fUzXh7hhupXviBKwULWGb4WWxAfbKSZvj7ckRbZAEeAFrvOUJ8XUVbWS9fP5scD4VpGcMEnNqwRW4WihclKUVKJSbh4w+Jc=
+	t=1731822545; cv=none; b=Hbq5/V4qxHieaLoOI6/mf5QBd2xffGDQk0xaMKsZp1TqIhY3pkDhMKRWRva9NB6t6eExEt6M/mxFVcLZtJgerkvGNaUgqBuONOSjcxSXcR7gEapVe1WoZTWCLhBIkvyYQSGoPGEWm9kHTI/H91mpbbhL+4ljN+23kh58/8hON1s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731821883; c=relaxed/simple;
-	bh=8LMoSl2RyEDo9ou0rCvdh+RywoMHpQOH3If+sT69ZaY=;
+	s=arc-20240116; t=1731822545; c=relaxed/simple;
+	bh=K5mcIFf6KWqYvD7AWDGPfJ4yz3xBRzhejZq9iMDkX8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l2Ll+siOxWGGs4l2D50ANI4qmAHs79Sh8ioxrLnMyckcpDAf2RAIHiUVy/m/odjb3L0rLxljl6cxZgyQbuezG0vIvVp+lU9VkCgyyaIN7RDAxxMYPlIR1ksoItQKcFBlbccJyoQ6dBPm61fGFsk1R/mqNJS5cYrWEOZzpLcBbn8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c8G/VTsB; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=HDOyhp1pENp+HkTxwu5a3cMIILRk2MWBk2VdK7mYoLMcD4FQxvBWLTd7rtlc5lrQYyCGm1GVUuBB9vXvdst002uXePtim/BsgdrBbyx0jSHx+T7iOoUWmhlFD1mSo056a7F6xmK014yZAjVPHXEecDNGtFtDJQqIdQprghsok8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QPAZtno1; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c8G/VTsB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QPAZtno1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731821882; x=1763357882;
+  t=1731822544; x=1763358544;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8LMoSl2RyEDo9ou0rCvdh+RywoMHpQOH3If+sT69ZaY=;
-  b=c8G/VTsBpS7ANPsxkF7s719GPj/BEtw2ucIBSuqtYFbTspvQM0OtFDwU
-   Pyk1XC3qjy2OBv0aAssjq7Q21TSsKcHWyaNDzYJ4ftK4JSRo5fNtj8Qst
-   1dULm1Mi4eomNgrKi1UM7QcHfgRlI3mSGSnq7Zxb1I4G4ov/4vQH9ZPHr
-   Wxe3u0rIhohP3we1EvaXtILAUIZxaPY9ZZh6nplvfGzizSGf2Zzk5FTZ4
-   4kKOfsd7HZ9AZjTOzowZ28N1cETBl9GRvsu0Sv1wvBmLOLLoyNTnSyWoq
-   bcJnQKAp3U0kK5k0yyP8oSY6yCw48ZhSWHui7mK1e2lhf+GuVqxFS2UoU
-   g==;
-X-CSE-ConnectionGUID: CzaOZGmwRz6KC832wnFykw==
-X-CSE-MsgGUID: Msp0O7CGTwW48er1iuG0Pg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42424044"
+  bh=K5mcIFf6KWqYvD7AWDGPfJ4yz3xBRzhejZq9iMDkX8I=;
+  b=QPAZtno1hcK9ot5OgCilhSI7YJu1uCwTZuXQFB9QjakDdhAaelGkJsxk
+   q/p7uHSEtyYUsxV3FRyhiQJw7bIAXhaWsjIVeew4jRNx7WNFpDGtGkRXc
+   PPqK0KZH3nIQC+C1uapcIp/1SsXyJPt/YKaSavnOL/AyItFgLao76q0Iv
+   RZGhs4Kr/ief/NPKCZDrYLdNi3112k2KB3kLzJO5gtaXVTmAnFB/ehy0g
+   2CMiH/FstIxDc3ysLg/m9i6UrfttzxKo546xRqeYM2kGA3/jYX/vB/nUG
+   2XWUVOg6kd0wVuOT2HamkfBNx+3Gi0XHQPBZ/Xq4tO4m85mGG2nk/NYtZ
+   A==;
+X-CSE-ConnectionGUID: 21IQhiLtTy+UhOPGfvTNdQ==
+X-CSE-MsgGUID: J/9hdUgTTeu3wSHYEeWxNA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="31176354"
 X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
-   d="scan'208";a="42424044"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:38:01 -0800
-X-CSE-ConnectionGUID: MCOlMmGLTKinxmdGGNLcug==
-X-CSE-MsgGUID: paix2ESYQdGQd1QEFhN6Ag==
+   d="scan'208";a="31176354"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 21:49:04 -0800
+X-CSE-ConnectionGUID: RfKSW4tFSdOtMaW5d3L56g==
+X-CSE-MsgGUID: 2M7UIhSVQLGr9mmiGOdWVA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="93950823"
+X-IronPort-AV: E=Sophos;i="6.12,161,1728975600"; 
+   d="scan'208";a="88818447"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 16 Nov 2024 21:37:58 -0800
+  by orviesa010.jf.intel.com with ESMTP; 16 Nov 2024 21:49:00 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCXyu-0001ZR-0m;
-	Sun, 17 Nov 2024 05:37:56 +0000
-Date: Sun, 17 Nov 2024 13:37:41 +0800
+	id 1tCY9Z-0001Zt-0V;
+	Sun, 17 Nov 2024 05:48:57 +0000
+Date: Sun, 17 Nov 2024 13:48:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, l.rubusch@gmx.ch,
-	Lothar Rubusch <l.rubusch@gmail.com>
-Subject: Re: [PATCH 06/22] iio: accel: adxl345: add function to switch
- measuring
-Message-ID: <202411171333.4V4FcJFa-lkp@intel.com>
-References: <20241114231002.98595-7-l.rubusch@gmail.com>
+To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
+	quic_mrana@quicinc.com, quic_vbadigan@quicinc.com,
+	kernel@quicinc.com, Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Krzysztof =?unknown-8bit?Q?Wilczy=C5=84ski?= <kw@linux.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	Krishna chaitanya chundru <quic_krichai@quicinc.com>
+Subject: Re: [PATCH 2/4] PCI: of: Add API to retrieve equalization presets
+ from device tree
+Message-ID: <202411171316.4RG7T90F-lkp@intel.com>
+References: <20241116-presets-v1-2-878a837a4fee@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,64 +77,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114231002.98595-7-l.rubusch@gmail.com>
+In-Reply-To: <20241116-presets-v1-2-878a837a4fee@quicinc.com>
 
-Hi Lothar,
+Hi Krishna,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 81983758430957d9a5cb3333fe324fd70cf63e7e]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241115-190245
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241114231002.98595-7-l.rubusch%40gmail.com
-patch subject: [PATCH 06/22] iio: accel: adxl345: add function to switch measuring
-config: arm-randconfig-002-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171333.4V4FcJFa-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171333.4V4FcJFa-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/arm64-dts-qcom-x1e80100-Add-PCIe-lane-equalization-preset-properties/20241117-000950
+base:   81983758430957d9a5cb3333fe324fd70cf63e7e
+patch link:    https://lore.kernel.org/r/20241116-presets-v1-2-878a837a4fee%40quicinc.com
+patch subject: [PATCH 2/4] PCI: of: Add API to retrieve equalization presets from device tree
+config: i386-buildonly-randconfig-005-20241117 (https://download.01.org/0day-ci/archive/20241117/202411171316.4RG7T90F-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411171316.4RG7T90F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411171333.4V4FcJFa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411171316.4RG7T90F-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/iio/accel/adxl345_core.c:142: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * For lowest power operation, standby mode can be used. In standby mode,
+   In file included from drivers/pci/controller/dwc/pcie-designware.c:23:
+>> drivers/pci/controller/dwc/../../pci.h:803:12: warning: 'of_pci_get_equalization_presets' defined but not used [-Wunused-function]
+     803 | static int of_pci_get_equalization_presets(struct device *dev,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +142 drivers/iio/accel/adxl345_core.c
+vim +/of_pci_get_equalization_presets +803 drivers/pci/controller/dwc/../../pci.h
 
-   140	
-   141	/**
- > 142	 * For lowest power operation, standby mode can be used. In standby mode,
-   143	 * current consumption is supposed to be reduced to 0.1uA (typical). In this
-   144	 * mode no measurements are made. Placing the device into standby mode
-   145	 * preserves the contents of FIFO.
-   146	 *
-   147	 * Unloading the driver puts the device in standby mode (measuring off).
-   148	 *
-   149	 * @st: The device data.
-   150	 * @en: Enable measurements, else standby mode.
-   151	 */
-   152	static int adxl345_set_measure_en(struct adxl34x_state *st, bool en)
-   153	{
-   154		unsigned int val = 0;
-   155		int ret;
-   156	
-   157		val = (en) ? ADXL345_POWER_CTL_MEASURE : ADXL345_POWER_CTL_STANDBY;
-   158		ret = regmap_write(st->regmap, ADXL345_REG_POWER_CTL, val);
-   159		if (ret)
-   160			return -EINVAL;
-   161	
-   162		return 0;
-   163	}
-   164	
+   802	
+ > 803	static int of_pci_get_equalization_presets(struct device *dev,
+   804						   struct pci_eq_presets *presets,
+   805						   int num_lanes)
+   806	{
+   807		return 0;
+   808	}
+   809	#endif /* CONFIG_OF */
+   810	
 
 -- 
 0-DAY CI Kernel Test Service
