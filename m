@@ -1,63 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1995DBE65;
-	Sun, 17 Nov 2024 00:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A13258F54
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 00:46:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731803735; cv=none; b=JGjO5GOfTg1cyi34FvL+SIo/oohGrG24YN9TeNPnogggdxz4y8jFqjjPvGa7mj/9Xb5fI7f4fz90l/6tUnuDCxyPUVf/GgbnYx83qpTPmhskL55ctPfvFlLqncXIRcJX6dusdEB7Cstdkdgbhr73vFTAthug6gfaCE5vhWXhihQ=
+	t=1731804389; cv=none; b=isLhytzjo59YiDwxqGxE99+rPYfVuBg7SCDuQ54VE8ECceEA8XnX4OZMFfX4l2iCnxRS01zMwaM4DXJqIVik7bRCXTOmIAJ11eR8r2KBWJIwWdcZTKhmIDYn2jfRfssX5398PiwLtP9DiJhASYhfFYZ+LdUlIFs91obxikV6+m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731803735; c=relaxed/simple;
-	bh=+LHhRpz2lexERE+0uND5ClfhDGYT/5XBFC6AkXESgWk=;
+	s=arc-20240116; t=1731804389; c=relaxed/simple;
+	bh=PzXGeeIrOWYZEs2yRXxGZGL8FaOkxUAdrGfguYkWM5Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HoI1ogpEUkizztv2r4lK/GKPffzHsikAF36aLCqktcdl2XzmsGnmrxZnax4BPK64AQPvGP8brfuWMiPP9NMVTkAG4QNUb8MNIDgY/qr4l0lSHg9rMyN35v6FoThl2o4ju54IRZkzaSvucNbzaMObdxSzSWTflevQGLu2+L/ZsHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mi7/ysLN; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=XvVUFbB2mgOMKKlDdNKCw0DCYlJye/3zxgj6cYVfpGac/xob7eOMOlES2zNGoZvNANPEoPFxXpUJWOBU6u9Yt0U9DlIQ7m7DkQNgZeORyMVss1wa9g4qVZ0Z/KrblXM3NY2oZYU68k5ZRoKHeDDUt3u78nhFcs1WMqdgd6oJ1as=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPKyVcsI; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mi7/ysLN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPKyVcsI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731803733; x=1763339733;
+  t=1731804387; x=1763340387;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+LHhRpz2lexERE+0uND5ClfhDGYT/5XBFC6AkXESgWk=;
-  b=Mi7/ysLNxR3X82c7pje2eRKMd+iobH052f/85Yb8WOpv8TEDpLhr/4hB
-   quCLPGZLUzQ5EKaLQf8gFjW66ygFdjbvFQps9eO1vwGC95QwfhMT2+j5p
-   oX+PeLP5tWrcSwuugrI+03UTsaG+LBBRnYjQ3bVzJzlU0W8e78mtbshes
-   4q128XbkxEue2d7ryBNOHyzkFlunNpKnxscT0X7hAyE8QTBzMVyAHHbBG
-   smHPwXJzRLLF7h2krVQed895CNMtwCSz55KP19ZXTzN7Km+22U4IwJZ41
-   JZNuUdwh1QlGlKLMPSnPtI+uQXduXIeAHfoQZGuuVKOvx3FdN2AxSsQdo
+  bh=PzXGeeIrOWYZEs2yRXxGZGL8FaOkxUAdrGfguYkWM5Y=;
+  b=jPKyVcsIrnMWMSBY0RlEDx5M2kkUPnZf6G5pTe41rJ722Cis/GkvMJyd
+   Q9eFBgoEAkRnEtdnpPq7a2QDHiFuqkG0sdTBib+MuPySSPx3cyCZQd7YI
+   iMwApiGE6ptwIwRDsIJLU5Gup5pPwmgT/Yv3sc15VCMIfL99gxgtFnf/d
+   MRidNNUVvaRa4JfudzWcmDSLkPqWJamW7p7YZr98cnU2sXOiRMgyGWvoi
+   mdXdtPL1pkMlE1KPLFuMnIC+w8Zda3zDu8Tt4wdsBB/PFrPoSsd/0tJWq
+   mkgXMqBe5S+NRpdE75DeN7w4EOpBXopNXeX3L5L8GgrJDltOp5e7D6ayW
    A==;
-X-CSE-ConnectionGUID: k7rXPhBpR2eZpFYobnrz+Q==
-X-CSE-MsgGUID: Ey62IBzhTd+1c7dKWGruLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="42858736"
+X-CSE-ConnectionGUID: 7r/Ien5yTUOAm1uwlWPzvQ==
+X-CSE-MsgGUID: srFq322WR5SYWqd3csac8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11258"; a="19393987"
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="42858736"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:35:33 -0800
-X-CSE-ConnectionGUID: MOXCFN+ARQaMP9B+Psbo8w==
-X-CSE-MsgGUID: tF+cqJTCTQSQlObjK1NfcQ==
+   d="scan'208";a="19393987"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2024 16:46:27 -0800
+X-CSE-ConnectionGUID: 0LV3cbWDT+6oY7XfbwPSng==
+X-CSE-MsgGUID: Y+/tZA4MTXm8TYfHtBtseA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,160,1728975600"; 
-   d="scan'208";a="88996188"
+   d="scan'208";a="93724253"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 16 Nov 2024 16:35:24 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 16 Nov 2024 16:46:25 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCTG5-0001Bl-1o;
-	Sun, 17 Nov 2024 00:35:21 +0000
-Date: Sun, 17 Nov 2024 08:34:23 +0800
+	id 1tCTQk-0001CH-3D;
+	Sun, 17 Nov 2024 00:46:22 +0000
+Date: Sun, 17 Nov 2024 08:45:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zhang Tianci <zhangtianci.1997@bytedance.com>, miklos@szeredi.hu
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-	xieyongji@bytedance.com,
-	Zhang Tianci <zhangtianci.1997@bytedance.com>,
-	Jiachen Zhang <zhangjiachen.jaycee@bytedance.com>
-Subject: Re: [PATCH] fuse: check attributes staleness on fuse_iget()
-Message-ID: <202411170856.SfrPdEy1-lkp@intel.com>
-References: <20241114070905.48901-1-zhangtianci.1997@bytedance.com>
+To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
+	Michael.Hennerich@analog.com, jic23@kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, l.rubusch@gmx.ch,
+	Lothar Rubusch <l.rubusch@gmail.com>
+Subject: Re: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
+Message-ID: <202411170855.sbBnXXo4-lkp@intel.com>
+References: <20241114231002.98595-16-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,147 +65,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114070905.48901-1-zhangtianci.1997@bytedance.com>
+In-Reply-To: <20241114231002.98595-16-l.rubusch@gmail.com>
 
-Hi Zhang,
+Hi Lothar,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on v6.12-rc7]
-[also build test WARNING on linus/master]
-[cannot apply to mszeredi-fuse/for-next next-20241115]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.12-rc7 next-20241115]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Zhang-Tianci/fuse-check-attributes-staleness-on-fuse_iget/20241114-151838
-base:   v6.12-rc7
-patch link:    https://lore.kernel.org/r/20241114070905.48901-1-zhangtianci.1997%40bytedance.com
-patch subject: [PATCH] fuse: check attributes staleness on fuse_iget()
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241117/202411170856.SfrPdEy1-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170856.SfrPdEy1-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241115-190245
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241114231002.98595-16-l.rubusch%40gmail.com
+patch subject: [PATCH 15/22] iio: accel: adxl345: reset the FIFO on error
+config: arc-randconfig-r052-20241117 (https://download.01.org/0day-ci/archive/20241117/202411170855.sbBnXXo4-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411170855.sbBnXXo4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411170856.SfrPdEy1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411170855.sbBnXXo4-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/fuse/inode.c:9:
-   In file included from fs/fuse/fuse_i.h:22:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/fuse/inode.c:456:7: warning: variable 'fi' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     456 |                 if (!fi->submount_lookup) {
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   fs/fuse/inode.c:493:13: note: uninitialized use occurs here
-     493 |         spin_lock(&fi->lock);
-         |                    ^~
-   fs/fuse/inode.c:456:3: note: remove the 'if' if its condition is always true
-     456 |                 if (!fi->submount_lookup) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/fuse/inode.c:434:23: note: initialize the variable 'fi' to silence this warning
-     434 |         struct fuse_inode *fi;
-         |                              ^
-         |                               = NULL
-   5 warnings generated.
+>> drivers/iio/accel/adxl345_core.c:383:6: warning: no previous prototype for 'adxl345_empty_fifo' [-Wmissing-prototypes]
+     383 | void adxl345_empty_fifo(struct adxl34x_state *st)
+         |      ^~~~~~~~~~~~~~~~~~
 
 
-vim +456 fs/fuse/inode.c
+vim +/adxl345_empty_fifo +383 drivers/iio/accel/adxl345_core.c
 
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  427  
-b48badf013018e Miklos Szeredi    2008-04-30  428  struct inode *fuse_iget(struct super_block *sb, u64 nodeid,
-1fb69e7817296d Miklos Szeredi    2007-10-18  429  			int generation, struct fuse_attr *attr,
-243f2d46af8e04 Zhang Tianci      2024-11-14  430  			u64 attr_valid, u64 attr_version,
-243f2d46af8e04 Zhang Tianci      2024-11-14  431  			u64 evict_ctr)
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  432  {
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  433  	struct inode *inode;
-9e6268db496a25 Miklos Szeredi    2005-09-09  434  	struct fuse_inode *fi;
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  435  	struct fuse_conn *fc = get_fuse_conn_super(sb);
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  436  
-bf109c64040f5b Max Reitz         2020-04-21  437  	/*
-bf109c64040f5b Max Reitz         2020-04-21  438  	 * Auto mount points get their node id from the submount root, which is
-bf109c64040f5b Max Reitz         2020-04-21  439  	 * not a unique identifier within this filesystem.
-bf109c64040f5b Max Reitz         2020-04-21  440  	 *
-bf109c64040f5b Max Reitz         2020-04-21  441  	 * To avoid conflicts, do not place submount points into the inode hash
-bf109c64040f5b Max Reitz         2020-04-21  442  	 * table.
-bf109c64040f5b Max Reitz         2020-04-21  443  	 */
-bf109c64040f5b Max Reitz         2020-04-21  444  	if (fc->auto_submounts && (attr->flags & FUSE_ATTR_SUBMOUNT) &&
-bf109c64040f5b Max Reitz         2020-04-21  445  	    S_ISDIR(attr->mode)) {
-c4d361f66ac91d Krister Johansen  2023-11-03  446  		struct fuse_inode *fi;
-c4d361f66ac91d Krister Johansen  2023-11-03  447  
-bf109c64040f5b Max Reitz         2020-04-21  448  		inode = new_inode(sb);
-bf109c64040f5b Max Reitz         2020-04-21  449  		if (!inode)
-bf109c64040f5b Max Reitz         2020-04-21  450  			return NULL;
-bf109c64040f5b Max Reitz         2020-04-21  451  
-facd61053cff10 Christian Brauner 2023-01-20  452  		fuse_init_inode(inode, attr, fc);
-c4d361f66ac91d Krister Johansen  2023-11-03  453  		fi = get_fuse_inode(inode);
-c4d361f66ac91d Krister Johansen  2023-11-03  454  		fi->nodeid = nodeid;
-c4d361f66ac91d Krister Johansen  2023-11-03  455  		fi->submount_lookup = fuse_alloc_submount_lookup();
-c4d361f66ac91d Krister Johansen  2023-11-03 @456  		if (!fi->submount_lookup) {
-c4d361f66ac91d Krister Johansen  2023-11-03  457  			iput(inode);
-c4d361f66ac91d Krister Johansen  2023-11-03  458  			return NULL;
-c4d361f66ac91d Krister Johansen  2023-11-03  459  		}
-c4d361f66ac91d Krister Johansen  2023-11-03  460  		/* Sets nlookup = 1 on fi->submount_lookup->nlookup */
-c4d361f66ac91d Krister Johansen  2023-11-03  461  		fuse_init_submount_lookup(fi->submount_lookup, nodeid);
-bf109c64040f5b Max Reitz         2020-04-21  462  		inode->i_flags |= S_AUTOMOUNT;
-bf109c64040f5b Max Reitz         2020-04-21  463  		goto done;
-bf109c64040f5b Max Reitz         2020-04-21  464  	}
-bf109c64040f5b Max Reitz         2020-04-21  465  
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  466  retry:
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  467  	inode = iget5_locked(sb, nodeid, fuse_inode_eq, fuse_inode_set, &nodeid);
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  468  	if (!inode)
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  469  		return NULL;
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  470  
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  471  	if ((inode->i_state & I_NEW)) {
-b0aa7606521790 Maxim Patlasov    2013-12-26  472  		inode->i_flags |= S_NOATIME;
-d31433c8b06d44 Maxim Patlasov    2014-04-28  473  		if (!fc->writeback_cache || !S_ISREG(attr->mode))
-b0aa7606521790 Maxim Patlasov    2013-12-26  474  			inode->i_flags |= S_NOCMTIME;
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  475  		inode->i_generation = generation;
-facd61053cff10 Christian Brauner 2023-01-20  476  		fuse_init_inode(inode, attr, fc);
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  477  		unlock_new_inode(inode);
-15db16837a35d8 Amir Goldstein    2021-06-21  478  	} else if (fuse_stale_inode(inode, generation, attr)) {
-15db16837a35d8 Amir Goldstein    2021-06-21  479  		/* nodeid was reused, any I/O on the old inode should fail */
-5d069dbe8aaf2a Miklos Szeredi    2020-12-10  480  		fuse_make_bad(inode);
-b1fe686a765e6c Miklos Szeredi    2024-02-28  481  		if (inode != d_inode(sb->s_root)) {
-b1fe686a765e6c Miklos Szeredi    2024-02-28  482  			remove_inode_hash(inode);
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  483  			iput(inode);
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  484  			goto retry;
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  485  		}
-b1fe686a765e6c Miklos Szeredi    2024-02-28  486  	}
-9e6268db496a25 Miklos Szeredi    2005-09-09  487  	fi = get_fuse_inode(inode);
-c9d8f5f0692d59 Kirill Tkhai      2018-11-09  488  	spin_lock(&fi->lock);
-9e6268db496a25 Miklos Szeredi    2005-09-09  489  	fi->nlookup++;
-c9d8f5f0692d59 Kirill Tkhai      2018-11-09  490  	spin_unlock(&fi->lock);
-c4d361f66ac91d Krister Johansen  2023-11-03  491  done:
-972f4c46d0a1bb Miklos Szeredi    2023-08-10  492  	fuse_change_attributes(inode, attr, NULL, attr_valid, attr_version);
-243f2d46af8e04 Zhang Tianci      2024-11-14  493  	spin_lock(&fi->lock);
-243f2d46af8e04 Zhang Tianci      2024-11-14  494  	if (evict_ctr < fuse_get_evict_ctr(fc))
-243f2d46af8e04 Zhang Tianci      2024-11-14  495  		fuse_invalidate_attr(inode);
-243f2d46af8e04 Zhang Tianci      2024-11-14  496  	spin_unlock(&fi->lock);
-1fb69e7817296d Miklos Szeredi    2007-10-18  497  
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  498  	return inode;
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  499  }
-d8a5ba45457e4a Miklos Szeredi    2005-09-09  500  
+   376	
+   377	/**
+   378	 * Empty the fifo. This is needed also in case of overflow or error handling.
+   379	 * Read out all remaining elements and reset the fifo_entries counter.
+   380	 *
+   381	 * @st: The instance to the state object of the sensor.
+   382	 */
+ > 383	void adxl345_empty_fifo(struct adxl34x_state *st)
+   384	{
+   385		int regval;
+   386		int fifo_entries;
+   387	
+   388		/* In case the HW is not "clean" just read out remaining elements */
+   389		adxl345_get_fifo_entries(st, &fifo_entries);
+   390		if (fifo_entries > 0)
+   391			adxl345_read_fifo_elements(st, fifo_entries);
+   392	
+   393		/* Reset the INT_SOURCE register by reading the register */
+   394		regmap_read(st->regmap, ADXL345_REG_INT_SOURCE, &regval);
+   395	}
+   396	
 
 -- 
 0-DAY CI Kernel Test Service
