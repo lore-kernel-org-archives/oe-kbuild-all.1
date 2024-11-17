@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244191D90C8;
-	Sun, 17 Nov 2024 15:39:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2191D90AD
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 15:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731857988; cv=none; b=D4B8OEyoMTuaKwwfwTnWGSQ3zXTZ+KWJwyRI+0UMJjBMagwrijkLn0Nt/FUJGtqv84mEIkPeIOuXN/vKdvHrU4M1nPmKDeEnrQM4sYB1C1docYicPBONwkcQWJyI9Uj3juWiDzrUKEoyePzFhM5cDOZ2GzwOU0wNDDiTs6tzEjw=
+	t=1731857991; cv=none; b=YcoZEyPJbpaqn3//+Eh3u+28PWQR3/ghfa+phMVSiuGqApFqSJHaJyOpG39r620cRsM3VJTAHV7GRA1bKh+kw9WpQTqwegqeZUmCgEOZ0cw45mmOfNFUf21r+XCqSq5dB4EI6E012MbK9dWmzbg2M3GnRJT/pjs9LtBArUvTaw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731857988; c=relaxed/simple;
-	bh=tPwf9yEXlJb7dNUwTZjFQyFwDEWbQSJ2X2Pp5H64usg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k12ZBl0fpvS51JOJWhW5ifzB4EmAzMVGY1kXIRWdfvd/GnDVv4k8jLPgtj+fLsv9H9+JRH9XUYzHjXOIk2SwnyyN1kFSoEkkrkeOEPKLU4ERbF+PCUCdghXwS83lPjAniE8Zo+69qq4NmlJsJ5Lt0mdWmwwsMazlW6y9DyRG7dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQzKkElt; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1731857991; c=relaxed/simple;
+	bh=XmSeuzaftL/+vg3VZC9X4kbM8L1zfwEERGsn4yRkYaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gljltogfI8q/XoBEU5SnQFfycTFbOHx+6GS/oQyP1099VgXARmiVHt0AXmtjf95JRGh0cuPJPUAwA84LO+g3walQCdicHiYrheQzeHRbqeD3XHL7BCGFZP/FTS9erAVSFMUjpToZDw/xBiK5JP+TJBFpFClJ9G2QsCW9strpQpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0oRXDBe; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQzKkElt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0oRXDBe"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731857987; x=1763393987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tPwf9yEXlJb7dNUwTZjFQyFwDEWbQSJ2X2Pp5H64usg=;
-  b=DQzKkElt3SP8o37s90IygeFQ+hGKwfoFWNHduuaTeOp5TWCfFoBf7JZy
-   329hsUfUhOfeotPADYJHBQApW58fuFHRt4W2XVjDVLVIr3s4+J4w6nH59
-   7kRboVVJ+u6cKlpV8myaaOAhRtUpV15FrCfLwRdTYuEVjurac45gg5lA/
-   19gCBDZngeRu2PzsB3dh9RdHpehWpUoax9kCH76l8z2a4HfGe0VyCEU4f
-   89qOPzjs1wz1rWsLuyf428Fz8OCz0c0M9KrJKLd/kdn/fBS280qTml4W/
-   7H9tatZABM1t1pTodpCRi3Q+JaPoFZ/oUH+ftPscEKsM2WN3GtqveI4jU
-   Q==;
-X-CSE-ConnectionGUID: bdfFnVmYR1+K4hi81BpcfA==
-X-CSE-MsgGUID: KlcGyRlbS0S9vj+jqIDaeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="34672994"
+  t=1731857991; x=1763393991;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XmSeuzaftL/+vg3VZC9X4kbM8L1zfwEERGsn4yRkYaQ=;
+  b=T0oRXDBevZszsf+xh0EDtJ2NJ7JUQhbk4M9hefT26SXG3FHng2JMwbEL
+   /Meb4eXzQ6Kb5H4Y6GBoQlShXSIXaC9JLfkBmDYbblpSTXNVP9nh1ye1i
+   ens8Ymo6wshQszo1uzDvoPVpRx5JCptDh8rcKsQ6cVxBjLLnf1hPkuQ92
+   0zUIOefU7p3rxt/26twboAW1c/So2jZCF4vc+1k83QzoHMOrjGNMBQvvl
+   33pS1NY2WBJVBDAFrltwAXUsv+bBC9ALYk2p+kt1XhZSy487ACfBXBNoS
+   Dda620nWPgoOJyYbXZAgxqpb7LwDORsHSUIpuwe9mSDBNeic2Egcy9n8y
+   A==;
+X-CSE-ConnectionGUID: +tVTOYjQQViMLy6dToEllg==
+X-CSE-MsgGUID: /6UAu59BTZ+1+97R2A7bPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42337228"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="34672994"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:39:46 -0800
-X-CSE-ConnectionGUID: g4pJEps3RzayD75UlAqPfQ==
-X-CSE-MsgGUID: ALT6p9poSwi1ACr7ikk0gA==
+   d="scan'208";a="42337228"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 07:39:50 -0800
+X-CSE-ConnectionGUID: spULzkbMQh6Qegr2EG1+AQ==
+X-CSE-MsgGUID: FtyVDRl0Rzaf2+ZwPyceVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="93841306"
+   d="scan'208";a="89431213"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 17 Nov 2024 07:39:45 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2024 07:39:45 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tChNH-0001pX-0M;
+	id 1tChNH-0001pV-0J;
 	Sun, 17 Nov 2024 15:39:43 +0000
-Date: Sun, 17 Nov 2024 23:39:36 +0800
+Date: Sun, 17 Nov 2024 23:39:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?unknown-8bit?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 13/119] sound/soc/soc-ops.c:818:5:
- warning: stack frame size (1048) exceeds limit (1024) in
- 'snd_soc_set_enum_kctl'
-Message-ID: <202411172317.qgns9ocB-lkp@intel.com>
+To: admiyo@os.amperecomputing.com, Sudeep Holla <sudeep.holla@arm.com>,
+	Jassi Brar <jassisinghbrar@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Huisong Li <lihuisong@huawei.com>
+Subject: Re: [PATCH v7 1/2] mctp pcc: Check before sending MCTP PCC response
+ ACK
+Message-ID: <202411172322.HO4ycC00-lkp@intel.com>
+References: <20241114024928.60004-2-admiyo@os.amperecomputing.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +73,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241114024928.60004-2-admiyo@os.amperecomputing.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   3a76f715b4795098c50db9f139c961b292cb13a6
-commit: 803c133cd9230b5594141c688e7b81d61b5886b7 [13/119] ASoC: ops: Introduce 'soc_set_enum_kctl'
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20241117/202411172317.qgns9ocB-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172317.qgns9ocB-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.12-rc7 next-20241115]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mctp-pcc-Check-before-sending-MCTP-PCC-response-ACK/20241114-105151
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241114024928.60004-2-admiyo%40os.amperecomputing.com
+patch subject: [PATCH v7 1/2] mctp pcc: Check before sending MCTP PCC response ACK
+config: x86_64-randconfig-123-20241117 (https://download.01.org/0day-ci/archive/20241117/202411172322.HO4ycC00-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241117/202411172322.HO4ycC00-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411172317.qgns9ocB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411172322.HO4ycC00-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/mailbox/pcc.c:283:34: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/mailbox/pcc.c:296:27: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted __le32 const [usertype] *p @@     got unsigned int * @@
+   drivers/mailbox/pcc.c:296:27: sparse:     expected restricted __le32 const [usertype] *p
+   drivers/mailbox/pcc.c:296:27: sparse:     got unsigned int *
+   drivers/mailbox/pcc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/slab.h, ...):
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
 
->> sound/soc/soc-ops.c:818:5: warning: stack frame size (1048) exceeds limit (1024) in 'snd_soc_set_enum_kctl' [-Wframe-larger-than]
-   int snd_soc_set_enum_kctl(struct snd_soc_card *card,
-       ^
-   1 warning generated.
+vim +283 drivers/mailbox/pcc.c
 
-
-vim +/snd_soc_set_enum_kctl +818 sound/soc/soc-ops.c
-
-   807	
-   808	/**
-   809	 * snd_soc_set_enum_kctl - Set enumerated controls matching a pattern
-   810	 *
-   811	 * @card: where to look for the controls
-   812	 * @name: name pattern
-   813	 * @value: string value to set the controls to
-   814	 *
-   815	 * Return number of matching and set controls on success, else error.
-   816	 * No controls need to match.
-   817	 */
- > 818	int snd_soc_set_enum_kctl(struct snd_soc_card *card,
-   819		const char *name, const char *value)
-   820	{
-   821		struct snd_kcontrol *kctl;
-   822		int hits = 0;
-   823		int ret;
-   824	
-   825		/* Sanity check for name */
-   826		if (unlikely(!name))
-   827			return -EINVAL;
-   828	
-   829		list_for_each_entry(kctl, &card->snd_card->controls, list) {
-   830			if (!soc_control_matches(kctl, name))
-   831				continue;
-   832	
-   833			ret = soc_set_enum_kctl(kctl, value);
-   834			if (ret < 0)
-   835				return ret;
-   836			hits++;
-   837		}
-   838	
-   839		if (!hits)
-   840			return -EINVAL;
-   841	
-   842		return hits;
-   843	}
-   844	EXPORT_SYMBOL_GPL(snd_soc_set_enum_kctl);
-   845	
+   272	
+   273	static void check_and_ack(struct pcc_chan_info *pchan, struct mbox_chan *chan)
+   274	{
+   275		struct acpi_pcct_ext_pcc_shared_memory pcc_hdr;
+   276	
+   277		if (pchan->type != ACPI_PCCT_TYPE_EXT_PCC_SLAVE_SUBSPACE)
+   278			return;
+   279		/* If the memory region has not been mapped, we cannot
+   280		 * determine if we need to send the message, but we still
+   281		 * need to set the cmd_update flag before returning.
+   282		 */
+ > 283		if (pchan->chan.shmem == 0) {
+   284			pcc_chan_reg_read_modify_write(&pchan->cmd_update);
+   285			return;
+   286		}
+   287		memcpy_fromio(&pcc_hdr, pchan->chan.shmem,
+   288			      sizeof(struct acpi_pcct_ext_pcc_shared_memory));
+   289		/*
+   290		 * The PCC slave subspace channel needs to set the command complete bit
+   291		 * after processing message. If the PCC_ACK_FLAG is set, it should also
+   292		 * ring the doorbell.
+   293		 *
+   294		 * The PCC master subspace channel clears chan_in_use to free channel.
+   295		 */
+ > 296		if (le32_to_cpup(&pcc_hdr.flags) & PCC_ACK_FLAG_MASK)
+   297			pcc_send_data(chan, NULL);
+   298		else
+   299			pcc_chan_reg_read_modify_write(&pchan->cmd_update);
+   300	}
+   301	
 
 -- 
 0-DAY CI Kernel Test Service
