@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 379BB1DDC14;
-	Sun, 17 Nov 2024 22:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B0C1DDC02
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 22:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731884151; cv=none; b=eSJlgLfyGos6qLKtd3nZ0MvrLXK6F67k5+1nFCZzcaY2sPK+KPKLNb7ArpyjLKB/9wZ+ZUIeKwng3FoKFZfWBO09gZdTUIgA8j5aw4f+p0di/u2BKIni/TS87pJoYxY/Kjq52qxNfPPxTj3z0egzqRWRhSlIJSJXS7fcPezt1UM=
+	t=1731884151; cv=none; b=dMRbcRWD2f8luuyhCeXVem6Q1NfX2z1hSO40kfgLLV7DcXJLr74hPQHox5ZBkZ48NG6GN/7r5ovHCwyyjXS88EmIdYF/IN1ITvLaHtun0Xm3PVBKJyGDW2vTR8aRkCEtGxGGTonCU39tx67/Ls3Vq9m7YGwl4yAAvUhRuSwdMak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731884151; c=relaxed/simple;
-	bh=kKKkpDNE5nvQ7jwRnzsR1waq3sQOPuJSjLOs2di9J2g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=k/8dg78fy3g99XCyVJwYgxcFM5RVG6vzbHWY2XHDHU7vgcpQT8pz0GUJ7WQfIcQCOwdYwKRiC1oDW6f/XR0xIJbq1zhNG4YyL7+Fjq22Q/u2ks0BBiq51mbZMq5zl26WhFlHT+vORwGlaPyBGDBGwatkb95aRDsbyrCxM7QjjL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Iepxpx4N; arc=none smtp.client-ip=198.175.65.9
+	bh=piTjRQr7XQsU1tQqsqvztFMe5RZSFWOQ1K6HyKhIqP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CPR+yJoRLx5biDUGkoSmDaVUExXsxRxhF0+x6X4Yz63cMOGCkE3wCzcibstLUW1P0SKwSP1xgdBVQYcouqRgE9OL7yU0pHPboqQGwa/hygNhjXwGvlQk0JcgQXCr3OgTLs+wmqIiJqkaprmU/DXYL2hCTL6ufyB0OELMGV3c+78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKmFH1SB; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Iepxpx4N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKmFH1SB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1731884149; x=1763420149;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kKKkpDNE5nvQ7jwRnzsR1waq3sQOPuJSjLOs2di9J2g=;
-  b=Iepxpx4NpTmQuGN1D/G8RfXrZJW6hkzAxbPIUlu5YMFZROkG+IM+JsuP
-   0iVpnAJCieN5105GapcL194rI4hN5naDSHFKtGsGeo4RdfE+wTSfqGsfV
-   jovC93fbngtJMMv+7oHhdTy7MQEOqDu9CIysPKYjocF2HQWXJPzmBVKCY
-   TyJNcwlijParmxsSEdD9gdAeIuSNj0Ts3zNSDTE45zWWGnvLYotKzJOix
-   MPDutLXngXiOl4pFnYMlZ/LYeCXixIIvZqxFkW1XF2UO2PIa80e6UFAPh
-   bYgjUpqz+cTfsApaolbMyq7Q4qW/VB9ywLjPNEGN1HgAnhvHgOukjAuYK
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=piTjRQr7XQsU1tQqsqvztFMe5RZSFWOQ1K6HyKhIqP0=;
+  b=EKmFH1SB8wB70XN/7ZnB+Wi36cfDRbhOhKkZ/ng+pOY8HHOyWfjzIjsI
+   GyowCLf1sMefGDP4+j0Kt3gOiuYqtxcZMltNQuiPyBb1bEhRbReoMJjed
+   xd0//SCBcEeFSl6lhHKo6sauvlc31PUDRmid/ITu0URNzxlLvWweXZlGP
+   2h6pb9z/Xd72d0LWC3dAexrrLTLBMGJA2NfxNRLlsWPWWuO/fFBjoZ4uI
+   72sZVW7yqA8eRue68xvGQytKMjVHr2ijIsBUETJ4WH3+qqTyw6hmxfn76
+   Vb4W0pXhhI2pFxXcuQwwBmNlhHE5kkrpTb8CoozqUYjcWAiInQliobGpu
    w==;
-X-CSE-ConnectionGUID: SoahuQcMSmSeZRhL21JnoQ==
-X-CSE-MsgGUID: JyvjdtNNRPapbXZzbDSFJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="54325009"
+X-CSE-ConnectionGUID: QWjaL62VSyq9rftewcQpXg==
+X-CSE-MsgGUID: F0wECzkFTt6v7Zm1uIbqLA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31580757"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="54325009"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 14:55:47 -0800
-X-CSE-ConnectionGUID: S2fN66BKRc+z+uZy8R8Zcw==
-X-CSE-MsgGUID: Twv74Zn4T+6Z0zUhtleAQQ==
+   d="scan'208";a="31580757"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 14:55:48 -0800
+X-CSE-ConnectionGUID: ntX0LrGmR6uxKVPJfQJkPA==
+X-CSE-MsgGUID: Yd1NgFFPTTSp4O6wcnD9TQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="88820926"
+   d="scan'208";a="119999087"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2024 14:55:45 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 17 Nov 2024 14:55:45 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCoBC-00024b-2A;
+	id 1tCoBC-00024X-24;
 	Sun, 17 Nov 2024 22:55:42 +0000
-Date: Mon, 18 Nov 2024 06:55:18 +0800
+Date: Mon, 18 Nov 2024 06:55:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:rxrpc-iothread 54/64] net/rxrpc/input.c:902:3: error:
- invalid operand in inline asm: ' shr${1:z} $1
-Message-ID: <202411180620.8uhr11le-lkp@intel.com>
+To: Vadim Fedorenko <vadfed@meta.com>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Mykola Lysenko <mykolal@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, bpf@vger.kernel.org,
+	Martin KaFai Lau <martin.lau@linux.dev>
+Subject: Re: [PATCH bpf-next v6 1/4] bpf: add bpf_get_cpu_cycles kfunc
+Message-ID: <202411180657.c0eoNysc-lkp@intel.com>
+References: <20241115194841.2108634-2-vadfed@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,152 +69,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241115194841.2108634-2-vadfed@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git rxrpc-iothread
-head:   2f36eeb32c6d169f6def5f26b80a769ce6e47821
-commit: 4898ab00b3caa2ff67402130051c1135dbd14146 [54/64] rxrpc: Use the new rxrpc_tx_queue struct to more efficiently process ACKs
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20241118/202411180620.8uhr11le-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180620.8uhr11le-lkp@intel.com/reproduce)
+Hi Vadim,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vadim-Fedorenko/bpf-add-bpf_get_cpu_cycles-kfunc/20241117-002106
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241115194841.2108634-2-vadfed%40meta.com
+patch subject: [PATCH bpf-next v6 1/4] bpf: add bpf_get_cpu_cycles kfunc
+config: x86_64-randconfig-075-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180657.c0eoNysc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180657.c0eoNysc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180620.8uhr11le-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180657.c0eoNysc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from net/rxrpc/input.c:10:
-   In file included from net/rxrpc/ar-internal.h:11:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   net/rxrpc/input.c:744:25: warning: variable 'capacity' set but not used [-Wunused-but-set-variable]
-     744 |         unsigned int max_data, capacity;
-         |                                ^
->> net/rxrpc/input.c:902:3: error: invalid operand in inline asm: ' shr${1:z} $1
-    inc $0
-    rcr${2:z} $2
-   '
-     902 |                 shiftr_adv_rotr(acks, extracted);
-         |                 ^
-   net/rxrpc/input.c:789:8: note: expanded from macro 'shiftr_adv_rotr'
-     789 |                         asm(" shr%z1 %1\n"                              \
-         |                             ^
->> net/rxrpc/input.c:902:3: error: invalid operand in inline asm: ' shr${1:z} $1
-    inc $0
-    rcr${2:z} $2
-   '
-   net/rxrpc/input.c:789:8: note: expanded from macro 'shiftr_adv_rotr'
-     789 |                         asm(" shr%z1 %1\n"                              \
-         |                             ^
->> net/rxrpc/input.c:902:3: error: ambiguous instructions require an explicit suffix (could be 'shrb', 'shrw', 'shrl', or 'shrq')
-   net/rxrpc/input.c:789:8: note: expanded from macro 'shiftr_adv_rotr'
-     789 |                         asm(" shr%z1 %1\n"                              \
-         |                             ^
-   <inline asm>:1:3: note: instantiated into assembly here
-       1 |          shr (%rbx)
-         |          ^
-   5 warnings and 3 errors generated.
+   ld: vmlinux.o: in function `vread_pvclock':
+>> arch/x86/include/asm/vdso/gettimeofday.h:198: undefined reference to `pvclock_page'
+>> ld: arch/x86/include/asm/vdso/gettimeofday.h:198: undefined reference to `pvclock_page'
+   ld: vmlinux.o: in function `pvclock_read_begin':
+>> arch/x86/include/asm/pvclock.h:25: undefined reference to `pvclock_page'
+   ld: vmlinux.o: in function `vread_pvclock':
+   arch/x86/include/asm/vdso/gettimeofday.h:228: undefined reference to `pvclock_page'
+   ld: vmlinux.o: in function `__pvclock_read_cycles':
+   arch/x86/include/asm/pvclock.h:86: undefined reference to `pvclock_page'
+   ld: vmlinux.o:arch/x86/include/asm/pvclock.h:88: more undefined references to `pvclock_page' follow
+   ld: .tmp_vmlinux1: hidden symbol `pvclock_page' isn't defined
+   ld: final link failed: bad value
 
 
-vim +902 net/rxrpc/input.c
+vim +198 arch/x86/include/asm/vdso/gettimeofday.h
 
-   873	
-   874	/*
-   875	 * Process individual soft ACKs.
-   876	 *
-   877	 * Each ACK in the array corresponds to one packet and can be either an ACK or
-   878	 * a NAK.  If we get find an explicitly NAK'd packet we resend immediately;
-   879	 * packets that lie beyond the end of the ACK list are scheduled for resend by
-   880	 * the timer on the basis that the peer might just not have processed them at
-   881	 * the time the ACK was sent.
-   882	 */
-   883	static void rxrpc_input_soft_acks(struct rxrpc_call *call,
-   884					  struct rxrpc_ack_summary *summary,
-   885					  struct sk_buff *skb)
-   886	{
-   887		struct rxrpc_skb_priv *sp = rxrpc_skb(skb);
-   888		struct rxrpc_txqueue *tq = call->tx_queue;
-   889		unsigned long extracted = ~0UL;
-   890		unsigned int nr = 0;
-   891		rxrpc_seq_t seq = call->acks_hard_ack + 1;
-   892		rxrpc_seq_t lowest_nak = seq + sp->ack.nr_acks;
-   893		u8 *acks = skb->data + sizeof(struct rxrpc_wire_header) + sizeof(struct rxrpc_ackpacket);
-   894	
-   895		_enter("%x,%x,%u", tq->qbase, seq, sp->ack.nr_acks);
-   896	
-   897		while (after(seq, tq->qbase + RXRPC_NR_TXQUEUE - 1))
-   898			tq = tq->next;
-   899	
-   900		for (unsigned int i = 0; i < sp->ack.nr_acks; i++) {
-   901			/* Decant ACKs until we hit a txqueue boundary. */
- > 902			shiftr_adv_rotr(acks, extracted);
-   903			if (i == 256) {
-   904				acks -= i;
-   905				i = 0;
-   906			}
-   907			seq++;
-   908			nr++;
-   909			if ((seq & RXRPC_TXQ_MASK) != 0)
-   910				continue;
-   911	
-   912			_debug("bound %16lx %u", extracted, nr);
-   913	
-   914			rxrpc_input_soft_ack_tq(call, summary, tq, extracted, RXRPC_NR_TXQUEUE,
-   915						seq - RXRPC_NR_TXQUEUE, &lowest_nak);
-   916			extracted = ~0UL;
-   917			nr = 0;
-   918			tq = tq->next;
-   919			prefetch(tq);
-   920		}
-   921	
-   922		if (nr) {
-   923			unsigned int nr_reported = seq & RXRPC_TXQ_MASK;
-   924	
-   925			extracted >>= RXRPC_NR_TXQUEUE - nr_reported;
-   926			_debug("tail  %16lx %u", extracted, nr_reported);
-   927			rxrpc_input_soft_ack_tq(call, summary, tq, extracted, nr_reported,
-   928						seq & ~RXRPC_TXQ_MASK, &lowest_nak);
-   929		}
-   930	
-   931		/* We *can* have more nacks than we did - the peer is permitted to drop
-   932		 * packets it has soft-acked and re-request them.  Further, it is
-   933		 * possible for the nack distribution to change whilst the number of
-   934		 * nacks stays the same or goes down.
-   935		 */
-   936		if (lowest_nak != call->acks_lowest_nak) {
-   937			call->acks_lowest_nak = lowest_nak;
-   938			summary->new_low_snack = true;
-   939		}
-   940	
-   941		_debug("summary A=%d+%d N=%d+%d",
-   942		       call->acks_nr_sacks,  summary->nr_new_sacks,
-   943		       call->acks_nr_snacks, summary->nr_new_snacks);
-   944	}
-   945	
+7ac8707479886c Vincenzo Frascino 2019-06-21  195  
+7ac8707479886c Vincenzo Frascino 2019-06-21  196  #ifdef CONFIG_PARAVIRT_CLOCK
+7ac8707479886c Vincenzo Frascino 2019-06-21  197  static u64 vread_pvclock(void)
+7ac8707479886c Vincenzo Frascino 2019-06-21 @198  {
+ecf9db3d1f1a8f Andy Lutomirski   2019-06-22  199  	const struct pvclock_vcpu_time_info *pvti = &pvclock_page.pvti;
+7ac8707479886c Vincenzo Frascino 2019-06-21  200  	u32 version;
+7ac8707479886c Vincenzo Frascino 2019-06-21  201  	u64 ret;
+7ac8707479886c Vincenzo Frascino 2019-06-21  202  
+7ac8707479886c Vincenzo Frascino 2019-06-21  203  	/*
+7ac8707479886c Vincenzo Frascino 2019-06-21  204  	 * Note: The kernel and hypervisor must guarantee that cpu ID
+7ac8707479886c Vincenzo Frascino 2019-06-21  205  	 * number maps 1:1 to per-CPU pvclock time info.
+7ac8707479886c Vincenzo Frascino 2019-06-21  206  	 *
+7ac8707479886c Vincenzo Frascino 2019-06-21  207  	 * Because the hypervisor is entirely unaware of guest userspace
+7ac8707479886c Vincenzo Frascino 2019-06-21  208  	 * preemption, it cannot guarantee that per-CPU pvclock time
+7ac8707479886c Vincenzo Frascino 2019-06-21  209  	 * info is updated if the underlying CPU changes or that that
+7ac8707479886c Vincenzo Frascino 2019-06-21  210  	 * version is increased whenever underlying CPU changes.
+7ac8707479886c Vincenzo Frascino 2019-06-21  211  	 *
+7ac8707479886c Vincenzo Frascino 2019-06-21  212  	 * On KVM, we are guaranteed that pvti updates for any vCPU are
+7ac8707479886c Vincenzo Frascino 2019-06-21  213  	 * atomic as seen by *all* vCPUs.  This is an even stronger
+7ac8707479886c Vincenzo Frascino 2019-06-21  214  	 * guarantee than we get with a normal seqlock.
+7ac8707479886c Vincenzo Frascino 2019-06-21  215  	 *
+7ac8707479886c Vincenzo Frascino 2019-06-21  216  	 * On Xen, we don't appear to have that guarantee, but Xen still
+7ac8707479886c Vincenzo Frascino 2019-06-21  217  	 * supplies a valid seqlock using the version field.
+7ac8707479886c Vincenzo Frascino 2019-06-21  218  	 *
+7ac8707479886c Vincenzo Frascino 2019-06-21  219  	 * We only do pvclock vdso timing at all if
+7ac8707479886c Vincenzo Frascino 2019-06-21  220  	 * PVCLOCK_TSC_STABLE_BIT is set, and we interpret that bit to
+7ac8707479886c Vincenzo Frascino 2019-06-21  221  	 * mean that all vCPUs have matching pvti and that the TSC is
+7ac8707479886c Vincenzo Frascino 2019-06-21  222  	 * synced, so we can just look at vCPU 0's pvti.
+7ac8707479886c Vincenzo Frascino 2019-06-21  223  	 */
+7ac8707479886c Vincenzo Frascino 2019-06-21  224  
+7ac8707479886c Vincenzo Frascino 2019-06-21  225  	do {
+7ac8707479886c Vincenzo Frascino 2019-06-21  226  		version = pvclock_read_begin(pvti);
+7ac8707479886c Vincenzo Frascino 2019-06-21  227  
+7ac8707479886c Vincenzo Frascino 2019-06-21  228  		if (unlikely(!(pvti->flags & PVCLOCK_TSC_STABLE_BIT)))
+7ac8707479886c Vincenzo Frascino 2019-06-21  229  			return U64_MAX;
+7ac8707479886c Vincenzo Frascino 2019-06-21  230  
+7ac8707479886c Vincenzo Frascino 2019-06-21  231  		ret = __pvclock_read_cycles(pvti, rdtsc_ordered());
+7ac8707479886c Vincenzo Frascino 2019-06-21  232  	} while (pvclock_read_retry(pvti, version));
+7ac8707479886c Vincenzo Frascino 2019-06-21  233  
+77750f78b0b324 Peter Zijlstra    2023-05-19  234  	return ret & S64_MAX;
+7ac8707479886c Vincenzo Frascino 2019-06-21  235  }
+7ac8707479886c Vincenzo Frascino 2019-06-21  236  #endif
+7ac8707479886c Vincenzo Frascino 2019-06-21  237  
 
 -- 
 0-DAY CI Kernel Test Service
