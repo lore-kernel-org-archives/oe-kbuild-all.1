@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8747D1DAC93
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 18:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28716179BC
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 17 Nov 2024 18:46:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731868570; cv=none; b=G6slznlQ7IDC+Wo14Q+ZJ/1KufDdQf9JBwE8ywtPp0FQPl/22PafUmkPhKbnpC7FtHmumtWUJmHC5LdStvCcVREFWdnLTVGNWSyNDTqPYSfGoyB02ces/s/Hr2RVWrhPSNgp/Ycs28NSDSp/PJ2yI0k1gqo2B1t5KtNGmulS1jk=
+	t=1731869169; cv=none; b=Lwe1SRd6ziWHsawdklKnWzdlBQNdHm0fyQhzahzE6b1tDqKiGUGd8xMvD4PldVxw97fVPdc3/ZthYu70cI+J6LaLNjWa3DRl5h6AHbeqV77FjuJNOazUWAzRiPJ+8aWZ8JXz9Br63UCkphn06dTSNFqI0BHPtFLlJDh1vNGMVaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731868570; c=relaxed/simple;
-	bh=0ioLdMkZxydkHixL/mc8uvNwqbZTPJyV3EDH8DzfVz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mOiurL6Om5oTvAJ35FLN0d0IagmGMne013gfAbvfV6ttdIrh2JlpIv/zPCHcH4IQBqP7I61h2Kxo26y5cTSoSvXSHxMjxTghBI7CsIf+5PytnVIIBQTO/ASxfEH99fk8gyRBh/HV1cr21sEIjc+BaScdn/nFCXfI8HIKcaqWwYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MmeZq9g5; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1731869169; c=relaxed/simple;
+	bh=3wflOag678taWKHyxDtcvPlsCsRGJAbmy2afEVeBWas=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QzNA+Az7efDkdmD6YnNymUIliXfWPuLQHz7N9I0jjatXvoLrVB3kSSSB9we3FtlV3vdnCMb5NoPq+5CCKwjcRiC8c1ZcxCdZWWa8J+gORvG8i7tjoDFcFXnfurh2mHFfZG5vXv0xXywK+qlSi7W/brQ7vl4cAloHWWHTTmAlO5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UjkqmNQl; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MmeZq9g5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UjkqmNQl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731868568; x=1763404568;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0ioLdMkZxydkHixL/mc8uvNwqbZTPJyV3EDH8DzfVz4=;
-  b=MmeZq9g505Sg/r3vSYTn2xezvU/WjCvRqdxSd3DPi5/dLNwb65d5nmEt
-   T6qqsqqJXBLqM4gXhEXzH3w27J01cHdU+knRjP40G/5/btfX+IrMwiRUF
-   9uzR5QSElul/QZeIe3ZUt3uM2mtV/33twdnanHBvCCqwuMVlPJ3zl9P04
-   9UyQdMo06wk9q7mE8x5hl/nqEm6XuOyTQPxw7P5c4VDScWzSs+e9IbgGy
-   268I9+D7/Rplx9p7UhibhVO7puvzlZV0PQyzpKqRDRsWRZ3ZvF4xk3AmW
-   QK9sMerhWR9LdQxvFRmYlJuXZiHH4DvCENdfdpQTgAzoO0WVrNmesa1Qt
-   Q==;
-X-CSE-ConnectionGUID: Gxjfk33aQLO8DbCOYTGLgw==
-X-CSE-MsgGUID: IWtoE7aZSXODpoKNaCJqlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="49255291"
+  t=1731869168; x=1763405168;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3wflOag678taWKHyxDtcvPlsCsRGJAbmy2afEVeBWas=;
+  b=UjkqmNQlMQ1ZSJctIC+Yz43OQkz1JYfcPOtdvwz8hm1gcJvlWQocs+W5
+   4Z9CDk1/gpNXXF7bDB0ht2HooPlb8cS/nMD9+vJ5itKfukvz1k+0m/ISI
+   eccj4slAZcx5NXq/TsN/37fLW8EAnI4A3W477istANUnXoiaU1qD3GgCM
+   16ye7mO14R7JtUGqMYqW12Vb5Nv+gYCQTMnEJ9GeJPlWJ2FH+zkS3jSnp
+   ZObq1tRP4lEPA3sZzD/8jDPTTt+Xa4PStV/bStEkc0sY8XJkgitkDEMWu
+   SyRd0bF7EVdia7NaL6msLzP/fXUnBBrhISN7EX356Z66lMc8brHH5MBIS
+   A==;
+X-CSE-ConnectionGUID: LLCotv5sSrOG0O41pSh5BQ==
+X-CSE-MsgGUID: nhuyZGMZQ9S0CIAkqI9fBQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42449363"
 X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
-   d="scan'208";a="49255291"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 10:36:08 -0800
-X-CSE-ConnectionGUID: oTwMlP9tS2qTiCGnSHNewQ==
-X-CSE-MsgGUID: j77u9Kw+SLycRTb3LJphWA==
+   d="scan'208";a="42449363"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 10:46:07 -0800
+X-CSE-ConnectionGUID: MPuEKbijTGeuUgqlzEiFAw==
+X-CSE-MsgGUID: BS+HC8YJTPao4UowgiWcgA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="94064867"
+X-IronPort-AV: E=Sophos;i="6.12,162,1728975600"; 
+   d="scan'208";a="88792280"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Nov 2024 10:36:06 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2024 10:46:06 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCk7v-0001zh-1Q;
-	Sun, 17 Nov 2024 18:36:03 +0000
-Date: Mon, 18 Nov 2024 02:35:19 +0800
+	id 1tCkHc-000207-0a;
+	Sun, 17 Nov 2024 18:46:04 +0000
+Date: Mon, 18 Nov 2024 02:46:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lothar Rubusch <l.rubusch@gmail.com>, lars@metafoo.de,
-	Michael.Hennerich@analog.com, jic23@kernel.org,
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, l.rubusch@gmx.ch,
-	Lothar Rubusch <l.rubusch@gmail.com>
-Subject: Re: [PATCH 22/22] iio: accel: adxl345: add debug printout
-Message-ID: <202411180235.gb4VHLRO-lkp@intel.com>
-References: <20241114231002.98595-23-l.rubusch@gmail.com>
+To: kernel@openeuler.org, Tian Wei <tianwei@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1297/1297]
+ drivers/gpio/gpio-phytium-pci.c:52:23: sparse: sparse: incompatible types
+ for operation (<):
+Message-ID: <202411180247.fYG6VoE2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,160 +62,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241114231002.98595-23-l.rubusch@gmail.com>
 
-Hi Lothar,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.12-rc7 next-20241115]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lothar-Rubusch/iio-accel-adxl345-fix-comment-on-probe/20241115-190245
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20241114231002.98595-23-l.rubusch%40gmail.com
-patch subject: [PATCH 22/22] iio: accel: adxl345: add debug printout
-config: x86_64-randconfig-121-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180235.gb4VHLRO-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   4c37b6449701a1fcb16050d4e517fa6d505673e1
+commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [1297/1297] gpio: add phytium gpio driver
+config: x86_64-randconfig-r121-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180247.fYG6VoE2-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180235.gb4VHLRO-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180247.fYG6VoE2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180235.gb4VHLRO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180247.fYG6VoE2-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/iio/accel/adxl345_core.c:613:6: sparse: sparse: symbol 'adxl345_empty_fifo' was not declared. Should it be static?
->> drivers/iio/accel/adxl345_core.c:720:46: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected signed short [usertype] *fifo_buf @@     got restricted __le16 * @@
-   drivers/iio/accel/adxl345_core.c:720:46: sparse:     expected signed short [usertype] *fifo_buf
-   drivers/iio/accel/adxl345_core.c:720:46: sparse:     got restricted __le16 *
+   drivers/gpio/gpio-phytium-pci.c: note: in included file (through include/linux/kernel.h, include/linux/interrupt.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/gpio/gpio-phytium-pci.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, include/linux/interrupt.h):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   drivers/gpio/gpio-phytium-pci.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-ab51eccf88/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+>> drivers/gpio/gpio-phytium-pci.c:52:23: sparse: sparse: incompatible types for operation (<):
+   drivers/gpio/gpio-phytium-pci.c:52:23: sparse:    int *
+   drivers/gpio/gpio-phytium-pci.c:52:23: sparse:    int
 
-vim +720 drivers/iio/accel/adxl345_core.c
+vim +52 drivers/gpio/gpio-phytium-pci.c
 
-   606	
-   607	/**
-   608	 * Empty the fifo. This is needed also in case of overflow or error handling.
-   609	 * Read out all remaining elements and reset the fifo_entries counter.
-   610	 *
-   611	 * @st: The instance to the state object of the sensor.
-   612	 */
- > 613	void adxl345_empty_fifo(struct adxl34x_state *st)
-   614	{
-   615		int regval;
-   616		int fifo_entries;
-   617	
-   618		/* In case the HW is not "clean" just read out remaining elements */
-   619		adxl345_get_fifo_entries(st, &fifo_entries);
-   620		if (fifo_entries > 0)
-   621			adxl345_read_fifo_elements(st, fifo_entries);
-   622	
-   623		/* Reset the INT_SOURCE register by reading the register */
-   624		regmap_read(st->regmap, ADXL345_REG_INT_SOURCE, &regval);
-   625	}
-   626	
-   627	static int adxl345_buffer_postenable(struct iio_dev *indio_dev)
-   628	{
-   629		struct adxl34x_state *st = iio_priv(indio_dev);
-   630		struct adxl34x_platform_data *data = &st->data;
-   631		int ret;
-   632	
-   633		ret = adxl345_set_interrupts(st);
-   634		if (ret)
-   635			return -EINVAL;
-   636	
-   637		/* Default to FIFO mode: STREAM, since it covers the general usage
-   638		 * and does not bypass the FIFO
-   639		 */
-   640		data->fifo_mode = ADXL_FIFO_STREAM;
-   641		adxl345_set_fifo(st);
-   642	
-   643		return 0;
-   644	}
-   645	
-   646	static int adxl345_buffer_predisable(struct iio_dev *indio_dev)
-   647	{
-   648		struct adxl34x_state *st = iio_priv(indio_dev);
-   649		struct adxl34x_platform_data *data = &st->data;
-   650		int ret;
-   651	
-   652		/* Turn off interrupts */
-   653		st->int_map = 0x00;
-   654	
-   655		ret = adxl345_set_interrupts(st);
-   656		if (ret) {
-   657			pr_warn("%s(): Failed to disable INTs\n", __func__);
-   658			return -EINVAL;
-   659		}
-   660	
-   661		/* Set FIFO mode: BYPASS, according to the situation */
-   662		data->fifo_mode = ADXL_FIFO_BYPASS;
-   663		adxl345_set_fifo(st);
-   664	
-   665		return 0;
-   666	}
-   667	
-   668	static const struct iio_buffer_setup_ops adxl345_buffer_ops = {
-   669		.postenable = adxl345_buffer_postenable,
-   670		.predisable = adxl345_buffer_predisable,
-   671	};
-   672	
-   673	static int adxl345_get_status(struct adxl34x_state *st, u8 *int_stat)
-   674	{
-   675		int ret;
-   676		unsigned int regval;
-   677	
-   678		*int_stat = 0;
-   679		ret = regmap_read(st->regmap, ADXL345_REG_INT_SOURCE, &regval);
-   680		if (ret) {
-   681			pr_warn("%s(): Failed to read INT_SOURCE register\n", __func__);
-   682			return -EINVAL;
-   683		}
-   684	
-   685		*int_stat = 0xff & regval;
-   686		pr_debug("%s(): int_stat 0x%02X (INT_SOURCE)\n", __func__, *int_stat);
-   687	
-   688		return 0;
-   689	}
-   690	
-   691	static int adxl345_push_fifo_data(struct iio_dev *indio_dev,
-   692					  u8 status,
-   693					  int fifo_entries)
-   694	{
-   695		struct adxl34x_state *st = iio_priv(indio_dev);
-   696		int ndirs = 3; /* 3 directions */
-   697		int i, ret;
-   698	
-   699		if (fifo_entries <= 0)
-   700			return true;
-   701	
-   702		ret = adxl345_read_fifo_elements(st, fifo_entries);
-   703		if (ret)
-   704			return false;
-   705	
-   706		for (i = 0; i < ndirs * fifo_entries; i += ndirs) {
-   707			/* To ensure that the FIFO has completely popped, there must be at least 5
-   708			 * us between the end of reading the data registers, signified by the
-   709			 * transition to register 0x38 from 0x37 or the CS pin going high, and the
-   710			 * start of new reads of the FIFO or reading the FIFO_STATUS register. For
-   711			 * SPI operation at 1.5 MHz or lower, the register addressing portion of the
-   712			 * transmission is sufficient delay to ensure the FIFO has completely
-   713			 * popped. It is necessary for SPI operation greater than 1.5 MHz to
-   714			 * de-assert the CS pin to ensure a total of 5 us, which is at most 3.4 us
-   715			 * at 5 MHz operation.
-   716			 */
-   717			if (st->fifo_delay && (fifo_entries > 1))
-   718				udelay(3);
-   719	
- > 720			adxl345_debug_fifo(__func__, st->fifo_buf, i);
-   721			iio_push_to_buffers(indio_dev, &st->fifo_buf[i]);
-   722		}
-   723	
-   724		return true;
-   725	}
-   726	
+    15	
+    16	static int phytium_gpio_pci_probe(struct pci_dev *pdev,
+    17			const struct pci_device_id *id)
+    18	{
+    19		struct device *dev = &pdev->dev;
+    20		struct phytium_gpio *gpio;
+    21		struct gpio_irq_chip *girq;
+    22		int err;
+    23	
+    24		gpio = devm_kzalloc(&pdev->dev, sizeof(*gpio), GFP_KERNEL);
+    25		if (!gpio)
+    26			return -ENOMEM;
+    27	
+    28		err = pcim_enable_device(pdev);
+    29		if (err) {
+    30			dev_err(dev, "Failed to enable PCI device: err %d\n", err);
+    31			goto out;
+    32		}
+    33	
+    34		err = pcim_iomap_regions(pdev, 1 << 0, pci_name(pdev));
+    35		if (err) {
+    36			dev_err(dev, "Failed to iomap PCI device: err %d\n", err);
+    37			goto out;
+    38		}
+    39	
+    40		gpio->regs = pcim_iomap_table(pdev)[0];
+    41		if (!gpio->regs) {
+    42			dev_err(dev, "Cannot map PCI resource\n");
+    43			err = -ENOMEM;
+    44			goto out;
+    45		}
+    46	
+    47		err = pci_enable_msi(pdev);
+    48		if (err < 0)
+    49			goto out;
+    50	
+    51		gpio->irq[0] = pdev->irq;
+  > 52		if (gpio->irq < 0)
+    53			dev_warn(dev, "no irq is found.\n");
+    54	
+    55		/* There is only one group of Pins at the moment. */
+    56		gpio->ngpio[0] = NGPIO_MAX;
+    57	
+    58		/* irq_chip support */
+    59		gpio->irq_chip.name = dev_name(dev);
+    60		gpio->irq_chip.irq_ack = phytium_gpio_irq_ack;
+    61		gpio->irq_chip.irq_mask = phytium_gpio_irq_mask;
+    62		gpio->irq_chip.irq_unmask = phytium_gpio_irq_unmask;
+    63		gpio->irq_chip.irq_set_type = phytium_gpio_irq_set_type;
+    64		gpio->irq_chip.irq_enable = phytium_gpio_irq_enable;
+    65		gpio->irq_chip.irq_disable = phytium_gpio_irq_disable;
+    66	
+    67		raw_spin_lock_init(&gpio->lock);
+    68	
+    69		gpio->gc.base = -1;
+    70		gpio->gc.get_direction = phytium_gpio_get_direction;
+    71		gpio->gc.direction_input = phytium_gpio_direction_input;
+    72		gpio->gc.direction_output = phytium_gpio_direction_output;
+    73		gpio->gc.get = phytium_gpio_get;
+    74		gpio->gc.set = phytium_gpio_set;
+    75		gpio->gc.ngpio = gpio->ngpio[0] + gpio->ngpio[1];
+    76		gpio->gc.label = dev_name(dev);
+    77		gpio->gc.parent = dev;
+    78		gpio->gc.owner = THIS_MODULE;
+    79	
+    80		girq = &gpio->gc.irq;
+    81		girq->handler = handle_bad_irq;
+    82		girq->default_type = IRQ_TYPE_NONE;
+    83	
+    84		girq->num_parents = 1;
+    85		girq->parents = devm_kcalloc(&pdev->dev, girq->num_parents,
+    86					     sizeof(*girq->parents), GFP_KERNEL);
+    87		if (!girq->parents)
+    88			return -ENOMEM;
+    89		girq->parents[0] = gpio->irq[0];
+    90		girq->parent_handler = phytium_gpio_irq_handler;
+    91	
+    92		girq->chip = &gpio->irq_chip;
+    93	
+    94		err = devm_gpiochip_add_data(dev, &gpio->gc, gpio);
+    95		if (err)
+    96			goto out;
+    97	
+    98		dev_info(dev, "Phytium PCI GPIO controller @%pa registered\n",
+    99			&gpio->regs);
+   100	
+   101		pci_set_drvdata(pdev, gpio);
+   102	
+   103	out:
+   104		return err;
+   105	}
+   106	
 
 -- 
 0-DAY CI Kernel Test Service
