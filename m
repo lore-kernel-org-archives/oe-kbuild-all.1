@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5032238B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 00:38:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1A4360
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 01:22:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731890322; cv=none; b=aRi/ywne9hsfLgNJneuvi7LnFtROSGV46BSmk/8+fhFpcGTyULWSFz0dDy8+dNYNw+inSj98oEUuIJLaI75s5UmPBbpb+i4yLjweEUfGGMiK0J0vqJtZIQGdHYjrYZTyxFBCEyHQbXwtWCUdVoz3EDO5I4FcrFjislRBeOsgrmg=
+	t=1731892957; cv=none; b=UOeKELCwC9adMt8iS1I4o/wbwfA1iiBr/R2rUIfU7J9cABieS9vh8a998KTMVqZPQbpCu6d3RAI9nNP5hYcQjuyldcBMD5rhYhKbbDLLd5UkI9RfWQrVWjKCrv7Cjh6rrOrPOU8gr9EnDCqpH0bjwQnNxzPedbMD3EMQYCS4NTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731890322; c=relaxed/simple;
-	bh=7YOspJrcXhXWbUzeovrUeVUOBCQBmidhbh/5V7XsVz0=;
+	s=arc-20240116; t=1731892957; c=relaxed/simple;
+	bh=i8RL5eTHhRFkJR+d5GpVOOvnLAluQOBYL9clTq0zXGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r0RtJzMY1EwBKjgb7NEcocNrYMH0ZcAUbH7sqX16Hqzv+7jUGAeZ0Lm2LHcEJGuFKqK6YZWDd27ZGVL96V5zueH+n8lr4zZjgAWZ4L7uoDjb0BcP5IKxV+jfGOPp+fqgCV+Vf0iDeVa/xJ/SSk/gczcVFXpGiCP4RC6O8ZPEbi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zt7kQ3q0; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=nLHYYWlUVpFiF7km4uUJ6XHsEzwRwsuGqIe6bL6J93SLRACVgOun992Pjl/hYP9ZYeBkIkRdlTwiKxhNr+ppxhQJORWwv3Dk0jT7aSZ+TL/NaiY15RUftrbs5jcWk0mNE65hWxH0bMszZE+0zcK+1lzSzcHzv18pmAZqKu30hoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VmyVZJpW; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zt7kQ3q0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VmyVZJpW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731890320; x=1763426320;
+  t=1731892955; x=1763428955;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7YOspJrcXhXWbUzeovrUeVUOBCQBmidhbh/5V7XsVz0=;
-  b=Zt7kQ3q0z3yJg6EVefFCDXe9+0q/ahJmUIRZ0xX981+7G4jR1aS+GxRY
-   vomORJ76E7MUAL2RNAh5a+v/VnnvUKPZF/acroULYSHtkJdkCYgOUt0qh
-   7vjr6YOZpifgdvPMsIhePBR+hSBEfrPxZJTS8sqrYvg/d5tNph0x1NdMB
-   tYEa2+yd44b08789dniGKlXxl6Y1cPc7o2mmYeJmf8ddfPziDmUt6IoP/
-   q6KfQ9DFa1H0xhnjAl0IunKtPHM3KVZCyQYYZG56jLx6TT7JbW/k4LLWe
-   sRYtNcK27Rtp7qcgB/1mEo+U0z1kO8mnAST8i9QB3M81Mr7n4FkXjF6iJ
-   A==;
-X-CSE-ConnectionGUID: Hr+D05zTT7q7SLG1CjMO0Q==
-X-CSE-MsgGUID: 5RjhyCEhQIKsW89Migt27Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31980599"
+  bh=i8RL5eTHhRFkJR+d5GpVOOvnLAluQOBYL9clTq0zXGc=;
+  b=VmyVZJpWLUTe+QYuQtscNiTBIwcXmWj/0VMnOyEZTXtTP2xz8kD+d1ah
+   Ry675+ZRXmt72aryXkyT0+aJC0DKCojuDpM+hG/z/HdlUWLkh0nguJHkq
+   RwlJcCanYTQat5pQkH1X+DRrq9LNLAzbEC7ClxMBM7CNhZagv1S7ynJHy
+   6czdNSHWVL921oQsNpBJTk6/9W02bbkA67HG6DZZ9hjsvxIm+VXqvLQqu
+   vQHCp/C3VN8+Cfu+5ESBDO1QeCir4GOeEI9gHGF2O07VmaQ0aRSp7SSaF
+   0rEhhOfiZ/WzZgRmutbtjkKLmNg8qBF0YPOQe0GFyhL6PjrMg0jA2+bFO
+   Q==;
+X-CSE-ConnectionGUID: nyw9DxjjTEiR4ZwRPVzc0Q==
+X-CSE-MsgGUID: tzmbmtuwTEejLRdjrNUjiQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42354774"
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="31980599"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 16:38:40 -0800
-X-CSE-ConnectionGUID: NdgjXZ+QQAylg7kerQyvwQ==
-X-CSE-MsgGUID: +xXnK5gXRGSBxXfkrpEGFw==
+   d="scan'208";a="42354774"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 17:22:34 -0800
+X-CSE-ConnectionGUID: wggGII//RVeNTHfMeuT2wg==
+X-CSE-MsgGUID: vRFEsI3UR3aDVaNzsZ4XyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="88834966"
+   d="scan'208";a="112373004"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Nov 2024 16:38:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 17 Nov 2024 17:22:33 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCpmk-00029f-2D;
-	Mon, 18 Nov 2024 00:38:34 +0000
-Date: Mon, 18 Nov 2024 08:37:59 +0800
+	id 1tCqTG-0002BC-2L;
+	Mon, 18 Nov 2024 01:22:30 +0000
+Date: Mon, 18 Nov 2024 09:22:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Liu Shixin <liushixin2@huawei.com>
+To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474] mm/page_alloc.c:4110:9: error: call to
- undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202411180822.NY0ZU27i-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/b4-sysfs-const-bin_attr-cb 111/120]
+ drivers/scsi/ipr.c:9688:32: error: 'bin_attr_dump' undeclared; did you mean
+ 'bin_attribute'?
+Message-ID: <202411180959.e9Qj51BR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,57 +63,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Liu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   7c547c6bbe6b6a9cedf63d7cdadb2529404df633
-commit: fd855715f24e3eeadaa56de5fde21c55a14aeea0 [1474/1474] mm/mem_reliable: Fallback to dpool if reliable memory is not enough
-config: arm64-randconfig-003-20241117 (https://download.01.org/0day-ci/archive/20241118/202411180822.NY0ZU27i-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180822.NY0ZU27i-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-bin_attr-cb
+head:   7a315c5c3a11f198244918c63efbc9205fc501a1
+commit: e8fed0bb67c88ef43f708e0bfb819f69f5c9a1c2 [111/120] scsi/ipr macro
+config: arm64-randconfig-003-20241118 (https://download.01.org/0day-ci/archive/20241118/202411180959.e9Qj51BR-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180959.e9Qj51BR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180822.NY0ZU27i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180959.e9Qj51BR-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/page_alloc.c:4110:9: error: call to undeclared function 'dynamic_pool_should_alloc'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
-                  ^
-   1 error generated.
+   In file included from drivers/scsi/ipr.c:72:
+   drivers/scsi/ipr.c: In function 'ipr_remove':
+>> drivers/scsi/ipr.c:9688:32: error: 'bin_attr_dump' undeclared (first use in this function); did you mean 'bin_attribute'?
+    9688 |                               &bin_attr_dump);
+         |                                ^~~~~~~~~~~~~
+   drivers/scsi/ipr.h:1698:71: note: in definition of macro 'ipr_remove_trace_file'
+    1698 | #define ipr_remove_trace_file(kobj, attr) sysfs_remove_bin_file(kobj, attr)
+         |                                                                       ^~~~
+   drivers/scsi/ipr.c:9688:32: note: each undeclared identifier is reported only once for each function it appears in
+    9688 |                               &bin_attr_dump);
+         |                                ^~~~~~~~~~~~~
+   drivers/scsi/ipr.h:1698:71: note: in definition of macro 'ipr_remove_trace_file'
+    1698 | #define ipr_remove_trace_file(kobj, attr) sysfs_remove_bin_file(kobj, attr)
+         |                                                                       ^~~~
+   drivers/scsi/ipr.c: In function 'ipr_probe':
+   drivers/scsi/ipr.c:9730:37: error: 'bin_attr_dump' undeclared (first use in this function); did you mean 'bin_attribute'?
+    9730 |                                    &bin_attr_dump);
+         |                                     ^~~~~~~~~~~~~
+   drivers/scsi/ipr.h:1697:71: note: in definition of macro 'ipr_create_trace_file'
+    1697 | #define ipr_create_trace_file(kobj, attr) sysfs_create_bin_file(kobj, attr)
+         |                                                                       ^~~~
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/pci.h:35,
+                    from drivers/scsi/ipr.c:52:
+   drivers/scsi/ipr.c: At top level:
+   include/linux/sysfs.h:376:22: warning: 'bin_attr_trace' defined but not used [-Wunused-variable]
+     376 | struct bin_attribute bin_attr_##_name = __BIN_ATTR_RO(_name, _size)
+         |                      ^~~~~~~~~
+   drivers/scsi/ipr.c:3386:8: note: in expansion of macro 'BIN_ATTR_RO'
+    3386 | static BIN_ATTR_RO(trace, 0);
+         |        ^~~~~~~~~~~
 
 
-vim +/dynamic_pool_should_alloc +4110 mm/page_alloc.c
+vim +9688 drivers/scsi/ipr.c
 
-  4101	
-  4102	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
-  4103	{
-  4104		if (!reliable_allow_fb_enabled())
-  4105			return false;
-  4106	
-  4107		if (!(gfp_mask & GFP_RELIABLE))
-  4108			return false;
-  4109	
-> 4110		return dynamic_pool_should_alloc(gfp_mask & ~GFP_RELIABLE, order);
-  4111	}
-  4112	#else
-  4113	static inline struct zone *mem_reliable_fallback_zone(gfp_t gfp_mask,
-  4114							      struct alloc_context *ac)
-  4115	{
-  4116		return NULL;
-  4117	}
-  4118	static inline void mem_reliable_fallback_slowpath(gfp_t gfp_mask,
-  4119							  struct alloc_context *ac) {}
-  4120	static inline bool mem_reliable_fallback_dpool(gfp_t gfp_mask, unsigned int order)
-  4121	{
-  4122		return false;
-  4123	}
-  4124	#endif
-  4125	
+  9671	
+  9672	/**
+  9673	 * ipr_remove - IOA hot plug remove entry point
+  9674	 * @pdev:	pci device struct
+  9675	 *
+  9676	 * Adapter hot plug remove entry point.
+  9677	 *
+  9678	 * Return value:
+  9679	 * 	none
+  9680	 **/
+  9681	static void ipr_remove(struct pci_dev *pdev)
+  9682	{
+  9683		struct ipr_ioa_cfg *ioa_cfg = pci_get_drvdata(pdev);
+  9684	
+  9685		ENTER;
+  9686	
+  9687		ipr_remove_trace_file(&ioa_cfg->host->shost_dev.kobj,
+> 9688				      &bin_attr_dump);
+  9689		ipr_remove_dump_file(&ioa_cfg->host->shost_dev.kobj,
+  9690				     &bin_attr_dump);
+  9691		sysfs_remove_bin_file(&ioa_cfg->host->shost_dev.kobj,
+  9692				&bin_attr_async_err_log);
+  9693		scsi_remove_host(ioa_cfg->host);
+  9694	
+  9695		__ipr_remove(pdev);
+  9696	
+  9697		LEAVE;
+  9698	}
+  9699	
 
 -- 
 0-DAY CI Kernel Test Service
