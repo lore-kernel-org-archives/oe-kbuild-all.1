@@ -1,143 +1,253 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185B6139D
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 03:09:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DCF29408;
+	Mon, 18 Nov 2024 03:09:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731899347; cv=none; b=bYUzhRbMENGh2N/7kBRMLm1XPT3feirAGrF7DQTzfx2MMKRkgAD2qzJQsV0qsRSC+bYO9LBlxoejlcnz4X7Exj/yJUeWWk0KElsqzMBNp07L/sk5RVPfEnRCQ7WS0QX36PGONeZKrINuttV5YNiZIHnGkGf8/jCEPy2cc5Jlqpo=
+	t=1731899349; cv=none; b=WnW/zgYOOYB/qjzU9WzR6mXi/i5lGoMyvlycM4sbYWNqYzcPXQ8S7oYbo9pjjZbFVRw3kZiH1vurU84NUObWjGODJa4kijsqoiAlyn8bqeJrQh+Lq/CzVzqSftYrUHUsrWDUUw/SohEnrbxxvbusk7O0mEOwlYW/cLg3x59J8ns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731899347; c=relaxed/simple;
-	bh=SINaCOQVIzT292t1L5T5LRCaaF70cG4gAySzjUN4ZSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=St+wjNO2tX9QHWODyrnUzGbEi3OoeVJAPAPL4QLZwutzyjdHXqflK1pM5rsIdzK4j0cDUrYmaMZArlG+C3+S14gK2wlOPRio3tRDAJ1MZSYYXLPFJp9kI+nmNrke1qnGxv+Lfdr3NtjROOakMbsxr/0XtlDDmMRRZzkxt0vPS00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sx9HoLkW; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1731899349; c=relaxed/simple;
+	bh=dDwWUVNnirjI1/hTh+Mdh9it9Mka4TIEqAcLGcL9fCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AXE0DRNGUGsJoK02U+b/fgCXBYDYDyU3Bw0+HSeu8AKhYgm5Did2hXlzexqpWkxHbmiqqIMeiTbL8M2Ba2y2T6cT40AZRghr3NPZ4UnMjoivrEBaZvDGNpbEfSSzsPPXYmfGXxd2sfDfx/k3I1arW4I0nQD0ecNL1M1eiFNfsA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bHREZKkF; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sx9HoLkW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bHREZKkF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731899345; x=1763435345;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SINaCOQVIzT292t1L5T5LRCaaF70cG4gAySzjUN4ZSY=;
-  b=Sx9HoLkWIcIGq6AIjfWjr5d+AI9tJ7OkLpLbBnjj3pEUZMX9KO0vitnR
-   zty5StOVbxoqYECGgg1yvMP6MbSCkxSoe91eDP9jw5K6/Xp9hdedEm0wz
-   CUJqHuUCyA8gk92AmMwVeROyfT2rLIEwHCyd9Kwn3Crrg0DkjpFpIx8fQ
-   N/q/7kYiiTESZFQ9q+x6uSKZKEK1y6CNq4QfNd7ErFUV8fP97I6rI/Jy5
-   FOlCN31E/aA7p8m5XJP+XIsHI5jB6nWJAQOtHJ3kL97Cz8eTMCPPIV1JM
-   dFl4jlKjtWQ0PO/fRTXMIjpvZHkELrxHZf8deXpCDzfAoy/M8LW8DyN6W
-   g==;
-X-CSE-ConnectionGUID: cSDPslIITNy9pcZDBvih4Q==
-X-CSE-MsgGUID: vzQF7mKhRPigg2HktSSfww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31246705"
+  t=1731899347; x=1763435347;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=dDwWUVNnirjI1/hTh+Mdh9it9Mka4TIEqAcLGcL9fCU=;
+  b=bHREZKkFXKK1jIA9eW8qHzsh1pOX3+/+lsSkcmAGoOg2qJhqzGvQ5TUX
+   c3ar34bDym7jGt+ewr8SfiHvLE4acLJ9Mc2wJlJlAKzWlzJEcrrfQkemn
+   1dUPw467NEn/Cfmjs5RT0wdL5NRx1e4Sb0S8TR50NLeb6rQAc8qO5z5H3
+   y2P3U3Y1NyIGssjtWlUONIf37VSpJ0ztusOThw76WtXxjvfuhL/c8mV3z
+   nRiapVBXTEpgFYowyzWUjZl5khuHJiz4LcHiKTN1iQVk62voqPvnygBeU
+   oMKedIlQ7u8sAv8/Q26YDh9EkFvHP7CtjhlNWnYnBshwIAZlUYuyWWCUb
+   w==;
+X-CSE-ConnectionGUID: 6KW1yFC/SHeZRyPakMecrA==
+X-CSE-MsgGUID: Nlu9TNA+R/OksugcZssqmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31246720"
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="31246705"
+   d="scan'208";a="31246720"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 19:09:04 -0800
-X-CSE-ConnectionGUID: 76b9Xhu+Sn6KzH1T7kdB1g==
-X-CSE-MsgGUID: gVMKujLDSxG8szhkM4ERtg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 19:09:07 -0800
+X-CSE-ConnectionGUID: kQg4B/iuSJSn7pQnY/lZhg==
+X-CSE-MsgGUID: ZjlL5zuxQ/eTsxWn/0Lw+Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="94025081"
+   d="scan'208";a="94025082"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 17 Nov 2024 19:09:03 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCs8K-0002Ed-27;
+	id 1tCs8K-0002Eb-1o;
 	Mon, 18 Nov 2024 03:09:00 +0000
-Date: Mon, 18 Nov 2024 11:08:13 +0800
+Date: Mon, 18 Nov 2024 11:08:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hector Martin <marcan@marcan.st>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/140-pci 9/18]
- drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of
- function 'FIELD_PREP'
-Message-ID: <202411181123.IYIayz2e-lkp@intel.com>
+To: =?unknown-8bit?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+	Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	kernel@collabora.com,
+	=?unknown-8bit?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] drm/panthor: register size of internal objects
+ through fdinfo
+Message-ID: <202411181036.aieis7tj-lkp@intel.com>
+References: <20241115191426.3101123-1-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241115191426.3101123-1-adrian.larumbe@collabora.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/140-pci
-head:   73bb6449a37320b5aceab5c4617e39c1530da64e
-commit: 0b35e060bbac4d17e2f6cf63ed39675f350de4fb [9/18] PCIE: apple: Add T602x PCIe support
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241118/202411181123.IYIayz2e-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411181123.IYIayz2e-lkp@intel.com/reproduce)
+Hi Adrián,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-misc/drm-misc-next]
+[also build test WARNING on next-20241115]
+[cannot apply to linus/master v6.12]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Adri-n-Larumbe/drm-panthor-register-size-of-internal-objects-through-fdinfo/20241117-000321
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20241115191426.3101123-1-adrian.larumbe%40collabora.com
+patch subject: [PATCH v2] drm/panthor: register size of internal objects through fdinfo
+config: x86_64-buildonly-randconfig-005-20241118 (https://download.01.org/0day-ci/archive/20241118/202411181036.aieis7tj-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411181036.aieis7tj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411181123.IYIayz2e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411181036.aieis7tj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-apple.c: In function 'apple_pcie_port_setup_irq':
->> drivers/pci/controller/pcie-apple.c:468:40: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     468 |                         writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-         |                                        ^~~~~~~~~~
+>> drivers/gpu/drm/panthor/panthor_gem.c:118: warning: Function parameter or struct member 'pfile' not described in 'panthor_kernel_bo_create'
+--
+>> drivers/gpu/drm/panthor/panthor_heap.c:280: warning: Function parameter or struct member 'pfile' not described in 'panthor_heap_create'
+>> drivers/gpu/drm/panthor/panthor_heap.c:538: warning: Function parameter or struct member 'pfile' not described in 'panthor_heap_pool_create'
+--
+   drivers/gpu/drm/panthor/panthor_fw.c:139: warning: Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr'
+   drivers/gpu/drm/panthor/panthor_fw.c:139: warning: Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr'
+   drivers/gpu/drm/panthor/panthor_fw.c:139: warning: Excess struct member 'start' description in 'panthor_fw_binary_section_entry_hdr'
+   drivers/gpu/drm/panthor/panthor_fw.c:139: warning: Excess struct member 'end' description in 'panthor_fw_binary_section_entry_hdr'
+   drivers/gpu/drm/panthor/panthor_fw.c:196: warning: Excess struct member 'buf' description in 'panthor_fw_section'
+   drivers/gpu/drm/panthor/panthor_fw.c:196: warning: Excess struct member 'size' description in 'panthor_fw_section'
+   drivers/gpu/drm/panthor/panthor_fw.c:278: warning: Excess struct member 'ping_work' description in 'panthor_fw'
+>> drivers/gpu/drm/panthor/panthor_fw.c:456: warning: Function parameter or struct member 'pfile' not described in 'panthor_fw_alloc_queue_iface_mem'
+>> drivers/gpu/drm/panthor/panthor_fw.c:495: warning: Function parameter or struct member 'pfile' not described in 'panthor_fw_alloc_suspend_buf_mem'
+--
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Function parameter or struct member 'as' not described in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'slots_lock' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'alloc_mask' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'faulty_mask' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'slots' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'lru_list' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'lock' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'list' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'reset_in_progress' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:102: warning: Excess struct member 'wq' description in 'panthor_mmu'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'count' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'ptr' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'page' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'addr' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'range' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'vm_bo' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'bo_offset' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'sgt' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:217: warning: Excess struct member 'new_vma' description in 'panthor_vm_op_ctx'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'start' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'size' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'id' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'active_cnt' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'lru_node' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'pool' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:389: warning: Excess struct member 'lock' description in 'panthor_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:412: warning: Cannot understand  * @pt_cache: Cache used to allocate MMU page tables.
+    on line 412 - I thought it was a doc line
+   drivers/gpu/drm/panthor/panthor_mmu.c:481: warning: Cannot understand  * @free_pt() - Custom page table free function
+    on line 481 - I thought it was a doc line
+   drivers/gpu/drm/panthor/panthor_mmu.c:707: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_active'
+   drivers/gpu/drm/panthor/panthor_mmu.c:707: warning: Excess function parameter 'VM' description in 'panthor_vm_active'
+   drivers/gpu/drm/panthor/panthor_mmu.c:816: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_idle'
+   drivers/gpu/drm/panthor/panthor_mmu.c:816: warning: Excess function parameter 'VM' description in 'panthor_vm_idle'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1035: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_alloc_va'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1035: warning: Excess function parameter 'VM' description in 'panthor_vm_alloc_va'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1068: warning: Function parameter or struct member 'vm' not described in 'panthor_vm_free_va'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1068: warning: Excess function parameter 'VM' description in 'panthor_vm_free_va'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1502: warning: Function parameter or struct member 'ptdev' not described in 'panthor_vm_pool_create_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1502: warning: Function parameter or struct member 'args' not described in 'panthor_vm_pool_create_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1502: warning: Excess function parameter 'kernel_va_start' description in 'panthor_vm_pool_create_vm'
+   drivers/gpu/drm/panthor/panthor_mmu.c:1502: warning: Excess function parameter 'kernel_va_range' description in 'panthor_vm_pool_create_vm'
+>> drivers/gpu/drm/panthor/panthor_mmu.c:1919: warning: Function parameter or struct member 'pfile' not described in 'panthor_vm_get_heap_pool'
 
 
-vim +/FIELD_PREP +468 drivers/pci/controller/pcie-apple.c
+vim +118 drivers/gpu/drm/panthor/panthor_gem.c
 
-   430	
-   431	static int apple_pcie_port_setup_irq(struct apple_pcie_port *port)
-   432	{
-   433		struct fwnode_handle *fwnode = &port->np->fwnode;
-   434		struct apple_pcie *pcie = port->pcie;
-   435		unsigned int irq;
-   436	
-   437		/* FIXME: consider moving each interrupt under each port */
-   438		irq = irq_of_parse_and_map(to_of_node(dev_fwnode(port->pcie->dev)),
-   439					   port->idx);
-   440		if (!irq)
-   441			return -ENXIO;
-   442	
-   443		port->domain = irq_domain_create_linear(fwnode, 32,
-   444							&apple_port_irq_domain_ops,
-   445							port);
-   446		if (!port->domain)
-   447			return -ENOMEM;
-   448	
-   449		/* Disable all interrupts */
-   450		writel_relaxed(~0, port->base + PORT_INTMSK);
-   451		writel_relaxed(~0, port->base + PORT_INTSTAT);
-   452		writel_relaxed(~0, port->base + PORT_LINKCMDSTS);
-   453	
-   454		irq_set_chained_handler_and_data(irq, apple_port_irq_handler, port);
-   455	
-   456		/* Configure MSI base address */
-   457		BUG_ON(upper_32_bits(DOORBELL_ADDR));
-   458		writel_relaxed(lower_32_bits(DOORBELL_ADDR),
-   459			       port->base + pcie->hw->port_msiaddr);
-   460		if (pcie->hw->port_msiaddr_hi)
-   461			writel_relaxed(0, port->base + pcie->hw->port_msiaddr_hi);
-   462	
-   463		/* Enable MSIs, shared between all ports */
-   464		if (pcie->hw->port_msimap) {
-   465			int i;
-   466	
-   467			for (i = 0; i < pcie->nvecs; i++) {
- > 468				writel_relaxed(FIELD_PREP(PORT_MSIMAP_TARGET, i) |
-   469					       PORT_MSIMAP_ENABLE,
-   470					       port->base + pcie->hw->port_msimap + 4 * i);
-   471			}
-   472	
-   473			writel_relaxed(PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   474		} else {
-   475			writel_relaxed(0, port->base + PORT_MSIBASE);
-   476			writel_relaxed((ilog2(pcie->nvecs) << PORT_MSICFG_L2MSINUM_SHIFT) |
-   477				PORT_MSICFG_EN, port->base + PORT_MSICFG);
-   478		}
-   479	
-   480		return 0;
-   481	}
-   482	
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15   99  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  100  /**
+8a1cc07578bf42 Boris Brezillon 2024-02-29  101   * panthor_kernel_bo_create() - Create and map a GEM object to a VM
+8a1cc07578bf42 Boris Brezillon 2024-02-29  102   * @ptdev: Device.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  103   * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  104   * @size: Size of the buffer object.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  105   * @bo_flags: Combination of drm_panthor_bo_flags flags.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  106   * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
+8a1cc07578bf42 Boris Brezillon 2024-02-29  107   * that are related to map operations).
+8a1cc07578bf42 Boris Brezillon 2024-02-29  108   * @gpu_va: GPU address assigned when mapping to the VM.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  109   * If gpu_va == PANTHOR_VM_KERNEL_AUTO_VA, the virtual address will be
+8a1cc07578bf42 Boris Brezillon 2024-02-29  110   * automatically allocated.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  111   *
+8a1cc07578bf42 Boris Brezillon 2024-02-29  112   * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
+8a1cc07578bf42 Boris Brezillon 2024-02-29  113   */
+8a1cc07578bf42 Boris Brezillon 2024-02-29  114  struct panthor_kernel_bo *
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  115  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_file *pfile,
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  116  			 struct panthor_vm *vm, size_t size, u32 bo_flags,
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  117  			 u32 vm_map_flags, u64 gpu_va)
+8a1cc07578bf42 Boris Brezillon 2024-02-29 @118  {
+8a1cc07578bf42 Boris Brezillon 2024-02-29  119  	struct drm_gem_shmem_object *obj;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  120  	struct panthor_kernel_bo *kbo;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  121  	struct panthor_gem_object *bo;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  122  	int ret;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  123  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  124  	if (drm_WARN_ON(&ptdev->base, !vm))
+8a1cc07578bf42 Boris Brezillon 2024-02-29  125  		return ERR_PTR(-EINVAL);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  126  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  127  	kbo = kzalloc(sizeof(*kbo), GFP_KERNEL);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  128  	if (!kbo)
+8a1cc07578bf42 Boris Brezillon 2024-02-29  129  		return ERR_PTR(-ENOMEM);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  130  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  131  	obj = drm_gem_shmem_create(&ptdev->base, size);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  132  	if (IS_ERR(obj)) {
+8a1cc07578bf42 Boris Brezillon 2024-02-29  133  		ret = PTR_ERR(obj);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  134  		goto err_free_bo;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  135  	}
+8a1cc07578bf42 Boris Brezillon 2024-02-29  136  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  137  	bo = to_panthor_bo(&obj->base);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  138  	kbo->obj = &obj->base;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  139  	bo->flags = bo_flags;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  140  
+5d01b56f0518d8 Boris Brezillon 2024-10-30  141  	/* The system and GPU MMU page size might differ, which becomes a
+5d01b56f0518d8 Boris Brezillon 2024-10-30  142  	 * problem for FW sections that need to be mapped at explicit address
+5d01b56f0518d8 Boris Brezillon 2024-10-30  143  	 * since our PAGE_SIZE alignment might cover a VA range that's
+5d01b56f0518d8 Boris Brezillon 2024-10-30  144  	 * expected to be used for another section.
+5d01b56f0518d8 Boris Brezillon 2024-10-30  145  	 * Make sure we never map more than we need.
+5d01b56f0518d8 Boris Brezillon 2024-10-30  146  	 */
+5d01b56f0518d8 Boris Brezillon 2024-10-30  147  	size = ALIGN(size, panthor_vm_page_size(vm));
+8a1cc07578bf42 Boris Brezillon 2024-02-29  148  	ret = panthor_vm_alloc_va(vm, gpu_va, size, &kbo->va_node);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  149  	if (ret)
+8a1cc07578bf42 Boris Brezillon 2024-02-29  150  		goto err_put_obj;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  151  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  152  	ret = panthor_vm_map_bo_range(vm, bo, 0, size, kbo->va_node.start, vm_map_flags);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  153  	if (ret)
+8a1cc07578bf42 Boris Brezillon 2024-02-29  154  		goto err_free_va;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  155  
+ff60c8da0aaf7e Boris Brezillon 2024-05-02  156  	kbo->vm = panthor_vm_get(vm);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  157  	bo->exclusive_vm_root_gem = panthor_vm_root_gem(vm);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  158  	drm_gem_object_get(bo->exclusive_vm_root_gem);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  159  	bo->base.base.resv = bo->exclusive_vm_root_gem->resv;
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  160  
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  161  	INIT_LIST_HEAD(&kbo->private_obj);
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  162  
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  163  	/* Only FW regions are not bound to an open file */
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  164  	if (pfile) {
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  165  		mutex_lock(&ptdev->private_obj_list_lock);
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  166  		list_add(&kbo->private_obj, &pfile->private_file_list);
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  167  		mutex_unlock(&ptdev->private_obj_list_lock);
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  168  	}
+7b8b62a7db49e2 Adrián Larumbe  2024-11-15  169  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  170  	return kbo;
+8a1cc07578bf42 Boris Brezillon 2024-02-29  171  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  172  err_free_va:
+8a1cc07578bf42 Boris Brezillon 2024-02-29  173  	panthor_vm_free_va(vm, &kbo->va_node);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  174  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  175  err_put_obj:
+8a1cc07578bf42 Boris Brezillon 2024-02-29  176  	drm_gem_object_put(&obj->base);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  177  
+8a1cc07578bf42 Boris Brezillon 2024-02-29  178  err_free_bo:
+8a1cc07578bf42 Boris Brezillon 2024-02-29  179  	kfree(kbo);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  180  	return ERR_PTR(ret);
+8a1cc07578bf42 Boris Brezillon 2024-02-29  181  }
+8a1cc07578bf42 Boris Brezillon 2024-02-29  182  
 
 -- 
 0-DAY CI Kernel Test Service
