@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A2E1E102E;
-	Mon, 18 Nov 2024 18:55:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 193A454652
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 19:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731956116; cv=none; b=UkeqaOt+XapgisqPwigK3GuQgKqh4/vJwlsPUH6aL5tvq5Rn+47pNXrvzuhNORm/yBpJuIg/OEUzWy5HAb6MzhQblWsjUSQmb6Yit3KyA8cV/gbYu8PDbZWi/1VoT0wCfgZpH9qsRR2klOClg6pZDsFY2IBwauWsPwLQufRn2F4=
+	t=1731959239; cv=none; b=EOrmHRYiJYVw3AHoOaNGwksqglUFLjp6kKUZsuWsd9SWFn4IAN6tDj4+V/7cvWxivrmqkigEGeFkM1znwYY4VJgJY2KKx/uTHAzQ5kI7LoEWYDMZ41nF70/xV8m3O2A6DeLbU6YzVvCmQO3IrNuSk/SHAHHurLJFR3Cr1t62jbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731956116; c=relaxed/simple;
-	bh=EvRhSBNYc55EKAxT72wNHpNHuSnYhb1S5kCwu92RAMI=;
+	s=arc-20240116; t=1731959239; c=relaxed/simple;
+	bh=N/5C4NUN9Rrhb3cWlT2Ig7gaCpOlNqSNclaoL9Epcrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dUyVnewsQRYzn7d3Y2K682/xw3QpClltiFhTgEvIPKoDQKVzCapmY/1jalNHvX7/sJ0yUE8k/Dp2qsdfD3KXYpd01z5RRKETEYyINFvtXZbcn+v8RyM8D2G74dTI3y2CgMZkvmFBK3UbpFp0W+Fm1mvOjzJhSTIEh6IBc3b2UA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQ74UD6X; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=GNTcMseaAdwUpprabbjdB6klf+dexK6xqStwLHGts7/YkXDyWVGUbSn5iuM3V6psXZEserNc///ZLFmcz9pJL2lsf5gycMXYpFj3RnlATBzHqM1Y/Cz8KDw13GQmXKPf6v8ueaX3Cdg5qtQohS6B5nuWVHUKkMX+10Zc/subYzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DdCLAx8S; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQ74UD6X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DdCLAx8S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731956115; x=1763492115;
+  t=1731959237; x=1763495237;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EvRhSBNYc55EKAxT72wNHpNHuSnYhb1S5kCwu92RAMI=;
-  b=gQ74UD6XCC33tPm5EZ2hZ7Sdhe3AA/M//hQ4FFkB1kyj2g1rUsZRrPHU
-   m/lvf12SjMDr1uSUXOZzbg5KOVSI0F8QxeZvsbZBzn2qeHrnL19idYubD
-   hPm0rK56VcOjy5EtKPuIxioSnNCzymO/0KhuxvkzoblDbGzkx+BLIroWZ
-   z+jF5XtntcKaidb/y82NOHSWcg/d6UjxEPRq0MsaLInHoFWrmOTWXOdAp
-   66c5MaT0Q+In73RqecxCLA4YKCNOWvDq+YXb4UtnLrr5z3aeZKBdTwCCs
-   ABPgu5G8r64j0v75gWIMEuCIphPfe2Od2uQR2Py1FH3MQE2iuXKaI4D1c
-   Q==;
-X-CSE-ConnectionGUID: sbI2X2DFS/aVLiSZuf884g==
-X-CSE-MsgGUID: fZLnAyA0R+68XEikEtE1/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31303536"
+  bh=N/5C4NUN9Rrhb3cWlT2Ig7gaCpOlNqSNclaoL9Epcrk=;
+  b=DdCLAx8StconeM7RDSGL0oBLj9E1GNqh3t/gKE5UhQS9VuZIj4F6i2se
+   wD+fgRRDMcqpD4LrCXweRakY8Y4/1QlHRm6N6BkGQTWPHGeFv7mOT+K8l
+   5byKdZKVLZJzXZ/L38ACQuAw4mQ2bJ/qnUUQIbNJAxO8uRHJk3ZmU36Qr
+   2+K63M75C3aanfKW5bF1QGicMzlx2eF69SqVMzSu91kxno2gd9h7CNDV3
+   zdgpXvKaEWLxP315Pg+smwl3CM4gQtYWHcAhKLWMOgkqJ1cZucT31/hy2
+   NCEgsrHUpHLE/k9xtF42TepTqJAtIMlz5n02Hw8a6eivQPPhqZmuXMywr
+   w==;
+X-CSE-ConnectionGUID: Vr3NFVD1QvS39SscULh6xA==
+X-CSE-MsgGUID: xUxLG4X4TDiDu2BGI9rWNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="32169265"
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="31303536"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 10:55:14 -0800
-X-CSE-ConnectionGUID: cvk7YwdkQQGWRYJkRNO6Bw==
-X-CSE-MsgGUID: zC6UJiB4SW+zX9Sku3pzvA==
+   d="scan'208";a="32169265"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 11:47:17 -0800
+X-CSE-ConnectionGUID: eWeOx5RiQneAo2u9c5t3AA==
+X-CSE-MsgGUID: uXtR3tJnTPyEbuBh204eLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="126851312"
+   d="scan'208";a="93397429"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2024 10:55:13 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2024 11:47:16 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tD6tx-0002bF-2R;
-	Mon, 18 Nov 2024 18:55:09 +0000
-Date: Tue, 19 Nov 2024 02:54:25 +0800
+	id 1tD7iL-0002cB-1J;
+	Mon, 18 Nov 2024 19:47:13 +0000
+Date: Tue, 19 Nov 2024 03:46:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Charles Han <hanchunchao@inspur.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Stephen Boyd <sboyd@kernel.org>,
-	David Lechner <david@lechnology.com>
-Subject: [linux-next:master 11416/12140] drivers/clk/davinci/psc.c:281:10:
- error: incompatible integer to pointer conversion returning 'int' from a
- function with result type 'struct davinci_lpsc_clk *'
-Message-ID: <202411190217.UaeAgJnO-lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-v2 2/21] drivers/virtio/virtio_msg_mmio.c:79:3:
+ error: call to undeclared function 'writeq'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202411190357.7iddfY5x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,100 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ae58226b89ac0cffa05ba7357733776542e40216
-commit: 48ce11b9099800eee6fb6dc386374096f2e6564b [11416/12140] clk: davinci: Add NULL check in davinci_lpsc_clk_register
-config: arm-randconfig-003-20241119 (https://download.01.org/0day-ci/archive/20241119/202411190217.UaeAgJnO-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190217.UaeAgJnO-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-v2
+head:   702c1af18bf513f8297bfbb99b859c37b7b900ab
+commit: 91dc384463e6fcf24e2c988696689cb6a539cb94 [2/21] virtio: Add support for MMIO based channel bus
+config: arm-randconfig-002-20241119 (https://download.01.org/0day-ci/archive/20241119/202411190357.7iddfY5x-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190357.7iddfY5x-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411190217.UaeAgJnO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411190357.7iddfY5x-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/clk/davinci/psc.c:281:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct davinci_lpsc_clk *' [-Wint-conversion]
-     281 |                 return -ENOMEM;
-         |                        ^~~~~~~
-   1 error generated.
+>> drivers/virtio/virtio_msg_mmio.c:79:3: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   writeq(*(data + i), addr + i);
+                   ^
+>> drivers/virtio/virtio_msg_mmio.c:87:17: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
+                   *(data + i) = readq(addr + i);
+                                 ^
+   2 errors generated.
 
 
-vim +281 drivers/clk/davinci/psc.c
+vim +/writeq +79 drivers/virtio/virtio_msg_mmio.c
 
-   221	
-   222	/**
-   223	 * davinci_lpsc_clk_register - register LPSC clock
-   224	 * @dev: the clocks's device or NULL
-   225	 * @name: name of this clock
-   226	 * @parent_name: name of clock's parent
-   227	 * @regmap: PSC MMIO region
-   228	 * @md: local PSC number
-   229	 * @pd: power domain
-   230	 * @flags: LPSC_* flags
-   231	 */
-   232	static struct davinci_lpsc_clk *
-   233	davinci_lpsc_clk_register(struct device *dev, const char *name,
-   234				  const char *parent_name, struct regmap *regmap,
-   235				  u32 md, u32 pd, u32 flags)
-   236	{
-   237		struct clk_init_data init;
-   238		struct davinci_lpsc_clk *lpsc;
-   239		int ret;
-   240		bool is_on;
-   241	
-   242		lpsc = kzalloc(sizeof(*lpsc), GFP_KERNEL);
-   243		if (!lpsc)
-   244			return ERR_PTR(-ENOMEM);
-   245	
-   246		init.name = name;
-   247		init.ops = &davinci_lpsc_clk_ops;
-   248		init.parent_names = (parent_name ? &parent_name : NULL);
-   249		init.num_parents = (parent_name ? 1 : 0);
-   250		init.flags = 0;
-   251	
-   252		if (flags & LPSC_ALWAYS_ENABLED)
-   253			init.flags |= CLK_IS_CRITICAL;
-   254	
-   255		if (flags & LPSC_SET_RATE_PARENT)
-   256			init.flags |= CLK_SET_RATE_PARENT;
-   257	
-   258		lpsc->dev = dev;
-   259		lpsc->regmap = regmap;
-   260		lpsc->hw.init = &init;
-   261		lpsc->md = md;
-   262		lpsc->pd = pd;
-   263		lpsc->flags = flags;
-   264	
-   265		ret = clk_hw_register(dev, &lpsc->hw);
-   266		if (ret < 0) {
-   267			kfree(lpsc);
-   268			return ERR_PTR(ret);
-   269		}
-   270	
-   271		/* for now, genpd is only registered when using device-tree */
-   272		if (!dev || !dev->of_node)
-   273			return lpsc;
-   274	
-   275		/* genpd attach needs a way to look up this clock */
-   276		ret = clk_hw_register_clkdev(&lpsc->hw, name, best_dev_name(dev));
-   277	
-   278		lpsc->pm_domain.name = devm_kasprintf(dev, GFP_KERNEL, "%s: %s",
-   279						      best_dev_name(dev), name);
-   280		if (!lpsc->pm_domain.name)
- > 281			return -ENOMEM;
-   282	
-   283		lpsc->pm_domain.attach_dev = davinci_psc_genpd_attach_dev;
-   284		lpsc->pm_domain.detach_dev = davinci_psc_genpd_detach_dev;
-   285		lpsc->pm_domain.flags = GENPD_FLAG_PM_CLK;
-   286	
-   287		is_on = davinci_lpsc_clk_is_enabled(&lpsc->hw);
-   288		pm_genpd_init(&lpsc->pm_domain, NULL, is_on);
-   289	
-   290		return lpsc;
-   291	}
-   292	
+    68	
+    69	static int virtio_msg_mmio_send(struct virtio_msg_device *vmdev,
+    70					struct virtio_msg *request,
+    71					struct virtio_msg *response)
+    72	{
+    73		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
+    74		int i, len = sizeof(*request) / sizeof(u64);
+    75		u64 *data = (u64 *) request;
+    76		u64 *addr = vmmdev->base;
+    77	
+    78		for (i = 0; i < len; i++)
+  > 79			writeq(*(data + i), addr + i);
+    80	
+    81		if (!response)
+    82			return 0;
+    83	
+    84		data = (u64 *) response;
+    85	
+    86		for (i = 0; i < len; i++)
+  > 87			*(data + i) = readq(addr + i);
+    88	
+    89		return 0;
+    90	}
+    91	
 
 -- 
 0-DAY CI Kernel Test Service
