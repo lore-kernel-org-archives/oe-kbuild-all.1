@@ -1,141 +1,126 @@
-Received: from mail-wm1-f73.google.com (mail-wm1-f73.google.com [209.85.128.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98072186E46
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 09:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 917391DFFB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 10:41:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731923163; cv=none; b=UNYyMasZewpWRftXpSUa6m6gO1K0mONu5DLCN5QmcfQht/0cLT21l02Nmv/qAqRobh9sCqw8if8YDRPbFMWVJ/UHOMk6O7xDGiJ31DE9T1Jyjtp+NUXYeVatphM/f4wjToUH3UOPaRhEBU7uu4GyRUrPQ0k0zfauhYg1Pl/STVg=
+	t=1731926481; cv=none; b=qqC9QfgG2mBBFhOD6+yFHzFhVjz7zEAWZW89EM1xg+jI5gmSsltC8GwVz/Liyy71H6Dk9l2ZdzBv43KlJjjoxFUyTRW/MMpNIqO1TabvjXE69Q2DZAUvkxpKVJ38UyjQRRndrLq+ZvCSFKkvCJ3+1qNI9K7qUSNTGM0NX6v3oVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731923163; c=relaxed/simple;
-	bh=mUQUbdZM2wB07Dr6dMNlFKE5OpDs/vuM8ExzU1Ox/kI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SvbP8+EHUS6KeSCzdgsgYTvo9DpAEG6o9m4h/WivN3hO4y9FX0neHn+JlULD8gFR2NjcF/4jTIbJJvPNQBERIB5tsBdFFep1dAvklG765UZeypSINBrY8XGm1aTSqP+G0/bnjyz71g/8ubSkWXsOs21Wy3U9IQAdm9XSQCVVENg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=wWakfleJ; arc=none smtp.client-ip=209.85.128.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+	s=arc-20240116; t=1731926481; c=relaxed/simple;
+	bh=uXVWwlXBwSyCIQyl5Mpf6EjcAh8HEw1cMg57HBYh2mk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Zjz2Y4cgKRCMkLBbq70EB1+YXjrWiNEyr5wyclQTiCHVmC0ERvU08MI2EpNgcS/cV5m7zfNO7j2Fz3KB2OViedTWTj+r2LEjpTkUCHmkvyEetJCW47Ne7nVXpHkJ+nW53Ibyf7hzlDDd6LQttsstZZGlhkjWJ6CkYl5EjIL/YRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CFAVQ1dM; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wWakfleJ"
-Received: by mail-wm1-f73.google.com with SMTP id 5b1f17b1804b1-4316e350d6aso13665175e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 01:46:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1731923159; x=1732527959; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RSzXbcfeBbUeVFqww01Yww7G1C9jrZS952jPysDA1Dc=;
-        b=wWakfleJm2YfeEc2WRZuI42JwnGjEdoqeVpOqMDhR/8tPhTL0AzeyIcVHqKbd0SJak
-         Csde3Ylb7K94DrYlvJgKx29+2gmCGg5jfcvMO5J1LTjKo+vjgCm707BvmOwTCqaraVDU
-         F+uEzsu9bERJ8RTulWtgwuwpFcJqW1tosS+TXYZ5kx35oRW8KJ80CZzG2R0+UR4o0LxV
-         9pAedvCJmsIV6mAmrybeWDlRoO9byBSRGAdtPohSV/Dfur5cgD84NCvXFlQaCflWfjby
-         T5YlNRYy7+vOc4yD8FsT0sL0oFWLQnysDVPMkZp2zW8Mxcz9851B5Siv3oFc4+ZwoN3w
-         c2+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731923159; x=1732527959;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RSzXbcfeBbUeVFqww01Yww7G1C9jrZS952jPysDA1Dc=;
-        b=l6ctTf5sFg5XFMjKwDhdOfCxubfPZAT7JWDU2/2ByBpDC7zy5ULMg+EYvw6QRIDR0F
-         g4Jgx4amFTRXd93RzfwprA3/LCJaBpzGUqxnNaux4IZLOvKOPq1568rwOU/YY957Rc5d
-         EcZ2HECy2jr8B+BdbXtb8NWQakmaUeDlXEuxMqpoFduDMQXh+Wi8mltQaoODpwFC7OWj
-         EfGb8X+KzH6pmQz+op1D99g7hGLWc9Y71l4hxDXpXqw3SF0y2jJeMNpF4R3ZNkNSWFFG
-         tBZ9SQ2Mx4MnIyIdIzIDCmjGZ9e3ws4EiRKnbhFddZwRMVwJ6DJJj5BL9qFlS3GvwaHc
-         7yjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXom/83c6Md8aiZM6B4CZUWuIuSoZbZJTOiJ6ANq8h0k5KVwpeva5Jvx+S8yPRx6CzNFwfMYSGdMJS/gaMT@lists.linux.dev
-X-Gm-Message-State: AOJu0YyWCO3lASA2Ug7G7cpm1jS8fyEEEht+RXc4CyOQ3JuMiAhftzsQ
-	P9UMRkwMbDMAZbf+dWq6DboYaoWNJWHkaiAN8Ov4/YyoP2EeS/k6unKikcjL5X6q0gbhjPvTjFd
-	iHvzLumuRTEd8bw==
-X-Google-Smtp-Source: AGHT+IGXNocgNSIUHqqsyjnvJEyCJXmTljyWq9QmJHH3np9JIxVnk5W+lA6r62qYmN0JCERlE9ZVGtFwx/58rss=
-X-Received: from aliceryhl.c.googlers.com ([fda3:e722:ac3:cc00:68:fe9:ac10:f29e])
- (user=aliceryhl job=sendgmr) by 2002:a05:600c:4215:b0:431:4162:6ae4 with SMTP
- id 5b1f17b1804b1-432df795362mr208495e9.7.1731923159062; Mon, 18 Nov 2024
- 01:45:59 -0800 (PST)
-Date: Mon, 18 Nov 2024 09:45:55 +0000
-In-Reply-To: <202411181440.qEdcuyh6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CFAVQ1dM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731926480; x=1763462480;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uXVWwlXBwSyCIQyl5Mpf6EjcAh8HEw1cMg57HBYh2mk=;
+  b=CFAVQ1dMtYvPyxa1a5H0kwWYIWZezzIchbNJFWxhRcOJdsE3zyhNocEw
+   A+5hIQ+a3whLDh4cG/u+5JPvZmrV6t3j8sBxI5N2xPoPru12RfpI0RkLv
+   Gdb5SO0jxxeyaa5EitEso3E4sMaYvnCgqj2Fcemi0Sz3SiHaXf5S4Iya4
+   0mrB99uA6sKEwhvPADlurLYSmEcV+gkWST3wuowTgLhA7IgOygEOEkmCn
+   QzVNR5TLzbOZnfZKggQBr0thLVfkjdIMKmaQ5S/Mzl6hdUuT3dghNYvV/
+   CZT1Rwwxg5bf5lPEoUIAQQtKcQY4dI3LCLO4FV3gtEmH+Dl/lXyNXIxrp
+   A==;
+X-CSE-ConnectionGUID: im2I/9k8RsCbk7Ud1Tf0Hw==
+X-CSE-MsgGUID: w8oYWErCTAGyc5ylScwS0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="32028307"
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
+   d="scan'208";a="32028307"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 02:41:18 -0800
+X-CSE-ConnectionGUID: xY83NsPYSky0KKyYQ4hBVg==
+X-CSE-MsgGUID: 4C6TF2gJT7iSl+b/cfbo8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
+   d="scan'208";a="88752875"
+Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 18 Nov 2024 02:41:17 -0800
+Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tCzBy-0002O1-0r;
+	Mon, 18 Nov 2024 10:41:14 +0000
+Date: Mon, 18 Nov 2024 18:41:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [leon-rdma:rdma-next 80/81]
+ drivers/infiniband/hw/mlx4/mlx4_ib.h:948:46: sparse: sparse: cast truncates
+ bits from constant value (1fffff000 becomes fffff000)
+Message-ID: <202411181852.09fun6Hi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-References: <202411181440.qEdcuyh6-lkp@intel.com>
-X-Developer-Key: i=aliceryhl@google.com; a=openpgp; fpr=49F6C1FAA74960F43A5B86A1EE7A392FDE96209F
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2118; i=aliceryhl@google.com;
- h=from:subject; bh=mUQUbdZM2wB07Dr6dMNlFKE5OpDs/vuM8ExzU1Ox/kI=;
- b=owEBbQKS/ZANAwAKAQRYvu5YxjlGAcsmYgBnOwxwrFVPAYwYEld95H7+qqElBC3vV734EtpiP
- fx0k+rNdreJAjMEAAEKAB0WIQSDkqKUTWQHCvFIvbIEWL7uWMY5RgUCZzsMcAAKCRAEWL7uWMY5
- Rm6wD/9agfhSO35uSz3ujzRglJWSW+eKrJ7uUYHCFpWA5ybgvsbCYYb6V9V1T7G8U6NPtbLw98n
- 3i2iYhiBk0RuIHH/+oQvfK1DDIlTSn5RdJGuJ1KSWFXz/lgqFJP32bWQwkqtupkHQLS0xQEaiFS
- TxhGgAv1ZNVSLMijj4HBjTU5zJhVbyvaA569dFuh5ogazF+WosY4gOxKR6xpvYIgGood6wMOBUZ
- 2t3I1I1BLA7Ol8UAkh4Mj/2/t8XUXAQeUyvktDIDi74QIEM+dH6VsB5Qo3gvh++mnCUuggJD+ey
- 5uCj+n55DydJbueuUJlbYLvpuZU90aM5Y/jJ+ml7TnyIVuDhu0clhtFTqP4blvfNCfeD9GY503/
- bSidq71l6rN5fhLFnGLUl/kOy6rFd2hrw3kJOeNGDsGt9ZmJamccMhN5KoJZRiCfqtdWHCDn03w
- 5x9K/BcbqoS6N/+n1EN/+4O7W4SAw/yL/duCDiDMliEU/7P3Zd5arQolUQCiAoLZInXXGWBej+r
- R80vew0eJJagQnOq1KUtwJxsmL/uw4uJcruJts6hqUq4KL2PIJXG+cujOB/k+EEPZyY6xm1nWYm
- ItIl8WGy2yTHU44Dq1/asmQo+MQhTlz68GN+bS1BxkbsnYm0Mz+r5XCj4MEhqui0GLiZ2t18PEI DVm4QA2wl5EHpaw==
-X-Mailer: git-send-email 2.47.0.338.g60cca15819-goog
-Message-ID: <20241118094555.2583708-1-aliceryhl@google.com>
-Subject: [PATCH] jump_label: rust: pass a mut ptr to `static_key_count`
-From: Alice Ryhl <aliceryhl@google.com>
-To: lkp@intel.com
-Cc: aliceryhl@google.com, boqun.feng@gmail.com, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, ojeda@kernel.org, rostedt@goodmis.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-When building the rust_print sample with CONFIG_JUMP_LABEL=n, the Rust
-static key support falls back to using static_key_count. This function
-accepts a mutable pointer to the `struct static_key`, but the Rust
-abstractions are incorrectly passing a const pointer.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+head:   845d2ffec19e577cacf326ed496df4a7bb12642f
+commit: 99af5949be7199ac79c2f922f02eb42c20080554 [80/81] RDMA/mlx4: Use ib_umem_find_best_pgsz() to calculate MTT size
+config: arc-randconfig-r133-20241117 (https://download.01.org/0day-ci/archive/20241118/202411181852.09fun6Hi-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241118/202411181852.09fun6Hi-lkp@intel.com/reproduce)
 
-This means that builds using CONFIG_JUMP_LABEL=n and SAMPLE_RUST_PRINT=y
-fail with the following error message:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411181852.09fun6Hi-lkp@intel.com/
 
-	error[E0308]: mismatched types
-	  --> <root>/samples/rust/rust_print_main.rs:87:5
-	   |
-	87 | /     kernel::declare_trace! {
-	88 | |         /// # Safety
-	89 | |         ///
-	90 | |         /// Always safe to call.
-	91 | |         unsafe fn rust_sample_loaded(magic: c_int);
-	92 | |     }
-	   | |     ^
-	   | |     |
-	   | |_____types differ in mutability
-	   |       arguments to this function are incorrect
-	   |
-	   = note: expected raw pointer `*mut kernel::bindings::static_key`
-	              found raw pointer `*const kernel::bindings::static_key`
-	note: function defined here
-	  --> <root>/rust/bindings/bindings_helpers_generated.rs:33:12
-	   |
-	33 |     pub fn static_key_count(key: *mut static_key) -> c_int;
-	   |            ^^^^^^^^^^^^^^^^
+sparse warnings: (new ones prefixed by >>)
+   drivers/infiniband/hw/mlx4/cq.c: note: in included file:
+>> drivers/infiniband/hw/mlx4/mlx4_ib.h:948:46: sparse: sparse: cast truncates bits from constant value (1fffff000 becomes fffff000)
+   drivers/infiniband/hw/mlx4/cq.c: note: in included file (through arch/arc/include/asm/irqflags.h, include/linux/irqflags.h, include/linux/spinlock.h, ...):
+   arch/arc/include/asm/irqflags-arcv2.h:80:31: sparse: sparse: undefined identifier '__builtin_arc_lr'
+   arch/arc/include/asm/irqflags-arcv2.h:83:17: sparse: sparse: undefined identifier '__builtin_arc_sr'
+--
+   drivers/infiniband/hw/mlx4/mr.c: note: in included file:
+>> drivers/infiniband/hw/mlx4/mlx4_ib.h:948:46: sparse: sparse: cast truncates bits from constant value (1fffff000 becomes fffff000)
+--
+   drivers/infiniband/hw/mlx4/qp.c: note: in included file:
+>> drivers/infiniband/hw/mlx4/mlx4_ib.h:948:46: sparse: sparse: cast truncates bits from constant value (1fffff000 becomes fffff000)
 
-To fix this, insert a pointer cast so that the pointer is mutable.
+vim +948 drivers/infiniband/hw/mlx4/mlx4_ib.h
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202411181440.qEdcuyh6-lkp@intel.com/
-Fixes: 169484ab6677 ("rust: add arch_static_branch")
-Signed-off-by: Alice Ryhl <aliceryhl@google.com>
----
- rust/kernel/jump_label.rs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+   926	
+   927	struct ib_wq *mlx4_ib_create_wq(struct ib_pd *pd,
+   928					struct ib_wq_init_attr *init_attr,
+   929					struct ib_udata *udata);
+   930	int mlx4_ib_destroy_wq(struct ib_wq *wq, struct ib_udata *udata);
+   931	int mlx4_ib_modify_wq(struct ib_wq *wq, struct ib_wq_attr *wq_attr,
+   932			      u32 wq_attr_mask, struct ib_udata *udata);
+   933	
+   934	int mlx4_ib_create_rwq_ind_table(struct ib_rwq_ind_table *ib_rwq_ind_tbl,
+   935					 struct ib_rwq_ind_table_init_attr *init_attr,
+   936					 struct ib_udata *udata);
+   937	static inline int
+   938	mlx4_ib_destroy_rwq_ind_table(struct ib_rwq_ind_table *wq_ind_table)
+   939	{
+   940		return 0;
+   941	}
+   942	static inline int mlx4_ib_umem_calc_optimal_mtt_size(struct ib_umem *umem,
+   943							     u64 start,
+   944							     int *num_of_mtts)
+   945	{
+   946		unsigned long pg_sz;
+   947	
+ > 948		pg_sz = ib_umem_find_best_pgsz(umem, MLX4_PAGE_SIZE_SUPPORTED, start);
+   949		if (!pg_sz)
+   950			return -EOPNOTSUPP;
+   951	
+   952		*num_of_mtts = ib_umem_num_dma_blocks(umem, pg_sz);
+   953		return order_base_2(pg_sz);
+   954	}
+   955	
 
-diff --git a/rust/kernel/jump_label.rs b/rust/kernel/jump_label.rs
-index 2f2df03a3275..b5aff632ecc7 100644
---- a/rust/kernel/jump_label.rs
-+++ b/rust/kernel/jump_label.rs
-@@ -26,7 +26,7 @@ macro_rules! static_branch_unlikely {
- 
-         #[cfg(not(CONFIG_JUMP_LABEL))]
-         {
--            $crate::bindings::static_key_count(_key) > 0
-+            $crate::bindings::static_key_count(_key.cast_mut()) > 0
-         }
- 
-         #[cfg(CONFIG_JUMP_LABEL)]
-
-base-commit: 22193c586b43ee88d66954395885742a6e4a49a9
 -- 
-2.47.0.338.g60cca15819-goog
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
