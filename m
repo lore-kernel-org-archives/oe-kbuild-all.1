@@ -1,121 +1,159 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp1.cs.Stanford.EDU (smtp1.cs.stanford.edu [171.64.64.25])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3026C1E5711;
-	Mon, 18 Nov 2024 20:42:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82B061C07F7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 21:24:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=171.64.64.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731962529; cv=none; b=NeGtPRZ8oYJT7UtwDDjfR0Nf2JJTPNUGIb6Dqmu9Te6kRHsblf1AZqCt5VmfJWwhDmzECCeEeX5FSXuWHDcJmzE5c7UOVFDlaMBRWrX04IXQnPdjHrfpZ7RFyR61QaGbhO54M2mVlBB4kQXLa2RCf0kWPrPbl2Vogg0o8RLkGVY=
+	t=1731965083; cv=none; b=cFuaEuQWLMfz8w2IrXrnmZF3T1Ubq3W2VB2gj26+mxXTG6tf+j3gH2v8SJiqc/M6e3uynJcix4yiVZCCS5yDc3U/7vcDKd6aQaR0qTv4B5zrZeSn2Qg1a44IMKFGII9sWYixTL2dReu4qwAsZHQaG9O+rNX/zbqh8N0Sw3vgPEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731962529; c=relaxed/simple;
-	bh=UkJuL8+zmGtSoHuxf0o8yRBe8ZiUwlbXINtsp7R8Cnc=;
+	s=arc-20240116; t=1731965083; c=relaxed/simple;
+	bh=O5a25Qtjne3Zv/V3w2gZEoZkgc2X9l6XRk87LsCYa/I=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G0aDGL7fZ+ZxBE6j9enhdsCTcFvgN9+GjOhrDp4cj+UHIbu8DE2enAQ6Qn2s0/olU6X5ePJKzJpvrJ9dgSAoUqo5++/+vRiG54c1pUXIiPzX4MqgX3eAg7a6eYbb/2Et896DJ3FZHZGgLNMAvhlq3wi6v4CggPaSMd8J4kRcHW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RP6ICOQR; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=bGzVXrTYus/xeBhBa7cb21iAjmPJLggy1j4dop4iRdh7DNS4tgAfseznJKbzoI+npzO1bIHwflRExNjQICPPZu4vqq/hbPvX6ps9PcPusPHiertkjPqyGPhgetkkUkAdjEEd68tNTrkdzR08n2J/KNogbYYkyHfwG/JssO0t/oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu; spf=pass smtp.mailfrom=cs.stanford.edu; dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b=PlqX2to/; arc=none smtp.client-ip=171.64.64.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cs.stanford.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cs.stanford.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RP6ICOQR"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2ea35c0b0b0so167469a91.1;
-        Mon, 18 Nov 2024 12:42:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731962527; x=1732567327; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F+Xdj7KiBLCPRzY3Todf2snUR+C3yfhMagkENx1A3bE=;
-        b=RP6ICOQR3sKcdqzIXqKqEcnufW6vRGy+NLh1PeFNdkQbauDdC1JngL0O33gHM9zdpP
-         SPQAEXHJirLoAlb4WRgM7WDCR7yWN7q5WjomifWsf3uuED6lVBV2GC7CrSexdmavLpfH
-         HC2lvkKziHudpmnrtFJhNuG5PzYekDjTg64yUCf7WDS7cjTi1n0dr/choZB2PAgFvUmt
-         AihAMwg2RSupEh65EsSpwd0GzIou1ZwKcNzRjrVFKuusvsct12U7dF88YCXeVKcOyrTp
-         Nddanz+DaHlDkbZezRvgZcuz5xjU7XBVDAtHXdg2H1m93KrFP4TQGG033hPS6mXxH7cM
-         Z+vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731962527; x=1732567327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F+Xdj7KiBLCPRzY3Todf2snUR+C3yfhMagkENx1A3bE=;
-        b=IxHI5wCZwwDcw8HXBrc+WrakUnhGHKgj7N/h3H7u1omwOb50vA4Tbt6gXeKdd6dvjh
-         RtOyUaGjJzPxqq12t05tqEghDb9EGRRzre4h+c8xhGeWxrLH9XCm2AMUmfGVAyyub/5j
-         w1EKVu5TjwD//6JjF34Sx+yltn1A0QbIeIdYg6zdHa2UK5Dv75t71vhvo38b2/YiSuJH
-         w6xYnbr60mcYqLESedoEtI7bN1dUh7/WlBvF0VE6nSC9EX5X86bRFsblLRqAATPrNv2R
-         cHC6MTDpdBNoaEdCAepXzbpdqcHk8GXTA3SQBW5YWJPaDhI3HpAqn/qXmAOyPrgdLku4
-         tsmw==
-X-Forwarded-Encrypted: i=1; AJvYcCV45Ev8q/RotIUNGWdMxlqJTa/2J4fFl4v8kCvVaFkDY00oigRX+UfN168ec7CcT22ku5zx@lists.linux.dev, AJvYcCVubKwtPyrfl7z7VyPHFN4TIRthxRYuvvLHpEGM0hhLB2I8YyFOJ7elC4OqayLPOiZxP9flmtrVlo2WEFCopg==@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw9mC2IbizIMQ8mwdFuerlLiLgW7ZDP+NE1gZ6zC42CwZBGVBhG
-	qh+4AXyuJyvxRDjiAKTCIm6e4Habjf0wpwHWrjSoVesLC3HinVbFx/KvsPFxa3n/gngAQgQFqdZ
-	6SMukrS3/AaZxkEzVWE527rC0Axg=
-X-Google-Smtp-Source: AGHT+IGxkBt0lYQ/pb92GnoB4p2dqZtFYBy874Hafj/esamMytu1A0yojsAYvUjvM/AphNdqGi/7a7NpBFxY/qLiFfc=
-X-Received: by 2002:a17:90b:1e10:b0:2ea:5c01:c1a0 with SMTP id
- 98e67ed59e1d1-2ea5c01c415mr3170816a91.3.1731962527424; Mon, 18 Nov 2024
- 12:42:07 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cs.stanford.edu header.i=@cs.stanford.edu header.b="PlqX2to/"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=cs.stanford.edu; s=cs2308; h=Content-Transfer-Encoding:Content-Type:Cc:To:
+	Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Sender:
+	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
+	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=G66iKZoEMFWqwAOVsg26zAkA1V0L1hFf4xkQ1b8KXH8=; t=1731965081; x=1732829081; 
+	b=PlqX2to/LmpcP/W97Nb4tT1k56mJcnF+sZC5BYgLtY3k+eQuUy1TTuJgdnV7M8pFJ3L8TDqDsPl
+	huR6uSIXZRhd0+WhNbG9mCiJpvEmEWIVGpJnlwgCsP3y7/JGFayNSsqNabgvqJsxkVCTODaK7ViXQ
+	2Jgv8greOxqUMjLL6xL7i/9PcrZQnWFe60sD9gA1pgjnyojM0XFbbJA6OzhZ8d8WLixcmE0qQeJ4X
+	0md1HGegbQzBTSijA2J1y7mthK1BZWZfqMqVX3BjQaqQOuBkLvsq5H+K4mE1iMpQFnxQxMvx9obwV
+	F8yPR2OPsaYpXWJflZ6KOHtXdgRomwY5ZBpw==;
+Received: from mail-ot1-f53.google.com ([209.85.210.53]:46531)
+	by smtp1.cs.Stanford.EDU with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.94.2)
+	(envelope-from <ouster@cs.stanford.edu>)
+	id 1tD9EY-00026q-H0
+	for oe-kbuild-all@lists.linux.dev; Mon, 18 Nov 2024 13:24:35 -0800
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7180ab89c58so1601200a34.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 13:24:34 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCWJvHhaJ73vWnqgFEEkByNg4t7SM3/DG1wi8xyEg+ZM2TSYjkPBFCztKk4EfZ4ih5tlYNx+xWwRn/EoQbhY@lists.linux.dev
+X-Gm-Message-State: AOJu0YxCGOpR8foMocxNMAWHEFn4vKxJ4FHiFtCrs4ZGffdk3LfeFPd9
+	NhiqTtznH28TYDsh1O3uxKBn8hMHMzWEJ1+L6AvF5h1wr9jd+Nl6f7rPrYYtKIzEA7efKz04awq
+	Bho7MrUArOhks6oNOuRHkUjoccXI=
+X-Google-Smtp-Source: AGHT+IEx9eUcIdlRPEhBEDAM9A5zhDSrhkSzbONS0gxAHLCxeSaVTovr4IR9SMZvhsC5ZyFtLyllr3iRH6dOduPC4is=
+X-Received: by 2002:a05:6830:a91:b0:718:d7c:2ef2 with SMTP id
+ 46e09a7af769-71a778fd183mr11365768a34.1.1731965073876; Mon, 18 Nov 2024
+ 13:24:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202411181440.qEdcuyh6-lkp@intel.com> <20241118202727.73646-1-aliceryhl@google.com>
-In-Reply-To: <20241118202727.73646-1-aliceryhl@google.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 18 Nov 2024 21:41:53 +0100
-Message-ID: <CANiq72kd31HsDTPNBnLrRC+mkGE-u3qTiPWuQ08TXFcr-M7k9g@mail.gmail.com>
-Subject: Re: [PATCH RESEND] jump_label: rust: pass a mut ptr to `static_key_count`
-To: Alice Ryhl <aliceryhl@google.com>
-Cc: lkp@intel.com, boqun.feng@gmail.com, llvm@lists.linux.dev, 
-	oe-kbuild-all@lists.linux.dev, ojeda@kernel.org, rostedt@goodmis.org, 
-	linux-trace-kernel@vger.kernel.org
+References: <20241111234006.5942-13-ouster@cs.stanford.edu> <202411132114.VB5yFmtR-lkp@intel.com>
+In-Reply-To: <202411132114.VB5yFmtR-lkp@intel.com>
+From: John Ousterhout <ouster@cs.stanford.edu>
+Date: Mon, 18 Nov 2024 13:23:57 -0800
+X-Gmail-Original-Message-ID: <CAGXJAmyeJ2HWxOZj8uY0_Cu47Yy_hAYfSRGmYpNfLGd2PR7Q-Q@mail.gmail.com>
+Message-ID: <CAGXJAmyeJ2HWxOZj8uY0_Cu47Yy_hAYfSRGmYpNfLGd2PR7Q-Q@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+To: kernel test robot <lkp@intel.com>
+Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Score: -1.0
+X-Spam-Level: 
+X-Scan-Signature: 1a99e790efc5595ebc7b409aae77a077
 
-On Mon, Nov 18, 2024 at 9:27=E2=80=AFPM Alice Ryhl <aliceryhl@google.com> w=
+I believe I have fixed all of the kernel test robot issues reported
+under this subject line.
+
+-John-
+
+
+On Wed, Nov 13, 2024 at 5:53=E2=80=AFAM kernel test robot <lkp@intel.com> w=
 rote:
 >
-> When building the rust_print sample with CONFIG_JUMP_LABEL=3Dn, the Rust
-> static key support falls back to using static_key_count. This function
-> accepts a mutable pointer to the `struct static_key`, but the Rust
-> abstractions are incorrectly passing a const pointer.
+> Hi John,
 >
-> This means that builds using CONFIG_JUMP_LABEL=3Dn and SAMPLE_RUST_PRINT=
-=3Dy
-> fail with the following error message:
+> kernel test robot noticed the following build warnings:
 >
->         error[E0308]: mismatched types
->           --> <root>/samples/rust/rust_print_main.rs:87:5
->            |
->         87 | /     kernel::declare_trace! {
->         88 | |         /// # Safety
->         89 | |         ///
->         90 | |         /// Always safe to call.
->         91 | |         unsafe fn rust_sample_loaded(magic: c_int);
->         92 | |     }
->            | |     ^
->            | |     |
->            | |_____types differ in mutability
->            |       arguments to this function are incorrect
->            |
->            =3D note: expected raw pointer `*mut kernel::bindings::static_=
-key`
->                       found raw pointer `*const kernel::bindings::static_=
-key`
->         note: function defined here
->           --> <root>/rust/bindings/bindings_helpers_generated.rs:33:12
->            |
->         33 |     pub fn static_key_count(key: *mut static_key) -> c_int;
->            |            ^^^^^^^^^^^^^^^^
+> [auto build test WARNING on net-next/main]
 >
-> To fix this, insert a pointer cast so that the pointer is mutable.
+> url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/ne=
+t-homa-define-user-visible-API-for-Homa/20241112-074535
+> base:   net-next/main
+> patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40=
+cs.stanford.edu
+> patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and K=
+config
+> config: riscv-randconfig-r112-20241113 (https://download.01.org/0day-ci/a=
+rchive/20241113/202411132114.VB5yFmtR-lkp@intel.com/config)
+> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 5=
+92c0fe55f6d9a811028b5f3507be91458ab2713)
+> reproduce: (https://download.01.org/0day-ci/archive/20241113/202411132114=
+.VB5yFmtR-lkp@intel.com/reproduce)
 >
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202411181440.qEdcuyh6-lkp@i=
-ntel.com/
-> Fixes: 169484ab6677 ("rust: add arch_static_branch")
-> Signed-off-by: Alice Ryhl <aliceryhl@google.com>
-
-Yeah, the original had the `.cast_mut()`.
-
-Acked-by: Miguel Ojeda <ojeda@kernel.org>
-
-Cheers,
-Miguel
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411132114.VB5yFmtR-lkp=
+@intel.com/
+>
+> sparse warnings: (new ones prefixed by >>)
+> >> net/homa/homa_sock.c:201:31: sparse: sparse: cast removes address spac=
+e '__rcu' of expression
+>    net/homa/homa_sock.c:248:17: sparse: sparse: context imbalance in 'hom=
+a_sock_shutdown' - different lock contexts for basic block
+>    net/homa/homa_sock.c:303:21: sparse: sparse: context imbalance in 'hom=
+a_sock_bind' - different lock contexts for basic block
+>
+> vim +/__rcu +201 net/homa/homa_sock.c
+>
+> 8ddf00265eb650 John Ousterhout 2024-11-11  183
+> 8ddf00265eb650 John Ousterhout 2024-11-11  184  /*
+> 8ddf00265eb650 John Ousterhout 2024-11-11  185   * homa_sock_unlink() - U=
+nlinks a socket from its socktab and does
+> 8ddf00265eb650 John Ousterhout 2024-11-11  186   * related cleanups. Once=
+ this method returns, the socket will not be
+> 8ddf00265eb650 John Ousterhout 2024-11-11  187   * discoverable through t=
+he socktab.
+> 8ddf00265eb650 John Ousterhout 2024-11-11  188   */
+> 8ddf00265eb650 John Ousterhout 2024-11-11  189  void homa_sock_unlink(str=
+uct homa_sock *hsk)
+> 8ddf00265eb650 John Ousterhout 2024-11-11  190  {
+> 8ddf00265eb650 John Ousterhout 2024-11-11  191          struct homa_sockt=
+ab *socktab =3D hsk->homa->port_map;
+> 8ddf00265eb650 John Ousterhout 2024-11-11  192          struct homa_sockt=
+ab_scan *scan;
+> 8ddf00265eb650 John Ousterhout 2024-11-11  193
+> 8ddf00265eb650 John Ousterhout 2024-11-11  194          /* If any scans r=
+efer to this socket, advance them to refer to
+> 8ddf00265eb650 John Ousterhout 2024-11-11  195           * the next socke=
+t instead.
+> 8ddf00265eb650 John Ousterhout 2024-11-11  196           */
+> 8ddf00265eb650 John Ousterhout 2024-11-11  197          spin_lock_bh(&soc=
+ktab->write_lock);
+> 8ddf00265eb650 John Ousterhout 2024-11-11  198          list_for_each_ent=
+ry(scan, &socktab->active_scans, scan_links) {
+> 8ddf00265eb650 John Ousterhout 2024-11-11  199                  if (!scan=
+->next || scan->next->sock !=3D hsk)
+> 8ddf00265eb650 John Ousterhout 2024-11-11  200                          c=
+ontinue;
+> 8ddf00265eb650 John Ousterhout 2024-11-11 @201                  scan->nex=
+t =3D (struct homa_socktab_links *)hlist_next_rcu(&scan
+> 8ddf00265eb650 John Ousterhout 2024-11-11  202                           =
+       ->next->hash_links);
+> 8ddf00265eb650 John Ousterhout 2024-11-11  203          }
+> 8ddf00265eb650 John Ousterhout 2024-11-11  204          hlist_del_rcu(&hs=
+k->socktab_links.hash_links);
+> 8ddf00265eb650 John Ousterhout 2024-11-11  205          spin_unlock_bh(&s=
+ocktab->write_lock);
+> 8ddf00265eb650 John Ousterhout 2024-11-11  206  }
+> 8ddf00265eb650 John Ousterhout 2024-11-11  207
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
