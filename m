@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF0C145B27
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 07:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED3562907
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 07:35:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731914724; cv=none; b=JuZQnALN9lfUNwNZejcGHFja0PT2TYtCH9/nSdYbMtSMaQ+2SuvOJX/BPBV+m/VGPgwasO3I8ZWIhVjxYFkGUda1CsNKd2f3qhqnuqIZMrGQieLODhrbusGrn3NhePqVPFTESd5jXra0LgG9fY2Odmv+GRcdxXpGSqYXO1vIU3g=
+	t=1731915328; cv=none; b=BK2YiOp4TA+9h3wEyQKXnkPD7xRmoKoIjl1QZEeVRASWDWE21UbmkDihx1bqq9vBF8nuqarWFBQQjLqCOVVhaQwpxR/pxhu3yrnfCfEMJQrE7sgsyad0QvtnqKfEUF4hrGJ62UIshAi7WBQknHIJctotdTRQ/aZPnFabZrhbCcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731914724; c=relaxed/simple;
-	bh=BCFto1DvbNNsjKpRwZBm962X6ETc4d9ENZwYMXxw0Jo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=u0rs4DInF0UWHqmlnGGmYzy6p/PJItXv2JB/kGiBm6YOUnwXHkYzbbNEpl4m2Pegp05IGX+tuF4RmVUQy/VmhTlOumoXC5HGZ2lAUC+20mlU5aUyYvT5EdOrQgbK/KZ0Vekh9MPcF1JGDBfRHG3G2hYjLis/WNQvqui7zV3vdDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgQdjg1h; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1731915328; c=relaxed/simple;
+	bh=ksPBSllEouqrr99MKLP7FFwbh+zo5Mu1lXVfcYTeK+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sXvwz0504AmvPg/LZymRM13m1KqwHBAzGS0w83evPAYn+JsLNKoCI5f4UmOfOiC1SzGGNGTzO3LsU6werTtoylbl8nT/RmweNPd3meBuf282n4KO4iEWaAc7GRoiGEW9j8yLkSkuw2lWjsNcfacpTUtSs0BhKTkRAKCNYXT/opU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cm5j7rSS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgQdjg1h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cm5j7rSS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731914722; x=1763450722;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BCFto1DvbNNsjKpRwZBm962X6ETc4d9ENZwYMXxw0Jo=;
-  b=YgQdjg1hAz3qJ1EyWuKFPDDwrTo0Ehbo674wdTqFst+iXupITfMqWHTw
-   2yEmZHDie5WyipURyjDEP37yGetVwn0wEpYcK38Ae4+A3nfitr2PvYPz6
-   rQxXj36ctSvT3/r1Qpzm/UvNzezY5bbvC59EWYn8XsNB2j8NMY37tw8Iv
-   X4scKMtpXE5nz9MoIk892O6r5RDgmd40yE2wvHpJlL55digu5iv+tPJEf
-   uskX7Sc1IbKivqFMarkWYwk8xYcfypW90b5VBpQUc2RD7Nm+XhFEGx3ie
-   8EAVPdD7LWtaQpH20YLP8fSOVyej2BsvgiuuorUNSGRDvlZfE3I48ww7N
-   Q==;
-X-CSE-ConnectionGUID: KMIih8fVQ4O5JHPEvl/P7A==
-X-CSE-MsgGUID: E7Xtj127TOuZrp0I1hHTJA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31707369"
+  t=1731915327; x=1763451327;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ksPBSllEouqrr99MKLP7FFwbh+zo5Mu1lXVfcYTeK+4=;
+  b=Cm5j7rSSj6gkIvR6/jtJQjIipWWbJrbCRDRIxEhVhMePH+m9pvqJiuC5
+   FeapFPwae9wrgS5lbuPlsk3vLLTAAWh2BRrJVsUDTj/9I6ebBKLcAgkna
+   KhGaBS6aXC0sBcGfZQWZqb3E9X0eXIdpJC0pVqwm6SpjO8cQ7qDg0vTJo
+   ufgOkuS6AWjtb0HeCMU7O2XmRDmtW1dbrjw88JjgKTZ4JBiMIO7ljMUW2
+   mWRhbg4URV01zlHf201AtuKiWr32UtzgkkFqxXiIrFe2jJ3sO52yFovZ5
+   v7qPMJCHqB42xuRtuX+Na+Q9VMRarj3IrlrhG7ptUodW0dUD1BLepXLDJ
+   w==;
+X-CSE-ConnectionGUID: Ih+Y0bE1RrSDj6Z1peXZMA==
+X-CSE-MsgGUID: RqwhWffhS1u/yFvaXVK+4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31912852"
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="31707369"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 23:25:22 -0800
-X-CSE-ConnectionGUID: V04v+crjRiWYDgI//R4VLw==
-X-CSE-MsgGUID: EG5PLKP6TP6jQNcFDs3QUQ==
+   d="scan'208";a="31912852"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 23:35:26 -0800
+X-CSE-ConnectionGUID: OJhChfJXTgKwwFPVaVsNwQ==
+X-CSE-MsgGUID: /LABZ+NBRoOoINcVyFbAIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="89926456"
+   d="scan'208";a="89572133"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Nov 2024 23:25:21 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 17 Nov 2024 23:35:24 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCw8M-0002Jl-29;
-	Mon, 18 Nov 2024 07:25:18 +0000
-Date: Mon, 18 Nov 2024 15:24:33 +0800
+	id 1tCwI6-0002K1-03;
+	Mon, 18 Nov 2024 07:35:22 +0000
+Date: Mon, 18 Nov 2024 15:34:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?unknown-8bit?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 16/119] sound/soc/apple/macaudio.c:778:1:
- sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it
- be static?
-Message-ID: <202411181554.7psJh4WU-lkp@intel.com>
+To: Anand Jain <anand.jain@oracle.com>, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, dsterba@suse.com, wqu@suse.com,
+	hrx@bupt.moe, waxhead@dirtcellar.net
+Subject: Re: [PATCH v3 05/10] btrfs: introduce RAID1 round-robin read
+ balancing
+Message-ID: <202411181508.CyjUUrnX-lkp@intel.com>
+References: <995d4a9dd9f553825805efdac24dec4a9de20ef3.1731076425.git.anand.jain@oracle.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,41 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <995d4a9dd9f553825805efdac24dec4a9de20ef3.1731076425.git.anand.jain@oracle.com>
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   a89c7c8788b938f7b52c6ca56449de45e92a056e
-commit: 19a2b533a8813a6a3f8368f4198977afc2049339 [16/119] ASoC: apple: Add macaudio machine driver
-config: sparc64-randconfig-r122-20241118 (https://download.01.org/0day-ci/archive/20241118/202411181554.7psJh4WU-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241118/202411181554.7psJh4WU-lkp@intel.com/reproduce)
+Hi Anand,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on next-20241115]
+[cannot apply to linus/master v6.12]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anand-Jain/btrfs-initialize-fs_devices-fs_info-earlier/20241116-230928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/995d4a9dd9f553825805efdac24dec4a9de20ef3.1731076425.git.anand.jain%40oracle.com
+patch subject: [PATCH v3 05/10] btrfs: introduce RAID1 round-robin read balancing
+config: m68k-randconfig-r113-20241117 (https://download.01.org/0day-ci/archive/20241118/202411181508.CyjUUrnX-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241118/202411181508.CyjUUrnX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411181554.7psJh4WU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411181508.CyjUUrnX-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> sound/soc/apple/macaudio.c:778:1: sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it be static?
->> sound/soc/apple/macaudio.c:788:1: sparse: sparse: symbol 'macaudio_hp_mux_enum' was not declared. Should it be static?
-   sound/soc/apple/macaudio.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+All errors (new ones prefixed by >>):
 
-vim +/macaudio_spk_mux_enum +778 sound/soc/apple/macaudio.c
-
-   777	
- > 778	SOC_ENUM_SINGLE_VIRT_DECL(macaudio_spk_mux_enum, macaudio_spk_mux_texts);
-   779	
-   780	static const struct snd_kcontrol_new macaudio_spk_mux =
-   781		SOC_DAPM_ENUM("Speaker Playback Mux", macaudio_spk_mux_enum);
-   782	
-   783	static const char * const macaudio_hp_mux_texts[] = {
-   784		"Primary",
-   785		"Secondary"
-   786	};
-   787	
- > 788	SOC_ENUM_SINGLE_VIRT_DECL(macaudio_hp_mux_enum, macaudio_hp_mux_texts);
-   789	
+   m68k-linux-ld: fs/btrfs/sysfs.o: in function `btrfs_read_policy_store':
+>> sysfs.c:(.text+0x197a): undefined reference to `__moddi3'
 
 -- 
 0-DAY CI Kernel Test Service
