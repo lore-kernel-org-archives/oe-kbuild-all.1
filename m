@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859E78F66
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 01:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B647E2110E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 01:43:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731894224; cv=none; b=GdaZZ47pS8v8Nw7xdkdvMLT91FQU1dt89BGi9skFgBSCS/yERa3wE0C10iGAh64a9fmwbcvMZBJFMbR0rZ0LCpxJPwbb+7UtM1pTMTl+4k4ZBONdxePBW7lODE2fGECJzCnb3ZAJ/gWJmPlohxPQRieq5kgziIodV6/lBAKFtjs=
+	t=1731894226; cv=none; b=TYnbxWAhF9O01kH4ytOU+OgzwoIXx17ffc3nWXA9lOk93wwlmsYkTnB8m2tVnr16AXhAQq75kPa1y46yITO8ell+Q42wM+r+KMV8gcbh6eg571x7/5oMkCXFQF5h/g6S1nOk5+/cUcp8ATFSM4XwF8sdkhfBzVwjOtY4QWN4gIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731894224; c=relaxed/simple;
-	bh=YAdzl53wr32CIwWD+VTziOpSA6k3uBhRyzFc6sDOoW8=;
+	s=arc-20240116; t=1731894226; c=relaxed/simple;
+	bh=oEly5aS3JKZsGwDiNPUBC3yvDCxQziaRV1KPIMevBfo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AY/0DDs95TwS+7lGjB/h1qDbHoAiyWypWV0PYS5rXTwtAp2RfSYcVVecAHVV7suOfmAddYoucMUc4erZHLDAnWWLntqH2MJ1rnXWAm04II3BdSTlkOcifW6s5avaYIbvvXwjMO/KPwaXDEEUumGU83KdbYxN/fnZX6p71Nj5XkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtvSl5yC; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=HW8d7sUK6hn+CoeiQzcVFXtqkhLxzDjkmIgQ2TuU3C0yTz2gKXOHcR7ZWSB7SgesA7NZWgsvccsB3WsEALcU95iAVBUIM5wUimZJTGEW6tZ5KEGO4N8RnFqeSnDwOu0NE14UG4lO+kdSmlZxtzDtM8BD5/eu+tzH7qXTzBha5Sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=codksueQ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtvSl5yC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="codksueQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731894223; x=1763430223;
+  t=1731894225; x=1763430225;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YAdzl53wr32CIwWD+VTziOpSA6k3uBhRyzFc6sDOoW8=;
-  b=FtvSl5yCobgdphoeiYEIF0zeWD8C1eTh7IIGWat2Ce8ESXSugziVY0Qm
-   PBV8k0iw2I0XfBJhSNTCwxxIwDRLPL5+SM37qOHItZLwEJ/KG0gmhpuA9
-   v+oKxgYEditH7jxmjA/KLQuf/377zHJwnaPuArmCmZr+crzZ4VL92p8MT
-   bdqbx2j9bcVz4uzggV0hDAANAltcgOzJtPWv3cY+pv11//CgW2BwBba6r
-   zBx0iLk4lmgf5kKO2ahvlrRAxQMYq82p2elIUJr1qWfK7+sPk+8smn+es
-   6n1Ec2HBy21jUE60JTYmW5l1dQSiZ5qCdzWseAM4da/ctzzpoD+P6tlh5
-   g==;
-X-CSE-ConnectionGUID: T2WSY7MvSmStsvnemJ/ptQ==
-X-CSE-MsgGUID: my+Oiz+fQ/y/0I09ApCb4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42465509"
+  bh=oEly5aS3JKZsGwDiNPUBC3yvDCxQziaRV1KPIMevBfo=;
+  b=codksueQ1YHsrHQzZgPS/vGbdjnIyHozUCdkTcgPdhQFvYtND8xdamEr
+   0Z+/1gd6JgxegISXvwYJQvPSsqpLN+hubE5E+GBZw4gLCP1Dv3tSb6+kv
+   BP6k5PpFrvAkXazTpZkZIx51+3deKgsEI85oR3OSw4gghjxEJJ4GodfUN
+   7zBaKhpKzanSpAqLlUi0o5zT2YiudIsNk7mPsPwaxOrGWDdR4TmVYhaO4
+   /Q3GfN+B8JwKn7+jbLF1g/IY7KdK0GfDYO51ttb4EdMgVnIkRqGbxhQNs
+   i52r3nJzl18PqUOxs7m5EYM6kCu11aqj43Gx4xJFMLWJfNyW7a7DVJ38Q
+   A==;
+X-CSE-ConnectionGUID: qxjsMPqfTWyAz7v67wb3vg==
+X-CSE-MsgGUID: FfMF9tFJRYyNirT10z8UZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="42465511"
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="42465509"
+   d="scan'208";a="42465511"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
   by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 17:43:42 -0800
-X-CSE-ConnectionGUID: n6OokZBNT4uZtzqFt+sr/A==
-X-CSE-MsgGUID: WI08G+sWSEW0aeOLR9u4kw==
+X-CSE-ConnectionGUID: //B2SZMJRQGLwBzAAKSsVQ==
+X-CSE-MsgGUID: n3tRNuZKRjOWWLWjMF81Xw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="94010378"
+   d="scan'208";a="94010379"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 17 Nov 2024 17:43:41 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCqni-0002Bz-1a;
+	id 1tCqni-0002Bx-1W;
 	Mon, 18 Nov 2024 01:43:38 +0000
-Date: Mon, 18 Nov 2024 09:42:49 +0800
+Date: Mon, 18 Nov 2024 09:42:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/b4-sysfs-const-bin_attr-cb 14/150]
- arch/powerpc/kernel/secvar-sysfs.c:142:24: error: assignment of member
- 'size' in read-only object
-Message-ID: <202411180922.Nqpocvg1-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1474/1474]
+ arch/x86/kernel/zhaoxin_kh40000.c:155:26: sparse: sparse: symbol
+ 'kh40000_dma_direct_ops' was not declared. Should it be static?
+Message-ID: <202411180946.SYMUTUAQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,50 +63,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-bin_attr-cb
-head:   7a315c5c3a11f198244918c63efbc9205fc501a1
-commit: b9c98b9876d636cc1a76b8c41c4d5436809468f9 [14/150] powerpc
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20241118/202411180922.Nqpocvg1-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180922.Nqpocvg1-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   7c547c6bbe6b6a9cedf63d7cdadb2529404df633
+commit: 11557c1ae4529f133483879b7ee00b7d8c653be7 [1474/1474] x86/cpu/zhaoxin: Encapsulate access to kh40000_dma_direct_ops within function
+config: x86_64-randconfig-123-20241118 (https://download.01.org/0day-ci/archive/20241118/202411180946.SYMUTUAQ-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411180946.SYMUTUAQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411180922.Nqpocvg1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411180946.SYMUTUAQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kernel/zhaoxin_kh40000.c:33:15: sparse: sparse: symbol 'zhaoxin_patch_code' was not declared. Should it be static?
+>> arch/x86/kernel/zhaoxin_kh40000.c:155:26: sparse: sparse: symbol 'kh40000_dma_direct_ops' was not declared. Should it be static?
+   arch/x86/kernel/zhaoxin_kh40000.c:325:26: sparse: sparse: symbol 'kh40000_dma_iommu_ops' was not declared. Should it be static?
 
-   arch/powerpc/kernel/secvar-sysfs.c: In function 'update_kobj_size':
->> arch/powerpc/kernel/secvar-sysfs.c:142:24: error: assignment of member 'size' in read-only object
-     142 |         data_attr.size = varsize;
-         |                        ^
-   arch/powerpc/kernel/secvar-sysfs.c:143:26: error: assignment of member 'size' in read-only object
-     143 |         update_attr.size = varsize;
-         |                          ^
+vim +/kh40000_dma_direct_ops +155 arch/x86/kernel/zhaoxin_kh40000.c
 
+4332dbb0718135 leoliu-oc 2024-05-13  154  
+4332dbb0718135 leoliu-oc 2024-05-13 @155  const struct dma_map_ops kh40000_dma_direct_ops = {
+4332dbb0718135 leoliu-oc 2024-05-13  156  	.flags			= DMA_F_PCI_P2PDMA_SUPPORTED,
+4332dbb0718135 leoliu-oc 2024-05-13  157  	.alloc			= kh40000_dma_direct_alloc,
+4332dbb0718135 leoliu-oc 2024-05-13  158  	.sync_sg_for_cpu	= kh40000_dma_direct_sync_sg_for_cpu,
+4332dbb0718135 leoliu-oc 2024-05-13  159  	.unmap_page		= kh40000_dma_direct_unmap_page,
+4332dbb0718135 leoliu-oc 2024-05-13  160  	.sync_single_for_cpu	= kh40000_dma_direct_sync_single_for_cpu,
+4332dbb0718135 leoliu-oc 2024-05-13  161  	.unmap_sg		= kh40000_dma_direct_unmap_sg,
+4332dbb0718135 leoliu-oc 2024-05-13  162  	.unmap_resource		= kh40000_dma_direct_unmap_resource,
+4332dbb0718135 leoliu-oc 2024-05-13  163  	.dma_supported		= dma_direct_supported,
+4332dbb0718135 leoliu-oc 2024-05-13  164  	.free			= dma_direct_free,
+4332dbb0718135 leoliu-oc 2024-05-13  165  	.alloc_pages		= dma_direct_alloc_pages,
+4332dbb0718135 leoliu-oc 2024-05-13  166  	.free_pages		= dma_direct_free_pages,
+4332dbb0718135 leoliu-oc 2024-05-13  167  	.sync_single_for_device	= dma_direct_sync_single_for_device,
+4332dbb0718135 leoliu-oc 2024-05-13  168  	.sync_sg_for_device	= dma_direct_sync_sg_for_device,
+4332dbb0718135 leoliu-oc 2024-05-13  169  	.get_required_mask	= dma_direct_get_required_mask,
+4332dbb0718135 leoliu-oc 2024-05-13  170  	.max_mapping_size	= dma_direct_max_mapping_size,
+4332dbb0718135 leoliu-oc 2024-05-13  171  	.mmap			= dma_direct_mmap,
+4332dbb0718135 leoliu-oc 2024-05-13  172  	.get_sgtable		= dma_direct_get_sgtable,
+4332dbb0718135 leoliu-oc 2024-05-13  173  	.map_page		= dma_direct_map_page,
+4332dbb0718135 leoliu-oc 2024-05-13  174  	.map_sg			= dma_direct_map_sg,
+4332dbb0718135 leoliu-oc 2024-05-13  175  	.map_resource		= dma_direct_map_resource,
+4332dbb0718135 leoliu-oc 2024-05-13  176  };
+ef20808db09987 leoliu-oc 2024-03-22  177  
 
-vim +/size +142 arch/powerpc/kernel/secvar-sysfs.c
+:::::: The code at line 155 was first introduced by commit
+:::::: 4332dbb07181359cccca3ba757ef54e434fb1296 Add kh40000_direct_dma_ops for KH-40000 platform
 
-bd5d9c743d38f6 Nayna Jain     2019-11-10  135  
-bd5d9c743d38f6 Nayna Jain     2019-11-10  136  	u64 varsize;
-e0240794405255 Russell Currey 2023-02-10  137  	int rc = secvar_ops->max_size(&varsize);
-bd5d9c743d38f6 Nayna Jain     2019-11-10  138  
-bd5d9c743d38f6 Nayna Jain     2019-11-10  139  	if (rc)
-e0240794405255 Russell Currey 2023-02-10  140  		return rc;
-bd5d9c743d38f6 Nayna Jain     2019-11-10  141  
-bd5d9c743d38f6 Nayna Jain     2019-11-10 @142  	data_attr.size = varsize;
-bd5d9c743d38f6 Nayna Jain     2019-11-10  143  	update_attr.size = varsize;
-bd5d9c743d38f6 Nayna Jain     2019-11-10  144  
-e0240794405255 Russell Currey 2023-02-10  145  	return 0;
-bd5d9c743d38f6 Nayna Jain     2019-11-10  146  }
-bd5d9c743d38f6 Nayna Jain     2019-11-10  147  
-
-:::::: The code at line 142 was first introduced by commit
-:::::: bd5d9c743d38f67d64ea1b512a461f6b5a5f6bec powerpc: expose secure variables to userspace via sysfs
-
-:::::: TO: Nayna Jain <nayna@linux.ibm.com>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
+:::::: TO: leoliu-oc <leoliu-oc@zhaoxin.com>
+:::::: CC: leoliu-oc <leoliu-oc@zhaoxin.com>
 
 -- 
 0-DAY CI Kernel Test Service
