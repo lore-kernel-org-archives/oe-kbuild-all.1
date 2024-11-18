@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B058680BFF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 03:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD7F6E2BE;
+	Mon, 18 Nov 2024 03:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731900551; cv=none; b=UH3tWsbMUYBpub10TOm9p6m1OmtnVk0XmagdY1+Qd2XoDjSu3I+CR5mibySApo6sGuDzPyoDEzhg+tz1tX0A+uwyLMJvWFHA88/Su0cxPi1A+iesxPxMATcaEDTBgmro0KR7pyQztuV7UFr81xIkJgosxEt4esNZ3gIMAKkpXic=
+	t=1731900553; cv=none; b=nMTuprES81fkAwVOQj6v+MPALRWtygn60bioUt8kkg8Ytp/TuqG2LR0UXmPUGCPABbf7ogElgXj7jQyOKfCV+Msq/xkBXDaGlQFvku94e05awG70XAO6n43H8HIOT/l2p51o/SOhzy64S1lLAxfMM8dUQRxXfAOl6/J8TlJlch4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731900551; c=relaxed/simple;
-	bh=rfTzo66LgZA1srCxetHfA6wsrDuoMxto5xgY2z2xBZY=;
+	s=arc-20240116; t=1731900553; c=relaxed/simple;
+	bh=YZeBntUFDPVMvVs+zLA3d9eUU+x3vquw0nGvk04KY00=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LsglUZR4sQdLNfyA8+NP8vwdt91ICiGNX3yOXU0em0MDvSQoYmZG9QxBnsRvRuAKndQkWMCHSg0K/qaoPGGKB9sUtJKVmsa6ttenhvDYmMeBKGmjzxEJhN/jo07qvDaMMUMX29zjG87S+0PAw2mcUg+qqDDIvlk+fivZfFUcB+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWOwoOdz; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=OFv1vVT60FEJc1bkj4PApUx/vBM8ZpSXY/jpnISzNFJP0kpE7D6NuWI2hurg+QB+BHKRvgWAqLOMQcdQRA1RVqIuZNDQCTCEe0It6ULM48ajHUGtPKa/OwWWeqcjBSyty9MJYlAbPswXIhL/COk18hMrX/zcSPwn4edhPwo6rCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AeFFkAuX; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWOwoOdz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AeFFkAuX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731900548; x=1763436548;
+  t=1731900551; x=1763436551;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rfTzo66LgZA1srCxetHfA6wsrDuoMxto5xgY2z2xBZY=;
-  b=gWOwoOdz/cZlH/gY4eEwGSfU5QwWugS1g1pCoMm19+orXgudHIHCoyO5
-   s19tHYnXsN7fdIK42IwSvJGwqyE4H9gSDuCvEW2YJcbPdUV8VD5Vf3kmj
-   H2x4hXymzmM1pRthlSFnxhjz4tec9hP8XmL/IKUJ0i5KuNoaVyh5W173k
-   5ihimVg9HBsvAOa95ID3224HvIegawQTK0R65OGkFPD6EkVISAbwAvLOj
-   xFCBgvb8dmX40T/ASaI3lMn5jFRIdtoYaYKv2oh6f6rKiCr/jKGlkGRVU
-   oOntT9YSpbsHoGzdKqXXCJUl0ontijrSqTkINxBykIv/E4PX7bwR/3Jf0
-   Q==;
-X-CSE-ConnectionGUID: dCL1fh2cTuW7IRiExTyr3Q==
-X-CSE-MsgGUID: TPq173lkS9SLVFnBbrGbyg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31762001"
+  bh=YZeBntUFDPVMvVs+zLA3d9eUU+x3vquw0nGvk04KY00=;
+  b=AeFFkAuXHsCYeTHsc+vmpvs/4FAebpfotB2kdfnF7sJWh5inWPdl6dlS
+   MzX+MNlZUrIGdScCyuik4MJUa7eEeUuLbBmb58lN/os5OS7x3zj1Ay0dR
+   f+HVXfMMDARCAstGJOr/BvH4ACdllZ5t/rBDsiz4f2tr2Wa9yZpTWmcnu
+   JL7hGUAv1rxW5tWk2DzAwkNz22u393Mz+bXvGl9x4iwAuCwN+AOWGxvpf
+   WmIACcBH6vuGJDhdMmCEFDxa6YhDIGJDJQEb/f/7mf0SMAiWaTSzEfPYE
+   3IGf7x50vr0U9VWPV19Y30A6i31E6SXqOfb55xPaM4LiU9i/x9LBEJH/U
+   w==;
+X-CSE-ConnectionGUID: VaJ2+VRMQOCQ4Z9smB3bVw==
+X-CSE-MsgGUID: 4MNNH4asRbqHFQRUpSzQvA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31762003"
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="31762001"
+   d="scan'208";a="31762003"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2024 19:29:07 -0800
-X-CSE-ConnectionGUID: H5wP7bdfSTuo/uKNfJEwhw==
-X-CSE-MsgGUID: j+vcwdI0TD+Qi+8K+pWMRA==
+X-CSE-ConnectionGUID: SjQYKb3oQXOaSumyINISIQ==
+X-CSE-MsgGUID: DfIqEgc0TKi+ihofgLAAdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,163,1728975600"; 
-   d="scan'208";a="89495920"
+   d="scan'208";a="89495921"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 17 Nov 2024 19:29:06 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tCsRj-0002Fb-2N;
+	id 1tCsRj-0002Fd-2R;
 	Mon, 18 Nov 2024 03:29:03 +0000
-Date: Mon, 18 Nov 2024 11:29:02 +0800
+Date: Mon, 18 Nov 2024 11:29:00 +0800
 From: kernel test robot <lkp@intel.com>
 To: Steve French <stfrench@microsoft.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [samba-ksmbd:for-next 4/8] fs/smb/client/fs_context.c:1304:46:
- warning: right-hand operand of comma expression has no effect
-Message-ID: <202411181123.p7SWs3fS-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [samba-ksmbd:for-next 4/8] fs/smb/client/fs_context.c:1306:17:
+ warning: equality comparison result unused
+Message-ID: <202411181139.yMLc37vd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,26 +65,56 @@ Content-Disposition: inline
 tree:   git://git.samba.org/ksmbd.git for-next
 head:   74dd969febbf9f16ca03f880b2020906e1666227
 commit: f4efd0937eeb59de552bcfab2305e19b2a381913 [4/8] smb3 client: minor cleanup of username parsing on mount
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241118/202411181123.p7SWs3fS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411181123.p7SWs3fS-lkp@intel.com/reproduce)
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241118/202411181139.yMLc37vd-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411181139.yMLc37vd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411181123.p7SWs3fS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411181139.yMLc37vd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/smb/client/fs_context.c: In function 'smb3_fs_context_parse_param':
->> fs/smb/client/fs_context.c:1304:46: warning: right-hand operand of comma expression has no effect [-Wunused-value]
-    1304 |                 ctx->username = param->string, GFP_KERNEL;
-         |                                              ^
->> fs/smb/client/fs_context.c:1306:31: warning: statement with no effect [-Wunused-value]
+   In file included from fs/smb/client/fs_context.c:22:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/smb/client/fs_context.c:1306:17: warning: equality comparison result unused [-Wunused-comparison]
     1306 |                 param->string == NULL;
+         |                 ~~~~~~~~~~~~~~^~~~~~~
+   fs/smb/client/fs_context.c:1306:17: note: use '=' to turn this equality comparison into an assignment
+    1306 |                 param->string == NULL;
+         |                               ^~
+         |                               =
+>> fs/smb/client/fs_context.c:1304:34: warning: expression result unused [-Wunused-value]
+    1304 |                 ctx->username = param->string, GFP_KERNEL;
+         |                                                ^~~~~~~~~~
+   include/linux/gfp_types.h:378:46: note: expanded from macro 'GFP_KERNEL'
+     378 | #define GFP_KERNEL      (__GFP_RECLAIM | __GFP_IO | __GFP_FS)
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~
+   6 warnings generated.
 
 
-vim +1304 fs/smb/client/fs_context.c
+vim +1306 fs/smb/client/fs_context.c
 
    954	
    955	static int smb3_fs_context_parse_param(struct fs_context *fc,
