@@ -1,86 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45E851C1F1C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 18:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE251BD4E2
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 18:37:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731954854; cv=none; b=oyKAaO2dBUhmQSeW8Hpqz2vCKnMOpEoZOjifLb8b/Ob3I6ONKstmN/ooxKUUZz/x6QL5aeQb73k72bGUz2puHM/DXhH1H45ObZf0LYYyGN7yT9Eq9/49xy84jc7YgKaVH+tmJ0/XICumqOw/5XUxngSr72h9Gobt6iMgl6g0sQM=
+	t=1731955036; cv=none; b=jLKw75WWYxxtaV5IpCtGHbDvu39lLS3Ka/0PtFK1+VMgqufuPcpnZPm8N0/kTrL/Q/ib5hAvQcvzjERlwgRBHtM0g5XxyYvPWldQvi81xla7JjoHzBE298ovNCXRfN/yT92HrqIkfWgvedrVJq1YYK806jycDFrae1QPwji52H8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731954854; c=relaxed/simple;
-	bh=FrzYnzQIsuairdi3tQb7vmjJCuJANI9j7Ap8F3vkfWM=;
+	s=arc-20240116; t=1731955036; c=relaxed/simple;
+	bh=veoy5a5dW6t2BpWB8948/OFW8RSw0oqfC0Xklrv21+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KJAuB6SBMdAL/qITjfLYnPGoJw2Ml1TkjSE+reYnhp1qeNB6ymQ0rJKM/2ORp3vlnR9S5ZgN5RyTgfQLnP+EsjsiOf7bFur0HJNussFejzG62ex8cy5YKdrJR+VNScL0t9qsL4DbfoAb/fbxwKHRnABng3XdRs02KIakYsK61zU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g0xR2Twk; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=DfKiy5Py2k+piqwkgeg3n4AaIL6d8NX8UsWJ+jTrjTt6ohNRnRQcI8XiF8P0VD5NZe/O8staRO3ZDjzMHCj0KRd5BQ3FLxTqG0SN9wfFhavgNtST9yvsTK1nCH8lONF+Z86KJKkd714cT7Z0n+JdW7XDrBjzuAHrihkZp2nAvOQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/cTEMPg; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g0xR2Twk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731954852; x=1763490852;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FrzYnzQIsuairdi3tQb7vmjJCuJANI9j7Ap8F3vkfWM=;
-  b=g0xR2TwktVM/ukUKFwLDOri8AqCou/fG8H/6OvBL3CT5HLpjGUVUfmFe
-   tmRX1mpXHpgjOFeBDFCMHtIfMF5MBl5iZsDTrj95s4kJNYdmp9oG2QXgm
-   PjBiNGfywVLr8Z2p/aqwKY8i+tzo2gvqRloUhYEhYMa7OpyvnjQ+US4hW
-   AfJKO75De8xTYzsLfs195Ju/ctT0z4EE/FQVX2zKiKefS/ghlb8agOfSA
-   peQnGod1p2IyI82lvpsXBqzmUo74ri24ZHdoMh+VrK9DyZPSCGftb9mkk
-   jEY1URMThwxkeL3ZfWIdxGrgngZ7Q0y6WIguFIhL0x08RnPG0WXOdeVvB
-   A==;
-X-CSE-ConnectionGUID: ycqsPACeQ/2qk0r+bJIyeg==
-X-CSE-MsgGUID: GzgxMcxQTbOhBOr/dS6K1Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31679411"
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="31679411"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 10:34:12 -0800
-X-CSE-ConnectionGUID: oQPOlSBXQO6TfQVckQLtgA==
-X-CSE-MsgGUID: VgeDJFPiSQiWFWrSfPIh1A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="120251548"
-Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Nov 2024 10:34:11 -0800
-Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tD6Zc-0002az-1M;
-	Mon, 18 Nov 2024 18:34:08 +0000
-Date: Tue, 19 Nov 2024 02:34:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dave Jiang <dave.jiang@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [jgunthorpe:fwctl 19/23] ./usr/include/fwctl/cxl.h:83:47: error:
- field 'query' has incomplete type
-Message-ID: <202411190231.cT2t2oa6-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/cTEMPg"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53a097aa3daso2137641e87.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 10:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731955032; x=1732559832; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
+        b=A/cTEMPgAWuHUycIzPrQLSIIzs90pVCir3Z0nQZXXypleU30GA6PrdZd+Af8ntBnKK
+         LCodA4E9+KvxFNrpfh5vcX+h8hTRrtP2IKSHGAa6R8d3ow5o3PedWjgQKbkcJes2+pbu
+         W5e9F6HrqSF7h38n8xpNcwHKiPjt6NF/wbbEyOdL2woEU/zD4eWTod2OQnYXWq6rAAbV
+         JtaWVu9hCNQoFWknQ3gB9Q3MmRjCxj5F9YksHNnW2O2erjYIpfugmskVp/QelXroTDHp
+         nMv6Tym5h/PRysWZ/u979goaEP5NsiGOlkzB81wIitsendSztruyS46St0qNjYLxYUzr
+         iW8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731955032; x=1732559832;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
+        b=sxrHWbLfdpCDytOt9iTXx+uEQXX8q2OhCjxF7GTmnHho5atcJyB+BufCPtv+iIFmTp
+         0mp1lGGVR/qdHV+CSZAKtG+pipiCryn4dst4N1XclD0HmG1mYnxjJbno+c9MowOmzUjO
+         LFOh67djJQ6ExhGSq3q2AKiWC2GSOiX0/kfeAX96L2vlPV9r9/tgvDKhJQHCiO1zll/C
+         KtKh5gpH3pnR/NLe84XMMr4oQsnwfVic8iu3hZnrNbaFhvsVcB4EiW8/yUPF0cglQG54
+         HuAWWk6VQLjAhU7e4qIsY/ov6bvVPd4tmcUjVsRDuJXh5MoRtRUcYShl4o2qWfK/8O3T
+         2BCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUDisDFyPyYG/NsvKfphVZ3l/qLazPeFuxiT9UxcCzq+Kmqs6VgKcv0gVxZVsVOfhhmATQyVQN9jLHXeLe/@lists.linux.dev
+X-Gm-Message-State: AOJu0YzBB5ScHNz+1Z3mXXeeFasr0/+Z/hliRo3HBYaUUvgnbRN/Vcsk
+	rbJOepw8FUNA6YIJChoRSfnf5bGT3eufp89Se5UeqpvqFZq9VSBh4UDz0s1RQWs=
+X-Google-Smtp-Source: AGHT+IE7HkAZZKWlZWOe967YjeFFbvdoOqf49zoPBHZJEX8eseJRaxOA4F6Olv+RbpHKAT0tW28c2A==
+X-Received: by 2002:a05:6512:3a84:b0:53d:a927:8206 with SMTP id 2adb3069b0e04-53dab29ad8dmr4847606e87.20.1731955030890;
+        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dac1fb7asm164569785e9.42.2024.11.18.10.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
+Date: Mon, 18 Nov 2024 21:37:05 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 20/119] sound/soc/soc-dapm.c:2320
+ dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
+Message-ID: <821b7439-cde3-4b59-a4b1-84b38d29b1c3@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/jgunthorpe/linux fwctl
-head:   e4450fb1459bf712009c7cb1461643287e0f9e75
-commit: cd685083320fbb36fbe7973406d5001962699335 [19/23] fwctl/cxl: Add driver for CXL mailbox for handling CXL features commands (RFC)
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20241119/202411190231.cT2t2oa6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190231.cT2t2oa6-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   a89c7c8788b938f7b52c6ca56449de45e92a056e
+commit: 36eb765eeea35c3cb54bd0f11d9f33982142b51c [20/119] ASoC: dapm: Export new 'graph.dot' file in debugfs
+config: x86_64-randconfig-161-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190027.DwOYG7u2-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411190231.cT2t2oa6-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411190027.DwOYG7u2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+sound/soc/soc-dapm.c:2320 dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
 
-   In file included from <command-line>:
->> ./usr/include/fwctl/cxl.h:83:47: error: field 'query' has incomplete type
-      83 |                 struct cxl_mem_query_commands query;
-         |                                               ^~~~~
+vim +/num_wdone +2320 sound/soc/soc-dapm.c
+
+36eb765eeea35c Martin Povišer 2022-08-21  2256  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
+36eb765eeea35c Martin Povišer 2022-08-21  2257  				    size_t count, loff_t *ppos)
+36eb765eeea35c Martin Povišer 2022-08-21  2258  {
+36eb765eeea35c Martin Povišer 2022-08-21  2259  	struct snd_soc_card *card = file->private_data;
+36eb765eeea35c Martin Povišer 2022-08-21  2260  	struct snd_soc_dapm_context *dapm;
+36eb765eeea35c Martin Povišer 2022-08-21  2261  	struct snd_soc_dapm_path *p;
+36eb765eeea35c Martin Povišer 2022-08-21  2262  	struct snd_soc_dapm_widget *w;
+36eb765eeea35c Martin Povišer 2022-08-21  2263  	struct snd_soc_pcm_runtime *rtd;
+36eb765eeea35c Martin Povišer 2022-08-21  2264  	struct snd_soc_dapm_widget *wdone[16];
+36eb765eeea35c Martin Povišer 2022-08-21  2265  	struct snd_soc_dai *dai;
+36eb765eeea35c Martin Povišer 2022-08-21  2266  	int i, num_wdone = 0, cluster = 0;
+36eb765eeea35c Martin Povišer 2022-08-21  2267  	char *buf;
+36eb765eeea35c Martin Povišer 2022-08-21  2268  	ssize_t bufsize;
+36eb765eeea35c Martin Povišer 2022-08-21  2269  	ssize_t ret = 0;
+36eb765eeea35c Martin Povišer 2022-08-21  2270  
+36eb765eeea35c Martin Povišer 2022-08-21  2271  	bufsize = 1024 * card->num_dapm_widgets;
+36eb765eeea35c Martin Povišer 2022-08-21  2272  	buf = kmalloc(bufsize, GFP_KERNEL);
+36eb765eeea35c Martin Povišer 2022-08-21  2273  	if (!buf)
+36eb765eeea35c Martin Povišer 2022-08-21  2274  		return -ENOMEM;
+36eb765eeea35c Martin Povišer 2022-08-21  2275  
+36eb765eeea35c Martin Povišer 2022-08-21  2276  	mutex_lock(&card->dapm_mutex);
+36eb765eeea35c Martin Povišer 2022-08-21  2277  
+36eb765eeea35c Martin Povišer 2022-08-21  2278  #define bufprintf(...) \
+36eb765eeea35c Martin Povišer 2022-08-21  2279  		ret += scnprintf(buf + ret, bufsize - ret, __VA_ARGS__)
+36eb765eeea35c Martin Povišer 2022-08-21  2280  
+36eb765eeea35c Martin Povišer 2022-08-21  2281  	bufprintf("digraph dapm {\n");
+36eb765eeea35c Martin Povišer 2022-08-21  2282  
+36eb765eeea35c Martin Povišer 2022-08-21  2283  	/*
+36eb765eeea35c Martin Povišer 2022-08-21  2284  	 * Print the user-visible devices of the card.
+36eb765eeea35c Martin Povišer 2022-08-21  2285  	 */
+36eb765eeea35c Martin Povišer 2022-08-21  2286  	bufprintf("subgraph cluster_%d {\n", cluster++);
+36eb765eeea35c Martin Povišer 2022-08-21  2287  	bufprintf("label=\"Devices\";style=filled;fillcolor=gray;\n");
+36eb765eeea35c Martin Povišer 2022-08-21  2288  	for_each_card_rtds(card, rtd) {
+36eb765eeea35c Martin Povišer 2022-08-21  2289  		if (rtd->dai_link->no_pcm)
+36eb765eeea35c Martin Povišer 2022-08-21  2290  			continue;
+36eb765eeea35c Martin Povišer 2022-08-21  2291  
+36eb765eeea35c Martin Povišer 2022-08-21  2292  		bufprintf("w%pK [label=\"%d: %s\"];\n", rtd,
+36eb765eeea35c Martin Povišer 2022-08-21  2293  			  rtd->pcm->device, rtd->dai_link->name);
+36eb765eeea35c Martin Povišer 2022-08-21  2294  	}
+36eb765eeea35c Martin Povišer 2022-08-21  2295  	bufprintf("};\n");
+36eb765eeea35c Martin Povišer 2022-08-21  2296  
+36eb765eeea35c Martin Povišer 2022-08-21  2297  	/*
+36eb765eeea35c Martin Povišer 2022-08-21  2298  	 * Print the playback/capture widgets of DAIs just next to
+36eb765eeea35c Martin Povišer 2022-08-21  2299  	 * the user-visible devices. Keep the list of already printed
+36eb765eeea35c Martin Povišer 2022-08-21  2300  	 * widgets in 'wdone', so they will be skipped later.
+36eb765eeea35c Martin Povišer 2022-08-21  2301  	 */
+36eb765eeea35c Martin Povišer 2022-08-21  2302  	for_each_card_rtds(card, rtd) {
+36eb765eeea35c Martin Povišer 2022-08-21  2303  		for_each_rtd_cpu_dais(rtd, i, dai) {
+36eb765eeea35c Martin Povišer 2022-08-21  2304  			if (dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget) {
+36eb765eeea35c Martin Povišer 2022-08-21  2305  				w = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget;
+36eb765eeea35c Martin Povišer 2022-08-21  2306  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
+36eb765eeea35c Martin Povišer 2022-08-21  2307  				if (!rtd->dai_link->no_pcm)
+36eb765eeea35c Martin Povišer 2022-08-21  2308  					bufprintf("w%pK -> w%pK;\n", rtd, w);
+36eb765eeea35c Martin Povišer 2022-08-21  2309  				wdone[num_wdone] = w;
+36eb765eeea35c Martin Povišer 2022-08-21  2310  				if (num_wdone < ARRAY_SIZE(wdone))
+
+If num_wdone == ARRAY_SIZE() then the the previous line just caused memory
+corruption.
+
+36eb765eeea35c Martin Povišer 2022-08-21  2311  					num_wdone++;
+36eb765eeea35c Martin Povišer 2022-08-21  2312  			}
+36eb765eeea35c Martin Povišer 2022-08-21  2313  
+36eb765eeea35c Martin Povišer 2022-08-21  2314  			if (dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget) {
+36eb765eeea35c Martin Povišer 2022-08-21  2315  				w = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget;
+36eb765eeea35c Martin Povišer 2022-08-21  2316  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
+36eb765eeea35c Martin Povišer 2022-08-21  2317  				if (!rtd->dai_link->no_pcm)
+36eb765eeea35c Martin Povišer 2022-08-21  2318  					bufprintf("w%pK -> w%pK;\n", w, rtd);
+36eb765eeea35c Martin Povišer 2022-08-21  2319  				wdone[num_wdone] = w;
+36eb765eeea35c Martin Povišer 2022-08-21 @2320  				if (num_wdone < ARRAY_SIZE(wdone))
+
+same
+
+36eb765eeea35c Martin Povišer 2022-08-21  2321  					num_wdone++;
+36eb765eeea35c Martin Povišer 2022-08-21  2322  			}
+36eb765eeea35c Martin Povišer 2022-08-21  2323  		}
+36eb765eeea35c Martin Povišer 2022-08-21  2324  	}
+36eb765eeea35c Martin Povišer 2022-08-21  2325  
+36eb765eeea35c Martin Povišer 2022-08-21  2326  	for_each_card_dapms(card, dapm) {
+36eb765eeea35c Martin Povišer 2022-08-21  2327  		const char *prefix = soc_dapm_prefix(dapm);
+36eb765eeea35c Martin Povišer 2022-08-21  2328  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
