@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DCDF190665
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 12:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09E79176ADE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 12:44:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731933272; cv=none; b=X4Bxz6EUxi2FT+ZzimwV1nBbEuzuvOcj0KRmBCGS4zWyG829erQax2ZACRQ0ogwFX4onag7Z5NhcBwfo2D0Qibuh+dCrrDzyRbi5iAg13quu5YInVAeX4PXC211FMQIkezH2wQueMk+eSp8U56lLtKgoB/guk3eBwdv/LjUqa0M=
+	t=1731933873; cv=none; b=Dcw5sDu+XvH1fePXG5PWfoopV9mwMPXVPOZNZPrTvJqG9tiA40Fr6eU3ArBaTuuPsYVpgiDOivIaecYdjnnGeSNAmZc10nKTGvqt1k3o80ZOljRPsQGsQTcrQEK9ehDPZKvwpQFLago+XXX1OSR47u/SOfFBF7L5tK00NJZS/zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731933272; c=relaxed/simple;
-	bh=ksGDK1/U26th3guThKmGfeTEzNKziX3032OOsUdpD/s=;
+	s=arc-20240116; t=1731933873; c=relaxed/simple;
+	bh=O3zU7SV0PtPWT6csinnVi6nxU4smm9kPUDCFgw5p+cQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Wvuyk42k81wu+urPjp8GutbC4WlAWtJsjuho6HSF23gCx3/DlPChL3vU7vhvRiguOsJs2zE5cwu2EZ/sSkT7eG+uEXV4TlOcI/1AvLuBYkmYF7QtfjpPWIXbaRG5FtocyAXFDNZydJE1iSyHVWM7vxhCTbsdmG2ru1TPPnc0thw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/7QMTY4; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=I3wv/g1KlFRiQ9XRnpTyxxWk1EkZ45gPG1svUlbtjvuzbz1o7HJkV+Q3LUiGxPG0REUZOT9p6M0uSl5RKhlmtpi6sfUuFEok8hN/lVL8eQjOvjzas3PVCtH/ooYwyrQ51YFWsinvWAfmEAKTJ0mqectFVhp/g//Sw7y0BcOB0Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D//KJv9a; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/7QMTY4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D//KJv9a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731933270; x=1763469270;
+  t=1731933871; x=1763469871;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ksGDK1/U26th3guThKmGfeTEzNKziX3032OOsUdpD/s=;
-  b=P/7QMTY4yeCIr7VA+5nbvywPXonoNN3Vxam1y7hVbg6hiim4F4fsJlhK
-   xKRqq4LPdemu+rOBGlQgLDvzDifJHVNrHX59bz/T61SIfu4JZqhVGLWIm
-   jACOEpkbotgblu2ZLf4LvKLu2Roszg3PomqlN4A4DbgLWQlS8BWkJdSaC
-   V8kDJH9lDU/L/QfWUhRqRmBfmHMIgEmh9Ma8u0GP7wYp+WMiYEqjvU+Xw
-   vll5ODuBJVARnmInTaFgJW37AI+C9R865WyMH/0ihnnsE7VaX9XDGq/Lp
-   /Ur1KhWn+6e7DOPaTRn9g8/JBP9NVChLJ2m9Gq3YXj5Mn4v7cxK+SsNwN
-   w==;
-X-CSE-ConnectionGUID: vPQHd9d3RJuZzI1VhXlWLg==
-X-CSE-MsgGUID: FlGvQaxSQwykTosLAGMAzA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="32027372"
+  bh=O3zU7SV0PtPWT6csinnVi6nxU4smm9kPUDCFgw5p+cQ=;
+  b=D//KJv9asH69qKXhYCw9Rw6wvgDTW64uQHwdgxbuAplvA06AHI7pU8e/
+   NoaoSlX1x+XHJOJl+a/MVxRTIt6RRwkUA968281JQTJy7d8o+GOecq+vL
+   Yhe4SiVnuTdBUqzIHDChlw/+rojlZoFoMvjIr8S7DWSpUDz/RJNo+mHFz
+   9vQVLVb0pILCM6rih6YkvP8WDU5ZYVECixgb7fcP417kszQEn3FKT3UGh
+   xF40oVBaMeBpH/NmRP4ZZ/Ce9BjJp7h0JuO3EoD0LDQ+nyJ5Y6Ms9KUoR
+   UZsr2hl5F2ihzI3HcR+WMscETkoj3ihxxzgKeD0W3/waiV9mO2xBWBa/x
+   A==;
+X-CSE-ConnectionGUID: lBdJfdGISbeYcW/V/OLnPA==
+X-CSE-MsgGUID: Q+zNSiPlRO+Vges/Wy+iCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11259"; a="31262052"
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="32027372"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 04:34:29 -0800
-X-CSE-ConnectionGUID: 7q9jOEWeTfqiwquWA/k72g==
-X-CSE-MsgGUID: cMTCYizrT9C3tR80q2wcjA==
+   d="scan'208";a="31262052"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 04:44:30 -0800
+X-CSE-ConnectionGUID: Jb2Vc8TVTlivh4ArviG0vg==
+X-CSE-MsgGUID: NrY2cKqLTC2wZa3wq1ipIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
-   d="scan'208";a="90005282"
+   d="scan'208";a="93291779"
 Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 18 Nov 2024 04:34:29 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2024 04:44:29 -0800
 Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tD0xV-0002QL-37;
-	Mon, 18 Nov 2024 12:34:25 +0000
-Date: Mon, 18 Nov 2024 20:33:55 +0800
+	id 1tD17C-0002Qb-2Y;
+	Mon, 18 Nov 2024 12:44:26 +0000
+Date: Mon, 18 Nov 2024 20:44:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 118/120]
- fs/bcachefs/btree_journal_iter.c:385:34: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202411182013.DD1rwsIY-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 114/119]
+ sound/soc/apple/macaudio.c:1508:30: sparse: sparse: symbol
+ 'macaudio_j316_cfg' was not declared. Should it be static?
+Message-ID: <202411182017.IDxJPBFV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,108 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   e15820f3f2ecb8d5337781ce8e6ba02aa7615561
-commit: c22bd3413784c8b22dd7388fdca7af62364678ca [118/120] bcachefs: fix O(n^2) issue with whiteouts in journal keys
-config: nios2-randconfig-r111-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182013.DD1rwsIY-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241118/202411182013.DD1rwsIY-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   a89c7c8788b938f7b52c6ca56449de45e92a056e
+commit: b88fdf069d7fbd0fadeb4091af54768599ace1f0 [114/119] READ COMMIT MESSAGE! macaudio: Enable first round of models
+config: sparc64-randconfig-r122-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182017.IDxJPBFV-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241118/202411182017.IDxJPBFV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411182013.DD1rwsIY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411182017.IDxJPBFV-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   fs/bcachefs/btree_journal_iter.c: note: in included file:
-   fs/bcachefs/bcachefs.h:992:9: sparse: sparse: array of flexible structures
->> fs/bcachefs/btree_journal_iter.c:385:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct journal_key_range_overwritten *prev_range @@     got struct journal_key_range_overwritten [noderef] __rcu * @@
-   fs/bcachefs/btree_journal_iter.c:385:34: sparse:     expected struct journal_key_range_overwritten *prev_range
-   fs/bcachefs/btree_journal_iter.c:385:34: sparse:     got struct journal_key_range_overwritten [noderef] __rcu *
->> fs/bcachefs/btree_journal_iter.c:387:34: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct journal_key_range_overwritten *next_range @@     got struct journal_key_range_overwritten [noderef] __rcu * @@
-   fs/bcachefs/btree_journal_iter.c:387:34: sparse:     expected struct journal_key_range_overwritten *next_range
-   fs/bcachefs/btree_journal_iter.c:387:34: sparse:     got struct journal_key_range_overwritten [noderef] __rcu *
->> fs/bcachefs/btree_journal_iter.c:395:51: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct journal_key_range_overwritten [noderef] __rcu *overwritten_range @@     got struct journal_key_range_overwritten *prev_range @@
-   fs/bcachefs/btree_journal_iter.c:395:51: sparse:     expected struct journal_key_range_overwritten [noderef] __rcu *overwritten_range
-   fs/bcachefs/btree_journal_iter.c:395:51: sparse:     got struct journal_key_range_overwritten *prev_range
->> fs/bcachefs/btree_journal_iter.c:398:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   fs/bcachefs/btree_journal_iter.c:398:25: sparse:    struct journal_key_range_overwritten [noderef] __rcu *
-   fs/bcachefs/btree_journal_iter.c:398:25: sparse:    struct journal_key_range_overwritten *
->> fs/bcachefs/btree_journal_iter.c:659:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const *objp @@     got struct journal_key_range_overwritten [noderef] __rcu *overwritten_range @@
-   fs/bcachefs/btree_journal_iter.c: note: in included file (through fs/bcachefs/bcachefs.h):
-   fs/bcachefs/bcachefs_format.h:1265:38: sparse: sparse: array of flexible structures
-   fs/bcachefs/btree_journal_iter.c:141:9: sparse: sparse: context imbalance in 'bch2_journal_keys_peek_prev_min' - different lock contexts for basic block
-   fs/bcachefs/btree_journal_iter.c: note: in included file (through include/linux/backing-dev-defs.h, fs/bcachefs/bcachefs.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   fs/bcachefs/btree_journal_iter.c:653:9: sparse: sparse: self-comparison always evaluates to false
-   fs/bcachefs/btree_journal_iter.c:756:9: sparse: sparse: self-comparison always evaluates to false
-   fs/bcachefs/btree_journal_iter.c:775:9: sparse: sparse: self-comparison always evaluates to false
+   sound/soc/apple/macaudio.c:1289:1: sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1299:1: sparse: sparse: symbol 'macaudio_hp_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1489:30: sparse: sparse: symbol 'macaudio_j180_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1492:30: sparse: sparse: symbol 'macaudio_j274_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1496:30: sparse: sparse: symbol 'macaudio_j293_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1500:30: sparse: sparse: symbol 'macaudio_j313_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1504:30: sparse: sparse: symbol 'macaudio_j314_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1508:30: sparse: sparse: symbol 'macaudio_j316_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1512:30: sparse: sparse: symbol 'macaudio_j37x_j47x_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1516:30: sparse: sparse: symbol 'macaudio_j413_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1520:30: sparse: sparse: symbol 'macaudio_j415_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1524:30: sparse: sparse: symbol 'macaudio_j45x_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1528:30: sparse: sparse: symbol 'macaudio_j493_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1532:30: sparse: sparse: symbol 'macaudio_fallback_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-vim +385 fs/bcachefs/btree_journal_iter.c
+vim +/macaudio_j316_cfg +1508 sound/soc/apple/macaudio.c
 
-   370	
-   371	static void __bch2_journal_key_overwritten(struct journal_keys *keys, size_t pos)
-   372	{
-   373		struct journal_key *k = keys->data + pos;
-   374		size_t idx = pos_to_idx(keys, pos);
-   375	
-   376		k->overwritten = true;
-   377	
-   378		struct journal_key *prev = idx > 0 ? keys->data + idx_to_pos(keys, idx - 1) : NULL;
-   379		struct journal_key *next = idx + 1 < keys->nr ? keys->data + idx_to_pos(keys, idx + 1) : NULL;
-   380	
-   381		bool prev_overwritten = prev && prev->overwritten;
-   382		bool next_overwritten = next && next->overwritten;
-   383	
-   384		struct journal_key_range_overwritten *prev_range =
- > 385			prev_overwritten ? prev->overwritten_range : NULL;
-   386		struct journal_key_range_overwritten *next_range =
- > 387			next_overwritten ? next->overwritten_range : NULL;
-   388	
-   389		BUG_ON(prev_range && prev_range->end != idx);
-   390		BUG_ON(next_range && next_range->start != idx + 1);
-   391	
-   392		if (prev_range && next_range) {
-   393			prev_range->end = next_range->end;
-   394	
- > 395			keys->data[pos].overwritten_range = prev_range;
-   396			for (size_t i = next_range->start; i < next_range->end; i++) {
-   397				struct journal_key *ip = keys->data + idx_to_pos(keys, i);
- > 398				BUG_ON(ip->overwritten_range != next_range);
-   399				ip->overwritten_range = prev_range;
-   400			}
-   401	
-   402			kfree_rcu_mightsleep(next_range);
-   403		} else if (prev_range) {
-   404			prev_range->end++;
-   405			k->overwritten_range = prev_range;
-   406			if (next_overwritten) {
-   407				prev_range->end++;
-   408				next->overwritten_range = prev_range;
-   409			}
-   410		} else if (next_range) {
-   411			next_range->start--;
-   412			k->overwritten_range = next_range;
-   413			if (prev_overwritten) {
-   414				next_range->start--;
-   415				prev->overwritten_range = next_range;
-   416			}
-   417		} else if (prev_overwritten || next_overwritten) {
-   418			struct journal_key_range_overwritten *r = kmalloc(sizeof(*r), GFP_KERNEL);
-   419			if (!r)
-   420				return;
-   421	
-   422			r->start = idx - (size_t) prev_overwritten;
-   423			r->end = idx + 1 + (size_t) next_overwritten;
-   424	
-   425			rcu_assign_pointer(k->overwritten_range, r);
-   426			if (prev_overwritten)
-   427				prev->overwritten_range = r;
-   428			if (next_overwritten)
-   429				next->overwritten_range = r;
-   430		}
-   431	}
-   432	
+  1507	
+> 1508	struct macaudio_platform_cfg macaudio_j316_cfg = {
+  1509		false,	AMP_SN012776,	SPKR_2W1T,	true,	15,	-20,
+  1510	};
+  1511	
 
 -- 
 0-DAY CI Kernel Test Service
