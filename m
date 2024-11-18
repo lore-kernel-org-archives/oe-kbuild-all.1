@@ -1,175 +1,165 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE251BD4E2
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 18:37:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A2E1E102E;
+	Mon, 18 Nov 2024 18:55:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731955036; cv=none; b=jLKw75WWYxxtaV5IpCtGHbDvu39lLS3Ka/0PtFK1+VMgqufuPcpnZPm8N0/kTrL/Q/ib5hAvQcvzjERlwgRBHtM0g5XxyYvPWldQvi81xla7JjoHzBE298ovNCXRfN/yT92HrqIkfWgvedrVJq1YYK806jycDFrae1QPwji52H8=
+	t=1731956116; cv=none; b=UkeqaOt+XapgisqPwigK3GuQgKqh4/vJwlsPUH6aL5tvq5Rn+47pNXrvzuhNORm/yBpJuIg/OEUzWy5HAb6MzhQblWsjUSQmb6Yit3KyA8cV/gbYu8PDbZWi/1VoT0wCfgZpH9qsRR2klOClg6pZDsFY2IBwauWsPwLQufRn2F4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731955036; c=relaxed/simple;
-	bh=veoy5a5dW6t2BpWB8948/OFW8RSw0oqfC0Xklrv21+M=;
+	s=arc-20240116; t=1731956116; c=relaxed/simple;
+	bh=EvRhSBNYc55EKAxT72wNHpNHuSnYhb1S5kCwu92RAMI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DfKiy5Py2k+piqwkgeg3n4AaIL6d8NX8UsWJ+jTrjTt6ohNRnRQcI8XiF8P0VD5NZe/O8staRO3ZDjzMHCj0KRd5BQ3FLxTqG0SN9wfFhavgNtST9yvsTK1nCH8lONF+Z86KJKkd714cT7Z0n+JdW7XDrBjzuAHrihkZp2nAvOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/cTEMPg; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=dUyVnewsQRYzn7d3Y2K682/xw3QpClltiFhTgEvIPKoDQKVzCapmY/1jalNHvX7/sJ0yUE8k/Dp2qsdfD3KXYpd01z5RRKETEYyINFvtXZbcn+v8RyM8D2G74dTI3y2CgMZkvmFBK3UbpFp0W+Fm1mvOjzJhSTIEh6IBc3b2UA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQ74UD6X; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/cTEMPg"
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53a097aa3daso2137641e87.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 18 Nov 2024 10:37:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731955032; x=1732559832; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
-        b=A/cTEMPgAWuHUycIzPrQLSIIzs90pVCir3Z0nQZXXypleU30GA6PrdZd+Af8ntBnKK
-         LCodA4E9+KvxFNrpfh5vcX+h8hTRrtP2IKSHGAa6R8d3ow5o3PedWjgQKbkcJes2+pbu
-         W5e9F6HrqSF7h38n8xpNcwHKiPjt6NF/wbbEyOdL2woEU/zD4eWTod2OQnYXWq6rAAbV
-         JtaWVu9hCNQoFWknQ3gB9Q3MmRjCxj5F9YksHNnW2O2erjYIpfugmskVp/QelXroTDHp
-         nMv6Tym5h/PRysWZ/u979goaEP5NsiGOlkzB81wIitsendSztruyS46St0qNjYLxYUzr
-         iW8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731955032; x=1732559832;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yiW9qShnMnAuszTpZ6ciXRNNYv0VaMrdziOoNoH8MtI=;
-        b=sxrHWbLfdpCDytOt9iTXx+uEQXX8q2OhCjxF7GTmnHho5atcJyB+BufCPtv+iIFmTp
-         0mp1lGGVR/qdHV+CSZAKtG+pipiCryn4dst4N1XclD0HmG1mYnxjJbno+c9MowOmzUjO
-         LFOh67djJQ6ExhGSq3q2AKiWC2GSOiX0/kfeAX96L2vlPV9r9/tgvDKhJQHCiO1zll/C
-         KtKh5gpH3pnR/NLe84XMMr4oQsnwfVic8iu3hZnrNbaFhvsVcB4EiW8/yUPF0cglQG54
-         HuAWWk6VQLjAhU7e4qIsY/ov6bvVPd4tmcUjVsRDuJXh5MoRtRUcYShl4o2qWfK/8O3T
-         2BCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUDisDFyPyYG/NsvKfphVZ3l/qLazPeFuxiT9UxcCzq+Kmqs6VgKcv0gVxZVsVOfhhmATQyVQN9jLHXeLe/@lists.linux.dev
-X-Gm-Message-State: AOJu0YzBB5ScHNz+1Z3mXXeeFasr0/+Z/hliRo3HBYaUUvgnbRN/Vcsk
-	rbJOepw8FUNA6YIJChoRSfnf5bGT3eufp89Se5UeqpvqFZq9VSBh4UDz0s1RQWs=
-X-Google-Smtp-Source: AGHT+IE7HkAZZKWlZWOe967YjeFFbvdoOqf49zoPBHZJEX8eseJRaxOA4F6Olv+RbpHKAT0tW28c2A==
-X-Received: by 2002:a05:6512:3a84:b0:53d:a927:8206 with SMTP id 2adb3069b0e04-53dab29ad8dmr4847606e87.20.1731955030890;
-        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dac1fb7asm164569785e9.42.2024.11.18.10.37.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 10:37:10 -0800 (PST)
-Date: Mon, 18 Nov 2024 21:37:05 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Martin =?utf-8?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 20/119] sound/soc/soc-dapm.c:2320
- dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
-Message-ID: <821b7439-cde3-4b59-a4b1-84b38d29b1c3@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQ74UD6X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1731956115; x=1763492115;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=EvRhSBNYc55EKAxT72wNHpNHuSnYhb1S5kCwu92RAMI=;
+  b=gQ74UD6XCC33tPm5EZ2hZ7Sdhe3AA/M//hQ4FFkB1kyj2g1rUsZRrPHU
+   m/lvf12SjMDr1uSUXOZzbg5KOVSI0F8QxeZvsbZBzn2qeHrnL19idYubD
+   hPm0rK56VcOjy5EtKPuIxioSnNCzymO/0KhuxvkzoblDbGzkx+BLIroWZ
+   z+jF5XtntcKaidb/y82NOHSWcg/d6UjxEPRq0MsaLInHoFWrmOTWXOdAp
+   66c5MaT0Q+In73RqecxCLA4YKCNOWvDq+YXb4UtnLrr5z3aeZKBdTwCCs
+   ABPgu5G8r64j0v75gWIMEuCIphPfe2Od2uQR2Py1FH3MQE2iuXKaI4D1c
+   Q==;
+X-CSE-ConnectionGUID: sbI2X2DFS/aVLiSZuf884g==
+X-CSE-MsgGUID: fZLnAyA0R+68XEikEtE1/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31303536"
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
+   d="scan'208";a="31303536"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 10:55:14 -0800
+X-CSE-ConnectionGUID: cvk7YwdkQQGWRYJkRNO6Bw==
+X-CSE-MsgGUID: zC6UJiB4SW+zX9Sku3pzvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,164,1728975600"; 
+   d="scan'208";a="126851312"
+Received: from lkp-server01.sh.intel.com (HELO 1e3cc1889ffb) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 18 Nov 2024 10:55:13 -0800
+Received: from kbuild by 1e3cc1889ffb with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tD6tx-0002bF-2R;
+	Mon, 18 Nov 2024 18:55:09 +0000
+Date: Tue, 19 Nov 2024 02:54:25 +0800
+From: kernel test robot <lkp@intel.com>
+To: Charles Han <hanchunchao@inspur.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Stephen Boyd <sboyd@kernel.org>,
+	David Lechner <david@lechnology.com>
+Subject: [linux-next:master 11416/12140] drivers/clk/davinci/psc.c:281:10:
+ error: incompatible integer to pointer conversion returning 'int' from a
+ function with result type 'struct davinci_lpsc_clk *'
+Message-ID: <202411190217.UaeAgJnO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   a89c7c8788b938f7b52c6ca56449de45e92a056e
-commit: 36eb765eeea35c3cb54bd0f11d9f33982142b51c [20/119] ASoC: dapm: Export new 'graph.dot' file in debugfs
-config: x86_64-randconfig-161-20241118 (https://download.01.org/0day-ci/archive/20241119/202411190027.DwOYG7u2-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   ae58226b89ac0cffa05ba7357733776542e40216
+commit: 48ce11b9099800eee6fb6dc386374096f2e6564b [11416/12140] clk: davinci: Add NULL check in davinci_lpsc_clk_register
+config: arm-randconfig-003-20241119 (https://download.01.org/0day-ci/archive/20241119/202411190217.UaeAgJnO-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190217.UaeAgJnO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411190027.DwOYG7u2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411190217.UaeAgJnO-lkp@intel.com/
 
-smatch warnings:
-sound/soc/soc-dapm.c:2320 dapm_graph_read_file() error: testing array offset 'num_wdone' after use.
+All errors (new ones prefixed by >>):
 
-vim +/num_wdone +2320 sound/soc/soc-dapm.c
+>> drivers/clk/davinci/psc.c:281:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct davinci_lpsc_clk *' [-Wint-conversion]
+     281 |                 return -ENOMEM;
+         |                        ^~~~~~~
+   1 error generated.
 
-36eb765eeea35c Martin Povišer 2022-08-21  2256  static ssize_t dapm_graph_read_file(struct file *file, char __user *user_buf,
-36eb765eeea35c Martin Povišer 2022-08-21  2257  				    size_t count, loff_t *ppos)
-36eb765eeea35c Martin Povišer 2022-08-21  2258  {
-36eb765eeea35c Martin Povišer 2022-08-21  2259  	struct snd_soc_card *card = file->private_data;
-36eb765eeea35c Martin Povišer 2022-08-21  2260  	struct snd_soc_dapm_context *dapm;
-36eb765eeea35c Martin Povišer 2022-08-21  2261  	struct snd_soc_dapm_path *p;
-36eb765eeea35c Martin Povišer 2022-08-21  2262  	struct snd_soc_dapm_widget *w;
-36eb765eeea35c Martin Povišer 2022-08-21  2263  	struct snd_soc_pcm_runtime *rtd;
-36eb765eeea35c Martin Povišer 2022-08-21  2264  	struct snd_soc_dapm_widget *wdone[16];
-36eb765eeea35c Martin Povišer 2022-08-21  2265  	struct snd_soc_dai *dai;
-36eb765eeea35c Martin Povišer 2022-08-21  2266  	int i, num_wdone = 0, cluster = 0;
-36eb765eeea35c Martin Povišer 2022-08-21  2267  	char *buf;
-36eb765eeea35c Martin Povišer 2022-08-21  2268  	ssize_t bufsize;
-36eb765eeea35c Martin Povišer 2022-08-21  2269  	ssize_t ret = 0;
-36eb765eeea35c Martin Povišer 2022-08-21  2270  
-36eb765eeea35c Martin Povišer 2022-08-21  2271  	bufsize = 1024 * card->num_dapm_widgets;
-36eb765eeea35c Martin Povišer 2022-08-21  2272  	buf = kmalloc(bufsize, GFP_KERNEL);
-36eb765eeea35c Martin Povišer 2022-08-21  2273  	if (!buf)
-36eb765eeea35c Martin Povišer 2022-08-21  2274  		return -ENOMEM;
-36eb765eeea35c Martin Povišer 2022-08-21  2275  
-36eb765eeea35c Martin Povišer 2022-08-21  2276  	mutex_lock(&card->dapm_mutex);
-36eb765eeea35c Martin Povišer 2022-08-21  2277  
-36eb765eeea35c Martin Povišer 2022-08-21  2278  #define bufprintf(...) \
-36eb765eeea35c Martin Povišer 2022-08-21  2279  		ret += scnprintf(buf + ret, bufsize - ret, __VA_ARGS__)
-36eb765eeea35c Martin Povišer 2022-08-21  2280  
-36eb765eeea35c Martin Povišer 2022-08-21  2281  	bufprintf("digraph dapm {\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2282  
-36eb765eeea35c Martin Povišer 2022-08-21  2283  	/*
-36eb765eeea35c Martin Povišer 2022-08-21  2284  	 * Print the user-visible devices of the card.
-36eb765eeea35c Martin Povišer 2022-08-21  2285  	 */
-36eb765eeea35c Martin Povišer 2022-08-21  2286  	bufprintf("subgraph cluster_%d {\n", cluster++);
-36eb765eeea35c Martin Povišer 2022-08-21  2287  	bufprintf("label=\"Devices\";style=filled;fillcolor=gray;\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2288  	for_each_card_rtds(card, rtd) {
-36eb765eeea35c Martin Povišer 2022-08-21  2289  		if (rtd->dai_link->no_pcm)
-36eb765eeea35c Martin Povišer 2022-08-21  2290  			continue;
-36eb765eeea35c Martin Povišer 2022-08-21  2291  
-36eb765eeea35c Martin Povišer 2022-08-21  2292  		bufprintf("w%pK [label=\"%d: %s\"];\n", rtd,
-36eb765eeea35c Martin Povišer 2022-08-21  2293  			  rtd->pcm->device, rtd->dai_link->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2294  	}
-36eb765eeea35c Martin Povišer 2022-08-21  2295  	bufprintf("};\n");
-36eb765eeea35c Martin Povišer 2022-08-21  2296  
-36eb765eeea35c Martin Povišer 2022-08-21  2297  	/*
-36eb765eeea35c Martin Povišer 2022-08-21  2298  	 * Print the playback/capture widgets of DAIs just next to
-36eb765eeea35c Martin Povišer 2022-08-21  2299  	 * the user-visible devices. Keep the list of already printed
-36eb765eeea35c Martin Povišer 2022-08-21  2300  	 * widgets in 'wdone', so they will be skipped later.
-36eb765eeea35c Martin Povišer 2022-08-21  2301  	 */
-36eb765eeea35c Martin Povišer 2022-08-21  2302  	for_each_card_rtds(card, rtd) {
-36eb765eeea35c Martin Povišer 2022-08-21  2303  		for_each_rtd_cpu_dais(rtd, i, dai) {
-36eb765eeea35c Martin Povišer 2022-08-21  2304  			if (dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget) {
-36eb765eeea35c Martin Povišer 2022-08-21  2305  				w = dai->stream[SNDRV_PCM_STREAM_PLAYBACK].widget;
-36eb765eeea35c Martin Povišer 2022-08-21  2306  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2307  				if (!rtd->dai_link->no_pcm)
-36eb765eeea35c Martin Povišer 2022-08-21  2308  					bufprintf("w%pK -> w%pK;\n", rtd, w);
-36eb765eeea35c Martin Povišer 2022-08-21  2309  				wdone[num_wdone] = w;
-36eb765eeea35c Martin Povišer 2022-08-21  2310  				if (num_wdone < ARRAY_SIZE(wdone))
 
-If num_wdone == ARRAY_SIZE() then the the previous line just caused memory
-corruption.
+vim +281 drivers/clk/davinci/psc.c
 
-36eb765eeea35c Martin Povišer 2022-08-21  2311  					num_wdone++;
-36eb765eeea35c Martin Povišer 2022-08-21  2312  			}
-36eb765eeea35c Martin Povišer 2022-08-21  2313  
-36eb765eeea35c Martin Povišer 2022-08-21  2314  			if (dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget) {
-36eb765eeea35c Martin Povišer 2022-08-21  2315  				w = dai->stream[SNDRV_PCM_STREAM_CAPTURE].widget;
-36eb765eeea35c Martin Povišer 2022-08-21  2316  				bufprintf("w%pK [label=\"%s\"];\n", w, w->name);
-36eb765eeea35c Martin Povišer 2022-08-21  2317  				if (!rtd->dai_link->no_pcm)
-36eb765eeea35c Martin Povišer 2022-08-21  2318  					bufprintf("w%pK -> w%pK;\n", w, rtd);
-36eb765eeea35c Martin Povišer 2022-08-21  2319  				wdone[num_wdone] = w;
-36eb765eeea35c Martin Povišer 2022-08-21 @2320  				if (num_wdone < ARRAY_SIZE(wdone))
-
-same
-
-36eb765eeea35c Martin Povišer 2022-08-21  2321  					num_wdone++;
-36eb765eeea35c Martin Povišer 2022-08-21  2322  			}
-36eb765eeea35c Martin Povišer 2022-08-21  2323  		}
-36eb765eeea35c Martin Povišer 2022-08-21  2324  	}
-36eb765eeea35c Martin Povišer 2022-08-21  2325  
-36eb765eeea35c Martin Povišer 2022-08-21  2326  	for_each_card_dapms(card, dapm) {
-36eb765eeea35c Martin Povišer 2022-08-21  2327  		const char *prefix = soc_dapm_prefix(dapm);
-36eb765eeea35c Martin Povišer 2022-08-21  2328  
+   221	
+   222	/**
+   223	 * davinci_lpsc_clk_register - register LPSC clock
+   224	 * @dev: the clocks's device or NULL
+   225	 * @name: name of this clock
+   226	 * @parent_name: name of clock's parent
+   227	 * @regmap: PSC MMIO region
+   228	 * @md: local PSC number
+   229	 * @pd: power domain
+   230	 * @flags: LPSC_* flags
+   231	 */
+   232	static struct davinci_lpsc_clk *
+   233	davinci_lpsc_clk_register(struct device *dev, const char *name,
+   234				  const char *parent_name, struct regmap *regmap,
+   235				  u32 md, u32 pd, u32 flags)
+   236	{
+   237		struct clk_init_data init;
+   238		struct davinci_lpsc_clk *lpsc;
+   239		int ret;
+   240		bool is_on;
+   241	
+   242		lpsc = kzalloc(sizeof(*lpsc), GFP_KERNEL);
+   243		if (!lpsc)
+   244			return ERR_PTR(-ENOMEM);
+   245	
+   246		init.name = name;
+   247		init.ops = &davinci_lpsc_clk_ops;
+   248		init.parent_names = (parent_name ? &parent_name : NULL);
+   249		init.num_parents = (parent_name ? 1 : 0);
+   250		init.flags = 0;
+   251	
+   252		if (flags & LPSC_ALWAYS_ENABLED)
+   253			init.flags |= CLK_IS_CRITICAL;
+   254	
+   255		if (flags & LPSC_SET_RATE_PARENT)
+   256			init.flags |= CLK_SET_RATE_PARENT;
+   257	
+   258		lpsc->dev = dev;
+   259		lpsc->regmap = regmap;
+   260		lpsc->hw.init = &init;
+   261		lpsc->md = md;
+   262		lpsc->pd = pd;
+   263		lpsc->flags = flags;
+   264	
+   265		ret = clk_hw_register(dev, &lpsc->hw);
+   266		if (ret < 0) {
+   267			kfree(lpsc);
+   268			return ERR_PTR(ret);
+   269		}
+   270	
+   271		/* for now, genpd is only registered when using device-tree */
+   272		if (!dev || !dev->of_node)
+   273			return lpsc;
+   274	
+   275		/* genpd attach needs a way to look up this clock */
+   276		ret = clk_hw_register_clkdev(&lpsc->hw, name, best_dev_name(dev));
+   277	
+   278		lpsc->pm_domain.name = devm_kasprintf(dev, GFP_KERNEL, "%s: %s",
+   279						      best_dev_name(dev), name);
+   280		if (!lpsc->pm_domain.name)
+ > 281			return -ENOMEM;
+   282	
+   283		lpsc->pm_domain.attach_dev = davinci_psc_genpd_attach_dev;
+   284		lpsc->pm_domain.detach_dev = davinci_psc_genpd_detach_dev;
+   285		lpsc->pm_domain.flags = GENPD_FLAG_PM_CLK;
+   286	
+   287		is_on = davinci_lpsc_clk_is_enabled(&lpsc->hw);
+   288		pm_genpd_init(&lpsc->pm_domain, NULL, is_on);
+   289	
+   290		return lpsc;
+   291	}
+   292	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
