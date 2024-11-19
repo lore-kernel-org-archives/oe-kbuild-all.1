@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1BE1384BF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 02:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63C833F7
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 02:47:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731983834; cv=none; b=KQX2qmreFOlaOPvuqMYflDwZuHjTnEGfDf6+g8gOKiY2Dnd2mfd9GbnnOI5ZMjICRqC0FHgwONqToBT/RVqOybzRSrwudoUdB4TtcFqytiT58kGAC52I2z/rU0BY607TZpZKRo2nPfvYKsMd7bOm0tQBVvvl5KmIarEiqOAIenU=
+	t=1731984438; cv=none; b=J2WmYWM2tMcQ3pUqolAJwo5eF78qAmt145iBjWw9v/cHMOSKA5Y8fAN41pqZtLn+IWo+XWvOLsDDYKX/qy6cSmy5IvkZZtcl7uR4qJwuIZ70yeal/VWsKxZWfoD0FYQ+VjW/OpHe27hkPVRWKZebQjlTEq4bS34CAbDpW6ioUlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731983834; c=relaxed/simple;
-	bh=ff9SFhzY7wlGCaS8e/TReGZ3YqN9gM3q3EWl5O5oTlI=;
+	s=arc-20240116; t=1731984438; c=relaxed/simple;
+	bh=9xN2oFVYsmU4rEQoMGu8WQj6hFUrZYhLKxC771PPJ/0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VrEsyIV/FH8m8Iy35nXwFd9qJrR7gJ4w/o/ndZini67Ylc4eO+T5PGGrYFA2xXslmFS6x+xB0NQnl7s5o7zFNARCz4A/nW/DaKa36jE4SrqbbMcLqZaduV/YjrNEx9CaDUvMyQoSD1Ht4dbPC9sDmcEVJYOPG+Ykw/LL/FSwnOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWIgGDrl; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=Hoa2o1wkUXph/ig2AmQsS0MJ0dhyskeGaCH1mD59gz3JWfPGzM1nA/L1l3VIWWRvmEiyCRi/Ddx4npLGwyL9Fr4D8cV6lcawqPIMAi641s/48JDN/pgUe9g51akO6Ripyjghl/+8Ym1S1/PEDuATDrPNmoO4v86qdK404D4PsB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNI2Q5iO; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWIgGDrl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNI2Q5iO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731983833; x=1763519833;
+  t=1731984437; x=1763520437;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ff9SFhzY7wlGCaS8e/TReGZ3YqN9gM3q3EWl5O5oTlI=;
-  b=GWIgGDrlk6tsB89PvYmSr/OVJEMZ4e1SfpEYMZA65I/FbIwGdhsnDKbS
-   lgsS6oI4/1J1vh34qNwsKLheOJ+/CI64RVxEVBhH2CqTMVWzzquvVN1b0
-   82DbqxvL4uD6jkvLDN3z8D3TlI+CwKVOkgBsMMNbozkaTEMD6V57ADwQC
-   uMTaGqQ/KqPo6F6+U518xob9Ge4cHzskMZc9itWEUPQmkuGnMVFTABlNo
-   HmiqiDDrltd2BKBugKgl0U2Mec8br/f3Cn7pVau3CTpkVbHJRDCzSLO5a
-   b+6aWXKQ39YvvxJhyoHqyFTu6F+Bh+eFHjXYfURPLyUL22X12WzDOWFXQ
-   w==;
-X-CSE-ConnectionGUID: A8FfLvN6Slqx2xAINFn35w==
-X-CSE-MsgGUID: i2JT1SLzRbG1FOwnUYSd5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31374587"
+  bh=9xN2oFVYsmU4rEQoMGu8WQj6hFUrZYhLKxC771PPJ/0=;
+  b=NNI2Q5iObLNidm+GVcPkNBzgQ3tvpDHINUr8LsD31MErhNz1nYi0u3t7
+   5Y4lzsoRRb9QFzAc8CR3Lf30XTw/2wQwGyAzw+MOWlpTReO3xh3qUeK0n
+   M22p3G2vQDZTHtB6EzctKlRXv/gfDw33dYB6snm659iBxzU5Lka2origU
+   86IiqWeK2DiUHIo1T3Dw5eKuWc+0GJXxC2j6TCsiWWGuDYYxp9M2qMoIG
+   B5kKNdgfWsU0hL4Cb+LIRcUk0bU1cdqRhIUwj1eTqbNb2gUTsYMpPakzy
+   NHEeVysIWjwaG3dmd3QQID94NIoUHh954Hx63FYbvYkGoZAOLu1U38XYt
+   g==;
+X-CSE-ConnectionGUID: ltF3z7F2ROixSHeL50Gw1g==
+X-CSE-MsgGUID: 1pvUzkBUSjmGNaJd3Lcibw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="19576800"
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="31374587"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 18:37:12 -0800
-X-CSE-ConnectionGUID: feOZi5lTSwakQavf/Tna2g==
-X-CSE-MsgGUID: SnRi0kmdQ+CerQaNH1QeJA==
+   d="scan'208";a="19576800"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 18:47:16 -0800
+X-CSE-ConnectionGUID: gvWpKPaoQeChwpKOQtg6KA==
+X-CSE-MsgGUID: QLfsWdDlRPWoAiLQ6MBjPQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="112715617"
+   d="scan'208";a="89573708"
 Received: from lkp-server02.sh.intel.com (HELO 2cc4542d09d4) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Nov 2024 18:37:11 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 18 Nov 2024 18:47:02 -0800
 Received: from kbuild by 2cc4542d09d4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDE6w-000032-00;
-	Tue, 19 Nov 2024 02:37:09 +0000
-Date: Tue, 19 Nov 2024 10:34:32 +0800
+	id 1tDEGa-00003q-16;
+	Tue, 19 Nov 2024 02:47:00 +0000
+Date: Tue, 19 Nov 2024 10:46:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: kernel@openeuler.org, "Carrie.Cai" <carrie.cai@montage-tech.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.12/zen-sauce 20/31] block/elevator.c:570:42: error: passing
- argument 1 of 'elevator_find_get' from incompatible pointer type
-Message-ID: <202411190930.582jXUNa-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1484/1484]
+ drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set
+ but not used
+Message-ID: <202411191002.S36p5N3T-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,60 +63,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.12/zen-sauce
-head:   a77e5dc91c4328da8b938f220477e8de98165075
-commit: 6912e177e46c2a6e0650395cf13039bfcfc1af86 [20/31] ZEN: INTERACTIVE: Use Kyber as the elevator for MQ devices
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241119/202411190930.582jXUNa-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   8a039651010897592567f5751c4e706ab794e9c0
+commit: 811debd4ea52033d7393d4a7de2be11f71c70348 [1484/1484] add support for Mont-TSSE Driver
+config: x86_64-randconfig-074-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191002.S36p5N3T-lkp@intel.com/config)
 compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411190930.582jXUNa-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191002.S36p5N3T-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411190930.582jXUNa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411191002.S36p5N3T-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   block/elevator.c: In function 'elevator_get_default':
->> block/elevator.c:570:42: error: passing argument 1 of 'elevator_find_get' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     570 |                 return elevator_find_get(q, "kyber");
-         |                                          ^
-         |                                          |
-         |                                          struct request_queue *
-   block/elevator.c:109:60: note: expected 'const char *' but argument is of type 'struct request_queue *'
-     109 | static struct elevator_type *elevator_find_get(const char *name)
-         |                                                ~~~~~~~~~~~~^~~~
->> block/elevator.c:570:24: error: too many arguments to function 'elevator_find_get'
-     570 |                 return elevator_find_get(q, "kyber");
-         |                        ^~~~~~~~~~~~~~~~~
-   block/elevator.c:109:30: note: declared here
-     109 | static struct elevator_type *elevator_find_get(const char *name)
-         |                              ^~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/crypto/montage/tsse/tsse_irq.c:10:
+   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
+>> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+      84 |         int cpu, node;
+         |             ^~~
+--
+   In file included from drivers/crypto/montage/tsse/tsse_ipc.c:14:
+   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
+>> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+      84 |         int cpu, node;
+         |             ^~~
+   drivers/crypto/montage/tsse/tsse_ipc.c: At top level:
+   drivers/crypto/montage/tsse/tsse_ipc.c:17:18: warning: no previous prototype for 'get_msginf' [-Wmissing-prototypes]
+      17 | struct tsse_msg *get_msginf(void __iomem *d2h)
+         |                  ^~~~~~~~~~
+   drivers/crypto/montage/tsse/tsse_ipc.c:41:6: warning: no previous prototype for 'ipc_recieve_msg' [-Wmissing-prototypes]
+      41 | void ipc_recieve_msg(struct tsse_ipc *tsseipc, struct ipc_msg *msg)
+         |      ^~~~~~~~~~~~~~~
+   drivers/crypto/montage/tsse/tsse_ipc.c:53:5: warning: no previous prototype for 'msg_rout' [-Wmissing-prototypes]
+      53 | int msg_rout(struct tsse_ipc *tsseipc, struct tsse_msg *tssemsg)
+         |     ^~~~~~~~
+   drivers/crypto/montage/tsse/tsse_ipc.c:103:6: warning: no previous prototype for 'ipc_send_msg' [-Wmissing-prototypes]
+     103 | void ipc_send_msg(struct tsse_ipc *tsseipc, struct ipc_data *msg)
+         |      ^~~~~~~~~~~~
+   drivers/crypto/montage/tsse/tsse_ipc.c:115:6: warning: no previous prototype for 'ipc_hw_init' [-Wmissing-prototypes]
+     115 | void ipc_hw_init(struct tsse_ipc *hw_ipc)
+         |      ^~~~~~~~~~~
+   drivers/crypto/montage/tsse/tsse_ipc.c:122:5: warning: no previous prototype for 'ipc_init_msg' [-Wmissing-prototypes]
+     122 | int ipc_init_msg(struct tsse_ipc *tsseipc)
+         |     ^~~~~~~~~~~~
+--
+   In file included from drivers/crypto/montage/tsse/tsse_dev_mgr.c:15:
+   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
+>> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+      84 |         int cpu, node;
+         |             ^~~
+   drivers/crypto/montage/tsse/tsse_dev_mgr.c: At top level:
+   drivers/crypto/montage/tsse/tsse_dev_mgr.c:107:5: warning: no previous prototype for 'tsse_stop_dev' [-Wmissing-prototypes]
+     107 | int tsse_stop_dev(struct tsse_dev *tdev, bool busy_exit)
+         |     ^~~~~~~~~~~~~
+--
+   In file included from drivers/crypto/montage/tsse/tsse_vuart.c:25:
+   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
+>> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+      84 |         int cpu, node;
+         |             ^~~
+   At top level:
+   drivers/crypto/montage/tsse/tsse_vuart.c:77:13: warning: 'vuart_wait_for_xmitr' defined but not used [-Wunused-function]
+      77 | static void vuart_wait_for_xmitr(struct uart_port *port)
+         |             ^~~~~~~~~~~~~~~~~~~~
+--
+   In file included from drivers/crypto/montage/tsse/tsse_fw_service.c:20:
+   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
+>> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+      84 |         int cpu, node;
+         |             ^~~
+   drivers/crypto/montage/tsse/tsse_fw_service.c: At top level:
+   drivers/crypto/montage/tsse/tsse_fw_service.c:26:5: warning: no previous prototype for 'fw_send_msg' [-Wmissing-prototypes]
+      26 | int fw_send_msg(struct tsse_ipc *tsseipc, struct ipc_msg *msg)
+         |     ^~~~~~~~~~~
+   drivers/crypto/montage/tsse/tsse_fw_service.c:51:6: warning: no previous prototype for 'fw_free' [-Wmissing-prototypes]
+      51 | void fw_free(void *msg_t)
+         |      ^~~~~~~
 
 
-vim +/elevator_find_get +570 block/elevator.c
+vim +/cpu +84 drivers/crypto/montage/tsse/tsse_dev.h
 
-   557	
-   558	/*
-   559	 * For single queue devices, default to using mq-deadline. If we have multiple
-   560	 * queues or mq-deadline is not available, default to "none".
-   561	 */
-   562	static struct elevator_type *elevator_get_default(struct request_queue *q)
-   563	{
-   564		if (q->tag_set->flags & BLK_MQ_F_NO_SCHED_BY_DEFAULT)
-   565			return NULL;
-   566	
-   567		if (q->nr_hw_queues != 1 &&
-   568		    !blk_mq_is_shared_tags(q->tag_set->flags))
-   569	#if defined(CONFIG_ZEN_INTERACTIVE) && defined(CONFIG_MQ_IOSCHED_KYBER)
- > 570			return elevator_find_get(q, "kyber");
-   571	#elif defined(CONFIG_ZEN_INTERACTIVE)
-   572			return elevator_find_get(q, "mq-deadline");
-   573	#else
-   574			return NULL;
-   575	#endif
-   576	
+    81	
+    82	static inline int tsse_get_cur_node(void)
+    83	{
+  > 84		int cpu, node;
+    85	
+    86		cpu = get_cpu();
+    87		node = topology_physical_package_id(cpu);
+    88		put_cpu();
+    89	
+    90		return node;
+    91	}
+    92	
 
 -- 
 0-DAY CI Kernel Test Service
