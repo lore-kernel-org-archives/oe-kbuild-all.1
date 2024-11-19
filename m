@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021D01459E0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 02:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564613D893
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 03:07:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731985137; cv=none; b=O3oHX+MJNKfeZUB6cSAi2iMKojLk3NSuHEH0CbgxRbFFn6U5yXsgWxnsUbWnApGW/feWPTsUEdwthhiwWmldHOpbY6N7u9O64g8lslVqjbYK6J276HO2Z9claz85rjs2E6uEYp/Oi20oLT1dMsuTeUDYBlbyQ53bPsZIhbhPQzQ=
+	t=1731985678; cv=none; b=IbDVf2WfaGEe2xyS++0oBHJB2Uk8FhEAEgrQ+j+kqFtzkSKQFyaH/tzvyqs5suqi/71YfgFWEtYgb5ewUE3m13A6VyUfTWFWkCk0IkjCkWifTvpK5CXgdnry8tKRffitv9xYp3WbjzGFLQX9BI1zPfqmY/DQPtC4GvzLHyscP5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731985137; c=relaxed/simple;
-	bh=64En54uWTS5HNMoKdothIDU4gHy0LF/uFl+zWeaaymI=;
+	s=arc-20240116; t=1731985678; c=relaxed/simple;
+	bh=emm4Cz+FfMFP1Y2grNXj3TtbB3KHQQiQrafFa/qLc7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HwDXqmFbaV9PeHm5R9coYmxlY4HEejypxON07WHmz2fDvMtslamWM9rT0ilSBdDN4ZofQeIzBHBAWqCiDWIt96Skipht3+sg6pQ7lLRExI9PH2CU68smtuCudvQM6Q7MwBePx0krLZu9LfnVOZtgM0ZehZiexW+VWnEneLGB95M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIkvWDCN; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ugnckaO2Cae/WUNFBlL61jMomGlm3cp6Rir8CGmjDm6uRpAuA38wHic5j8XIMIYAUltEbPe6FjlvVYuweKZlSHlkB6xX1muKhsBIfQX9OPUotXEuYCkPXmRhD6CEOzKiYDP9+MRDSe4BHZO69eEQMv6bBsbPW61LuMMMCQ4pIJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ndo2tRKC; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIkvWDCN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ndo2tRKC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731985136; x=1763521136;
+  t=1731985677; x=1763521677;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=64En54uWTS5HNMoKdothIDU4gHy0LF/uFl+zWeaaymI=;
-  b=iIkvWDCNw5gMDD3UMNqQlyYgDPGPTCKAIhRK5YFqCH60JywMNwgENxZl
-   btRW4n6PAM5QfJOttN32t5vaH6rWyAhfjj0H0AtA/X2pARAoss2Rq4VqJ
-   I5p5tER99+2GmYWykQxFXg9dxnoJmsxzxWZz+nUs087HzL0z0omdi9rU5
-   dg9A7DwlZlimSjwrAj+B5VRhGzm+HKhYAr6iZVwsmvh8qbuLHshKBTf2Q
-   O0OwcPoTMABmU8tsOw79HXGOz+MEPFDMfP0TOJSK4l7HS0kMtl9mjThpl
-   bRdYtgGEHHvHGB5d5/ktK7Xg3scOw5wA4fGgvj7HydVDZPxFrwmDDHqNt
-   g==;
-X-CSE-ConnectionGUID: S/CPfq2SSFKAP70758zt2Q==
-X-CSE-MsgGUID: oym5JtqxQqKKk2VJj5lyFg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="19577251"
+  bh=emm4Cz+FfMFP1Y2grNXj3TtbB3KHQQiQrafFa/qLc7k=;
+  b=Ndo2tRKCoOKIt2tDU7cR4myKhUx4Xsi6IlascwtefN6pcbXm8wK3++py
+   +trd0m8wY1LvQLOtuTGAIgs+oMILIujFOxDpi/4qva8vuYzPqpohk08B2
+   wbUQm3iMit2eIXi41LgS/B7HWn9I4td7uhJMob4btxHLmhVSZQJtIf3Fq
+   46bGknsP9XhzpMTB3AOQzmDPgA8B/fdUQfOmbkPseUWlug+6OolsNs3cw
+   UUHZbEgHsEdVLzb4Cby5NafNimd2/2kQhYVge1LSQBk+v+cmP5SM7vaKM
+   CZIVWHqJc2tnfc1FQazZQjboO4Jr6E457Y6PH2pGNTuejBBAdbn9rV7Uq
+   Q==;
+X-CSE-ConnectionGUID: 9R43pVq7RJiuWxoDF066VA==
+X-CSE-MsgGUID: YztNOJk6QfadHLNyjwLU5g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31904569"
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="19577251"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 18:58:55 -0800
-X-CSE-ConnectionGUID: XMy98sH7S1WcTmcSQOT+nA==
-X-CSE-MsgGUID: aJ39TvK5RYSx3n7cMlmuUw==
+   d="scan'208";a="31904569"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 19:07:56 -0800
+X-CSE-ConnectionGUID: n4LEqshNTeaHabATJTzn/w==
+X-CSE-MsgGUID: BdiJS1dOQ/6eWxNVpcKZNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="89840697"
+   d="scan'208";a="89576902"
 Received: from lkp-server02.sh.intel.com (HELO 2cc4542d09d4) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Nov 2024 18:58:54 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 18 Nov 2024 19:07:54 -0800
 Received: from kbuild by 2cc4542d09d4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDERl-00004C-2U;
-	Tue, 19 Nov 2024 02:58:39 +0000
-Date: Tue, 19 Nov 2024 10:57:06 +0800
+	id 1tDEam-00004p-2Z;
+	Tue, 19 Nov 2024 03:07:52 +0000
+Date: Tue, 19 Nov 2024 11:07:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Huacai Chen <chenhuacai@loongson.cn>
+To: steven@liquorix.net
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1484/1484] drivers/md/dm-cache-metadata.c:1729:9:
- warning: 'strncpy' specified bound 16 equals destination size
-Message-ID: <202411191039.9EY0Nxk9-lkp@intel.com>
+Subject: [zen:6.12/bbr3 1/1] net/ipv4/tcp_bbr.c:2042:17: warning: variable
+ 'round_delivered' set but not used
+Message-ID: <202411191107.zQyx7pwf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +62,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   8a039651010897592567f5751c4e706ab794e9c0
-commit: 2363088eba2ecccfb643725e4864af73c4226a04 [1484/1484] LoongArch: Allow building with kcov coverage
-config: loongarch-randconfig-001-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191039.9EY0Nxk9-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191039.9EY0Nxk9-lkp@intel.com/reproduce)
+tree:   https://github.com/zen-kernel/zen-kernel 6.12/bbr3
+head:   a1f04ded36fb527bc23efdb969b1893c82e61a6e
+commit: a1f04ded36fb527bc23efdb969b1893c82e61a6e [1/1] tcp/bbr3: initial import
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241119/202411191107.zQyx7pwf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191107.zQyx7pwf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411191039.9EY0Nxk9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411191107.zQyx7pwf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In function 'write_hints',
-       inlined from 'dm_cache_write_hints' at drivers/md/dm-cache-metadata.c:1753:6:
->> drivers/md/dm-cache-metadata.c:1729:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
-    1729 |         strncpy(cmd->policy_name, policy_name, sizeof(cmd->policy_name));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/ipv4/tcp_bbr.c: In function 'bbr_main':
+>> net/ipv4/tcp_bbr.c:2042:17: warning: variable 'round_delivered' set but not used [-Wunused-but-set-variable]
+    2042 |         u32 bw, round_delivered;
+         |                 ^~~~~~~~~~~~~~~
 
 
-vim +/strncpy +1729 drivers/md/dm-cache-metadata.c
+vim +/round_delivered +2042 net/ipv4/tcp_bbr.c
 
-4e781b498ee500 Joe Thornber      2016-09-15  1713  
-4e781b498ee500 Joe Thornber      2016-09-15  1714  /*
-4e781b498ee500 Joe Thornber      2016-09-15  1715   * It's quicker to always delete the hint array, and recreate with
-4e781b498ee500 Joe Thornber      2016-09-15  1716   * dm_array_new().
-4e781b498ee500 Joe Thornber      2016-09-15  1717   */
-4e781b498ee500 Joe Thornber      2016-09-15  1718  static int write_hints(struct dm_cache_metadata *cmd, struct dm_cache_policy *policy)
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1719  {
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1720  	int r;
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1721  	size_t hint_size;
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1722  	const char *policy_name = dm_cache_policy_get_name(policy);
-86a3238c7b9b75 Heinz Mauelshagen 2023-01-25  1723  	const unsigned int *policy_version = dm_cache_policy_get_version(policy);
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1724  
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1725  	if (!policy_name[0] ||
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1726  	    (strlen(policy_name) > sizeof(cmd->policy_name) - 1))
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1727  		return -EINVAL;
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1728  
-c6b4fcbad044e6 Joe Thornber      2013-03-01 @1729  	strncpy(cmd->policy_name, policy_name, sizeof(cmd->policy_name));
-4e7f506f642963 Mike Snitzer      2013-03-20  1730  	memcpy(cmd->policy_version, policy_version, sizeof(cmd->policy_version));
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1731  
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1732  	hint_size = dm_cache_policy_get_hint_size(policy);
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1733  	if (!hint_size)
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1734  		return 0; /* short-circuit hints initialization */
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1735  	cmd->policy_hint_size = hint_size;
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1736  
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1737  	if (cmd->hint_root) {
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1738  		r = dm_array_del(&cmd->hint_info, cmd->hint_root);
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1739  		if (r)
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1740  			return r;
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1741  	}
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1742  
-4e781b498ee500 Joe Thornber      2016-09-15  1743  	return dm_array_new(&cmd->hint_info, &cmd->hint_root,
-c6b4fcbad044e6 Joe Thornber      2013-03-01  1744  			    from_cblock(cmd->cache_blocks),
-4e781b498ee500 Joe Thornber      2016-09-15  1745  			    get_hint, policy);
-0596661f0a16d9 Joe Thornber      2014-04-03  1746  }
-0596661f0a16d9 Joe Thornber      2014-04-03  1747  
-
-:::::: The code at line 1729 was first introduced by commit
-:::::: c6b4fcbad044e6fffcc75bba160e720eb8d67d17 dm: add cache target
-
-:::::: TO: Joe Thornber <ejt@redhat.com>
-:::::: CC: Alasdair G Kergon <agk@redhat.com>
+  2035	
+  2036	__bpf_kfunc static void bbr_main(struct sock *sk, u32 ack, int flag, const struct rate_sample *rs)
+  2037	{
+  2038		struct tcp_sock *tp = tcp_sk(sk);
+  2039		struct bbr *bbr = inet_csk_ca(sk);
+  2040		struct bbr_context ctx = { 0 };
+  2041		bool update_model = true;
+> 2042		u32 bw, round_delivered;
+  2043		int ce_ratio = -1;
+  2044	
+  2045		round_delivered = bbr_update_round_start(sk, rs, &ctx);
+  2046		if (bbr->round_start) {
+  2047			bbr->rounds_since_probe =
+  2048				min_t(s32, bbr->rounds_since_probe + 1, 0xFF);
+  2049			ce_ratio = bbr_update_ecn_alpha(sk);
+  2050		}
+  2051		bbr_plb(sk, rs, ce_ratio);
+  2052	
+  2053		bbr->ecn_in_round  |= (bbr->ecn_eligible && rs->is_ece);
+  2054		bbr_calculate_bw_sample(sk, rs, &ctx);
+  2055		bbr_update_latest_delivery_signals(sk, rs, &ctx);
+  2056	
+  2057		if (bbr_run_fast_path(sk, &update_model, rs, &ctx))
+  2058			goto out;
+  2059	
+  2060		if (update_model)
+  2061			bbr_update_model(sk, rs, &ctx);
+  2062	
+  2063		bbr_update_gains(sk);
+  2064		bw = bbr_bw(sk);
+  2065		bbr_set_pacing_rate(sk, bw, bbr->pacing_gain);
+  2066		bbr_set_cwnd(sk, rs, rs->acked_sacked, bw, bbr->cwnd_gain,
+  2067			     tcp_snd_cwnd(tp), &ctx);
+  2068		bbr_bound_cwnd_for_inflight_model(sk);
+  2069	
+  2070	out:
+  2071		bbr_advance_latest_delivery_signals(sk, rs, &ctx);
+  2072		bbr->prev_ca_state = inet_csk(sk)->icsk_ca_state;
+  2073		bbr->loss_in_cycle |= rs->lost > 0;
+  2074		bbr->ecn_in_cycle  |= rs->delivered_ce > 0;
+  2075	}
+  2076	
 
 -- 
 0-DAY CI Kernel Test Service
