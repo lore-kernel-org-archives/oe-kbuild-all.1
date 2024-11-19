@@ -1,66 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FCD17C8D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 00:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CB28825
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 00:30:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731976183; cv=fail; b=B5KauMGasMcK0iyqW7o/VogdKUXO3LUKCYH96qEREe/BZd01cjr/XbNWeHl0tht0FP4Y6tBwB7z0QKoFhCDzHAjIORrNzIm96yT5uTd/BULj4MUwuvh8wX5+RPunZiGRatBYTZddn3KKfBsRk9fZqsqpPFDJwU8ydQnTqxhAhS8=
+	t=1731976228; cv=fail; b=WLwyUvMgRd7cVWa+8pKvZpjFEavK6RPoHN5+63JpbUb6txP4rniuJYuZpg6bftt279LjvXFTEZ75K2ICh1PCYhntNYPXA3KChgorSMClW+P7kUoVUGBW2yAFVjVaxI6FmdAOrh6OyHd8JBA09yFYg8wLimcy6DLuTJp5GwxHAm0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731976183; c=relaxed/simple;
-	bh=EfhFcU12l4Cms6YlecfKzFGtJQPMvu1WJaAR+yyvj9A=;
+	s=arc-20240116; t=1731976228; c=relaxed/simple;
+	bh=PdBmoJEaB10E+ILa1nV9z5uTtANG62fwoSOITSt/COQ=;
 	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
-	 Content-Disposition:MIME-Version; b=QM1S/qqpf7XSJygImkzFa7oiXjQUGLWPhi//xuFaVgAgQvvQ0zJrpe3Jqnlqp9rdYcWKIRtm3msxFIUSVrUKvivwWOn3AlegPl3PHLGdguNveZege1xDFr7Fwjs1T7eCJz0PegIcCfDn9AVsH9t5XHYt6u7M1dvoqaIxbXZg+jY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mUl43l9M; arc=fail smtp.client-ip=192.198.163.12
+	 Content-Disposition:MIME-Version; b=IbLvlNCc9OPuGlcuNtGoO7m4zk/mYp+iGVrsOYBgroMQ+cd0m7jekNMJl9iJ0WV2J7H0BGcFxLbPBfWvewOmgf41GFf+zN2q3mVBlNHtJAuQ4dW580Lx4IT5mLbjw4qmgucgBFYZlLZ9CT5Yl49mvw1hOwUFEc8VIsFV2VbP9eA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8+VXeCb; arc=fail smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mUl43l9M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8+VXeCb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731976181; x=1763512181;
+  t=1731976223; x=1763512223;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=EfhFcU12l4Cms6YlecfKzFGtJQPMvu1WJaAR+yyvj9A=;
-  b=mUl43l9MrZPOvySWTfet9aAwSthYYaV9hNJdyj+XND1IY60dR9Wwnh39
-   wyhlv4nLN0Gr0y1B50mx5Ej+IEFvdCubaiWZdYSxo4AGTR/473Wou91g4
-   BJNgYIJ2hc5l/ZXZZ5grFj0ynXqX3l7Vi0Y/OvxoxVrUZgLplyYtq3kSG
-   k8lSQmYpKJ7ZNEO0D+IUElZ1hUQNY9qSd47umk29dpA1kf8kr9IC8OUAI
-   pGCJfs62UvaAhrTYrUFBO3m8sXJgSO6lEt9RrUfTNiQ6uKKt1ueWjRouW
-   xFKgfgm/+wlzeDBJL9ruCswHsQBMgvcPSaZ4juGUPXUeVjuddFH6UExT9
-   w==;
-X-CSE-ConnectionGUID: MOkjChIwRYCEzvHdmO/91w==
-X-CSE-MsgGUID: IA64RW2MR9WiFm6kQvUB5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="35862370"
+  bh=PdBmoJEaB10E+ILa1nV9z5uTtANG62fwoSOITSt/COQ=;
+  b=g8+VXeCbqHqzKQUYKu7YW8UtGUcnMSU90am8ulrSL9I1py8NvV1EMOG2
+   b7UVrCekdGwY9BkVLQu4ffwVNVDh9/tDBd+KcdtXEMqTpQYhNPLHp3AdS
+   bWn8CcfwhQoXXTU7xMbhu3feEN6qyXfbcmQxKuqwNk3wXH7UKwGiHAlnn
+   pboYNPrVW5xvoO9Vgr9CxMfU3OWvFtRms06GNFLd86g2g1JAizq9TqCNJ
+   igiISXzAdsVWA0/6m80H1wMsxVhA3plaDXbPRKS17ULmABWYeji+jx+xa
+   7imm2wl1poi7RyJC56cvfBbmWmezWfiibi7liklLEZ/TFEKaCSeDDnRmb
+   Q==;
+X-CSE-ConnectionGUID: 6n6B5WEoQgGf+ELCsl2vSA==
+X-CSE-MsgGUID: 1D3Sh6iwRPKQ22PB/8o8uA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="35862509"
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="35862370"
+   d="scan'208";a="35862509"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 16:29:31 -0800
-X-CSE-ConnectionGUID: ri8eP7ZrQiqxneVoRSPpaA==
-X-CSE-MsgGUID: 3Ke/bPyaQiyE0QbqxO5XWA==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 16:30:22 -0800
+X-CSE-ConnectionGUID: wYzU+qJhSkmNMXp/kcGQ4Q==
+X-CSE-MsgGUID: nC/DTqW0RVeEw0vSiO5h+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="126919398"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Nov 2024 16:29:31 -0800
-Received: from fmsmsx603.amr.corp.intel.com (10.18.126.83) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+   d="scan'208";a="126920166"
+Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
+  by orviesa001.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 18 Nov 2024 16:30:22 -0800
+Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Mon, 18 Nov 2024 16:29:30 -0800
+ 15.1.2507.39; Mon, 18 Nov 2024 16:30:21 -0800
 Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Mon, 18 Nov 2024 16:29:30 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
+ 15.1.2507.39 via Frontend Transport; Mon, 18 Nov 2024 16:30:21 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.175)
  by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 18 Nov 2024 16:29:29 -0800
+ 15.1.2507.39; Mon, 18 Nov 2024 16:30:21 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qCzSE/DZajT4rhhRHiERzjhYvHTmiMXoHlXW/fBhCcUr8zGEUT/KMbHvt8hY2ee4AsvxiQIWe/P36UlQwUwRClnxOIYX3OhuRbCPmwmxt+gX2WzTx7zLFkKxt1dmPYtjqkUVY82efWbprnS8389ITH/RRJeZa8u/wH7SzbEjfz/ZBDHmihOZQRHzeSfsjx76+Ef3yO9ZVLhcfu2qVwhaqknM2vHoYxZdTrlJ9k28uZhMlbkRzqlF19GAeo8Y/u0LLQyUyh5Ukw8fbLI2rB8p+AOpVf+/dqFNG9IsscTPMhbKNScgnp3O4gvEBINp8oM425eMbrp0l2S8GGXyhmdb6A==
+ b=zHLtPFj550mE54k5t5vpQse+swjkrTnXWMRlrPgl76YrCys7Qlu08UfN7GB8Ovnzz2atYHJZPAZ08pSynxXKTm8hYScQREFz6jAQzqyuemdsquWnBDqI6DYCzCf18zw8fVHYEBHcQ3MOd0ZTuuS3CIz1yGOv/8tvekY3DeT8BY07mOGiL6xbXx+EPjjKux73NPj7/ssxHMileO5NsHwqaESJ0uF1NMwl9kF117WaGm2Pw84JithklgIJ8Q1bYOqq0c3WMCRJlHgtFtAR03LLsFu2baWHoZNMZF1nPXLXpcuSpBitP7m0VWpdtJcVmKKY3isCCbRQh0itbl2eXbYNAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MU3mcA5wInlZ15Ve9MLBt2jExZB2I3K996addquVqFU=;
- b=GH/Y9VwmSjpqTZl5n7soiMyUNJAUZgIrrz9ZnVphVFZdBPa9R7MIimFDYhsbrTPVYnZn75HpT61k1Jo1qB/D9F+sJ8v1J0vJSfUPFw68I/cCDyKaMzxiBcaXecyww4tTZc6ISa6xSiWoRRuWxsH7TGLG2YrxBkuK7Np1MM8ceSnWR+Iaduxia6mP0OzYLrjXCUfX4cFqLjS5iFIJDO2kBDG840HtSfgGhNSogJh/CeEDQ4AYNvQLP/ONqbA/g0NEkj7YSsqX487RDjZatyk3SXyJXgLBNrZgz/eaVgNcnmNBC+oREKTITgBHT+vG5yuR1Oi+MsSAj9RMIptufp9OPA==
+ bh=NQMj0fbEg6qOZue9bka47x3LXfbIpulNGDCizVRT2qA=;
+ b=ffPe+xTs0FlDzWMKl0Z0N+cgq/nDKCesgUyHa1JfY9RnOfRlC4BePp2H1HHimFhGvTmKkt3VnloAYaWgjvsqt3z7Mmtk0S4r0324UsaCRYTPZMbGXIgxWhgkxX3wFWIpHW7PexRCqgcc/qzEcUHUeCtZNOzxEVdeVrHLPDcm3SlJpC9vTYWVn8TeVwm8cKqfFdCbbJeUXfPxNBSjjz5kuGsZjzAhAJT30YVVavDSY70yZiV/a5jWOL0Jqcy9JbKV3pCTvP2WvYWLFEX2x7sUV1JSUU6k8LsLnd4oic2sgR8jY0waqPGGbP8iI9ZTCJDVS7Gu8mFoYtvLpRGBXXXBNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -70,22 +70,24 @@ Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
  by CO1PR11MB5011.namprd11.prod.outlook.com (2603:10b6:303:6d::21) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Tue, 19 Nov
- 2024 00:29:26 +0000
+ 2024 00:30:15 +0000
 Received: from DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
  ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8158.023; Tue, 19 Nov 2024
- 00:29:26 +0000
-Date: Tue, 19 Nov 2024 08:29:19 +0800
+ 00:30:13 +0000
+Date: Tue, 19 Nov 2024 08:30:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-CC: <oe-kbuild-all@lists.linux.dev>
-Subject: [thomas-weissschuh:b4/kbuild-c23-extensions 2/2] fixdep: error
- opening file: lib/test_fortify/.read_overflow-memscan.log.d: No such file or
- directory
-Message-ID: <Zzvb31nMDtF/+DI7@rli9-mobl>
+To: Atish Patra <atishp@rivosinc.com>
+CC: <oe-kbuild-all@lists.linux.dev>, Atish Patra <Atish.Patra@wdc.com>
+Subject: [atishp04:b4/counter_delegation_v2 7/24]
+ arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb: cpu@0: False
+ schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type':
+ ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64,
+ 'd-cache-sets': 256, 'd-cache-s...
+Message-ID: <ZzvcDft5/iVY759M@rli9-mobl>
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-X-ClientProxiedBy: SG2PR04CA0165.apcprd04.prod.outlook.com (2603:1096:4::27)
+X-ClientProxiedBy: SG2PR04CA0166.apcprd04.prod.outlook.com (2603:1096:4::28)
  To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -96,714 +98,462 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|CO1PR11MB5011:EE_
-X-MS-Office365-Filtering-Correlation-Id: b49ef4d2-6a63-4ea9-3315-08dd0831391a
+X-MS-Office365-Filtering-Correlation-Id: 1e20f77b-a95c-415d-7264-08dd083154be
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?s2ZdNNV0k8rus/0g2xpIwFvgM07nJfJLHpa6HmBf/o2C5LpxLU3gEYPua4wj?=
- =?us-ascii?Q?/S3z67tPj8ETMkCHA4P4k2M0D5ddaA+2RqSfyx4V0IrSIOPvx9YVmlm9iXyu?=
- =?us-ascii?Q?5DGBsZEw50rwCx/7a57l1igc306qsvY8BPQ7Qd1MSwUX1gt1kmxv+KDuKMz4?=
- =?us-ascii?Q?xikjxD7ddDn/tg6xsf6ygbL9KGd6rDqXlnDGnkTerCcPpx5Ru9PE0j7DOy6/?=
- =?us-ascii?Q?qaC64OHLUTzDwlQ7878VTwfnV97tmrJwbWLTsDXM9ilrXpGoXltE17Ezpddd?=
- =?us-ascii?Q?txRndc5g+U3L5vyfmoYp+Eg4r+d3GJAO80guwriunKVgbJgBZ9cAs75e85xs?=
- =?us-ascii?Q?otpCTLCESz5UiGt+/PvL/1ntREKx1J2NBMU08P3eOEGnC9i77FHPll5bkqmj?=
- =?us-ascii?Q?cDapWf5qZMuuEhGEPrRhgwk1c/+6M3A85TSDj2UYEunU44DkVr+eH5ieFGpM?=
- =?us-ascii?Q?7NslO5ekxKpnYlh9NJKgSBF5Ey0AgG/bhwL5lXC2eHZYQIe7s2JLjSuBXVys?=
- =?us-ascii?Q?jFfVnhcnBmLQKxOfoiZYt9FrD2EC9bTCCi6kjwhsusdnGmgamqiebVqHqGTS?=
- =?us-ascii?Q?+HN3SKu38CWtckJbj837n7R2CQ0x8TU35bAcTv1LUZnwstSTmskJD8Dn0L72?=
- =?us-ascii?Q?OqKVSKrS6aG9l4KGfQ04cdC8Nt1lRDjc1I9EF/TnX589ve6ibYUDWf8OsIAG?=
- =?us-ascii?Q?2fLp1E66UJsX9L2uboTF/mqHpS+w03gJGNpR8y657RfquiE2ilxn/BpLCVZt?=
- =?us-ascii?Q?6rIOPskIqRov0xcwyQ1zkEmzUllDgIVYXwuUkzBXcqwKZrXfXFTNS96Fcu/r?=
- =?us-ascii?Q?X4MAdsIKVG4ojLZuEWV0jH63rKKyqHDsAXf4VtGz35eFfgeT5ynLUzJoiKMw?=
- =?us-ascii?Q?coSOaJNjnDpJNIcG3cLI+HS8s+5CbAwlktFnLwypuYOwOYqDFMhIW15aaQb4?=
- =?us-ascii?Q?/8pOpSYk5yK2NQw7X20CJ+cUSiLUSAUQs9rh6VOevURiBUJe2QTyUxSByxlA?=
- =?us-ascii?Q?Qgz5BNt0hbxC9VqgoCi/M5mqt/W49Lh6EtG1M/2GKd1zRoo6h/Gp8l7SlHkh?=
- =?us-ascii?Q?7QhMZN99O6ILJ18hucZxydShXNFHNhcwjcBn6sAvAvwLECoy+lcj1TXGB2pR?=
- =?us-ascii?Q?p55n+W55xTIJ9Y7lEh/x7kis1Vk8YKV9FDKJ78zgEjjs0VT4gJdiXQ+0Re/J?=
- =?us-ascii?Q?JsPTX1DgzJGvgffTFyDEmGMQxhI/DER5dmOCO6m5gfC5rClE+3ag2IPsj3XX?=
- =?us-ascii?Q?DCa8dhluFozRVOAvV/7926bY/K9VSUMV8dba600W7w=3D=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|220923002;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?kB7SlxiS8Y5ximE1RWI3/z9wBLIPOfSRSThCtprIzMkc9CPKqbWcOQJz8ui0?=
+ =?us-ascii?Q?lGpqUTBLZ8yJzvYoBL62JfxRuKfYJ9FjEJGPurbgFKnM0XLqb5DWgCBvL5/r?=
+ =?us-ascii?Q?loJVta46kwYIDWuUZQdQlE+LvzvmHviCDWxkSKWewTxgmmLbOG/d64yy/6Q+?=
+ =?us-ascii?Q?7IzRnd8XjHkL3naSQMXUK5L1QJLrJYEIQ5ne9L+g89EHQoJ8ByGtQ0+dQ+xM?=
+ =?us-ascii?Q?WAKLsdpmOPNusfoqOGzGu9414tVmm/IlXhJcefZn9f1iWVSN6M7ixqfTIgJ8?=
+ =?us-ascii?Q?DV+NCtZMquKtptOZ88HIW9SClEQtTNgO0Pe6Jz4iRwDb32YflhThrqO6Uk1p?=
+ =?us-ascii?Q?4/yiZtD3ExcImuhLLan1wlotX7j6KvF2Zm7Pzlg8Vy9/NaURMmaNGjnrIl4c?=
+ =?us-ascii?Q?2fZFk9QSHMDWbhabUMgwxkiiQBr5dLF+q/QO1DcZJzA7Ppqzen7JoxvoD5h0?=
+ =?us-ascii?Q?cva4XeGaC07ZIruOZrcLCiRcJyGa6yvXVT6oV4da99PSF/qruuJ5FNWhrb/P?=
+ =?us-ascii?Q?OEISwfI38NBTB32Os/9Ga830Mm4QnEOXdmqaJ0L8FRk0qb3y7peFpEXPRd2C?=
+ =?us-ascii?Q?AdCjDYExbKbZMDjR1WZu5CtPCluj5sXEwwHirzT8L9Eip44NnegsxOauL6BL?=
+ =?us-ascii?Q?gZ/HK4sNOunjNmZQCu9RrLx0wn+rurpmgaGVj9w9ocgbTfdgCiRTH2mBathO?=
+ =?us-ascii?Q?vDMpLIlyzZXJ1rXpvsbXARYlncyrmWNP0bX6XH6pIe7q3Uzie3AQ79o/gwSU?=
+ =?us-ascii?Q?toPYScvX2ULfMra++Cy7rttPrTy9SiPjN/E2CU2hsl4SrLrOfvR6fHB0ARX8?=
+ =?us-ascii?Q?oahs/DjrikjD2rYTVFCZN1MTtoSnXMg18P9+8flkwCG28K7KyN9BOT5i+M0y?=
+ =?us-ascii?Q?EZqRucBr/GMgf6qi0zT6Scn4KH8d5sH77Kf6uWB5STiYSvIasA/5KBZJ/TRq?=
+ =?us-ascii?Q?fqq+GuQQgbnQrzMNDmGi+aRw7rKwThXP6KzalCawXm0e7q8e508h4L+PnK3w?=
+ =?us-ascii?Q?F6hjngzwJ1LCJ5DR6kRcUJkHpKii8v2jU3+MASK+QwoFEPI/IXjHZF4c8ICG?=
+ =?us-ascii?Q?RP5EMUri161WCm5HD2CntJvSRW5TDUXhmVlhfmyUhICwCKslD0E0O6KAd+OU?=
+ =?us-ascii?Q?Uj1q4y0uu1jNCF6wABqHziEzqb3QqkwTFNmFW9uDN9pnWHmN0GqeG+Tilj/m?=
+ =?us-ascii?Q?r1ETKF6f1jBJZfwd0vNATu8mgi6cY8uY85JsNs1i35Nb/KpzkHhQE1CEkXTw?=
+ =?us-ascii?Q?HFHIoFI7fM8qciv+jAQravCYiaFZuBnzzhQ38j34siXZL+o+/sfTlZ+jTtAA?=
+ =?us-ascii?Q?s+rE/txilRrAFGPPMtuv4lAH?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(220923002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?r9KGyAKbb4hGQESTXL2Fhjx8VyyePw6Pgr1C6O2icUhm1rIJn/S3rOj4wKXw?=
- =?us-ascii?Q?dWQFPiwUYwUlohD+QPETFkuTd2uVE8tUM68VVRldh6Y2UsbS7tuOXkBVd9NR?=
- =?us-ascii?Q?rtwNMMTXyFH8/3CLX4JZQnnr93gTxSh4JW3x91khIdv/4dwZsbchg3ciCMvb?=
- =?us-ascii?Q?IEHfzzKHKyKUkCdoTTjoUWq1KmIj2B6nnvDANwfpBfv9+Jmchsah6uPkLW0v?=
- =?us-ascii?Q?rT+iRa466tE9TeDNFAKgCNgka9rSrifnjj2p20QdNAdg2LTNg3VcN/hmxkWm?=
- =?us-ascii?Q?tc8vGd2aYFDc3xk/QBh58FixZRqFQnSzjXvWv27w3rRU9yoK91/dSBujO2RC?=
- =?us-ascii?Q?rWm4cBIzcrGZ1puu0gAE0iOTP8CD0KrJ0GJ4vb0M/RQGS+WRQOjF+gC/5kRo?=
- =?us-ascii?Q?lquDtk88ev0KxtFip+M+S7R1z4ywXF/3wcJPZZcLzRpSEO4ZP7KHBfpg3xzV?=
- =?us-ascii?Q?wMsBEvqCMdpaezjnNuSiR83UymdkMJTmdl0vwceUKCHJIXxvZvuCw6ba2zP4?=
- =?us-ascii?Q?PRL58lpkOwlFi2wESZES66USr2Op2Ov52R1Xnj+6VfTxCo++jLzmqHLkPC5o?=
- =?us-ascii?Q?ugCGV4RQmV9V0bFV6eSyvcx5JK3AS4ArGC8uRJhhMimg5enNLxTWg+jM+AC4?=
- =?us-ascii?Q?wNlulyig8obvqQBvlkQ3KyLCqHJ6NMaa5htX7jmhlIopXHbxE0f6WzsqP5ZG?=
- =?us-ascii?Q?JyY/ZBSYA81qgjj9tZxOUV0DsitJkP0+iqQnI+bzGfhP0Xusk/Izdb2WHVNH?=
- =?us-ascii?Q?2Z+baHLWow3YR8M7OY/xMudxLDJh2Zl4zCSpDbWdMZo1CBxHhrFPi08SOxb2?=
- =?us-ascii?Q?VcbM+1fybI5zZXIbOdtZlIs6r6NKotOjkndQOiJ70ujWJ7e6TIgjktJmeeWs?=
- =?us-ascii?Q?5OIt8qEuLY3r8NqxYGkbNRmhpB7lrWSeAxdWaqoPwHiJ9f7vBZNmBXyclQCo?=
- =?us-ascii?Q?+/K3BKRR2L8MT1r0TkI6Y0n02Lfl+BhMGYhPnsAu/hQJltjnTvobMrvJ/sHL?=
- =?us-ascii?Q?6Gg7Q9CYpbZ+pi+EhhIDjegkLnRbC63mOvDBmMGq7AWgy2prFr0t9LO9afV3?=
- =?us-ascii?Q?UMeLI62Yor3fqSa648ZNpuByULCvaWyWbqRxgwOxEm8rDnL+s+7cHhs4flHp?=
- =?us-ascii?Q?MXZmXjbzaoGnNbZj9tWfqmKbnr2XBWhDDqM8Rm8HYya6yyG9OA1aA6foyeGp?=
- =?us-ascii?Q?RryqelxISd2fngK8GlaLmvkWlnm6FDL7wWKVDeS2dcSXz4c06u8l5DKRUoD+?=
- =?us-ascii?Q?QJCabD2J2+U1b0Qqh8vcEakLHMBpEajv8+Raj7aFPWrojX0NiXWnmPcQ+D5C?=
- =?us-ascii?Q?Rky9NC8khelDlh5OzGN9gfIV27Q4CPxWnrJRG+lkFHv/L58OT+cg3+jGBb9R?=
- =?us-ascii?Q?o6Xj3aqhTIOdBAn5TT3oQXIjopVQkjRHrJebosbXQbHu/V1wn3aGIf+/AojB?=
- =?us-ascii?Q?Ko8pxTCtec4eX5MajE1nUTVHAfJxevDjCOpgfXJR/3rSvi3/40bfQFKHit3D?=
- =?us-ascii?Q?fZgRZK3a+9W5dzivVoQmSX7T5Qt9PgNy0Eeq44sUoiqWLldTBJWgQwwIb2UU?=
- =?us-ascii?Q?EUwURdpi6HSmQWNHKpIC2qFks7hDGlTzh3+hD/3x?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b49ef4d2-6a63-4ea9-3315-08dd0831391a
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9+USFnAz/L6I4gFMrPxirJi/gSvS9WpZ1nLzaitWbi3K2q3NSe0IKR8Qi023?=
+ =?us-ascii?Q?dYIQsbO/TJWWOOgxMhTFa+1PK4imMvpLsnfR7xmZYGBZbx+U+d1rtuzdeDcq?=
+ =?us-ascii?Q?f/PHDxD73brc4WHKVUY6p0fbH9lxYysek4+lydBVOeybdTI4FraVYl45PFTW?=
+ =?us-ascii?Q?swKfDqk2dUGuOGjbp4/3593TAfctFkiuzMVI1eupjjAiJ/pqZj6JCHbRSz+2?=
+ =?us-ascii?Q?hWpIHGeYsjR0yzHa0h8ET7W6nd7hBHcXJrZEkHGXi+m3uv7OHPKyDI4eUr4d?=
+ =?us-ascii?Q?O4b3u8Kmc/FLGPBX9VgPsF3RPcYrzkW28wxoh4ISox/yPaXemVNajN9X5iqf?=
+ =?us-ascii?Q?QuB+OzWiwcYBL9tAOhd6AjIjZB23BJ2ixaKmRSdCLtkOirrmS7fwtagmZiXD?=
+ =?us-ascii?Q?kjKGrgi3Oms59hWCBMFADi5kjAEwACWf2A9DFoCsbETHbco5or9NzgnPQD7g?=
+ =?us-ascii?Q?DZLqDCM/cM0vUkO09pELy5Wea40uUp4v/IOCX19kESfTCelMnnYP1KKxkbHT?=
+ =?us-ascii?Q?l3nEoIQ1guKO2QBTJhuYmgMB/hnjbM84eGk4hPE7B2X/b686rmzpuyjby4kb?=
+ =?us-ascii?Q?fUoL8KLwIA+09ugFZKwQBfon5Uvhk6FF6TIzmEsXGFtSYK22mt1y9K1R2WJC?=
+ =?us-ascii?Q?/ZanqEoyAI8nvyMT1fBM2dOXAAgZ/TWrD0Kyl4lXhNcy5s3VKs4MPK4uF8/v?=
+ =?us-ascii?Q?vz8OyUdGNDIdDSpYR5pLkV+zlc2TGgn/vErtkZSDyeO7EXHpUS1d+WmuzwvS?=
+ =?us-ascii?Q?FKPysXN9U1+3XVsgNghPxZnb1I2bo1bCZQkn+SrXR/DkhXY3lXdUQsbhEZa6?=
+ =?us-ascii?Q?+B3bP/v8iCfhXXh1TIUkoDhMPWmpRwIc+0q9+VwS2pTPk9IRrHjh0MpniQxW?=
+ =?us-ascii?Q?nYNiXgGfRtdiMue5WuUn95o4YpmFj7vC4FZI66/5UgPk1G9n+2MmSDhLFLrU?=
+ =?us-ascii?Q?kjA/P86Ru8pRyKQpWUcjlkrf6T4Qv6ErWcWIMvkPMNR6xjeuZw8+xKLWwlFC?=
+ =?us-ascii?Q?lohVoF9l5/SkrvKe3dFMnMa6vBLboPljiFkf+UR97jtRrvjIsLs9TaOSAr3L?=
+ =?us-ascii?Q?05gHoQauNBGvcNIxi1AeiVyjw2LvbKMZiaDs9yLWJkRgGc6L2e+a5d5GMWaO?=
+ =?us-ascii?Q?QvcUUKasr+bbTXF0myl+LU8XmxaYMroOUVR55Sqn9ZzLHzjnQN5GxAZ//Nra?=
+ =?us-ascii?Q?+IkOwEFg7C4eWg7in70qbZ0sp8WXpOxtXvCm24+trTH5w6Ja7c22hZqEthHf?=
+ =?us-ascii?Q?yMBctbvIuiiCaN9Q/R+i7F7Oh9sfbpDMN1/HSnX9uTvommJe2neupqcW3OX9?=
+ =?us-ascii?Q?kPideTgcQn7MNrH7VlS0px2cth7vfuUPsX5x0JZ4iIYjvB9weJZwd6fV9mke?=
+ =?us-ascii?Q?2aExp2g1l9knHQru1B6kIo7gGhPUIShtiMdbIRAwjq3uWznj+D/8ZH+3Wy5M?=
+ =?us-ascii?Q?7qBPKDBOL5Y3URKLKJ9MLX9MJEPLghNwsRfAERu4J/cGNQ339Ogm6q2Cl0Aq?=
+ =?us-ascii?Q?EIao4raZtBs08QyGxDl/qh4YO1mPk2Tt4dkbEwXjDH6hDKDy+iSTbF2fpyj/?=
+ =?us-ascii?Q?k5ORFldX2U/SR4aho3XSPgHOtrjiFVlFdeZnmJjH?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1e20f77b-a95c-415d-7264-08dd083154be
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 00:29:26.5748
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2024 00:30:12.9784
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IIqGWaAKxAyqyBHUHZp22WakpaalhbxLKjRbkvY7Tahm5b/gYToABGMkb5iih+BieuFHUSXlwQcUesFO3NT44Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 76l3RkZXSEkr+kN04P3U6O4tlIQznG7eTfWGvUP8V+sC7jbp1WTwQ//SKBorHkya8JtAhfdC8ndOAN4ef009Mg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR11MB5011
 X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-c23-extensions
-head:   e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c
-commit: e6d1e6eb54a88c725f912f98dd9b3548adc1ce6c [2/2] kbuild: disable -Wc23-extensions
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-config: arm64-randconfig-001-20241118 (https://download.01.org/0day-ci/archive/20241118/202411182156.OhPAOv2H-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411182156.OhPAOv2H-lkp@intel.com/reproduce)
+tree:   https://github.com/atishp04/linux b4/counter_delegation_v2
+head:   20eccade6e1057a3ea847f0f5f9a6eaab65150d6
+commit: 58925d5036606d346a176279ab81132f173fb67a [7/24] dt-bindings: riscv: add Sxcsrind ISA extension description
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: riscv-randconfig-051-20241118 (https://download.01.org/0day-ci/archive/20241118/202411181059.muE7mEmZ-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241118/202411181059.muE7mEmZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/r/202411182156.OhPAOv2H-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411181059.muE7mEmZ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   warning: unknown warning option '-Wno-c23-extensions'; did you mean '-Wno-c2x-extensions'? [-Wunknown-warning-option]
->> lib/overflow_kunit.c:820:2: warning: result of comparison of constant 65535 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:820:2: warning: result of comparison of constant 65535 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, u16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:824:2: warning: result of comparison of constant 32767 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:824:2: warning: result of comparison of constant 32767 with expression of type 'u8' (aka 'unsigned char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u8, s16, U8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:825:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:825:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:826:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:826:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:827:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:827:2: warning: result of comparison of constant 255 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u8, S8_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:828:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:828:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:829:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:829:2: warning: result of comparison of constant 65535 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[48]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[49]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 47}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-clockworkpi-v3.14.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
 --
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:841:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant 32767 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:842:2: warning: result of comparison of constant -32768 with expression of type 's8' (aka 'signed char') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s8, s16, S8_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:852:2: warning: result of comparison of constant 4294967295 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:852:2: warning: result of comparison of constant 4294967295 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, u32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:853:2: warning: result of comparison of constant 2147483647 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:853:2: warning: result of comparison of constant 2147483647 with expression of type 'u16' (aka 'unsigned short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u16, s32, U16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:858:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:858:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:859:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:859:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, -1, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:860:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:860:2: warning: result of comparison of constant 65535 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, u16, S16_MIN, true);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:214:18: note: expanded from macro '__overflows_type_constexpr'
-                   (x) < 0 || (x) > type_max(T) :                  \
-                              ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:877:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant 2147483647 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:878:2: warning: result of comparison of constant -2147483648 with expression of type 's16' (aka 'short') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s16, s32, S16_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:896:2: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:896:2: warning: result of comparison of constant 18446744073709551615 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, u64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:897:2: warning: result of comparison of constant 9223372036854775807 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:897:2: warning: result of comparison of constant 9223372036854775807 with expression of type 'u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(u32, s64, U32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:212:7: note: expanded from macro '__overflows_type_constexpr'
-                   (x) > type_max(T) :                             \
-                   ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:932:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:932:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
->> lib/overflow_kunit.c:932:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:932:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MAX, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:815:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, t2, of);  \
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant 9223372036854775807 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:27: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-                                ~~~ ^ ~~~~~~~~~~~
-   lib/overflow_kunit.c:933:2: warning: result of comparison of constant -9223372036854775808 with expression of type 's32' (aka 'int') is always false [-Wtautological-constant-out-of-range-compare]
-           TEST_OVERFLOWS_TYPE(s32, s64, S32_MIN, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:816:24: note: expanded from macro 'TEST_OVERFLOWS_TYPE'
-           __TEST_OVERFLOWS_TYPE(__overflows_type_constexpr, t1, __t2, of);\
-           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/overflow_kunit.c:802:14: note: expanded from macro '__TEST_OVERFLOWS_TYPE'
-           bool __of = func(arg1, arg2);                                   \
-                       ^~~~~~~~~~~~~~~~
-   include/linux/overflow.h:215:6: note: expanded from macro '__overflows_type_constexpr'
-           (x) < type_min(T) || (x) > type_max(T))
-           ~~~ ^ ~~~~~~~~~~~
-   55 warnings generated.
-..
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[48]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[49]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 47}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-devterm-v3.14.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[40]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[41]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 39}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-dongshan-nezha-stu.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[47]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[48]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 46}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-480p.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[46]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[47]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 45}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-86-panel-720p.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[44]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[45]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 43}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv-dock.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[38]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[39]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 37}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-lichee-rv.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[43]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[44]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 42}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-mangopi-mq-pro.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[46]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[47]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 45}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1-nezha.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'clocks': [[4, 132]], 'd-cache-block-size': 64, 'd-cache-sets': 256, 'd-cache-size': 32768, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'operating-points-v2': [[41]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], '#cooling-cells': 2, 'cpu-supply': [[42]], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 40}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/allwinner/sun20i-d1s-mangopi-mq.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/canaan/canaan_kd233.dtb: cpu@0: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[0]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 1, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 5}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/canaan/canaan_kd233.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/canaan_kd233.dtb: cpu@1: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 6}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/canaan_kd233.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/canaan/k210_generic.dtb: cpu@0: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[0]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 1, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 5}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/canaan/k210_generic.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/k210_generic.dtb: cpu@1: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 6}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/k210_generic.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/canaan/sipeed_maix_bit.dtb: cpu@0: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[0]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 1, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 5}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/canaan/sipeed_maix_bit.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maix_bit.dtb: cpu@1: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 6}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maix_bit.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/canaan/sipeed_maix_dock.dtb: cpu@0: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[0]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 1, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 5}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/canaan/sipeed_maix_dock.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maix_dock.dtb: cpu@1: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 6}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maix_dock.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/canaan/sipeed_maix_go.dtb: cpu@0: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[0]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 1, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 5}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/canaan/sipeed_maix_go.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maix_go.dtb: cpu@1: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 6}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maix_go.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/canaan/sipeed_maixduino.dtb: cpu@0: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[0]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 1, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 5}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/canaan/sipeed_maixduino.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maixduino.dtb: cpu@1: False schema does not allow {'device_type': ['cpu'], 'compatible': ['canaan,k210', 'riscv'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'mmu-type': ['riscv,none'], 'i-cache-block-size': 64, 'i-cache-size': 32768, 'd-cache-block-size': 64, 'd-cache-size': 32768, 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'interrupt-controller': True, 'compatible': ['riscv,cpu-intc'], 'phandle': 6}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/canaan/sipeed_maixduino.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-beaglev-fire.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 15}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-icicle-kit.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-m100pfsevp.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-polarberry.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-sev-kit.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'status': ['disabled'], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 12}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 13}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/microchip/mpfs-tysom-m.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'clocks': [[1, 0]], 'tlb-split': True, 'next-level-cache': [[2]], 'status': ['okay'], 'phandle': 7, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 14}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: cpu@0: False schema does not allow {'compatible': ['andestech,ax45mp', 'riscv'], 'device_type': ['cpu'], '#cooling-cells': 2, 'reg': [[0]], 'status': ['okay'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': b'i\x00m\x00a\x00f\x00d\x00c\x00zicntr\x00zicsr\x00zifencei\x00zihpm\x00xandespmu\x00', 'mmu-type': ['riscv,sv39'], 'i-cache-size': 32768, 'i-cache-line-size': 64, 'd-cache-size': 32768, 'd-cache-line-size': 64, 'next-level-cache': [[41]], 'clocks': [[2, 0, 0]], 'operating-points-v2': [[42]], 'phandle': 40, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['andestech,cpu-intc', 'riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 37}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/renesas/r9a07g043f01-smarc.dtb: cpu@0: riscv,isa-extensions: b'i\x00m\x00a\x00f\x00d\x00c\x00zicntr\x00zicsr\x00zifencei\x00zihpm\x00xandespmu\x00' is not of type 'object', 'integer', 'array', 'boolean', 'null'
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+--
+>> arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,e51', 'sifive,rocket0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 7}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'next-level-cache': [[1]], 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 8}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'next-level-cache': [[1]], 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 9}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'next-level-cache': [[1]], 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unleashed-a00.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u54-mc', 'sifive,rocket0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'next-level-cache': [[1]], 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,bullet0', 'riscv'], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'reg': [[0]], 'riscv,isa': ['rv64imac'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 2, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 7}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,bullet0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'reg': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 3, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 8}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,bullet0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'reg': [[2]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 4, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 9}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,bullet0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'reg': [[3]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 5, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 10}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sifive/hifive-unmatched-a00.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,bullet0', 'riscv'], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'reg': [[4]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 6, 'interrupt-controller': {'#interrupt-cells': 1, 'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, 'phandle': 11}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'd-cache-block-size': 64, 'd-cache-sets': 512, 'd-cache-size': 65536, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 4}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c906', 'riscv'], 'device_type': ['cpu'], 'reg': [[0]], 'd-cache-block-size': 64, 'd-cache-sets': 512, 'd-cache-size': 65536, 'i-cache-block-size': 64, 'i-cache-sets': 128, 'i-cache-size': 32768, 'mmu-type': ['riscv,sv39'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 4}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c920', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[0]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[65]], 'mmu-type': ['riscv,sv39'], 'phandle': 1, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 88}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@1: False schema does not allow {'compatible': ['thead,c920', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[1]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[65]], 'mmu-type': ['riscv,sv39'], 'phandle': 2, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 89}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@2: False schema does not allow {'compatible': ['thead,c920', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[2]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[65]], 'mmu-type': ['riscv,sv39'], 'phandle': 3, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 90}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/sophgo/sg2042-milkv-pioneer.dtb: cpu@3: False schema does not allow {'compatible': ['thead,c920', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[3]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[65]], 'mmu-type': ['riscv,sv39'], 'phandle': 4, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 91}, '$nodename': ['cpu@3']}
+--
+>> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[0]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 2, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 6}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 3, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 7}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-beaglev-starlight.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[0]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 2, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 6}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 32, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 32, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'phandle': 3, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 7}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7100-starfive-visionfive-v1.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+--
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-milkv-mars.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-pine64-star64.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@0: False schema does not allow {'compatible': ['sifive,s7', 'riscv'], 'reg': [[0]], 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 16384, 'next-level-cache': [[1]], 'riscv,isa': ['rv64imac_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627415296, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'status': ['disabled'], 'phandle': 5, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 13}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@1: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[1]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 6, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 14}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@2: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[2]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 7, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 15}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@3: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[3]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 8, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 16}, '$nodename': ['cpu@3']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@3: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb: cpu@4: False schema does not allow {'compatible': ['sifive,u74-mc', 'riscv'], 'reg': [[4]], 'd-cache-block-size': 64, 'd-cache-sets': 64, 'd-cache-size': 32768, 'd-tlb-sets': 1, 'd-tlb-size': 40, 'device_type': ['cpu'], 'i-cache-block-size': 64, 'i-cache-sets': 64, 'i-cache-size': 32768, 'i-tlb-sets': 1, 'i-tlb-size': 40, 'mmu-type': ['riscv,sv39'], 'next-level-cache': [[1]], 'riscv,isa': ['rv64imafdc_zba_zbb'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053267712, 2053267968, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'tlb-split': True, 'operating-points-v2': [[2]], 'clocks': [[3, 1]], 'clock-names': ['cpu'], '#cooling-cells': 2, 'cpu-supply': [[4]], 'phandle': 9, 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 17}, '$nodename': ['cpu@4']}
+--
+>> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[0]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 3}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@1: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[1]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 4}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@2: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[2]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 5}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-lichee-pi-4a.dtb: cpu@3: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[3]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 6}, '$nodename': ['cpu@3']}
+--
+>> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@0: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[0]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 3}, '$nodename': ['cpu@0']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+>> arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@0: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@1: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[1]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 4}, '$nodename': ['cpu@1']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@1: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@2: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[2]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 5}, '$nodename': ['cpu@2']}
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@2: Unevaluated properties are not allowed ('riscv,isa', 'riscv,isa-base', 'riscv,isa-extensions' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/riscv/cpus.yaml#
+   arch/riscv/boot/dts/thead/th1520-beaglev-ahead.dtb: cpu@3: False schema does not allow {'compatible': ['thead,c910', 'riscv'], 'device_type': ['cpu'], 'riscv,isa': ['rv64imafdc'], 'riscv,isa-base': ['rv64i'], 'riscv,isa-extensions': [1761635584, 1627416064, 1677746944, 2053727086, 1953628282, 1768125298, 8022374, 1701733221, 1761639017, 1752198400], 'reg': [[3]], 'i-cache-block-size': 64, 'i-cache-size': 65536, 'i-cache-sets': 512, 'd-cache-block-size': 64, 'd-cache-size': 65536, 'd-cache-sets': 512, 'next-level-cache': [[1]], 'mmu-type': ['riscv,sv39'], 'interrupt-controller': {'compatible': ['riscv,cpu-intc'], 'interrupt-controller': True, '#interrupt-cells': 1, 'phandle': 6}, '$nodename': ['cpu@3']}
 
 -- 
 0-DAY CI Kernel Test Service
