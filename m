@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4564613D893
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 03:07:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018981CA84
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 03:19:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731985678; cv=none; b=IbDVf2WfaGEe2xyS++0oBHJB2Uk8FhEAEgrQ+j+kqFtzkSKQFyaH/tzvyqs5suqi/71YfgFWEtYgb5ewUE3m13A6VyUfTWFWkCk0IkjCkWifTvpK5CXgdnry8tKRffitv9xYp3WbjzGFLQX9BI1zPfqmY/DQPtC4GvzLHyscP5g=
+	t=1731986361; cv=none; b=FOyZxe/fFPGMQguFamnDOWstP9C2DGQSOME4xFmN1apyTNyF9iKOM9D7DETN/HcYYws3qzvU9rSb/7TBdrVjd53kCJ+EpoZd9rzHpp/JHT72fOWW+1TwPaHOI8UZLgMRuyLO6zEhswhlXwyxwWnfFe+WWYLalJSbwE2LzvDIb6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731985678; c=relaxed/simple;
-	bh=emm4Cz+FfMFP1Y2grNXj3TtbB3KHQQiQrafFa/qLc7k=;
+	s=arc-20240116; t=1731986361; c=relaxed/simple;
+	bh=l5PrIL239MsnMz+JVz1iXFCCrM7rY62RKgIBD/GIAZQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ugnckaO2Cae/WUNFBlL61jMomGlm3cp6Rir8CGmjDm6uRpAuA38wHic5j8XIMIYAUltEbPe6FjlvVYuweKZlSHlkB6xX1muKhsBIfQX9OPUotXEuYCkPXmRhD6CEOzKiYDP9+MRDSe4BHZO69eEQMv6bBsbPW61LuMMMCQ4pIJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ndo2tRKC; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=VziyViuY2CSX2tk9pVQ8k7R/E3ymeff1Q+tiHLwqcDQNgOZ/hmLt43z91YRqivSQeAZjSuN/YzbJNaQhvv8IVLM1DP2h0MM4JEzpPwltBQsZI2aLsQkitiVaUn3M6cr47lwrm6LGFHpKJlPTYA38E8xPnnyuvkWP9sqOqqC9K5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DHTENFGd; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ndo2tRKC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DHTENFGd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731985677; x=1763521677;
+  t=1731986359; x=1763522359;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=emm4Cz+FfMFP1Y2grNXj3TtbB3KHQQiQrafFa/qLc7k=;
-  b=Ndo2tRKCoOKIt2tDU7cR4myKhUx4Xsi6IlascwtefN6pcbXm8wK3++py
-   +trd0m8wY1LvQLOtuTGAIgs+oMILIujFOxDpi/4qva8vuYzPqpohk08B2
-   wbUQm3iMit2eIXi41LgS/B7HWn9I4td7uhJMob4btxHLmhVSZQJtIf3Fq
-   46bGknsP9XhzpMTB3AOQzmDPgA8B/fdUQfOmbkPseUWlug+6OolsNs3cw
-   UUHZbEgHsEdVLzb4Cby5NafNimd2/2kQhYVge1LSQBk+v+cmP5SM7vaKM
-   CZIVWHqJc2tnfc1FQazZQjboO4Jr6E457Y6PH2pGNTuejBBAdbn9rV7Uq
-   Q==;
-X-CSE-ConnectionGUID: 9R43pVq7RJiuWxoDF066VA==
-X-CSE-MsgGUID: YztNOJk6QfadHLNyjwLU5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="31904569"
+  bh=l5PrIL239MsnMz+JVz1iXFCCrM7rY62RKgIBD/GIAZQ=;
+  b=DHTENFGd1If7ks4XKG/BV0Lz0oOWJud6oG7SFkt0/+5nH43xfFE8DfM7
+   0P8GAXhUBseq5miqPCbx+sSc9z5LluZOZQA2eRlGbkihUHNtzbEmAV/vn
+   Le6P5xa9X0nT92Xj7lVlWIFDBDLYq4OFJd4nrpR76fG0iyXh19HAoj4G6
+   KXB5nTNlNmgjB7fNQInuYHMdp2imgBGCAdZWjUGmGNU3EY5lfcDobmUU0
+   WtkNes6HqXJaawBRt59vMcmDwuqvoNgJg/HOMS0UfycuKEyQTSLEPMIB2
+   NY4rkoOBcJ99cnqMoDqsn7ptJIqkcdAcfrBVaus/c4K+21aDhFXIFipEi
+   w==;
+X-CSE-ConnectionGUID: zW0aD3nVSgSbvTRq9fvf3Q==
+X-CSE-MsgGUID: Cfd+ld8tQxOzMxH7bO/ZJg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="43038403"
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="31904569"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 19:07:56 -0800
-X-CSE-ConnectionGUID: n4LEqshNTeaHabATJTzn/w==
-X-CSE-MsgGUID: BdiJS1dOQ/6eWxNVpcKZNw==
+   d="scan'208";a="43038403"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 19:19:15 -0800
+X-CSE-ConnectionGUID: 4kbida9iSjKwl1Pzqy4W1A==
+X-CSE-MsgGUID: oHZiZDpYS4qeZDUWFZPs9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="89576902"
+   d="scan'208";a="93493320"
 Received: from lkp-server02.sh.intel.com (HELO 2cc4542d09d4) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Nov 2024 19:07:54 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 18 Nov 2024 19:19:13 -0800
 Received: from kbuild by 2cc4542d09d4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDEam-00004p-2Z;
-	Tue, 19 Nov 2024 03:07:52 +0000
-Date: Tue, 19 Nov 2024 11:07:51 +0800
+	id 1tDElR-00005O-1f;
+	Tue, 19 Nov 2024 03:19:00 +0000
+Date: Tue, 19 Nov 2024 11:18:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: steven@liquorix.net
+To: kernel@openeuler.org, Wen Zhiwei <wenzhiwei@kylinos.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [zen:6.12/bbr3 1/1] net/ipv4/tcp_bbr.c:2042:17: warning: variable
- 'round_delivered' set but not used
-Message-ID: <202411191107.zQyx7pwf-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1484/1484]
+ arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: hdmi@ff3c0000: Unevaluated
+ properties are not allowed ('#sound-dai-cells' was unexpected)
+Message-ID: <202411191127.ObKwERZI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +63,74 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/zen-kernel/zen-kernel 6.12/bbr3
-head:   a1f04ded36fb527bc23efdb969b1893c82e61a6e
-commit: a1f04ded36fb527bc23efdb969b1893c82e61a6e [1/1] tcp/bbr3: initial import
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241119/202411191107.zQyx7pwf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191107.zQyx7pwf-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   8a039651010897592567f5751c4e706ab794e9c0
+commit: 64795309e27dbacfe680b214a21e54192fdc8739 [1484/1484] arm64: dts: rockchip: Remove hdmi's 2nd interrupt on rk3328
+config: arm64-randconfig-051-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191127.ObKwERZI-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191127.ObKwERZI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411191107.zQyx7pwf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411191127.ObKwERZI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   net/ipv4/tcp_bbr.c: In function 'bbr_main':
->> net/ipv4/tcp_bbr.c:2042:17: warning: variable 'round_delivered' set but not used [-Wunused-but-set-variable]
-    2042 |         u32 bw, round_delivered;
-         |                 ^~~~~~~~~~~~~~~
-
-
-vim +/round_delivered +2042 net/ipv4/tcp_bbr.c
-
-  2035	
-  2036	__bpf_kfunc static void bbr_main(struct sock *sk, u32 ack, int flag, const struct rate_sample *rs)
-  2037	{
-  2038		struct tcp_sock *tp = tcp_sk(sk);
-  2039		struct bbr *bbr = inet_csk_ca(sk);
-  2040		struct bbr_context ctx = { 0 };
-  2041		bool update_model = true;
-> 2042		u32 bw, round_delivered;
-  2043		int ce_ratio = -1;
-  2044	
-  2045		round_delivered = bbr_update_round_start(sk, rs, &ctx);
-  2046		if (bbr->round_start) {
-  2047			bbr->rounds_since_probe =
-  2048				min_t(s32, bbr->rounds_since_probe + 1, 0xFF);
-  2049			ce_ratio = bbr_update_ecn_alpha(sk);
-  2050		}
-  2051		bbr_plb(sk, rs, ce_ratio);
-  2052	
-  2053		bbr->ecn_in_round  |= (bbr->ecn_eligible && rs->is_ece);
-  2054		bbr_calculate_bw_sample(sk, rs, &ctx);
-  2055		bbr_update_latest_delivery_signals(sk, rs, &ctx);
-  2056	
-  2057		if (bbr_run_fast_path(sk, &update_model, rs, &ctx))
-  2058			goto out;
-  2059	
-  2060		if (update_model)
-  2061			bbr_update_model(sk, rs, &ctx);
-  2062	
-  2063		bbr_update_gains(sk);
-  2064		bw = bbr_bw(sk);
-  2065		bbr_set_pacing_rate(sk, bw, bbr->pacing_gain);
-  2066		bbr_set_cwnd(sk, rs, rs->acked_sacked, bw, bbr->cwnd_gain,
-  2067			     tcp_snd_cwnd(tp), &ctx);
-  2068		bbr_bound_cwnd_for_inflight_model(sk);
-  2069	
-  2070	out:
-  2071		bbr_advance_latest_delivery_signals(sk, rs, &ctx);
-  2072		bbr->prev_ca_state = inet_csk(sk)->icsk_ca_state;
-  2073		bbr->loss_in_cycle |= rs->lost > 0;
-  2074		bbr->ecn_in_cycle  |= rs->delivered_ce > 0;
-  2075	}
-  2076	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3328.dtsi:704.17-712.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: pwm@ff1b0030: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/pwm-rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
+   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3318-a95x-z2.dtb: ethernet@ff550000: Unevaluated properties are not allowed ('assigned-clock-rate', 'snps,txpbl' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3328.dtsi:704.17-712.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: pwm@ff1b0030: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/pwm-rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
+   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-a1.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('snps,pbl', 'snps,txpbl' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3328.dtsi:704.17-712.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: pwm@ff1b0030: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/pwm-rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
+   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-rock64.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('snps,txpbl' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3328.dtsi:704.17-712.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: pwm@ff1b0030: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/pwm-rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
+   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-roc-cc.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('snps,rxpbl', 'snps,txpbl' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
+--
+   arch/arm64/boot/dts/rockchip/rk3328.dtsi:704.17-712.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: pwm@ff1b0030: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/pwm-rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: hdmi@ff3c0000: Unevaluated properties are not allowed ('#sound-dai-cells' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,dw-hdmi.yaml#
+   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
+   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-roc-pc.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('snps,rxpbl', 'snps,txpbl' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
