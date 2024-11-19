@@ -1,59 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63C833F7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 02:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021D01459E0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 02:58:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731984438; cv=none; b=J2WmYWM2tMcQ3pUqolAJwo5eF78qAmt145iBjWw9v/cHMOSKA5Y8fAN41pqZtLn+IWo+XWvOLsDDYKX/qy6cSmy5IvkZZtcl7uR4qJwuIZ70yeal/VWsKxZWfoD0FYQ+VjW/OpHe27hkPVRWKZebQjlTEq4bS34CAbDpW6ioUlE=
+	t=1731985137; cv=none; b=O3oHX+MJNKfeZUB6cSAi2iMKojLk3NSuHEH0CbgxRbFFn6U5yXsgWxnsUbWnApGW/feWPTsUEdwthhiwWmldHOpbY6N7u9O64g8lslVqjbYK6J276HO2Z9claz85rjs2E6uEYp/Oi20oLT1dMsuTeUDYBlbyQ53bPsZIhbhPQzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1731984438; c=relaxed/simple;
-	bh=9xN2oFVYsmU4rEQoMGu8WQj6hFUrZYhLKxC771PPJ/0=;
+	s=arc-20240116; t=1731985137; c=relaxed/simple;
+	bh=64En54uWTS5HNMoKdothIDU4gHy0LF/uFl+zWeaaymI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hoa2o1wkUXph/ig2AmQsS0MJ0dhyskeGaCH1mD59gz3JWfPGzM1nA/L1l3VIWWRvmEiyCRi/Ddx4npLGwyL9Fr4D8cV6lcawqPIMAi641s/48JDN/pgUe9g51akO6Ripyjghl/+8Ym1S1/PEDuATDrPNmoO4v86qdK404D4PsB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NNI2Q5iO; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=HwDXqmFbaV9PeHm5R9coYmxlY4HEejypxON07WHmz2fDvMtslamWM9rT0ilSBdDN4ZofQeIzBHBAWqCiDWIt96Skipht3+sg6pQ7lLRExI9PH2CU68smtuCudvQM6Q7MwBePx0krLZu9LfnVOZtgM0ZehZiexW+VWnEneLGB95M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iIkvWDCN; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NNI2Q5iO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iIkvWDCN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731984437; x=1763520437;
+  t=1731985136; x=1763521136;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9xN2oFVYsmU4rEQoMGu8WQj6hFUrZYhLKxC771PPJ/0=;
-  b=NNI2Q5iObLNidm+GVcPkNBzgQ3tvpDHINUr8LsD31MErhNz1nYi0u3t7
-   5Y4lzsoRRb9QFzAc8CR3Lf30XTw/2wQwGyAzw+MOWlpTReO3xh3qUeK0n
-   M22p3G2vQDZTHtB6EzctKlRXv/gfDw33dYB6snm659iBxzU5Lka2origU
-   86IiqWeK2DiUHIo1T3Dw5eKuWc+0GJXxC2j6TCsiWWGuDYYxp9M2qMoIG
-   B5kKNdgfWsU0hL4Cb+LIRcUk0bU1cdqRhIUwj1eTqbNb2gUTsYMpPakzy
-   NHEeVysIWjwaG3dmd3QQID94NIoUHh954Hx63FYbvYkGoZAOLu1U38XYt
+  bh=64En54uWTS5HNMoKdothIDU4gHy0LF/uFl+zWeaaymI=;
+  b=iIkvWDCNw5gMDD3UMNqQlyYgDPGPTCKAIhRK5YFqCH60JywMNwgENxZl
+   btRW4n6PAM5QfJOttN32t5vaH6rWyAhfjj0H0AtA/X2pARAoss2Rq4VqJ
+   I5p5tER99+2GmYWykQxFXg9dxnoJmsxzxWZz+nUs087HzL0z0omdi9rU5
+   dg9A7DwlZlimSjwrAj+B5VRhGzm+HKhYAr6iZVwsmvh8qbuLHshKBTf2Q
+   O0OwcPoTMABmU8tsOw79HXGOz+MEPFDMfP0TOJSK4l7HS0kMtl9mjThpl
+   bRdYtgGEHHvHGB5d5/ktK7Xg3scOw5wA4fGgvj7HydVDZPxFrwmDDHqNt
    g==;
-X-CSE-ConnectionGUID: ltF3z7F2ROixSHeL50Gw1g==
-X-CSE-MsgGUID: 1pvUzkBUSjmGNaJd3Lcibw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="19576800"
+X-CSE-ConnectionGUID: S/CPfq2SSFKAP70758zt2Q==
+X-CSE-MsgGUID: oym5JtqxQqKKk2VJj5lyFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="19577251"
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="19576800"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 18:47:16 -0800
-X-CSE-ConnectionGUID: gvWpKPaoQeChwpKOQtg6KA==
-X-CSE-MsgGUID: QLfsWdDlRPWoAiLQ6MBjPQ==
+   d="scan'208";a="19577251"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 18:58:55 -0800
+X-CSE-ConnectionGUID: XMy98sH7S1WcTmcSQOT+nA==
+X-CSE-MsgGUID: aJ39TvK5RYSx3n7cMlmuUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="89573708"
+   d="scan'208";a="89840697"
 Received: from lkp-server02.sh.intel.com (HELO 2cc4542d09d4) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Nov 2024 18:47:02 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 18 Nov 2024 18:58:54 -0800
 Received: from kbuild by 2cc4542d09d4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDEGa-00003q-16;
-	Tue, 19 Nov 2024 02:47:00 +0000
-Date: Tue, 19 Nov 2024 10:46:07 +0800
+	id 1tDERl-00004C-2U;
+	Tue, 19 Nov 2024 02:58:39 +0000
+Date: Tue, 19 Nov 2024 10:57:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, "Carrie.Cai" <carrie.cai@montage-tech.com>
+To: kernel@openeuler.org, Huacai Chen <chenhuacai@loongson.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1484/1484]
- drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set
- but not used
-Message-ID: <202411191002.S36p5N3T-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1484/1484] drivers/md/dm-cache-metadata.c:1729:9:
+ warning: 'strncpy' specified bound 16 equals destination size
+Message-ID: <202411191039.9EY0Nxk9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,97 +64,68 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   8a039651010897592567f5751c4e706ab794e9c0
-commit: 811debd4ea52033d7393d4a7de2be11f71c70348 [1484/1484] add support for Mont-TSSE Driver
-config: x86_64-randconfig-074-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191002.S36p5N3T-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191002.S36p5N3T-lkp@intel.com/reproduce)
+commit: 2363088eba2ecccfb643725e4864af73c4226a04 [1484/1484] LoongArch: Allow building with kcov coverage
+config: loongarch-randconfig-001-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191039.9EY0Nxk9-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191039.9EY0Nxk9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411191002.S36p5N3T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411191039.9EY0Nxk9-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/crypto/montage/tsse/tsse_irq.c:10:
-   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
->> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-      84 |         int cpu, node;
-         |             ^~~
---
-   In file included from drivers/crypto/montage/tsse/tsse_ipc.c:14:
-   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
->> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-      84 |         int cpu, node;
-         |             ^~~
-   drivers/crypto/montage/tsse/tsse_ipc.c: At top level:
-   drivers/crypto/montage/tsse/tsse_ipc.c:17:18: warning: no previous prototype for 'get_msginf' [-Wmissing-prototypes]
-      17 | struct tsse_msg *get_msginf(void __iomem *d2h)
-         |                  ^~~~~~~~~~
-   drivers/crypto/montage/tsse/tsse_ipc.c:41:6: warning: no previous prototype for 'ipc_recieve_msg' [-Wmissing-prototypes]
-      41 | void ipc_recieve_msg(struct tsse_ipc *tsseipc, struct ipc_msg *msg)
-         |      ^~~~~~~~~~~~~~~
-   drivers/crypto/montage/tsse/tsse_ipc.c:53:5: warning: no previous prototype for 'msg_rout' [-Wmissing-prototypes]
-      53 | int msg_rout(struct tsse_ipc *tsseipc, struct tsse_msg *tssemsg)
-         |     ^~~~~~~~
-   drivers/crypto/montage/tsse/tsse_ipc.c:103:6: warning: no previous prototype for 'ipc_send_msg' [-Wmissing-prototypes]
-     103 | void ipc_send_msg(struct tsse_ipc *tsseipc, struct ipc_data *msg)
-         |      ^~~~~~~~~~~~
-   drivers/crypto/montage/tsse/tsse_ipc.c:115:6: warning: no previous prototype for 'ipc_hw_init' [-Wmissing-prototypes]
-     115 | void ipc_hw_init(struct tsse_ipc *hw_ipc)
-         |      ^~~~~~~~~~~
-   drivers/crypto/montage/tsse/tsse_ipc.c:122:5: warning: no previous prototype for 'ipc_init_msg' [-Wmissing-prototypes]
-     122 | int ipc_init_msg(struct tsse_ipc *tsseipc)
-         |     ^~~~~~~~~~~~
---
-   In file included from drivers/crypto/montage/tsse/tsse_dev_mgr.c:15:
-   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
->> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-      84 |         int cpu, node;
-         |             ^~~
-   drivers/crypto/montage/tsse/tsse_dev_mgr.c: At top level:
-   drivers/crypto/montage/tsse/tsse_dev_mgr.c:107:5: warning: no previous prototype for 'tsse_stop_dev' [-Wmissing-prototypes]
-     107 | int tsse_stop_dev(struct tsse_dev *tdev, bool busy_exit)
-         |     ^~~~~~~~~~~~~
---
-   In file included from drivers/crypto/montage/tsse/tsse_vuart.c:25:
-   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
->> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-      84 |         int cpu, node;
-         |             ^~~
-   At top level:
-   drivers/crypto/montage/tsse/tsse_vuart.c:77:13: warning: 'vuart_wait_for_xmitr' defined but not used [-Wunused-function]
-      77 | static void vuart_wait_for_xmitr(struct uart_port *port)
-         |             ^~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/crypto/montage/tsse/tsse_fw_service.c:20:
-   drivers/crypto/montage/tsse/tsse_dev.h: In function 'tsse_get_cur_node':
->> drivers/crypto/montage/tsse/tsse_dev.h:84:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-      84 |         int cpu, node;
-         |             ^~~
-   drivers/crypto/montage/tsse/tsse_fw_service.c: At top level:
-   drivers/crypto/montage/tsse/tsse_fw_service.c:26:5: warning: no previous prototype for 'fw_send_msg' [-Wmissing-prototypes]
-      26 | int fw_send_msg(struct tsse_ipc *tsseipc, struct ipc_msg *msg)
-         |     ^~~~~~~~~~~
-   drivers/crypto/montage/tsse/tsse_fw_service.c:51:6: warning: no previous prototype for 'fw_free' [-Wmissing-prototypes]
-      51 | void fw_free(void *msg_t)
-         |      ^~~~~~~
+   In function 'write_hints',
+       inlined from 'dm_cache_write_hints' at drivers/md/dm-cache-metadata.c:1753:6:
+>> drivers/md/dm-cache-metadata.c:1729:9: warning: 'strncpy' specified bound 16 equals destination size [-Wstringop-truncation]
+    1729 |         strncpy(cmd->policy_name, policy_name, sizeof(cmd->policy_name));
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/cpu +84 drivers/crypto/montage/tsse/tsse_dev.h
+vim +/strncpy +1729 drivers/md/dm-cache-metadata.c
 
-    81	
-    82	static inline int tsse_get_cur_node(void)
-    83	{
-  > 84		int cpu, node;
-    85	
-    86		cpu = get_cpu();
-    87		node = topology_physical_package_id(cpu);
-    88		put_cpu();
-    89	
-    90		return node;
-    91	}
-    92	
+4e781b498ee500 Joe Thornber      2016-09-15  1713  
+4e781b498ee500 Joe Thornber      2016-09-15  1714  /*
+4e781b498ee500 Joe Thornber      2016-09-15  1715   * It's quicker to always delete the hint array, and recreate with
+4e781b498ee500 Joe Thornber      2016-09-15  1716   * dm_array_new().
+4e781b498ee500 Joe Thornber      2016-09-15  1717   */
+4e781b498ee500 Joe Thornber      2016-09-15  1718  static int write_hints(struct dm_cache_metadata *cmd, struct dm_cache_policy *policy)
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1719  {
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1720  	int r;
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1721  	size_t hint_size;
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1722  	const char *policy_name = dm_cache_policy_get_name(policy);
+86a3238c7b9b75 Heinz Mauelshagen 2023-01-25  1723  	const unsigned int *policy_version = dm_cache_policy_get_version(policy);
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1724  
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1725  	if (!policy_name[0] ||
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1726  	    (strlen(policy_name) > sizeof(cmd->policy_name) - 1))
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1727  		return -EINVAL;
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1728  
+c6b4fcbad044e6 Joe Thornber      2013-03-01 @1729  	strncpy(cmd->policy_name, policy_name, sizeof(cmd->policy_name));
+4e7f506f642963 Mike Snitzer      2013-03-20  1730  	memcpy(cmd->policy_version, policy_version, sizeof(cmd->policy_version));
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1731  
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1732  	hint_size = dm_cache_policy_get_hint_size(policy);
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1733  	if (!hint_size)
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1734  		return 0; /* short-circuit hints initialization */
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1735  	cmd->policy_hint_size = hint_size;
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1736  
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1737  	if (cmd->hint_root) {
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1738  		r = dm_array_del(&cmd->hint_info, cmd->hint_root);
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1739  		if (r)
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1740  			return r;
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1741  	}
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1742  
+4e781b498ee500 Joe Thornber      2016-09-15  1743  	return dm_array_new(&cmd->hint_info, &cmd->hint_root,
+c6b4fcbad044e6 Joe Thornber      2013-03-01  1744  			    from_cblock(cmd->cache_blocks),
+4e781b498ee500 Joe Thornber      2016-09-15  1745  			    get_hint, policy);
+0596661f0a16d9 Joe Thornber      2014-04-03  1746  }
+0596661f0a16d9 Joe Thornber      2014-04-03  1747  
+
+:::::: The code at line 1729 was first introduced by commit
+:::::: c6b4fcbad044e6fffcc75bba160e720eb8d67d17 dm: add cache target
+
+:::::: TO: Joe Thornber <ejt@redhat.com>
+:::::: CC: Alasdair G Kergon <agk@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
