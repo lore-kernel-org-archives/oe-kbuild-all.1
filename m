@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09DD9146599
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 06:49:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D3D12CDAE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 19 Nov 2024 06:49:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1731998975; cv=none; b=FZQAcoQE50e7/tLR0v/vY/7NXOrAaON80OP2TC3Aq9xXCO+hTUSciPQP85VHh/vQFMlZVr+gs/paPVisvRvCxy3mKuFAsOJOyXCjBc4UITS+DBiJ/wKTlzXRcEUDdzLg/lCwJn76J6pqB7Pz41fix5vKo/ptC2A0aRZ/8LSUb/g=
+	t=1731998975; cv=none; b=e3knUOPJu3Rpg2GwE4fGhuBvJ+VExJdCOwTiUzSf/Yjau1dbl6Ap6TJE+if7iePqn0wgAF5dt6ufwN2b8rrAc2uNkGeym9EUehydubjpHk9FRDVOT3Cyv5o+8aHDJHvh8pw4P+5cifHgvgiX875vQfS6/+KD1LU71fOFj8ghLeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1731998975; c=relaxed/simple;
-	bh=AjEBptmGuYLNjl8dARBb9mEnsohr4rMk83LoYtKKYJE=;
+	bh=Abyn/uCYI2l+hj8CQnq3ZSRx0a/cE4WWkjRDtfjFDg0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m81nA/y6QQq1Ey8Z3Hnc84G7WTqtPkDre+X9909jrSO04Zt7bzZsO9NPibPd1uXfwUz1zR43Sdccr5obznFGzAnvjX9qQKF0s4dWWG+ZxaXynJh73PRP7zof4aBSaVXAqIzgATdUVus+ZWWAXZirhUDeQRsvA77krE8ELUNeX5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdBCLq6w; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=P4XN/sBGF+desKMSX6SZRRoCl4meENbWpa8SIRE0Szk14qkaOfX5YLx8hX/qolvN+tzcHPAn3DSUOBLTffGRowcFvPIpZ8/kfep3W3gByIWGq1BtMrZjaKv6wkXUTvxvTo2BYS+xzIkxQe46v/qacR0dBJgwL5IjzVH8beGcj/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dtZ2+bdo; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdBCLq6w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dtZ2+bdo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1731998973; x=1763534973;
+  t=1731998974; x=1763534974;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AjEBptmGuYLNjl8dARBb9mEnsohr4rMk83LoYtKKYJE=;
-  b=SdBCLq6ww5AwWdQsMHo4W9Yc6l4eIm2cTtn0lqT4q/0f8sBgidyTTxCm
-   pz13f13TqNcwy8bLerCDldTZUjTDIRgoTJ8LZWcgA3iij1YJ25aKWGAU6
-   +J4JhQEirdQ0CH0ZQ3+Ow3eyLNnkgT2QfLOI7WR10aGKOTAmji+YqLjn0
-   UlNEKFzYrDREYzFFHjlt0zoXtfw3S0mI66tjxvjHXS79RFUXcH0oOqQM1
-   eHN5EZbuY/odII7/nFKHsrSmV/vUN9sPcTQQLyaTN7CXKVMzVqeGK/y7R
-   +VOHkf2tHjPXAF6avnN4WDDzKHpGNeTZht95Q6D7PYxyy69iujVqw7GkA
-   A==;
-X-CSE-ConnectionGUID: DfUgtRvQRl2ntnpj9wJW0g==
-X-CSE-MsgGUID: +QcsRGKhSp2RYdNFuDUA2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="35890738"
+  bh=Abyn/uCYI2l+hj8CQnq3ZSRx0a/cE4WWkjRDtfjFDg0=;
+  b=dtZ2+bdoLw6UhNFDH5+lA4d8XPh9o1TVucqRuH1fPFHyynmkDPYan+x4
+   FUqwtaTa215sHdNx918ZFkPAdgcZn6ogdKLdg6dNfc/lOKqt5+BUPrDdX
+   Boru/M8QDFtsxiw3TY7j6ywWWNCTkBmSDFzy6fe+yL0ztLM3HxG70LMwi
+   0MQ2WQAaCXfce0Q4k3Pn7OPw632zgkuYtvkHdY18lcD6WLfuwNDfZ5WC9
+   0CUiObgASJhrQ9PimgQDxVKfnTDSBud041wCKducpD2AEzcb2NE4vePGQ
+   MuRwE0Fx1UmLk+GvOm1sl+7ybcqBNdtAzCTAWttA6KMyexVnSqG5M0ysE
+   g==;
+X-CSE-ConnectionGUID: VE3VWPDmQDqqskX4HQghkQ==
+X-CSE-MsgGUID: kDxABR8zSZygbw2W7AYR1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11260"; a="42618393"
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="35890738"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 22:49:32 -0800
-X-CSE-ConnectionGUID: FACG4riFSEe9b08k7DLqaQ==
-X-CSE-MsgGUID: Pw/TKy3kQTmjgHaXoBLikw==
+   d="scan'208";a="42618393"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2024 22:49:33 -0800
+X-CSE-ConnectionGUID: kHu9KniMQp+YffjlyYdQFw==
+X-CSE-MsgGUID: CPfT01ezSbyR5WqElGLQeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,165,1728975600"; 
-   d="scan'208";a="120390802"
+   d="scan'208";a="89382926"
 Received: from lkp-server02.sh.intel.com (HELO 2cc4542d09d4) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Nov 2024 22:49:31 -0800
+  by orviesa010.jf.intel.com with ESMTP; 18 Nov 2024 22:49:33 -0800
 Received: from kbuild by 2cc4542d09d4 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDI0i-000094-1A;
-	Tue, 19 Nov 2024 06:47:56 +0000
-Date: Tue, 19 Nov 2024 14:46:19 +0800
+	id 1tDI3F-000096-13;
+	Tue, 19 Nov 2024 06:49:29 +0000
+Date: Tue, 19 Nov 2024 14:46:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
-Subject: [linux-next:pending-fixes 639/729] sound/soc/amd/ps/pci-ps.c:601:
- undefined reference to `snd_soc_acpi_amd_acp63_sdw_machines'
-Message-ID: <202411191418.xjxcQBNJ-lkp@intel.com>
+To: kernel@openeuler.org, Long Li <leo.lilong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1474/1474] fs/xfs/libxfs/xfs_alloc.c:102:1:
+ sparse: sparse: symbol 'xfs_ag_fixup_aside' was not declared. Should it be
+ static?
+Message-ID: <202411191408.XqYzs7Ck-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,123 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git pending-fixes
-head:   5ed96793046374dba245a6a7060cc945ff255800
-commit: 56d540befd5940dc34b4e22cc9b8ce9bb45946f7 [639/729] ASoC: amd: ps: add soundwire machines for acp6.3 platform
-config: i386-randconfig-001-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191418.xjxcQBNJ-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   3813640a1336726a6c72428c2f66c8824486e915
+commit: 8c6e9756375dff2e96d3b598992b2f0e8b3682ee [1474/1474] xfs: fix xfs shutdown since we reserve more blocks in agfl fixup
+config: x86_64-randconfig-121-20241118 (https://download.01.org/0day-ci/archive/20241119/202411191408.XqYzs7Ck-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191418.xjxcQBNJ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191408.XqYzs7Ck-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411191418.xjxcQBNJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411191408.XqYzs7Ck-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> fs/xfs/libxfs/xfs_alloc.c:102:1: sparse: sparse: symbol 'xfs_ag_fixup_aside' was not declared. Should it be static?
 
-   ld: sound/soc/amd/ps/pci-ps.o: in function `snd_acp63_probe':
->> sound/soc/amd/ps/pci-ps.c:601: undefined reference to `snd_soc_acpi_amd_acp63_sdw_machines'
+vim +/xfs_ag_fixup_aside +102 fs/xfs/libxfs/xfs_alloc.c
 
-
-vim +601 sound/soc/amd/ps/pci-ps.c
-
-   528	
-   529	static int snd_acp63_probe(struct pci_dev *pci,
-   530				   const struct pci_device_id *pci_id)
-   531	{
-   532		struct acp63_dev_data *adata;
-   533		u32 addr;
-   534		u32 irqflags, flag;
-   535		int ret;
-   536	
-   537		irqflags = IRQF_SHARED;
-   538	
-   539		/* Return if acp config flag is defined */
-   540		flag = snd_amd_acp_find_config(pci);
-   541		if (flag)
-   542			return -ENODEV;
-   543	
-   544		/* Pink Sardine device check */
-   545		switch (pci->revision) {
-   546		case 0x63:
-   547			break;
-   548		default:
-   549			dev_dbg(&pci->dev, "acp63 pci device not found\n");
-   550			return -ENODEV;
-   551		}
-   552		if (pci_enable_device(pci)) {
-   553			dev_err(&pci->dev, "pci_enable_device failed\n");
-   554			return -ENODEV;
-   555		}
-   556	
-   557		ret = pci_request_regions(pci, "AMD ACP6.2 audio");
-   558		if (ret < 0) {
-   559			dev_err(&pci->dev, "pci_request_regions failed\n");
-   560			goto disable_pci;
-   561		}
-   562		adata = devm_kzalloc(&pci->dev, sizeof(struct acp63_dev_data),
-   563				     GFP_KERNEL);
-   564		if (!adata) {
-   565			ret = -ENOMEM;
-   566			goto release_regions;
-   567		}
-   568	
-   569		addr = pci_resource_start(pci, 0);
-   570		adata->acp63_base = devm_ioremap(&pci->dev, addr,
-   571						 pci_resource_len(pci, 0));
-   572		if (!adata->acp63_base) {
-   573			ret = -ENOMEM;
-   574			goto release_regions;
-   575		}
-   576		adata->addr = addr;
-   577		adata->reg_range = ACP63_REG_END - ACP63_REG_START;
-   578		pci_set_master(pci);
-   579		pci_set_drvdata(pci, adata);
-   580		mutex_init(&adata->acp_lock);
-   581		ret = acp63_init(adata->acp63_base, &pci->dev);
-   582		if (ret)
-   583			goto release_regions;
-   584		ret = devm_request_threaded_irq(&pci->dev, pci->irq, acp63_irq_handler,
-   585						acp63_irq_thread, irqflags, "ACP_PCI_IRQ", adata);
-   586		if (ret) {
-   587			dev_err(&pci->dev, "ACP PCI IRQ request failed\n");
-   588			goto de_init;
-   589		}
-   590		ret = get_acp63_device_config(pci, adata);
-   591		/* ACP PCI driver probe should be continued even PDM or SoundWire Devices are not found */
-   592		if (ret) {
-   593			dev_dbg(&pci->dev, "get acp device config failed:%d\n", ret);
-   594			goto skip_pdev_creation;
-   595		}
-   596		ret = create_acp63_platform_devs(pci, adata, addr);
-   597		if (ret < 0) {
-   598			dev_err(&pci->dev, "ACP platform devices creation failed\n");
-   599			goto de_init;
-   600		}
- > 601		adata->machines = snd_soc_acpi_amd_acp63_sdw_machines;
-   602		ret = acp63_machine_register(&pci->dev);
-   603		if (ret) {
-   604			dev_err(&pci->dev, "ACP machine register failed\n");
-   605			goto de_init;
-   606		}
-   607	skip_pdev_creation:
-   608		device_set_wakeup_enable(&pci->dev, true);
-   609		pm_runtime_set_autosuspend_delay(&pci->dev, ACP_SUSPEND_DELAY_MS);
-   610		pm_runtime_use_autosuspend(&pci->dev);
-   611		pm_runtime_put_noidle(&pci->dev);
-   612		pm_runtime_allow(&pci->dev);
-   613		return 0;
-   614	de_init:
-   615		if (acp63_deinit(adata->acp63_base, &pci->dev))
-   616			dev_err(&pci->dev, "ACP de-init failed\n");
-   617	release_regions:
-   618		pci_release_regions(pci);
-   619	disable_pci:
-   620		pci_disable_device(pci);
-   621	
-   622		return ret;
-   623	}
-   624	
+    94	
+    95	/*
+    96	 * Twice fixup for the same ag may happen within exact one tp, and the consume
+    97	 * of agfl after first fixup may trigger second fixup's failure, then xfs will
+    98	 * shutdown. To avoid that, we reserve blocks which can satisfy the second
+    99	 * fixup.
+   100	 */
+   101	xfs_extlen_t
+ > 102	xfs_ag_fixup_aside(
+   103			struct xfs_mount	*mp)
+   104	{
+   105		xfs_extlen_t ret;
+   106	
+   107		ret = 2 * mp->m_alloc_maxlevels;
+   108		if (xfs_has_rmapbt(mp))
+   109			ret += mp->m_rmap_maxlevels;
+   110	
+   111		return ret;
+   112	}
+   113	
 
 -- 
 0-DAY CI Kernel Test Service
