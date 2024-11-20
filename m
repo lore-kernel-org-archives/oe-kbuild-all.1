@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE6049659
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 19:02:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1797315E5D4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 19:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732129349; cv=none; b=dHH854htH9evqYRp9UZh1sItCUXoAfcTXFu95VvURZbmZYSvCW1QXCXgU724dofTjzt6QN9TKk+et80Ofm/Gz0wWIJ+RU+vEeLXtPIZf7t4pEe+2XIhcBrgUOWjw4scUYbQNI38aV2HeMkPQnB3GzD+2R8vvorjKM2be8R2qtoM=
+	t=1732129951; cv=none; b=B39f86M7b7LaTCYOWa1j3aKzf4SZcfYvBx8+Ixg2dmWsV/D7/qD0m/7C0Qt2eycQ2rLCJibVoWJYobYwtOQdh63hi5+C64ilMSwmGXtFZ7LV7H/MxpfXoFqss/zJ0uFKzE87OQ+1CbvyQzBHZyOhqg7xf3rPQiIOlg+na2rU2Z0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732129349; c=relaxed/simple;
-	bh=L26I2zZP80IN+gluA1PmMicr80Ad2JZdYjJReG8U2XE=;
+	s=arc-20240116; t=1732129951; c=relaxed/simple;
+	bh=5Wwh74nVnuJhMYdAeYHme8nG57TD84eaXmyX6t6+I68=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=df5+r0Mli/KBvqp66WFUNJw6FUCPOlL+GSx0jmFjq7yjBeGVkZ+0lBjZ30Ki86k4tR2rDCaYfb1gg/xTYTXV9FLwxd/ws51JAGjXHVFxvFm4yba4GMpKDL+/HJ4fMQRA2E9QLMfkYDFsHXxojTULHvkY3lGiNspx6IlL5gNgH7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l1C+e/4P; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=T5vzRHeldwulv1X6UQYT2yI0y88ImIqYto6xh1/NL8pvFsv1BgdCX3FOFaiHePGbq9XIiQxkbiijeJJE5XBk2+4Xa5wRw4b/vC/+crZUcPcZ9EifKY3YVBO3Jt6n/m9JMdhiNYF/7vE7yxVsrWbCy9VJ7qc1wwJvrBIeHtK3CzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1VvU78o; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l1C+e/4P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1VvU78o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732129348; x=1763665348;
+  t=1732129949; x=1763665949;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=L26I2zZP80IN+gluA1PmMicr80Ad2JZdYjJReG8U2XE=;
-  b=l1C+e/4P5q6kmeGmbp4eGf+3d8/JYIqt6xoSLuAhTr8pDhY+AaqKPVy1
-   aW6RiDqqTlpMjSSpCExtjCQogJPHROkhZ9s2ZfLk0GK7b7kh4bi2ZqlMv
-   yFRck2xBx0qogo8Ee7nCCoVS5fSFnw8ULQT+G0ftUoBUwZ6SI2D/xCIhL
-   pX257HBiTSyjyjdoKZ0iy2a3quhL/yTqdYU6AkzN1pJ0RUjxeUs9ei1SF
-   Zuh4M0f6/AzX0fHrDBHJnI1BMStKGyq6Az3ELNW5D9oPITplhVHSERbuL
-   3Ioec3/1EJgcdwPlEon3iwM48lSwJUtpP7E7jekjMCRozkeIDk6CMHa2V
-   A==;
-X-CSE-ConnectionGUID: mqofY1cSQJSY7HGnBqOe5A==
-X-CSE-MsgGUID: Ogr/zOANQ5CaN7lr16bM4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="32456516"
+  bh=5Wwh74nVnuJhMYdAeYHme8nG57TD84eaXmyX6t6+I68=;
+  b=W1VvU78oM5fJ9ZBOL8D9LlYGVoxfNzJma8+5q5dw83liIGePVF00U4nR
+   3oEhIJxKx1/lGdizzYhPYRjK6+HG/capl2PI4DIS02ZHnkRmrL1pT9bhA
+   6/OgHC/LgBvYLSjUncFX7C8jynWTq5mK8R6UtoIKNVlP2TKV1rguUriqc
+   yK3UWuRNndujfg18v6pS2mD8oCjnJmiZp568/Gp9w7guL7TLcmBDoSLjv
+   Jm81ovS/yzgGcwIcNob3snIR0z6psYGHnXO5V1YQlAhOjL9wihS0x4fbb
+   DBpx4MoAm/C3G3psVvIDly3H2lc7+I+eNi8ZMgMBM/xBz8Pq/o+poFG76
+   Q==;
+X-CSE-ConnectionGUID: 8sWDxzoGREK5Wtt/NMDxAQ==
+X-CSE-MsgGUID: 7/5MeWlaS4uGPPaB+MiuZg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="32139478"
 X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
-   d="scan'208";a="32456516"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 11:02:27 -0800
-X-CSE-ConnectionGUID: +/n8IiHUSPqLJ1yskUEfDw==
-X-CSE-MsgGUID: 8DkR6+3sREKV7xhR1Y5SPA==
+   d="scan'208";a="32139478"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 11:12:29 -0800
+X-CSE-ConnectionGUID: PZX2IEfbS7Gzi4ojLIXgSQ==
+X-CSE-MsgGUID: tLP4UzL0S1uoYA7X8giWkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
-   d="scan'208";a="120951855"
+   d="scan'208";a="94825126"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 20 Nov 2024 11:02:26 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 20 Nov 2024 11:12:27 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDpy3-00016N-2E;
-	Wed, 20 Nov 2024 19:02:23 +0000
-Date: Thu, 21 Nov 2024 03:01:42 +0800
+	id 1tDq7l-00016f-0H;
+	Wed, 20 Nov 2024 19:12:25 +0000
+Date: Thu, 21 Nov 2024 03:11:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, s00851154 <shijing34@huawei.com>
+To: kernel@openeuler.org, Bennie Yan <bennie.yan@nebula-matrix.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1495/1495]
- drivers/net/ethernet/huawei/hinic3/adapter/sw_cmdq/sw_cmdq_ops.c:77:34:
- warning: expression does not compute the number of elements in this array;
- element type is 'u16' (aka 'unsigned short'), not 'u32' (aka 'unsigned int')
-Message-ID: <202411210200.MEZRD0ST-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1474/1474]
+ drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2056:34:
+ sparse: sparse: incorrect type in return expression (different address
+ spaces)
+Message-ID: <202411210302.R7m6i1xC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,130 +64,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Bennie,
+
+First bad commit (maybe != root cause):
+
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   cce003012298a00277187319a2527882a18278c1
-commit: 0908fafca4fdc46cd425b6d2d39a5b283fbdc425 [1495/1495] net/hinic3: Support New SDK and NIC features
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241121/202411210200.MEZRD0ST-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210200.MEZRD0ST-lkp@intel.com/reproduce)
+commit: 8d65cdad5ea8e309af47a9a70c538bbbc1223e9a [1474/1474] Net: nebula_matrix: fix ci build warning
+config: x86_64-randconfig-121-20241118 (https://download.01.org/0day-ci/archive/20241121/202411210302.R7m6i1xC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210302.R7m6i1xC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411210200.MEZRD0ST-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411210302.R7m6i1xC-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2056:34: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned char [usertype] * @@     got unsigned char [noderef] [usertype] __iomem * @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2056:34: sparse:     expected unsigned char [usertype] *
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2056:34: sparse:     got unsigned char [noderef] [usertype] __iomem *
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2235:23: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected unsigned char [usertype] * @@     got unsigned char [noderef] [usertype] __iomem *hw_addr @@
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2235:23: sparse:     expected unsigned char [usertype] *
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2235:23: sparse:     got unsigned char [noderef] [usertype] __iomem *hw_addr
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:17:9: sparse: sparse: context imbalance in 'nbl_send_kt_data' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:95:17: sparse: sparse: context imbalance in 'nbl_check_kt_data' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:158:42: sparse: sparse: context imbalance in 'nbl_phy_fem_clear_tcam_ad' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:255:26: sparse: sparse: context imbalance in 'nbl_phy_fem_em0_pt_phy_l2_init' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:370:25: sparse: sparse: context imbalance in 'nbl_phy_search_key' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:432:26: sparse: sparse: context imbalance in 'nbl_phy_add_tcam' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:438:13: sparse: sparse: context imbalance in 'nbl_phy_del_tcam' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:480:9: sparse: sparse: context imbalance in 'nbl_phy_add_mcc' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:483:13: sparse: sparse: context imbalance in 'nbl_phy_del_mcc' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:568:13: sparse: sparse: context imbalance in 'nbl_shaping_eth_init' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:812:13: sparse: sparse: context imbalance in 'nbl_epro_action_filter_cfg' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:934:49: sparse: sparse: context imbalance in 'nbl_phy_init_qid_map_table' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:971:41: sparse: sparse: context imbalance in 'nbl_phy_set_qid_map_table' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1041:26: sparse: sparse: context imbalance in 'nbl_phy_cfg_ipro_dn_sport_tbl' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1067:26: sparse: sparse: context imbalance in 'nbl_phy_set_vnet_queue_info' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1078:26: sparse: sparse: context imbalance in 'nbl_phy_clear_vnet_queue_info' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1091:26: sparse: sparse: context imbalance in 'nbl_phy_cfg_vnet_qinfo_log' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1174:9: sparse: sparse: context imbalance in 'nbl_phy_restore_dvn_context' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1193:9: sparse: sparse: context imbalance in 'nbl_phy_restore_uvn_context' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1205:25: sparse: sparse: context imbalance in 'nbl_phy_get_tx_queue_cfg' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1223:25: sparse: sparse: context imbalance in 'nbl_phy_get_rx_queue_cfg' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1253:26: sparse: sparse: context imbalance in 'nbl_phy_cfg_tx_queue' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1274:26: sparse: sparse: context imbalance in 'nbl_phy_cfg_rx_queue' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1326:26: sparse: sparse: context imbalance in 'nbl_phy_set_tc_wgt' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1350:26: sparse: sparse: context imbalance in 'nbl_phy_active_shaping' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1371:26: sparse: sparse: context imbalance in 'nbl_phy_deactive_shaping' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1408:26: sparse: sparse: context imbalance in 'nbl_phy_set_shaping' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1515:26: sparse: sparse: context imbalance in 'nbl_phy_init_epro_rss_key' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1521:13: sparse: sparse: context imbalance in 'nbl_phy_read_epro_rss_key' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1563:25: sparse: sparse: context imbalance in 'nbl_phy_get_rss_alg_sel' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1583:26: sparse: sparse: context imbalance in 'nbl_phy_init_epro_vpt_tbl' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1602:26: sparse: sparse: context imbalance in 'nbl_phy_set_epro_rss_default' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1627:26: sparse: sparse: context imbalance in 'nbl_phy_set_epro_rss_pt' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1645:26: sparse: sparse: context imbalance in 'nbl_phy_clear_epro_rss_pt' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1658:26: sparse: sparse: context imbalance in 'nbl_phy_disable_dvn' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1667:26: sparse: sparse: context imbalance in 'nbl_phy_disable_uvn' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1687:25: sparse: sparse: context imbalance in 'nbl_phy_is_rxq_drain_out' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1747:9: sparse: sparse: context imbalance in 'nbl_phy_save_dvn_ctx' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1770:9: sparse: sparse: context imbalance in 'nbl_phy_save_uvn_ctx' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1802:25: sparse: sparse: context imbalance in 'nbl_phy_get_tx_queue_err_stats' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1832:26: sparse: sparse: context imbalance in 'nbl_phy_setup_queue_switch' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:1891:26: sparse: sparse: context imbalance in 'nbl_phy_init_pfc' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2059:13: sparse: sparse: context imbalance in 'nbl_phy_configure_msix_map' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2097:26: sparse: sparse: context imbalance in 'nbl_phy_configure_msix_info' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2238:13: sparse: sparse: context imbalance in 'nbl_phy_set_promisc_mode' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2260:25: sparse: sparse: context imbalance in 'nbl_phy_get_coalesce' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2267:13: sparse: sparse: context imbalance in 'nbl_phy_set_coalesce' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2293:26: sparse: sparse: context imbalance in 'nbl_phy_set_spoof_check_addr' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2309:26: sparse: sparse: context imbalance in 'nbl_phy_set_spoof_check_enable' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2472:25: sparse: sparse: context imbalance in 'nbl_phy_get_fw_pong' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2477:13: sparse: sparse: context imbalance in 'nbl_phy_set_fw_pong' - different lock contexts for basic block
+   drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c:2532:26: sparse: sparse: context imbalance in 'nbl_phy_process_abnormal_queue' - different lock contexts for basic block
 
-   In file included from drivers/net/ethernet/huawei/hinic3/adapter/sw_cmdq/sw_cmdq_ops.c:5:
-   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_nic_cmdq.h:7:
-   In file included from drivers/net/ethernet/huawei/hinic3/ossl_knl.h:7:
-   In file included from drivers/net/ethernet/huawei/hinic3/ossl_knl_linux.h:7:
-   In file included from include/net/ipv6.h:12:
-   In file included from include/linux/ipv6.h:100:
-   In file included from include/linux/tcp.h:17:
-   In file included from include/linux/skbuff.h:17:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm64/include/asm/cacheflush.h:11:
-   In file included from include/linux/kgdb.h:19:
-   In file included from include/linux/kprobes.h:28:
-   In file included from include/linux/ftrace.h:13:
-   In file included from include/linux/kallsyms.h:13:
-   In file included from include/linux/mm.h:2247:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/adapter/sw_cmdq/sw_cmdq_ops.c:77:34: warning: expression does not compute the number of elements in this array; element type is 'u16' (aka 'unsigned short'), not 'u32' (aka 'unsigned int') [-Wsizeof-array-div]
-      77 |         size = sizeof(indir_tbl->entry) / sizeof(u32);
-         |                       ~~~~~~~~~~~~~~~~  ^
-   drivers/net/ethernet/huawei/hinic3/adapter/sw_cmdq/sw_cmdq_ops.c:77:34: note: place parentheses around the 'sizeof(u32)' expression to silence this warning
-   6 warnings generated.
---
-   In file included from drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c:7:
-   In file included from include/linux/pci.h:1669:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2247:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c:272:5: warning: no previous prototype for function 'hinic3_get_rq_wqe_type' [-Wmissing-prototypes]
-     272 | int hinic3_get_rq_wqe_type(void *hwdev)
-         |     ^
-   drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.c:272:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     272 | int hinic3_get_rq_wqe_type(void *hwdev)
-         | ^
-         | static 
-   6 warnings generated.
+vim +2056 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_phy_leonis.c
 
+bad535d287c9c1 Bennie Yan 2024-09-24  2047  
+bad535d287c9c1 Bennie Yan 2024-09-24  2048  static u8 *nbl_phy_get_msix_irq_enable_info(void *priv, u16 global_vector_id, u32 *irq_data)
+bad535d287c9c1 Bennie Yan 2024-09-24  2049  {
+bad535d287c9c1 Bennie Yan 2024-09-24  2050  	struct nbl_phy_mgt *phy_mgt = (struct nbl_phy_mgt *)priv;
+bad535d287c9c1 Bennie Yan 2024-09-24  2051  	struct nbl_msix_notify msix_notify = { 0 };
+bad535d287c9c1 Bennie Yan 2024-09-24  2052  
+bad535d287c9c1 Bennie Yan 2024-09-24  2053  	msix_notify.glb_msix_idx = global_vector_id;
+bad535d287c9c1 Bennie Yan 2024-09-24  2054  	memcpy(irq_data, &msix_notify, sizeof(msix_notify));
+bad535d287c9c1 Bennie Yan 2024-09-24  2055  
+bad535d287c9c1 Bennie Yan 2024-09-24 @2056  	return (phy_mgt->hw_addr + NBL_PCOMPLETER_MSIX_NOTIRY_OFFSET);
+bad535d287c9c1 Bennie Yan 2024-09-24  2057  }
+bad535d287c9c1 Bennie Yan 2024-09-24  2058  
 
-vim +77 drivers/net/ethernet/huawei/hinic3/adapter/sw_cmdq/sw_cmdq_ops.c
+:::::: The code at line 2056 was first introduced by commit
+:::::: bad535d287c9c1056d99de3666be7da84de4a8fc Net:nbl_core: Add nbl_core-driver for nebula-matrix S1055AS series smart NIC.
 
-    61	
-    62	static u8 prepare_cmd_buf_set_rss_indir_table(const struct hinic3_nic_io *nic_io,
-    63						      const u32 *indir_table,
-    64						      struct hinic3_cmd_buf *cmd_buf)
-    65	{
-    66		u32 i, size;
-    67		u32 *temp = NULL;
-    68		struct nic_rss_indirect_tbl *indir_tbl = NULL;
-    69	
-    70		indir_tbl = (struct nic_rss_indirect_tbl *)cmd_buf->buf;
-    71		cmd_buf->size = sizeof(struct nic_rss_indirect_tbl);
-    72		memset(indir_tbl, 0, sizeof(*indir_tbl));
-    73	
-    74		for (i = 0; i < NIC_RSS_INDIR_SIZE; i++)
-    75			indir_tbl->entry[i] = (u16)(*(indir_table + i));
-    76	
-  > 77		size = sizeof(indir_tbl->entry) / sizeof(u32);
-    78		temp = (u32 *)indir_tbl->entry;
-    79		for (i = 0; i < size; i++)
-    80			temp[i] = cpu_to_be32(temp[i]);
-    81	
-    82		return (u8)HINIC3_UCODE_CMD_SET_RSS_INDIR_TABLE;
-    83	}
-    84	
+:::::: TO: Bennie Yan <bennie.yan@nebula-matrix.com>
+:::::: CC: Bennie Yan <bennie.yan@nebula-matrix.com>
 
 -- 
 0-DAY CI Kernel Test Service
