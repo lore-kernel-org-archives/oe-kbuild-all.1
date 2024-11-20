@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CF51B7F4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 01:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFA810A3E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 01:11:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732065092; cv=none; b=ACCv70WWs8eN5ZIMN6udei7DiA2ft+kr4MOJgAFMwt6VI4rN9+aHq7gEVIt09MGTuHMXO05Z/jEf9rs9hgWIYPkbad5Oi0Lrdknrn8D/eDqWi+AgCiHCDQerDofrWqe1Apvj5mlf2zS02ADFYoMttHOkxffbW4sue1bPr+Usq+Q=
+	t=1732065093; cv=none; b=g07IIspsxNx6SvCItaGm43J0RhrD2Pn5hwyJVYIslpzBcggwsCtn11SuAaseTNRyJNc83pJyfh4BowCmro2IR26HlNALC+wDgf703B19sWkJNVyEJ32rtfO9hQ88Ef5YckTqWoQMtP7Q5ZzTtISzJfP66aq88JMv9T0zWok+7cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732065092; c=relaxed/simple;
-	bh=HM/VpYSat9Qynxx0g0mX0Gx/swWTLDM9molyWQ/jIww=;
+	s=arc-20240116; t=1732065093; c=relaxed/simple;
+	bh=s1AtK4isWjlSgEFpaZddFlWdZBx350egqJuh9YFfBzA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BpXSvNMAHgxARq8Xh3H6TBmJyGoT2yjENmzP+dQ6mJJA+P++qAlC+mgBs38LEYItGGaycBmkRxpjsRrzx1gLiSqPVJHlxbk+kI6DrYvy4cu4d1i0YbeS0JFfU7G8UrTF2dqzkhwxBndptrvpPp3wu8uhPFB9BvNQmcFSA8pvG4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PuEJOITs; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=eoyRhY77JOZbQ6SiKQsuNpDJb5OoH8zzkdgaLXwMf4CqhTxwGSoneeYeV8muHZ3oHxnjmNcNgQ86zgbCdrP+1B263cwL00lIW/bQNs1AZ3AEcIaCWifMmTG4nJpVAvdAHjF+r9FaAltwKPyneRa2zgWtUO/JCiyjosNdi91lTOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eKhxyTFE; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PuEJOITs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eKhxyTFE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1732065092; x=1763601092;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HM/VpYSat9Qynxx0g0mX0Gx/swWTLDM9molyWQ/jIww=;
-  b=PuEJOITsAv1hsxsm45LnrRo/HZjEJAlE1Uy4rYkBgQQKnei5Bm6qFYf9
-   vRVcBolpYrnEZVubfZrQ6AoqLjHRFrRIO4m+nle7SPXVJt6zRRbgodm2Z
-   Gj/zOcmrQaRew8Ix2gYQK96eArJOCjTAGNKjuoS+HkKvcx9BmyG3VIIYZ
-   lkC6xEEO5uH4QagPBVibGFRckYKuRWUEDvv5WS3FgBnRNKUe6DuThQg5I
-   nuvrmAAXIdUy6PL4LyFIrv+sh0NT2ON+A85erd0o64W0/n5WiuHrkzlxQ
-   e5zesz9Nvq6FlIt202vEeyhr/K6UPUDegnoxsaBYpdis5UcLyJ+9LER2X
-   A==;
-X-CSE-ConnectionGUID: ws2c1fSeR3iDq77+cUhRIw==
-X-CSE-MsgGUID: UF8IUhnHTD2s2NO8mBEVag==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="31851270"
+  bh=s1AtK4isWjlSgEFpaZddFlWdZBx350egqJuh9YFfBzA=;
+  b=eKhxyTFEz94NhIBJK4UY0i+S97r/p8JOC+dVs5REWjdcViYImj354gCI
+   w1zbDFao5stF2VolLd6dH/ZwtKezan0E+JJPaGpqpKZdOg5bOYuA5YfZs
+   7jz7qOpOJDBCJ5KS40FhAq1rgGQPq9YKnm1eLAglISHrnYlHy20c62gfX
+   e9fETUPYf4knT0G+f6XlSP4w0v5LXCFhN9F9zjJxnHCEWL5By3XH+hKkg
+   VF9Y6/eTLRFsoKaHtJXbGEsFIqGkd3hz+KVzdS34lUY51/6SAY9jM1Lq7
+   3G2nKiOg4Z585coROJlcN67B5VBfowPtD43vQ7x5FUKffPVo1gnrPA37t
+   g==;
+X-CSE-ConnectionGUID: j7+IUbYRQ8+giAvQBAJFeA==
+X-CSE-MsgGUID: 3Zr8b4LLSiulFLXDLLtvqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="42612941"
 X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
-   d="scan'208";a="31851270"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 17:11:29 -0800
-X-CSE-ConnectionGUID: bz31I5dbQDuaGHE2nuF54g==
-X-CSE-MsgGUID: PnlxZYZkRliGQGkc3BYC7w==
+   d="scan'208";a="42612941"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 17:11:29 -0800
+X-CSE-ConnectionGUID: 5OKavTQkQ6mopYXMGYv/Jw==
+X-CSE-MsgGUID: 00UrJlEZQ+ikrM1mK0GFUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
-   d="scan'208";a="90572461"
+   d="scan'208";a="93813508"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Nov 2024 17:11:28 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 19 Nov 2024 17:11:28 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDZFd-0000Ny-1Y;
+	id 1tDZFd-0000OH-1v;
 	Wed, 20 Nov 2024 01:11:25 +0000
-Date: Wed, 20 Nov 2024 09:11:09 +0800
+Date: Wed, 20 Nov 2024 09:11:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-v2 2/21] drivers/virtio/virtio_msg_mmio.c:79:3:
- error: call to undeclared function 'writeq'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202411191846.kr6dffb0-lkp@intel.com>
+To: Ville =?unknown-8bit?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation
+ between different enumeration types ('enum sti_plane_type' and 'enum
+ sti_plane_id_of_type')
+Message-ID: <202411191605.CQmfnKj1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,104 +63,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-v2
-head:   702c1af18bf513f8297bfbb99b859c37b7b900ab
-commit: 91dc384463e6fcf24e2c988696689cb6a539cb94 [2/21] virtio: Add support for MMIO based channel bus
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20241119/202411191846.kr6dffb0-lkp@intel.com/config)
+Hi Ville,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   158f238aa69d91ad74e535c73f552bd4b025109c
+commit: 74bde7581df3e18061119e1b27b63d0a9ea57b7a drm/sti: Allow build with COMPILE_TEST=y
+date:   6 months ago
+config: arm64-randconfig-r112-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191605.CQmfnKj1-lkp@intel.com/config)
 compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191846.kr6dffb0-lkp@intel.com/reproduce)
+reproduce: (https://download.01.org/0day-ci/archive/20241119/202411191605.CQmfnKj1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411191846.kr6dffb0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411191605.CQmfnKj1-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/virtio/virtio_msg_mmio.c:14:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:12:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:500:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: error: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Werror,-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
          |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/virtio/virtio_msg_mmio.c:14:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/virtio/virtio_msg_mmio.c:14:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/virtio/virtio_msg_mmio.c:14:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/virtio/virtio_msg_mmio.c:79:3: error: call to undeclared function 'writeq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      79 |                 writeq(*(data + i), addr + i);
-         |                 ^
->> drivers/virtio/virtio_msg_mmio.c:87:17: error: call to undeclared function 'readq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      87 |                 *(data + i) = readq(addr + i);
-         |                               ^
-   drivers/virtio/virtio_msg_mmio.c:187:46: warning: shift count >= width of type [-Wshift-count-overflow]
-     187 |         ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-         |                                                     ^~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:77:54: note: expanded from macro 'DMA_BIT_MASK'
-      77 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
-         |                                                      ^ ~~~
-   8 warnings and 2 errors generated.
+   include/linux/vmstat.h:519:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: error: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Werror,-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpu/drm/sti/sti_mixer.c:14:
+   In file included from drivers/gpu/drm/sti/sti_compositor.h:15:
+   In file included from drivers/gpu/drm/sti/sti_mixer.h:17:
+>> drivers/gpu/drm/sti/sti_plane.h:32:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      32 |         STI_GDP_0       = STI_GDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:33:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      33 |         STI_GDP_1       = STI_GDP | STI_ID_1,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:34:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      34 |         STI_GDP_2       = STI_GDP | STI_ID_2,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:35:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      35 |         STI_GDP_3       = STI_GDP | STI_ID_3,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   drivers/gpu/drm/sti/sti_plane.h:36:28: error: bitwise operation between different enumeration types ('enum sti_plane_type' and 'enum sti_plane_id_of_type') [-Werror,-Wenum-enum-conversion]
+      36 |         STI_HQVDP_0     = STI_VDP | STI_ID_0,
+         |                           ~~~~~~~ ^ ~~~~~~~~
+   10 errors generated.
 
 
-vim +/writeq +79 drivers/virtio/virtio_msg_mmio.c
+vim +32 drivers/gpu/drm/sti/sti_plane.h
 
-    68	
-    69	static int virtio_msg_mmio_send(struct virtio_msg_device *vmdev,
-    70					struct virtio_msg *request,
-    71					struct virtio_msg *response)
-    72	{
-    73		struct virtio_msg_mmio_device *vmmdev = to_virtio_msg_mmio_device(vmdev);
-    74		int i, len = sizeof(*request) / sizeof(u64);
-    75		u64 *data = (u64 *) request;
-    76		u64 *addr = vmmdev->base;
-    77	
-    78		for (i = 0; i < len; i++)
-  > 79			writeq(*(data + i), addr + i);
-    80	
-    81		if (!response)
-    82			return 0;
-    83	
-    84		data = (u64 *) response;
-    85	
-    86		for (i = 0; i < len; i++)
-  > 87			*(data + i) = readq(addr + i);
-    88	
-    89		return 0;
-    90	}
-    91	
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  30  
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  31  enum sti_plane_desc {
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31 @32  	STI_GDP_0       = STI_GDP | STI_ID_0,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  33  	STI_GDP_1       = STI_GDP | STI_ID_1,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  34  	STI_GDP_2       = STI_GDP | STI_ID_2,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  35  	STI_GDP_3       = STI_GDP | STI_ID_3,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  36  	STI_HQVDP_0     = STI_VDP | STI_ID_0,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  37  	STI_CURSOR      = STI_CUR,
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  38  	STI_BACK        = STI_BCK
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  39  };
+871bcdfea68560 drivers/gpu/drm/sti/sti_drm_plane.h Vincent Abriou 2015-07-31  40  
+
+:::::: The code at line 32 was first introduced by commit
+:::::: 871bcdfea68560991bd650406e47a801ab9d635d drm/sti: code clean up
+
+:::::: TO: Vincent Abriou <vincent.abriou@st.com>
+:::::: CC: Benjamin Gaignard <benjamin.gaignard@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
