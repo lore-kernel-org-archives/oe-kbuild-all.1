@@ -1,58 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8EF1BC58
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0AA3DBB6
 	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 01:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732065153; cv=none; b=I13d45r6y0Wv6TcNQtQt6tE0lHi4VNPrBQR9TXmrnvn5qkuq7f8jSejMgGhmwik2nNu7TBgfpqXKmSPX19Cvo0k6aLUXfaYl1lO9aOUjeWTfUBRejo9awVPWx6nubcDv3C9xnyucSSJbLHxQK07IoqYztezpdGLi0lErhEcnSg4=
+	t=1732065154; cv=none; b=LKiYzIffokIplCzLFXqLAw8ZHa0gcVtHY8q+DaNln/bqBY8Lm/Iy1XtSytwDhPcyQ/Emfqc55CV99UzHxnqOFPa7XqalTTJzTCxYS54hs2WTE5jlX+yDCt9DZin2wTcX2vWN1dlclqcWwlic6F2u+Au4wtsWv9lsbhQpqHOC+iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732065153; c=relaxed/simple;
-	bh=z1H+xGpWyRTkDSLyunhwnG1KSu+ugg40JQxw5FZMKU4=;
+	s=arc-20240116; t=1732065154; c=relaxed/simple;
+	bh=34WVWdqa1aND69ZjV4rZiJIPumawMnaosseFQ8RIqeQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OBeuX81wXv+j1zz4Lj+/6qI3iT9u3R5c/1xawLEyaTli73m/PCZ0glcAUYRb/Hx2QEqywUUZBKVIFVzhstMOtPzm/J8nw225esOK2wlgigy/RkNKPw9eZLXNU06RpTdWwGdCi75nfduZ8E4x/DNXRwR8Ek3AD/XJ+2QxdYEWh68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M40z0J47; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=l4LpIn7jHieh1SUP5CoOHsyL3e04/l6vJLG6A2ajE+9dt10Cb2/ztcAPqDLZBNoaC0QKiNp8G/IUI8fTXm8sflaudnVuAjHWHW4Ox4QpZm4cNdKDpR/3n8upDEyDb8z91+U0XE0HzABTOB4qknjhrXI3K9OKAnhwjZOAPfurClE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzpowJsO; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M40z0J47"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzpowJsO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1732065152; x=1763601152;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=z1H+xGpWyRTkDSLyunhwnG1KSu+ugg40JQxw5FZMKU4=;
-  b=M40z0J47zfx9iYeCYdg6mJ0RaJt33vUCZNydR+SV+JwDv9+QZDos1ES9
-   EAUdmf5aysDMHUG3aFUi4LGu+a6vMn2qdXKRvPRxwiEFbrlS3iJlAjuYM
-   ScE9l6fY1u1ZYy4S4bIE2uPDbkHndvjeq74AxidG4pmvOPJev97FwOfXo
-   hHG4XDXcnT2CvDZN+pswqaP7J1/B9d+TyLSUjjPjIihLfuPSxk79TiaLg
-   CcbuuxhtGZPNEpfOOFzChrYXtLIJzbFz1O7buNQvJZRhUvlcL2qcp6KPp
-   DQ4q4gSdESdjMt6Z5HR8/aY2iYUtkQDRGmCc6cb+m6FCLmqKdx0XdmpPO
+  bh=34WVWdqa1aND69ZjV4rZiJIPumawMnaosseFQ8RIqeQ=;
+  b=UzpowJsO1hRqRgmxv4T4zVFrgt5rgWlG1U8ii8k2v9f85alKsKgtGMDB
+   z3DErO12sk8/Lxenhc4FITLCsskBy+UKuA9eBqNgOKkEl+7eH57pF/HCi
+   qJOxGB8N9pebL5EMLPgcdXsLYceT2hP2AK3OMA+2Vi+YpdTz3xBq58QRF
+   oEwCHXdwb/pNh7d8t/+oFVJJM957NySqgyMSAuPe5PCtM22aVBiJQlMJ9
+   DjjdF5/K1O8/VN/BHBEUU2ZCJzGJkmHiv4Kcayr61zeTVzgBsYj2Eu+i8
+   2eRTV9GnrPXl8nS/NrxeXulMPvFC8OAROFHiFgb6wtroNc6LjxoWdqVUx
    g==;
-X-CSE-ConnectionGUID: B0MuZzGRTSuk5AujQRptyw==
-X-CSE-MsgGUID: d4dnMoVoSr2ZqzFhFjtVOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="54602152"
+X-CSE-ConnectionGUID: dYKCtS5zTaGJQV0LVAKBFQ==
+X-CSE-MsgGUID: Oem6BvdZQZKepQKXMdW15Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="54602142"
 X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
-   d="scan'208";a="54602152"
+   d="scan'208";a="54602142"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 17:12:30 -0800
-X-CSE-ConnectionGUID: Hs9XzVi+Tpuatz90syS6zw==
-X-CSE-MsgGUID: K/z4Kz4eR1CN2M4+uuR34A==
+X-CSE-ConnectionGUID: jkHM6X7RRF+zEWI5xB4qCg==
+X-CSE-MsgGUID: crD+yZT8Q8iDNBp8Min6Gw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="94805479"
+   d="scan'208";a="94805467"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 19 Nov 2024 17:12:29 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDZGc-0000Oh-1M;
+	id 1tDZGc-0000Ol-1U;
 	Wed, 20 Nov 2024 01:12:26 +0000
-Date: Wed, 20 Nov 2024 09:11:48 +0800
+Date: Wed, 20 Nov 2024 09:11:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dave Jiang <dave.jiang@intel.com>
-Subject: [jgunthorpe:fwctl 20/23] drivers/cxl/core/memdev.c:1067: undefined
- reference to `auxiliary_device_init'
-Message-ID: <202411191902.lsih7Yrv-lkp@intel.com>
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1474/1474]
+ arch/x86/events/zhaoxin/uncore.c:2761:6: sparse: sparse: symbol
+ 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+Message-ID: <202411192009.C5J9m2a8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,90 +63,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux fwctl
-head:   e4450fb1459bf712009c7cb1461643287e0f9e75
-commit: e7b7ae31414a4f3db3fecb2bab0a2f101fff1bcf [20/23] cxl: Create an auxiliary device for fwctl_cxl
-config: x86_64-randconfig-003-20241119 (https://download.01.org/0day-ci/archive/20241119/202411191902.lsih7Yrv-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   cd76a7555127aa134a2a1113685da60b70553e6f
+commit: dc5b97374ba722156acbdfc4e3adbc69e2dbe7f4 [1474/1474] perf/x86/zhaoxin/uncore: Add KX-7000 support
+config: x86_64-randconfig-121-20241118 (https://download.01.org/0day-ci/archive/20241119/202411192009.C5J9m2a8-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411191902.lsih7Yrv-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411192009.C5J9m2a8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411191902.lsih7Yrv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411192009.C5J9m2a8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/events/zhaoxin/uncore.c:2387:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2392:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2398:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2761:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2770:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2775:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2791:6: sparse: sparse: symbol 'kx8000_uncore_cpu_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2796:5: sparse: sparse: symbol 'kx8000_uncore_pci_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2804:6: sparse: sparse: symbol 'kx8000_uncore_mmio_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-   ld: vmlinux.o: in function `devm_cxl_add_memdev':
->> drivers/cxl/core/memdev.c:1067: undefined reference to `auxiliary_device_init'
->> ld: drivers/cxl/core/memdev.c:1071: undefined reference to `__auxiliary_device_add'
+vim +/kx5000_uncore_cpu_init +2761 arch/x86/events/zhaoxin/uncore.c
 
-
-vim +1067 drivers/cxl/core/memdev.c
-
-  1031	
-  1032	struct cxl_memdev *devm_cxl_add_memdev(struct device *host,
-  1033					       struct cxl_dev_state *cxlds)
-  1034	{
-  1035		struct auxiliary_device *adev;
-  1036		struct cxl_memdev *cxlmd;
-  1037		struct device *dev;
-  1038		struct cdev *cdev;
-  1039		int rc;
-  1040	
-  1041		cxlmd = cxl_memdev_alloc(cxlds, &cxl_memdev_fops);
-  1042		if (IS_ERR(cxlmd))
-  1043			return cxlmd;
-  1044	
-  1045		dev = &cxlmd->dev;
-  1046		rc = dev_set_name(dev, "mem%d", cxlmd->id);
-  1047		if (rc)
-  1048			goto err;
-  1049	
-  1050		/*
-  1051		 * Activate ioctl operations, no cxl_memdev_rwsem manipulation
-  1052		 * needed as this is ordered with cdev_add() publishing the device.
-  1053		 */
-  1054		cxlmd->cxlds = cxlds;
-  1055		cxlds->cxlmd = cxlmd;
-  1056	
-  1057		cdev = &cxlmd->cdev;
-  1058		rc = cdev_device_add(cdev, dev);
-  1059		if (rc)
-  1060			goto err;
-  1061	
-  1062		adev = &cxlds->cxl_mbox.adev;
-  1063		adev->id = cxlmd->id;
-  1064		adev->name = CXL_ADEV_NAME;
-  1065		adev->dev.parent = dev;
-  1066	
-> 1067		rc = auxiliary_device_init(adev);
-  1068		if (rc)
-  1069			goto err;
-  1070	
-> 1071		rc = auxiliary_device_add(adev);
-  1072		if (rc)
-  1073			goto aux_err;
-  1074	
-  1075		rc = devm_add_action_or_reset(host, cxl_memdev_unregister, cxlmd);
-  1076		if (rc)
-  1077			return ERR_PTR(rc);
-  1078		return cxlmd;
-  1079	
-  1080	aux_err:
-  1081		auxiliary_device_uninit(adev);
-  1082	
-  1083	err:
-  1084		/*
-  1085		 * The cdev was briefly live, shutdown any ioctl operations that
-  1086		 * saw that state.
-  1087		 */
-  1088		cxl_memdev_shutdown(dev);
-  1089		put_device(dev);
-  1090		return ERR_PTR(rc);
-  1091	}
-  1092	EXPORT_SYMBOL_NS_GPL(devm_cxl_add_memdev, CXL);
-  1093	
+  2760	
+> 2761	void kx5000_uncore_cpu_init(void)
+  2762	{
+  2763		uncore_msr_uncores = kx5000_msr_uncores;
+  2764	}
+  2765	
+  2766	static const struct zhaoxin_uncore_init_fun kx5000_uncore_init __initconst = {
+  2767		.cpu_init = kx5000_uncore_cpu_init,
+  2768	};
+  2769	
+> 2770	void kh40000_uncore_cpu_init(void)
+  2771	{
+  2772		uncore_msr_uncores = kh40000_msr_uncores;
+  2773	}
+  2774	
+> 2775	int kh40000_uncore_pci_init(void)
+  2776	{
+  2777		int ret = kh40000_pci2node_map_init();/*pci_bus to package mapping, do nothing*/
+  2778	
+  2779		if (ret)
+  2780			return ret;
+  2781		uncore_pci_uncores = kh40000_pci_uncores;
+  2782		uncore_pci_driver = &kh40000_uncore_pci_driver;
+  2783		return 0;
+  2784	}
+  2785	
 
 -- 
 0-DAY CI Kernel Test Service
