@@ -1,126 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4AEC1A9B3B;
-	Wed, 20 Nov 2024 15:04:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D3FE191
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 15:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732115091; cv=none; b=ITG9E41qmBFFxxzVNnizvaLen6ajWPLEXn8x1Y2m7SYCgBLAdDcr+4IdjRataXCoCTJa9qUI0T3SGNVTFz0rfN4RpCf5x5d5pD5ULJg0+8STxTwSt8XUv6+mpsErvxjv+N0NdLAS/EjPUVyWxCoiclIkeyv1nJtGwyr7aMpVBR0=
+	t=1732115769; cv=none; b=Yt0OSpkBO/aV0TYIN10A5PnQWY6ffV4mU2IXY8FXZ91yETZkeMlgqI+khFhspqX0EcrYkkKavimt3uJ2WoAfx0cRxPbjKWzfoRK96LHLRVkITGLq5lckgQXFDKoqp2tncyI9N235mEJV8Dd0v9I9qNuOCOMKZNr/wMRWdaxfpcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732115091; c=relaxed/simple;
-	bh=hDeJYjycHF77ZLbMNTQlumwoqT3rg0rRLzelRS/sr8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LqjLZ8k+imW3kdZQgYvqHX05ugOYMnaL+pdAHtB//lrxp7xBuPMF2gJpYfUBc0APiYEW6qKy016KaOoU9oX95P7F+k0xSaeOdHquDKpZ1MXSWZ9PPRI+3eoTTYhv8C3hOQsH6aaMzh0ZHSC1YKCBTs4zsaLgBEXTQ8AJb+2ffb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16FFCC4CECD;
-	Wed, 20 Nov 2024 15:04:50 +0000 (UTC)
-Date: Wed, 20 Nov 2024 10:05:26 -0500
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, Paolo
- Bonzini <pbonzini@redhat.com>
-Subject: Re: arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <20241120100526.26705a95@gandalf.local.home>
-In-Reply-To: <202411201356.pXoYlKFB-lkp@intel.com>
-References: <202411201356.pXoYlKFB-lkp@intel.com>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1732115769; c=relaxed/simple;
+	bh=kREQRf0uBkIpdRAX4nqITUSucl2sL1MTyUYkn9JOgS4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iiU5o6MyqMUGTnOrDUxZmbn0Te5ciN7rycB+hu2I0/K+Qt+kYnldluuRK3lGJuOkKXyYZ09+04+oIfZMJgVE9aqCi/o//axnaTyX6yS5c/FLJIRaxGxQjP2BRArIo57uSzAV0wdkup8rYLHPHW4khqCKhsMTTei+GPK4Ojtd/RU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nfBkJINX; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nfBkJINX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732115763; x=1763651763;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kREQRf0uBkIpdRAX4nqITUSucl2sL1MTyUYkn9JOgS4=;
+  b=nfBkJINXBvUaAB5z+pG+P2WLYdWB1s0mS4h6agvHLpfuztBrF9It/4/Q
+   RTQ50IOe8K0R6bx3lL5+3iK5ORHF6Axn2iTnEiHUAQzzG1m7eGcNTGE/8
+   QJ9XFGPJQkT3q6B1jdpUw2H/X6AQ88dc4ZUPKeMbEGj6LFMqWbLPq/4yb
+   /6PnY1UM8qaG8FGBcaa0c4/4gVzVqh7tWemdq48qWpilP7+zYvT5K581C
+   wyAJWt2FnJQLG7i9oLuyafUSrKbcH/GS7HfHanUlGR1ji6vyD/g8Zna4f
+   uc/V7BSwcKFSFpcsw0DKIFo8CZ4zU94MyO2L55N6dveOdr3HVeUDEbRWp
+   A==;
+X-CSE-ConnectionGUID: jxVf0z36Q4a1AtzidAEwbg==
+X-CSE-MsgGUID: lQTz9rvWQX6cwhotA5MC/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="35967028"
+X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
+   d="scan'208";a="35967028"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 07:16:03 -0800
+X-CSE-ConnectionGUID: mhsjMvHsRAu5KlgG1xcULg==
+X-CSE-MsgGUID: VECWgPBZQDWV17q449qneA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="95015616"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2024 07:16:04 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tDmQy-0000x7-2n;
+	Wed, 20 Nov 2024 15:16:00 +0000
+Date: Wed, 20 Nov 2024 23:15:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: versioncheck:
+ ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need
+ linux/version.h
+Message-ID: <202411202322.uEr8UyqC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 20 Nov 2024 13:59:39 +0800
-kernel test robot <lkp@intel.com> wrote:
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_q
+head:   aff8de868d4e17e98fa8ce0b1b124e54153b574b
+commit: e8a0febb1fb5b45f60a2010a90050806aeea9173 media: intel-ipu4: virtio: IPU virtio backend and frontend drivers base-code
+date:   6 years ago
+reproduce: (https://download.01.org/0day-ci/archive/20241120/202411202322.uEr8UyqC-lkp@intel.com/reproduce)
 
-> Hi Steven,
-> 
-> First bad commit (maybe != root cause):
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411202322.uEr8UyqC-lkp@intel.com/
 
-Does not look to be root cause.
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.2.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need linux/version.h
+>> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
--- Steve
-
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   bf9aa14fc523d2763fc9a10672a709224e8fcaf4
-> commit: 59cbd4eea48fdbc68fc17a29ad71188fea74b28b KVM: Remove HIGH_RES_TIMERS dependency
-> date:   3 months ago
-> config: x86_64-randconfig-r133-20241119 (https://download.01.org/0day-ci/archive/20241120/202411201356.pXoYlKFB-lkp@intel.com/config)
-> compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241120/202411201356.pXoYlKFB-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202411201356.pXoYlKFB-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
-> >> arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted vm_fault_t @@  
->    arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     expected int [assigned] ret
->    arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     got restricted vm_fault_t
-> >> arch/x86/kernel/cpu/sgx/virt.c:60:20: sparse: sparse: restricted vm_fault_t degrades to integer
-> >> arch/x86/kernel/cpu/sgx/virt.c:354:36: sparse: sparse: cast removes address space '__user' of expression  
->    arch/x86/kernel/cpu/sgx/virt.c:385:24: sparse: sparse: cast removes address space '__user' of expression
->    arch/x86/kernel/cpu/sgx/virt.c:385:43: sparse: sparse: cast removes address space '__user' of expression
->    arch/x86/kernel/cpu/sgx/virt.c:385:58: sparse: sparse: cast removes address space '__user' of expression
->    arch/x86/kernel/cpu/sgx/virt.c: note: in included file (through include/linux/miscdevice.h):
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
->    include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-> 
-> vim +59 arch/x86/kernel/cpu/sgx/virt.c
-> 
-> 540745ddbc70eab Sean Christopherson 2021-03-19  32  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  33  static int __sgx_vepc_fault(struct sgx_vepc *vepc,
-> 540745ddbc70eab Sean Christopherson 2021-03-19  34  			    struct vm_area_struct *vma, unsigned long addr)
-> 540745ddbc70eab Sean Christopherson 2021-03-19  35  {
-> 540745ddbc70eab Sean Christopherson 2021-03-19  36  	struct sgx_epc_page *epc_page;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  37  	unsigned long index, pfn;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  38  	int ret;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  39  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  40  	WARN_ON(!mutex_is_locked(&vepc->lock));
-> 540745ddbc70eab Sean Christopherson 2021-03-19  41  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  42  	/* Calculate index of EPC page in virtual EPC's page_array */
-> 540745ddbc70eab Sean Christopherson 2021-03-19  43  	index = vma->vm_pgoff + PFN_DOWN(addr - vma->vm_start);
-> 540745ddbc70eab Sean Christopherson 2021-03-19  44  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  45  	epc_page = xa_load(&vepc->page_array, index);
-> 540745ddbc70eab Sean Christopherson 2021-03-19  46  	if (epc_page)
-> 540745ddbc70eab Sean Christopherson 2021-03-19  47  		return 0;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  48  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  49  	epc_page = sgx_alloc_epc_page(vepc, false);
-> 540745ddbc70eab Sean Christopherson 2021-03-19  50  	if (IS_ERR(epc_page))
-> 540745ddbc70eab Sean Christopherson 2021-03-19  51  		return PTR_ERR(epc_page);
-> 540745ddbc70eab Sean Christopherson 2021-03-19  52  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  53  	ret = xa_err(xa_store(&vepc->page_array, index, epc_page, GFP_KERNEL));
-> 540745ddbc70eab Sean Christopherson 2021-03-19  54  	if (ret)
-> 540745ddbc70eab Sean Christopherson 2021-03-19  55  		goto err_free;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  56  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  57  	pfn = PFN_DOWN(sgx_get_epc_phys_addr(epc_page));
-> 540745ddbc70eab Sean Christopherson 2021-03-19  58  
-> 540745ddbc70eab Sean Christopherson 2021-03-19 @59  	ret = vmf_insert_pfn(vma, addr, pfn);
-> 540745ddbc70eab Sean Christopherson 2021-03-19 @60  	if (ret != VM_FAULT_NOPAGE) {
-> 540745ddbc70eab Sean Christopherson 2021-03-19  61  		ret = -EFAULT;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  62  		goto err_delete;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  63  	}
-> 540745ddbc70eab Sean Christopherson 2021-03-19  64  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  65  	return 0;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  66  
-> 540745ddbc70eab Sean Christopherson 2021-03-19  67  err_delete:
-> 540745ddbc70eab Sean Christopherson 2021-03-19  68  	xa_erase(&vepc->page_array, index);
-> 540745ddbc70eab Sean Christopherson 2021-03-19  69  err_free:
-> 540745ddbc70eab Sean Christopherson 2021-03-19  70  	sgx_free_epc_page(epc_page);
-> 540745ddbc70eab Sean Christopherson 2021-03-19  71  	return ret;
-> 540745ddbc70eab Sean Christopherson 2021-03-19  72  }
-> 540745ddbc70eab Sean Christopherson 2021-03-19  73  
-> 
-> :::::: The code at line 59 was first introduced by commit
-> :::::: 540745ddbc70eabdc7dbd3fcc00fe4fb17cd59ba x86/sgx: Introduce virtual EPC for use by KVM guests
-> 
-> :::::: TO: Sean Christopherson <sean.j.christopherson@intel.com>
-> :::::: CC: Borislav Petkov <bp@suse.de>
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
