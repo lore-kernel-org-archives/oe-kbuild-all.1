@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDE60AD27
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 14:02:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49FC41C1F0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 14:54:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732111337; cv=none; b=IGiFcAIB5RJeJndeCKomE6CtgcnISAJ1X/NAzjiTsFlPXwezxxZsz6IFh5ayW8YOM/K3yFqhZ18tsVdEKBYEkDjfpG4eka0KWRVstJU55So/WfUMJJpX6FufDSvlFIFnugZ0wdQb2dRMAv7ZfGCHDc6cIj6FZ1G+b0j2nxHtU+4=
+	t=1732114445; cv=none; b=ipD9cn7L941PFuZY93Hd6mA5yWDuLe+UiUQJyYH4oX3FAbWfKZNPDfiGwcZWh/IjDW8wlVYEy9q+m1dsTiBpJgs6XVcDScBYBNodAsxX08zIfznO6QB+zwgQF/lz+aDTMTDjVdXgnlt0eR8+y88vqVbbdmTHgRAKlt2E2iiQsYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732111337; c=relaxed/simple;
-	bh=SqLN5qG1PjzwpH4As1Me9b/4BhZM0IaHhCHbw8A2lCg=;
+	s=arc-20240116; t=1732114445; c=relaxed/simple;
+	bh=qwdilTNgmjh7rkkG6Xld4f23KLW8mj/121RBBVDp7GE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VSoV3hRqB0S4Stgvm2o1j2rBhCKf0N2E97mrIt0L3K1U0fADjbGOohvOxFC1vjiMiJpzYw6cVE+a1Pcq95BvdcV8CVDjO8L4iwAV5AegnU3svYPYm6ls5iMba52dWLmJIRzwIogaa4LPMMzmgbXdb/kyduRuyMeuXLoAXX/XT0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrMu/PbA; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=HZKMw9SXpVW9BkWbo9RwlsIW5srcq6076ugzTJNmDdYZUOP9YDA48z7dxHxLzp0L87pduJDmix3ytQYXN3QEKFodpjjN7WYG2UJcUwDBK5tDgnU/NVjnMqv+FxQmyA3cHc4FcKwtwZwI9YYPyEj+gGLld7jqYjG9SrqW7Ys4eqQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IarR18d5; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QrMu/PbA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IarR18d5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732111332; x=1763647332;
+  t=1732114443; x=1763650443;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SqLN5qG1PjzwpH4As1Me9b/4BhZM0IaHhCHbw8A2lCg=;
-  b=QrMu/PbALsSEW7Ov4Ko3MwFKrdnq1EEeVtpuLB69JqljF85ZeHTUSqW/
-   qBtVihUEAZ1ORPoRlmFDHqgza3jF4yR3Tj8u8CFQwHsIRs9P2l7OX3Mro
-   9EkmX8W/o48zytS1uy9MVyAzIvx/xf1+eIj962lPU6Tn/smk8ZT37/AIt
-   TgeUe4aK+9br9KAU/qlKU0A2yblXHBPRCZp863+Y+qJHNTda9OGO3Fsir
-   VDsFNPfgAIjZex9m4ZeUNB+WoGK9QowiGlEENZv+Kpd00NZtwh6uXNpal
-   fgdIUMlK2Pqm9x8UfsQSVulMvgaT0vDy5YM6nKWAjOMwWg1CJjMcPFO3g
-   Q==;
-X-CSE-ConnectionGUID: aF4C0c7ySlatke4PkRzU+Q==
-X-CSE-MsgGUID: 0Jhd/NgASd+ixtnDjOhVOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="35841701"
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="35841701"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 06:01:55 -0800
-X-CSE-ConnectionGUID: hXz5zhXcT4StqViaqScS1Q==
-X-CSE-MsgGUID: WHJmzzvaR7OxIR+9xgXTAA==
+  bh=qwdilTNgmjh7rkkG6Xld4f23KLW8mj/121RBBVDp7GE=;
+  b=IarR18d5jIxFhuzZfv5a9WuEduDQEXIe01Tpa7KwdQHrZIhXzupVzMvr
+   Z7s67GoPwXdHcVnQJM7Ev5SENMKn7TQoBGGiiNh/s0dw/JDhYAMhDtraE
+   X0A04fyQlPqzYrVxwbFSPNeyRWZF0TNAQIzoHIv7ro5JoyYYwdKQe0USi
+   WT9jMaaeIjuNmngSl8JQ1qTtBVvi2exAxx5qkwTPfSRqbXL0uOSzDJfKC
+   gWOCE+U0VoWGy85CwgNayJG42fM85kV+OHBGQGbHP75KNYxTCy9G96yu9
+   sJuKMgXFIUSIIZ2tKYtd/xI3bqg5BSj0pFc+xHB21ElgnGWndvxcfIXHJ
+   A==;
+X-CSE-ConnectionGUID: O3j45lpKTb6sy2LKAVZAuw==
+X-CSE-MsgGUID: 275VGnCoQX+fbdfFAx40RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="49607559"
+X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
+   d="scan'208";a="49607559"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 06:54:03 -0800
+X-CSE-ConnectionGUID: 1cklxlGLR4eUjSz5P/Ek/g==
+X-CSE-MsgGUID: gVkClygxSE2bFMOZcz29/A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,169,1728975600"; 
-   d="scan'208";a="89919525"
+X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
+   d="scan'208";a="120880271"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 20 Nov 2024 06:01:54 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 20 Nov 2024 06:54:01 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDlHE-0000uH-0w;
-	Wed, 20 Nov 2024 14:01:52 +0000
-Date: Wed, 20 Nov 2024 22:01:14 +0800
+	id 1tDm5f-0000vs-0I;
+	Wed, 20 Nov 2024 14:53:59 +0000
+Date: Wed, 20 Nov 2024 22:53:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: versioncheck: ./drivers/media/pci/intel/ici/ici-dma.c: 417: need
- linux/version.h
-Message-ID: <202411202119.bTLrMcdw-lkp@intel.com>
+To: Alexei Starovoitov <ast@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Daniel Borkmann <daniel@iogearbox.net>
+Subject: kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits
+ from constant value (fffffe0000000000 becomes 0)
+Message-ID: <202411202233.5M1Va1TW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,109 +63,292 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_q
-head:   aff8de868d4e17e98fa8ce0b1b124e54153b574b
-commit: 82243dcb96a6754968425b2a13d390b0c4803dab media: intel-ipu4: ici driver base code; WW43 firmware f61e455.
-date:   6 years ago
-reproduce: (https://download.01.org/0day-ci/archive/20241120/202411202119.bTLrMcdw-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bf9aa14fc523d2763fc9a10672a709224e8fcaf4
+commit: af682b767a41772499f8e54ca7d7e1deb3395f44 bpf: Optimize emit_mov_imm64().
+date:   8 months ago
+config: arm64-randconfig-r122-20241120 (https://download.01.org/0day-ci/archive/20241120/202411202233.5M1Va1TW-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce: (https://download.01.org/0day-ci/archive/20241120/202411202233.5M1Va1TW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411202119.bTLrMcdw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411202233.5M1Va1TW-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.2.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
->> ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
->> ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/verifier.c:20219:38: sparse: sparse: subtraction of functions? Share your drugs
+   kernel/bpf/verifier.c: note: in included file (through include/linux/bpf.h, include/linux/bpf-cgroup.h):
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+>> kernel/bpf/verifier.c:19160:44: sparse: sparse: cast truncates bits from constant value (fffffe0000000000 becomes 0)
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast to non-scalar
+   include/linux/bpfptr.h:65:40: sparse: sparse: cast from non-scalar
+
+vim +19160 kernel/bpf/verifier.c
+
+ 19113	
+ 19114	static int jit_subprogs(struct bpf_verifier_env *env)
+ 19115	{
+ 19116		struct bpf_prog *prog = env->prog, **func, *tmp;
+ 19117		int i, j, subprog_start, subprog_end = 0, len, subprog;
+ 19118		struct bpf_map *map_ptr;
+ 19119		struct bpf_insn *insn;
+ 19120		void *old_bpf_func;
+ 19121		int err, num_exentries;
+ 19122	
+ 19123		if (env->subprog_cnt <= 1)
+ 19124			return 0;
+ 19125	
+ 19126		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19127			if (!bpf_pseudo_func(insn) && !bpf_pseudo_call(insn))
+ 19128				continue;
+ 19129	
+ 19130			/* Upon error here we cannot fall back to interpreter but
+ 19131			 * need a hard reject of the program. Thus -EFAULT is
+ 19132			 * propagated in any case.
+ 19133			 */
+ 19134			subprog = find_subprog(env, i + insn->imm + 1);
+ 19135			if (subprog < 0) {
+ 19136				WARN_ONCE(1, "verifier bug. No program starts at insn %d\n",
+ 19137					  i + insn->imm + 1);
+ 19138				return -EFAULT;
+ 19139			}
+ 19140			/* temporarily remember subprog id inside insn instead of
+ 19141			 * aux_data, since next loop will split up all insns into funcs
+ 19142			 */
+ 19143			insn->off = subprog;
+ 19144			/* remember original imm in case JIT fails and fallback
+ 19145			 * to interpreter will be needed
+ 19146			 */
+ 19147			env->insn_aux_data[i].call_imm = insn->imm;
+ 19148			/* point imm to __bpf_call_base+1 from JITs point of view */
+ 19149			insn->imm = 1;
+ 19150			if (bpf_pseudo_func(insn)) {
+ 19151	#if defined(MODULES_VADDR)
+ 19152				u64 addr = MODULES_VADDR;
+ 19153	#else
+ 19154				u64 addr = VMALLOC_START;
+ 19155	#endif
+ 19156				/* jit (e.g. x86_64) may emit fewer instructions
+ 19157				 * if it learns a u32 imm is the same as a u64 imm.
+ 19158				 * Set close enough to possible prog address.
+ 19159				 */
+ 19160				insn[0].imm = (u32)addr;
+ 19161				insn[1].imm = addr >> 32;
+ 19162			}
+ 19163		}
+ 19164	
+ 19165		err = bpf_prog_alloc_jited_linfo(prog);
+ 19166		if (err)
+ 19167			goto out_undo_insn;
+ 19168	
+ 19169		err = -ENOMEM;
+ 19170		func = kcalloc(env->subprog_cnt, sizeof(prog), GFP_KERNEL);
+ 19171		if (!func)
+ 19172			goto out_undo_insn;
+ 19173	
+ 19174		for (i = 0; i < env->subprog_cnt; i++) {
+ 19175			subprog_start = subprog_end;
+ 19176			subprog_end = env->subprog_info[i + 1].start;
+ 19177	
+ 19178			len = subprog_end - subprog_start;
+ 19179			/* bpf_prog_run() doesn't call subprogs directly,
+ 19180			 * hence main prog stats include the runtime of subprogs.
+ 19181			 * subprogs don't have IDs and not reachable via prog_get_next_id
+ 19182			 * func[i]->stats will never be accessed and stays NULL
+ 19183			 */
+ 19184			func[i] = bpf_prog_alloc_no_stats(bpf_prog_size(len), GFP_USER);
+ 19185			if (!func[i])
+ 19186				goto out_free;
+ 19187			memcpy(func[i]->insnsi, &prog->insnsi[subprog_start],
+ 19188			       len * sizeof(struct bpf_insn));
+ 19189			func[i]->type = prog->type;
+ 19190			func[i]->len = len;
+ 19191			if (bpf_prog_calc_tag(func[i]))
+ 19192				goto out_free;
+ 19193			func[i]->is_func = 1;
+ 19194			func[i]->sleepable = prog->sleepable;
+ 19195			func[i]->aux->func_idx = i;
+ 19196			/* Below members will be freed only at prog->aux */
+ 19197			func[i]->aux->btf = prog->aux->btf;
+ 19198			func[i]->aux->func_info = prog->aux->func_info;
+ 19199			func[i]->aux->func_info_cnt = prog->aux->func_info_cnt;
+ 19200			func[i]->aux->poke_tab = prog->aux->poke_tab;
+ 19201			func[i]->aux->size_poke_tab = prog->aux->size_poke_tab;
+ 19202	
+ 19203			for (j = 0; j < prog->aux->size_poke_tab; j++) {
+ 19204				struct bpf_jit_poke_descriptor *poke;
+ 19205	
+ 19206				poke = &prog->aux->poke_tab[j];
+ 19207				if (poke->insn_idx < subprog_end &&
+ 19208				    poke->insn_idx >= subprog_start)
+ 19209					poke->aux = func[i]->aux;
+ 19210			}
+ 19211	
+ 19212			func[i]->aux->name[0] = 'F';
+ 19213			func[i]->aux->stack_depth = env->subprog_info[i].stack_depth;
+ 19214			func[i]->jit_requested = 1;
+ 19215			func[i]->blinding_requested = prog->blinding_requested;
+ 19216			func[i]->aux->kfunc_tab = prog->aux->kfunc_tab;
+ 19217			func[i]->aux->kfunc_btf_tab = prog->aux->kfunc_btf_tab;
+ 19218			func[i]->aux->linfo = prog->aux->linfo;
+ 19219			func[i]->aux->nr_linfo = prog->aux->nr_linfo;
+ 19220			func[i]->aux->jited_linfo = prog->aux->jited_linfo;
+ 19221			func[i]->aux->linfo_idx = env->subprog_info[i].linfo_idx;
+ 19222			func[i]->aux->arena = prog->aux->arena;
+ 19223			num_exentries = 0;
+ 19224			insn = func[i]->insnsi;
+ 19225			for (j = 0; j < func[i]->len; j++, insn++) {
+ 19226				if (BPF_CLASS(insn->code) == BPF_LDX &&
+ 19227				    (BPF_MODE(insn->code) == BPF_PROBE_MEM ||
+ 19228				     BPF_MODE(insn->code) == BPF_PROBE_MEM32 ||
+ 19229				     BPF_MODE(insn->code) == BPF_PROBE_MEMSX))
+ 19230					num_exentries++;
+ 19231				if ((BPF_CLASS(insn->code) == BPF_STX ||
+ 19232				     BPF_CLASS(insn->code) == BPF_ST) &&
+ 19233				     BPF_MODE(insn->code) == BPF_PROBE_MEM32)
+ 19234					num_exentries++;
+ 19235			}
+ 19236			func[i]->aux->num_exentries = num_exentries;
+ 19237			func[i]->aux->tail_call_reachable = env->subprog_info[i].tail_call_reachable;
+ 19238			func[i]->aux->exception_cb = env->subprog_info[i].is_exception_cb;
+ 19239			if (!i)
+ 19240				func[i]->aux->exception_boundary = env->seen_exception;
+ 19241			func[i] = bpf_int_jit_compile(func[i]);
+ 19242			if (!func[i]->jited) {
+ 19243				err = -ENOTSUPP;
+ 19244				goto out_free;
+ 19245			}
+ 19246			cond_resched();
+ 19247		}
+ 19248	
+ 19249		/* at this point all bpf functions were successfully JITed
+ 19250		 * now populate all bpf_calls with correct addresses and
+ 19251		 * run last pass of JIT
+ 19252		 */
+ 19253		for (i = 0; i < env->subprog_cnt; i++) {
+ 19254			insn = func[i]->insnsi;
+ 19255			for (j = 0; j < func[i]->len; j++, insn++) {
+ 19256				if (bpf_pseudo_func(insn)) {
+ 19257					subprog = insn->off;
+ 19258					insn[0].imm = (u32)(long)func[subprog]->bpf_func;
+ 19259					insn[1].imm = ((u64)(long)func[subprog]->bpf_func) >> 32;
+ 19260					continue;
+ 19261				}
+ 19262				if (!bpf_pseudo_call(insn))
+ 19263					continue;
+ 19264				subprog = insn->off;
+ 19265				insn->imm = BPF_CALL_IMM(func[subprog]->bpf_func);
+ 19266			}
+ 19267	
+ 19268			/* we use the aux data to keep a list of the start addresses
+ 19269			 * of the JITed images for each function in the program
+ 19270			 *
+ 19271			 * for some architectures, such as powerpc64, the imm field
+ 19272			 * might not be large enough to hold the offset of the start
+ 19273			 * address of the callee's JITed image from __bpf_call_base
+ 19274			 *
+ 19275			 * in such cases, we can lookup the start address of a callee
+ 19276			 * by using its subprog id, available from the off field of
+ 19277			 * the call instruction, as an index for this list
+ 19278			 */
+ 19279			func[i]->aux->func = func;
+ 19280			func[i]->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 19281			func[i]->aux->real_func_cnt = env->subprog_cnt;
+ 19282		}
+ 19283		for (i = 0; i < env->subprog_cnt; i++) {
+ 19284			old_bpf_func = func[i]->bpf_func;
+ 19285			tmp = bpf_int_jit_compile(func[i]);
+ 19286			if (tmp != func[i] || func[i]->bpf_func != old_bpf_func) {
+ 19287				verbose(env, "JIT doesn't support bpf-to-bpf calls\n");
+ 19288				err = -ENOTSUPP;
+ 19289				goto out_free;
+ 19290			}
+ 19291			cond_resched();
+ 19292		}
+ 19293	
+ 19294		/* finally lock prog and jit images for all functions and
+ 19295		 * populate kallsysm. Begin at the first subprogram, since
+ 19296		 * bpf_prog_load will add the kallsyms for the main program.
+ 19297		 */
+ 19298		for (i = 1; i < env->subprog_cnt; i++) {
+ 19299			err = bpf_prog_lock_ro(func[i]);
+ 19300			if (err)
+ 19301				goto out_free;
+ 19302		}
+ 19303	
+ 19304		for (i = 1; i < env->subprog_cnt; i++)
+ 19305			bpf_prog_kallsyms_add(func[i]);
+ 19306	
+ 19307		/* Last step: make now unused interpreter insns from main
+ 19308		 * prog consistent for later dump requests, so they can
+ 19309		 * later look the same as if they were interpreted only.
+ 19310		 */
+ 19311		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19312			if (bpf_pseudo_func(insn)) {
+ 19313				insn[0].imm = env->insn_aux_data[i].call_imm;
+ 19314				insn[1].imm = insn->off;
+ 19315				insn->off = 0;
+ 19316				continue;
+ 19317			}
+ 19318			if (!bpf_pseudo_call(insn))
+ 19319				continue;
+ 19320			insn->off = env->insn_aux_data[i].call_imm;
+ 19321			subprog = find_subprog(env, i + insn->off + 1);
+ 19322			insn->imm = subprog;
+ 19323		}
+ 19324	
+ 19325		prog->jited = 1;
+ 19326		prog->bpf_func = func[0]->bpf_func;
+ 19327		prog->jited_len = func[0]->jited_len;
+ 19328		prog->aux->extable = func[0]->aux->extable;
+ 19329		prog->aux->num_exentries = func[0]->aux->num_exentries;
+ 19330		prog->aux->func = func;
+ 19331		prog->aux->func_cnt = env->subprog_cnt - env->hidden_subprog_cnt;
+ 19332		prog->aux->real_func_cnt = env->subprog_cnt;
+ 19333		prog->aux->bpf_exception_cb = (void *)func[env->exception_callback_subprog]->bpf_func;
+ 19334		prog->aux->exception_boundary = func[0]->aux->exception_boundary;
+ 19335		bpf_prog_jit_attempt_done(prog);
+ 19336		return 0;
+ 19337	out_free:
+ 19338		/* We failed JIT'ing, so at this point we need to unregister poke
+ 19339		 * descriptors from subprogs, so that kernel is not attempting to
+ 19340		 * patch it anymore as we're freeing the subprog JIT memory.
+ 19341		 */
+ 19342		for (i = 0; i < prog->aux->size_poke_tab; i++) {
+ 19343			map_ptr = prog->aux->poke_tab[i].tail_call.map;
+ 19344			map_ptr->ops->map_poke_untrack(map_ptr, prog->aux);
+ 19345		}
+ 19346		/* At this point we're guaranteed that poke descriptors are not
+ 19347		 * live anymore. We can just unlink its descriptor table as it's
+ 19348		 * released with the main prog.
+ 19349		 */
+ 19350		for (i = 0; i < env->subprog_cnt; i++) {
+ 19351			if (!func[i])
+ 19352				continue;
+ 19353			func[i]->aux->poke_tab = NULL;
+ 19354			bpf_jit_free(func[i]);
+ 19355		}
+ 19356		kfree(func);
+ 19357	out_undo_insn:
+ 19358		/* cleanup main prog to be interpreted */
+ 19359		prog->jit_requested = 0;
+ 19360		prog->blinding_requested = 0;
+ 19361		for (i = 0, insn = prog->insnsi; i < prog->len; i++, insn++) {
+ 19362			if (!bpf_pseudo_call(insn))
+ 19363				continue;
+ 19364			insn->off = 0;
+ 19365			insn->imm = env->insn_aux_data[i].call_imm;
+ 19366		}
+ 19367		bpf_prog_jit_attempt_done(prog);
+ 19368		return err;
+ 19369	}
+ 19370	
 
 -- 
 0-DAY CI Kernel Test Service
