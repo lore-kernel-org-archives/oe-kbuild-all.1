@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0AA3DBB6
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 01:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82BA18035
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 01:12:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732065154; cv=none; b=LKiYzIffokIplCzLFXqLAw8ZHa0gcVtHY8q+DaNln/bqBY8Lm/Iy1XtSytwDhPcyQ/Emfqc55CV99UzHxnqOFPa7XqalTTJzTCxYS54hs2WTE5jlX+yDCt9DZin2wTcX2vWN1dlclqcWwlic6F2u+Au4wtsWv9lsbhQpqHOC+iE=
+	t=1732065155; cv=none; b=ZyZRIaufGbjqOkxrWP8dvYxq54YP6qO+YbDR8WvBydY3gvvrwdaWRCzO7J7zycuHuNabag1MmSRE5Vi+PwYSxasRfriKwV/ln/EViNykXkoO9yptVJmgEPsXlm2BFanNPXTd3jnz1ZSxEfClsAyP+V8BCY3L5mKVi8Mjwjoj3Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732065154; c=relaxed/simple;
-	bh=34WVWdqa1aND69ZjV4rZiJIPumawMnaosseFQ8RIqeQ=;
+	s=arc-20240116; t=1732065155; c=relaxed/simple;
+	bh=WqCAG0y0amROGWcSsWgFqEJdUyjz+mJMoxVGgc4bnTs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=l4LpIn7jHieh1SUP5CoOHsyL3e04/l6vJLG6A2ajE+9dt10Cb2/ztcAPqDLZBNoaC0QKiNp8G/IUI8fTXm8sflaudnVuAjHWHW4Ox4QpZm4cNdKDpR/3n8upDEyDb8z91+U0XE0HzABTOB4qknjhrXI3K9OKAnhwjZOAPfurClE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzpowJsO; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=cgvxuW3q02a2YC+Kq1os00oYdU9uTDfAkK5qGac2Lm2GkxyyzWeTatofx+abXz0OxyDduxnMHtEDKbf3SJOXVEzHLXovEfxwyVsm/HFeZB/j/kuz1ZZOK+NuWHZ91WiKq3Dfp+V/IWen2rUmBfAG2lHQKMlbRYVukZInYnzDyzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QnH6TeAk; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzpowJsO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QnH6TeAk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732065152; x=1763601152;
+  t=1732065154; x=1763601154;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=34WVWdqa1aND69ZjV4rZiJIPumawMnaosseFQ8RIqeQ=;
-  b=UzpowJsO1hRqRgmxv4T4zVFrgt5rgWlG1U8ii8k2v9f85alKsKgtGMDB
-   z3DErO12sk8/Lxenhc4FITLCsskBy+UKuA9eBqNgOKkEl+7eH57pF/HCi
-   qJOxGB8N9pebL5EMLPgcdXsLYceT2hP2AK3OMA+2Vi+YpdTz3xBq58QRF
-   oEwCHXdwb/pNh7d8t/+oFVJJM957NySqgyMSAuPe5PCtM22aVBiJQlMJ9
-   DjjdF5/K1O8/VN/BHBEUU2ZCJzGJkmHiv4Kcayr61zeTVzgBsYj2Eu+i8
-   2eRTV9GnrPXl8nS/NrxeXulMPvFC8OAROFHiFgb6wtroNc6LjxoWdqVUx
-   g==;
-X-CSE-ConnectionGUID: dYKCtS5zTaGJQV0LVAKBFQ==
-X-CSE-MsgGUID: Oem6BvdZQZKepQKXMdW15Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="54602142"
+  bh=WqCAG0y0amROGWcSsWgFqEJdUyjz+mJMoxVGgc4bnTs=;
+  b=QnH6TeAktam31RKrz+EsawkmS8yjT2f1oOw5Jnu/UMLXW6lDIXkPkQmo
+   XKPrESJqda5ZJf+cd0lQMmZeZTapf00YgY3v8MtY0WrIiZLPrvvTIUPOV
+   BASTS/nFni4Hk+vuzBF7alarbLPYT+lVQtyezL4Q1iFl/3aRKyBsVkfMw
+   1+axkpDyM3sML0NsKS1ZBJu0wnWdGD18UwoUD0WiEBeq5y2dADlfkmYAc
+   5P/SYFpe9CgFMAMp6TKVWnziHbBdMAPb/J+LAY4P1Vz152N0L55qik9Sv
+   ehNRBMvG5Lpt7AsnTFfQU7Xxlhv8g03Ba3g/nsSpt7BySD6iI9wdUCBIu
+   A==;
+X-CSE-ConnectionGUID: B2VaHSXBR+es+N7Veyw6fw==
+X-CSE-MsgGUID: feqmjM+KTIeskO/Vk0punA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="54602147"
 X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
-   d="scan'208";a="54602142"
+   d="scan'208";a="54602147"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 17:12:30 -0800
-X-CSE-ConnectionGUID: jkHM6X7RRF+zEWI5xB4qCg==
-X-CSE-MsgGUID: crD+yZT8Q8iDNBp8Min6Gw==
+X-CSE-ConnectionGUID: uDUlFF09TaeetxXuBzXkYw==
+X-CSE-MsgGUID: z50ysmlHTgWq7kwjmdgdhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="94805467"
+   d="scan'208";a="94805464"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by orviesa003.jf.intel.com with ESMTP; 19 Nov 2024 17:12:29 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDZGc-0000Ol-1U;
+	id 1tDZGc-0000On-1Y;
 	Wed, 20 Nov 2024 01:12:26 +0000
-Date: Wed, 20 Nov 2024 09:11:49 +0800
+Date: Wed, 20 Nov 2024 09:11:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
+To: kernel@openeuler.org, Wen Zhiwei <wenzhiwei@kylinos.cn>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474]
- arch/x86/events/zhaoxin/uncore.c:2761:6: sparse: sparse: symbol
- 'kx5000_uncore_cpu_init' was not declared. Should it be static?
-Message-ID: <202411192009.C5J9m2a8-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1484/1484]
+ arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /: compatible:
+ 'oneOf' conditional failed, one must be fixed:
+Message-ID: <202411192024.25esZpo8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,58 +65,51 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   cd76a7555127aa134a2a1113685da60b70553e6f
-commit: dc5b97374ba722156acbdfc4e3adbc69e2dbe7f4 [1474/1474] perf/x86/zhaoxin/uncore: Add KX-7000 support
-config: x86_64-randconfig-121-20241118 (https://download.01.org/0day-ci/archive/20241119/202411192009.C5J9m2a8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411192009.C5J9m2a8-lkp@intel.com/reproduce)
+commit: 15796d41b1a74a45dcc01d7b62e800b4cd8b0436 [1484/1484] arm64: dts: rockchip: Add DTS for FriendlyARM NanoPi R2S Plus
+config: arm64-randconfig-051-20241119 (https://download.01.org/0day-ci/archive/20241119/202411192024.25esZpo8-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+dtschema version: 2024.12.dev1+gcabb5b9
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241119/202411192024.25esZpo8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411192009.C5J9m2a8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411192024.25esZpo8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/x86/events/zhaoxin/uncore.c:2387:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2392:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2398:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2761:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2770:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
->> arch/x86/events/zhaoxin/uncore.c:2775:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2791:6: sparse: sparse: symbol 'kx8000_uncore_cpu_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2796:5: sparse: sparse: symbol 'kx8000_uncore_pci_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c:2804:6: sparse: sparse: symbol 'kx8000_uncore_mmio_init' was not declared. Should it be static?
-   arch/x86/events/zhaoxin/uncore.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +/kx5000_uncore_cpu_init +2761 arch/x86/events/zhaoxin/uncore.c
-
-  2760	
-> 2761	void kx5000_uncore_cpu_init(void)
-  2762	{
-  2763		uncore_msr_uncores = kx5000_msr_uncores;
-  2764	}
-  2765	
-  2766	static const struct zhaoxin_uncore_init_fun kx5000_uncore_init __initconst = {
-  2767		.cpu_init = kx5000_uncore_cpu_init,
-  2768	};
-  2769	
-> 2770	void kh40000_uncore_cpu_init(void)
-  2771	{
-  2772		uncore_msr_uncores = kh40000_msr_uncores;
-  2773	}
-  2774	
-> 2775	int kh40000_uncore_pci_init(void)
-  2776	{
-  2777		int ret = kh40000_pci2node_map_init();/*pci_bus to package mapping, do nothing*/
-  2778	
-  2779		if (ret)
-  2780			return ret;
-  2781		uncore_pci_uncores = kh40000_pci_uncores;
-  2782		uncore_pci_driver = &kh40000_uncore_pci_driver;
-  2783		return 0;
-  2784	}
-  2785	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/rockchip/rk3328.dtsi:704.17-712.5: Warning (graph_child_address): /vop@ff370000/port: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
+>> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['friendlyarm,nanopi-r2s-plus', 'rockchip,rk3328'] is too short
+   	'vamrs,ficus' was expected
+   	'vamrs,rock960' was expected
+   	'amarula,vyasa-rk3288' was expected
+   	'anbernic,rg351m' was expected
+   	'anbernic,rg353p' was expected
+   	'anbernic,rg353ps' was expected
+   	'anbernic,rg353v' was expected
+   	'anbernic,rg353vs' was expected
+   	'anbernic,rg503' was expected
+--
+   	'vamrs,rk3288-vmarc-som' was expected
+   	'vamrs,rk3399pro-vmarc-som' was expected
+   	'rockchip,rk3036' was expected
+   	'rockchip,px3' was expected
+   	'rockchip,px30' was expected
+   	'rockchip,px5' was expected
+   	'rockchip,rk3128' was expected
+   	'rockchip,rk3228' was expected
+   	'rockchip,rk3318' was expected
+   	from schema $id: http://devicetree.org/schemas/arm/rockchip.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /: failed to match any schema with compatible: ['friendlyarm,nanopi-r2s-plus', 'rockchip,rk3328']
+>> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: pwm@ff1b0030: 'interrupts' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/pwm-rockchip.yaml#
+   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /phy@ff430000: failed to match any schema with compatible: ['rockchip,rk3328-hdmi-phy']
+   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: /clock-controller@ff440000: failed to match any schema with compatible: ['rockchip,rk3328-cru', 'rockchip,cru', 'syscon']
+   arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: mmc@ff520000: Unevaluated properties are not allowed ('num-slots', 'supports-emmc' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/rockchip-dw-mshc.yaml#
+>> arch/arm64/boot/dts/rockchip/rk3328-nanopi-r2s-plus.dtb: ethernet@ff540000: Unevaluated properties are not allowed ('snps,txpbl' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/rockchip-dwmac.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
