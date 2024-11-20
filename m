@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A94E545
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 05:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638871494A9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 06:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732082398; cv=none; b=lJ2OWu80OJOtni5tP1YKFWDTmISlieGr6Dm1VtIBLAeAurDP0d3Z1gTwVsRCnHtrRMyuIo1BChhNarlc/W6HGS6TAgLpkY2XNR90QDYi+3Zg3iT57EsuLSytWOMjP1DfPCZhGJsRKxUcbU/gY2KUUvBGFIPeWA41par4ezXE1Lg=
+	t=1732083120; cv=none; b=T7ghEUUtyYL+l+9BDHO8ppwVSuJZ+LQZWxXeLx770fi2qGE8M62J3jwuihu2jRVmhE+d2o2i2N8NuxcnfUeY6cJ1RrtnqzuOmB4D8d0xWOsOj00/S1Zz4Zg4LbMd5+VadJglGm/a8mQ/96fkjmzWT7ZraAxUgeC1CAVeGX/PA3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732082398; c=relaxed/simple;
-	bh=oh4MxqZTnwT+UplLIOJdHe8W3AnJxfkhhGXs7fUk9tU=;
+	s=arc-20240116; t=1732083120; c=relaxed/simple;
+	bh=pHPaejXn6HUrtyp5ZPpCtmQmnv/flVP1W995dgGebjY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uY2NnC8yxzgpVWK+Un5qneqyQlWHgrHzQb3iV5ljs8Q9/IZUCpJ4tBBPYwaL5+hVw4RUurpRXFdxROYfzeRRjz8XvjgGr1NN85r7Z+ypDU8Aj4iw75YZKZ/fbl8wEu6lmWvcgi0yTACdS4d9htiq7htPMD/aeDZrtVBcXBohOkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jj9mL+QG; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=bKv64EkwJEiqNQdOx/r5VRUQz6T9r1M6AGU4k5NmoYQRcYJyekpw2wGm/5cDPuYofJ7x6/VdJjfQBm6iyLbZBqXeLdR8O+rC50wbkFrRULDogCiN1uU7Ihrcr2yuD9EblXzpaUqyzJtNwwSlWQUh13rt3YlXz7bl2/blbODK70I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3Srb0MC; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jj9mL+QG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3Srb0MC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732082396; x=1763618396;
+  t=1732083118; x=1763619118;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oh4MxqZTnwT+UplLIOJdHe8W3AnJxfkhhGXs7fUk9tU=;
-  b=Jj9mL+QGffl9mPmGQ7ta9Yd5K8xThD+EXLt/sHaqXL2Wh5DtydHRE37C
-   QCsa46bZoxOh8RUxscMw2YJ0HrQgsFrOwOu0bg0n7mSUG2OLSuNpNMbik
-   woRyo57qm+oBOXOLGQcYWcOsmuUiWB3vPa3RPCrPnox81gHOYSb+A3aMN
-   BxAmduPE+i9/HAUJI4CVQ7hkhiSXAXIi/74z6wcLAAm9JcVzhelT8gXRL
-   QfHNfepcu9zLqjJT1Dt8CmA1ELVCqTL2ppm3qXcmKbwKWZnY5TBEPQkQ9
-   iniS6cg3vawYNN3JZ5F/WdGcN2XAQFloNmisnqFsXJ5f3dTt5aRBxxR8R
-   Q==;
-X-CSE-ConnectionGUID: OGTKKcvXR6WqwANlV+9jnw==
-X-CSE-MsgGUID: dweUTYeTTceYfPrksRCRUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="42755088"
+  bh=pHPaejXn6HUrtyp5ZPpCtmQmnv/flVP1W995dgGebjY=;
+  b=Y3Srb0MCcUpJIJhNr3mHZLg6rzbj0AVGNrG5jnsvXWCrczG1w+HugGBS
+   mzREbQ/k4fsCZpGi1vAheGzZBeygcYNVVK08k1MCMD64xJgkym8uiAdi5
+   IV6oG/E6Wq0XS0KkG3UrD0X9gPHud2rbhuSc8EJiYqT1qVqnXBzX2TcdZ
+   7T/cw87O3mFaArXQXzvA32G0z+TzdxjeODWyPxSLtRoPRfaMNAHxJ+AAj
+   Y/dphYMlYf+NJsQ6WiiO+huUiq4jw4rlNdG619VavO1mK8R9ZwMVltNCO
+   LCng3m/Lby6aapdEgvJh8ycKdYDGLEu3RdX11JOff0pCLCF0LlKy5TQj4
+   g==;
+X-CSE-ConnectionGUID: roXb0hlUSzCOeqwXOdQPKA==
+X-CSE-MsgGUID: eQ3dO+gDS8aeoxdodsBOIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11261"; a="43521141"
 X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
-   d="scan'208";a="42755088"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 21:59:56 -0800
-X-CSE-ConnectionGUID: HnKFfSNGS++ry89jLLVhCA==
-X-CSE-MsgGUID: 5WQc0HFrS2uZ6utf15gDnw==
+   d="scan'208";a="43521141"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2024 22:11:57 -0800
+X-CSE-ConnectionGUID: Fo1KbCqMQsykZsShWhEbow==
+X-CSE-MsgGUID: 7WMdWyG+QJ64RB4aA058bQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,168,1728975600"; 
-   d="scan'208";a="94625799"
+   d="scan'208";a="90625186"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Nov 2024 21:59:55 -0800
+  by orviesa008.jf.intel.com with ESMTP; 19 Nov 2024 22:11:57 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDdkm-0000Vh-2T;
-	Wed, 20 Nov 2024 05:59:52 +0000
-Date: Wed, 20 Nov 2024 13:59:39 +0800
+	id 1tDdwQ-0000W9-0c;
+	Wed, 20 Nov 2024 06:11:54 +0000
+Date: Wed, 20 Nov 2024 14:11:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect type
- in assignment (different base types)
-Message-ID: <202411201356.pXoYlKFB-lkp@intel.com>
+To: Andrea Gelmini <andrea.gelmini@gelma.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:pr/739 1/1] fs/bcachefs/btree_iter.h:905:44:
+ error: 'PF_MEMALLOC_NORECLAIM' undeclared; did you mean 'PF_MEMALLOC_NOIO'?
+Message-ID: <202411201449.egY0QASw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,86 +62,152 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Steven,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   bf9aa14fc523d2763fc9a10672a709224e8fcaf4
-commit: 59cbd4eea48fdbc68fc17a29ad71188fea74b28b KVM: Remove HIGH_RES_TIMERS dependency
-date:   3 months ago
-config: x86_64-randconfig-r133-20241119 (https://download.01.org/0day-ci/archive/20241120/202411201356.pXoYlKFB-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241120/202411201356.pXoYlKFB-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs pr/739
+head:   6b0cc29d15ef1d80120c936e982104c33e757ba2
+commit: 6b0cc29d15ef1d80120c936e982104c33e757ba2 [1/1] Fix typos
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20241120/202411201449.egY0QASw-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241120/202411201449.egY0QASw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411201356.pXoYlKFB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411201449.egY0QASw-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse: sparse: incorrect type in assignment (different base types) @@     expected int [assigned] ret @@     got restricted vm_fault_t @@
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     expected int [assigned] ret
-   arch/x86/kernel/cpu/sgx/virt.c:59:13: sparse:     got restricted vm_fault_t
->> arch/x86/kernel/cpu/sgx/virt.c:60:20: sparse: sparse: restricted vm_fault_t degrades to integer
->> arch/x86/kernel/cpu/sgx/virt.c:354:36: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c:385:24: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c:385:43: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c:385:58: sparse: sparse: cast removes address space '__user' of expression
-   arch/x86/kernel/cpu/sgx/virt.c: note: in included file (through include/linux/miscdevice.h):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All errors (new ones prefixed by >>):
 
-vim +59 arch/x86/kernel/cpu/sgx/virt.c
+   In file included from fs/bcachefs/str_hash.h:5,
+                    from fs/bcachefs/xattr.h:5,
+                    from fs/bcachefs/acl.c:6:
+   fs/bcachefs/acl.c: In function 'bch2_acl_from_disk':
+>> fs/bcachefs/btree_iter.h:905:44: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:139:15: note: in expansion of macro 'allocate_dropping_locks'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:905:44: note: each undeclared identifier is reported only once for each function it appears in
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:139:15: note: in expansion of macro 'allocate_dropping_locks'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_iter.h:905:66: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:139:15: note: in expansion of macro 'allocate_dropping_locks'
+     139 |         acl = allocate_dropping_locks(trans, ret,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/acl.c: In function 'bch2_acl_chmod':
+   fs/bcachefs/btree_iter.h:895:38: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     895 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                      ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:425:15: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     425 |         ret = allocate_dropping_locks_errcode(trans,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:895:60: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     895 |         int _ret = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                            ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/acl.c:425:15: note: in expansion of macro 'allocate_dropping_locks_errcode'
+     425 |         ret = allocate_dropping_locks_errcode(trans,
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from fs/bcachefs/btree_locking.h:13,
+                    from fs/bcachefs/btree_io.h:7,
+                    from fs/bcachefs/btree_cache.c:7:
+   fs/bcachefs/btree_cache.c: In function 'bch2_btree_node_mem_alloc':
+>> fs/bcachefs/btree_cache.c:832:31: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     832 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_cache.c:832:31: note: each undeclared identifier is reported only once for each function it appears in
+     832 |         if (memalloc_flags_do(PF_MEMALLOC_NORECLAIM,
+         |                               ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+--
+   In file included from fs/bcachefs/btree_key_cache.c:5:
+   fs/bcachefs/btree_key_cache.c: In function 'bkey_cached_alloc':
+>> fs/bcachefs/btree_iter.h:905:44: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_key_cache.c:149:14: note: in expansion of macro 'allocate_dropping_locks'
+     149 |         ck = allocate_dropping_locks(trans, ret,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:905:44: note: each undeclared identifier is reported only once for each function it appears in
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_key_cache.c:149:14: note: in expansion of macro 'allocate_dropping_locks'
+     149 |         ck = allocate_dropping_locks(trans, ret,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_iter.h:905:66: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_key_cache.c:149:14: note: in expansion of macro 'allocate_dropping_locks'
+     149 |         ck = allocate_dropping_locks(trans, ret,
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_key_cache.c: In function 'btree_key_cache_create':
+>> fs/bcachefs/btree_iter.h:905:44: error: 'PF_MEMALLOC_NORECLAIM' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOIO'?
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                            ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_key_cache.c:243:40: note: in expansion of macro 'allocate_dropping_locks'
+     243 |                 struct bkey_i *new_k = allocate_dropping_locks(trans, ret,
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+>> fs/bcachefs/btree_iter.h:905:66: error: 'PF_MEMALLOC_NOWARN' undeclared (first use in this function); did you mean 'PF_MEMALLOC_NOFS'?
+     905 |         typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+         |                                                                  ^~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_iter.h:887:53: note: in definition of macro 'memalloc_flags_do'
+     887 |         unsigned _saved_flags = memalloc_flags_save(_flags);                    \
+         |                                                     ^~~~~~
+   fs/bcachefs/btree_key_cache.c:243:40: note: in expansion of macro 'allocate_dropping_locks'
+     243 |                 struct bkey_i *new_k = allocate_dropping_locks(trans, ret,
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
 
-540745ddbc70eab Sean Christopherson 2021-03-19  32  
-540745ddbc70eab Sean Christopherson 2021-03-19  33  static int __sgx_vepc_fault(struct sgx_vepc *vepc,
-540745ddbc70eab Sean Christopherson 2021-03-19  34  			    struct vm_area_struct *vma, unsigned long addr)
-540745ddbc70eab Sean Christopherson 2021-03-19  35  {
-540745ddbc70eab Sean Christopherson 2021-03-19  36  	struct sgx_epc_page *epc_page;
-540745ddbc70eab Sean Christopherson 2021-03-19  37  	unsigned long index, pfn;
-540745ddbc70eab Sean Christopherson 2021-03-19  38  	int ret;
-540745ddbc70eab Sean Christopherson 2021-03-19  39  
-540745ddbc70eab Sean Christopherson 2021-03-19  40  	WARN_ON(!mutex_is_locked(&vepc->lock));
-540745ddbc70eab Sean Christopherson 2021-03-19  41  
-540745ddbc70eab Sean Christopherson 2021-03-19  42  	/* Calculate index of EPC page in virtual EPC's page_array */
-540745ddbc70eab Sean Christopherson 2021-03-19  43  	index = vma->vm_pgoff + PFN_DOWN(addr - vma->vm_start);
-540745ddbc70eab Sean Christopherson 2021-03-19  44  
-540745ddbc70eab Sean Christopherson 2021-03-19  45  	epc_page = xa_load(&vepc->page_array, index);
-540745ddbc70eab Sean Christopherson 2021-03-19  46  	if (epc_page)
-540745ddbc70eab Sean Christopherson 2021-03-19  47  		return 0;
-540745ddbc70eab Sean Christopherson 2021-03-19  48  
-540745ddbc70eab Sean Christopherson 2021-03-19  49  	epc_page = sgx_alloc_epc_page(vepc, false);
-540745ddbc70eab Sean Christopherson 2021-03-19  50  	if (IS_ERR(epc_page))
-540745ddbc70eab Sean Christopherson 2021-03-19  51  		return PTR_ERR(epc_page);
-540745ddbc70eab Sean Christopherson 2021-03-19  52  
-540745ddbc70eab Sean Christopherson 2021-03-19  53  	ret = xa_err(xa_store(&vepc->page_array, index, epc_page, GFP_KERNEL));
-540745ddbc70eab Sean Christopherson 2021-03-19  54  	if (ret)
-540745ddbc70eab Sean Christopherson 2021-03-19  55  		goto err_free;
-540745ddbc70eab Sean Christopherson 2021-03-19  56  
-540745ddbc70eab Sean Christopherson 2021-03-19  57  	pfn = PFN_DOWN(sgx_get_epc_phys_addr(epc_page));
-540745ddbc70eab Sean Christopherson 2021-03-19  58  
-540745ddbc70eab Sean Christopherson 2021-03-19 @59  	ret = vmf_insert_pfn(vma, addr, pfn);
-540745ddbc70eab Sean Christopherson 2021-03-19 @60  	if (ret != VM_FAULT_NOPAGE) {
-540745ddbc70eab Sean Christopherson 2021-03-19  61  		ret = -EFAULT;
-540745ddbc70eab Sean Christopherson 2021-03-19  62  		goto err_delete;
-540745ddbc70eab Sean Christopherson 2021-03-19  63  	}
-540745ddbc70eab Sean Christopherson 2021-03-19  64  
-540745ddbc70eab Sean Christopherson 2021-03-19  65  	return 0;
-540745ddbc70eab Sean Christopherson 2021-03-19  66  
-540745ddbc70eab Sean Christopherson 2021-03-19  67  err_delete:
-540745ddbc70eab Sean Christopherson 2021-03-19  68  	xa_erase(&vepc->page_array, index);
-540745ddbc70eab Sean Christopherson 2021-03-19  69  err_free:
-540745ddbc70eab Sean Christopherson 2021-03-19  70  	sgx_free_epc_page(epc_page);
-540745ddbc70eab Sean Christopherson 2021-03-19  71  	return ret;
-540745ddbc70eab Sean Christopherson 2021-03-19  72  }
-540745ddbc70eab Sean Christopherson 2021-03-19  73  
 
-:::::: The code at line 59 was first introduced by commit
-:::::: 540745ddbc70eabdc7dbd3fcc00fe4fb17cd59ba x86/sgx: Introduce virtual EPC for use by KVM guests
+vim +905 fs/bcachefs/btree_iter.h
 
-:::::: TO: Sean Christopherson <sean.j.christopherson@intel.com>
-:::::: CC: Borislav Petkov <bp@suse.de>
+   902	
+   903	#define allocate_dropping_locks(_trans, _ret, _do)				\
+   904	({										\
+ > 905		typeof(_do) _p = memalloc_flags_do(PF_MEMALLOC_NORECLAIM|PF_MEMALLOC_NOWARN, _do);\
+   906											\
+   907		_ret = 0;								\
+   908		if (unlikely(!_p)) {							\
+   909			_ret = drop_locks_do(_trans, ((_p = _do), 0));			\
+   910		}									\
+   911		_p;									\
+   912	})
+   913	
 
 -- 
 0-DAY CI Kernel Test Service
