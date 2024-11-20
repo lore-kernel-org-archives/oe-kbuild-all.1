@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E330C145324
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 16:48:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 168F01420DD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 20 Nov 2024 16:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732121296; cv=none; b=L1R3074QqLIvM29ys3wZfFlVdJ1nAym2ElWhSjK62yej2mHdJ8f7UT7dHCQL8MyASIgRXTHpOc+gsPVrvYFxh3DHTRcEod20lLrjbs7smxRmcx2eCZ4iq40ukwl3UhDISBVArf4OVgPvESuuDvGGPo62dSt7xVq6wBU3OYY6tfM=
+	t=1732121897; cv=none; b=mdvwdFihj34iPgfoYl6XarT2DGW9GacS6MhvG9zeZYJ26hPjJsWXyDFPDjSxVMfANUxdDbeNv0s9wxP+XxHbYb1KGe01vO/zUoNbog4LTi/6Yw4yMr0jiQofCYYdV4GUAGmgvCqy2z2KmOxcgoHVaDeug0GyD1gfiD//2DzgWe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732121296; c=relaxed/simple;
-	bh=sig4+sdXIgiJHvLPcNS9WBIG6GOCC9PFfZHKZaGmEoY=;
+	s=arc-20240116; t=1732121897; c=relaxed/simple;
+	bh=bRnssTf7IZq1B60GGkM2yb8geP6Riqf2Fk5V56nV0IU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cLBVcNK/0giUOBOK6vgP8LpHwXlCVghDbdM9NgAATRmKxyQz/sZ0I3+XfWBy0j8IPCJ0hvNG2OOkbs7jqbUJtTaFtD4UjrxjIWSD1YK58AeDfvaQc3k/FL1eSUur1qgpUCvkXnT86VJ4GksWDfhwI2azTNEdln25mDHheD5nfF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hqmzS4w+; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=kxJGVdAGffjHdVh7pFzS7TijgYUPPmdwRjNxmTyEVa6IN1X+AHhcT7WYQUAuvBzigowqns/vBh/c6d51KGAI9ZBBPNlzZfncPnmKjwuQX2KdvcU7sbTLv7nbi3Ny34amxugeMiFkDnXeOJn+eSX00SDyJRsP9I/Wj/Zyc4oiJYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Km/undOA; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hqmzS4w+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Km/undOA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732121295; x=1763657295;
+  t=1732121896; x=1763657896;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sig4+sdXIgiJHvLPcNS9WBIG6GOCC9PFfZHKZaGmEoY=;
-  b=hqmzS4w+RTLkKFDloxYWkuTPVX+yi7k917N88jFTUt94ig7RcjCp6GyP
-   2VyedoPBCGyc9yrBlkCTAfUh761Nifbxee1KCc96+psxbym+wHAkXZREs
-   LgH2YFTskOoxIYWc4E/ylEn79/V/dyoWljkG48t6Zgk8nYMgyph83t7aw
-   NBXfahH7yl4rU7ixzfWnCw3NhXpd7KMTegk3F+VAvOPDY7URy2RFShzXb
-   eRP7k6Gl8kIai6IEzm3yi6JdT3B7GrTAhfFlKINULnOB6dZdus+Wl0wFg
-   CQU3SY8CH1na+MipcI5cTJ8rUbciUNagBsiwIKjLrc2rY4P1uT8QpsIQe
+  bh=bRnssTf7IZq1B60GGkM2yb8geP6Riqf2Fk5V56nV0IU=;
+  b=Km/undOAgNbs/ggZCKDX2kpVXFS2poLPPIzAyV6v6Ae/idk2E+neKKS2
+   7KUjoVF6ompn84BiJWbbwO1XSOVJlH9voSzftiEgLU+HYbSLSAoJSoYgS
+   tf87WcZPHWoQwA4LFVjtaAa+b3p+wqHxz8urdHd7PzEcTfO5kd0fTHA7o
+   haCIVPeozWdPubvE4wUFVsGWDUiV/3nCioLMnbPCP5mOCahdthgFrXJwm
+   dcdR6qy6o33aGeMdcyvVGrXRr+SOQ4eZAfeMqVq4WOtoo4KMslsck75Ys
+   VERQdHDFRuqjkaQNfhGsGkrUzMiJlyzh4ihpYUoznHoHdPA5c1IriKcSp
    A==;
-X-CSE-ConnectionGUID: 485qF2OTT7WdOOe42CSMZA==
-X-CSE-MsgGUID: qY1RcZOQTx2AurBa5CTWyQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="32302907"
+X-CSE-ConnectionGUID: 7b1TW4CoSty0zEgJT8GVXw==
+X-CSE-MsgGUID: G0J5YNCmS+6gkBq7CARu9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="31589773"
 X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
-   d="scan'208";a="32302907"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 08:48:14 -0800
-X-CSE-ConnectionGUID: 2U4138ISTPGkkU43U5Pv5Q==
-X-CSE-MsgGUID: dcltU55zQlqSOWk7XqHhxA==
+   d="scan'208";a="31589773"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 08:58:15 -0800
+X-CSE-ConnectionGUID: 4MG6NP/ISbuTlB7uG+dZPg==
+X-CSE-MsgGUID: SCr5FT6ATQaCpFURPHQ7Vg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,170,1728975600"; 
-   d="scan'208";a="94032471"
+   d="scan'208";a="89783977"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 20 Nov 2024 08:48:13 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 20 Nov 2024 08:58:14 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDnsB-00011p-1N;
-	Wed, 20 Nov 2024 16:48:11 +0000
-Date: Thu, 21 Nov 2024 00:47:51 +0800
+	id 1tDo1s-00012N-1X;
+	Wed, 20 Nov 2024 16:58:12 +0000
+Date: Thu, 21 Nov 2024 00:58:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12329/12380] include/linux/perf_event.h:1700:22:
- error: 'perf_misc_flags' redeclared as different kind of symbol
-Message-ID: <202411210044.yCE5vUvF-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2461/2461] drivers/tty/tty_buffer.c:177:9:
+ error: implicit declaration of function 'printk_safe_exit'; did you mean
+ 'printk_nmi_exit'?
+Message-ID: <202411210035.9JVLQU7Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,66 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ac24e26aa08fe026804f678599f805eb13374a5d
-commit: 53930361b9387665c09f2461ef481639491488c1 [12329/12380] Merge branch 'next' of git://git.kernel.org/pub/scm/virt/kvm/kvm.git
-config: riscv-randconfig-002-20241120 (https://download.01.org/0day-ci/archive/20241121/202411210044.yCE5vUvF-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210044.yCE5vUvF-lkp@intel.com/reproduce)
+Hi Hongbo,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   bf0212daf6239e1b0e65e6dd7ee9fdec378c5dd4
+commit: 923efc4dc37c1a7cc91f0dd5dbdc87e0943ad1ae [2461/2461] tty: fix possible deadlock in console_unlock
+config: arm64-randconfig-003-20241120 (https://download.01.org/0day-ci/archive/20241121/202411210035.9JVLQU7Y-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210035.9JVLQU7Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411210044.yCE5vUvF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411210035.9JVLQU7Y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/perf/riscv_pmu.h:12,
-                    from arch/riscv/include/asm/kvm_vcpu_pmu.h:12,
-                    from arch/riscv/include/asm/kvm_host.h:23,
-                    from arch/riscv/kernel/asm-offsets.c:12:
-   include/linux/perf_event.h:1700:84: error: macro "perf_misc_flags" passed 2 arguments, but takes just 1
-    1700 | extern unsigned long perf_misc_flags(struct perf_event *event, struct pt_regs *regs);
-         |                                                                                    ^
-   In file included from include/linux/perf_event.h:25:
-   arch/riscv/include/asm/perf_event.h:15:9: note: macro "perf_misc_flags" defined here
-      15 | #define perf_misc_flags(regs) perf_misc_flags(regs)
-         |         ^~~~~~~~~~~~~~~
->> include/linux/perf_event.h:1700:22: error: 'perf_misc_flags' redeclared as different kind of symbol
-    1700 | extern unsigned long perf_misc_flags(struct perf_event *event, struct pt_regs *regs);
-         |                      ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/perf_event.h:14:22: note: previous declaration of 'perf_misc_flags' with type 'long unsigned int(struct pt_regs *)'
-      14 | extern unsigned long perf_misc_flags(struct pt_regs *regs);
-         |                      ^~~~~~~~~~~~~~~
-   include/linux/perf_event.h:1701:22: error: conflicting types for 'perf_instruction_pointer'; have 'long unsigned int(struct perf_event *, struct pt_regs *)'
-    1701 | extern unsigned long perf_instruction_pointer(struct perf_event *event,
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/perf_event.h:13:22: note: previous declaration of 'perf_instruction_pointer' with type 'long unsigned int(struct pt_regs *)'
-      13 | extern unsigned long perf_instruction_pointer(struct pt_regs *regs);
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
-   make[3]: *** [scripts/Makefile.build:102: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=2485109412
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1255: prepare0] Error 2 shuffle=2485109412
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:251: __sub-make] Error 2 shuffle=2485109412
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:251: __sub-make] Error 2 shuffle=2485109412
-   make: Target 'prepare' not remade because of errors.
+   drivers/tty/tty_buffer.c: In function 'tty_buffer_alloc':
+   drivers/tty/tty_buffer.c:175:9: error: implicit declaration of function 'printk_safe_enter'; did you mean 'printk_nmi_enter'? [-Werror=implicit-function-declaration]
+     175 |         printk_safe_enter();
+         |         ^~~~~~~~~~~~~~~~~
+         |         printk_nmi_enter
+>> drivers/tty/tty_buffer.c:177:9: error: implicit declaration of function 'printk_safe_exit'; did you mean 'printk_nmi_exit'? [-Werror=implicit-function-declaration]
+     177 |         printk_safe_exit();
+         |         ^~~~~~~~~~~~~~~~
+         |         printk_nmi_exit
+   cc1: some warnings being treated as errors
 
 
-vim +/perf_misc_flags +1700 include/linux/perf_event.h
+vim +177 drivers/tty/tty_buffer.c
 
-0d905bca23aca5 include/linux/perf_counter.h Ingo Molnar  2009-05-04  1699  
-2c47e7a74f4454 include/linux/perf_event.h   Colton Lewis 2024-11-13 @1700  extern unsigned long perf_misc_flags(struct perf_event *event, struct pt_regs *regs);
-2c47e7a74f4454 include/linux/perf_event.h   Colton Lewis 2024-11-13  1701  extern unsigned long perf_instruction_pointer(struct perf_event *event,
-2c47e7a74f4454 include/linux/perf_event.h   Colton Lewis 2024-11-13  1702  					      struct pt_regs *regs);
-04782e63917dbc include/linux/perf_event.h   Colton Lewis 2024-11-13  1703  
-
-:::::: The code at line 1700 was first introduced by commit
-:::::: 2c47e7a74f445426d156278e339b7abb259e50de perf/core: Correct perf sampling with guest VMs
-
-:::::: TO: Colton Lewis <coltonlewis@google.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   142	
+   143	/**
+   144	 *	tty_buffer_alloc	-	allocate a tty buffer
+   145	 *	@port: tty port
+   146	 *	@size: desired size (characters)
+   147	 *
+   148	 *	Allocate a new tty buffer to hold the desired number of characters.
+   149	 *	We round our buffers off in 256 character chunks to get better
+   150	 *	allocation behaviour.
+   151	 *	Return NULL if out of memory or the allocation would exceed the
+   152	 *	per device queue
+   153	 */
+   154	
+   155	static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, size_t size)
+   156	{
+   157		struct llist_node *free;
+   158		struct tty_buffer *p;
+   159	
+   160		/* Round the buffer size out */
+   161		size = __ALIGN_MASK(size, TTYB_ALIGN_MASK);
+   162	
+   163		if (size <= MIN_TTYB_SIZE) {
+   164			free = llist_del_first(&port->buf.free);
+   165			if (free) {
+   166				p = llist_entry(free, struct tty_buffer, free);
+   167				goto found;
+   168			}
+   169		}
+   170	
+   171		/* Should possibly check if this fails for the largest buffer we
+   172		   have queued and recycle that ? */
+   173		if (atomic_read(&port->buf.mem_used) > port->buf.mem_limit)
+   174			return NULL;
+   175		printk_safe_enter();
+   176		p = kmalloc(sizeof(struct tty_buffer) + 2 * size, GFP_ATOMIC);
+ > 177		printk_safe_exit();
+   178		if (p == NULL)
+   179			return NULL;
+   180	
+   181	found:
+   182		tty_buffer_reset(p, size);
+   183		atomic_add(size, &port->buf.mem_used);
+   184		return p;
+   185	}
+   186	
 
 -- 
 0-DAY CI Kernel Test Service
