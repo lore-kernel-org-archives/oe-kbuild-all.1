@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A2A6B673
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 00:49:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F361E29B0
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 01:20:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732150143; cv=none; b=CFDw1Le7Z8nF2+Tey/EC3Y9vyb6KaQ82qgC6kgglhevnmU2aALpkc7+iwlK4I10QaY+uc2eQxBR+teGF79WFHA3918B3VwbzfpH8kUM6VBMKkWYrSmDcO/WtDFcTTkOs5YXAdE0LoO8K1M1pDJ4r77z6ZYLLfIEuJayrXkAt1k0=
+	t=1732152006; cv=none; b=IBbuAg5qrnOt4KRM8ZCkDbzZoVo9TCFl+MRJ//j6gS6Vq59pYe+KvrwflzJ/Ui73uf46JCSEkuLlMuY2QuI0kWZshhSW1113+bLW3koOoIbfMj2O1Ml9Ja1mqzm6AjymK4gXoEg5w83vpjOG/oUlS6o+M7hVsyWZ6ubCWIaOcEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732150143; c=relaxed/simple;
-	bh=VcQQ+rKhaQ/SIpIN8TaNKgGRcGE2rATebJeh37KBsQI=;
+	s=arc-20240116; t=1732152006; c=relaxed/simple;
+	bh=HbPYGIq+Rix6gMdTwevLzr+4oAjUftNhj6KNqxSqVlc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m91sgcccwocr/PnTZAFu8kueLQC3WjLa7ciZFn/7z4ZvILys/MyrwnQVfy1PgjkmcDFl78za0y/Gp6+xwrn8bdGo2udmGL6H0lZqnpG4r6qSLgoIbyw9UchW0KYW+G9kizQ03sP1mNTNf3plP7U+3EcHjAp/CUoP/NbWwrWlpyI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0e2i8Tp; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=YZy8H4oTrWBD+WNBlPd93eUZoqAhugo3hPemKARMSNyx/loySyuUStIhpu22UuTuoFp7KjqCPn+LLgPcOpLjUp/69RfkkOSVkkMYHNkSA7AMkjcfOllY/LPcbcvhqKNAsXGe3ynxLEnMSLGa40O/RAz91qBrVv1tlqvslM3H9Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a1G1U0Is; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0e2i8Tp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a1G1U0Is"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732150141; x=1763686141;
+  t=1732152005; x=1763688005;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VcQQ+rKhaQ/SIpIN8TaNKgGRcGE2rATebJeh37KBsQI=;
-  b=M0e2i8TpGpdvh2ALONmq5Nph955T0m3cgnv46rovGKn8kMfWnJ41aIZw
-   lO1vAlYxmmxYhi1ioD9UZeaXPQWVh2+u5kBXIfXWVB3mfPl2VyPo7Gsdn
-   CWu11t/JocQg+RP09mUO6ehNgRYqs3r+/lmXbBfkSWP1zA8TYAZMaZ05F
-   02PIvAFccYKpW+mCW4bmXR3UDsOw3AzcpOjje5BIQB9us+Ncno4iM2tRx
-   ZTtebtwy6y67NcTVzAOB/topPE6KBCVyZ5YolayszmJPsSmvg8NQgXmGA
-   ZwQCGvBNwXxGVzZKorv1LrkloQyNWdIB/f4e3cQOx7qvkSk3znOfRjw1X
+  bh=HbPYGIq+Rix6gMdTwevLzr+4oAjUftNhj6KNqxSqVlc=;
+  b=a1G1U0Is7TlHQmniZ53++gZi7uSG/0TsFPohY62nxcd8K8VnxSdruezM
+   A7n1YCDRIuOl5fYS8LQcPsHt5OSY9/vCx3sX5dLPeCaKRQOxBkr/8xSpK
+   J8vE2nA6uont8tYQKJGX20MKMVdC3z3Tu4XERhX7pyIMqIuLBoLTvpMzt
+   Xr9fEqaDuJ4jz5v42X1hW0MQ5npPuq7t4+iN0/yZ9iG1sbWPfy1IQQOjl
+   tkZVj0PUInG08jnKPSbV0LjbIGyI31HDnO8oSqfH0/qn6t3smyxAyzbQK
+   0XnkpMPPyaayc1hVdK1UW9VT0O/nUGX2UmubkP6BVGFRgVgJ+gZFK2E63
    A==;
-X-CSE-ConnectionGUID: iw6ohPcxSBGoNfFGPNk4YA==
-X-CSE-MsgGUID: 4zVKOMaKRmaXIYM2ulCIiQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="49765104"
+X-CSE-ConnectionGUID: HH6SCqV6Qw6UA2hRQyiIaA==
+X-CSE-MsgGUID: ZTr0NQ29Ryuwvg4XChnbQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="31606586"
 X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="49765104"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 16:49:00 -0800
-X-CSE-ConnectionGUID: T7Tu5eiIRzW2gd5+mTmiZg==
-X-CSE-MsgGUID: NVQSp019TS6R5IsPQTsL7A==
+   d="scan'208";a="31606586"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 17:20:05 -0800
+X-CSE-ConnectionGUID: TdC7sww/RQOf3P01bRBEUA==
+X-CSE-MsgGUID: Vgv/Do4GTAepf9uqwkrWdg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="90485333"
+   d="scan'208";a="90076891"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 20 Nov 2024 16:48:59 -0800
+  by orviesa009.jf.intel.com with ESMTP; 20 Nov 2024 17:20:04 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDvNR-0001G7-1Y;
-	Thu, 21 Nov 2024 00:48:57 +0000
-Date: Thu, 21 Nov 2024 08:48:10 +0800
+	id 1tDvrV-0001H5-0q;
+	Thu, 21 Nov 2024 01:20:01 +0000
+Date: Thu, 21 Nov 2024 09:19:50 +0800
 From: kernel test robot <lkp@intel.com>
 To: Gregory Price <gourry@gourry.net>
 Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
-Subject: [gourryinverse:gourry_pagecache 4/4] mm/migrate.c:2725: warning:
- Function parameter or struct member 'folio' not described in
- 'promotion_candidate'
-Message-ID: <202411210826.ze2oEQok-lkp@intel.com>
+Subject: [gourryinverse:gourry_pagecache 3/4] mm/memory.c:5450:27: error:
+ 'NUMA_HINT_FAULTS' undeclared
+Message-ID: <202411210932.8wgnp6gH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,35 +64,83 @@ Content-Disposition: inline
 
 tree:   https://github.com/gourryinverse/linux gourry_pagecache
 head:   22a918e8984faca048ec24295ed20e91b682a03e
-commit: 22a918e8984faca048ec24295ed20e91b682a03e [4/4] migrate,sysfs: add pagecache promotion
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241121/202411210826.ze2oEQok-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210826.ze2oEQok-lkp@intel.com/reproduce)
+commit: 425aa488c12121665243fbb89d75a0f6312fa28a [3/4] vmstat: add page-cache numa hints
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241121/202411210932.8wgnp6gH-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210932.8wgnp6gH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411210826.ze2oEQok-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411210932.8wgnp6gH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/migrate.c:2725: warning: Function parameter or struct member 'folio' not described in 'promotion_candidate'
+   mm/memory.c: In function 'numa_migrate_check':
+>> mm/memory.c:5450:27: error: 'NUMA_HINT_FAULTS' undeclared (first use in this function)
+    5450 |         int event = vmf ? NUMA_HINT_FAULTS : NUMA_HINT_PAGE_CACHE;
+         |                           ^~~~~~~~~~~~~~~~
+   mm/memory.c:5450:27: note: each undeclared identifier is reported only once for each function it appears in
+>> mm/memory.c:5450:46: error: 'NUMA_HINT_PAGE_CACHE' undeclared (first use in this function)
+    5450 |         int event = vmf ? NUMA_HINT_FAULTS : NUMA_HINT_PAGE_CACHE;
+         |                                              ^~~~~~~~~~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 
-vim +2725 mm/migrate.c
+vim +/NUMA_HINT_FAULTS +5450 mm/memory.c
 
-  2714	
-  2715	/**
-  2716	 * promotion_candidate: report a promotion candidate folio
-  2717	 *
-  2718	 * Records folio access time and places the folio on the task promotion list
-  2719	 * if access time is less than the threshhold. The folio will be isolated from
-  2720	 * LRU if selected, and task_work will putback the folio on promotion failure.
-  2721	 *
-  2722	 * Takes a folio reference that will be released in task work.
-  2723	 */
-  2724	void promotion_candidate(struct folio *folio)
-> 2725	{
+  5445	
+  5446	int numa_migrate_check(struct folio *folio, struct vm_fault *vmf,
+  5447			      unsigned long addr, int *flags,
+  5448			      bool writable, int *last_cpupid)
+  5449	{
+> 5450		int event = vmf ? NUMA_HINT_FAULTS : NUMA_HINT_PAGE_CACHE;
+  5451	
+  5452		if (vmf) {
+  5453			struct vm_area_struct *vma = vmf->vma;
+  5454			const vm_flags_t vmflags = vma->vm_flags;
+  5455	
+  5456			/*
+  5457			 * Flag if the folio is shared between multiple address spaces.
+  5458			 * This used later when determining whether to group tasks.
+  5459			 */
+  5460			if (folio_likely_mapped_shared(folio))
+  5461				*flags |= vmflags & VM_SHARED ? TNF_SHARED : 0;
+  5462	
+  5463			/* Record the current PID acceesing VMA */
+  5464			vma_set_access_pid_bit(vma);
+  5465		}
+  5466	
+  5467		/*
+  5468		 * Avoid grouping on RO pages in general. RO pages shouldn't hurt as
+  5469		 * much anyway since they can be in shared cache state. This misses
+  5470		 * the case where a mapping is writable but the process never writes
+  5471		 * to it but pte_write gets cleared during protection updates and
+  5472		 * pte_dirty has unpredictable behaviour between PTE scan updates,
+  5473		 * background writeback, dirty balancing and application behaviour.
+  5474		 */
+  5475		if (!writable)
+  5476			*flags |= TNF_NO_GROUP;
+  5477	
+  5478		/*
+  5479		 * For memory tiering mode, cpupid of slow memory page is used
+  5480		 * to record page access time.  So use default value.
+  5481		 */
+  5482		if (folio_use_access_time(folio))
+  5483			*last_cpupid = (-1 & LAST_CPUPID_MASK);
+  5484		else
+  5485			*last_cpupid = folio_last_cpupid(folio);
+  5486	
+  5487		numa_migrate_hint_event(folio, event, flags);
+  5488	
+  5489		return mpol_misplaced(folio, vmf, addr);
+  5490	}
+  5491	
 
 -- 
 0-DAY CI Kernel Test Service
