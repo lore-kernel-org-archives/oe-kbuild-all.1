@@ -1,76 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A31B1DC054;
-	Thu, 21 Nov 2024 21:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3E1C304F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 21:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732225505; cv=none; b=p5erGkcL+cuSTj/BUivDFbZ7mUnqDCy8wIlKGz+8H2qn0FuJ0ydFfq5E1s9twLjzDNo8o8VFAURH6y/lNjTcPPTP1TWcCCsFjDADl69/oxxIS2dwIdPi0E1H/XX7EyeUFnnyNcmBbgqKIfIhn3N/vlDcovPBONMjWOqbgjfEMQs=
+	t=1732226162; cv=none; b=hiLmt69OJsXTEGkznmp3F5DjowMamja+mn/3AEz4qtSppXvIkpoug0GEUdR1hl+QA66+ZZZyHvF7hfZ67namBE1EMeEiskYtQ5oaci6vmfV1l4Wy8dwHdPIdvhqTunPa2KYqO2uruYJiBTRLQNgqFnwMLCPjj42i0JHafZzOl1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732225505; c=relaxed/simple;
-	bh=NIUcN6+T+wki60rCRnwepyQ8KRF0PBbMkb47VLXLqKM=;
+	s=arc-20240116; t=1732226162; c=relaxed/simple;
+	bh=ATxtgNT34FvQqkHxvnc3dDn3NIUe4BGii5/L3CVbL5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dVjNpgzoCzoV3P1SY4M70VTAZDlaKb1VAwsEM1ItD1jSqnZ8oEk4WbA4Yunuk6z/XrGBwY98cbCOG6yyN8Y5LUwzUJUxn2ke5vVrTyBL2hpXx5sUPfyED/Yex9E+kuvhjlDku0JhfrIeEnH7gxMJTIFYcRdTDLF3XzpUc0yYB/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ammfg0yn; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qhcs70f8oQuyWouha7Vbju+mcWZMCXQAG7Zj0EeviEqVY5eDpAqZ0C3CF1ITjYd3meoCWUpDmlPzUwrzOm9ygj01cCZtNYnzXWEKmwE9owd+3wBEt1FWlQChsNOonxKLmXA1iceQrevY+rQaoJuYGsEf4pQiK0QUhZNUYCIuJa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QGlu0Iby; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ammfg0yn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QGlu0Iby"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732225503; x=1763761503;
+  t=1732226162; x=1763762162;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NIUcN6+T+wki60rCRnwepyQ8KRF0PBbMkb47VLXLqKM=;
-  b=ammfg0ynJgRWRWQk47QUPfT6ChebBozDFsVhcLCrrrEgJdFn7JTKL8r3
-   oRU3QxzIYeR0OMJ5lUXD5ohYpUB+eBGbHNx5hlrdki0gOIv6peoKVOPGu
-   7mbFfVkFb1VignFjLdUZxuUpb3z5bpTJDsyE4YMk+6JkcZZkJsupaTJuD
-   GhvrN945ZruWyhUzHRYQIMVgBaLArxNdNvAQ84NZyts/gXuObUHTNYVRx
-   McK9ALPXJJRGGUWLiUGlGsdBMwDcccQtj12HM8Vybm0BGM0pkwp92OEdD
-   MeSLBuT49OIpI0W/yg4ZSlFf2erOtbEb2bYdj0UTYLl/2B7ya6uS4j9M+
-   g==;
-X-CSE-ConnectionGUID: PuixZka2Sr+LPI5Bd0Inqw==
-X-CSE-MsgGUID: Ej3t9bTlStmJMp2Q7sAOhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32514203"
+  bh=ATxtgNT34FvQqkHxvnc3dDn3NIUe4BGii5/L3CVbL5Q=;
+  b=QGlu0IbyLJU2/RNwn29EG7ENIsVehgsxdkFe1gzeyvRDAEB60Ryvrn2S
+   7C1zP8+Predzx48hxwd1j/M6XLnbAenf5IFmb/h3X07nS/16yAdErJaRX
+   4+Oltzzv5wvp5G5T52tY/xJ8lZM4P3IXLGEMG94vFVanIsNef8Iv6VNbi
+   rX/QBuG+DNGjixn8xk8pWuQsvFmhRUwVamdH2MG2a0lF2GnsoICXeGD73
+   RppeZXGVoIFY4iAdOH/8XKFN/92XA7w9lAgCuohG/yy0epJIhOx+2qt68
+   9xHknFnDHJfYzpGzhg2TxEtxnnuvvqszC76gK1E+vCr8YPCFJWdDZ8uoQ
+   A==;
+X-CSE-ConnectionGUID: Mer1ovaMQEWAU/wMGqGMFQ==
+X-CSE-MsgGUID: pWuC4oKpRv6J7XHkozHg0w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="36146984"
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="32514203"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 13:45:01 -0800
-X-CSE-ConnectionGUID: xdpPO1RmQrC72kpFCsgzmg==
-X-CSE-MsgGUID: zhZedUIBSeupQFYJAgkZ8A==
+   d="scan'208";a="36146984"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 13:56:01 -0800
+X-CSE-ConnectionGUID: umi9aa9ESiO+m450r70/Og==
+X-CSE-MsgGUID: ssMEiMNuSPSKEiEAD/cNgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="90753178"
+   d="scan'208";a="90183953"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 21 Nov 2024 13:44:56 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 21 Nov 2024 13:55:56 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEEyr-0003O1-1A;
-	Thu, 21 Nov 2024 21:44:53 +0000
-Date: Fri, 22 Nov 2024 05:43:56 +0800
+	id 1tEF9W-0003Od-17;
+	Thu, 21 Nov 2024 21:55:54 +0000
+Date: Fri, 22 Nov 2024 05:54:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Xiao Liang <shaw.leon@gmail.com>, netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Donald Hunter <donald.hunter@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, David Ahern <dsahern@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Jiri Pirko <jiri@resnulli.us>, Hangbin Liu <liuhangbin@gmail.com>,
-	linux-rdma@vger.kernel.org, linux-can@vger.kernel.org,
-	osmocom-net-gprs@lists.osmocom.org, bpf@vger.kernel.org,
-	linux-ppp@vger.kernel.org, wireguard@lists.zx2c4.com,
-	linux-wireless@vger.kernel.org, b.a.t.m.a.n@lists.open-mesh.org,
-	bridge@lists.linux.dev, linux-wpan@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 3/5] rtnetlink: Decouple net namespaces in
- rtnl_newlink_create()
-Message-ID: <202411220516.rokej98E-lkp@intel.com>
-References: <20241118143244.1773-4-shaw.leon@gmail.com>
+To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-hwmon@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Guenter Roeck <linux@roeck-us.net>,
+	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Radu Sabau <radu.sabau@analog.com>,
+	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Cedric Encarnacion <cedricjustine.encarnacion@analog.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051,
+ adp1055 and ltp8800
+Message-ID: <202411220500.414mHL27-lkp@intel.com>
+References: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,68 +76,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241118143244.1773-4-shaw.leon@gmail.com>
+In-Reply-To: <20241120035826.3920-3-cedricjustine.encarnacion@analog.com>
 
-Hi Xiao,
+Hi Cedric,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on linus/master v6.12 next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Xiao-Liang/net-ip_tunnel-Build-flow-in-underlay-net-namespace/20241121-112705
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241118143244.1773-4-shaw.leon%40gmail.com
-patch subject: [PATCH net-next v4 3/5] rtnetlink: Decouple net namespaces in rtnl_newlink_create()
-config: arc-randconfig-002-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220516.rokej98E-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220516.rokej98E-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cedric-Encarnacion/dt-bindings-hwmon-pmbus-adp1050-Add-bindings-for-adp1051-adp1055-and-ltp8800/20241121-144856
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20241120035826.3920-3-cedricjustine.encarnacion%40analog.com
+patch subject: [PATCH 2/2] hwmon: (pmbus/adp1050): add support for adp1051, adp1055 and ltp8800
+config: loongarch-randconfig-r064-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220500.414mHL27-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220500.414mHL27-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220516.rokej98E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411220500.414mHL27-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> net/batman-adv/soft-interface.c:1075: warning: Function parameter or struct member 'params' not described in 'batadv_softif_newlink'
->> net/batman-adv/soft-interface.c:1075: warning: Excess function parameter 'nets' description in 'batadv_softif_newlink'
->> net/batman-adv/soft-interface.c:1075: warning: Excess function parameter 'dev' description in 'batadv_softif_newlink'
->> net/batman-adv/soft-interface.c:1075: warning: Excess function parameter 'tb' description in 'batadv_softif_newlink'
->> net/batman-adv/soft-interface.c:1075: warning: Excess function parameter 'data' description in 'batadv_softif_newlink'
->> net/batman-adv/soft-interface.c:1075: warning: Excess function parameter 'extack' description in 'batadv_softif_newlink'
+   drivers/hwmon/pmbus/adp1050.c: In function 'adp1050_probe':
+>> drivers/hwmon/pmbus/adp1050.c:88:39: warning: passing argument 2 of 'pmbus_do_probe' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+      88 |         return pmbus_do_probe(client, info);
+         |                                       ^~~~
+   In file included from drivers/hwmon/pmbus/adp1050.c:12:
+   drivers/hwmon/pmbus/pmbus.h:541:73: note: expected 'struct pmbus_driver_info *' but argument is of type 'const struct pmbus_driver_info *'
+     541 | int pmbus_do_probe(struct i2c_client *client, struct pmbus_driver_info *info);
+         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~
 
 
-vim +1075 net/batman-adv/soft-interface.c
+vim +88 drivers/hwmon/pmbus/adp1050.c
 
-128254ceea6ffe Sven Eckelmann 2020-10-11  1063  
-128254ceea6ffe Sven Eckelmann 2020-10-11  1064  /**
-128254ceea6ffe Sven Eckelmann 2020-10-11  1065   * batadv_softif_newlink() - pre-initialize and register new batadv link
-c19808cb1d05d1 Xiao Liang     2024-11-18  1066   * @nets: the applicable net namespaces
-128254ceea6ffe Sven Eckelmann 2020-10-11  1067   * @dev: network device to register
-128254ceea6ffe Sven Eckelmann 2020-10-11  1068   * @tb: IFLA_INFO_DATA netlink attributes
-128254ceea6ffe Sven Eckelmann 2020-10-11  1069   * @data: enum batadv_ifla_attrs attributes
-128254ceea6ffe Sven Eckelmann 2020-10-11  1070   * @extack: extended ACK report struct
-128254ceea6ffe Sven Eckelmann 2020-10-11  1071   *
-128254ceea6ffe Sven Eckelmann 2020-10-11  1072   * Return: 0 if successful or error otherwise.
-128254ceea6ffe Sven Eckelmann 2020-10-11  1073   */
-c19808cb1d05d1 Xiao Liang     2024-11-18  1074  static int batadv_softif_newlink(struct rtnl_newlink_params *params)
-128254ceea6ffe Sven Eckelmann 2020-10-11 @1075  {
-c19808cb1d05d1 Xiao Liang     2024-11-18  1076  	struct net_device *dev = params->dev;
-c19808cb1d05d1 Xiao Liang     2024-11-18  1077  	struct nlattr **data = params->data;
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1078  	struct batadv_priv *bat_priv = netdev_priv(dev);
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1079  	const char *algo_name;
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1080  	int err;
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1081  
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1082  	if (data && data[IFLA_BATADV_ALGO_NAME]) {
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1083  		algo_name = nla_data(data[IFLA_BATADV_ALGO_NAME]);
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1084  		err = batadv_algo_select(bat_priv, algo_name);
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1085  		if (err)
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1086  			return -EINVAL;
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1087  	}
-a5ad457eea41ef Sven Eckelmann 2020-10-11  1088  
-128254ceea6ffe Sven Eckelmann 2020-10-11  1089  	return register_netdevice(dev);
-128254ceea6ffe Sven Eckelmann 2020-10-11  1090  }
-128254ceea6ffe Sven Eckelmann 2020-10-11  1091  
+    79	
+    80	static int adp1050_probe(struct i2c_client *client)
+    81	{
+    82		const struct pmbus_driver_info *info;
+    83	
+    84		info = device_get_match_data(&client->dev);
+    85		if (!info)
+    86			return -ENODEV;
+    87	
+  > 88		return pmbus_do_probe(client, info);
+    89	}
+    90	
 
 -- 
 0-DAY CI Kernel Test Service
