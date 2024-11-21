@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38FE2AD00
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 15:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AA417BD3;
+	Thu, 21 Nov 2024 16:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732203623; cv=none; b=qJj3jR8bs6T6rV5muy4hxAihlPsv+YyqZ+QG3/BGH5s6fgbPP+ezTdA/RxiN99lGlyAf+Hrg0ZFE7LeB0Tcp8A4Hc8oka6HVv4BW3wqDZmmWU96XTNtRMuqgip1MZ0otgRCRgmFOOjb0HJhnZFMhorJpvlg6VHy68Om0zP2eVf0=
+	t=1732205496; cv=none; b=FFDOtuAwvoTt2hX1f/clxv8sKBLedUYXiPTyFzG//DEGmURQSgvj9xcP32g9nl2pKvMadNnNoJSwdld+4uR50edqaRLOkuBXtUX4YDy7gC2PUyL/oeVhE3udLfJqWmb4GeWvtouv4MA8R2U2csUH3hH1yWoZ5VHnlfmB/jVfpfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732203623; c=relaxed/simple;
-	bh=dUfHyXDbdzGmzbTmbk8DiNd+g1edKKcLIWhcsQfsme0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uM+VFg6EVi5kl2OVh812rzrEXZxVoquG9/9jEE/p7Sl+73zmkz2HFZZz8APz/GLdiRwQr5C3vSp73Q3OMCLVyi448YGvKi9zEgBwiNBKKxcbLI2tnGBDFa2ynjF5ImrILhHEC/6X1yNQoveBIJ/RjAWvGUta/ep1Q7agoLCGPl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cqY992uh; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1732205496; c=relaxed/simple;
+	bh=d6ISQkT3Y+E8iqHAcA2/UNkyhH1RD6ltigcMZ4EB1Fs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=humHhi0fWNtL/pH5JMDiYgFL6hne5QSF46VrlDlspe2BL/7eyG/0PiWXXJ8ri+RA16wY/k/QBZS9H5ZGq5nNWLcvHZSDLthl/EeeHXh5SfANU1EKAOK6OngA+melFowO0A/XhO7KcOxHTofhKXQaud9aNISLrS4cMg1kGUBkDho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FAjrcOKQ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cqY992uh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FAjrcOKQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732203621; x=1763739621;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dUfHyXDbdzGmzbTmbk8DiNd+g1edKKcLIWhcsQfsme0=;
-  b=cqY992uhjU3uD7irWmmkDnEdq71mci/+ahUFvfW8C+Kevt05fCjEilF1
-   xJ77CvCw5385s9Xj1LMRZkJmt2iFd6ht0Xa3JXRFdmUafI6ogjHw68Ij2
-   qsSKkccLUM9D8ZjeuFUXfrkGh4TD89+96xgTMROhCr+qSv88aayEK9m0Y
-   1Dg/z7OL+mcukhokbjqfreoP8JUA5sKx9XMMAy6oW5a7IQFysEBi4GEvS
-   42L6btqr4P38RnlTi/qIoo2wVMhEAJgebxWyCPf0QAC9Vk69IL+V7e3WK
-   F7oT1MpQBC3jRnDbCKkO8Hf/y7MUO32LxZSGlzPsiinw7nF9GLYGbnSPu
-   A==;
-X-CSE-ConnectionGUID: +Yff0tkDRqmFa4M1QdtzgA==
-X-CSE-MsgGUID: uSYWb7j+Si6JpTqeADHitA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="57721055"
+  t=1732205495; x=1763741495;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d6ISQkT3Y+E8iqHAcA2/UNkyhH1RD6ltigcMZ4EB1Fs=;
+  b=FAjrcOKQvVYveTYspIsxj/LCgCD+Lr9Jz/m+5bQSBUMFeAcaK7xv31YV
+   kMuCyA9hKlYSx4MRPVoxZhNRZNoWTq8R0XRikeaEkMZ76bsM2RDQrNfrm
+   pcnEHABHHh104t1QEnqWv9zjAWT3Wn/+QQydggzRm+U973CNmnX8X25Wa
+   +rLNSbaJYFK40CRBvH6sjd9OPnRseWN3c8PChAoh1lOSI/HKlfbWkerpz
+   L/Vax5heUH4klHnBNBegh5gBNgHv99yDEDeZrddRvak9jZ8YbrcjfXf8e
+   W/PRe8KxBGm4TBb8Ntng7cLAAdFtDs6A6AMmx5o6A7EMOzMn4nB4YzuIp
+   w==;
+X-CSE-ConnectionGUID: 8Vkip6O6Rou+6RFU1EW/DQ==
+X-CSE-MsgGUID: I7I3xap6QwCzWwn//+Q+FQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32181762"
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="57721055"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 07:40:21 -0800
-X-CSE-ConnectionGUID: xVgF7SN/Twe7d8N1PV5djg==
-X-CSE-MsgGUID: EgBT8WFVQsaDo+AlhbMelw==
+   d="scan'208";a="32181762"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 08:11:22 -0800
+X-CSE-ConnectionGUID: 3qGkAx/GTTK3OLfWAPqEww==
+X-CSE-MsgGUID: 1mnCViMGR1SysbN+UtA7Og==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="90219234"
+   d="scan'208";a="121171187"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 21 Nov 2024 07:40:16 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2024 08:11:20 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tE9Hx-00037T-2P;
-	Thu, 21 Nov 2024 15:40:13 +0000
-Date: Thu, 21 Nov 2024 23:39:39 +0800
+	id 1tE9m1-00038l-0p;
+	Thu, 21 Nov 2024 16:11:17 +0000
+Date: Fri, 22 Nov 2024 00:11:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-ea7682dbe6cf 104/520]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb:
- regulators: vrf18: Unevaluated properties are not allowed ('compatible' was
- unexpected)
-Message-ID: <202411212311.Q7mHJrLx-lkp@intel.com>
+To: Bert Karwatzki <spasswolf@web.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] ASoC: qcom: apq8016_sbc: Fix second argument of
+ apq8016_dai_init()
+Message-ID: <202411212307.PsgZfqIA-lkp@intel.com>
+References: <20241117232100.23760-1-spasswolf@web.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,42 +63,139 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241117232100.23760-1-spasswolf@web.de>
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-ea7682dbe6cf
-head:   ac7a77c24fbce62cf3a673f994358d50cb59808a
-commit: f99ae53d82d287e60e236395ffa09d77106292fc [104/520] CHROMIUM: arm64: dts: mediatek: mt8186: support early corsola devices
-config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241121/202411212311.Q7mHJrLx-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.12.dev1+gcabb5b9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411212311.Q7mHJrLx-lkp@intel.com/reproduce)
+Hi Bert,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.12 next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bert-Karwatzki/ASoC-qcom-apq8016_sbc-Fix-second-argument-of-apq8016_dai_init/20241121-111313
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20241117232100.23760-1-spasswolf%40web.de
+patch subject: [PATCH] ASoC: qcom: apq8016_sbc: Fix second argument of apq8016_dai_init()
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241121/202411212307.PsgZfqIA-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411212307.PsgZfqIA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411212311.Q7mHJrLx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411212307.PsgZfqIA-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'google,elm' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /: failed to match any schema with compatible: ['google,steelix-rev0-sku196609', 'google,steelix-rev0-sku196608', 'google,steelix-rev1-sku196609', 'google,steelix-rev1-sku196608', 'google,steelix-rev0', 'google,steelix-rev1', 'google,steelix', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /: failed to match any schema with compatible: ['google,steelix-rev0-sku196609', 'google,steelix-rev0-sku196608', 'google,steelix-rev1-sku196609', 'google,steelix-rev1-sku196608', 'google,steelix-rev0', 'google,steelix-rev1', 'google,steelix', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-rev0-sku196608.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+All errors (new ones prefixed by >>):
+
+   In file included from sound/soc/qcom/apq8016_sbc.c:6:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/qcom/apq8016_sbc.c:9:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from sound/soc/qcom/apq8016_sbc.c:9:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from sound/soc/qcom/apq8016_sbc.c:9:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> sound/soc/qcom/apq8016_sbc.c:153:31: error: call to undeclared function 'qdsp6_dai_get_lpass_id'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     153 |         return apq8016_dai_init(rtd, qdsp6_dai_get_lpass_id(cpu_dai));
+         |                                      ^
+   sound/soc/qcom/apq8016_sbc.c:165:12: error: static declaration of 'qdsp6_dai_get_lpass_id' follows non-static declaration
+     165 | static int qdsp6_dai_get_lpass_id(struct snd_soc_dai *cpu_dai)
+         |            ^
+   sound/soc/qcom/apq8016_sbc.c:153:31: note: previous implicit declaration is here
+     153 |         return apq8016_dai_init(rtd, qdsp6_dai_get_lpass_id(cpu_dai));
+         |                                      ^
+   16 warnings and 2 errors generated.
+
+
+vim +/qdsp6_dai_get_lpass_id +153 sound/soc/qcom/apq8016_sbc.c
+
+   148	
+   149	static int apq8016_sbc_dai_init(struct snd_soc_pcm_runtime *rtd)
+   150	{
+   151		struct snd_soc_dai *cpu_dai = snd_soc_rtd_to_cpu(rtd, 0);
+   152	
+ > 153		return apq8016_dai_init(rtd, qdsp6_dai_get_lpass_id(cpu_dai));
+   154	}
+   155	
 
 -- 
 0-DAY CI Kernel Test Service
