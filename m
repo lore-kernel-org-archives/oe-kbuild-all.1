@@ -1,77 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51E41D6DB5;
-	Thu, 21 Nov 2024 12:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025161D0DF7;
+	Thu, 21 Nov 2024 13:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732193764; cv=none; b=NGgOVjJ7s+XrdliB8aSniyDDauxKoKeL621jiVT8FiEreptol/ShrCBe47ic+zI+8MwSnYPPhm5y+8eYs9vK0vChd7w22Z3YTBPtWZ7EEcDxFQ/vJ4EBqIqvtxcYlVpjHHhyRTbZXDxV6tMUQA8Qcozb9vK+bG57jOq8FDqa5lE=
+	t=1732194424; cv=none; b=NCOHAzcU9Ct9TZ/FBUrrp8zQuAujRDDwSpA6bqOYgYsOWwEMUZ9wLv5R5uvrwfLFekNumH42NN3s+2ysb/sOmPVtqml05QbIs3ZW0ZvgniOD8wlfXsshNpQZk8hFVT7HAyHU4dqqaTFc6yaym2qPckfBTe7LXojZdTcdAcmje00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732193764; c=relaxed/simple;
-	bh=OJ7jpXptzMvUw5SQvMFqKJ9P9BuHEp7aI5omam+VfLQ=;
+	s=arc-20240116; t=1732194424; c=relaxed/simple;
+	bh=Z8PA0Mh/Y/MUPN5YQmqGz8Ls/8n0KHR881FuitZX5v4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T7uD5RJXXtyOhnMEWgxZN0p1pOwbAK1OcoSShGLrQO5OzLZu/NqaBXh4NYfefHJsveoF+3xORUbjsYeQTXHagUNlZsqrEUcdjb9hYNydi4ATizEGHIgLqhZOfhwCjPKr/L4eIB90SloDAOal2Y1R3s1ByE0RsordEQx1r/FDMvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Muf4CKR7; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=bD0CtcW4Da/IQ7Biw2CqtDAIH/lye4021JMFwKipFXsCiLGe3cOx75XJTbGw8wQpwqSPUpJQ/qX3hfu8RQkQaRadNnOdGuU4lCapV5UG4EbaTAoyB1ZWYRAcQ8dy+yVP/4HKgqjNLU+TgyeLGmjRrofHtjwSk2uwWdkPLlrohLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mbybtKKj; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Muf4CKR7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mbybtKKj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732193763; x=1763729763;
+  t=1732194423; x=1763730423;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=OJ7jpXptzMvUw5SQvMFqKJ9P9BuHEp7aI5omam+VfLQ=;
-  b=Muf4CKR7ceAVLH5s00znc0aaXIKyK/JAxmFSXk8jjPkEQuTvwDW3KCin
-   trL9f5MngK/R4qFoXPqyxM+YOkod9rQf9z9e6aZPkWjrh4YN9q3iZeMh3
-   3pNDdMvLmmYSDnOkLtUgwH+bfh41coY83Gsd+q8eRmw298LjAwnnsW0+m
-   rKSeKeLKygLDkRCEyjvvyRTxyfq8ix5/JST9Bn8lR5/naUC2MsMu5H3il
-   +C80W/2emVoz1PMb2/sndW10+CBkjkZpeoPBu9Pkyiq2GQnC3+0ehChuc
-   J2CeMMI6BIqP56j7hQFGXxqK7wxulDkzt4kmOiwMOg7wThvW5e3DmSBK9
-   Q==;
-X-CSE-ConnectionGUID: k5S6F5DIS02h6bboX01HAA==
-X-CSE-MsgGUID: /XiqKEGQRMiZR2LBYU/kVg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32154254"
+  bh=Z8PA0Mh/Y/MUPN5YQmqGz8Ls/8n0KHR881FuitZX5v4=;
+  b=mbybtKKjC7XZ3Sn3Ft6TX5KmUxqcBEgEaW8vydk85fxa+hSdvDsPUZMb
+   7Rmv8ZMI3j70D3AhgVmf9/jcRLXbr8TvGQ4Jraem/vKxoBc0cQbcQKhUH
+   acIZkYEubVafx303edUMoPIRbCa3wEcshIkOdKE65wpm3V3VLwx7CQd+W
+   JTofVByqNN9xBHIbxbAMpcp8sxr16L015dWS9t7D0JlxqJi+E/62iTNbU
+   ihPSPyTJMo7bvDRD8mGBeuj8OP20dWMh5Ss/jcilHHzB1Bl8er5IE/SNN
+   Y0Xvg1k3u3GgETJQCZXonPtgOGrpredl9wJVH71DRRtZRdjPc5FMRYwvm
+   A==;
+X-CSE-ConnectionGUID: +kSwxGiES3q7zXvlc6VoGQ==
+X-CSE-MsgGUID: E3TFdRPMSZCej1q/XbaM6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32420297"
 X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; 
-   d="scan'208";a="32154254"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 04:56:03 -0800
-X-CSE-ConnectionGUID: yej0/1NpRA2rwMa2tT724Q==
-X-CSE-MsgGUID: GykF+9oBRGCCLEWmxWYMyg==
+   d="scan'208";a="32420297"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 05:07:02 -0800
+X-CSE-ConnectionGUID: i5LY9JAdRtOBT0lh04KPHQ==
+X-CSE-MsgGUID: 81eOr58CRuia8XfsGnK2dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,172,1728975600"; 
-   d="scan'208";a="95046739"
+   d="scan'208";a="89852236"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Nov 2024 04:55:57 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2024 05:06:59 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tE6iw-0002zb-3A;
-	Thu, 21 Nov 2024 12:55:54 +0000
-Date: Thu, 21 Nov 2024 20:55:43 +0800
+	id 1tE6tc-000309-3B;
+	Thu, 21 Nov 2024 13:06:56 +0000
+Date: Thu, 21 Nov 2024 21:05:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krishna chaitanya chundru <quic_krichai@quicinc.com>,
-	cros-qcom-dts-watchers@chromium.org,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+To: "Sung-Chi, Li" <lschyi@chromium.org>,
+	Benson Leung <bleung@chromium.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Guenter Roeck <groeck@chromium.org>, Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?unknown-8bit?Q?Wilczy=C5=84ski?= <kw@linux.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	quic_vbadigan@quicinc.com, quic_ramkri@quicinc.com,
-	quic_nitegupt@quicinc.com, quic_skananth@quicinc.com,
-	quic_vpernami@quicinc.com, quic_mrana@quicinc.com,
-	mmareddy@quicinc.com, linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	Krishna chaitanya chundru <quic_krichai@quicinc.com>
-Subject: Re: [PATCH 2/3] PCI: dwc: Add ECAM support with iATU configuration
-Message-ID: <202411212032.CbThzjSv-lkp@intel.com>
-References: <20241117-ecam-v1-2-6059faf38d07@quicinc.com>
+	Conor Dooley <conor+dt@kernel.org>, Lee Jones <lee@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	chrome-platform@lists.linux.dev, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] platform/chrome: cros_ec_charge_state: add new
+ driver to control charge
+Message-ID: <202411212036.M5ujDUNV-lkp@intel.com>
+References: <20241118-add_charger_state-v1-1-94997079f35a@chromium.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,44 +69,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241117-ecam-v1-2-6059faf38d07@quicinc.com>
+In-Reply-To: <20241118-add_charger_state-v1-1-94997079f35a@chromium.org>
 
-Hi Krishna,
+Hi Li,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2]
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on robh/for-next groeck-staging/hwmon-next chrome-platform/for-next chrome-platform/for-firmware-next lee-mfd/for-mfd-fixes linus/master v6.12 next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Krishna-chaitanya-chundru/arm64-dts-qcom-sc7280-Increase-config-size-to-256MB-for-ECAM-feature/20241121-095614
-base:   2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
-patch link:    https://lore.kernel.org/r/20241117-ecam-v1-2-6059faf38d07%40quicinc.com
-patch subject: [PATCH 2/3] PCI: dwc: Add ECAM support with iATU configuration
-config: i386-buildonly-randconfig-005-20241121 (https://download.01.org/0day-ci/archive/20241121/202411212032.CbThzjSv-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411212032.CbThzjSv-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Sung-Chi-Li/platform-chrome-cros_ec_charge_state-add-new-driver-to-control-charge/20241121-112442
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20241118-add_charger_state-v1-1-94997079f35a%40chromium.org
+patch subject: [PATCH 1/3] platform/chrome: cros_ec_charge_state: add new driver to control charge
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20241121/202411212036.M5ujDUNV-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411212036.M5ujDUNV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411212032.CbThzjSv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411212036.M5ujDUNV-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: pci_generic_ecam_ops
-   >>> referenced by pcie-designware-host.c
-   >>>               drivers/pci/controller/dwc/pcie-designware-host.o:(dw_pcie_host_init) in archive vmlinux.a
-   >>> referenced by pcie-designware-host.c
-   >>>               drivers/pci/controller/dwc/pcie-designware-host.o:(dw_pcie_host_init) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: pci_ecam_create
-   >>> referenced by pcie-designware-host.c
-   >>>               drivers/pci/controller/dwc/pcie-designware-host.o:(dw_pcie_host_init) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: pci_ecam_free
-   >>> referenced by pcie-designware-host.c
-   >>>               drivers/pci/controller/dwc/pcie-designware-host.o:(dw_pcie_host_init) in archive vmlinux.a
-   >>> referenced by pcie-designware-host.c
-   >>>               drivers/pci/controller/dwc/pcie-designware-host.o:(dw_pcie_host_deinit) in archive vmlinux.a
+>> drivers/platform/chrome/cros_ec_charge_state.c:198:40: warning: 'cros_ec_charge_state_id' defined but not used [-Wunused-const-variable=]
+     198 | static const struct platform_device_id cros_ec_charge_state_id[] = {
+         |                                        ^~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/cros_ec_charge_state_id +198 drivers/platform/chrome/cros_ec_charge_state.c
+
+   197	
+ > 198	static const struct platform_device_id cros_ec_charge_state_id[] = {
+   199		{ DRV_NAME,  0 },
+   200		{}
+   201	};
+   202	
 
 -- 
 0-DAY CI Kernel Test Service
