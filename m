@@ -1,62 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6681C1AAE06
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 21:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E718E1D958E;
+	Thu, 21 Nov 2024 21:33:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732224837; cv=none; b=WXoTPXl0MQil1QCGoM1wnQtf4Ah0pAx3a9F1MPIHU+5uMKELrhhJUmb8jW6wVhlK5JkmyiM+5Lj+/KxNhLN8g4qAX4V9j5LBmMSTi4HTZCGtQTjEgh4P/9c1jmdX5RKdnxBs7+IkfKzZuGvg2UHXo/pl192sxV6UrnfAE5XR0pQ=
+	t=1732224839; cv=none; b=JIr0xeK6yfAjoWt6rGQxJSwbKIBkDRZGUxubBK617B8rPAmuTn2NKyJyizdp7U8ZUbNbsghb3RYdA50N9e8e6/sI0sunYA59UxpBmWR0UfR9RB/Zi8EixVuOzD0AkQz0t00zNpdMplf5O+kQhQEP3JDPf03tcZ3RWoC72E9vGQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732224837; c=relaxed/simple;
-	bh=KI2QnyWouYbxSsgicLUMYAWLBUtyDiglIHC+tI6A3bc=;
+	s=arc-20240116; t=1732224839; c=relaxed/simple;
+	bh=a3qIDIDkQs2n/l8thtEX67VLQxDdPSytm4WNL2bFcqY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBkTT4mR0dCQf6M0QSMdia7HISvbTKhXGVBM33D5nu2jLXahB61drvoNydBb+kX9TSC0iHxZ1jbBq3WCm9JOFIeprwF6Ea4SxDCYK16OyRdTfj/9QGBhjTMyILMwgZyrGX65hoCs7FjuMnw4nlKecO78yaGzA7jq9XKXrKbP9yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IqPb/4z5; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=IgtfYw6ngsn6ZZeYAXuaBY4orUNMCgMN17DBGXhvbhpL72v70NV5MmdPFD3XDREmmXHK9vRMo9x6DwMcsJ3WkmFWpmGy6Ybr/if7UlF5MbfcKo6SADu3dyB8mN66fBYUJcLMqMqlvg8ATKpdhhj3vvnIY/usnl0VXSunXuYchTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HU12tuye; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IqPb/4z5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HU12tuye"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732224835; x=1763760835;
+  t=1732224838; x=1763760838;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KI2QnyWouYbxSsgicLUMYAWLBUtyDiglIHC+tI6A3bc=;
-  b=IqPb/4z5PmxMNFwGgZtu3BR2PgtzA5t9PrlYHKs445ZiC420AmKDyI6B
-   8Cp2lGE+p+iZ3++5hYsi6drWSFddMA86p5M+WMAnWqYy2PHA36zpwFXz6
-   FbhskfM6STxLG5NWpgeUoglKVIna5cr2xTQG+lNifWRmTCylmVqygjM9Y
-   E7tauQd8djMHbI5vJvnqvxGc69ccXC/R9qAjb/Juj/v5lvEfe2pNyJ3OB
-   D0gL0krgji5PCyzAVDvODa0LtBWQvk6njtvwPAp+XiGrjzgztjCDqU4tx
-   e3HvLQP+pJ23cwc1QQsiuHuBfRItdy/vhptoMGdb5+iKomBHyEE+M6UqY
-   w==;
-X-CSE-ConnectionGUID: aVxLELCmTgKIYWMRws4FWA==
-X-CSE-MsgGUID: Pb6xfDpmR8StdpT5jNlvhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32421868"
+  bh=a3qIDIDkQs2n/l8thtEX67VLQxDdPSytm4WNL2bFcqY=;
+  b=HU12tuyeWL8syfUTcPVsmTUoGr9JdfSg7z1+oZ8MgK2hlJyo7xPZfxj1
+   URdm6FS2hM68RxWg8K1z1gSgpAlrKRhEHXQ2wmLoVFhAAY6es0hGRk3G2
+   NREiBfsH8zN9HxAMiFIsFE8qVnHoBVPffTBpxCVfZ1t3lOsGWlJwCueUl
+   TMWukv4TYufC4xbhhpIkIlwbZl7of46qpGz3i63Xpq+XEJU54iAXA2Ija
+   IQ6ML8QYcPs4u8T7G1Mxj4iPPwC4CiKrkGfPmVzkk0xhdCk6cVLpOz1ba
+   gQ2wM9ZHZZ/bWcooEgC1xtUHY7RHFpCS15RhJcFugb2lfEif2+tF9GDE2
+   g==;
+X-CSE-ConnectionGUID: dGgnGNoBRsa2pWNEj37KxA==
+X-CSE-MsgGUID: shVU7+vzRIS4FjvNvN3zVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32421871"
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="32421868"
+   d="scan'208";a="32421871"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 13:33:55 -0800
-X-CSE-ConnectionGUID: bjUlHcedTs6EPtGgJCJ0yA==
-X-CSE-MsgGUID: HNjleCPuQxSCxIq2LBPe4A==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 13:33:56 -0800
+X-CSE-ConnectionGUID: UeFKWjvZQf6Q7eNBx7rKHA==
+X-CSE-MsgGUID: 4ozob9HCTkiQRNAo2RYHHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="95323279"
+   d="scan'208";a="95323280"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 21 Nov 2024 13:33:53 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEEoB-0003NI-0Q;
+	id 1tEEoB-0003NK-0U;
 	Thu, 21 Nov 2024 21:33:51 +0000
-Date: Fri, 22 Nov 2024 05:33:33 +0800
+Date: Fri, 22 Nov 2024 05:33:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Issam Hamdi <ih@simonwunderlich.de>
-Cc: oe-kbuild-all@lists.linux.dev, johannes@sipsolutions.net,
-	linux-wireless@vger.kernel.org,
-	mathias.kretschmer@fit.fraunhofer.de, sw@simonwunderlich.de
-Subject: Re: [PATCH v2] wifi: mac80211: fix mbss changed flags corruption on
- 32 bit systems
-Message-ID: <202411220516.wuQOEE8t-lkp@intel.com>
-References: <20241118125640.1110502-1-ih@simonwunderlich.de>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/10] objtool: Handle different entry size of rodata
+Message-ID: <202411220519.OK6FYVwq-lkp@intel.com>
+References: <20241119065655.21123-4-yangtiezhu@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,55 +66,56 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241118125640.1110502-1-ih@simonwunderlich.de>
+In-Reply-To: <20241119065655.21123-4-yangtiezhu@loongson.cn>
 
-Hi Issam,
+Hi Tiezhu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on dfc14664794a4706e0c2186a0c082386e6b14c4d]
+[auto build test ERROR on v6.12-rc7]
+[also build test ERROR on next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Issam-Hamdi/wifi-mac80211-fix-mbss-changed-flags-corruption-on-32-bit-systems/20241121-150801
-base:   dfc14664794a4706e0c2186a0c082386e6b14c4d
-patch link:    https://lore.kernel.org/r/20241118125640.1110502-1-ih%40simonwunderlich.de
-patch subject: [PATCH v2] wifi: mac80211: fix mbss changed flags corruption on 32 bit systems
-config: arm64-randconfig-004-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220516.wuQOEE8t-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220516.wuQOEE8t-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiezhu-Yang/objtool-Handle-various-symbol-types-of-rodata/20241121-131412
+base:   v6.12-rc7
+patch link:    https://lore.kernel.org/r/20241119065655.21123-4-yangtiezhu%40loongson.cn
+patch subject: [PATCH v3 03/10] objtool: Handle different entry size of rodata
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241122/202411220519.OK6FYVwq-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220519.OK6FYVwq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220516.wuQOEE8t-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411220519.OK6FYVwq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   net/mac80211/mesh.c: In function 'ieee80211_mbss_info_change_notify':
->> net/mac80211/mesh.c:1163:13: warning: the address of 'bits' will always evaluate as 'true' [-Waddress]
-    1163 |         if (!bits)
-         |             ^
-
-
-vim +1163 net/mac80211/mesh.c
-
-2b5e19677592c1 Thomas Pedersen 2013-02-14  1155  
-2b5e19677592c1 Thomas Pedersen 2013-02-14  1156  void ieee80211_mbss_info_change_notify(struct ieee80211_sub_if_data *sdata,
-15ddba5f43114c Anjaneyulu      2023-06-04  1157  				       u64 changed)
-2b5e19677592c1 Thomas Pedersen 2013-02-14  1158  {
-f81a9dedaff434 Thomas Pedersen 2013-06-13  1159  	struct ieee80211_if_mesh *ifmsh = &sdata->u.mesh;
-f0e1110ae72964 Issam Hamdi     2024-11-18  1160  	unsigned long bits[] = { BITMAP_FROM_U64(changed) };
-f81a9dedaff434 Thomas Pedersen 2013-06-13  1161  	u32 bit;
-f81a9dedaff434 Thomas Pedersen 2013-06-13  1162  
-f81a9dedaff434 Thomas Pedersen 2013-06-13 @1163  	if (!bits)
-2b5e19677592c1 Thomas Pedersen 2013-02-14  1164  		return;
-f81a9dedaff434 Thomas Pedersen 2013-06-13  1165  
-f81a9dedaff434 Thomas Pedersen 2013-06-13  1166  	/* if we race with running work, worst case this work becomes a noop */
-f0e1110ae72964 Issam Hamdi     2024-11-18  1167  	for_each_set_bit(bit, bits, sizeof(changed) * BITS_PER_BYTE)
-6e48ebffc2db54 Felix Fietkau   2023-09-13  1168  		set_bit(bit, ifmsh->mbss_changed);
-f81a9dedaff434 Thomas Pedersen 2013-06-13  1169  	set_bit(MESH_WORK_MBSS_CHANGED, &ifmsh->wrkq_flags);
-16114496d684a3 Johannes Berg   2023-06-06  1170  	wiphy_work_queue(sdata->local->hw.wiphy, &sdata->work);
-2b5e19677592c1 Thomas Pedersen 2013-02-14  1171  }
-2b5e19677592c1 Thomas Pedersen 2013-02-14  1172  
+>> check.c:2109:28: error: use of undeclared identifier 'R_LARCH_32_PCREL'
+    2109 |                     reloc_type(reloc) == R_LARCH_32_PCREL)
+         |                                          ^
+   1 error generated.
+   make[5]: *** [tools/build/Makefile.build:105: tools/objtool/check.o] Error 1
+   make[5]: *** Waiting for unfinished jobs....
+   make[4]: *** [Makefile:70: tools/objtool/objtool-in.o] Error 2
+   make[3]: *** [Makefile:73: objtool] Error 2
+   make[2]: *** [Makefile:1370: tools/objtool] Error 2
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   1 warning generated.
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
