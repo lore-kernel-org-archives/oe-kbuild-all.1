@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1731DDA37
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 22:47:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDE081AA1DB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 23:29:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732229227; cv=none; b=T53WfCrFqOVcuo/7Efge6x0l+LO28jwoiNhMyfQQH85vRZvFZq7CP70ShjMkqWTbj/dfLuFbGUXEZmVWzutJTB9dfhD0ziZMTVANPYiDfO68yW5APv9IgojE7CstYuY27LB6SgK+IotOE3gWJxAlqk45LpJ2HEV7BO1+5rVxJcg=
+	t=1732231756; cv=none; b=m1+CoIPMc8Oh6ZpLS+dfu1qrI237QADf7uCAYO7tkdCdCy/IjlQXVHgc1mZZc4Mw4g0U0NXotNDdCZw96D2Qs46Xqi/wazHEHRy6sXlL+jkJI/rn5ua9uNqCvme1sQwp/cNuUTPH0us3TXCHXcfsfkDgK3xGYH2SsqHLs6URYkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732229227; c=relaxed/simple;
-	bh=ir4zajrbJeu2RA4mnREFMFtzcS79RAof4IlnZJJBNr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ggZiYq0ZxSvLa+Rahwucf0Nql4za5Pj7EdUssVEM040nTvtlSQD/PLPXlYtPtg40ggX4U2n5/OMc4TyepdZd9WQuLmGE0yf3wSW1xiZ4gYXfop7E91W52nWWEvVC5a/NRLpG9oyPkAWa1TYWSfLFNP0bXctCCCiaps+44cGL7M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A3LCZNUL; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1732231756; c=relaxed/simple;
+	bh=OAs/CE/bc3kQf34x1eE3CTvyDe9j2QR5TQTfPoR7whY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XrCBju8yxJmCpQI/8whVD5eWxlbJpNTr1JlbPkBKZ4qJSJp3L5d5DeCH4d/LzHr00ZTlCVaCYiIJxpCbQf0bfkdErWzblot+gAxR5jNUNgzBKw61dXKPSRoyoCIYatmRBHs93TYng2A3lXCRxKtwRuHvngUboLoUH6WtkP4ewCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dg7hCwWc; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A3LCZNUL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dg7hCwWc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732229226; x=1763765226;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ir4zajrbJeu2RA4mnREFMFtzcS79RAof4IlnZJJBNr4=;
-  b=A3LCZNULkbvT31F0PqF1v5UGxqly/Q3WJ/n5S7Po/9ltJwM2KH4uOxHO
-   15t/rbKYAeqvMCxI0lOmGg3OmoIknfCaMQK5q38YaVle2/GbTDDTcgC9t
-   j49EPx0Ir1/YKplL0doUkW5U+uQ1yIlee/tEsdMRFmT+oG7gi3VWO3S4k
-   l34yXUXrgGakOoevzzUCRQ4OplLQMq4qz/buEVy9M47sM2RQqfekFCaKu
-   0QzHKUHg1o6XIkLQezOcKrNFThq+vg9mgcT4Bf50he7b4tuYzlWqrZ2lj
-   0P6yzmzBMiJOfTuy6nPmByTBuQSYkO/lkw0FA2g80NEK7UMwDbFD8NXyA
+  t=1732231751; x=1763767751;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OAs/CE/bc3kQf34x1eE3CTvyDe9j2QR5TQTfPoR7whY=;
+  b=Dg7hCwWctoIGAt16DGAGiSaz0dHA/yJBT7gIk4A3weJh3DsRS2Ybchoh
+   dU5VFbj08l54NXCPW7zlAbP9wXHVlqRnyI2/PhaqqDVPUcP6R9OVMN7w/
+   UtIe3+ojKYoRUhPntp3hM+6DLRMvQKTqR3r047Hnul1SLIsBdELf1Ee2s
+   R5CYElEX2+WJ5TdWyAibzgqC6mNqZ9V5vQj79RLAIgujzZW9kWNbHFi7K
+   ifDpnsIOWzQeF673B9+t6zgrN3PaHqV0yh3yAWIK/9kVVzQ5nKOTUx4qy
+   //RgSlUrRWby8IGRNCcAPdOgwPCUBcPmidGTFoQEX7F+i3dd7Nu4008gX
    Q==;
-X-CSE-ConnectionGUID: CFV4wPv5TPKIaijSauQ+zw==
-X-CSE-MsgGUID: YwTw/3a0Q/GXWxAzQLeYPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="36150208"
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="36150208"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 14:47:05 -0800
-X-CSE-ConnectionGUID: 2f0CeNnpQIOk+0JbFpdU1w==
-X-CSE-MsgGUID: NN+rqOkjQ6+XZQ2PxYF47A==
+X-CSE-ConnectionGUID: X7uiw8/AQE6MRNlCpOzqSw==
+X-CSE-MsgGUID: FDfgNcfnQ1azrFdvQKEWEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="42987328"
+X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
+   d="scan'208";a="42987328"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 15:29:11 -0800
+X-CSE-ConnectionGUID: P5IV4KZQSEyJ8uZHaYsp2Q==
+X-CSE-MsgGUID: ttjocmitROuHK6Kx88DyvQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="95194871"
+X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
+   d="scan'208";a="94490161"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Nov 2024 14:47:02 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 21 Nov 2024 15:29:09 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEFwy-0003Qx-1M;
-	Thu, 21 Nov 2024 22:47:00 +0000
-Date: Fri, 22 Nov 2024 06:46:38 +0800
+	id 1tEGbj-0003T7-0I;
+	Thu, 21 Nov 2024 23:29:07 +0000
+Date: Fri, 22 Nov 2024 07:28:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kkd@meta.com,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Martin KaFai Lau <martin.lau@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>, kernel-team@fb.com
-Subject: Re: [PATCH bpf-next v1 5/7] bpf: Introduce support for
- bpf_local_irq_{save,restore}
-Message-ID: <202411220652.mArtMRmI-lkp@intel.com>
-References: <20241121005329.408873-6-memxor@gmail.com>
+To: kernel@openeuler.org, Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1304/1304]
+ drivers/regulator/qcom-rpmh-regulator.c:742:34: warning: unused variable
+ 'rpmh_regulator_match_table'
+Message-ID: <202411220702.De8xAify-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,90 +62,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241121005329.408873-6-memxor@gmail.com>
 
-Hi Kumar,
+Hi David,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on bpf-next/for-next]
-[also build test WARNING on bpf-next/master linus/master next-20241121]
-[cannot apply to bpf/master v6.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kumar-Kartikeya-Dwivedi/bpf-Refactor-and-rename-resource-management/20241121-140722
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git for-next
-patch link:    https://lore.kernel.org/r/20241121005329.408873-6-memxor%40gmail.com
-patch subject: [PATCH bpf-next v1 5/7] bpf: Introduce support for bpf_local_irq_{save,restore}
-config: arc-randconfig-001-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220652.mArtMRmI-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220652.mArtMRmI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   81e029d5dd0cae934243168eee37ef303ebcce38
+commit: 46fc033eba42f5a4fb583b2ab53f0a9918468452 [1304/1304] regulator: add QCOM RPMh regulator driver
+config: x86_64-buildonly-randconfig-005-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220702.De8xAify-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220702.De8xAify-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220652.mArtMRmI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411220702.De8xAify-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/bpf/verifier.c: In function 'process_irq_flag':
->> kernel/bpf/verifier.c:11964:32: warning: variable 'irq_restore' set but not used [-Wunused-but-set-variable]
-   11964 |         bool irq_save = false, irq_restore = false;
-         |                                ^~~~~~~~~~~
+>> drivers/regulator/qcom-rpmh-regulator.c:742:34: warning: unused variable 'rpmh_regulator_match_table' [-Wunused-const-variable]
+     742 | static const struct of_device_id rpmh_regulator_match_table[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/regulator/qcom-rpmh-regulator.c:33: warning: Enum value 'VRM' not described in enum 'rpmh_regulator_type'
+   drivers/regulator/qcom-rpmh-regulator.c:33: warning: Enum value 'XOB' not described in enum 'rpmh_regulator_type'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'vreg' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'dev' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'node' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'pmic_id' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'pmic_rpmh_data' not described in 'rpmh_regulator_init_vreg'
 
 
-vim +/irq_restore +11964 kernel/bpf/verifier.c
+vim +/rpmh_regulator_match_table +742 drivers/regulator/qcom-rpmh-regulator.c
 
- 11959	
- 11960	static int process_irq_flag(struct bpf_verifier_env *env, int regno,
- 11961				     struct bpf_kfunc_call_arg_meta *meta)
- 11962	{
- 11963		struct bpf_reg_state *regs = cur_regs(env), *reg = &regs[regno];
- 11964		bool irq_save = false, irq_restore = false;
- 11965		int err;
- 11966	
- 11967		if (meta->func_id == special_kfunc_list[KF_bpf_local_irq_save]) {
- 11968			irq_save = true;
- 11969		} else if (meta->func_id == special_kfunc_list[KF_bpf_local_irq_restore]) {
- 11970			irq_restore = true;
- 11971		} else {
- 11972			verbose(env, "verifier internal error: unknown irq flags kfunc\n");
- 11973			return -EFAULT;
- 11974		}
- 11975	
- 11976		if (irq_save) {
- 11977			if (!is_irq_flag_reg_valid_uninit(env, reg)) {
- 11978				verbose(env, "expected uninitialized irq flag as arg#%d\n", regno);
- 11979				return -EINVAL;
- 11980			}
- 11981	
- 11982			err = check_mem_access(env, env->insn_idx, regno, 0, BPF_DW, BPF_WRITE, -1, false, false);
- 11983			if (err)
- 11984				return err;
- 11985	
- 11986			err = mark_stack_slot_irq_flag(env, meta, reg, env->insn_idx);
- 11987			if (err)
- 11988				return err;
- 11989		} else {
- 11990			err = is_irq_flag_reg_valid_init(env, reg);
- 11991			if (err) {
- 11992				verbose(env, "expected an initialized irq flag as arg#%d\n", regno);
- 11993				return err;
- 11994			}
- 11995	
- 11996			err = mark_irq_flag_read(env, reg);
- 11997			if (err)
- 11998				return err;
- 11999	
- 12000			err = unmark_stack_slot_irq_flag(env, reg);
- 12001			if (err)
- 12002				return err;
- 12003		}
- 12004		return 0;
- 12005	}
- 12006	
+   741	
+ > 742	static const struct of_device_id rpmh_regulator_match_table[] = {
+   743		{
+   744			.compatible = "qcom,pm8998-rpmh-regulators",
+   745			.data = pm8998_vreg_data,
+   746		},
+   747		{
+   748			.compatible = "qcom,pmi8998-rpmh-regulators",
+   749			.data = pmi8998_vreg_data,
+   750		},
+   751		{
+   752			.compatible = "qcom,pm8005-rpmh-regulators",
+   753			.data = pm8005_vreg_data,
+   754		},
+   755		{}
+   756	};
+   757	MODULE_DEVICE_TABLE(of, rpmh_regulator_match_table);
+   758	
 
 -- 
 0-DAY CI Kernel Test Service
