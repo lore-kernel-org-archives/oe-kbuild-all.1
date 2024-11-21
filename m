@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF191BDC3
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 01:31:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B8A19A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 01:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732152670; cv=none; b=hYhN22xCnVLJSSIdlIG8eyHUZgHz2BJyvFp8C9EfiAbpcvUM2RXmGZsxrAvHA8nDf+9noQ8PYGziV9h1SbQLKT1qOb+k4MYHH9ICU3NhffVsRwzvK1rhdo1pR2NnU5vO/5zOipFpGFxJE1rVl6+CQe03/8wl6NpzoHCEar6NxGw=
+	t=1732153275; cv=none; b=RuaA87a4+5GAk+BPjZb0hp1SEiqmgMYlYSdJVbn8jTJa2BQSXIY0WPHnWphbVNQqQulvzvWKCYNNJFHaEtSf4jood9A5OvXmE3vZOAs0/HhHCr2rkCASn6Ir965NGqUxTdhMxPby0WnzjZ/0C9nHXj6Cdltr/KKDuVW8qre3SEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732152670; c=relaxed/simple;
-	bh=NGO82W2bU22nBOoCeFoLDrM09g0kkZlqDF3cLuvrnJg=;
+	s=arc-20240116; t=1732153275; c=relaxed/simple;
+	bh=f48C7j7z8xDK2xNoIJ8OcOAKAwyr17qrPgvmmAkifvQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RvqgLuvFrb3fVTgCobANHC0VRo8cwR1qe9Ap7nUIFwixNLNZ/NsuQWfbJv054D2buwlYfiQZsCBWTPHr6bMOrvGisq5FNVQ7wbZHyVy3aRQgZuMWsIDyCXDCDdnx61bf9P5qxaMJomgsRjZw035HNaGnfV1UTwsiVcLduEDE/lY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFACu4nz; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=Gu1/pVBUEbSPj89l8T7hTSbU+HXTv01T2PlPrk6fCC50iV+OIsy0CS0q1qOwgSzd5SK+ApIiU0wobeb2Cxok5vaPzr6hJtOkl7JYllBLa3V8sXjQjJ0d7LmOecruDmzAoX+SxgGMZBHmh/lwzqbFbFVYgKzFTkJiCIR8UCl2vFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cWtiFzrN; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFACu4nz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cWtiFzrN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732152668; x=1763688668;
+  t=1732153273; x=1763689273;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NGO82W2bU22nBOoCeFoLDrM09g0kkZlqDF3cLuvrnJg=;
-  b=OFACu4nzIw/dh73Wtb4wE38KaOW2S8pkLBOqY6XqmcQ2T7jfyA80c15j
-   75BpaqISoRivtIzCMPLGnb/B2A8EdEo3krw/7eF2Yjfr1fHaVrFFZ+lGZ
-   f+hokU1vTVoYOWeEOGgReQ9ySu5zpeoxFx2oLVh+NcJeuXxs/JwpiplyA
-   gAj6+UuQSNbn5oFswKWNlsXsMxhUjd2DcjCuS9AW4i+k1QMUeVN/42Myh
-   Wq2JxWZc6JEYL8H5e7Oa+JMNLrWFfFtFh3I3fYrJfsYWX39XIkZWMoY2L
-   r+Ud71G3pkHL1hZfiW1i83cuJKNfM9AfcNinh+5PqqPlgMZE256NNFA8X
+  bh=f48C7j7z8xDK2xNoIJ8OcOAKAwyr17qrPgvmmAkifvQ=;
+  b=cWtiFzrNkoR29Usb4rLq68Wtry3RlCP+3liC8FMGYTT1LHVrsLtcKgUo
+   2R9TQFfN4pd+1SBtSa66Qt4r+mE91YCYTPbWfRJhw6YjH+Abom4+0jrOi
+   mAaj+sRV/xORRWOj4FOtbxdrkMebAyXnezBHSKvKUznkgPCf8eeNSAJnK
+   n7crvsRlbm8+ESo1dzbAsfS9yyxxwDq6S43eOC21R2g/+4s12buIgC0HL
+   3ezOF4zkqr8D3s/tQ9lQohNZxmw0MhY2T/bT3qhHQ4ntZcRPNb/Ng2AMJ
+   NLwNxu4SuBhpWWPaM6tPbacMMAFg/k2rM+2Ij5fLZYzj0uO/+MJxBj6YJ
    g==;
-X-CSE-ConnectionGUID: kMTUswD6Tmm3gyh733dunw==
-X-CSE-MsgGUID: wtltO0lOS5qV+9gsEWfZsw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="32168280"
+X-CSE-ConnectionGUID: wLyb2TAhRoO1yX0fV8LyYg==
+X-CSE-MsgGUID: kRAi4p7URg2NrCBPjrhFYg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11262"; a="36024170"
 X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="32168280"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 17:31:07 -0800
-X-CSE-ConnectionGUID: lYa66uKmTNiQhQeVCc944g==
-X-CSE-MsgGUID: jBACKlO/SomHCUBq5lsvEA==
+   d="scan'208";a="36024170"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2024 17:41:10 -0800
+X-CSE-ConnectionGUID: 7lxgLjg9Q3qf8dZNdvqQvA==
+X-CSE-MsgGUID: 7tmCXe+eSGOWN+7LsfPAcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,171,1728975600"; 
-   d="scan'208";a="120955916"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="95160708"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 20 Nov 2024 17:31:05 -0800
+  by orviesa003.jf.intel.com with ESMTP; 20 Nov 2024 17:41:09 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tDw2B-0001K9-0g;
-	Thu, 21 Nov 2024 01:31:03 +0000
-Date: Thu, 21 Nov 2024 09:30:40 +0800
+	id 1tDwBu-0001MB-10;
+	Thu, 21 Nov 2024 01:41:06 +0000
+Date: Thu, 21 Nov 2024 09:40:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Jyri Sarha <jyri.sarha@linux.intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1297/1297] super.c:undefined reference
- to `__alloc_skb'
-Message-ID: <202411210950.bzCekRiW-lkp@intel.com>
+Subject: [jsarha:probes_ipc4_get_config 6/6]
+ sound/soc/sof/sof-client-probes-ipc3.c:164:32: warning: omitting the
+ parameter name in a function definition is a C23 extension
+Message-ID: <202411210958.GUndNaE1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,39 +63,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zhao,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   f49b713adeb7d09d40da433b7700b1666a7d6e32
-commit: 6636f4434a9c5c9c645694db206188ee5a6626dd [1297/1297] ext4: report error to userspace by netlink
-config: x86_64-buildonly-randconfig-005-20241117 (https://download.01.org/0day-ci/archive/20241121/202411210950.bzCekRiW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210950.bzCekRiW-lkp@intel.com/reproduce)
+tree:   https://github.com/jsarha/linux probes_ipc4_get_config
+head:   b3d76a472b0c079cfaaabf5a227a3eef8663148d
+commit: b3d76a472b0c079cfaaabf5a227a3eef8663148d [6/6] ASoC: SOF: sof-client-probes: Add available points_info(), IPC4 only
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241121/202411210958.GUndNaE1-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241121/202411210958.GUndNaE1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411210950.bzCekRiW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411210958.GUndNaE1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: arch/x86/lib/csum-copy_64.o: missing .note.GNU-stack section implies executable stack
-   ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker
-   ld: warning: .tmp_vmlinux1 has a LOAD segment with RWX permissions
-   ld: fs/ext4/super.o: in function `ext4_netlink_send_info.part.0':
->> super.c:(.text+0x1c3cd): undefined reference to `__alloc_skb'
->> ld: super.c:(.text+0x1c456): undefined reference to `__nlmsg_put'
->> ld: super.c:(.text+0x1c422): undefined reference to `kfree_skb'
->> ld: super.c:(.text+0x1c50f): undefined reference to `netlink_broadcast'
-   ld: fs/ext4/super.o: in function `ext4_init_fs':
->> super.c:(.init.text+0x46ef): undefined reference to `init_net'
->> ld: super.c:(.init.text+0x46f9): undefined reference to `__netlink_kernel_create'
-   ld: fs/ext4/super.o: in function `ext4_exit_fs':
->> super.c:(.exit.text+0x65): undefined reference to `netlink_kernel_release'
+   In file included from sound/soc/sof/sof-client-probes-ipc3.c:12:
+   In file included from include/sound/soc.h:15:
+   In file included from include/linux/device.h:32:
+   In file included from include/linux/device/driver.h:21:
+   In file included from include/linux/module.h:19:
+   In file included from include/linux/elf.h:6:
+   In file included from arch/s390/include/asm/elf.h:181:
+   In file included from arch/s390/include/asm/mmu_context.h:11:
+   In file included from arch/s390/include/asm/pgalloc.h:18:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from sound/soc/sof/sof-client-probes-ipc3.c:12:
+   In file included from include/sound/soc.h:37:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     548 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
+     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
+         |                                                      ^
+   In file included from sound/soc/sof/sof-client-probes-ipc3.c:12:
+   In file included from include/sound/soc.h:37:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
+         |                                                           ^
+   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
+     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
+         |                                                      ^
+   In file included from sound/soc/sof/sof-client-probes-ipc3.c:12:
+   In file included from include/sound/soc.h:37:
+   In file included from include/linux/regmap.h:20:
+   In file included from include/linux/iopoll.h:14:
+   In file included from include/linux/io.h:14:
+   In file included from arch/s390/include/asm/io.h:95:
+   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     585 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     693 |         readsb(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     701 |         readsw(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     709 |         readsl(PCI_IOBASE + addr, buffer, count);
+         |                ~~~~~~~~~~ ^
+   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     718 |         writesb(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     727 |         writesw(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     736 |         writesl(PCI_IOBASE + addr, buffer, count);
+         |                 ~~~~~~~~~~ ^
+>> sound/soc/sof/sof-client-probes-ipc3.c:164:32: warning: omitting the parameter name in a function definition is a C23 extension [-Wc23-extensions]
+     164 |                                    enum sof_probe_info_type)
+         |                                                            ^
+   17 warnings generated.
+
+
+vim +164 sound/soc/sof/sof-client-probes-ipc3.c
+
+   150	
+   151	/**
+   152	 * ipc3_probes_points_info - retrieve list of active probe points
+   153	 * @cdev:		SOF client device
+   154	 * @desc:	Returned list of active probes
+   155	 * @num_desc:	Returned count of active probes
+   156	 *
+   157	 * Host sends PROBE_POINT_INFO request to obtain list of active probe
+   158	 * points, valid for disconnection when given probe is no longer
+   159	 * required.
+   160	 */
+   161	static int ipc3_probes_points_info(struct sof_client_dev *cdev,
+   162					   struct sof_probe_point_desc **desc,
+   163					   size_t *num_desc,
+ > 164					   enum sof_probe_info_type)
+   165	{
+   166		return ipc3_probes_info(cdev, SOF_IPC_PROBE_POINT_INFO,
+   167					(void **)desc, num_desc,
+   168					PROBES_INFO_ACTIVE_PROBES);
+   169	}
+   170	
 
 -- 
 0-DAY CI Kernel Test Service
