@@ -1,63 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E718E1D958E;
-	Thu, 21 Nov 2024 21:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA151D9598
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 21 Nov 2024 21:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732224839; cv=none; b=JIr0xeK6yfAjoWt6rGQxJSwbKIBkDRZGUxubBK617B8rPAmuTn2NKyJyizdp7U8ZUbNbsghb3RYdA50N9e8e6/sI0sunYA59UxpBmWR0UfR9RB/Zi8EixVuOzD0AkQz0t00zNpdMplf5O+kQhQEP3JDPf03tcZ3RWoC72E9vGQQ=
+	t=1732224839; cv=none; b=Oabd6MVvGJtq2YwHQA3iI6OVqy/8+uiYfNJUOzrwDG5yAnKUH+/FV7VWfkCzoCEs5cEq/3y61RyeYGdwCsVd3Uf9nMRkQe/34NRv4LupMVR5noOub5qt4I0yP+ZS4tkmMYEx6qHJzs25O7oI9VbvkT6G3OukMAQN6C8yVTok2w8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732224839; c=relaxed/simple;
-	bh=a3qIDIDkQs2n/l8thtEX67VLQxDdPSytm4WNL2bFcqY=;
+	bh=QbFw27QA0ZPNFGPOesThPIeAcu5ekLgkydYw5duIS8U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IgtfYw6ngsn6ZZeYAXuaBY4orUNMCgMN17DBGXhvbhpL72v70NV5MmdPFD3XDREmmXHK9vRMo9x6DwMcsJ3WkmFWpmGy6Ybr/if7UlF5MbfcKo6SADu3dyB8mN66fBYUJcLMqMqlvg8ATKpdhhj3vvnIY/usnl0VXSunXuYchTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HU12tuye; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=pe5DL0dwL/mgrjDL5XLKvxS72tt734gQECY5OO6b2VLls37fciISYwSoNTwWdDL4Zkp0gkhH2jb86Vff2DZ81aYX1HqSjxVsMaX+z9aXOJ+Y5noy8ElKiO2zvQRKc9vIaiPWMnnZ+ajDFOctnVkaTrawVOTkkxj8HWFgVHgW+mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Gw6bA6+G; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HU12tuye"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Gw6bA6+G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1732224838; x=1763760838;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=a3qIDIDkQs2n/l8thtEX67VLQxDdPSytm4WNL2bFcqY=;
-  b=HU12tuyeWL8syfUTcPVsmTUoGr9JdfSg7z1+oZ8MgK2hlJyo7xPZfxj1
-   URdm6FS2hM68RxWg8K1z1gSgpAlrKRhEHXQ2wmLoVFhAAY6es0hGRk3G2
-   NREiBfsH8zN9HxAMiFIsFE8qVnHoBVPffTBpxCVfZ1t3lOsGWlJwCueUl
-   TMWukv4TYufC4xbhhpIkIlwbZl7of46qpGz3i63Xpq+XEJU54iAXA2Ija
-   IQ6ML8QYcPs4u8T7G1Mxj4iPPwC4CiKrkGfPmVzkk0xhdCk6cVLpOz1ba
-   gQ2wM9ZHZZ/bWcooEgC1xtUHY7RHFpCS15RhJcFugb2lfEif2+tF9GDE2
+  bh=QbFw27QA0ZPNFGPOesThPIeAcu5ekLgkydYw5duIS8U=;
+  b=Gw6bA6+GKs+o7CJMf6WcZsoevonq9dOLtkQYpvMwzeCzkc7lR203zPdE
+   0mRLwQiNEhORorumw0VCJL41iXRL487t5OiWoL6oaqw7eHxP00aKJl3ac
+   oD0o4XYqh55n42cWe7A4C5bg+Ljh5V1uXkDFz7LP0ylP3U3um6WmoGUHt
+   AQ2Q+kfA2SSZ+rAxTFTm9mLeX4qGuJPekRzy+pmlZn4JkNQSEN64Yf7jz
+   V2yUvTOTe+5wfsIBej+H0Y9cPo9y8pmCgkc4lcnn8/uxNdK4oPQiObuyD
+   05QxCa5zffqHAxsKEeGjVbnDNOzCfH3kuOp08e7QtKV8w/X1+4d5mWk/w
    g==;
-X-CSE-ConnectionGUID: dGgnGNoBRsa2pWNEj37KxA==
-X-CSE-MsgGUID: shVU7+vzRIS4FjvNvN3zVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32421871"
+X-CSE-ConnectionGUID: DPohloXsTkijkRvQLXQBEA==
+X-CSE-MsgGUID: FuSUXyYaSnS4ePoQcVsd4A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32293861"
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="32421871"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 13:33:56 -0800
-X-CSE-ConnectionGUID: UeFKWjvZQf6Q7eNBx7rKHA==
-X-CSE-MsgGUID: 4ozob9HCTkiQRNAo2RYHHg==
+   d="scan'208";a="32293861"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 13:33:57 -0800
+X-CSE-ConnectionGUID: yGBf6Hc7QueNpLXaOovkGQ==
+X-CSE-MsgGUID: KizCfiX8SbSYWLQgfTi2zg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,173,1728975600"; 
-   d="scan'208";a="95323280"
+   d="scan'208";a="90370957"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Nov 2024 13:33:53 -0800
+  by orviesa009.jf.intel.com with ESMTP; 21 Nov 2024 13:33:54 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEEoB-0003NK-0U;
+	id 1tEEoB-0003NF-0M;
 	Thu, 21 Nov 2024 21:33:51 +0000
-Date: Fri, 22 Nov 2024 05:33:31 +0800
+Date: Fri, 22 Nov 2024 05:33:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 03/10] objtool: Handle different entry size of rodata
-Message-ID: <202411220519.OK6FYVwq-lkp@intel.com>
-References: <20241119065655.21123-4-yangtiezhu@loongson.cn>
+To: Yuyang Huang <yuyanghuang@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>,
+	roopa@cumulusnetworks.com, jiri@resnulli.us,
+	stephen@networkplumber.org, jimictw@google.com, prohr@google.com,
+	liuhangbin@gmail.com, nicolas.dichtel@6wind.com, andrew@lunn.ch,
+	netdev@vger.kernel.org,
+	Maciej =?unknown-8bit?Q?=C5=BBenczykowski?= <maze@google.com>,
+	Lorenzo Colitti <lorenzo@google.com>,
+	Patrick Ruddy <pruddy@vyatta.att-mail.com>
+Subject: Re: [PATCH net-next, v3] netlink: add IGMP/MLD join/leave
+ notifications
+Message-ID: <202411220556.9IxBYuBa-lkp@intel.com>
+References: <20241121054711.818670-1-yuyanghuang@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,56 +72,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241119065655.21123-4-yangtiezhu@loongson.cn>
+In-Reply-To: <20241121054711.818670-1-yuyanghuang@google.com>
 
-Hi Tiezhu,
+Hi Yuyang,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on v6.12-rc7]
-[also build test ERROR on next-20241121]
+[auto build test WARNING on v6.12]
+[also build test WARNING on next-20241121]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tiezhu-Yang/objtool-Handle-various-symbol-types-of-rodata/20241121-131412
-base:   v6.12-rc7
-patch link:    https://lore.kernel.org/r/20241119065655.21123-4-yangtiezhu%40loongson.cn
-patch subject: [PATCH v3 03/10] objtool: Handle different entry size of rodata
-config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20241122/202411220519.OK6FYVwq-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220519.OK6FYVwq-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuyang-Huang/netlink-add-IGMP-MLD-join-leave-notifications/20241121-154542
+base:   v6.12
+patch link:    https://lore.kernel.org/r/20241121054711.818670-1-yuyanghuang%40google.com
+patch subject: [PATCH net-next, v3] netlink: add IGMP/MLD join/leave notifications
+config: parisc-defconfig (https://download.01.org/0day-ci/archive/20241122/202411220556.9IxBYuBa-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220556.9IxBYuBa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220519.OK6FYVwq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411220556.9IxBYuBa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> check.c:2109:28: error: use of undeclared identifier 'R_LARCH_32_PCREL'
-    2109 |                     reloc_type(reloc) == R_LARCH_32_PCREL)
-         |                                          ^
-   1 error generated.
-   make[5]: *** [tools/build/Makefile.build:105: tools/objtool/check.o] Error 1
-   make[5]: *** Waiting for unfinished jobs....
-   make[4]: *** [Makefile:70: tools/objtool/objtool-in.o] Error 2
-   make[3]: *** [Makefile:73: objtool] Error 2
-   make[2]: *** [Makefile:1370: tools/objtool] Error 2
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   1 warning generated.
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   net/ipv6/mcast.c: In function 'inet6_fill_ifmcaddr':
+>> net/ipv6/mcast.c:912:12: warning: unused variable 'scope' [-Wunused-variable]
+     912 |         u8 scope;
+         |            ^~~~~
+
+
+vim +/scope +912 net/ipv6/mcast.c
+
+   906	
+   907	static int inet6_fill_ifmcaddr(struct sk_buff *skb, struct net_device *dev,
+   908				       const struct in6_addr *addr, int event)
+   909	{
+   910		struct ifaddrmsg *ifm;
+   911		struct nlmsghdr *nlh;
+ > 912		u8 scope;
+   913	
+   914		nlh = nlmsg_put(skb, 0, 0, event, sizeof(struct ifaddrmsg), 0);
+   915		if (!nlh)
+   916			return -EMSGSIZE;
+   917	
+   918		ifm = nlmsg_data(nlh);
+   919		ifm->ifa_family = AF_INET6;
+   920		ifm->ifa_prefixlen = 128;
+   921		ifm->ifa_flags = IFA_F_PERMANENT;
+   922		ifm->ifa_scope = RT_SCOPE_UNIVERSE;
+   923		ifm->ifa_index = dev->ifindex;
+   924	
+   925		if (nla_put_in6_addr(skb, IFA_MULTICAST, addr) < 0) {
+   926			nlmsg_cancel(skb, nlh);
+   927			return -EMSGSIZE;
+   928		}
+   929	
+   930		nlmsg_end(skb, nlh);
+   931		return 0;
+   932	}
+   933	
 
 -- 
 0-DAY CI Kernel Test Service
