@@ -1,81 +1,58 @@
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9DA517C992;
-	Fri, 22 Nov 2024 08:11:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732263096; cv=pass; b=hcOHRjkVaNpv8j5SmWDP3m8pF0kJGZtfDCqTgWY9mgkErsHI/DfftmCei413A3HqguZ7YqBo6HssEG6FSr2l4XHv9zvDDMjb7i4hO4QO0olVcvFddk6cbXQca1CLwBoREYZLzU2VluCBKTxG5wyTmqhmfzZJMHbiQ7wTtgWHsVI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732263096; c=relaxed/simple;
-	bh=5OSIA5yfXfTEOiApH3tLTnSXeO90aFWKH284IvMHd/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PeddNFToGS67+hqvjRKc53yC5FshhlypRbyJDAtkBWFpMHz+6E209xiYzLo75jASjOW3Draf2ptUXn2jf6Dy1kErsHbxApVNrMq1GyyBMf0OMVC0MGPx8G85CHMVAIZyHSWsXB10a4bFn+JG/B+TwWApCSomy5hcubNgVSqWuvI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=QNBVIxyH; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88DC917107F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 08:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732263127; cv=none; b=eGQ7Dk1yWuJGaT+FC6UkY9lWxUKYVBFY0gXFesGMA7kKLUSzAz8kIE3kXy8YJG/wHcF9nZ+QH3b1nL3ogQJedyBzoX4M/F1U97lyERZ/pP21CSSvnM4jVuPkrEQLo0JG+677TXWJk69CKsTcvJ60+A5EWyweI/yoHjKuNn4+Hlc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732263127; c=relaxed/simple;
+	bh=WTPlB9TGys0QjQDNJMW/jdIEQxwVPRwyRxhMeFkmXJs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MZiSKfGQeEyZFxa7U5pu+b62WXr/Df3enwJQMVO97Hhj48+OtfB5HDTYFkjGB255DFKilVrROcOZdf3AA/VlvgUsUhXW1RRhGSu6/IrxGgkTLMHGBO6pAURUcKlhdHggGXYq8iuLkAfOYETBY6SfUxit1btQbxBntgte/kG8FWY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Erc/QP3l; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="QNBVIxyH"
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4XvnqM2jqkz49Pv3;
-	Fri, 22 Nov 2024 10:11:11 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1732263083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ippbDKWwjgedKHUNgriEsvQ+7CFSQnkoFmjAHD1jXZA=;
-	b=QNBVIxyHJ5Wg/2tJoHqa8dzsBI4cbLRxK6HNFo6lCS2r/ZB/VaOGhVWN1VvbQOWJfhJ518
-	zvALd2r/HpjnM8jb7CdPSj8k1pbVkUSK20X6wHHd309p20tj4wQJUlejrDe8eBCABAM8Y4
-	pi1ZaPonDDyaiAb6q6SWv2t6su6IUTGPVL+6RGVtxGFdJ17huhLlVQT7ZyrFXN5EfOrO0c
-	bcpJMbgOaGbQ7Nc3PMn+lf3wx7qYaIMeRbJl3aKGEtA5W30mlpqEdueAnHzRZ+t2zAolhx
-	cQou2A/hghr9cgm9dQmVwy5pq3rqkRB2HY4FlirUeFidzNNMbIj1wIeFI8UDRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1732263083;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ippbDKWwjgedKHUNgriEsvQ+7CFSQnkoFmjAHD1jXZA=;
-	b=Ju20UBMnbjl7q5ZgAYJ67rCvTDAyVLhcng9pDQt8wmRHvmxqxAMdfLB2Xsb8kfkNQCnXP3
-	D9JeZu2nPdJW4z0J+s7w3JggEnGXYFtCDHzSY9PC6XzJQbkQqdFOc9fVvictDkThCadEMg
-	9Wal8dS9A5HB8wYbFpXlHOwoRWnutwqPTnbQ66VC+rkMV3pAptHnNIzz4LROoxeOP4i4Xg
-	f/n9Y07D7gDXQGR7s3VyMWqdB20tYjhU7Zgoc6JAkt5CJvUlrrN1vd9X9h2w9vf5jr3yGU
-	3Xg60irCTXy45MaTrmLZgxMfsSwK1uaTbQg1aoPjUuSFODQ+8ySN+n6RCYXnlQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1732263083; a=rsa-sha256;
-	cv=none;
-	b=olQ0irYzoKLmBB1ix3ON2yfzoUuhwWTuNM+TJU55M3xaw9ejgBLT+a04RQ+NXZFSfVg/sk
-	JVUoU8qhTGZbSixlXbGDjTzZcXHq4Q+1H2nDYvWzHhKKTyMiBO3eka8+Z4yVPgOTeAuYsT
-	Vg5GJyYy9wqS2noa8BgqAMwpwMX4TNN7ZdHIWkbhArjiMyeMl+eRZWAahCdcl/CZ99xHLX
-	XmEhYkcYeADJsPuE/z2Z2WLVvyGVFCzqceh8yVp7clxfx/Sid3JhvDDuN35LPNNGNvVzRE
-	EIHJb5sdvrtiwV/dDAyB+FVVy96UPpTp/rajFNjw17AUrGbngZplbuhQIh3XIA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0BE47634C93;
-	Fri, 22 Nov 2024 10:11:10 +0200 (EET)
-Date: Fri, 22 Nov 2024 08:11:10 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: drivers/media/pci/intel/ipu-bridge.c:752
- ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
-Message-ID: <Z0A8njOPBMtkb5wJ@valkosipuli.retiisi.eu>
-References: <54307d9c-a9bf-4bc1-b15d-60c5ba53d0ea@stanley.mountain>
- <Z0A6Rc-HUPcsIw8z@kekkonen.localdomain>
- <CANiDSCuQFmrPTLTFs0GPJ209EEKN=MCg8cK3xcsxp8c2eEMhVg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Erc/QP3l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732263124; x=1763799124;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WTPlB9TGys0QjQDNJMW/jdIEQxwVPRwyRxhMeFkmXJs=;
+  b=Erc/QP3lK68WDcVPzpmsmVRZNnYFORps0UGCDeIFPFaRGf+foet7+OIq
+   lvs4rACwGuZeJZerRr/T3G9GTPSBYmW/9ASNfQ1s2pn+81Hk8voE9lHAW
+   o/dbLAuOwx2WPuU3tvuE4OXgAz4fkM6I4aDb3JoYBodTWJ13lu2agZsfa
+   I7d7ZMGifE5ji9VGAH8KLMulCuZGkWjCJnmfBTPfjM9QStin+T2iXGiXR
+   ZRuJ7gFIWlRTPG/UtAKetf3+CzNGIXH21AMkhluwthQXeH5RmNgvJg1Kv
+   tsYu398FY6YXdOMKWKA67VCY6Xk41eAijpuvEpNHqjwkI5Jh64pIbRWH1
+   A==;
+X-CSE-ConnectionGUID: Kv656cICQMiVv22KGUr/uw==
+X-CSE-MsgGUID: 3gnonH/CQa22IOZGMWI0oA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="43025087"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="43025087"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 00:12:03 -0800
+X-CSE-ConnectionGUID: YeGV6dPrQn2yncKHz34l8Q==
+X-CSE-MsgGUID: 3fC1ReD/QUCdQcUjyDj6xA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="95561760"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 22 Nov 2024 00:12:02 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tEOlj-0003mZ-27;
+	Fri, 22 Nov 2024 08:11:59 +0000
+Date: Fri, 22 Nov 2024 16:11:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yongqiang Liu <duanzi@zju.edu.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1304/1304] drivers/md/md.o: warning:
+ objtool: md_seq_show()+0xeac: unreachable instruction
+Message-ID: <202411221626.DlqoiHuN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,73 +61,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANiDSCuQFmrPTLTFs0GPJ209EEKN=MCg8cK3xcsxp8c2eEMhVg@mail.gmail.com>
 
-Hi Ricardo,
+Hi Logan,
 
-On Fri, Nov 22, 2024 at 09:06:40AM +0100, Ricardo Ribalda wrote:
-> Hi
-> 
-> On Fri, 22 Nov 2024 at 09:01, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Dan,
-> >
-> > On Fri, Nov 22, 2024 at 10:45:53AM +0300, Dan Carpenter wrote:
-> > > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > > head:   28eb75e178d389d325f1666e422bc13bbbb9804c
-> > > commit: 93da10eee90b2ffa4b496dd4a6ea276c57461fb6 media: intel/ipu6: Fix direct dependency Kconfig error
-> > > config: alpha-randconfig-r072-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221147.N6w23gDo-lkp@intel.com/config)
-> > > compiler: alpha-linux-gcc (GCC) 14.2.0
-> > >
-> > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > the same patch/commit), kindly add following tags
-> > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > > | Closes: https://lore.kernel.org/r/202411221147.N6w23gDo-lkp@intel.com/
-> > >
-> > > smatch warnings:
-> > > drivers/media/pci/intel/ipu-bridge.c:752 ipu_bridge_ivsc_is_ready() warn: iterator 'i' not incremented
-> > >
-> > > vim +/i +752 drivers/media/pci/intel/ipu-bridge.c
-> > >
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  745  static int ipu_bridge_ivsc_is_ready(void)
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  746  {
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  747     struct acpi_device *sensor_adev, *adev;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  748     struct device *csi_dev;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  749     bool ready = true;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  750     unsigned int i;
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  751
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03 @752     for (i = 0; i < ARRAY_SIZE(ipu_supported_sensors); i++) {
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  753  #if IS_ENABLED(CONFIG_ACPI)
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  754             const struct ipu_sensor_config *cfg =
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  755                     &ipu_supported_sensors[i];
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  756
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  757             for_each_acpi_dev_match(sensor_adev, cfg->hid, NULL, -1) {
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  758  #else
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  759             while (true) {
-> > >                                                                                                         ^^^^^^^^^^^^^^
-> > >
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  760                     sensor_adev = NULL;
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  761  #endif
-> > > 8810e055b57543 drivers/media/pci/intel/ipu-bridge.c       Ricardo Ribalda 2024-05-01  762                     if (!ACPI_PTR(sensor_adev->status.enabled))
-> > > c66821f381aed2 drivers/media/pci/intel/ipu-bridge.c       Wentong Wu      2023-08-03  763                             continue;
-> > >
-> > >
-> > > These continues make sense in for_each_acpi_dev_match() but not in a while (true) {
-> > > loop.  We're stuck forever.
-> >
-> > The non-ACPI case is there just for the looks... I think what should be
-> > done is to make the entire loop conditional to CONFIG_ACPI. I can post a
-> > patch.
-> 
-> I saw your mail after I sent my patch :)
-> https://patchwork.linuxtv.org/project/linux-media/patch/20241122-fix-ipu-v1-1-246e254cb77c@chromium.org/
-> 
-> If we make the entire loop conditional then we would not compile test the
-> loop.
+FYI, the error/warning still remains.
 
-I'm fine with the patch as such but don't you think we might get just a
-different warning from this one? :-) I'm fine trying this though.
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   81e029d5dd0cae934243168eee37ef303ebcce38
+commit: a89f484219c9ea217d26908f16037d1ab55d4f17 [1304/1304] md: Ensure resync is reported after it starts
+config: x86_64-randconfig-011-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221626.DlqoiHuN-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221626.DlqoiHuN-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411221626.DlqoiHuN-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/md/md.c:49:
+   In file included from include/linux/blkdev.h:16:
+   include/linux/pagemap.h:425:21: warning: cast from 'int (*)(struct file *, struct page *)' to 'filler_t *' (aka 'int (*)(void *, struct page *)') converts to incompatible function type [-Wcast-function-type-strict]
+     425 |         filler_t *filler = (filler_t *)mapping->a_ops->readpage;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/md/md.c:2231:24: warning: variable 'bi_rdev' set but not used [-Wunused-but-set-variable]
+    2231 |         struct blk_integrity *bi_rdev;
+         |                               ^
+   2 warnings generated.
+>> drivers/md/md.o: warning: objtool: md_seq_show()+0xeac: unreachable instruction
 
 -- 
-Sakari Ailus
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
