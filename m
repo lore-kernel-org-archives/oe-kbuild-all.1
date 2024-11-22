@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080C15A8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 01:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1026DA31;
+	Fri, 22 Nov 2024 01:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732238067; cv=none; b=EZl81g5aybRT0FDuF80ze9CIovSo5T7KxrVJRVKoSTh3aF1+5OoP5oGAojGkJBwRkFQ0xDHCG1gAOxS1NY/FRi3TfU7xWV4rpc9vilf1LGMijWEfRS/A1+6BdHfY4MHWH2/ydTgUS3hs5e2NBPYSp1Z0ZHhznTMrbhN21YlQ6mk=
+	t=1732238730; cv=none; b=Ygp5v1VhDsuJgto1txw9XK9lElgBKZvLYb/oTpCyZX1Xx49NY6KUtY58zD+Me3cbaC/tVATndavAi2qQuRwe5tnxsjC3qQXSWwrAdIBAlV79cDQois7jBZIwoB8V06cHgDlTzcL7MCvz8gk75K/0fX+P6R8CX6TweuGqz//2mPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732238067; c=relaxed/simple;
-	bh=i1auueKFu2++cUE92GTzdbQ9okyEcFjUqnJl8iOxK48=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gcNKhv/LQzAqLVPkAXzy3hXKz9somRj3zrp/VgyA7EuldirwgC9BSkwCq29SkXhBQ3UJNHPhdUMd6TKziYy3HsQVpwK730pW7JfJx/FHO8ZiAzEO+PxHZt3XwhFMBaCDGcRS05USDsC+gZFMHQnhP9t4urY2pCdZchb17BU2mhE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjjlX1LG; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1732238730; c=relaxed/simple;
+	bh=yiVrQcXcR3SMAvbUrpTSa+FXaytkr2Z0JGz57V2IeNg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EBYOWJyhIRNNU6FqTWlyifp0WbSZAFq6GhtyqQBBGDXo/niSgMhoPyM+b27NvkKnYTJztQXUYKYQqvaFUFI8VcgEUt8kjnCTDolg13MYG+LPzgtr8XuoU8MN/So5iAtWzYqk+L0ns4uWhC91qsnj4J/AXM0MMd+2Ek+47RkF644=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ygu8Py1o; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjjlX1LG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ygu8Py1o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732238065; x=1763774065;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i1auueKFu2++cUE92GTzdbQ9okyEcFjUqnJl8iOxK48=;
-  b=OjjlX1LG3FBKC2gXYY0UdB3ei4RYMH/EBDt1VyVx5j+nurT952LEDfKQ
-   p98uA3R6HGfNmTfFw5Ck/9z7Ynv2RCMJgarZgwjLkpzUm6IrfX6Is32JS
-   TBXME2kxc8qU/4eShKId0YlfQBgYWsjtP2y0tgNjHj8RWuNYO5EKciA2C
-   jyNMSbGhNA2IuEh08IHNK6pSt2Tp2umWc1giVWBsU+pWPsaLYicDuk9Nu
-   Yiteu4qrk1Dqn2WfpHCCqQNQFQndEU7dEetjUKcqYIe8wNDiRts7Fw0/n
-   TjISe+W8HpD91nI6Mvl6xm6Ej/eh/9HMbRFOmltL69IFQwa8IloGJymbn
-   w==;
-X-CSE-ConnectionGUID: xibVJVuuSpC/mjl8VRQEHg==
-X-CSE-MsgGUID: Qh+fcVMvQ9W5cc+UAIvWfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="43022728"
+  t=1732238727; x=1763774727;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=yiVrQcXcR3SMAvbUrpTSa+FXaytkr2Z0JGz57V2IeNg=;
+  b=Ygu8Py1o8ipbSppEaY5iAflnKqutLQZVtOsVXdzyb49EgnbgAvK01PV0
+   WA9pg11ueem3zLiedbQTfMfpAgF4jEfDiH6Fb++Vzx/Zr2JLkkP0nx/FR
+   oSjyc+0W8VX2zWhq6YlddBbTzCY1399XL+BVwSHNT5POx+aH2Zsu3p1H6
+   +iWBTxxcwd1OCpIkGcffZ3tOF6uapVhDQTMH393smtrPFenrR+agtzZMM
+   yjOP4n4ZALRc2i5LGSqEujylY1SC5IAVK3Sj0sdhc2T4mPQlTc4Cc1JGe
+   TFQDnql4f9klSotnrUo/cWop+IOD7Qd6DGEzLnHnnJ2W00Lrb1rREcfqN
+   A==;
+X-CSE-ConnectionGUID: 56PhXWscSECEfU9yVJ93cg==
+X-CSE-MsgGUID: M/NowxA9QXmLc5izXJ7aJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32239184"
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="43022728"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 17:14:24 -0800
-X-CSE-ConnectionGUID: KbpHY2gKQSuMOR3Mtz3wMQ==
-X-CSE-MsgGUID: FYHHTIkATVejTy8VH6ZIyw==
+   d="scan'208";a="32239184"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 17:25:26 -0800
+X-CSE-ConnectionGUID: 2/1VFleGSW672fzZXAmS6Q==
+X-CSE-MsgGUID: Dms7lyKISe+k1DShiPQFzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="90065663"
+   d="scan'208";a="91227776"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2024 17:14:22 -0800
+  by orviesa008.jf.intel.com with ESMTP; 21 Nov 2024 17:25:25 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEIFY-0003XT-26;
-	Fri, 22 Nov 2024 01:14:20 +0000
-Date: Fri, 22 Nov 2024 09:13:26 +0800
+	id 1tEIQE-0003Y7-2Q;
+	Fri, 22 Nov 2024 01:25:22 +0000
+Date: Fri, 22 Nov 2024 09:24:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1304/1304]
- drivers/mailbox/qcom-apcs-ipc-mailbox.c:65:35: warning:
- 'apcs_clk_match_table' defined but not used
-Message-ID: <202411220931.AgGtoYjF-lkp@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/10] objtool: Handle different entry size of rodata
+Message-ID: <202411220727.UfLx4PU8-lkp@intel.com>
+References: <20241119065655.21123-4-yangtiezhu@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +66,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241119065655.21123-4-yangtiezhu@loongson.cn>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   81e029d5dd0cae934243168eee37ef303ebcce38
-commit: c41cf355c959721c7269cc5ee7c6901cb47424a7 [1304/1304] mbox: qcom: add APCS child device for QCS404
-config: x86_64-buildonly-randconfig-001-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220931.AgGtoYjF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220931.AgGtoYjF-lkp@intel.com/reproduce)
+Hi Tiezhu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on v6.12-rc7]
+[also build test ERROR on next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiezhu-Yang/objtool-Handle-various-symbol-types-of-rodata/20241121-131412
+base:   v6.12-rc7
+patch link:    https://lore.kernel.org/r/20241119065655.21123-4-yangtiezhu%40loongson.cn
+patch subject: [PATCH v3 03/10] objtool: Handle different entry size of rodata
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241122/202411220727.UfLx4PU8-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220727.UfLx4PU8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220931.AgGtoYjF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411220727.UfLx4PU8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/mailbox/qcom-apcs-ipc-mailbox.c: In function 'qcom_apcs_ipc_probe':
-   drivers/mailbox/qcom-apcs-ipc-mailbox.c:65:35: warning: unused variable 'apcs_clk_match_table' [-Wunused-variable]
-      65 |         const struct of_device_id apcs_clk_match_table[] = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/qcom-apcs-ipc-mailbox.c: At top level:
->> drivers/mailbox/qcom-apcs-ipc-mailbox.c:65:35: warning: 'apcs_clk_match_table' defined but not used [-Wunused-const-variable=]
-
-
-vim +/apcs_clk_match_table +65 drivers/mailbox/qcom-apcs-ipc-mailbox.c
-
-    55	
-    56	static int qcom_apcs_ipc_probe(struct platform_device *pdev)
-    57	{
-    58		struct qcom_apcs_ipc *apcs;
-    59		struct regmap *regmap;
-    60		struct resource *res;
-    61		unsigned long offset;
-    62		void __iomem *base;
-    63		unsigned long i;
-    64		int ret;
-  > 65		const struct of_device_id apcs_clk_match_table[] = {
-    66			{ .compatible = "qcom,msm8916-apcs-kpss-global", },
-    67			{ .compatible = "qcom,qcs404-apcs-apps-global", },
-    68			{}
-    69		};
-    70	
-    71		apcs = devm_kzalloc(&pdev->dev, sizeof(*apcs), GFP_KERNEL);
-    72		if (!apcs)
-    73			return -ENOMEM;
-    74	
-    75		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-    76		base = devm_ioremap_resource(&pdev->dev, res);
-    77		if (IS_ERR(base))
-    78			return PTR_ERR(base);
-    79	
-    80		regmap = devm_regmap_init_mmio(&pdev->dev, base, &apcs_regmap_config);
-    81		if (IS_ERR(regmap))
-    82			return PTR_ERR(regmap);
-    83	
-    84		offset = (unsigned long)of_device_get_match_data(&pdev->dev);
-    85	
-    86		apcs->regmap = regmap;
-    87		apcs->offset = offset;
-    88	
-    89		/* Initialize channel identifiers */
-    90		for (i = 0; i < ARRAY_SIZE(apcs->mbox_chans); i++)
-    91			apcs->mbox_chans[i].con_priv = (void *)i;
-    92	
-    93		apcs->mbox.dev = &pdev->dev;
-    94		apcs->mbox.ops = &qcom_apcs_ipc_ops;
-    95		apcs->mbox.chans = apcs->mbox_chans;
-    96		apcs->mbox.num_chans = ARRAY_SIZE(apcs->mbox_chans);
-    97	
-    98		ret = mbox_controller_register(&apcs->mbox);
-    99		if (ret) {
-   100			dev_err(&pdev->dev, "failed to register APCS IPC controller\n");
-   101			return ret;
-   102		}
-   103	
-   104		if (of_match_device(apcs_clk_match_table, &pdev->dev)) {
-   105			apcs->clk = platform_device_register_data(&pdev->dev,
-   106								  "qcom-apcs-msm8916-clk",
-   107								  -1, NULL, 0);
-   108			if (IS_ERR(apcs->clk))
-   109				dev_err(&pdev->dev, "failed to register APCS clk\n");
-   110		}
-   111	
-   112		platform_set_drvdata(pdev, apcs);
-   113	
-   114		return 0;
-   115	}
-   116	
+   check.c: In function 'add_jump_table':
+>> check.c:2109:42: error: 'R_LARCH_32_PCREL' undeclared (first use in this function); did you mean 'R_ARC_B22_PCREL'?
+    2109 |                     reloc_type(reloc) == R_LARCH_32_PCREL)
+         |                                          ^~~~~~~~~~~~~~~~
+         |                                          R_ARC_B22_PCREL
+   check.c:2109:42: note: each undeclared identifier is reported only once for each function it appears in
+   make[5]: *** [tools/build/Makefile.build:105: tools/objtool/check.o] Error 1
+   make[5]: *** Waiting for unfinished jobs....
+   make[4]: *** [Makefile:70: tools/objtool/objtool-in.o] Error 2
+   make[3]: *** [Makefile:73: objtool] Error 2
+   make[2]: *** [Makefile:1370: tools/objtool] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:224: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:224: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
