@@ -1,67 +1,69 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A391304BA
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 10:33:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26C21CB51A;
+	Fri, 22 Nov 2024 11:52:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732271608; cv=none; b=bWdeqF2mpSUAwhQP3ii8Sv8SdAH78w4bDCKxbvcWmdEoY3p8iAr7WeXymZdZjnD1OTRX4NnxcIjRdG7pydpQG6FNmRFDUPcmmgyAsD7hfbEmcUvNV0Vaxl6Tk8Ef9mb58VFqtmX2DqBAy3G6vRMnVEhVbHkXxcuohNmztQLyjdI=
+	t=1732276349; cv=none; b=tHi+f2A6Lj0iyyLdRaPW5V80bz+e+5FWGimLpWOvcR+O3VFUyOhGPAEawSjYp4siF6ecJnU4C8CZWKXmVWfiYN10tKY3MIv2OHbTAwpqQ6Xu3MiAIbRW/HR6ACMykz3XCrk+BEmg6V1oRv7n5kFXSwpo2J7OKMoDo97lGVXoxAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732271608; c=relaxed/simple;
-	bh=0YknbAA/S4y0wu1gNJNG2kKf+NwrDuNAwSBhcQn04x4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=VN9Pny4lwfSCI31r88N8V246OwJuIRgO9LDOeyf8iv4RotnW8HLcjgMkURi6TtM7ABoFwONfqxOgnR+Se2VWfgWYADuk++XlZrTdFO0IRCXKAidR78IVNJ9nCsszFN4dOANeL6EsNmr0mKJ5DCMofDiuSjirvtIlNKObAtuvFXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZfnN7SZn; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1732276349; c=relaxed/simple;
+	bh=oHOunADvi+vIy3JhCVGF2ZdiCG/NxMIxl0/zchipkCU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o9lAfnNvWhPFzOUAs9VxLkK8YYYjxADyHLicjuiHbhsS7WT/bFZDrGWRzUTxKP8K4eEW9balu4vZahcwWF8+DsBlrX2kyQOKp3hA14OtgpXqUKIu6i8kYdTIbfm8plri1Fdlwwxa0weF4wtSzey6qZpM+bl8SevoYuU+kYLWrWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mt32fidZ; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZfnN7SZn"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4316cce103dso22427655e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 02:33:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732271604; x=1732876404; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GIG9GqTnbBii47hGIT+ji4F2/b2t1HvQWmRSGv5/eck=;
-        b=ZfnN7SZn2JHy5Mwc1O89cW1xn0zjVLYrgfnRH6GiaiCjpMhkNYkW5HzI1RGUnBsRjM
-         i6786OS+GlgWQSSMoTxo1VzcLFmYyvIBPiz+NDD3VlwaJVhA1nrah9ZhNl/sq2VXpCC8
-         Gyc9Q1rk5eYRiX785kH2neCwL2Zz+1tCAav4SQK8yl2jWjRKJ2KbcjQucNT0VSfBttWF
-         iEg1y1cn+mzPJfXvpC+0sJwgOQ6GW+wSkPsKlsf5WHBfq9S8P4K3yHbq1a19cHQZM4cr
-         vvOf9Wrr1Y3GCEfmVxRGbcyUvjFNCHWYe8wKVjTAtYOmMll4fuqprLQdjt29EzRAlYXL
-         8Q8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732271604; x=1732876404;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GIG9GqTnbBii47hGIT+ji4F2/b2t1HvQWmRSGv5/eck=;
-        b=Agyz7/ZWehHN6EHT/2r6qWMLNcICm6ibvk/k6bxOiotEPYqkLjvrtAiXmnZHlmYGC5
-         wiD5FolN0tdNIZ4s2cqQSp+eN6rzc5hP3j6Zxh82PBZtDUfue++6T/bhmloMk5+X1Trl
-         XNgwqVdlTfaCpBI5dbkWPrXeoZ1sIgF1Y1SuIHKRJ7MNa0HUHLMlOvDMaFPB9uvo+1wL
-         ZEuRpwkv/XWUjTQlx77mrSiEgdpwqWHaCdthDSMAuxPTLEiPUQR8TJCDCC49+IY3h10P
-         d3GoFkth4OUCehl0n0Q9cAJtFwEKNscMOqqgafXWO/pSmZVxhErNTHWistV1wmlMNs7C
-         Oqqg==
-X-Forwarded-Encrypted: i=1; AJvYcCXFNpdBcA+M8Xs1/9SrCCycMXaoLBzZFnuc4JXxJnw2n3H6uGFiKd5B1hub1XotfBSwGe02VgmYVoekDkYN@lists.linux.dev
-X-Gm-Message-State: AOJu0YzUd8DZS1xOyT9q2RLRQFSuD5pYnKt6hcKIkN5vENj8qTCSWBBD
-	3lc49hA/FzWjrY58BG5hnx+23HIr/O/E+B2/BwuJ1ImqPOlJ+8Kkl9LDebB3G8s=
-X-Gm-Gg: ASbGncvDr4dA+pylpptG0JKck2K6j2b16IA1TGms9tujD8Nb7La77A61Su3RYbaNbFC
-	rCuGAvOZodWAQ+O3AFPOBU06W34Y5z/AvdpOAjqupQ7tJJrKoW2hU9Gs/+qUce3XyLYzfWDdWOQ
-	QavC98oNIDOs+i7cgstl4IZZJ7JZVJW4mraT1wRD+ROktLBt0N6V1PZMuikolxUIKjhop4We6dP
-	kZOcNU5gn+Rdnpfj+2FySynTp5qSw2ufVSJL9f6hWDHBLqg10bbESU=
-X-Google-Smtp-Source: AGHT+IFseIzEs67gwQVeeSsoHhjZ6MZyV8JpKTka1LXvAI3BfXrBvvNVo0pc9ykMQGHPJN472aKP9A==
-X-Received: by 2002:a05:600c:1d28:b0:42c:b508:750e with SMTP id 5b1f17b1804b1-433ce41e40emr19349845e9.11.1732271604497;
-        Fri, 22 Nov 2024 02:33:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fb3134bsm2005518f8f.58.2024.11.22.02.33.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 02:33:24 -0800 (PST)
-Date: Fri, 22 Nov 2024 13:33:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 27/29] drm/xe: Teach xe_sync layer about
- drm_xe_semaphore
-Message-ID: <f5ffb9fd-1783-4c9b-98c8-bbb727e06fe7@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mt32fidZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732276348; x=1763812348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oHOunADvi+vIy3JhCVGF2ZdiCG/NxMIxl0/zchipkCU=;
+  b=Mt32fidZ47Pol6uW6WB/V/WwKwJBY78qKMQE+sP05jeyZUPw4hp7Bpvx
+   EbR1RoR0p0tQ/K9PG2/HcM45L/HWY6UWriTjko88DtquvyXf/5RvyS+Qf
+   K9FppUSNv1YTTtCZvmR8yh9uM/haedYP5UeIDcjK5dlUUcyJaC04AHY8U
+   fArFqiXDrnIZQCpcjFw6H3bVy8KPoNOXDypTCRKHMpXGK1V+azsNaJ+pW
+   qAlIB45JJxSCbZznuUJxb+fmO8VBtnYkGBOpSEPjks8O08F0IjF+4qdfI
+   xz6Dr8DqfG5qtd18KcRQBo/ZAeN/GV7NvkJ19YiN30NSVDrvj8D7kdgOv
+   w==;
+X-CSE-ConnectionGUID: piw9cYfnTMCCDRFCFAlktg==
+X-CSE-MsgGUID: G4vhS193Qiqfj/oPeGCqEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="35287351"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="35287351"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 03:52:26 -0800
+X-CSE-ConnectionGUID: Lo8E8s5IQAyDBezPcZfrHA==
+X-CSE-MsgGUID: sUBvT3y6SrOc4tV2IGsaCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="90722980"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 22 Nov 2024 03:52:20 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tESCv-0003sJ-2j;
+	Fri, 22 Nov 2024 11:52:17 +0000
+Date: Fri, 22 Nov 2024 19:51:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ming Yu <a0282524688@gmail.com>, tmyu0@nuvoton.com, lee@kernel.org,
+	linus.walleij@linaro.org, brgl@bgdev.pl, andi.shyti@kernel.org,
+	mkl@pengutronix.de, mailhol.vincent@wanadoo.fr,
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, wim@linux-watchdog.org,
+	linux@roeck-us.net, jdelvare@suse.com,
+	alexandre.belloni@bootlin.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-i2c@vger.kernel.org, linux-can@vger.kernel.org,
+	netdev@vger.kernel.org, linux-watchdog@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-rtc@vger.kernel.org
+Subject: Re: [PATCH v2 6/7] hwmon: Add Nuvoton NCT6694 HWMON support
+Message-ID: <202411221902.1IFRsKWS-lkp@intel.com>
+References: <20241121064046.3724726-7-tmyu0@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,108 +72,120 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241118233757.2374041-28-matthew.brost@intel.com>
+In-Reply-To: <20241121064046.3724726-7-tmyu0@nuvoton.com>
 
-Hi Matthew,
+Hi Ming,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on mkl-can-next/testing groeck-staging/hwmon-next abelloni/rtc-next linus/master lee-mfd/for-mfd-fixes v6.12 next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-Brost/dma-fence-Add-dma_fence_preempt-base-class/20241121-124856
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20241118233757.2374041-28-matthew.brost%40intel.com
-patch subject: [RFC PATCH 27/29] drm/xe: Teach xe_sync layer about drm_xe_semaphore
-config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221644.U9ddWy9K-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Ming-Yu/mfd-Add-core-driver-for-Nuvoton-NCT6694/20241121-155723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20241121064046.3724726-7-tmyu0%40nuvoton.com
+patch subject: [PATCH v2 6/7] hwmon: Add Nuvoton NCT6694 HWMON support
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241122/202411221902.1IFRsKWS-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221902.1IFRsKWS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411221644.U9ddWy9K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411221902.1IFRsKWS-lkp@intel.com/
 
-smatch warnings:
-drivers/gpu/drm/xe/xe_sync.c:275 xe_sync_semaphore_parse() warn: passing zero to 'PTR_ERR'
+All errors (new ones prefixed by >>):
 
-vim +/PTR_ERR +275 drivers/gpu/drm/xe/xe_sync.c
+>> drivers/hwmon/nct6694-hwmon.c:263:15: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     263 |                 frac_part = FIELD_GET(NCT6694_LSB_REG_MASK, data->xmit_buf[1]);
+         |                             ^
+>> drivers/hwmon/nct6694-hwmon.c:508:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     508 |                        FIELD_PREP(NCT6694_TIN_HYST_MASK, temp_hyst);
+         |                        ^
+   2 errors generated.
 
-0f3343471ed4df Matthew Brost 2024-11-18  219  int xe_sync_semaphore_parse(struct xe_device *xe, struct xe_file *xef,
-0f3343471ed4df Matthew Brost 2024-11-18  220  			    struct xe_sync_entry *sync,
-0f3343471ed4df Matthew Brost 2024-11-18  221  			    struct drm_xe_semaphore __user *semaphore_user,
-0f3343471ed4df Matthew Brost 2024-11-18  222  			    unsigned int flags)
-0f3343471ed4df Matthew Brost 2024-11-18  223  {
-0f3343471ed4df Matthew Brost 2024-11-18  224  	struct drm_xe_semaphore semaphore_in;
-0f3343471ed4df Matthew Brost 2024-11-18  225  	struct drm_gem_object *gem_obj;
-0f3343471ed4df Matthew Brost 2024-11-18  226  	struct xe_bo *bo;
-0f3343471ed4df Matthew Brost 2024-11-18  227  
-0f3343471ed4df Matthew Brost 2024-11-18  228  	if (copy_from_user(&semaphore_in, semaphore_user,
-0f3343471ed4df Matthew Brost 2024-11-18  229  			   sizeof(*semaphore_user)))
-0f3343471ed4df Matthew Brost 2024-11-18  230  		return -EFAULT;
-0f3343471ed4df Matthew Brost 2024-11-18  231  
-0f3343471ed4df Matthew Brost 2024-11-18  232  	if (XE_IOCTL_DBG(xe, semaphore_in.offset & 0x7 ||
-0f3343471ed4df Matthew Brost 2024-11-18  233  			 !semaphore_in.handle || semaphore_in.token ||
-0f3343471ed4df Matthew Brost 2024-11-18  234  			 semaphore_in.reserved[0] || semaphore_in.reserved[1]))
-0f3343471ed4df Matthew Brost 2024-11-18  235  		return -EINVAL;
-0f3343471ed4df Matthew Brost 2024-11-18  236  
-0f3343471ed4df Matthew Brost 2024-11-18  237  	gem_obj = drm_gem_object_lookup(xef->drm, semaphore_in.handle);
-0f3343471ed4df Matthew Brost 2024-11-18  238  	if (XE_IOCTL_DBG(xe, !gem_obj))
-0f3343471ed4df Matthew Brost 2024-11-18  239  		return -ENOENT;
-0f3343471ed4df Matthew Brost 2024-11-18  240  
-0f3343471ed4df Matthew Brost 2024-11-18  241  	bo = gem_to_xe_bo(gem_obj);
-0f3343471ed4df Matthew Brost 2024-11-18  242  
-0f3343471ed4df Matthew Brost 2024-11-18  243  	if (XE_IOCTL_DBG(xe, bo->size < semaphore_in.offset)) {
-0f3343471ed4df Matthew Brost 2024-11-18  244  		xe_bo_put(bo);
-0f3343471ed4df Matthew Brost 2024-11-18  245  		return -EINVAL;
-0f3343471ed4df Matthew Brost 2024-11-18  246  	}
-0f3343471ed4df Matthew Brost 2024-11-18  247  
-0f3343471ed4df Matthew Brost 2024-11-18  248  	if (flags & DRM_XE_SYNC_FLAG_SIGNAL) {
-0f3343471ed4df Matthew Brost 2024-11-18  249  		struct iosys_map vmap = sync->bo->vmap;
-0f3343471ed4df Matthew Brost 2024-11-18  250  		struct dma_fence *fence;
-0f3343471ed4df Matthew Brost 2024-11-18  251  
-0f3343471ed4df Matthew Brost 2024-11-18  252  		sync->chain_fence = dma_fence_chain_alloc();
-0f3343471ed4df Matthew Brost 2024-11-18  253  		if (!sync->chain_fence) {
-0f3343471ed4df Matthew Brost 2024-11-18  254  			xe_bo_put(bo);
-0f3343471ed4df Matthew Brost 2024-11-18  255  			dma_fence_chain_free(sync->chain_fence);
-0f3343471ed4df Matthew Brost 2024-11-18  256  			return -ENOMEM;
-0f3343471ed4df Matthew Brost 2024-11-18  257  		}
-0f3343471ed4df Matthew Brost 2024-11-18  258  
-0f3343471ed4df Matthew Brost 2024-11-18  259  		fence = xe_hw_fence_alloc();
-0f3343471ed4df Matthew Brost 2024-11-18  260  		if (IS_ERR(fence)) {
-0f3343471ed4df Matthew Brost 2024-11-18  261  			xe_bo_put(bo);
-0f3343471ed4df Matthew Brost 2024-11-18  262  			return PTR_ERR(fence);
-0f3343471ed4df Matthew Brost 2024-11-18  263  		}
-0f3343471ed4df Matthew Brost 2024-11-18  264  
-0f3343471ed4df Matthew Brost 2024-11-18  265  		vmap = bo->vmap;
-0f3343471ed4df Matthew Brost 2024-11-18  266  		iosys_map_incr(&vmap, semaphore_in.offset);
-0f3343471ed4df Matthew Brost 2024-11-18  267  
-0f3343471ed4df Matthew Brost 2024-11-18  268  		xe_hw_fence_user_init(fence, xe, vmap, semaphore_in.seqno);
-0f3343471ed4df Matthew Brost 2024-11-18  269  		sync->fence = fence;
-0f3343471ed4df Matthew Brost 2024-11-18  270  		sync->flags = IS_UNINSTALLED_HW_FENCE;
-0f3343471ed4df Matthew Brost 2024-11-18  271  	} else {
-0f3343471ed4df Matthew Brost 2024-11-18  272  		sync->user_fence = dma_fence_user_fence_alloc();
-0f3343471ed4df Matthew Brost 2024-11-18  273  		if (XE_IOCTL_DBG(xe, !sync->user_fence)) {
-                                                                             ^^^^^^^^^^^^^^^^^
-user_fence is NULL
 
-0f3343471ed4df Matthew Brost 2024-11-18  274  			xe_bo_put(bo);
-0f3343471ed4df Matthew Brost 2024-11-18 @275  			return PTR_ERR(sync->ufence);
-                                                                               ^^^^^^^^^^^^
-returns success
+vim +/FIELD_GET +263 drivers/hwmon/nct6694-hwmon.c
 
-0f3343471ed4df Matthew Brost 2024-11-18  276  		}
-0f3343471ed4df Matthew Brost 2024-11-18  277  
-0f3343471ed4df Matthew Brost 2024-11-18  278  		sync->addr = semaphore_in.offset;
-0f3343471ed4df Matthew Brost 2024-11-18  279  		sync->timeline_value = semaphore_in.seqno;
-0f3343471ed4df Matthew Brost 2024-11-18  280  		sync->flags = DRM_XE_SYNC_FLAG_SIGNAL;
-0f3343471ed4df Matthew Brost 2024-11-18  281  	}
-0f3343471ed4df Matthew Brost 2024-11-18  282  	sync->bo = bo;
-0f3343471ed4df Matthew Brost 2024-11-18  283  
-0f3343471ed4df Matthew Brost 2024-11-18  284  	return 0;
-0f3343471ed4df Matthew Brost 2024-11-18  285  }
+   238	
+   239	static int nct6694_temp_read(struct device *dev, u32 attr, int channel,
+   240				     long *val)
+   241	{
+   242		struct nct6694_hwmon_data *data = dev_get_drvdata(dev);
+   243		unsigned char temp_en, temp_hyst;
+   244		int ret, int_part, frac_part;
+   245		signed char temp_max;
+   246	
+   247		guard(mutex)(&data->lock);
+   248	
+   249		switch (attr) {
+   250		case hwmon_temp_enable:
+   251			temp_en = data->hwmon_en[NCT6694_TIN_EN(channel / 8)];
+   252			*val = temp_en & BIT(channel % 8) ? 1 : 0;
+   253	
+   254			return 0;
+   255		case hwmon_temp_input:
+   256			ret = nct6694_read_msg(data->nct6694, NCT6694_RPT_MOD,
+   257					       NCT6694_TIN_IDX(channel), 2,
+   258					       data->xmit_buf);
+   259			if (ret)
+   260				return ret;
+   261	
+   262			int_part = sign_extend32(data->xmit_buf[0], 7);
+ > 263			frac_part = FIELD_GET(NCT6694_LSB_REG_MASK, data->xmit_buf[1]);
+   264			if (int_part < 0)
+   265				*val = (int_part + 1) * 1000 - (8 - frac_part) * 125;
+   266			else
+   267				*val = int_part * 1000 + frac_part * 125;
+   268	
+   269			return 0;
+   270		case hwmon_temp_max:
+   271			ret = nct6694_read_msg(data->nct6694, NCT6694_HWMON_MOD,
+   272					       NCT6694_HWMON_CMD2_OFFSET,
+   273					       NCT6694_HWMON_CMD2_LEN,
+   274					       data->xmit_buf);
+   275			if (ret)
+   276				return ret;
+   277	
+   278			*val = temp_from_reg(data->xmit_buf[NCT6694_TIN_HL(channel)]);
+   279	
+   280			return 0;
+   281		case hwmon_temp_max_hyst:
+   282			ret = nct6694_read_msg(data->nct6694, NCT6694_HWMON_MOD,
+   283					       NCT6694_HWMON_CMD2_OFFSET,
+   284					       NCT6694_HWMON_CMD2_LEN,
+   285					       data->xmit_buf);
+   286			if (ret)
+   287				return ret;
+   288	
+   289			temp_max = (signed char)data->xmit_buf[NCT6694_TIN_HL(channel)];
+   290			temp_hyst = FIELD_GET(NCT6694_TIN_HYST_MASK,
+   291					      data->xmit_buf[NCT6694_TIN_HYST(channel)]);
+   292			if (temp_max < 0)
+   293				*val = temp_from_reg(temp_max + temp_hyst);
+   294			else
+   295				*val = temp_from_reg(temp_max - temp_hyst);
+   296	
+   297			return 0;
+   298		case hwmon_temp_max_alarm:
+   299			ret = nct6694_read_msg(data->nct6694, NCT6694_RPT_MOD,
+   300					       NCT6694_TIN_STS(channel / 8), 1,
+   301						   data->xmit_buf);
+   302			if (ret)
+   303				return ret;
+   304	
+   305			*val = !!(data->xmit_buf[0] & BIT(channel % 8));
+   306	
+   307			return 0;
+   308		default:
+   309			return -EOPNOTSUPP;
+   310		}
+   311	}
+   312	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
