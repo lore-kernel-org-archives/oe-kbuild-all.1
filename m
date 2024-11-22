@@ -1,115 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A77918651
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 03:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C8082582
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 03:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732246304; cv=none; b=amEXMLKZ/DWjNXyPph5vE8RuJ7hFuO5oK9NxhQFMKHix7p4A19QVaCROSLf7K35G0MnjWtA0GJ15g/eiW9d+z4EdGhXVhd2/OiUdDHtVllJQNMslMaJmyL4vPvtEMdFUAkl6WgI+2llPtAbYwSNqhsmvHrO8ZX+VWLCPivDSA0Q=
+	t=1732247623; cv=none; b=utZDIH6lReLP5Y6A3i0KrEvdugX6JJq1RmPMHLb+NCuewLVrKO09EpdZBFf3H7nwQFm95PXK4GFxmrbagwc0IGJU0GwAPlpJsJ9/unAF8en7KbA57M95msk37wC/jza/wJBngSyU5B0MFLig7w6q+OvzpQwh2A3zFH0F0ttKIqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732246304; c=relaxed/simple;
-	bh=PT+og30acbFtopbcyXmRkZgG31nt6YL5AfWiEoc3v9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VDiIQLTyNden1Mll+sQHm/eVgblXiB5LnxDJuOz+p761Phj6SGrrxS6XmVGAilA2EWjHykT/ZRBDEzg0gtgDbpE6fYijVZ50We+nTQ56D5mSAS3rv+3kK8LCfPO5oZS8iyX0LecI0mT9bSSs3eQsGGLKVNuOIiq8qP3ppd5/3mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N6un4CWF; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1732247623; c=relaxed/simple;
+	bh=LddERMmKQ3Ekb9Z578Eujhemmb0J4PdKop3dKxcj1xM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rM+DxLZH8zT8j/mLhqbmhAAlqlJ7yNNOff+iijaBehAtuZey55MTFQCOdcC6ZEwN8fMSnK276EZsDD7SvOD5fPqgDnyLPAMvPMcTzmjNf8ew5PCK+ErYOOyhT1K9rN79XMnDB5FbiFZMytIJVouLr/UpS9uwsengT6pujBCH21M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cERQgwwA; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N6un4CWF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cERQgwwA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732246301; x=1763782301;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PT+og30acbFtopbcyXmRkZgG31nt6YL5AfWiEoc3v9c=;
-  b=N6un4CWFUrt2HI0bsb6iAfKMdjYZ2Y0TgK39+2XvjOyZiuMtP2TO3DRb
-   +NI8dQ4I7BMA/vjgDkILPNA8IcC5hLJhJpHoP4HPTgUfp3CkMli8ZQFn8
-   Xw1iej+lg1BSuI7B1U+aHTpSwuJOpEE9NVduXVXEcwwxJAEay13nW/6Tg
-   Z3vQe+PakmpMcnau7w1yLPneWKdhdCQuMV0HvgeJx44oUUkZaEpH3y+aA
-   9PfwCYfAaf//+3bWLnLYzhW81Jgah7kt0SfifNVVWTnQZ85PiiNEggZQv
-   676j38qKjxWQy6xFN4XcVfO3HF3RRcpWVKIWFTC4rfloVnNuhlABkgNMF
-   g==;
-X-CSE-ConnectionGUID: 4YuJvMy7SIysGPiT4p1jOw==
-X-CSE-MsgGUID: t4/O8sh1Rfutfbk/AwmUwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32632255"
+  t=1732247621; x=1763783621;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LddERMmKQ3Ekb9Z578Eujhemmb0J4PdKop3dKxcj1xM=;
+  b=cERQgwwAbNxJM384CJXzFjJ3un8nRYrlH0PibheL/04AYxcG2M+FkbJt
+   TGx17oSRujX3Z1YamOYMYE/SfmxU7Et3mKhH7h6CLKQwskLnxPyRcpodG
+   BfVPpDqDXQbndsduazNbbc1GEWxKY2OSuPMBcRng4VzugyGvvu17Y58Wz
+   haWOHRPVhubAHB8vHj8JaHGWPAaztXe/v3s5jr0CkOod4YO7K81zphu0G
+   XB6Mp8FxVrL1eZN83GOhpM4bTiKOFeBm0nopkuNHoTNZyzmLkl9SJU9qr
+   Bs2HB82yMw7ngTdHSpZFr3bIK/qs3VxQEyklIJo8LfJtpv7/cwYyN6sOU
+   Q==;
+X-CSE-ConnectionGUID: ypzkkBLHS5m/HfqBqmVQDw==
+X-CSE-MsgGUID: BljOMnaFTl2woVRul+l5zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="54898074"
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="32632255"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 19:31:39 -0800
-X-CSE-ConnectionGUID: R2+N8KwJRlm1/Y40Y+GzNA==
-X-CSE-MsgGUID: HX+G1ulhRGmbttp2DpaCRw==
+   d="scan'208";a="54898074"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 19:53:41 -0800
+X-CSE-ConnectionGUID: B1gdMbWvTJaWZp33M02bXQ==
+X-CSE-MsgGUID: g6205inKSmuO5fbaK+8EnQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="95399663"
+   d="scan'208";a="121324488"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Nov 2024 19:31:36 -0800
+  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2024 19:53:40 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEKOM-0003dH-1S;
-	Fri, 22 Nov 2024 03:31:34 +0000
-Date: Fri, 22 Nov 2024 11:31:16 +0800
+	id 1tEKjh-0003eB-0L;
+	Fri, 22 Nov 2024 03:53:37 +0000
+Date: Fri, 22 Nov 2024 11:52:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: guanjing <guanjing@cmss.chinamobile.com>, krisman@kernel.org,
-	hughd@google.com, akpm@linux-foundation.org, andrealmeid@igalia.com,
-	brauner@kernel.org, tytso@mit.edu
-Cc: oe-kbuild-all@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	guanjing <guanjing@cmss.chinamobile.com>
-Subject: Re: [PATCH v1] tmpfs: Unsigned expression compared with zero
-Message-ID: <202411221128.qSNFAkty-lkp@intel.com>
-References: <20241120105150.24008-1-guanjing@cmss.chinamobile.com>
+To: kernel@openeuler.org, Mark Brown <broonie@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1304/1304]
+ drivers/regulator/qcom-rpmh-regulator.c:742:34: warning:
+ 'rpmh_regulator_match_table' defined but not used
+Message-ID: <202411221130.VOHt3QyY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241120105150.24008-1-guanjing@cmss.chinamobile.com>
 
-Hi guanjing,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master next-20241121]
-[cannot apply to v6.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/guanjing/tmpfs-Unsigned-expression-compared-with-zero/20241121-152806
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20241120105150.24008-1-guanjing%40cmss.chinamobile.com
-patch subject: [PATCH v1] tmpfs: Unsigned expression compared with zero
-config: arc-randconfig-001-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221128.qSNFAkty-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221128.qSNFAkty-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   81e029d5dd0cae934243168eee37ef303ebcce38
+commit: 46fc033eba42f5a4fb583b2ab53f0a9918468452 [1304/1304] regulator: add QCOM RPMh regulator driver
+config: x86_64-buildonly-randconfig-004-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221130.VOHt3QyY-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221130.VOHt3QyY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411221128.qSNFAkty-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411221130.VOHt3QyY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/unicode/utf8-core.c:225: warning: Function parameter or struct member 'version_str' not described in 'utf8_parse_version'
+>> drivers/regulator/qcom-rpmh-regulator.c:742:34: warning: 'rpmh_regulator_match_table' defined but not used [-Wunused-const-variable=]
+     742 | static const struct of_device_id rpmh_regulator_match_table[] = {
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/qcom-rpmh-regulator.c:33: warning: Enum value 'VRM' not described in enum 'rpmh_regulator_type'
+   drivers/regulator/qcom-rpmh-regulator.c:33: warning: Enum value 'XOB' not described in enum 'rpmh_regulator_type'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'vreg' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'dev' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'node' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'pmic_id' not described in 'rpmh_regulator_init_vreg'
+   drivers/regulator/qcom-rpmh-regulator.c:402: warning: Function parameter or member 'pmic_rpmh_data' not described in 'rpmh_regulator_init_vreg'
 
 
-vim +225 fs/unicode/utf8-core.c
+vim +/rpmh_regulator_match_table +742 drivers/regulator/qcom-rpmh-regulator.c
 
-9d53690f0d4e56 Gabriel Krisman Bertazi 2019-04-25  216  
-142fa60f61f938 André Almeida           2024-10-21  217  /**
-142fa60f61f938 André Almeida           2024-10-21  218   * utf8_parse_version - Parse a UTF-8 version number from a string
-142fa60f61f938 André Almeida           2024-10-21  219   *
-142fa60f61f938 André Almeida           2024-10-21  220   * @version: input string
-142fa60f61f938 André Almeida           2024-10-21  221   *
-fd9b2236cc1a2d guanjing                2024-11-20  222   * Returns 0 on success, negative code on error
-142fa60f61f938 André Almeida           2024-10-21  223   */
-fd9b2236cc1a2d guanjing                2024-11-20  224  int utf8_parse_version(char *version_str, unsigned int *version)
-142fa60f61f938 André Almeida           2024-10-21 @225  {
+   741	
+ > 742	static const struct of_device_id rpmh_regulator_match_table[] = {
+   743		{
+   744			.compatible = "qcom,pm8998-rpmh-regulators",
+   745			.data = pm8998_vreg_data,
+   746		},
+   747		{
+   748			.compatible = "qcom,pmi8998-rpmh-regulators",
+   749			.data = pmi8998_vreg_data,
+   750		},
+   751		{
+   752			.compatible = "qcom,pm8005-rpmh-regulators",
+   753			.data = pm8005_vreg_data,
+   754		},
+   755		{}
+   756	};
+   757	MODULE_DEVICE_TABLE(of, rpmh_regulator_match_table);
+   758	
 
 -- 
 0-DAY CI Kernel Test Service
