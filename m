@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A31318B47C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 22:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62AD1189BAE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 23:10:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732315775; cv=none; b=fT+tEae2zQyE0UmdUnXXTJ62GI0JtGwBO8e38RnsXDz0IhLKCrPZoGn+SDDE6zcyTNiIcaYn1ItLTxfmxOfG8BHOOJMkq9/ncsP/jk35V/LxtHBh94bhIom8PGWmb0VmaKrV8Vv+JCQ2vNVU7wd+FU8PgRq3+UfWW8IZgEym+r0=
+	t=1732317034; cv=none; b=Lb8JR8piy4AvJHZVHy+aFjhAQcRMWx7S6fWLlgYLzBdvWlZm94/6YtCSCFK/F7iNrQaczSOVoQ6e1ZiHlLes/oMuHG6HSHcM/mhKTWGwHK+71s35+SlP26+HxeQ8JPgSa4NC7EWeLtM9osnca1acL7gDL7pigOpNbcFtVjKofXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732315775; c=relaxed/simple;
-	bh=BCm+/2pJtYnzpmjxByBe9UhjS/B06Hs7YYe/zQ0TZoo=;
+	s=arc-20240116; t=1732317034; c=relaxed/simple;
+	bh=LuGpnd1lAs8Ix25HIelIt0+DlnE2pVyIY4qgRpOaGMw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=A7u/7YQku652Ogkosp5k12nWkHq6k9n1jlwTH/AyX7dk/1/ykdL6oYG8Ew9ma1sAgaO1bpiK2mY2URabAXH1leKF9Yf0c+9o1ZBgqTQCowuf57m/MbxTtmVB2Sf+Go2VyGPosZ/GDxrnY+d5CchNZnj2y27Aa+yKkTWpXS+JtZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DsoamFT2; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=hf6C/Tq4SnjxF/z2LKmimcKevqZIOYQDGei7h7EXok9iGIQ4MTqT+DSgg/O9MaamPz9oFtM8r3l7P1Pi85+UIXj1FChKXxKos8hDhVw48p6YibRM/cx9DL4XtVpYZK0ohsgVQ5xmqrWL2pXgpAav01BR5TI90xkD9MUW08UW8zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brnGH14a; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DsoamFT2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brnGH14a"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732315773; x=1763851773;
+  t=1732317033; x=1763853033;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BCm+/2pJtYnzpmjxByBe9UhjS/B06Hs7YYe/zQ0TZoo=;
-  b=DsoamFT2awWH6OCZ2absuEj1gQoZqQGncXqSNoO9Ui57D684m5AYCfVi
-   QKJ9oQvEgXSKdp7JQTZpaa+8J0B5E5uOsByz+oqwFYs3S6GHKE+K9r2Us
-   s0dc1sndh8ErCzxsr3v4v5LzgAh0cCM13suZc/LAL5Iu5F+uUGa074mzh
-   208W24Gc2wJy7j1wtsIATRV8+REMC51YoO6moL+dbQvLAwTNaxxZnM1pN
-   b4r9+yFWwEuVIBETPeky0hZzEQNTE5LmuN++iY6H0/AWU2EOx7Cyr3IxO
-   o3RyNQnFGm64AbxDZzkAa+CM0dKm9172/SREMgZkxp1u4yfw1sPTVmtRr
-   w==;
-X-CSE-ConnectionGUID: K/qgLZpLSiaImcAu4LAYrA==
-X-CSE-MsgGUID: t0CdQPtRQvCVsrhXOy4aoQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="36260143"
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="36260143"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 14:49:31 -0800
-X-CSE-ConnectionGUID: T/HkZv1CQzee6WZAJ8FFow==
-X-CSE-MsgGUID: 14/NEHoQRxSUQjLz7r7k7g==
+  bh=LuGpnd1lAs8Ix25HIelIt0+DlnE2pVyIY4qgRpOaGMw=;
+  b=brnGH14aSLbMpX3krWRk6+MfsS18kXPOI+B7Gku4Dn3Tn32Aor6jrB5x
+   dBsk+MmddypEnDVcSQN6wp8wiFQJCdMoJCb5WhhozR23mDHJGOIlSqB2Z
+   wk7ikGkxD1LnlhX50jB+LfYFok/FH/+K+dOm63oMTEiY2yjaW5LLjpF/I
+   1XJguiTEUeBNhopnNh0UTB/n5KJu4ZzsvMTRNtApOPOY2LRVG8oA9W6Ii
+   GySaZQxtIC3Eto/YxZ0/6e6/kuruf6upubalEqsatEQ9szJjxLbrdNwPK
+   BtYSuDD/6ZsMma4Wk0EM2eDPS3Wb/N7gPfACXIUVr+S3rwvhX5bwqHK1v
+   Q==;
+X-CSE-ConnectionGUID: GRYpo4LBSsyOqdfytbCEfQ==
+X-CSE-MsgGUID: tH+oG5yrSESSkqgROLajyw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="32415044"
+X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
+   d="scan'208";a="32415044"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 15:10:33 -0800
+X-CSE-ConnectionGUID: tOPyvX1GRuiMkvSudLYn5w==
+X-CSE-MsgGUID: VhuKqNU4SOWFN+bP55mRKw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="95120584"
+X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
+   d="scan'208";a="91128128"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Nov 2024 14:49:29 -0800
+  by orviesa007.jf.intel.com with ESMTP; 22 Nov 2024 15:10:31 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEcSt-0004GN-0x;
-	Fri, 22 Nov 2024 22:49:27 +0000
-Date: Sat, 23 Nov 2024 06:48:31 +0800
+	id 1tEcnE-0004H3-2g;
+	Fri, 22 Nov 2024 23:10:28 +0000
+Date: Sat, 23 Nov 2024 07:10:03 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-ea7682dbe6cf 180/520]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: regulators:
- vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-Message-ID: <202411230657.745HTK7o-lkp@intel.com>
+Subject: [android-common:android14-6.1 1/4] kernel/module/gki_module.c:35:6:
+ warning: no previous prototype for 'gki_is_module_protected_export'
+Message-ID: <202411230728.TFkV8LiJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,115 +62,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-ea7682dbe6cf
-head:   ac7a77c24fbce62cf3a673f994358d50cb59808a
-commit: 1de55ce90017c0e54568cbb3a545fc9a808d6f79 [180/520] CHROMIUM: arm64: dts: mt8186: Add US2 keyboard for Skitty
-config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241123/202411230657.745HTK7o-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.12.dev1+gcabb5b9
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230657.745HTK7o-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   672918d43222e930e7f6c509f4b8ab6f6336bc6a
+commit: 552a021d7dfdf4a12c3d2553b4da8919a2a29f3f [1/4] ANDROID: GKI: Protect exports of protected GKI modules
+config: x86_64-buildonly-randconfig-005-20241123 (https://download.01.org/0day-ci/archive/20241123/202411230728.TFkV8LiJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230728.TFkV8LiJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411230657.745HTK7o-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411230728.TFkV8LiJ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /: failed to match any schema with compatible: ['google,skitty-sku3', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /: failed to match any schema with compatible: ['google,skitty-sku3', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /: failed to match any schema with compatible: ['google,skitty-sku3', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: touchscreen@10: 'hid-descr-addr', 'post-power-on-delay-ms', 'vdd-supply' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/elan,elants_i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+All error/warnings (new ones prefixed by >>):
+
+>> kernel/module/gki_module.c:35:6: warning: no previous prototype for 'gki_is_module_protected_export' [-Wmissing-prototypes]
+      35 | bool gki_is_module_protected_export(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/module/gki_module.c:46:6: warning: no previous prototype for 'gki_is_module_unprotected_symbol' [-Wmissing-prototypes]
+      46 | bool gki_is_module_unprotected_symbol(const char *name)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku3.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
---
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /: failed to match any schema with compatible: ['google,skitty-sku4', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /: failed to match any schema with compatible: ['google,skitty-sku4', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /: failed to match any schema with compatible: ['google,skitty-sku4', 'google,skitty', 'google,corsola', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: touchpad@2c: 'vcc-supply' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/hid-over-i2c.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: usb@11280000: #address-cells: 1 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: usb@11280000: #size-cells: 0 was expected
-   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-skitty-sku4.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
+   ld: vmlinux.o: in function `phylink_init_eee':
+>> (.text+0xbe8598): undefined reference to `phy_init_eee'
+   ld: vmlinux.o: in function `phylink_mii_c22_pcs_an_restart':
+>> (.text+0xbe85f2): undefined reference to `mdiobus_read'
+   ld: (.text+0xbe8633): undefined reference to `mdiobus_write'
+   ld: vmlinux.o: in function `phylink_mii_emul_read':
+   phylink.c:(.text+0xbe873f): undefined reference to `swphy_read_reg'
+   ld: vmlinux.o: in function `phylink_get_fixed_state':
+   phylink.c:(.text+0xbe890f): undefined reference to `linkmode_resolve_pause'
+   ld: vmlinux.o: in function `phylink_disconnect_phy':
+>> (.text+0xbe8bf8): undefined reference to `phy_disconnect'
+   ld: vmlinux.o: in function `phylink_ethtool_get_wol':
+>> (.text+0xbe8ca6): undefined reference to `phy_ethtool_get_wol'
+   ld: vmlinux.o: in function `phylink_ethtool_set_wol':
+>> (.text+0xbe8d26): undefined reference to `phy_ethtool_set_wol'
+   ld: vmlinux.o: in function `phylink_get_eee_err':
+>> (.text+0xbe8d9c): undefined reference to `phy_get_eee_err'
+   ld: vmlinux.o: in function `phylink_ethtool_get_eee':
+>> (.text+0xbe8e16): undefined reference to `phy_ethtool_get_eee'
+   ld: vmlinux.o: in function `phylink_ethtool_set_eee':
+>> (.text+0xbe8e96): undefined reference to `phy_ethtool_set_eee'
+   ld: vmlinux.o: in function `phylink_speed_down':
+>> (.text+0xbe8f33): undefined reference to `phy_speed_down'
+   ld: vmlinux.o: in function `phylink_speed_up':
+>> (.text+0xbe8fc7): undefined reference to `phy_speed_up'
+   ld: vmlinux.o: in function `phylink_mii_c45_pcs_get_state':
+   (.text+0xbe9051): undefined reference to `mdiobus_read'
+   ld: vmlinux.o: in function `phylink_ethtool_nway_reset':
+>> (.text+0xbe95ec): undefined reference to `phy_restart_aneg'
+   ld: vmlinux.o: in function `phylink_stop':
+>> (.text+0xbe9670): undefined reference to `phy_stop'
+   ld: vmlinux.o: in function `phylink_link_up.isra.0':
+   phylink.c:(.text+0xbe9a7c): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0xbe9a88): undefined reference to `phy_speed_to_str'
+   ld: phylink.c:(.text+0xbe9af5): undefined reference to `phy_duplex_to_str'
+   ld: phylink.c:(.text+0xbe9b01): undefined reference to `phy_speed_to_str'
+   ld: vmlinux.o: in function `phylink_ethtool_set_pauseparam':
+>> (.text+0xbe9dd0): undefined reference to `linkmode_set_pause'
+   ld: (.text+0xbe9e6f): undefined reference to `phy_set_asym_pause'
+   ld: vmlinux.o: in function `phylink_phy_change':
+   phylink.c:(.text+0xbea754): undefined reference to `phy_get_pause'
+   ld: vmlinux.o: in function `phylink_start':
+>> (.text+0xbeabd6): undefined reference to `phy_start'
+   ld: vmlinux.o: in function `phylink_mii_c22_pcs_config':
+>> (.text+0xbeaed4): undefined reference to `mdiobus_modify'
+   ld: (.text+0xbeaf33): undefined reference to `mdiobus_modify_changed'
+   ld: vmlinux.o: in function `phylink_decode_c37_word':
+   phylink.c:(.text+0xbeb0d9): undefined reference to `linkmode_resolve_pause'
+   ld: vmlinux.o: in function `phylink_mii_c22_pcs_get_state':
+   (.text+0xbeb34a): undefined reference to `mdiobus_read'
+   ld: (.text+0xbeb377): undefined reference to `mdiobus_read'
+   ld: vmlinux.o: in function `phylink_mii_ioctl':
+>> (.text+0xbeb68b): undefined reference to `phy_mii_ioctl'
+   ld: (.text+0xbeb7af): undefined reference to `mdiobus_read'
+   ld: (.text+0xbeb89c): undefined reference to `mdiobus_write'
+   ld: (.text+0xbeb9f0): undefined reference to `mdiobus_read'
+   ld: (.text+0xbebade): undefined reference to `mdiobus_write'
+   ld: (.text+0xbebb4f): undefined reference to `mdiobus_read'
+   ld: (.text+0xbebb8f): undefined reference to `mdiobus_write'
+   ld: vmlinux.o: in function `phylink_ethtool_ksettings_get':
+>> (.text+0xbebc44): undefined reference to `phy_ethtool_ksettings_get'
+   ld: vmlinux.o: in function `phylink_parse_fixedlink':
+   phylink.c:(.text+0xbec8e6): undefined reference to `phy_lookup_setting'
+   ld: vmlinux.o: in function `phylink_bringup_phy':
+   phylink.c:(.text+0xbed7b5): undefined reference to `phy_support_asym_pause'
+   ld: phylink.c:(.text+0xbed802): undefined reference to `phy_get_rate_matching'
+   ld: phylink.c:(.text+0xbed924): undefined reference to `phy_attached_info_irq'
+   ld: phylink.c:(.text+0xbeda8a): undefined reference to `phy_request_interrupt'
+   ld: vmlinux.o: in function `phylink_connect_phy':
+>> (.text+0xbedb6a): undefined reference to `phy_attach_direct'
+   ld: (.text+0xbedbce): undefined reference to `phy_detach'
+   ld: vmlinux.o: in function `phylink_ethtool_ksettings_set':
+>> (.text+0xbedcaa): undefined reference to `phy_ethtool_ksettings_set'
+   ld: (.text+0xbeddb1): undefined reference to `phy_lookup_setting'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+
+
+vim +/gki_is_module_protected_export +35 kernel/module/gki_module.c
+
+    29	
+    30	/**
+    31	 * gki_is_module_protected_export - Is a symbol exported from a protected GKI module?
+    32	 *
+    33	 * @name:	Symbol being checked against exported symbols from protected GKI modules
+    34	 */
+  > 35	bool gki_is_module_protected_export(const char *name)
+    36	{
+    37		return bsearch(name, gki_protected_exports_symbols, NR_PROTECTED_EXPORTS_SYMBOLS,
+    38			       MAX_PROTECTED_EXPORTS_NAME_LEN, cmp_name) != NULL;
+    39	}
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
