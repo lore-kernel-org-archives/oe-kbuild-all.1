@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB426FC5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 00:22:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C080C15A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 01:14:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732234944; cv=none; b=svKPFB48uXVt8s3X9P7sia7uHcHu8JRgl4s6zRrj5u76xipaU/HN9nFbz84VXfUzUt36hPfF/bWU7Y/t6XlZ6Ljdci6efHVV48kIccWnqPNr9yjmJvV/rACPV3Npw8X3uAGii0CG6k036wUfw7mx0aO8WjcFstvB5noeQZPWizI=
+	t=1732238067; cv=none; b=EZl81g5aybRT0FDuF80ze9CIovSo5T7KxrVJRVKoSTh3aF1+5OoP5oGAojGkJBwRkFQ0xDHCG1gAOxS1NY/FRi3TfU7xWV4rpc9vilf1LGMijWEfRS/A1+6BdHfY4MHWH2/ydTgUS3hs5e2NBPYSp1Z0ZHhznTMrbhN21YlQ6mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732234944; c=relaxed/simple;
-	bh=6P+eVd0nXKIKZcYe3yzYkx/vRksW06y9OdHpNmrqQ1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxoo5+vUpOYJsXOcxEPkAp66yrcB/gVBKQQ/9jaQgoJFs7TLhe3z9TKZL+O9rH/u+8Vb39RJGYPeFxXv6HK4camdtgwGGI1TbjGFEjKeiSyOGbFBx3kPvdkos0RQBimlmKrwYAj/zspDtOF+Y58xgsLSmopnHHl38g3/yPP1z1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkUDzr99; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1732238067; c=relaxed/simple;
+	bh=i1auueKFu2++cUE92GTzdbQ9okyEcFjUqnJl8iOxK48=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gcNKhv/LQzAqLVPkAXzy3hXKz9somRj3zrp/VgyA7EuldirwgC9BSkwCq29SkXhBQ3UJNHPhdUMd6TKziYy3HsQVpwK730pW7JfJx/FHO8ZiAzEO+PxHZt3XwhFMBaCDGcRS05USDsC+gZFMHQnhP9t4urY2pCdZchb17BU2mhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OjjlX1LG; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkUDzr99"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OjjlX1LG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732234943; x=1763770943;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6P+eVd0nXKIKZcYe3yzYkx/vRksW06y9OdHpNmrqQ1A=;
-  b=OkUDzr99Gl9aQ3rCyzQ/ZRGm5RYiJ3mUVIWXdmDKxj1jEJc60a+VM7zp
-   3QN7SHK0zyjhs0P4OkJHpUmKTJXO8acujKMM/v/HvZjDQ77N5QmumY3FU
-   vVoaQeDeH66dqIHvQxJwNv8JC/DocYVKnjzSNILQmJ8zx/42AJS0z6j7Z
-   /4AqAktPVi1MUsX3/XKBGQHZknmE4iRSS6M0gIYuLLNyZgRaLx2m/5/02
-   e1hm7OL82sJI2Rmka0C7kkLjgrS/laEV3FbGHPMcQe5xW461bqwMvhXpZ
-   t0Ng2j3hD+6wQiWu8zy+a8kgQsOgYfROcNrmBtELw55Ln9EDfOhcrZ1o6
+  t=1732238065; x=1763774065;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=i1auueKFu2++cUE92GTzdbQ9okyEcFjUqnJl8iOxK48=;
+  b=OjjlX1LG3FBKC2gXYY0UdB3ei4RYMH/EBDt1VyVx5j+nurT952LEDfKQ
+   p98uA3R6HGfNmTfFw5Ck/9z7Ynv2RCMJgarZgwjLkpzUm6IrfX6Is32JS
+   TBXME2kxc8qU/4eShKId0YlfQBgYWsjtP2y0tgNjHj8RWuNYO5EKciA2C
+   jyNMSbGhNA2IuEh08IHNK6pSt2Tp2umWc1giVWBsU+pWPsaLYicDuk9Nu
+   Yiteu4qrk1Dqn2WfpHCCqQNQFQndEU7dEetjUKcqYIe8wNDiRts7Fw0/n
+   TjISe+W8HpD91nI6Mvl6xm6Ej/eh/9HMbRFOmltL69IFQwa8IloGJymbn
    w==;
-X-CSE-ConnectionGUID: 1YkVs0FdQXGitAjBmk5pYg==
-X-CSE-MsgGUID: 7lM9eQxMTgOdMOgPX57aow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="31734595"
+X-CSE-ConnectionGUID: xibVJVuuSpC/mjl8VRQEHg==
+X-CSE-MsgGUID: Qh+fcVMvQ9W5cc+UAIvWfg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="43022728"
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="31734595"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 16:22:21 -0800
-X-CSE-ConnectionGUID: +4IPvABSQwO91B6XmqU2Hg==
-X-CSE-MsgGUID: v4sAPJ4LTfWUQZuqyU8mlw==
+   d="scan'208";a="43022728"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 17:14:24 -0800
+X-CSE-ConnectionGUID: KbpHY2gKQSuMOR3Mtz3wMQ==
+X-CSE-MsgGUID: FYHHTIkATVejTy8VH6ZIyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="90833918"
+   d="scan'208";a="90065663"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 21 Nov 2024 16:22:16 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 21 Nov 2024 17:14:22 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEHR7-0003VT-29;
-	Fri, 22 Nov 2024 00:22:13 +0000
-Date: Fri, 22 Nov 2024 08:21:15 +0800
+	id 1tEIFY-0003XT-26;
+	Fri, 22 Nov 2024 01:14:20 +0000
+Date: Fri, 22 Nov 2024 09:13:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: mingzhe.zou@easystack.cn, colyli@suse.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-bcache@vger.kernel.org,
-	dongsheng.yang@easystack.cn, zoumingzhe@qq.com
-Subject: Re: [PATCH 2/3] bcache: fix io error during cache read race
-Message-ID: <202411220800.SWuw4yAb-lkp@intel.com>
-References: <20241119032852.2511-2-mingzhe.zou@easystack.cn>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1304/1304]
+ drivers/mailbox/qcom-apcs-ipc-mailbox.c:65:35: warning:
+ 'apcs_clk_match_table' defined but not used
+Message-ID: <202411220931.AgGtoYjF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,149 +62,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241119032852.2511-2-mingzhe.zou@easystack.cn>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20241121]
-[also build test ERROR on v6.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/mingzhe-zou-easystack-cn/bcache-fix-io-error-during-cache-read-race/20241121-142652
-base:   next-20241121
-patch link:    https://lore.kernel.org/r/20241119032852.2511-2-mingzhe.zou%40easystack.cn
-patch subject: [PATCH 2/3] bcache: fix io error during cache read race
-config: arc-randconfig-001-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220800.SWuw4yAb-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220800.SWuw4yAb-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   81e029d5dd0cae934243168eee37ef303ebcce38
+commit: c41cf355c959721c7269cc5ee7c6901cb47424a7 [1304/1304] mbox: qcom: add APCS child device for QCS404
+config: x86_64-buildonly-randconfig-001-20241122 (https://download.01.org/0day-ci/archive/20241122/202411220931.AgGtoYjF-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220931.AgGtoYjF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220800.SWuw4yAb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411220931.AgGtoYjF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arc/include/asm/bug.h:30,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from arch/arc/include/asm/current.h:20,
-                    from include/linux/sched.h:12,
-                    from include/linux/mempool.h:8,
-                    from include/linux/bio.h:8,
-                    from drivers/md/bcache/bcache.h:181,
-                    from drivers/md/bcache/request.c:10:
-   drivers/md/bcache/request.c: In function 'cache_lookup_fn':
->> drivers/md/bcache/request.c:573:67: error: 'struct cache_set' has no member named 'sb'
-     573 |                 pr_warn("%pU cache read race count: %lu", s->iop.c->sb.set_uuid,
-         |                                                                   ^~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:554:9: note: in expansion of macro 'printk'
-     554 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/md/bcache/request.c:573:17: note: in expansion of macro 'pr_warn'
-     573 |                 pr_warn("%pU cache read race count: %lu", s->iop.c->sb.set_uuid,
-         |                 ^~~~~~~
+   drivers/mailbox/qcom-apcs-ipc-mailbox.c: In function 'qcom_apcs_ipc_probe':
+   drivers/mailbox/qcom-apcs-ipc-mailbox.c:65:35: warning: unused variable 'apcs_clk_match_table' [-Wunused-variable]
+      65 |         const struct of_device_id apcs_clk_match_table[] = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/mailbox/qcom-apcs-ipc-mailbox.c: At top level:
+>> drivers/mailbox/qcom-apcs-ipc-mailbox.c:65:35: warning: 'apcs_clk_match_table' defined but not used [-Wunused-const-variable=]
 
 
-vim +573 drivers/md/bcache/request.c
+vim +/apcs_clk_match_table +65 drivers/mailbox/qcom-apcs-ipc-mailbox.c
 
-   520	
-   521	/*
-   522	 * Read from a single key, handling the initial cache miss if the key starts in
-   523	 * the middle of the bio
-   524	 */
-   525	static int cache_lookup_fn(struct btree_op *op, struct btree *b, struct bkey *k)
-   526	{
-   527		struct search *s = container_of(op, struct search, op);
-   528		struct bio *n, *bio = &s->bio.bio;
-   529		struct bkey *bio_key;
-   530	
-   531		if (bkey_cmp(k, &KEY(s->iop.inode, bio->bi_iter.bi_sector, 0)) <= 0)
-   532			return MAP_CONTINUE;
-   533	
-   534		if (KEY_INODE(k) != s->iop.inode ||
-   535		    KEY_START(k) > bio->bi_iter.bi_sector) {
-   536			unsigned int bio_sectors = bio_sectors(bio);
-   537			unsigned int sectors = KEY_INODE(k) == s->iop.inode
-   538				? min_t(uint64_t, INT_MAX,
-   539					KEY_START(k) - bio->bi_iter.bi_sector)
-   540				: INT_MAX;
-   541			int ret = s->d->cache_miss(b, s, bio, sectors);
-   542	
-   543			if (ret != MAP_CONTINUE)
-   544				return ret;
-   545	
-   546			/* if this was a complete miss we shouldn't get here */
-   547			BUG_ON(bio_sectors <= sectors);
-   548		}
-   549	
-   550		if (!KEY_SIZE(k))
-   551			return MAP_CONTINUE;
-   552	
-   553		atomic_inc(&PTR_BUCKET(s->iop.c, k, 0)->pin);
-   554	
-   555		PTR_BUCKET(b->c, k, 0)->prio = INITIAL_PRIO;
-   556	
-   557		n = bio_next_split(bio, min_t(uint64_t, INT_MAX,
-   558					      KEY_OFFSET(k) - bio->bi_iter.bi_sector),
-   559				   GFP_NOIO, &s->d->bio_split);
-   560	
-   561	retry:
-   562		/*
-   563		 * If the bucket was reused while our bio was in flight, we might have
-   564		 * read the wrong data. Set s->cache_read_races and reread the data
-   565		 * from the backing device.
-   566		 */
-   567		if (ptr_stale(s->iop.c, k, 0)) {
-   568			if (PTR_BUCKET(b->c, k, 0)->invalidating)
-   569				goto retry;
-   570	
-   571			atomic_dec(&PTR_BUCKET(s->iop.c, k, 0)->pin);
-   572			atomic_long_inc(&s->iop.c->cache_read_races);
- > 573			pr_warn("%pU cache read race count: %lu", s->iop.c->sb.set_uuid,
-   574				atomic_long_read(&s->iop.c->cache_read_races));
-   575	
-   576			n->bi_end_io	= backing_request_endio;
-   577			n->bi_private	= &s->cl;
-   578	
-   579			/* I/O request sent to backing device */
-   580			closure_bio_submit(s->iop.c, n, &s->cl);
-   581			return n == bio ? MAP_DONE : MAP_CONTINUE;
-   582		}
-   583	
-   584		bio_key = &container_of(n, struct bbio, bio)->key;
-   585		bch_bkey_copy_single_ptr(bio_key, k, 0);
-   586	
-   587		bch_cut_front(&KEY(s->iop.inode, n->bi_iter.bi_sector, 0), bio_key);
-   588		bch_cut_back(&KEY(s->iop.inode, bio_end_sector(n), 0), bio_key);
-   589	
-   590		n->bi_end_io	= bch_cache_read_endio;
-   591		n->bi_private	= &s->cl;
-   592	
-   593		/*
-   594		 * The bucket we're reading from might be reused while our bio
-   595		 * is in flight, and we could then end up reading the wrong
-   596		 * data.
-   597		 *
-   598		 * We guard against this by checking (in cache_read_endio()) if
-   599		 * the pointer is stale again; if so, we treat it as an error
-   600		 * and reread from the backing device (but we don't pass that
-   601		 * error up anywhere).
-   602		 */
-   603	
-   604		__bch_submit_bbio(n, b->c);
-   605		return n == bio ? MAP_DONE : MAP_CONTINUE;
-   606	}
-   607	
+    55	
+    56	static int qcom_apcs_ipc_probe(struct platform_device *pdev)
+    57	{
+    58		struct qcom_apcs_ipc *apcs;
+    59		struct regmap *regmap;
+    60		struct resource *res;
+    61		unsigned long offset;
+    62		void __iomem *base;
+    63		unsigned long i;
+    64		int ret;
+  > 65		const struct of_device_id apcs_clk_match_table[] = {
+    66			{ .compatible = "qcom,msm8916-apcs-kpss-global", },
+    67			{ .compatible = "qcom,qcs404-apcs-apps-global", },
+    68			{}
+    69		};
+    70	
+    71		apcs = devm_kzalloc(&pdev->dev, sizeof(*apcs), GFP_KERNEL);
+    72		if (!apcs)
+    73			return -ENOMEM;
+    74	
+    75		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+    76		base = devm_ioremap_resource(&pdev->dev, res);
+    77		if (IS_ERR(base))
+    78			return PTR_ERR(base);
+    79	
+    80		regmap = devm_regmap_init_mmio(&pdev->dev, base, &apcs_regmap_config);
+    81		if (IS_ERR(regmap))
+    82			return PTR_ERR(regmap);
+    83	
+    84		offset = (unsigned long)of_device_get_match_data(&pdev->dev);
+    85	
+    86		apcs->regmap = regmap;
+    87		apcs->offset = offset;
+    88	
+    89		/* Initialize channel identifiers */
+    90		for (i = 0; i < ARRAY_SIZE(apcs->mbox_chans); i++)
+    91			apcs->mbox_chans[i].con_priv = (void *)i;
+    92	
+    93		apcs->mbox.dev = &pdev->dev;
+    94		apcs->mbox.ops = &qcom_apcs_ipc_ops;
+    95		apcs->mbox.chans = apcs->mbox_chans;
+    96		apcs->mbox.num_chans = ARRAY_SIZE(apcs->mbox_chans);
+    97	
+    98		ret = mbox_controller_register(&apcs->mbox);
+    99		if (ret) {
+   100			dev_err(&pdev->dev, "failed to register APCS IPC controller\n");
+   101			return ret;
+   102		}
+   103	
+   104		if (of_match_device(apcs_clk_match_table, &pdev->dev)) {
+   105			apcs->clk = platform_device_register_data(&pdev->dev,
+   106								  "qcom-apcs-msm8916-clk",
+   107								  -1, NULL, 0);
+   108			if (IS_ERR(apcs->clk))
+   109				dev_err(&pdev->dev, "failed to register APCS clk\n");
+   110		}
+   111	
+   112		platform_set_drvdata(pdev, apcs);
+   113	
+   114		return 0;
+   115	}
+   116	
 
 -- 
 0-DAY CI Kernel Test Service
