@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A1071BD9DF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 22:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45BA18C033
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 22:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732313852; cv=none; b=IqaHJso4GEy/+ND0r7Qmlz3uQZQ7MC3dMjI6Z5gcjjXwctP85ATY2sDy35P4wNlf1vpm1+oZHhoq3VEtf6/yuTkCQ4Y73wRdNhqAtPuhvX1f7BNeT6BZlhjxql+ZmhEmt+GNxgiM8aYTRulyeUg21aT79fkRzI8LIY5rT6ZOZHA=
+	t=1732315772; cv=none; b=e70mgI+8xCOsAq7Vu2ApZQFIsS2jHtSWr36yKhrIbZLU5STto56KQiSoA1tDXbe04AJ4LnPQuBurdLvaNWoplqsX3XjRMBpLNtuTy6nkVJIdcS1FPLxmbQBia02OUGvlroI4hLY/jhvyiU0e1IbFE2nAUHbKjj7FfcuxRgcBtW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732313852; c=relaxed/simple;
-	bh=jVBc5m4wqoUIrHzQHrmv05tAMGI+i8zjtxb9aYbb5kA=;
+	s=arc-20240116; t=1732315772; c=relaxed/simple;
+	bh=ST8NQYd/QgjuWcz+8vpc5Arp6/XCi3M09TY109vKGx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=J610lzMfLcCNcdkjCe0G+8rJUJ8dl20AbXx3xLqVqMkNUpfUNPB73T/F27LXAOU7u0xit5VVDWL5wyGqenL3wQGOs1XgzqhOQCTuO0/tRL2KwnDehvSY1HzUSAx4TDjpncO9rm3I3vNxyTbGeJQPvclK3feHsIZH31KPKK3IvC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UdPf28GU; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=I+SFtB3pr5D6S8JvBOV2LHYtRgVKd4Mw5dr65TV8BrdU/Jx6eoyrZC5JxBHcSmWI58gNvXkMPx7CzcrvhJsXbbXn6dPPuSF3Pg6S+NLMbBXVlShdEIE15SCPr/u2UmFWLe7GI+CJVAQlbiAS/nfJLBsZaH6zGsUgRO5DTCI2sxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JRIAO4qg; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UdPf28GU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JRIAO4qg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732313850; x=1763849850;
+  t=1732315771; x=1763851771;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jVBc5m4wqoUIrHzQHrmv05tAMGI+i8zjtxb9aYbb5kA=;
-  b=UdPf28GUjEwXwcbZi4RNY9h6kXAGgK/CWq3Mgb3mYeEfaNdOcaQbBObZ
-   +hccQoamBdFASBT1t3sdaYZouDyuddAAmlbfNtMjPEDQqpaa6G8lXeQFK
-   6r1rzSNviz7f1UCx/LYLgW7Klf1k0i0iLf05buMHnCzZ1BMBEF1ixMY3U
-   BF06KIXpN62OtitsHPadvAcR85HrKnb79NSlaD3xTn8x3Gl/WGpQQnZWl
-   47WUHAZWkDZZ/9EJBpoa4/W6H/7qWvhbUnZZ7S+NLyaEMWuVXTkcfS0QF
-   Z/bd668JbVM7gAHNvQj+022qnKnSc/T0uef4Izf/HkBCtvXLMiwDFOIr7
-   A==;
-X-CSE-ConnectionGUID: cRxoGb0bQ6KhfjHl97Z2Vg==
-X-CSE-MsgGUID: ZPeR/XHmR3WNPfAIuyBHMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="50002159"
+  bh=ST8NQYd/QgjuWcz+8vpc5Arp6/XCi3M09TY109vKGx0=;
+  b=JRIAO4qgeRFgpq/iEFPaNDxYVG5QNeGhqEIiOMrPIzKpWQcsGujrxEJ6
+   qN97Uq5HZtw3u8WhHazLsHV1n8ZagZY/x3mwU0b2DT7Z/SJwE8Dk7VlI8
+   ZAVtbROkfvasb4IT8IqJv8LYSHJrK6B8PRalbOhC4w6sA3Hh70CRi+a+X
+   qGsf2esbWBebhzTYBhYsL5Q9wtOGZXI84G7xqEuKkDO34mYBAS05lMdVj
+   PZHrt/ublixWvMDE06SWwYWDzlzXDHF2OXHSczGbPcQdKLHYhBzeGT78M
+   quGkSpyRK8esIHwhDoK5T4mFenzPIrtFdBI6dUa9j1BWNJ2AwLyoeLDD4
+   Q==;
+X-CSE-ConnectionGUID: J2/MOAV6TFegA7fFvkMYpw==
+X-CSE-MsgGUID: dRsRFbGrSt6CgbMYGK6v8g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="36260140"
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="50002159"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 14:17:26 -0800
-X-CSE-ConnectionGUID: uKwY+Ke0SDOLC7sKUF56cA==
-X-CSE-MsgGUID: BQsCAlkESzeYUazP+MMJPA==
+   d="scan'208";a="36260140"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 14:49:31 -0800
+X-CSE-ConnectionGUID: tmGr6VLlQveX7HVSKiKRQw==
+X-CSE-MsgGUID: bSxAk8nhRh+tXCKNhnlf7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="95632473"
+   d="scan'208";a="95120582"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 22 Nov 2024 14:17:26 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 22 Nov 2024 14:49:29 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEbxq-0004FX-32;
-	Fri, 22 Nov 2024 22:17:22 +0000
-Date: Sat, 23 Nov 2024 06:16:40 +0800
+	id 1tEcSt-0004GR-1C;
+	Fri, 22 Nov 2024 22:49:27 +0000
+Date: Sat, 23 Nov 2024 06:48:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Boyuan Zhang <boyuan.zhang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>
-Subject: [agd5f:amd-staging-drm-next 1198/1393]
- drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:359: warning: Function
- parameter or struct member 'inst' not described in 'smu_dpm_set_power_gate'
-Message-ID: <202411230631.ziml8n2F-lkp@intel.com>
+To: =?unknown-8bit?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mic:landlock-audit 10/23] security/landlock/audit.c:173: warning:
+ Function parameter or struct member 'domain' not described in
+ 'landlock_log_drop_domain'
+Message-ID: <202411230624.KoxUNDEM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,109 +63,59 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Boyuan,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
-head:   52a0eae4140af43141a217398938aaa26241fa39
-commit: d2a617c63ca3c0d143874c2942abf2b6fbf07a04 [1198/1393] drm/amd/pm: add inst to set_powergating_by_smu
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241123/202411230631.ziml8n2F-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230631.ziml8n2F-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mic/linux.git landlock-audit
+head:   6da405a874858ad3a79d8762b442678e046e1111
+commit: 170c11a69d564164a7a6458a12d98f76c9cabb23 [10/23] landlock: Log domain properties and release
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411230624.KoxUNDEM-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230624.KoxUNDEM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411230631.ziml8n2F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411230624.KoxUNDEM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c:359: warning: Function parameter or struct member 'inst' not described in 'smu_dpm_set_power_gate'
+>> security/landlock/audit.c:173: warning: Function parameter or struct member 'domain' not described in 'landlock_log_drop_domain'
 
 
-vim +359 drivers/gpu/drm/amd/amdgpu/../pm/swsmu/amdgpu_smu.c
+vim +173 security/landlock/audit.c
 
-4b5b855c240a48 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Li Ma         2024-06-06  340  
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  341  /**
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  342   * smu_dpm_set_power_gate - power gate/ungate the specific IP block
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  343   *
-bc7d6c12054dcd drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Darren Powell 2020-12-03  344   * @handle:        smu_context pointer
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  345   * @block_type: the IP block to power gate/ungate
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  346   * @gate:       to power gate if true, ungate otherwise
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  347   *
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  348   * This API uses no smu->mutex lock protection due to:
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  349   * 1. It is either called by other IP block(gfx/sdma/vcn/uvd/vce).
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  350   *    This is guarded to be race condition free by the caller.
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  351   * 2. Or get called on user setting request of power_dpm_force_performance_level.
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  352   *    Under this case, the smu->mutex lock protection is already enforced on
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  353   *    the parent API smu_force_performance_level of the call path.
-cf3fde893d3a86 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-11-06  354   */
-d2b0b4832b90fa drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-03-25  355  static int smu_dpm_set_power_gate(void *handle,
-c6ce68e67659fd drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Evan Quan     2021-03-19  356  				  uint32_t block_type,
-d2a617c63ca3c0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Boyuan Zhang  2024-10-02  357  				  bool gate,
-d2a617c63ca3c0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Boyuan Zhang  2024-10-02  358  				  int inst)
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25 @359  {
-bc7d6c12054dcd drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Darren Powell 2020-12-03  360  	struct smu_context *smu = handle;
-d2a617c63ca3c0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Boyuan Zhang  2024-10-02  361  	int ret = 0;
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  362  
-85c1b9bd13b0b2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2021-11-25  363  	if (!smu->pm_enabled || !smu->adev->pm.dpm_enabled) {
-85c1b9bd13b0b2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2021-11-25  364  		dev_WARN(smu->adev->dev,
-85c1b9bd13b0b2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2021-11-25  365  			 "SMU uninitialized but power %s requested for %u!\n",
-85c1b9bd13b0b2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2021-11-25  366  			 gate ? "gate" : "ungate", block_type);
-2b7ad277e96577 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-05-25  367  		return -EOPNOTSUPP;
-85c1b9bd13b0b2 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lijo Lazar    2021-11-25  368  	}
-774e335b878c1e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-04-07  369  
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  370  	switch (block_type) {
-f6b4b4a1dbf3cc drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  371  	/*
-f6b4b4a1dbf3cc drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  372  	 * Some legacy code of amdgpu_vcn.c and vcn_v2*.c still uses
-f6b4b4a1dbf3cc drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  373  	 * AMD_IP_BLOCK_TYPE_UVD for VCN. So, here both of them are kept.
-f6b4b4a1dbf3cc drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  374  	 */
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  375  	case AMD_IP_BLOCK_TYPE_UVD:
-f6b4b4a1dbf3cc drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  376  	case AMD_IP_BLOCK_TYPE_VCN:
-d2a617c63ca3c0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Boyuan Zhang  2024-10-02  377  		ret = smu_dpm_set_vcn_enable(smu, !gate, inst);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  378  		if (ret)
-c303e4d34dde30 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Boyuan Zhang  2024-10-02  379  			dev_err(smu->adev->dev, "Failed to power %s VCN instance %d!\n",
-d2a617c63ca3c0 drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Boyuan Zhang  2024-10-02  380  				gate ? "gate" : "ungate", inst);
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  381  		break;
-73c86d628d6aa3 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Hawking Zhang 2019-06-24  382  	case AMD_IP_BLOCK_TYPE_GFX:
-73c86d628d6aa3 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Hawking Zhang 2019-06-24  383  		ret = smu_gfx_off_control(smu, gate);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  384  		if (ret)
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  385  			dev_err(smu->adev->dev, "Failed to %s gfxoff!\n",
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  386  				gate ? "enable" : "disable");
-73c86d628d6aa3 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Hawking Zhang 2019-06-24  387  		break;
-a90a24d581a919 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Prike Liang   2019-09-11  388  	case AMD_IP_BLOCK_TYPE_SDMA:
-a90a24d581a919 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Prike Liang   2019-09-11  389  		ret = smu_powergate_sdma(smu, gate);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  390  		if (ret)
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  391  			dev_err(smu->adev->dev, "Failed to power %s SDMA!\n",
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  392  				gate ? "gate" : "ungate");
-a90a24d581a919 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Prike Liang   2019-09-11  393  		break;
-0db2ab99c9fbbd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Leo Liu       2019-11-08  394  	case AMD_IP_BLOCK_TYPE_JPEG:
-a64c9e15e6247e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-01-03  395  		ret = smu_dpm_set_jpeg_enable(smu, !gate);
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  396  		if (ret)
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  397  			dev_err(smu->adev->dev, "Failed to power %s JPEG!\n",
-7951e7c036490e drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  398  				gate ? "gate" : "ungate");
-0db2ab99c9fbbd drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Leo Liu       2019-11-08  399  		break;
-d60fbf2d254acc drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lang Yu       2023-05-17  400  	case AMD_IP_BLOCK_TYPE_VPE:
-d60fbf2d254acc drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lang Yu       2023-05-17  401  		ret = smu_dpm_set_vpe_enable(smu, !gate);
-d60fbf2d254acc drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lang Yu       2023-05-17  402  		if (ret)
-d60fbf2d254acc drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lang Yu       2023-05-17  403  			dev_err(smu->adev->dev, "Failed to power %s VPE!\n",
-d60fbf2d254acc drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lang Yu       2023-05-17  404  				gate ? "gate" : "ungate");
-d60fbf2d254acc drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c  Lang Yu       2023-05-17  405  		break;
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  406  	default:
-1fdfe8cacb35a0 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  407  		dev_err(smu->adev->dev, "Unsupported block type!\n");
-1fdfe8cacb35a0 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2020-06-05  408  		return -EINVAL;
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  409  	}
-72e91f37a81768 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-25  410  
-3697b339c64f82 drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Evan Quan     2019-10-16  411  	return ret;
-ea2d0bf8c7f07c drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-17  412  }
-ea2d0bf8c7f07c drivers/gpu/drm/amd/powerplay/amdgpu_smu.c Kevin Wang    2019-01-17  413  
-
-:::::: The code at line 359 was first introduced by commit
-:::::: 72e91f37a81768c81aa7ac78169f5a3259c621ac drm/amd/powerplay: implement dpm enable functions of uvd & vce for smu
-
-:::::: TO: Kevin Wang <kevin1.wang@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+   161	
+   162	/**
+   163	 * landlock_log_drop_domain - Create an audit record when a domain is deleted
+   164	 *
+   165	 * Only domains which previously appeared in the audit logs are logged again.
+   166	 * This is useful to know when a domain will never show again in the audit log.
+   167	 *
+   168	 * This record is not directly tied to a syscall entry.
+   169	 *
+   170	 * Called by the cred_free() hook, in an uninterruptible context.
+   171	 */
+   172	void landlock_log_drop_domain(const struct landlock_ruleset *const domain)
+ > 173	{
+   174		struct audit_buffer *ab;
+   175	
+   176		if (WARN_ON_ONCE(!domain->hierarchy))
+   177			return;
+   178	
+   179		if (!audit_enabled)
+   180			return;
+   181	
+   182		/* Ignores domains that were not logged.  */
+   183		if (READ_ONCE(domain->hierarchy->log_status) != LANDLOCK_LOG_RECORDED)
+   184			return;
+   185	
+   186		ab = audit_log_start(audit_context(), GFP_ATOMIC,
+   187				     AUDIT_LANDLOCK_DOM_DROP);
+   188		if (!ab)
+   189			return;
+   190	
+   191		audit_log_format(ab, "domain=%llx", domain->hierarchy->id);
+   192		audit_log_end(ab);
+   193	}
+   194	
 
 -- 
 0-DAY CI Kernel Test Service
