@@ -1,59 +1,63 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61D223B0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 05:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F7A3C2F;
+	Fri, 22 Nov 2024 05:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732253151; cv=none; b=Ij1I/oQFFJM9vazpgBm7FBUfBikoUxpHsi+prkXtYYZGcnXG2kylJ3FAnWLfPj1anT+7ugMRcKSnsmOSoGunjHKhF1JN8lvyhdXdlnTu2DiNOoSMG329sJRRwyKM/6vwEsrE/b0RtxMTOTdisYONHpKGuCRcaZgyHxpCpyAwZsY=
+	t=1732253153; cv=none; b=NAfrztpwsp2mhptqpM1AuWoc3Gh7J9wCXaDHW70/hVtq6YFGjl2KfVFeXLexpLJ1Gq78E8FKTbC2XYzA+q9uIjYYMmYcqnoMxSenOHFkCiJoYLjlbFAy6mcMk9diw6IC6LjKmPljL89KkoWvoic9zIlhhisTxdLOkHXGsTxQpXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732253151; c=relaxed/simple;
-	bh=i2RjlCnmJ9zVGDBP2v0IQFazSMIZVD3AzUTvH18GPP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HMD5qOOO0Z4T6qoF34101ZAwnNLvD7FeBNJ/uVQqjWwb4hWzYkV+OXfXxrukJxJ7CjwajnoBvjySFOjPFt8i5vRZqVzSFWfLvNPCRoxsPV9bZi9OCaoM/sQJaxQOJg2qPRhow/ceI0j7PK10Zesas8j+kHjcYVK7p8evJi7sufg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hRVfv6Vs; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1732253153; c=relaxed/simple;
+	bh=jfouwNKiq6I0rT6PIrM3V66NZunqhYiTrtxFRTjDejw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=flpvk+f4RI9tpUzwyO9lAQUBUTOdSP6r+6kIIkLz9JY+oA8hA7Onwic8bSdL/Fyrv3q0pqxSEA7iducLi5b0v0rhMkIy9Z8QZJJdbcAXl4wWLQf2RnGiB9ucEdZSKAi333u9rDJdgsTDiNhzi7SoU1HI4V9FZE3rgqokXYoU/mM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WtuaoBJp; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hRVfv6Vs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WtuaoBJp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732253151; x=1763789151;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=i2RjlCnmJ9zVGDBP2v0IQFazSMIZVD3AzUTvH18GPP0=;
-  b=hRVfv6VsJkx7F8uBiLFmFvMT9ljKxQkf+PC/DxBBEomnvm2v2baeM3cV
-   ICQ2V31G7VRcJ3/eAibIn1FswO3vfY4yZ88yXsDRyoNd5NzH1nZvqVDlr
-   b/BcPvKKIOfDJEnB1Sc/eoulrK0/g6NSt7W3pKMsVPh2N4OX/9Lu82L3G
-   jTE+9XhQBL7WdQHP/+6LivR7J83QESi3DOIKfyGmyE9qXuuKE4KBPkY6e
-   QMt0mdWYllYL3sgw6haUtSg/na8LaKjuell4+CzTjxbzSP3jg2bVusfmH
-   yId0WE0IcuH9DFOGJZ4MhQ9x+31YxAjzGVFaDYLj+il6IPEYQMt02gHyJ
+  t=1732253152; x=1763789152;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jfouwNKiq6I0rT6PIrM3V66NZunqhYiTrtxFRTjDejw=;
+  b=WtuaoBJp5reWbZ9V+elUcfCTen9npSk+C/YJz/ccDoyS/dpVoeq2m5WS
+   NZnBveBJxyFQoERyzLuP+uzlsWVI8+JTeJs2Rk4ulKmAIy7jh6UW0dOOP
+   2zvibaD3mk5kBkC1m7DLgNHF4Em8eHmaLJdF0Pn4JZxI02lFU+MuBox8s
+   dkK/hDP8SnOLhSi4cZ105TIEZDAX8VQeBgphCl/lB2Pm40JVdOncCy/sD
+   t6Kgwh0DpRFiYqI7V8oUrj66ic0nBi/VDGjer6PO5l3dOQQKZexPMgZ8k
+   p+Vnz/CqcN54WnDP0DBPaJliEMXvSAXAJJ3VwlDIeRvd3Sq99cDCLH5N9
    g==;
-X-CSE-ConnectionGUID: hvGs2tTlQZuDFIPnC8Xg2w==
-X-CSE-MsgGUID: VBYwLKIPQVOJypipQNs/bw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="35255644"
+X-CSE-ConnectionGUID: b1DzJPQUTWaPrvClwbCJDw==
+X-CSE-MsgGUID: XULEA8ebQb2mJH4NlWdFaw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="35255649"
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="35255644"
+   d="scan'208";a="35255649"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 21:25:50 -0800
-X-CSE-ConnectionGUID: YQZ/TkQMRWeGyTR1JXJUlg==
-X-CSE-MsgGUID: vk+/tkvVSsiy1tBDcmfK7A==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 21:25:51 -0800
+X-CSE-ConnectionGUID: B7aXpogaSZezi4g4yJXrxw==
+X-CSE-MsgGUID: ZNQcJWJ1Syym179desVAGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="121342597"
+   d="scan'208";a="121342598"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 21 Nov 2024 21:25:48 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEMAr-0003hV-2R;
+	id 1tEMAr-0003hT-2N;
 	Fri, 22 Nov 2024 05:25:45 +0000
 Date: Fri, 22 Nov 2024 13:25:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:upstream-linux-5.15.y 264/377]
- drivers/pci/endpoint/functions/pci-epf-vntb.c:600:45: sparse: sparse: Using
- plain integer as NULL pointer
-Message-ID: <202411221338.3amcZ9Ya-lkp@intel.com>
+To: Ojaswin Mujoo <ojaswin@linux.ibm.com>, linux-ext4@vger.kernel.org,
+	Jan Kara <jack@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Ritesh Harjani <ritesh.list@gmail.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	Baokun Li <libaokun1@huawei.com>
+Subject: Re: [PATCH v2 2/2] ext4: protect ext4_release_dquot against freezing
+Message-ID: <202411221352.NvzmPEy3-lkp@intel.com>
+References: <20241121123855.645335-3-ojaswin@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,93 +66,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241121123855.645335-3-ojaswin@linux.ibm.com>
 
-tree:   https://android.googlesource.com/kernel/common upstream-linux-5.15.y
-head:   0a51d2d4527b43c5e467ffa6897deefeaf499358
-commit: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb [264/377] PCI: endpoint: Support NTB transfer between RC and EP
-config: x86_64-randconfig-r131-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221338.3amcZ9Ya-lkp@intel.com/config)
+Hi Ojaswin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tytso-ext4/dev]
+[also build test ERROR on brauner-vfs/vfs.all jack-fs/for_next linus/master v6.12 next-20241121]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ojaswin-Mujoo/quota-flush-quota_release_work-upon-quota-writeback/20241121-204331
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
+patch link:    https://lore.kernel.org/r/20241121123855.645335-3-ojaswin%40linux.ibm.com
+patch subject: [PATCH v2 2/2] ext4: protect ext4_release_dquot against freezing
+config: i386-buildonly-randconfig-004-20241122 (https://download.01.org/0day-ci/archive/20241122/202411221352.NvzmPEy3-lkp@intel.com/config)
 compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221338.3amcZ9Ya-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221352.NvzmPEy3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411221338.3amcZ9Ya-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411221352.NvzmPEy3-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:542:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:542:17: sparse:     expected void [noderef] __iomem *mw_addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:542:17: sparse:     got void *
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     expected void *addr
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     got void [noderef] __iomem *epf_db
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:600:45: sparse: sparse: Using plain integer as NULL pointer
->> drivers/pci/endpoint/functions/pci-epf-vntb.c:985:16: sparse: sparse: symbol 'vpci_ops' was not declared. Should it be static?
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1089:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1089:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1089:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1100:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1100:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1100:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1111:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1111:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1111:33: sparse:     got struct epf_ntb_ctrl *reg
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1123:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1123:33: sparse:     expected void [noderef] __iomem *base
-   drivers/pci/endpoint/functions/pci-epf-vntb.c:1123:33: sparse:     got struct epf_ntb_ctrl *reg
+All errors (new ones prefixed by >>):
 
-vim +600 drivers/pci/endpoint/functions/pci-epf-vntb.c
+   In file included from fs/ext4/super.c:27:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> fs/ext4/super.c:6912:6: error: use of undeclared identifier 'freeze_protected'; did you mean 'freeze_processes'?
+    6912 |         if (freeze_protected)
+         |             ^~~~~~~~~~~~~~~~
+         |             freeze_processes
+   include/linux/freezer.h:46:12: note: 'freeze_processes' declared here
+      46 | extern int freeze_processes(void);
+         |            ^
+   1 warning and 1 error generated.
 
-   580	
-   581	/**
-   582	 * epf_ntb_mw_bar_init() - Configure Memory window BARs
-   583	 * @ntb: NTB device that facilitates communication between HOST and vHOST
-   584	 *
-   585	 */
-   586	static int epf_ntb_mw_bar_init(struct epf_ntb *ntb)
-   587	{
-   588		int ret = 0;
-   589		int i;
-   590		u64 size;
-   591		enum pci_barno barno;
-   592		struct device *dev = &ntb->epf->dev;
-   593	
-   594		for (i = 0; i < ntb->num_mws; i++) {
-   595			size = ntb->mws_size[i];
-   596			barno = ntb->epf_ntb_bar[BAR_MW0 + i];
-   597	
-   598			ntb->epf->bar[barno].barno = barno;
-   599			ntb->epf->bar[barno].size = size;
- > 600			ntb->epf->bar[barno].addr = 0;
-   601			ntb->epf->bar[barno].phys_addr = 0;
-   602			ntb->epf->bar[barno].flags |= upper_32_bits(size) ?
-   603					PCI_BASE_ADDRESS_MEM_TYPE_64 :
-   604					PCI_BASE_ADDRESS_MEM_TYPE_32;
-   605	
-   606			ret = pci_epc_set_bar(ntb->epf->epc,
-   607					      ntb->epf->func_no,
-   608					      ntb->epf->vfunc_no,
-   609					      &ntb->epf->bar[barno]);
-   610			if (ret) {
-   611				dev_err(dev, "MW set failed\n");
-   612				goto err_alloc_mem;
-   613			}
-   614	
-   615			/* Allocate EPC outbound memory windows to vpci vntb device */
-   616			ntb->vpci_mw_addr[i] = pci_epc_mem_alloc_addr(ntb->epf->epc,
-   617								      &ntb->vpci_mw_phy[i],
-   618								      size);
-   619			if (!ntb->vpci_mw_addr[i]) {
-   620				dev_err(dev, "Failed to allocate source address\n");
-   621				goto err_alloc_mem;
-   622			}
-   623		}
-   624	
-   625		return ret;
-   626	err_alloc_mem:
-   627		return ret;
-   628	}
-   629	
+
+vim +6912 fs/ext4/super.c
+
+  6893	
+  6894	static int ext4_acquire_dquot(struct dquot *dquot)
+  6895	{
+  6896		int ret, err;
+  6897		handle_t *handle;
+  6898	
+  6899		handle = ext4_journal_start(dquot_to_inode(dquot), EXT4_HT_QUOTA,
+  6900					    EXT4_QUOTA_INIT_BLOCKS(dquot->dq_sb));
+  6901		if (IS_ERR(handle))
+  6902			return PTR_ERR(handle);
+  6903		ret = dquot_acquire(dquot);
+  6904		if (ret < 0)
+  6905			ext4_error_err(dquot->dq_sb, -ret,
+  6906				      "Failed to acquire dquot type %d",
+  6907				      dquot->dq_id.type);
+  6908		err = ext4_journal_stop(handle);
+  6909		if (!ret)
+  6910			ret = err;
+  6911	
+> 6912		if (freeze_protected)
+  6913			sb_end_intwrite(dquot->dq_sb);
+  6914	
+  6915		return ret;
+  6916	}
+  6917	
 
 -- 
 0-DAY CI Kernel Test Service
