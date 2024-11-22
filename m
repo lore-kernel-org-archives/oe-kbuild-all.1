@@ -1,60 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68885CB8;
-	Fri, 22 Nov 2024 02:29:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55FF2AE84
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 02:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732242573; cv=none; b=rksMEzi5vcHyRUA4BJNcrUL10LzhGxi/HRUGKU+9iDmLoeYh4t1jd8SSAJTuIWzxHnJbdi8/W88kZSuQCmSFPIWJZupx0yDirHNOyiPLDF0HVKfUPwR2MgimXDzKU9w+u358i+DG2u9virvQky3MoT8twVDYBFRpdWM+p2Nkqyw=
+	t=1732242579; cv=none; b=mmQYufKbXImLtojP1C0IGBBaLGAHLAvsUblJYBfQfI9jVUA3S+Hkp9J7ECrDZ8xGgYJ2QNkSLFnYLoN9VKZ16gZ0T7DPiLXkMy52geOJyVnqG8ywsYTKLH38m+QZonvyZWseIkopa5Lks7TMdcLRO1W64Eak4uoXyPTjTJxsztU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732242573; c=relaxed/simple;
-	bh=Yzc17DU2NnCEnEexBDdpYiQnkkqp/ZWRaT20eDbbFDQ=;
+	s=arc-20240116; t=1732242579; c=relaxed/simple;
+	bh=ygXdHoYgdDV8uhUQRvreb/w1Nsb+bH9PmhGFMqtau+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rWCgZljknayH0+gWdgvcvku2BpRXmjJY8OMZcfSKDzj/OeRLnX9OCzygPJHYuHSvCMIzCrBZ/NfuRjJrj/4IXn9H6XbErMBy9lGuPeocxU8yCVvCoaq0nfY5F3cyAjjJkVhjHR1qF6Da5WGQSQYrUGhPFK/Q9bu0eXclFNoqdvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JDeYZEGB; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fpq5uYJeOhlrhS/3n4Iu9uC0yz/kk1hyOhbiDOXyfPUPvEeJPuT9AXhm/sXaguKLdUVVkCsU+SEfgjxhHls4fAbrkpI/F5ApNQhMvKsPrC8MBJK3Rezh1UQxnSDuKRJgIFgApysU5YfTwONm52PboNwzXEaQFEP6X33SO/CJZKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UrRCKMV8; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JDeYZEGB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UrRCKMV8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732242572; x=1763778572;
+  t=1732242578; x=1763778578;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Yzc17DU2NnCEnEexBDdpYiQnkkqp/ZWRaT20eDbbFDQ=;
-  b=JDeYZEGBuDQgEfQB8z8Ot/omg2Rh5WWn5B9ZzqMUXbXIUDitVljZOxTo
-   +alQdB/PZ9onAgRc3YEYUZmYUHbo6slGsK5UsECeg+iTknYfLiLOrCp9X
-   iDCEEdEU+EJ3YWHG8gNzpihgtOQhlb8DsPop2HPxQBQdD4+nKLe3g0wCQ
-   BxY6AV13a3BOrkxbaIJ9uOAuQITil44tsv0gqkhZjqTdkVyJKKGs74uOf
-   BlQQRlgok1bBKzRAvPqkwEOrtJpEXayLcoF0vAWe0ZJ9mgQ04uaheOvnY
-   Qij8i4pQLyC60SQJxuhOq+i5UIIVop90gC0BMIos6RMrj9KcYNXii33PK
-   A==;
-X-CSE-ConnectionGUID: pK1IYMwPQ++BzjhWDE4BpQ==
-X-CSE-MsgGUID: 8m7soK+VRkCthZByeGakpQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="36050114"
+  bh=ygXdHoYgdDV8uhUQRvreb/w1Nsb+bH9PmhGFMqtau+E=;
+  b=UrRCKMV8jUPMeXubaIEylYY4hXPkAkGHgKBB6LzQU3USYVr8pnzf8XaJ
+   14cBicBDQx+FJp1XHcY6MJOh7GWNcqLD5yuZx6Js44axQc5l0kCAellfL
+   gCdLAdEZ/bync3Ay+aHH+u2CDgPiDNq8NiIWe2JqSIgey0EuRmG0rvKSN
+   Hl42xf+ljZQulkOrtuMoamwFFFLRda+fHgSvYPM0cM/Tj7/qeN667nNwX
+   NN3rNNyZOOAnMN54MIUUDx9b6WCYWwRez5fRHG2cobtP1ZLKhYeZcN4G/
+   5SWiF3X+947J1REspuS8GG6PXMK5Oq5BrAdaEBeWhNBtXRSLOTIyowqzy
+   w==;
+X-CSE-ConnectionGUID: bg1caeY9Q4eJ5E9NC6DAFg==
+X-CSE-MsgGUID: 2+5cIfzQShmFimQoED8SqQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="43764564"
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="36050114"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 18:29:32 -0800
-X-CSE-ConnectionGUID: VzBTowyIQ4m5CHdwvMYINg==
-X-CSE-MsgGUID: 4VNFLkiJTBqLKzzWJxgTbQ==
+   d="scan'208";a="43764564"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 18:29:37 -0800
+X-CSE-ConnectionGUID: h0ffBcEBS0CwwylnBUecLg==
+X-CSE-MsgGUID: TZLT3qEHTNWFslZClvwikw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="121311001"
+   d="scan'208";a="90601994"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Nov 2024 18:29:30 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 21 Nov 2024 18:29:30 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEJQG-0003at-0C;
+	id 1tEJQG-0003av-0G;
 	Fri, 22 Nov 2024 02:29:28 +0000
-Date: Fri, 22 Nov 2024 10:28:39 +0800
+Date: Fri, 22 Nov 2024 10:28:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Geliang Tang <geliang@kernel.org>, mptcp@lists.linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, Geliang Tang <tanggeliang@kylinos.cn>
-Subject: Re: [PATCH mptcp-next 2/3] Squash to "bpf: Add mptcp_subflow
- bpf_iter"
-Message-ID: <202411220915.8dk01baF-lkp@intel.com>
-References: <8e8c6d39d8de8ab2bb4cdd8965c1981a3920bc9e.1732172851.git.tanggeliang@kylinos.cn>
+To: keith zhao <keith.zhao@starfivetech.com>, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
+	simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
+	andy.yan@rock-chips.com, william.qiu@starfivetech.com,
+	xingyu.wu@starfivetech.com, kernel@esmil.dk,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	p.zabel@pengutronix.de, changhuang.liang@starfivetech.com,
+	keith.zhao@starfivetech.com, jack.zhu@starfivetech.com,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 4/9] drm/vs: Add Hardware Functions for VS DC8200
+Message-ID: <202411221030.71tSpXt2-lkp@intel.com>
+References: <20241120061848.196754-5-keith.zhao@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,35 +77,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8e8c6d39d8de8ab2bb4cdd8965c1981a3920bc9e.1732172851.git.tanggeliang@kylinos.cn>
+In-Reply-To: <20241120061848.196754-5-keith.zhao@starfivetech.com>
 
-Hi Geliang,
+Hi keith,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on mptcp/export]
-[cannot apply to mptcp/export-net linus/master v6.12 next-20241121]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12 next-20241121]
+[cannot apply to drm-misc/drm-misc-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Geliang-Tang/Squash-to-bpf-Register-mptcp-common-kfunc-set/20241121-155947
-base:   https://github.com/multipath-tcp/mptcp_net-next.git export
-patch link:    https://lore.kernel.org/r/8e8c6d39d8de8ab2bb4cdd8965c1981a3920bc9e.1732172851.git.tanggeliang%40kylinos.cn
-patch subject: [PATCH mptcp-next 2/3] Squash to "bpf: Add mptcp_subflow bpf_iter"
-config: m68k-atari_defconfig (https://download.01.org/0day-ci/archive/20241122/202411220915.8dk01baF-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411220915.8dk01baF-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/keith-zhao/dt-bindings-display-bindings-for-starfive-JH7110-display-pipeline/20241121-145710
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241120061848.196754-5-keith.zhao%40starfivetech.com
+patch subject: [PATCH v5 4/9] drm/vs: Add Hardware Functions for VS DC8200
+config: xtensa-kismet-CONFIG_CMA-CONFIG_DRM_VERISILICON_DC8200-0-0 (https://download.01.org/0day-ci/archive/20241122/202411221030.71tSpXt2-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20241122/202411221030.71tSpXt2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411220915.8dk01baF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411221030.71tSpXt2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   m68k-linux-ld: net/mptcp/bpf.o: in function `bpf_iter_mptcp_subflow_new':
->> bpf.c:(.text+0x96): undefined reference to `lockdep_is_held'
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for CMA when selected by DRM_VERISILICON_DC8200
+   WARNING: unmet direct dependencies detected for CMA
+     Depends on [n]: MMU [=n]
+     Selected by [y]:
+     - DRM_VERISILICON_DC8200 [=y] && HAS_IOMEM [=y] && DRM [=y] && HAVE_DMA_CONTIGUOUS [=y]
 
 -- 
 0-DAY CI Kernel Test Service
