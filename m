@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0E0418870F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 07:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C71218891F;
+	Fri, 22 Nov 2024 07:51:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732261864; cv=none; b=Tz2oL7eM+KnQIKqoxQE0j9d5KEmCvS1PtzA2DZzkaJO4pigjBJlmZOm91yZ5H2cbP2NHS2u1XLawyEm+KBjz8jHoZc6ghEpmBQiZ1S3a465/f2IHgi38w2r8bumAycRwwEi0E4phW6rgr/F48LRD7963DFxuFNyQA9CCpqPLj30=
+	t=1732261866; cv=none; b=UwD4KYjT1mVuEhunAIH7b3rLhKKH5GPHUyjePqTf+plY2BZ0YELBY9qdOpUh6J0saWL0Flou/F8qvUE9PcebWo5hZ5yfKp/VHNmQyyeFGAc+2ezSbnkDUI8Xxf4wP/StaQcFiZH7w8MZbu2dEnPtLmIgjlURmllo04kx07PalDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732261864; c=relaxed/simple;
-	bh=bLSOwz/RUGNYoCAPEAIyUPNe5QElJxvX7KVNHPSWshE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mi5fSvt92/h/n9jP9Iwguj3JqYfjU2cfRgwuN6V8rkzOsF3lclXWlGjYk+1N0WCL2IRAbhh8qANano2EItvuyXEvsbR0F7te2jHlV8gXktIS6bzfUnUNQGHmUxxXM3iWISyZcoLa85Oulf0FNBsr168V3X/zvZPeWaztqhMJnp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfqXFfO/; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1732261866; c=relaxed/simple;
+	bh=ZZGSD+Tf9pw4+mC1CBo9amMXhYpAa31/QE57BMBPaxg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DV5pnSx84fj6xvUBkGiBHuqEDxDl7DcILLbMuAhx0FQFrOVe6iSE5ohulQAd1eSKY1Zug37+vHt5kg7u/0UwXkjBdgIx0KpZA/LZxfAIWXUrCgLwfA4WLEnVY8hV6S/iQjLXoB8krrqDj2v/qexdvedBnWS392nX0psQOynCbmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RwlBo9/t; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfqXFfO/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RwlBo9/t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732261862; x=1763797862;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bLSOwz/RUGNYoCAPEAIyUPNe5QElJxvX7KVNHPSWshE=;
-  b=TfqXFfO/i2gSMyI+gQshxraxrGmb9m8O4cM9AMGlRJY0CTsbRmMGhYei
-   X+OIn+ASoHDEbIufMqfYR94HvB7JIVuph1rVQ7RGtsPsNPhpXnv1gJfa/
-   T+PtcYNuO4J8avq0iHD0YgNGXIKmRWwYFhahCGj9Wh0pyY9YDvYR2uM7B
-   zg3PsM+jnm/xXUG3tGKtmWjLfJIXsXzQbkMdrtD0GLB73B4RNJkRCo1pb
-   CEO1x9ofMpnJIVyciUtOpAWviRf3ctllbb3gFSOmBIJNtBiyZdplQNeRp
-   RLwkWc1LbMRxMNekfN2juTSB/KNtRYTvNiOBvwjquy4oqrPIgbFT1FRzs
+  t=1732261863; x=1763797863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZZGSD+Tf9pw4+mC1CBo9amMXhYpAa31/QE57BMBPaxg=;
+  b=RwlBo9/t8blxKhSMNMpR4YBxuFTHRfp65pUp9JkiwuhzG1yYixvI6fJA
+   UNiMgBTdfXw46XRUntbWMNvRgtIONJ8Zu2CKA3c+iZoiHTdFEqvHwsrAX
+   DxfhVEr/DqWEm9+sv7T55CfP9GA161TtpFJndnchDQgwR1Gmh7737oHt9
+   R8LvP9lQ9TK6mt0NNUkLn6NYmZEFnbbA6Is+Gaim988EtxWbO+qQLEfol
+   kI6992JEBRxCfEuoK4xJ69OGj7IbUWefxHcwvDj0SCOzhK6E8Cse3ZysU
+   HlIUbYKJ+ooZaW+QQgBC6Jhh7ADrRSdsnrA5x0e9F5mLaw/+rWJqydYow
    Q==;
-X-CSE-ConnectionGUID: siydYqAgQeGgUfztjP4uXQ==
-X-CSE-MsgGUID: K4tHBeivQjCFOoIE25L+qw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32338863"
+X-CSE-ConnectionGUID: kgGccsCUQbiaRyJgzqiyRg==
+X-CSE-MsgGUID: 61VOJwtESxCFhUW6R2CK2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="32156854"
 X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
-   d="scan'208";a="32338863"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 23:51:01 -0800
-X-CSE-ConnectionGUID: MX7dNzxXRV6MaAu4Twm0Jg==
-X-CSE-MsgGUID: YJoCD09yQg+a2NWqbX+U4Q==
+   d="scan'208";a="32156854"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 23:51:03 -0800
+X-CSE-ConnectionGUID: nBgbhrT/TK+xGGAPGMHUJQ==
+X-CSE-MsgGUID: PPr96EqHTdWlSloqZgrpYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
-   d="scan'208";a="90440335"
+   d="scan'208";a="91294935"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 21 Nov 2024 23:51:01 -0800
+  by orviesa008.jf.intel.com with ESMTP; 21 Nov 2024 23:51:00 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEORN-0003m1-2x;
+	id 1tEORN-0003lz-2n;
 	Fri, 22 Nov 2024 07:50:57 +0000
-Date: Fri, 22 Nov 2024 15:50:36 +0800
+Date: Fri, 22 Nov 2024 15:50:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Laura Abbott <labbott@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Justin M. Forbes" <jforbes@fedoraproject.org>,
-	linux-doc@vger.kernel.org
-Subject: [snitzer:snitm-kernel-6.12/delstid-localio 108/4957] htmldocs:
- Warning: redhat/kernel.spec.template references a file that doesn't exist:
- linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-Message-ID: <202411221549.rpyb1lPy-lkp@intel.com>
+To: Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+	andi.shyti@kernel.org, quic_bjorande@quicinc.com,
+	linux-arm-msm@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, --cc=konrad.dybcio@linaro.org,
+	quic_vdadhani@quicinc.com, vkoul@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>
+Subject: Re: [PATCH v3] i2c: i2c-qcom-geni: Serve transfer during early
+ resume stage
+Message-ID: <202411221541.mTqJTK6J-lkp@intel.com>
+References: <20241119143031.3331753-1-quic_msavaliy@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,24 +68,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241119143031.3331753-1-quic_msavaliy@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/snitzer/linux.git snitm-kernel-6.12/delstid-localio
-head:   f102a32db07d849c674ad967119239239a8730f8
-commit: ca6d0d838cc43107728a2f2f373fed003e6d935f [108/4957] [initial commit] Add files for generating the kernel.spec
-reproduce: (https://download.01.org/0day-ci/archive/20241122/202411221549.rpyb1lPy-lkp@intel.com/reproduce)
+Hi Mukesh,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20241120]
+[also build test ERROR on linus/master]
+[cannot apply to v6.12 v6.12-rc7 v6.12-rc6 v6.12]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mukesh-Kumar-Savaliya/i2c-i2c-qcom-geni-Serve-transfer-during-early-resume-stage/20241121-124240
+base:   next-20241120
+patch link:    https://lore.kernel.org/r/20241119143031.3331753-1-quic_msavaliy%40quicinc.com
+patch subject: [PATCH v3] i2c: i2c-qcom-geni: Serve transfer during early resume stage
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241122/202411221541.mTqJTK6J-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411221541.mTqJTK6J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411221549.rpyb1lPy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411221541.mTqJTK6J-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/fsl,qoriq-mc.txt
->> Warning: redhat/kernel.spec.template references a file that doesn't exist: linux-%{KVERREL}/tools/perf/Documentation/examples.txt
-   Using alabaster theme
+   In file included from drivers/i2c/busses/i2c-qcom-geni.c:6:
+   In file included from include/linux/dmaengine.h:12:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/i2c/busses/i2c-qcom-geni.c:706:28: error: no member named 'usage_count' in 'struct dev_pm_info'
+     706 |                         atomic_read(&dev->power.usage_count));
+         |                                      ~~~~~~~~~~ ^
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                              ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/i2c/busses/i2c-qcom-geni.c:732:28: error: no member named 'usage_count' in 'struct dev_pm_info'
+     732 |                         atomic_read(&dev->power.usage_count));
+         |                                      ~~~~~~~~~~ ^
+   include/linux/dev_printk.h:165:39: note: expanded from macro 'dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                              ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:274:19: note: expanded from macro 'dynamic_dev_dbg'
+     274 |                            dev, fmt, ##__VA_ARGS__)
+         |                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   1 warning and 2 errors generated.
+
+
+vim +706 drivers/i2c/busses/i2c-qcom-geni.c
+
+   692	
+   693	static int geni_i2c_xfer(struct i2c_adapter *adap,
+   694				 struct i2c_msg msgs[],
+   695				 int num)
+   696	{
+   697		struct geni_i2c_dev *gi2c = i2c_get_adapdata(adap);
+   698		struct device *dev = gi2c->se.dev;
+   699		int ret;
+   700	
+   701		gi2c->err = 0;
+   702		reinit_completion(&gi2c->done);
+   703		/* Serve I2C transfer by forced resume if Runtime PM is enbled or not */
+   704		if (!pm_runtime_enabled(dev) && gi2c->suspended) {
+   705			dev_dbg(dev, "Runtime PM is disabled hence force resume, pm_usage_count: %d\n",
+ > 706				atomic_read(&dev->power.usage_count));
+   707			ret = pm_runtime_force_resume(dev);
+   708			if (ret)
+   709				return ret;
+   710		} else {
+   711			ret = pm_runtime_get_sync(gi2c->se.dev);
+   712			if (ret < 0) {
+   713				dev_err(gi2c->se.dev, "error turning SE resources:%d\n", ret);
+   714				pm_runtime_put_noidle(gi2c->se.dev);
+   715				/* Set device in suspended since resume failed */
+   716				pm_runtime_set_suspended(gi2c->se.dev);
+   717				return ret;
+   718			}
+   719		}
+   720	
+   721		qcom_geni_i2c_conf(gi2c);
+   722	
+   723		if (gi2c->gpi_mode)
+   724			ret = geni_i2c_gpi_xfer(gi2c, msgs, num);
+   725		else
+   726			ret = geni_i2c_fifo_xfer(gi2c, msgs, num);
+   727	
+   728		/* if Runtime PM is disabled, do force_suspend() else autosuspend the driver */
+   729		if (!pm_runtime_enabled(dev) && !gi2c->suspended) {
+   730			ret = pm_runtime_force_suspend(dev);
+   731			dev_dbg(dev, "Runtime PM is disabled hence force suspend, pm_usage_count: %d\n",
+   732				atomic_read(&dev->power.usage_count));
+   733			if (ret)
+   734				return ret;
+   735		} else {
+   736			pm_runtime_mark_last_busy(gi2c->se.dev);
+   737			pm_runtime_put_autosuspend(gi2c->se.dev);
+   738		}
+   739	
+   740		gi2c->cur = NULL;
+   741		gi2c->err = 0;
+   742		return ret;
+   743	}
+   744	
 
 -- 
 0-DAY CI Kernel Test Service
