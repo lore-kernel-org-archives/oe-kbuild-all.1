@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18055249E5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 21:33:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8099F8614E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 21:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732311239; cv=none; b=icHUTXK4XEPLfWVmXdqpxZjbyGE1vDWeRQFP0cUQQp3NmzEVsOwtAtw8pc8cpxzFDI5ge9E5REN974KGWt8HrlXKtL1b36FQ2BcRiUgojWC8EdtYeFs+7s0eVnv/wxAyAziP06HfV1n580GYce7j0wjZiLykn8SVqB6DawGI/tg=
+	t=1732311866; cv=none; b=TDTKaHyXDEZFZ0+GrR2qRoIDLKUAE48UFEdAB6K2CKposwlhsCIi/NUgTAZrj0MqtyFy7jxIRjTNrfDNSTjX5tczMQU5I4K0/A8N+pIQWuEc2ujQ8YJxRGo/Y+oxEUiRvfqu0EeqiiifNO7VRA/hlnqbCoceHmeRpSEGcNlNpg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732311239; c=relaxed/simple;
-	bh=UMsDGG/td31pODC2eWIaZYa3c4BOPJo4g3BIywwrwSU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jn90Q4QMXVwFWNPIlf86RKXidJPVzFuv/Wn6R37aJLBBXKAUjBdDtYyaSCxiCUUiVYp/cYutimaPcyEMnhOlbq1xL+HTWQ1sC2cu2mASROXbXmkNQpFb8U3S1LV/WyBp2S5O53EZxxGxAFNFBNsLJFPm2vjULzOHSJ6Ta01Oync=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6IypZBP; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1732311866; c=relaxed/simple;
+	bh=+YiAqfXxoTzGUwXix7J4zcMavd+7rM6bohqwdPgTrG0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rUPSfhcbBHGRHhucYHxX9XQPYNBQYzmnCPI2cdaPOuprtpNnurMIJhRNz7gtcdeGbJDbEqZdUjvRdlcaVIs7s5mwz5BwpCIpw0mbL35LrdD7fBw0DDnt4G529MB3NZRkPTsekVsLMdDMp61M0w69NO9VaEbFRK0GK6usgCFJsA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgzInx+S; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6IypZBP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgzInx+S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732311238; x=1763847238;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UMsDGG/td31pODC2eWIaZYa3c4BOPJo4g3BIywwrwSU=;
-  b=C6IypZBPBNLTImaT2dMHTW77mmgamHbUmDH3LA9pc5qG4jfmkMmrVP84
-   9JBW+ETBx4LXgyeNtPMjJfIDOSrovFxZnfVEq6cNH7oXIvPJfsZgeaTL5
-   S+apvvWTLotKXVIRtaoWz7Ds87qb0pHxFPOyubwUpT45tViGGTf5mk/Ww
-   g/E0qSNlrIXk+/hB1Dgtph3rr9GQ+SxvCxfexdlihuHXM1GU9dFJmDgJf
-   5Giu7E++/y/5qqc8SmP7RZFJxSZg9AJjSdorU4yZptLvLZ26K5V4u13K5
-   ZiO72T0YP9YOdKxgH3oCkB6Kn66j+7bSMXXiv+Gha3c08cTZTpANZfIyP
-   A==;
-X-CSE-ConnectionGUID: 1STIUT61TuGFGZjwtdt1jQ==
-X-CSE-MsgGUID: Gu03O6gkQSqFaMvATo4GnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="43858491"
+  t=1732311864; x=1763847864;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+YiAqfXxoTzGUwXix7J4zcMavd+7rM6bohqwdPgTrG0=;
+  b=IgzInx+SZrvNVoKPsJpZmhGyO73c1mrQykqW0jN5Ik+uTPQcbAj0JSjm
+   fGTMZahbTNKyDb6eDL8SKUUHPhQeJPGnTNU0d+2eGJayHmZU0AeETZ74x
+   AAWYMcRHs74+syJq9ymdK5h+nDPpr4P8ZnByhV7g/KX9+wjhz0k5eSfAA
+   NsnBaPtd2s2BEliCXA0Abk7slFC8hA4LXq4gQ6mrEw8eFVFjaltZ5/QGQ
+   yPdXvmy+BgRdIrrku+XBNKGdUeIufjvGLGEkvXFjwLsC38DyGljWu2q/b
+   oOWnmiG5vs+CwN6JGoqvygi2ocZENxi4j7FqZKEJcdKzzDYEXyGyYKKLl
+   w==;
+X-CSE-ConnectionGUID: +lTDF7iKSGWVGR3/Is442g==
+X-CSE-MsgGUID: bMvYIvmSRLe4VzS1gOGosw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="31868362"
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="43858491"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 13:33:22 -0800
-X-CSE-ConnectionGUID: KHGGL0acSHWi7bGJgAy0Gw==
-X-CSE-MsgGUID: Bg/FgRYCTmOGTMfbpAGiew==
+   d="scan'208";a="31868362"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 13:44:21 -0800
+X-CSE-ConnectionGUID: yx+KRAVpT9i6V+d0wTIAAQ==
+X-CSE-MsgGUID: B6i+XKiiTT6EPzM/jpLuzg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="91045170"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="95744472"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Nov 2024 13:33:20 -0800
+  by orviesa003.jf.intel.com with ESMTP; 22 Nov 2024 13:44:20 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEbHA-0004E7-1u;
-	Fri, 22 Nov 2024 21:33:16 +0000
-Date: Sat, 23 Nov 2024 05:33:10 +0800
+	id 1tEbRp-0004EV-1a;
+	Fri, 22 Nov 2024 21:44:17 +0000
+Date: Sat, 23 Nov 2024 05:43:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Avihai Horon <avihaih@nvidia.com>,
-	Alex Williamson <alex.williamson@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Yishai Hadas <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
-	Maor Gottlieb <maorg@nvidia.com>, Avihai Horon <avihaih@nvidia.com>
-Subject: Re: [PATCH v2] vfio/pci: Properly hide first-in-list PCIe extended
- capability
-Message-ID: <202411230727.abAsDI8W-lkp@intel.com>
-References: <20241121140057.25157-1-avihaih@nvidia.com>
+To: David Woodhouse <dwmw@amazon.co.uk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dwmw2:kexec-debug 5/17] (.text.relocate_kernel+0x154): undefined
+ reference to `saved_context'
+Message-ID: <202411230543.RxT6V0gK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,123 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241121140057.25157-1-avihaih@nvidia.com>
 
-Hi Avihai,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on awilliam-vfio/next]
-[also build test ERROR on linus/master awilliam-vfio/for-linus v6.12 next-20241122]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Avihai-Horon/vfio-pci-Properly-hide-first-in-list-PCIe-extended-capability/20241121-220249
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20241121140057.25157-1-avihaih%40nvidia.com
-patch subject: [PATCH v2] vfio/pci: Properly hide first-in-list PCIe extended capability
-config: s390-randconfig-r053-20241122 (https://download.01.org/0day-ci/archive/20241123/202411230727.abAsDI8W-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230727.abAsDI8W-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug
+head:   82a5c5d637f1fbf912942eeb06069f111f7b3223
+commit: bd9290d2ada17ca6e2417d85b8494744443e5a26 [5/17] x86/kexec: Use linker script for relocate_kernel page layout
+config: x86_64-buildonly-randconfig-001-20241123 (https://download.01.org/0day-ci/archive/20241123/202411230543.RxT6V0gK-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230543.RxT6V0gK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411230727.abAsDI8W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411230543.RxT6V0gK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/vfio/pci/vfio_pci_config.c:24:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __raw_readb(PCI_IOBASE + addr);
-                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-                                                             ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-   #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-                                                        ^
-   In file included from drivers/vfio/pci/vfio_pci_config.c:24:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-                                                           ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-                                                             ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-   #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-                                                        ^
-   In file included from drivers/vfio/pci/vfio_pci_config.c:24:
-   In file included from include/linux/pci.h:39:
-   In file included from include/linux/io.h:14:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writeb(value, PCI_IOBASE + addr);
-                               ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-                                                         ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsb(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsw(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           readsl(PCI_IOBASE + addr, buffer, count);
-                  ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesb(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesw(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-           writesl(PCI_IOBASE + addr, buffer, count);
-                   ~~~~~~~~~~ ^
->> drivers/vfio/pci/vfio_pci_config.c:322:27: error: initializer element is not a compile-time constant
-           [0 ... PCI_CAP_ID_MAX] = direct_ro_perms
-                                    ^~~~~~~~~~~~~~~
-   drivers/vfio/pci/vfio_pci_config.c:325:31: error: initializer element is not a compile-time constant
-           [0 ... PCI_EXT_CAP_ID_MAX] = direct_ro_perms
-                                        ^~~~~~~~~~~~~~~
-   12 warnings and 2 errors generated.
-
-
-vim +322 drivers/vfio/pci/vfio_pci_config.c
-
-   319	
-   320	/* Default capability regions to read-only, no-virtualization */
-   321	static struct perm_bits cap_perms[PCI_CAP_ID_MAX + 1] = {
- > 322		[0 ... PCI_CAP_ID_MAX] = direct_ro_perms
-   323	};
-   324	static struct perm_bits ecap_perms[PCI_EXT_CAP_ID_MAX + 1] = {
-   325		[0 ... PCI_EXT_CAP_ID_MAX] = direct_ro_perms
-   326	};
-   327	/*
-   328	 * Default unassigned regions to raw read-write access.  Some devices
-   329	 * require this to function as they hide registers between the gaps in
-   330	 * config space (be2net).  Like MMIO and I/O port registers, we have
-   331	 * to trust the hardware isolation.
-   332	 */
-   333	static struct perm_bits unassigned_perms = {
-   334		.readfn = vfio_raw_config_read,
-   335		.writefn = vfio_raw_config_write
-   336	};
-   337	
+   ld: arch/x86/kernel/relocate_kernel_64.o: in function `virtual_mapped':
+>> (.text.relocate_kernel+0x154): undefined reference to `saved_context'
+>> ld: (.text.relocate_kernel+0x15b): undefined reference to `saved_context_gdt_desc'
 
 -- 
 0-DAY CI Kernel Test Service
