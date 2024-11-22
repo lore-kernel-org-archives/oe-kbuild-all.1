@@ -1,59 +1,71 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4ADA15531A
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 20:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0E5178384
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 20:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732306153; cv=none; b=jNrQs5eOpGhWQZO0D+zOWeQzPJevv1QJ0nuP1+inoq15ioaW7bJh1oSkGjXNjMUmee+Fa6CwF+lEX+OjZXyjuf8grrW/m86QbjLhEyj+cN6zgNjU7zMgrKtOClwEyu1t1nrqzkCTGK5jNt4OwcizAOsnfkxtRXMuUwEvhn9OBdo=
+	t=1732306818; cv=none; b=Wx0noBvoXdbph8m+M2s35ybbZiJKc+z9T4iE4jiyublST/Gzg1GyrE3UIyAHBQ1BMQZV8D8aXMTYny69dgJVj5vAuql9XfSQ00w461KgbGBa+eIWARNOG7Ncz4hSrCrdX63ag3evwnET/yEvdORtQpRy011hUhltvdAyxuyEAr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732306153; c=relaxed/simple;
-	bh=VsmqIID6uqhrPT0RaCW7ULJIdWYZ2hvUILFZERZ94hQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mefzKEw7VesLr3vOifUHYB01O6RxclQ21gUCrZLQQ2CmiyYmEXrAGdqVjy/Q3Lj0eIGQi0pa0XyEoHqDvuWKPU4a8CvkuXNfyfjbWht+i/+LtYWt5b6M2tfQNybVwWBpOvoxWvaxhqedjIZMV/BsbHRb0qWvoJd7uxXMgYppXTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=af+B6vhs; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1732306818; c=relaxed/simple;
+	bh=HNDcaOydHm7ucy39Mzb5uU0MWWh26gP81ijOugZ3+Qc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u1LqiZAvmB40Bf4KtlZf8/op7Az3UwdH07NEzto0djYT9ajv31Rxt67zZxaih5zyksXAkRiZnex8ZrKV29+/QG9uuwdEHPu4WQRUrS+H/S97z2WTLtf7CxlkShmwpBEvaPBNykJThq4PqhqMFcJOTuAEJWC8Bd1fsfZPwCNuYwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fLdSFwLX; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="af+B6vhs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fLdSFwLX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732306152; x=1763842152;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VsmqIID6uqhrPT0RaCW7ULJIdWYZ2hvUILFZERZ94hQ=;
-  b=af+B6vhsdVbvyFMHNbjevj7vnNOMEyZVbJzl0t871bh9HToHvNo7ppmB
-   UazRoaYdnNjqV+wP2HGmTdWhEd18y1hyuaKQBiDqWsNGv1dOfS1e05tf8
-   vG7leW2eDd4eAUDTqH6ZGL7ZplAGXlHosFrQO4vZqbf503oy+Vp5jjYbL
-   QgeX8zC9iLe62gnHkYx/QeIKh0/WHXELtD0J5wpCBSxhWwH/2+SLKYvyu
-   psaZhT7X5p9VCC21lnQ2/RG6pQdphDkcAs8QF3F1k0tHLWSVC0b7cjqfC
-   KjXnR3ex88mRF258yYwUqfMv66xnWSj1fHumqAd4DOk2Z3DDnMvAwftyb
+  t=1732306817; x=1763842817;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HNDcaOydHm7ucy39Mzb5uU0MWWh26gP81ijOugZ3+Qc=;
+  b=fLdSFwLX19uJOwRdlxA0DTTAldoafe4q7BNrE5io45QtFVo8SqpDZdNf
+   0D1+2aT2CJcBAAxnMhJOFTo6ukzBnCu0uqTJQTkB1x/G2VxkIWPXxdFLb
+   t53bQdWH2H9eGElR5asq7r4wKBGNXxmwcj7/26jW8lFe3SC3aDH69BY+j
+   fIEE8j5RDC+oAQNwRM1nVjgHS5juXZMXf69ZhQ+IifktPuytKDfeDlD55
+   UJOCDVcK7WP+GkmIklOTiSVErSagAL5t9qkTxffDfw2GUzpfSEIuMfu7e
+   73TfzFqgfb+5Pszl8j1ENfiWW3Tcb+W0se9X1Z8ORM6TQ/Ve8fb7JKgOu
    g==;
-X-CSE-ConnectionGUID: R766VvQdTUi2ugoAciykpQ==
-X-CSE-MsgGUID: hGYV3mA7Si2gRkYNfASmUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="57874360"
+X-CSE-ConnectionGUID: anwjNbIoR5qSDubqlLJjqA==
+X-CSE-MsgGUID: hAZI5ROJSt+pjzHj8TfIcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="57875268"
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="57874360"
+   d="scan'208";a="57875268"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 12:09:10 -0800
-X-CSE-ConnectionGUID: Qv38n7ZDSga31Kju6qUJsA==
-X-CSE-MsgGUID: fO+uecgYR56PgI5rgPL5oQ==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 12:20:16 -0800
+X-CSE-ConnectionGUID: 7igoSp7sSWWh2EGK9MYqjA==
+X-CSE-MsgGUID: 2YcHmsClQtSTHrFAFdyOqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,176,1728975600"; 
-   d="scan'208";a="113951765"
+   d="scan'208";a="113954203"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2024 12:09:10 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2024 12:20:12 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEZxj-0004Bv-1V;
-	Fri, 22 Nov 2024 20:09:07 +0000
-Date: Sat, 23 Nov 2024 04:08:47 +0800
+	id 1tEa8P-0004C7-2s;
+	Fri, 22 Nov 2024 20:20:09 +0000
+Date: Sat, 23 Nov 2024 04:20:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.12-main 25/62]
- drivers/net/pcs/pcs-standalone.c:14:29: warning: unused variable
- 'phylink_pcs_phy_ops'
-Message-ID: <202411230405.SOUUBxvT-lkp@intel.com>
+To: David Laight <David.Laight@aculab.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	'Arnd Bergmann' <arnd@kernel.org>, 'Jens Axboe' <axboe@kernel.dk>,
+	'Matthew Wilcox' <willy@infradead.org>,
+	'Christoph Hellwig' <hch@infradead.org>,
+	'Andrew Morton' <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	'Andy Shevchenko' <andriy.shevchenko@linux.intel.com>,
+	'Dan Carpenter' <dan.carpenter@linaro.org>,
+	"'Jason A . Donenfeld'" <Jason@zx2c4.com>,
+	"'pedro.falcato@gmail.com'" <pedro.falcato@gmail.com>,
+	'Mateusz Guzik' <mjguzik@gmail.com>,
+	'Lorenzo Stoakes' <lorenzo.stoakes@oracle.com>
+Subject: Re: [PATCH next 6/7] minmax.h: Simplify the variants of clamp()
+Message-ID: <202411230458.dhZwh3TT-lkp@intel.com>
+References: <8f69f4deac014f558bab186444bac2e8@AcuMS.aculab.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,134 +74,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <8f69f4deac014f558bab186444bac2e8@AcuMS.aculab.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.12-main
-head:   fc18a51777815a2de7bd2a88e44b3707632980d4
-commit: fc6b1d3fce791f6ddf015275393ad489e519d3c8 [25/62] net: pcs: add helper module for standalone drivers
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411230405.SOUUBxvT-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230405.SOUUBxvT-lkp@intel.com/reproduce)
+Hi David,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20241121]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Laight/minmax-h-Add-whitespace-around-operators-and-after-commas/20241121-152617
+base:   next-20241121
+patch link:    https://lore.kernel.org/r/8f69f4deac014f558bab186444bac2e8%40AcuMS.aculab.com
+patch subject: [PATCH next 6/7] minmax.h: Simplify the variants of clamp()
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241123/202411230458.dhZwh3TT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230458.dhZwh3TT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411230405.SOUUBxvT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411230458.dhZwh3TT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/pcs/pcs-standalone.c:8:
-   In file included from include/linux/pcs/pcs-standalone.h:6:
-   In file included from include/linux/phylink.h:4:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:37:59: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) __swab16((__force __u16)(__le16)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:102:54: note: expanded from macro '__swab16'
-     102 | #define __swab16(x) (__u16)__builtin_bswap16((__u16)(x))
-         |                                                      ^
-   In file included from drivers/net/pcs/pcs-standalone.c:8:
-   In file included from include/linux/pcs/pcs-standalone.h:6:
-   In file included from include/linux/phylink.h:4:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/big_endian.h:35:59: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) __swab32((__force __u32)(__le32)(x))
-         |                                                           ^
-   include/uapi/linux/swab.h:115:54: note: expanded from macro '__swab32'
-     115 | #define __swab32(x) (__u32)__builtin_bswap32((__u32)(x))
-         |                                                      ^
-   In file included from drivers/net/pcs/pcs-standalone.c:8:
-   In file included from include/linux/pcs/pcs-standalone.h:6:
-   In file included from include/linux/phylink.h:4:
-   In file included from include/linux/phy.h:16:
-   In file included from include/linux/ethtool.h:18:
-   In file included from include/linux/if_ether.h:19:
-   In file included from include/linux/skbuff.h:28:
-   In file included from include/linux/dma-mapping.h:11:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/s390/include/asm/io.h:95:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
->> drivers/net/pcs/pcs-standalone.c:14:29: warning: unused variable 'phylink_pcs_phy_ops' [-Wunused-const-variable]
-      14 | static const struct phy_ops phylink_pcs_phy_ops = {
-         |                             ^~~~~~~~~~~~~~~~~~~
-   17 warnings generated.
+   In file included from include/linux/kernel.h:28,
+                    from include/linux/cpumask.h:11,
+                    from arch/loongarch/include/asm/processor.h:9,
+                    from arch/loongarch/include/asm/thread_info.h:15,
+                    from include/linux/thread_info.h:60,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/loongarch/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/delay.h:13,
+                    from drivers/iio/magnetometer/yamaha-yas530.c:27:
+   drivers/iio/magnetometer/yamaha-yas530.c: In function 'yas537_measure':
+>> include/linux/minmax.h:188:20: warning: overflow in conversion from 'long unsigned int' to 's32' {aka 'int'} changes value from '18446744073709543424' to '-8192' [-Woverflow]
+     188 |         type ulo = (lo);                                                        \
+         |                    ^
+   include/linux/minmax.h:197:9: note: in expansion of macro '__clamp_once'
+     197 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
+         |         ^~~~~~~~~~~~
+   include/linux/minmax.h:233:32: note: in expansion of macro '__careful_clamp'
+     233 | #define clamp_val(val, lo, hi) __careful_clamp(typeof(val), val, lo, hi)
+         |                                ^~~~~~~~~~~~~~~
+   drivers/iio/magnetometer/yamaha-yas530.c:414:25: note: in expansion of macro 'clamp_val'
+     414 |                         clamp_val(h[i], -BIT(13), BIT(13) - 1);
+         |                         ^~~~~~~~~
 
 
-vim +/phylink_pcs_phy_ops +14 drivers/net/pcs/pcs-standalone.c
+vim +188 include/linux/minmax.h
 
-    13	
-  > 14	static const struct phy_ops phylink_pcs_phy_ops = {
-    15		.owner = THIS_MODULE,
-    16	};
-    17	
+   172	
+   173	/**
+   174	 * min_not_zero - return the minimum that is _not_ zero, unless both are zero
+   175	 * @x: value1
+   176	 * @y: value2
+   177	 */
+   178	#define min_not_zero(x, y) ({			\
+   179		typeof(x) __x = (x);			\
+   180		typeof(y) __y = (y);			\
+   181		__x == 0 ? __y : ((__y == 0) ? __x : min(__x, __y)); })
+   182	
+   183	#define __clamp(val, lo, hi)	\
+   184		((val) >= (hi) ? (hi) : ((val) <= (lo) ? (lo) : (val)))
+   185	
+   186	#define __clamp_once(type, val, lo, hi, uval, ulo, uhi) ({			\
+   187		type uval = (val);							\
+ > 188		type ulo = (lo);							\
+   189		type uhi = (hi);							\
+   190		BUILD_BUG_ON_MSG(statically_true(ulo > uhi),				\
+   191			"clamp() low limit " #lo " greater than high limit " #hi);	\
+   192		BUILD_BUG_ON_MSG(!__types_ok3(uval, ulo, uhi),				\
+   193			"clamp("#val", "#lo", "#hi") signedness error");		\
+   194		__clamp(uval, ulo, uhi); })
+   195	
 
 -- 
 0-DAY CI Kernel Test Service
