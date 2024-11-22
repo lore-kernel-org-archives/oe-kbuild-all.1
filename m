@@ -1,67 +1,60 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06F379FE
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 12:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37B001DF27B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 13:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732280359; cv=none; b=KqJJNDHF1H/rxOvyV7YyTvt+vfbPYdGXixQQl/2P5PHlsOTRRp4age6fX+4x0rusTMxKQF0/+sie3jU6sLHEab3RKY7uz0hRQCjbSYQ09eJY6U/TmuTwIKwGB8DLB60VDELlf09bWGUthsEID3wcaw1iYDTW4/a9IjvKqdDekXk=
+	t=1732281331; cv=none; b=kTUBY7HvT603X8D0djue12TAcreh/im3SW0IOMgzdU3+r4ywjwXitBgyLRmzHbebkCt7E8oHI62RT69ViNbWuSAGd8YWXwl2gy5yMypjELvuellFKgGG9FXTg/X99qaLiHrpfODbyhuVxIaHXgfbDSbC6EEIse5i3slBY02qp/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732280359; c=relaxed/simple;
-	bh=5LF0sWIal2U0+dbFhFwEhNmDs0IUJECe6wXw1MNkzQ4=;
+	s=arc-20240116; t=1732281331; c=relaxed/simple;
+	bh=fSIRfZRLJNsbO0R4nwu9Lft90JCQPoW5tQsEqeBkQEw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q4xW5RxNLYS1RxTfUSQJUXd0y+pxFOJOd8rpyS+kG18zQFSIPYSuXBkFBBp4MKiqsZwsu9bFIfHQKKFerOqDk/bEjXZQWj3n3pwhHqUxzb8uUqHYR14DM3USlPhzmCUVdObTe38tIzV3Sdbq1odL6JZty27Ka3F1RY66BvdSV/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LmN62HoA; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=btLtob74VCwE5J+Nh74u7sf0ncsjgBp/Ly1Tu4LzreRtk0Fxh70uu7xfAj2OOoyxru2Z6PnrDRW5I9Cy8aMJZp5Xz5Gzu2ZO+u4CpRkPuOh5ehZ1WaheaNIp4JjzuN01hz0u1/S+Nx3Z91WHHLxyo+WX8b162pE/jJxpfe36HbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SqG0CRXQ; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LmN62HoA"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-382423e1f7aso1385743f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 22 Nov 2024 04:59:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732280355; x=1732885155; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hxzSzzFQ3VEMlKbDZ1hYeOGML4eziB5ALghzzU7maks=;
-        b=LmN62HoASH3EhNYH1jsZGeOGro1fArqCneD/oWlr+Fl1tY4Kjgo/ShaOskUh5jH+Bv
-         uPiYWbi7bmKOecmPkwiw+1MUAon7qppD+Awm+TfA1KFkeZvt4hv6lWVtTAryp+p3DqVV
-         Xz1iP8B3mIIjcDlt7eslD00H0RCm4C1ONapIpRjRQaiVA1jXSJ5QPHXOAUYMv3/L2+wX
-         s/Tk3lKve/x89gig9xQbTJrBIUDK4K4NNpQYFKUKJtrY97P51PWRh7IPCQEirwuK49iI
-         j+7qd+p5JbGd24DlN/G9+yhGYB+zSg8qq6RxfspBORX3UDfZCDprA3NakpCUXPNz4Fx3
-         GboA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732280355; x=1732885155;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hxzSzzFQ3VEMlKbDZ1hYeOGML4eziB5ALghzzU7maks=;
-        b=xVH+tgf1lCQNoO97ItMwbOHCX57pR9NAxS/rXwW6CN4eLxOZqcTGiDfIZtxxIuge6Y
-         UsEQ2RRaHD2FIH+8fpSe5IGk7BFDadOwLvY36/QAvRu+tymYGR4tnsmFiPONJ2M39pz1
-         qlLzsQrmKwQ/ipF0bC2rJAjsmZHuTdhdFJgHm1u4NyR9r6Zxoi1gMTI9veuXLDgzXi91
-         2/V/Oetz5eDYKlEqgJfTCk+ZkKr6BoZK5KT6fR3jwfjyYbQjg841CD3oEVqz4gA4Vt/g
-         17RbzVKX3uBTJycUqWkxg0sXPLpfuLvg3nVnxuab2+THskp8K0WFXgdc6nxoSOOk0WGO
-         EQwA==
-X-Forwarded-Encrypted: i=1; AJvYcCV725LRfgXX5/b4/wOId/DhFGlHM+WvXPOcAUpLBgEQncguApMindBJTTC8rsnOlabml9oQvX4rzSg5XrlD@lists.linux.dev
-X-Gm-Message-State: AOJu0YxjCggDFcX4aDNM3zHIBpfjiy//1tfeERTt0Ngfht/lMremfnxH
-	K0MvVVKTbtNa2NzL+ppDKsMHc/fygE/clykRjkEBIX7EoahiWFBTgDqnx6Broic=
-X-Gm-Gg: ASbGncv4+yZyOwsAG/UJv7KW6aGHuff1dNi4hX/7eZ11V/7Mux+zjzw2weXjg19DIx0
-	tqC8Yv31Q6lsp6xelAU0EI+9kgrtrtYrhzNaQIYw94XRbLaW0hZN35kszkVwUqlJNdXAbHM2ID/
-	cx16RrPNYyzRFvZPET+UzX4u2qQiGUK/L0TK0mtwPgEybhEDq8Ve1HOhbJ+8HNWa28a6RmFd8WT
-	d03PhVWTB6aercBejwHkaIsHWQU8ZX2fB1TCBXjpJM4HUnW2cwysj8=
-X-Google-Smtp-Source: AGHT+IHgErHJJknZMEh23hRcjVwJIhKX7vQIjlso3cuza9wI0qkpqYqjlJKkMCE8wQ9ApjBOoThzTQ==
-X-Received: by 2002:a5d:64ce:0:b0:382:4f77:5bff with SMTP id ffacd0b85a97d-38260b83598mr2161069f8f.30.1732280355229;
-        Fri, 22 Nov 2024 04:59:15 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433cde98988sm26440415e9.42.2024.11.22.04.59.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 04:59:14 -0800 (PST)
-Date: Fri, 22 Nov 2024 15:59:10 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Darrick J. Wong" <djwong@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: fs/xfs/scrub/rtsummary.c:288 xchk_rtsum_compare() warn: missing
- error code? 'error'
-Message-ID: <c9a86317-aef1-407e-809b-466fef57d123@stanley.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SqG0CRXQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732281329; x=1763817329;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fSIRfZRLJNsbO0R4nwu9Lft90JCQPoW5tQsEqeBkQEw=;
+  b=SqG0CRXQ1SyMcBNtRUgwq60JcD4jN4GVQU7i2QMYZF7KdJRN8xXF8YtQ
+   kBbYwxAJ6JM90fuLNXzltQ0CywBORVsVnvit6kYhoXd9Aa39B/lMx/ZLQ
+   gvh0Yk87/GrhmY0WdDdxpklUqCI47Qc/Qrfkxx1iPrdqehZylGg1MY9Ja
+   7GKnHOuPFefBlDIKb/lrKnqH45EdBUr7L1hyWuqk4bPZ/33z3p8/+LyQh
+   z5qDE6SaApO18GxI3gRy4KAMwBPlOpEYFaUcLamFgXf2+g5VODa38X0I9
+   ois8C1+lw/Uj7BGCH0n1ROYYxpG+CyFNjlOhu6u2G+tEkXKX0NJPHmV96
+   w==;
+X-CSE-ConnectionGUID: ogLOgmfBR66kE8uHoEoc2w==
+X-CSE-MsgGUID: 9ARNq8VpQSi/nSD7PTwJyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="20025233"
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="20025233"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 05:15:29 -0800
+X-CSE-ConnectionGUID: B4BQYYr5RtqKAts6ElghxQ==
+X-CSE-MsgGUID: VfhUeOKwTHSRR2Z3kogrSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,175,1728975600"; 
+   d="scan'208";a="113851125"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 22 Nov 2024 05:15:27 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tETVN-0003vT-2t;
+	Fri, 22 Nov 2024 13:15:25 +0000
+Date: Fri, 22 Nov 2024 21:15:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/b4-sysfs-const-bin_attr-cb 29/161]
+ drivers/mtd/spi-nor/sysfs.c:107:27: error: initialization of 'struct
+ bin_attribute **' from incompatible pointer type 'const struct bin_attribute
+ * const*'
+Message-ID: <202411222138.F6dQ2aVz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,104 +64,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   28eb75e178d389d325f1666e422bc13bbbb9804c
-commit: 04f0c3269b41f28c041980a30514850453ded251 xfs: check rt summary file geometry more thoroughly
-config: x86_64-randconfig-r071-20241122 (https://download.01.org/0day-ci/archive/20241122/202411222034.c3kvpXzY-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/b4-sysfs-const-bin_attr-cb
+head:   4c594559fc90f22903c98c95389c0c3d4c8151b4
+commit: bf68ea73c14091cb782938f595dcb401b879e3c8 [29/161] mtd
+config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241122/202411222138.F6dQ2aVz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241122/202411222138.F6dQ2aVz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411222034.c3kvpXzY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411222138.F6dQ2aVz-lkp@intel.com/
 
-smatch warnings:
-fs/xfs/scrub/rtsummary.c:288 xchk_rtsum_compare() warn: missing error code? 'error'
+Note: the thomas-weissschuh/b4/b4-sysfs-const-bin_attr-cb HEAD 4c594559fc90f22903c98c95389c0c3d4c8151b4 builds fine.
+      It only hurts bisectability.
 
-vim +/error +288 fs/xfs/scrub/rtsummary.c
+All errors (new ones prefixed by >>):
 
-526aab5f5790e2 Darrick J. Wong 2023-08-10  221  STATIC int
-526aab5f5790e2 Darrick J. Wong 2023-08-10  222  xchk_rtsum_compare(
-526aab5f5790e2 Darrick J. Wong 2023-08-10  223  	struct xfs_scrub	*sc)
-526aab5f5790e2 Darrick J. Wong 2023-08-10  224  {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  225  	struct xfs_bmbt_irec	map;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  226  	struct xfs_iext_cursor	icur;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  227  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  228  	struct xfs_mount	*mp = sc->mp;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  229  	struct xfs_inode	*ip = sc->ip;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  230  	struct xchk_rtsummary	*rts = sc->buf;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  231  	xfs_fileoff_t		off = 0;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  232  	xfs_fileoff_t		endoff;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  233  	xfs_rtsumoff_t		sumoff = 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  234  	int			error = 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  235  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  236  	rts->args.mp = sc->mp;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  237  	rts->args.tp = sc->tp;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  238  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  239  	/* Mappings may not cross or lie beyond EOF. */
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  240  	endoff = XFS_B_TO_FSB(mp, ip->i_disk_size);
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  241  	if (xfs_iext_lookup_extent(ip, &ip->i_df, endoff, &icur, &map)) {
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  242  		xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, endoff);
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  243  		return 0;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  244  	}
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  245  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  246  	while (off < endoff) {
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  247  		int		nmap = 1;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  248  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  249  		if (xchk_should_terminate(sc, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  250  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  251  		if (sc->sm->sm_flags & XFS_SCRUB_OFLAG_CORRUPT)
-526aab5f5790e2 Darrick J. Wong 2023-08-10  252  			return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  253  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  254  		/* Make sure we have a written extent. */
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  255  		error = xfs_bmapi_read(ip, off, endoff - off, &map, &nmap,
-526aab5f5790e2 Darrick J. Wong 2023-08-10  256  				XFS_DATA_FORK);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  257  		if (!xchk_fblock_process_error(sc, XFS_DATA_FORK, off, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  258  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  259  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  260  		if (nmap != 1 || !xfs_bmap_is_written_extent(&map)) {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  261  			xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, off);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  262  			return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  263  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  264  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  265  		off += map.br_blockcount;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  266  	}
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  267  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  268  	for (off = 0; off < endoff; off++) {
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  269  		union xfs_suminfo_raw	*ondisk_info;
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  270  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  271  		/* Read a block's worth of ondisk rtsummary file. */
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  272  		error = xfs_rtsummary_read_buf(&rts->args, off);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  273  		if (!xchk_fblock_process_error(sc, XFS_DATA_FORK, off, &error))
-526aab5f5790e2 Darrick J. Wong 2023-08-10  274  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  275  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  276  		/* Read a block's worth of computed rtsummary file. */
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  277  		error = xfsum_copyout(sc, sumoff, rts->words, mp->m_blockwsize);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  278  		if (error) {
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  279  			xfs_rtbuf_cache_relse(&rts->args);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  280  			return error;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  281  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  282  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  283  		ondisk_info = xfs_rsumblock_infoptr(&rts->args, 0);
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  284  		if (memcmp(ondisk_info, rts->words,
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  285  					mp->m_blockwsize << XFS_WORDLOG) != 0) {
-526aab5f5790e2 Darrick J. Wong 2023-08-10  286  			xchk_fblock_set_corrupt(sc, XFS_DATA_FORK, off);
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  287  			xfs_rtbuf_cache_relse(&rts->args);
-04f0c3269b41f2 Darrick J. Wong 2023-12-15 @288  			return error;
+>> drivers/mtd/spi-nor/sysfs.c:107:27: error: initialization of 'struct bin_attribute **' from incompatible pointer type 'const struct bin_attribute * const*' [-Werror=incompatible-pointer-types]
+     107 |         .bin_attrs      = spi_nor_sysfs_bin_entries,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/spi-nor/sysfs.c:107:27: note: (near initialization for 'spi_nor_sysfs_group.<anonymous>.bin_attrs')
+   cc1: some warnings being treated as errors
 
-error is zero here.
 
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  289  		}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  290  
-04f0c3269b41f2 Darrick J. Wong 2023-12-15  291  		xfs_rtbuf_cache_relse(&rts->args);
-526aab5f5790e2 Darrick J. Wong 2023-08-10  292  		sumoff += mp->m_blockwsize;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  293  	}
-526aab5f5790e2 Darrick J. Wong 2023-08-10  294  
-526aab5f5790e2 Darrick J. Wong 2023-08-10  295  	return 0;
-526aab5f5790e2 Darrick J. Wong 2023-08-10  296  }
+vim +107 drivers/mtd/spi-nor/sysfs.c
+
+36ac0228626585 Michael Walle 2021-05-03  101  
+36ac0228626585 Michael Walle 2021-05-03  102  static const struct attribute_group spi_nor_sysfs_group = {
+36ac0228626585 Michael Walle 2021-05-03  103  	.name		= "spi-nor",
+7d388551b6888f Michael Walle 2022-08-11  104  	.is_visible	= spi_nor_sysfs_is_visible,
+36ac0228626585 Michael Walle 2021-05-03  105  	.is_bin_visible	= spi_nor_sysfs_is_bin_visible,
+36ac0228626585 Michael Walle 2021-05-03  106  	.attrs		= spi_nor_sysfs_entries,
+36ac0228626585 Michael Walle 2021-05-03 @107  	.bin_attrs	= spi_nor_sysfs_bin_entries,
+36ac0228626585 Michael Walle 2021-05-03  108  };
+36ac0228626585 Michael Walle 2021-05-03  109  
+
+:::::: The code at line 107 was first introduced by commit
+:::::: 36ac0228626585ba718186b9db2e5986a198152c mtd: spi-nor: add initial sysfs support
+
+:::::: TO: Michael Walle <michael@walle.cc>
+:::::: CC: Vignesh Raghavendra <vigneshr@ti.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
