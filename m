@@ -1,59 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B254770FE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Nov 2024 05:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44278F4FA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Nov 2024 05:58:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732340895; cv=none; b=bVMV4h3cMwpJYkDSyGGJCTyggpCH+lGKo3UgVbCV72aOSGazgWhwDP1O7n0Y8kjeoIXxdoVttpWog5iZv3Z8jLWgaOdtd6xzwYLYTxieGaeqSCmdeeXkKGb2KlT4P07LzMIdPQSRc0bISW7rAh3beMg890/Bq8CnGRHmH4/00rI=
+	t=1732341495; cv=none; b=KVnxGF05015XjU8c3FxPMDaop5GqPhthlFO40gfkHfDqockL0qttMJfJV3yywLiwNasBHfMwq27te/C3eAM7Ofhs1Af6OJMRMQcCMGYd2SL+2jnJ+Q915a/0zEyqWOkU7R+LeiCDR3KjCLKaS3EnZIBrJXmKV1efMp6iGIV0qLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732340895; c=relaxed/simple;
-	bh=JxW8BdtAY8/vxbG0fEallOS3z5SOwSSEhjeIh5GXuS0=;
+	s=arc-20240116; t=1732341495; c=relaxed/simple;
+	bh=c+qYM1E3v6l2gY+YGSwd4L2bfCiBmE0Qx2+UsXe+UTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Yc26/MvwWHa6rAQhYyBT+Av2KHPKEAHXch1oFN13uDTXwugAUKHztBXrmHwOZ3jKPhV2A2GXXEpvBbPFXeKVV+z4DOcsfs4OqDI0sHCWi8c0Y5oilHmyiEZW9SzRlMdh8N9u8wTWTikTAF961btYCnYtcGv03+nv8LFfNvuV7uQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MlwEBwRK; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=DYwp8ArWZYLt/ZAaS/yoI8LYwMcie0wVajqv7msyC0DRo3bk97sHf49ODfqVBQfs5ricE3lewRZTh1JLPpTZkuLdxFJ5YuDuW4R2PDQjq2bL/sKQWBdef4qgQa3Dl14yrFcpHq9COgQ5AQaq5o57mXmT0pjSr2qsRvwS8IMyBH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iLO9lZqi; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MlwEBwRK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iLO9lZqi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732340893; x=1763876893;
+  t=1732341494; x=1763877494;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JxW8BdtAY8/vxbG0fEallOS3z5SOwSSEhjeIh5GXuS0=;
-  b=MlwEBwRK94Yl+uVdxfW0eTewqkFqfkRXJN6VOVQGk4qVeRfikaIFp0lg
-   izJOhc5HGMNfrE6BdkhecV71hrs8yR7g+SC+y5u2jM6ghnoI/poC6jiMl
-   k1I8Pm/THnMvMmM94JB4YAn/SQJROBeVcPzzo+VS/N6sg14hcixh+sHIb
-   dVbOJJC9t28XqULs3gA4G8TCnDUXgLdLv3F7a6SAyqZgtMPQm9pTTGx7i
-   ObWiyWv5tTR0l+YgTpN5sEAB/HuobSMdSaITUXqFC9HSm6vekp4Pgf7cQ
-   jccQ1ZTNb8A7j235XKD+Z7keBlyzRyaIo1nZKblmMZyZFRAJYDrMhaTCX
-   A==;
-X-CSE-ConnectionGUID: WThVXkCiQFuMybD+uS34RQ==
-X-CSE-MsgGUID: QZEN/+XCSveDBuh7tIpFXQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="43118638"
+  bh=c+qYM1E3v6l2gY+YGSwd4L2bfCiBmE0Qx2+UsXe+UTE=;
+  b=iLO9lZqiUOXYn55hX2x8uh0FtVMnaO1xVZUyj1ddZoBUXZMh8pM2Mc+t
+   0lVII2rbb/54xgzj4xwKoWP7bSFt35kI1PDVyLxuLLQyNxIcn5t8Feu7L
+   sGQ3XKh2YKvsQUZZcT9qIKhiGbwY2xAsJWJPH0/WeMlCbVd3KcdajNYYy
+   shUJPJfEekPvmlk6X0uaRxCqZu3P+uiyCWJf6MY/SiuwCEA/IlvCRFJq8
+   6w6jNtD6aAmQXsLQSIX+WvzdEMrDWszw3SsrEfAifAOwW0ESiKqHnV1CK
+   DY2yyCCMIm35jDm5qtoKVbOGdA7Sc7GSnCsD9lchAitEEbiNBWRL40qqU
+   g==;
+X-CSE-ConnectionGUID: IB1tMcyISgu8JS6bm/wNdQ==
+X-CSE-MsgGUID: 93ELKt/IRiC7OePQ7boaxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="20092036"
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="43118638"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 21:48:13 -0800
-X-CSE-ConnectionGUID: P3XGoM1hT4ClTh6MZSa71Q==
-X-CSE-MsgGUID: HnWEDpfySl6BVxL42b3RaA==
+   d="scan'208";a="20092036"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 21:58:14 -0800
+X-CSE-ConnectionGUID: sabx1/LHQfihcjWFtYN7og==
+X-CSE-MsgGUID: 5jkiKJbrTt2mAcEEUwYdkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="95699697"
+   d="scan'208";a="90685239"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 22 Nov 2024 21:48:11 -0800
+  by orviesa010.jf.intel.com with ESMTP; 22 Nov 2024 21:58:12 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEj04-0004S7-3B;
-	Sat, 23 Nov 2024 05:48:08 +0000
-Date: Sat, 23 Nov 2024 13:47:20 +0800
+	id 1tEj9m-0004SF-16;
+	Sat, 23 Nov 2024 05:58:10 +0000
+Date: Sat, 23 Nov 2024 13:57:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Artur Rojek <contact@artur-rojek.eu>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Subject: arch/sh/cchips/hd6446x/hd64461.c:27:16: sparse: sparse: incorrect
- type in argument 1 (different base types)
-Message-ID: <202411231306.6FROo9Kg-lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 53/59] mm/damon/core.c:1207: warning: bad line:
+Message-ID: <202411231318.5NR1XkPk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,137 +61,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Artur,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2a163a4cea153348172e260a0c5b5569103a66a3
-commit: 1e21acb7fbfb15fcb4afe21fb5a50a1bc00743ec sh: hd64461: Make setup_hd64461() static
-date:   8 months ago
-config: sh-randconfig-r133-20241123 (https://download.01.org/0day-ci/archive/20241123/202411231306.6FROo9Kg-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241123/202411231306.6FROo9Kg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   78907e9aaa2afc17557ccada5eeafa2f4423ddcc
+commit: d9418cac100e220d93d44553fd8c9bc713dc2eb4 [53/59] mm/damon/core: implement damon_call()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241123/202411231318.5NR1XkPk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231318.5NR1XkPk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411231306.6FROo9Kg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411231318.5NR1XkPk-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/sh/cchips/hd6446x/hd64461.c:27:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/cchips/hd6446x/hd64461.c:27:16: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:27:16: sparse:     got unsigned int
-   arch/sh/cchips/hd6446x/hd64461.c:29:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/cchips/hd6446x/hd64461.c:29:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:29:9: sparse:     got unsigned int
-   arch/sh/cchips/hd6446x/hd64461.c:38:16: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/cchips/hd6446x/hd64461.c:38:16: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:38:16: sparse:     got unsigned int
-   arch/sh/cchips/hd6446x/hd64461.c:40:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/cchips/hd6446x/hd64461.c:40:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:40:9: sparse:     got unsigned int
-   arch/sh/cchips/hd6446x/hd64461.c:62:31: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/cchips/hd6446x/hd64461.c:62:31: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:62:31: sparse:     got unsigned int
->> arch/sh/cchips/hd6446x/hd64461.c:86:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned long @@
-   arch/sh/cchips/hd6446x/hd64461.c:86:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:86:9: sparse:     got unsigned long
-   arch/sh/cchips/hd6446x/hd64461.c:88:9: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
-   arch/sh/cchips/hd6446x/hd64461.c:88:9: sparse:     expected void const volatile [noderef] __iomem *ptr
-   arch/sh/cchips/hd6446x/hd64461.c:88:9: sparse:     got unsigned int
+All warnings (new ones prefixed by >>):
 
-vim +27 arch/sh/cchips/hd6446x/hd64461.c
+>> mm/damon/core.c:1207: warning: bad line: 
 
-f1382305b9357c arch/sh/cchips/hd6446x/hd64461.c       Kristoffer Ericson    2007-09-11   20  
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   21  static void hd64461_mask_irq(struct irq_data *data)
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   22  {
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   23  	unsigned int irq = data->irq;
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   24  	unsigned short nimr;
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   25  	unsigned short mask = 1 << (irq - HD64461_IRQBASE);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   26  
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28  @27  	nimr = __raw_readw(HD64461_NIMR);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   28  	nimr |= mask;
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   29  	__raw_writew(nimr, HD64461_NIMR);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   30  }
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   31  
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   32  static void hd64461_unmask_irq(struct irq_data *data)
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   33  {
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   34  	unsigned int irq = data->irq;
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   35  	unsigned short nimr;
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   36  	unsigned short mask = 1 << (irq - HD64461_IRQBASE);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   37  
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   38  	nimr = __raw_readw(HD64461_NIMR);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   39  	nimr &= ~mask;
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   40  	__raw_writew(nimr, HD64461_NIMR);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   41  }
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   42  
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   43  static void hd64461_mask_and_ack_irq(struct irq_data *data)
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   44  {
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   45  	hd64461_mask_irq(data);
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   46  
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   47  #ifdef CONFIG_HD64461_ENABLER
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   48  	if (data->irq == HD64461_IRQBASE + 13)
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   49  		__raw_writeb(0x00, HD64461_PCC1CSCR);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   50  #endif
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   51  }
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   52  
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   53  static struct irq_chip hd64461_irq_chip = {
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   54  	.name		= "HD64461-IRQ",
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   55  	.irq_mask	= hd64461_mask_irq,
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   56  	.irq_mask_ack	= hd64461_mask_and_ack_irq,
-19add7e11656dc arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-10-27   57  	.irq_unmask	= hd64461_unmask_irq,
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   58  };
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   59  
-bd0b9ac405e179 arch/sh/cchips/hd6446x/hd64461.c       Thomas Gleixner       2015-09-14   60  static void hd64461_irq_demux(struct irq_desc *desc)
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   61  {
-9d56dd3b083a3b arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-01-26   62  	unsigned short intv = __raw_readw(HD64461_NIRR);
-3bf509230a626d arch/sh/cchips/hd6446x/hd64461.c       Rafael Ignacio Zurita 2009-03-20   63  	unsigned int ext_irq = HD64461_IRQBASE;
-3bf509230a626d arch/sh/cchips/hd6446x/hd64461.c       Rafael Ignacio Zurita 2009-03-20   64  
-3bf509230a626d arch/sh/cchips/hd6446x/hd64461.c       Rafael Ignacio Zurita 2009-03-20   65  	intv &= (1 << HD64461_IRQ_NUM) - 1;
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   66  
-b06ede84dd1473 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-05   67  	for (; intv; intv >>= 1, ext_irq++) {
-b06ede84dd1473 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-05   68  		if (!(intv & 1))
-b06ede84dd1473 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-05   69  			continue;
-b06ede84dd1473 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-05   70  
-b06ede84dd1473 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-05   71  		generic_handle_irq(ext_irq);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   72  	}
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   73  }
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   74  
-1e21acb7fbfb15 arch/sh/cchips/hd6446x/hd64461.c       Artur Rojek           2024-02-11   75  static int __init setup_hd64461(void)
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   76  {
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   77  	int irq_base, i;
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   78  
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   79  	printk(KERN_INFO
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   80  	       "HD64461 configured at 0x%x on irq %d(mapped into %d to %d)\n",
-62669e61a5f559 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2009-05-20   81  	       HD64461_IOBASE, CONFIG_HD64461_IRQ, HD64461_IRQBASE,
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   82  	       HD64461_IRQBASE + 15);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   83  
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   84  /* Should be at processor specific part.. */
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   85  #if defined(CONFIG_CPU_SUBTYPE_SH7709)
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28  @86  	__raw_writew(0x2240, INTC_ICR1);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   87  #endif
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   88  	__raw_writew(0xffff, HD64461_NIMR);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   89  
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   90  	irq_base = irq_alloc_descs(HD64461_IRQBASE, HD64461_IRQBASE, 16, -1);
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   91  	if (IS_ERR_VALUE(irq_base)) {
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   92  		pr_err("%s: failed hooking irqs for HD64461\n", __func__);
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   93  		return irq_base;
-6eb6f98396f7bd arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-02   94  	}
-6eb6f98396f7bd arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2010-02-02   95  
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   96  	for (i = 0; i < 16; i++)
-051f923d922d10 arch/sh/cchips/hd6446x/hd64461.c       Paul Mundt            2012-05-18   97  		irq_set_chip_and_handler(irq_base + i, &hd64461_irq_chip,
-135210b378d26f arch/sh/cchips/hd6446x/hd64461.c       Matt Fleming          2008-11-28   98  					 handle_level_irq);
-^1da177e4c3f41 arch/sh/cchips/hd6446x/hd64461/setup.c Linus Torvalds        2005-04-16   99  
-fcb8918fd242f3 arch/sh/cchips/hd6446x/hd64461.c       Thomas Gleixner       2011-03-24  100  	irq_set_chained_handler(CONFIG_HD64461_IRQ, hd64461_irq_demux);
-fcb8918fd242f3 arch/sh/cchips/hd6446x/hd64461.c       Thomas Gleixner       2011-03-24  101  	irq_set_irq_type(CONFIG_HD64461_IRQ, IRQ_TYPE_LEVEL_LOW);
-3bf509230a626d arch/sh/cchips/hd6446x/hd64461.c       Rafael Ignacio Zurita 2009-03-20  102  
 
-:::::: The code at line 27 was first introduced by commit
-:::::: 135210b378d26f9a9a0c901d0089522c06b5807a sh: Switch HD64461 from hw_interrupt_type to irq_chip
+vim +1207 mm/damon/core.c
 
-:::::: TO: Matt Fleming <mjf@gentoo.org>
-:::::: CC: Paul Mundt <lethal@linux-sh.org>
+  1196	
+  1197	/**
+  1198	 * damon_call() - Invoke a given function on a DAMON worker thread.
+  1199	 * @ctx:	DAMON context to execute the function for.
+  1200	 * @control:	Structure saving call request and result.
+  1201	 *
+  1202	 * Ask DAMON worker thread of @ctx to call a given function as specified in
+  1203	 * @control and wait for the result.  The function can hence safely access the
+  1204	 * internal data of &struct damon_ctx including &struct damon_region objects
+  1205	 * without additional locking.  The return code of the callback function will
+  1206	 * be saved in &->return_code of @control.
+> 1207	
+  1208	 * If DAMON is deactivated by watermarks or terminated before the function is
+  1209	 * called back, the request is canceled.
+  1210	 *
+  1211	 * Return: 0 on success, negative error code otherwise.
+  1212	 */
+  1213	int damon_call(struct damon_ctx *ctx, struct damon_call_control *control)
+  1214	{
+  1215		init_completion(&control->completion);
+  1216		control->canceled = false;
+  1217	
+  1218		mutex_lock(&ctx->call_control_lock);
+  1219		if (ctx->call_control) {
+  1220			mutex_unlock(&ctx->call_control_lock);
+  1221			return -EBUSY;
+  1222		}
+  1223		ctx->call_control = control;
+  1224		mutex_unlock(&ctx->call_control_lock);
+  1225		if (!damon_is_running(ctx))
+  1226			return -EINVAL;
+  1227		wait_for_completion(&control->completion);
+  1228		if (control->canceled)
+  1229			return -ECANCELED;
+  1230		return 0;
+  1231	}
+  1232	
 
 -- 
 0-DAY CI Kernel Test Service
