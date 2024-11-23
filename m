@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F0A817;
-	Sat, 23 Nov 2024 02:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4AF146BF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Nov 2024 02:50:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732329597; cv=none; b=UMGT3Pc1AcJLNup0618poWNn5zzPuWVRUogneZ4jDU7cll/u/9CsgJksg0PZdTM0eYnmgQaOkSgLgaIGDinb1xjGeH7pYk0APd4Q1q3JDnq6NcpSp9L8pRCw379uK1d0jixN5EJWbqBS78Gw7J+p6KTAypk9ZJkZgqxI8QHlLYs=
+	t=1732330259; cv=none; b=Bvejvfd0yCoxEFUif4EHC2TmJCwSqewiBgX/9NxDCNfYw6US4h2HOgkHLRaV1byn/ugdzNSfBbCcpGOWb2iWNehL0PPdxc9112m5i8Ga6/nUaLGkNIVFLVbqfLhsopZgjJ84DZFrTbz0V6lUBpnA6xQlCS5giJG6BSm8arCPbyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732329597; c=relaxed/simple;
-	bh=BWkwl0wUrC8fzdHBPtR0QHgU3P7veu2AMHKXyX4woJ0=;
+	s=arc-20240116; t=1732330259; c=relaxed/simple;
+	bh=8csVKtFiuhJELnkqyaByu4VxSe7yLmazQijrcS1CIKc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r+SLo6+DcTSkN7N99fHAvhbFFo2v8CRm7WQl8WFYfmYlejRGjcVrA259jlI7GWxNQU3QgrnEri34cLQre2QaJAxPb9xuUApRwmvZ9bgA4uyjbyfT7LRhqWZqS3cgCpW4PX/WNWN0aMFnjUExX1sw+XDXeSeTcB3DiWl0XVVo9LU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I9/2V/dM; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=MWlWeAyYuWBTb8JCMAvlUZOFM73VJ+4cR9NWGRPVUlpBnNd2kz5Q2FipEz1TdvENhO0t6d8npv8T5m6Si2JP9J/QTUdtOoe3VxCSK6CgBp1uHnzluT7plFCnhVDTSVysUFzAksdaT3nyP3El9FwWG91gsJH21b8IO17wo8VRruI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TrYLO0Vd; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I9/2V/dM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TrYLO0Vd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732329595; x=1763865595;
+  t=1732330257; x=1763866257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BWkwl0wUrC8fzdHBPtR0QHgU3P7veu2AMHKXyX4woJ0=;
-  b=I9/2V/dMwS1PJ/l4i7prEIqpI1Pn+bnWvqiwI/p5NERPm982x5zPQ4N9
-   wUVcUXk0V7ugoH7yOBHq/6Z79koCHqxyqkIvroHGy5jAWHaOi0FfColC9
-   IQnauR5tZFQoJ5qEOX0H8fMUu1mjqOQQeJ9a0ekJnpEjz95qcvKlRrlg7
-   s9C7WuQljkKuxYUqXVJdfP/nJ81i/8xBTVUd1JeZYuqkG+YLC2fIEkuSO
-   hj5YtviCpWceng2FjsqYjRqZNx4ePdxXpzZvGK2HlpI4ZdUf8BHExviDE
-   2PBrE+hvJC8AZKbdFOVxfaMphEO+nIR+7yY9vbYPYn3SL1xekqOd6i7lE
-   w==;
-X-CSE-ConnectionGUID: e1WWVO3dRYWFbLLR/7Ixlw==
-X-CSE-MsgGUID: zg9g3GVwRo2EA8+tvVVqOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="31856594"
+  bh=8csVKtFiuhJELnkqyaByu4VxSe7yLmazQijrcS1CIKc=;
+  b=TrYLO0VdiEpP9x16TJOBtzpBn1kF3cH/PzxSW4+yLpm8rGibiCGyXex5
+   qLhPAtfplWmUoJE3VCNl2JJszAQqZ+CGznM+FKHwOSr6xED/iTTY/xzg4
+   yvEquNQj5BHYLCAQMPYtNmJTOHflz1BrFaS6K/qQ4foiybUyLExrVn/ZZ
+   CYQ4/0BprykzS5vdkEbfYso4IFeNGIVI90DQh8vA06dJRiSBaHqvv4mA6
+   aubr7dwbUCWfyZHt0RNTUEFJz7gBIe3/3Elo4Kzr2dsEj7lmFuoNFBvIc
+   /Zwt/Bipru5J82/UUBr9wjIOwA1WzK5syLGH60eErkO7LfXyKGiQpd6IJ
+   A==;
+X-CSE-ConnectionGUID: 4l+hB7REQ/SsA5djFEAVtA==
+X-CSE-MsgGUID: gFGgad8mS9WF2fIsjZ36zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="43008578"
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="31856594"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 18:39:55 -0800
-X-CSE-ConnectionGUID: /8W/YqEiRTW96EflkZOyWA==
-X-CSE-MsgGUID: fk9+UE78RY+pM3AKY+wUpw==
+   d="scan'208";a="43008578"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 18:50:56 -0800
+X-CSE-ConnectionGUID: ipnJ+6M7Tu2CgkVY/2yjpg==
+X-CSE-MsgGUID: upsIYNAdTHiv/iXTCX6oWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="95158750"
+   d="scan'208";a="90549594"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Nov 2024 18:39:53 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 22 Nov 2024 18:50:55 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEg3r-0004Ml-2f;
-	Sat, 23 Nov 2024 02:39:51 +0000
-Date: Sat, 23 Nov 2024 10:39:47 +0800
+	id 1tEgEX-0004Mx-0i;
+	Sat, 23 Nov 2024 02:50:53 +0000
+Date: Sat, 23 Nov 2024 10:50:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Lawrence <paullawrence@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: ld.lld: error: undefined symbol: ZSTD_DStreamWorkspaceBound
-Message-ID: <202411231043.rG86kUA2-lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-defer-tw 8/8] io_uring/io_uring.c:1212:21:
+ error: implicit declaration of function 'wq_cmpxchg_list'; did you mean
+ 'xa_cmpxchg_irq'?
+Message-ID: <202411231042.rrfVdNf3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,74 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ambarus/linux-0day syzkaller-id-5ecbc557fcdb8a2864e876f690ef377db999c50f
-head:   caa714448992ba4eb583735a4acb26917fbc67a8
-commit: 95a43fc99f147282c64e68baf1ea18041c7755ea ANDROID: Incremental fs: Add zstd compression support
-date:   4 years, 1 month ago
-config: i386-buildonly-randconfig-001-20241123 (https://download.01.org/0day-ci/archive/20241123/202411231043.rG86kUA2-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231043.rG86kUA2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-defer-tw
+head:   3fe10ec9996723e6abc1b8e5b2b9d4ecf9eaf1b8
+commit: 3fe10ec9996723e6abc1b8e5b2b9d4ecf9eaf1b8 [8/8] io_uring: add lockless LIFO list implementation for task_work
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411231042.rrfVdNf3-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231042.rrfVdNf3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411231043.rG86kUA2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411231042.rrfVdNf3-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: ZSTD_getFrameParams
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(__unzstd) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_DStreamWorkspaceBound
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(__unzstd) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_initDStream
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(__unzstd) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_decompressStream
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(__unzstd) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_DCtxWorkspaceBound
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(decompress_single) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_initDCtx
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(decompress_single) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_findFrameCompressedSize
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(decompress_single) in archive lib/lib.a
---
->> ld.lld: error: undefined symbol: ZSTD_decompressDCtx
-   >>> referenced by decompress_unzstd.c
-   >>>               decompress_unzstd.o:(decompress_single) in archive lib/lib.a
+   In file included from io_uring/io_uring.h:12,
+                    from io_uring/io_uring.c:82:
+   io_uring/slist.h: In function 'wq_list_splice_list':
+   io_uring/slist.h:91:14: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      91 |         bool ret = false;
+         |              ^~~
+   io_uring/io_uring.c: In function 'wq_ll_add_tail':
+>> io_uring/io_uring.c:1212:21: error: implicit declaration of function 'wq_cmpxchg_list'; did you mean 'xa_cmpxchg_irq'? [-Wimplicit-function-declaration]
+    1212 |                 if (wq_cmpxchg_list(&l->list_ptr, &old.list_ptr, new.list_ptr)) {
+         |                     ^~~~~~~~~~~~~~~
+         |                     xa_cmpxchg_irq
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+vim +1212 io_uring/io_uring.c
+
+  1197	
+  1198	static void wq_ll_add_tail(struct io_wq_work_node *n, struct io_wq_work_list *l)
+  1199	{
+  1200		n->next = NULL;
+  1201		do {
+  1202			struct io_wq_work_list new = {
+  1203				.first	= READ_ONCE(l->first) ?: n,
+  1204				.last	= n
+  1205			};
+  1206			struct io_wq_work_list old = {
+  1207				.first	= READ_ONCE(l->first),
+  1208				.last	= READ_ONCE(l->last)
+  1209			};
+  1210			struct io_wq_work_node *old_last = READ_ONCE(l->last);
+  1211	
+> 1212			if (wq_cmpxchg_list(&l->list_ptr, &old.list_ptr, new.list_ptr)) {
+  1213				if (old_last)
+  1214					WRITE_ONCE(old_last->next, n);
+  1215				break;
+  1216			}
+  1217		} while (1);
+  1218	}
+  1219	
 
 -- 
 0-DAY CI Kernel Test Service
