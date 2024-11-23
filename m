@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048C5817
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Nov 2024 00:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344F46136;
+	Sat, 23 Nov 2024 00:25:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732320891; cv=none; b=uspQqpfMVN+W2/24YtxaIf2lWkuooBKQH1zhb+i9eQ+S3OZig4KqPZCubAopcaj7vDY2ztkOSmakanGx/Q/OXaJp2SAG2M5J8GCGLC7Zpr4q/54h0k1nk5/3eUnoqRWoivlfm8omQ3qFgR65PWyAPqSAGKEmrAxrqCXX+Wbw8z0=
+	t=1732321546; cv=none; b=Dx0rI8Gxj6cNuAvX+XduMgwtrrvMPe6vJsKliBWPlwXz1CflIvRHH3tUAgKFSC7kCUXIo/KFBtl/41ZS8iL9/W7vnKVAErLo2BDdspUPX6eoJPMW8/pe95KFK4VbcH5TPzWMiWdJXoECRBT3vgBVYoPPnssMbjr6KmBSlqt2UYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732320891; c=relaxed/simple;
-	bh=TebJJQnzxHV7TmWbRbCCK+pPf+BIMrbtiHQ+JJztYos=;
+	s=arc-20240116; t=1732321546; c=relaxed/simple;
+	bh=PuPmWBRxqI4fli86UfRCmE9zh+5xXeyGiiE/rns2Njo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OsWe8ThubfRrdQ4roG/zO3asnPoPYbZJeqYrB2OrBaR+EMBsu9NclLgdO/Exbx2RzOSSchG9KDU+NQEHqt1jJbwUpJZHjbaZqpmUmew+DS9ZCi2fwQy34WXoNaCVJUR59f4ZApwnOmj0Dbz4kWmbgkfAvv1SMW7dhRKCCWx6MtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHivN9Iq; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=G5vDanuKVqEVN4lpneYVdr/cXq9+MpDfY1LrI5WPfv4zDwwLQViKMCi+Skds5Pszd1pAtbLjOL2Lgs4o3ZFHxTkVXZE1KDs6wJeSi4YU4dd4BEeRWPQIcZrkxdz7mDdOBl9Z7YihxnRWwtFs5mH1wDcRQ/qDwLwcapi53a8RCZ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WY4gM2PC; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHivN9Iq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WY4gM2PC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732320889; x=1763856889;
+  t=1732321545; x=1763857545;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TebJJQnzxHV7TmWbRbCCK+pPf+BIMrbtiHQ+JJztYos=;
-  b=nHivN9IqFR2l6NO7PJBins/U+6InbjMvyDjBSbVX+IzXntmFWFlJwgcD
-   SWrI1V92JddND0Ez1OXhFkcK4p6cFaxKxGk1HwBSyInj3qpUFIjaRkviu
-   +NZ2FroGvBpCfapo7qU+tgkcBSCCOAWIG2Auwl6jbr6DmpMbb0W/OgOLi
-   nWNtm2Mq/YXshQQJha4ktSnumIkX1swBvPxroakkOwFjAfJL7IvJy5/FR
-   CTTeH2YYVwgGOWfojtIpOqx7PZZXS5DT5Xhk1gyMXRGawx5beqW0IHK3b
-   OrrW5xQftUYxbgSZ1+WoTEdUCpolz7UJF8/FOYuKzd+8NZrAcGs2jeWvB
-   w==;
-X-CSE-ConnectionGUID: Dxq6wX6wTRm8xZf9tslfzQ==
-X-CSE-MsgGUID: dMUL3hVWQ6ml8uK68gZBOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="20079414"
+  bh=PuPmWBRxqI4fli86UfRCmE9zh+5xXeyGiiE/rns2Njo=;
+  b=WY4gM2PCXJ61YHoKLQdC1O+oY00vBJeb5RmY+/5twYDQJEhsvNXSm9Jl
+   819ci8xbqrlt5+IW8m11emHaxIKKztp7clvMTzXdtSez1cjMkz/SKtDM6
+   9iWPYQ+jB+Iay1HY5FMAfgAQF5ZlbOEl7nrLC+XCVMvyodrZbA/3iLVNe
+   OEVFkJs7ikF+tmfK2xuKduTHB8Gy61D3jODnkUJSXDXT7UATcDNpYQPq9
+   XtUoqO/gSENa71ngJ7UqZT3to4Du4fi4Hs9gtce5N/TW1Pv3Y9FlYMI0g
+   CEIqkVGbE6OOiGAPvSjdmcjpJzVH+HU+Sh7UxENT967Pzq5z9e14d72vs
+   g==;
+X-CSE-ConnectionGUID: cJ6xkZBmQ0i/xJJJwARpSw==
+X-CSE-MsgGUID: ah2uahPhTSqmKWn62kdEXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="49910218"
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="20079414"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 16:14:44 -0800
-X-CSE-ConnectionGUID: D2vSb2z3Q9mn4Tsx/v4m7g==
-X-CSE-MsgGUID: kgK9z5GySvqjb2iSk5Q6FA==
+   d="scan'208";a="49910218"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 16:25:44 -0800
+X-CSE-ConnectionGUID: 8ZDuLhYaT1SBxFjwyRcu+w==
+X-CSE-MsgGUID: 7k1edDQ+S5+RpeqmQps8pA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="90853135"
+   d="scan'208";a="90355082"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Nov 2024 16:14:42 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 22 Nov 2024 16:25:42 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEdnL-0004JD-0z;
-	Sat, 23 Nov 2024 00:14:39 +0000
-Date: Sat, 23 Nov 2024 08:14:24 +0800
+	id 1tEdy0-0004JT-0D;
+	Sat, 23 Nov 2024 00:25:40 +0000
+Date: Sat, 23 Nov 2024 08:24:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw@amazon.co.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dwmw2:kexec-debug 3/16] arch/x86/kernel/relocate_kernel_64.S:258:
- undefined reference to `saved_context_gdt_desc'
-Message-ID: <202411230801.ZOwxQapg-lkp@intel.com>
+To: Anshuman Khandual <anshuman.khandual@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Rutland <mark.rutland@arm.com>
+Subject: [mark:arm64/brbe 7/11] drivers/perf/arm_brbe.c:620:4: warning:
+ variable 'sample_type' is uninitialized when used here
+Message-ID: <202411230804.AOrSAnxZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,64 +63,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/dwmw2/linux kexec-debug
-head:   4ce379fe2c9332e340e1969fdc89ce756f382ab7
-commit: 397c3df4d62afe238c46874cb5e3fd099954aa4c [3/16] x86/kexec: Restore GDT on return from preserve_context kexec
-config: x86_64-randconfig-r053-20241123 (https://download.01.org/0day-ci/archive/20241123/202411230801.ZOwxQapg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230801.ZOwxQapg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mark/linux.git arm64/brbe
+head:   f971faff791ba89b11f5e6ca351be0f54ee765bd
+commit: 642985af34d2d6f54e76995380cf24d512078c56 [7/11] WIP: drivers/perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241123/202411230804.AOrSAnxZ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411230804.AOrSAnxZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411230801.ZOwxQapg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411230804.AOrSAnxZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: vmlinux.o: in function `virtual_mapped':
->> arch/x86/kernel/relocate_kernel_64.S:258: undefined reference to `saved_context_gdt_desc'
+   In file included from drivers/perf/arm_brbe.c:9:
+   In file included from drivers/perf/arm_brbe.h:9:
+   In file included from include/linux/perf/arm_pmu.h:12:
+   In file included from include/linux/perf_event.h:50:
+   In file included from include/linux/pid_namespace.h:7:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/perf/arm_brbe.c:620:4: warning: variable 'sample_type' is uninitialized when used here [-Wuninitialized]
+     620 |                         sample_type |= event->attr.branch_sample_type;
+         |                         ^~~~~~~~~~~
+   drivers/perf/arm_brbe.c:612:17: note: initialize the variable 'sample_type' to silence this warning
+     612 |         u64 sample_type;
+         |                        ^
+         |                         = 0
+   5 warnings generated.
 
 
-vim +258 arch/x86/kernel/relocate_kernel_64.S
+vim +/sample_type +620 drivers/perf/arm_brbe.c
 
-   244	
-   245	SYM_CODE_START_LOCAL_NOALIGN(virtual_mapped)
-   246		UNWIND_HINT_END_OF_STACK
-   247		ANNOTATE_NOENDBR // RET target, above
-   248		movq	RSP(%r8), %rsp
-   249		movq	CR4(%r8), %rax
-   250		movq	%rax, %cr4
-   251		movq	CR3(%r8), %rax
-   252		movq	CR0(%r8), %r8
-   253		movq	%rax, %cr3
-   254		movq	%r8, %cr0
-   255	
-   256		/* Saved in save_processor_state. */
-   257		movq    $saved_context, %rax
- > 258		lgdt    saved_context_gdt_desc(%rax)
-   259	
-   260		movq	%rbp, %rax
-   261	
-   262		popf
-   263		popq	%r15
-   264		popq	%r14
-   265		popq	%r13
-   266		popq	%r12
-   267		popq	%rbp
-   268		popq	%rbx
-   269		ANNOTATE_UNRET_SAFE
-   270		ret
-   271		int3
-   272	SYM_CODE_END(virtual_mapped)
-   273	
-   274		/* Do the copies */
-   275	SYM_CODE_START_LOCAL_NOALIGN(swap_pages)
-   276		UNWIND_HINT_END_OF_STACK
-   277		movq	%rdi, %rcx	/* Put the indirection_page in %rcx */
-   278		xorl	%edi, %edi
-   279		xorl	%esi, %esi
-   280		jmp	.Lstart		/* Should start with an indirection record */
-   281	
+   607	
+   608	void brbe_enable(struct arm_pmu *arm_pmu)
+   609	{
+   610		struct pmu_hw_events *cpuc = this_cpu_ptr(arm_pmu->hw_events);
+   611		u64 brbfcr, brbcr;
+   612		u64 sample_type;
+   613	
+   614		/*
+   615		 * Merge the permitted branch filters of all events.
+   616		 */
+   617		for (int i = 0; i < ARMPMU_MAX_HWEVENTS; i++) {
+   618			struct perf_event *event = cpuc->events[i];
+   619			if (event && has_branch_stack(event))
+ > 620				sample_type |= event->attr.branch_sample_type;
+   621		}
+   622	
+   623		/*
+   624		 * TODO: explain why we disacrd any prior branches
+   625		 * TODO: avoid the redundant ISB?
+   626		 */
+   627		brbe_invalidate();
+   628	
+   629		/*
+   630		 * BRBE gets configured with a new mismatched branch sample
+   631		 * type request, overriding any previous branch filters.
+   632		 */
+   633		brbfcr = read_sysreg_s(SYS_BRBFCR_EL1);
+   634		brbfcr &= ~BRBFCR_EL1_CONFIG_MASK;
+   635		brbfcr |= branch_type_to_brbfcr(sample_type);
+   636		write_sysreg_s(brbfcr, SYS_BRBFCR_EL1);
+   637		isb();
+   638	
+   639		brbcr = read_sysreg_s(SYS_BRBCR_EL1);
+   640		brbcr &= ~BRBCR_ELx_CONFIG_MASK;
+   641		brbcr |= branch_type_to_brbcr(sample_type);
+   642		write_sysreg_s(brbcr, SYS_BRBCR_EL1);
+   643		isb();
+   644	}
+   645	
 
 -- 
 0-DAY CI Kernel Test Service
