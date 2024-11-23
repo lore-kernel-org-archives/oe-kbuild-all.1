@@ -1,104 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC96EBA53
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Nov 2024 04:46:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D004C139;
+	Sat, 23 Nov 2024 04:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732337170; cv=none; b=G3+MtglOc5+CM6teU/3lr2bCYpx6bUnY/CUW4dzGatklmu2ALBKRqEhhQBeruzSjxzuHQhPSNUT3yAdMRveaqj233WTcIGW4gsHOWlgN2ku8go0v4DOF7ypSCe0avDA14Py/wesnYdtUmcfprtSkFFFLRbvOaXrIAbgboloFbCQ=
+	t=1732337170; cv=none; b=IswAeefWNYn+RJvZYWgbS+314fcX0mkgGi4zdQ8xX5HVyaxiejLZzjJjFVvHjn+f45mDMXG86hx7KOFyjq1cb6xNr7O2aJn/bIOfngtGnghL0MUjgisdAENPeQ3C2w2v1Nz1BNSNItI65VQoJYQp5KNk0v+29Alw5WIqbp66hG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732337170; c=relaxed/simple;
-	bh=ljyiqI+WW7ShmpAAAqVuZSIOZQaEWFfYcm45VkunNPU=;
+	bh=ymezLTy2kI1j7k5cJ+BeZ5Mvox8T4TUJ/AHJmTCYx18=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=m7yfgHInvGfN/Kpomw+edryLF39zkk6FGKKSNSfrCu5AqmPYFpS5FpMS+/aYp3MGlKrXBz1QJonDo5vdm4JWQn+Jy/EJASciD46Bzg3jBnkJsnQDeeJlokUM1+XxEcjWIZFe1aBvb0QwoouY04FSYT6giOdh6HnEjQNN6+qufYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMXz/nER; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=UVW8U2SBDeRa2NF9z+qGpkfLu940Bl0PIo3w9dEDjJNl3qMMbXWhdNJxnqpwYIZA6SdfMpJsV6U5WQqnD6gTeWZkj1UE/BDsXOCy3fn+hq64a4luKEOXhnoCXcJL0BtGr1K6Z996qIQAT4oZDnEqZoC03HSev60MJawZOQYNVaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bojIAU1T; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMXz/nER"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bojIAU1T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732337169; x=1763873169;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ljyiqI+WW7ShmpAAAqVuZSIOZQaEWFfYcm45VkunNPU=;
-  b=cMXz/nER3GJ+hMiWnKsqwQL/KrOJJjKe8/5fdQVeHMHNrQDD2zTjhWE7
-   wndZwP+6zF/zc9mKEQ/4UMyT3wXJ2NgZnQBBR795Dso84HWC4KOknhCPo
-   oRz0BSreZXcg6HVOkVJu8Mg9EUdwuF0HGwJ6rEHHOmzY6qSDoZFDZ427f
-   ydOK2PFzqyJHxjEWT+RXHvDDbKFwGkIJDuOpRZPNcKXC4896FwSP6tL1z
-   xHZ9+JwyWzcnfVSU3LplfTe58g9cnmR+NvrwWJ8HA+mal/Hatl3t6E4a0
-   TluEaV1EzsejLCULDerOD0XYC0ylvt7wkpt4aWBJQLJc6W+46Jjop0UMH
-   g==;
-X-CSE-ConnectionGUID: jCCCgtQtQcek2Yj3nusIBQ==
-X-CSE-MsgGUID: 4u6fzwwNSq6IkKcY4vpXrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="49920490"
+  t=1732337170; x=1763873170;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ymezLTy2kI1j7k5cJ+BeZ5Mvox8T4TUJ/AHJmTCYx18=;
+  b=bojIAU1TM2VzBpFq3oBYUlncpPjnKw0TpUOt0MnLcqvuW+OJSRSkjHp6
+   Dt5VYKRXf4ekTI/Sd8MT7gGWLf1w6Ljos0clEJvM+pz61BnNsdeS+opGF
+   PE71SL1sXR56XiPnhznFCGlgZkA/GH1WD/I5NviT+OgEPx9Ht9Tmu734h
+   MA+chJ32U6Tu3I2Zf6c4PvzRDNV5QkKv/TmvyKB9V7SvcsLA/bzeOwtce
+   Drjt+F2Djq8R1FWh9TpgYxB4gh9NhT4on5eOfcLBV/tvftZdXSkwW7ivL
+   YxL8ONvlbU1OOEyc7j7YYCLPrvW/iiadOzlDNR9auIsZtbTUU5q6ZXMId
+   A==;
+X-CSE-ConnectionGUID: ZeIMRJV4SymBKH8RVjTejA==
+X-CSE-MsgGUID: JokrjjAJTjuI303ESRzPUQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="36280590"
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="49920490"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 20:46:08 -0800
-X-CSE-ConnectionGUID: QDvU6EV6SrKDeOoLC1AHQw==
-X-CSE-MsgGUID: aCpBVTbHQyCUws91Z4xj3A==
+   d="scan'208";a="36280590"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 20:46:09 -0800
+X-CSE-ConnectionGUID: f0dosGyoQ365/OPFZh/vqQ==
+X-CSE-MsgGUID: dgrHFsobTD6IoSaksmX6uQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="90675781"
+   d="scan'208";a="121626456"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 22 Nov 2024 20:46:08 -0800
+  by orviesa002.jf.intel.com with ESMTP; 22 Nov 2024 20:46:07 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEi21-0004R9-06;
+	id 1tEi21-0004RB-0C;
 	Sat, 23 Nov 2024 04:46:05 +0000
 Date: Sat, 23 Nov 2024 12:45:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Martin =?unknown-8bit?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
-Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
-Subject: [asahilinux:bits/070-audio 7/111] sound/soc/codecs/tas2764.c:783:34:
- warning: 'tas2764_of_match' defined but not used
-Message-ID: <202411231203.q4KT7sG5-lkp@intel.com>
+To: Li Nan <linan122@huawei.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Song Liu <song@kernel.org>,
+	Yu Kuai <yukuai3@huawei.com>
+Subject: ld.lld: error: relocation refers to a symbol in a discarded section:
+ .Ltmp78
+Message-ID: <202411231215.IsJm3IZm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/AsahiLinux/linux bits/070-audio
-head:   b02ae8e18297a2240eb9166ee35f0b227ddd407b
-commit: 1a8e1a3a0c6d4aa5bafc4b4bd26cd57c01192b7a [7/111] ASoC: tas2764: Extend driver to SN012776
-config: x86_64-buildonly-randconfig-001-20241123 (https://download.01.org/0day-ci/archive/20241123/202411231203.q4KT7sG5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231203.q4KT7sG5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   619d996c86421da1057d589123a28e2da0bf0785
+commit: 62ce0782bbacd32ec10292b9bdd127330e9b6968 md: ensure child flush IO does not affect origin bio->bi_status
+date:   5 weeks ago
+config: arm-randconfig-003-20241122 (https://download.01.org/0day-ci/archive/20241123/202411231215.IsJm3IZm-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231215.IsJm3IZm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411231203.q4KT7sG5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411231215.IsJm3IZm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/codecs/tas2764.c:783:34: warning: 'tas2764_of_match' defined but not used [-Wunused-const-variable=]
-     783 | static const struct of_device_id tas2764_of_match[] = {
-         |                                  ^~~~~~~~~~~~~~~~
-
-
-vim +/tas2764_of_match +783 sound/soc/codecs/tas2764.c
-
-827ed8a0fa50bd Dan Murphy     2020-10-07  782  
-827ed8a0fa50bd Dan Murphy     2020-10-07 @783  static const struct of_device_id tas2764_of_match[] = {
-1a8e1a3a0c6d4a Martin Povišer 2022-03-11  784  	{ .compatible = "ti,tas2764",  },
-1a8e1a3a0c6d4a Martin Povišer 2022-03-11  785  	{ .compatible = "ti,sn012776", },
-827ed8a0fa50bd Dan Murphy     2020-10-07  786  	{},
-827ed8a0fa50bd Dan Murphy     2020-10-07  787  };
-827ed8a0fa50bd Dan Murphy     2020-10-07  788  MODULE_DEVICE_TABLE(of, tas2764_of_match);
-827ed8a0fa50bd Dan Murphy     2020-10-07  789  
-
-:::::: The code at line 783 was first introduced by commit
-:::::: 827ed8a0fa50bdd365c9f4c9f6ef561ca7032e49 ASoC: tas2764: Add the driver for the TAS2764
-
-:::::: TO: Dan Murphy <dmurphy@ti.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+>> ld.lld: error: relocation refers to a symbol in a discarded section: .Ltmp78
+   >>> defined in vmlinux.a(drivers/md/md.o)
+   >>> referenced by md.c
+   >>>               drivers/md/md.o:(.alt.smp.init+0x120) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
