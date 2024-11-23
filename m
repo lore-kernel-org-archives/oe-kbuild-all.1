@@ -1,99 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1772AE90;
-	Sat, 23 Nov 2024 04:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC96EBA53
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 23 Nov 2024 04:46:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732335968; cv=none; b=Knmz7IoKQfHk9POgySpigJTiduurJJP/t1AtV5lPQhm61lF/Ox6ox4CmqWKnU4KALPBFTBsSbWV+jsbgu2pGJebh8TMu2l0NBYav5mV4luqHzqn//cTzekd2uwsSDIPtyxajSPuSwOG2wRgRGKXQkPRiWyAhMZSwfGqt/Yj2Fbw=
+	t=1732337170; cv=none; b=G3+MtglOc5+CM6teU/3lr2bCYpx6bUnY/CUW4dzGatklmu2ALBKRqEhhQBeruzSjxzuHQhPSNUT3yAdMRveaqj233WTcIGW4gsHOWlgN2ku8go0v4DOF7ypSCe0avDA14Py/wesnYdtUmcfprtSkFFFLRbvOaXrIAbgboloFbCQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732335968; c=relaxed/simple;
-	bh=kEc3NiGD30qCCoUikQXrc2VbFYvxuFkdqjkGd5wIXTs=;
+	s=arc-20240116; t=1732337170; c=relaxed/simple;
+	bh=ljyiqI+WW7ShmpAAAqVuZSIOZQaEWFfYcm45VkunNPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=khgnRzUtR1BZBMgQHBhh5aAgep76wcwrZRoNM7+pAKe2Pgi8pp95VuyZl9NjLmn3l+5e39RwD8NRuVF+KI0Sxbwd1aPfYwJE07deWntEpDI5iAfiUNLfw9xaInMsrvGK2UCEGy+pKXEWKzo2TpWgo2paM2clIFmR/pDaPJIZLN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KuxVTOIS; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=m7yfgHInvGfN/Kpomw+edryLF39zkk6FGKKSNSfrCu5AqmPYFpS5FpMS+/aYp3MGlKrXBz1QJonDo5vdm4JWQn+Jy/EJASciD46Bzg3jBnkJsnQDeeJlokUM1+XxEcjWIZFe1aBvb0QwoouY04FSYT6giOdh6HnEjQNN6+qufYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cMXz/nER; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuxVTOIS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cMXz/nER"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732335966; x=1763871966;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kEc3NiGD30qCCoUikQXrc2VbFYvxuFkdqjkGd5wIXTs=;
-  b=KuxVTOISlmNWgd5cH7Ylohv7DhZ3w2G//jfoHgefqvs00oLtiaEKpyLP
-   vUWea6J6K2nitr4R3UJcYO3xc/UmAcIux4snaGH0jt6bJx7SJHDZs5+Lb
-   FEfMpNo4V8mXnyNC7KMcLN8/VC3rWiVkiEclNgOBVCOrx75TXsfFAF4qr
-   2ciytRbtDfxQocUPy1NHvPub583vz13e7S8sbRbyw8TukBjQ58YL4CqeE
-   iaeCJttYPJuwG390ld9c0ese2Q4XUIofxuvVd9AJj9y5TfbX4t4bdJV2c
-   TBd2whRmBoBytvJEwEYcaxCTx6UQ6iSlkxLTczOgjzNzivcp75TFF5GbW
+  t=1732337169; x=1763873169;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ljyiqI+WW7ShmpAAAqVuZSIOZQaEWFfYcm45VkunNPU=;
+  b=cMXz/nER3GJ+hMiWnKsqwQL/KrOJJjKe8/5fdQVeHMHNrQDD2zTjhWE7
+   wndZwP+6zF/zc9mKEQ/4UMyT3wXJ2NgZnQBBR795Dso84HWC4KOknhCPo
+   oRz0BSreZXcg6HVOkVJu8Mg9EUdwuF0HGwJ6rEHHOmzY6qSDoZFDZ427f
+   ydOK2PFzqyJHxjEWT+RXHvDDbKFwGkIJDuOpRZPNcKXC4896FwSP6tL1z
+   xHZ9+JwyWzcnfVSU3LplfTe58g9cnmR+NvrwWJ8HA+mal/Hatl3t6E4a0
+   TluEaV1EzsejLCULDerOD0XYC0ylvt7wkpt4aWBJQLJc6W+46Jjop0UMH
    g==;
-X-CSE-ConnectionGUID: +dOTA3QmQiq7v0LB7pW+kQ==
-X-CSE-MsgGUID: zAKXPGZbTjOcmivE5FTWvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="20089618"
+X-CSE-ConnectionGUID: jCCCgtQtQcek2Yj3nusIBQ==
+X-CSE-MsgGUID: 4u6fzwwNSq6IkKcY4vpXrg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11264"; a="49920490"
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="20089618"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 20:26:05 -0800
-X-CSE-ConnectionGUID: YXAslTA+RJy8LN9ZgUfaOw==
-X-CSE-MsgGUID: ots/bJDtQOqIk8eoTy7s7Q==
+   d="scan'208";a="49920490"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2024 20:46:08 -0800
+X-CSE-ConnectionGUID: QDvU6EV6SrKDeOoLC1AHQw==
+X-CSE-MsgGUID: aCpBVTbHQyCUws91Z4xj3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,177,1728975600"; 
-   d="scan'208";a="94840225"
+   d="scan'208";a="90675781"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Nov 2024 20:26:05 -0800
+  by orviesa010.jf.intel.com with ESMTP; 22 Nov 2024 20:46:08 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tEhic-0004Qd-20;
-	Sat, 23 Nov 2024 04:26:02 +0000
-Date: Sat, 23 Nov 2024 12:25:12 +0800
+	id 1tEi21-0004R9-06;
+	Sat, 23 Nov 2024 04:46:05 +0000
+Date: Sat, 23 Nov 2024 12:45:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ding Xiang Fei <dingxiangfei2009@protonmail.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>
-Subject: [rust:pr/1130 2/2] error[E0658]: use of unstable library feature
- 'dispatch_from_dyn'
-Message-ID: <202411231237.ai30ZJhv-lkp@intel.com>
+To: Martin =?unknown-8bit?Q?Povi=C5=A1er?= <povik+lin@cutebit.org>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 7/111] sound/soc/codecs/tas2764.c:783:34:
+ warning: 'tas2764_of_match' defined but not used
+Message-ID: <202411231203.q4KT7sG5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/Rust-for-Linux/linux pr/1130
-head:   22607a75f562e7ffa92b8b44ac1574bcb214134d
-commit: 12eb3c1dbaf6cc396bc5bbc93a9cffaf1eaa56d1 [2/2] gating behind version 1.83.0
-config: x86_64-randconfig-006-20241122 (https://download.01.org/0day-ci/archive/20241123/202411231237.ai30ZJhv-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231237.ai30ZJhv-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   b02ae8e18297a2240eb9166ee35f0b227ddd407b
+commit: 1a8e1a3a0c6d4aa5bafc4b4bd26cd57c01192b7a [7/111] ASoC: tas2764: Extend driver to SN012776
+config: x86_64-buildonly-randconfig-001-20241123 (https://download.01.org/0day-ci/archive/20241123/202411231203.q4KT7sG5-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241123/202411231203.q4KT7sG5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411231237.ai30ZJhv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411231203.q4KT7sG5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0658]: use of unstable library feature 'dispatch_from_dyn'
-   --> rust/kernel/sync/arc.rs:186:40
-   |
-   186 | impl<T: ?Sized + Unsize<U>, U: ?Sized> core::ops::DispatchFromDyn<Arc<U>> for Arc<T> {}
-   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: add `#![feature(dispatch_from_dyn)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
---
->> error[E0658]: use of unstable library feature 'dispatch_from_dyn'
-   --> rust/kernel/sync/arc.rs:492:40
-   |
-   492 | impl<T: ?Sized + Unsize<U>, U: ?Sized> core::ops::DispatchFromDyn<ArcBorrow<'_, U>>
-   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-   |
-   = help: add `#![feature(dispatch_from_dyn)]` to the crate attributes to enable
-   = note: this compiler was built on 2024-04-29; consider upgrading it if it is out of date
+>> sound/soc/codecs/tas2764.c:783:34: warning: 'tas2764_of_match' defined but not used [-Wunused-const-variable=]
+     783 | static const struct of_device_id tas2764_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~
+
+
+vim +/tas2764_of_match +783 sound/soc/codecs/tas2764.c
+
+827ed8a0fa50bd Dan Murphy     2020-10-07  782  
+827ed8a0fa50bd Dan Murphy     2020-10-07 @783  static const struct of_device_id tas2764_of_match[] = {
+1a8e1a3a0c6d4a Martin Povišer 2022-03-11  784  	{ .compatible = "ti,tas2764",  },
+1a8e1a3a0c6d4a Martin Povišer 2022-03-11  785  	{ .compatible = "ti,sn012776", },
+827ed8a0fa50bd Dan Murphy     2020-10-07  786  	{},
+827ed8a0fa50bd Dan Murphy     2020-10-07  787  };
+827ed8a0fa50bd Dan Murphy     2020-10-07  788  MODULE_DEVICE_TABLE(of, tas2764_of_match);
+827ed8a0fa50bd Dan Murphy     2020-10-07  789  
+
+:::::: The code at line 783 was first introduced by commit
+:::::: 827ed8a0fa50bdd365c9f4c9f6ef561ca7032e49 ASoC: tas2764: Add the driver for the TAS2764
+
+:::::: TO: Dan Murphy <dmurphy@ti.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
