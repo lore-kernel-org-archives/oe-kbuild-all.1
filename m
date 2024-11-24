@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241B52500C2
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Nov 2024 22:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E0313FD72;
+	Sun, 24 Nov 2024 22:17:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732486643; cv=none; b=YjZCiSWyC5Ee6Fal+cKIGlKnNU2+kzy6R3v70XiGVq7otYuENR/z+yCMuCmpvpcqMdefY7rNiE8KChArG3sxd0NFhoTcpUIu1iH1bjF5BuhflBrcwp5eleRkgCWbgQdyiwUIR8H64MdxUrG8+Re1FsdcLMigAhcPfmdvcjmnp28=
+	t=1732486643; cv=none; b=kKCWnF9q1xs40aSl05kekllQKRJVBCTjiUaSloZlcldGailmDgAPgaqPoaFqyZYE8fjEHDu2oTcge4MfJUXVIGNMoMz/G28co4AkEfSqVnFuYuFMR+BZj+PRb5snMd9NOz/RU8y3EwD7KbhfDIisyhlXrLQh/gdj6t+0QiGX0YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1732486643; c=relaxed/simple;
-	bh=+UEKJoWQB0/dhnpaEdVs0BcNJPzG7jBL7VQNX6P5bb8=;
+	bh=HytEJPAsaxesTJrJKceL9NJGZe/5RNOHlyFFjHZDVBE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ovFWjQEh0E0FStZ41CVmdsC3aMikJ+HYW1qIrICnVQVQj0h/A9wtXQpbKzgRfIqVIKRnr0/keLECEyYX7Xq6kT4PVW1KU3rdPl0F1NrCgI/T95QhM/d9r2kv8thBydEo6cX71jhhsERn+3GfGqVFNCs1I2DXgBEo8aPRYOkg3oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SX7vzgtk; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ruTEAxE2fzx60q/rabg0sWdiYvAMIrIkXv2qIriaNR5AnPcjUNS+zXw6gOa+Bgr49jjfYA6dsyou7r0sVPgB4v5bUJCBb73I7+yFlKM0y9axRhF4QMWFJO7o5VwdtEoSjuB4IJ1ueH+tw1N27bSk3Ry82nQoefa9oMZhEXINmzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SG1Dxxue; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SX7vzgtk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SG1Dxxue"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732486641; x=1764022641;
+  t=1732486642; x=1764022642;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+UEKJoWQB0/dhnpaEdVs0BcNJPzG7jBL7VQNX6P5bb8=;
-  b=SX7vzgtkV5bd0WTR6S+OZI/4MT22J/9GswGONCuDTu+0gdcx+CDaUqNg
-   VwObuG+qTEF1b77MnO2iAHBgjmrkND/h+n+3uOBzASpqNyfdB6Foah9Nd
-   C+/UvRcivjZDquKFM9YiN6Sd3HMxJUMYBkTMYP3kBIsqmVllJYAl56RZM
-   hzsCrtu5ZsEUheKn9XCLSg0Vn65YFg9afk4NOQKaTHv0qT1CHNUSo3Fzx
-   yn/JkAsvYHMi4OpPtegpU2qaJjTqOdsPi7T1n6zjMBwa/TsrkymIorUHk
-   zzWt+aliV2o5Z0nRv7KiJEvHGR3Wqb3x03JGRYnFw0bR5KLfxMSH1atea
-   A==;
-X-CSE-ConnectionGUID: P593K4poSaC0qfHos9UVPg==
-X-CSE-MsgGUID: AT7IE17mTWiNCJYIgbQyRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="20168530"
+  bh=HytEJPAsaxesTJrJKceL9NJGZe/5RNOHlyFFjHZDVBE=;
+  b=SG1DxxuemGlRlnT0bD9ZsgTd8zIFNnOgWTK5/XbsVCvcYIo6xPgxvK3+
+   ZkVsWx220NPyevJJKxji5xxv9C5zB1XMH+RX/rgqF5k3NBcQc6/OYlCPc
+   IoqJ40t4+UHpC51Pplrq4Ef820823DcwfjI2vu+fSYorSbr03YaiP5izz
+   YviEW8mrYsQADHhjlAtkhAK4Z1EzzHN82m5arMA8a7Fbr4PgUmBz6053B
+   BetpfKEsx1sTozVxiGnyqTpaE9ysqy5Oum6+g6TQVkn9JK8p7lL1spjOp
+   ldmssfvUY0jxUazqGGTpIdiTT2KQ5oQYq80TnTid/zKCnsSDiLW3Z9TbE
+   Q==;
+X-CSE-ConnectionGUID: XAoPCk8ARcakF7vtOqICZw==
+X-CSE-MsgGUID: gRcQJShtQLKAGrGsdS1kJQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="32316203"
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="20168530"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 14:17:21 -0800
-X-CSE-ConnectionGUID: lN3b55S8RsyxmqQEdnpqgg==
-X-CSE-MsgGUID: 8pqFtJFjTRGSha1NchNeAg==
+   d="scan'208";a="32316203"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 14:17:22 -0800
+X-CSE-ConnectionGUID: Aj4BwIgdSRiQelgwN/y84Q==
+X-CSE-MsgGUID: JkUrlzQtTX2GjAaM97PlhA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="114363009"
+   d="scan'208";a="122041851"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Nov 2024 14:17:19 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 24 Nov 2024 14:17:20 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFKur-0005Fl-1Z;
+	id 1tFKur-0005Fn-1g;
 	Sun, 24 Nov 2024 22:17:17 +0000
-Date: Mon, 25 Nov 2024 06:16:26 +0800
+Date: Mon, 25 Nov 2024 06:16:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 5/14] mm/page_alloc.c:1363:25: sparse:
- sparse: incorrect type in argument 3 (different base types)
-Message-ID: <202411250635.AVrdlvvj-lkp@intel.com>
+To: Sasha Finkelstein <fnkl.kernel@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/250-aop 179/185] error[E0587]: type has conflicting
+ packed and align representation hints
+Message-ID: <202411250600.ROWGdWo8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,106 +63,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   e2fbfb2efc8d61bff3b6ca9212c57cd9568f6442
-commit: a85227c886b7a22cd53bdfcf0740b6e0bd623351 [5/14] ANDROID: page_alloc: add vendor hook to bypass free_pages_prepare
-config: i386-randconfig-061-20241114 (https://download.01.org/0day-ci/archive/20241125/202411250635.AVrdlvvj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411250635.AVrdlvvj-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/250-aop
+head:   66d7b0955f0bc982d6bbe4e0aa565b71831f744b
+commit: cebdaabc3734d69461a644e3af52d389e8766d6f [179/185] rust: WIP(?): Various bits of rust glue for AOP series
+config: x86_64-randconfig-002-20241125 (https://download.01.org/0day-ci/archive/20241125/202411250600.ROWGdWo8-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411250600.ROWGdWo8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411250635.AVrdlvvj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411250600.ROWGdWo8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   mm/page_alloc.c:194:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
->> mm/page_alloc.c:1363:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
-   mm/page_alloc.c:1363:25: sparse:     expected restricted int flags
-   mm/page_alloc.c:1363:25: sparse:     got restricted fpi_t [usertype] fpi_flags
-   mm/page_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c:2539:6: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
-   mm/page_alloc.c:2670:17: sparse: sparse: context imbalance in 'free_unref_page_list' - unexpected unlock
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c:2904:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   mm/page_alloc.c:4641:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
-   mm/page_alloc.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/mm.h):
-   include/linux/page-flags.h:247:46: sparse: sparse: self-comparison always evaluates to false
-   mm/page_alloc.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+All errors (new ones prefixed by >>):
 
-vim +1363 mm/page_alloc.c
-
-  1351	
-  1352	static void __free_pages_ok(struct page *page, unsigned int order,
-  1353				    fpi_t fpi_flags)
-  1354	{
-  1355		unsigned long flags;
-  1356		int migratetype;
-  1357		unsigned long pfn = page_to_pfn(page);
-  1358		struct zone *zone = page_zone(page);
-  1359		bool skip_free_unref_page = false;
-  1360		bool skip_free_pages_prepare = false;
-  1361	
-  1362		trace_android_vh_free_pages_prepare_bypass(page, order,
-> 1363				fpi_flags, &skip_free_pages_prepare);
-  1364		if (skip_free_pages_prepare)
-  1365			goto skip_prepare;
-  1366	
-  1367		if (!free_pages_prepare(page, order, fpi_flags))
-  1368			return;
-  1369	skip_prepare:
-  1370		/*
-  1371		 * Calling get_pfnblock_migratetype() without spin_lock_irqsave() here
-  1372		 * is used to avoid calling get_pfnblock_migratetype() under the lock.
-  1373		 * This will reduce the lock holding time.
-  1374		 */
-  1375		migratetype = get_pfnblock_migratetype(page, pfn);
-  1376		trace_android_vh_free_unref_page_bypass(page, order, migratetype, &skip_free_unref_page);
-  1377		if (skip_free_unref_page)
-  1378			return;
-  1379	
-  1380		spin_lock_irqsave(&zone->lock, flags);
-  1381		if (unlikely(has_isolate_pageblock(zone) ||
-  1382			is_migrate_isolate(migratetype))) {
-  1383			migratetype = get_pfnblock_migratetype(page, pfn);
-  1384		}
-  1385		__free_one_page(page, pfn, zone, order, migratetype, fpi_flags);
-  1386		spin_unlock_irqrestore(&zone->lock, flags);
-  1387	
-  1388		__count_vm_events(PGFREE, 1 << order);
-  1389	}
-  1390	
+   In file included from arch/x86/kernel/asm-offsets.c:14:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   505 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   512 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   525 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
+   In file included from rust/helpers/helpers.c:10:
+   In file included from rust/helpers/blk.c:3:
+   In file included from include/linux/blk-mq.h:5:
+   In file included from include/linux/blkdev.h:9:
+   In file included from include/linux/blk_types.h:10:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:8:
+   In file included from include/linux/cacheflush.h:5:
+   In file included from arch/x86/include/asm/cacheflush.h:5:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   505 |                            item];
+   |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   512 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+   |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+   525 |                            NR_VM_NUMA_EVENT_ITEMS +
+   |                            ~~~~~~~~~~~~~~~~~~~~~~
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   4 warnings generated.
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+   clang diag: include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+>> error[E0587]: type has conflicting packed and align representation hints
+   --> rust/bindings/bindings_generated.rs:102273:1
+   |
+   102273 | pub struct snd_dec_flac {
+   | ^^^^^^^^^^^^^^^^^^^^^^^
 
 -- 
 0-DAY CI Kernel Test Service
