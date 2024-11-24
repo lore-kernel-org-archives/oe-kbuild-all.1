@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 859FA8460
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 24 Nov 2024 18:40:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6C514A627;
+	Sun, 24 Nov 2024 19:43:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732473652; cv=none; b=kfuI12wmz9Ovwev+9Fw+cEfuHGK9WTHmTaYeVvE+8kuFthqssRQrsicFOGa8Q1noL2cO1nn8YYACmWyF8RRXRNcGE6MfxyPSls+8/Zu+aOAD4YGsa61gr2U4tkBARF8bgUMBDiA/FBKAPm+nNKGn8ebMjYF/uHo1ubcpNexj2WI=
+	t=1732477382; cv=none; b=l4oFsPgNPuw4R7+6YM0wZ5eZA0Meqh4wHZghjOqPnuBEqF/XVC6hT5RyRR3ECCC5fS1bI/D2Q6da10739rK/wIvqtmAP2eW4T6cEqnv6UaEkj5pebBuur6RIHhjl8OQ4ghGl/5PuYtP5UhePtuAvgX84NtmgE2fgQo9PXueG4Ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732473652; c=relaxed/simple;
-	bh=DOYQC5jndS+mi9YRj62i6YWgzfbLkeOsA7O8PoRxF5M=;
+	s=arc-20240116; t=1732477382; c=relaxed/simple;
+	bh=1h4BcuyvvEVLEHYpHlgsXSM2L17Jzh8Omzewenc3ugc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LpQOlyVyv0dNZlCy30PPuZYMnP+e1KhnTaESMvqlOwfjkSFg63qR3TwPY/jf9yLqPkJhTR+9+fYBn8RN+DUvPmylixs/8/XNA+jUw6mz81hA0/sOxucs42fUp17O0kPUTu2KXEFvv0gPtEElhUzYnCsx0vF5YmGu4TU2qmqaITU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NRWCvAZ/; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=rcDG928ug3TrCJYCcX2zQSinWXMlnloJg+/vcj3FsXOBbsMSic26m+25HnTDJa/i/0JdnOIPkWbeLJ2Z2BFMF0daImzxew31k9+MQAhhcY8mkv0EYanY0MLLb8BCMuNeel7aKT5FQHUYuqVZY5ngTV/AmsNkr1l9dt1x4favVA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qs+Nk9m3; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NRWCvAZ/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qs+Nk9m3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732473650; x=1764009650;
+  t=1732477380; x=1764013380;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DOYQC5jndS+mi9YRj62i6YWgzfbLkeOsA7O8PoRxF5M=;
-  b=NRWCvAZ/gkeu+BBnJRYZSSLSlRzih3Oqvar0ZyUEZB7MtPZXs0MvLyb2
-   zo4abzeO8cwJKC89Tt845kn0HGq8KHjLCUGZaRCaL27BSgoufIorQ2Q2e
-   StD0Dej0lxdoUXz19O9hrTfduv/VMXxi1VubmD0Xtq34NpxRXbcKpsdAa
-   Wa5ni8h6zlBWrR0VvRDrH3npESEUsuJzpZN/wYczsV6qY+9bVB19KgPdc
-   itzF+dtVkBu8sBcY2znE/Cc97WKJaZWjZELI6F0zJUrfSQWBNFv9k+ziY
-   BkAqw8/TkVWeBU7Os2fnxlzi4OglonMKDJa5A3dDkuv90pYqvX+sihxZe
-   g==;
-X-CSE-ConnectionGUID: Iqt1jJIRQ3el7XLaMamNdg==
-X-CSE-MsgGUID: /y+FgwSTSGG4icwS5mrLsQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="32437447"
+  bh=1h4BcuyvvEVLEHYpHlgsXSM2L17Jzh8Omzewenc3ugc=;
+  b=Qs+Nk9m3z3mEVD3yDreO3MBenaA1kTyQUiYib1IMmeeqYogymi+soYCd
+   j3ZYjrBG2sJzajd+2++Y4vwglWFx8pPc4k5+gmXOJcceQU7Xk0xjw/imG
+   G+WKAxSSNTfT1KKL2vR5pZkRD2DNmM2lWnm0Imujl9HwoO6hMfBz6aEyR
+   r5riuM7XYSaHDlGrolCx2lEJEw2x0npiAsl9ImWuoew2wAoXd9w8HFzHv
+   JZSdz0PZLGIo7rfRpiG7Qk4z/vu5/ZZ+AmgGSuahk4rFcbJ5/s3Ogadl1
+   ChVNPg0Pz2H205L6FyNsnE15Y+bJwG/uGhz33sg8WlVw1XiAyevJpbBj/
+   w==;
+X-CSE-ConnectionGUID: 8hPzgPwyQUeblrtHMmHc0Q==
+X-CSE-MsgGUID: kNj0CdySQIGVUUsphPlsmg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="49987876"
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="32437447"
+   d="scan'208";a="49987876"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 10:40:50 -0800
-X-CSE-ConnectionGUID: Z/ZPCB13Tgux3ZX7wCS8jg==
-X-CSE-MsgGUID: 1VF8A3C8R96ijXVsbq96BQ==
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Nov 2024 11:42:59 -0800
+X-CSE-ConnectionGUID: TpHfrTAvS9mtiPtLW+Mivg==
+X-CSE-MsgGUID: jDw+b8GoRkCXktJH8PQJ1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,181,1728975600"; 
-   d="scan'208";a="91860273"
+   d="scan'208";a="91867666"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Nov 2024 10:40:48 -0800
+  by orviesa008.jf.intel.com with ESMTP; 24 Nov 2024 11:42:57 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFHXK-00059t-2i;
-	Sun, 24 Nov 2024 18:40:46 +0000
-Date: Mon, 25 Nov 2024 02:40:04 +0800
+	id 1tFIVT-0005C9-2V;
+	Sun, 24 Nov 2024 19:42:55 +0000
+Date: Mon, 25 Nov 2024 03:41:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12 1/2]
- include/trace/hooks/topology.h:19:1: sparse: sparse: incorrect type in
- assignment (different address spaces)
-Message-ID: <202411250259.qrlBevc4-lkp@intel.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	Jintack Lim <jintack@cs.columbia.edu>,
+	Christoffer Dall <christoffer.dall@arm.com>
+Subject: [arm-platforms:kvm-arm64/nv-gic 4/11]
+ arch/arm64/kvm/vgic/vgic-init.c:207: warning: expecting prototype for
+ kvm_vgic_vcpu_init(). Prototype was for vgic_allocate_private_irqs_locked()
+ instead
+Message-ID: <202411250324.1ah9afGm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,100 +67,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12
-head:   3a7ac7a6bbe12c8167c3f06898da00cf72a00c3d
-commit: ef1f4c912013c58fd12c2a36b7d32f80d29459d0 [1/2] ANDROID: topology: Add restricted vendor hook for cpu_capacity_show
-config: x86_64-randconfig-r133-20241114 (https://download.01.org/0day-ci/archive/20241125/202411250259.qrlBevc4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411250259.qrlBevc4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/nv-gic
+head:   f02c94e64607418b939b5660440a826b405e383d
+commit: 05a6e17890c506952c27f53d3dd8ebabc83ab0ad [4/11] KVM: arm64: nv: Nested GICv3 Support
+config: arm64-randconfig-003-20241124 (https://download.01.org/0day-ci/archive/20241125/202411250324.1ah9afGm-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411250324.1ah9afGm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411250259.qrlBevc4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411250324.1ah9afGm-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
-   include/trace/hooks/cpufreq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpufreq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpufreq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cpufreq.h:42:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cpufreq.h:42:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cpufreq.h:42:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
-   include/trace/hooks/cgroup.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/cgroup.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/cgroup.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/cgroup.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
-   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
-   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
-   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
-   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
-   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
-   include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/traps.h):
-   include/trace/hooks/traps.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/traps.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/traps.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/fault.h):
-   include/trace/hooks/fault.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/fault.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/fault.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
-   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/topology.h):
->> include/trace/hooks/topology.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
-   include/trace/hooks/topology.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
-   include/trace/hooks/topology.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+All warnings (new ones prefixed by >>):
 
-vim +19 include/trace/hooks/topology.h
+>> arch/arm64/kvm/vgic/vgic-init.c:207: warning: expecting prototype for kvm_vgic_vcpu_init(). Prototype was for vgic_allocate_private_irqs_locked() instead
 
-    13	
-    14	DECLARE_HOOK(android_vh_arch_set_freq_scale,
-    15		TP_PROTO(const struct cpumask *cpus, unsigned long freq, unsigned long max,
-    16			unsigned long *scale),
-    17		TP_ARGS(cpus, freq, max, scale));
-    18	
-  > 19	DECLARE_RESTRICTED_HOOK(android_rvh_cpu_capacity_show,
-    20		TP_PROTO(unsigned long *capacity, int cpu),
-    21		TP_ARGS(capacity, cpu), 1);
-    22	
+
+vim +207 arch/arm64/kvm/vgic/vgic-init.c
+
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  196  
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  197  /**
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  198   * kvm_vgic_vcpu_init() - Initialize static VGIC VCPU data
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  199   * structures and register VCPU-specific KVM iodevs
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  200   *
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  201   * @vcpu: pointer to the VCPU being created and initialized
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  202   *
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  203   * Only do initialization, but do not actually enable the
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  204   * VGIC CPU interface
+05a6e17890c5069 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2016-12-02  205   */
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  206  static int vgic_allocate_private_irqs_locked(struct kvm_vcpu *vcpu)
+1aab6f468c10a1e virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2017-05-08 @207  {
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  208  	struct vgic_cpu *vgic_cpu = &vcpu->arch.vgic_cpu;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  209  	int i;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  210  
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  211  	lockdep_assert_held(&vcpu->kvm->arch.config_lock);
+c011f4ea106b94e virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  212  
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  213  	if (vgic_cpu->private_irqs)
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  214  		return 0;
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  215  
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  216  	vgic_cpu->private_irqs = kcalloc(VGIC_NR_PRIVATE_IRQS,
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  217  					 sizeof(struct vgic_irq),
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  218  					 GFP_KERNEL_ACCOUNT);
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  219  
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  220  	if (!vgic_cpu->private_irqs)
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  221  		return -ENOMEM;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  222  
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  223  	/*
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  224  	 * Enable and configure all SGIs to be edge-triggered and
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  225  	 * configure all PPIs as level-triggered.
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  226  	 */
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  227  	for (i = 0; i < VGIC_NR_PRIVATE_IRQS; i++) {
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  228  		struct vgic_irq *irq = &vgic_cpu->private_irqs[i];
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  229  
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  230  		INIT_LIST_HEAD(&irq->ap_list);
+8fa3adb8c6beee4 virt/kvm/arm/vgic/vgic-init.c   Julien Thierry   2019-01-07  231  		raw_spin_lock_init(&irq->irq_lock);
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  232  		irq->intid = i;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  233  		irq->vcpu = NULL;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  234  		irq->target_vcpu = vcpu;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  235  		kref_init(&irq->refcount);
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  236  		if (vgic_irq_is_sgi(i)) {
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  237  			/* SGIs */
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  238  			irq->enabled = 1;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  239  			irq->config = VGIC_CONFIG_EDGE;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  240  		} else {
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  241  			/* PPIs */
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  242  			irq->config = VGIC_CONFIG_LEVEL;
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  243  		}
+5ec17fbac6713be virt/kvm/arm/vgic/vgic-init.c   Eric Auger       2018-05-22  244  	}
+1aab6f468c10a1e virt/kvm/arm/vgic/vgic-init.c   Christoffer Dall 2017-05-08  245  
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  246  	return 0;
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  247  }
+03b3d00a70b5585 arch/arm64/kvm/vgic/vgic-init.c Marc Zyngier     2024-05-02  248  
+
+:::::: The code at line 207 was first introduced by commit
+:::::: 1aab6f468c10a1ec3977fb6f7bc12869174d516e KVM: arm/arm64: Register iodevs when setting redist base and creating VCPUs
+
+:::::: TO: Christoffer Dall <cdall@linaro.org>
+:::::: CC: Christoffer Dall <cdall@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
