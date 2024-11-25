@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80F219007D;
-	Mon, 25 Nov 2024 09:03:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A284318D64B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 09:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732525408; cv=none; b=p4VgZ3Sw8fwRfLxnuEQkXPoaGsb2bQDzada6PisIkFX+5kqkVe6w/dLMgx703NqbTnLwkFEnZvYMCGseYwWOKkHIWp4pjLwB5aIePO1KoU6AcAR4Ox7nN+ZJG8rINQhHwfw0A0yYt5yhAbBoUjVVE6y367uGGrZOdQEaB2SHaQ4=
+	t=1732526008; cv=none; b=dU4ccH9DO8PyOMKjPhSa3awulfHkJOE5Y95IUKJ45EMT/3Kkl6FSIuIrYm0G7x20D/kLwXnTa9YLYywGR1JKbRY6/2UHsqfkzW4ta3jaT7DBVNWsewFImtAGNHGkSnM+hzVJStfnzFUtEuAiBYAOhUEw8Lu39yKuBq27D99qhQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732525408; c=relaxed/simple;
-	bh=2OmXam+k7g5h8EQzhTSDSS4SU0GY+CkNe50RDJMNa2w=;
+	s=arc-20240116; t=1732526008; c=relaxed/simple;
+	bh=DkJf5AMP4d9vjOyHUcqRwcO2sqcLziDFuR/lAQOnWv4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aZNOLsaodFGpQ2jKPwJaZahfez/KYEIMLMMk2/V6sZrfb8PA2G1vOl8KqMUQQh+kkts0hute1hMI7ASo2aYPZLro1pNQsGf7CkKrg4LAO4VXZXYGB7+f3I1/bKCpqf6ng5qgCl8w4Ep2Ksckyx9IfZFb6d4eWajHV3yk4n4cC6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyDHFgMI; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=j2F2iFbsnBLuM/UlUpDrE31lFhaDZOfBTmqA8FDaLWkL3XZ3a8EB19tsSePMzsXex7d202d9i4N50XAxi31qawS1IAPSQd/1x3Bqe6XG9pGFWZwGTFnGn4EuciRSDXEDh9Eu/y9yFp2FbIQ4G0lROkFbaI4Z/IRP6EMHFJVWjCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RQv5gex+; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyDHFgMI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RQv5gex+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732525407; x=1764061407;
+  t=1732526006; x=1764062006;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2OmXam+k7g5h8EQzhTSDSS4SU0GY+CkNe50RDJMNa2w=;
-  b=nyDHFgMIVJOHO2bLxHQC7ZRdFtrNpDX3BFbgCuVjPk30UvoL2PZ8ENxm
-   LvbYceji4k0w6A3oIfBJ0Jf+tmvhitt+E9Zm1Q9wPXzpMxR2TFRSp3UDl
-   lQjy5rhqX/rqJE9eGjbEaE4kn5IeTo5vTuzSrqWsS1avsZNsUAKD7pm2f
-   Lr7EWrijOwJfRnPE2fVLbBMcFhCo5QUnu2YT80wz3zpDivO1FXypS++G3
-   aGciqQQ8JlkrLlZc4MwMLbCxFDVG4CPsLm+98aHh+37IQdxSrMc59WkIj
-   o7DSyde0RSiiM1NneGuoZZYGbfm8QIB1niCxIPeEA4ygvl/ilE0JNpKC8
+  bh=DkJf5AMP4d9vjOyHUcqRwcO2sqcLziDFuR/lAQOnWv4=;
+  b=RQv5gex+kEcE4lUKcPDKx/n0dQwSEjLz5o4Evy0aSa2Fa3AcJTJt7apQ
+   ybtvEoW/xt2Bq+nOETW16ID7j1l7RZ8uNovzMs35DdSPodPd55YSseckA
+   yjZuu3Mp1c/xT+CwqfdmWeIVtPA2Nn+bvMoNPj9CGW9sxo6XXmX/KtgRV
+   GNBKJL2U6SG5n/uHIZgHNIr7dSZjkflLE17zR3IP2TgiQHmtvWel02qmE
+   dmlvNUI6ADRN62nsyHzVbYro+Ll7NmjuKpkX5rymM20Lyzttsk3pA5EgN
+   7FxW88QJ3LUYRjp7AHsb3orVk7vmJJGqBObHCXec6zd8XBhhQjUbe5N4d
    g==;
-X-CSE-ConnectionGUID: HmPbC5XkT2CpFqYYuCDQeA==
-X-CSE-MsgGUID: ZQLWAWYWRW2nIm5MHhTMNQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="43119536"
+X-CSE-ConnectionGUID: wb+3CQKHQcCGFI3AjDN14A==
+X-CSE-MsgGUID: vQo+1D5cQaO3I3156NxxCg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="43241115"
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="43119536"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 01:03:26 -0800
-X-CSE-ConnectionGUID: BUccMeWbS5ydhmKTy5oDuA==
-X-CSE-MsgGUID: CGuwAQ6IToSSwdzYuYJTsA==
+   d="scan'208";a="43241115"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 01:13:26 -0800
+X-CSE-ConnectionGUID: 9plhBgB1T1SifwCarbiKAg==
+X-CSE-MsgGUID: 4S47R/QiTyuBtbw1C/YStA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="95988831"
+   d="scan'208";a="90836452"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Nov 2024 01:03:24 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 25 Nov 2024 01:13:25 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFV05-00066H-2h;
-	Mon, 25 Nov 2024 09:03:21 +0000
-Date: Mon, 25 Nov 2024 17:02:22 +0800
+	id 1tFV9m-00066j-2Y;
+	Mon, 25 Nov 2024 09:13:22 +0000
+Date: Mon, 25 Nov 2024 17:12:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mateusz Guzik <mjguzik@gmail.com>, tglx@linutronix.de, bp@alien8.de,
-	andy@kernel.org, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org,
-	Mateusz Guzik <mjguzik@gmail.com>
-Subject: Re: [PATCH 2/2] string: retire bcmp()
-Message-ID: <202411251629.TKfhELVt-lkp@intel.com>
-References: <20241123094729.1099378-3-mjguzik@gmail.com>
+To: Junxian Huang <huangjunxian6@hisilicon.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 03/12] RDMA/bnxt_re: Remove deliver net device event
+Message-ID: <202411251625.VrcLuTRx-lkp@intel.com>
+References: <20241122105308.2150505-4-huangjunxian6@hisilicon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,42 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241123094729.1099378-3-mjguzik@gmail.com>
+In-Reply-To: <20241122105308.2150505-4-huangjunxian6@hisilicon.com>
 
-Hi Mateusz,
+Hi Junxian,
 
-kernel test robot noticed the following build errors:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on kees/for-next/hardening]
-[also build test ERROR on tip/master tip/x86/core linus/master v6.12 next-20241125]
-[cannot apply to tip/auto-latest]
+[auto build test WARNING on rdma/for-next]
+[cannot apply to linus/master v6.12 next-20241125]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/x86-callthunks-s-bcmp-memcmp/20241125-110959
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-patch link:    https://lore.kernel.org/r/20241123094729.1099378-3-mjguzik%40gmail.com
-patch subject: [PATCH 2/2] string: retire bcmp()
-config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241125/202411251629.TKfhELVt-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411251629.TKfhELVt-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Junxian-Huang/RDMA-core-Add-ib_query_netdev_port-to-query-netdev-port-by-IB-device/20241125-101856
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-next
+patch link:    https://lore.kernel.org/r/20241122105308.2150505-4-huangjunxian6%40hisilicon.com
+patch subject: [PATCH RFC 03/12] RDMA/bnxt_re: Remove deliver net device event
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241125/202411251625.VrcLuTRx-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411251625.VrcLuTRx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411251629.TKfhELVt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411251625.VrcLuTRx-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: bcmp
-   >>> referenced by do_mounts.c
-   >>>               init/do_mounts.o:(parse_root_device) in archive vmlinux.a
-   >>> referenced by do_mounts.c
-   >>>               init/do_mounts.o:(parse_root_device) in archive vmlinux.a
-   >>> referenced by do_mounts.c
-   >>>               init/do_mounts.o:(parse_root_device) in archive vmlinux.a
-   >>> referenced 37 more times
+>> drivers/infiniband/hw/bnxt_re/main.c:838:28: warning: 'bnxt_re_from_netdev' defined but not used [-Wunused-function]
+     838 | static struct bnxt_re_dev *bnxt_re_from_netdev(struct net_device *netdev)
+         |                            ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/bnxt_re_from_netdev +838 drivers/infiniband/hw/bnxt_re/main.c
+
+1ac5a404797523 Selvin Xavier 2017-02-10  837  
+1ac5a404797523 Selvin Xavier 2017-02-10 @838  static struct bnxt_re_dev *bnxt_re_from_netdev(struct net_device *netdev)
+1ac5a404797523 Selvin Xavier 2017-02-10  839  {
+66832705c4d01e Selvin Xavier 2020-02-26  840  	struct ib_device *ibdev =
+66832705c4d01e Selvin Xavier 2020-02-26  841  		ib_device_get_by_netdev(netdev, RDMA_DRIVER_BNXT_RE);
+66832705c4d01e Selvin Xavier 2020-02-26  842  	if (!ibdev)
+1ac5a404797523 Selvin Xavier 2017-02-10  843  		return NULL;
+66832705c4d01e Selvin Xavier 2020-02-26  844  
+66832705c4d01e Selvin Xavier 2020-02-26  845  	return container_of(ibdev, struct bnxt_re_dev, ibdev);
+1ac5a404797523 Selvin Xavier 2017-02-10  846  }
+1ac5a404797523 Selvin Xavier 2017-02-10  847  
 
 -- 
 0-DAY CI Kernel Test Service
