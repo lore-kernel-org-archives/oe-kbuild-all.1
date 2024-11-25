@@ -1,69 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF5A1AB50C;
-	Mon, 25 Nov 2024 13:07:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A6C18A6BA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 13:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732540026; cv=none; b=MZcX6Ba8UZNRBDJg0mPGk3ZTxwFm7/Il6ikwxU9ozA6EBxV7ju5DZDHOK+q2c57ZUJjspiJEKkHB0u7Tc6K6XoEJfi1+ZxgLL0Dq4tWuEGujMFLqzzPIbVdLOdaErFtPiV0XjEyoN66G6V7P4LyJb035BfjSnJCq8takgqFK5u8=
+	t=1732540686; cv=none; b=b+Ogm9Thk2SRR29OxRnoEj1D1zNuVuew4DdW0NLN72NU3d5WkiGXcuBjHvHKhhiwTa8RoV6QK5twlpq9jJxmrD28vp1PxA4SMG3/tzRARNr3nrBhSQ1ZhlDUqlZYB+q7dg4TIa5CpjAzcZ9flfmzpbVMvaFAXq7j5ATesYMGz1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732540026; c=relaxed/simple;
-	bh=NYAR6zx9csg70XZRm5JpbFd7GI76A8LuONb3G1EzATg=;
+	s=arc-20240116; t=1732540686; c=relaxed/simple;
+	bh=90GdErDfqH3TbSI8xoxeF3mLsBpbfOPnjyRbEkwAr8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ml0DZLfvzPYa2XptZM4v2meFXiI6UJO+2X2/9zdvj7WwbVNwZ7jsbc0a1K15pbIHNm6YK1zQhgNCXsJUXruKZEsMj6SgH2/Pd6w0zPDu37YoBGc8ka6zTzuVTm4dFhCR4fH8mljYduv1+IrGm4D6KrEQZZGikm8humQs3u8d8fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CO0wVyLw; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=vFnPDel4sf/IE0ClfC6wN52IRXdrorR4QgOhgp2gwG7lpPX6GfpBGvc5UmBU1M/sNUK4orLvjcFz3GkgtPT8n+8Ijc2yzlvuBBgPC1yQJSucHT/v1Mu1yBRVxOAbRGDQBRz4yHtB1U1UgzeEqmWrMNcLadTCkI2VZMQWAZhbxHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M3JQE0o0; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CO0wVyLw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M3JQE0o0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732540024; x=1764076024;
+  t=1732540685; x=1764076685;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=NYAR6zx9csg70XZRm5JpbFd7GI76A8LuONb3G1EzATg=;
-  b=CO0wVyLwimVZGmXfaCBwDh3QetCeYsNUvBcN2hwIGpTTiHVOdDdkxtNN
-   jOgr0tCb4OSK4WPrIkhiuK41mcFHfvY0RHxLPgRcy1dCMPSzlorkiMgNR
-   QQMezoyhVW5vat7ByjwXbkWKaSihqBBLlItRSzvqTadrhb/356h8+ImNZ
-   8uFLSx5GaX9yVTggTGbRpDS6eMCPBIHSascF9yHNZDw49u5J8+KAIFikw
-   uTJVOBvTYWCfMrrlhBY7tNqB/AIfjMJsGxWlTwqtxhhX3oVL0CwIbhg8y
-   xM+iGbW2wYTtSsSAyoCmB2Og5t1uduM4fYk72LCVkNoKMRRZnBn3OJVpn
-   A==;
-X-CSE-ConnectionGUID: P2Ts8DlNT2e5RQzamQfrZw==
-X-CSE-MsgGUID: //lWZhVUSeyPMqJvkodzeQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="32016932"
+  bh=90GdErDfqH3TbSI8xoxeF3mLsBpbfOPnjyRbEkwAr8I=;
+  b=M3JQE0o010b0uL5uFgoEa2sCDXScG8IiKTbVmKmpcxusWMq8DGjjX0wK
+   iZKzykWmPZ1UHEfU2CUY5syic47LDe+x3zUVWgeklscXMF7OfHZmYkqpG
+   XPcYTnMoUQ2u2TCG6PtqBeDBRoXSqP1B+rLOKt4wIPwftZlRH+HDaKsXz
+   /QQ3DZDNedZkL6NXjsLVJGXg7u/e4gZUlddWOKgYL8Aa9WRCq1R3QyDUz
+   v399e4ld3CwNO+AUCe8gS2pH8A3LTav8QRNLVixrZAflTQdi2SrowILzO
+   T1NX1XVHZKVPIKAiCRXT9WdGhkyR5TJ8aD1gHy+bPcfKB34rbNuFssMpO
+   g==;
+X-CSE-ConnectionGUID: aQaEN+TWSpiaPhmqzMQSrQ==
+X-CSE-MsgGUID: 0LcX/sZSRCGIAPx28VVY0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="43145211"
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="32016932"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 05:07:03 -0800
-X-CSE-ConnectionGUID: WuTFLlVwQfulv7lZjSsbhg==
-X-CSE-MsgGUID: UXvWF2SVR4ybBFbmaR/pkw==
+   d="scan'208";a="43145211"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 05:18:04 -0800
+X-CSE-ConnectionGUID: Qv+DsYSFQWqk/plthBEMMQ==
+X-CSE-MsgGUID: wsOnNtBsT8m5Z3MeEKLcwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="96324026"
+   d="scan'208";a="91161329"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 25 Nov 2024 05:07:00 -0800
+  by orviesa010.jf.intel.com with ESMTP; 25 Nov 2024 05:18:02 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFYnp-0006PZ-0X;
-	Mon, 25 Nov 2024 13:06:57 +0000
-Date: Mon, 25 Nov 2024 21:06:52 +0800
+	id 1tFYyV-0006QD-1E;
+	Mon, 25 Nov 2024 13:17:59 +0000
+Date: Mon, 25 Nov 2024 21:17:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Catdeo Zhang <catdeo.zhang@unisoc.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org, catdeo.zhang@unisoc.com,
-	cixi.geng@linux.dev, wade.shu@unisoc.com, jiawang.yu@unisoc.com,
-	hehe.li@unisoc.com
-Subject: Re: [PATCH] net/sipa: Spreadtrum IPA driver code
-Message-ID: <202411252057.ShDClRfV-lkp@intel.com>
-References: <20241122014541.1234644-1-catdeo.zhang@unisoc.com>
+To: Chen Ridong <chenridong@huaweicloud.com>, steffen.klassert@secunet.com,
+	daniel.m.jordan@oracle.com, herbert@gondor.apana.org.au
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chenridong@huawei.com,
+	wangweiyang2@huawei.com
+Subject: Re: [PATCH 1/2] padata: add pd get/put refcnt helper
+Message-ID: <202411252108.XGoGQSTI-lkp@intel.com>
+References: <20241123080509.2573987-2-chenridong@huaweicloud.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,217 +65,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122014541.1234644-1-catdeo.zhang@unisoc.com>
+In-Reply-To: <20241123080509.2573987-2-chenridong@huaweicloud.com>
 
-Hi Catdeo,
+Hi Chen,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main linus/master horms-ipvs/master v6.12 next-20241125]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.12 next-20241125]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Catdeo-Zhang/net-sipa-Spreadtrum-IPA-driver-code/20241125-094101
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20241122014541.1234644-1-catdeo.zhang%40unisoc.com
-patch subject: [PATCH] net/sipa: Spreadtrum IPA driver code
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241125/202411252057.ShDClRfV-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411252057.ShDClRfV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chen-Ridong/padata-add-pd-get-put-refcnt-helper/20241125-111043
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241123080509.2573987-2-chenridong%40huaweicloud.com
+patch subject: [PATCH 1/2] padata: add pd get/put refcnt helper
+config: x86_64-randconfig-161-20241125 (https://download.01.org/0day-ci/archive/20241125/202411252108.XGoGQSTI-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411252108.XGoGQSTI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411252057.ShDClRfV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411252108.XGoGQSTI-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/sipa/sipa_core.c:31: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
-    * SPRD IPA contains a number of common fifo
+>> kernel/padata.c:1134:24: warning: variable 'pd' set but not used [-Wunused-but-set-variable]
+    1134 |         struct parallel_data *pd;
+         |                               ^
+   1 warning generated.
 
 
-vim +31 drivers/net/sipa/sipa_core.c
+vim +/pd +1134 kernel/padata.c
 
-    29	
-    30	/**
-  > 31	 * SPRD IPA contains a number of common fifo
-    32	 * in the current Unisoc, mainly includes USB, WIFI, PCIE, AP etc.
-    33	 */
-    34	static struct sipa_cmn_fifo_info sipa_cmn_fifo_statics[SIPA_CFIFO_MAX] = {
-    35		{
-    36			.cfifo_name = "sprd,usb-ul",
-    37			.tx_fifo = "sprd,usb-ul-tx",
-    38			.rx_fifo = "sprd,usb-ul-rx",
-    39			.relate_ep = SIPA_EP_USB,
-    40			.src_id = SIPA_TERM_USB,
-    41			.dst_id = SIPA_TERM_AP,
-    42			.is_to_ipa = 1,
-    43			.is_pam = 1,
-    44		},
-    45		{
-    46			.cfifo_name = "sprd,wifi-ul",
-    47			.tx_fifo = "sprd,wifi-ul-tx",
-    48			.rx_fifo = "sprd,wifi-ul-rx",
-    49			.relate_ep = SIPA_EP_WIFI,
-    50			.src_id = SIPA_TERM_WIFI1,
-    51			.dst_id = SIPA_TERM_AP,
-    52			.is_to_ipa = 1,
-    53			.is_pam = 1,
-    54		},
-    55		{
-    56			.cfifo_name = "sprd,pcie-ul",
-    57			.tx_fifo = "sprd,pcie-ul-tx",
-    58			.rx_fifo = "sprd,pcie-ul-rx",
-    59			.relate_ep = SIPA_EP_PCIE,
-    60			.src_id = SIPA_TERM_PCIE0,
-    61			.dst_id = SIPA_TERM_AP,
-    62			.is_to_ipa = 1,
-    63			.is_pam = 1,
-    64		},
-    65		{
-    66			.cfifo_name = "sprd,wiap-dl",
-    67			.tx_fifo = "sprd,wiap-dl-tx",
-    68			.rx_fifo = "sprd,wiap-dl-rx",
-    69			.relate_ep = SIPA_EP_WIAP,
-    70			.src_id = SIPA_TERM_VAP0,
-    71			.dst_id = SIPA_TERM_AP,
-    72			.is_to_ipa = 1,
-    73			.is_pam = 1,
-    74		},
-    75		{
-    76			.cfifo_name = "sprd,map-in",
-    77			.tx_fifo = "sprd,map-in-tx",
-    78			.rx_fifo = "sprd,map-in-rx",
-    79			.relate_ep = SIPA_EP_AP,
-    80			.src_id = SIPA_TERM_AP,
-    81			.dst_id = SIPA_TERM_VCP,
-    82			.is_to_ipa = 1,
-    83			.is_pam = 0,
-    84		},
-    85		{
-    86			.cfifo_name = "sprd,usb-dl",
-    87			.tx_fifo = "sprd,usb-dl-tx",
-    88			.rx_fifo = "sprd,usb-dl-rx",
-    89			.relate_ep = SIPA_EP_USB,
-    90			.src_id = SIPA_TERM_USB,
-    91			.dst_id = SIPA_TERM_AP,
-    92			.is_to_ipa = 0,
-    93			.is_pam = 1,
-    94		},
-    95		{
-    96			.cfifo_name = "sprd,wifi-dl",
-    97			.tx_fifo = "sprd,wifi-dl-tx",
-    98			.rx_fifo = "sprd,wifi-dl-rx",
-    99			.relate_ep = SIPA_EP_WIFI,
-   100			.src_id = SIPA_TERM_WIFI1,
-   101			.dst_id = SIPA_TERM_AP,
-   102			.is_to_ipa = 0,
-   103			.is_pam = 1,
-   104		},
-   105		{
-   106			.cfifo_name = "sprd,pcie-dl",
-   107			.tx_fifo = "sprd,pcie-dl-tx",
-   108			.rx_fifo = "sprd,pcie-dl-rx",
-   109			.relate_ep = SIPA_EP_PCIE,
-   110			.src_id = SIPA_TERM_PCIE0,
-   111			.dst_id = SIPA_TERM_AP,
-   112			.is_to_ipa = 0,
-   113			.is_pam = 1,
-   114		},
-   115		{
-   116			.cfifo_name = "sprd,wiap-ul",
-   117			.tx_fifo = "sprd,wiap-ul-tx",
-   118			.rx_fifo = "sprd,wiap-ul-rx",
-   119			.relate_ep = SIPA_EP_WIAP,
-   120			.src_id = SIPA_TERM_VAP0,
-   121			.dst_id = SIPA_TERM_AP,
-   122			.is_to_ipa = 0,
-   123			.is_pam = 1,
-   124		},
-   125		{
-   126			.cfifo_name = "sprd,map0-out",
-   127			.tx_fifo = "sprd,map0-out-tx",
-   128			.rx_fifo = "sprd,map0-out-rx",
-   129			.relate_ep = SIPA_EP_AP,
-   130			.src_id = SIPA_TERM_AP,
-   131			.dst_id = SIPA_TERM_USB,
-   132			.is_to_ipa = 0,
-   133			.is_pam = 0,
-   134		},
-   135		{
-   136			.cfifo_name = "sprd,map1-out",
-   137			.tx_fifo = "sprd,map1-out-tx",
-   138			.rx_fifo = "sprd,map1-out-rx",
-   139			.relate_ep = SIPA_EP_AP,
-   140			.src_id = SIPA_TERM_AP,
-   141			.dst_id = SIPA_TERM_USB,
-   142			.is_to_ipa = 0,
-   143			.is_pam = 0,
-   144		},
-   145		{
-   146			.cfifo_name = "sprd,map2-out",
-   147			.tx_fifo = "sprd,map2-out-tx",
-   148			.rx_fifo = "sprd,map2-out-rx",
-   149			.relate_ep = SIPA_EP_AP,
-   150			.src_id = SIPA_TERM_AP,
-   151			.dst_id = SIPA_TERM_USB,
-   152			.is_to_ipa = 0,
-   153			.is_pam = 0,
-   154		},
-   155		{
-   156			.cfifo_name = "sprd,map3-out",
-   157			.tx_fifo = "sprd,map3-out-tx",
-   158			.rx_fifo = "sprd,map3-out-rx",
-   159			.relate_ep = SIPA_EP_AP,
-   160			.src_id = SIPA_TERM_AP,
-   161			.dst_id = SIPA_TERM_USB,
-   162			.is_to_ipa = 0,
-   163			.is_pam = 0,
-   164		},
-   165		{
-   166			.cfifo_name = "sprd,map4-out",
-   167			.tx_fifo = "sprd,map4-out-tx",
-   168			.rx_fifo = "sprd,map4-out-rx",
-   169			.relate_ep = SIPA_EP_AP,
-   170			.src_id = SIPA_TERM_AP,
-   171			.dst_id = SIPA_TERM_USB,
-   172			.is_to_ipa = 0,
-   173			.is_pam = 0,
-   174		},
-   175		{
-   176			.cfifo_name = "sprd,map5-out",
-   177			.tx_fifo = "sprd,map5-out-tx",
-   178			.rx_fifo = "sprd,map5-out-rx",
-   179			.relate_ep = SIPA_EP_AP,
-   180			.src_id = SIPA_TERM_AP,
-   181			.dst_id = SIPA_TERM_USB,
-   182			.is_to_ipa = 0,
-   183			.is_pam = 0,
-   184		},
-   185		{
-   186			.cfifo_name = "sprd,map6-out",
-   187			.tx_fifo = "sprd,map6-out-tx",
-   188			.rx_fifo = "sprd,map6-out-rx",
-   189			.relate_ep = SIPA_EP_AP,
-   190			.src_id = SIPA_TERM_AP,
-   191			.dst_id = SIPA_TERM_USB,
-   192			.is_to_ipa = 0,
-   193			.is_pam = 0,
-   194		},
-   195		{
-   196			.cfifo_name = "sprd,map7-out",
-   197			.tx_fifo = "sprd,map7-out-tx",
-   198			.rx_fifo = "sprd,map7-out-rx",
-   199			.relate_ep = SIPA_EP_AP,
-   200			.src_id = SIPA_TERM_AP,
-   201			.dst_id = SIPA_TERM_USB,
-   202			.is_to_ipa = 0,
-   203			.is_pam = 0,
-   204		},
-   205	};
-   206	
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1126  
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1127  /**
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1128   * padata_free_shell - free a padata shell
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1129   *
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1130   * @ps: padata shell to free
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1131   */
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1132  void padata_free_shell(struct padata_shell *ps)
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1133  {
+7ddc21e317b360 WangJinchao  2023-10-16 @1134  	struct parallel_data *pd;
+7ddc21e317b360 WangJinchao  2023-10-16  1135  
+07b24c7c08bdc2 Eric Biggers 2020-02-25  1136  	if (!ps)
+07b24c7c08bdc2 Eric Biggers 2020-02-25  1137  		return;
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1138  
+07b24c7c08bdc2 Eric Biggers 2020-02-25  1139  	mutex_lock(&ps->pinst->lock);
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1140  	list_del(&ps->list);
+7ddc21e317b360 WangJinchao  2023-10-16  1141  	pd = rcu_dereference_protected(ps->pd, 1);
+31df8a12c672a5 Chen Ridong  2024-11-23  1142  	padata_put_pd(ps->pd);
+07b24c7c08bdc2 Eric Biggers 2020-02-25  1143  	mutex_unlock(&ps->pinst->lock);
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1144  
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1145  	kfree(ps);
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1146  }
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1147  EXPORT_SYMBOL(padata_free_shell);
+bbefa1dd6a6d53 Herbert Xu   2019-11-26  1148  
 
 -- 
 0-DAY CI Kernel Test Service
