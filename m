@@ -1,153 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC36A179BF
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 08:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A832029CF0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 08:55:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732524141; cv=none; b=V/L4RkzgGt/p48++VdTy1K4zrKT3TYkCTKlQFPwp1DfOE7FK1QGkMLK8Lwot52nFf/25hSWyKcKmujVL0aYwN+pNKLXQpGuQkJ1ZQWlMVs3/ipgut2KqlbZrvh/6vMeCTtCzbHvsvMCJIR3xmKmh7jn5WsqwyNuSv8TKrUO5Aro=
+	t=1732524941; cv=none; b=npIsCFqm3GkMsHxkHAOxEHO6jLLx8mogpxLcXyCye4/qCGDir6imc/AWEOedBCjb/7rMYPqzb9sEVrODcJhe4AaMva+HOONbqk1wJQmiWZ/NT0cSmiR9oi7zPsVjrrfimkmpO3jbb2K90p6oRJAtE96s36nXn9qNVogO6cYCADM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732524141; c=relaxed/simple;
-	bh=H8dVvaxAfzgmHdBxZDBeyOpaTmlwiqO6Fj5VB1iEfQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVJXwaoK49W1Jtwye2tZX0FAzz8HiEwtPzJYTtwArX5K0ogVSZROR+8eaqoGQ9kt9cAbaCvDPNFoOmeGc8G7k0MUjJb+FzoIc33u/eaHg9ThgFdPCqPMgmwi+Yfw0vrRqby4IwxMVyQOt0gxlEMes1XJrKnPEuUXp0KEeyPBVqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0FfkRAu; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732524941; c=relaxed/simple;
+	bh=HDfW3jVxCWdYw7T6W6STfvhIsTfJuxTDMyWxf/iJsfw=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=GvJv//zsPwbmOidHQm0bt1zOtaZn3oCBK5KkZ+KeftPNO9hf43vFXjpFgIcjvT59M81s2Pcri8xr+x4db2fx5vOXplSesewTaVTdWV6gxKs3b7dCbgZVDrL0Jw63m/u4dh4k9+lF3hsSakQKeCQzP0S/t+mXBIZYONXGeqyjNOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=OuAIgJUe; arc=none smtp.client-ip=52.119.213.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0FfkRAu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732524139; x=1764060139;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=H8dVvaxAfzgmHdBxZDBeyOpaTmlwiqO6Fj5VB1iEfQ0=;
-  b=e0FfkRAuFyCqpbjDpozikBXc2f10z14cVAHivHjymst502MDdP8t+svK
-   Qw9VKXNeaFcu8jcTw284vkOI1zKMOK2Jv4wnBuB7O8ltTE+eOfKAB+wf+
-   MtkQwvWQc1aFWZRXT47LKAI+7522uw71dgkGmG+J50pqxeWAPxPkEq8X8
-   HSTYmp2Bh8YQ8TiCU5bp+iEDeKSIwAA+WiotnBFhyL1dVWRC2fmJ0m7eR
-   Nlc0mSId993r27mfMsKZE301z8Zwf3JZZ5GJXHHghEowm3+HEVnaFcdoh
-   QYghQo2Zy4eH6bj8BkL87JJJQZfGoSUUIGc8iMIFGa7/+7PdKblP6md9l
-   w==;
-X-CSE-ConnectionGUID: nbVE5rqOSjSomluG/C83bQ==
-X-CSE-MsgGUID: vE7wYfsXTkSRsNrCAJ4bYQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="32560325"
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="32560325"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 00:42:18 -0800
-X-CSE-ConnectionGUID: GcAFz0zYRlKfEwYPcw2CTQ==
-X-CSE-MsgGUID: 9pFpg5OST8qVHjnhr/EP5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="91546181"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Nov 2024 00:42:15 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tFUfc-00065N-1l;
-	Mon, 25 Nov 2024 08:42:12 +0000
-Date: Mon, 25 Nov 2024 16:41:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Ira Weiny <ira.weiny@intel.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Huang Ying <ying.huang@intel.com>,
-	Yao Xingtao <yaoxt.fnst@fujitsu.com>, Li Ming <ming4.li@intel.com>,
-	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/3] cxl/core: Enable Region creation on x86 with Low
- Memory Hole
-Message-ID: <202411251632.4eenIlnF-lkp@intel.com>
-References: <20241122155226.2068287-3-fabio.m.de.francesco@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="OuAIgJUe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+  t=1732524939; x=1764060939;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=HDfW3jVxCWdYw7T6W6STfvhIsTfJuxTDMyWxf/iJsfw=;
+  b=OuAIgJUekXBXt3mz1WJAgVDXqJM9AT4aCWmmdytyv17vxXM5xsh5q8qv
+   9/hzbpGb4hf0F3n71Yw150TiXBygzMo8JCrkz99sAt3PiBKqgDqFTz0Q8
+   HFU3kZWeN0fDfnLx/22xZ90mDead63RimwnmiBdmpPSjMFklETVHjyLFU
+   w=;
+X-IronPort-AV: E=Sophos;i="6.12,182,1728950400"; 
+   d="scan'208";a="44171384"
+Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
+  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 08:55:36 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:57842]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.61.54:2525] with esmtp (Farcaster)
+ id f21d2487-34d7-4818-b323-09540143d2c2; Mon, 25 Nov 2024 08:55:36 +0000 (UTC)
+X-Farcaster-Flow-ID: f21d2487-34d7-4818-b323-09540143d2c2
+Received: from EX19MTAUWC001.ant.amazon.com (10.250.64.145) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
+ Mon, 25 Nov 2024 08:55:36 +0000
+Received: from email-imr-corp-prod-pdx-all-2c-c4413280.us-west-2.amazon.com
+ (10.25.36.210) by mail-relay.amazon.com (10.250.64.145) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1258.34 via Frontend Transport; Mon, 25 Nov 2024 08:55:36 +0000
+Received: from dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com (dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com [10.15.1.225])
+	by email-imr-corp-prod-pdx-all-2c-c4413280.us-west-2.amazon.com (Postfix) with ESMTP id 11A40A047E;
+	Mon, 25 Nov 2024 08:55:36 +0000 (UTC)
+Received: by dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com (Postfix, from userid 23907357)
+	id 9DF3223E2; Mon, 25 Nov 2024 09:55:35 +0100 (CET)
+From: Mahmoud Adam <mngyadam@amazon.com>
+To: kernel test robot <lkp@intel.com>
+CC: <stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
+Subject: Re: [PATCH 5.4/5.10/5.15] cifs: Fix buffer overflow when parsing
+ NFS reparse points
+In-Reply-To: <Z0PftUzqwoftS1ri@ca93ea81d97d> (kernel test robot's message of
+	"Mon, 25 Nov 2024 10:23:49 +0800")
+References: <Z0PftUzqwoftS1ri@ca93ea81d97d>
+Date: Mon, 25 Nov 2024 09:55:35 +0100
+Message-ID: <lrkyqiksby9o8.fsf@dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241122155226.2068287-3-fabio.m.de.francesco@linux.intel.com>
+Content-Type: text/plain
 
-Hi Fabio,
+kernel test robot <lkp@intel.com> writes:
 
-kernel test robot noticed the following build warnings:
+> Hi,
+>
+> Thanks for your patch.
+>
+> FYI: kernel test robot notices the stable kernel rule is not satisfied.
+>
+> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+>
+> Rule: The upstream commit ID must be specified with a separate line above the commit text.
+> Subject: [PATCH 5.4/5.10/5.15] cifs: Fix buffer overflow when parsing NFS reparse points
+> Link: https://lore.kernel.org/stable/20241122152943.76044-1-mngyadam%40amazon.com
+>
+> Please ignore this mail if the patch is not relevant for upstream.
 
-[auto build test WARNING on cxl/next]
-[also build test WARNING on linus/master cxl/pending v6.12 next-20241125]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The commit id is there but in upstream <sha> commit, wrong format.
+I've sent a v2.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/cxl-core-Change-match_-_by_range-calling-convention/20241125-102754
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20241122155226.2068287-3-fabio.m.de.francesco%40linux.intel.com
-patch subject: [PATCH 2/3] cxl/core: Enable Region creation on x86 with Low Memory Hole
-config: i386-buildonly-randconfig-001-20241125 (https://download.01.org/0day-ci/archive/20241125/202411251632.4eenIlnF-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411251632.4eenIlnF-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411251632.4eenIlnF-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/cxl/cxlmem.h:12,
-                    from drivers/cxl/port.c:7:
->> drivers/cxl/cxl.h:921:6: warning: no previous prototype for 'arch_match_spa' [-Wmissing-prototypes]
-     921 | bool arch_match_spa(struct cxl_root_decoder *cxlrd,
-         |      ^~~~~~~~~~~~~~
->> drivers/cxl/cxl.h:927:6: warning: no previous prototype for 'arch_match_region' [-Wmissing-prototypes]
-     927 | bool arch_match_region(struct cxl_region_params *p,
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/cxl/cxl.h:933:6: warning: no previous prototype for 'arch_trim_hpa_by_spa' [-Wmissing-prototypes]
-     933 | void arch_trim_hpa_by_spa(struct resource *res,
-         |      ^~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [y]:
-   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
-
-
-vim +/arch_match_spa +921 drivers/cxl/cxl.h
-
-   912	
-   913	#ifdef CONFIG_CXL_ARCH_LOW_MEMORY_HOLE
-   914	bool arch_match_spa(struct cxl_root_decoder *cxlrd,
-   915			    struct cxl_endpoint_decoder *cxled);
-   916	bool arch_match_region(struct cxl_region_params *p,
-   917			       struct cxl_decoder *cxld);
-   918	void arch_trim_hpa_by_spa(struct resource *res,
-   919				  struct cxl_root_decoder *cxlrd);
-   920	#else
- > 921	bool arch_match_spa(struct cxl_root_decoder *cxlrd,
-   922			    struct cxl_endpoint_decoder *cxled)
-   923	{
-   924		return false;
-   925	}
-   926	
- > 927	bool arch_match_region(struct cxl_region_params *p,
-   928			       struct cxl_decoder *cxld)
-   929	{
-   930		return false;
-   931	}
-   932	
- > 933	void arch_trim_hpa_by_spa(struct resource *res,
-   934				  struct cxl_root_decoder *cxlrd)
-   935	{ }
-   936	#endif /* CXL_ARCH_LOW_MEMORY_HOLE */
-   937	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-MNAdam
