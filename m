@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70EDB1714CF;
-	Mon, 25 Nov 2024 08:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F28618BBBB
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 08:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732521688; cv=none; b=Ula/EE90ZSBAEz5Pobo9iwxstrpyJogTM5ehU9XBeMe7HriiETLaVEWOh1wAWhe/QijG7AsR3JKV4ou7Bym9SuLRHvZyt/OgcY2DSllcgsJ/5BLuJhFP2fFbUGm0uM/gIRlkOaeF20IHzAGUPPRWa0MaFfYXdBsAOAx+i8tCgog=
+	t=1732523537; cv=none; b=UWSQ2p3bEtYU2SR5s86CTZYJjgolqcO8ruUxCuK2XDD0BdlpLc0WOcEYjx3KFqhykg59XceWx41zQdLGYreUFDx1ep5dTnZl86pUe/8YFTrjncl00x7WzkyElxKN31EBya8U8CAtAzI6ChYClyg1GPEv/49ZkIUlrPYJyY66y10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732521688; c=relaxed/simple;
-	bh=7i26vOpaYieZsxdxzoMbvSBe5Be3es8Xmwgmvf588lc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tKK+Y7VzST09ktTxjpWy+WJEet4kf7SGoJQkmb/aRSaxe2EP10H6pOfohkimumcgxWYlWZJLwjiC/CiKwiFQtmxZqDu30TXDzDmwY/fnZ5IQrOcCVRa4ZiC57c6e36HSzXQ++2Ce4x+5rnletWbBuBrYlXEYRe/qcEcGWy6oZr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Db6THlhG; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1732523537; c=relaxed/simple;
+	bh=pxDf5u7zRXbGilAqE+uwMhGJBHhNkH/4QDMkucUpfJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=a6FCHzvzvdDHHMhnPMLk1NnNfBdMj1sCOE64nRs+Rl3Ls8U8fbIkeqoQolWtpjS1ytQN2K0JRtM0DjNr7bLjLRec/9ArIWDZsdntIBMboC8Sig4YPhOd5iw41tQIOeocUeezn2x1WpVwhHkTGWVApRQt6gbbDTuYQE9jgE/jpc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=So2I7j4R; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Db6THlhG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="So2I7j4R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732521687; x=1764057687;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7i26vOpaYieZsxdxzoMbvSBe5Be3es8Xmwgmvf588lc=;
-  b=Db6THlhGE8EE4lNJMjIB9PRcaiHh9dvfoLcyWU6ftucrwGxSbgUHAGt1
-   /jaxmWl82fTnPyeboIMVSrS+pP3MyTN+4FIL5fnIX/Lxhg+V7OEcpo/0J
-   6nTwsNU80JuxdEQI/7za51JvJ1hkHQW0Czzzv3BXVA/st8542os0lFJBc
-   lHr6v1BJqvChQ+TlAohjZkbN/rqXPyrIUNzbUM6gbUXj0UUZ534GBs1to
-   OxdagoGOwK1qtr2bxaBjNfLnWsK/rlbKr28a9BCG+betSzvpXDHpp7Jha
-   drMizM05YpCTX31e8ICbm3BjcP+EWBZB36z8ZDbGgTLlD+vMBI8l0AGAT
-   A==;
-X-CSE-ConnectionGUID: 5KhrgxfASWKF5SAHDfe79Q==
-X-CSE-MsgGUID: kiNLl5jTSgKlpEFH8q9jOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="20204242"
+  t=1732523536; x=1764059536;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=pxDf5u7zRXbGilAqE+uwMhGJBHhNkH/4QDMkucUpfJ0=;
+  b=So2I7j4R0KPu/X31wrHOda58QbTxD/Z2z8QgL4Cu22l1jFpWnGccDacG
+   6BvJGTN5EvU1DZk6jjQ47dueJ0QmGAoUYGwgVOOxIGuWQYDTBEu+JGr3K
+   kzcS4Tjqb6Evl3KvNIfIbTqIYOYRgfY0MteZOyCN47cbBu6gZu0rEOcW8
+   yv3MNPoYi05u9oJXwpO25iygTbOW0a3UNyetjAx0pVf5zEX3IiIjMvJkh
+   o2G1/QRkjFtH6uC1+e+5g29r5FNJunvDbu2z5K9Qx/lIwShp65MyIQ8LX
+   0/FrKhAmJ9FVS6FKolLyZYn42LaSSD1kZdYVi0L9BsssQTrdnRipFxFzY
+   Q==;
+X-CSE-ConnectionGUID: qpQKq1TGTMOGtt/flxmvsQ==
+X-CSE-MsgGUID: /aE57ks0RGuo6M1ki+NfxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="50026922"
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="20204242"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 00:01:15 -0800
-X-CSE-ConnectionGUID: BdJQhWoLRdKzvBk4KOhjUw==
-X-CSE-MsgGUID: YvlplLARTTuA3ELMC0WUlw==
+   d="scan'208";a="50026922"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 00:32:15 -0800
+X-CSE-ConnectionGUID: Mwtq9hoATbWDlLiPYmiIlw==
+X-CSE-MsgGUID: PIkd3Z7QQ8urWbwzkym4sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="96112053"
+   d="scan'208";a="90825608"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Nov 2024 00:01:09 -0800
+  by fmviesa006.fm.intel.com with ESMTP; 25 Nov 2024 00:32:13 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFU1q-00063f-19;
-	Mon, 25 Nov 2024 08:01:06 +0000
-Date: Mon, 25 Nov 2024 16:00:49 +0800
+	id 1tFUVv-00064r-1K;
+	Mon, 25 Nov 2024 08:32:11 +0000
+Date: Mon, 25 Nov 2024 16:31:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
-	chengming.zhou@linux.dev, usamaarif642@gmail.com,
-	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
-	akpm@linux-foundation.org, linux-crypto@vger.kernel.org,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	clabbe@baylibre.com, ardb@kernel.org, ebiggers@google.com,
-	surenb@google.com, kristen.c.accardi@intel.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	wajdi.k.feghali@intel.com, vinodh.gopal@intel.com,
-	kanchana.p.sridhar@intel.com
-Subject: Re: [PATCH v4 10/10] mm: zswap: Compress batching with Intel IAA in
- zswap_batch_store() of large folios.
-Message-ID: <202411251534.ETkkSgz6-lkp@intel.com>
-References: <20241123070127.332773-11-kanchana.p.sridhar@intel.com>
+To: "Darrick J. Wong" <darrick.wong@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [djwong-xfs:xfs-6.13-fixes 156/160] fs/xfs/xfs_trans.c:869:40:
+ error: macro "xfs_trans_apply_dquot_deltas" requires 2 arguments, but only 1
+ given
+Message-ID: <202411251621.paH3UvZ8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,226 +62,160 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241123070127.332773-11-kanchana.p.sridhar@intel.com>
 
-Hi Kanchana,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 5a7056135bb69da2ce0a42eb8c07968c1331777b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/crypto-acomp-Define-two-new-interfaces-for-compress-decompress-batching/20241125-110412
-base:   5a7056135bb69da2ce0a42eb8c07968c1331777b
-patch link:    https://lore.kernel.org/r/20241123070127.332773-11-kanchana.p.sridhar%40intel.com
-patch subject: [PATCH v4 10/10] mm: zswap: Compress batching with Intel IAA in zswap_batch_store() of large folios.
-config: x86_64-buildonly-randconfig-003-20241125 (https://download.01.org/0day-ci/archive/20241125/202411251534.ETkkSgz6-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411251534.ETkkSgz6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git xfs-6.13-fixes
+head:   90f5ef1b89eb33844fc8254ba587ba0616c0bf26
+commit: 12c0ebae7d6efa377d39c04dd2e1d8de42cc3e61 [156/160] xfs: don't lose solo dquot update transactions
+config: m68k-bvme6000_defconfig (https://download.01.org/0day-ci/archive/20241125/202411251621.paH3UvZ8-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411251621.paH3UvZ8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411251534.ETkkSgz6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411251621.paH3UvZ8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from mm/zswap.c:18:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/x86/include/asm/cacheflush.h:5:
-   In file included from include/linux/mm.h:2211:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from mm/zswap.c:40:
-   In file included from mm/internal.h:13:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/zswap.c:2315:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2315 |                         if (memcg_list_lru_alloc(memcg, &zswap_list_lru, GFP_KERNEL)) {
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:2335:8: note: uninitialized use occurs here
-    2335 |                 if (!ret && zswap_pool_reached_full)
-         |                      ^~~
-   mm/zswap.c:2315:4: note: remove the 'if' if its condition is always false
-    2315 |                         if (memcg_list_lru_alloc(memcg, &zswap_list_lru, GFP_KERNEL)) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2316 |                                 mem_cgroup_put(memcg);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~
-    2317 |                                 goto put_objcg;
-         |                                 ~~~~~~~~~~~~~~~
-    2318 |                         }
-         |                         ~
-   mm/zswap.c:2310:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2310 |                 if (zswap_check_limits())
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:2335:8: note: uninitialized use occurs here
-    2335 |                 if (!ret && zswap_pool_reached_full)
-         |                      ^~~
-   mm/zswap.c:2310:3: note: remove the 'if' if its condition is always false
-    2310 |                 if (zswap_check_limits())
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-    2311 |                         goto put_objcg;
-         |                         ~~~~~~~~~~~~~~
-   mm/zswap.c:2303:8: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    2303 |                         if (shrink_memcg(memcg)) {
-         |                             ^~~~~~~~~~~~~~~~~~~
-   mm/zswap.c:2335:8: note: uninitialized use occurs here
-    2335 |                 if (!ret && zswap_pool_reached_full)
-         |                      ^~~
-   mm/zswap.c:2303:4: note: remove the 'if' if its condition is always false
-    2303 |                         if (shrink_memcg(memcg)) {
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-    2304 |                                 mem_cgroup_put(memcg);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~
-    2305 |                                 goto put_objcg;
-         |                                 ~~~~~~~~~~~~~~~
-    2306 |                         }
-         |                         ~
-   mm/zswap.c:2295:11: note: initialize the variable 'ret' to silence this warning
-    2295 |                 bool ret;
-         |                         ^
-         |                          = 0
-   6 warnings generated.
+   fs/xfs/xfs_trans.c: In function '__xfs_trans_commit':
+>> fs/xfs/xfs_trans.c:869:40: error: macro "xfs_trans_apply_dquot_deltas" requires 2 arguments, but only 1 given
+     869 |         xfs_trans_apply_dquot_deltas(tp);
+         |                                        ^
+   In file included from fs/xfs/xfs_trans.c:15:
+   fs/xfs/xfs_quota.h:176:9: note: macro "xfs_trans_apply_dquot_deltas" defined here
+     176 | #define xfs_trans_apply_dquot_deltas(tp, a)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/xfs/xfs_trans.c:869:9: error: 'xfs_trans_apply_dquot_deltas' undeclared (first use in this function); did you mean 'xfs_trans_apply_sb_deltas'?
+     869 |         xfs_trans_apply_dquot_deltas(tp);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         xfs_trans_apply_sb_deltas
+   fs/xfs/xfs_trans.c:869:9: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/xfs/xfs_trans.c:923:52: error: macro "xfs_trans_unreserve_and_mod_dquots" passed 2 arguments, but takes just 1
+     923 |         xfs_trans_unreserve_and_mod_dquots(tp, true);
+         |                                                    ^
+   fs/xfs/xfs_quota.h:177:9: note: macro "xfs_trans_unreserve_and_mod_dquots" defined here
+     177 | #define xfs_trans_unreserve_and_mod_dquots(tp)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/xfs/xfs_trans.c:923:9: error: 'xfs_trans_unreserve_and_mod_dquots' undeclared (first use in this function); did you mean 'xfs_trans_unreserve_and_mod_sb'?
+     923 |         xfs_trans_unreserve_and_mod_dquots(tp, true);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         xfs_trans_unreserve_and_mod_sb
+   fs/xfs/xfs_trans.c: In function 'xfs_trans_cancel':
+   fs/xfs/xfs_trans.c:1017:53: error: macro "xfs_trans_unreserve_and_mod_dquots" passed 2 arguments, but takes just 1
+    1017 |         xfs_trans_unreserve_and_mod_dquots(tp, false);
+         |                                                     ^
+   fs/xfs/xfs_quota.h:177:9: note: macro "xfs_trans_unreserve_and_mod_dquots" defined here
+     177 | #define xfs_trans_unreserve_and_mod_dquots(tp)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_trans.c:1017:9: error: 'xfs_trans_unreserve_and_mod_dquots' undeclared (first use in this function); did you mean 'xfs_trans_unreserve_and_mod_sb'?
+    1017 |         xfs_trans_unreserve_and_mod_dquots(tp, false);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |         xfs_trans_unreserve_and_mod_sb
 
 
-vim +2315 mm/zswap.c
+vim +/xfs_trans_apply_dquot_deltas +869 fs/xfs/xfs_trans.c
 
-  2216	
-  2217	/*
-  2218	 * Store a large folio and/or a batch of any-order folio(s) in zswap
-  2219	 * using IAA compress batching API.
-  2220	 *
-  2221	 * This the main procedure for batching within large folios and for batching
-  2222	 * of folios. Each large folio will be broken into sub-batches of
-  2223	 * SWAP_CRYPTO_BATCH_SIZE pages, the sub-batch pages will be compressed by
-  2224	 * IAA hardware compress engines in parallel, then stored in zpool/xarray.
-  2225	 *
-  2226	 * This procedure should only be called if zswap supports batching of stores.
-  2227	 * Otherwise, the sequential implementation for storing folios as in the
-  2228	 * current zswap_store() should be used. The code handles the unlikely event
-  2229	 * that the zswap pool changes from batching to non-batching between
-  2230	 * swap_writepage() and the start of zswap_batch_store().
-  2231	 *
-  2232	 * The signature of this procedure is meant to allow the calling function,
-  2233	 * (for instance, swap_writepage()) to pass a batch of folios @batch
-  2234	 * (the "reclaim batch") to be stored in zswap.
-  2235	 *
-  2236	 * @batch and @errors have folio_batch_count(@batch) number of entries,
-  2237	 * with one-one correspondence (@errors[i] represents the error status of
-  2238	 * @batch->folios[i], for i in folio_batch_count(@batch)). Please also
-  2239	 * see comments preceding "struct zswap_batch_store_sub_batch" definition
-  2240	 * above.
-  2241	 *
-  2242	 * The calling function (for instance, swap_writepage()) should initialize
-  2243	 * @errors[i] to a non-0 value.
-  2244	 * If zswap successfully stores @batch->folios[i], it will set @errors[i] to 0.
-  2245	 * If there is an error in zswap, it will set @errors[i] to -EINVAL.
-  2246	 *
-  2247	 * @batch: folio_batch of folios to be batch compressed.
-  2248	 * @errors: zswap_batch_store() error status for the folios in @batch.
-  2249	 */
-  2250	void zswap_batch_store(struct folio_batch *batch, int *errors)
-  2251	{
-  2252		struct zswap_batch_store_sub_batch sub_batch;
-  2253		struct zswap_pool *pool;
-  2254		u8 i;
-  2255	
-  2256		/*
-  2257		 * If zswap is disabled, we must invalidate the possibly stale entry
-  2258		 * which was previously stored at this offset. Otherwise, writeback
-  2259		 * could overwrite the new data in the swapfile.
-  2260		 */
-  2261		if (!zswap_enabled)
-  2262			goto check_old;
-  2263	
-  2264		pool = zswap_pool_current_get();
-  2265	
-  2266		if (!pool) {
-  2267			if (zswap_check_limits())
-  2268				queue_work(shrink_wq, &zswap_shrink_work);
-  2269			goto check_old;
-  2270		}
-  2271	
-  2272		if (!pool->can_batch) {
-  2273			for (i = 0; i < folio_batch_count(batch); ++i)
-  2274				if (zswap_store(batch->folios[i]))
-  2275					errors[i] = 0;
-  2276				else
-  2277					errors[i] = -EINVAL;
-  2278			/*
-  2279			 * Seems preferable to release the pool ref after the calls to
-  2280			 * zswap_store(), so that the non-batching pool cannot be
-  2281			 * deleted, can be used for sequential stores, and the zswap pool
-  2282			 * cannot morph into a batching pool.
-  2283			 */
-  2284			zswap_pool_put(pool);
-  2285			return;
-  2286		}
-  2287	
-  2288		zswap_batch_reset(&sub_batch);
-  2289		sub_batch.pool = pool;
-  2290	
-  2291		for (i = 0; i < folio_batch_count(batch); ++i) {
-  2292			struct folio *folio = batch->folios[i];
-  2293			struct obj_cgroup *objcg = NULL;
-  2294			struct mem_cgroup *memcg = NULL;
-  2295			bool ret;
-  2296	
-  2297			VM_WARN_ON_ONCE(!folio_test_locked(folio));
-  2298			VM_WARN_ON_ONCE(!folio_test_swapcache(folio));
-  2299	
-  2300			objcg = get_obj_cgroup_from_folio(folio);
-  2301			if (objcg && !obj_cgroup_may_zswap(objcg)) {
-  2302				memcg = get_mem_cgroup_from_objcg(objcg);
-  2303				if (shrink_memcg(memcg)) {
-  2304					mem_cgroup_put(memcg);
-  2305					goto put_objcg;
-  2306				}
-  2307				mem_cgroup_put(memcg);
-  2308			}
-  2309	
-  2310			if (zswap_check_limits())
-  2311				goto put_objcg;
-  2312	
-  2313			if (objcg) {
-  2314				memcg = get_mem_cgroup_from_objcg(objcg);
-> 2315				if (memcg_list_lru_alloc(memcg, &zswap_list_lru, GFP_KERNEL)) {
-  2316					mem_cgroup_put(memcg);
-  2317					goto put_objcg;
-  2318				}
-  2319				mem_cgroup_put(memcg);
-  2320			}
-  2321	
-  2322			/*
-  2323			 * By default, set zswap error status in "errors" to "success"
-  2324			 * for use in swap_writepage() when this returns. In case of
-  2325			 * errors encountered in any sub-batch in which this folio's
-  2326			 * pages are batch-compressed, a negative error number will
-  2327			 * over-write this when zswap_batch_cleanup() is called.
-  2328			 */
-  2329			errors[i] = 0;
-  2330			ret = zswap_batch_comp_folio(folio, errors, i, objcg, &sub_batch,
-  2331						     (i == folio_batch_count(batch) - 1));
-  2332	
-  2333	put_objcg:
-  2334			obj_cgroup_put(objcg);
-  2335			if (!ret && zswap_pool_reached_full)
-  2336				queue_work(shrink_wq, &zswap_shrink_work);
-  2337		} /* for batch folios */
-  2338	
-  2339		zswap_pool_put(pool);
-  2340	
-  2341	check_old:
-  2342		for (i = 0; i < folio_batch_count(batch); ++i)
-  2343			if (errors[i])
-  2344				zswap_delete_stored_entries(batch->folios[i]);
-  2345	}
-  2346	
+   837	
+   838	/*
+   839	 * Commit the given transaction to the log.
+   840	 *
+   841	 * XFS disk error handling mechanism is not based on a typical
+   842	 * transaction abort mechanism. Logically after the filesystem
+   843	 * gets marked 'SHUTDOWN', we can't let any new transactions
+   844	 * be durable - ie. committed to disk - because some metadata might
+   845	 * be inconsistent. In such cases, this returns an error, and the
+   846	 * caller may assume that all locked objects joined to the transaction
+   847	 * have already been unlocked as if the commit had succeeded.
+   848	 * Do not reference the transaction structure after this call.
+   849	 */
+   850	static int
+   851	__xfs_trans_commit(
+   852		struct xfs_trans	*tp,
+   853		bool			regrant)
+   854	{
+   855		struct xfs_mount	*mp = tp->t_mountp;
+   856		struct xlog		*log = mp->m_log;
+   857		xfs_csn_t		commit_seq = 0;
+   858		int			error = 0;
+   859		int			sync = tp->t_flags & XFS_TRANS_SYNC;
+   860	
+   861		trace_xfs_trans_commit(tp, _RET_IP_);
+   862	
+   863		/*
+   864		 * Commit per-transaction changes that are not already tracked through
+   865		 * log items.  This can add dirty log items to the transaction.
+   866		 */
+   867		if (tp->t_flags & XFS_TRANS_SB_DIRTY)
+   868			xfs_trans_apply_sb_deltas(tp);
+ > 869		xfs_trans_apply_dquot_deltas(tp);
+   870	
+   871		error = xfs_trans_run_precommits(tp);
+   872		if (error)
+   873			goto out_unreserve;
+   874	
+   875		/*
+   876		 * If there is nothing to be logged by the transaction,
+   877		 * then unlock all of the items associated with the
+   878		 * transaction and free the transaction structure.
+   879		 * Also make sure to return any reserved blocks to
+   880		 * the free pool.
+   881		 */
+   882		if (!(tp->t_flags & XFS_TRANS_DIRTY))
+   883			goto out_unreserve;
+   884	
+   885		/*
+   886		 * We must check against log shutdown here because we cannot abort log
+   887		 * items and leave them dirty, inconsistent and unpinned in memory while
+   888		 * the log is active. This leaves them open to being written back to
+   889		 * disk, and that will lead to on-disk corruption.
+   890		 */
+   891		if (xlog_is_shutdown(log)) {
+   892			error = -EIO;
+   893			goto out_unreserve;
+   894		}
+   895	
+   896		ASSERT(tp->t_ticket != NULL);
+   897	
+   898		xlog_cil_commit(log, tp, &commit_seq, regrant);
+   899	
+   900		xfs_trans_free(tp);
+   901	
+   902		/*
+   903		 * If the transaction needs to be synchronous, then force the
+   904		 * log out now and wait for it.
+   905		 */
+   906		if (sync) {
+   907			error = xfs_log_force_seq(mp, commit_seq, XFS_LOG_SYNC, NULL);
+   908			XFS_STATS_INC(mp, xs_trans_sync);
+   909		} else {
+   910			XFS_STATS_INC(mp, xs_trans_async);
+   911		}
+   912	
+   913		return error;
+   914	
+   915	out_unreserve:
+   916		xfs_trans_unreserve_and_mod_sb(tp);
+   917	
+   918		/*
+   919		 * It is indeed possible for the transaction to be not dirty but
+   920		 * the dqinfo portion to be.  All that means is that we have some
+   921		 * (non-persistent) quota reservations that need to be unreserved.
+   922		 */
+ > 923		xfs_trans_unreserve_and_mod_dquots(tp, true);
+   924		if (tp->t_ticket) {
+   925			if (regrant && !xlog_is_shutdown(log))
+   926				xfs_log_ticket_regrant(log, tp->t_ticket);
+   927			else
+   928				xfs_log_ticket_ungrant(log, tp->t_ticket);
+   929			tp->t_ticket = NULL;
+   930		}
+   931		xfs_trans_free_items(tp, !!error);
+   932		xfs_trans_free(tp);
+   933	
+   934		XFS_STATS_INC(mp, xs_trans_empty);
+   935		return error;
+   936	}
+   937	
 
 -- 
 0-DAY CI Kernel Test Service
