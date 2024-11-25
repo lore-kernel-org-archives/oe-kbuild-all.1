@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD341C1AA9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 20:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48FAC1BBBD4;
+	Mon, 25 Nov 2024 20:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732564809; cv=none; b=F9MP/wAtIix9vvcTvlSgvoCE29mBBKYqwxydsppxU7kQxdxAcFP4jHBPBrVEXtjfSU18LCBGt3yGpPmPcucgb6ulYlbs68z63vxnBVAZO0xxt45G2JlO13hYCzfRu39rtXgYTzQobwugdaXnYADuFPNUTwLlybK6dSTXVAWyTvk=
+	t=1732564812; cv=none; b=V59NjaALIhShZ9a8Iyw/a3UQuRf+e/Y2MpF2M7TW/hID2K1QgayzYU+ViXTRtXzq/wIJseCixFqQRtyiHdQ3GW9xmKL2oYuyvhzbmL4YcQBah+Cx1nrVqnqqRPyaRNNHaGLnAPmPI/HChvbDGX+zppVOwCOyHYoU0k0R0rxLDVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732564809; c=relaxed/simple;
-	bh=CMBf9p4oT+FQLzXaZGVQAdEwUdmvAjcXvUqwZZsMyNk=;
+	s=arc-20240116; t=1732564812; c=relaxed/simple;
+	bh=N5w51BT33syzCvPKds+4HYxzFvxvMfunxNBVpslPy24=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pcor1ULHgqLKJ0SnDXlQp555031EeVfZ1+dv1kCLPKSNG9aOqXmf86YRdfwEn+sD2kLAZorQgSpdA/j8U6rPMMsZfwiracTMXpGNp+13G4qwdNQ6h9YRptUHJKBnQ+e62QRYyKIqkayXnqiuAArXu3ElecOI8T7E8DlC4KfkxC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/alWqb7; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=gRzTibT+08R/vzQztnnNBTYsAvsZAz6hdxilBY3prXDFpJQN3ovieQdPNHncf+bqpGYstYVsapyKomZJ8RRaOvD1TkQpwwWt+n81mctfskpTfQmkRbngk05TSDaIVYaKQxFd/MAlStkhId83hCUXh6LHCWhKy9vFkhErIzAV68Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bi7C3Gcm; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/alWqb7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bi7C3Gcm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732564808; x=1764100808;
+  t=1732564810; x=1764100810;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CMBf9p4oT+FQLzXaZGVQAdEwUdmvAjcXvUqwZZsMyNk=;
-  b=h/alWqb7tHUF0WWqwKw5WSvumKnEdNNVKFc9W3edTSTMMPfC8I2/Rq79
-   YNUr2kTHo7QyO9TROcgVeZjebDuuBqR0QeGG5vkxLUp9f3PpBVCCYBDUm
-   r6zJT5ZLuE8Pv04j9cf5wuXtfwjANXclJc+kk9nXg4fUFGIw9NZAqpFIT
-   fF5sHei316yNd4xAPrImZYyo60fxk2BJL3rrPHr0EeVCKyX02H4AJbFHP
-   0T633UoNc1D8JLsdEUlc4J3vM+ZJGhjrt8wrgj1dLNKywfOowWNR3ReXn
-   QvJdcIvHtk+8BGYTj8UNTdESdQZtUp5emYxhcAmmXHOvCZG2CARXjcUIZ
+  bh=N5w51BT33syzCvPKds+4HYxzFvxvMfunxNBVpslPy24=;
+  b=Bi7C3GcmYol8Qh455CfIq/cvLiRw0jLdEurEZDoyKJVTCfbtEzrvdm+V
+   6a8qVNRxaxWjvp9VueVlkCnCNqzlHmBO8LD8CYZfiVPEWTaPsFUR5G5Dw
+   /asD9UL8p7R6/D9gUNnvx0VSliNheVVlROD+RdnGe3Hy5Qm5K1JW9a5/y
+   YSnTwcnca6zeY4Nfbm9UsZbD/kL89C+mIqFeWf8njgQJI4T6MXNcL1tSv
+   X+lkvDwRpu73SnoxFWx4EagIC8xtGzUk/4cNvBBhVraw7nIuMj9e+pOSf
+   V5xjUEUrPRIYJA3zbea2bXke3gS7ExI2mNV2VmEPGRg2ZjLZnnnMfkmIG
    w==;
-X-CSE-ConnectionGUID: ofHsFAjJS7+90MAxlDVCsQ==
-X-CSE-MsgGUID: parwAV4ER1uDoI3bFd2JYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="50103466"
+X-CSE-ConnectionGUID: TeRX8KHKTu6XAE8UGS6ZfQ==
+X-CSE-MsgGUID: AcSbx80mRGmOHwToMaV1VQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="58103552"
 X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
-   d="scan'208";a="50103466"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 12:00:07 -0800
-X-CSE-ConnectionGUID: OYICEYlCTlCNZF+3Sxo23g==
-X-CSE-MsgGUID: ZM/VbkDESmGFlOJKmuExDQ==
+   d="scan'208";a="58103552"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 12:00:08 -0800
+X-CSE-ConnectionGUID: BMJikntxQI67YIwYTq+miQ==
+X-CSE-MsgGUID: 8aJgUreOSjCxro97AMQ3dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
-   d="scan'208";a="91002000"
+   d="scan'208";a="122233362"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 25 Nov 2024 12:00:05 -0800
+  by orviesa002.jf.intel.com with ESMTP; 25 Nov 2024 12:00:07 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFfFb-0006ko-2Z;
+	id 1tFfFb-0006km-2W;
 	Mon, 25 Nov 2024 20:00:03 +0000
-Date: Tue, 26 Nov 2024 03:59:39 +0800
+Date: Tue, 26 Nov 2024 03:59:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2415/2415] kernel/watchdog_hld.c:502:12: sparse:
- sparse: symbol '__hardlockup_detector_perf_init' was not declared. Should it
- be static?
-Message-ID: <202411260320.yKIJ0n9e-lkp@intel.com>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	mptcp@lists.linux.dev, matthieu.baerts@tessares.net
+Subject: [mptcp:export-net 4/8] .github/ISSUE_TEMPLATE/01-bug.yml: warning:
+ ignored by one of the .gitignore files
+Message-ID: <202411260324.B29iWmwj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,37 +63,34 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5d73ae1b79c0e467e87e2f0494211ff38732900d
-commit: 364de98eacea8dbfe4f926f62085aebf8534f403 [2415/2415] watchdog: Fix sleeping function called from atomic context
-config: x86_64-randconfig-121-20241111 (https://download.01.org/0day-ci/archive/20241126/202411260320.yKIJ0n9e-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411260320.yKIJ0n9e-lkp@intel.com/reproduce)
+tree:   https://github.com/multipath-tcp/mptcp_net-next.git export-net
+head:   a901f3057f733a28f0816c46617979e828f2a717
+commit: 665011912bfbc690f923de3dc1ef3f17b9bf2d06 [4/8] DO-NOT-MERGE: mptcp: add CI support
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20241126/202411260324.B29iWmwj-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411260324.B29iWmwj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411260320.yKIJ0n9e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411260324.B29iWmwj-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/watchdog_hld.c:502:12: sparse: sparse: symbol '__hardlockup_detector_perf_init' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/__hardlockup_detector_perf_init +502 kernel/watchdog_hld.c
-
-   501	
- > 502	int __init __hardlockup_detector_perf_init(void *not_used)
-   503	{
-   504		int ret = hardlockup_detector_event_create();
-   505	
-   506		if (ret) {
-   507			pr_info("Perf NMI watchdog permanently disabled\n");
-   508		} else {
-   509			perf_event_release_kernel(this_cpu_read(watchdog_ev));
-   510			this_cpu_write(watchdog_ev, NULL);
-   511		}
-   512		return ret;
-   513	}
-   514	
+   .b4-config: warning: ignored by one of the .gitignore files
+   .git_markup: warning: ignored by one of the .gitignore files
+   .github/FUNDING.yml: warning: ignored by one of the .gitignore files
+>> .github/ISSUE_TEMPLATE/01-bug.yml: warning: ignored by one of the .gitignore files
+>> .github/ISSUE_TEMPLATE/02-feature.yml: warning: ignored by one of the .gitignore files
+>> .github/ISSUE_TEMPLATE/03-question.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/build-validation.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/checkpatch.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/notif.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/tests.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/update-tg-tree.yml: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
