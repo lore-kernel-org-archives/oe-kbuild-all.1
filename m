@@ -1,68 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2F0199947
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 12:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2919E199EB7
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 12:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732536836; cv=none; b=kqfGz4Vy0KorvDCbwwpojrrz3lrzaOLhe+B6MszkisZQOk2TsUhN4UAOWfRAMw1Cxm5DwAMszz4tAXFx6+u7yqaqxBBu+HTHK3PsCXpFcDRJwwvdWzKtNyPKkvzABXT32awtCKW41cMFBY/rw3x4MtaxDEspkflt0QiW7l4MLzI=
+	t=1732538101; cv=none; b=sHsdW57xqd9k2CCZyDMG1/R6s09YvIyj6cafrcGf6O7F6iPcqt0Np1Y3Fq2FwLHtAI0N97Gz71lYR2oA1gA0F64hXK5PDp+ui/4UFTl1Kkn2Y41U+jYXP6EOnayDzUHKQMYK05xh16S5iiU3cVMwWzSGZA5MhFbi7n/ky5+haX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732536836; c=relaxed/simple;
-	bh=SfWhUEUrfi678nU8AT/o7gHzI7/+xswizzHwUz5Wdxs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n7B1jsY2jrQ8bx6rje38JVvJBSJBHkvPtrUc31AhSp3nb6fAGZKdzSd3qyIwP27KNO1Dz+22yowPdJvuwwVLkg9qKaGuA2sgx9Crcix3sKkm0SJ9PJDibSng09rLHiLSRI8T/SbJfb3aj1IpnLIfgtrmvDlfcRzTkYpC0v8ZNXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHwsgdsV; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1732538101; c=relaxed/simple;
+	bh=0sIIyYL9MqMO3LfrjAKXDkv36NXGJbxYSvMCWyzgkMs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XTAYgeuuokprb1Xzt6qMzCki4+RE3+Pdt+mjIW4vf1XTRcmYyDGZe8A1R9fcEDz1AaYL8+4qK/CwYNzUy7u/gVueLwBlyV7ArVYLKa5OQiyBIMSbEulZKtrrKSxXeJfMKAwuhSx3XK3gJni9vyPkI4Zx2a9tXQWPvOU9DGF2n50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kqUGb2OA; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHwsgdsV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kqUGb2OA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732536835; x=1764072835;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SfWhUEUrfi678nU8AT/o7gHzI7/+xswizzHwUz5Wdxs=;
-  b=kHwsgdsV/Ucn3KYefDGaZP4iA35gWE22sXfS+0aKDGzzrCJZZd0ZXAQg
-   xm1ArxzhWoCYIKBwH5g++8psM/nUjj7pF00jeUULFUBWao+nzUTMqcIVy
-   iFBl+ckDFC3K7siTQSsKYPFGcxClJJsiPNZhAzTplgTL+aQZVraFGUIxL
-   2SjB+3gUmnNPHpgCXkbvFl6FsgtICPxu/m/yN2jGY9VOnCEy25Y4c7asb
-   l9rJyhAp4AWJGPujNOBjzXPNWL4ySUDA4EzqRhiCq6pM/5SDb1XlUS5SU
-   R20zz91pL3EMEHkeBabVLqeU5Yi/IAfPr2Zp8VzO5wBA5zSrQVTdXBM65
+  t=1732538098; x=1764074098;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0sIIyYL9MqMO3LfrjAKXDkv36NXGJbxYSvMCWyzgkMs=;
+  b=kqUGb2OADqmFrZi8pdgXV8i/+fOXtf8QkU2gRQMZBlcvhgxTPYyrrPYO
+   GY3qFr7H9fKnbEzbZXwZL4K++58qfNZZ4lBJzqiM+tUR7HzQ2pWqKZg2v
+   nvlfJe4pabwQcBGy36KC7fFoCYVqoW/CjOc2HwgiYWUDX8VCs3uyvx8m7
+   fHKZSs31eGy4LniFrsZo0z4MNlkfjUqxefwdHBJ32JUN4Stc/viBlwLnX
+   zoyurGhUR5WAwUk2x2fiQw5N37B6MqKjnBn/Hh7T2y14a783isB2pj+W/
+   dMJKGkhHuYziHrDV55K5U/8NCOIrJHEO7fRiea1zetlfSfajuCPGAJL6o
    w==;
-X-CSE-ConnectionGUID: i2rgTzJVSBSIpFLKRlmI6w==
-X-CSE-MsgGUID: 5IM4VloXR2KL3B9FVXEi7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="32380008"
+X-CSE-ConnectionGUID: GdcYZ9+DQECdEDbaWQ3c3g==
+X-CSE-MsgGUID: goOXvFsJT5mizr6IQ/wVHA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="36562028"
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="32380008"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 04:13:54 -0800
-X-CSE-ConnectionGUID: 3sPjZDDxRd6cjRs0YtBVsg==
-X-CSE-MsgGUID: aOQ3YUF/QsWuP1Br+rBwpA==
+   d="scan'208";a="36562028"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 04:34:57 -0800
+X-CSE-ConnectionGUID: I/g0KA/gQC6d/lMphAmdlg==
+X-CSE-MsgGUID: Fi3GaHPkSx2z4kJajwNtGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
-   d="scan'208";a="91202907"
+   d="scan'208";a="92042977"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 25 Nov 2024 04:13:51 -0800
+  by orviesa008.jf.intel.com with ESMTP; 25 Nov 2024 04:34:56 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFXyO-0006K5-1b;
-	Mon, 25 Nov 2024 12:13:48 +0000
-Date: Mon, 25 Nov 2024 20:13:20 +0800
+	id 1tFYIn-0006O7-0T;
+	Mon, 25 Nov 2024 12:34:53 +0000
+Date: Mon, 25 Nov 2024 20:33:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Cosmin Tanislav <demonsingur@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 2/3] i2c: atr: Fix lockdep for nested ATRs
-Message-ID: <202411252015.N7sBYvri-lkp@intel.com>
-References: <20241122-i2c-atr-fixes-v1-2-62c51ce790be@ideasonboard.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 145/180]
+ arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb:
+ /soc/thermal-sensor@1100b000: failed to match any schema with compatible:
+ ['mediatek,mt8195-lvts']
+Message-ID: <202411252011.NWktORmh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,101 +63,238 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241122-i2c-atr-fixes-v1-2-62c51ce790be@ideasonboard.com>
 
-Hi Tomi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on adc218676eef25575469234709c2d87185ca223a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tomi-Valkeinen/i2c-atr-Allow-unmapped-addresses-from-nested-ATRs/20241125-104419
-base:   adc218676eef25575469234709c2d87185ca223a
-patch link:    https://lore.kernel.org/r/20241122-i2c-atr-fixes-v1-2-62c51ce790be%40ideasonboard.com
-patch subject: [PATCH 2/3] i2c: atr: Fix lockdep for nested ATRs
-config: i386-buildonly-randconfig-001-20241125 (https://download.01.org/0day-ci/archive/20241125/202411252015.N7sBYvri-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411252015.N7sBYvri-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   df8c1b2852c0b86a1037c2e27705c67293feb40b
+commit: b0aa56480cda57f835a4db4be183b8933f40f04d [145/180] CHROMIUM: arm64: dts: mediatek: mt8195: Match DT node name with SVS driver
+config: arm64-randconfig-051-20241111 (https://download.01.org/0day-ci/archive/20241125/202411252011.NWktORmh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411252011.NWktORmh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411252015.N7sBYvri-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411252011.NWktORmh-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/i2c/i2c-atr.c:60: warning: Function parameter or struct member 'orig_addrs_lock_key' not described in 'i2c_atr_chan'
->> drivers/i2c/i2c-atr.c:100: warning: Function parameter or struct member 'lock_key' not described in 'i2c_atr'
-
-
-vim +60 drivers/i2c/i2c-atr.c
-
-a076a860acae77 Luca Ceresoli  2023-06-19   36  
-a076a860acae77 Luca Ceresoli  2023-06-19   37  /**
-a076a860acae77 Luca Ceresoli  2023-06-19   38   * struct i2c_atr_chan - Data for a channel.
-a076a860acae77 Luca Ceresoli  2023-06-19   39   * @adap:            The &struct i2c_adapter for the channel
-a076a860acae77 Luca Ceresoli  2023-06-19   40   * @atr:             The parent I2C ATR
-a076a860acae77 Luca Ceresoli  2023-06-19   41   * @chan_id:         The ID of this channel
-a076a860acae77 Luca Ceresoli  2023-06-19   42   * @alias_list:      List of @struct i2c_atr_alias_pair containing the
-a076a860acae77 Luca Ceresoli  2023-06-19   43   *                   assigned aliases
-a076a860acae77 Luca Ceresoli  2023-06-19   44   * @orig_addrs_lock: Mutex protecting @orig_addrs
-a076a860acae77 Luca Ceresoli  2023-06-19   45   * @orig_addrs:      Buffer used to store the original addresses during transmit
-a076a860acae77 Luca Ceresoli  2023-06-19   46   * @orig_addrs_size: Size of @orig_addrs
-a076a860acae77 Luca Ceresoli  2023-06-19   47   */
-a076a860acae77 Luca Ceresoli  2023-06-19   48  struct i2c_atr_chan {
-a076a860acae77 Luca Ceresoli  2023-06-19   49  	struct i2c_adapter adap;
-a076a860acae77 Luca Ceresoli  2023-06-19   50  	struct i2c_atr *atr;
-a076a860acae77 Luca Ceresoli  2023-06-19   51  	u32 chan_id;
-a076a860acae77 Luca Ceresoli  2023-06-19   52  
-a076a860acae77 Luca Ceresoli  2023-06-19   53  	struct list_head alias_list;
-a076a860acae77 Luca Ceresoli  2023-06-19   54  
-a076a860acae77 Luca Ceresoli  2023-06-19   55  	/* Lock orig_addrs during xfer */
-a076a860acae77 Luca Ceresoli  2023-06-19   56  	struct mutex orig_addrs_lock;
-f2d3b6b436282b Tomi Valkeinen 2024-11-22   57  	struct lock_class_key orig_addrs_lock_key;
-a076a860acae77 Luca Ceresoli  2023-06-19   58  	u16 *orig_addrs;
-a076a860acae77 Luca Ceresoli  2023-06-19   59  	unsigned int orig_addrs_size;
-a076a860acae77 Luca Ceresoli  2023-06-19  @60  };
-a076a860acae77 Luca Ceresoli  2023-06-19   61  
-a076a860acae77 Luca Ceresoli  2023-06-19   62  /**
-a076a860acae77 Luca Ceresoli  2023-06-19   63   * struct i2c_atr - The I2C ATR instance
-a076a860acae77 Luca Ceresoli  2023-06-19   64   * @parent:    The parent &struct i2c_adapter
-a076a860acae77 Luca Ceresoli  2023-06-19   65   * @dev:       The device that owns the I2C ATR instance
-a076a860acae77 Luca Ceresoli  2023-06-19   66   * @ops:       &struct i2c_atr_ops
-a076a860acae77 Luca Ceresoli  2023-06-19   67   * @priv:      Private driver data, set with i2c_atr_set_driver_data()
-a076a860acae77 Luca Ceresoli  2023-06-19   68   * @algo:      The &struct i2c_algorithm for adapters
-a076a860acae77 Luca Ceresoli  2023-06-19   69   * @lock:      Lock for the I2C bus segment (see &struct i2c_lock_operations)
-a076a860acae77 Luca Ceresoli  2023-06-19   70   * @max_adapters: Maximum number of adapters this I2C ATR can have
-a076a860acae77 Luca Ceresoli  2023-06-19   71   * @num_aliases: Number of aliases in the aliases array
-a076a860acae77 Luca Ceresoli  2023-06-19   72   * @aliases:   The aliases array
-a076a860acae77 Luca Ceresoli  2023-06-19   73   * @alias_mask_lock: Lock protecting alias_use_mask
-a076a860acae77 Luca Ceresoli  2023-06-19   74   * @alias_use_mask: Bitmask for used aliases in aliases array
-a076a860acae77 Luca Ceresoli  2023-06-19   75   * @i2c_nb:    Notifier for remote client add & del events
-a076a860acae77 Luca Ceresoli  2023-06-19   76   * @adapter:   Array of adapters
-a076a860acae77 Luca Ceresoli  2023-06-19   77   */
-a076a860acae77 Luca Ceresoli  2023-06-19   78  struct i2c_atr {
-a076a860acae77 Luca Ceresoli  2023-06-19   79  	struct i2c_adapter *parent;
-a076a860acae77 Luca Ceresoli  2023-06-19   80  	struct device *dev;
-a076a860acae77 Luca Ceresoli  2023-06-19   81  	const struct i2c_atr_ops *ops;
-a076a860acae77 Luca Ceresoli  2023-06-19   82  
-a076a860acae77 Luca Ceresoli  2023-06-19   83  	void *priv;
-a076a860acae77 Luca Ceresoli  2023-06-19   84  
-a076a860acae77 Luca Ceresoli  2023-06-19   85  	struct i2c_algorithm algo;
-a076a860acae77 Luca Ceresoli  2023-06-19   86  	/* lock for the I2C bus segment (see struct i2c_lock_operations) */
-a076a860acae77 Luca Ceresoli  2023-06-19   87  	struct mutex lock;
-f2d3b6b436282b Tomi Valkeinen 2024-11-22   88  	struct lock_class_key lock_key;
-a076a860acae77 Luca Ceresoli  2023-06-19   89  	int max_adapters;
-a076a860acae77 Luca Ceresoli  2023-06-19   90  
-a076a860acae77 Luca Ceresoli  2023-06-19   91  	size_t num_aliases;
-a076a860acae77 Luca Ceresoli  2023-06-19   92  	const u16 *aliases;
-a076a860acae77 Luca Ceresoli  2023-06-19   93  	/* Protects alias_use_mask */
-a076a860acae77 Luca Ceresoli  2023-06-19   94  	spinlock_t alias_mask_lock;
-a076a860acae77 Luca Ceresoli  2023-06-19   95  	unsigned long *alias_use_mask;
-a076a860acae77 Luca Ceresoli  2023-06-19   96  
-a076a860acae77 Luca Ceresoli  2023-06-19   97  	struct notifier_block i2c_nb;
-a076a860acae77 Luca Ceresoli  2023-06-19   98  
-3a133a4e44554b Kees Cook      2023-09-22   99  	struct i2c_adapter *adapter[] __counted_by(max_adapters);
-a076a860acae77 Luca Ceresoli  2023-06-19 @100  };
-a076a860acae77 Luca Ceresoli  2023-06-19  101  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ec@0: 'keyboard-backlight' does not match any of the regexes: '^extcon[0-9]*$', '^i2c-tunnel[0-9]*$', '^regulator@[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/svs@1100bc00: failed to match any schema with compatible: ['mediatek,mt8195-svs']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: dma-controller@1c10a000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: dma-controller@1c10b000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: dp-intf@1c113000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: edp-tx@1c500000: 'aux-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: dp-tx@1c600000: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: rt1019p: 'label' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ec@0: 'keyboard-backlight' does not match any of the regexes: '^extcon[0-9]*$', '^i2c-tunnel[0-9]*$', '^regulator@[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: /soc/svs@1100bc00: failed to match any schema with compatible: ['mediatek,mt8195-svs']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: dma-controller@1c10a000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: dma-controller@1c10b000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: dp-intf@1c113000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: edp-tx@1c500000: 'aux-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: dp-tx@1c600000: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dtb: rt1019p: 'label' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ec@0: 'keyboard-backlight' does not match any of the regexes: '^extcon[0-9]*$', '^i2c-tunnel[0-9]*$', '^regulator@[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: /soc/svs@1100bc00: failed to match any schema with compatible: ['mediatek,mt8195-svs']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: dma-controller@1c10a000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: dma-controller@1c10b000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: dp-intf@1c113000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: edp-tx@1c500000: 'aux-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: dp-tx@1c600000: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dtb: rt1019p: 'label' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ec@0: 'keyboard-backlight' does not match any of the regexes: '^extcon[0-9]*$', '^i2c-tunnel[0-9]*$', '^regulator@[0-9]+$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: /soc/svs@1100bc00: failed to match any schema with compatible: ['mediatek,mt8195-svs']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: dma-controller@1c10a000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: dma-controller@1c10b000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: dp-intf@1c113000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: edp-tx@1c500000: 'aux-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: dp-tx@1c600000: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: rt1019p: 'label' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt1015p.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:2995.17-3053.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3070.17-3107.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: syscon@10001000: compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mt8195-sys-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/pwrap@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/pwrap@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: /soc/svs@1100bc00: failed to match any schema with compatible: ['mediatek,mt8195-svs']
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: dma-controller@1c108000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: dma-controller@1c109000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: dma-controller@1c10a000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: dma-controller@1c10b000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: dp-intf@1c113000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: pinctrl@10005000: i2c0-pins:pins: 'mediatek,drive-strength-adv' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8195-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: pinctrl@10005000: i2c1-pins:pins: 'mediatek,drive-strength-adv' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8195-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: pinctrl@10005000: i2c4-pins:pins: 'mediatek,drive-strength-adv' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8195-pinctrl.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8195-timer', 'mediatek,mt6765-timer']
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: infra-iommu@10315000: interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8195-lvts']
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: /soc/svs@1100bc00: failed to match any schema with compatible: ['mediatek,mt8195-svs']
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: pwm@1100e000: 'power-domains' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/pwm/mediatek,pwm-disp.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/mediatek-dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: dma-controller@1c108000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: dma-controller@1c109000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: dma-controller@1c10a000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: dma-controller@1c10b000: '#dma-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: dp-intf@1c113000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-evb.dtb: thermal-zones: 'cam1', 'cam2', 'cpu_big1', 'cpu_big2', 'cpu_big3', 'cpu_big4', 'cpu_little1', 'cpu_little2', 'cpu_little3', 'cpu_little4', 'gpu2', 'img', 'infra', 'soc_max', 'vdec', 'vpu1', 'vpu2' do not match any of the regexes: '^[a-zA-Z][a-zA-Z0-9\\-]{1,10}-thermal$', 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/thermal/thermal-zones.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
