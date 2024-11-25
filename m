@@ -1,107 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mail.simonwunderlich.de (mail.simonwunderlich.de [23.88.38.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2E639FD9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 16:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C8A1B415F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 16:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.38.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732551805; cv=none; b=k/l3dskbQOvt/ooj+z6LpMmESfzfdNkawunU+KoqxXx4dmh3U9N2IGIoHlKKpUJ2tQTZJ6TClkptDkF3zaEU0xWI54ceH4q7k5Q/Q+Hy1Cji/9zGDKInUG3cSQTrrvpK338U0oyDjQt/xc0EsLvVyIGZ3FuuVxnIwtENirPyWlc=
+	t=1732552168; cv=none; b=YsqkqNDK6U+Cl29l/a4GkfJdHYcIhxGCiXE+TNl9/Pakg0sirKrKQcxF8nei3e+cfFxbQW3HfpnqIFnAt8FPrW0n6M9YyTR15xta+aidRkMVcyVueyU7FbDeWfuSuPh9aEzMkJng5hSGSj98qIyG0ar0xezHi1bnpPCbXSRfRog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732551805; c=relaxed/simple;
-	bh=sxyINQhNAS+DuQP2Ca/e4Ts0NZEAgnv3o6ShsFZ2MZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Bhgas6i6E+ywsNrkLxFKZ5Te9MlGxjMzs7mPGvI8CCd7NaCpRvbvpk/M2r38LWy3scvnEj5HYwkxTo3V4tPlcHEU3l17xWnJSp0ZPtqdxP/8Su7UPGb05wkgT5GI2vL/XBqO68QScNS42QkCkzO2/TM1sPs6LU6ECimRhF/bj9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k8hQJdM1; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k8hQJdM1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732551802; x=1764087802;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sxyINQhNAS+DuQP2Ca/e4Ts0NZEAgnv3o6ShsFZ2MZY=;
-  b=k8hQJdM18Vt4Ezuw3bdl6firKTeK0B5uPm6JjoNETEfpgv9W71WfJY35
-   MblKcFnycLJ/Jbo77CyzpqyaD3FYfam+QQoH5mTLuNXlnV21OGrIcg+zb
-   j/5KHa/tgf9c65DhVPA0X5JXtH8JomYPf5BHFdWXd1WpOErgoWqAzjaPv
-   wIJTRSLmL4eQiP6Ju+gCPttAqX3BKnUCR32LlAZNzkm4hzG2kKJXynSBI
-   bpeUy+Dk/Div72qsPuj1XCE/jETGv5sGnEN/aVNYycr4AsaBr4nDEJezH
-   syFSskpga6Ug2HEle6VFirJPR8xEO7aX57ZPmeN4I4mU3Ghri3Ac/bz7I
-   Q==;
-X-CSE-ConnectionGUID: VCB8RtUbRaCMRbww4YmbEQ==
-X-CSE-MsgGUID: 0MQ6D3MwSDyXXF9/OC+L0A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="32528069"
-X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
-   d="scan'208";a="32528069"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 08:23:22 -0800
-X-CSE-ConnectionGUID: 1U69BhHKT8yktKA9mOfCQA==
-X-CSE-MsgGUID: uWDq3UTWQ3S6IitIZy1KNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,183,1728975600"; 
-   d="scan'208";a="92113697"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Nov 2024 08:23:22 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tFbrr-0006av-0G;
-	Mon, 25 Nov 2024 16:23:19 +0000
-Date: Tue, 26 Nov 2024 00:22:30 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Chen Ziqiang <chenziqiang1686@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1291/1291]
- drivers/mailbox/phytium_mailbox.c:116:36: warning: 'phytium_mbox_acpi_match'
- defined but not used
-Message-ID: <202411260043.JceIGmYJ-lkp@intel.com>
+	s=arc-20240116; t=1732552168; c=relaxed/simple;
+	bh=8/J4oIpteJJ95dbc78abzzPl5e46aavnlnkVICyFP+A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=BXG/ICxH39Fc2PdYSrp08z7uIq7/jpiO1UKbAsPubqQ4qnn4mPd5KSA+xkLelH82KcMiWKfVSMAs9yS4J4i5Fzm1pPiQ1qyQ+a3cnlW5l9H1bqSijUfHjMsB1FyQDk/dSoRG/Y9MS+1yxRUA/uPuOcjasWD6avt417jq3XdqxFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de; spf=pass smtp.mailfrom=simonwunderlich.de; arc=none smtp.client-ip=23.88.38.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=simonwunderlich.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=simonwunderlich.de
+Received: from localhost (p200300C597034590000000000000032B.dip0.t-ipconnect.de [IPv6:2003:c5:9703:4590::32b])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.simonwunderlich.de (Postfix) with ESMTPSA id 95B22FA132;
+	Mon, 25 Nov 2024 17:29:22 +0100 (CET)
+From: Issam Hamdi <ih@simonwunderlich.de>
+To: lkp@intel.com
+Cc: ih@simonwunderlich.de,
+	johannes@sipsolutions.net,
+	linux-wireless@vger.kernel.org,
+	mathias.kretschmer@fit.fraunhofer.de,
+	oe-kbuild-all@lists.linux.dev,
+	sw@simonwunderlich.de
+Subject: [PATCH v3] wifi: mac80211: fix mbss changed flags corruption on 32 bit systems
+Date: Mon, 25 Nov 2024 17:29:20 +0100
+Message-Id: <20241125162920.2711462-1-ih@simonwunderlich.de>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <202411220516.wuQOEE8t-lkp@intel.com>
+References: <202411220516.wuQOEE8t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Chen,
+On 32-bit systems, the size of an unsigned long is 4 bytes,
+while a u64 is 8 bytes. Therefore, when using
+or_each_set_bit(bit, &bits, sizeof(changed) * BITS_PER_BYTE),
+the code is incorrectly searching for a bit in a 32-bit
+variable that is expected to be 64 bits in size,
+leading to incorrect bit finding.
 
-FYI, the error/warning still remains.
+Solution: Ensure that the size of the bits variable is correctly
+adjusted for each architecture.
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   48fd60600c1344806a27e3bb33ab33ec5a9fea7c
-commit: 1ae9436b02e93f1f2b9cfc10226812197fbfcd04 [1291/1291] mailbox: add phytium mailbox driver
-config: arm64-randconfig-004-20241113 (https://download.01.org/0day-ci/archive/20241126/202411260043.JceIGmYJ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411260043.JceIGmYJ-lkp@intel.com/reproduce)
+ Call Trace:
+  ? show_regs+0x54/0x58
+  ? __warn+0x6b/0xd4
+  ? ieee80211_link_info_change_notify+0xcc/0xd4 [mac80211]
+  ? report_bug+0x113/0x150
+  ? exc_overflow+0x30/0x30
+  ? handle_bug+0x27/0x44
+  ? exc_invalid_op+0x18/0x50
+  ? handle_exception+0xf6/0xf6
+  ? exc_overflow+0x30/0x30
+  ? ieee80211_link_info_change_notify+0xcc/0xd4 [mac80211]
+  ? exc_overflow+0x30/0x30
+  ? ieee80211_link_info_change_notify+0xcc/0xd4 [mac80211]
+  ? ieee80211_mesh_work+0xff/0x260 [mac80211]
+  ? cfg80211_wiphy_work+0x72/0x98 [cfg80211]
+  ? process_one_work+0xf1/0x1fc
+  ? worker_thread+0x2c0/0x3b4
+  ? kthread+0xc7/0xf0
+  ? mod_delayed_work_on+0x4c/0x4c
+  ? kthread_complete_and_exit+0x14/0x14
+  ? ret_from_fork+0x24/0x38
+  ? kthread_complete_and_exit+0x14/0x14
+  ? ret_from_fork_asm+0xf/0x14
+  ? entry_INT80_32+0xf0/0xf0
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411260043.JceIGmYJ-lkp@intel.com/
+Signed-off-by: Issam Hamdi <ih@simonwunderlich.de>
+---
+Changes in v2:
+- Use BITMAP_FROM_U64() to map all the 64 bits.
+- Update the commit description.
+Changes in v3:
+- Remove not needed check on the variable bits.
+---
+ net/mac80211/mesh.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-All warnings (new ones prefixed by >>):
+diff --git a/net/mac80211/mesh.c b/net/mac80211/mesh.c
+index cb5f16366b9c..9c33ad56da14 100644
+--- a/net/mac80211/mesh.c
++++ b/net/mac80211/mesh.c
+@@ -1157,14 +1157,11 @@ void ieee80211_mbss_info_change_notify(struct ieee80211_sub_if_data *sdata,
+ 				       u64 changed)
+ {
+ 	struct ieee80211_if_mesh *ifmsh = &sdata->u.mesh;
+-	unsigned long bits = changed;
++	unsigned long bits[] = { BITMAP_FROM_U64(changed) };
+ 	u32 bit;
+ 
+-	if (!bits)
+-		return;
+-
+ 	/* if we race with running work, worst case this work becomes a noop */
+-	for_each_set_bit(bit, &bits, sizeof(changed) * BITS_PER_BYTE)
++	for_each_set_bit(bit, bits, sizeof(changed) * BITS_PER_BYTE)
+ 		set_bit(bit, ifmsh->mbss_changed);
+ 	set_bit(MESH_WORK_MBSS_CHANGED, &ifmsh->wrkq_flags);
+ 	wiphy_work_queue(sdata->local->hw.wiphy, &sdata->work);
 
->> drivers/mailbox/phytium_mailbox.c:116:36: warning: 'phytium_mbox_acpi_match' defined but not used [-Wunused-const-variable=]
-     116 | static const struct acpi_device_id phytium_mbox_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
-   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
-   Selected by [y]:
-   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
-
-
-vim +/phytium_mbox_acpi_match +116 drivers/mailbox/phytium_mailbox.c
-
-   115	
- > 116	static const struct acpi_device_id phytium_mbox_acpi_match[] = {
-   117		{ "PHYT0009", 0 },
-   118		{ },
-   119	};
-   120	MODULE_DEVICE_TABLE(acpi, phytium_mbox_acpi_match);
-   121	
-
+base-commit: dfc14664794a4706e0c2186a0c082386e6b14c4d
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
