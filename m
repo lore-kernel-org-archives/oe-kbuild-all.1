@@ -1,88 +1,107 @@
-Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A832029CF0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 08:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B80F219007D;
+	Mon, 25 Nov 2024 09:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732524941; cv=none; b=npIsCFqm3GkMsHxkHAOxEHO6jLLx8mogpxLcXyCye4/qCGDir6imc/AWEOedBCjb/7rMYPqzb9sEVrODcJhe4AaMva+HOONbqk1wJQmiWZ/NT0cSmiR9oi7zPsVjrrfimkmpO3jbb2K90p6oRJAtE96s36nXn9qNVogO6cYCADM=
+	t=1732525408; cv=none; b=p4VgZ3Sw8fwRfLxnuEQkXPoaGsb2bQDzada6PisIkFX+5kqkVe6w/dLMgx703NqbTnLwkFEnZvYMCGseYwWOKkHIWp4pjLwB5aIePO1KoU6AcAR4Ox7nN+ZJG8rINQhHwfw0A0yYt5yhAbBoUjVVE6y367uGGrZOdQEaB2SHaQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732524941; c=relaxed/simple;
-	bh=HDfW3jVxCWdYw7T6W6STfvhIsTfJuxTDMyWxf/iJsfw=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=GvJv//zsPwbmOidHQm0bt1zOtaZn3oCBK5KkZ+KeftPNO9hf43vFXjpFgIcjvT59M81s2Pcri8xr+x4db2fx5vOXplSesewTaVTdWV6gxKs3b7dCbgZVDrL0Jw63m/u4dh4k9+lF3hsSakQKeCQzP0S/t+mXBIZYONXGeqyjNOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b=OuAIgJUe; arc=none smtp.client-ip=52.119.213.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	s=arc-20240116; t=1732525408; c=relaxed/simple;
+	bh=2OmXam+k7g5h8EQzhTSDSS4SU0GY+CkNe50RDJMNa2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aZNOLsaodFGpQ2jKPwJaZahfez/KYEIMLMMk2/V6sZrfb8PA2G1vOl8KqMUQQh+kkts0hute1hMI7ASo2aYPZLro1pNQsGf7CkKrg4LAO4VXZXYGB7+f3I1/bKCpqf6ng5qgCl8w4Ep2Ksckyx9IfZFb6d4eWajHV3yk4n4cC6g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyDHFgMI; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="OuAIgJUe"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1732524939; x=1764060939;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=HDfW3jVxCWdYw7T6W6STfvhIsTfJuxTDMyWxf/iJsfw=;
-  b=OuAIgJUekXBXt3mz1WJAgVDXqJM9AT4aCWmmdytyv17vxXM5xsh5q8qv
-   9/hzbpGb4hf0F3n71Yw150TiXBygzMo8JCrkz99sAt3PiBKqgDqFTz0Q8
-   HFU3kZWeN0fDfnLx/22xZ90mDead63RimwnmiBdmpPSjMFklETVHjyLFU
-   w=;
-X-IronPort-AV: E=Sophos;i="6.12,182,1728950400"; 
-   d="scan'208";a="44171384"
-Received: from iad6-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.124.125.6])
-  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 08:55:36 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.38.20:57842]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.61.54:2525] with esmtp (Farcaster)
- id f21d2487-34d7-4818-b323-09540143d2c2; Mon, 25 Nov 2024 08:55:36 +0000 (UTC)
-X-Farcaster-Flow-ID: f21d2487-34d7-4818-b323-09540143d2c2
-Received: from EX19MTAUWC001.ant.amazon.com (10.250.64.145) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 25 Nov 2024 08:55:36 +0000
-Received: from email-imr-corp-prod-pdx-all-2c-c4413280.us-west-2.amazon.com
- (10.25.36.210) by mail-relay.amazon.com (10.250.64.145) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1258.34 via Frontend Transport; Mon, 25 Nov 2024 08:55:36 +0000
-Received: from dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com (dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com [10.15.1.225])
-	by email-imr-corp-prod-pdx-all-2c-c4413280.us-west-2.amazon.com (Postfix) with ESMTP id 11A40A047E;
-	Mon, 25 Nov 2024 08:55:36 +0000 (UTC)
-Received: by dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com (Postfix, from userid 23907357)
-	id 9DF3223E2; Mon, 25 Nov 2024 09:55:35 +0100 (CET)
-From: Mahmoud Adam <mngyadam@amazon.com>
-To: kernel test robot <lkp@intel.com>
-CC: <stable@vger.kernel.org>, <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH 5.4/5.10/5.15] cifs: Fix buffer overflow when parsing
- NFS reparse points
-In-Reply-To: <Z0PftUzqwoftS1ri@ca93ea81d97d> (kernel test robot's message of
-	"Mon, 25 Nov 2024 10:23:49 +0800")
-References: <Z0PftUzqwoftS1ri@ca93ea81d97d>
-Date: Mon, 25 Nov 2024 09:55:35 +0100
-Message-ID: <lrkyqiksby9o8.fsf@dev-dsk-mngyadam-1c-a2602c62.eu-west-1.amazon.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyDHFgMI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1732525407; x=1764061407;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2OmXam+k7g5h8EQzhTSDSS4SU0GY+CkNe50RDJMNa2w=;
+  b=nyDHFgMIVJOHO2bLxHQC7ZRdFtrNpDX3BFbgCuVjPk30UvoL2PZ8ENxm
+   LvbYceji4k0w6A3oIfBJ0Jf+tmvhitt+E9Zm1Q9wPXzpMxR2TFRSp3UDl
+   lQjy5rhqX/rqJE9eGjbEaE4kn5IeTo5vTuzSrqWsS1avsZNsUAKD7pm2f
+   Lr7EWrijOwJfRnPE2fVLbBMcFhCo5QUnu2YT80wz3zpDivO1FXypS++G3
+   aGciqQQ8JlkrLlZc4MwMLbCxFDVG4CPsLm+98aHh+37IQdxSrMc59WkIj
+   o7DSyde0RSiiM1NneGuoZZYGbfm8QIB1niCxIPeEA4ygvl/ilE0JNpKC8
+   g==;
+X-CSE-ConnectionGUID: HmPbC5XkT2CpFqYYuCDQeA==
+X-CSE-MsgGUID: ZQLWAWYWRW2nIm5MHhTMNQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11266"; a="43119536"
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
+   d="scan'208";a="43119536"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 01:03:26 -0800
+X-CSE-ConnectionGUID: BUccMeWbS5ydhmKTy5oDuA==
+X-CSE-MsgGUID: CGuwAQ6IToSSwdzYuYJTsA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,182,1728975600"; 
+   d="scan'208";a="95988831"
+Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 25 Nov 2024 01:03:24 -0800
+Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tFV05-00066H-2h;
+	Mon, 25 Nov 2024 09:03:21 +0000
+Date: Mon, 25 Nov 2024 17:02:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mateusz Guzik <mjguzik@gmail.com>, tglx@linutronix.de, bp@alien8.de,
+	andy@kernel.org, akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	Mateusz Guzik <mjguzik@gmail.com>
+Subject: Re: [PATCH 2/2] string: retire bcmp()
+Message-ID: <202411251629.TKfhELVt-lkp@intel.com>
+References: <20241123094729.1099378-3-mjguzik@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241123094729.1099378-3-mjguzik@gmail.com>
 
-kernel test robot <lkp@intel.com> writes:
+Hi Mateusz,
 
-> Hi,
->
-> Thanks for your patch.
->
-> FYI: kernel test robot notices the stable kernel rule is not satisfied.
->
-> The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
->
-> Rule: The upstream commit ID must be specified with a separate line above the commit text.
-> Subject: [PATCH 5.4/5.10/5.15] cifs: Fix buffer overflow when parsing NFS reparse points
-> Link: https://lore.kernel.org/stable/20241122152943.76044-1-mngyadam%40amazon.com
->
-> Please ignore this mail if the patch is not relevant for upstream.
+kernel test robot noticed the following build errors:
 
-The commit id is there but in upstream <sha> commit, wrong format.
-I've sent a v2.
+[auto build test ERROR on kees/for-next/hardening]
+[also build test ERROR on tip/master tip/x86/core linus/master v6.12 next-20241125]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
--MNAdam
+url:    https://github.com/intel-lab-lkp/linux/commits/Mateusz-Guzik/x86-callthunks-s-bcmp-memcmp/20241125-110959
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
+patch link:    https://lore.kernel.org/r/20241123094729.1099378-3-mjguzik%40gmail.com
+patch subject: [PATCH 2/2] string: retire bcmp()
+config: arm-allnoconfig (https://download.01.org/0day-ci/archive/20241125/202411251629.TKfhELVt-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241125/202411251629.TKfhELVt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411251629.TKfhELVt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> ld.lld: error: undefined symbol: bcmp
+   >>> referenced by do_mounts.c
+   >>>               init/do_mounts.o:(parse_root_device) in archive vmlinux.a
+   >>> referenced by do_mounts.c
+   >>>               init/do_mounts.o:(parse_root_device) in archive vmlinux.a
+   >>> referenced by do_mounts.c
+   >>>               init/do_mounts.o:(parse_root_device) in archive vmlinux.a
+   >>> referenced 37 more times
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
