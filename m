@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DB5718FDDE;
-	Mon, 25 Nov 2024 22:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6E51BBBD4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 25 Nov 2024 22:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732573429; cv=none; b=RTbS8agenUKsUqXMErKv0O0yOkyA4oZWfn4SlafMpP9e5iUcm1SX/H0fqlSEQCQ5go8kFh9Ns1sNH97EZXCIwsuUcwi85T1QWmMvUoNXgYJ5YG3/htRgtAw7IMQDI0w1FA/A2C7YxcKpTvZCW//DLmqdt4Im5qXjkJMeH/OzMsw=
+	t=1732574699; cv=none; b=avRnfJC0143ZaqBPVAECqoaMzv3ddWaN7LUlFp18uST3PCh2QjFx5iwuCz9hqaLpxaQYx9IYuNC2/3vdQC4It7ZIRFxlG8ehz6ODiTTsFdmuxzibxQO65NPQfWnWebLCYSPJtJOmyeLX98hNCBzE0Ntcyyx91ji9z8YluJxGV9s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732573429; c=relaxed/simple;
-	bh=VOiOYKKB2AomuTECgrbzPW9cDAf3glqiPFj3FOVU0xQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eIt7SCFPZRC9C0oW6uivGF/rXH5Y0CyM0Vx4pRevurXeVJTLE7oC2BNM4cH3i3QcBjeFdQrKpT0EC2d43Hzc01OIJGpA/ojMCJGRFz4aEaZ5n3DTAY6PunIin283vq016AmX2H9XKzi6x2N1xT+SgM0MPIJAn9bdALl/if9ZuaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c++1tLUe; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1732574699; c=relaxed/simple;
+	bh=d8JoIYRFa+uafz3y0UPrSTAu9B61sL4LmbhvzjrD0js=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W4SbBOrhlJx62BcU1DyupXxhdOO6eoWu/0iuSlVsnCGg1pKDHCpH5vsBRfHa1FswwaOWtjeKlc6beXaq+VQ9quI5lRIup/Vk9mWkfAAw6HU5fsrBM4ApIh9YO+xX35XOPLWwlXLiFduxaRwSZ/eC36bTFE5qQXF4/tRo6Pe8tW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gNmoRtjE; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c++1tLUe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gNmoRtjE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732573428; x=1764109428;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VOiOYKKB2AomuTECgrbzPW9cDAf3glqiPFj3FOVU0xQ=;
-  b=c++1tLUeZpBZKIkm4sinYSA4d67S+dkHGyAMEqu8VDFCEAA2xw/uYuwd
-   b2izY5eBfyP3LhiAsos+WPG1b/cWWe44dcpkeV44FTxILj/JzIFgiAPmP
-   m4pjsZkmIiL2Cb1+mcD3wMHXpzmu8xl0SdZ2UTCCPrqtz22hV42Lt9rf5
-   7IuqVfqi0VVZzHno9nF9z827I45MSdil7k8sixgP70d/g/0h8v2DrWQBT
-   WF58If0/a5TO53LB4vzqGyFjhr+40W5QcBxNltK3vVe7vFBHNQhv9SE1a
-   5QEG05cq5UhA0cSlcLGKfvcybAE69PATsAGT+dRq4zZeL0TvnSCGd/BnZ
+  t=1732574697; x=1764110697;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=d8JoIYRFa+uafz3y0UPrSTAu9B61sL4LmbhvzjrD0js=;
+  b=gNmoRtjENMPNJoWg4H++MTOIYfXAk8BcFe5JtxGmBI7juLxTVKpxdU08
+   4r8Zjzuc9CUwckUl9KXcelfEDYEP7eMjiDJWIau/kW94Yx/3dxjZtED2e
+   gzCjA9qLl2qYpbouUqhJpSXin51jYnkfqXAGWBL3E0FpI1agds6CUbBbS
+   Du2E00KxCTgaBTcAF5efwH32SrUnkykBdHLbIAibcE73GDTpS3qbCC0vN
+   hjttdeL5lqu+YujQnkIF65qrQMzVpnh2k7EamH8vfIDaNHa+iSYI5Wn4/
+   YcQjLZgLFzP9MpPcA3y3k3CU6VGs4Pk7IoS5zOShkwUastUkMabyBcyYE
    g==;
-X-CSE-ConnectionGUID: EYJulEirQ7KGL6Op3Uwf4A==
-X-CSE-MsgGUID: ebIPN6JBRXyJ2k4F4wKIlg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="32649575"
+X-CSE-ConnectionGUID: lC1fTLSCQhOE7Z2C1ut9Ew==
+X-CSE-MsgGUID: ddnrT7TqQnid4EpyzI8EcQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="44088943"
 X-IronPort-AV: E=Sophos;i="6.12,184,1728975600"; 
-   d="scan'208";a="32649575"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 14:23:47 -0800
-X-CSE-ConnectionGUID: xu9I1bG8SYy2MGkoiQBEng==
-X-CSE-MsgGUID: IQwi2F8eS9Kkp/yFv2GBXg==
+   d="scan'208";a="44088943"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 14:44:56 -0800
+X-CSE-ConnectionGUID: J8RwqPJwRyGTiZOlX3I/3w==
+X-CSE-MsgGUID: 1acq6WeeQyiJja+316KjSg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,184,1728975600"; 
-   d="scan'208";a="114667263"
+   d="scan'208";a="122374672"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Nov 2024 14:23:45 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 25 Nov 2024 14:44:52 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFhUd-0006qk-1f;
-	Mon, 25 Nov 2024 22:23:43 +0000
-Date: Tue, 26 Nov 2024 06:23:32 +0800
+	id 1tFhp3-0006rx-28;
+	Mon, 25 Nov 2024 22:44:49 +0000
+Date: Tue, 26 Nov 2024 06:44:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [krzk-github:b4/sm8750-dispcc 30/35]
- drivers/clk/qcom/dispcc-sm8750.c:17:10: fatal error:
- 'dt-bindings/clock/qcom,sm8750-dispcc.h' file not found
-Message-ID: <202411260603.MSOB8Gem-lkp@intel.com>
+To: "Fabio M. De Francesco" <fabio.m.de.francesco@linux.intel.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Huang Ying <ying.huang@intel.com>,
+	Yao Xingtao <yaoxt.fnst@fujitsu.com>, Li Ming <ming4.li@intel.com>,
+	linux-kernel@vger.kernel.org, linux-cxl@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/3] cxl/core: Enable Region creation on x86 with Low
+ Memory Hole
+Message-ID: <202411260633.Oq6ps76M-lkp@intel.com>
+References: <20241122155226.2068287-3-fabio.m.de.francesco@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,67 +73,135 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241122155226.2068287-3-fabio.m.de.francesco@linux.intel.com>
 
-Hi Krzysztof,
+Hi Fabio,
 
-First bad commit (maybe != root cause):
+kernel test robot noticed the following build errors:
 
-tree:   https://github.com/krzk/linux b4/sm8750-dispcc
-head:   5350ae4691e59d4aa71df7addb636caef6f730f6
-commit: b97538c00c8e24fc168f3addbe7eba146b06396b [30/35] sq
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241126/202411260603.MSOB8Gem-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411260603.MSOB8Gem-lkp@intel.com/reproduce)
+[auto build test ERROR on cxl/next]
+[also build test ERROR on linus/master cxl/pending v6.12 next-20241125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fabio-M-De-Francesco/cxl-core-Change-match_-_by_range-calling-convention/20241125-102754
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20241122155226.2068287-3-fabio.m.de.francesco%40linux.intel.com
+patch subject: [PATCH 2/3] cxl/core: Enable Region creation on x86 with Low Memory Hole
+config: i386-buildonly-randconfig-001-20241125 (https://download.01.org/0day-ci/archive/20241126/202411260633.Oq6ps76M-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411260633.Oq6ps76M-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411260603.MSOB8Gem-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411260633.Oq6ps76M-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/clk/qcom/dispcc-sm8750.c:11:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/qcom/dispcc-sm8750.c:17:10: fatal error: 'dt-bindings/clock/qcom,sm8750-dispcc.h' file not found
-      17 | #include <dt-bindings/clock/qcom,sm8750-dispcc.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   4 warnings and 1 error generated.
+   ld: drivers/cxl/core/pmem.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/pmem.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/pmem.o: in function `arch_trim_hpa_by_spa':
+>> drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/regs.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/regs.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/regs.o: in function `arch_trim_hpa_by_spa':
+>> drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/memdev.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/memdev.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/memdev.o: in function `arch_trim_hpa_by_spa':
+>> drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/mbox.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/mbox.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/mbox.o: in function `arch_trim_hpa_by_spa':
+>> drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/pci.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/pci.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/pci.o: in function `arch_trim_hpa_by_spa':
+>> drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/hdm.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/hdm.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/hdm.o: in function `arch_trim_hpa_by_spa':
+>> drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/pmu.o: in function `arch_match_spa':
+>> drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/pmu.o: in function `arch_match_region':
+>> drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/pmu.o: in function `arch_trim_hpa_by_spa':
+   drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/cdat.o: in function `arch_match_spa':
+   drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/cdat.o: in function `arch_match_region':
+   drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/cdat.o: in function `arch_trim_hpa_by_spa':
+   drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/core/trace.o: in function `arch_match_spa':
+   drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/core/trace.o: in function `arch_match_region':
+   drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/core/trace.o: in function `arch_trim_hpa_by_spa':
+   drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/cxl/port.o: in function `arch_match_spa':
+   drivers/cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/cxl/port.o: in function `arch_match_region':
+   drivers/cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/cxl/port.o: in function `arch_trim_hpa_by_spa':
+   drivers/cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+   ld: drivers/perf/cxl_pmu.o: in function `arch_match_spa':
+   drivers/perf/../cxl/cxl.h:923: multiple definition of `arch_match_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:923: first defined here
+   ld: drivers/perf/cxl_pmu.o: in function `arch_match_region':
+   drivers/perf/../cxl/cxl.h:927: multiple definition of `arch_match_region'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:927: first defined here
+   ld: drivers/perf/cxl_pmu.o: in function `arch_trim_hpa_by_spa':
+   drivers/perf/../cxl/cxl.h:935: multiple definition of `arch_trim_hpa_by_spa'; drivers/cxl/core/port.o:drivers/cxl/cxl.h:935: first defined here
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [y]:
+   - RESOURCE_KUNIT_TEST [=y] && RUNTIME_TESTING_MENU [=y] && KUNIT [=y]
 
 
-vim +17 drivers/clk/qcom/dispcc-sm8750.c
+vim +923 drivers/cxl/cxl.h
 
-9594918bb3708f Krzysztof Kozlowski 2024-11-25  16  
-9594918bb3708f Krzysztof Kozlowski 2024-11-25 @17  #include <dt-bindings/clock/qcom,sm8750-dispcc.h>
-9594918bb3708f Krzysztof Kozlowski 2024-11-25  18  
-
-:::::: The code at line 17 was first introduced by commit
-:::::: 9594918bb3708f775e232e4a0a9b543135dbc6fa WIP
-
-:::::: TO: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-:::::: CC: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+   912	
+   913	#ifdef CONFIG_CXL_ARCH_LOW_MEMORY_HOLE
+   914	bool arch_match_spa(struct cxl_root_decoder *cxlrd,
+   915			    struct cxl_endpoint_decoder *cxled);
+   916	bool arch_match_region(struct cxl_region_params *p,
+   917			       struct cxl_decoder *cxld);
+   918	void arch_trim_hpa_by_spa(struct resource *res,
+   919				  struct cxl_root_decoder *cxlrd);
+   920	#else
+   921	bool arch_match_spa(struct cxl_root_decoder *cxlrd,
+   922			    struct cxl_endpoint_decoder *cxled)
+ > 923	{
+   924		return false;
+   925	}
+   926	
+ > 927	bool arch_match_region(struct cxl_region_params *p,
+   928			       struct cxl_decoder *cxld)
+   929	{
+   930		return false;
+   931	}
+   932	
+   933	void arch_trim_hpa_by_spa(struct resource *res,
+   934				  struct cxl_root_decoder *cxlrd)
+ > 935	{ }
+   936	#endif /* CXL_ARCH_LOW_MEMORY_HOLE */
+   937	
 
 -- 
 0-DAY CI Kernel Test Service
