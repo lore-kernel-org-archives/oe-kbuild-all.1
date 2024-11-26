@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B7601A260
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 06:56:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6C2617BB6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 07:05:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732604169; cv=none; b=BRurY3xf2tXXlCQcQDMSAQNCFJsWHVdPOXJw6gQ/ypR6Isun0kFmuwK9gaQu592nOj4+Ts2WH5LKp6R2R/KrGz+fM22MMde+IHNOuKVRqikDDlp1ayfa2AbVGL3DZRFZ8dfNoTAdLrHqWZURSLIMgLlHI9/VkEIY+6x4LfTGw1k=
+	t=1732604754; cv=none; b=BAUlAu6SRZ92Qc9Yi5ZNco2pM+c47o1H6eAghwGslLaZEIfik81aaoaoGQqHGA1iGOIlfP2K1Pk/EvuVJdPBBUQLiaqUSe3OPe9/bHcmLwyQwsre44n0CUwq0D5q/2T8/UFkrLHsauzgEPkAJLuPPCMylpIfPmEiJ4JpdSQINGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732604169; c=relaxed/simple;
-	bh=cRUtnPVpDAkS99DUlI1CUhmGaVTW5OPjaAS1pdsIwOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p4DOBNJoXYBePI1+r3R1L73vrCMJHH09qAAZj/EY6wuGLjuV8gau1aKRP4yuLjYI+AnNC3mtVg0RLUa+HntYLzHR43/c77D6fuBVpNAb+VW3pdqkf2JSbAI0dcdqUCFKX8Y9WPf3jUb6Mqoo+YXPEtC+zNjYhV+miAB/K5p3FP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iV0vA4Ak; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1732604754; c=relaxed/simple;
+	bh=xaU5B8y8EM6Iu+8Y+nodl+0QKfUC5iXarFMjzNAmxAY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qG1tU5h7912IBl4JFvHBfccuDN4TZJ/OLAxsfBN3lmaqFFp5cSPXU++CEL+gyDm932gBvJBC15bWqYB81dRVn99onHyyI/Vizw/g4lyFEX34R6NMpj2f8qG8aHX8dn5EnEiPFwucDD8XJKUtA7a9//fk7Xsu6VzdNi4ECKcYEkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ef++cCF6; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iV0vA4Ak"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ef++cCF6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732604167; x=1764140167;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cRUtnPVpDAkS99DUlI1CUhmGaVTW5OPjaAS1pdsIwOg=;
-  b=iV0vA4AkCEV/For0CeqAE+N5GjQljosglTmMt0b4efEc3leuhMlh3QDR
-   IjuPiZKVj/MFDM8nlP06YZESxVGQrqYuCqhrt8LlyKqb/RGHZmE70vCQl
-   e8uzfQ9CF6psVxBR5Gw/vbJCP6ZTHjU77p529JTeSNrA07LyvVBmXmaJ4
-   djNhBCtPrukCaVSzEc490lgbvcdZQ8vEjRb4LvNnoslVEC1rHjNF6Fup1
-   WV5B/sc74Q8etMLVmCk+XdJM3pKK20FUs5q/pOve7+LQBCBTMI+/jiOAW
-   boENcfrt68XI+HYKbdDv4jslWjPp9q5LYN+vyZ/w9U8OKz+lpyD+NZ+ud
-   g==;
-X-CSE-ConnectionGUID: 7huQnyIiRPSSjm6TFPgGrA==
-X-CSE-MsgGUID: CQl5jNgeQR2ryW6j2/EA0Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="44130230"
+  t=1732604752; x=1764140752;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xaU5B8y8EM6Iu+8Y+nodl+0QKfUC5iXarFMjzNAmxAY=;
+  b=Ef++cCF6rZ0P3RjuQGU5ACog6vtcL5XoavojuRo/q18EjO9WD/OMJI+3
+   aJitMKiFUKCAdrmf2/ksPmuHzam9nhsWBrogxiijK7SoxggiOSwIume+j
+   S8tsRKNJAz7dRUSc4UVKWNCzK7ZuUehRb6EndEqCd8oAaGfr+3jOfFhtq
+   v+yfg58mU2N/JBie35NOpYSa9Cfq/mXHz6Kk/L3Uj6Fbi01LaRJV10ydq
+   Ty0mnQ6RZXQ9ozX53LzRygXvxtPpVdBMfZszTPweZBNYK6esWAp6I8PO+
+   mxkrdf7bYMlcujA7C4vPyGt1tpZ/TI9oca9vSnGbEABvrWkwEr+bO6E4n
+   A==;
+X-CSE-ConnectionGUID: 6BLeIOP4T9y4HjH+39Frsg==
+X-CSE-MsgGUID: dl5TXYFSS622kTw+/TwsZQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="43362869"
 X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
-   d="scan'208";a="44130230"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 22:55:47 -0800
-X-CSE-ConnectionGUID: +ZNSUrXKSfKiOdlr6n8qxA==
-X-CSE-MsgGUID: TCKCXLM/RC+WRIXEnt+b3Q==
+   d="scan'208";a="43362869"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 23:05:50 -0800
+X-CSE-ConnectionGUID: w66V3T7bToG0BdscdNGQUA==
+X-CSE-MsgGUID: rT27KM6WS+WO0v3so3eARg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="96582073"
+X-IronPort-AV: E=Sophos;i="6.12,185,1728975600"; 
+   d="scan'208";a="91459250"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 25 Nov 2024 22:55:43 -0800
+  by orviesa009.jf.intel.com with ESMTP; 25 Nov 2024 23:05:44 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFpU5-00078T-06;
-	Tue, 26 Nov 2024 06:55:41 +0000
-Date: Tue, 26 Nov 2024 14:55:21 +0800
+	id 1tFpdl-00078v-2d;
+	Tue, 26 Nov 2024 07:05:41 +0000
+Date: Tue, 26 Nov 2024 15:05:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [isilence:syz/region-conversion-3 19/20] io_uring/kbuf.c:668:18:
- error: invalid type argument of '->' (have 'struct io_uring_buf_reg')
-Message-ID: <202411261440.cd8peJRE-lkp@intel.com>
+To: Kanchana P Sridhar <kanchana.p.sridhar@intel.com>,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	hannes@cmpxchg.org, yosryahmed@google.com, nphamcs@gmail.com,
+	chengming.zhou@linux.dev, usamaarif642@gmail.com,
+	ryan.roberts@arm.com, ying.huang@intel.com, 21cnbao@gmail.com,
+	akpm@linux-foundation.org, linux-crypto@vger.kernel.org,
+	herbert@gondor.apana.org.au, davem@davemloft.net,
+	clabbe@baylibre.com, ardb@kernel.org, ebiggers@google.com,
+	surenb@google.com, kristen.c.accardi@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, wajdi.k.feghali@intel.com,
+	vinodh.gopal@intel.com, kanchana.p.sridhar@intel.com
+Subject: Re: [PATCH v4 03/10] crypto: iaa - Implement batch_compress(),
+ batch_decompress() API in iaa_crypto.
+Message-ID: <202411261737.ozFff8Ym-lkp@intel.com>
+References: <20241123070127.332773-4-kanchana.p.sridhar@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,111 +72,166 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241123070127.332773-4-kanchana.p.sridhar@intel.com>
 
-tree:   https://github.com/isilence/linux syz/region-conversion-3
-head:   eab28eddf62efd7e9a5d20b3b41e5943c9065e90
-commit: 6969187115d122af2930e094ba1f6d47594f6953 [19/20] io_uring/kbuf: use region api for pbuf rings
-config: parisc-allnoconfig (https://download.01.org/0day-ci/archive/20241126/202411261440.cd8peJRE-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411261440.cd8peJRE-lkp@intel.com/reproduce)
+Hi Kanchana,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5a7056135bb69da2ce0a42eb8c07968c1331777b]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanchana-P-Sridhar/crypto-acomp-Define-two-new-interfaces-for-compress-decompress-batching/20241125-110412
+base:   5a7056135bb69da2ce0a42eb8c07968c1331777b
+patch link:    https://lore.kernel.org/r/20241123070127.332773-4-kanchana.p.sridhar%40intel.com
+patch subject: [PATCH v4 03/10] crypto: iaa - Implement batch_compress(), batch_decompress() API in iaa_crypto.
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241126/202411261737.ozFff8Ym-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411261737.ozFff8Ym-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411261440.cd8peJRE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411261737.ozFff8Ym-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   io_uring/kbuf.c: In function 'io_register_pbuf_ring':
->> io_uring/kbuf.c:668:18: error: invalid type argument of '->' (have 'struct io_uring_buf_reg')
-     668 |             ((reg->ring_addr | (unsigned long)br) & (SHM_COLOUR - 1))) {
-         |                  ^~
+>> drivers/crypto/intel/iaa/iaa_crypto_main.c:1882: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This API provides IAA compress batching functionality for use by swap
+   drivers/crypto/intel/iaa/iaa_crypto_main.c:2010: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * This API provides IAA decompress batching functionality for use by swap
 
 
-vim +668 io_uring/kbuf.c
+vim +1882 drivers/crypto/intel/iaa/iaa_crypto_main.c
 
-   606	
-   607	int io_register_pbuf_ring(struct io_ring_ctx *ctx, void __user *arg)
-   608	{
-   609		struct io_uring_buf_reg reg;
-   610		struct io_buffer_list *bl, *free_bl = NULL;
-   611		struct io_uring_region_desc rd;
-   612		struct io_uring_buf_ring *br;
-   613		unsigned long mmap_offset;
-   614		unsigned long ring_size;
-   615		int ret;
-   616	
-   617		lockdep_assert_held(&ctx->uring_lock);
-   618	
-   619		if (copy_from_user(&reg, arg, sizeof(reg)))
-   620			return -EFAULT;
-   621	
-   622		if (reg.resv[0] || reg.resv[1] || reg.resv[2])
-   623			return -EINVAL;
-   624		if (reg.flags & ~(IOU_PBUF_RING_MMAP | IOU_PBUF_RING_INC))
-   625			return -EINVAL;
-   626		if (!is_power_of_2(reg.ring_entries))
-   627			return -EINVAL;
-   628		/* cannot disambiguate full vs empty due to head/tail size */
-   629		if (reg.ring_entries >= 65536)
-   630			return -EINVAL;
-   631	
-   632		bl = io_buffer_get_list(ctx, reg.bgid);
-   633		if (bl) {
-   634			/* if mapped buffer ring OR classic exists, don't allow */
-   635			if (bl->flags & IOBL_BUF_RING || !list_empty(&bl->buf_list))
-   636				return -EEXIST;
-   637		} else {
-   638			free_bl = bl = kzalloc(sizeof(*bl), GFP_KERNEL);
-   639			if (!bl)
-   640				return -ENOMEM;
-   641		}
-   642	
-   643		mmap_offset = reg.bgid << IORING_OFF_PBUF_SHIFT;
-   644		ring_size = flex_array_size(br, bufs, reg.ring_entries);
-   645	
-   646		memset(&rd, 0, sizeof(rd));
-   647		rd.size = PAGE_ALIGN(ring_size);
-   648		if (!(reg.flags & IOU_PBUF_RING_MMAP)) {
-   649			rd.user_addr = reg.ring_addr;
-   650			rd.flags |= IORING_MEM_REGION_TYPE_USER;
-   651		}
-   652		ret = io_create_region_mmap_safe(ctx, &bl->region, &rd, mmap_offset);
-   653		if (ret)
-   654			goto fail;
-   655		br = io_region_get_ptr(&bl->region);
-   656	
-   657	#ifdef SHM_COLOUR
-   658		/*
-   659		 * On platforms that have specific aliasing requirements, SHM_COLOUR
-   660		 * is set and we must guarantee that the kernel and user side align
-   661		 * nicely. We cannot do that if IOU_PBUF_RING_MMAP isn't set and
-   662		 * the application mmap's the provided ring buffer. Fail the request
-   663		 * if we, by chance, don't end up with aligned addresses. The app
-   664		 * should use IOU_PBUF_RING_MMAP instead, and liburing will handle
-   665		 * this transparently.
-   666		 */
-   667		if (!(reg.flags & IOU_PBUF_RING_MMAP) &&
- > 668		    ((reg->ring_addr | (unsigned long)br) & (SHM_COLOUR - 1))) {
-   669			ret = -EINVAL;
-   670			goto fail;
-   671		}
-   672	#endif
-   673	
-   674		bl->nr_entries = reg.ring_entries;
-   675		bl->mask = reg.ring_entries - 1;
-   676		bl->flags |= IOBL_BUF_RING;
-   677		bl->buf_ring = br;
-   678		if (reg.flags & IOU_PBUF_RING_INC)
-   679			bl->flags |= IOBL_INC;
-   680		io_buffer_add_list(ctx, bl, reg.bgid);
-   681		return 0;
-   682	fail:
-   683		io_free_region(ctx, &bl->region);
-   684		kfree(free_bl);
-   685		return ret;
-   686	}
-   687	
+  1880	
+  1881	/**
+> 1882	 * This API provides IAA compress batching functionality for use by swap
+  1883	 * modules.
+  1884	 *
+  1885	 * @reqs: @nr_pages asynchronous compress requests.
+  1886	 * @wait: crypto_wait for synchronous acomp batch compress. If NULL, the
+  1887	 *        completions will be processed asynchronously.
+  1888	 * @pages: Pages to be compressed by IAA in parallel.
+  1889	 * @dsts: Pre-allocated destination buffers to store results of IAA
+  1890	 *        compression. Each element of @dsts must be of size "PAGE_SIZE * 2".
+  1891	 * @dlens: Will contain the compressed lengths.
+  1892	 * @errors: zero on successful compression of the corresponding
+  1893	 *          req, or error code in case of error.
+  1894	 * @nr_pages: The number of pages, up to CRYPTO_BATCH_SIZE,
+  1895	 *            to be compressed.
+  1896	 */
+  1897	static void iaa_comp_acompress_batch(
+  1898		struct acomp_req *reqs[],
+  1899		struct crypto_wait *wait,
+  1900		struct page *pages[],
+  1901		u8 *dsts[],
+  1902		unsigned int dlens[],
+  1903		int errors[],
+  1904		int nr_pages)
+  1905	{
+  1906		struct scatterlist inputs[CRYPTO_BATCH_SIZE];
+  1907		struct scatterlist outputs[CRYPTO_BATCH_SIZE];
+  1908		bool compressions_done = false;
+  1909		bool poll = (async_mode && !use_irq);
+  1910		int i;
+  1911	
+  1912		BUG_ON(nr_pages > CRYPTO_BATCH_SIZE);
+  1913		BUG_ON(!poll && !wait);
+  1914	
+  1915		if (poll)
+  1916			iaa_set_req_poll(reqs, nr_pages, true);
+  1917		else
+  1918			iaa_set_req_poll(reqs, nr_pages, false);
+  1919	
+  1920		/*
+  1921		 * Prepare and submit acomp_reqs to IAA. IAA will process these
+  1922		 * compress jobs in parallel if async-poll mode is enabled.
+  1923		 * If IAA is used in sync mode, the jobs will be processed sequentially
+  1924		 * using "wait".
+  1925		 */
+  1926		for (i = 0; i < nr_pages; ++i) {
+  1927			sg_init_table(&inputs[i], 1);
+  1928			sg_set_page(&inputs[i], pages[i], PAGE_SIZE, 0);
+  1929	
+  1930			/*
+  1931			 * Each dst buffer should be of size (PAGE_SIZE * 2).
+  1932			 * Reflect same in sg_list.
+  1933			 */
+  1934			sg_init_one(&outputs[i], dsts[i], PAGE_SIZE * 2);
+  1935			acomp_request_set_params(reqs[i], &inputs[i],
+  1936						 &outputs[i], PAGE_SIZE, dlens[i]);
+  1937	
+  1938			/*
+  1939			 * If poll is in effect, submit the request now, and poll for
+  1940			 * a completion status later, after all descriptors have been
+  1941			 * submitted. If polling is not enabled, submit the request
+  1942			 * and wait for it to complete, i.e., synchronously, before
+  1943			 * moving on to the next request.
+  1944			 */
+  1945			if (poll) {
+  1946				errors[i] = iaa_comp_acompress(reqs[i]);
+  1947	
+  1948				if (errors[i] != -EINPROGRESS)
+  1949					errors[i] = -EINVAL;
+  1950				else
+  1951					errors[i] = -EAGAIN;
+  1952			} else {
+  1953				acomp_request_set_callback(reqs[i],
+  1954							   CRYPTO_TFM_REQ_MAY_BACKLOG,
+  1955							   crypto_req_done, wait);
+  1956				errors[i] = crypto_wait_req(iaa_comp_acompress(reqs[i]),
+  1957							    wait);
+  1958				if (!errors[i])
+  1959					dlens[i] = reqs[i]->dlen;
+  1960			}
+  1961		}
+  1962	
+  1963		/*
+  1964		 * If not doing async compressions, the batch has been processed at
+  1965		 * this point and we can return.
+  1966		 */
+  1967		if (!poll)
+  1968			goto reset_reqs_wait;
+  1969	
+  1970		/*
+  1971		 * Poll for and process IAA compress job completions
+  1972		 * in out-of-order manner.
+  1973		 */
+  1974		while (!compressions_done) {
+  1975			compressions_done = true;
+  1976	
+  1977			for (i = 0; i < nr_pages; ++i) {
+  1978				/*
+  1979				 * Skip, if the compression has already completed
+  1980				 * successfully or with an error.
+  1981				 */
+  1982				if (errors[i] != -EAGAIN)
+  1983					continue;
+  1984	
+  1985				errors[i] = iaa_comp_poll(reqs[i]);
+  1986	
+  1987				if (errors[i]) {
+  1988					if (errors[i] == -EAGAIN)
+  1989						compressions_done = false;
+  1990				} else {
+  1991					dlens[i] = reqs[i]->dlen;
+  1992				}
+  1993			}
+  1994		}
+  1995	
+  1996	reset_reqs_wait:
+  1997		/*
+  1998		 * For the same 'reqs[]' and 'wait' to be usable by
+  1999		 * iaa_comp_acompress()/iaa_comp_deacompress():
+  2000		 * Clear the CRYPTO_ACOMP_REQ_POLL bit on the acomp_reqs.
+  2001		 * Reset the crypto_wait "wait" callback to reqs[0].
+  2002		 */
+  2003		iaa_set_req_poll(reqs, nr_pages, false);
+  2004		acomp_request_set_callback(reqs[0],
+  2005					   CRYPTO_TFM_REQ_MAY_BACKLOG,
+  2006					   crypto_req_done, wait);
+  2007	}
+  2008	
 
 -- 
 0-DAY CI Kernel Test Service
