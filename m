@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952BB1D5ACF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 14:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB07194080
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 15:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732630216; cv=none; b=PfEbQjz9NKzbgs2LyJy63Fq/1KNy7K0OEN3vbF1fwMlt+YJuUNP0lOLKLryn9NBE0twwK6lztzn85WGOT/qd6D7cOG//NT33mqdeJBnI2HfiPucnJorUu084KgN430+CSmu6jtYJJ4x+TZgCd4vA5NmbeKgmQhuvU46G/xEHwQE=
+	t=1732633345; cv=none; b=sWWuuLQTRN2hWQuZLAsG8dTTy3/rhA1nER2ASBgrCoGwtkg8ED9TJpyu4ywuW9GpONWHWab7OMA+aomYuVdd734HOqLL2wC8w7M+43LJsLdcsXJuY+DxkVTWF1iLOE4zMat2ytb+ZMEGe/IIMYtq1uuHvk503U9m/beC6Avoq2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732630216; c=relaxed/simple;
-	bh=NxZQqdXVCDjZfakB5L7CoMNx4Yp2VfYyy+fqt3rFQ/g=;
+	s=arc-20240116; t=1732633345; c=relaxed/simple;
+	bh=ZaLjxDUqtOfh5cEdPJcETrCiLtKfDmIlpm1oI9p++C8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QMs+jULhzu6ZkYBRuczmA9+Gl+X4GUctQCUv3g2c+KH6eZAvt4QxJDrkfnkWo1ax2PS/G01Pu0X8yF0oI1KPV2u0HUAOdyT2cRh54W1BrmGNWtW1BjwKsyJCaErYzsGYhJs+gwXK4HqxIoNoPe12m4Ajh4Lm/SfHLpIvhsjRKqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jyg8sGGc; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=VsnkmcDK/a+CYQYrqZ+kiq9jH66BXY4bndhuXzwmT7kmtoLHbuyOSRmcUnHGTunMTgqNgatAkcCd8CtIit0Z6b5tqSF+ynD5hF21wcc4LRN9rKWD38eiYYm8dqR1KGjCnKLu2sKzjzAfJrvGaEZ3gi4HzSapYtcLDUgRqxCa64s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CmfIlC6S; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jyg8sGGc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CmfIlC6S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732630215; x=1764166215;
+  t=1732633344; x=1764169344;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NxZQqdXVCDjZfakB5L7CoMNx4Yp2VfYyy+fqt3rFQ/g=;
-  b=jyg8sGGcRJcX7AhqXvapkwtnR1qY+k5zn8wEdi0SBZ/wgQOsbqM1KXQP
-   aSxuNKP7A2r+yv7WkVVOPW2iQHuHWuGkzCw+XoliVgIOHN0JwuTJaCcX1
-   BXE4J8QXjN/Inb2v+FX6wtsp8Jx+gY214acDy70lTH3ol7caLkM6RIZ9L
-   e2Vr7dAMI2NIeIdvawT/D5haIPOsztr2hlfsEaeIeRmiyKqxdZ0EPhNaD
-   l10fOvmc/MJThU7DSjvB9JsOaV5UWqq2wve6PXRkv1ymx6NNvBxeQnWyg
-   QOLMNaevFxscCM/pKPxIfKWoAF8JOHI0vRlN6wV1t0+SK+5l1FrHIoZaq
-   g==;
-X-CSE-ConnectionGUID: L4tqJss4Tr2FpZiz5GOEuA==
-X-CSE-MsgGUID: 8fxI35sTSw2rvPwejBZSrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="35650120"
+  bh=ZaLjxDUqtOfh5cEdPJcETrCiLtKfDmIlpm1oI9p++C8=;
+  b=CmfIlC6So2ezHPu0GiSh/PnpbnRrqVhKapiN58pD44PZHESwGYvg7Zbe
+   JFtEypNJU05Yvtn2taIAa+2AV1YLskTd9qZ8NbCIVwvx4V83oMwGNzrW8
+   NN9tmR26nGqsqWuXBd2fLa4+Xl3yp/8J+VwW25Mkok60f6zMv3ai2L0+2
+   xyjSTRFdVR/ttTrGT9OxtJCiyD1fFZUpW75YvcZILZDTpTciBpbWvp41Q
+   yBbZjkeb5BrWanQoKG+v9HTzGuSDcnGS/4G12cn8v0olha+3KJB2bZCoo
+   d5raqiHI2RA/EIeR/BBuvzflERS9Vnk4iAaW4d1Pyt5kOTrIuh1c+IoL3
+   w==;
+X-CSE-ConnectionGUID: mRcbg68pQt2J+JjZsK4gQg==
+X-CSE-MsgGUID: geLWwwxbSfWLNtiYvRht3A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="44182822"
 X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
-   d="scan'208";a="35650120"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 06:10:12 -0800
-X-CSE-ConnectionGUID: O7MOIzBjSJOjrDIM0ROLLg==
-X-CSE-MsgGUID: b/PurZeRTl2AAMQQ4RnA0Q==
+   d="scan'208";a="44182822"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 07:02:23 -0800
+X-CSE-ConnectionGUID: nuR5Vg74QEmyMxacumX9og==
+X-CSE-MsgGUID: CCR5whhZRnC61JscerTePw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,186,1728975600"; 
-   d="scan'208";a="122474021"
+   d="scan'208";a="91752553"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Nov 2024 06:10:12 -0800
+  by orviesa006.jf.intel.com with ESMTP; 26 Nov 2024 07:02:22 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFwGW-0007KN-2X;
-	Tue, 26 Nov 2024 14:10:08 +0000
-Date: Tue, 26 Nov 2024 22:09:41 +0800
+	id 1tFx51-0007Lj-0T;
+	Tue, 26 Nov 2024 15:02:19 +0000
+Date: Tue, 26 Nov 2024 23:01:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yangxiangkai <yangxiangkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1527/1527]
- arch/arm64/kernel/virtcca_cvm_guest.c:139:6: warning: no previous prototype
- for function 'enable_swiotlb_for_cvm_dev'
-Message-ID: <202411262147.gY9YltBk-lkp@intel.com>
+To: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+Subject: drivers/net/ethernet/intel/i40e/i40e_ddp.c:53:1: warning: the frame
+ size of 1040 bytes is larger than 1024 bytes
+Message-ID: <202411262240.7uamxDkb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +63,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   b0092ae9263428dae1c544395395ea693608ace2
-commit: 77313e84cc513055342c5e92ac8854e78bc15276 [1527/1527] virtcca feature : disable swiotlb for passthrough device
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20241126/202411262147.gY9YltBk-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411262147.gY9YltBk-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7eef7e306d3c40a0c5b9ff6adc9b273cc894dbd5
+commit: cdc594e00370e153c323cf8aa9c43b66679e09a0 i40e: Implement DDP support in i40e driver
+date:   6 years ago
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20241126/202411262240.7uamxDkb-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411262240.7uamxDkb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411262147.gY9YltBk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411262240.7uamxDkb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/virtcca_cvm_guest.c:6:
-   In file included from include/linux/mm.h:2247:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> arch/arm64/kernel/virtcca_cvm_guest.c:139:6: warning: no previous prototype for function 'enable_swiotlb_for_cvm_dev' [-Wmissing-prototypes]
-     139 | void enable_swiotlb_for_cvm_dev(struct device *dev, bool enable)
-         |      ^
-   arch/arm64/kernel/virtcca_cvm_guest.c:139:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     139 | void enable_swiotlb_for_cvm_dev(struct device *dev, bool enable)
+   In file included from include/linux/kernel.h:11,
+                    from include/linux/list.h:9,
+                    from include/net/tcp.h:23,
+                    from drivers/net/ethernet/intel/i40e/i40e.h:7,
+                    from drivers/net/ethernet/intel/i40e/i40e_ddp.c:4:
+   include/linux/scatterlist.h: In function 'sg_set_buf':
+   arch/xtensa/include/asm/page.h:182:16: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     182 |         ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+         |                ^~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |         ^~~~~~
+   arch/xtensa/include/asm/page.h:190:33: note: in expansion of macro 'pfn_valid'
+     190 | #define virt_addr_valid(kaddr)  pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~
+   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |                 ^~~~~~~~~~~~~~~
+   In file included from ./arch/xtensa/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:12,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/xtensa/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:78,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/seqlock.h:36,
+                    from include/linux/time.h:6,
+                    from include/linux/skbuff.h:19,
+                    from include/linux/tcp.h:21,
+                    from include/net/tcp.h:24:
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/xtensa/include/asm/page.h:182:16: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     182 |         ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+         |                ^~
+   include/asm-generic/bug.h:148:34: note: in definition of macro 'WARN_ON_ONCE'
+     148 |         int __ret_warn_once = !!(condition);                    \
+         |                                  ^~~~~~~~~
+   include/linux/dma-mapping.h:359:26: note: in expansion of macro 'pfn_valid'
+     359 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
+         |                          ^~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c: In function 'i40e_ddp_does_profile_exist':
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c:49:70: warning: array subscript i is outside array bounds of 'struct i40e_profile_info[0]' [-Warray-bounds=]
+      49 |                 if (i40e_ddp_profiles_eq(pinfo, &profile_list->p_info[i]))
+         |                                                  ~~~~~~~~~~~~~~~~~~~~^~~
+   drivers/net/ethernet/intel/i40e/i40e.h:338:34: note: while referencing 'p_info'
+     338 |         struct i40e_profile_info p_info[0];
+         |                                  ^~~~~~
+   In function 'i40e_ddp_profiles_eq',
+       inlined from 'i40e_ddp_does_profile_exist' at drivers/net/ethernet/intel/i40e/i40e_ddp.c:49:7:
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c:20:38: warning: array subscript i is outside array bounds of 'struct i40e_profile_info[0]' [-Warray-bounds=]
+      20 |                 !memcmp(&a->version, &b->version, sizeof(a->version)) &&
+         |                                      ^~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e.h: In function 'i40e_ddp_does_profile_exist':
+   drivers/net/ethernet/intel/i40e/i40e.h:338:34: note: while referencing 'p_info'
+     338 |         struct i40e_profile_info p_info[0];
+         |                                  ^~~~~~
+   In function 'i40e_ddp_profiles_eq',
+       inlined from 'i40e_ddp_does_profile_exist' at drivers/net/ethernet/intel/i40e/i40e_ddp.c:49:7:
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c:21:35: warning: array subscript i is outside array bounds of 'struct i40e_profile_info[0]' [-Warray-bounds=]
+      21 |                 !memcmp(&a->name, &b->name, I40E_DDP_NAME_SIZE);
+         |                                   ^~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e.h: In function 'i40e_ddp_does_profile_exist':
+   drivers/net/ethernet/intel/i40e/i40e.h:338:34: note: while referencing 'p_info'
+     338 |         struct i40e_profile_info p_info[0];
+         |                                  ^~~~~~
+>> drivers/net/ethernet/intel/i40e/i40e_ddp.c:53:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+      53 | }
          | ^
-         | static 
-   6 warnings generated.
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c: In function 'i40e_ddp_does_profile_overlap':
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c:104:21: warning: array subscript i is outside array bounds of 'struct i40e_profile_info[0]' [-Warray-bounds=]
+     104 |                 if (i40e_ddp_profiles_overlap(pinfo,
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     105 |                                               &profile_list->p_info[i]))
+         |                                               ~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/i40e/i40e.h:338:34: note: while referencing 'p_info'
+     338 |         struct i40e_profile_info p_info[0];
+         |                                  ^~~~~~
+   drivers/net/ethernet/intel/i40e/i40e_ddp.c:109:1: warning: the frame size of 1040 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     109 | }
+         | ^
 
 
-vim +/enable_swiotlb_for_cvm_dev +139 arch/arm64/kernel/virtcca_cvm_guest.c
+vim +53 drivers/net/ethernet/intel/i40e/i40e_ddp.c
 
-   138	
- > 139	void enable_swiotlb_for_cvm_dev(struct device *dev, bool enable)
-   140	{
-   141		if (!is_virtcca_cvm_world())
-   142			return;
-   143	
-   144		if (enable)
-   145			swiotlb_dev_init(dev);
-   146		else
-   147			dev->dma_io_tlb_mem = &io_tlb_no_swiotlb_mem;
-   148	}
-   149	EXPORT_SYMBOL_GPL(enable_swiotlb_for_cvm_dev);
-   150	
+    23	
+    24	/**
+    25	 * i40e_ddp_does_profile_exist - checks if DDP profile loaded already
+    26	 * @hw: HW data structure
+    27	 * @pinfo: DDP profile information structure
+    28	 *
+    29	 * checks if DDP profile loaded already.
+    30	 * Returns >0 if the profile exists.
+    31	 * Returns  0 if the profile is absent.
+    32	 * Returns <0 if error.
+    33	 **/
+    34	static int i40e_ddp_does_profile_exist(struct i40e_hw *hw,
+    35					       struct i40e_profile_info *pinfo)
+    36	{
+    37		struct i40e_ddp_profile_list *profile_list;
+    38		u8 buff[I40E_PROFILE_LIST_SIZE];
+    39		i40e_status status;
+    40		int i;
+    41	
+    42		status = i40e_aq_get_ddp_list(hw, buff, I40E_PROFILE_LIST_SIZE, 0,
+    43					      NULL);
+    44		if (status)
+    45			return -1;
+    46	
+    47		profile_list = (struct i40e_ddp_profile_list *)buff;
+    48		for (i = 0; i < profile_list->p_count; i++) {
+    49			if (i40e_ddp_profiles_eq(pinfo, &profile_list->p_info[i]))
+    50				return 1;
+    51		}
+    52		return 0;
+  > 53	}
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
