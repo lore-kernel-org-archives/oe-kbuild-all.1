@@ -1,97 +1,131 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC26846B5;
-	Tue, 26 Nov 2024 04:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A583315DBB3
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 04:13:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732594365; cv=none; b=rP5CczfB0/iMDt9wsH1CEZYLzqzSo7DnNWzI/QpGRXg1gCiW/4/biVgZq5LUEmVls9cMWGwL5tKztny14X3HqKz0Mi+RWuQML2LJE8HG/8unUbVe7OTDMzZBU07yrGEft8TwOaAkD9qIJQOttnweKQRaPL0W9TEuPi13+ejU09c=
+	t=1732594399; cv=none; b=Mfaor2BX4hr8/VRCvKYNFM/ZWR552lrczGrq0d45i5BANtZIYCDf4p/KguhKSqQQxSgXwiPUhlKpem+vvJnLjLcJMzESF6S4l0smzR+8NUotQlhC5IX+WDyye9sTnxypkbmUMzcFJSNG/m96ojyb1+RUFUfcAisi0wn0SuVTMAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732594365; c=relaxed/simple;
-	bh=/Xtgh+yQLnhOzZvAS4ZRskSu4x0h2OPJojuPJur7c9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kloagfS3gHHGNMysS//XbokISk7X83qLaWKCKNHCopvHGQRN/8g9PP0tor29z3XxUcctC+BNhzdGDxrMgAuAIk3dhKzY6wNgMUJSor1JEkmQHeMt9c3dcDMYyB4ahhYeeRoeHFRC1AWwI8RWlPU89wdsRvWLTJkP3h0OMjmdsUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nJ2kq70b; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732594399; c=relaxed/simple;
+	bh=hgMLWw9D3PRfqpY/YSPRvy82YrAxoVzWlzxwJZi1OFM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lvQ46GTvDyNTL6Rm1VsQoFGikBFWjQd6NfBoj6DQKyOQSSeLS98g6ob8ij/pr0Vl0lgga2QaPobAtiNfjo9f6F2IWdb3w6iWsZjaPDwrvUwgd76Pethowqx8Dw+G++Bu41a4sm9nXpHz1fwaWU9vxYjDDZebUmVi6DLg6SzTvPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=nLQcdRoj; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nJ2kq70b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732594364; x=1764130364;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/Xtgh+yQLnhOzZvAS4ZRskSu4x0h2OPJojuPJur7c9k=;
-  b=nJ2kq70bMKQssAIV5V+TlLU0QNBpDNxK6UjsI58INyWM7PtrzrBn3m5V
-   0NcT2JUaEpGKEjCQuDzH6G1ye9XD36by0qA1sM9Ym8dbd35j92SX6WCnl
-   wW4s+aqFfNeKUPL26p5adraPCnSQA+WviI7KhKMJaV2BOQCaWMyGTCCCT
-   Tr4ZXHUctbP2eyl3oTDWAfs8pinsNS/npYQUyAnwl0ps6Lp9Uf2PG5zCw
-   e9jHUOz7f7Gh2yIdd4zOH4VAR6TDBx8y0U36ScdkE43XGgGXtt3EiBN31
-   +Z8LYPoUTbYyEXMB7rQ19C5J04TyzCT//T0PDjUnuRrGlbvLopdheXtAf
-   A==;
-X-CSE-ConnectionGUID: 9e4XiWzvTJGo3w2TqplaHA==
-X-CSE-MsgGUID: IO/UGobqRBK9hYlPEyquTg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="36390962"
-X-IronPort-AV: E=Sophos;i="6.12,184,1728975600"; 
-   d="scan'208";a="36390962"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 20:12:43 -0800
-X-CSE-ConnectionGUID: EJLSh4VFRISvngmnKY3/uw==
-X-CSE-MsgGUID: qV7+lbtdSNGremvASVU9Bw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,184,1728975600"; 
-   d="scan'208";a="95899714"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 25 Nov 2024 20:12:41 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tFmwJ-00073N-1X;
-	Tue, 26 Nov 2024 04:12:39 +0000
-Date: Tue, 26 Nov 2024 12:12:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/kbuild-c23-extensions 3/3]
- include/linux/thermal.h:353:30: error: omitting the parameter name in a
- function definition is a C2x extension
-Message-ID: <202411261254.BIsVSn3e-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="nLQcdRoj"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1732594393; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=KmDp0QCJrg41HTLms2JcwouXuGR0t74fGSXqjbEMyR8=;
+	b=nLQcdRojXjKnNVN/qPMKYHDo8Y4r4YEXVvktUNpREmdmjg65lC+mXvdtVvSbgEO5PChlvwhQ0Zd/QeCQNihVhA5GGMdSZv/0/j2U62wE9H13/4RYn+LQseVeJxG9YfO+YNklfs/P9o2K4yTVCOnHgJbQ3sVKmm8VkhbCpiIGfqw=
+Received: from 30.221.146.228(mailfrom:alibuda@linux.alibaba.com fp:SMTPD_---0WKGm6Sh_1732594391 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Tue, 26 Nov 2024 12:13:12 +0800
+Message-ID: <83688329-1eeb-4811-b488-b8950d3dcb0f@linux.alibaba.com>
+Date: Tue, 26 Nov 2024 12:13:11 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/kbuild-c23-extensions
-head:   11b6309ff8205def52324127c999d3fab33e6f08
-commit: 11b6309ff8205def52324127c999d3fab33e6f08 [3/3] DELETEME
-config: hexagon-randconfig-001-20241126 (https://download.01.org/0day-ci/archive/20241126/202411261254.BIsVSn3e-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411261254.BIsVSn3e-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411261254.BIsVSn3e-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/gpu/drm/etnaviv/etnaviv_gpu.c:16:
->> include/linux/thermal.h:353:30: error: omitting the parameter name in a function definition is a C2x extension [-Werror,-Wc2x-extensions]
-     353 | static inline void foobar(int)
-         |                              ^
-   1 error generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+To: John Ousterhout <ouster@cs.stanford.edu>,
+ kernel test robot <lkp@intel.com>
+Cc: netdev@vger.kernel.org, linux-api@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev
+References: <20241111234006.5942-13-ouster@cs.stanford.edu>
+ <202411132114.VB5yFmtR-lkp@intel.com>
+ <CAGXJAmyeJ2HWxOZj8uY0_Cu47Yy_hAYfSRGmYpNfLGd2PR7Q-Q@mail.gmail.com>
+Content-Language: en-US
+From: "D. Wythe" <alibuda@linux.alibaba.com>
+In-Reply-To: <CAGXJAmyeJ2HWxOZj8uY0_Cu47Yy_hAYfSRGmYpNfLGd2PR7Q-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-vim +353 include/linux/thermal.h
 
-   352	
- > 353	static inline void foobar(int)
-   354	{
-   355	}
-   356	
+On 11/19/24 5:23 AM, John Ousterhout wrote:
+> I believe I have fixed all of the kernel test robot issues reported
+> under this subject line.
+> 
+> -John-
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hi John,
+
+I guess you might need pass type u64 rather type int as the first argument into do_div().
+In fact, this is not a simple warning, as it may cause anomalies.
+
+// int segs;
+u64 segs;
+do_div(segs, max_seg_data);
+
+// int segs_per_gso
+u64 segs_per_gso;
+do_div(segs_per_gso, max_seg_data);
+
+D. Wythe
+
+> 
+> On Wed, Nov 13, 2024 at 5:53 AM kernel test robot <lkp@intel.com> wrote:
+>>
+>> Hi John,
+>>
+>> kernel test robot noticed the following build warnings:
+>>
+>> [auto build test WARNING on net-next/main]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20241112-074535
+>> base:   net-next/main
+>> patch link:    https://lore.kernel.org/r/20241111234006.5942-13-ouster%40cs.stanford.edu
+>> patch subject: [PATCH net-next v2 12/12] net: homa: create Makefile and Kconfig
+>> config: riscv-randconfig-r112-20241113 (https://download.01.org/0day-ci/archive/20241113/202411132114.VB5yFmtR-lkp@intel.com/config)
+>> compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+>> reproduce: (https://download.01.org/0day-ci/archive/20241113/202411132114.VB5yFmtR-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202411132114.VB5yFmtR-lkp@intel.com/
+>>
+>> sparse warnings: (new ones prefixed by >>)
+>>>> net/homa/homa_sock.c:201:31: sparse: sparse: cast removes address space '__rcu' of expression
+>>     net/homa/homa_sock.c:248:17: sparse: sparse: context imbalance in 'homa_sock_shutdown' - different lock contexts for basic block
+>>     net/homa/homa_sock.c:303:21: sparse: sparse: context imbalance in 'homa_sock_bind' - different lock contexts for basic block
+>>
+>> vim +/__rcu +201 net/homa/homa_sock.c
+>>
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  183
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  184  /*
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  185   * homa_sock_unlink() - Unlinks a socket from its socktab and does
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  186   * related cleanups. Once this method returns, the socket will not be
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  187   * discoverable through the socktab.
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  188   */
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  189  void homa_sock_unlink(struct homa_sock *hsk)
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  190  {
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  191          struct homa_socktab *socktab = hsk->homa->port_map;
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  192          struct homa_socktab_scan *scan;
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  193
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  194          /* If any scans refer to this socket, advance them to refer to
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  195           * the next socket instead.
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  196           */
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  197          spin_lock_bh(&socktab->write_lock);
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  198          list_for_each_entry(scan, &socktab->active_scans, scan_links) {
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  199                  if (!scan->next || scan->next->sock != hsk)
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  200                          continue;
+>> 8ddf00265eb650 John Ousterhout 2024-11-11 @201                  scan->next = (struct homa_socktab_links *)hlist_next_rcu(&scan
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  202                                  ->next->hash_links);
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  203          }
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  204          hlist_del_rcu(&hsk->socktab_links.hash_links);
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  205          spin_unlock_bh(&socktab->write_lock);
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  206  }
+>> 8ddf00265eb650 John Ousterhout 2024-11-11  207
+>>
+>> --
+>> 0-DAY CI Kernel Test Service
+>> https://github.com/intel/lkp-tests/wiki
