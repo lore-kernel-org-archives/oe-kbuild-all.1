@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A787E42A80
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 04:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4641F14286
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 26 Nov 2024 04:43:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732595569; cv=none; b=KnIn+HmZa0ugiM67E9ApTYai7IRzUuOnA/ixWmQAj3+xW4BrtE0ImIc9OggPtjqn4mZxgTjWh0FjTwchtcBahNi8cp2AJ3nkuG6J6tgmJBci8MH07o5qGR6RTcRZwfhFaXAxgNLu31mVSdcdYwbkv/JsVqD4SoFN/TXEMgFdzaw=
+	t=1732596229; cv=none; b=fQS9oB5JkHQEv6f2Nlf9lvmlfUXqAYqH5m+JosJApSpn6YoqIfX+NuhcDsT/9hzQaFJRfdLJo+zQgqSujZGEs0f7KSkcuhWYP+zqoB8OA3Ti9VcXBqDIH4sZpZLP+oZA5LLuhdBVOB39OSXqSkVNzZm7iVvDmnq7bMy9Uj15Pr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732595569; c=relaxed/simple;
-	bh=Ft1cG9dvrvU+Pe7YR54TUJakNm2rw+7RUPRCDK43MjY=;
+	s=arc-20240116; t=1732596229; c=relaxed/simple;
+	bh=Snlhg7RZiX0gQET/xxech3rYOGCZsqt929znrVBq2GE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZTTiU1w3XFCR2Ai/0iM+hLbjQEIxUh/1eotV0oQr9YgDEBFtzOn3kwfLP5rAb9jsFmVAp3CTQc3FKf8BtfgvRu1PzdWYXqnrEZS2J/JBF2io8AuvUHZyjiBupsTFjARy5XTpKwvOLGiLk8OkRF/vaNJ0tqcSS/0JMixdYKWP9WA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VKmB0RkD; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=dLzBZtRmkzHGqe5gUs2Nkzk0Hmtvyhbap5tzsxRrxLCmCRaT++ZQg4+kuGOzETvLGBJqRdZ/i2mrFTiyWDsifivohSeHf9pRP0Ue4hSShBv1SYZNzqG8mgVTbDJt1dKcFEd3cIibf7PEr/nAANje/y5VbU80FxcejFFTcT0PHLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q4gikZvn; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKmB0RkD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q4gikZvn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732595568; x=1764131568;
+  t=1732596228; x=1764132228;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ft1cG9dvrvU+Pe7YR54TUJakNm2rw+7RUPRCDK43MjY=;
-  b=VKmB0RkDmJB37CsUKrywPpe1bZpl1dNb20s/AcGNh6/4f3iiuuC4+wdH
-   qytMbqtdUBPi04aCWfDb7br8hS6uM03zHsaCU57zHglPGlMv7pqzrfVjw
-   LRj5f2jVrdtCrARzAw/VNWwl1BpcE2DR/k1DC4r7q8IfnedJN513G0dse
-   fVg9+g8wE1fp0eg2M+ZgniMZmRIZSnWxzPKs4KGsS1dFgcwJY88wzA0ri
-   FrqLgDLiLRzkRPUWmWcOTV5rA7kFtUWoN2POy/wOqOEIA/zJYbfFmMNG4
-   HrrLmLYfAo7lzy1lEUdKLGEk+3JAscpjogZ05rqvyX2TwA80wGRHKGe1A
+  bh=Snlhg7RZiX0gQET/xxech3rYOGCZsqt929znrVBq2GE=;
+  b=Q4gikZvnqlCcBcd8+djcBv2CvP70bOnLkHanPTfBEHFiYs9fI5qJp0AH
+   6HNq5xYEbQwgfM0GxIJJtCZMIfddTCU+2FLg8y/8v1WTQc7pr/i7HjEpJ
+   92cTYj/QfR2FVFG2FfrCyuM4+krrgB0rR9bLE+QDOXgkFOK7ioCMV8mV5
+   Bj8DJAX+Ka0abseAhsISiLcqbdeG6AA1D+r8TZlX4H0jFGB/jjME1RVJM
+   ffQgWy6lYGOIcPyfrFpQ5Yc9z1OsAO7YwYekBsPIejcQ249klfpx198ns
+   J/hGPSKPQZgbDChCiqwqxrKbxisNNmd2IbmM7o3N6WzLw/OhaTKApDQvp
    A==;
-X-CSE-ConnectionGUID: FaqqTxOgQuanBix1GCyYPw==
-X-CSE-MsgGUID: UQOKz8Z+RRqsFcjiB1wcww==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="32792982"
+X-CSE-ConnectionGUID: krmZJD5qQCSYsfKnO08AYw==
+X-CSE-MsgGUID: vfBNmOjwTuy5p+OqRY1ROQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="50262682"
 X-IronPort-AV: E=Sophos;i="6.12,184,1728975600"; 
-   d="scan'208";a="32792982"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 20:32:45 -0800
-X-CSE-ConnectionGUID: 9jZBbiItRHq1cMgVKRIkuw==
-X-CSE-MsgGUID: Zlv5uU2zSeCQZ6HMjrAZjw==
+   d="scan'208";a="50262682"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Nov 2024 20:43:47 -0800
+X-CSE-ConnectionGUID: XURSU8FrRmG5hBK0fMu5PA==
+X-CSE-MsgGUID: risTEnIpQzSlR81JPU95Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,184,1728975600"; 
-   d="scan'208";a="92300196"
+   d="scan'208";a="114753919"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Nov 2024 20:32:45 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 25 Nov 2024 20:43:46 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tFnFi-00074B-04;
-	Tue, 26 Nov 2024 04:32:42 +0000
-Date: Tue, 26 Nov 2024 12:32:33 +0800
+	id 1tFnQN-00074f-2c;
+	Tue, 26 Nov 2024 04:43:43 +0000
+Date: Tue, 26 Nov 2024 12:42:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Josh Poimboeuf <jpoimboe@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jpoimboe:static-key-noinstr 7/7] drivers/clk/clk-gpio.o: warning:
- objtool: __jump_table+0x8: can't find key sym
-Message-ID: <202411261250.8COKa9gz-lkp@intel.com>
+To: Gregory Price <gourry@gourry.net>
+Cc: oe-kbuild-all@lists.linux.dev, Gregory Price <gourry@gourry.net>
+Subject: [gourryinverse:gourry_pagecache 4/4] mm/migrate.c:2750:41: error:
+ expected expression before '||' token
+Message-ID: <202411261443.KmhoR9ju-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +62,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git static-key-noinstr
-head:   e876185909a78808ab603ad2dcc7e2e09a67bc25
-commit: e876185909a78808ab603ad2dcc7e2e09a67bc25 [7/7] objtool: Add noinstr validation for static branches/calls
-config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20241126/202411261250.8COKa9gz-lkp@intel.com/config)
+tree:   https://github.com/gourryinverse/linux gourry_pagecache
+head:   bc46f47dbd9b1e365d338f89a0ab10eadce13982
+commit: bc46f47dbd9b1e365d338f89a0ab10eadce13982 [4/4] migrate,sysfs: add pagecache promotion
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241126/202411261443.KmhoR9ju-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411261250.8COKa9gz-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241126/202411261443.KmhoR9ju-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411261250.8COKa9gz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411261443.KmhoR9ju-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/clk/clk-gpio.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_domain.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_table.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_matcher.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_rule.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_ste.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_send.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_action.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/dr_definer.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_matcher.o: warning: objtool: __jump_table+0x8: can't find key sym
---
->> drivers/net/ethernet/mellanox/mlx5/core/steering/hws/mlx5hws_send.o: warning: objtool: __jump_table+0x8: can't find key sym
-..
+   mm/migrate.c: In function 'promotion_candidate':
+>> mm/migrate.c:2750:41: error: expected expression before '||' token
+    2750 |             folio_test_isolated(folio)) ||
+         |                                         ^~
+>> mm/migrate.c:2736:20: warning: unused variable 'last_cpupid' [-Wunused-variable]
+    2736 |         int flags, last_cpupid;
+         |                    ^~~~~~~~~~~
+>> mm/migrate.c:2736:13: warning: unused variable 'flags' [-Wunused-variable]
+    2736 |         int flags, last_cpupid;
+         |             ^~~~~
+>> mm/migrate.c:2734:14: warning: unused variable 'write' [-Wunused-variable]
+    2734 |         bool write = mapping ? mapping->gfp_mask & __GFP_WRITE : false;
+         |              ^~~~~
+
+
+vim +2750 mm/migrate.c
+
+  2716	
+  2717	/**
+  2718	 * promotion_candidate() - report a promotion candidate folio
+  2719	 *
+  2720	 * @folio: The folio reported as a candidate
+  2721	 *
+  2722	 * Records folio access time and places the folio on the task promotion list
+  2723	 * if access time is less than the threshhold. The folio will be isolated from
+  2724	 * LRU if selected, and task_work will putback the folio on promotion failure.
+  2725	 *
+  2726	 * Takes a folio reference that will be released in task work.
+  2727	 */
+  2728	void promotion_candidate(struct folio *folio)
+  2729	{
+  2730		struct task_struct *task = current;
+  2731		struct list_head *promo_list= &task->promo_list;
+  2732		struct callback_head *work = &task->numa_promo_work;
+  2733		struct address_space *mapping = folio_mapping(folio);
+> 2734		bool write = mapping ? mapping->gfp_mask & __GFP_WRITE : false;
+  2735		int nid = folio_nid(folio);
+> 2736		int flags, last_cpupid;
+  2737	
+  2738		/*
+  2739		 * Only do this work if:
+  2740		 *     1) tiering and pagecache promotion are enabled
+  2741		 *     2) the page can actually be promoted
+  2742		 *     3) The hint-fault latency is relatively hot
+  2743		 *     4) the folio is not already isolated
+  2744		 *     5) This is not a kernel thread context
+  2745		 */
+  2746		if (!(sysctl_numa_balancing_mode & NUMA_BALANCING_MEMORY_TIERING) ||
+  2747		    !numa_pagecache_promotion_enabled ||
+  2748		    node_is_toptier(nid) ||
+  2749		    numa_hint_fault_latency(folio) >= PAGE_ACCESS_TIME_MASK ||
+> 2750		    folio_test_isolated(folio)) ||
 
 -- 
 0-DAY CI Kernel Test Service
