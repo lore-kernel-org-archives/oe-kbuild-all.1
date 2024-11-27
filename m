@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A768041C71
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 20:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D448F16132F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 20:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732738883; cv=none; b=NHWmXZ6cXUAV9fXdJ1DVLky+sL/vEIbqBHPVBUfxjLTwgevEnzbEyJRo237jJu/nYj5FgkRkoTsxuysTjG0+tD0NS8WydVLHdbmvBx/vzZIhcmnJPARKbHFpzEGUHyMN3vHry9gvN8xDqpHhlRP0R/PMXEQU+f+BxOGzHr7AAlM=
+	t=1732739483; cv=none; b=urdfXnbsC9k32fPR5zpr/mhXsFDKty99BqVsiPBE0AxdSrG3DVeiIh1d/3calnLUQqA0m+nWPXa1sAIwwukSAzgSGrzDH63LY7AcoFasl0bztbe0YibSRzlntkNqwA3GiCNRDDbsQ6ai56c1YcO6vrMTiEvWXSVYmSRjvokkGU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732738883; c=relaxed/simple;
-	bh=H8seXUe/eRMaHx0BuL08kr/UFvhuKtwPm8qMsyQPpFE=;
+	s=arc-20240116; t=1732739483; c=relaxed/simple;
+	bh=Mjp7Aavmw3SxBHdc8n4uNYKR/41GMkBTB20HbFNgEuU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FFw9B09bE+uvKAEz3Ma2meZvME1rKxrLg8aTRFlBRNbiuCtH1KBzPr2giPjE+AnqCR7RIngalbnX0OePffIDVObjofO6EwWdegg1gvSc5ewi4kd8+EPDRWWS0oPLJOTuYNQolqkPotIefR6Fjik864KMVF+pUfB6GHNUSoMcTD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/Gwgo7J; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Zx9fNxjY+L/f+jpnTx7xJjGo1w1z22vcuec97WEh8fMld/GQBlRBlMLsoxItrPf+deU3dAwWAcRhdn73qR1cz8SIKEzIZGOR6hYMRoyg0MkK6YvP1lxleYHfgQT1CGL8x9MGqFIjMG/KBeguJmUo6I0SbZfhb4LE32huIJV6/+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrg+AXPG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/Gwgo7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrg+AXPG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732738880; x=1764274880;
+  t=1732739480; x=1764275480;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=H8seXUe/eRMaHx0BuL08kr/UFvhuKtwPm8qMsyQPpFE=;
-  b=C/Gwgo7JJC496s1dC8rklkVioLWmQTShhfhLuZPrivNcPxW6vzZn+fLw
-   MhfaPadJfUddp0M6Wm3eQQbuWx7yu+tzJmGEyIZ8q5Jx6lAH9iIkWuwsR
-   RmzkGxFFDI95KeGWPFiOz6t/Qp+uxNE7EPx0bLNUW/vtcu90A8QtJukYX
-   BVR2rKoi2idAjRGRTU+BmHc0Lfk9dv5zq9uJtQDZz0I/B9knLev85E1os
-   RFcCOtiCJbTWPsdlPdi3sGgQtqzvThFsMhoPIrvagd5iaVrfMlR4UWVI+
-   J897ySlOl4HYIPFlSiRkoZp9UV1oi3zNVdOKtU2SN3tjaSp2rvN2mxQrO
+  bh=Mjp7Aavmw3SxBHdc8n4uNYKR/41GMkBTB20HbFNgEuU=;
+  b=mrg+AXPGEJdCfxsfS0sR11NqZF8ppp2LwX3jG8ehvoOXebj+APnjLNZY
+   PxhwUzo6jc86VhC531RyDNwlv/APAbLIuqb8mxWLaaEfN7LWUHz72JnkR
+   y0WX/idSY3wzQiLszO68H3aAQZa4Ic8DK7nDHEysxJ9eneQKgUtU+65hP
+   LFuQy0B5RL7G6s3LdqfxXi6S0IWU5lpQhOnZTTiIGMoqTFpl4Xz/Z/5JI
+   f1LraIzxekbWxMcSQV8FUkpR2GRWrU5cS5mCEa0pT3eDbLfcohfQYeqef
+   hy3iv7mgijipTFDRfUdVFgSby1ITFlOmSBVvyYBQodFyHNz0McDpk0tF9
    w==;
-X-CSE-ConnectionGUID: biT3YKhYSUS05EYtFHf0JQ==
-X-CSE-MsgGUID: rcHZYEBwQWaKHKIUSlazXg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="36886810"
+X-CSE-ConnectionGUID: VKYsxGzsTpiB+FyDjLB1yg==
+X-CSE-MsgGUID: zzPUkrAWT6q3fdefClHXWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="55455871"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="36886810"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 12:21:20 -0800
-X-CSE-ConnectionGUID: cZCNryF2THSnu1sHBptssA==
-X-CSE-MsgGUID: wKm1xg/xQiSitu6i2FMu9w==
+   d="scan'208";a="55455871"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 12:31:20 -0800
+X-CSE-ConnectionGUID: n+uCq92mSYmUFJfc2RvnEA==
+X-CSE-MsgGUID: oxsnYT9yTKGUWZ0K5vNYhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="92875829"
+   d="scan'208";a="92440052"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Nov 2024 12:21:18 -0800
+  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 12:31:20 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGOXE-0008L5-0K;
-	Wed, 27 Nov 2024 20:21:16 +0000
-Date: Thu, 28 Nov 2024 04:20:23 +0800
+	id 1tGOgu-0008LD-2k;
+	Wed, 27 Nov 2024 20:31:16 +0000
+Date: Thu, 28 Nov 2024 04:30:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yan-Hsuan Chuang <yhchuang@realtek.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kalle Valo <kvalo@codeaurora.org>,
-	Stanislaw Gruszka <sgruszka@redhat.com>,
-	Brian Norris <briannorris@chromium.org>
-Subject: drivers/net/wireless/realtek/rtw88/rtw8822c.c:329:1: warning: the
- frame size of 1072 bytes is larger than 1024 bytes
-Message-ID: <202411280441.XgddHSn0-lkp@intel.com>
+To: kernel@openeuler.org, lujunhua <lujunhua7@h-partners.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 1540/1540] drivers/char/ipmi/ipmi_bt_sm.c:194:11:
+ error: call to undeclared function 'acpi_evaluate_integer'; ISO C99 and
+ later do not support implicit function declarations
+Message-ID: <202411280421.tIaYIeEQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,80 +63,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7d4050728c83aa63828494ad0f4d0eb4faf5f97a
-commit: e3037485c68ec1a299ff41160d8fedbd4abc29b9 rtw88: new Realtek 802.11ac driver
-date:   6 years ago
-config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20241128/202411280441.XgddHSn0-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280441.XgddHSn0-lkp@intel.com/reproduce)
+Hi Devyn,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4a0359af8c9d84ec3320a8a18f41c7fddf1f7a23
+commit: 6449ff7a5a2b148bc0a60efb3f0d723aaeceaae6 [1540/1540] ipmi: Errata workaround to prevent SMS message processing timeout
+config: arm64-randconfig-003-20241128 (https://download.01.org/0day-ci/archive/20241128/202411280421.tIaYIeEQ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280421.tIaYIeEQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280441.XgddHSn0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411280421.tIaYIeEQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:5,
-                    from ./arch/xtensa/include/generated/asm/bug.h:1,
-                    from include/linux/bug.h:5,
-                    from include/net/mac80211.h:19,
-                    from drivers/net/wireless/realtek/rtw88/main.h:8,
-                    from drivers/net/wireless/realtek/rtw88/rtw8822c.c:5:
-   include/linux/scatterlist.h: In function 'sg_set_buf':
-   arch/xtensa/include/asm/page.h:182:16: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-     182 |         ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                ^~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |         ^~~~~~
-   arch/xtensa/include/asm/page.h:190:33: note: in expansion of macro 'pfn_valid'
-     190 | #define virt_addr_valid(kaddr)  pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
-         |                                 ^~~~~~~~~
-   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
-     143 |         BUG_ON(!virt_addr_valid(buf));
-         |                 ^~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h: In function 'dma_map_resource':
-   arch/xtensa/include/asm/page.h:182:16: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
-     182 |         ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
-         |                ^~
-   include/asm-generic/bug.h:148:34: note: in definition of macro 'WARN_ON_ONCE'
-     148 |         int __ret_warn_once = !!(condition);                    \
-         |                                  ^~~~~~~~~
-   include/linux/dma-mapping.h:359:26: note: in expansion of macro 'pfn_valid'
-     359 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
-         |                          ^~~~~~~~~
-   drivers/net/wireless/realtek/rtw88/rtw8822c.c: In function 'rtw8822c_dac_cal_rf_mode':
->> drivers/net/wireless/realtek/rtw88/rtw8822c.c:329:1: warning: the frame size of 1072 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-     329 | }
-         | ^
+>> drivers/char/ipmi/ipmi_bt_sm.c:194:11: error: call to undeclared function 'acpi_evaluate_integer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     194 |         status = acpi_evaluate_integer(handle, "SATN", NULL, &tmp);
+         |                  ^
+   drivers/char/ipmi/ipmi_bt_sm.c:194:11: note: did you mean 'acpi_evaluate_object'?
+   include/acpi/acpixf.h:550:8: note: 'acpi_evaluate_object' declared here
+     550 |                             acpi_evaluate_object(acpi_handle object,
+         |                             ^
+   include/acpi/platform/aclinux.h:93:21: note: expanded from macro 'ACPI_EXTERNAL_RETURN_STATUS'
+      93 |         static ACPI_INLINE prototype {return(AE_NOT_CONFIGURED);}
+         |                            ^
+   1 error generated.
 
 
-vim +329 drivers/net/wireless/realtek/rtw88/rtw8822c.c
+vim +/acpi_evaluate_integer +194 drivers/char/ipmi/ipmi_bt_sm.c
 
-   312	
-   313	static void rtw8822c_dac_cal_rf_mode(struct rtw_dev *rtwdev,
-   314					     u32 *i_value, u32 *q_value)
-   315	{
-   316		u32 iv[DACK_SN_8822C], qv[DACK_SN_8822C];
-   317		u32 rf_a, rf_b;
-   318	
-   319		mdelay(10);
-   320	
-   321		rf_a = rtw_read_rf(rtwdev, RF_PATH_A, 0x0, RFREG_MASK);
-   322		rf_b = rtw_read_rf(rtwdev, RF_PATH_B, 0x0, RFREG_MASK);
-   323	
-   324		rtw_dbg(rtwdev, RTW_DBG_RFK, "[DACK] RF path-A=0x%05x\n", rf_a);
-   325		rtw_dbg(rtwdev, RTW_DBG_RFK, "[DACK] RF path-B=0x%05x\n", rf_b);
-   326	
-   327		rtw8822c_dac_cal_iq_sample(rtwdev, iv, qv);
-   328		rtw8822c_dac_cal_iq_search(rtwdev, iv, qv, i_value, q_value);
- > 329	}
-   330	
+   177	
+   178	#ifdef CONFIG_HISILICON_ERRATUM_162102203
+   179	/*
+   180	 * To confirm whether the SMS_ATN flag needs to be stored and get
+   181	 * quirk through the method reported by the BIOS. Because in special
+   182	 * cases SMS_ATN flag bits may be lost before being processed.
+   183	 */
+   184	static bool get_sms_atn_quirk(struct si_sm_io *io)
+   185	{
+   186		acpi_handle handle;
+   187		acpi_status status;
+   188		unsigned long long tmp;
+   189	
+   190		handle = ACPI_HANDLE(io->dev);
+   191		if (!handle)
+   192			return false;
+   193	
+ > 194		status = acpi_evaluate_integer(handle, "SATN", NULL, &tmp);
+   195		if (ACPI_FAILURE(status))
+   196			return false;
+   197		else if (tmp != 1)
+   198			return false;
+   199	
+   200		return true;
+   201	}
+   202	#endif
+   203	
 
 -- 
 0-DAY CI Kernel Test Service
