@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D448F16132F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 20:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17A413D518
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 21:22:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732739483; cv=none; b=urdfXnbsC9k32fPR5zpr/mhXsFDKty99BqVsiPBE0AxdSrG3DVeiIh1d/3calnLUQqA0m+nWPXa1sAIwwukSAzgSGrzDH63LY7AcoFasl0bztbe0YibSRzlntkNqwA3GiCNRDDbsQ6ai56c1YcO6vrMTiEvWXSVYmSRjvokkGU4=
+	t=1732742527; cv=none; b=EBJ5iBb8brGCo48szWkOOxAGTxfOL6PtMS9pfPs6lqibPMrtAHtzfRGOK8owSJNAf/Ov8s1XOmOhUAA5QHsXkQFUvd25OjoHd5TT6nqNQu2HHE1xTlOuIhjnjmG5zLo5Zml/AfciYMyNKQuU0LHcvhe/CE+eQUihlPBMEmud4FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732739483; c=relaxed/simple;
-	bh=Mjp7Aavmw3SxBHdc8n4uNYKR/41GMkBTB20HbFNgEuU=;
+	s=arc-20240116; t=1732742527; c=relaxed/simple;
+	bh=bBS5v/8ewHyUPef3WKGuCStcilphtiqRn+EutOBZGX8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Zx9fNxjY+L/f+jpnTx7xJjGo1w1z22vcuec97WEh8fMld/GQBlRBlMLsoxItrPf+deU3dAwWAcRhdn73qR1cz8SIKEzIZGOR6hYMRoyg0MkK6YvP1lxleYHfgQT1CGL8x9MGqFIjMG/KBeguJmUo6I0SbZfhb4LE32huIJV6/+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mrg+AXPG; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=qsTFv6QqhOh8uxAwzIOhy8LeFgGnXNkVXOkPiKrmOuyRPv0CmTZm9jwQtjI4lzyaBn9pf+AjHmi/FSMQXx83Pv3YaDeXrhHuVygfO9wJEYAYMoVfq9wrjWCABVe6woV9ILoR6SsUE9WfrNdPrivHVWrq3sRaN91xUrGgd0qAfWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fmmvk38t; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mrg+AXPG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fmmvk38t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732739480; x=1764275480;
+  t=1732742526; x=1764278526;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mjp7Aavmw3SxBHdc8n4uNYKR/41GMkBTB20HbFNgEuU=;
-  b=mrg+AXPGEJdCfxsfS0sR11NqZF8ppp2LwX3jG8ehvoOXebj+APnjLNZY
-   PxhwUzo6jc86VhC531RyDNwlv/APAbLIuqb8mxWLaaEfN7LWUHz72JnkR
-   y0WX/idSY3wzQiLszO68H3aAQZa4Ic8DK7nDHEysxJ9eneQKgUtU+65hP
-   LFuQy0B5RL7G6s3LdqfxXi6S0IWU5lpQhOnZTTiIGMoqTFpl4Xz/Z/5JI
-   f1LraIzxekbWxMcSQV8FUkpR2GRWrU5cS5mCEa0pT3eDbLfcohfQYeqef
-   hy3iv7mgijipTFDRfUdVFgSby1ITFlOmSBVvyYBQodFyHNz0McDpk0tF9
-   w==;
-X-CSE-ConnectionGUID: VKYsxGzsTpiB+FyDjLB1yg==
-X-CSE-MsgGUID: zzPUkrAWT6q3fdefClHXWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="55455871"
+  bh=bBS5v/8ewHyUPef3WKGuCStcilphtiqRn+EutOBZGX8=;
+  b=Fmmvk38tiXQvKGMOxClPO7QutSRjkmP/zVb7GbS6VDW9USLjdVvcbNVN
+   u5OPw+Kyep9sc+qMupqoV/8FvEkTNBROGKS3aPlptw+s2wuQohag4zLGR
+   CSz3qrv/kyRuCm04aEzgnd/4Gp3fG1/BoK50LA2H2jhhkg2OIMFdTdqny
+   ibjFnwpLF1ar/o+YNJtDilD0AR6zHiJjx8UEsuM9QUYNkbcA8j9fCZxDA
+   8r2VGtx2uLvFVqO4Gu7XMDLyTsqhoX3AoSOsd6b3hv+LpqZHft/gjHUix
+   7FEQFUIgS9KDnRr76jGMNaX8Y9pZ+O/q/Njb2GLghZMShoJmSUch91ON7
+   g==;
+X-CSE-ConnectionGUID: l16W/GmyQFuIC+u/3aDhAQ==
+X-CSE-MsgGUID: EqjAOSNIQd60SxH/wVO4DQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33116798"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="55455871"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 12:31:20 -0800
-X-CSE-ConnectionGUID: n+uCq92mSYmUFJfc2RvnEA==
-X-CSE-MsgGUID: oxsnYT9yTKGUWZ0K5vNYhQ==
+   d="scan'208";a="33116798"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 13:22:05 -0800
+X-CSE-ConnectionGUID: 2k4ui6DFSzGINGODs34sFQ==
+X-CSE-MsgGUID: Y2p+NwhLSOK2f8eplPzlOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="92440052"
+   d="scan'208";a="92886293"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 12:31:20 -0800
+  by orviesa008.jf.intel.com with ESMTP; 27 Nov 2024 13:22:04 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGOgu-0008LD-2k;
-	Wed, 27 Nov 2024 20:31:16 +0000
-Date: Thu, 28 Nov 2024 04:30:35 +0800
+	id 1tGPU1-0008N5-2E;
+	Wed, 27 Nov 2024 21:22:01 +0000
+Date: Thu, 28 Nov 2024 05:21:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, lujunhua <lujunhua7@h-partners.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1540/1540] drivers/char/ipmi/ipmi_bt_sm.c:194:11:
- error: call to undeclared function 'acpi_evaluate_integer'; ISO C99 and
- later do not support implicit function declarations
-Message-ID: <202411280421.tIaYIeEQ-lkp@intel.com>
+Subject: [android-common:upstream-linux-5.15.y 264/377]
+ drivers/pci/endpoint/functions/pci-epf-vntb.c:600:45: sparse: sparse: Using
+ plain integer as NULL pointer
+Message-ID: <202411280514.BilUPotG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +63,92 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Devyn,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   4a0359af8c9d84ec3320a8a18f41c7fddf1f7a23
-commit: 6449ff7a5a2b148bc0a60efb3f0d723aaeceaae6 [1540/1540] ipmi: Errata workaround to prevent SMS message processing timeout
-config: arm64-randconfig-003-20241128 (https://download.01.org/0day-ci/archive/20241128/202411280421.tIaYIeEQ-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280421.tIaYIeEQ-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common upstream-linux-5.15.y
+head:   0a51d2d4527b43c5e467ffa6897deefeaf499358
+commit: e2b6ef72b7aea9d7d480d2df499bcd1c93247abb [264/377] PCI: endpoint: Support NTB transfer between RC and EP
+config: x86_64-randconfig-r131-20241122 (https://download.01.org/0day-ci/archive/20241128/202411280514.BilUPotG-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280514.BilUPotG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280421.tIaYIeEQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411280514.BilUPotG-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:542:17: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *mw_addr @@     got void * @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:542:17: sparse:     expected void [noderef] __iomem *mw_addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:542:17: sparse:     got void *
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void *addr @@     got void [noderef] __iomem *epf_db @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     expected void *addr
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:574:41: sparse:     got void [noderef] __iomem *epf_db
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:600:45: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/pci/endpoint/functions/pci-epf-vntb.c:985:16: sparse: sparse: symbol 'vpci_ops' was not declared. Should it be static?
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1089:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1089:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1089:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1100:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1100:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1100:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1111:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1111:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1111:33: sparse:     got struct epf_ntb_ctrl *reg
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1123:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void [noderef] __iomem *base @@     got struct epf_ntb_ctrl *reg @@
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1123:33: sparse:     expected void [noderef] __iomem *base
+   drivers/pci/endpoint/functions/pci-epf-vntb.c:1123:33: sparse:     got struct epf_ntb_ctrl *reg
 
->> drivers/char/ipmi/ipmi_bt_sm.c:194:11: error: call to undeclared function 'acpi_evaluate_integer'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     194 |         status = acpi_evaluate_integer(handle, "SATN", NULL, &tmp);
-         |                  ^
-   drivers/char/ipmi/ipmi_bt_sm.c:194:11: note: did you mean 'acpi_evaluate_object'?
-   include/acpi/acpixf.h:550:8: note: 'acpi_evaluate_object' declared here
-     550 |                             acpi_evaluate_object(acpi_handle object,
-         |                             ^
-   include/acpi/platform/aclinux.h:93:21: note: expanded from macro 'ACPI_EXTERNAL_RETURN_STATUS'
-      93 |         static ACPI_INLINE prototype {return(AE_NOT_CONFIGURED);}
-         |                            ^
-   1 error generated.
+vim +600 drivers/pci/endpoint/functions/pci-epf-vntb.c
 
-
-vim +/acpi_evaluate_integer +194 drivers/char/ipmi/ipmi_bt_sm.c
-
-   177	
-   178	#ifdef CONFIG_HISILICON_ERRATUM_162102203
-   179	/*
-   180	 * To confirm whether the SMS_ATN flag needs to be stored and get
-   181	 * quirk through the method reported by the BIOS. Because in special
-   182	 * cases SMS_ATN flag bits may be lost before being processed.
-   183	 */
-   184	static bool get_sms_atn_quirk(struct si_sm_io *io)
-   185	{
-   186		acpi_handle handle;
-   187		acpi_status status;
-   188		unsigned long long tmp;
-   189	
-   190		handle = ACPI_HANDLE(io->dev);
-   191		if (!handle)
-   192			return false;
-   193	
- > 194		status = acpi_evaluate_integer(handle, "SATN", NULL, &tmp);
-   195		if (ACPI_FAILURE(status))
-   196			return false;
-   197		else if (tmp != 1)
-   198			return false;
-   199	
-   200		return true;
-   201	}
-   202	#endif
-   203	
+   580	
+   581	/**
+   582	 * epf_ntb_mw_bar_init() - Configure Memory window BARs
+   583	 * @ntb: NTB device that facilitates communication between HOST and vHOST
+   584	 *
+   585	 */
+   586	static int epf_ntb_mw_bar_init(struct epf_ntb *ntb)
+   587	{
+   588		int ret = 0;
+   589		int i;
+   590		u64 size;
+   591		enum pci_barno barno;
+   592		struct device *dev = &ntb->epf->dev;
+   593	
+   594		for (i = 0; i < ntb->num_mws; i++) {
+   595			size = ntb->mws_size[i];
+   596			barno = ntb->epf_ntb_bar[BAR_MW0 + i];
+   597	
+   598			ntb->epf->bar[barno].barno = barno;
+   599			ntb->epf->bar[barno].size = size;
+ > 600			ntb->epf->bar[barno].addr = 0;
+   601			ntb->epf->bar[barno].phys_addr = 0;
+   602			ntb->epf->bar[barno].flags |= upper_32_bits(size) ?
+   603					PCI_BASE_ADDRESS_MEM_TYPE_64 :
+   604					PCI_BASE_ADDRESS_MEM_TYPE_32;
+   605	
+   606			ret = pci_epc_set_bar(ntb->epf->epc,
+   607					      ntb->epf->func_no,
+   608					      ntb->epf->vfunc_no,
+   609					      &ntb->epf->bar[barno]);
+   610			if (ret) {
+   611				dev_err(dev, "MW set failed\n");
+   612				goto err_alloc_mem;
+   613			}
+   614	
+   615			/* Allocate EPC outbound memory windows to vpci vntb device */
+   616			ntb->vpci_mw_addr[i] = pci_epc_mem_alloc_addr(ntb->epf->epc,
+   617								      &ntb->vpci_mw_phy[i],
+   618								      size);
+   619			if (!ntb->vpci_mw_addr[i]) {
+   620				dev_err(dev, "Failed to allocate source address\n");
+   621				goto err_alloc_mem;
+   622			}
+   623		}
+   624	
+   625		return ret;
+   626	err_alloc_mem:
+   627		return ret;
+   628	}
+   629	
 
 -- 
 0-DAY CI Kernel Test Service
