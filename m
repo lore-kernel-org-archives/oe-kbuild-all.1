@@ -1,74 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 776EA82D66
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 19:51:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A768041C71
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 20:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732737063; cv=none; b=D6KOuWYxJsineRrcx5q4ZSK1ls3SxJoXZE9Bsuse77uiUUOXsQAjX/6+34uU7iP0qUOWRUpKFxzpaYIAf5WLJe228QFGiTyrX3jI4oB8YSfDlz5Zo6ng2QgwM0b33KINwo/aZjuDmCWlzLi21L3aH2Rm1Zm/aPTVZSGgbi+ILws=
+	t=1732738883; cv=none; b=NHWmXZ6cXUAV9fXdJ1DVLky+sL/vEIbqBHPVBUfxjLTwgevEnzbEyJRo237jJu/nYj5FgkRkoTsxuysTjG0+tD0NS8WydVLHdbmvBx/vzZIhcmnJPARKbHFpzEGUHyMN3vHry9gvN8xDqpHhlRP0R/PMXEQU+f+BxOGzHr7AAlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732737063; c=relaxed/simple;
-	bh=vrJO1wkuzgJfCDUQLlADHpSFcf//iN63EqgubUkiMWs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HgBHuzBYLIJ05w03WihuLHXNRlTLw0PvvEwJVmTQKM2/gged1m3GhCGzgS9X4k5jSRv/mMsIc5t7qcZ8Da94Br7EcMOPFdDZHynQ8LYXkp2k69Is6D6O7xYiq5Az3i5r28PaWnPTZoVRQpRcMJ8VhJbltF0eIwr+8mzvYvstR9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l5qUWd/B; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1732738883; c=relaxed/simple;
+	bh=H8seXUe/eRMaHx0BuL08kr/UFvhuKtwPm8qMsyQPpFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FFw9B09bE+uvKAEz3Ma2meZvME1rKxrLg8aTRFlBRNbiuCtH1KBzPr2giPjE+AnqCR7RIngalbnX0OePffIDVObjofO6EwWdegg1gvSc5ewi4kd8+EPDRWWS0oPLJOTuYNQolqkPotIefR6Fjik864KMVF+pUfB6GHNUSoMcTD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C/Gwgo7J; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l5qUWd/B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C/Gwgo7J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732737061; x=1764273061;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vrJO1wkuzgJfCDUQLlADHpSFcf//iN63EqgubUkiMWs=;
-  b=l5qUWd/BfMVPspRCm/nKt9BF6m/vp3I9mYiQyUUmZiGPWnhn55+xVapL
-   uQzEt7oAK/GtqNZKps7L66PTBDX1zUNCpHwHvwoLu4Gl3Db+PPByCCMoN
-   VguUYC95lhSXGEQrIedOVddW1cgKdJIhIjbSJ8clFemTN9PuzKEGScp9X
-   sYlpjmC5Gfms4GLlKnkbrt5DphadCgsocDfl15G3Hn9deVYsABOUmrooW
-   Gk9NzXvR1hOntM+E4S31QKWliY3Tn9yLjc19rKS0TU6CQMw7ru9sV7tMb
-   evJG56e078PJ0Fn0HJo5thdCPpEJGLopON00Vm982i7PNo8QI3ks3YbJZ
+  t=1732738880; x=1764274880;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=H8seXUe/eRMaHx0BuL08kr/UFvhuKtwPm8qMsyQPpFE=;
+  b=C/Gwgo7JJC496s1dC8rklkVioLWmQTShhfhLuZPrivNcPxW6vzZn+fLw
+   MhfaPadJfUddp0M6Wm3eQQbuWx7yu+tzJmGEyIZ8q5Jx6lAH9iIkWuwsR
+   RmzkGxFFDI95KeGWPFiOz6t/Qp+uxNE7EPx0bLNUW/vtcu90A8QtJukYX
+   BVR2rKoi2idAjRGRTU+BmHc0Lfk9dv5zq9uJtQDZz0I/B9knLev85E1os
+   RFcCOtiCJbTWPsdlPdi3sGgQtqzvThFsMhoPIrvagd5iaVrfMlR4UWVI+
+   J897ySlOl4HYIPFlSiRkoZp9UV1oi3zNVdOKtU2SN3tjaSp2rvN2mxQrO
    w==;
-X-CSE-ConnectionGUID: kxNzOlkVTBKYM8UEiYBv1g==
-X-CSE-MsgGUID: 6ZgYkjLiSIqjOeExorADbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="32702984"
+X-CSE-ConnectionGUID: biT3YKhYSUS05EYtFHf0JQ==
+X-CSE-MsgGUID: rcHZYEBwQWaKHKIUSlazXg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="36886810"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="32702984"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 11:51:00 -0800
-X-CSE-ConnectionGUID: cAEn0AVZSQK2zP8zuWj0eA==
-X-CSE-MsgGUID: GM4gzX/bQ3KnKhk2BY1dZg==
+   d="scan'208";a="36886810"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 12:21:20 -0800
+X-CSE-ConnectionGUID: cZCNryF2THSnu1sHBptssA==
+X-CSE-MsgGUID: wKm1xg/xQiSitu6i2FMu9w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="122994830"
+   d="scan'208";a="92875829"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 27 Nov 2024 11:50:51 -0800
+  by orviesa008.jf.intel.com with ESMTP; 27 Nov 2024 12:21:18 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGO3l-0008Jj-1U;
-	Wed, 27 Nov 2024 19:50:49 +0000
-Date: Thu, 28 Nov 2024 03:50:01 +0800
+	id 1tGOXE-0008L5-0K;
+	Wed, 27 Nov 2024 20:21:16 +0000
+Date: Thu, 28 Nov 2024 04:20:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: keith zhao <keith.zhao@starfivetech.com>, devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, hjc@rock-chips.com, heiko@sntech.de,
-	andy.yan@rock-chips.com, william.qiu@starfivetech.com,
-	xingyu.wu@starfivetech.com, kernel@esmil.dk,
-	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	p.zabel@pengutronix.de, changhuang.liang@starfivetech.com,
-	keith.zhao@starfivetech.com, jack.zhu@starfivetech.com,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 4/9] drm/vs: Add Hardware Functions for VS DC8200
-Message-ID: <202411280334.CDiErngI-lkp@intel.com>
-References: <20241120061848.196754-5-keith.zhao@starfivetech.com>
+To: Yan-Hsuan Chuang <yhchuang@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Kalle Valo <kvalo@codeaurora.org>,
+	Stanislaw Gruszka <sgruszka@redhat.com>,
+	Brian Norris <briannorris@chromium.org>
+Subject: drivers/net/wireless/realtek/rtw88/rtw8822c.c:329:1: warning: the
+ frame size of 1072 bytes is larger than 1024 bytes
+Message-ID: <202411280441.XgddHSn0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,37 +64,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241120061848.196754-5-keith.zhao@starfivetech.com>
 
-Hi keith,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.12 next-20241127]
-[cannot apply to drm-misc/drm-misc-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/keith-zhao/dt-bindings-display-bindings-for-starfive-JH7110-display-pipeline/20241121-145710
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241120061848.196754-5-keith.zhao%40starfivetech.com
-patch subject: [PATCH v5 4/9] drm/vs: Add Hardware Functions for VS DC8200
-config: xtensa-kismet-CONFIG_CMA-CONFIG_DRM_VERISILICON_DC8200-0-0 (https://download.01.org/0day-ci/archive/20241128/202411280334.CDiErngI-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20241128/202411280334.CDiErngI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7d4050728c83aa63828494ad0f4d0eb4faf5f97a
+commit: e3037485c68ec1a299ff41160d8fedbd4abc29b9 rtw88: new Realtek 802.11ac driver
+date:   6 years ago
+config: xtensa-allyesconfig (https://download.01.org/0day-ci/archive/20241128/202411280441.XgddHSn0-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280441.XgddHSn0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280334.CDiErngI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411280441.XgddHSn0-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CMA when selected by DRM_VERISILICON_DC8200
-   WARNING: unmet direct dependencies detected for CMA
-     Depends on [n]: MMU [=n]
-     Selected by [y]:
-     - DRM_VERISILICON_DC8200 [=y] && HAS_IOMEM [=y] && DRM [=y] && HAVE_DMA_CONTIGUOUS [=y]
+All warnings (new ones prefixed by >>):
+
+   In file included from include/asm-generic/bug.h:5,
+                    from ./arch/xtensa/include/generated/asm/bug.h:1,
+                    from include/linux/bug.h:5,
+                    from include/net/mac80211.h:19,
+                    from drivers/net/wireless/realtek/rtw88/main.h:8,
+                    from drivers/net/wireless/realtek/rtw88/rtw8822c.c:5:
+   include/linux/scatterlist.h: In function 'sg_set_buf':
+   arch/xtensa/include/asm/page.h:182:16: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     182 |         ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+         |                ^~
+   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                                             ^
+   include/linux/scatterlist.h:143:9: note: in expansion of macro 'BUG_ON'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |         ^~~~~~
+   arch/xtensa/include/asm/page.h:190:33: note: in expansion of macro 'pfn_valid'
+     190 | #define virt_addr_valid(kaddr)  pfn_valid(__pa(kaddr) >> PAGE_SHIFT)
+         |                                 ^~~~~~~~~
+   include/linux/scatterlist.h:143:17: note: in expansion of macro 'virt_addr_valid'
+     143 |         BUG_ON(!virt_addr_valid(buf));
+         |                 ^~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h: In function 'dma_map_resource':
+   arch/xtensa/include/asm/page.h:182:16: warning: comparison of unsigned expression in '>= 0' is always true [-Wtype-limits]
+     182 |         ((pfn) >= ARCH_PFN_OFFSET && ((pfn) - ARCH_PFN_OFFSET) < max_mapnr)
+         |                ^~
+   include/asm-generic/bug.h:148:34: note: in definition of macro 'WARN_ON_ONCE'
+     148 |         int __ret_warn_once = !!(condition);                    \
+         |                                  ^~~~~~~~~
+   include/linux/dma-mapping.h:359:26: note: in expansion of macro 'pfn_valid'
+     359 |         if (WARN_ON_ONCE(pfn_valid(PHYS_PFN(phys_addr))))
+         |                          ^~~~~~~~~
+   drivers/net/wireless/realtek/rtw88/rtw8822c.c: In function 'rtw8822c_dac_cal_rf_mode':
+>> drivers/net/wireless/realtek/rtw88/rtw8822c.c:329:1: warning: the frame size of 1072 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     329 | }
+         | ^
+
+
+vim +329 drivers/net/wireless/realtek/rtw88/rtw8822c.c
+
+   312	
+   313	static void rtw8822c_dac_cal_rf_mode(struct rtw_dev *rtwdev,
+   314					     u32 *i_value, u32 *q_value)
+   315	{
+   316		u32 iv[DACK_SN_8822C], qv[DACK_SN_8822C];
+   317		u32 rf_a, rf_b;
+   318	
+   319		mdelay(10);
+   320	
+   321		rf_a = rtw_read_rf(rtwdev, RF_PATH_A, 0x0, RFREG_MASK);
+   322		rf_b = rtw_read_rf(rtwdev, RF_PATH_B, 0x0, RFREG_MASK);
+   323	
+   324		rtw_dbg(rtwdev, RTW_DBG_RFK, "[DACK] RF path-A=0x%05x\n", rf_a);
+   325		rtw_dbg(rtwdev, RTW_DBG_RFK, "[DACK] RF path-B=0x%05x\n", rf_b);
+   326	
+   327		rtw8822c_dac_cal_iq_sample(rtwdev, iv, qv);
+   328		rtw8822c_dac_cal_iq_search(rtwdev, iv, qv, i_value, q_value);
+ > 329	}
+   330	
 
 -- 
 0-DAY CI Kernel Test Service
