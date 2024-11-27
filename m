@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8442D191F75
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 23:06:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20D5A193432
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 23:37:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732748794; cv=none; b=q2yFvQvHoHN6ELbdgxHiWvQqvoVWwVEzWF2Qodxw6RD8BmMkvFUahsQRhfbJz8spByrRQwv6JhoLA3VjjrE5BeuwAHZOu8e6D4FY2PZkwJcQrJo3e2TECbX2nSxXEHHW7Wz03ztrx1js5bywByhzwOMSO4t4PYDY9gIPcExdnY4=
+	t=1732750638; cv=none; b=QX5FcABTmOvT5QK0Jg2Mwqy8Q6keViK2VaizKgvq6BM4FUZhUMdZTnQBsIEwKe7LteztJasZ604RDc5JQhW/UdfPI6RvJOgn9jRd2G6Cnlgz/6R6B3b6mZ1yp6O3QgfBKcn7+wV4HohpTCCd4Yq14d7r1ZoIyPBMwSr7rbz8Zvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732748794; c=relaxed/simple;
-	bh=cmy4NUl8wWcwK2UOF7kRs4bC87i0+jK5U0eKQP99cuI=;
+	s=arc-20240116; t=1732750638; c=relaxed/simple;
+	bh=7JrchfkMrDmo8koevSsjpxAMyH8gB8YbumIvgUCLAsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KjuO++WFU+L8omvJD/YJLMh/9DxMNRMTu0DMUPi023vCpvMUBnp70qndOKz8BCdFzFP38MPasL5trgaGNrx6yDeOPEhMrPOMfcOM+ld7BBBZJsegMaomTmN0WjGn8aAm9gM92GykyVhbMGTIKdikLQrjnxdvgSZq+yyJKjcV2pU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SAUgKvbb; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=KiHmuAUq7/CQMvpXsLD15h8YodDGumsiPtN44qF/RJACoq1F20jwDmpBNNdwCOzCDOW7ftkbM7DQLiEDH+nRvirL09hNRFuwXx267AmXR+mmxycCcZq1/EwEt73sEfcY8nigbDrwtCwlXavIRnsFZTON7Rk5nuMETDATnd58bR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CTaQUZZ6; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SAUgKvbb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CTaQUZZ6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732748793; x=1764284793;
+  t=1732750638; x=1764286638;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cmy4NUl8wWcwK2UOF7kRs4bC87i0+jK5U0eKQP99cuI=;
-  b=SAUgKvbbm6SY34VqttqdaCps2yHCy2m2+z3AwhWImEXrVKCMqanFQ0n5
-   afW0mCWv7hbzrrA5zL3BAZyfPTjWZ/QNf2qidejsGuNRUQ14RMQUTKYVg
-   bobN0aOXRP+YBmoqihhCU9DvJHTaCc3AOmimdbinO4ew/A22smjZy8Wmc
-   V4vB+WpC6sUiWRPuAVZC203v3fjgD6sEVKUvTiGVH17GTZwE46qFB8a+3
-   XIIO52L7V+ZXyhRvjfYPROFQ2szFNfHn5NL8DeueIW5uzj1/vQhIhextp
-   iCN/mYMSE9CxFE2FykzsqtdulaTldn9qNtFf9ZIsyH7ubqLMdYvq+Epmb
-   g==;
-X-CSE-ConnectionGUID: qWuaF93eRqWNSANf0VohjA==
-X-CSE-MsgGUID: mcF2WjB6QHKXR8uVZorLZA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="58377706"
+  bh=7JrchfkMrDmo8koevSsjpxAMyH8gB8YbumIvgUCLAsc=;
+  b=CTaQUZZ6iIl/mFkSwS7JiHzMIaiU3vU/umAQZ5ObAtcTdOPdT3q2NeCF
+   BASs/ycb2Nk4jMQcTcME8lNDALrFlrWwxFTsw7bmk73BfYbUNVJuJC0ml
+   GD2qQBvo+ACVQqD33glMBudQC0Y7h92VMPRN1wRHEgEfGgvcRsyBOp5Bm
+   t6b3gR2gskO+xyE3IWGtIXnasnh4+ytdMCxISrBYrnqU3jFd4kMgxKW5Y
+   Ap7tMgt+GrJMN+QSxWoesV+gJyY2U/79ulRn6BG0KYcIWxXmKctQlW7ZN
+   I/MuL18JvBdBSQuPVYXuWZHzc1olVefreE9SCcloOEJx7DmGGABkrcDkG
+   w==;
+X-CSE-ConnectionGUID: IncfmTFeQ7W7hO2WMb2ZCw==
+X-CSE-MsgGUID: Gp5MFnAfS6eoBkEPmcTi0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="44032353"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="58377706"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 15:06:32 -0800
-X-CSE-ConnectionGUID: l4/wNdkSQyyiufQRoi83Xg==
-X-CSE-MsgGUID: XNn13QZgQRynH95S30mqsg==
+   d="scan'208";a="44032353"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 15:37:17 -0800
+X-CSE-ConnectionGUID: E2NEZAXJSpugBWi14rcM5Q==
+X-CSE-MsgGUID: Y9mzMd3wQ1GDKXGI74kouA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="96161377"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="97143557"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 27 Nov 2024 15:06:31 -0800
+  by orviesa003.jf.intel.com with ESMTP; 27 Nov 2024 15:37:16 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGR77-0008Qc-0U;
-	Wed, 27 Nov 2024 23:06:29 +0000
-Date: Thu, 28 Nov 2024 07:06:09 +0800
+	id 1tGRar-0008Rr-28;
+	Wed, 27 Nov 2024 23:37:13 +0000
+Date: Thu, 28 Nov 2024 07:37:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:x86/selftests_arch 1/3]
- tools/testing/selftests/kvm/Makefile.kvm: warning: ignored by one of the
- .gitignore files
-Message-ID: <202411280713.d6ePFCVb-lkp@intel.com>
+Subject: [jolsa-perf:bpf/optimized_usdt_9 5/12]
+ include/linux/uprobes.h:176:33: error: field 'tramp_mutex' has incomplete
+ type
+Message-ID: <202411280751.1RaRqso9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +63,36 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux x86/selftests_arch
-head:   e631163e2d3efa0aa7224a132f8faf3cda66f1c4
-commit: 4d885622ba764bcb09306194ee090f1867b6e318 [1/3] KVM: selftests: Provide empty 'all' and 'clean' targets for unsupported ARCHs
-config: sh-rsk7201_defconfig (https://download.01.org/0day-ci/archive/20241128/202411280713.d6ePFCVb-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280713.d6ePFCVb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_9
+head:   b1d916ea335d828e290e0c2bb8bb5bebdf0b633a
+commit: 9151504d74ead16a6d8e1d163df0f46df5cfa008 [5/12] uprobes: Add mapping for optimized uprobe trampolines
+config: arm-tegra_defconfig (https://download.01.org/0day-ci/archive/20241128/202411280751.1RaRqso9-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280751.1RaRqso9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280713.d6ePFCVb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411280751.1RaRqso9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
-   tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
->> tools/testing/selftests/kvm/Makefile.kvm: warning: ignored by one of the .gitignore files
+   In file included from include/linux/mm_types.h:16,
+                    from mm/init-mm.c:2:
+>> include/linux/uprobes.h:176:33: error: field 'tramp_mutex' has incomplete type
+     176 |         struct mutex            tramp_mutex;
+         |                                 ^~~~~~~~~~~
+
+
+vim +/tramp_mutex +176 include/linux/uprobes.h
+
+   172	
+   173	struct uprobes_state {
+   174		struct xol_area		*xol_area;
+   175		struct hlist_head	tramp_head;
+ > 176		struct mutex		tramp_mutex;
+   177	};
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
