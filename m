@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4361D13CFAD
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 18:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3563C2581
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 19:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732731350; cv=none; b=MYACYFMeG2Q5vHQy1NDK25YhGrt/6VVQHYkphtXo6k40m4pQy1s9FmPDIUWlp2+pbyFiA52Z+ygyGnLKJJwlYltfcCdCN6EteBHvYexgvKyiLF9LTNqUsdD0gKg9yT1eImos6Yr6YTUSaPp4k9N9McEXXSdo0VeHzHIQDFk9ml4=
+	t=1732734501; cv=none; b=mOWYGMI+GsTZ89exfjWRKXdnpo2Egx/NaLn29Lutfxhbl3O3PTb5/G5HMM8Vg8zEYhVVdGyt+C49R6mVYxkSroReQTH+/O0UACql1OX2Kw66bkipF4J4Hrz+jrkVk5iiwjkGqP+X6r9ROKk+KOx1hi0uHZRC2IjnKpWjDVww7Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732731350; c=relaxed/simple;
-	bh=2UvJ5owtllnxKZgh90bZdivg/vp3DaTA1jdy3OvX1HM=;
+	s=arc-20240116; t=1732734501; c=relaxed/simple;
+	bh=N5XyeMNM3/a87AnFGfmqS3xX/6mWAu/ihzEAAw0nigs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RbcuJjBvtQcfUy1AIupvsIgNRWzjDFBudWfFSg0xikUxPmTFCUqOOqHS7gQ3+SvxC0BIByG5aPiVR313lRLMZvXwnfDDQ4JDa/lU6RwVch1lQbexwqcIBDfJyJrJaDrubVt085YGRtONUCTcx942Wt0NpnF27Lmecib/k4BhXAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rv70brUt; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=dh1OMNTut0MsQS1RgXDnGfumm9uP3KvkItrc7UNtfZpf72jZ3e1hW9ga2H4SGKaYaA2nwdVooDDxKe5Y11qmE2/x8ng0do6xs2y0z16eh1nb/hmmw2wje3IQIPtAC25PN73J7jC9x9SSUMYUgWVJfJ/v3VBathWq6EEfZJCAwKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ABHNK+lL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rv70brUt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ABHNK+lL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732731348; x=1764267348;
+  t=1732734500; x=1764270500;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2UvJ5owtllnxKZgh90bZdivg/vp3DaTA1jdy3OvX1HM=;
-  b=Rv70brUtkRu603rwzn3npJELdt+6o5B+FFtbSnt8bYnudH9UUo/fX6nc
-   PIFA+c2hBWxzdAidhb9y9JgyNSewqNj6vez3BHgXtuPZ5hv2vQoZEl76W
-   jPOp2opru7lP1aItAlZIunQbyG27xahi1a2La7OYkcrDPjxSOIH1hGtFF
-   GXDX6bXrkcHOKU+UMUsvEaYxnrUjIQ5+BZj0E38ZKWL/OipEVV69eTp6s
-   +pgRZ3iJpH/IQ5UcW5f+z6tno9rFoYi65qMIEla5qhMDXIgloLq/gl5vy
-   NcUp9/ZlUjmHNWHafS2d1sY2ig18OPtCeglUmD0OLfmicxYKj+ML6XiMz
-   A==;
-X-CSE-ConnectionGUID: ERYFcLwqQCuhy9tZMcUGww==
-X-CSE-MsgGUID: fAO6rhSnSgO3ePy/leEFnQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33196743"
+  bh=N5XyeMNM3/a87AnFGfmqS3xX/6mWAu/ihzEAAw0nigs=;
+  b=ABHNK+lLT4DnTUfJYXeSUqXiY49+BO0xMQKAaVLntCUwtOJxC8yeUrZq
+   XzFTQs6/zVk+9GOUPnaY+yFWn76eawVZ8b+KANBMbT2WBs4H84DSHufK+
+   G9JVcvC54DmIkgB3FGWWCR/if+wghNs7j8CYLaUdFSmmVSO9l3H24tpj5
+   YTlMHvWKb8TG+qM/ubD9awwDCTzKMz/gcJeZJCpEQ0zK99/qfclL03Yru
+   wdqLzsAUK951gPdutQcvp02fb5NqlGFQuiaSNNMzNyKrQIoYA2V65H5F1
+   QdZQr8JX9lsR8zC2wqnm7IfZiRY+cp9Ab92Kfg1HfD/AA6ujqA3jiFqTh
+   Q==;
+X-CSE-ConnectionGUID: AiRYWJJGRcufRHuSQEexbg==
+X-CSE-MsgGUID: UOjnKrh6Rgq6pEKB41P8Nw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="36619061"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="33196743"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 10:15:48 -0800
-X-CSE-ConnectionGUID: xRC0R6lbTaaJYHbB1bNYQg==
-X-CSE-MsgGUID: LUOQwy1DSvud+CwYslNVYA==
+   d="scan'208";a="36619061"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 11:08:19 -0800
+X-CSE-ConnectionGUID: CUMylT03TtCa3cUJ6EutLQ==
+X-CSE-MsgGUID: QbERK09ETZOMSeBOSjnl2g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="97092352"
+   d="scan'208";a="92203980"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 27 Nov 2024 10:15:47 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 27 Nov 2024 11:08:18 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGMZj-0008FT-37;
-	Wed, 27 Nov 2024 18:15:43 +0000
-Date: Thu, 28 Nov 2024 02:14:54 +0800
+	id 1tGNOa-0008HL-0q;
+	Wed, 27 Nov 2024 19:08:16 +0000
+Date: Thu, 28 Nov 2024 03:07:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, sanglipeng1 <sanglipeng1@jd.com>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2490/2490] drivers/net/usb/lan78xx.c:4518
- lan78xx_resume() warn: inconsistent indenting
-Message-ID: <202411280257.12S1bi0F-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.12-main 33/62]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:34.9-36.4: Warning
+ (unit_address_vs_reg): /memory: node has a reg or ranges property, but no
+ unit name
+Message-ID: <202411280302.MsLNIpqu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,121 +64,108 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   68b0fb4e955465eef28bed1f5a252c4e6c636a36
-commit: c3f7d9b46a5caf93fd52e6fabc7a2d27cba66c6f [2490/2490] lan78xx: Fix race conditions in suspend/resume handling
-config: x86_64-randconfig-161-20241127 (https://download.01.org/0day-ci/archive/20241128/202411280257.12S1bi0F-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.12-main
+head:   fc18a51777815a2de7bd2a88e44b3707632980d4
+commit: b6d853c15f1bb6a978970c1effab3f90d6847fac [33/62] WIP: add BPi-R4
+config: arm64-randconfig-002-20241123 (https://download.01.org/0day-ci/archive/20241128/202411280302.MsLNIpqu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280302.MsLNIpqu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280257.12S1bi0F-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411280302.MsLNIpqu-lkp@intel.com/
 
-smatch warnings:
-drivers/net/usb/lan78xx.c:4518 lan78xx_resume() warn: inconsistent indenting
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1029.23-1050.5: Warning (unit_address_vs_reg): /soc/tphy@11c50000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1062.23-1084.5: Warning (unit_address_vs_reg): /soc/xphy@11e10000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:34.9-36.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1029.23-1050.5: Warning (simple_bus_reg): /soc/tphy@11c50000: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1062.23-1084.5: Warning (simple_bus_reg): /soc/xphy@11e10000: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:1145.27-1310.5: Warning (avoid_unnecessary_addr_size): /soc/switch@15020000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
 
-vim +4518 drivers/net/usb/lan78xx.c
+vim +34 arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts
 
-  4491	
-  4492	static int lan78xx_resume(struct usb_interface *intf)
-  4493	{
-  4494		struct lan78xx_net *dev = usb_get_intfdata(intf);
-  4495		bool dev_open;
-  4496		int ret;
-  4497	
-  4498		mutex_lock(&dev->dev_mutex);
-  4499	
-  4500		netif_dbg(dev, ifup, dev->net, "resuming device");
-  4501	
-  4502		dev_open = test_bit(EVENT_DEV_OPEN, &dev->flags);
-  4503	
-  4504		if (dev_open) {
-  4505			bool pipe_halted = false;
-  4506	
-  4507			ret = lan78xx_flush_tx_fifo(dev);
-  4508			if (ret < 0)
-  4509				goto out;
-  4510	
-  4511			if (dev->urb_intr) {
-  4512				int ret = usb_submit_urb(dev->urb_intr, GFP_KERNEL);
-  4513	
-  4514				if (ret < 0) {
-  4515					if (ret == -ENODEV)
-  4516						netif_device_detach(dev->net);
-  4517	
-> 4518				netdev_warn(dev->net, "Failed to submit intr URB");
-  4519				}
-  4520			}
-  4521	
-  4522			spin_lock_irq(&dev->txq.lock);
-  4523	
-  4524			if (netif_device_present(dev->net)) {
-  4525				pipe_halted = lan78xx_submit_deferred_urbs(dev);
-  4526	
-  4527				if (pipe_halted)
-  4528					lan78xx_defer_kevent(dev, EVENT_TX_HALT);
-  4529			}
-  4530	
-  4531			clear_bit(EVENT_DEV_ASLEEP, &dev->flags);
-  4532	
-  4533			spin_unlock_irq(&dev->txq.lock);
-  4534	
-  4535			if (!pipe_halted &&
-  4536			    netif_device_present(dev->net) &&
-  4537			    (skb_queue_len(&dev->txq) < dev->tx_qlen))
-  4538				netif_start_queue(dev->net);
-  4539	
-  4540			ret = lan78xx_start_tx_path(dev);
-  4541			if (ret < 0)
-  4542				goto out;
-  4543	
-  4544			tasklet_schedule(&dev->bh);
-  4545	
-  4546			if (!timer_pending(&dev->stat_monitor)) {
-  4547				dev->delta = 1;
-  4548				mod_timer(&dev->stat_monitor,
-  4549					  jiffies + STAT_UPDATE_TIMER);
-  4550			}
-  4551	
-  4552		} else {
-  4553			clear_bit(EVENT_DEV_ASLEEP, &dev->flags);
-  4554		}
-  4555	
-  4556		ret = lan78xx_write_reg(dev, WUCSR2, 0);
-  4557		if (ret < 0)
-  4558			goto out;
-  4559		ret = lan78xx_write_reg(dev, WUCSR, 0);
-  4560		if (ret < 0)
-  4561			goto out;
-  4562		ret = lan78xx_write_reg(dev, WK_SRC, 0xFFF1FF1FUL);
-  4563		if (ret < 0)
-  4564			goto out;
-  4565	
-  4566		ret = lan78xx_write_reg(dev, WUCSR2, WUCSR2_NS_RCD_ |
-  4567						     WUCSR2_ARP_RCD_ |
-  4568						     WUCSR2_IPV6_TCPSYN_RCD_ |
-  4569						     WUCSR2_IPV4_TCPSYN_RCD_);
-  4570		if (ret < 0)
-  4571			goto out;
-  4572	
-  4573		ret = lan78xx_write_reg(dev, WUCSR, WUCSR_EEE_TX_WAKE_ |
-  4574						    WUCSR_EEE_RX_WAKE_ |
-  4575						    WUCSR_PFDA_FR_ |
-  4576						    WUCSR_RFE_WAKE_FR_ |
-  4577						    WUCSR_WUFR_ |
-  4578						    WUCSR_MPR_ |
-  4579						    WUCSR_BCST_FR_);
-  4580		if (ret < 0)
-  4581			goto out;
-  4582	
-  4583		ret = 0;
-  4584	out:
-  4585		mutex_unlock(&dev->dev_mutex);
-  4586	
-  4587		return ret;
-  4588	}
-  4589	
+    11	
+    12	/ {
+    13		compatible = "bananapi,bpi-r4", "mediatek,mt7988a";
+    14		model = "Banana Pi BPI-R4";
+    15		chassis-type = "embedded";
+    16	
+    17		aliases {
+    18			ethernet0 = &gmac0;
+    19			ethernet1 = &gmac1;
+    20			ethernet2 = &gmac2;
+    21			serial0 = &uart0;
+    22			led-boot = &led_green;
+    23			led-failsafe = &led_green;
+    24			led-running = &led_green;
+    25			led-upgrade = &led_green;
+    26		};
+    27	
+    28		chosen {
+    29			stdout-path = &uart0;
+    30			bootargs = "console=ttyS0,115200n1 loglevel=8 pci=pcie_bus_perf ubi.block=0,fit root=/dev/fit0";
+    31			rootdisk-spim-nand = <&ubi_rootfs>;
+    32		};
+    33	
+  > 34		memory {
+    35			reg = <0x00 0x40000000 0x00 0x10000000>;
+    36		};
+    37	
+    38		/* SFP1 cage (WAN) */
+    39		sfp1: sfp1 {
+    40			compatible = "sff,sfp";
+    41			i2c-bus = <&i2c_sfp1>;
+    42			los-gpios = <&pio 54 GPIO_ACTIVE_HIGH>;
+    43			mod-def0-gpios = <&pio 82 GPIO_ACTIVE_LOW>;
+    44			tx-disable-gpios = <&pio 70 GPIO_ACTIVE_HIGH>;
+    45			tx-fault-gpios = <&pio 69 GPIO_ACTIVE_HIGH>;
+    46			rate-select0-gpios = <&pio 21 GPIO_ACTIVE_LOW>;
+    47			maximum-power-milliwatt = <3000>;
+    48		};
+    49	
+    50		/* SFP2 cage (LAN) */
+    51		sfp2: sfp2 {
+    52			compatible = "sff,sfp";
+    53			i2c-bus = <&i2c_sfp2>;
+    54			los-gpios = <&pio 2 GPIO_ACTIVE_HIGH>;
+    55			mod-def0-gpios = <&pio 83 GPIO_ACTIVE_LOW>;
+    56			tx-disable-gpios = <&pio 0 GPIO_ACTIVE_HIGH>;
+    57			tx-fault-gpios = <&pio 1 GPIO_ACTIVE_HIGH>;
+    58			rate-select0-gpios = <&pio 3 GPIO_ACTIVE_LOW>;
+    59			maximum-power-milliwatt = <3000>;
+    60		};
+    61	
+    62		gpio-keys {
+    63			compatible = "gpio-keys";
+    64	
+    65			wps {
+    66				label = "WPS";
+    67				linux,code = <KEY_RESTART>;
+    68				gpios = <&pio 14 GPIO_ACTIVE_LOW>;
+    69			};
+    70		};
+    71	
+    72		gpio-leds {
+    73			compatible = "gpio-leds";
+    74	
+    75			led_green: led-green {
+    76				function = LED_FUNCTION_STATUS;
+    77				color = <LED_COLOR_ID_GREEN>;
+    78				gpios = <&pio 79 GPIO_ACTIVE_HIGH>;
+    79				default-state = "on";
+    80			};
+    81	
+    82			led_blue: led-blue {
+    83				function = LED_FUNCTION_WPS;
+    84				color = <LED_COLOR_ID_BLUE>;
+    85				gpios = <&pio 63 GPIO_ACTIVE_HIGH>;
+    86				default-state = "off";
+    87			};
+    88		};
+    89	};
+    90	
 
 -- 
 0-DAY CI Kernel Test Service
