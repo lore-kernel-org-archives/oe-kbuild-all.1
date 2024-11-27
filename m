@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD0FB145B38
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 22:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39C2813BC35
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 22:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732746279; cv=none; b=LXobd5WVQDTiLRT8+4D2hobOpeK8PcXvQ9KQNzF9Nw6XUKk7lHcq1P+vQIRj1NREktYM+vl0NbBlAZQSz8ezLkAfcCHQFVwe88NqALVvMZzVyKdD7MeIKrLyKez7ejGIrVDYInSv45O7zc1zG/yQGg/9fv60p7jAFNdf9mdgYzw=
+	t=1732748149; cv=none; b=Ie9lqpuvcpt72bhF00TWd++f4E6r1lezJGVAr7UMjXR+kW7/cop+urWw4B/ppCYd5zBxCj3Y2f2jp47aPGU4KMH4B1JuOpPgbaH0BdK7x2LYwG9S1F439Fz9byYwImGr8x5dPkARSaJVilVjhNBxP9zViFhmPfBuS722TBpdRVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732746279; c=relaxed/simple;
-	bh=BpgYeGEShcUV50Ibyeh0m+MoaUeIrXUZqXAPcxx/G4k=;
+	s=arc-20240116; t=1732748149; c=relaxed/simple;
+	bh=HQ7zkpOm0BHmeGoi3dHHjLTXc0XlTrFkA6lQ2KR+tmQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=G3UvfKyf3p8TXAl2TmA4uzFM6N3KmXopqi+arLk0Sqscfl2sB3rAXclcpZqC3Bfn1BfpCACGqFpNAapz9ppQC1dknz8PgNObZyPeGLrF/Z8vVZFtKmxk5+lUStVyENdankuBe+dp8MAPDVvmg/5UCUC80vjxoZAMHKadEFC082M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C8BhfejY; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=GSRiEhDl52mnDDSAaJ2JG+xl+aE06GHnvPgQVJiKiJnQmpMmma6bJnIalXJM3lFBin1VTdditBLursNe25mZoc1B4UVoaiFx5ULoUzjEVX0ty8JmLja6G19RUxrReL3k09Yud/qcxT5AguCMW1/WmzjCpZOqgiFT6Cpm0m5K/Qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JxAfBN19; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C8BhfejY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JxAfBN19"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732746277; x=1764282277;
+  t=1732748148; x=1764284148;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BpgYeGEShcUV50Ibyeh0m+MoaUeIrXUZqXAPcxx/G4k=;
-  b=C8BhfejYYWCRs0lbdHAYFVyDkHNr6uzw7KRp4HH0Y44Z6V5vJ/tblUYT
-   ta5bDMQ+xg6mp2Hxgl+oGjIxjYFva8P0bzfsQUKsVrbTutWALu/0JbG3A
-   Ur63AycHd1tlV680fRsMnUNdSzH40de4hkqYORoE0DlQYt7FbUq+RA9zt
-   T38h+HvGyGXukgWvxp8nWRQOki2KIqGVH2WrKyLDps8tWoQhoFlgO0C3b
-   vQXgsLV8ZWcbbSUt791+0pWtDq8HjkKdQk+wnJ8Iv/c3sXTQOAjLEkgzP
-   MoDZRBtL0JlFna/rev4SufFcfMd4d7YTCHUk3GnUv645k6ZitqKmpjL86
-   Q==;
-X-CSE-ConnectionGUID: ND3LIn6VSv2FvlaN3CjKJw==
-X-CSE-MsgGUID: y3zJFbMkRgeStsCCCHQKNw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="32918470"
+  bh=HQ7zkpOm0BHmeGoi3dHHjLTXc0XlTrFkA6lQ2KR+tmQ=;
+  b=JxAfBN19JMkszy5vSgVITNsU8BmzqJQpKknxqObV1Na5zgXkh/OvHR6W
+   nA5NLmKbF/gpNVycmKYwcdMvWQb0Ejv3HAvbn3hDaHaO8eX61UCUNT5Bk
+   Y6POOX/0C2LNJ1S9T95oFg/bYNTnQSSk2/eSM38o1xAJZJWxFzfZGTUMv
+   5k12wLK5JD+szE+jl9eZH6srhAQuj2+lJ2puAF1L+29vhC66Zm69zymNj
+   oICdJzBo08323GkRegmIAAAqQDE91v50Cj7WGiulv6qr7NXm67zp2Im95
+   R9G4bBm5b02hoXeV3GKVDotHqEqVY/HqfvJEQ751h5C1mxVTcm0cRdkuo
+   w==;
+X-CSE-ConnectionGUID: THb5hLvcRI+E9DjUZlk06w==
+X-CSE-MsgGUID: H/LPisdvRLWX+UZbFpWOTg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33123355"
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="32918470"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 14:24:36 -0800
-X-CSE-ConnectionGUID: I/jLG/sWTT2YYRtCH2gDvQ==
-X-CSE-MsgGUID: B8SJyIw3S72IKv+1YBqECQ==
+   d="scan'208";a="33123355"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 14:55:47 -0800
+X-CSE-ConnectionGUID: dxv5lwuvQ3eCVI2IEXUPqg==
+X-CSE-MsgGUID: Q7tsZx5rQi63uAKlf0u7fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,190,1728975600"; 
-   d="scan'208";a="96505398"
+   d="scan'208";a="92464410"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Nov 2024 14:24:35 -0800
+  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 14:55:46 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGQSX-0008PD-0F;
-	Wed, 27 Nov 2024 22:24:33 +0000
-Date: Thu, 28 Nov 2024 06:23:45 +0800
+	id 1tGQwh-0008Q2-2D;
+	Wed, 27 Nov 2024 22:55:43 +0000
+Date: Thu, 28 Nov 2024 06:54:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/arm/mach-mv78xx0/pcie.c:46:5: sparse: sparse: symbol
- 'pcie_port_size' was not declared. Should it be static?
-Message-ID: <202411280649.ZlacdSn2-lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/optimized_usdt_9 3/12]
+ arch/arm/include/asm/opcodes.h:92:34: error: passing argument 4 of
+ 'uprobe_write_opcode' makes pointer from integer without a cast
+Message-ID: <202411280611.mgHUC8DV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +63,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   7d4050728c83aa63828494ad0f4d0eb4faf5f97a
-commit: 7036440eab3e2d47a775d4616909f8235488d714 ARM: omap1: enable multiplatform
-date:   2 years, 6 months ago
-config: arm-randconfig-r131-20241123 (https://download.01.org/0day-ci/archive/20241128/202411280649.ZlacdSn2-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce: (https://download.01.org/0day-ci/archive/20241128/202411280649.ZlacdSn2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_9
+head:   b1d916ea335d828e290e0c2bb8bb5bebdf0b633a
+commit: e4bd7580c798ae727d6c9c8dc7040d8970e054b6 [3/12] uprobes: Add nbytes argument to uprobe_write_opcode
+config: arm-tegra_defconfig (https://download.01.org/0day-ci/archive/20241128/202411280611.mgHUC8DV-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280611.mgHUC8DV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280649.ZlacdSn2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411280611.mgHUC8DV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm/mach-mv78xx0/pcie.c:46:5: sparse: sparse: symbol 'pcie_port_size' was not declared. Should it be static?
---
->> drivers/irqchip/irq-davinci-cp-intc.c:166:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void [noderef] __iomem *req @@     got struct resource * @@
-   drivers/irqchip/irq-davinci-cp-intc.c:166:13: sparse:     expected void [noderef] __iomem *req
-   drivers/irqchip/irq-davinci-cp-intc.c:166:13: sparse:     got struct resource *
+All error/warnings (new ones prefixed by >>):
 
-vim +/pcie_port_size +46 arch/arm/mach-mv78xx0/pcie.c
+   In file included from arch/arm/include/asm/bug.h:7,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/arm/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/spinlock.h:56,
+                    from include/linux/wait.h:9,
+                    from include/linux/wait_bit.h:8,
+                    from include/linux/fs.h:6,
+                    from include/linux/highmem.h:5,
+                    from arch/arm/probes/uprobes/core.c:9:
+   arch/arm/probes/uprobes/core.c: In function 'set_swbp':
+>> arch/arm/include/asm/opcodes.h:92:34: error: passing argument 4 of 'uprobe_write_opcode' makes pointer from integer without a cast [-Wint-conversion]
+      92 | #define ___opcode_identity32(x) ((u32)(x))
+         |                                 ~^~~~~~~~~
+         |                                  |
+         |                                  unsigned int
+   arch/arm/include/asm/opcodes.h:109:32: note: in expansion of macro '___opcode_identity32'
+     109 | #define __opcode_to_mem_arm(x) ___opcode_identity32(x)
+         |                                ^~~~~~~~~~~~~~~~~~~~
+   arch/arm/probes/uprobes/core.c:33:20: note: in expansion of macro '__opcode_to_mem_arm'
+      33 |                    __opcode_to_mem_arm(auprobe->bpinsn));
+         |                    ^~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/mm_types.h:16,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/xarray.h:16,
+                    from include/linux/list_lru.h:14,
+                    from include/linux/fs.h:13:
+   include/linux/uprobes.h:185:49: note: expected 'uprobe_opcode_t *' {aka 'unsigned int *'} but argument is of type 'unsigned int'
+     185 |                                uprobe_opcode_t *insn, int nbytes);
+         |                                ~~~~~~~~~~~~~~~~~^~~~
+>> arch/arm/probes/uprobes/core.c:32:16: error: too few arguments to function 'uprobe_write_opcode'
+      32 |         return uprobe_write_opcode(auprobe, mm, vaddr,
+         |                ^~~~~~~~~~~~~~~~~~~
+   include/linux/uprobes.h:184:12: note: declared here
+     184 | extern int uprobe_write_opcode(struct arch_uprobe *auprobe, struct mm_struct *mm, unsigned long vaddr,
+         |            ^~~~~~~~~~~~~~~~~~~
+>> arch/arm/probes/uprobes/core.c:34:1: warning: control reaches end of non-void function [-Wreturn-type]
+      34 | }
+         | ^
 
-cfdeb6376e439c5 Lennert Buytenhek 2009-02-20  45  
-0b9b18e0166d892 Rob Herring       2012-07-09 @46  u32 pcie_port_size[8] = {
-0b9b18e0166d892 Rob Herring       2012-07-09  47  	0,
-0b9b18e0166d892 Rob Herring       2012-07-09  48  	0x30000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  49  	0x10000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  50  	0x10000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  51  	0x08000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  52  	0x08000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  53  	0x08000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  54  	0x04000000,
-0b9b18e0166d892 Rob Herring       2012-07-09  55  };
-0b9b18e0166d892 Rob Herring       2012-07-09  56  
 
-:::::: The code at line 46 was first introduced by commit
-:::::: 0b9b18e0166d8925ed222335efbc3cfd66aa882f ARM: mv78xx0: use fixed pci i/o mapping
+vim +/uprobe_write_opcode +92 arch/arm/include/asm/opcodes.h
 
-:::::: TO: Rob Herring <rob.herring@calxeda.com>
-:::::: CC: Rob Herring <rob.herring@calxeda.com>
+f5f5195487affe Dave Martin 2012-02-01  87  
+0ce3de23f2a520 Dave Martin 2012-09-03  88  #define ___opcode_swab32(x) swab32(x)
+0ce3de23f2a520 Dave Martin 2012-09-03  89  #define ___opcode_swab16(x) swab16(x)
+0ce3de23f2a520 Dave Martin 2012-09-03  90  #define ___opcode_swahb32(x) swahb32(x)
+0ce3de23f2a520 Dave Martin 2012-09-03  91  #define ___opcode_swahw32(x) swahw32(x)
+0ce3de23f2a520 Dave Martin 2012-09-03 @92  #define ___opcode_identity32(x) ((u32)(x))
+0ce3de23f2a520 Dave Martin 2012-09-03  93  #define ___opcode_identity16(x) ((u16)(x))
+0ce3de23f2a520 Dave Martin 2012-09-03  94  
+
+:::::: The code at line 92 was first introduced by commit
+:::::: 0ce3de23f2a520a6ac8c2179fb8f88342c4992ef ARM: 7509/1: opcodes: Make opcode byteswapping macros assembly-compatible
+
+:::::: TO: Dave Martin <dave.martin@linaro.org>
+:::::: CC: Russell King <rmk+kernel@arm.linux.org.uk>
 
 -- 
 0-DAY CI Kernel Test Service
