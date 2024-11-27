@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6C71FF607
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 14:27:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 983681FF61A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 14:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732717636; cv=none; b=aczKCVaIQK1QfxEli6H//2xbqNkvc1H3FSajquetk9zdjqbAq6DysnUB+dkRcolaWmWJC+JoyLef1BkMsj7aeO3YBIEReyAALDh3Zlp4Rdo15wL0QgLj11XpZvXJ59Qivdo7ujtHOis73Q9AmP2w1gb1gbu+jEg7zNhhMDTLmgE=
+	t=1732717638; cv=none; b=IMEcoywOus4hKl1R/uFcNH2syzn1oNtBBhwqj7jayGgtqhP3TY0FgCWXMqHz7+YXdybGYoT8AQUo6i/PoVC+I+IbdxOeZZYUdQBrixA8j/Qh4yIh/iXsgXECelT/6NCx4wNPBook6nRvWt99DkNIzJyKH3V+7uwSJliC6mX332A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732717636; c=relaxed/simple;
-	bh=ZGmu8x+8Ql3KMIK4IwfGQCgrp8mXl09lriNySZ4+N18=;
+	s=arc-20240116; t=1732717638; c=relaxed/simple;
+	bh=YdBhvmk7K3bpjuQkMLpjrZfz75oq7z8yoaigctNQqck=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oLyh31C1Uqp2gcFI2CdrEc5m0U3iIfk2Oz5xXX6TxKLpQtRBh/Hg/krchkwlIsJu2D8FzdQ6/VHr/zKv7OVrN2nHLzikNaFz+VcovA/5rD3otXclkN9if+blLEJ4+JPFrWPSJIND0AC2Q2rt6q2zk3p7KEIozwdayj62DE9fnAM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hbkFHmFf; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=XQHAj6s8lcjO2ngJlnGP44tHnEsGymremUuZ7qiY6v/HR41qhlDZAW6bheFrJU90X8wrwtmluRXRKct2mruY/T6vySFYS7jHI5ai3bpHUbNp6CzCFBTWUvv0TfEI/LmMSWzZzGrbd2+TUt7Sn4ruWBTg8AYzOw4hqxJpsM3EAWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DQBuBRoo; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hbkFHmFf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DQBuBRoo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732717634; x=1764253634;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZGmu8x+8Ql3KMIK4IwfGQCgrp8mXl09lriNySZ4+N18=;
-  b=hbkFHmFfIFTomo8jp9TU1CTGzoTOJBvzdbFJEC+SabFWbxs6EudToPZ3
-   ZfmA5OYdCC66eoldGxKS/YBDJGpvEHBdEAczumVpAlukYkfrYssmzglOX
-   vdQgtlPFoolFLnb4LiInSwkDFvI6RsvEJ6WLQI7/QNScqhOqtiLv5u0C/
-   pe2jCkQh3Jcrgj9DKOfB6s1gqnTCCIDZCNZhMEtKdUC35XJ6IXcyiYCVL
-   XmHtLSqq7f+CxdGi6EJ9RpShnCu5QueXl4cigo7nV10kq8pZ6Ae7rhzyO
-   EAihJwBPrwbrfDIRgRMGOveXlqH579BUo/SjrPvcxd1Myvso9S2PF+SZL
-   w==;
-X-CSE-ConnectionGUID: nul6HOFRQ321xRTGxoGuZw==
-X-CSE-MsgGUID: dZY15gj5RfyGtc9qbW6+tg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="50450184"
+  t=1732717637; x=1764253637;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=YdBhvmk7K3bpjuQkMLpjrZfz75oq7z8yoaigctNQqck=;
+  b=DQBuBRooXxTW+X/H3NtMJ8121KqIARw26zaVA7Bdz+xYIcp22SJOCU9s
+   Dqvf84NHEvCwrRBcUTI0suz51KOj3gWzgT5eJ7tkj1hErgM8Q7OKG6LeV
+   /Dbest6R795NxwUIutzS0hD+tuHba3/xUoO7jWKd95wMpEtiZJNi851Z5
+   +hmo/+Ste7cAHCo8zmoN9kXzKrXVHge/ZL8k+miq+WevyBRWcsdoR5Zx4
+   X4j5hW+yX1oeNiAxDjIiaAn3VAVr//1a8Xe52Gb7wpTwS5m6yT6F3WCJN
+   GzAMOEP2iK6xzN67Jowx97Vafkae08kUWtvPF8rRDXb3/vBUecw1rkj0C
+   g==;
+X-CSE-ConnectionGUID: hcykHgqSRHe6JNEa8y+paA==
+X-CSE-MsgGUID: OgLw8Q77RR2+Zylah9/R1g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="50450186"
 X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
-   d="scan'208";a="50450184"
+   d="scan'208";a="50450186"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 06:27:13 -0800
-X-CSE-ConnectionGUID: SbCfpGMyRSSpDuUxgCO2Cg==
-X-CSE-MsgGUID: TiPdxgRhTjeBKPZiUQV13w==
+X-CSE-ConnectionGUID: lp7nuPh7T+uwY1P2iQHkbw==
+X-CSE-MsgGUID: nCPwPM0KS7K6snCjwDGJlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,189,1728975600"; 
-   d="scan'208";a="91895539"
+   d="scan'208";a="91895537"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 27 Nov 2024 06:27:12 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGJ0X-00083a-1C;
+	id 1tGJ0X-00083W-14;
 	Wed, 27 Nov 2024 14:27:09 +0000
-Date: Wed, 27 Nov 2024 22:26:35 +0800
+Date: Wed, 27 Nov 2024 22:26:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wolfram Sang <wsa-dev@sang-engineering.com>
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [wsa:i2c/for-next 2/8] drivers/of/base.c:661: warning: Function
- parameter or struct member 'prefix' not described in
- 'of_get_next_child_with_prefix'
-Message-ID: <202411280010.KGSDBOUE-lkp@intel.com>
+Subject: [isilence:zcrx/v8-crutched-refs+fallback 22/24] veth.c:undefined
+ reference to `io_iov_get_page'
+Message-ID: <202411272222.TYjfzOtM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,63 +62,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/for-next
-head:   44b682694a0ca366bf15c26c3c3c16d26c9e9f6d
-commit: 1fcc67e3a354865775355eafec1fb061a755c971 [2/8] of: base: Add for_each_child_of_node_with_prefix()
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241128/202411280010.KGSDBOUE-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411280010.KGSDBOUE-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux zcrx/v8-crutched-refs+fallback
+head:   6e979a2d2fc5d6612d460184427d65fffe6b7c8e
+commit: 0655c3486db7c28d14f0dd70fe5c7904030d7407 [22/24] [NOT-FOR-UPSTREAM]=
+ veth: add support for io_uring zc rx
+config: loongarch-randconfig-001-20241127 (https://download.01.org/0day-ci/=
+archive/20241127/202411272222.TYjfzOtM-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20241127/202411272222.TYjfzOtM-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411280010.KGSDBOUE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411272222.TYjfzOtM-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/of/base.c:661: warning: Function parameter or struct member 'prefix' not described in 'of_get_next_child_with_prefix'
+   loongarch64-linux-ld: drivers/net/veth.o: in function `.L10001=024':
+>> veth.c:(.text+0x64f0): undefined reference to `io_iov_get_page'
 
-
-vim +661 drivers/of/base.c
-
-   646	
-   647	/**
-   648	 * of_get_next_child_with_prefix - Find the next child node with prefix
-   649	 * @node:	parent node
-   650	 * @prev:	previous child of the parent node, or NULL to get first
-   651	 *
-   652	 * This function is like of_get_next_child(), except that it automatically
-   653	 * skips any nodes whose name doesn't have the given prefix.
-   654	 *
-   655	 * Return: A node pointer with refcount incremented, use
-   656	 * of_node_put() on it when done.
-   657	 */
-   658	struct device_node *of_get_next_child_with_prefix(const struct device_node *node,
-   659							  struct device_node *prev,
-   660							  const char *prefix)
- > 661	{
-   662		struct device_node *next;
-   663		unsigned long flags;
-   664	
-   665		if (!node)
-   666			return NULL;
-   667	
-   668		raw_spin_lock_irqsave(&devtree_lock, flags);
-   669		next = prev ? prev->sibling : node->child;
-   670		for (; next; next = next->sibling) {
-   671			if (!of_node_name_prefix(next, prefix))
-   672				continue;
-   673			if (of_node_get(next))
-   674				break;
-   675		}
-   676		of_node_put(prev);
-   677		raw_spin_unlock_irqrestore(&devtree_lock, flags);
-   678		return next;
-   679	}
-   680	EXPORT_SYMBOL(of_get_next_child_with_prefix);
-   681	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
