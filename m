@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB33A8F5C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 02:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E928B28379
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 27 Nov 2024 02:38:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732674499; cv=none; b=RdSO0NQmJslMCPkWPE9WqdtZN/i7mvUA9bQld+jN+dY35L2COrkf/u/4debMxvWmZEVJE7wTUW78fKqQ3SPgPW7f3B56pDRqzLzyHbl96773UyHdKf5t65JPTl8QO2WiwsBYVFMMGAlZJEOiVHyDXON58icoIAul4uel/HHun+0=
+	t=1732675106; cv=none; b=NWsPtGQdqUTyjOYSeiLRm6sPHUJq+EeIwW2xGysd84fB3qmHWuBdf6R3DEKHw6hAJLnwHeIXHBdHGHStKB+E8XmsHAF0f4nSJBK2Vj4M76xfWx09Yo0QymO/JIUwhgm2QMKfhnmdkmM0wIaLqMqMLmBi1OwjO/alla7HS8yJjg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732674499; c=relaxed/simple;
-	bh=lM5RaY50IL4SRZQbt9xtn0UwEMsOVrv6w0v5tcr3K7E=;
+	s=arc-20240116; t=1732675106; c=relaxed/simple;
+	bh=YK83F2+u9ZrupkvFrEEQdPxsZgYtoYaXi3uAGJ4lCc0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RZ3vnfVVQbQXKE1cROeGWIYnjSvIwF1SDPY7CMaOBZVNA70mP2l2Ladf6G6ZgwKBwMpoeqlhuxNuykvEBsds6BGFeJT/fPU9ofZVher0Naeb3QDhDwWZZRmUvlReC9sGHyOKuLMgZuJg999JbDaXICh74UMQdqgK6gquf1L6Fm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BOBWxcvh; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=FYIFNBAmLMFz78TZRGCYZpQYB0dv987wd5e1nvzMbHBn3UVX97XSX7ohrCtr4QtR2us4kzHsg3Hhu+MQwy85hUo6xy3XooQK7bsBW4hn63N9v8IyJteLe0cgV3JrAIqCI02NZlf4QYL/kFnzcsfMPrf79QH7ujGS53P1nkpA/54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dRioCE/r; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BOBWxcvh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dRioCE/r"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732674498; x=1764210498;
+  t=1732675104; x=1764211104;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lM5RaY50IL4SRZQbt9xtn0UwEMsOVrv6w0v5tcr3K7E=;
-  b=BOBWxcvhQHb6pGqpqsVRephHt3TrJ5TyWVd/zeBzN2xlwtYkdOL6P/Gs
-   JScUZ60XxU2cLTETiSxrAaY+lkT8WURu6+wBrsWF6qdRTfzx756bA8Fhm
-   pu7Ij4IaxY2pcZMz8q3unepqquWMPCfrUup7pJdfuBv9Nll4WtidMh0hG
-   Okg7rt38grzsLOMRANVj+bHO3idiMsUUqFBMd835zWWtL1B2jpTP7Bhll
-   skdUilfmgV0jzCcJSdBNdEFsoPT+gSarhncGagMO8Ure6iGVxS4EanC7A
-   yDa6Kq5Q0Ylqg9e9ThbBNtyLEG/hMm4bMT+/SX2UqMap6xELDK5oUMsvb
+  bh=YK83F2+u9ZrupkvFrEEQdPxsZgYtoYaXi3uAGJ4lCc0=;
+  b=dRioCE/rACK2zMo5JyjxxJ+LYxCAG5c/aA6nsJ39GRsz3NuUe4ylc4nA
+   HXTqW7+XemlxSHb9il06Ng7UINyiLtiara6JiZLFQ15F+Z3ydx5ZmO3uN
+   O4kVVwD5Ia0fXgvTphVsJMi3XRG5g5/ni7Glef2ssz6EbRnB9nRPD8dCL
+   jv17X3onezC45GuskPAiqS+J5T5zwsyjvzrO26qPrjsqH+rKxJDlEITah
+   b89ESnSKMWFtkIhl3Olr6GLOvjzotLcjxu/3loXPYsgSQfLgi5dQzdlmW
+   ZwsMOjthAqU0IidV5NxQHHtOswbxmCjYQpqw4fakEa0Z8qD32ADpidx0x
    Q==;
-X-CSE-ConnectionGUID: 78/sU6KvSdyEc64587kaHg==
-X-CSE-MsgGUID: QgpUp3OzQNGjjmtYPRNEkw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="36525661"
+X-CSE-ConnectionGUID: XxueigvDQZK+uUQv99b0mw==
+X-CSE-MsgGUID: D6JoVp7oSIO45NPrknosqg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11268"; a="43928036"
 X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
-   d="scan'208";a="36525661"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 18:28:17 -0800
-X-CSE-ConnectionGUID: DVUI4NJqQ5uOIqe6pm4llw==
-X-CSE-MsgGUID: MlhPbvhBRBu8M863Qpc8TA==
+   d="scan'208";a="43928036"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 18:38:24 -0800
+X-CSE-ConnectionGUID: grAEcnecRbenEfrNeejE7g==
+X-CSE-MsgGUID: mhdVxv1gQ2SwpnQS83dnJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,188,1728975600"; 
-   d="scan'208";a="96542435"
+   d="scan'208";a="96218937"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 26 Nov 2024 18:28:15 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 26 Nov 2024 18:38:21 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tG7mn-0007fH-1m;
-	Wed, 27 Nov 2024 02:28:13 +0000
-Date: Wed, 27 Nov 2024 10:27:30 +0800
+	id 1tG7wZ-0007fg-1I;
+	Wed, 27 Nov 2024 02:38:19 +0000
+Date: Wed, 27 Nov 2024 10:37:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 8/12]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /: failed
- to match any schema with compatible: ['google,steelix-sku131076',
- 'google,steelix-sku131078', 'google,steelix-sku2147483391',
- 'google,steelix-sku2147483646', 'google,steelix', 'm...
-Message-ID: <202411271000.RoqdVh84-lkp@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>
+Subject: rust/helpers/jump_label.c:10:5: sparse: sparse: symbol
+ 'rust_helper_static_key_count' was not declared. Should it be static?
+Message-ID: <202411271011.gFsgMWRv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,44 +64,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   cf0624fcea57cf66fd358a00b59c2f7e3eccef58
-commit: 93d11643735238c309981c90a447a8ee2d705161 [8/12] CHROMIUM: arm64: dts: mt8186: Add unprovisioned SKU IDs for Steelix
-config: arm64-randconfig-051-20241122 (https://download.01.org/0day-ci/archive/20241127/202411271000.RoqdVh84-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271000.RoqdVh84-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b50ecc5aca4d18f1f0c4942f5c797bc85edef144
+commit: 6e59bcc9c8adec9a5bbedfa95a89946c56c510d9 rust: add static_branch_unlikely for static_key_false
+date:   3 weeks ago
+config: um-randconfig-r111-20241126 (https://download.01.org/0day-ci/archive/20241127/202411271011.gFsgMWRv-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271011.gFsgMWRv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411271000.RoqdVh84-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411271011.gFsgMWRv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'google,tentacruel-sku262144' was expected
-   	'google,tentacruel-sku262148' was expected
-   	'google,spherion-rev0' was expected
-   	'google,elm-rev4' was expected
-   	'google,hana' was expected
-   	'google,chinchou-sku2147483647' was expected
-   	'google,chinchou-sku4' was expected
-   	'google,elm-rev3' was expected
-   	'google,chinchou-sku5' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131076', 'google,steelix-sku131078', 'google,steelix-sku2147483391', 'google,steelix-sku2147483646', 'google,steelix', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131076', 'google,steelix-sku131078', 'google,steelix-sku2147483391', 'google,steelix-sku2147483646', 'google,steelix', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131076', 'google,steelix-sku131078', 'google,steelix-sku2147483391', 'google,steelix-sku2147483646', 'google,steelix', 'mediatek,mt8186']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /: failed to match any schema with compatible: ['google,steelix-sku131076', 'google,steelix-sku131078', 'google,steelix-sku2147483391', 'google,steelix-sku2147483646', 'google,steelix', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131076.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
+sparse warnings: (new ones prefixed by >>)
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+>> rust/helpers/jump_label.c:10:5: sparse: sparse: symbol 'rust_helper_static_key_count' was not declared. Should it be static?
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/mutex.c:11:6: sparse: sparse: symbol 'rust_helper___mutex_init' was not declared. Should it be static?
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/helpers.c: note: in included file:
+   rust/helpers/spinlock.c:16:6: sparse: sparse: context imbalance in 'rust_helper_spin_lock' - wrong count at exit
+   rust/helpers/spinlock.c:21:6: sparse: sparse: context imbalance in 'rust_helper_spin_unlock' - unexpected unlock
+
+vim +/rust_helper_static_key_count +10 rust/helpers/jump_label.c
+
+     8	
+     9	#ifndef CONFIG_JUMP_LABEL
+  > 10	int rust_helper_static_key_count(struct static_key *key)
 
 -- 
 0-DAY CI Kernel Test Service
