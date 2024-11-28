@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EE7847B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 15:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6FA1BD9C7
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 15:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732807617; cv=none; b=o/WTzJaiSwD8thQodsQ0cIWhpEIKcSjikMKqHMzytU2qRgu5lM+XHySA6Vj8eQVqlxYAjgKJS3dtyxejFXt53CFPQKW9tSLbQbWccA7BPhD3Jb/spp7CKFGjV9s3FPUNek1WjC26iDCdvyKyXVBy4E6gLoo716K5Av5B9pch7a0=
+	t=1732808836; cv=none; b=YyDGfMSuP7lVk8E/znqf4I1/bkYUx8wtMSgLkMEkpQzZ2oncU04tQphvo7y9Cq1hTwMeXrVpgs/mGhsMTcRvsRxUinym5OjWTD6ylgaNXnLuTZWQSqVyReo2qMYNChVn9k0KGAfTXqpa9kaMd8lsoCWgHTFcgKvK2yn/5hJvAPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732807617; c=relaxed/simple;
-	bh=qfaDoLbsn3Sfqw2e+P+Coxn58OrUjq6nWVZN/XbZS0w=;
+	s=arc-20240116; t=1732808836; c=relaxed/simple;
+	bh=6j4gn110BVeQcSYvW4fwph3QkF0WQOBJsBOfTOg6u9k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IWtTIsRt8fd04S51sYR0yUu0145tV1b0qJ3qzb6fdxFFEFTor/LFhBV6ay6Gzp/pCjfL6OrkUd5YfbJPmKfSEvFXmJKDpB6IG5VQZdEwtM7XAzRMddd8ZgziGT2nVsTcHu+zjNRd7pMFkd1H2SKOxEHJKySzoAuLZRTdJlAAoV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwtEOb6i; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=La0fhWzfpOWzeWyU5MVGhHXkZgtYK4LLa25wVjwmUBHhK/6xTkj9sTEQQaXaY6LaIczyaWuJiCiY0iNsJDCj4p3f096BTtSVXr/L95Ol4beuziDPAGoV7JwgIyQlfAPNHFoXY0VagOfHr8pG7PlJaJRRNCnQYGWHRsOeRH0oxY4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MGF36sUW; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwtEOb6i"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MGF36sUW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732807615; x=1764343615;
+  t=1732808832; x=1764344832;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qfaDoLbsn3Sfqw2e+P+Coxn58OrUjq6nWVZN/XbZS0w=;
-  b=nwtEOb6imt8KQbV12PPI4SvUFdI3yqyajt7Ec2vpK1X4Z2wUEs+3Y1+b
-   xcYY1Q3Re+X3icHZuV4ZsMXd3kv6GNPxECBKUV3GEVZ1B6kIK8MrDCTsE
-   +aqNKaj3KsquJYqk2xGLcIgOH4bx7EHbKKuH/hIgSZKUi9SjMjDha3Hdd
-   Jahmdtt7l0N2n58BLj6Hs66rC1kqasUnsX16hqRhlxRURbcrK7LTciHlC
-   r9ujM58PMz3b63nEgukOsrAuR6Jnhuhh3jJhiiocupr+5lYf9W/KdrJt/
-   XIgXaMWga4xie1goy5YfpiDtGM3RC4vQTzKAa8649ldVdVU/e+w67PZJM
+  bh=6j4gn110BVeQcSYvW4fwph3QkF0WQOBJsBOfTOg6u9k=;
+  b=MGF36sUWTo1V1BGwKtJV5f8euIY78CBneF3aWqAI1KPKmXs2GZpaxwni
+   XLZc0Xrk2L6Ani6nu/mZs82UnssPZywsSKmPVU1ZTOWu/+1P+ISsHZvrY
+   ho3JXfrCKIniLK/bWs1ZzcWEjRVxIN9yAJlNRtAlULLIenmrtrxF6AtpD
+   3rGNnndTl5lMq7ZnB9mfoQU0LqQZEpj4z2twyS0AR4Q74qF9dEGjZF+m9
+   XiyJmdw/v61Inc4ohetbUCaB/k6jRA0mDac/INtZGqkHZQnSBnhm/y7bC
+   99Ci8e5o4BlCHX1mGz0gXpAuBFx9R72GyQsC5dB4qt1Ah0ySHQPh739Mg
    A==;
-X-CSE-ConnectionGUID: LGFsGB0hSnWLuYnVuTkFlg==
-X-CSE-MsgGUID: 0adwgelNT2OiiNGiC3C2/g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33175970"
+X-CSE-ConnectionGUID: IgR2qYddRn6hKVceLMLrCQ==
+X-CSE-MsgGUID: fRpvi4dlSFuEnJ1cEoc0Iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="20637130"
 X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="scan'208";a="33175970"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 07:26:53 -0800
-X-CSE-ConnectionGUID: FJ2ljNDFScqQwO7QXm/siQ==
-X-CSE-MsgGUID: ZpG6N5JrS9y1qQDdB907/g==
+   d="scan'208";a="20637130"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 07:47:12 -0800
+X-CSE-ConnectionGUID: fqf4uKyTTqeWEUYNPNi2mg==
+X-CSE-MsgGUID: 8IcTrri/SjKddprZEkhu1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="scan'208";a="92586806"
+   d="scan'208";a="92735296"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Nov 2024 07:26:52 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 28 Nov 2024 07:47:11 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGgPq-0009i4-2G;
-	Thu, 28 Nov 2024 15:26:50 +0000
-Date: Thu, 28 Nov 2024 23:26:00 +0800
+	id 1tGgjU-0009k5-2m;
+	Thu, 28 Nov 2024 15:47:08 +0000
+Date: Thu, 28 Nov 2024 23:46:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 17/28]
- arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ec@0: cbas:
- 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes:
- 'pinctrl-[0-9]+'
-Message-ID: <202411282320.GOyc6dt7-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2461/2461] drivers/tty/tty_buffer.c:177:9:
+ error: implicit declaration of function 'printk_safe_exit'; did you mean
+ 'printk_nmi_exit'?
+Message-ID: <202411282331.1ruwHvl7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,195 +63,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   3c6853ebba70a03ae7540022d1b4ecffe0da3703
-commit: eb3cf66b297421942619a5d2c2c3fa5ec1373e30 [17/28] CHROMIUM: arm64: dts: mt8188: geralt: add trackpad node
-config: arm64-randconfig-051-20241127 (https://download.01.org/0day-ci/archive/20241128/202411282320.GOyc6dt7-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411282320.GOyc6dt7-lkp@intel.com/reproduce)
+Hi Hongbo,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   1a47bbfaad6fcbfb4fe3935cb7408d843caf3760
+commit: 923efc4dc37c1a7cc91f0dd5dbdc87e0943ad1ae [2461/2461] tty: fix possible deadlock in console_unlock
+config: arm64-randconfig-003-20241120 (https://download.01.org/0day-ci/archive/20241128/202411282331.1ruwHvl7-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411282331.1ruwHvl7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411282320.GOyc6dt7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411282331.1ruwHvl7-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
---
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
-   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
->> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ec@0: cbas: 'disable-whisker-input', 'hid-i2c-tp' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'vccd-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'vsn-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'vsp-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'ddreset-gpios' is a required property
-   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
-   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+All errors (new ones prefixed by >>):
+
+   drivers/tty/tty_buffer.c: In function 'tty_buffer_alloc':
+   drivers/tty/tty_buffer.c:175:9: error: implicit declaration of function 'printk_safe_enter'; did you mean 'printk_nmi_enter'? [-Werror=implicit-function-declaration]
+     175 |         printk_safe_enter();
+         |         ^~~~~~~~~~~~~~~~~
+         |         printk_nmi_enter
+>> drivers/tty/tty_buffer.c:177:9: error: implicit declaration of function 'printk_safe_exit'; did you mean 'printk_nmi_exit'? [-Werror=implicit-function-declaration]
+     177 |         printk_safe_exit();
+         |         ^~~~~~~~~~~~~~~~
+         |         printk_nmi_exit
+   cc1: some warnings being treated as errors
+
+
+vim +177 drivers/tty/tty_buffer.c
+
+   142	
+   143	/**
+   144	 *	tty_buffer_alloc	-	allocate a tty buffer
+   145	 *	@port: tty port
+   146	 *	@size: desired size (characters)
+   147	 *
+   148	 *	Allocate a new tty buffer to hold the desired number of characters.
+   149	 *	We round our buffers off in 256 character chunks to get better
+   150	 *	allocation behaviour.
+   151	 *	Return NULL if out of memory or the allocation would exceed the
+   152	 *	per device queue
+   153	 */
+   154	
+   155	static struct tty_buffer *tty_buffer_alloc(struct tty_port *port, size_t size)
+   156	{
+   157		struct llist_node *free;
+   158		struct tty_buffer *p;
+   159	
+   160		/* Round the buffer size out */
+   161		size = __ALIGN_MASK(size, TTYB_ALIGN_MASK);
+   162	
+   163		if (size <= MIN_TTYB_SIZE) {
+   164			free = llist_del_first(&port->buf.free);
+   165			if (free) {
+   166				p = llist_entry(free, struct tty_buffer, free);
+   167				goto found;
+   168			}
+   169		}
+   170	
+   171		/* Should possibly check if this fails for the largest buffer we
+   172		   have queued and recycle that ? */
+   173		if (atomic_read(&port->buf.mem_used) > port->buf.mem_limit)
+   174			return NULL;
+   175		printk_safe_enter();
+   176		p = kmalloc(sizeof(struct tty_buffer) + 2 * size, GFP_ATOMIC);
+ > 177		printk_safe_exit();
+   178		if (p == NULL)
+   179			return NULL;
+   180	
+   181	found:
+   182		tty_buffer_reset(p, size);
+   183		atomic_add(size, &port->buf.mem_used);
+   184		return p;
+   185	}
+   186	
 
 -- 
 0-DAY CI Kernel Test Service
