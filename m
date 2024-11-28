@@ -1,58 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC661C173C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 17:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AAA1BDA95
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 17:53:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732815714; cv=none; b=MR83tFGNGeWF6BbZF6K/S50TQOh1bacW4V8CtRR1lbvS+43wZyyh5KwMfX7LwIFYS42hC1s6ao4OTTGVbx8H2pQZkvETg4YZdQD/ETsW+8AtUTdmOfBjeW2ok0LXGsRWH/PGZyYiyKYdge/npl0Eh22WwWJ6SdIrbJBbMYJDT1o=
+	t=1732816386; cv=none; b=exHL8TCj/WJ1scv8IxbqZ/lA7BFUAF4NCLvAgWpANDZghffRBmb5JQ6QzRPSkRsusaiVqLK/0oltdu8NyzhFY/EW9VYI8b8x4AXoM+e3enY9D1hRlz9yE3/dJWm/JcxyIgI/Bh7/+GT+C9ZPJyMW5gP0vcmgUlZ9stgfvin9OlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732815714; c=relaxed/simple;
-	bh=v5lcnT5L87NBohcEfucRTDdeHAY82WhyMP6mM8pk5vQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cTkqpPkLALmGhC+C36/CRcQQw2cP5sRDBkm/HAYOydfi1gXYh45W99BuXtR20bGy4bbBLDhPkX5aMNSVKy/SCezbuguQTOMdPgs2qs23PKZtCuAj9U7K4ea2S7CjWaHKkpBAMrHX3UEgSkDlX5ouHUOwEIGFYloDibTKGv5cDic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hq/NvmZD; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1732816386; c=relaxed/simple;
+	bh=vxW7Z5afkbZb5LSyPQi39qpihdzP1HhdzvIhYuY98eQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qmt6JCUepG7My0nl5BCzjuBCqYznNsfaKVQc5DChgNZ+T2REddwaRFczytp3qbKpYb79l3mFkfQ50u39mTcpu/IxXl980J5HBSunrT2JP0QQ6/yDyqwGBPCAnB54PnFuAqZkAQYOo9Wi8JqL2CuYyQ4+ZKGST47NC25aUXk5mN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIYDLruT; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hq/NvmZD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIYDLruT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732815712; x=1764351712;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=v5lcnT5L87NBohcEfucRTDdeHAY82WhyMP6mM8pk5vQ=;
-  b=hq/NvmZD4PJlK0uFOS4jRhCJvtLjibJzh+4ahhT+qERQte/+CgpPz4bN
-   zsBOI24rRUi6kJdPUaOY/sqDjpxxOlEKtOQq/6xZqzSpF9uKEoFIlDaT6
-   Esj+88L6sDQBV1nOZA+/Ts86taSD1cQWhDfyO87eNQVxRsERl6cN38JEZ
-   zdWniJcMLWcY7t6eQLLH2fKHdOeFHbp7SCKc8PuqB2ddgoRwpBMrthK57
-   vBfiWatnOID1BnvIMYBdpqaVLtaDWl7Rj1hD1dmgPJGfcZ43DxeqGAwwI
-   VoUOkeXlH+EnuVylRyELkAUsl81SYHIcGtgSdoG6coFjEJkWMggGuoOxG
+  t=1732816385; x=1764352385;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vxW7Z5afkbZb5LSyPQi39qpihdzP1HhdzvIhYuY98eQ=;
+  b=FIYDLruT76QSCNt8C3+1vRcUJQMxbyQepjP9+7r0Z3Hxhjq35vBealeG
+   TIlL9aEY3BZeRdctVsk/OFkGIABPf+XZd0TBjgo/R802VIjujcjZjVTB1
+   9Uv09Mk8+lzDffXMMTWb8kcJXQ74UiztOqN0IdHik/fcY0XMSlByZ46JX
+   JA2tkw+lIUov4AkPj6yU7VjAwjmRXp+a14SNj9iFv9jMHbYKyFYBKQWnd
+   esTujoqaaPK4rLiNqEfm1bwPUckbQgVswQ+cZVO57ki6SkQU+4u+iN1NV
+   rGcziGegqwbDRIwJoPsQbXLGo8g/7FvrnaBmN9NXl6NTJL2zu0pAhAYr9
    A==;
-X-CSE-ConnectionGUID: WrGMBpZ0TpqaK2dAX1OoJA==
-X-CSE-MsgGUID: pQSNBBmVQkufr0goc6isgw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36842481"
+X-CSE-ConnectionGUID: eljw/2o+TCyxtHvBFVgF0A==
+X-CSE-MsgGUID: GAnEIAp4QGKJSogThjCwEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33000478"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="36842481"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:41:50 -0800
-X-CSE-ConnectionGUID: cUdZprNbTZOsk5UOa8/NDQ==
-X-CSE-MsgGUID: QfiqWDK+Sq63foklUoUmlQ==
+   d="scan'208";a="33000478"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:53:04 -0800
+X-CSE-ConnectionGUID: nySdZo6WRg6VTu+9N5FJFg==
+X-CSE-MsgGUID: I4NFisygTFa8SyiNpH1d0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="115571790"
+   d="scan'208";a="92474790"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Nov 2024 09:41:49 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 28 Nov 2024 09:53:02 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGiWQ-0009sb-2i;
-	Thu, 28 Nov 2024 17:41:46 +0000
-Date: Fri, 29 Nov 2024 01:41:39 +0800
+	id 1tGihH-0009t5-1H;
+	Thu, 28 Nov 2024 17:52:59 +0000
+Date: Fri, 29 Nov 2024 01:52:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, wangyuan <wangyuan46@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1315/1315]
- include/linux/uaccess.h:112:17: warning: 'qp_ctx' may be used uninitialized
-Message-ID: <202411290122.mcPBFrhU-lkp@intel.com>
+To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
+Message-ID: <202411290148.Jdoj8IqZ-lkp@intel.com>
+References: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,110 +67,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
 
-Hi wangyuan,
+Hi Matti,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b5504db0db8375a77340b5bb54c17cfb75d3c754
-commit: 267bce716c1008522c3b8ddbeac8d3c65514e98f [1315/1315] crypto: hisilicon/qm - drop unnecessary IS_ENABLE(CONFIG_NUMA) check
-config: arm64-randconfig-001-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290122.mcPBFrhU-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290122.mcPBFrhU-lkp@intel.com/reproduce)
+[auto build test ERROR on a61ff7eac77e86de828fe28c4e42b8ae9ec2b195]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/iio-accel-kx022a-Use-cleanup-h-helpers/20241128-170626
+base:   a61ff7eac77e86de828fe28c4e42b8ae9ec2b195
+patch link:    https://lore.kernel.org/r/9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount%40gmail.com
+patch subject: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
+config: x86_64-buildonly-randconfig-004-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290148.Jdoj8IqZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290148.Jdoj8IqZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290122.mcPBFrhU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290148.Jdoj8IqZ-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+All errors (new ones prefixed by >>):
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/poll.h:12,
-                    from include/linux/rtc.h:52,
-                    from include/linux/efi.h:20,
-                    from arch/arm64/include/asm/acpi.h:15,
-                    from include/acpi/acpi_io.h:7,
-                    from include/linux/acpi.h:47,
-                    from drivers/crypto/hisilicon/qm.c:4:
-   In function '_copy_from_user',
-       inlined from 'copy_from_user' at include/linux/uaccess.h:144:7,
-       inlined from 'hisi_qm_uacce_ioctl' at drivers/crypto/hisilicon/qm.c:2280:7:
->> include/linux/uaccess.h:112:17: warning: 'qp_ctx' may be used uninitialized [-Wmaybe-uninitialized]
-     112 |                 kasan_check_write(to, n);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/compiler.h:265,
-                    from arch/arm64/include/asm/memory.h:24,
-                    from arch/arm64/include/asm/page.h:52,
-                    from drivers/crypto/hisilicon/qm.c:3:
-   include/linux/kasan-checks.h: In function 'hisi_qm_uacce_ioctl':
-   include/linux/kasan-checks.h:7:6: note: by argument 1 of type 'const volatile void *' to 'kasan_check_write' declared here
-       7 | void kasan_check_write(const volatile void *p, unsigned int size);
-         |      ^~~~~~~~~~~~~~~~~
-   drivers/crypto/hisilicon/qm.c:2277:28: note: 'qp_ctx' declared here
-    2277 |         struct hisi_qp_ctx qp_ctx;
-         |                            ^~~~~~
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'ce' description in 'qm_hw_error_init'
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'nfe' description in 'qm_hw_error_init'
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'fe' description in 'qm_hw_error_init'
-   drivers/crypto/hisilicon/qm.c:3322: warning: Excess function parameter 'msi' description in 'qm_hw_error_init'
+   drivers/iio/accel/kionix-kx022a.c: In function 'kx022a_write_raw':
+>> drivers/iio/accel/kionix-kx022a.c:507:9: error: implicit declaration of function 'if_not_cond_guard' [-Werror=implicit-function-declaration]
+     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
+         |         ^~~~~~~~~~~~~~~~~
+>> drivers/iio/accel/kionix-kx022a.c:507:27: error: 'iio_claim_direct_try' undeclared (first use in this function); did you mean 'class_iio_claim_direct_try_t'?
+     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
+         |                           ^~~~~~~~~~~~~~~~~~~~
+         |                           class_iio_claim_direct_try_t
+   drivers/iio/accel/kionix-kx022a.c:507:27: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/iio/accel/kionix-kx022a.c:507:54: error: expected ';' before 'return'
+     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
+         |                                                      ^
+         |                                                      ;
+     508 |                 return -EBUSY;
+         |                 ~~~~~~                                
+   In file included from drivers/iio/accel/kionix-kx022a.c:8:
+   include/linux/cleanup.h:308:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+     308 |         for (CLASS(_name, scope)(args),                                 \
+         |         ^~~
+   drivers/iio/accel/kionix-kx022a.c:521:17: note: in expansion of macro 'scoped_guard'
+     521 |                 scoped_guard(mutex, &data->mutex) {
+         |                 ^~~~~~~~~~~~
+   drivers/iio/accel/kionix-kx022a.c:532:9: note: here
+     532 |         case IIO_CHAN_INFO_SCALE:
+         |         ^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/qp_ctx +112 include/linux/uaccess.h
+vim +/if_not_cond_guard +507 drivers/iio/accel/kionix-kx022a.c
 
-d597580d373774 Al Viro        2017-03-20  104  
-d597580d373774 Al Viro        2017-03-20  105  #ifdef INLINE_COPY_FROM_USER
-d597580d373774 Al Viro        2017-03-20  106  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  107  _copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  108  {
-d597580d373774 Al Viro        2017-03-20  109  	unsigned long res = n;
-9c5f6908de03a4 Al Viro        2017-06-29  110  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  111  	if (likely(access_ok(from, n))) {
-9c5f6908de03a4 Al Viro        2017-06-29 @112  		kasan_check_write(to, n);
-d597580d373774 Al Viro        2017-03-20  113  		res = raw_copy_from_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  114  	}
-d597580d373774 Al Viro        2017-03-20  115  	if (unlikely(res))
-d597580d373774 Al Viro        2017-03-20  116  		memset(to + (n - res), 0, res);
-d597580d373774 Al Viro        2017-03-20  117  	return res;
-d597580d373774 Al Viro        2017-03-20  118  }
-d597580d373774 Al Viro        2017-03-20  119  #else
-d597580d373774 Al Viro        2017-03-20  120  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  121  _copy_from_user(void *, const void __user *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  122  #endif
-d597580d373774 Al Viro        2017-03-20  123  
-d597580d373774 Al Viro        2017-03-20  124  #ifdef INLINE_COPY_TO_USER
-d597580d373774 Al Viro        2017-03-20  125  static inline unsigned long
-d597580d373774 Al Viro        2017-03-20  126  _copy_to_user(void __user *to, const void *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  127  {
-9c5f6908de03a4 Al Viro        2017-06-29  128  	might_fault();
-4983cb67a383a7 Linus Torvalds 2019-02-14  129  	if (access_ok(to, n)) {
-9c5f6908de03a4 Al Viro        2017-06-29  130  		kasan_check_read(from, n);
-d597580d373774 Al Viro        2017-03-20  131  		n = raw_copy_to_user(to, from, n);
-9c5f6908de03a4 Al Viro        2017-06-29  132  	}
-d597580d373774 Al Viro        2017-03-20  133  	return n;
-d597580d373774 Al Viro        2017-03-20  134  }
-d597580d373774 Al Viro        2017-03-20  135  #else
-d597580d373774 Al Viro        2017-03-20  136  extern unsigned long
-d597580d373774 Al Viro        2017-03-20  137  _copy_to_user(void __user *, const void *, unsigned long);
-d597580d373774 Al Viro        2017-03-20  138  #endif
-d597580d373774 Al Viro        2017-03-20  139  
-d597580d373774 Al Viro        2017-03-20  140  static __always_inline unsigned long __must_check
-d597580d373774 Al Viro        2017-03-20  141  copy_from_user(void *to, const void __user *from, unsigned long n)
-d597580d373774 Al Viro        2017-03-20  142  {
-b0377fedb65280 Al Viro        2017-06-29  143  	if (likely(check_copy_size(to, n, false)))
-d597580d373774 Al Viro        2017-03-20 @144  		n = _copy_from_user(to, from, n);
-d597580d373774 Al Viro        2017-03-20  145  	return n;
-d597580d373774 Al Viro        2017-03-20  146  }
-d597580d373774 Al Viro        2017-03-20  147  
-
-:::::: The code at line 112 was first introduced by commit
-:::::: 9c5f6908de03a4f52ba7364b11fcd6116225480c copy_{from,to}_user(): move kasan checks and might_fault() out-of-line
-
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+   490	
+   491	static int kx022a_write_raw(struct iio_dev *idev,
+   492				    struct iio_chan_spec const *chan,
+   493				    int val, int val2, long mask)
+   494	{
+   495		struct kx022a_data *data = iio_priv(idev);
+   496		int ret, n;
+   497	
+   498		/*
+   499		 * We should not allow changing scale or frequency when FIFO is running
+   500		 * as it will mess the timestamp/scale for samples existing in the
+   501		 * buffer. If this turns out to be an issue we can later change logic
+   502		 * to internally flush the fifo before reconfiguring so the samples in
+   503		 * fifo keep matching the freq/scale settings. (Such setup could cause
+   504		 * issues if users trust the watermark to be reached within known
+   505		 * time-limit).
+   506		 */
+ > 507		if_not_cond_guard(iio_claim_direct_try, idev)
+   508			return -EBUSY;
+   509	
+   510		switch (mask) {
+   511		case IIO_CHAN_INFO_SAMP_FREQ:
+   512			n = ARRAY_SIZE(kx022a_accel_samp_freq_table);
+   513	
+   514			while (n--)
+   515				if (val == kx022a_accel_samp_freq_table[n][0] &&
+   516				    val2 == kx022a_accel_samp_freq_table[n][1])
+   517					break;
+   518			if (n < 0)
+   519				return -EINVAL;
+   520	
+   521			scoped_guard(mutex, &data->mutex) {
+   522				ret = kx022a_turn_on_off(data, false);
+   523				if (ret)
+   524					return ret;
+   525	
+   526				ret = regmap_update_bits(data->regmap,
+   527							 data->chip_info->odcntl,
+   528							 KX022A_MASK_ODR, n);
+   529				data->odr_ns = kx022a_odrs[n];
+   530				return kx022a_turn_on_off(data, true);
+   531			}
+   532		case IIO_CHAN_INFO_SCALE:
+   533			n = data->chip_info->scale_table_size / 2;
+   534	
+   535			while (n-- > 0)
+   536				if (val == data->chip_info->scale_table[n][0] &&
+   537				    val2 == data->chip_info->scale_table[n][1])
+   538					break;
+   539			if (n < 0)
+   540				return -EINVAL;
+   541	
+   542			scoped_guard(mutex, &data->mutex) {
+   543				ret = kx022a_turn_on_off(data, false);
+   544				if (ret)
+   545					return ret;
+   546	
+   547				ret = regmap_update_bits(data->regmap,
+   548							 data->chip_info->cntl,
+   549							 KX022A_MASK_GSEL,
+   550							 n << KX022A_GSEL_SHIFT);
+   551				kx022a_turn_on_off(data, true);
+   552	
+   553				return ret;
+   554			}
+   555		default:
+   556			break;
+   557		}
+   558	
+   559		return -EINVAL;
+   560	}
+   561	
 
 -- 
 0-DAY CI Kernel Test Service
