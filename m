@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDE21C3033
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 21:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9061509B4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 22:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732829312; cv=none; b=gTw8uq5XIN4GtytMj+nXCMyKlN/HjZ43MwXrnW4rzYBl/uEuBXBxyIDVKlfV7BV8EsufuAd2bBljQtxr/QqKw9wgR6tE6bDAaNhReaytLLkf2kpC6AGJdkR9F9gFG9GJ7QL+F4HgQQvGsx+lP9p2ngG0MCTRXaHrfdliXSRWvKA=
+	t=1732832380; cv=none; b=QdlL8wxHlTgyqK165FYT39v1vcTinuw4vh34KnDg3/JhZWZ9H9gFbmDUDga1l1eVDFNXqSBo1fOhUQxtk/7Mp4MWL3XgtxZluDISqg327ERWOEVvdzv+l1TPVhqj/yfEA/haA4G5kz4flPoCeEPqThdzH/XqGKh9/Zj0xytD2TU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732829312; c=relaxed/simple;
-	bh=69auPsi1J8RE6Ykhdo19SUXgCjkuGAjhyjd1d2RFuGA=;
+	s=arc-20240116; t=1732832380; c=relaxed/simple;
+	bh=2Hok+Lkl2Mniyp8u9MFvB6+OUFZl9TgugSumyy+5nQo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LTvtJ1o2CYvk600jx+63HEg70GdzLNdLdPNBlcpMgiHeAGY5yB8XIc4knhXE3/HZiWbMHGQYSemallA9A77s9qBewxYVS+y/xDY3Y+hWA5kOXwIKRxe8PjydpcGkeITHJffYaifvyNPGunf0VZwuX5pgRzA0J3sAXm5vc3sf9WM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KwtgzWSc; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=KhLxa5O6vi2iFw/33lNGYM5qB4G241QAuXRlDBoLd6mQQYTpa0bepjnJ1Veshcjg/5uxoUdn96lBaSRyrYISC8icg8OUcVtjrZ7EFitIAiIuaeOTJBze02WIIThp0QZgQ5feWbOnsKyY+fEBCLVJZH1qnbO6+y0zQzPODqiaQaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gZka1G3V; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KwtgzWSc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gZka1G3V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732829310; x=1764365310;
+  t=1732832379; x=1764368379;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=69auPsi1J8RE6Ykhdo19SUXgCjkuGAjhyjd1d2RFuGA=;
-  b=KwtgzWScIiQPziNtT6DOMtq6dvVJXbnw0CGsiUVJLnBjN2xaxnlqzlR7
-   xL/nrhPlvPPQCbQBZ57CfD1ClkL3yZhYSEgvOADoPiVxUJe79EVct59Ad
-   X5+IHIajUfapUBG/FGaOx74VD+McCxw0Mp/Qi7tSoiN1qmdx8n7eeJvCe
-   06rI7/r/zUM6u277fpC6SNUTXOtlAvtqXhlJdkK1y83YDNwsAni1wFwaP
-   LdqyWy+2cGFnokdc+GDvbeNtDz7xQRpo9YXKBky+OtiD9Dz+IYjFQZ5CK
-   1sDKCkGB2ED+TjuM4TtZnK+Al2bnPskn1I0/SsioqmvA2hpL4tyN8XT5/
+  bh=2Hok+Lkl2Mniyp8u9MFvB6+OUFZl9TgugSumyy+5nQo=;
+  b=gZka1G3Vy4lXEYg6yJ6PWuUK76dd3A0NpIGkaCfBBNvK7M/E4GF+bhM8
+   xhPbmepjBK1eSNW42xRkiTNL7FQVPG4FXKRSDXMNE9kh5fu+RoGKps+wp
+   lYVug3DfqTR8+3OHYFqF1GpNTrmbsYtFbyvoakkPmM3N/C57yqdzWaY5m
+   bqh7eBH2Ps6aUjpJpp2OP9fMBsL+2yBy/I7NyFLHGcRHjGuFfjY5PtPS/
+   MPLNGpdOXO8bHqO6wL1crktVUGN/Hq9OYo8sRcq9GxWKKFi0JEQSCrFDA
+   U0oOSMP4YxGQvL09iHufZO/ccOrlFSGhFaUUonTWw1Vo3mxTT0bQ9mD0Y
    w==;
-X-CSE-ConnectionGUID: OSJ8vBEyS4m22AsBjf9ZYg==
-X-CSE-MsgGUID: iKc+l9KaRny/a7WeJsWgdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33209332"
+X-CSE-ConnectionGUID: deURtR91RBWttvvTOtF26Q==
+X-CSE-MsgGUID: dgPCoR2KTTWCjYoMefmKzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="44126983"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="33209332"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:28:28 -0800
-X-CSE-ConnectionGUID: IcXimJ7DST+CYafd/VToiw==
-X-CSE-MsgGUID: 8KGSlgkjSrKIa1KXoPzAKA==
+   d="scan'208";a="44126983"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 14:19:38 -0800
+X-CSE-ConnectionGUID: YKedpSoTTOKPEKC6c39KmA==
+X-CSE-MsgGUID: eu3qJIfGQs2+BGgXJV/6xA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="97371750"
+X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
+   d="scan'208";a="93174598"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 28 Nov 2024 13:28:27 -0800
+  by orviesa008.jf.intel.com with ESMTP; 28 Nov 2024 14:19:37 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGm3k-000A45-2V;
-	Thu, 28 Nov 2024 21:28:24 +0000
-Date: Fri, 29 Nov 2024 05:28:15 +0800
+	id 1tGmrG-000A6B-1L;
+	Thu, 28 Nov 2024 22:19:34 +0000
+Date: Fri, 29 Nov 2024 06:18:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, ZhaoLong Wang <wangzhaolong1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1559/1559] drivers/usb/host/xhci.h:2801:15:
- warning: argument 1 null where non-null expected
-Message-ID: <202411290526.4JBRte8h-lkp@intel.com>
+To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
+Subject: versioncheck: ./drivers/media/pci/intel/ici/ici-dma.c: 417: need
+ linux/version.h
+Message-ID: <202411290637.ZTl9TBrb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,221 +62,109 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi ZhaoLong,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   95bc69473a373c2e578d4fc39734e5811a03ead3
-commit: 1119ec49ac4ac643e6d7c9a5a834040aef87612e [1559/1559] mm, fs: Add BPF_READAHEAD build option for bpf readhead
-config: arm64-randconfig-004-20241129 (https://download.01.org/0day-ci/archive/20241129/202411290526.4JBRte8h-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290526.4JBRte8h-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_q
+head:   aff8de868d4e17e98fa8ce0b1b124e54153b574b
+commit: 82243dcb96a6754968425b2a13d390b0c4803dab media: intel-ipu4: ici driver base code; WW43 firmware f61e455.
+date:   6 years ago
+reproduce: (https://download.01.org/0day-ci/archive/20241129/202411290637.ZTl9TBrb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290526.4JBRte8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290637.ZTl9TBrb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/usb/host/xhci-trace.h:25,
-                    from drivers/usb/host/xhci-trace.c:12:
-   In function 'xhci_decode_ep_context',
-       inlined from 'trace_raw_output_xhci_log_ep_ctx' at drivers/usb/host/./xhci-trace.h:312:1:
->> drivers/usb/host/xhci.h:2801:15: warning: argument 1 null where non-null expected [-Wnonnull]
-    2801 |         ret = sprintf(str, "State %s mult %d max P. Streams %d %s",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2802 |                         xhci_ep_state_string(ep_state), mult,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2803 |                         max_pstr, lsa ? "LSA " : "");
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/kernel.h:32,
-                    from include/linux/cpumask.h:10,
-                    from include/linux/smp.h:13,
-                    from include/linux/tracepoint.h:15,
-                    from drivers/usb/host/xhci-trace.h:24:
-   include/linux/sprintf.h: In function 'trace_raw_output_xhci_log_ep_ctx':
-   include/linux/sprintf.h:10:20: note: in a call to function 'sprintf' declared 'nonnull'
-      10 | __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
-         |                    ^~~~~~~
-   In function 'xhci_decode_ep_context',
-       inlined from 'trace_raw_output_xhci_log_ep_ctx' at drivers/usb/host/./xhci-trace.h:312:1:
->> drivers/usb/host/xhci.h:2801:15: warning: null destination pointer [-Wformat-overflow=]
-    2801 |         ret = sprintf(str, "State %s mult %d max P. Streams %d %s",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2802 |                         xhci_ep_state_string(ep_state), mult,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2803 |                         max_pstr, lsa ? "LSA " : "");
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from drivers/usb/host/xhci-trace.h:622:
-   drivers/usb/host/./xhci-trace.h: In function 'trace_raw_output_xhci_log_ep_ctx':
->> drivers/usb/host/./xhci-trace.h:327:19: warning: '%s' directive argument is null [-Wformat-overflow=]
-     327 |         TP_printk("%s", xhci_decode_ep_context(__get_buf(XHCI_MSG_MAX),
-         |                   ^~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   drivers/usb/host/./xhci-trace.h:327:9: note: in expansion of macro 'TP_printk'
-     327 |         TP_printk("%s", xhci_decode_ep_context(__get_buf(XHCI_MSG_MAX),
-         |         ^~~~~~~~~
-   In file included from include/trace/trace_events.h:237:
-   drivers/usb/host/./xhci-trace.h:327:20: note: format string is defined here
-     327 |         TP_printk("%s", xhci_decode_ep_context(__get_buf(XHCI_MSG_MAX),
-         |                    ^~
-   In function 'xhci_decode_doorbell',
-       inlined from 'trace_raw_output_xhci_log_doorbell' at drivers/usb/host/./xhci-trace.h:543:1:
-   drivers/usb/host/xhci.h:2706:17: warning: argument 1 null where non-null expected [-Wnonnull]
-    2706 |                 sprintf(str, "Command Ring %d", doorbell);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sprintf.h: In function 'trace_raw_output_xhci_log_doorbell':
-   include/linux/sprintf.h:10:20: note: in a call to function 'sprintf' declared 'nonnull'
-      10 | __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
-         |                    ^~~~~~~
-   In function 'xhci_decode_doorbell',
-       inlined from 'trace_raw_output_xhci_log_doorbell' at drivers/usb/host/./xhci-trace.h:543:1:
-   drivers/usb/host/xhci.h:2709:15: warning: argument 1 null where non-null expected [-Wnonnull]
-    2709 |         ret = sprintf(str, "Slot %d ", slot);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sprintf.h: In function 'trace_raw_output_xhci_log_doorbell':
-   include/linux/sprintf.h:10:20: note: in a call to function 'sprintf' declared 'nonnull'
-      10 | __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
-         |                    ^~~~~~~
-   In function 'xhci_decode_doorbell',
-       inlined from 'trace_raw_output_xhci_log_doorbell' at drivers/usb/host/./xhci-trace.h:543:1:
-   drivers/usb/host/xhci.h:2709:15: warning: null destination pointer [-Wformat-overflow=]
-    2709 |         ret = sprintf(str, "Slot %d ", slot);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/xhci.h:2706:17: warning: null destination pointer [-Wformat-overflow=]
-    2706 |                 sprintf(str, "Command Ring %d", doorbell);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/./xhci-trace.h: In function 'trace_raw_output_xhci_log_doorbell':
-   drivers/usb/host/./xhci-trace.h:554:19: warning: '%s' directive argument is null [-Wformat-overflow=]
-     554 |         TP_printk("Ring doorbell for %s",
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   drivers/usb/host/./xhci-trace.h:554:9: note: in expansion of macro 'TP_printk'
-     554 |         TP_printk("Ring doorbell for %s",
-         |         ^~~~~~~~~
-   drivers/usb/host/./xhci-trace.h:554:38: note: format string is defined here
-     554 |         TP_printk("Ring doorbell for %s",
-         |                                      ^~
-   drivers/usb/host/xhci.h: In function 'xhci_decode_portsc.constprop':
-   drivers/usb/host/xhci.h:2624:15: warning: argument 1 null where non-null expected [-Wnonnull]
-    2624 |         ret = sprintf(str, "%s %s %s Link:%s PortSpeed:%d ",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2625 |                       portsc & PORT_POWER       ? "Powered" : "Powered-off",
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2626 |                       portsc & PORT_CONNECT     ? "Connected" : "Not-connected",
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2627 |                       portsc & PORT_PE          ? "Enabled" : "Disabled",
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2628 |                       xhci_portsc_link_state_string(portsc),
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2629 |                       DEV_PORT_SPEED(portsc));
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sprintf.h:10:20: note: in a call to function 'sprintf' declared 'nonnull'
-      10 | __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
-         |                    ^~~~~~~
-   drivers/usb/host/xhci.h:2624:15: warning: null destination pointer [-Wformat-overflow=]
-    2624 |         ret = sprintf(str, "%s %s %s Link:%s PortSpeed:%d ",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2625 |                       portsc & PORT_POWER       ? "Powered" : "Powered-off",
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2626 |                       portsc & PORT_CONNECT     ? "Connected" : "Not-connected",
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2627 |                       portsc & PORT_PE          ? "Enabled" : "Disabled",
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2628 |                       xhci_portsc_link_state_string(portsc),
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2629 |                       DEV_PORT_SPEED(portsc));
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/./xhci-trace.h: In function 'trace_raw_output_xhci_log_portsc':
-   drivers/usb/host/./xhci-trace.h:522:31: warning: '%s' directive argument is null [-Wformat-overflow=]
-     522 |                     TP_printk("port-%d: %s",
-         |                               ^~~~~~~~~~~~~
-   include/trace/trace_events.h:203:34: note: in definition of macro 'DECLARE_EVENT_CLASS'
-     203 |         trace_event_printf(iter, print);                                \
-         |                                  ^~~~~
-   drivers/usb/host/./xhci-trace.h:522:21: note: in expansion of macro 'TP_printk'
-     522 |                     TP_printk("port-%d: %s",
-         |                     ^~~~~~~~~
-   drivers/usb/host/./xhci-trace.h:522:41: note: format string is defined here
-     522 |                     TP_printk("port-%d: %s",
-         |                                         ^~
-   In function 'xhci_decode_slot_context',
-       inlined from 'trace_raw_output_xhci_log_slot_ctx' at drivers/usb/host/./xhci-trace.h:357:1:
-   drivers/usb/host/xhci.h:2546:15: warning: argument 1 null where non-null expected [-Wnonnull]
-    2546 |         ret = sprintf(str, "RS %05x %s%s%s Ctx Entries %d MEL %d us Port# %d/%d",
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2547 |                         info & ROUTE_STRING_MASK,
-
-
-vim +2801 drivers/usb/host/xhci.h
-
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2763  
-4843b4b5ec64b8 Mathias Nyman 2021-08-20  2764  static inline const char *xhci_decode_ep_context(char *str, u32 info,
-4843b4b5ec64b8 Mathias Nyman 2021-08-20  2765  		u32 info2, u64 deq, u32 tx_info)
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2766  {
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2767  	int ret;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2768  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2769  	u32 esit;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2770  	u16 maxp;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2771  	u16 avg;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2772  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2773  	u8 max_pstr;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2774  	u8 ep_state;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2775  	u8 interval;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2776  	u8 ep_type;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2777  	u8 burst;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2778  	u8 cerr;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2779  	u8 mult;
-97ef0faf575e03 Mathias Nyman 2018-03-08  2780  
-97ef0faf575e03 Mathias Nyman 2018-03-08  2781  	bool lsa;
-97ef0faf575e03 Mathias Nyman 2018-03-08  2782  	bool hid;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2783  
-76a14d7bf92960 Mathias Nyman 2017-09-18  2784  	esit = CTX_TO_MAX_ESIT_PAYLOAD_HI(info) << 16 |
-76a14d7bf92960 Mathias Nyman 2017-09-18  2785  		CTX_TO_MAX_ESIT_PAYLOAD(tx_info);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2786  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2787  	ep_state = info & EP_STATE_MASK;
-97ef0faf575e03 Mathias Nyman 2018-03-08  2788  	max_pstr = CTX_TO_EP_MAXPSTREAMS(info);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2789  	interval = CTX_TO_EP_INTERVAL(info);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2790  	mult = CTX_TO_EP_MULT(info) + 1;
-97ef0faf575e03 Mathias Nyman 2018-03-08  2791  	lsa = !!(info & EP_HAS_LSA);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2792  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2793  	cerr = (info2 & (3 << 1)) >> 1;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2794  	ep_type = CTX_TO_EP_TYPE(info2);
-97ef0faf575e03 Mathias Nyman 2018-03-08  2795  	hid = !!(info2 & (1 << 7));
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2796  	burst = CTX_TO_MAX_BURST(info2);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2797  	maxp = MAX_PACKET_DECODED(info2);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2798  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2799  	avg = EP_AVG_TRB_LENGTH(tx_info);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2800  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07 @2801  	ret = sprintf(str, "State %s mult %d max P. Streams %d %s",
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2802  			xhci_ep_state_string(ep_state), mult,
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2803  			max_pstr, lsa ? "LSA " : "");
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2804  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2805  	ret += sprintf(str + ret, "interval %d us max ESIT payload %d CErr %d ",
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2806  			(1 << interval) * 125, esit, cerr);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2807  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2808  	ret += sprintf(str + ret, "Type %s %sburst %d maxp %d deq %016llx ",
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2809  			xhci_ep_type_string(ep_type), hid ? "HID" : "",
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2810  			burst, maxp, deq);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2811  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2812  	ret += sprintf(str + ret, "avg trb len %d", avg);
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2813  
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2814  	return str;
-19a7d0d65c4a81 Felipe Balbi  2017-04-07  2815  }
-a37c3f76e6a6b5 Felipe Balbi  2017-01-23  2816  
-
-:::::: The code at line 2801 was first introduced by commit
-:::::: 19a7d0d65c4a813069f4bc4ca701d6a163c337e9 usb: host: xhci: add Slot and EP Context tracers
-
-:::::: TO: Felipe Balbi <felipe.balbi@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.2.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+>> ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
+>> ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
+   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
