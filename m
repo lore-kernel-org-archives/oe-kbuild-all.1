@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AAA1BDA95
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 17:53:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCFA823D1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 18:03:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732816386; cv=none; b=exHL8TCj/WJ1scv8IxbqZ/lA7BFUAF4NCLvAgWpANDZghffRBmb5JQ6QzRPSkRsusaiVqLK/0oltdu8NyzhFY/EW9VYI8b8x4AXoM+e3enY9D1hRlz9yE3/dJWm/JcxyIgI/Bh7/+GT+C9ZPJyMW5gP0vcmgUlZ9stgfvin9OlQ=
+	t=1732816986; cv=none; b=cozsbgMyrWMRE6hn9RUHKNDbUyEcQCyjyoUL81ZfFdBC1A6HoGLx728fihr18j5C4mZm6uFfG/dYcDzWSihcpnUYRBAESNfdR6JYmLJXEK242L/OIq8lqQfcMzsC56z9en/8A3q23+AvftbWJR002Ha2LKDeW84rVUL8jBSgy+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732816386; c=relaxed/simple;
-	bh=vxW7Z5afkbZb5LSyPQi39qpihdzP1HhdzvIhYuY98eQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qmt6JCUepG7My0nl5BCzjuBCqYznNsfaKVQc5DChgNZ+T2REddwaRFczytp3qbKpYb79l3mFkfQ50u39mTcpu/IxXl980J5HBSunrT2JP0QQ6/yDyqwGBPCAnB54PnFuAqZkAQYOo9Wi8JqL2CuYyQ4+ZKGST47NC25aUXk5mN0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FIYDLruT; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1732816986; c=relaxed/simple;
+	bh=528D6MF0T1dOrBqql43iG7zO/edzY2/MPkih90qG/Mk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=piKViXQbms3WGtPAuppmQZENKUVtHBxnN3l0rQfyT5qNJYo5I57exSyaGV259AFSF7iiW/Yn49pL52ZFyt61x0R3xmBvjUcpc1R81tson/13jalMFndm5zRapStgdbSSIPXGz7MMFfYRN1XZsJFKbK2NzJIcdMpyFd+BdIaf/pw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KB7CLhmR; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FIYDLruT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KB7CLhmR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732816385; x=1764352385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vxW7Z5afkbZb5LSyPQi39qpihdzP1HhdzvIhYuY98eQ=;
-  b=FIYDLruT76QSCNt8C3+1vRcUJQMxbyQepjP9+7r0Z3Hxhjq35vBealeG
-   TIlL9aEY3BZeRdctVsk/OFkGIABPf+XZd0TBjgo/R802VIjujcjZjVTB1
-   9Uv09Mk8+lzDffXMMTWb8kcJXQ74UiztOqN0IdHik/fcY0XMSlByZ46JX
-   JA2tkw+lIUov4AkPj6yU7VjAwjmRXp+a14SNj9iFv9jMHbYKyFYBKQWnd
-   esTujoqaaPK4rLiNqEfm1bwPUckbQgVswQ+cZVO57ki6SkQU+4u+iN1NV
-   rGcziGegqwbDRIwJoPsQbXLGo8g/7FvrnaBmN9NXl6NTJL2zu0pAhAYr9
-   A==;
-X-CSE-ConnectionGUID: eljw/2o+TCyxtHvBFVgF0A==
-X-CSE-MsgGUID: GAnEIAp4QGKJSogThjCwEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33000478"
+  t=1732816984; x=1764352984;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=528D6MF0T1dOrBqql43iG7zO/edzY2/MPkih90qG/Mk=;
+  b=KB7CLhmRfDgqzDsu4IwDqREPL5DArgMwXLjLx047K1DiqT0iMlukcIJ9
+   PWW7oqDEk/YHwvmHdcUrQef5vf9n5xHUN6j8yiUmWGI2aZxYJ5pU4NH0l
+   d4Wh9zjWdzW+LG6gOw9o+899QK1pcX8/UDp6yhcKMRCk2mkjppiAlcf+/
+   4Rz8Ui133jQebC1yFT6naO5b7hbiuQX8jbMdTQeoQbgTrUlgj4LoHkJOR
+   WsfrptooNyiJA5xROc4CXlreOr99DRcGpj3ChsaIf3lWgZA6mQz7W40w7
+   MQlIhqq373ZidfSTpQtCow8lohDb0TDbzLHRfv3SA1qBBKalPy2s+YB2e
+   w==;
+X-CSE-ConnectionGUID: r0iZ/0zTSFGpTlozyKKU9w==
+X-CSE-MsgGUID: x4FTKIs6QGaIoe+gWPlliw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36987992"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="33000478"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:53:04 -0800
-X-CSE-ConnectionGUID: nySdZo6WRg6VTu+9N5FJFg==
-X-CSE-MsgGUID: I4NFisygTFa8SyiNpH1d0w==
+   d="scan'208";a="36987992"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 10:03:03 -0800
+X-CSE-ConnectionGUID: LKjIx3nYTmyMii2FdBSgdQ==
+X-CSE-MsgGUID: tfer/8FnQXql+e3LYbmoJQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="92474790"
+   d="scan'208";a="92174080"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Nov 2024 09:53:02 -0800
+  by orviesa010.jf.intel.com with ESMTP; 28 Nov 2024 10:03:02 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGihH-0009t5-1H;
-	Thu, 28 Nov 2024 17:52:59 +0000
-Date: Fri, 29 Nov 2024 01:52:02 +0800
+	id 1tGiqy-0009tT-0n;
+	Thu, 28 Nov 2024 18:03:00 +0000
+Date: Fri, 29 Nov 2024 02:02:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
-Message-ID: <202411290148.Jdoj8IqZ-lkp@intel.com>
-References: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
+To: Asahi Lina <lina@asahilina.net>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:gpu/feat-gettime 574/1045]
+ drivers/gpu/drm/drm_gpuvm.c:2680: warning: Function parameter or struct
+ member 'priv' not described in 'drm_gpuvm_bo_unmap'
+Message-ID: <202411290104.HClHBf40-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,131 +62,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
 
-Hi Matti,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a61ff7eac77e86de828fe28c4e42b8ae9ec2b195]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/iio-accel-kx022a-Use-cleanup-h-helpers/20241128-170626
-base:   a61ff7eac77e86de828fe28c4e42b8ae9ec2b195
-patch link:    https://lore.kernel.org/r/9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
-config: x86_64-buildonly-randconfig-004-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290148.Jdoj8IqZ-lkp@intel.com/config)
+tree:   https://github.com/AsahiLinux/linux gpu/feat-gettime
+head:   cecfe574a0faf4c21d6f7a99cbf076223d7a04e6
+commit: 3071faed85b4c2fc9d6de681d2059c02d56388ef [574/1045] drm/gpuvm: Add drm_gpuvm_bo_unmap()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20241129/202411290104.HClHBf40-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290148.Jdoj8IqZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290104.HClHBf40-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290148.Jdoj8IqZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290104.HClHBf40-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/iio/accel/kionix-kx022a.c: In function 'kx022a_write_raw':
->> drivers/iio/accel/kionix-kx022a.c:507:9: error: implicit declaration of function 'if_not_cond_guard' [-Werror=implicit-function-declaration]
-     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
-         |         ^~~~~~~~~~~~~~~~~
->> drivers/iio/accel/kionix-kx022a.c:507:27: error: 'iio_claim_direct_try' undeclared (first use in this function); did you mean 'class_iio_claim_direct_try_t'?
-     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
-         |                           ^~~~~~~~~~~~~~~~~~~~
-         |                           class_iio_claim_direct_try_t
-   drivers/iio/accel/kionix-kx022a.c:507:27: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/iio/accel/kionix-kx022a.c:507:54: error: expected ';' before 'return'
-     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
-         |                                                      ^
-         |                                                      ;
-     508 |                 return -EBUSY;
-         |                 ~~~~~~                                
-   In file included from drivers/iio/accel/kionix-kx022a.c:8:
-   include/linux/cleanup.h:308:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
-     308 |         for (CLASS(_name, scope)(args),                                 \
-         |         ^~~
-   drivers/iio/accel/kionix-kx022a.c:521:17: note: in expansion of macro 'scoped_guard'
-     521 |                 scoped_guard(mutex, &data->mutex) {
-         |                 ^~~~~~~~~~~~
-   drivers/iio/accel/kionix-kx022a.c:532:9: note: here
-     532 |         case IIO_CHAN_INFO_SCALE:
-         |         ^~~~
-   cc1: some warnings being treated as errors
+>> drivers/gpu/drm/drm_gpuvm.c:2680: warning: Function parameter or struct member 'priv' not described in 'drm_gpuvm_bo_unmap'
 
 
-vim +/if_not_cond_guard +507 drivers/iio/accel/kionix-kx022a.c
+vim +2680 drivers/gpu/drm/drm_gpuvm.c
 
-   490	
-   491	static int kx022a_write_raw(struct iio_dev *idev,
-   492				    struct iio_chan_spec const *chan,
-   493				    int val, int val2, long mask)
-   494	{
-   495		struct kx022a_data *data = iio_priv(idev);
-   496		int ret, n;
-   497	
-   498		/*
-   499		 * We should not allow changing scale or frequency when FIFO is running
-   500		 * as it will mess the timestamp/scale for samples existing in the
-   501		 * buffer. If this turns out to be an issue we can later change logic
-   502		 * to internally flush the fifo before reconfiguring so the samples in
-   503		 * fifo keep matching the freq/scale settings. (Such setup could cause
-   504		 * issues if users trust the watermark to be reached within known
-   505		 * time-limit).
-   506		 */
- > 507		if_not_cond_guard(iio_claim_direct_try, idev)
-   508			return -EBUSY;
-   509	
-   510		switch (mask) {
-   511		case IIO_CHAN_INFO_SAMP_FREQ:
-   512			n = ARRAY_SIZE(kx022a_accel_samp_freq_table);
-   513	
-   514			while (n--)
-   515				if (val == kx022a_accel_samp_freq_table[n][0] &&
-   516				    val2 == kx022a_accel_samp_freq_table[n][1])
-   517					break;
-   518			if (n < 0)
-   519				return -EINVAL;
-   520	
-   521			scoped_guard(mutex, &data->mutex) {
-   522				ret = kx022a_turn_on_off(data, false);
-   523				if (ret)
-   524					return ret;
-   525	
-   526				ret = regmap_update_bits(data->regmap,
-   527							 data->chip_info->odcntl,
-   528							 KX022A_MASK_ODR, n);
-   529				data->odr_ns = kx022a_odrs[n];
-   530				return kx022a_turn_on_off(data, true);
-   531			}
-   532		case IIO_CHAN_INFO_SCALE:
-   533			n = data->chip_info->scale_table_size / 2;
-   534	
-   535			while (n-- > 0)
-   536				if (val == data->chip_info->scale_table[n][0] &&
-   537				    val2 == data->chip_info->scale_table[n][1])
-   538					break;
-   539			if (n < 0)
-   540				return -EINVAL;
-   541	
-   542			scoped_guard(mutex, &data->mutex) {
-   543				ret = kx022a_turn_on_off(data, false);
-   544				if (ret)
-   545					return ret;
-   546	
-   547				ret = regmap_update_bits(data->regmap,
-   548							 data->chip_info->cntl,
-   549							 KX022A_MASK_GSEL,
-   550							 n << KX022A_GSEL_SHIFT);
-   551				kx022a_turn_on_off(data, true);
-   552	
-   553				return ret;
-   554			}
-   555		default:
-   556			break;
-   557		}
-   558	
-   559		return -EINVAL;
-   560	}
-   561	
+  2666	
+  2667	/**
+  2668	 * drm_gpuvm_bo_unmap() - unmaps a GEM
+  2669	 * @vm_bo: the &drm_gpuvm_bo abstraction
+  2670	 *
+  2671	 * This function calls the unmap callback for every GPUVA attached to a GEM.
+  2672	 *
+  2673	 * It is the callers responsibility to protect the GEMs GPUVA list against
+  2674	 * concurrent access using the GEMs dma_resv lock.
+  2675	 *
+  2676	 * Returns: a pointer to the &drm_gpuva_ops on success, an ERR_PTR on failure
+  2677	 */
+  2678	int
+  2679	drm_gpuvm_bo_unmap(struct drm_gpuvm_bo *vm_bo, void *priv)
+> 2680	{
+  2681		struct drm_gpuva_op *op;
+  2682		int ret;
+  2683	
+  2684		if (unlikely(!vm_bo->vm))
+  2685			return -EINVAL;
+  2686	
+  2687		const struct drm_gpuvm_ops *vm_ops = vm_bo->vm->ops;
+  2688	
+  2689		if (unlikely(!(vm_ops && vm_ops->sm_step_unmap)))
+  2690			return -EINVAL;
+  2691	
+  2692		struct drm_gpuva_ops *ops = drm_gpuvm_bo_unmap_ops_create(vm_bo);
+  2693	        if (IS_ERR(ops))
+  2694	                return PTR_ERR(ops);
+  2695	
+  2696		drm_gpuva_for_each_op(op, ops) {
+  2697			drm_WARN_ON(vm_bo->vm->drm, op->op != DRM_GPUVA_OP_UNMAP);
+  2698	
+  2699			ret = op_unmap_cb(vm_ops, priv, op->unmap.va, false);
+  2700			if (ret)
+  2701				goto cleanup;
+  2702		}
+  2703	
+  2704	cleanup:
+  2705		drm_gpuva_ops_free(vm_bo->vm, ops);
+  2706		return ret;
+  2707	}
+  2708	EXPORT_SYMBOL_GPL(drm_gpuvm_bo_unmap);
+  2709	
 
 -- 
 0-DAY CI Kernel Test Service
