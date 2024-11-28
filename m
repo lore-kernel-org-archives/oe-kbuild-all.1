@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8DC1C1F37
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 20:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3124C12C7FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 20:37:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732825645; cv=none; b=UAcXx2+dyccYGgVCUrHhdMtMJz1oPUENigUMVnNimkYRugk0OlYx+2LuBqNMOqHcvc9/Jm1BqSF2tqSzule8UKfpp1dyGr1YcyxNKNpv85xILiizGPKti8eGrCHupr8Ehxt9/GMpHgqGfZdn5XKTNSXvdB4/C243HYXIpqGS+mc=
+	t=1732826243; cv=none; b=BwGve+PlpOuq1lnWRTY8qo654tLtQCSLcBeXQHVcWRFPldbE8N9zm+mnCh7VY+hDUyGSskBuWR8v+nX+LbIdMPs0zJADR4IhJCjsqv2S9egHMqOx/qlMSAcyKd1Zu51OT6zeV/6ZE/F/RHKRkS8Iq8DDglcDkNTOPORdYKuJL/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732825645; c=relaxed/simple;
-	bh=k4QKNDWiRcP7YULAn/qEDpxOd8/L7vxAoi7HAMaecvQ=;
+	s=arc-20240116; t=1732826243; c=relaxed/simple;
+	bh=x6rZwwnjkw1YsJhI1c2ktm/B265zYOiG35VfVyBYdzs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Mru3IGIrZIt4ofMkQ5sPO9hbRjoBbhLzL78g921SYX3oVcSGYwhMJTSuHiphvWwsDvz0NJWwIPrNK1nmu7189feCCaFkvDKLCI+8wK5IAulna8nqvR28wnbwaz0U+mphjOZe4nkUM0LKjooGyY93ngwK9/Cnetekyx3hxDbRXMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8geKFQh; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=tghTXSRe2z2OABG0r3EdHr5cUE65Aiu4cy5mFeE8Bc5wrLYm3vPRYNoUTWymvo/1SUGgHRFSfixV56q2Gq5yYXph5T4XCTDTTHuHhn1ediHTagwpwiwPw6a+2h9Tu/jFjIBiCPVCL5hlQaOzedEKvybkE+BRHovxkPyTfxZrlUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdAbvYK3; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8geKFQh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdAbvYK3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732825643; x=1764361643;
+  t=1732826241; x=1764362241;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=k4QKNDWiRcP7YULAn/qEDpxOd8/L7vxAoi7HAMaecvQ=;
-  b=A8geKFQhghSxqYEOrcQHAP6Y4GQDpVm2mXEUkZxX2RWzfe9XZY65K34A
-   R2brltBmUmqMf4RRpDb1Mh6DQcCtlTaUn0dA/JmLAoTjXAiE94JY44hlv
-   GQeG/lSpVi9Y4CmKvmzGWngNKVBv4Q60jOcf+CCVWoCqKIQWSOA4vI85n
-   8QDeWbUQEK4P5ClR0iQjE8y4q+5UG2kQCTqUJ/V1ZcarEDt9U1RkGbAXf
-   R5EK3smNT8l2yMNJaPWFVPk39B4NH0iA5bNTwX36wzhE9sQaFSCLwq9zd
-   j7Mx39PmzFlUGnwbBg664sMo3topPffSU2TYdn9fw7Eu8EIXJxHxck/RH
-   g==;
-X-CSE-ConnectionGUID: awqwtL9KRo6Q8IqaUlsOOg==
-X-CSE-MsgGUID: HflOyFR+QQeZy/YKTG0YWg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="20655669"
+  bh=x6rZwwnjkw1YsJhI1c2ktm/B265zYOiG35VfVyBYdzs=;
+  b=SdAbvYK3cU0bc/PixLHv40ZfvNttrO3sqoXlZSj37/kXcQsdS9LTPxuD
+   BkW9/Qk5RbChXzhU5WFOFIKInxYHRfAXxT58/S8I1IWPpiCnDE/zfmNLl
+   zDSC60WoLUXGVat1QONFr5/WJUno6xNH4A0JhLEaQK3Sa0H2KfV1rl0X1
+   lh4TheFixgfH0xNyTi/M0IUAvjygo1ptdMClhA0g6+drSC2YnQ+3D7oGi
+   CUVWH1WlnMdjiWMj+q2FUKYc47CiGn+RMa9g0TnRVyUSMGZyDaptB5qLK
+   AgaTbjTAb3m2Xi2fcYePOIug06+DH5xPjBA2agIy2u752C9etDq5PD+NW
+   Q==;
+X-CSE-ConnectionGUID: Hc7Z2kM6SYeReConAcmfSQ==
+X-CSE-MsgGUID: BgAKV2IuSMWfTcjGVtQkxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33197098"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="20655669"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 12:27:20 -0800
-X-CSE-ConnectionGUID: gUXZZ7lQQOSrR37sajPMeQ==
-X-CSE-MsgGUID: FqOUTE/QQwa+YVbtDiZPVA==
+   d="scan'208";a="33197098"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 12:37:20 -0800
+X-CSE-ConnectionGUID: /hKcsSN6SKKkcyusuGsBHA==
+X-CSE-MsgGUID: FusaVfUTQmabpgjoBNk4BQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="96743957"
+   d="scan'208";a="97078551"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Nov 2024 12:27:19 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 28 Nov 2024 12:37:19 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGl6a-0009z1-2F;
-	Thu, 28 Nov 2024 20:27:16 +0000
-Date: Fri, 29 Nov 2024 04:26:17 +0800
+	id 1tGlGH-0009zV-1e;
+	Thu, 28 Nov 2024 20:37:17 +0000
+Date: Fri, 29 Nov 2024 04:36:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+To: Conor Dooley <conor+lkp@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1559/1559]
- drivers/platform/mpam/mpam_devices.c:247:32: error: implicit declaration of
- function '__acpi_get_mem_attribute'
-Message-ID: <202411290425.MTffltyg-lkp@intel.com>
+Subject: [conor:syscon-rework 13/13] drivers/clk/clk-stm32f4.c:705:9: error:
+ use of undeclared identifier 'clk_divider_ops'
+Message-ID: <202411290409.9ckmNm63-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,164 +62,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi James,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   95bc69473a373c2e578d4fc39734e5811a03ead3
-commit: 3e9e723f3bf92a19e5e15dda89bbb136ce463294 [1559/1559] arm_mpam: Add probe/remove for mpam msc driver and kbuild boiler plate
-config: arm64-randconfig-004-20241129 (https://download.01.org/0day-ci/archive/20241129/202411290425.MTffltyg-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290425.MTffltyg-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework
+head:   c45c71c3d6c75b3e380b97353b7b579926f570cb
+commit: c45c71c3d6c75b3e380b97353b7b579926f570cb [13/13] split regmap divider into a new compilation unit
+config: arm-randconfig-003-20241129 (https://download.01.org/0day-ci/archive/20241129/202411290409.9ckmNm63-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290409.9ckmNm63-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290425.MTffltyg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290409.9ckmNm63-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from drivers/platform/mpam/mpam_devices.c:6:
-   drivers/platform/mpam/mpam_devices.c: In function 'mpam_msc_drv_probe':
-   drivers/platform/mpam/mpam_devices.c:212:38: error: 'struct mpam_msc' has no member named 'mon_sel_lock'; did you mean 'part_sel_lock'?
-     212 |                 spin_lock_init(&msc->mon_sel_lock);
-         |                                      ^~~~~~~~~~~~
-   include/linux/spinlock.h:343:24: note: in definition of macro 'spin_lock_init'
-     343 |         spinlock_check(_lock);                  \
-         |                        ^~~~~
-   drivers/platform/mpam/mpam_devices.c:212:38: error: 'struct mpam_msc' has no member named 'mon_sel_lock'; did you mean 'part_sel_lock'?
-     212 |                 spin_lock_init(&msc->mon_sel_lock);
-         |                                      ^~~~~~~~~~~~
-   include/linux/spinlock.h:344:11: note: in definition of macro 'spin_lock_init'
-     344 |         *(_lock) = __SPIN_LOCK_UNLOCKED(_lock); \
-         |           ^~~~~
->> drivers/platform/mpam/mpam_devices.c:247:32: error: implicit declaration of function '__acpi_get_mem_attribute' [-Wimplicit-function-declaration]
-     247 |                         prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/platform/mpam/mpam_devices.c:247:32: error: incompatible types when assigning to type 'pgprot_t' from type 'int'
+>> drivers/clk/clk-stm32f4.c:705:9: error: use of undeclared identifier 'clk_divider_ops'
+     705 |         return clk_divider_ops.recalc_rate(hw, parent_rate);
+         |                ^
+   drivers/clk/clk-stm32f4.c:711:9: error: use of undeclared identifier 'clk_divider_ops'
+     711 |         return clk_divider_ops.determine_rate(hw, req);
+         |                ^
+   drivers/clk/clk-stm32f4.c:727:8: error: use of undeclared identifier 'clk_divider_ops'
+     727 |         ret = clk_divider_ops.set_rate(hw, rate, parent_rate);
+         |               ^
+   3 errors generated.
+--
+>> drivers/clk/clk-fsl-sai.c:62:10: error: use of undeclared identifier 'clk_divider_ops'
+      62 |                                                   &clk_divider_ops,
+         |                                                    ^
+   1 error generated.
+--
+   In file included from drivers/mmc/host/meson-gx-mmc.c:17:
+   In file included from include/linux/dma-mapping.h:11:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/mmc/host/meson-gx-mmc.c:482:14: error: use of undeclared identifier 'clk_divider_ops'
+     482 |         init.ops = &clk_divider_ops;
+         |                     ^
+   1 warning and 1 error generated.
+--
+>> drivers/clk/imx/clk-composite-8m.c:269:18: error: use of undeclared identifier 'clk_divider_ops'; did you mean 'divider_ops'?
+     269 |                 divider_ops = &clk_divider_ops;
+         |                                ^~~~~~~~~~~~~~~
+         |                                divider_ops
+   drivers/clk/imx/clk-composite-8m.c:246:24: note: 'divider_ops' declared here
+     246 |         const struct clk_ops *divider_ops;
+         |                               ^
+   1 error generated.
+--
+>> drivers/clk/imx/clk-divider-gate.c:70:9: error: use of undeclared identifier 'clk_divider_ops'
+      70 |         return clk_divider_ops.determine_rate(hw, req);
+         |                ^
+   1 error generated.
+--
+>> drivers/clk/imx/clk-fixup-div.c:115:20: error: use of undeclared identifier 'clk_divider_ops'
+     115 |         fixup_div->ops = &clk_divider_ops;
+         |                           ^
+   1 error generated.
+--
+>> drivers/clk/imx/clk-busy.c:96:19: error: use of undeclared identifier 'clk_divider_ops'; did you mean 'clk_busy_divider_ops'?
+      96 |         busy->div_ops = &clk_divider_ops;
+         |                          ^~~~~~~~~~~~~~~
+         |                          clk_busy_divider_ops
+   drivers/clk/imx/clk-busy.c:70:29: note: 'clk_busy_divider_ops' declared here
+      70 | static const struct clk_ops clk_busy_divider_ops = {
+         |                             ^
+   1 error generated.
+--
+>> drivers/clk/imx/clk-composite-93.c:98:9: error: use of undeclared identifier 'clk_divider_ops'
+      98 |         return clk_divider_ops.recalc_rate(hw, parent_rate);
+         |                ^
+   drivers/clk/imx/clk-composite-93.c:104:9: error: use of undeclared identifier 'clk_divider_ops'
+     104 |         return clk_divider_ops.round_rate(hw, rate, prate);
+         |                ^
+   drivers/clk/imx/clk-composite-93.c:110:9: error: use of undeclared identifier 'clk_divider_ops'
+     110 |         return clk_divider_ops.determine_rate(hw, req);
+         |                ^
+>> drivers/clk/imx/clk-composite-93.c:231:14: error: use of undeclared identifier 'clk_divider_ro_ops'
+     231 |                                                &clk_divider_ro_ops, NULL, NULL, flags);
+         |                                                 ^
+   4 errors generated.
+--
+>> drivers/clk/xilinx/clk-xlnx-clock-wizard.c:833:15: error: use of undeclared identifier 'clk_divider_ro_ops'; did you mean 'clk_divider_flags'?
+     833 |                 init.ops = &clk_divider_ro_ops;
+         |                             ^~~~~~~~~~~~~~~~~~
+         |                             clk_divider_flags
+   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:818:11: note: 'clk_divider_flags' declared here
+     818 |                                                  u8 clk_divider_flags,
+         |                                                     ^
+   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:879:15: error: use of undeclared identifier 'clk_divider_ro_ops'; did you mean 'clk_divider_flags'?
+     879 |                 init.ops = &clk_divider_ro_ops;
+         |                             ^~~~~~~~~~~~~~~~~~
+         |                             clk_divider_flags
+   drivers/clk/xilinx/clk-xlnx-clock-wizard.c:864:14: note: 'clk_divider_flags' declared here
+     864 |                                              u8 clk_divider_flags,
+         |                                                 ^
+   2 errors generated.
+--
+>> drivers/clk/mediatek/clk-mtk.c:282:14: error: use of undeclared identifier 'clk_divider_ops'
+     282 |                 div_ops = &clk_divider_ops;
+         |                            ^
+   1 error generated.
+--
+>> drivers/clk/stm32/clk-stm32mp1.c:657:15: error: use of undeclared identifier 'clk_divider_ops'
+     657 |                         div_ops = &clk_divider_ops;
+         |                                    ^
+   drivers/clk/stm32/clk-stm32mp1.c:1077:10: error: use of undeclared identifier 'clk_divider_ops'
+    1077 |                 return clk_divider_ops.recalc_rate(hw, parent_rate);
+         |                        ^
+   drivers/clk/stm32/clk-stm32mp1.c:1086:10: error: use of undeclared identifier 'clk_divider_ops'
+    1086 |                 return clk_divider_ops.set_rate(hw, rate, parent_rate);
+         |                        ^
+   drivers/clk/stm32/clk-stm32mp1.c:1094:10: error: use of undeclared identifier 'clk_divider_ops'
+    1094 |                 return clk_divider_ops.determine_rate(hw, req);
+         |                        ^
+   4 errors generated.
+..
 
 
-vim +/__acpi_get_mem_attribute +247 drivers/platform/mpam/mpam_devices.c
+vim +/clk_divider_ops +705 drivers/clk/clk-stm32f4.c
 
-   170	
-   171	static int mpam_msc_drv_probe(struct platform_device *pdev)
-   172	{
-   173		int err;
-   174		pgprot_t prot;
-   175		void * __iomem io;
-   176		struct mpam_msc *msc;
-   177		struct resource *msc_res;
-   178		void *plat_data = pdev->dev.platform_data;
-   179	
-   180		mutex_lock(&mpam_list_lock);
-   181		do {
-   182			msc = devm_kzalloc(&pdev->dev, sizeof(*msc), GFP_KERNEL);
-   183			if (!msc) {
-   184				err = -ENOMEM;
-   185				break;
-   186			}
-   187	
-   188			INIT_LIST_HEAD_RCU(&msc->glbl_list);
-   189			msc->pdev = pdev;
-   190	
-   191			err = device_property_read_u32(&pdev->dev, "arm,not-ready-us",
-   192						       &msc->nrdy_usec);
-   193			if (err) {
-   194				/* This will prevent CSU monitors being usable */
-   195				msc->nrdy_usec = 0;
-   196			}
-   197	
-   198			err = get_msc_affinity(msc);
-   199			if (err)
-   200				break;
-   201			if (cpumask_empty(&msc->accessibility)) {
-   202				pr_err_once("msc:%u is not accessible from any CPU!",
-   203					    msc->id);
-   204				err = -EINVAL;
-   205				break;
-   206			}
-   207	
-   208			mutex_init(&msc->lock);
-   209			msc->id = mpam_num_msc++;
-   210			INIT_LIST_HEAD_RCU(&msc->ris);
-   211			spin_lock_init(&msc->part_sel_lock);
- > 212			spin_lock_init(&msc->mon_sel_lock);
-   213	
-   214			if (device_property_read_u32(&pdev->dev, "pcc-channel",
-   215						     &msc->pcc_subspace_id))
-   216				msc->iface = MPAM_IFACE_MMIO;
-   217			else
-   218				msc->iface = MPAM_IFACE_PCC;
-   219	
-   220			if (msc->iface == MPAM_IFACE_MMIO) {
-   221				io = devm_platform_get_and_ioremap_resource(pdev, 0,
-   222									    &msc_res);
-   223				if (IS_ERR(io)) {
-   224					pr_err("Failed to map MSC base address\n");
-   225					devm_kfree(&pdev->dev, msc);
-   226					err = PTR_ERR(io);
-   227					break;
-   228				}
-   229				msc->mapped_hwpage_sz = msc_res->end - msc_res->start;
-   230				msc->mapped_hwpage = io;
-   231			} else if (msc->iface == MPAM_IFACE_PCC) {
-   232				msc->pcc_cl.dev = &pdev->dev;
-   233				msc->pcc_cl.rx_callback = mpam_pcc_rx_callback;
-   234				msc->pcc_cl.tx_block = false;
-   235				msc->pcc_cl.tx_tout = 1000; /* 1s */
-   236				msc->pcc_cl.knows_txdone = false;
-   237	
-   238				msc->pcc_chan = pcc_mbox_request_channel(&msc->pcc_cl,
-   239									 msc->pcc_subspace_id);
-   240				if (IS_ERR(msc->pcc_chan)) {
-   241					pr_err("Failed to request MSC PCC channel\n");
-   242					devm_kfree(&pdev->dev, msc);
-   243					err = PTR_ERR(msc->pcc_chan);
-   244					break;
-   245				}
-   246	
- > 247				prot = __acpi_get_mem_attribute(msc->pcc_chan->shmem_base_addr);
-   248				io = ioremap_prot(msc->pcc_chan->shmem_base_addr,
-   249						  msc->pcc_chan->shmem_size, pgprot_val(prot));
-   250				if (IS_ERR(io)) {
-   251					pr_err("Failed to map MSC base address\n");
-   252					pcc_mbox_free_channel(msc->pcc_chan);
-   253					devm_kfree(&pdev->dev, msc);
-   254					err = PTR_ERR(io);
-   255					break;
-   256				}
-   257	
-   258				/* TODO: issue a read to update the registers */
-   259	
-   260				msc->mapped_hwpage_sz = msc->pcc_chan->shmem_size;
-   261				msc->mapped_hwpage = io + sizeof(struct acpi_pcct_shared_memory);
-   262			}
-   263	
-   264			list_add_rcu(&msc->glbl_list, &mpam_all_msc);
-   265			platform_set_drvdata(pdev, msc);
-   266		} while (0);
-   267		mutex_unlock(&mpam_list_lock);
-   268	
-   269		if (!err) {
-   270			/* Create RIS entries described by firmware */
-   271			if (!acpi_disabled)
-   272				err = acpi_mpam_parse_resources(msc, plat_data);
-   273			else
-   274				err = mpam_dt_parse_resources(msc, plat_data);
-   275		}
-   276	
-   277		if (!err && fw_num_msc == mpam_num_msc)
-   278			mpam_discovery_complete();
-   279	
-   280		return err;
-   281	}
-   282	
+83135ad3c517f2 Gabriel Fernandez 2016-12-13  701  
+83135ad3c517f2 Gabriel Fernandez 2016-12-13  702  static unsigned long stm32f4_pll_div_recalc_rate(struct clk_hw *hw,
+83135ad3c517f2 Gabriel Fernandez 2016-12-13  703  		unsigned long parent_rate)
+83135ad3c517f2 Gabriel Fernandez 2016-12-13  704  {
+83135ad3c517f2 Gabriel Fernandez 2016-12-13 @705  	return clk_divider_ops.recalc_rate(hw, parent_rate);
+83135ad3c517f2 Gabriel Fernandez 2016-12-13  706  }
+83135ad3c517f2 Gabriel Fernandez 2016-12-13  707  
+
+:::::: The code at line 705 was first introduced by commit
+:::::: 83135ad3c517f2b4b59321886efe19e6c6cff54a clk: stm32f4: Add PLL_I2S & PLL_SAI for STM32F429/469 boards
+
+:::::: TO: Gabriel Fernandez <gabriel.fernandez@st.com>
+:::::: CC: Stephen Boyd <sboyd@codeaurora.org>
 
 -- 
 0-DAY CI Kernel Test Service
