@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3032A1B0F12
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 14:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9884C25761
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 14:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732804410; cv=none; b=WvjXTRw58pfl7fchD7C1R/83Xhw/jKbzssnK0p2ZtBTMdRy9x7+qbnDBw/78l7UxjrJVWarEbleUGb7N8FgejAcqf2S+UpGxiftl0vUWTYeLRY+3B/kVrwzujE8EAJGaxsYL6jPTBDPjUyr3SHLVoIYXzO+SF4itv6gXYz6as4w=
+	t=1732805694; cv=none; b=JCNeqi2cRpdhajkDL8JPG7cGSuR62Refzn3CqB546bnullrG4rIGsE6v/9olOiPo8i1Q4xxGYIYRiwzDdIPuBW+/c/uUv67tcBiQhUC/mCP5eYP7Slwp7HN8d+x+8DPhdRWDpxYsjZNO3tRjy8GiQz7Oc6lKAhqF8gEolpnoZwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732804410; c=relaxed/simple;
-	bh=fZS/Oi3vDJEMHAF17peq6I07s48KOqSbBAMW7u0Vqb8=;
+	s=arc-20240116; t=1732805694; c=relaxed/simple;
+	bh=WAG31VC77sibDy2yMaH+y3SwRXRHFPUoe7LZUTXb+EQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SMzNOXnExpdaaJ8V8mbTAjQ6RusnuQGh0zhrFhiQBbmy2BFhIgPGJILjo9dP5duAu9vFgV61g0Z6TW6dsS34KiGOY9Ela3/elpIej+bobQLzPgHeFa/+tV1Oci2UtaLRphFzYeBLhVNXweu9DE0jYyvgcmf/mHcSCca7Hjx6PeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J+SWl89+; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=QBksvrPIHgIf4EKXeBNDxSdky3L6HEGUBsf0wQgYqxraAn8j+ESPZ/7nMaKbkDkjy6s/5Me1KgjAT9OMzyZYzfN9qor1XaxteU+ecvIsK/P3RZduU6fpCVurv/uf53KCb69e+mnrK2iR/Lrh0Kdik5rqM2gfwF75F1gBHrSkocY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KFPNAzwR; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J+SWl89+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KFPNAzwR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732804408; x=1764340408;
+  t=1732805692; x=1764341692;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fZS/Oi3vDJEMHAF17peq6I07s48KOqSbBAMW7u0Vqb8=;
-  b=J+SWl89+DPCWQMpi9N80bN5DbH4A2qG2PvQmyvlViDcNYhAaZD3drN+V
-   Lh7DmjhgU5mp3NVJ2hZy1VlBSXXjlGDv7MyfzSas4JPbdeHcV2+jAPRED
-   AmHM4nMiNFmMxxJ75MJt1URWw30gnLhFy6klZ0aETLyZ0svGUV2fPmrQY
-   rdzgaR1TjoaRHE5XEfxTnOSCsyEQxCZcMCruoYHklwr4b/Ftsx/0pMOsd
-   fL+bqzn7KJkrilY2Usvp3EScu2LpazEwmi+pxiYPM6Fucv3LTc+heokFc
-   ALwWn1hi4TUNeJitmxFTDj5kw2WmmAzuCrjbftORed+QUEcLryP/2YoSh
-   Q==;
-X-CSE-ConnectionGUID: 5MOIXkQmSrSnx+9fawdkqQ==
-X-CSE-MsgGUID: G/T3Dc1pRuSKNGLV9sULeg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="20630637"
+  bh=WAG31VC77sibDy2yMaH+y3SwRXRHFPUoe7LZUTXb+EQ=;
+  b=KFPNAzwRqbq25Vbt+9CAyXkcmSLS7d/UAX9EvzhAnyhJWvpeIGhExKbn
+   lUFc7rH9paA8QOyHf667mZctQr+JVXe8Gc1fH5o57SC47BvLEvmbBUOmN
+   RMGoRY54sMiO0Q0ftG/g8SE/qQ5joJNHYyJLajzRAg+UQx4rq0RRlebi/
+   q7xOque0Wv3O3Ggo0MeFyjm/ou8hEwIAtDQafT49LUZMVO0Ogq7pwxW9A
+   YcVvkMvVrX5fB5sSynIpN6uYOI0wEQGfViLvEwSx3Vf9LFvu8Zx2wHDMA
+   7qLFahI7wH5QN8TPl+dlhjz0ObZC4sJgKPhLh9UtbvjoBNzbIjQIYLrbA
+   g==;
+X-CSE-ConnectionGUID: wzKmHmicSO60GXRZ2Vt6iA==
+X-CSE-MsgGUID: 6JL4qNrLQE2pxvhqUf/vUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36826363"
 X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="scan'208";a="20630637"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 06:33:27 -0800
-X-CSE-ConnectionGUID: 6P7rhiO3T+GPcc7GvnYb+g==
-X-CSE-MsgGUID: O4GaolrwQP+GIO1fXMMA+Q==
+   d="scan'208";a="36826363"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 06:54:52 -0800
+X-CSE-ConnectionGUID: cLceprh1RbSGEtlRhmlbfA==
+X-CSE-MsgGUID: Nu+OHeZ5S/at9RbY970jRQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="scan'208";a="92121963"
+   d="scan'208";a="129756545"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 28 Nov 2024 06:33:26 -0800
+  by orviesa001.jf.intel.com with ESMTP; 28 Nov 2024 06:54:51 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGfa8-0009fo-01;
-	Thu, 28 Nov 2024 14:33:24 +0000
-Date: Thu, 28 Nov 2024 22:33:06 +0800
+	id 1tGfup-0009gd-2g;
+	Thu, 28 Nov 2024 14:54:47 +0000
+Date: Thu, 28 Nov 2024 22:54:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
+To: kernel@openeuler.org, yangxiangkai <yangxiangkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1540/1540] kernel/sched/bpf_sched.c:187:17:
- warning: no previous prototype for 'bpf_sched_entity_is_task'
-Message-ID: <202411282229.dFuV8vuC-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1540/1540] drivers/iommu/dma-iommu.c:1926:6:
+ warning: no previous prototype for 'virtcca_iommu_dma_get_msi_page'
+Message-ID: <202411282228.VFAKrb8s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +64,36 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   95bc69473a373c2e578d4fc39734e5811a03ead3
-commit: 6f06e093b3708dcee5b7e4f0478e0206bc601da1 [1540/1540] sched/ebpf: Support task selection programmable
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241128/202411282229.dFuV8vuC-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411282229.dFuV8vuC-lkp@intel.com/reproduce)
+commit: 5063d32882709a1e97e7212838cc41e6232bb3a9 [1540/1540] virtcca feature: msi place modify
+config: arm64-randconfig-002-20241128 (https://download.01.org/0day-ci/archive/20241128/202411282228.VFAKrb8s-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411282228.VFAKrb8s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411282229.dFuV8vuC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411282228.VFAKrb8s-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/build_utility.c:113:
->> kernel/sched/bpf_sched.c:187:17: warning: no previous prototype for 'bpf_sched_entity_is_task' [-Wmissing-prototypes]
-     187 | __bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/bpf_sched.c:195:33: warning: no previous prototype for 'bpf_sched_entity_to_task' [-Wmissing-prototypes]
-     195 | __bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/bpf_sched.c:203:18: warning: no previous prototype for 'bpf_sched_tag_of_entity' [-Wmissing-prototypes]
-     203 | __bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/iommu/dma-iommu.c:1926:6: warning: no previous prototype for 'virtcca_iommu_dma_get_msi_page' [-Wmissing-prototypes]
+    1926 | void virtcca_iommu_dma_get_msi_page(void *cookie, dma_addr_t *iova, phys_addr_t *phys)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/bpf_sched_entity_is_task +187 kernel/sched/bpf_sched.c
+vim +/virtcca_iommu_dma_get_msi_page +1926 drivers/iommu/dma-iommu.c
 
-   186	
- > 187	__bpf_kfunc int bpf_sched_entity_is_task(struct sched_entity *se)
-   188	{
-   189		if (!se)
-   190			return -EINVAL;
-   191	
-   192		return entity_is_task(se);
-   193	}
-   194	
- > 195	__bpf_kfunc struct task_struct *bpf_sched_entity_to_task(struct sched_entity *se)
-   196	{
-   197		if (se && entity_is_task(se))
-   198			return task_of(se);
-   199	
-   200		return NULL;
-   201	}
-   202	
- > 203	__bpf_kfunc long bpf_sched_tag_of_entity(struct sched_entity *se)
-   204	{
-   205		if (!se)
-   206			return -EINVAL;
-   207	
-   208		if (entity_is_task(se))
-   209			return task_of(se)->tag;
-   210	
-   211		return group_cfs_rq(se)->tg->tag;
-   212	}
-   213	
+  1916	
+  1917	#ifdef CONFIG_HISI_VIRTCCA_CODA
+  1918	/**
+  1919	 * virtcca_iommu_dma_get_msi_page() - Traverse the MSI page list to obtain the last
+  1920	 * MSI page
+  1921	 * @cookie: Iommu dma cookie
+  1922	 * @iova: Iova address
+  1923	 * @phys: Physical address
+  1924	 *
+  1925	 */
+> 1926	void virtcca_iommu_dma_get_msi_page(void *cookie, dma_addr_t *iova, phys_addr_t *phys)
 
 -- 
 0-DAY CI Kernel Test Service
