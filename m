@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63CA41C94
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 02:33:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349478248C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 03:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732761218; cv=none; b=tXmrwXMj9KVbqspN0My2727xLOPfMmJmOMoLeQoZMDDLQHXajM2qufjTcaxHWm1NWAzWakg9MWwcx6kxwXG+zPSG/7VOBmtQz/RNfzqQryprZltql4wHksAe+/XVQQkV3qTlqmXzOFNbjVFvsCPQsR2+tYzfonF44l6Cf2jPuDw=
+	t=1732763276; cv=none; b=vBIgFnkRQpJiAa/UlMV4S3240bFJw32tQiQuMMorkxTy5a5Dql87goI2e62XJYG615QT96asdkdn2zbuwtPRY2HHenuloigugrerkooYPFxpA7ASHOCVqzaqMgmcq5VSXmwIprQLtYhYxO7vxjuzKR0ngyLLNLZsDInJ0yNZye8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732761218; c=relaxed/simple;
-	bh=yaLcgb9iiIhFTvkKtkhpr0Kc5d6x+ysXpHIxlpvzuao=;
+	s=arc-20240116; t=1732763276; c=relaxed/simple;
+	bh=mYVIK6LylDTTtOG9WmR93ITmyVq86taonCZx6lFfUQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a+ZyxZDrab3NyZSRE0dlK++zjwJzJ7TGARvwnz2yFFy6k9ZbzpjuuzSkso/zT3B3vk1hmNanZ8+V2/IAwzUT/3n2cvccTLIwLwsWZoKQ7+q7t32ja+Pp6JVbF+vPpy6QWOXVuHLvOfiMp5fI5J68PFJmhTvnbqO0/TRvb9XrBcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CvSAHTe6; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=KqPd/C9y9WOc5klOTICl/xLzKCpwuA1SE02uN7jvx+ycdQ7PcCaxZmcKRISGGfvT8zzRtJu0+GBh7nV2ZG9kdIQUY45oGRI3qZE8MhdMmHSos1Q1/PGswP9WrAZmDJgfNP4mfF9W9y5WJ7U+Gpum7iq3t1yRhMI/NRXb04fMixY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aqXFnKRQ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CvSAHTe6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aqXFnKRQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732761217; x=1764297217;
+  t=1732763275; x=1764299275;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yaLcgb9iiIhFTvkKtkhpr0Kc5d6x+ysXpHIxlpvzuao=;
-  b=CvSAHTe6o19xMrj+r44dLK9ed2WcYo0dDEacZMcJwv859lEFaBpUwSUC
-   j5u4ssgJxGfTP7J25HVWSVJHdKQHZg8en1p9pOdlUGNiuW7M2aKpvzYzl
-   vcHTtoTk+wKWOShMwPc5XOZg2MwQfwJ3n2f3iI/pKv3Vz7tJtR9QDirkR
-   krJEe3s3/94SD/bTHMh84tOYnyPaPElxHWg/+vdcSrPI+C3I14MUJ8hBH
-   zk07VlAzRQutRPvd1lrg8mnkDO7j0Foq6ALY5Tan0iMh+L3U6tuDYPHTt
-   JEf6Pwql4HNl97GrmDzSof/r/4b2tyoexnFQy0aq0PgUOK43c9p0oFw63
+  bh=mYVIK6LylDTTtOG9WmR93ITmyVq86taonCZx6lFfUQI=;
+  b=aqXFnKRQsU2Gaxzy8rWic2HUcqYVIPTP6FwsJNOYLP1vA6KdwAU2JblE
+   5sEfCUOimUv/XB6hXMGVUzG2RBXIb7g96gUQikkaptROb5aryB/JXdbAr
+   nDCXSvjhjkg22iW/xm2wr/JAxKZqlhf9jR8iFpJw7EF1JrhAo8ryWCFyB
+   Qm+r43TrQyFqXV5flsfXML+/HBVNDq6JA2iRJy37Yv9/69QOVsEJeyOyZ
+   sco5eqJADkm09uUIc08SAV1EF0otuqzTYLiXSRYqk540i21YXTl7IWN/n
+   b6qFbukrduNU/nYIAcJ6bnRxjooiPCtO1wCPfKiPbsXeCWlE9cvTHp/KT
    w==;
-X-CSE-ConnectionGUID: B8+jrJehRLihrX+pNV7d1A==
-X-CSE-MsgGUID: tSxBepy2SOaEgqPtBPdR6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33129872"
+X-CSE-ConnectionGUID: KPJ13aeJTCSbxRfJN70lSQ==
+X-CSE-MsgGUID: fgrQORaDQz65GgT8eMQCnA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="43595682"
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="33129872"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 18:33:36 -0800
-X-CSE-ConnectionGUID: KazFFJy9QRmOfydXqr0WqQ==
-X-CSE-MsgGUID: 1ShjwyfQTG2LHtEjE5ZT9g==
+   d="scan'208";a="43595682"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 19:07:54 -0800
+X-CSE-ConnectionGUID: tEfd49JOR7SyTNpr/nioUg==
+X-CSE-MsgGUID: G1stwR9aTKimB4SoPltmGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="92431882"
+   d="scan'208";a="96871004"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Nov 2024 18:33:35 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 27 Nov 2024 19:03:47 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGULU-0008iZ-2F;
-	Thu, 28 Nov 2024 02:33:32 +0000
-Date: Thu, 28 Nov 2024 10:33:08 +0800
+	id 1tGUoj-0008nT-0n;
+	Thu, 28 Nov 2024 03:03:45 +0000
+Date: Thu, 28 Nov 2024 11:03:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1308/1308] arch/x86/mm/.tmp_maccess.o:
- warning: objtool: missing symbol for section .text
-Message-ID: <202411281042.al4D2CD2-lkp@intel.com>
+Subject: [jolsa-perf:bpf/optimized_usdt_9 8/12] uprobes.c:undefined reference
+ to `arch_uprobe_optimize'
+Message-ID: <202411281118.gAIPHt8I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,21 +62,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   4f763890ac28e4d36527b22a830c5e95cae55470
-commit: 22058d2bdaf6b0526395ceec2736c72c3b5f435a [1308/1308] uaccess: Add strict non-pagefault kernel-space read function
-config: x86_64-buildonly-randconfig-002-20241126 (https://download.01.org/0day-ci/archive/20241128/202411281042.al4D2CD2-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281042.al4D2CD2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_9
+head:   b1d916ea335d828e290e0c2bb8bb5bebdf0b633a
+commit: 2d5c7f0b55e1e8dd7535e47d2d034a0b2cf7f05a [8/12] uprobes/x86: Add support to optimize uprobes
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20241128/202411281118.gAIPHt8I-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281118.gAIPHt8I-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411281042.al4D2CD2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411281118.gAIPHt8I-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/x86/mm/.tmp_maccess.o: warning: objtool: missing symbol for section .text
+   s390-linux-ld: kernel/events/uprobes.o: in function `uprobe_notify_resume':
+>> uprobes.c:(.text+0xdd7e): undefined reference to `arch_uprobe_optimize'
 
 -- 
 0-DAY CI Kernel Test Service
