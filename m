@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C888C145A09;
-	Thu, 28 Nov 2024 06:51:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C060146A7B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 07:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732776671; cv=none; b=DoVodmq75O4f3j3UmfzjkOTlnrq6rTt9PUBsSa6/cPH1GhU6+sREpaRzzwe0kTE+EnykYUJX7hO77Faa0jSmYs6FZ0DlIIobGSuevZx15y7ruWpRl8Yxz8c3+U4Ab5gJYcgbQIKYQwHTWHWg9H+eWD4Jr9bUqPmxSxn56SWLi/s=
+	t=1732778468; cv=none; b=r+xrbs7f+dMtbmt2MN8ux0esI2lXOkKZ1qu6qgGjptLTraqAyscoQ9I0jZTvshM9MK/HpTAFZe3mTBqXBlvULoguwH5Apo55mVKIdDzPxODQb3e++O8rIQfyHDCIBgaaq1NZ7fmcXhb8n97mx/46jqO69Mj4o+/xCODycNtSCOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732776671; c=relaxed/simple;
-	bh=r79SPOuhZdVFBIeBPeECtG57hYszo3FLyqaYO+yACxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VhRB0WhiSLfafMdbJwH6vswnO0D7cDMy5umQ7WZm6h2y7Z28KNJ5i0J2X8KH06+Zwi6TXJjtMYJjbozCgxuKlY/xYau16uAPBmbXuOoM9SyT6osBf0DgQkB1pNFqjl9DU2EO0d+5ERKGV54z3mK4sWHESunzEd0lTxY76xoKupM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4OTQ37z; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1732778468; c=relaxed/simple;
+	bh=dK4zynxy2e1WUcOdz8w89NUDGrGPihu9QdfhayEQL7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tytEC9UxfqhoGxM2DdCDsUyLeBW2M+MxZPezDoItwZnBvHVmJ36H3GPiebKcxh805NeEcLJdRjL1rFKJKIBsln6docLOIzVfrrf2HpPIim2S6E4n10XIuDacBIoWRheWs1bWnf60DdxTF1uOGTpAef18/b57AiyI4Gr+U/xbRZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S6mAKkdU; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4OTQ37z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S6mAKkdU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732776668; x=1764312668;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=r79SPOuhZdVFBIeBPeECtG57hYszo3FLyqaYO+yACxk=;
-  b=d4OTQ37z4i4+G/nASLoOgMVL/5IMZ9W6wN4pscX4sYi2Cw4i/G2M+Kvt
-   trMfBGjuVVn6enlzhVUMopbIvemVLJ1PghZofFdcknp5mWfJ9sq1siowB
-   ctfSczgCIJNtgJyqD6WXbobihwppe6DNj8K1VrkI4GVafRMkbJefVyZte
-   4OQnEzfOz67Rtx2Ntay73K5kg6P3xbl0pueDKW+8gCWxU6Q+7dN/Tmi0M
-   gSvG1HMhWcErRPNufD07cQa4Z0QTDiekKA8gYzZaOkcyfLJV/RQG4Y1vR
-   xNlKbL9ZRNHPz+QtGCCajJAb1vcOqdGrT73OChenBHNBI/CypSq/ZVSoU
-   A==;
-X-CSE-ConnectionGUID: h8GLfWTqTcGsF5u/R+gnxA==
-X-CSE-MsgGUID: W5rAjda7RyqDNAlH0cxivg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="20590438"
+  t=1732778466; x=1764314466;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dK4zynxy2e1WUcOdz8w89NUDGrGPihu9QdfhayEQL7Y=;
+  b=S6mAKkdUI+vCqcHRb0jVlbk0rCw8rRbM56c9L4MkBe6Y+iCcdld6gH6l
+   YWb5tM5ZuHGJrt/bbzLGnGdQcQP3Wxo56sY44kVnsRvQSF6xVnad5Vr8N
+   arnvaj9nncGdLIBa7gcnblk0ODePtQYqYI0ACaF+HwLj757x5dI0SyyJv
+   BW+PipYLqWr7wYfMfUNJzeZC1jBTe3vE5tomvw1DEbvu1IMD8aY9BT56e
+   YVyVxGB/dipcQdZVOmyuSIQTdSBst696b7POjVuWo9/ZnUo55s8HJCqTp
+   VJgwLKLwUQyH3oO9E79NIinMxFMqDtFZWN+igiMqqnZlvWncPaQC0ajdI
+   Q==;
+X-CSE-ConnectionGUID: vN9U5I8RQzy1QoguBOK5TQ==
+X-CSE-MsgGUID: lWk0SMaNRii4AMOJe5LcXw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="32935838"
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="20590438"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 22:51:07 -0800
-X-CSE-ConnectionGUID: JPKvsDA2RHC8HzUqgFeW6w==
-X-CSE-MsgGUID: 4lhVcWE2Tkie8QKkASZ24Q==
+   d="scan'208";a="32935838"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 23:21:04 -0800
+X-CSE-ConnectionGUID: 6u3XpkBwR1eb1u4FUQ6tLw==
+X-CSE-MsgGUID: YVLozrvzQXGhw6tchsoiqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="97111216"
+   d="scan'208";a="97241974"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 27 Nov 2024 22:51:03 -0800
+  by orviesa004.jf.intel.com with ESMTP; 27 Nov 2024 23:21:03 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGYMe-0009Cd-1Q;
-	Thu, 28 Nov 2024 06:51:00 +0000
-Date: Thu, 28 Nov 2024 14:50:05 +0800
+	id 1tGYpg-0009EN-1n;
+	Thu, 28 Nov 2024 07:21:00 +0000
+Date: Thu, 28 Nov 2024 15:20:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Haylen Chu <heylenay@4d2.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Haylen Chu <heylenay@outlook.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-riscv@lists.infradead.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Inochi Amaoto <inochiama@outlook.com>,
-	Chen Wang <unicornxdotw@foxmail.com>,
-	Jisheng Zhang <jszhang@kernel.org>
-Subject: Re: [PATCH v3 3/3] clk: spacemit: Add clock support for Spacemit K1
- SoC
-Message-ID: <202411281451.lC2FKL6C-lkp@intel.com>
-References: <20241126143125.9980-7-heylenay@4d2.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 2/28]
+ arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0:
+ 'vccd-supply' is a required property
+Message-ID: <202411281535.rU82qpsN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,108 +62,244 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241126143125.9980-7-heylenay@4d2.org>
 
-Hi Haylen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 2d5404caa8c7bb5c4e0435f94b28834ae5456623]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Haylen-Chu/dt-bindings-clock-spacemit-Add-clock-controllers-of-Spacemit-K1-SoC/20241128-101248
-base:   2d5404caa8c7bb5c4e0435f94b28834ae5456623
-patch link:    https://lore.kernel.org/r/20241126143125.9980-7-heylenay%404d2.org
-patch subject: [PATCH v3 3/3] clk: spacemit: Add clock support for Spacemit K1 SoC
-config: arm-randconfig-001-20241128 (https://download.01.org/0day-ci/archive/20241128/202411281451.lC2FKL6C-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281451.lC2FKL6C-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   5e3570027ec2c687f49db5f977cb080954ea1ff5
+commit: 3cc2728ebee5d430fc6b4de7f787c4b8af2baa49 [2/28] CHROMIUM: dt-bindings: input: Add Himax HX83102J touchscreen
+config: arm64-randconfig-051-20241127 (https://download.01.org/0day-ci/archive/20241128/202411281535.rU82qpsN-lkp@intel.com/config)
+compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281535.rU82qpsN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411281451.lC2FKL6C-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411281535.rU82qpsN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/clk/spacemit/ccu_pll.c:128:16: warning: variable 'old_rate' set but not used [-Wunused-but-set-variable]
-     128 |         unsigned long old_rate;
-         |                       ^
->> drivers/clk/spacemit/ccu_pll.c:152:2: warning: variable 'val' is uninitialized when used here [-Wuninitialized]
-     152 |         val |= entry->reg5 << PLL_SWCR1_REG5_OFF;
-         |         ^~~
-   drivers/clk/spacemit/ccu_pll.c:130:15: note: initialize the variable 'val' to silence this warning
-     130 |         u32 mask, val;
-         |                      ^
-         |                       = 0
->> drivers/clk/spacemit/ccu_pll.c:141:14: warning: variable 'entry' is used uninitialized whenever 'for' loop exits because its condition is false [-Wsometimes-uninitialized]
-     141 |         for (i = 0; i < params->tbl_size; i++) {
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/clk/spacemit/ccu_pll.c:152:9: note: uninitialized use occurs here
-     152 |         val |= entry->reg5 << PLL_SWCR1_REG5_OFF;
-         |                ^~~~~
-   drivers/clk/spacemit/ccu_pll.c:141:14: note: remove the condition if it is always true
-     141 |         for (i = 0; i < params->tbl_size; i++) {
-         |                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/clk/spacemit/ccu_pll.c:127:32: note: initialize the variable 'entry' to silence this warning
-     127 |         struct ccu_pll_rate_tbl *entry;
-         |                                       ^
-         |                                        = NULL
-   3 warnings generated.
-
-
-vim +/val +152 drivers/clk/spacemit/ccu_pll.c
-
-   115	
-   116	/*
-   117	 * pll rate change requires sequence:
-   118	 * clock off -> change rate setting -> clock on
-   119	 * This function doesn't really change rate, but cache the config
-   120	 */
-   121	static int ccu_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-   122				       unsigned long parent_rate)
-   123	{
-   124		struct ccu_pll *p = hw_to_ccu_pll(hw);
-   125		struct ccu_common *common = &p->common;
-   126		struct ccu_pll_config *params = &p->pll;
-   127		struct ccu_pll_rate_tbl *entry;
- > 128		unsigned long old_rate;
-   129		bool found = false;
-   130		u32 mask, val;
-   131		int i;
-   132	
-   133		if (ccu_pll_is_enabled(hw)) {
-   134			pr_err("%s %s is enabled, ignore the setrate!\n",
-   135			       __func__, __clk_get_name(hw->clk));
-   136			return 0;
-   137		}
-   138	
-   139		old_rate = __get_vco_freq(hw);
-   140	
- > 141		for (i = 0; i < params->tbl_size; i++) {
-   142			if (rate == params->rate_tbl[i].rate) {
-   143				found = true;
-   144				entry = &params->rate_tbl[i];
-   145				break;
-   146			}
-   147		}
-   148		WARN_ON_ONCE(!found);
-   149	
-   150		mask = PLL_SWCR1_REG5_MASK | PLL_SWCR1_REG6_MASK;
-   151		mask |= PLL_SWCR1_REG7_MASK | PLL_SWCR1_REG8_MASK;
- > 152		val |= entry->reg5 << PLL_SWCR1_REG5_OFF;
-   153		val |= entry->reg6 << PLL_SWCR1_REG6_OFF;
-   154		val |= entry->reg7 << PLL_SWCR1_REG7_OFF;
-   155		val |= entry->reg8 << PLL_SWCR1_REG8_OFF;
-   156		ccu_update(swcr1, common, mask, val);
-   157	
-   158		mask = PLL_SWCR3_DIV_INT_MASK | PLL_SWCR3_DIV_FRC_MASK;
-   159		val = entry->div_int << PLL_SWCR3_DIV_INT_OFF;
-   160		val |= entry->div_frac << PLL_SWCR3_DIV_FRC_OFF;
-   161		ccu_update(swcr3, common, mask, val);
-   162	
-   163		return 0;
-   164	}
-   165	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+--
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b86100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b86100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/mailbox@10b86100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b87100: compatible:0: 'mediatek,mt8188-adsp-mbox' is not one of ['mediatek,mt8195-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: mailbox@10b87100: compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox'] is too long
+   	from schema $id: http://devicetree.org/schemas/mailbox/mtk,adsp-mbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: /soc/mailbox@10b87100: failed to match any schema with compatible: ['mediatek,mt8188-adsp-mbox', 'mediatek,mt8186-adsp-mbox']
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'vccd-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'vsn-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'vsp-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: touchscreen@0: 'ddreset-gpios' is a required property
+   	from schema $id: http://devicetree.org/schemas/input/touchscreen/himax,hx83102j.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ethernet@11021000: tx-queues-config:queue1:snps,priority: [1] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ethernet@11021000: tx-queues-config:queue2:snps,priority: [2] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ethernet@11021000: tx-queues-config:queue3:snps,priority: [3] is not of type 'integer'
+   	from schema $id: http://devicetree.org/schemas/net/snps,dwmac.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: ethernet@11021000: tx-queues-config:queue0:snps,priority: [0] is not of type 'integer'
 
 -- 
 0-DAY CI Kernel Test Service
