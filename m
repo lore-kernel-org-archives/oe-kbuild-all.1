@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 150B13232
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 17:01:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA3E1A9B4D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 17:01:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732813265; cv=none; b=UgNuqq3bD/bE+9n6WMFdmwUpi2pMwAGU9dXGkxx+R9kduoqX8KE2DPKaLnUeZmOEbOUke7FUb2ur3zmxAQ7Vgw87sMmPYF3s4zQ/RzcDdYcpcHm3JMtSSFVagURK6X9rOMcDruwjDN+42a8TM/lSenGCIG2alcJh2M4yZun0FRQ=
+	t=1732813267; cv=none; b=lZ6ewLJ3Ati1e0CW7ly9IT27xqSA/8fO93KIIcV4PHL4BKaTv3asTP8ZXtYbjevcp8H5v7ErYTpmA2spHqjodW9hiKZWLvYCjwmoaZWAO5lUUvNYHxhVyGvs3fTcVaNyZXPaxXy4VcG12beHSoOTp4eLfBeOOHEbekms2D27ziM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732813265; c=relaxed/simple;
-	bh=LflQVrkceJuvJB191NcV6fAhN7F9ZGao34L4hU1l+tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lbCt5O6JE9JigDIw6hZ6YCah+yUoHf71z529hWQcQpPuoF2XZxP2fL9AlPbhinLB67GYwbrO44bTBYzkIvhySoG7laKhuBvwqCxXsCyjhKxuL2oHf5J3rircigZCKEtMrLKiZsjnzNFg176Ut7IyxIGz7CoLFb3vwRu0iCT1eYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LaQUL7mw; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1732813267; c=relaxed/simple;
+	bh=erEAd0m1dgZP+yMHyZg1kQ2jo8k58rBOlugRo0p2cuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PUf8oPjK/nTf4wqxNxHrCrqEDjpZBCLm/1ywHqy7QH4MI9xiMjhRLLAf48DwqR/MSsw/3fB1Rb2s3oRfpWU7vJkwn89ak5H+YXLsaPl2URXQLnwddBGyJ7wopDzlF6lZpYOY3Ayo5F646V2bWzUNguc3Idm2FUPPdArwbluB24s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR2W1n8B; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaQUL7mw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR2W1n8B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732813263; x=1764349263;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LflQVrkceJuvJB191NcV6fAhN7F9ZGao34L4hU1l+tI=;
-  b=LaQUL7mwaxeQkmHOfViIOZ3FgMpsJ2SuQ+wH9q3swvIPA3TxHUG+P9md
-   CA7aTMlCf9ArQCJmi631JTi185FSpP0sHbtDBBwBD+JRBbaUgP40ldNT9
-   FrI6uSc8EhWeBKXRiClOrzrbwmU0VFTNCVLyjq+a8imf3E/QEoHxCtCTX
-   wdlt8IVcJeukxQIM1ZWGiIS2aTeW548+AioE5bISJZCOp+haLT6R9aavM
-   scthQTq5LX6JjQELmlgdNFTlmOyFEV1eV8g3zzy75fCPgeZZ+HTNUb2XA
-   FZGfTja2drl1T3+SqQYeWJQH2QeSDSE2ce4MxCoa8ukOaSmMRpxTc8FV8
-   Q==;
-X-CSE-ConnectionGUID: 7x2TDrj/Tg6He0CQ9wpZtA==
-X-CSE-MsgGUID: H+nvUQmwRFelwxf723BkFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32915702"
+  t=1732813266; x=1764349266;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=erEAd0m1dgZP+yMHyZg1kQ2jo8k58rBOlugRo0p2cuE=;
+  b=lR2W1n8B93VtS0ptHRLyKmEArzhP3pYzEayfcGRhS5DvDTk4ktvHi6dc
+   eiR11/imTZvX29g96M7KoWFg5IXGcy5HKKUEYh93OxMUXf5N5cx9vrkF7
+   Ra35Hk3MF3Kv4sRCFQmJHhNdJA2D8GcKOF09PLY6ia6t3W0bM5JNYtCSa
+   Ur1ZSncLxsMrsXm80pZKLKbr9IkoyX7ainXPdevlYYd2bGfmnoayUA7ok
+   CwBPSgOs3jnAOvUDZAG/Cvgm4Dwfn8cw/Kgb6kQplYEb7o4co2rRv+RKV
+   9hmjKu7AiiW7YArsuCCV6aF3sKCYECT7tjXM65oo7AHkXR4F+F5w3WkMd
+   w==;
+X-CSE-ConnectionGUID: x//DkiOxR9u3zX8Wdljrvg==
+X-CSE-MsgGUID: OgMsSzh9SIaz1p689//0sg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="32915706"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="32915702"
+   d="scan'208";a="32915706"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:00:57 -0800
-X-CSE-ConnectionGUID: eeVvYRWNQy25oB6CpmC8pg==
-X-CSE-MsgGUID: ACjevvM9RW+8yRSn9tfO6w==
+X-CSE-ConnectionGUID: DgMJhSlxSWuOMuPoGMwMpg==
+X-CSE-MsgGUID: bOd9h6PmSzyloWgUiotH9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="92666173"
+   d="scan'208";a="92666182"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 28 Nov 2024 09:00:55 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGhsr-0009q3-0N;
+	id 1tGhsr-0009qA-0p;
 	Thu, 28 Nov 2024 17:00:53 +0000
-Date: Fri, 29 Nov 2024 01:00:15 +0800
+Date: Fri, 29 Nov 2024 01:00:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amir Goldstein <amir73il@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] fs: don't block write during exec on pre-content watched
- files
-Message-ID: <202411290014.xXHzzXEi-lkp@intel.com>
-References: <20241128142532.465176-1-amir73il@gmail.com>
+To: Meng Wei <wei.meng@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>,
+	Chang Ying <ying.chang@intel.com>
+Subject: versioncheck: ./drivers/media/pci/intel/ipu-bus.c: 471: need
+ linux/version.h
+Message-ID: <202411290040.B0KAA05u-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,77 +62,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241128142532.465176-1-amir73il@gmail.com>
 
-Hi Amir,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on next-20241128]
-[cannot apply to kees/for-next/execve brauner-vfs/vfs.all jack-fs/for_next v6.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amir-Goldstein/fs-don-t-block-write-during-exec-on-pre-content-watched-files/20241128-222743
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241128142532.465176-1-amir73il%40gmail.com
-patch subject: [PATCH] fs: don't block write during exec on pre-content watched files
-config: sh-lboxre2_defconfig (https://download.01.org/0day-ci/archive/20241129/202411290014.xXHzzXEi-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290014.xXHzzXEi-lkp@intel.com/reproduce)
+tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_q
+head:   aff8de868d4e17e98fa8ce0b1b124e54153b574b
+commit: 123826108e51794c3922a0f8eba95e0375ffa36b media: pci: add IPU driver for BXT platform
+date:   6 years ago
+reproduce: (https://download.01.org/0day-ci/archive/20241129/202411290040.B0KAA05u-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290014.xXHzzXEi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290040.B0KAA05u-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/export.h:5,
-                    from include/linux/linkage.h:7,
-                    from arch/sh/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from arch/sh/kernel/asm-offsets.c:14:
-   include/linux/fs.h: In function 'exe_file_deny_write_access':
->> include/linux/fs.h:3068:22: error: implicit declaration of function 'FMODE_FSNOTIFY_HSM'; did you mean 'FMODE_NONOTIFY'? [-Wimplicit-function-declaration]
-    3068 |         if (unlikely(FMODE_FSNOTIFY_HSM(exe_file->f_mode)))
-         |                      ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:77:45: note: in definition of macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   make[3]: *** [scripts/Makefile.build:102: arch/sh/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1211: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:224: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:224: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +3068 include/linux/fs.h
-
-  3062	
-  3063	/*
-  3064	 * Do not prevent write to executable file when watched by pre-content events.
-  3065	 */
-  3066	static inline int exe_file_deny_write_access(struct file *exe_file)
-  3067	{
-> 3068		if (unlikely(FMODE_FSNOTIFY_HSM(exe_file->f_mode)))
-  3069			return 0;
-  3070		return deny_write_access(exe_file);
-  3071	}
-  3072	static inline void exe_file_allow_write_access(struct file *exe_file)
-  3073	{
-  3074		if (unlikely(FMODE_FSNOTIFY_HSM(exe_file->f_mode)))
-  3075			return;
-  3076		allow_write_access(exe_file);
-  3077	}
-  3078	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.2.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
+   ./drivers/hv/hv.c: 29 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
+>> ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
+>> ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
+>> ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
+   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
+>> ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
+   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
+   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
+   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
+   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
+   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
+   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
+   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
+   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
