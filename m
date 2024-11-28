@@ -1,60 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F408C192D95
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 11:28:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A62192D95;
+	Thu, 28 Nov 2024 11:28:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732793338; cv=none; b=FKIwZef3AWlu5q3vzCXi90MGgc2ERvG7Jp7/rKP6VxuCVcSezraeVOKRGqmlU0501OXUZZsbTNkr2s83t3S4n9u+Ypf89nbm2WGCw6MHDw+0ywS9r4lsS10GtOTzVU9agsHQWhY7MHaye76K8Aw2Lf9ZecDDw6oPN9arhfZU2js=
+	t=1732793342; cv=none; b=l/brf23dMzHOGm1JbhYeh+mEj4+hw1kbE29amaTvMvOeckgK3Kf1OghRkI3fgXCnVlQJFqLy7SOzmqG1PCJ4ENTFDBT1AkJdQkXK4ppje6lEvyoG95ThQYlBjvC0UJHmAs8KVkkjMD9f6IKn7jsZnU2fEqqLZuIKsMzg8xcYIvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732793338; c=relaxed/simple;
-	bh=HyqMmRZQhkZexceY2yrxvly5Fjw1zX7+okKV4G5GHpY=;
+	s=arc-20240116; t=1732793342; c=relaxed/simple;
+	bh=GOGSdHxhNEpjsOwO7lywxaLS0up1lx0fM8IsWbTEf+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yx6xIkoB+b2GMWdoi8cmqkWhDUmo6yTx9K/z2jmuDClMCUL/ZEdbX5lkx4p/G+z3tH42nFfOXNTtLTPp2f+gfo/tDylbtPqzf7wUSlSlZQnGqu2XcDJh0sSHqnoIMxYNR7CBIgM3YOILdpws7EWbttsIu/VsVIl9O8YjONRqw54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8Wd0wDp; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQ5ln/0oS7uZTSoMG3l7VGgOtVK+EUR094iY3YoaGjOBWYZ0N0gvrRvYEmZoSMSqeqFRlU6a5Zw/pkOvE5rnnbMJibTZgt5cLiHLq5X2k9KMgI2YjFSfS5/mi+LLrNZxREAMfW+qsquQEm6EZjXzQ+qn1q1OZ56ldN10tXKHQbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qfhlye54; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8Wd0wDp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qfhlye54"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732793336; x=1764329336;
+  t=1732793340; x=1764329340;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HyqMmRZQhkZexceY2yrxvly5Fjw1zX7+okKV4G5GHpY=;
-  b=N8Wd0wDpAbCWOAcXD/fkXD0Emt677PnlyPAN0/uu1IF60p95Y9Wp5pak
-   TMBZA5aGT8XeASGd7BgDUf6f/He+TXmK6/4kKaGSwQDfy1eIpmM+QovQf
-   4v5fkIDocA9TIvYgmVNcCAMlyf38kxDnretMRkI0s3eFdMKACouNqYrY7
-   LhtKswljYMKpNJSPgu20Gx57jVWvtZHl8kFA5RTNp+NQEnHAf58l03g0I
-   6uA9Krq2HnAk3jLoekumZmGU81x88fwFG/fiYfO5XxVCNLkUGyml6J/Ed
-   VkaL9I3ChJt672U/FJW2H8LpwCHiw6fEsRsgWxFf3IZnQPWBid0FmtTTA
-   Q==;
-X-CSE-ConnectionGUID: 35K3r9lVT661AJT6xBHa+g==
-X-CSE-MsgGUID: KkOoVn5TThmfG4xiOih+4w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33076881"
+  bh=GOGSdHxhNEpjsOwO7lywxaLS0up1lx0fM8IsWbTEf+E=;
+  b=Qfhlye54rRMxhRK0CJJz0zflz6NNogV4TDlrYdeBA8g0z695C7i6MiNT
+   lmJh8DDD4q+swH867mCGSQXJHYR+43Lu/Uj3kTWy8OJtsDDpdEtNVyDMG
+   MCXGCJNffx1w/3AMRg4gi5U/sVJjYWB8kvbGT77SOpuUSRDwx49wffCYz
+   aVud02hchWoCw3Ezmtg1K1KxRKFLVnpFFRo1N82m0pVD2LyHPUP2SkqJ3
+   9nO/hy242ZuP0sBYJmECxv/H9DNfDu3P8BHpRhNayV1UcPw7KdUTo92JQ
+   8oUC4S1O92K65GeziR+cj/dj2ZCLyNwsSmKMOk1mrm4BkwEsvI37AzmpC
+   g==;
+X-CSE-ConnectionGUID: qsaqjwxLQtWE5XT49NWfCA==
+X-CSE-MsgGUID: Bnrrxw2sRBedgpNrSU1HPw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33076885"
 X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="scan'208";a="33076881"
+   d="scan'208";a="33076885"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 03:28:55 -0800
-X-CSE-ConnectionGUID: rV4rkSPYQiilbV90ZzOr3A==
-X-CSE-MsgGUID: pXTeGYOUQaaL6ARFV1T7vg==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 03:29:00 -0800
+X-CSE-ConnectionGUID: Fa0PQXDvT92Zg4JrkfRbxA==
+X-CSE-MsgGUID: TnVO9SYjSDuUlM2KNDH2dA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,192,1728975600"; 
-   d="scan'208";a="92020626"
+   d="scan'208";a="92020639"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 28 Nov 2024 03:28:54 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGchX-0009WJ-2x;
+	id 1tGchX-0009WL-33;
 	Thu, 28 Nov 2024 11:28:51 +0000
 Date: Thu, 28 Nov 2024 19:28:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC net-next 05/23] net: phy: remove
- genphy_c45_eee_is_active()'s is_enabled arg
-Message-ID: <202411281935.XRdfJRgN-lkp@intel.com>
-References: <E1tFv3U-005yhl-LJ@rmk-PC.armlinux.org.uk>
+To: Heiko Stuebner <heiko@sntech.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andy.yan@rock-chips.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	quentin.schulz@cherry.de, Heiko Stuebner <heiko.stuebner@cherry.de>,
+	Daniel Semkowicz <dse@thaumatec.com>
+Subject: Re: [PATCH v2 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
+Message-ID: <202411281937.QyowC5lv-lkp@intel.com>
+References: <20241126201213.522753-4-heiko@sntech.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +72,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <E1tFv3U-005yhl-LJ@rmk-PC.armlinux.org.uk>
+In-Reply-To: <20241126201213.522753-4-heiko@sntech.de>
 
-Hi Russell,
+Hi Heiko,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.12 next-20241128]
+[cannot apply to rockchip/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Russell-King/net-phy-ensure-that-genphy_c45_an_config_eee_aneg-sees-new-value-of-phydev-eee_cfg-eee_enabled/20241128-140608
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/E1tFv3U-005yhl-LJ%40rmk-PC.armlinux.org.uk
-patch subject: [PATCH RFC net-next 05/23] net: phy: remove genphy_c45_eee_is_active()'s is_enabled arg
-config: arm-spear13xx_defconfig (https://download.01.org/0day-ci/archive/20241128/202411281935.XRdfJRgN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281935.XRdfJRgN-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Heiko-Stuebner/drm-bridge-synopsys-Add-MIPI-DSI2-host-controller-bridge/20241128-103709
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241126201213.522753-4-heiko%40sntech.de
+patch subject: [PATCH v2 3/3] drm/rockchip: Add MIPI DSI2 glue driver for RK3588
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241128/202411281937.QyowC5lv-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281937.QyowC5lv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411281935.XRdfJRgN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411281937.QyowC5lv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/phy/phy-c45.c:1479: warning: Excess function parameter 'is_enabled' description in 'genphy_c45_eee_is_active'
+   In file included from drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:20:
+   In file included from include/drm/bridge/dw_mipi_dsi2.h:15:
+   In file included from include/drm/drm_atomic.h:31:
+   In file included from include/drm/drm_crtc.h:32:
+   In file included from include/drm/drm_modes.h:33:
+   In file included from include/drm/drm_connector.h:32:
+   In file included from include/drm/drm_util.h:36:
+   In file included from include/linux/kgdb.h:19:
+   In file included from include/linux/kprobes.h:28:
+   In file included from include/linux/ftrace.h:13:
+   In file included from include/linux/kallsyms.h:13:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:315:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     315 |         val |= PHY_LPTX_CLK_DIV(esc_clk_div);
+         |                ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:72:30: note: expanded from macro 'PHY_LPTX_CLK_DIV'
+      72 | #define PHY_LPTX_CLK_DIV(x)             FIELD_PREP(GENMASK(12, 8), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:340:6: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     340 |                    PHY_IPI_RATIO(tmp));
+         |                    ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:88:27: note: expanded from macro 'PHY_IPI_RATIO'
+      88 | #define PHY_IPI_RATIO(x)                FIELD_PREP(GENMASK(21, 0), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:361:53: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     361 |         regmap_write(dsi2->regmap, DSI2_PHY_LP2HS_MAN_CFG, PHY_LP2HS_TIME(timing.data_lp2hs));
+         |                                                            ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:77:28: note: expanded from macro 'PHY_LP2HS_TIME'
+      77 | #define PHY_LP2HS_TIME(x)               FIELD_PREP(GENMASK(28, 0), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:375:10: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     375 |                 val |= PPI_WIDTH(PPI_WIDTH_8_BITS);
+         |                        ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:68:24: note: expanded from macro 'PPI_WIDTH'
+      68 | #define PPI_WIDTH(x)                    FIELD_PREP(GENMASK(9, 8), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:388:9: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     388 |         val |= PHY_LANES(dsi2->lanes);
+         |                ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:69:24: note: expanded from macro 'PHY_LANES'
+      69 | #define PHY_LANES(x)                    FIELD_PREP(GENMASK(5, 4), (x) - 1)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:409:48: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     409 |         regmap_write(dsi2->regmap, DSI2_DSI_VCID_CFG, TX_VCID(dsi2->channel));
+         |                                                       ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:96:22: note: expanded from macro 'TX_VCID'
+      96 | #define TX_VCID(x)                      FIELD_PREP(GENMASK(1, 0), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:430:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     430 |         val = IPI_DEPTH(color_depth) |
+         |               ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:116:24: note: expanded from macro 'IPI_DEPTH'
+     116 | #define IPI_DEPTH(x)                    FIELD_PREP(GENMASK(7, 4), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:445:55: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     445 |         regmap_write(dsi2->regmap, DSI2_IPI_VID_VSA_MAN_CFG, VID_VSA_LINES(vsa));
+         |                                                              ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:133:27: note: expanded from macro 'VID_VSA_LINES'
+     133 | #define VID_VSA_LINES(x)                FIELD_PREP(GENMASK(9, 0), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:461:51: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     461 |         regmap_write(dsi2->regmap, DSI2_IPI_PIX_PKT_CFG, MAX_PIX_PKT(val));
+         |                                                          ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:141:26: note: expanded from macro 'MAX_PIX_PKT'
+     141 | #define MAX_PIX_PKT(x)                  FIELD_PREP(GENMASK(15, 0), x)
+         |                                         ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:573:56: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     573 |         regmap_write(dsi2->regmap, DSI2_CRI_TX_HDR, hdr_val | CMD_TX_MODE(lpm));
+         |                                                               ^
+   drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c:110:26: note: expanded from macro 'CMD_TX_MODE'
+     110 | #define CMD_TX_MODE(x)                  FIELD_PREP(BIT(24), x)
+         |                                         ^
+   1 warning and 10 errors generated.
 
 
-vim +1479 drivers/net/phy/phy-c45.c
+vim +/FIELD_PREP +315 drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi2.c
 
-493323416fed6b Piergiorgio Beruto    2023-01-09  1466  
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1467  /**
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1468   * genphy_c45_eee_is_active - get EEE status
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1469   * @phydev: target phy_device struct
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1470   * @adv: variable to store advertised linkmodes
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1471   * @lp: variable to store LP advertised linkmodes
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1472   * @is_enabled: variable to store EEE enabled/disabled configuration value
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1473   *
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1474   * Description: this function will read local and link partner PHY
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1475   * advertisements. Compare them return current EEE state.
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1476   */
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1477  int genphy_c45_eee_is_active(struct phy_device *phydev, unsigned long *adv,
-de71eda2a2fb82 Russell King (Oracle  2024-11-26  1478) 			     unsigned long *lp)
-022c3f87f88e2d Oleksij Rempel        2023-02-11 @1479  {
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1480  	__ETHTOOL_DECLARE_LINK_MODE_MASK(tmp_adv) = {};
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1481  	__ETHTOOL_DECLARE_LINK_MODE_MASK(tmp_lp) = {};
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1482  	__ETHTOOL_DECLARE_LINK_MODE_MASK(common);
-de71eda2a2fb82 Russell King (Oracle  2024-11-26  1483) 	bool eee_active;
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1484  	int ret;
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1485  
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1486  	ret = genphy_c45_read_eee_adv(phydev, tmp_adv);
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1487  	if (ret)
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1488  		return ret;
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1489  
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1490  	ret = genphy_c45_read_eee_lpa(phydev, tmp_lp);
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1491  	if (ret)
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1492  		return ret;
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1493  
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1494  	linkmode_and(common, tmp_adv, tmp_lp);
-de71eda2a2fb82 Russell King (Oracle  2024-11-26  1495) 	if (!linkmode_empty(tmp_adv) && !linkmode_empty(common))
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1496  		eee_active = phy_check_valid(phydev->speed, phydev->duplex,
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1497  					     common);
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1498  	else
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1499  		eee_active = false;
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1500  
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1501  	if (adv)
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1502  		linkmode_copy(adv, tmp_adv);
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1503  	if (lp)
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1504  		linkmode_copy(lp, tmp_lp);
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1505  
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1506  	return eee_active;
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1507  }
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1508  EXPORT_SYMBOL(genphy_c45_eee_is_active);
-022c3f87f88e2d Oleksij Rempel        2023-02-11  1509  
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  300  
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  301  static void dw_mipi_dsi2_phy_clk_mode_cfg(struct dw_mipi_dsi2 *dsi2)
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  302  {
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  303  	u32 sys_clk, esc_clk_div;
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  304  	u32 val = 0;
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  305  
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  306  	/*
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  307  	 * clk_type should be NON_CONTINUOUS_CLK before
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  308  	 * initial deskew calibration be sent.
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  309  	 */
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  310  	val |= NON_CONTINUOUS_CLK;
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  311  
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  312  	/* The maximum value of the escape clock frequency is 20MHz */
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  313  	sys_clk = clk_get_rate(dsi2->sys_clk) / USEC_PER_SEC;
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  314  	esc_clk_div = DIV_ROUND_UP(sys_clk, 20 * 2);
+c55ecdf5f795ca Heiko Stuebner 2024-11-26 @315  	val |= PHY_LPTX_CLK_DIV(esc_clk_div);
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  316  
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  317  	regmap_write(dsi2->regmap, DSI2_PHY_CLK_CFG, val);
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  318  }
+c55ecdf5f795ca Heiko Stuebner 2024-11-26  319  
 
 -- 
 0-DAY CI Kernel Test Service
