@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AABA19882B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 19:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B499217BA5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 20:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732821976; cv=none; b=MbgwWms3ZS0Z9KGa+BxZQTx1tVc1URj6ydU83eUYofkBHT+IxlJ4qEKhyXqUSjAbom9tMy2xSj1zNtvKxVem67m38ZxZuhQHIGLiE/9UsfvDdrS6ab6d0b/iR711FPQU+Kl2pE5sy7DmI0AecnJ7TdIpAWe4g6H7BsoG0gOaGiE=
+	t=1732825643; cv=none; b=hrsRKC1Kdgg+Xb8mwmIOSbX025cEo2u09NBJ1OS7fAq/IwMXe7z3xjYrs0c3TEvsRBMIrGZt/7VstB++vgf4DLUWtScOD2645Nl+ZN2ydvVCcIfYJdtb/4ccc/Lmf+T+SwzluAAJMZ3Fhq+ljGdwzOY08i5ZlNjaP5XFbbe9TZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732821976; c=relaxed/simple;
-	bh=K4qUNI+2qGOTtJDDIp1h2FzfOUuANWeedmQ3/fGg6PA=;
+	s=arc-20240116; t=1732825643; c=relaxed/simple;
+	bh=r9LepWviqgs5g29I8l5JSd04WB9B1LbN4wgH7nZhEQI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PTocCMNCdh9veehWaO2uD5ovGqhDG4/1FVRgPkELuKcuvOlVRXPlqhV2NJusCPv4Na4c8J6sUNTthhW47rbJwP7UPZ8+yCWFHQTbltrUQEcyOxvAMr3dRiG35nuwzJ6C/jrgwOVCi3PVibyGkNFguqSDVdlSx8xZKLpgEXNP7s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FgoTk1S4; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=nUMncAwz2X2duGIMBerWXnFCTjqlafLJjO77KxTfySbZl3bsyvdoSbnEN2AYAdOEqrC6iREGOxzHCrH0aBLYE0eO+vqZwhIbiDuF6uwMnstHYYN7rVV5D3pKLUsQlsRN/wAd7hXS5Rc5SCoCk7LlENlYaN1Vnmoe59chOHPyh1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QFg3P1Hu; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FgoTk1S4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QFg3P1Hu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732821974; x=1764357974;
+  t=1732825640; x=1764361640;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=K4qUNI+2qGOTtJDDIp1h2FzfOUuANWeedmQ3/fGg6PA=;
-  b=FgoTk1S48PDZjmn1KRzbVKBQLvZbHq3bkwqK5m2NTTsL85e7G+6DK1w8
-   sGnQUT7vwHX9LMa9/kYKHQYAow4oWbQOxgnPzIDIz8OMbJwmhEhex9IDG
-   lWB56lBOjv1KiXUun5ZXBNwigQ1qPbtCCAW98orxSXOJayrmQelyAMCdO
-   zuLHGs/OSbSGSzefBG8Mk3leaUERrEM0VQlluyXlEo7RohpAXe+xXnZh7
-   Vf6mTWq3FpvoOn65XqZ9iIcldNBE6NIKPEhmYwQUxXjb8ZD/7DwU5vBc1
-   2mRoElwJh/b1QgrDDj6iU9OuOoRh9w5rOtXbZm1A5f1Isgp+AHGb/zb58
+  bh=r9LepWviqgs5g29I8l5JSd04WB9B1LbN4wgH7nZhEQI=;
+  b=QFg3P1HuAxFoyHggDKHqFXEfPWs093kRuMjhlasv1UUn0XjC8WvN3wba
+   5XM7brmUOVpUZC0caUV9uaarR6h6Q6AcWjH7GbK1Ru7bQWS3CPesqn+XA
+   FBcR9wiBs621mKZECxvl+k7PujqDB3EosoXvEbMRfoFXHuiEZUDHabkqx
+   n5Wu6STRDbeLweNd0TfNZEV0XSpbQ51Ta435iyR6MkRx8Yei+fZL8Oslb
+   fHqNUYZLcUdTp/zMfbxAzRU3qT0rIRi/j67fyUvByAZHQhEB6BOcelFb3
+   xwFLuQLJYI7WuKS54pXON2DwP4GKnclVq9QiKETkTui0qwSv4mMEILeDe
    w==;
-X-CSE-ConnectionGUID: mnsUsSHlQ5ayWm+TuCWPlQ==
-X-CSE-MsgGUID: ZGQ1noERSK+RuB6dpL/9uQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33214472"
+X-CSE-ConnectionGUID: fXZeJIdwRmOuMcz9oXSN1w==
+X-CSE-MsgGUID: LLO3qHNeT2OH1lyUAfNYeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="20655668"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="33214472"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 11:26:13 -0800
-X-CSE-ConnectionGUID: MyWYRBnDSKqo3Y17ntMsKQ==
-X-CSE-MsgGUID: HhI1yjNRQfSxYHKoZJdgag==
+   d="scan'208";a="20655668"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 12:27:19 -0800
+X-CSE-ConnectionGUID: mhThkQ1SRI6/4tiJ/3UQLg==
+X-CSE-MsgGUID: zEFk8ashTTeQPlPJ4ITMSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="97407290"
+   d="scan'208";a="96743958"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Nov 2024 11:26:12 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 28 Nov 2024 12:27:19 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGk9S-0009wd-1T;
-	Thu, 28 Nov 2024 19:26:10 +0000
-Date: Fri, 29 Nov 2024 03:25:23 +0800
+	id 1tGl6a-0009z3-2I;
+	Thu, 28 Nov 2024 20:27:16 +0000
+Date: Fri, 29 Nov 2024 04:26:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, yanhaitao <yanhaitao2@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1559/1559] kernel/cgroup/cgroup.c:3968:29: error:
- 'cgroup_psi_stat_show' undeclared here (not in a function); did you mean
- 'cgroup_stat_show'?
-Message-ID: <202411290300.aJLGkB0L-lkp@intel.com>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Peter Zijlstra <peterz@infradead.org>
+Subject: [peterz-queue:perf/core 23/23] core.c:undefined reference to
+ `zap_page_range_single'
+Message-ID: <202411290418.A6ck1LCB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,82 +62,26 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lu,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   95bc69473a373c2e578d4fc39734e5811a03ead3
-commit: 4a69b56540f40550585b9f93c35e415ac90bdecc [1559/1559] sched/psi: Introduce pressure.stat in psi
-config: loongarch-randconfig-001-20241129 (https://download.01.org/0day-ci/archive/20241129/202411290300.aJLGkB0L-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290300.aJLGkB0L-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git perf/core
+head:   02fae3a65df8f78e7cbe879f5f089a4e46c95d6b
+commit: 02fae3a65df8f78e7cbe879f5f089a4e46c95d6b [23/23] perf: map pages in advance
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20241129/202411290418.A6ck1LCB-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290418.A6ck1LCB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290300.aJLGkB0L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290418.A6ck1LCB-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> kernel/cgroup/cgroup.c:3968:29: error: 'cgroup_psi_stat_show' undeclared here (not in a function); did you mean 'cgroup_stat_show'?
-    3968 |                 .seq_show = cgroup_psi_stat_show,
-         |                             ^~~~~~~~~~~~~~~~~~~~
-         |                             cgroup_stat_show
-
-
-vim +3968 kernel/cgroup/cgroup.c
-
-  3929	
-  3930	struct cftype cgroup_v1_psi_files[] = {
-  3931		{
-  3932			.name = "io.pressure",
-  3933			.flags = CFTYPE_NO_PREFIX,
-  3934			.seq_show = cgroup_io_pressure_show,
-  3935			.write = cgroup_io_pressure_write,
-  3936			.poll = cgroup_pressure_poll,
-  3937			.release = cgroup_pressure_release,
-  3938		},
-  3939		{
-  3940			.name = "memory.pressure",
-  3941			.flags = CFTYPE_NO_PREFIX,
-  3942			.seq_show = cgroup_memory_pressure_show,
-  3943			.write = cgroup_memory_pressure_write,
-  3944			.poll = cgroup_pressure_poll,
-  3945			.release = cgroup_pressure_release,
-  3946		},
-  3947		{
-  3948			.name = "cpu.pressure",
-  3949			.flags = CFTYPE_NO_PREFIX,
-  3950			.seq_show = cgroup_cpu_pressure_show,
-  3951			.write = cgroup_cpu_pressure_write,
-  3952			.poll = cgroup_pressure_poll,
-  3953			.release = cgroup_pressure_release,
-  3954		},
-  3955	#ifdef CONFIG_IRQ_TIME_ACCOUNTING
-  3956		{
-  3957			.name = "irq.pressure",
-  3958			.flags = CFTYPE_NO_PREFIX,
-  3959			.seq_show = cgroup_irq_pressure_show,
-  3960			.write = cgroup_irq_pressure_write,
-  3961			.poll = cgroup_pressure_poll,
-  3962			.release = cgroup_pressure_release,
-  3963		},
-  3964	#endif
-  3965		{
-  3966			.name = "pressure.stat",
-  3967			.flags = CFTYPE_NO_PREFIX,
-> 3968			.seq_show = cgroup_psi_stat_show,
-  3969		},
-  3970		{ }	/* terminate */
-  3971	};
-  3972	#endif
-  3973	#else /* CONFIG_PSI */
-  3974	bool cgroup_psi_enabled(void)
-  3975	{
-  3976		return false;
-  3977	}
-  3978	
+   sh4-linux-ld: kernel/events/core.o: in function `perf_mmap':
+>> core.c:(.text+0x11ba0): undefined reference to `zap_page_range_single'
+   sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
+   tc358746.c:(.text+0x1b90): undefined reference to `devm_clk_hw_register'
+   sh4-linux-ld: tc358746.c:(.text+0x1b98): undefined reference to `devm_of_clk_add_hw_provider'
+   sh4-linux-ld: tc358746.c:(.text+0x1b9c): undefined reference to `of_clk_hw_simple_get'
 
 -- 
 0-DAY CI Kernel Test Service
