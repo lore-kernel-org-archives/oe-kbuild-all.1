@@ -1,63 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B1D14F135;
-	Thu, 28 Nov 2024 21:08:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7051494A5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 21:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732828110; cv=none; b=tjq1eJaZkAX1Ly5cFRSOJ3ReEKqPsUJC1/cy5M+EX/G1yKJgA6Sn9N05eOoXz6/ZS0qwtnL+6ECLGb+cZbUhaZ2l6lxvuaURL1QVPo5xUs+7KYKt/GfOqBjb436VnhJiKiztKhBlHKLfPnqTgEqVqkBHDiwILURyaOobA/K0Hpo=
+	t=1732828710; cv=none; b=WT3WPoI/Cdtm8McVYRtqYpJ7I9hxMHy35avofrnBTP93Q6vJF/V8MFbKFnG9g4chMZesTL2qGuj6wWUt1YH5+O0pdXsUUkWYeGFINxoY1qCKmGzkJc+Homx6r6KJMf+adzudVfD1uwcVEy99UXhV9nSVcjsTKozI34oXC0SqUWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732828110; c=relaxed/simple;
-	bh=/OJtRx1FY9ovQap3Q78I0ih2AiBCsYSAtG/6gia7k+Y=;
+	s=arc-20240116; t=1732828710; c=relaxed/simple;
+	bh=JR9HIv6Zf/V0Hie08szqxWG0je4RV0/U+w5I+NNf6Yk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ajAFrw5XQScxnLE7DZK8HZcdiZs4TOtTYPINvynxtKSxZpWLhF0ZlPoq23eeY2DftlUHUKlx3zrUkZqgAHJVKmwf0qo+Nvpz/V2cFxK5p+TdEmf7ZBA+JDYJg1KxduTzKin8yjwL9owsUlWNbzR9+f42lCg6+QDExKHMkqXlVzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AQ05mUVh; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=D56QMrsOgAByzf/ktAINC3RPFy6Rzud0Lm4Zgx54Yvw36p9OHvlgi5kJC2a2W1Lh0ZSeiV6aOAU8qxRJuubsBv+XHEGCAZ+DeeHPHrd+i2Sp0uxU3sBY88/rmbsHPCRzzz6ZnlySyQO1JmEJnliG3KSXKCoUgX0PeVzt8PTihgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lbLAEJpG; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AQ05mUVh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lbLAEJpG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732828107; x=1764364107;
+  t=1732828709; x=1764364709;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/OJtRx1FY9ovQap3Q78I0ih2AiBCsYSAtG/6gia7k+Y=;
-  b=AQ05mUVh7K5lgSLWg18um3IqRYFjotjD8cDeS8r3XUhJnta47NtOtu8V
-   uh/RDKhxNSpV4szjRk7ty1J6Fk0FqQP6GQgjIFhxn/J987SM+hxwJYQyd
-   mXRsHWt8N9KtYRV3oijMsdnNfHMIoAlf7xdOT2X7huW7Z5VirsG9GbxPf
-   HgoHi5ee5nAvKZU4hv5JakPkZWhpJIMJNwVANG/qPX9MJ3uoYqV+sJtcC
-   I1+0rjKDD8UpvWcvQ1Y2cixfT5HwkgsfZFKRgtEUn0kDfVTsaPG3q2MTO
-   FL78CCwk8KArI1lOcYQsJLd/zIjmmCtinJv9vV5QgkR38KUGaNopcowOy
-   Q==;
-X-CSE-ConnectionGUID: +0WDU8ubT4SS6hA4ykuuSw==
-X-CSE-MsgGUID: kx8NY/sKQHaC5KywAkFEvw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="43734266"
+  bh=JR9HIv6Zf/V0Hie08szqxWG0je4RV0/U+w5I+NNf6Yk=;
+  b=lbLAEJpGS/saMPHmtSLJ1yHjIOxTApMW1o/GRkrUFZhZM7RQmBDq5PoQ
+   0FwQwU/CFdeIE/n3DzpdTnpWaP2NL0m79ReQUxovguIZyCqicptVhRYc6
+   F6TjrCVBQGwK9D5t4rXBmC44x7uJAqiihQl42NteApbLGxbvhrzsTvwu6
+   T1T+YGjxSHqdjqoE9WQzZVoFW6FhFpVdlzGEcrVLCPRd0DvAYSjvCNLdB
+   ICdU2uQ6GVsD4aqKLeSfG3GZdQ3SIqUzkPBLnTDlMRooVrT7xLYxTY9sn
+   0L+6/ultRsDTE0JLBh1yNNiK6ifTJ2w5auojV4x+vh5XfMlGiozZsWZea
+   A==;
+X-CSE-ConnectionGUID: Iv4yfbqqS2yFcinjguiQhA==
+X-CSE-MsgGUID: zyHK4wH6TYqf10zuSYl8Lw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36999182"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="43734266"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:08:27 -0800
-X-CSE-ConnectionGUID: FOa+daaARsuFumC2FuNs/A==
-X-CSE-MsgGUID: mmuFnT+7TOKprVa0qmE/ew==
+   d="scan'208";a="36999182"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 13:18:28 -0800
+X-CSE-ConnectionGUID: 6CABNMLSR9inCOZZwNzSnQ==
+X-CSE-MsgGUID: W2DK+mzwT125fBiIjGFPfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="96408269"
+   d="scan'208";a="129819821"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Nov 2024 13:08:24 -0800
+  by orviesa001.jf.intel.com with ESMTP; 28 Nov 2024 13:18:25 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGlkM-000A2z-1L;
-	Thu, 28 Nov 2024 21:08:22 +0000
-Date: Fri, 29 Nov 2024 05:07:42 +0800
+	id 1tGlu3-000A3d-1M;
+	Thu, 28 Nov 2024 21:18:23 +0000
+Date: Fri, 29 Nov 2024 05:17:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mimi Zohar <zohar@linux.ibm.com>, linux-integrity@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	=?unknown-8bit?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
-	roberto.sassu@huawei.com, linux-security-module@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ima: instantiate the bprm_creds_for_exec() hook
-Message-ID: <202411290413.VUC6seTw-lkp@intel.com>
-References: <20241127210234.121546-1-zohar@linux.ibm.com>
+To: Patryk Wlazlyn <patryk.wlazlyn@linux.intel.com>, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, rafael.j.wysocki@intel.com,
+	peterz@infradead.org, dave.hansen@linux.intel.com,
+	gautham.shenoy@amd.com, tglx@linutronix.de, len.brown@intel.com,
+	artem.bityutskiy@linux.intel.com, patryk.wlazlyn@linux.intel.com
+Subject: Re: [PATCH v6 2/4] ACPI: processor_idle: Add FFH state handling
+Message-ID: <202411290550.AphAcYyW-lkp@intel.com>
+References: <20241127161518.432616-3-patryk.wlazlyn@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,218 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241127210234.121546-1-zohar@linux.ibm.com>
+In-Reply-To: <20241127161518.432616-3-patryk.wlazlyn@linux.intel.com>
 
-Hi Mimi,
+Hi Patryk,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on zohar-integrity/next-integrity]
-[also build test ERROR on linus/master v6.12 next-20241128]
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on rafael-pm/bleeding-edge linus/master v6.12 next-20241128]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mimi-Zohar/ima-instantiate-the-bprm_creds_for_exec-hook/20241128-120656
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integrity.git next-integrity
-patch link:    https://lore.kernel.org/r/20241127210234.121546-1-zohar%40linux.ibm.com
-patch subject: [PATCH] ima: instantiate the bprm_creds_for_exec() hook
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20241129/202411290413.VUC6seTw-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290413.VUC6seTw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Patryk-Wlazlyn/x86-smp-Allow-calling-mwait_play_dead-with-an-arbitrary-hint/20241128-113851
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20241127161518.432616-3-patryk.wlazlyn%40linux.intel.com
+patch subject: [PATCH v6 2/4] ACPI: processor_idle: Add FFH state handling
+config: x86_64-randconfig-074-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290550.AphAcYyW-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290550.AphAcYyW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290413.VUC6seTw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290550.AphAcYyW-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from security/integrity/ima/ima_main.c:23:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from security/integrity/ima/ima_main.c:26:
-   In file included from include/linux/ima.h:12:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from security/integrity/ima/ima_main.c:26:
-   In file included from include/linux/ima.h:12:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from security/integrity/ima/ima_main.c:26:
-   In file included from include/linux/ima.h:12:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> security/integrity/ima/ima_main.c:572:13: error: no member named 'is_check' in 'struct linux_binprm'
-     572 |         if (!bprm->is_check)
-         |              ~~~~  ^
-   7 warnings and 1 error generated.
---
-   In file included from security/integrity/ima/ima_appraise.c:13:
-   In file included from include/linux/xattr.h:18:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from security/integrity/ima/ima_appraise.c:15:
-   In file included from include/linux/ima.h:12:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from security/integrity/ima/ima_appraise.c:15:
-   In file included from include/linux/ima.h:12:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from security/integrity/ima/ima_appraise.c:15:
-   In file included from include/linux/ima.h:12:
-   In file included from include/linux/security.h:35:
-   In file included from include/linux/bpf.h:31:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:26:
-   In file included from include/linux/kernel_stat.h:8:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> security/integrity/ima/ima_appraise.c:492:13: error: no member named 'is_check' in 'struct linux_binprm'
-     492 |                 if (bprm->is_check)
-         |                     ~~~~  ^
-   7 warnings and 1 error generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GET_FREE_REGION
-   Depends on [n]: SPARSEMEM [=n]
-   Selected by [m]:
-   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
-
-
-vim +572 security/integrity/ima/ima_main.c
-
-   556	
-   557	/**
-   558	 * ima_bprm_creds_for_exec - based on policy, collect/store/appraise measurement.
-   559	 * @bprm: contains the linux_binprm structure
-   560	 *
-   561	 * Based on the IMA policy and the execvat(2) AT_CHECK flag, measure and
-   562	 * appraise the integrity of a file to be executed by script interpreters.
-   563	 * Unlike any of the other LSM hooks where the kernel enforces file integrity,
-   564	 * enforcing file integrity is left up to the discretion of the script
-   565	 * interpreter (userspace).
-   566	 *
-   567	 * On success return 0.  On integrity appraisal error, assuming the file
-   568	 * is in policy and IMA-appraisal is in enforcing mode, return -EACCES.
-   569	 */
-   570	static int ima_bprm_creds_for_exec(struct linux_binprm *bprm)
-   571	{
- > 572		if (!bprm->is_check)
-   573			return 0;
-   574	
-   575		return ima_bprm_check(bprm);
-   576	}
-   577	
+>> vmlinux.o: warning: objtool: acpi_processor_ffh_play_dead+0xb9: mwait_play_dead_with_hint() is missing a __noreturn annotation
 
 -- 
 0-DAY CI Kernel Test Service
