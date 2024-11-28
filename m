@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E043C1C07EE;
-	Thu, 28 Nov 2024 17:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E71A77111
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 17:41:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732815103; cv=none; b=YmNQys2Kkkb5u8XqYWoeOIRMMsgsspZYneNafoAIJyQK1htlHGfnnQecTVm6cCgZRQMDCyArgq7lyfstFhflt28kvxqIogyqp3IGDFRKm+o2t1YJrZ5Kg3IAXftLcm5bp2uvcrYkgDUfqI6eTxGncRAfsx++syT9H9MjN0M7/J8=
+	t=1732815712; cv=none; b=TDoiH3LLoBCP0TXpvD/H4lzxI5Sk+3VIzoyzPSC4wMFOKwgtYhHcmkTXaEexQZUIRMxOjOLF6gkeMtXeSwL3pHRjggmJ3SDXJlqPqfVJIVzPVtag9g36c8Ce3ljsiR0n9rPHolZE/VpHituN1zvR7xP15ZC4CZ1VmkT9DzrhbsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732815103; c=relaxed/simple;
-	bh=3AKUuiObs+e1uBCz93ES4BASLwZLDVbY+1tiCBDiXY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=coCiqUP180+WGRSQEn+aKZXU9mVhJkh0LcYeh6VJsKaH/WmZlrcq1BbV4bqpE7l98gaGlZa16NG/squOgDZw2GgdvF9EiJS+MT+CmRPlakITuX5S7IqxGszL9st04XYYQjp9sYskAtTycrTExscuGe0VJD7amzczvzMp6EeuJ7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TZzYK1Kr; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1732815712; c=relaxed/simple;
+	bh=Qj9VfeOHaFCPwamFvMv/eh2TZVc/qqibMMoP4/QMa1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YkxvvDzRYUz8gxAxOywnfBMKnkw4hLM3Ocut2ARsZvPUta2LOzVpCXbHDKroiJfvwaqGwMWgkVs37zNUn9S+0zAKWoLfddJHUvWBiR9DO/o35nlofd+Jq4Pz/oYPkgt9CsJPQ5kQrTII4b+qjo/Eus14JDhEySMzjYc0Etq8le8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WhSKt9lT; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TZzYK1Kr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WhSKt9lT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732815102; x=1764351102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3AKUuiObs+e1uBCz93ES4BASLwZLDVbY+1tiCBDiXY4=;
-  b=TZzYK1KrNsJjJxEEz+eP1dz+FA3g24whzRPTMB1RmYK8xSQzIi9O4Ivh
-   a/yuCHMMDSNXeKBITJu2GxYYTmNO8oaufS68m5ZHrBBbyniRZ7KblbgvX
-   8Wx2xWBfNfKZFGuONSpNjNXGP9UA1Q7HT6NgaRn5bMBeZEwMLrlgNBOBM
-   aAXEmSZwZPXEFVWJ6+3lqHNF9ChtRQeUYXUeRMo9Dz4moQ28TVrF1M5vW
-   g0xrFVzwPPT7PtfEj79xge4OUg6x70aDJppYe65WH3gAMoXRcHGyoLwom
-   aNAAFzMg/Rly3CnVqeUOs/cHYRputSlOoEl0AQCjK2LFE0tuaoJXGiWYE
-   w==;
-X-CSE-ConnectionGUID: +WOqfVuuRgS1woS0LK4Nww==
-X-CSE-MsgGUID: B8eL7o5JR8aVmFCx0px9EQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33199589"
+  t=1732815711; x=1764351711;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Qj9VfeOHaFCPwamFvMv/eh2TZVc/qqibMMoP4/QMa1M=;
+  b=WhSKt9lTAbppiKT973RxhqET3QLNT0rqMpVn36yrNlkY7LuSDANffw5/
+   x3YEni8Qgi31TouQzs4fCDXmWTjTkoT/Iu2XBa87KS+hcetX396ub0fYx
+   ygnbsL07t8WR3j08SLQn0+Aay/qbYXziOJdo5BuWq9CSjauFgi745waWT
+   NeS2Apa+WjiFCjMcbarRCfFDqtoT2V9a7L7N/LYs4cfQWQENY2u4AbcLR
+   /AlQQo/itHA318s7LoDdG8Ar85KZd2U3gdApIAHZGR+fi6sFF1LXr/i6J
+   ACnV1xmoX28LLXUpOLUddISnuqkwsnF3m6kkSywbE7MWd4xHQ/oTxjwsW
+   Q==;
+X-CSE-ConnectionGUID: /AFy7VlTRi65PLvzHh72aQ==
+X-CSE-MsgGUID: QeCPvEawSti3AtWbnsiWSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36842479"
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="33199589"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:31:41 -0800
-X-CSE-ConnectionGUID: DI1xBrGCRJ+g+YmFKEnJ/A==
-X-CSE-MsgGUID: bPriJ3uZTti7iZm1sdUaHg==
+   d="scan'208";a="36842479"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 09:41:50 -0800
+X-CSE-ConnectionGUID: 4NXsIYw5TZKqzQIvC6KCuw==
+X-CSE-MsgGUID: UqyG4ZomTxuizoNLcr20Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,193,1728975600"; 
-   d="scan'208";a="92387059"
+   d="scan'208";a="115571789"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Nov 2024 09:31:37 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 28 Nov 2024 09:41:49 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGiMZ-0009rn-1r;
-	Thu, 28 Nov 2024 17:31:35 +0000
-Date: Fri, 29 Nov 2024 01:31:15 +0800
+	id 1tGiWQ-0009sZ-2f;
+	Thu, 28 Nov 2024 17:41:46 +0000
+Date: Fri, 29 Nov 2024 01:41:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Matti Vaittinen <mazziesaccount@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <jic23@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
-Message-ID: <202411290140.7k2Z9JSi-lkp@intel.com>
-References: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
+To: Marc Zyngier <maz@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:kvm-arm64/nv-gic 12/12]
+ arch/arm64/kvm/vgic/vgic-v3-nested.c:116:1: warning: no return statement in
+ function returning non-void
+Message-ID: <202411290111.GeyA5VWD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,125 +62,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
 
-Hi Matti,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a61ff7eac77e86de828fe28c4e42b8ae9ec2b195]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/iio-accel-kx022a-Use-cleanup-h-helpers/20241128-170626
-base:   a61ff7eac77e86de828fe28c4e42b8ae9ec2b195
-patch link:    https://lore.kernel.org/r/9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount%40gmail.com
-patch subject: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
-config: i386-buildonly-randconfig-003-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290140.7k2Z9JSi-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290140.7k2Z9JSi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git kvm-arm64/nv-gic
+head:   cd3fedf7137034ee2858afe5fabf24784d0b3919
+commit: cd3fedf7137034ee2858afe5fabf24784d0b3919 [12/12] WIP
+config: arm64-randconfig-002-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290111.GeyA5VWD-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290111.GeyA5VWD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290140.7k2Z9JSi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290111.GeyA5VWD-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iio/accel/kionix-kx022a.c:17:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/iio/accel/kionix-kx022a.c:507:2: error: call to undeclared function 'if_not_cond_guard'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
-         |         ^
->> drivers/iio/accel/kionix-kx022a.c:507:47: error: expected ';' after expression
-     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
-         |                                                      ^
-         |                                                      ;
->> drivers/iio/accel/kionix-kx022a.c:507:20: error: use of undeclared identifier 'iio_claim_direct_try'
-     507 |         if_not_cond_guard(iio_claim_direct_try, idev)
-         |                           ^
-   1 warning and 3 errors generated.
+   arch/arm64/kvm/vgic/vgic-v3-nested.c: In function 'vgic_v3_get_mi_level':
+>> arch/arm64/kvm/vgic/vgic-v3-nested.c:116:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     116 | }
+         | ^
+   arch/arm64/kvm/vgic/vgic-v3-nested.c: At top level:
+>> arch/arm64/kvm/vgic/vgic-v3-nested.c:114:13: warning: 'vgic_v3_get_mi_level' defined but not used [-Wunused-function]
+     114 | static bool vgic_v3_get_mi_level(int intid)
+         |             ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/if_not_cond_guard +507 drivers/iio/accel/kionix-kx022a.c
+vim +116 arch/arm64/kvm/vgic/vgic-v3-nested.c
 
-   490	
-   491	static int kx022a_write_raw(struct iio_dev *idev,
-   492				    struct iio_chan_spec const *chan,
-   493				    int val, int val2, long mask)
-   494	{
-   495		struct kx022a_data *data = iio_priv(idev);
-   496		int ret, n;
-   497	
-   498		/*
-   499		 * We should not allow changing scale or frequency when FIFO is running
-   500		 * as it will mess the timestamp/scale for samples existing in the
-   501		 * buffer. If this turns out to be an issue we can later change logic
-   502		 * to internally flush the fifo before reconfiguring so the samples in
-   503		 * fifo keep matching the freq/scale settings. (Such setup could cause
-   504		 * issues if users trust the watermark to be reached within known
-   505		 * time-limit).
-   506		 */
- > 507		if_not_cond_guard(iio_claim_direct_try, idev)
-   508			return -EBUSY;
-   509	
-   510		switch (mask) {
-   511		case IIO_CHAN_INFO_SAMP_FREQ:
-   512			n = ARRAY_SIZE(kx022a_accel_samp_freq_table);
-   513	
-   514			while (n--)
-   515				if (val == kx022a_accel_samp_freq_table[n][0] &&
-   516				    val2 == kx022a_accel_samp_freq_table[n][1])
-   517					break;
-   518			if (n < 0)
-   519				return -EINVAL;
-   520	
-   521			scoped_guard(mutex, &data->mutex) {
-   522				ret = kx022a_turn_on_off(data, false);
-   523				if (ret)
-   524					return ret;
-   525	
-   526				ret = regmap_update_bits(data->regmap,
-   527							 data->chip_info->odcntl,
-   528							 KX022A_MASK_ODR, n);
-   529				data->odr_ns = kx022a_odrs[n];
-   530				return kx022a_turn_on_off(data, true);
-   531			}
-   532		case IIO_CHAN_INFO_SCALE:
-   533			n = data->chip_info->scale_table_size / 2;
-   534	
-   535			while (n-- > 0)
-   536				if (val == data->chip_info->scale_table[n][0] &&
-   537				    val2 == data->chip_info->scale_table[n][1])
-   538					break;
-   539			if (n < 0)
-   540				return -EINVAL;
-   541	
-   542			scoped_guard(mutex, &data->mutex) {
-   543				ret = kx022a_turn_on_off(data, false);
-   544				if (ret)
-   545					return ret;
-   546	
-   547				ret = regmap_update_bits(data->regmap,
-   548							 data->chip_info->cntl,
-   549							 KX022A_MASK_GSEL,
-   550							 n << KX022A_GSEL_SHIFT);
-   551				kx022a_turn_on_off(data, true);
-   552	
-   553				return ret;
-   554			}
-   555		default:
-   556			break;
-   557		}
-   558	
-   559		return -EINVAL;
-   560	}
-   561	
+   113	
+ > 114	static bool vgic_v3_get_mi_level(int intid)
+   115	{
+ > 116	}
+   117	
 
 -- 
 0-DAY CI Kernel Test Service
