@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D689113B58E;
-	Thu, 28 Nov 2024 04:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 874C413C3D5
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 28 Nov 2024 05:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732769871; cv=none; b=WsjmrS1wBl8Tm55XYurDwNQaFJy3uXkm+wAftVPBlWSWP21P9UBL49/mE8ch21q2w/iEPtDekpygWoikmN62MQ2DeBUtdGZrQJG6+7Gf4b6vW9jqrwDmxEUmlqyA2CCGG0oMbr+3PdrVdOHqG6KAjka/zgYaglxFG9MmdMC3eI8=
+	t=1732772356; cv=none; b=fNeCcu12GJdzpoRxh9BWKbxIet3h6yMEkmm8T5A4oO+PN5kAQSz+HRClj2d2VgHTsIMvUebnP0BFkRCcmhElPCsGzqaT+wt0pmQx7kSJ+/bAF7Q/4hUU1mK+n6M4320o7cV/yk3l1VQq+PRXf7m9Oj+bz2bIrZ/FZMVWx1H6a3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732769871; c=relaxed/simple;
-	bh=t7NLmYTyIPnPaIba4c61aM0Yec5uq/Jtku8sjEvVfio=;
+	s=arc-20240116; t=1732772356; c=relaxed/simple;
+	bh=B0vZklBwNDmwQMG06w70lemTGYc31gfmnRE1kjX7Cgw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nhdg6CikQj6GwNwRLbRCNYQYETuxYrXjKr4/gVrgYJp05ntgrO76FZZuVrZXms/Tlr7M5ApVh4IGq4LImBbwX7tNYh9Zk0PDuXKsbl69+w9xmfjWc2hhrZa0B4AYNOxbgi1j3QoE0n9cQ82qooL/nqjKV0UZkm0JWIXbKUUXOok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltkhQs9Q; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=AYbFpIoEA1/eJc0nM3JkLPI1nweqOdW1Ome4j2dj0HdIWcUV8+dXAdTqtQzrNSucyyHnLu1wcL3ACRlTFXqrC7p9vnsDQ9iGMQfMsBKUQnpYpK561e8dJG8kzkaM6GtPdLOr1/xi6IQvA9VUWwwrzhFYUNevLEYb26iUvyN8ugs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N0dMlu6o; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltkhQs9Q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N0dMlu6o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732769868; x=1764305868;
+  t=1732772355; x=1764308355;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t7NLmYTyIPnPaIba4c61aM0Yec5uq/Jtku8sjEvVfio=;
-  b=ltkhQs9Qxo3wHQWkBgbbMjefEJIG5fmwUovm5cMq2LelAiOzrVss5TRu
-   TDxgeen19V6xrPDlrOKSkrVSpA3KTPL7q6vLGPpVig/XjPDZsydLVSZy8
-   h4kkt5TzNlobpkaD7YX7GJG7rncURw1Legcv98zwiUE2lSc3Hm+WG05vW
-   RRTgPvUc/97HntwhSkWOdNJXvxwUSNBBrUu51Vw0KvcwQ4aLqK+maubFr
-   If+QUNIfsHwAWGyX2I9yLGp2cgEXZ/khtB8nId7Ra70Wa+CV9SL2J/ttI
-   lsz+zec6b5GR4/yBjbANGBYpXpWfCGJxqQHtEZcp6FcqTzWPPrmqdqt9y
+  bh=B0vZklBwNDmwQMG06w70lemTGYc31gfmnRE1kjX7Cgw=;
+  b=N0dMlu6oxHHbSisbrx+xLYMGwx0lgZ9gjTZ8wNSV1tXJ87gNdmrX4/7t
+   WxfVprGUvUXDGf7c8c9IwXsAJjBCU7+kh9MAo7SKHIMBTcJL0PQ76IMmJ
+   3C3vBake1XZnmMF100kkEUmmFe6LeUtrFrlk/2hN9ym0Q3Hi59tDh3sIN
+   +VD+xYj/uLh7TBevCeyzD4/Wm4kxg46DtgKNFRqj7+Hw0QqR3/8E+TUVO
+   pDX3DtethEsA1tf/hWHXtNcj855o4FD8hZHJz8zJL30HR8BDLZrBFs0GS
+   a2mV8CukR/uWeP6aKZMsfm9T+QvTYxYKRnCt5HEGmh0ygtCnmkmxMlddf
    A==;
-X-CSE-ConnectionGUID: PoTlVdHpQWq5HjMUTvzevQ==
-X-CSE-MsgGUID: q7jlIYK7Tqa7KgeTD3j/1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="20584121"
+X-CSE-ConnectionGUID: iHckfBZqSyCxZMLU1UMBXA==
+X-CSE-MsgGUID: TSRZAxJUR0OuV3LZGSYJkw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11269"; a="33045260"
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="20584121"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 20:57:47 -0800
-X-CSE-ConnectionGUID: luNkXLzZRha1uuskgahEqA==
-X-CSE-MsgGUID: 8Qb4i5PPSXOx15lVQ8iDQw==
+   d="scan'208";a="33045260"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Nov 2024 21:39:12 -0800
+X-CSE-ConnectionGUID: LYtrgb11QLKcuotchUC5sQ==
+X-CSE-MsgGUID: YvU0qcPxS3WH+Nl3FDSlLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,191,1728975600"; 
-   d="scan'208";a="92527422"
+   d="scan'208";a="97222905"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Nov 2024 20:57:45 -0800
+  by orviesa004.jf.intel.com with ESMTP; 27 Nov 2024 21:39:10 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGWb1-00095N-0i;
-	Thu, 28 Nov 2024 04:57:43 +0000
-Date: Thu, 28 Nov 2024 12:57:38 +0800
+	id 1tGXF6-00096r-0V;
+	Thu, 28 Nov 2024 05:39:08 +0000
+Date: Thu, 28 Nov 2024 13:38:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/optimized_usdt_9 5/12]
- include/linux/uprobes.h:176:16: error: field has incomplete type 'struct
- mutex'
-Message-ID: <202411281201.1zAQJN6a-lkp@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: sound/sh/sh_dac_audio.c:166:51: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202411281337.I4M07b7i-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,420 +62,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/optimized_usdt_9
-head:   b1d916ea335d828e290e0c2bb8bb5bebdf0b633a
-commit: 9151504d74ead16a6d8e1d163df0f46df5cfa008 [5/12] uprobes: Add mapping for optimized uprobe trampolines
-config: arm-mxs_defconfig (https://download.01.org/0day-ci/archive/20241128/202411281201.1zAQJN6a-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241128/202411281201.1zAQJN6a-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   b86545e02e8c22fb89218f29d381fa8e8b91d815
+commit: 2f432f4702134fac27677f13aba69ed830984f75 ALSA: sh: Convert to generic PCM copy ops
+date:   1 year, 3 months ago
+config: sh-randconfig-r111-20241122 (https://download.01.org/0day-ci/archive/20241128/202411281337.I4M07b7i-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241128/202411281337.I4M07b7i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411281201.1zAQJN6a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411281337.I4M07b7i-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> sound/sh/sh_dac_audio.c:166:51: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *dst @@     got char * @@
+   sound/sh/sh_dac_audio.c:166:51: sparse:     expected void [noderef] __iomem *dst
+   sound/sh/sh_dac_audio.c:166:51: sparse:     got char *
+   sound/sh/sh_dac_audio.c:185:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void volatile [noderef] __iomem * @@     got char * @@
+   sound/sh/sh_dac_audio.c:185:37: sparse:     expected void volatile [noderef] __iomem *
+   sound/sh/sh_dac_audio.c:185:37: sparse:     got char *
+   sound/sh/sh_dac_audio.c: note: in included file:
+   arch/sh/include/cpu-sh3/cpu/dac.h:38:21: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/cpu-sh3/cpu/dac.h:38:21: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/cpu-sh3/cpu/dac.h:38:21: sparse:     got unsigned int
+   arch/sh/include/cpu-sh3/cpu/dac.h:39:14: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected void const volatile [noderef] __iomem *ptr @@     got unsigned int @@
+   arch/sh/include/cpu-sh3/cpu/dac.h:39:14: sparse:     expected void const volatile [noderef] __iomem *ptr
+   arch/sh/include/cpu-sh3/cpu/dac.h:39:14: sparse:     got unsigned int
 
-   In file included from mm/init-mm.c:2:
-   In file included from include/linux/mm_types.h:16:
->> include/linux/uprobes.h:176:16: error: field has incomplete type 'struct mutex'
-     176 |         struct mutex            tramp_mutex;
-         |                                 ^
-   include/linux/refcount.h:102:8: note: forward declaration of 'struct mutex'
-     102 | struct mutex;
-         |        ^
-   In file included from mm/init-mm.c:2:
->> include/linux/mm_types.h:1142:27: error: no member named 'mm_mt' in 'struct mm_struct'
-    1142 |         mas_init(&vmi->mas, &mm->mm_mt, addr);
-         |                              ~~  ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:13:
-   In file included from include/linux/list_lru.h:14:
-   In file included from include/linux/xarray.h:21:
-   In file included from include/linux/sched/mm.h:11:
->> include/linux/sched/coredump.h:25:28: error: no member named 'flags' in 'struct mm_struct'
-      25 |         return __get_dumpable(mm->flags);
-         |                               ~~  ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:13:
-   In file included from include/linux/list_lru.h:14:
-   In file included from include/linux/xarray.h:21:
->> include/linux/sched/mm.h:37:18: error: no member named 'mm_count' in 'struct mm_struct'
-      37 |         atomic_inc(&mm->mm_count);
-         |                     ~~  ^
-   include/linux/sched/mm.h:54:40: error: no member named 'mm_count' in 'struct mm_struct'
-      54 |         if (unlikely(atomic_dec_and_test(&mm->mm_count)))
-         |                                           ~~  ^
-   include/linux/compiler.h:77:42: note: expanded from macro 'unlikely'
-      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:13:
-   In file included from include/linux/list_lru.h:14:
-   In file included from include/linux/xarray.h:21:
->> include/linux/sched/mm.h:133:18: error: no member named 'mm_users' in 'struct mm_struct'
-     133 |         atomic_inc(&mm->mm_users);
-         |                     ~~  ^
-   include/linux/sched/mm.h:138:34: error: no member named 'mm_users' in 'struct mm_struct'
-     138 |         return atomic_inc_not_zero(&mm->mm_users);
-         |                                     ~~  ^
->> include/linux/sched/mm.h:536:32: error: no member named 'membarrier_state' in 'struct mm_struct'
-     536 |         if (likely(!(atomic_read(&mm->membarrier_state) &
-         |                                   ~~  ^
-   include/linux/compiler.h:76:40: note: expanded from macro 'likely'
-      76 | # define likely(x)      __builtin_expect(!!(x), 1)
-         |                                             ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:11: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                         ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:98:25: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-      98 |                 return (set->sig[3] | set->sig[2] |
-         |                                       ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:11: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:114:27: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     114 |                 return  (set1->sig[3] == set2->sig[3]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:5: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:115:21: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     115 |                         (set1->sig[2] == set2->sig[2]) &&
-         |                                          ^         ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 3 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:138:8: note: expanded from macro '_SIG_SET_BINOP'
-     138 |                 a3 = a->sig[3]; a2 = a->sig[2];                         \
-         |                      ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:157:1: warning: array index 2 is past the end of the array (that has type 'const unsigned long[2]') [-Warray-bounds]
-     157 | _SIG_SET_BINOP(sigorsets, _sig_or)
---
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:163:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:140:3: note: expanded from macro '_SIG_SET_BINOP'
-     140 |                 r->sig[3] = op(a3, b3);                                 \
-         |                 ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:163:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     163 | _SIG_SET_BINOP(sigandnsets, _sig_andn)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:141:3: note: expanded from macro '_SIG_SET_BINOP'
-     141 |                 r->sig[2] = op(a2, b2);                                 \
-         |                 ^      ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:27: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 3 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:174:10: note: expanded from macro '_SIG_SET_OP'
-     174 |         case 4: set->sig[3] = op(set->sig[3]);                          \
-         |                 ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:20: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                                  ^        ~
-   include/linux/signal.h:186:24: note: expanded from macro '_sig_not'
-     186 | #define _sig_not(x)     (~(x))
-         |                            ^
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/fs.h:33:
-   In file included from include/linux/percpu-rwsem.h:7:
-   In file included from include/linux/rcuwait.h:6:
-   In file included from include/linux/sched/signal.h:6:
-   include/linux/signal.h:187:1: warning: array index 2 is past the end of the array (that has type 'unsigned long[2]') [-Warray-bounds]
-     187 | _SIG_SET_OP(signotset, _sig_not)
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/signal.h:175:3: note: expanded from macro '_SIG_SET_OP'
-     175 |                 set->sig[2] = op(set->sig[2]);                          \
-         |                 ^        ~
-   arch/arm/include/asm/signal.h:17:2: note: array 'sig' declared here
-      17 |         unsigned long sig[_NSIG_WORDS];
-         |         ^
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:6:
-   In file included from include/linux/mm.h:16:
->> include/linux/mmap_lock.h:65:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-      65 |         rwsem_assert_held(&mm->mmap_lock);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:70:31: error: no member named 'mmap_lock' in 'struct mm_struct'
-      70 |         rwsem_assert_held_write(&mm->mmap_lock);
-         |                                  ~~  ^
-   include/linux/mmap_lock.h:100:18: error: no member named 'mmap_lock' in 'struct mm_struct'
-     100 |         init_rwsem(&mm->mmap_lock);
-         |                     ~~  ^
-   include/linux/rwsem.h:121:16: note: expanded from macro 'init_rwsem'
-     121 |         __init_rwsem((sem), #sem, &__key);                      \
-         |                       ^~~
-   In file included from mm/init-mm.c:8:
-   In file included from include/linux/mman.h:6:
-   In file included from include/linux/mm.h:16:
-   include/linux/mmap_lock.h:106:18: error: no member named 'mmap_lock' in 'struct mm_struct'
-     106 |         down_write(&mm->mmap_lock);
-         |                     ~~  ^
-   include/linux/mmap_lock.h:113:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-     113 |         down_write_nested(&mm->mmap_lock, subclass);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:122:33: error: no member named 'mmap_lock' in 'struct mm_struct'
-     122 |         ret = down_write_killable(&mm->mmap_lock);
-         |                                    ~~  ^
-   include/linux/mmap_lock.h:131:16: error: no member named 'mmap_lock' in 'struct mm_struct'
-     131 |         up_write(&mm->mmap_lock);
-         |                   ~~  ^
-   include/linux/mmap_lock.h:138:23: error: no member named 'mmap_lock' in 'struct mm_struct'
-     138 |         downgrade_write(&mm->mmap_lock);
-         |                          ~~  ^
-   include/linux/mmap_lock.h:144:17: error: no member named 'mmap_lock' in 'struct mm_struct'
-     144 |         down_read(&mm->mmap_lock);
-         |                    ~~  ^
-   include/linux/mmap_lock.h:153:32: error: no member named 'mmap_lock' in 'struct mm_struct'
-     153 |         ret = down_read_killable(&mm->mmap_lock);
-         |                                   ~~  ^
-   include/linux/mmap_lock.h:163:31: error: no member named 'mmap_lock' in 'struct mm_struct'
-     163 |         ret = down_read_trylock(&mm->mmap_lock) != 0;
-         |                                  ~~  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   28 warnings and 20 errors generated.
---
-   In file included from fs/nfs/nfstrace.c:5:
-   In file included from include/linux/nfs_fs.h:22:
-   In file included from include/linux/in.h:19:
-   In file included from include/uapi/linux/in.h:25:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:10:
-   In file included from include/linux/mm_types.h:16:
->> include/linux/uprobes.h:176:16: error: field has incomplete type 'struct mutex'
-     176 |         struct mutex            tramp_mutex;
-         |                                 ^
-   include/linux/refcount.h:102:8: note: forward declaration of 'struct mutex'
-     102 | struct mutex;
-         |        ^
-   In file included from fs/nfs/nfstrace.c:5:
-   In file included from include/linux/nfs_fs.h:22:
-   In file included from include/linux/in.h:19:
-   In file included from include/uapi/linux/in.h:25:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:10:
->> include/linux/mm_types.h:1142:27: error: no member named 'mm_mt' in 'struct mm_struct'
-    1142 |         mas_init(&vmi->mas, &mm->mm_mt, addr);
-         |                              ~~  ^
-   In file included from fs/nfs/nfstrace.c:5:
-   In file included from include/linux/nfs_fs.h:23:
-   In file included from include/linux/mm.h:16:
->> include/linux/mmap_lock.h:65:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-      65 |         rwsem_assert_held(&mm->mmap_lock);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:70:31: error: no member named 'mmap_lock' in 'struct mm_struct'
-      70 |         rwsem_assert_held_write(&mm->mmap_lock);
-         |                                  ~~  ^
-   include/linux/mmap_lock.h:100:18: error: no member named 'mmap_lock' in 'struct mm_struct'
-     100 |         init_rwsem(&mm->mmap_lock);
-         |                     ~~  ^
-   include/linux/rwsem.h:121:16: note: expanded from macro 'init_rwsem'
-     121 |         __init_rwsem((sem), #sem, &__key);                      \
-         |                       ^~~
-   In file included from fs/nfs/nfstrace.c:5:
-   In file included from include/linux/nfs_fs.h:23:
-   In file included from include/linux/mm.h:16:
-   include/linux/mmap_lock.h:106:18: error: no member named 'mmap_lock' in 'struct mm_struct'
-     106 |         down_write(&mm->mmap_lock);
-         |                     ~~  ^
-   include/linux/mmap_lock.h:113:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-     113 |         down_write_nested(&mm->mmap_lock, subclass);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:122:33: error: no member named 'mmap_lock' in 'struct mm_struct'
-     122 |         ret = down_write_killable(&mm->mmap_lock);
-         |                                    ~~  ^
-   include/linux/mmap_lock.h:131:16: error: no member named 'mmap_lock' in 'struct mm_struct'
-     131 |         up_write(&mm->mmap_lock);
-         |                   ~~  ^
-   include/linux/mmap_lock.h:138:23: error: no member named 'mmap_lock' in 'struct mm_struct'
-     138 |         downgrade_write(&mm->mmap_lock);
-         |                          ~~  ^
-   include/linux/mmap_lock.h:144:17: error: no member named 'mmap_lock' in 'struct mm_struct'
-     144 |         down_read(&mm->mmap_lock);
-         |                    ~~  ^
-   include/linux/mmap_lock.h:153:32: error: no member named 'mmap_lock' in 'struct mm_struct'
-     153 |         ret = down_read_killable(&mm->mmap_lock);
-         |                                   ~~  ^
-   include/linux/mmap_lock.h:163:31: error: no member named 'mmap_lock' in 'struct mm_struct'
-     163 |         ret = down_read_trylock(&mm->mmap_lock) != 0;
-         |                                  ~~  ^
-   include/linux/mmap_lock.h:171:15: error: no member named 'mmap_lock' in 'struct mm_struct'
-     171 |         up_read(&mm->mmap_lock);
-         |                  ~~  ^
-   include/linux/mmap_lock.h:177:25: error: no member named 'mmap_lock' in 'struct mm_struct'
-     177 |         up_read_non_owner(&mm->mmap_lock);
-         |                            ~~  ^
-   include/linux/mmap_lock.h:182:33: error: no member named 'mmap_lock' in 'struct mm_struct'
-     182 |         return rwsem_is_contended(&mm->mmap_lock);
-         |                                    ~~  ^
-   In file included from fs/nfs/nfstrace.c:5:
-   In file included from include/linux/nfs_fs.h:23:
-   In file included from include/linux/mm.h:30:
->> include/linux/pgtable.h:186:42: error: no member named 'pgd' in 'struct mm_struct'
-     186 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset(mm, va), va), va), va);
-         |                                                 ^~~~~~~~~~~~~~~~~~
-   include/linux/pgtable.h:168:55: note: expanded from macro 'pgd_offset'
-     168 | #define pgd_offset(mm, address)         pgd_offset_pgd((mm)->pgd, (address))
-         |                                                        ~~~~  ^
-   include/linux/pgtable.h:191:42: error: no member named 'pgd' in 'struct mm_struct'
-     191 |         return pmd_offset(pud_offset(p4d_offset(pgd_offset_k(va), va), va), va);
-         |                                                 ^~~~~~~~~~~~~~~~
-   include/linux/pgtable.h:175:32: note: expanded from macro 'pgd_offset_k'
-     175 | #define pgd_offset_k(address)           pgd_offset(&init_mm, (address))
-         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/pgtable.h:168:55: note: expanded from macro 'pgd_offset'
-     168 | #define pgd_offset(mm, address)         pgd_offset_pgd((mm)->pgd, (address))
-         |                                                        ~~~~  ^
-   In file included from fs/nfs/nfstrace.c:5:
-   In file included from include/linux/nfs_fs.h:23:
->> include/linux/mm.h:947:37: error: no member named 'brk' in 'struct mm_struct'
-     947 |         return vma->vm_start < vma->vm_mm->brk &&
-         |                                ~~~~~~~~~~  ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
-..
+vim +166 sound/sh/sh_dac_audio.c
 
-
-vim +176 include/linux/uprobes.h
-
-   172	
-   173	struct uprobes_state {
-   174		struct xol_area		*xol_area;
-   175		struct hlist_head	tramp_head;
- > 176		struct mutex		tramp_mutex;
-   177	};
-   178	
+   158	
+   159	static int snd_sh_dac_pcm_copy(struct snd_pcm_substream *substream,
+   160				       int channel, unsigned long pos,
+   161				       struct iov_iter *src, unsigned long count)
+   162	{
+   163		/* channel is not used (interleaved data) */
+   164		struct snd_sh_dac *chip = snd_pcm_substream_chip(substream);
+   165	
+ > 166		if (copy_from_iter_toio(chip->data_buffer + pos, src, count))
+   167			return -EFAULT;
+   168		chip->buffer_end = chip->data_buffer + pos + count;
+   169	
+   170		if (chip->empty) {
+   171			chip->empty = 0;
+   172			dac_audio_start_timer(chip);
+   173		}
+   174	
+   175		return 0;
+   176	}
+   177	
 
 -- 
 0-DAY CI Kernel Test Service
