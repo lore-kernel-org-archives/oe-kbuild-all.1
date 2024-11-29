@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0B814A624
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 17:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3930F1990C1
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 17:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732901256; cv=none; b=f9BKV8YiWBAx8oDxcgNh/TMZdqT6h6YVpAj5Ygqdi2KZH5L3FVrC2XoNjJbiIXfv3Fi1tRTXqgvjW3s+toHD//1+K439ngkuwU/EOLgHaRwz9sVHDDvX2AC3WfiDJxw5726EnsxgxmPi2x/OKG600f7h5hv8I3HOu9rG3/QAfxg=
+	t=1732901258; cv=none; b=Qh3xMLq+ZKbfq40kFM7bVa3XO1POSIxOFxjGmoH7eWE2Ia75rdYboiWB8o40+LxL+DIazb0JmWiiDLlxBBOcQdOsbbMWScDbThjsABHtIyvrJm5kw4AuGlLetp2MTosgra8/pHyhjyc+ITjwgx8+TLdDNKmZOC9S2gn1g/RrPms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732901256; c=relaxed/simple;
-	bh=6z+6+nRY4k3Wt9kp8KE+iDuLR+RCYJX4YlAf2FxHWno=;
+	s=arc-20240116; t=1732901258; c=relaxed/simple;
+	bh=zXOxsO4Gq6FZunnGL7t1teHv8Nsc9Xb+iqPY6Keb38U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EALxiKAruAsgUnURjrEWi9uQOEaO7rYqI+rEQ2Ct5C0OIfaunQAW+W+H1yfkE2esHKT6AbtDIasjymd1KTcPoUCDt0XdiZhsAdRVb5dyG85KXYbtCXD2oRiHJqsmrlEJR6k/tpJYHuUB6hlKa+WcZxxMOL4gTMfsOANHp83TxIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SVoFIGWG; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=ZeHPayIf5krlRlQrQigoxzAeEqo3VX3G2iIup1zuxP3yLkwcGePdNxgK7c7Sh1V1Vm/cp4OBpOpEZAOn6TwzhZ3hykd0beoM89P1++1N4d3N8a/I/T1lAlPXTvONYQM6JiBB9qMDycj8ObDzhaw5VuEzdNCsLU6m69A1JlXivg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gN5VKU/G; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SVoFIGWG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gN5VKU/G"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732901254; x=1764437254;
+  t=1732901257; x=1764437257;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6z+6+nRY4k3Wt9kp8KE+iDuLR+RCYJX4YlAf2FxHWno=;
-  b=SVoFIGWGUr9F31tzeBpfPKBXy5+GmqUYNPW0kaqJPRZYFipDIfr2dLrQ
-   dq7+80rZovRRFXnIRZvhMDuIrk5Wmh9yT3Zp/5/Zr0/zuQ1DbfmWjx0XJ
-   N4UehZCHmuOCum2vY4ykMeuZSSnztcfV9rijlTtjF7C9eCS211rWUE20G
-   udiRddhN+xlNlP2jMzlUwCvKQRfI5sqbiLkGhQtxo4nXoAWEpRZrYV6gR
-   2lKcEs7WtzfgiHa2XErpw9BsScvtPehR/5aOHB/QPD4T+lCNkJj1EiOX7
-   YJ9OTaUMHKT2f0DhAXgGeE5mKNY7tfn3RnXc6gonhoSpIrP9yQUGUGne8
+  bh=zXOxsO4Gq6FZunnGL7t1teHv8Nsc9Xb+iqPY6Keb38U=;
+  b=gN5VKU/G6mGD8PdGO+x/AwfTaSHjQqbw7ozArK7UXmccTbVag/MBuMt4
+   PQj3bts62ePqCMlHiS016+CST2n0mVXrmLuZ3uIrPahtyxH3thkhfJ48j
+   Jvh6/nv9iS6u/NOl3DFeneInbJHKZ8/Exly4WE3fARf/ITLlgQnD2W3Nn
+   MtyH+LusTb0MrcDZMSbxs+MaVI5XeKqJt9xaT1wc+zfgGK4yIYbUDtP7p
+   fskQx/IN0oM7UyvtS3Bw/ZhgezzyCYZ9uXHgQC3iXUBZUyYcAjVpWFjTD
+   pkYYEdnP7mGm9MWaAZi7BmiSc8HfiWoM6c1TTTgrV6oegPvKtT8Olim6K
    Q==;
-X-CSE-ConnectionGUID: VUEBsINfRISpin918yGp1A==
-X-CSE-MsgGUID: 5rkBK2DeTaCkG1IQi6bTXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43630826"
+X-CSE-ConnectionGUID: XAeUFQdaSbehpkoBgFaQPg==
+X-CSE-MsgGUID: bGLn1PS7TB+Y8kFEYhttEA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43630828"
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="43630826"
+   d="scan'208";a="43630828"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 09:27:34 -0800
-X-CSE-ConnectionGUID: 4wGcpIY/St6LrbtVSLi/0Q==
-X-CSE-MsgGUID: 03XL8QtISeiDKTLsEEZYPw==
+X-CSE-ConnectionGUID: EHLvu7CzSSC+h/+Uwgj9dQ==
+X-CSE-MsgGUID: 1ijkRcZmRzSSqXX2O2QJ2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="92352484"
+   d="scan'208";a="92352485"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
   by fmviesa007.fm.intel.com with ESMTP; 29 Nov 2024 09:27:32 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tH4mA-0000Yt-0e;
+	id 1tH4mA-0000Yr-0b;
 	Fri, 29 Nov 2024 17:27:30 +0000
-Date: Sat, 30 Nov 2024 01:26:51 +0800
+Date: Sat, 30 Nov 2024 01:26:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
+To: Janne Grunau <j@jannau.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 91/92] fs/ceph/crypto.c:591:5: error:
- conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode
- *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct
- inode *, struct page **, long long unsigned int,  struct ceph_sparse_e...
-Message-ID: <202411300143.O4teJl4V-lkp@intel.com>
+Subject: [asahilinux:bits/080-wifi 48/48]
+ drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1918:26: sparse:
+ sparse: incorrect type in initializer (different base types)
+Message-ID: <202411300128.3TIi1Nfo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,162 +63,76 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
-head:   ae69436bf8db8f3a53edd0dfa379e753700240c0
-commit: 95bb815d8b7a2551d8378f51ca18e4e1f159eb7a [91/92] fixes
-config: arc-randconfig-001-20241129 (https://download.01.org/0day-ci/archive/20241130/202411300143.O4teJl4V-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300143.O4teJl4V-lkp@intel.com/reproduce)
+Hi Janne,
+
+First bad commit (maybe != root cause):
+
+tree:   https://github.com/AsahiLinux/linux bits/080-wifi
+head:   382efbf95f1c08b2ecc4061963a61db6538d9724
+commit: bae8b9b1d3b8c3fc9e9e35e1b0656cc5bcdae6ec [48/48] fixup! wifi: brcmfmac: Add support for firmware signatures
+config: riscv-randconfig-r113-20241118 (https://download.01.org/0day-ci/archive/20241130/202411300128.3TIi1Nfo-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241130/202411300128.3TIi1Nfo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411300143.O4teJl4V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411300128.3TIi1Nfo-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1918:26: sparse: sparse: incorrect type in initializer (different base types) @@     expected restricted __le32 [usertype] magic @@     got unsigned int [usertype] type @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1918:26: sparse:     expected restricted __le32 [usertype] magic
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1918:26: sparse:     got unsigned int [usertype] type
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1932:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length @@     got unsigned int [assigned] [usertype] length @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1932:31: sparse:     expected restricted __le32 [usertype] length
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1932:31: sparse:     got unsigned int [assigned] [usertype] length
+>> drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1934:31: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] length @@     got unsigned int @@
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1934:31: sparse:     expected restricted __le32 [usertype] length
+   drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:1934:31: sparse:     got unsigned int
 
->> fs/ceph/crypto.c:545:5: warning: no previous prototype for 'ceph_fscrypt_decrypt_pages' [-Wmissing-prototypes]
-     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/ceph/crypto.c:591:5: error: conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct page **, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
-     591 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from fs/ceph/super.h:26,
-                    from fs/ceph/crypto.c:14:
-   fs/ceph/crypto.h:160:5: note: previous declaration of 'ceph_fscrypt_decrypt_extents' with type 'int(struct inode *, struct ceph_databuf *, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct ceph_databuf *, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
-     160 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct ceph_databuf *dbuf, u64 off,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ceph/crypto.c: In function 'ceph_fscrypt_decrypt_extents':
->> fs/ceph/crypto.c:625:58: error: passing argument 2 of 'ceph_fscrypt_decrypt_pages' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     625 |                 fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
-         |                                                          ^~~~~~~~~~~~
-         |                                                          |
-         |                                                          struct page **
-   fs/ceph/crypto.c:545:74: note: expected 'struct ceph_databuf *' but argument is of type 'struct page **'
-     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
-         |                                                     ~~~~~~~~~~~~~~~~~~~~~^~~~
-   cc1: some warnings being treated as errors
+vim +1918 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
 
+9e37f045d5e7f3 drivers/net/wireless/brcm80211/brcmfmac/pcie.c          Hante Meuleman 2014-07-30  1909  
+3de6af5d47ce46 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Daniel Berlin  2023-10-24  1910  static int brcmf_alloc_rtlv(struct brcmf_pciedev_info *devinfo, u32 *address, u32 type, u32 length)
+316f790ebcf94b drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Duoming Zhou   2024-03-06  1911  {
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1912  	struct brcmf_bus *bus = dev_get_drvdata(&devinfo->pdev->dev);
+3de6af5d47ce46 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Daniel Berlin  2023-10-24  1913  	u32 fw_top = devinfo->ci->rambase + devinfo->fw_size;
+3de6af5d47ce46 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Daniel Berlin  2023-10-24  1914  	u32 ram_start = ALIGN(fw_top + BRCMF_BL_HEAP_START_GAP, 4);
+3de6af5d47ce46 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Daniel Berlin  2023-10-24  1915  	u32 ram_end = ram_start + BRCMF_BL_HEAP_SIZE;
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1916  	u32 start_addr;
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1917  	struct brcmf_rtlv_footer footer = {
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03 @1918  		.magic = type,
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1919  	};
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1920  
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1921  	length = ALIGN(length, 4);
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1922  	start_addr = *address - length - sizeof(struct brcmf_rtlv_footer);
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1923  
+3de6af5d47ce46 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Daniel Berlin  2023-10-24  1924  	if (length > 0xffff || start_addr > *address || start_addr < ram_end) {
+3de6af5d47ce46 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Daniel Berlin  2023-10-24  1925  		brcmf_err(bus, "failed to allocate 0x%x bytes for rTLV type 0x%x\n",
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1926  			  length, type);
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1927  		return -ENOMEM;
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1928  	}
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1929  
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1930  	/* Random seed does not use the length check code */
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1931  	if (type == BRCMF_RANDOM_SEED_MAGIC)
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03 @1932  		footer.length = length;
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1933  	else
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03 @1934  		footer.length = length | ((length ^ 0xffff) << 16);
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1935  
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1936  	memcpy_toio(devinfo->tcm + *address - sizeof(struct brcmf_rtlv_footer),
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1937  		    &footer, sizeof(struct brcmf_rtlv_footer));
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1938  
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1939  	*address = start_addr;
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1940  
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1941  	return 0;
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1942  }
+ee746f4d98b1d0 drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c Hector Martin  2023-10-03  1943  
 
-vim +591 fs/ceph/crypto.c
+:::::: The code at line 1918 was first introduced by commit
+:::::: ee746f4d98b1d0a23cf050e15084f6dd03a743e2 wifi: brcmfmac: Add support for firmware signatures
 
-77cdb7e17e39eb Jeff Layton   2022-08-25  529  
-77cdb7e17e39eb Jeff Layton   2022-08-25  530  /**
-95bb815d8b7a25 David Howells 2023-08-23  531   * ceph_fscrypt_decrypt_data - Decrypt buffered data
-77cdb7e17e39eb Jeff Layton   2022-08-25  532   * @inode: pointer to inode associated with these pages
-95bb815d8b7a25 David Howells 2023-08-23  533   * @dbuf: pointer to buffer containing the data
-77cdb7e17e39eb Jeff Layton   2022-08-25  534   * @off: offset into the file that the read data starts
-77cdb7e17e39eb Jeff Layton   2022-08-25  535   * @len: max length to decrypt
-77cdb7e17e39eb Jeff Layton   2022-08-25  536   *
-95bb815d8b7a25 David Howells 2023-08-23  537   * Decrypt an buffer of fscrypt'ed pages and return the amount of
-77cdb7e17e39eb Jeff Layton   2022-08-25  538   * data decrypted. Any data in the page prior to the start of the
-77cdb7e17e39eb Jeff Layton   2022-08-25  539   * first complete block in the read is ignored. Any incomplete
-77cdb7e17e39eb Jeff Layton   2022-08-25  540   * crypto blocks at the end of the array are ignored (and should
-77cdb7e17e39eb Jeff Layton   2022-08-25  541   * probably be zeroed by the caller).
-77cdb7e17e39eb Jeff Layton   2022-08-25  542   *
-77cdb7e17e39eb Jeff Layton   2022-08-25  543   * Returns the length of the decrypted data or a negative errno.
-77cdb7e17e39eb Jeff Layton   2022-08-25  544   */
-95bb815d8b7a25 David Howells 2023-08-23 @545  int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
-77cdb7e17e39eb Jeff Layton   2022-08-25  546  			       u64 off, int len)
-77cdb7e17e39eb Jeff Layton   2022-08-25  547  {
-77cdb7e17e39eb Jeff Layton   2022-08-25  548  	int i, num_blocks;
-77cdb7e17e39eb Jeff Layton   2022-08-25  549  	u64 baseblk = off >> CEPH_FSCRYPT_BLOCK_SHIFT;
-77cdb7e17e39eb Jeff Layton   2022-08-25  550  	int ret = 0;
-77cdb7e17e39eb Jeff Layton   2022-08-25  551  
-77cdb7e17e39eb Jeff Layton   2022-08-25  552  	/*
-77cdb7e17e39eb Jeff Layton   2022-08-25  553  	 * We can't deal with partial blocks on an encrypted file, so mask off
-77cdb7e17e39eb Jeff Layton   2022-08-25  554  	 * the last bit.
-77cdb7e17e39eb Jeff Layton   2022-08-25  555  	 */
-77cdb7e17e39eb Jeff Layton   2022-08-25  556  	num_blocks = ceph_fscrypt_blocks(off, len & CEPH_FSCRYPT_BLOCK_MASK);
-77cdb7e17e39eb Jeff Layton   2022-08-25  557  
-77cdb7e17e39eb Jeff Layton   2022-08-25  558  	/* Decrypt each block */
-77cdb7e17e39eb Jeff Layton   2022-08-25  559  	for (i = 0; i < num_blocks; ++i) {
-77cdb7e17e39eb Jeff Layton   2022-08-25  560  		int blkoff = i << CEPH_FSCRYPT_BLOCK_SHIFT;
-77cdb7e17e39eb Jeff Layton   2022-08-25  561  		int pgidx = blkoff >> PAGE_SHIFT;
-77cdb7e17e39eb Jeff Layton   2022-08-25  562  		unsigned int pgoffs = offset_in_page(blkoff);
-77cdb7e17e39eb Jeff Layton   2022-08-25  563  		int fret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  564  
-95bb815d8b7a25 David Howells 2023-08-23  565  		fret = ceph_fscrypt_decrypt_block_inplace(inode,
-95bb815d8b7a25 David Howells 2023-08-23  566  				ceph_databuf_page(dbuf, pgidx),
-77cdb7e17e39eb Jeff Layton   2022-08-25  567  				CEPH_FSCRYPT_BLOCK_SIZE, pgoffs,
-77cdb7e17e39eb Jeff Layton   2022-08-25  568  				baseblk + i);
-77cdb7e17e39eb Jeff Layton   2022-08-25  569  		if (fret < 0) {
-77cdb7e17e39eb Jeff Layton   2022-08-25  570  			if (ret == 0)
-77cdb7e17e39eb Jeff Layton   2022-08-25  571  				ret = fret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  572  			break;
-77cdb7e17e39eb Jeff Layton   2022-08-25  573  		}
-77cdb7e17e39eb Jeff Layton   2022-08-25  574  		ret += CEPH_FSCRYPT_BLOCK_SIZE;
-77cdb7e17e39eb Jeff Layton   2022-08-25  575  	}
-77cdb7e17e39eb Jeff Layton   2022-08-25  576  	return ret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  577  }
-77cdb7e17e39eb Jeff Layton   2022-08-25  578  
-77cdb7e17e39eb Jeff Layton   2022-08-25  579  /**
-77cdb7e17e39eb Jeff Layton   2022-08-25  580   * ceph_fscrypt_decrypt_extents: decrypt received extents in given buffer
-77cdb7e17e39eb Jeff Layton   2022-08-25  581   * @inode: inode associated with pages being decrypted
-77cdb7e17e39eb Jeff Layton   2022-08-25  582   * @page: pointer to page array
-77cdb7e17e39eb Jeff Layton   2022-08-25  583   * @off: offset into the file that the data in page[0] starts
-77cdb7e17e39eb Jeff Layton   2022-08-25  584   * @map: pointer to extent array
-77cdb7e17e39eb Jeff Layton   2022-08-25  585   * @ext_cnt: length of extent array
-77cdb7e17e39eb Jeff Layton   2022-08-25  586   *
-77cdb7e17e39eb Jeff Layton   2022-08-25  587   * Given an extent map and a page array, decrypt the received data in-place,
-77cdb7e17e39eb Jeff Layton   2022-08-25  588   * skipping holes. Returns the offset into buffer of end of last decrypted
-77cdb7e17e39eb Jeff Layton   2022-08-25  589   * block.
-77cdb7e17e39eb Jeff Layton   2022-08-25  590   */
-77cdb7e17e39eb Jeff Layton   2022-08-25 @591  int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
-77cdb7e17e39eb Jeff Layton   2022-08-25  592  				 u64 off, struct ceph_sparse_extent *map,
-77cdb7e17e39eb Jeff Layton   2022-08-25  593  				 u32 ext_cnt)
-77cdb7e17e39eb Jeff Layton   2022-08-25  594  {
-38d46409c4639a Xiubo Li      2023-06-12  595  	struct ceph_client *cl = ceph_inode_to_client(inode);
-77cdb7e17e39eb Jeff Layton   2022-08-25  596  	int i, ret = 0;
-77cdb7e17e39eb Jeff Layton   2022-08-25  597  	struct ceph_inode_info *ci = ceph_inode(inode);
-77cdb7e17e39eb Jeff Layton   2022-08-25  598  	u64 objno, objoff;
-77cdb7e17e39eb Jeff Layton   2022-08-25  599  	u32 xlen;
-77cdb7e17e39eb Jeff Layton   2022-08-25  600  
-77cdb7e17e39eb Jeff Layton   2022-08-25  601  	/* Nothing to do for empty array */
-77cdb7e17e39eb Jeff Layton   2022-08-25  602  	if (ext_cnt == 0) {
-38d46409c4639a Xiubo Li      2023-06-12  603  		doutc(cl, "%p %llx.%llx empty array, ret 0\n", inode,
-38d46409c4639a Xiubo Li      2023-06-12  604  		      ceph_vinop(inode));
-77cdb7e17e39eb Jeff Layton   2022-08-25  605  		return 0;
-77cdb7e17e39eb Jeff Layton   2022-08-25  606  	}
-77cdb7e17e39eb Jeff Layton   2022-08-25  607  
-77cdb7e17e39eb Jeff Layton   2022-08-25  608  	ceph_calc_file_object_mapping(&ci->i_layout, off, map[0].len,
-77cdb7e17e39eb Jeff Layton   2022-08-25  609  				      &objno, &objoff, &xlen);
-77cdb7e17e39eb Jeff Layton   2022-08-25  610  
-77cdb7e17e39eb Jeff Layton   2022-08-25  611  	for (i = 0; i < ext_cnt; ++i) {
-77cdb7e17e39eb Jeff Layton   2022-08-25  612  		struct ceph_sparse_extent *ext = &map[i];
-77cdb7e17e39eb Jeff Layton   2022-08-25  613  		int pgsoff = ext->off - objoff;
-77cdb7e17e39eb Jeff Layton   2022-08-25  614  		int pgidx = pgsoff >> PAGE_SHIFT;
-77cdb7e17e39eb Jeff Layton   2022-08-25  615  		int fret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  616  
-77cdb7e17e39eb Jeff Layton   2022-08-25  617  		if ((ext->off | ext->len) & ~CEPH_FSCRYPT_BLOCK_MASK) {
-38d46409c4639a Xiubo Li      2023-06-12  618  			pr_warn_client(cl,
-38d46409c4639a Xiubo Li      2023-06-12  619  				"%p %llx.%llx bad encrypted sparse extent "
-38d46409c4639a Xiubo Li      2023-06-12  620  				"idx %d off %llx len %llx\n",
-38d46409c4639a Xiubo Li      2023-06-12  621  				inode, ceph_vinop(inode), i, ext->off,
-38d46409c4639a Xiubo Li      2023-06-12  622  				ext->len);
-77cdb7e17e39eb Jeff Layton   2022-08-25  623  			return -EIO;
-77cdb7e17e39eb Jeff Layton   2022-08-25  624  		}
-77cdb7e17e39eb Jeff Layton   2022-08-25 @625  		fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
-77cdb7e17e39eb Jeff Layton   2022-08-25  626  						 off + pgsoff, ext->len);
-38d46409c4639a Xiubo Li      2023-06-12  627  		doutc(cl, "%p %llx.%llx [%d] 0x%llx~0x%llx fret %d\n", inode,
-38d46409c4639a Xiubo Li      2023-06-12  628  		      ceph_vinop(inode), i, ext->off, ext->len, fret);
-77cdb7e17e39eb Jeff Layton   2022-08-25  629  		if (fret < 0) {
-77cdb7e17e39eb Jeff Layton   2022-08-25  630  			if (ret == 0)
-77cdb7e17e39eb Jeff Layton   2022-08-25  631  				ret = fret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  632  			break;
-77cdb7e17e39eb Jeff Layton   2022-08-25  633  		}
-77cdb7e17e39eb Jeff Layton   2022-08-25  634  		ret = pgsoff + fret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  635  	}
-38d46409c4639a Xiubo Li      2023-06-12  636  	doutc(cl, "ret %d\n", ret);
-77cdb7e17e39eb Jeff Layton   2022-08-25  637  	return ret;
-77cdb7e17e39eb Jeff Layton   2022-08-25  638  }
-77cdb7e17e39eb Jeff Layton   2022-08-25  639  
-
-:::::: The code at line 591 was first introduced by commit
-:::::: 77cdb7e17e39ebb986f60bbd3c2b3507687bf475 ceph: add infrastructure for file encryption and decryption
-
-:::::: TO: Jeff Layton <jlayton@kernel.org>
-:::::: CC: Ilya Dryomov <idryomov@gmail.com>
+:::::: TO: Hector Martin <marcan@marcan.st>
+:::::: CC: Janne Grunau <j@jannau.net>
 
 -- 
 0-DAY CI Kernel Test Service
