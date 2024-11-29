@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2304A14B06E;
-	Fri, 29 Nov 2024 17:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0B814A624
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 17:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732899993; cv=none; b=OLtHf4BfWgtymju7ptgIo6rSHdQMJ5p24mVRldzdQnE8UeOYD0MpJ3jjn2JXVwFBu+B5o9Qw+fbEM8tffsjGTJN1YaciIZKn8d9fwn+dZYaVo0+wOu5dI4AZBt6bAnUv/w6nRrEoGRCNTDtJ8AlQW2+T3lBuqiYY97H47ooBmag=
+	t=1732901256; cv=none; b=f9BKV8YiWBAx8oDxcgNh/TMZdqT6h6YVpAj5Ygqdi2KZH5L3FVrC2XoNjJbiIXfv3Fi1tRTXqgvjW3s+toHD//1+K439ngkuwU/EOLgHaRwz9sVHDDvX2AC3WfiDJxw5726EnsxgxmPi2x/OKG600f7h5hv8I3HOu9rG3/QAfxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732899993; c=relaxed/simple;
-	bh=Qai2HBU1H3DmuSvV9zmwtCWzyVKxdqExdlqy6089KRc=;
+	s=arc-20240116; t=1732901256; c=relaxed/simple;
+	bh=6z+6+nRY4k3Wt9kp8KE+iDuLR+RCYJX4YlAf2FxHWno=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r1amjCGfYlZJuElTBQTfXxKXjkeARnIbOAM+kq1jpwV5nlmZogS/xSz7u8V/SIA7Zy0SU5Jdz0KdqLUV/YuzA05nijoI7WHRhO0swPipRV0zJSaS2bU4BXT6tl95lp3IPHFMpUX8Pj9WiCEpdeDbNw/gxoNHiAqk+cFJoedCIyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a66C11ni; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=EALxiKAruAsgUnURjrEWi9uQOEaO7rYqI+rEQ2Ct5C0OIfaunQAW+W+H1yfkE2esHKT6AbtDIasjymd1KTcPoUCDt0XdiZhsAdRVb5dyG85KXYbtCXD2oRiHJqsmrlEJR6k/tpJYHuUB6hlKa+WcZxxMOL4gTMfsOANHp83TxIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SVoFIGWG; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a66C11ni"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SVoFIGWG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732899991; x=1764435991;
+  t=1732901254; x=1764437254;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qai2HBU1H3DmuSvV9zmwtCWzyVKxdqExdlqy6089KRc=;
-  b=a66C11nimxz1LyB9RDX4dXb7VWjtUbvrNMzA663AqYS2+jfXhmicCI+k
-   xRB5zETCkAb0ekmth19BAnpoWRxCZecTjj+K+k1aw7EIUEL5VFMNzTvNo
-   NdM2DdIIL6LSTCMJyaPuESEsMhdAHGk6+02DZ1gNUMYmHUwchz/B6Aerh
-   zpBLjy8RCK8IvIvlvPiu34B24u7+JdRYm/G3kXgecxoulUoT1KbURkOdX
-   jLjUvCNLDLsUAlrDLRIXoidGXUimoXZ6KUSnaP8PJ/ZrjhRIONTe6GV8G
-   6gi/HktgA+8ysX7MxeRoKP8H9Wi9942UQU8BPbT0TZiZ7quUoWoHVqkqw
-   w==;
-X-CSE-ConnectionGUID: mTqFSRzVTg6u7MFt5StDMw==
-X-CSE-MsgGUID: QQayZaScTw27ELErFhYcOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44519662"
+  bh=6z+6+nRY4k3Wt9kp8KE+iDuLR+RCYJX4YlAf2FxHWno=;
+  b=SVoFIGWGUr9F31tzeBpfPKBXy5+GmqUYNPW0kaqJPRZYFipDIfr2dLrQ
+   dq7+80rZovRRFXnIRZvhMDuIrk5Wmh9yT3Zp/5/Zr0/zuQ1DbfmWjx0XJ
+   N4UehZCHmuOCum2vY4ykMeuZSSnztcfV9rijlTtjF7C9eCS211rWUE20G
+   udiRddhN+xlNlP2jMzlUwCvKQRfI5sqbiLkGhQtxo4nXoAWEpRZrYV6gR
+   2lKcEs7WtzfgiHa2XErpw9BsScvtPehR/5aOHB/QPD4T+lCNkJj1EiOX7
+   YJ9OTaUMHKT2f0DhAXgGeE5mKNY7tfn3RnXc6gonhoSpIrP9yQUGUGne8
+   Q==;
+X-CSE-ConnectionGUID: VUEBsINfRISpin918yGp1A==
+X-CSE-MsgGUID: 5rkBK2DeTaCkG1IQi6bTXA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43630826"
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="44519662"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 09:06:30 -0800
-X-CSE-ConnectionGUID: b5oO7d3MRIaDplRTYkH5qg==
-X-CSE-MsgGUID: aCvfVPkDTWiH2dwmAF/EbQ==
+   d="scan'208";a="43630826"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 09:27:34 -0800
+X-CSE-ConnectionGUID: 4wGcpIY/St6LrbtVSLi/0Q==
+X-CSE-MsgGUID: 03XL8QtISeiDKTLsEEZYPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="96960729"
+   d="scan'208";a="92352484"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Nov 2024 09:06:30 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 29 Nov 2024 09:27:32 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tH4Rn-0000XV-0b;
-	Fri, 29 Nov 2024 17:06:27 +0000
-Date: Sat, 30 Nov 2024 01:06:12 +0800
+	id 1tH4mA-0000Yt-0e;
+	Fri, 29 Nov 2024 17:27:30 +0000
+Date: Sat, 30 Nov 2024 01:26:51 +0800
 From: kernel test robot <lkp@intel.com>
 To: David Howells <dhowells@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [dhowells-fs:ceph-iter 92/92] net/ceph/snapshot.c:40:22: warning:
- cast from 'void (*)(const void *)' to 'void (*)(struct netfs_group *)'
- converts to incompatible function type
-Message-ID: <202411300046.aELPVLas-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 91/92] fs/ceph/crypto.c:591:5: error:
+ conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode
+ *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct
+ inode *, struct page **, long long unsigned int,  struct ceph_sparse_e...
+Message-ID: <202411300143.O4teJl4V-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,75 +66,160 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
 head:   ae69436bf8db8f3a53edd0dfa379e753700240c0
-commit: ae69436bf8db8f3a53edd0dfa379e753700240c0 [92/92] ceph: Use netfslib
-config: arm-randconfig-004-20241129 (https://download.01.org/0day-ci/archive/20241130/202411300046.aELPVLas-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300046.aELPVLas-lkp@intel.com/reproduce)
+commit: 95bb815d8b7a2551d8378f51ca18e4e1f159eb7a [91/92] fixes
+config: arc-randconfig-001-20241129 (https://download.01.org/0day-ci/archive/20241130/202411300143.O4teJl4V-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300143.O4teJl4V-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411300046.aELPVLas-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411300143.O4teJl4V-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from net/ceph/snapshot.c:10:
-   In file included from include/linux/ceph/libceph.h:8:
-   In file included from include/linux/backing-dev.h:16:
-   In file included from include/linux/writeback.h:13:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:8:
-   In file included from include/linux/cacheflush.h:5:
-   In file included from arch/arm/include/asm/cacheflush.h:10:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> net/ceph/snapshot.c:40:22: warning: cast from 'void (*)(const void *)' to 'void (*)(struct netfs_group *)' converts to incompatible function type [-Wcast-function-type-strict]
-      40 |         snapc->group.free = (void (*)(struct netfs_group *))kfree;
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+>> fs/ceph/crypto.c:545:5: warning: no previous prototype for 'ceph_fscrypt_decrypt_pages' [-Wmissing-prototypes]
+     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/ceph/crypto.c:591:5: error: conflicting types for 'ceph_fscrypt_decrypt_extents'; have 'int(struct inode *, struct page **, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct page **, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
+     591 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/ceph/super.h:26,
+                    from fs/ceph/crypto.c:14:
+   fs/ceph/crypto.h:160:5: note: previous declaration of 'ceph_fscrypt_decrypt_extents' with type 'int(struct inode *, struct ceph_databuf *, u64,  struct ceph_sparse_extent *, u32)' {aka 'int(struct inode *, struct ceph_databuf *, long long unsigned int,  struct ceph_sparse_extent *, unsigned int)'}
+     160 | int ceph_fscrypt_decrypt_extents(struct inode *inode, struct ceph_databuf *dbuf, u64 off,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/crypto.c: In function 'ceph_fscrypt_decrypt_extents':
+>> fs/ceph/crypto.c:625:58: error: passing argument 2 of 'ceph_fscrypt_decrypt_pages' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     625 |                 fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+         |                                                          ^~~~~~~~~~~~
+         |                                                          |
+         |                                                          struct page **
+   fs/ceph/crypto.c:545:74: note: expected 'struct ceph_databuf *' but argument is of type 'struct page **'
+     545 | int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+         |                                                     ~~~~~~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +40 net/ceph/snapshot.c
+vim +591 fs/ceph/crypto.c
 
-    11	
-    12	/*
-    13	 * Ceph snapshot contexts are reference counted objects, and the
-    14	 * returned structure holds a single reference.  Acquire additional
-    15	 * references with ceph_get_snap_context(), and release them with
-    16	 * ceph_put_snap_context().  When the reference count reaches zero
-    17	 * the entire structure is freed.
-    18	 */
-    19	
-    20	/*
-    21	 * Create a new ceph snapshot context large enough to hold the
-    22	 * indicated number of snapshot ids (which can be 0).  Caller has
-    23	 * to fill in snapc->seq and snapc->snaps[0..snap_count-1].
-    24	 *
-    25	 * Returns a null pointer if an error occurs.
-    26	 */
-    27	struct ceph_snap_context *ceph_create_snap_context(u32 snap_count,
-    28							gfp_t gfp_flags)
-    29	{
-    30		struct ceph_snap_context *snapc;
-    31		size_t size;
-    32	
-    33		size = sizeof (struct ceph_snap_context);
-    34		size += snap_count * sizeof (snapc->snaps[0]);
-    35		snapc = kzalloc(size, gfp_flags);
-    36		if (!snapc)
-    37			return NULL;
-    38	
-    39		refcount_set(&snapc->group.ref, 1);
-  > 40		snapc->group.free = (void (*)(struct netfs_group *))kfree;
-    41		snapc->num_snaps = snap_count;
-    42	
-    43		return snapc;
-    44	}
-    45	EXPORT_SYMBOL(ceph_create_snap_context);
-    46	
+77cdb7e17e39eb Jeff Layton   2022-08-25  529  
+77cdb7e17e39eb Jeff Layton   2022-08-25  530  /**
+95bb815d8b7a25 David Howells 2023-08-23  531   * ceph_fscrypt_decrypt_data - Decrypt buffered data
+77cdb7e17e39eb Jeff Layton   2022-08-25  532   * @inode: pointer to inode associated with these pages
+95bb815d8b7a25 David Howells 2023-08-23  533   * @dbuf: pointer to buffer containing the data
+77cdb7e17e39eb Jeff Layton   2022-08-25  534   * @off: offset into the file that the read data starts
+77cdb7e17e39eb Jeff Layton   2022-08-25  535   * @len: max length to decrypt
+77cdb7e17e39eb Jeff Layton   2022-08-25  536   *
+95bb815d8b7a25 David Howells 2023-08-23  537   * Decrypt an buffer of fscrypt'ed pages and return the amount of
+77cdb7e17e39eb Jeff Layton   2022-08-25  538   * data decrypted. Any data in the page prior to the start of the
+77cdb7e17e39eb Jeff Layton   2022-08-25  539   * first complete block in the read is ignored. Any incomplete
+77cdb7e17e39eb Jeff Layton   2022-08-25  540   * crypto blocks at the end of the array are ignored (and should
+77cdb7e17e39eb Jeff Layton   2022-08-25  541   * probably be zeroed by the caller).
+77cdb7e17e39eb Jeff Layton   2022-08-25  542   *
+77cdb7e17e39eb Jeff Layton   2022-08-25  543   * Returns the length of the decrypted data or a negative errno.
+77cdb7e17e39eb Jeff Layton   2022-08-25  544   */
+95bb815d8b7a25 David Howells 2023-08-23 @545  int ceph_fscrypt_decrypt_pages(struct inode *inode, struct ceph_databuf *dbuf,
+77cdb7e17e39eb Jeff Layton   2022-08-25  546  			       u64 off, int len)
+77cdb7e17e39eb Jeff Layton   2022-08-25  547  {
+77cdb7e17e39eb Jeff Layton   2022-08-25  548  	int i, num_blocks;
+77cdb7e17e39eb Jeff Layton   2022-08-25  549  	u64 baseblk = off >> CEPH_FSCRYPT_BLOCK_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  550  	int ret = 0;
+77cdb7e17e39eb Jeff Layton   2022-08-25  551  
+77cdb7e17e39eb Jeff Layton   2022-08-25  552  	/*
+77cdb7e17e39eb Jeff Layton   2022-08-25  553  	 * We can't deal with partial blocks on an encrypted file, so mask off
+77cdb7e17e39eb Jeff Layton   2022-08-25  554  	 * the last bit.
+77cdb7e17e39eb Jeff Layton   2022-08-25  555  	 */
+77cdb7e17e39eb Jeff Layton   2022-08-25  556  	num_blocks = ceph_fscrypt_blocks(off, len & CEPH_FSCRYPT_BLOCK_MASK);
+77cdb7e17e39eb Jeff Layton   2022-08-25  557  
+77cdb7e17e39eb Jeff Layton   2022-08-25  558  	/* Decrypt each block */
+77cdb7e17e39eb Jeff Layton   2022-08-25  559  	for (i = 0; i < num_blocks; ++i) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  560  		int blkoff = i << CEPH_FSCRYPT_BLOCK_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  561  		int pgidx = blkoff >> PAGE_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  562  		unsigned int pgoffs = offset_in_page(blkoff);
+77cdb7e17e39eb Jeff Layton   2022-08-25  563  		int fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  564  
+95bb815d8b7a25 David Howells 2023-08-23  565  		fret = ceph_fscrypt_decrypt_block_inplace(inode,
+95bb815d8b7a25 David Howells 2023-08-23  566  				ceph_databuf_page(dbuf, pgidx),
+77cdb7e17e39eb Jeff Layton   2022-08-25  567  				CEPH_FSCRYPT_BLOCK_SIZE, pgoffs,
+77cdb7e17e39eb Jeff Layton   2022-08-25  568  				baseblk + i);
+77cdb7e17e39eb Jeff Layton   2022-08-25  569  		if (fret < 0) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  570  			if (ret == 0)
+77cdb7e17e39eb Jeff Layton   2022-08-25  571  				ret = fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  572  			break;
+77cdb7e17e39eb Jeff Layton   2022-08-25  573  		}
+77cdb7e17e39eb Jeff Layton   2022-08-25  574  		ret += CEPH_FSCRYPT_BLOCK_SIZE;
+77cdb7e17e39eb Jeff Layton   2022-08-25  575  	}
+77cdb7e17e39eb Jeff Layton   2022-08-25  576  	return ret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  577  }
+77cdb7e17e39eb Jeff Layton   2022-08-25  578  
+77cdb7e17e39eb Jeff Layton   2022-08-25  579  /**
+77cdb7e17e39eb Jeff Layton   2022-08-25  580   * ceph_fscrypt_decrypt_extents: decrypt received extents in given buffer
+77cdb7e17e39eb Jeff Layton   2022-08-25  581   * @inode: inode associated with pages being decrypted
+77cdb7e17e39eb Jeff Layton   2022-08-25  582   * @page: pointer to page array
+77cdb7e17e39eb Jeff Layton   2022-08-25  583   * @off: offset into the file that the data in page[0] starts
+77cdb7e17e39eb Jeff Layton   2022-08-25  584   * @map: pointer to extent array
+77cdb7e17e39eb Jeff Layton   2022-08-25  585   * @ext_cnt: length of extent array
+77cdb7e17e39eb Jeff Layton   2022-08-25  586   *
+77cdb7e17e39eb Jeff Layton   2022-08-25  587   * Given an extent map and a page array, decrypt the received data in-place,
+77cdb7e17e39eb Jeff Layton   2022-08-25  588   * skipping holes. Returns the offset into buffer of end of last decrypted
+77cdb7e17e39eb Jeff Layton   2022-08-25  589   * block.
+77cdb7e17e39eb Jeff Layton   2022-08-25  590   */
+77cdb7e17e39eb Jeff Layton   2022-08-25 @591  int ceph_fscrypt_decrypt_extents(struct inode *inode, struct page **page,
+77cdb7e17e39eb Jeff Layton   2022-08-25  592  				 u64 off, struct ceph_sparse_extent *map,
+77cdb7e17e39eb Jeff Layton   2022-08-25  593  				 u32 ext_cnt)
+77cdb7e17e39eb Jeff Layton   2022-08-25  594  {
+38d46409c4639a Xiubo Li      2023-06-12  595  	struct ceph_client *cl = ceph_inode_to_client(inode);
+77cdb7e17e39eb Jeff Layton   2022-08-25  596  	int i, ret = 0;
+77cdb7e17e39eb Jeff Layton   2022-08-25  597  	struct ceph_inode_info *ci = ceph_inode(inode);
+77cdb7e17e39eb Jeff Layton   2022-08-25  598  	u64 objno, objoff;
+77cdb7e17e39eb Jeff Layton   2022-08-25  599  	u32 xlen;
+77cdb7e17e39eb Jeff Layton   2022-08-25  600  
+77cdb7e17e39eb Jeff Layton   2022-08-25  601  	/* Nothing to do for empty array */
+77cdb7e17e39eb Jeff Layton   2022-08-25  602  	if (ext_cnt == 0) {
+38d46409c4639a Xiubo Li      2023-06-12  603  		doutc(cl, "%p %llx.%llx empty array, ret 0\n", inode,
+38d46409c4639a Xiubo Li      2023-06-12  604  		      ceph_vinop(inode));
+77cdb7e17e39eb Jeff Layton   2022-08-25  605  		return 0;
+77cdb7e17e39eb Jeff Layton   2022-08-25  606  	}
+77cdb7e17e39eb Jeff Layton   2022-08-25  607  
+77cdb7e17e39eb Jeff Layton   2022-08-25  608  	ceph_calc_file_object_mapping(&ci->i_layout, off, map[0].len,
+77cdb7e17e39eb Jeff Layton   2022-08-25  609  				      &objno, &objoff, &xlen);
+77cdb7e17e39eb Jeff Layton   2022-08-25  610  
+77cdb7e17e39eb Jeff Layton   2022-08-25  611  	for (i = 0; i < ext_cnt; ++i) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  612  		struct ceph_sparse_extent *ext = &map[i];
+77cdb7e17e39eb Jeff Layton   2022-08-25  613  		int pgsoff = ext->off - objoff;
+77cdb7e17e39eb Jeff Layton   2022-08-25  614  		int pgidx = pgsoff >> PAGE_SHIFT;
+77cdb7e17e39eb Jeff Layton   2022-08-25  615  		int fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  616  
+77cdb7e17e39eb Jeff Layton   2022-08-25  617  		if ((ext->off | ext->len) & ~CEPH_FSCRYPT_BLOCK_MASK) {
+38d46409c4639a Xiubo Li      2023-06-12  618  			pr_warn_client(cl,
+38d46409c4639a Xiubo Li      2023-06-12  619  				"%p %llx.%llx bad encrypted sparse extent "
+38d46409c4639a Xiubo Li      2023-06-12  620  				"idx %d off %llx len %llx\n",
+38d46409c4639a Xiubo Li      2023-06-12  621  				inode, ceph_vinop(inode), i, ext->off,
+38d46409c4639a Xiubo Li      2023-06-12  622  				ext->len);
+77cdb7e17e39eb Jeff Layton   2022-08-25  623  			return -EIO;
+77cdb7e17e39eb Jeff Layton   2022-08-25  624  		}
+77cdb7e17e39eb Jeff Layton   2022-08-25 @625  		fret = ceph_fscrypt_decrypt_pages(inode, &page[pgidx],
+77cdb7e17e39eb Jeff Layton   2022-08-25  626  						 off + pgsoff, ext->len);
+38d46409c4639a Xiubo Li      2023-06-12  627  		doutc(cl, "%p %llx.%llx [%d] 0x%llx~0x%llx fret %d\n", inode,
+38d46409c4639a Xiubo Li      2023-06-12  628  		      ceph_vinop(inode), i, ext->off, ext->len, fret);
+77cdb7e17e39eb Jeff Layton   2022-08-25  629  		if (fret < 0) {
+77cdb7e17e39eb Jeff Layton   2022-08-25  630  			if (ret == 0)
+77cdb7e17e39eb Jeff Layton   2022-08-25  631  				ret = fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  632  			break;
+77cdb7e17e39eb Jeff Layton   2022-08-25  633  		}
+77cdb7e17e39eb Jeff Layton   2022-08-25  634  		ret = pgsoff + fret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  635  	}
+38d46409c4639a Xiubo Li      2023-06-12  636  	doutc(cl, "ret %d\n", ret);
+77cdb7e17e39eb Jeff Layton   2022-08-25  637  	return ret;
+77cdb7e17e39eb Jeff Layton   2022-08-25  638  }
+77cdb7e17e39eb Jeff Layton   2022-08-25  639  
+
+:::::: The code at line 591 was first introduced by commit
+:::::: 77cdb7e17e39ebb986f60bbd3c2b3507687bf475 ceph: add infrastructure for file encryption and decryption
+
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: Ilya Dryomov <idryomov@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
