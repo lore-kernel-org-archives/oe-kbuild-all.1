@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3879189BBF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 11:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A195199949
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 11:31:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732878594; cv=none; b=drzELSWqYSoh67v0lTiztcA/SolzvRg3HcNovpc7zuOhIiVwKUjSYSxI95VBcWSOE7v99R+q2oXeIdee2+MCm1cSU+M/9EoAxQlOdJkQQlotJEtSCsZhPpIYsIX1ef2UL3/SIttQ164EtEtsPWGIXE4LIrDvJSi01BMTDr3VQJ0=
+	t=1732879916; cv=none; b=AWxTvq+dsab8YE1BoYVZTRJBfjRUImDbJzzBRmOq6Mc99IxwNJ8SCiegKgX9Ll8mvGfuiWdu+v65owZ5Ya8A4yhYoPmGQ0o1gLWiqkjF1FmZh4k+gYDmHWfCLzUrjt4ks36tHSM/hLNtuOq3P93s4Dcp+5+nxYCrLI9fCCJensY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732878594; c=relaxed/simple;
-	bh=4XRGEqh2MdttIezrOU+m/60VmGPpM+94KC4WTa6S3Tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LM4e9Y3yT1i1tUq/+Vvcomt7iE4YTeSLrTWK9zubLO4utx2Ocy80Tgpgl0BSoF3WjsGUUQdVzOjOorepv7Hmurx6JJQ2/ceW68YkXHmFhzV6FyYUeEj0fw+0pgRsigxL0RV60So0bN/NAmjPX0XyDRwvoUDzdmahanajzjYZhF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MXbtTW0n; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1732879916; c=relaxed/simple;
+	bh=2Q69KjoKyUKQhijTfAc96BDtSwh1D4Q/pd/gQDhr2nQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N9PiIOLLUidLaWOPeXvcHL/31Si5QptGCi1RkygTD6Vc3bgs1bwwqTTAn+jHXzCmZ/T7Qg+6QQpqlSBRlOT3lhkPSaP9dD7ZZZI+hLwmgd1iw2VJ603UhFRzweMYHshjs4S9lNYMzen6i8H46OW6XS0w/iqNaZIdC4lcv93UZJQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dL+KHex5; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MXbtTW0n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dL+KHex5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732878592; x=1764414592;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4XRGEqh2MdttIezrOU+m/60VmGPpM+94KC4WTa6S3Tc=;
-  b=MXbtTW0nmUJBAybKhsPJXsh6JklmO+fITw6dKeU/8+q8Cz5lSNJ1KHBk
-   jImZnJDHvQClZOd5ENNREU7lyXMzUqEJQyXAoLbSIXTUpZGizZaJxClAh
-   L1YI2+O5Ur7slejOmzY2XXRhkfGe0BQgZCTSDvdje7lgh+f/l74TF8HAE
-   ClurvM49MIfn6sNVmC+8PEQxnNy3N8zyklEJylsd7ijHnzX9zz5FmuC7X
-   +F08RKKmhrxGoP2cgMPMIvAWQBznO5cvzC/KLqMkryf9R8OTu5vduFnvt
-   q/ntXI8/ru2ODbXXKNr8sRqWrEE0f9daieFzBnfZ6AshW775PjTelQpWi
-   g==;
-X-CSE-ConnectionGUID: I3PlImTnRU2zXHQW1KOwOg==
-X-CSE-MsgGUID: ZAgmCf8zSFiubHIq9Sb40A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="44168298"
+  t=1732879914; x=1764415914;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2Q69KjoKyUKQhijTfAc96BDtSwh1D4Q/pd/gQDhr2nQ=;
+  b=dL+KHex51isiEzXzZx3nNmtmfYvSdEVwo81Xv8mQ/CRiumWRGoDAc+TP
+   GMxLkT9QhOHb9b4SuI0vmQi0sPgB3/hxHYoUjufbc4OkpJxL/ejBtLNNr
+   3xKmt+RWLeD0Ovr9Boizu9b7/TT4eZYJw/RNtSuIyQ227VIc9u3T/uimp
+   BaRd+X9rgOXshHC4ZFIV+ryu1u2WyuzFJ+Q18mtfkTSmAoAlmzmMJ3wJc
+   olemOfWn+VNc+tDlCAcThjrIPzbQ99WaaQ0rpzsPPNwp7KqodJewXQfU1
+   Eqt9aCEr+piKz1GVqQodOhwYt4cVk6brh+yYU2B4yLHMqPDc4ZIbNYK9N
+   A==;
+X-CSE-ConnectionGUID: 3y+++FvBRYat+NMLtildGA==
+X-CSE-MsgGUID: BrxXEUOpQTKX8dI71O/SMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33267841"
 X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="44168298"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 03:09:51 -0800
-X-CSE-ConnectionGUID: 4qWzTkYOT2i+yiMBZEl0AQ==
-X-CSE-MsgGUID: Puq1m9C0SlmW5VGiRX25LA==
+   d="scan'208";a="33267841"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 03:31:54 -0800
+X-CSE-ConnectionGUID: zLmB6YFMR4aEoVgPstZQ6w==
+X-CSE-MsgGUID: HqFn2Wi+TniN1CJupXSvgg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,195,1728975600"; 
-   d="scan'208";a="92936813"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="97508882"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2024 03:09:50 -0800
+  by orviesa003.jf.intel.com with ESMTP; 29 Nov 2024 03:31:52 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGysd-0000G3-2h;
-	Fri, 29 Nov 2024 11:09:47 +0000
-Date: Fri, 29 Nov 2024 19:09:30 +0800
+	id 1tGzDx-0000HP-2F;
+	Fri, 29 Nov 2024 11:31:49 +0000
+Date: Fri, 29 Nov 2024 19:30:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [hch-xfs:xfs-zoned 85/89] include/linux/build_bug.h:78:41: error:
- static assertion failed: "XFS: sizeof(struct xfs_sb) is wrong, expected 304"
-Message-ID: <202411291902.chE4DAoZ-lkp@intel.com>
+To: "Rafael V. Volkmer" <rafael.v.volkmer@gmail.com>, ukleinek@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org, rafael.v.volkmer@gmail.com
+Subject: Re: [PATCH] pwm: tiehrpwm: ensures that state.enabled is
+ synchronized during .probe()
+Message-ID: <202411291940.6T4OMy3k-lkp@intel.com>
+References: <20241129034334.27203-1-rafael.v.volkmer@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,71 +64,140 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241129034334.27203-1-rafael.v.volkmer@gmail.com>
 
-tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
-head:   6c2982ec392045b4d9c02d0298dff5f2e7f35f27
-commit: 947f2988e7f7fd913ccda69c678dfbe782bcab6d [85/89] xfs: use fsblock units for sb_rtstart
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20241129/202411291902.chE4DAoZ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411291902.chE4DAoZ-lkp@intel.com/reproduce)
+Hi Rafael,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.12 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-V-Volkmer/pwm-tiehrpwm-ensures-that-state-enabled-is-synchronized-during-probe/20241129-114649
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241129034334.27203-1-rafael.v.volkmer%40gmail.com
+patch subject: [PATCH] pwm: tiehrpwm: ensures that state.enabled is synchronized during .probe()
+config: alpha-randconfig-r053-20241129 (https://download.01.org/0day-ci/archive/20241129/202411291940.6T4OMy3k-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411291940.6T4OMy3k-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411291902.chE4DAoZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411291940.6T4OMy3k-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from fs/xfs/xfs_linux.h:24,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_sb) is wrong, expected 304"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:237:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     237 |         XFS_CHECK_STRUCT_SIZE(struct xfs_sb,            304);
-         |         ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pwm/pwm-tiehrpwm.c: In function 'ehrpwm_pwm_probe':
+>> drivers/pwm/pwm-tiehrpwm.c:642:32: error: 'struct ehrpwm_pwm_chip' has no member named 'chip'
+     642 |         ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
+         |                                ^~
+   drivers/pwm/pwm-tiehrpwm.c:642:43: error: 'struct ehrpwm_pwm_chip' has no member named 'chip'
+     642 |         ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
+         |                                           ^~
+>> drivers/pwm/pwm-tiehrpwm.c:642:60: error: 'state' undeclared (first use in this function); did you mean 'statx'?
+     642 |         ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
+         |                                                            ^~~~~
+         |                                                            statx
+   drivers/pwm/pwm-tiehrpwm.c:642:60: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/pwm/pwm-tiehrpwm.c:664:27: error: 'struct ehrpwm_pwm_chip' has no member named 'chip'
+     664 |         pwmchip_remove(&pc->chip);
+         |                           ^~
 
 
-vim +78 include/linux/build_bug.h
+vim +642 drivers/pwm/pwm-tiehrpwm.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07  77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
-
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   584	
+   585	static int ehrpwm_pwm_probe(struct platform_device *pdev)
+   586	{
+   587		struct device_node *np = pdev->dev.of_node;
+   588		struct ehrpwm_pwm_chip *pc;
+   589		struct pwm_chip *chip;
+   590		bool tbclk_enabled;
+   591		struct clk *clk;
+   592		int ret;
+   593	
+   594		chip = devm_pwmchip_alloc(&pdev->dev, NUM_PWM_CHANNEL, sizeof(*pc));
+   595		if (IS_ERR(chip))
+   596			return PTR_ERR(chip);
+   597		pc = to_ehrpwm_pwm_chip(chip);
+   598	
+   599		clk = devm_clk_get(&pdev->dev, "fck");
+   600		if (IS_ERR(clk)) {
+   601			if (of_device_is_compatible(np, "ti,am33xx-ecap")) {
+   602				dev_warn(&pdev->dev, "Binding is obsolete.\n");
+   603				clk = devm_clk_get(pdev->dev.parent, "fck");
+   604			}
+   605		}
+   606	
+   607		if (IS_ERR(clk))
+   608			return dev_err_probe(&pdev->dev, PTR_ERR(clk), "Failed to get fck\n");
+   609	
+   610		pc->clk_rate = clk_get_rate(clk);
+   611		if (!pc->clk_rate) {
+   612			dev_err(&pdev->dev, "failed to get clock rate\n");
+   613			return -EINVAL;
+   614		}
+   615	
+   616		chip->ops = &ehrpwm_pwm_ops;
+   617	
+   618		pc->mmio_base = devm_platform_ioremap_resource(pdev, 0);
+   619		if (IS_ERR(pc->mmio_base))
+   620			return PTR_ERR(pc->mmio_base);
+   621	
+   622		/* Acquire tbclk for Time Base EHRPWM submodule */
+   623		pc->tbclk = devm_clk_get(&pdev->dev, "tbclk");
+   624		if (IS_ERR(pc->tbclk))
+   625			return dev_err_probe(&pdev->dev, PTR_ERR(pc->tbclk), "Failed to get tbclk\n");
+   626	
+   627		ret = clk_prepare(pc->tbclk);
+   628		if (ret < 0) {
+   629			dev_err(&pdev->dev, "clk_prepare() failed: %d\n", ret);
+   630			return ret;
+   631		}
+   632	
+   633		ret = pwmchip_add(chip);
+   634		if (ret < 0) {
+   635			dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
+   636			goto err_clk_unprepare;
+   637		}
+   638	
+   639		platform_set_drvdata(pdev, chip);
+   640		pm_runtime_enable(&pdev->dev);
+   641	
+ > 642		ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
+   643	
+   644		if(state.enabled == true) {
+   645			ret = clk_prepare_enable(pc->tbclk);
+   646			if (ret) {	
+   647				dev_err(&pdev->dev, "clk_prepare_enable() failed: %d\n", ret);
+   648				goto err_pwmchip_remove;
+   649			}
+   650			
+   651			tbclk_enabled = true;
+   652	
+   653			ret = pm_runtime_get_sync(&pdev->dev);
+   654			if(ret < 0) {
+   655				dev_err(&pdev->dev, "pm_runtime_get_sync() failed: %d\n", ret);
+   656				clk_disable_unprepare(pc->tbclk);
+   657				goto err_pwmchip_remove;
+   658			}
+   659		}
+   660	
+   661		return 0;
+   662	
+   663	err_pwmchip_remove:
+   664		pwmchip_remove(&pc->chip);
+   665	err_clk_unprepare:
+   666		if(tbclk_enabled)
+   667			clk_unprepare(pc->tbclk);
+   668	
+   669		return ret;
+   670	}
+   671	
 
 -- 
 0-DAY CI Kernel Test Service
