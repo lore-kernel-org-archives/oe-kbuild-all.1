@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F34FA804
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 00:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524D41EA65;
+	Fri, 29 Nov 2024 00:33:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732839180; cv=none; b=Mh7YnCDiWRD9fddkOdIsIh66zd/FLplTdcRJUPblfpbR6S2fxSr9mv6Kh1E7d83Wm+GWBMH/xDBi6bSY6SwZY1luvg0mP0ABLfE284AZ+WQ4UoRaNAz4Ory9WNVEg7eSOnSVrc3F1vKq5IL44eMQjta1a32sXyh944VAt9TqbNY=
+	t=1732840388; cv=none; b=Ipimaf680SOUz0muvj8MvUxUo6ZW5z3BA9QmVtHGDgLE9ypI2xWllMroYf38J1NQ3MLD0C5A6bOc2c9LD4focoskPTulA6YkeMgxhPHn9zQdrxZ+s3Ky3XX3U30QzuImE2zP05I1kh9IQhP2HCSmYdyEDwyAizkExE1ZF0KV4s8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732839180; c=relaxed/simple;
-	bh=GmEUEyadQHo+UHVhJophjZ1p03YDcG7iJ4yhzzapibs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uUV9S6IBz2BZvrgIx0Gk4a9Z3PuziMgCml87zLDhNRNfdrDqAXyjHb99ylOBsRJeMkZFGMmwKbi0QdYk/YvaXx1GXTBVrGTXM8xgaITUQYKfF4aBE+yAp8eX4sQrQ/opayGQz6yf4J04Rsy9HV1v1ZnacfxOJWU93a6D+HlhKgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QaOkIUec; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1732840388; c=relaxed/simple;
+	bh=vgUuRha6R8uXiL3+Gh/b7pVLd+4zjiLJoXVOd3LJx9w=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gGLYP9kiU/2C+blxt2V0YK2pTF0BvXj7fDYjFojrCYnJvElpM43N9bQRbATCfXbRJwUuVLgjgUKmCm/JWvBdlTCy45l1UWLBpNM4UeYGYwM+4ljd+e1w9IPbZAfCCV6PrtmvQCaTb8rtXah9PkNdceuVdDSv40rBwQhcajEeRFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcTYGUQm; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QaOkIUec"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcTYGUQm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732839179; x=1764375179;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GmEUEyadQHo+UHVhJophjZ1p03YDcG7iJ4yhzzapibs=;
-  b=QaOkIUecDkBPkrNc9jlcI5Q2FJkWXX5RqFvQXJCSWEgBoNX9DNrsAZjf
-   +vdzqOOFkdbydMmj5mM/1bMAggJvJkCYv9W8tcga1qPT7CEGxTNwvV7+H
-   I7pWj4eH57GGlNYHmAjuqvVXzT3Wy1PAq1DoS13BxkHIzehMygsMrNHS+
-   65aS7uB64eAuLzXc83upexUrA/aUwQzpsU9PPjvI/X5tz3ByMo31kgooW
-   gKbRyuZuUXOcWBYhSh7//pZC+m3IMIq7mxedV0QPCuM3TrptNJY2rQwPn
-   0RfZx0mT9DaWF+M+H1WHOzXDKDsoYlOUd/Ecy8Ah78EHEuIsom6NSqrzF
-   w==;
-X-CSE-ConnectionGUID: rtMLylwFQNOEwgILS1WVCQ==
-X-CSE-MsgGUID: 4bBNmPn/QMir33DvvXTFFQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="37008035"
+  t=1732840386; x=1764376386;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=vgUuRha6R8uXiL3+Gh/b7pVLd+4zjiLJoXVOd3LJx9w=;
+  b=YcTYGUQmbqA5qTa7F5CfjW4ZpjhKtiAnn3iKteKHOBwOj3HgpJFff221
+   Wg8p8D14Tbp6oMvIyVfa9icK44TOnbaonTzAtaU3fVX6ayoAIZ8mAw4nx
+   FEnOhsaDOoPYT3gJ3/tszbAl39+CWjCkWyhdB4++t3GHZRMcEl9RJYz1X
+   9w4KRmqsjzfK/l72X6cb5/04fVxaR1SRkBP5U06dV0HClOcw18WVauA8s
+   aAGb/65Ldc3PF2AEqkSYcRy2GuupZtEbKM7H3zSfQhB4HgzmW6WKwf3/q
+   f8kIs7JzhHN/MAz3XA62ghnFM2NJPCW3bh5xN4fDLjT54OgJoq27IBW54
+   Q==;
+X-CSE-ConnectionGUID: q/4ls+JkQoCLQawsXgqQdQ==
+X-CSE-MsgGUID: 81A6oj+pRVG1nXNSzurnhQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33130096"
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="37008035"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 16:12:59 -0800
-X-CSE-ConnectionGUID: lEqF6ylTSB+IJlsO3ZpnNg==
-X-CSE-MsgGUID: lkZXQ0JnS2+8gBYcNN4yhw==
+   d="scan'208";a="33130096"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 16:33:06 -0800
+X-CSE-ConnectionGUID: RYWaRhfjQeueUai7X51sag==
+X-CSE-MsgGUID: PGpToJxxQZqQhZ7bCB5KyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="93190488"
+   d="scan'208";a="92160465"
 Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 28 Nov 2024 16:12:57 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 28 Nov 2024 16:33:04 -0800
 Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGocw-000AAh-2K;
-	Fri, 29 Nov 2024 00:12:54 +0000
-Date: Fri, 29 Nov 2024 08:12:19 +0800
+	id 1tGowQ-000ABn-26;
+	Fri, 29 Nov 2024 00:33:02 +0000
+Date: Fri, 29 Nov 2024 08:32:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yew, Chang Ching" <chang.ching.yew@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: versioncheck:
- ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need
- linux/version.h
-Message-ID: <202411290811.LLYpucHU-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [jpoimboe:objtool-loongarch 2/4] vmlinux.o: warning: objtool:
+ bch2_key_has_snapshot_overwrites+0x1b3: unsupported stack register
+ modification
+Message-ID: <202411290819.Do5qv0Kp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,111 +62,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_q
-head:   aff8de868d4e17e98fa8ce0b1b124e54153b574b
-commit: e8a0febb1fb5b45f60a2010a90050806aeea9173 media: intel-ipu4: virtio: IPU virtio backend and frontend drivers base-code
-date:   6 years ago
-reproduce: (https://download.01.org/0day-ci/archive/20241129/202411290811.LLYpucHU-lkp@intel.com/reproduce)
+TO: Josh Poimboeuf <jpoimboe@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-loongarch
+head:   719e621826002a47d82ee36f9f436e9126b65980
+commit: 608b37bdda2a1bb6ea171f9711d0aabaf953bc2e [2/4] objtool/loongarch: Simplify frame pointer detection
+config: x86_64-randconfig-014-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290819.Do5qv0Kp-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290819.Do5qv0Kp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290811.LLYpucHU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411290819.Do5qv0Kp-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.2.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 950: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
->> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1330: need linux/version.h
->> ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   vmlinux.o: warning: objtool: __sev_get_ghcb+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __sev_put_ghcb+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __sev_es_ist_exit+0x39: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: kernel_exc_vmm_communication+0x9e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_syscall_64+0x69: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_int80_emulation+0x38: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: do_fast_syscall_32+0x56: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x24: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x29: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: fixup_bad_iret+0x8e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_debug_user+0x41: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: exc_nmi+0x39: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poke_int3_handler+0x37: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: native_sched_clock+0x73: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0x86: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: local_clock_noinstr+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x39: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x39: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_exit+0x2d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x63: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_idle_exit+0x43: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_enter+0x13: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_idle_enter+0x10: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_exit+0x31: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_nmi_enter+0x23: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_irq_enter+0x24: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ct_irq_exit+0x24: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: check_preemption_disabled+0x33: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: mwait_idle+0x27: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x76: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle+0x67: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_s2idle+0x74: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_xstate+0x6c: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_ibrs+0x6c: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: intel_idle_irq+0x67: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x45: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: poll_idle+0x48: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: default_enter_idle+0x29: call to ftrace_likely_update() leaves .noinstr.text section
+   vmlinux.o: warning: objtool: ftrace_likely_update+0xaa: call to __stack_chk_fail() with UACCESS enabled
+   vmlinux.o: warning: objtool: .text.jffs2_erase_pending_blocks: unexpected end of section
+   vmlinux.o: warning: objtool: .altinstr_replacement+0xf92: redundant UACCESS disable
+   vmlinux.o: warning: objtool: bch2_bucket_backpointer_mod_nowritebuffer+0x33c: unsupported stack register modification
+   vmlinux.o: warning: objtool: .altinstr_replacement+0xfa2: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0xfb2: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x107e: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x10de: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x11bd: redundant UACCESS disable
+   vmlinux.o: warning: objtool: __bch2_journal_key_search+0x85e: stack state mismatch: cfa1=4+208 cfa2=5+208
+>> vmlinux.o: warning: objtool: bch2_key_has_snapshot_overwrites+0x1b3: unsupported stack register modification
+>> vmlinux.o: warning: objtool: __bch2_create+0x795: stack state mismatch: cfa1=4+696 cfa2=5+696
+>> vmlinux.o: warning: objtool: snapshots_seen_update+0x336: return with modified stack frame
+   vmlinux.o: warning: objtool: bch2_evacuate_bucket+0x791: return with modified stack frame
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1449: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1557: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x164e: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x171f: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1755: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1804: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x182a: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x18fb: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x19cc: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1a9d: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1bba: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1c88: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1d59: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1dc2: redundant UACCESS disable
+   vmlinux.o: warning: objtool: .altinstr_replacement+0x1e80: redundant UACCESS disable
+   vmlinux.o: warning: objtool: mpt3sas_transport_add_host_phy+0x3ae: stack state mismatch: cfa1=4+104 cfa2=5+104
+   vmlinux.o: warning: objtool: mpt3sas_transport_add_expander_phy+0x3ad: stack state mismatch: cfa1=4+104 cfa2=5+104
+>> vmlinux.o: warning: objtool: rpmsg_create_ept+0xd9: sibling call from callable instruction with modified stack frame
+>> vmlinux.o: warning: objtool: do_ipv6_getsockopt+0x11eb: return with modified stack frame
 
 -- 
 0-DAY CI Kernel Test Service
