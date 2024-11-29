@@ -1,159 +1,241 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524D41EA65;
-	Fri, 29 Nov 2024 00:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732840388; cv=none; b=Ipimaf680SOUz0muvj8MvUxUo6ZW5z3BA9QmVtHGDgLE9ypI2xWllMroYf38J1NQ3MLD0C5A6bOc2c9LD4focoskPTulA6YkeMgxhPHn9zQdrxZ+s3Ky3XX3U30QzuImE2zP05I1kh9IQhP2HCSmYdyEDwyAizkExE1ZF0KV4s8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732840388; c=relaxed/simple;
-	bh=vgUuRha6R8uXiL3+Gh/b7pVLd+4zjiLJoXVOd3LJx9w=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gGLYP9kiU/2C+blxt2V0YK2pTF0BvXj7fDYjFojrCYnJvElpM43N9bQRbATCfXbRJwUuVLgjgUKmCm/JWvBdlTCy45l1UWLBpNM4UeYGYwM+4ljd+e1w9IPbZAfCCV6PrtmvQCaTb8rtXah9PkNdceuVdDSv40rBwQhcajEeRFc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YcTYGUQm; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D7894C9D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 00:48:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1732841335; cv=fail; b=L+ib/Y2sEP7bOr64lxYjwv0+F5yi7unOTu+o/bqF2M/1Q1rIW3H0MknZL4LCdMADey1M0GVsx2wEIWAVpznOcJeg1TpL6NGZp+yP8VCe/nii2jknU/P4T6aWVzesJC9Km1GkdpTS/Ke8NKdyEqSwzJXMDtQHup1CLjWAjO+DqQk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1732841335; c=relaxed/simple;
+	bh=NSU3ihmTwVSnX3tn6TR2/Ee7TlXH1avxVs2qI7FhMaQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=ERf2KbPQxGjCz+G6brG+5ELZR4OF9R/GwKdapm56F/vCC5/fPWyv+YJY6rhrk5mbPyDBZqTXXQ0P98MNuaTAarj1fXA8tF//4X1PUmT/dHf13iQLY5ryEC6Sixc9ZVPNbWZ2qvzCzzr2R7MjR897rKYr2NJQKehJcDPNe0VqyVs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aR9Pen4p; arc=fail smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YcTYGUQm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aR9Pen4p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732840386; x=1764376386;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=vgUuRha6R8uXiL3+Gh/b7pVLd+4zjiLJoXVOd3LJx9w=;
-  b=YcTYGUQmbqA5qTa7F5CfjW4ZpjhKtiAnn3iKteKHOBwOj3HgpJFff221
-   Wg8p8D14Tbp6oMvIyVfa9icK44TOnbaonTzAtaU3fVX6ayoAIZ8mAw4nx
-   FEnOhsaDOoPYT3gJ3/tszbAl39+CWjCkWyhdB4++t3GHZRMcEl9RJYz1X
-   9w4KRmqsjzfK/l72X6cb5/04fVxaR1SRkBP5U06dV0HClOcw18WVauA8s
-   aAGb/65Ldc3PF2AEqkSYcRy2GuupZtEbKM7H3zSfQhB4HgzmW6WKwf3/q
-   f8kIs7JzhHN/MAz3XA62ghnFM2NJPCW3bh5xN4fDLjT54OgJoq27IBW54
-   Q==;
-X-CSE-ConnectionGUID: q/4ls+JkQoCLQawsXgqQdQ==
-X-CSE-MsgGUID: 81A6oj+pRVG1nXNSzurnhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33130096"
+  t=1732841333; x=1764377333;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=NSU3ihmTwVSnX3tn6TR2/Ee7TlXH1avxVs2qI7FhMaQ=;
+  b=aR9Pen4pgQkyIE4KQ5sRGcqGbxA4DMojNcP6VhsSDv+d7aCAo3si3Y4l
+   UCjXakR3kz24ZBCUtNiomr3JKDK/c3G9//w2+haf7AU07E+YvpA57za9y
+   xn9RfJPjcIN0OHYdeuBrRuDl6YODbG0y7TYol+efwxQg/nfVSoUHg+hLJ
+   YN77Jr+BFtHXMieDYGZAiQTpC1Hl/XTBaiUC4WjNLLfyjkavqRfTBWOQs
+   JQBcXVbzTbjlRG/8qMVFKZ7xlu9j1JlxsXUIUjcebq4SLCEyoyUQ74QPJ
+   4TwxZSdqgPy7qDg3HK8pJXI2CkAlH7B9xWvwKXlZQ8sxGQA3JKc2IQ71z
+   A==;
+X-CSE-ConnectionGUID: G+r+ZbmWTzehwqFWWNKQ5Q==
+X-CSE-MsgGUID: RTJhvWZsQ0OF2+lFeyeOFg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="33206159"
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="33130096"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 16:33:06 -0800
-X-CSE-ConnectionGUID: RYWaRhfjQeueUai7X51sag==
-X-CSE-MsgGUID: PGpToJxxQZqQhZ7bCB5KyQ==
+   d="scan'208";a="33206159"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 16:48:53 -0800
+X-CSE-ConnectionGUID: 61bTPHtsTs+hukuLfy18Pg==
+X-CSE-MsgGUID: H98t59LZTkyZe8S1GLZiEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="92160465"
-Received: from lkp-server01.sh.intel.com (HELO 8122d2fc1967) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Nov 2024 16:33:04 -0800
-Received: from kbuild by 8122d2fc1967 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tGowQ-000ABn-26;
-	Fri, 29 Nov 2024 00:33:02 +0000
-Date: Fri, 29 Nov 2024 08:32:36 +0800
-From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: [jpoimboe:objtool-loongarch 2/4] vmlinux.o: warning: objtool:
- bch2_key_has_snapshot_overwrites+0x1b3: unsupported stack register
- modification
-Message-ID: <202411290819.Do5qv0Kp-lkp@intel.com>
+   d="scan'208";a="96780228"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 28 Nov 2024 16:48:53 -0800
+Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Thu, 28 Nov 2024 16:48:52 -0800
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39 via Frontend Transport; Thu, 28 Nov 2024 16:48:52 -0800
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.41) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Thu, 28 Nov 2024 16:48:52 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DV5aGIzxlqp3aCiJkWsC6cMr+5a0daGtjWOGpe2LlL36O+Go/36K34xoZw6sEmztRiO+6NBS9DRvw3qzSCU5cfh0HatUyES0XbaMjpKnO1ZY5Ahcq2pCUlN/JH03HN96LigJRNkYQTjQSxabFMbS5Y7BisoShTduBCrngHoUC3a2bcW2cFmvdi+cBS5c2/+uZ7b+6ydtVgSXgmx/w4kVK8X66pQmTT1WHmSYXOItd+UqKkDkrPntcwhtYVQ6cVPEfGimMo1Bqum61GsYMIkBqscOc2rt65XTMCp/zWZr0lMOiELLlsciY1FskhXIVWNPwLKsYwE8zyEFXc3TKNxXVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5HHI6weu2xj50WVXkIsbP4zIvJFKTyQGyYVQuO5WwyU=;
+ b=Hhv3Z6bcu0Uv0JNcEv+w5SJvdwVLyLoYsW9ezf9W15duXNs3mbZ392g7Z6FILBuHYtH3CsD1J7sM0qkFVR37rSHaUrt7D09+EmyetCvK+Y9h8hDkPV8i4xctvDff1s8NHn19lZo3VpkdheinLFOM88G3sujknpB5v8PsP4YRdiIXN0mVPzD2+ARvugHUT6iuDCK4sKdJqkjJep1O18N6woi+dqN1RT1XWZjRx0W8V5m1we7+71AICP4fRNnrCwUCqvf64H1iKzRPWYQABtMwVLuexML7V8pCjJGzPdk24v4x/qzIJPClqfNUnwCKGGZGDw+dQGyR4O4uE0Y4w7Q9Bw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
+ by SA2PR11MB5097.namprd11.prod.outlook.com (2603:10b6:806:11a::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Fri, 29 Nov
+ 2024 00:48:48 +0000
+Received: from DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e]) by DM4PR11MB5423.namprd11.prod.outlook.com
+ ([fe80::dffa:e0c8:dbf1:c82e%7]) with mapi id 15.20.8207.010; Fri, 29 Nov 2024
+ 00:48:48 +0000
+Date: Fri, 29 Nov 2024 08:48:39 +0800
+From: Philip Li <philip.li@intel.com>
+To: Alice Ryhl <aliceryhl@google.com>
+CC: kernel test robot <lkp@intel.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, "Steven Rostedt (Google)"
+	<rostedt@goodmis.org>, Boqun Feng <boqun.feng@gmail.com>, Gary Guo
+	<gary@garyguo.net>
+Subject: Re: rust/helpers/jump_label.c:10:5: sparse: sparse: symbol
+ 'rust_helper_static_key_count' was not declared. Should it be static?
+Message-ID: <Z0kPZwipai5thnw3@rli9-mobl>
+References: <202411271011.gFsgMWRv-lkp@intel.com>
+ <CAH5fLgiH+hu-VA4GTCWRaEBVXoENX36P16EQzDadJptNi=vk8Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAH5fLgiH+hu-VA4GTCWRaEBVXoENX36P16EQzDadJptNi=vk8Q@mail.gmail.com>
+X-ClientProxiedBy: SG2PR04CA0153.apcprd04.prod.outlook.com (2603:1096:4::15)
+ To DM4PR11MB5423.namprd11.prod.outlook.com (2603:10b6:5:39b::20)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5423:EE_|SA2PR11MB5097:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a245b64-c687-4261-a072-08dd100f9593
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?eC9seVpIb0tweERGNWlLOHRWRC92N3Y2YTdlUXk1dVZhcSs0NmU1L2JsdGEz?=
+ =?utf-8?B?NkZXWUJudXJJQW16RDY2bWFSYnRtM01pbjJuMFEvNTFub1h4UTU5Q1MrbnFJ?=
+ =?utf-8?B?N3k3dzFpZ1NqZ3lLVDUvVytpeXR0cm5pSjRpRDk0Rm84NzF4MFNycGV2eUNz?=
+ =?utf-8?B?OWN1UUJvYVliTjJFc3NqUDlrYS9rRnIxYlA0Uk1OUTdTTXMzMjhXMGNWY2xH?=
+ =?utf-8?B?TEZpakVMZHhLRndxeTJXYmtCaWkxR3hyNk5oUmhKY3Zyb2JZVHFGWU5FUyti?=
+ =?utf-8?B?aE9kbUpmYU5jUnVpejdwa0F1c0VxNUQ2M05HZkhXMXkrYU9EVjljb1FNVkUv?=
+ =?utf-8?B?dnpxLzlrcG5zVFFtbXFMVDY0bGdMVzUzUWFLQ2V3MnE0SEFRd25nNEZUU3V5?=
+ =?utf-8?B?dW4vZWVRY3NyWlB0dkhoRHFMY3NnME1qaU01RS94MUVJcEpydk4wQ2ZlRUxk?=
+ =?utf-8?B?RVRMTkRRcVZ2b3F4ZUdSKy92YVQrNnNsdzd5OEdTeWpmRkxlZWp6eUlGVmYv?=
+ =?utf-8?B?T3JkT1p2UWU0RlhVb1ZvYkg2VEpQK29XeDFzU2hBMG5pV2Vhc21qb1J0Z01o?=
+ =?utf-8?B?Nm4xMTBlQzU3TmwvWHk5QnNOUEtsK24vVUw5MkpFR3hSSEVrMUdVaFNTNTlO?=
+ =?utf-8?B?dytZRzRmM1FTcnB3MmNla1ZOQUY1V1JkbkZHQ2dZWlc2eG1UK0dTandvYzdQ?=
+ =?utf-8?B?Y0dmUHpEL0xBYnNhQ0ZwM3VkRU1VVlJwQlZVY0U4NE1DbXJyRGVraS95RWhl?=
+ =?utf-8?B?cVFjajR4MEwxa2pLTVRxa3AyOWdkL0FGdVFqdUdhUHhKVFdubzMvdnFpa1Q0?=
+ =?utf-8?B?b0NGbVZIVDlocStvVHcrVzR2UXNpVDloMmhUZmNSNnVUT0JaNDc4RTZoeEZz?=
+ =?utf-8?B?cm5OOTYrYmlIV0pSaHc2TDBibTU4S285Wk51TnMwM0FMay8yRjZET0dRZ2Y4?=
+ =?utf-8?B?S2xMc0JGcUJsZDFsMUlSa3pBcGUzc3g4MkRhY2lhSGVINzNjWkRwbWZHUjlv?=
+ =?utf-8?B?cjQwR2hhcnhySDI2SnkrVitGOXlvMUtMeFR4SnNJck9tQ0hwK3EvUEZPSERo?=
+ =?utf-8?B?SHk3RUtZejhOV0JLQThTQUpkekdaS0E1Y0lLa3Q0cEhHRUYxVzcxcmQ0SmVK?=
+ =?utf-8?B?Q1QzVnhiY0hGanVLS1B0cnJRY00zZlNTQUQxVW1kc2liMG9MMUlBeDJVcFlp?=
+ =?utf-8?B?dzdjeXRmTkFIb0I2SHI3YjlDTG9qclRSU1FzeDhlWi9ZNElMTWhPbXVYdVZH?=
+ =?utf-8?B?ODg0TW1Ea0dLTkJOZTJydFVGVXB0S2Q2N0RFbmtGUW5WYXUvZHRNdUNvODJj?=
+ =?utf-8?B?RTdyQmhoRnlmdWR0ZEViNkJVT1pxYWZsMjlNcXY4S2pORnpQaTIwZTlkTmMw?=
+ =?utf-8?B?RVU5QUloOWZYOEtKY1g4bnY5ZzFzRGtyVE9iZ3JYNytWenA5K0Q2Wit1WTBV?=
+ =?utf-8?B?NFB1NkNmdVhSQ3VQR1pPcXNzYm1KdCtFVmorSVg2VUJEU1JJUVovNGk3SS9J?=
+ =?utf-8?B?SUE5aFNuWXpuTm50Umljbkd3TmIzbmtsWUYvd2xqeDQ2eUFTaDF1QzA1dmJZ?=
+ =?utf-8?B?VU4wdHZMNzBCc0N5SDlJd3ppQVdHOHNaam5nNzl6RjFmTnhzS05KWVRTbjBZ?=
+ =?utf-8?B?VlNiTEg5bUZJNDJpM093M3pJWGxoTjVxbHZNL09wdGVRVG53NnZwbkpOdVhI?=
+ =?utf-8?B?ZWkxc1pzcGpGbHdhK003dkU3QWVtcC9oVjFUUHhObTM1R0lORTJ5RVdmVjU1?=
+ =?utf-8?Q?JLCn25p6F/ziESAHLp6HivAURziPX+Pg++IxTsx?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5423.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bWM3cmM1VVMwMllwaGpRYm5KVzU2blk3Si9IUHl6L3lmTjVndnBWeWMxTEtp?=
+ =?utf-8?B?VENaVEM4Y044dHNmTWxXQXczNDNDOEhjc083K1IzYkpPK2NoQmxHZVlyNG9u?=
+ =?utf-8?B?dXVkL01zYndVWmZQSTZob2kzNmV0WG9uc2VIV293N2YvTGtWdXJUZnowRlBP?=
+ =?utf-8?B?aVkrajVoMU5SSEs2V0pEWXJLVGNDemk0SjFrSTNKTXlUQ0RoT3lMaU1EeHM1?=
+ =?utf-8?B?bmZjdmdoSmZXSTBOZVROSEpsSzBia25sQ3pPbmowTWlXRWdFNG83cVRyRm1D?=
+ =?utf-8?B?VjNUTzNhRUZCMUVldm1ML3VNVFFDVU4weGY2TVl4c3lhbFprZlJiTEd3SDZT?=
+ =?utf-8?B?WWJ4OFp0UEYyV25ja0RWd3pSbmRoMis1eDB1QzU4VlZONG5IN291Ty9rTTRj?=
+ =?utf-8?B?V1ZaV0IzVEoxdHhXSHRaUGlxM0pDbzV4RWVhZDMwQ3ZMcnpHWEY0S1BGNWRN?=
+ =?utf-8?B?ZkhnN0hVUUVOdE5DcU8xUlFaMWFrQ3JtNXE2ck5taHpZT09kQmJUQmdkbCtz?=
+ =?utf-8?B?UkpLa1lsYlVEaGZScjQ4YjdDY1U1OEJrckdMUHZYMlB1Z1dYaWE4RU8vZnl1?=
+ =?utf-8?B?bzdOdG9ONllMR1VVNjJWK2twN1hNRDUwOW1aZVRwcmt4ZXcrZDJ1TUZ5S1A0?=
+ =?utf-8?B?c1VvVXFkcitHc0JjUlRMcU44QU9lTVJaVEVHS1pILzhDeFl0SUFkNkR1anMx?=
+ =?utf-8?B?aU1nUVpFVVByUERwZE8rbytBdngveG1GbmdRVDV2eHd1ZVJBSGx3RHlFd284?=
+ =?utf-8?B?Mk15QjcxbWo3TWVoVW5DVHRhTGhIUXFzZjlCbFF0U2k1TEFaU3VUSG1wSWhl?=
+ =?utf-8?B?LzVlNkFhK0pmVG9hTC9zYTNpTFpKR1gwVWVsK2xFZXVBQXB6Mnl4TmFUVWZM?=
+ =?utf-8?B?UzIzT3NFTGVJMklYRFFuV1dTRXF6dkxtcFJyWHhQUlA4MjNjbC90SG0rZGw3?=
+ =?utf-8?B?QWF1elBVR0wvYWJDdGErN0J6Y2RiejlUaDRRZkIwYytCYzl1UHdCT0l4Um0x?=
+ =?utf-8?B?RFFwdSttclJReE5oaXd2QlRoREk3RXpsUVZQWjFPQnI5TEZ6MVFSZ2poTVNU?=
+ =?utf-8?B?anY1VXNzVVN5dERjWEFPQkxDRlZIVzdwVHpKLzFUbmZYVU9hMkN3MElRWTAz?=
+ =?utf-8?B?Y3BZTXVpTkpqWjFycTRFVjdUaS9kWUM1a1VjbDM1eDlYNWJtK3p6SkFZSzUy?=
+ =?utf-8?B?WS9NTjEwTUxkalIramV1ZWlpZW5KdlorcDBiWVFOdmRReEVpbFV1T0ZpdVZ1?=
+ =?utf-8?B?NjdXdW10YW5mSytEdmJ3Q0tJdXF6ODBQMXV0aTIyOWpJNVVNUUFveWkvRzFE?=
+ =?utf-8?B?bWo2NDVBUWNKd0JJNWxMaXBrd2dKY1NodHNVRDUzTHBya1RuV3dHbjc2Z3ho?=
+ =?utf-8?B?K2U3YWpjT2tZRFZ6Tm84dVcvRlZiTlVIOFluZDhnNUFUTURuN29mQndtTmFX?=
+ =?utf-8?B?L09wb1A5allRb3dqU0ljOXlteElkSDE4OWVPWHU1OEw4MlZlbHNHSk1jQ2ln?=
+ =?utf-8?B?eTZ3UjNvaDJNV1pVdHN0aFg3UVZaMG0za0lWaFNmeGdHdng1TG5DbDhoTEJs?=
+ =?utf-8?B?U0Z4VEFMS3VFMjM3U3I0WU5QaUpvU2F4SjRWQjMxQXg4U0l6UndVRUZsWlBz?=
+ =?utf-8?B?MXk5UDNDMncxQ0xkZ0VOV2xtbXpDY0tieWNzVXRaVUdCZnM2cWU2ZEtlSnlN?=
+ =?utf-8?B?WVZHeEtPSEJnSEZWR2hCMTJwS1JvMVpPaTNnWlJad1QxT3M0ajA5bGQ5ejNV?=
+ =?utf-8?B?Q1c0dUVIb3JzUU13N05WNW93Ly9sZjE0a2NoUEtMZFdUMGQ1MHRvVTBFTisw?=
+ =?utf-8?B?aHZ1REU2UWZheGV0MWFjUDZKZmErS0drOWZrd0MrbitrMEc2WGg1L0NwOEdP?=
+ =?utf-8?B?dHM1OVgvclZVemd0UWdsL3pDa3R2MkN1RUdiQjJGQU5jOWQ5UjFzRE1FeHF2?=
+ =?utf-8?B?MW1vZXlvbFRBb0hicTBQS2JxR3lzbURwVWdKbG1veTl6bXNoMnhnMnYrTWtW?=
+ =?utf-8?B?NmNWejg2eEZBSDVUcEx4RkNTMFpVVlQ0ODJPMjl6R0lqYk1Bb05IL2JmSEo1?=
+ =?utf-8?B?UElVY2hvN3FyYjlGZE44bFlrd2poUW5ZQy8vZVJDR0UzbTFXR29HdFNiSldL?=
+ =?utf-8?Q?Kp1wVw3TTwXCRYSrzZ24VWnwC?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a245b64-c687-4261-a072-08dd100f9593
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5423.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Nov 2024 00:48:47.9732
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +9izmQ42yvPbKOnvrM5dLSwfXIzN6+57jAAM9gkj2gUuceJdBDuzAOYI/7flm5fkA3d0O0ATdl5v+nEmGK4vww==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB5097
+X-OriginatorOrg: intel.com
 
-TO: Josh Poimboeuf <jpoimboe@kernel.org>
+On Wed, Nov 27, 2024 at 01:07:24PM +0100, Alice Ryhl wrote:
+> On Wed, Nov 27, 2024 at 3:38 AM kernel test robot <lkp@intel.com> wrote:
+> >
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   b50ecc5aca4d18f1f0c4942f5c797bc85edef144
+> > commit: 6e59bcc9c8adec9a5bbedfa95a89946c56c510d9 rust: add static_branch_unlikely for static_key_false
+> > date:   3 weeks ago
+> > config: um-randconfig-r111-20241126 (https://download.01.org/0day-ci/archive/20241127/202411271011.gFsgMWRv-lkp@intel.com/config)
+> > compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241127/202411271011.gFsgMWRv-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202411271011.gFsgMWRv-lkp@intel.com/
+> >
+> > sparse warnings: (new ones prefixed by >>)
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> > >> rust/helpers/jump_label.c:10:5: sparse: sparse: symbol 'rust_helper_static_key_count' was not declared. Should it be static?
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/mutex.c:11:6: sparse: sparse: symbol 'rust_helper___mutex_init' was not declared. Should it be static?
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/helpers.c: note: in included file:
+> >    rust/helpers/spinlock.c:16:6: sparse: sparse: context imbalance in 'rust_helper_spin_lock' - wrong count at exit
+> >    rust/helpers/spinlock.c:21:6: sparse: sparse: context imbalance in 'rust_helper_spin_unlock' - unexpected unlock
+> >
+> > vim +/rust_helper_static_key_count +10 rust/helpers/jump_label.c
+> >
+> >      8
+> >      9  #ifndef CONFIG_JUMP_LABEL
+> >   > 10  int rust_helper_static_key_count(struct static_key *key)
+> 
+> Can we turn off sparse warnings for rust/helpers?
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git objtool-loongarch
-head:   719e621826002a47d82ee36f9f436e9126b65980
-commit: 608b37bdda2a1bb6ea171f9711d0aabaf953bc2e [2/4] objtool/loongarch: Simplify frame pointer detection
-config: x86_64-randconfig-014-20241128 (https://download.01.org/0day-ci/archive/20241129/202411290819.Do5qv0Kp-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290819.Do5qv0Kp-lkp@intel.com/reproduce)
+Got it, we will ignore the sparse warning for rust/helpers at bot side.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411290819.Do5qv0Kp-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   vmlinux.o: warning: objtool: __sev_get_ghcb+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __sev_put_ghcb+0x3b: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __sev_es_ist_exit+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: kernel_exc_vmm_communication+0x9e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_syscall_64+0x69: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_int80_emulation+0x38: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: do_fast_syscall_32+0x56: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __rdgsbase_inactive+0x24: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: __wrgsbase_inactive+0x29: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: fixup_bad_iret+0x8e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_debug_user+0x41: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: exc_nmi+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poke_int3_handler+0x37: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: native_sched_clock+0x73: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: pvclock_clocksource_read_nowd+0x86: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: local_clock_noinstr+0x4a: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: syscall_enter_from_user_mode_prepare+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_enter_from_user_mode+0x39: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_exit+0x2d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_enter+0x42: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: irqentry_nmi_exit+0x63: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_exit+0x43: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter+0x13: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_enter_state+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_idle_enter+0x10: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit+0x31: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_kernel_exit_state+0x2e: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_nmi_enter+0x23: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_enter+0x24: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ct_irq_exit+0x24: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: check_preemption_disabled+0x33: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: mwait_idle+0x27: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_processor_ffh_cstate_enter+0x76: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle+0x67: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_s2idle+0x74: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_xstate+0x6c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_ibrs+0x6c: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: intel_idle_irq+0x67: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter+0x3d: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: acpi_idle_enter_s2idle+0x45: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: poll_idle+0x48: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: default_enter_idle+0x29: call to ftrace_likely_update() leaves .noinstr.text section
-   vmlinux.o: warning: objtool: ftrace_likely_update+0xaa: call to __stack_chk_fail() with UACCESS enabled
-   vmlinux.o: warning: objtool: .text.jffs2_erase_pending_blocks: unexpected end of section
-   vmlinux.o: warning: objtool: .altinstr_replacement+0xf92: redundant UACCESS disable
-   vmlinux.o: warning: objtool: bch2_bucket_backpointer_mod_nowritebuffer+0x33c: unsupported stack register modification
-   vmlinux.o: warning: objtool: .altinstr_replacement+0xfa2: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0xfb2: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x107e: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x10de: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x11bd: redundant UACCESS disable
-   vmlinux.o: warning: objtool: __bch2_journal_key_search+0x85e: stack state mismatch: cfa1=4+208 cfa2=5+208
->> vmlinux.o: warning: objtool: bch2_key_has_snapshot_overwrites+0x1b3: unsupported stack register modification
->> vmlinux.o: warning: objtool: __bch2_create+0x795: stack state mismatch: cfa1=4+696 cfa2=5+696
->> vmlinux.o: warning: objtool: snapshots_seen_update+0x336: return with modified stack frame
-   vmlinux.o: warning: objtool: bch2_evacuate_bucket+0x791: return with modified stack frame
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1449: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1557: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x164e: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x171f: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1755: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1804: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x182a: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x18fb: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x19cc: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1a9d: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1bba: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1c88: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1d59: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1dc2: redundant UACCESS disable
-   vmlinux.o: warning: objtool: .altinstr_replacement+0x1e80: redundant UACCESS disable
-   vmlinux.o: warning: objtool: mpt3sas_transport_add_host_phy+0x3ae: stack state mismatch: cfa1=4+104 cfa2=5+104
-   vmlinux.o: warning: objtool: mpt3sas_transport_add_expander_phy+0x3ad: stack state mismatch: cfa1=4+104 cfa2=5+104
->> vmlinux.o: warning: objtool: rpmsg_create_ept+0xd9: sibling call from callable instruction with modified stack frame
->> vmlinux.o: warning: objtool: do_ipv6_getsockopt+0x11eb: return with modified stack frame
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Alice
+> 
