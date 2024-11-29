@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7410019E7D0;
-	Fri, 29 Nov 2024 18:40:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82DB53224
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 19:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732905646; cv=none; b=u0qQpvhexWzG2IfbYGFT5qG+QfCv0Re85f5v3uKPp68zBRGXvnQyuJXCv6bMw10UNGALk301zurRg7oioaMVa5L0ftXbsblLmzyfp3fnm9RT46a42f2FmZ5CQmD2lEj4I7JawgwNiBaXdyomo00bP5D+NXoFdp+Hxr8RxoTTyu4=
+	t=1732906907; cv=none; b=eUEFDxLYu065anUbH0x3RhXD2eLIWYQwi+gy19VazICdAD2LyRrujcAij5a7VbX2EStYyOPyQUizBcplFGERzihSc1MbOGsT36HSpetBM3q9NdlEbjAWiEGUXXvcH9GPkmhXNt1KhvOQy4PE39UDrdxbxkUmSI2/DEPxzUZr9hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732905646; c=relaxed/simple;
-	bh=Qsng7FU1DeYTg+48WQ34KtK/cEVfuDBd81zp+Xy/Ueg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=P70zYUDDYGoY9G53DhlQBZ5gy+8U+HBH+6cDDfrNuphYolV6LQc1MXuDZuBqnmc4p6YCo9vvuuSqQ0PJNfFsnQQJ5xVBtmkP3TgF0ytbbJ4jqlTp3o5q2K/zoqJviGdljJRMdRPViONDRHIBWWdWYyvyTL+d4Tch3Pmtbh43dKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrIzwqBG; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1732906907; c=relaxed/simple;
+	bh=dpVquUc7/jFNQMUP53StFcR/Ux7KYGqZOGV90cavUcY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gmIcTwLp2P+UFrTxxq54WMwRi13U9LKQkn+zv4bWGTnwvOxM/NVJcxtoAW58kwWh+Adfp+pSdmcBB1AbUimnkDW+gqIJWaYz3s0mSeIrV2ON/VFQl1xOmLbsBvsR69easSde3IFCbZnBAKshUUEnfBmWypEbu4FjjUdgaIUGjsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1plGPNo; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrIzwqBG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1plGPNo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732905645; x=1764441645;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Qsng7FU1DeYTg+48WQ34KtK/cEVfuDBd81zp+Xy/Ueg=;
-  b=IrIzwqBGrVNGAFq5/FqMfzfqi+ojZZDHqXi1YD2t4Sv5B6jukiHdVE/F
-   pvifb6BJU9EoH8BPw29nHFcTjpB/Usi7Ijl3tHqVQTB0B9EOAxVK6dw+R
-   LNZ4RHgCt2b+1cGWtSqRm9Vy5ZA/SZIjhhzb8RdVltC8oez9aTUSV6xW8
-   uh41upuy2UG861H8KJsTWo9sVNtJZOP+Ec1Ykorc4iqj1RzmhNsd0xemo
-   x8nCTAznqQS3NJw9qWrseBxSFYdJ3X5twlqg0pm5bI6heCVxBse3UjX1f
-   nyxW2pRW0Wlj40Fcg6Gtppnxmlpo85vdS+EK4IARbSZcCvt0hIFJCQ4Jk
+  t=1732906905; x=1764442905;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dpVquUc7/jFNQMUP53StFcR/Ux7KYGqZOGV90cavUcY=;
+  b=U1plGPNoc4gsB/LBP69jXwXAdE0jLZMtR6BSPrNCp5fxnlbqcPo2P8JB
+   WmrmzatWe7kGz2d23dQ/vAh9j1C/TGYUITEpU3MXNRj2dxTJ/6VO7U49X
+   v0ovxgQYcZ3IZPtA2e3QcP68SOcnS0hYcF/AHL9Q9zPoWwBzdVeEOam/s
+   LS0vMnHN/qeXcvHPuOAp1UKiaU/8IGYXg5rZYJIn+uyEDVEQ9RiWVt1UV
+   TUslkBMCNcpsRaPCfqkYLCIK4ubS7GMcXP8vyj338mw0HHXFM9BgvgAtL
+   w/0mPu71a+O0x0LUfYR/pcl5c8ii18dZb7K6ZqY1BA9g0OcZ8eqoHtaW3
    Q==;
-X-CSE-ConnectionGUID: t6MiNGzuQG+lcRzXpsrb8g==
-X-CSE-MsgGUID: ILoMb7jESZK70IgU9rIaVA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="36928711"
+X-CSE-ConnectionGUID: DXCxrq7OQ3mNPjdRySW81A==
+X-CSE-MsgGUID: Aue7AlAiS3q3+cGcM3W8Mg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43812857"
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="36928711"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 10:40:42 -0800
-X-CSE-ConnectionGUID: eLNBb6bSR9KN6PQ0nY+wtA==
-X-CSE-MsgGUID: Sz3wLXyKRxuGfEj0PedYZw==
+   d="scan'208";a="43812857"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 11:01:44 -0800
+X-CSE-ConnectionGUID: RrNog1rdRqCzjwSnudVv3A==
+X-CSE-MsgGUID: TjetfK73RgqLP+wC0cMKDA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="97587111"
+X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
+   d="scan'208";a="93387460"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Nov 2024 10:40:40 -0800
+  by orviesa008.jf.intel.com with ESMTP; 29 Nov 2024 11:01:43 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tH5uw-0000cb-01;
-	Fri, 29 Nov 2024 18:40:38 +0000
-Date: Sat, 30 Nov 2024 02:40:12 +0800
+	id 1tH6FI-0000dR-2C;
+	Fri, 29 Nov 2024 19:01:40 +0000
+Date: Sat, 30 Nov 2024 03:01:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael V. Volkmer" <rafael.v.volkmer@gmail.com>, ukleinek@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	rafael.v.volkmer@gmail.com
-Subject: Re: [PATCH] pwm: tiehrpwm: ensures that state.enabled is
- synchronized during .probe()
-Message-ID: <202411300250.wkH4Isc0-lkp@intel.com>
-References: <20241129034334.27203-1-rafael.v.volkmer@gmail.com>
+To: Anuj Gupta <anuj20.g@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Kanchan Joshi <joshi.k@samsung.com>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Subject: [axboe-block:for-6.14/io_uring 22/29]
+ include/linux/bio-integrity.h:104:12: warning: 'bio_integrity_map_user'
+ defined but not used
+Message-ID: <202411300229.y7h60mDg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,216 +64,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241129034334.27203-1-rafael.v.volkmer@gmail.com>
 
-Hi Rafael,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.12 next-20241128]
-[cannot apply to thierry-reding-pwm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rafael-V-Volkmer/pwm-tiehrpwm-ensures-that-state-enabled-is-synchronized-during-probe/20241129-114649
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241129034334.27203-1-rafael.v.volkmer%40gmail.com
-patch subject: [PATCH] pwm: tiehrpwm: ensures that state.enabled is synchronized during .probe()
-config: x86_64-buildonly-randconfig-002-20241129 (https://download.01.org/0day-ci/archive/20241130/202411300250.wkH4Isc0-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300250.wkH4Isc0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-6.14/io_uring
+head:   a757ddcd74c4b78403e4b46080de6eb73a17ab9e
+commit: 465f05a6462bb67ff51c663759ca9b4952718205 [22/29] block: modify bio_integrity_map_user to accept iov_iter as argument
+config: sh-kfr2r09-romimage_defconfig (https://download.01.org/0day-ci/archive/20241130/202411300229.y7h60mDg-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300229.y7h60mDg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411300250.wkH4Isc0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411300229.y7h60mDg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/pwm/pwm-tiehrpwm.c:537:9: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
-     537 |         return ret;
-         |                ^~~
-   drivers/pwm/pwm-tiehrpwm.c:525:9: note: initialize the variable 'ret' to silence this warning
-     525 |         int ret;
-         |                ^
-         |                 = 0
->> drivers/pwm/pwm-tiehrpwm.c:642:27: error: no member named 'chip' in 'struct ehrpwm_pwm_chip'
-     642 |         ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
-         |                              ~~  ^
-   drivers/pwm/pwm-tiehrpwm.c:642:38: error: no member named 'chip' in 'struct ehrpwm_pwm_chip'
-     642 |         ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
-         |                                         ~~  ^
->> drivers/pwm/pwm-tiehrpwm.c:642:53: error: use of undeclared identifier 'state'; did you mean 'stac'?
-     642 |         ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
-         |                                                            ^~~~~
-         |                                                            stac
-   arch/x86/include/asm/smap.h:36:29: note: 'stac' declared here
-      36 | static __always_inline void stac(void)
-         |                             ^
-   drivers/pwm/pwm-tiehrpwm.c:644:5: error: use of undeclared identifier 'state'
-     644 |         if(state.enabled == true) {
-         |            ^
-   drivers/pwm/pwm-tiehrpwm.c:664:22: error: no member named 'chip' in 'struct ehrpwm_pwm_chip'
-     664 |         pwmchip_remove(&pc->chip);
-         |                         ~~  ^
-   1 warning and 5 errors generated.
+   In file included from include/linux/blk-integrity.h:6,
+                    from block/bdev.c:15:
+>> include/linux/bio-integrity.h:104:12: warning: 'bio_integrity_map_user' defined but not used [-Wunused-function]
+     104 | static int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
+         |            ^~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +642 drivers/pwm/pwm-tiehrpwm.c
+vim +/bio_integrity_map_user +104 include/linux/bio-integrity.h
 
-   521	
-   522	static int ehrpwm_get_hw_state(struct pwm_chip *chip, struct pwm_device *pwm, 
-   523									struct pwm_state *state)
-   524	{
-   525		int ret;
-   526	
-   527		if(chip == NULL || pwm == NULL || state == NULL){
-   528			return -EINVAL;
-   529		}
-   530	
-   531		state->enabled = ehrpwm_is_enabled(chip);
-   532	
-   533		state->period = ehrpwm_read_period(chip);
-   534	    state->duty_cycle = ehrpwm_read_duty_cycle(chip);
-   535	    state->polarity = ehrpwm_read_polarity(chip);
-   536	
- > 537		return ret;
-   538	}
-   539	
-   540	static int ehrpwm_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-   541				    const struct pwm_state *state)
-   542	{
-   543		int err;
-   544		bool enabled = pwm->state.enabled;
-   545	
-   546		if (state->polarity != pwm->state.polarity) {
-   547			if (enabled) {
-   548				ehrpwm_pwm_disable(chip, pwm);
-   549				enabled = false;
-   550			}
-   551	
-   552			err = ehrpwm_pwm_set_polarity(chip, pwm, state->polarity);
-   553			if (err)
-   554				return err;
-   555		}
-   556	
-   557		if (!state->enabled) {
-   558			if (enabled)
-   559				ehrpwm_pwm_disable(chip, pwm);
-   560			return 0;
-   561		}
-   562	
-   563		err = ehrpwm_pwm_config(chip, pwm, state->duty_cycle, state->period);
-   564		if (err)
-   565			return err;
-   566	
-   567		if (!enabled)
-   568			err = ehrpwm_pwm_enable(chip, pwm);
-   569	
-   570		return err;
-   571	}
-   572	
-   573	static const struct pwm_ops ehrpwm_pwm_ops = {
-   574		.free = ehrpwm_pwm_free,
-   575		.apply = ehrpwm_pwm_apply,
-   576	};
-   577	
-   578	static const struct of_device_id ehrpwm_of_match[] = {
-   579		{ .compatible = "ti,am3352-ehrpwm" },
-   580		{ .compatible = "ti,am33xx-ehrpwm" },
-   581		{},
-   582	};
-   583	MODULE_DEVICE_TABLE(of, ehrpwm_of_match);
-   584	
-   585	static int ehrpwm_pwm_probe(struct platform_device *pdev)
-   586	{
-   587		struct device_node *np = pdev->dev.of_node;
-   588		struct ehrpwm_pwm_chip *pc;
-   589		struct pwm_chip *chip;
-   590		bool tbclk_enabled;
-   591		struct clk *clk;
-   592		int ret;
-   593	
-   594		chip = devm_pwmchip_alloc(&pdev->dev, NUM_PWM_CHANNEL, sizeof(*pc));
-   595		if (IS_ERR(chip))
-   596			return PTR_ERR(chip);
-   597		pc = to_ehrpwm_pwm_chip(chip);
-   598	
-   599		clk = devm_clk_get(&pdev->dev, "fck");
-   600		if (IS_ERR(clk)) {
-   601			if (of_device_is_compatible(np, "ti,am33xx-ecap")) {
-   602				dev_warn(&pdev->dev, "Binding is obsolete.\n");
-   603				clk = devm_clk_get(pdev->dev.parent, "fck");
-   604			}
-   605		}
-   606	
-   607		if (IS_ERR(clk))
-   608			return dev_err_probe(&pdev->dev, PTR_ERR(clk), "Failed to get fck\n");
-   609	
-   610		pc->clk_rate = clk_get_rate(clk);
-   611		if (!pc->clk_rate) {
-   612			dev_err(&pdev->dev, "failed to get clock rate\n");
-   613			return -EINVAL;
-   614		}
-   615	
-   616		chip->ops = &ehrpwm_pwm_ops;
-   617	
-   618		pc->mmio_base = devm_platform_ioremap_resource(pdev, 0);
-   619		if (IS_ERR(pc->mmio_base))
-   620			return PTR_ERR(pc->mmio_base);
-   621	
-   622		/* Acquire tbclk for Time Base EHRPWM submodule */
-   623		pc->tbclk = devm_clk_get(&pdev->dev, "tbclk");
-   624		if (IS_ERR(pc->tbclk))
-   625			return dev_err_probe(&pdev->dev, PTR_ERR(pc->tbclk), "Failed to get tbclk\n");
-   626	
-   627		ret = clk_prepare(pc->tbclk);
-   628		if (ret < 0) {
-   629			dev_err(&pdev->dev, "clk_prepare() failed: %d\n", ret);
-   630			return ret;
-   631		}
-   632	
-   633		ret = pwmchip_add(chip);
-   634		if (ret < 0) {
-   635			dev_err(&pdev->dev, "pwmchip_add() failed: %d\n", ret);
-   636			goto err_clk_unprepare;
-   637		}
-   638	
-   639		platform_set_drvdata(pdev, chip);
-   640		pm_runtime_enable(&pdev->dev);
-   641	
- > 642		ehrpwm_get_hw_state(&pc->chip, &pc->chip.pwms[0], &state);
-   643	
-   644		if(state.enabled == true) {
-   645			ret = clk_prepare_enable(pc->tbclk);
-   646			if (ret) {	
-   647				dev_err(&pdev->dev, "clk_prepare_enable() failed: %d\n", ret);
-   648				goto err_pwmchip_remove;
-   649			}
-   650			
-   651			tbclk_enabled = true;
-   652	
-   653			ret = pm_runtime_get_sync(&pdev->dev);
-   654			if(ret < 0) {
-   655				dev_err(&pdev->dev, "pm_runtime_get_sync() failed: %d\n", ret);
-   656				clk_disable_unprepare(pc->tbclk);
-   657				goto err_pwmchip_remove;
-   658			}
-   659		}
-   660	
-   661		return 0;
-   662	
-   663	err_pwmchip_remove:
-   664		pwmchip_remove(&pc->chip);
-   665	err_clk_unprepare:
-   666		if(tbclk_enabled)
-   667			clk_unprepare(pc->tbclk);
-   668	
-   669		return ret;
-   670	}
-   671	
+   103	
+ > 104	static int bio_integrity_map_user(struct bio *bio, struct iov_iter *iter)
+   105	{
+   106		return -EINVAL;
+   107	}
+   108	
 
 -- 
 0-DAY CI Kernel Test Service
