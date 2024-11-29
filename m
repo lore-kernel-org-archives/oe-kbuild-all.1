@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E6F9184F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 05:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB31ABA4B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 05:57:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732857519; cv=none; b=mfs8a2lTqXjCH/LE12A3FQ7OHMKlc26s0ECJNXI/PG1Tn129S5eeVCipEhDuR8nIGN0K2brdfbj3ZxZPbH6wsNjKCl9q1AUwCt9HwPk+3JBwQUFL7C0I/0Bf50eLemBJXsgSOuUsmacrubK7lhahWd43nwtHMlcGbt5R+w5+870=
+	t=1732859841; cv=none; b=oreb319b9FbuyyGSh0BOYbQci75iz2SaisPT5dnasntD0d5nffldq47oez6uvifofgP3/WGxY+c3vzN0m83rgU6XCBIyFLa3APUj1K3YT7kz8aG8LTAPDjc2oGmUvZ8g4/u2dh2s6dl0J5dfSbD+4MYCKOCawyPhjtO2du4QcnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732857519; c=relaxed/simple;
-	bh=HbmoU4lZzdc/nnNRn377Ye/6X9Ujn00OM8v9uxneEXE=;
+	s=arc-20240116; t=1732859841; c=relaxed/simple;
+	bh=BiyPOYVcnRkzkIbrQIwXy04cfsOkp2i9FaI4uUtLlKQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=a0PVgjFoGcOnuaI9xlhHp3BPi3V8XB5Ad7svJmIbzNOlsJpKc0DyRhx2hKQsrOOIH3L9ctV99fZV64xOCddH7seIsKoJ53FhYV/oMuDizZnPqXRHUe/dWkeD91whPWq7hJFnhRP5553BQzJdE10sarGjh4oTSO+CG0K6VQvki/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtQyY4AR; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=V9UxHUX/XbBcvs/1q9hIHHJ31qzePdNQtTDRelUiQwy+ZO/MSpPXtabzH+SvTKZd494zj2VPwxXQuUmq0rSDcnkZ4EXvGIYWjnw/UI0fKyQ4mzXr91OKtj5VnrUVAEnrivTBgOJ+m/wi/DbNWkQ7dM+y5oIVY/COdxwlHKRdTYo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GvztqU4h; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtQyY4AR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GvztqU4h"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732857517; x=1764393517;
+  t=1732859840; x=1764395840;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HbmoU4lZzdc/nnNRn377Ye/6X9Ujn00OM8v9uxneEXE=;
-  b=gtQyY4ARX8/YTc1WoPIuWl1bbw5W2QRcYbyLJGb6QQ1Rg18aLAyL+jwh
-   GZiZLFfXANp2oKCjUsl6CMazINzzxlHeasfvgSxfSn6Qck+qSulDWe9o3
-   3lF7nt+15NPjrIJOqDD46MgpgP2Hn5CkHeG1dhdeTGXXj+CIoeEJcmZpg
-   +pRy8enCowTv2/jTYkjunNw54OdkjL4nOpw7C/6QGdwxqdfjJ2x1Gn8CJ
-   BdE+o6tY+gE3A9SansTbCibAxWTCjxiFl2J0JuWoJ/umEbZ5w1L1co49W
-   qIvvqOEONxU5VfzHpvN6x2ZOGjX9fhe6RpP0xcucsmZnCSdHfVgx8ZSls
-   g==;
-X-CSE-ConnectionGUID: sC7r2WP2RU27z4eNTmC1oQ==
-X-CSE-MsgGUID: Ul1jvOFcTai6WysZo6/AKw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="36756991"
+  bh=BiyPOYVcnRkzkIbrQIwXy04cfsOkp2i9FaI4uUtLlKQ=;
+  b=GvztqU4hgQFzUEOlBSvvktC22LSwagrMXbQLdnZm+PhtwGOveKkuR2TB
+   8lipRfZ16U9U5EyTXaWJ9+JW0x+SqCTS237lsHLlN0oABnEHJJ4guGwGP
+   FuJd9haebCff4ti7BdMZXuL7Or2vzAQNGpm54fT1fIoP4YVoQTvxPBSqR
+   lCvro6mGQh3GVvPHeQCAOStNgiFc07QUpJQi1yotW51f51Ss1bWPfk1VL
+   QeYx3SumcWAVGrUZ6LQ8uqxI4qtYPE1EcR7WoDlhnF11DtTEB3AXW/2ys
+   zOG2e0SZt6JnzuXn7mMmErmMEpYqbL13V/Axrwo0Azg3SjNgdtFwEzWJI
+   Q==;
+X-CSE-ConnectionGUID: zVTZy1ZxTOO6tr376jKWZA==
+X-CSE-MsgGUID: JUFTDg9jQ5aOeMfvQvWLgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11270"; a="37024707"
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="36756991"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 21:18:36 -0800
-X-CSE-ConnectionGUID: oNcpp3+PQO+yl0hB/tNDeQ==
-X-CSE-MsgGUID: +h4obMKSSFaYFLgS9F6aHg==
+   d="scan'208";a="37024707"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2024 21:57:13 -0800
+X-CSE-ConnectionGUID: xVKf3n8ER+iOiKkwfX0JDQ==
+X-CSE-MsgGUID: 4O6KkV3GRSCjAZ4gvJL7vQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,194,1728975600"; 
-   d="scan'208";a="93244326"
-Received: from lkp-server02.sh.intel.com (HELO 99e478856097) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 28 Nov 2024 21:18:35 -0800
-Received: from kbuild by 99e478856097 with local (Exim 4.96)
+   d="scan'208";a="97373406"
+Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 28 Nov 2024 21:57:12 -0800
+Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tGtOX-00001C-0h;
-	Fri, 29 Nov 2024 05:18:23 +0000
-Date: Fri, 29 Nov 2024 13:12:36 +0800
+	id 1tGu05-00002X-2d;
+	Fri, 29 Nov 2024 05:57:09 +0000
+Date: Fri, 29 Nov 2024 13:57:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jon Moeller <jon.moeller@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Pan, Kris" <kris.pan@intel.com>
-Subject: [intel-lts:4.19/android_s 725/30000] versioncheck:
- ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
-Message-ID: <202411291301.04qAvv4B-lkp@intel.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast
+ truncates bits from constant value (8000000000000000 becomes 0)
+Message-ID: <202411291301.fqIf68PA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,129 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/intel/linux-intel-lts.git 4.19/android_s
-head:   7d5e03d31c4509fef1c0f7691a23f11d3d56a2e6
-commit: fadb19e08fbf603c6b11d9c45dbf33accdd58016 [725/30000] platform/x86: add sep and socwatch drivers without socperf.
-reproduce: (https://download.01.org/0day-ci/archive/20241129/202411291301.04qAvv4B-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   7af08b57bcb9ebf78675c50069c54125c0a8b795
+commit: 453924de6212ac159f946b75c6b59918e2e30944 afs: Overhaul invalidation handling to better support RO volumes
+date:   11 months ago
+config: powerpc64-randconfig-r112-20241118 (https://download.01.org/0day-ci/archive/20241129/202411291301.fqIf68PA-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241129/202411291301.fqIf68PA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411291301.04qAvv4B-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411291301.fqIf68PA-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/rustc-1.58.0-bindgen-0.56.0/cargo/bin:/opt/cross/clang-19/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -fstrict-flex-arrays=3 -Wformat-overflow -Wformat-truncation -Wenum-conversion W=1 --keep-going CROSS_COMPILE=/opt/cross/gcc-14.2.0-nolibc/x86_64-linux/bin/x86_64-linux- CC=clang AR=llvm-ar NM=llvm-nm STRIP=llvm-strip OBJDUMP=llvm-objdump OBJSIZE=llvm-size READELF=llvm-readelf HOSTCC=clang HOSTCXX=clang++ HOSTAR=llvm-ar LD=ld.lld HOSTLD=ld.lld OBJCOPY=llvm-objcopy -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 25 linux/version.h not needed.
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_apic.c: 23 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 28 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 30 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 16 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 50 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 19 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 56 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 42 linux/version.h not needed.
-   ./drivers/hv/hv.c: 29 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 35 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 41 linux/version.h not needed.
-   ./drivers/media/pci/intel/ici/ici-dma.c: 417: need linux/version.h
-   ./drivers/media/pci/intel/ici/ici-isys-frame-buf.c: 954: need linux/version.h
-   ./drivers/media/pci/intel/ipu-bus.c: 471: need linux/version.h
-   ./drivers/media/pci/intel/ipu-cpd.c: 478: need linux/version.h
-   ./drivers/media/pci/intel/ipu-dma.c: 448: need linux/version.h
-   ./drivers/media/pci/intel/ipu-fw-com.c: 480: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be-soc.c: 364: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2-be.c: 307: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-csi2.c: 939: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-media.h: 91: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.c: 1530: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-queue.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.c: 1017: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-subdev.h: 210: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-tpg.c: 355: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys-video.h: 169: need linux/version.h
-   ./drivers/media/pci/intel/ipu-isys.h: 174: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.c: 876: need linux/version.h
-   ./drivers/media/pci/intel/ipu-mmu.h: 62: need linux/version.h
-   ./drivers/media/pci/intel/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu.c: 763: need linux/version.h
-   ./drivers/media/pci/intel/ipu.h: 10 linux/version.h not needed.
-   ./drivers/media/pci/intel/ipu4/ipu4-css/ipu-wrapper.c: 514: need linux/version.h
-   ./drivers/media/pci/intel/ipu4/ipu4-isys-isa.c: 1074: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.c: 1236: need linux/version.h
-   ./drivers/media/pci/intel/virtio/intel-ipu4-para-virt-drv.h: 9 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 30 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 23 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 15 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 24 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 17 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/cpumon.h: 29 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/inc/linuxos.h: 79: need linux/version.h
->> ./drivers/platform/x86/sepdk/inc/utility.h: 637: need linux/version.h
->> ./drivers/platform/x86/sepdk/sep/chap.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/core2.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/gmch.c: 26 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/output.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/perfver4.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/pmi.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/silvermont.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/sys_info.c: 27 linux/version.h not needed.
->> ./drivers/platform/x86/sepdk/sep/unc_mmio.c: 29 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_telem.c: 60 linux/version.h not needed.
->> ./drivers/platform/x86/socwatch/sw_tracepoint_handlers.c: 399: need linux/version.h
->> ./drivers/platform/x86/socwatchhv/swhv_acrn.c: 11 linux/version.h not needed.
->> ./drivers/platform/x86/socwatchhv/swhv_driver.c: 70 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 18 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 16 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 17 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 18 linux/version.h not needed.
-   ./drivers/staging/gasket/gasket_interrupt.c: 12 linux/version.h not needed.
-   ./drivers/staging/igb_avb/igb_main.c: 10875: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat.c: 1977: need linux/version.h
-   ./drivers/staging/igb_avb/kcompat_ethtool.c: 1169: need linux/version.h
-   ./drivers/staging/media/bcm2048/radio-bcm2048.c: 35 linux/version.h not needed.
-   ./drivers/staging/mt7621-eth/mtk_eth_soc.h: 24 linux/version.h not needed.
-   ./drivers/staging/mt7621-mmc/dbg.c: 36 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/staging/vboxvideo/vbox_drv.h: 36 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 30 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 40 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/rt700.c: 18 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga-i2c.c: 16 linux/version.h not needed.
-   ./sound/soc/codecs/svfpga.c: 18 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 36: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 48: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 20: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 46: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 50: need linux/version.h
-   ./tools/testing/selftests/bpf/test_tcp_estats.c: 37 linux/version.h not needed.
+sparse warnings: (new ones prefixed by >>)
+   fs/afs/callback.c: note: in included file (through arch/powerpc/include/asm/atomic.h, arch/powerpc/include/asm/paca.h, arch/powerpc/include/asm/current.h, ...):
+>> arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   arch/powerpc/include/asm/cmpxchg.h:243:48: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   fs/afs/callback.c:146:22: sparse: sparse: context imbalance in 'afs_lookup_volume_rcu' - different lock contexts for basic block
+--
+   fs/afs/rotate.c: note: in included file (through arch/powerpc/include/asm/atomic.h, arch/powerpc/include/asm/paca.h, arch/powerpc/include/asm/current.h, ...):
+>> arch/powerpc/include/asm/cmpxchg.h:241:47: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+   arch/powerpc/include/asm/cmpxchg.h:243:48: sparse: sparse: cast truncates bits from constant value (8000000000000000 becomes 0)
+
+vim +241 arch/powerpc/include/asm/cmpxchg.h
+
+ae3a197e3d0bfe3 David Howells 2012-03-28  235  
+ae3a197e3d0bfe3 David Howells 2012-03-28  236  static __always_inline unsigned long
+26760fc19a7e663 Boqun Feng    2015-12-15  237  __xchg_relaxed(void *ptr, unsigned long x, unsigned int size)
+ae3a197e3d0bfe3 David Howells 2012-03-28  238  {
+ae3a197e3d0bfe3 David Howells 2012-03-28  239  	switch (size) {
+d0563a1297e234e Pan Xinhui    2016-04-27  240  	case 1:
+d0563a1297e234e Pan Xinhui    2016-04-27 @241  		return __xchg_u8_relaxed(ptr, x);
+d0563a1297e234e Pan Xinhui    2016-04-27  242  	case 2:
+d0563a1297e234e Pan Xinhui    2016-04-27  243  		return __xchg_u16_relaxed(ptr, x);
+ae3a197e3d0bfe3 David Howells 2012-03-28  244  	case 4:
+26760fc19a7e663 Boqun Feng    2015-12-15  245  		return __xchg_u32_relaxed(ptr, x);
+ae3a197e3d0bfe3 David Howells 2012-03-28  246  #ifdef CONFIG_PPC64
+ae3a197e3d0bfe3 David Howells 2012-03-28  247  	case 8:
+26760fc19a7e663 Boqun Feng    2015-12-15  248  		return __xchg_u64_relaxed(ptr, x);
+ae3a197e3d0bfe3 David Howells 2012-03-28  249  #endif
+ae3a197e3d0bfe3 David Howells 2012-03-28  250  	}
+068550631fbe0b7 Andrzej Hajda 2023-01-18  251  	BUILD_BUG_ON_MSG(1, "Unsupported size for __xchg_relaxed");
+ae3a197e3d0bfe3 David Howells 2012-03-28  252  	return x;
+ae3a197e3d0bfe3 David Howells 2012-03-28  253  }
+9eaa82935dccb74 Mark Rutland  2021-05-25  254  #define arch_xchg_local(ptr,x)						     \
+ae3a197e3d0bfe3 David Howells 2012-03-28  255    ({									     \
+ae3a197e3d0bfe3 David Howells 2012-03-28  256       __typeof__(*(ptr)) _x_ = (x);					     \
+26760fc19a7e663 Boqun Feng    2015-12-15  257       (__typeof__(*(ptr))) __xchg_local((ptr),				     \
+26760fc19a7e663 Boqun Feng    2015-12-15  258       		(unsigned long)_x_, sizeof(*(ptr))); 			     \
+ae3a197e3d0bfe3 David Howells 2012-03-28  259    })
+ae3a197e3d0bfe3 David Howells 2012-03-28  260  
+
+:::::: The code at line 241 was first introduced by commit
+:::::: d0563a1297e234ed37f6b51c2e9321accebd1839 powerpc: Implement {cmp}xchg for u8 and u16
+
+:::::: TO: Pan Xinhui <xinhui.pan@linux.vnet.ibm.com>
+:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 -- 
 0-DAY CI Kernel Test Service
