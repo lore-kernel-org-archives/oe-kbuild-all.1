@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D10E61A4AA1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 21:06:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790563224
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 29 Nov 2024 21:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732914420; cv=none; b=u4nsWsHrdTfUuxq60CHuB1VMAlpNoVtv8F8thv4wMP2/zALzskx93vbyYneINGGI6EgF8sWiIx84jBrkruY+DKgYjGrTHP9yvfqtrF9iLxst5JX9rwRT2dCK0w2ppNYNG6k9aCCEbKJlT98hQDbYj6wEEI3CtOA+LlmEnAPdRMk=
+	t=1732916281; cv=none; b=Zhme45CdkdaW5f3V+023biQWNFf63VWko2YZGlO65GrpmG4soWtUrTxTdscWXoHee17RF7zmDYPJNF6+GxoYOnyh/AnMDYrA0a1N4OFMKcfRDc6BBzrqslL9Wm7s0hR2jqKW9AtzVaXTlMipD0HVAkysjIpZINqPe2UMehhovIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732914420; c=relaxed/simple;
-	bh=KNG0fF7kHb67K3poJypspiJ6k0hHbpJD5se9XikRlWc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KSmARXiogrv7DPzC2daCtUVUtGfDcoBF6WqQTSiVt2PsRpaAzOwdqcBcIjIfi8hN4efprHQ3U3XI34bT5z9Og1r3OmhgZtq5iQkaHgcEHBg2t5uh7F/onNDcsxc+QVDtbjxzU7FnPLAvlkPnXSPZ9ii2dRLBlnsRsm4qjWMy5rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hYWJrnuS; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1732916281; c=relaxed/simple;
+	bh=K2WVk9+rW9xCqvP/Hyn4qBX1QbmpQKG+a1+ANXkyMDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MoPG6O0BeYuOS4zAi5k7YC4HxsSUC/sXr85A8CBf1cmBMfp9LjvHtuY3HG2KEjFBrytCIh6+yoguQj/CZzPKgzabFUxmg4BbSeE6EgtLVkfJGu2FnvKDaxTC0I8wDfWMTlqMOhWdP0wPi3Y5eSqkpGcviN2SKNEVVk3IYDyn19Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dQfXTHMR; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hYWJrnuS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dQfXTHMR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732914419; x=1764450419;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KNG0fF7kHb67K3poJypspiJ6k0hHbpJD5se9XikRlWc=;
-  b=hYWJrnuSOVUx4RHAnao9qLmVeI33/9QPWB+l9zPz1vM25HR/5Tonu1/w
-   Ci9BZIjyy/ZtSJx06/2gLwZOAmCoEw7RXOnkydqdnKK/zYXQhx3BOSwab
-   o6hWrhNWWyvzapCYvQoUjBsoKlKbIKUT1oslABrQQMvbFX6yoGdNGuDAu
-   yTEPMAL0Rc3WcbYpA2o9+TSKJF2m0pwS7h+yRzS00IBU/kJFmpyxJMwyX
-   /DyCyrQIgPXO8wSptsAV5CnCAVOS4wN+Z1N6y4kF3OICHceebQCF8AgTf
-   5tgJ/x816/k1nyBVIMQ8YnctQyRYR7IrCymRhpOU9dVGY6zL4EWVLhyQD
-   A==;
-X-CSE-ConnectionGUID: TXUBLySQRsOslwWLDbu8rA==
-X-CSE-MsgGUID: 8EYf8MKWTdOPyTS0felhgA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="36012866"
+  t=1732916279; x=1764452279;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=K2WVk9+rW9xCqvP/Hyn4qBX1QbmpQKG+a1+ANXkyMDY=;
+  b=dQfXTHMRDxxS+TG+6z7GGY7aWUtduDMPwW3WGZIpYa3qncIN9RFxmy2r
+   c0BGuYJWHWHdGJqAgX4ZUZx2UTwP9imknXYEFN2xuKS/1PqkE7ykbuj4D
+   BrSZmTjNSb8NdzO2wwzN2H9Xa/OfmeTTavSZxw+mz7KNRBxCg0P0ciyw0
+   l7JNfkLi4iA5EthQjxDVq6++oc9b2qkzgJRQvUAbDTBneU72TnASPslrU
+   EAp8Ye0XwdwkfOE2rXpnpFSy70FdaumyFU3D7vYJPfBtUGgWZLq5w/72h
+   WAEqYJV7FGfFBjM9Jo/iA8QcZ07U0ZHItuV8+Kx8A0iKqu/bGkUPSybU/
+   w==;
+X-CSE-ConnectionGUID: g6Ng4zROQFqijUdZj6Wxtg==
+X-CSE-MsgGUID: 62lu53ODRZmF44oF6nNGkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43820982"
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="36012866"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 13:06:56 -0800
-X-CSE-ConnectionGUID: IUqO8ZEbRTykY1960/vQ6g==
-X-CSE-MsgGUID: /1sWLacUT9q2I+hnm1zdJg==
+   d="scan'208";a="43820982"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 13:37:58 -0800
+X-CSE-ConnectionGUID: cC0+hqn1TeSuT4Z2I/DWuQ==
+X-CSE-MsgGUID: 1xejOSUCQma7tvDS5iGHrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,196,1728975600"; 
-   d="scan'208";a="92480813"
+   d="scan'208";a="93404739"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Nov 2024 13:06:54 -0800
+  by orviesa008.jf.intel.com with ESMTP; 29 Nov 2024 13:37:57 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tH8CR-0000hJ-0l;
-	Fri, 29 Nov 2024 21:06:51 +0000
-Date: Sat, 30 Nov 2024 05:05:54 +0800
+	id 1tH8gU-0000iT-0T;
+	Fri, 29 Nov 2024 21:37:54 +0000
+Date: Sat, 30 Nov 2024 05:37:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Anastasia Kovaleva <a.kovaleva@yadro.com>, martin.petersen@oracle.com,
-	bootc@bootc.net, bostroesser@gmail.com, michael.christie@oracle.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-scsi@vger.kernel.org,
-	target-devel@vger.kernel.org, linux@yadro.com
-Subject: Re: [PATCH 08/10] target: core: Use extended logs where possible
-Message-ID: <202411300419.umKHNg4I-lkp@intel.com>
-References: <20241129153056.6985-9-a.kovaleva@yadro.com>
+To: David Howells <dhowells@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [dhowells-fs:ceph-iter 92/92] fs/ceph/rdwr.c:591:15: error:
+ assignment to 'struct ceph_snap_context *' from 'int' makes pointer from
+ integer without a cast
+Message-ID: <202411300526.UyCHgjtQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,61 +62,225 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241129153056.6985-9-a.kovaleva@yadro.com>
 
-Hi Anastasia,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on linus/master next-20241128]
-[cannot apply to v6.12]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Anastasia-Kovaleva/target-core-Improve-SCSI-target-logs/20241129-234412
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20241129153056.6985-9-a.kovaleva%40yadro.com
-patch subject: [PATCH 08/10] target: core: Use extended logs where possible
-config: arc-randconfig-001-20241130 (https://download.01.org/0day-ci/archive/20241130/202411300419.umKHNg4I-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300419.umKHNg4I-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git ceph-iter
+head:   ae69436bf8db8f3a53edd0dfa379e753700240c0
+commit: ae69436bf8db8f3a53edd0dfa379e753700240c0 [92/92] ceph: Use netfslib
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20241130/202411300526.UyCHgjtQ-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300526.UyCHgjtQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411300419.umKHNg4I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411300526.UyCHgjtQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/target/target_core_pr.c:75:26: warning: 'pr_preempt_type_table_str' defined but not used [-Wunused-const-variable=]
-      75 | static const char *const pr_preempt_type_table_str[] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/target/target_core_pr.c:64:26: warning: 'pr_register_type_table_str' defined but not used [-Wunused-const-variable=]
-      64 | static const char *const pr_register_type_table_str[] = {
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c: In function 'ceph_netfs_write_callback':
+   fs/ceph/rdwr.c:116:33: error: 'NETFS_RREQ_REPEAT_RMW' undeclared (first use in this function); did you mean 'NETFS_RREQ_RMW'?
+     116 |                         set_bit(NETFS_RREQ_REPEAT_RMW, &ci->netfs.flags);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+         |                                 NETFS_RREQ_RMW
+   fs/ceph/rdwr.c:116:33: note: each undeclared identifier is reported only once for each function it appears in
+   fs/ceph/rdwr.c:125:9: error: implicit declaration of function 'netfs_subreq_terminated'; did you mean 'netfs_read_subreq_terminated'? [-Wimplicit-function-declaration]
+     125 |         netfs_subreq_terminated(subreq, wrote, err);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~
+         |         netfs_read_subreq_terminated
+   fs/ceph/rdwr.c: In function 'ceph_issue_write':
+   fs/ceph/rdwr.c:139:49: error: 'inode' undeclared (first use in this function)
+     139 |         struct ceph_inode_info *ci = ceph_inode(inode);
+         |                                                 ^~~~~
+   In file included from include/linux/printk.h:599,
+                    from include/linux/kernel.h:31,
+                    from include/linux/backing-dev.h:12,
+                    from fs/ceph/rdwr.c:39:
+   fs/ceph/rdwr.c:146:64: error: 'struct netfs_io_subrequest' has no member named 'max_len'
+     146 |               subreq->start, subreq->len, subreq->start, subreq->max_len,
+         |                                                                ^~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:269:9: note: in expansion of macro '_dynamic_func_call'
+     269 |         _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:614:9: note: in expansion of macro 'dynamic_pr_debug'
+     614 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/ceph/ceph_debug.h:23:9: note: in expansion of macro 'pr_debug'
+      23 |         pr_debug("%.*s %12.12s:%-4d : [%pU %llu] " fmt,                 \
+         |         ^~~~~~~~
+   fs/ceph/rdwr.c:144:9: note: in expansion of macro 'doutc'
+     144 |         doutc(cl, "issue_write R=%08x[%x] ino %llx %lld~%zu part %lld~%llu -- %srmw\n",
+         |         ^~~~~
+   fs/ceph/rdwr.c:180:21: error: 'assert_ver' undeclared (first use in this function)
+     180 |                 if (assert_ver) {
+         |                     ^~~~~~~~~~
+   fs/ceph/rdwr.c: In function 'ceph_prepare_write':
+   fs/ceph/rdwr.c:209:64: error: 'struct netfs_io_subrequest' has no member named 'max_len'
+     209 |                                       &objnum, &objoff, &subreq->max_len);
+         |                                                                ^~
+   fs/ceph/rdwr.c:203:29: warning: unused variable 'cl' [-Wunused-variable]
+     203 |         struct ceph_client *cl = ceph_inode_to_client(subreq->rreq->inode);
+         |                             ^~
+   fs/ceph/rdwr.c:200:33: warning: unused variable 'creq' [-Wunused-variable]
+     200 |         struct ceph_io_request *creq = csub->creq;
+         |                                 ^~~~
+   fs/ceph/rdwr.c: In function 'ceph_netfs_clamp_length':
+   fs/ceph/rdwr.c:266:9: error: 'rreq' undeclared (first use in this function); did you mean 'rseq'?
+     266 |         rreq->io_streams[0].sreq_max_len = umin(xlen, fsc->mount_options->rsize);
+         |         ^~~~
+         |         rseq
+   fs/ceph/rdwr.c: In function 'ceph_netfs_read_callback':
+   fs/ceph/rdwr.c:313:9: error: too many arguments to function 'netfs_read_subreq_terminated'
+     313 |         netfs_read_subreq_terminated(subreq, err, false);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from fs/ceph/rdwr.c:50:
+   include/linux/netfs.h:477:6: note: declared here
+     477 | void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c: In function 'ceph_netfs_issue_read_inline':
+   fs/ceph/rdwr.c:382:9: error: too many arguments to function 'netfs_read_subreq_terminated'
+     382 |         netfs_read_subreq_terminated(subreq, err, false);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netfs.h:477:6: note: declared here
+     477 | void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c:335:25: warning: unused variable 'iter' [-Wunused-variable]
+     335 |         struct iov_iter iter;
+         |                         ^~~~
+   fs/ceph/rdwr.c: In function 'ceph_netfs_issue_read':
+   fs/ceph/rdwr.c:443:17: error: too many arguments to function 'netfs_read_subreq_terminated'
+     443 |                 netfs_read_subreq_terminated(subreq, err, false);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netfs.h:477:6: note: declared here
+     477 | void netfs_read_subreq_terminated(struct netfs_io_subrequest *subreq);
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c: At top level:
+   fs/ceph/rdwr.c:514:10: error: 'const struct netfs_request_ops' has no member named 'clamp_length'
+     514 |         .clamp_length           = ceph_netfs_clamp_length,
+         |          ^~~~~~~~~~~~
+   fs/ceph/rdwr.c:514:35: error: initialization of 'int (*)(struct netfs_io_subrequest *)' from incompatible pointer type 'bool (*)(struct netfs_io_subrequest *)' {aka '_Bool (*)(struct netfs_io_subrequest *)'} [-Wincompatible-pointer-types]
+     514 |         .clamp_length           = ceph_netfs_clamp_length,
+         |                                   ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c:514:35: note: (near initialization for 'ceph_netfs_ops.prepare_read')
+   fs/ceph/rdwr.c: In function 'get_oldest_context':
+   fs/ceph/rdwr.c:541:50: error: 'page_snapc' undeclared (first use in this function)
+     541 |                 if (snapc && capsnap->context != page_snapc)
+         |                                                  ^~~~~~~~~~
+   fs/ceph/rdwr.c: In function 'get_writepages_data_length':
+   fs/ceph/rdwr.c:591:17: error: implicit declaration of function 'folio_snap_context' [-Wimplicit-function-declaration]
+     591 |         snapc = folio_snap_context(ceph_fscrypt_pagecache_folio(folio));
+         |                 ^~~~~~~~~~~~~~~~~~
+>> fs/ceph/rdwr.c:591:15: error: assignment to 'struct ceph_snap_context *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     591 |         snapc = folio_snap_context(ceph_fscrypt_pagecache_folio(folio));
+         |               ^
+   fs/ceph/rdwr.c: In function 'ceph_writepages':
+   fs/ceph/rdwr.c:629:25: error: too few arguments to function 'get_oldest_context'
+     629 |                 snapc = get_oldest_context(mapping->host, &ceph_wbc);
+         |                         ^~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c:525:1: note: declared here
+     525 | get_oldest_context(struct inode *inode, struct ceph_writeback_ctl *ctl,
+         | ^~~~~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c: At top level:
+   fs/ceph/rdwr.c:656:27: error: 'ceph_dirty_folio' undeclared here (not in a function); did you mean 'netfs_dirty_folio'?
+     656 |         .dirty_folio    = ceph_dirty_folio,
+         |                           ^~~~~~~~~~~~~~~~
+         |                           netfs_dirty_folio
+   fs/ceph/rdwr.c:657:29: error: 'ceph_invalidate_folio' undeclared here (not in a function); did you mean 'netfs_invalidate_folio'?
+     657 |         .invalidate_folio = ceph_invalidate_folio,
+         |                             ^~~~~~~~~~~~~~~~~~~~~
+         |                             netfs_invalidate_folio
+   fs/ceph/rdwr.c: In function 'ceph_read_iter':
+   fs/ceph/rdwr.c:721:39: error: implicit declaration of function 'ceph_direct_read_write'; did you mean 'ceph_prepare_write'? [-Wimplicit-function-declaration]
+     721 |                                 ret = ceph_direct_read_write(iocb, to,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~
+         |                                       ceph_prepare_write
+   fs/ceph/rdwr.c:724:52: error: 'CHECK_EOF' undeclared (first use in this function)
+     724 |                                         retry_op = CHECK_EOF;
+         |                                                    ^~~~~~~~~
+   fs/ceph/rdwr.c:726:39: error: implicit declaration of function 'ceph_sync_read' [-Wimplicit-function-declaration]
+     726 |                                 ret = ceph_sync_read(iocb, to, &retry_op);
+         |                                       ^~~~~~~~~~~~~~
+   fs/ceph/rdwr.c:729:36: error: 'READ_INLINE' undeclared (first use in this function); did you mean 'READ_ONCE'?
+     729 |                         retry_op = READ_INLINE;
+         |                                    ^~~~~~~~~~~
+         |                                    READ_ONCE
+   fs/ceph/rdwr.c:750:24: error: 'HAVE_RETRIED' undeclared (first use in this function)
+     750 |         if (retry_op > HAVE_RETRIED && ret >= 0) {
+         |                        ^~~~~~~~~~~~
+   fs/ceph/rdwr.c: In function 'ceph_write_iter':
+   fs/ceph/rdwr.c:861:17: error: implicit declaration of function 'ceph_start_io_direct'; did you mean 'netfs_start_io_direct'? [-Wimplicit-function-declaration]
+     861 |                 ceph_start_io_direct(inode);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 netfs_start_io_direct
+   fs/ceph/rdwr.c:863:17: error: implicit declaration of function 'ceph_start_io_write'; did you mean 'netfs_start_io_write'? [-Wimplicit-function-declaration]
+     863 |                 ceph_start_io_write(inode);
+         |                 ^~~~~~~~~~~~~~~~~~~
+         |                 netfs_start_io_write
+   fs/ceph/rdwr.c:949:35: error: implicit declaration of function 'ceph_sync_write'; did you mean 'ceph_issue_write'? [-Wimplicit-function-declaration]
+     949 |                         written = ceph_sync_write(iocb, &data, pos, snapc);
+         |                                   ^~~~~~~~~~~~~~~
+         |                                   ceph_issue_write
+   fs/ceph/rdwr.c:951:25: error: implicit declaration of function 'ceph_end_io_direct'; did you mean 'netfs_end_io_direct'? [-Wimplicit-function-declaration]
+     951 |                         ceph_end_io_direct(inode);
+         |                         ^~~~~~~~~~~~~~~~~~
+         |                         netfs_end_io_direct
+   fs/ceph/rdwr.c:953:25: error: implicit declaration of function 'ceph_end_io_write'; did you mean 'netfs_end_io_write'? [-Wimplicit-function-declaration]
+     953 |                         ceph_end_io_write(inode);
+         |                         ^~~~~~~~~~~~~~~~~
+         |                         netfs_end_io_write
+   fs/ceph/rdwr.c: At top level:
+   fs/ceph/rdwr.c:828:16: warning: 'ceph_write_iter' defined but not used [-Wunused-function]
+     828 | static ssize_t ceph_write_iter(struct kiocb *iocb, struct iov_iter *from)
+         |                ^~~~~~~~~~~~~~~
+   fs/ceph/rdwr.c:670:16: warning: 'ceph_read_iter' defined but not used [-Wunused-function]
+     670 | static ssize_t ceph_read_iter(struct kiocb *iocb, struct iov_iter *to)
+         |                ^~~~~~~~~~~~~~
+   fs/ceph/rdwr.c:582:12: warning: 'get_writepages_data_length' defined but not used [-Wunused-function]
+     582 | static u64 get_writepages_data_length(struct inode *inode,
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/pr_preempt_type_table_str +75 drivers/target/target_core_pr.c
+vim +591 fs/ceph/rdwr.c
 
-    63	
-  > 64	static const char *const pr_register_type_table_str[] = {
-    65		"REGISTER",
-    66		"REGISTER_AND_IGNORE_EXISTING_KEY",
-    67		"REGISTER_AND_MOVE",
-    68	};
-    69	
-    70	enum preempt_type {
-    71		PREEMPT,
-    72		PREEMPT_AND_ABORT,
-    73	};
-    74	
-  > 75	static const char *const pr_preempt_type_table_str[] = {
-    76		"PREEMPT",
-    77		"PREEMPT_AND_ABORT",
-    78	};
-    79	
+   581	
+   582	static u64 get_writepages_data_length(struct inode *inode,
+   583					      struct folio *folio, u64 start)
+   584	{
+   585		struct ceph_inode_info *ci = ceph_inode(inode);
+   586		struct ceph_snap_context *snapc;
+   587		struct ceph_cap_snap *capsnap = NULL;
+   588		u64 end = i_size_read(inode), fend;
+   589		u64 ret;
+   590	
+ > 591		snapc = folio_snap_context(ceph_fscrypt_pagecache_folio(folio));
+   592		if (snapc != ci->i_head_snapc) {
+   593			bool found = false;
+   594			spin_lock(&ci->i_ceph_lock);
+   595			list_for_each_entry(capsnap, &ci->i_cap_snaps, ci_item) {
+   596				if (capsnap->context == snapc) {
+   597					if (!capsnap->writing)
+   598						end = capsnap->size;
+   599					found = true;
+   600					break;
+   601				}
+   602			}
+   603			spin_unlock(&ci->i_ceph_lock);
+   604			WARN_ON(!found);
+   605		}
+   606	
+   607		fend = ceph_fscrypt_folio_pos(folio) + folio_size(folio);
+   608		end = min(end, fend);
+   609		ret = end > start ? end - start : 0;
+   610		if (ret && fscrypt_is_bounce_folio(folio))
+   611			ret = round_up(ret, CEPH_FSCRYPT_BLOCK_SIZE);
+   612		return ret;
+   613	}
+   614	
 
 -- 
 0-DAY CI Kernel Test Service
