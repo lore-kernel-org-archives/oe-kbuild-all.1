@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146CF7083A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 09:36:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F80833F9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 09:51:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732959385; cv=none; b=TCmBpHeWU2OERMZ2Y3POgQZc79tjyL9jBNCxHNOLLoQ5k80g2qsykTIShsAv6x1YuRZC/Yd6UbP7Nz8zJuPkN9Jjx4UDSmOqyjSpgAiFNX7EFLu0rFJsxF1E2bIYkezBR7NwuPmaFl0dh/NYgI/OaGL6vAYwQ+JY+RzF7opElcc=
+	t=1732960302; cv=none; b=C7Cj+zMune85bhdO4hLjT4Q2e6xvfva74m8QvWybHW0kOFQOuEax+fdy2PeQqWNE12KChOh3WGUveO53nuqEzJ3ntLaPAxdlBPsUYbpWTX7+mgJmtU2XKg8L9JP2I5GLh+TC4jnycMM35yAf3CN7Z3sgX39kom5wQzq3ylqARVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732959385; c=relaxed/simple;
-	bh=KRGXrthuPFOyMm2BWQxsto+YZZVuiIhdKs8l13Kwlzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fB5LYhbftCBxFV+wVTC4r1fHurYspVCC3dCdEmEKk9aueDtvexTWf747Ewz7iGlHbn4h4MIO4C3oAsCWFHhTZqEeNoJpXYLVFe+ObfIHteQBRqmfeNugzcHj8hfI0frvYGCn9pXkR7PFTDKOOR77BZWfPPk3jQy5x8D4wE1c3io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y3IHM35S; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732960302; c=relaxed/simple;
+	bh=kKRrLUcexh83lOiUaUbKCKWvIfIwKmuP8E+WT04gVvA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mCkiakre0IuElFtuE8I6AIJ35UqQ83QKSSIa/gS4zIkW2PXBdTlSw4XV+ztxxrGL7Tz1ZZBoJ6Esx+T4UEzZcBKcfXikxiZaXF+0uTB8IkGdYAU51j4jgYr9kPPjtpXfJq2Xpq6OjkTipWZu8WYzGLkbHUyZjL+6UFwgy0ttvcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NXX1Tchk; arc=none smtp.client-ip=209.85.208.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y3IHM35S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732959384; x=1764495384;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KRGXrthuPFOyMm2BWQxsto+YZZVuiIhdKs8l13Kwlzs=;
-  b=Y3IHM35SaCwdMSlaTDaXvf7ME/Whs45XdH1LuIFrck35Bgu09ySjfTQM
-   1twMHtT/L92IdwbuVeOi1Htuk5bvcuiQzQ+ml/tC/gWPu24i53Mo6e/sH
-   tzVVv42epoVnXz6+92gVh9Eib5/OM3zZIyXiuDJo0r9AaYJFnkQ9TabRT
-   3XDVJnNuHBQTDWfd4OSyZIPDQzRs2JOZ3wK/fnEZAwvaoKxBfkRrfAxR6
-   zarZtnsM7I1i3rPPoZHL00MYVwk8EEjY5Zjrjr0kXmeI3xnBJOXbVuodX
-   ShX0VkO0+oU2AJ6twJKN1kB7fzMSzuzsF/b/bQWroHk4l7jZ5/9/adNBU
-   A==;
-X-CSE-ConnectionGUID: VH22ZN9+T+K6s2vkFjXcjA==
-X-CSE-MsgGUID: HSV5SI+ZRzerquMG81hk5g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44544679"
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="44544679"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 01:36:23 -0800
-X-CSE-ConnectionGUID: /fJCFeQFTVC3Y90MEIByLA==
-X-CSE-MsgGUID: d15pd0OiRSefhEyoOXQlgg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="115934155"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Nov 2024 01:36:22 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tHJtW-0000Vl-0w;
-	Sat, 30 Nov 2024 09:36:09 +0000
-Date: Sat, 30 Nov 2024 17:34:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Subject: drivers/mtd/nand/raw/sh_flctl.c:510:17: sparse: sparse: incorrect
- type in assignment (different base types)
-Message-ID: <202411301739.a3ivjvS3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NXX1Tchk"
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5cf9ef18ae9so6402983a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 01:51:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732960299; x=1733565099; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=rSWtHVu+8YCZ9NtKFC73H5G6nhNqj0VGkVJgF+ZsU5Q=;
+        b=NXX1TchkVg5Fh/DhTnCTqik5xl+eiyLs+sTBjGr8/32NA9+xJ494AHKLTVjy3df/Vm
+         QeG4f33QX2zy3CFqZbW4kzC3vljbmMKp/QoOKOT9ggFIHbH0G3OTAT4oLMUoVrqb89m5
+         6z1nWAmw0y53lZC0psIrYyhVKUdb5SWxDtPdpHVjlg/KiKXdVO6DFqkDNw8R4GMDJAaJ
+         8AY4wR2NR2x1EzL5FK51SwksBqXSc0sscVR3wec5GP8w/qLSXlj/IimQvD9URIO55htt
+         mPYmg4fc4RwHBW+6xMbsnXgnEFVfV1gvr2s200UOCWo7N1KuUPPVfkXa/uOR4xWOdR5e
+         HoVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732960299; x=1733565099;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rSWtHVu+8YCZ9NtKFC73H5G6nhNqj0VGkVJgF+ZsU5Q=;
+        b=bE8VsPmUfHg/wPx09ON+OS8LfoLXPhljetujExBpSR9Su5QHB4nmfZpmi7liPQ7cX7
+         9kAYIUqX+jFQeBu+uxNR0QlSC3sI+jJe0o/E7aPpPyBMnWuLQYKWlsB9vHlm4MpX4YTj
+         yS0gh3EkAzE5hpLg8VvZU3e4qgjT63Fzvb/bbWTGqmc7/PeZb2v/RVvXipwtz/uGxQ+b
+         0Rs5mdmO/Y/lIH/8c0L8q17R2Byqa92u8C3R2hJoK4YcrR5nMTbDW+SdZ3CoEfJmG+PG
+         uKvwfeeBoMiqSia8Ck1xe5NgGoUm9EceMXwBw8aOpManqgZIfza4v15v8EhiJBbJuniC
+         ohUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXH5a4I92t8tArc0PLNkNtLJZHo2lnPfi12LKMUcWlCo++eqXQqkxaUJiMxpOnW63DGWOKcZG0qmQF7wQwH@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx8E35Zt8yYDTjSY6py7GhV0vcw1hkVYanOTekZi8uZ5lP2TBz/
+	QHFhLZudkvrGHQ40kR10pfP83GO/5LRbQvcNA19fljo6la/FCPRsowGrfhiD+nxgf3ELC7HPRcp
+	78zNkgw==
+X-Gm-Gg: ASbGnctEJqwivTKdug7hciuXrGg3B9WYMzLVTs0+gBpD/C+uBrJ/yYtpCZefsW3ZcvE
+	Rw5gAvCVH5pohuIqluUxjlFj2pDFvPt1EwXoJJBrEX4eZwJash2lKC/jvil1Lqwk0wdaR/4YUkM
+	H3B3B0j6cd8IwqbnbHjMbYMaeKDSf0ML8MGsEz1Ar1pG0UQpp+UNWdmm1vPO0NA5DpdCRCtCnoP
+	41aQl7YO1ppxf68WPQnrSQtkSXpZUOXgkeunAjMceU8XyHxMFrS6JKb8Lk8bHu1cWQh5Hpr
+X-Google-Smtp-Source: AGHT+IHl2HNKLt+8WbRAJWvgG5RXB2PtrE7G/WuljhCmVnYPMsQv3+LZlwwJFg4dwqVFPCttA5FCJA==
+X-Received: by 2002:a17:906:9ca:b0:a9a:170d:67b2 with SMTP id a640c23a62f3a-aa5946dcdebmr1151991866b.29.1732960298564;
+        Sat, 30 Nov 2024 01:51:38 -0800 (PST)
+Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa5999731d5sm262574966b.200.2024.11.30.01.51.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2024 01:51:38 -0800 (PST)
+Date: Sat, 30 Nov 2024 12:51:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Selvin Xavier <selvin.xavier@broadcom.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Leon Romanovsky <leon@kernel.org>,
+	Damodharam Ammepalli <damodharam.ammepalli@broadcom.com>
+Subject: Re: drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090
+ bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be
+ null (see line 985)
+Message-ID: <cc4ebf9f-0441-4e7a-b979-3680a899c109@stanley.mountain>
+References: <38c06486-6a1d-4129-839d-a68e29b21e40@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,59 +75,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <38c06486-6a1d-4129-839d-a68e29b21e40@stanley.mountain>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   2ba9f676d0a2e408aef14d679984c26373bf37b7
-commit: 005b73d0dd83c9cb9420a196bea8070cde30ecac m68knommu: __force type casts for raw IO access
-date:   4 years, 4 months ago
-config: m68k-randconfig-r111-20241119 (https://download.01.org/0day-ci/archive/20241130/202411301739.a3ivjvS3-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241130/202411301739.a3ivjvS3-lkp@intel.com/reproduce)
+Oops.  Sorry for the resend.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301739.a3ivjvS3-lkp@intel.com/
+On Sat, Nov 30, 2024 at 12:26:41PM +0300, Dan Carpenter wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   9f16d5e6f220661f73b36a4be1b21575651d8833
+> commit: 07f830ae4913d0b986c8c0ff88a7d597948b9bd8 RDMA/bnxt_re: Adds MSN table capability for Gen P7 adapters
+> date:   12 months ago
+> config: x86_64-randconfig-161-20241122 (https://download.01.org/0day-ci/archive/20241125/202411250359.DWxho9P8-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202411250359.DWxho9P8-lkp@intel.com/
+> 
+> New smatch warnings:
+> drivers/infiniband/hw/bnxt_re/qplib_fp.c:1090 bnxt_qplib_create_qp() error: we previously assumed 'res->dattr' could be null (see line 985)
+> 
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/mtd/nand/raw/sh_flctl.c:456:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:456:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:456:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:456:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:456:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:456:16: sparse: sparse: cast to restricted __le32
-   drivers/mtd/nand/raw/sh_flctl.c:479:26: sparse: sparse: cast to restricted __be32
-   drivers/mtd/nand/raw/sh_flctl.c:494:38: sparse: sparse: cast to restricted __be32
->> drivers/mtd/nand/raw/sh_flctl.c:510:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile [usertype] @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/sh_flctl.c:510:17: sparse:     expected unsigned int volatile [usertype]
-   drivers/mtd/nand/raw/sh_flctl.c:510:17: sparse:     got restricted __be32 [usertype]
-   drivers/mtd/nand/raw/sh_flctl.c:523:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long @@     got restricted __be32 [usertype] @@
-   drivers/mtd/nand/raw/sh_flctl.c:523:24: sparse:     expected unsigned long
-   drivers/mtd/nand/raw/sh_flctl.c:523:24: sparse:     got restricted __be32 [usertype]
+regards,
+dan carpenter
 
-vim +510 drivers/mtd/nand/raw/sh_flctl.c
-
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  500  
-e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  501  static void write_fiforeg(struct sh_flctl *flctl, int rlen,
-e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  502  						unsigned int offset)
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  503  {
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  504  	int i, len_4align;
-e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19  505  	unsigned long *buf = (unsigned long *)&flctl->done_buff[offset];
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  506  
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  507  	len_4align = (rlen + 3) / 4;
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  508  	for (i = 0; i < len_4align; i++) {
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  509  		wait_wfifo_ready(flctl);
-e8a9d8f31c592e drivers/mtd/nand/sh_flctl.c Bastian Hecht     2012-10-19 @510  		writel(cpu_to_be32(buf[i]), FLDTFIFO(flctl));
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  511  	}
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  512  }
-6028aa01f759a1 drivers/mtd/nand/sh_flctl.c Yoshihiro Shimoda 2008-10-14  513  
-
-:::::: The code at line 510 was first introduced by commit
-:::::: e8a9d8f31c592eea89f1b0d3fd425e7a96944e88 mtd: sh_flctl: Minor cleanups
-
-:::::: TO: Bastian Hecht <hechtb@googlemail.com>
-:::::: CC: Artem Bityutskiy <artem.bityutskiy@linux.intel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
