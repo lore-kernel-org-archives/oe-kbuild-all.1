@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8A12572
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 01:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E634A3B796;
+	Sat, 30 Nov 2024 01:38:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732930699; cv=none; b=Al5u6NM+3JKcrOqANh60VhrrQMlMHy22zkuhzvn4843ZNUDe45qhccOHbdzCjx4tqHgE8OQ7aR5PmLfcGozoPGEGxSkPmV2TV3hHTI6oIHKcEq51xUi5NLx8vX1oUhzuUEOA6g6kK5PVOSigzmfuCIX+sTFcg+NgZVq89IkiMXc=
+	t=1732930702; cv=none; b=hDzyEmOZndf7LgCKWMr9CQx60VRYIFbmAYZ7mPnjmt5KfBby05FB8rVlXA2RVoHIn4d5uyqwgUml9Whm0JGy48y0qIa+LKDwb78tHc3xlFs+LlopxfXVnUkPJZZYtRyRyhWNi5x6epHan3cJLHeLp/WarJO8BA+UQsg6SWiIgI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732930699; c=relaxed/simple;
-	bh=+BrnliY4+coWU6DDcghfGzlCc35nOizR6SbzoxUIecY=;
+	s=arc-20240116; t=1732930702; c=relaxed/simple;
+	bh=LXvP6fh7UVGNRiNPpbQbbhHYAFfxDAufX8H8x8MSoOk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t9gMx2tc5IOL3HKHP7HfZZydgKZwlswvsWmrWmDxs8bOYH/X2tJWpysQGncy4y3dfubGzS2p1MfNNLfj9dAfaxGWkQOfbjex2RRD+L4EIC0rX4aEwXGWN3MYKt+eLQhfRf9bMrdHSBVeQyyOMtd5/DctJf2g0ba4trR8tI9xwvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZYk44VUM; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=R/lwaoe24WdY29MCPeyG1qsTLDLdTcwhV9VR+qXMJhWUU+r0Vondjy2ixAupxJhUF1zsU7+y5lACYUCKsgQLmhk46wYpz0H21m2EDQF8wWfbjc5lobS5fFou7hyXdSf+Ez12ZGtMS/rB3/0WTxi87P91b2MMR5sM4E41raNQEFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLfV2nPE; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZYk44VUM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLfV2nPE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732930697; x=1764466697;
+  t=1732930700; x=1764466700;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+BrnliY4+coWU6DDcghfGzlCc35nOizR6SbzoxUIecY=;
-  b=ZYk44VUMtumFKi5fj+mGCPw/RwRmiY+7WmV8l4iIY5tS6/vfkYQfVr1I
-   blAlc7QcaGwIe6G6kb2MJ/vBuLIePon4rJG8adu61XaVfM8HqFjVqcv0B
-   b4pohxIsQ3DDbBjJ0mvK/W0lnhPL+hkvyRRY4CmqQA/7J9BPg9W+o8v/Q
-   0hoo+ZaAIBfZk/bnJsyip7wDSV3BaCx6J92gEfeTnixDNg7Bh9K95hr4G
-   KZamEN86Rgu65KXw5LOAP8nYR5ThPUAXqJLV4hwwg5Vj17d7Kje1FbNYh
-   SppqqCn+w6Gm7094oWtD8i94+EwrQU/aBCesxRhHeH5sEbmrYJsUILKF0
-   g==;
-X-CSE-ConnectionGUID: B34/hreqSFexbmyO9zJTKQ==
-X-CSE-MsgGUID: tp77nhj6S76rhahjlkVwWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="50564877"
+  bh=LXvP6fh7UVGNRiNPpbQbbhHYAFfxDAufX8H8x8MSoOk=;
+  b=ZLfV2nPEjvANk4Tm/oOfy9xjm31YWj+khHxbiLa9Wr+yX4VRoGhPNrk9
+   rrmsetj1KFzAHm+fJDqOUfYw48e1QWMhlzsgdxJlC3uEjPuGqhNk+roXv
+   8oh1Od38Kq1hp5rvRcIRRpoXHeqynKTB/TI/xsItFpQBdcmxEmoSsLlj/
+   2M2KeZXZy/Xhkyy5qdjXLoGqhwZ/2+iW6EhZ7L/FjXBHRUaiYgoB7G+D5
+   SvBeO9LCXG1sKPY0wWj6IdBVN94x9E+5nAxa2LcNYrgp/FtCw2Yy6IACS
+   QB7TA4bjjG2Z9o1xHBCDJv7qdw5dGNv9yDks35nRgoMP1O/1CtkBVstd5
+   A==;
+X-CSE-ConnectionGUID: 85cjOZKjQuW2LfBLMWDQVA==
+X-CSE-MsgGUID: kS9Y0sfFTQmRnRTJlp8zWQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="50564879"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="50564877"
+   d="scan'208";a="50564879"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 17:38:17 -0800
-X-CSE-ConnectionGUID: 29OdXeaZT2O2Yfrke7N53A==
-X-CSE-MsgGUID: PB7e8Z9uR76KTZ/xr8x5Cw==
+X-CSE-ConnectionGUID: KK1eheVhQlWuik8WhTaOeA==
+X-CSE-MsgGUID: ppA0ACreR8uEX8pw2x9ojQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="93434311"
+   d="scan'208";a="93434310"
 Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 29 Nov 2024 17:38:17 -0800
 Received: from kbuild by 5e2646291792 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHCR3-0000qD-37;
+	id 1tHCR3-0000qF-3B;
 	Sat, 30 Nov 2024 01:38:13 +0000
-Date: Sat, 30 Nov 2024 09:37:37 +0800
+Date: Sat, 30 Nov 2024 09:37:38 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.12.0-scu4-dt-overlay 25/30] drivers/of/resolver.c:391:5:
- error: redefinition of 'of_add_resolver_symbol'
-Message-ID: <202411300937.t5wzkEyZ-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.12.0-scu4-dt-overlay 29/30] drivers/i2c/i2c-core.h:97:49:
+ error: must use 'struct' tag to refer to type 'gpio_chip'
+Message-ID: <202411300910.FpiIxT3v-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,46 +64,60 @@ Content-Disposition: inline
 
 tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
 head:   6a87eb702125c86f68c9c466c941b914713c8252
-commit: 6432b35945fe3f299f755399ffb8b0101e508866 [25/30] of: resolver: Add helper to add to __symbols__
-config: arm-randconfig-001-20241130 (https://download.01.org/0day-ci/archive/20241130/202411300937.t5wzkEyZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300937.t5wzkEyZ-lkp@intel.com/reproduce)
+commit: 8aae31b5d95b83a200d406db1b9c0108e36eb5a4 [29/30] i2c: Add node with phandle and entry to __symbols__ for DT overlays
+config: i386-buildonly-randconfig-002-20241130 (https://download.01.org/0day-ci/archive/20241130/202411300910.FpiIxT3v-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300910.FpiIxT3v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411300937.t5wzkEyZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411300910.FpiIxT3v-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/of/resolver.c:391:5: error: redefinition of 'of_add_resolver_symbol'
-     391 | int of_add_resolver_symbol(const char *prefix, const struct device *dev,
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/of/resolver.c:15:
-   include/linux/of.h:1775:19: note: previous definition of 'of_add_resolver_symbol' with type 'int(const char *, const struct device *, const char *)'
-    1775 | static inline int of_add_resolver_symbol(const char *name,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/i2c/i2c-core-base.c:24:
+   In file included from include/linux/i2c.h:19:
+   In file included from include/linux/regulator/consumer.h:35:
+   In file included from include/linux/suspend.h:5:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:21:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from drivers/i2c/i2c-core-base.c:46:
+>> drivers/i2c/i2c-core.h:97:49: error: must use 'struct' tag to refer to type 'gpio_chip'
+      97 | static inline void of_i2c_make_adapter_dev_node(gpio_chip *chip) {};
+         |                                                 ^
+         |                                                 struct 
+>> drivers/i2c/i2c-core.h:97:20: error: conflicting types for 'of_i2c_make_adapter_dev_node'
+      97 | static inline void of_i2c_make_adapter_dev_node(gpio_chip *chip) {};
+         |                    ^
+   drivers/i2c/i2c-core.h:96:20: note: previous definition is here
+      96 | static inline void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap) {};
+         |                    ^
+>> drivers/i2c/i2c-core-base.c:1797:2: error: call to undeclared function 'of_i2c_remove_adapter_dev_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1797 |         of_i2c_remove_adapter_dev_node(adap);
+         |         ^
+   drivers/i2c/i2c-core-base.c:1797:2: note: did you mean 'of_i2c_make_adapter_dev_node'?
+   drivers/i2c/i2c-core.h:96:20: note: 'of_i2c_make_adapter_dev_node' declared here
+      96 | static inline void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap) {};
+         |                    ^
+   1 warning and 3 errors generated.
 
 
-vim +/of_add_resolver_symbol +391 drivers/of/resolver.c
+vim +97 drivers/i2c/i2c-core.h
 
-   375	
-   376	/**
-   377	 * of_add_resolver_symbol - Add to /__symbols__
-   378	 *
-   379	 * @prefix: 	First part of symbol
-   380	 * @dev:	Device to take the name from
-   381	 * @path: 	Path of the symbol in the device tree
-   382	 *
-   383	 * In order that the overlay resolver can resolve phandles in the
-   384	 * overlay to nodes in the base tree, the phandle needs an entry in
-   385	 * __symbols__.  When a dynamic node is added, use this helper to add
-   386	 * such an entry. The symbol is constructed from the prefix and the
-   387	 * device name, which is then mangled to make it DT confirming.
-   388	 *
-   389	 * Return: %0 on success or a negative error value on error.
-   390	 */
- > 391	int of_add_resolver_symbol(const char *prefix, const struct device *dev,
+    91	
+    92	#ifdef CONFIG_OF_DYNAMIC
+    93	void of_i2c_remove_adapter_dev_node(struct i2c_adapter *adap);
+    94	void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap);
+    95	#else
+    96	static inline void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap) {};
+  > 97	static inline void of_i2c_make_adapter_dev_node(gpio_chip *chip) {};
+    98	#endif
+    99	
 
 -- 
 0-DAY CI Kernel Test Service
