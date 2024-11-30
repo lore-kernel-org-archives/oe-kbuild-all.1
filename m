@@ -1,60 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C2413D3B3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 19:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54701A3031;
+	Sat, 30 Nov 2024 20:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732996001; cv=none; b=B4nqyYHoO4hqMuCpRPKZSBs5yViPxOKtqYiZcieOSLYhEdYtFS76/hOAKLuxckl3c7cZydBp8y/w8unYFZWJj9QOmK/6ERg/rokJly10sEhyF/+WvJmDog3DGx4ChgAdYxVjK2iKvW3pNBrJkrN2yEI2xbpL6GG6A9gqbVKXHwE=
+	t=1732997271; cv=none; b=LyDG0dP1q3ko65Xr1z3hiMvZ5QQ1mM/plsi7x4OqeEdlXdggq/OsGMHUnuwVsozm5rBcIbaCnpQlb5J4juj2Shxm5WVLauGs9uQdx4iU8HeFkEKvGyIC0Am+pXrVgR77MJRnVELxIFnUmoYFtb7PqcjMlvCQBZcUCYHbJDkIFv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732996001; c=relaxed/simple;
-	bh=IRB3Dw911TwljM0cVNjsK6O106zwEM7+cIbWQL0xkCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IEDtoAG/x7u/hu5rjO1dy+P6NDuuSgetGjnVvqZy2nEVpcRaqL7+DcoJ3S7sw1DHRANgA2IGP6+4LXyDA9D9OB3yX2oG5U3/64h4mrrIv5Gi48sGoQRge583ezfld+aI/DFQFXmGldEFhugeWMLsZVPRwMd6EKVnmDp6g6wkHTg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T82/rBBu; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1732997271; c=relaxed/simple;
+	bh=gA6EPb72gVsgpMXnMkReyXmS2VCY76gjR1DkpggEPOY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A7eJud/i0FKxUTbxExgWlf8VxRtskyRV6dAgLDRC0rTEdWlvVNaso9a1LV9NCVzZ0a9CTvLbnoEM3x8jdtC4jKX2G1gOxj/aK0moUmeNzslzUnhw2D9oGp9jIuzi3bZJPUEd+cPB9lXB03tnhYPEHZMLhwDNjEbQFi/Qql9mMW0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqD03A5D; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T82/rBBu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqD03A5D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732996000; x=1764532000;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IRB3Dw911TwljM0cVNjsK6O106zwEM7+cIbWQL0xkCs=;
-  b=T82/rBBun5sf9/FrFYuvmFcpLL8zSJnjjWJOW1qNOjcz00rWDbGf0sOK
-   tFkm5/AayNQJJd7BrvClZ/4oyjg/ARSYTnVCJ8F8KwgI+Z9ZVBgo4ZkNk
-   alHCj7BQ4YFv0HyannLSbEo5x8Px1rIF5YOTXLXRWM2nnXLe2iw196b/c
-   yEk8TPEJY07QE+u0gPFMPz5tMpvkICeLyE75Zmv8f15xuFrHgdbwxogoN
-   MoHg7/BhSLbwuPKI1cc8idNd/2aTEcvRA+/ClhwVSmOJaxzQptfcbNZ7v
-   fq48kZL/CB0I0ljRuDRddc1cbzKqfQ/OwhZdQGNqU8PBtsL7EdvrAq2QZ
-   g==;
-X-CSE-ConnectionGUID: c5/zUIwQQiuS2u1uBUU/IA==
-X-CSE-MsgGUID: /hlaND6QT/K1LrZ0KE9ufw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36857078"
+  t=1732997270; x=1764533270;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gA6EPb72gVsgpMXnMkReyXmS2VCY76gjR1DkpggEPOY=;
+  b=fqD03A5D7FJI5ysR3HF63+EJr0TNblr8Qko78WOAViigHjsfXXPVM7dx
+   egnM60fWTKroesYgzXnGHeA/aMwQt0rp+MvbZ0DBeqOphJkEZdsc6/oHS
+   71YOkj/OwPZWcclZ7sTbPt0u5mnAn4/MttBSWvvouahnfbXrqKs6stCqj
+   u6D1znt3fHPZna8dE+n+8Hzk4MLYDIAz9jx++ykuysQ03/KfXaSrqsPvK
+   W/1jAZ9HX2uzLts+0cqZz1rptGI4VYmsHIN7tNkHD9m8xYtctXBRU0fSP
+   IuArJeOAFGo848xtE10uJVLWSA4DGUVuAg2rk3By5dsl+ZgeG26r1I9Si
+   A==;
+X-CSE-ConnectionGUID: //q+ryTQSXucJYKtatL4ZQ==
+X-CSE-MsgGUID: fkby9VnuSwCULoZ+z1xBvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="32549629"
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="36857078"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 11:46:39 -0800
-X-CSE-ConnectionGUID: tVJC+f9fRPCwTkpwZtEb+g==
-X-CSE-MsgGUID: BJyh6Ev4Qd++AeS7sWq5uQ==
+   d="scan'208";a="32549629"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 12:07:49 -0800
+X-CSE-ConnectionGUID: cWDN9k1hSDi9IvGF9R1afw==
+X-CSE-MsgGUID: r9FfSjUUTEqQ24qj4fNIyQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="92358805"
+   d="scan'208";a="123688168"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Nov 2024 11:46:37 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 30 Nov 2024 12:07:45 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHTQJ-0000wN-0M;
-	Sat, 30 Nov 2024 19:46:35 +0000
-Date: Sun, 1 Dec 2024 03:46:20 +0800
+	id 1tHTkh-0000wn-3D;
+	Sat, 30 Nov 2024 20:07:41 +0000
+Date: Sun, 1 Dec 2024 04:07:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Howells <dhowells@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Dominique Martinet <asmadeus@codewreck.org>
-Subject: fs/netfs/objects.c:148:5-24: WARNING: atomic_dec_and_test variation
- before object free at line 150.
-Message-ID: <202412010523.B4dXJKXN-lkp@intel.com>
+To: Ciprian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	NXP S32 Linux <s32@nxp.com>, Christophe Lizzi <clizzi@redhat.com>,
+	Alberto Ruiz <aruizrui@redhat.com>,
+	Enric Balletbo <eballetb@redhat.com>,
+	Ciprian Marian Costea <ciprianmarian.costea@oss.nxp.com>,
+	Bogdan Hamciuc <bogdan.hamciuc@nxp.com>,
+	Ghennadi Procopciuc <Ghennadi.Procopciuc@nxp.com>
+Subject: Re: [PATCH v5 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+Message-ID: <202412010328.kJoRexZK-lkp@intel.com>
+References: <20241126114414.419469-4-ciprianmarian.costea@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,54 +76,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241126114414.419469-4-ciprianmarian.costea@oss.nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d8b78066f4c9c8ec898bd4246fc4db31d476dd88
-commit: f89ea63f1c65d3e93b255f14f9d9e05df87955fa netfs, 9p: Fix race between umount and async request completion
-date:   6 months ago
-config: openrisc-randconfig-r061-20241130 (https://download.01.org/0day-ci/archive/20241201/202412010523.B4dXJKXN-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
+Hi Ciprian,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on arm64/for-next/core linus/master v6.12]
+[cannot apply to abelloni/rtc-next next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ciprian-Costea/rtc-s32g-add-NXP-S32G2-S32G3-SoC-support/20241128-095523
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20241126114414.419469-4-ciprianmarian.costea%40oss.nxp.com
+patch subject: [PATCH v5 2/4] rtc: s32g: add NXP S32G2/S32G3 SoC support
+config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20241201/202412010328.kJoRexZK-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010328.kJoRexZK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010523.B4dXJKXN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412010328.kJoRexZK-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/netfs/objects.c:148:5-24: WARNING: atomic_dec_and_test variation before object free at line 150.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +148 fs/netfs/objects.c
+>> ERROR: modpost: "__udivdi3" [drivers/rtc/rtc-s32g.ko] undefined!
 
-   123	
-   124	static void netfs_free_request(struct work_struct *work)
-   125	{
-   126		struct netfs_io_request *rreq =
-   127			container_of(work, struct netfs_io_request, work);
-   128		struct netfs_inode *ictx = netfs_inode(rreq->inode);
-   129		unsigned int i;
-   130	
-   131		trace_netfs_rreq(rreq, netfs_rreq_trace_free);
-   132		netfs_proc_del_rreq(rreq);
-   133		netfs_clear_subrequests(rreq, false);
-   134		if (rreq->netfs_ops->free_request)
-   135			rreq->netfs_ops->free_request(rreq);
-   136		if (rreq->cache_resources.ops)
-   137			rreq->cache_resources.ops->end_operation(&rreq->cache_resources);
-   138		if (rreq->direct_bv) {
-   139			for (i = 0; i < rreq->direct_bv_count; i++) {
-   140				if (rreq->direct_bv[i].bv_page) {
-   141					if (rreq->direct_bv_unpin)
-   142						unpin_user_page(rreq->direct_bv[i].bv_page);
-   143				}
-   144			}
-   145			kvfree(rreq->direct_bv);
-   146		}
-   147	
- > 148		if (atomic_dec_and_test(&ictx->io_count))
-   149			wake_up_var(&ictx->io_count);
- > 150		call_rcu(&rreq->rcu, netfs_free_request_rcu);
-   151	}
-   152	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for GET_FREE_REGION
+   Depends on [n]: SPARSEMEM [=n]
+   Selected by [m]:
+   - RESOURCE_KUNIT_TEST [=m] && RUNTIME_TESTING_MENU [=y] && KUNIT [=m]
 
 -- 
 0-DAY CI Kernel Test Service
