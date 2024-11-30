@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E011428F3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 07:35:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9AD33F9
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 08:33:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732952150; cv=none; b=rXrb5VkY9nO/OcAi+MJFenCOJFsaewmagAhwTzMV7/470VNPacdng9O6mKzxJxcSkLFdmM1egticqabT6lxLfTvvVZaDcgvM17QJuRijZ1kNahUXRchSwwl0zOP2u2jXTsvvL4WgviAwdNpHPnRVXXOaaVkg+v3R+TDLP3OtkgU=
+	t=1732955588; cv=none; b=Sd5Ql1D40iUAIj7y5H/knZS/Xgwv6fdZ8kwjo55topU83zL0lRvtU3iqPz+Co1sPPAzZFcAzFsrQZpXzQ7JZzQOY4Cu3OfOsZG79cwyZGfLW/8rJeYJt9d0xlEhLVyT0Lj5AcWNKea1F0K7kWqsGMDW4m5rWHE7FQhrGrDBeaCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732952150; c=relaxed/simple;
-	bh=kNGgYsBYC68UerCK729SiuyoMYs8evtqO67PR7Bvd54=;
+	s=arc-20240116; t=1732955588; c=relaxed/simple;
+	bh=SfrzAh77wGXbYRjzFw20yTowoUdty9XNRO8jpH2Sxlo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WMhi9Tz1emBGwNBGwmpY3NKyEg2UUj1o8qCMAIMf3d1RN7Xg6qWWhOwXoBqKXOBUJb41DxKQaz9Emrv7fK1LlakeDZ8UNDKxpXSsVHFGC+4E0tKxELd6wmlntgD1IlJoHjlO4LE6x6aQinb0T/PtClpteUIvW0u49zR6YiBByVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JY0rIdFc; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=pmIIo8C8lnPvncQTHXBT7VX4UQ6xKiUB356D/GqgUg+SPkF88FRybkvZPpxpcqMvPqX7cVWOxDOiCI5h0Hmhf77//mfgzQvhP2R+cA7/m15cLoKe8tiF9/KyZsLnVG4R43wNtXx4BVvKwOeCjcw8402RahqrCZIWomiY9i43yGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B5F1vmbN; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JY0rIdFc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B5F1vmbN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732952148; x=1764488148;
+  t=1732955586; x=1764491586;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kNGgYsBYC68UerCK729SiuyoMYs8evtqO67PR7Bvd54=;
-  b=JY0rIdFc0HuwWPVU+cZYQf+cryTeBhh3Iczb6Zm8vgnwpEv4ii3o1Wwx
-   GgSPepyoxV+ug27TpthKoIXT9ZPcn5EDkVum6iO/4nJrm2Hw4qxr9NJ55
-   32LSQMUp8O8u9XZ5NEz6uT6IxzeXDcC+UnjVcCcMcEKNGqgheAsWw65rp
-   bpZIaF9tOyJZlJBHJhbnSVXtNDQj8josvSjrfJwNe7/aGR2OJ+k8g+Jfk
-   ZPFkGcQqxhtviPp4Dx1SByqg2G1eDT8ABJgkN1NFvOD4zFdTogDFiYjZD
-   UvaUhNSLKSsuvsedNCkogkF4hOMSAoh8uEYc169GINU4826xLlyvxCuyM
+  bh=SfrzAh77wGXbYRjzFw20yTowoUdty9XNRO8jpH2Sxlo=;
+  b=B5F1vmbN+7ruC11RDOcU8LcHMfW0ElWfZZe2IhkYhX/4PXSTTI4P8cci
+   IcQ4OIJquqhwziWFonkNlxuLS1Hb8LsqYQ2Qpj82hcwdAO/XIjm5fOUUG
+   xxC3h5Isb4ihYYPFK2+8GzWA4jd+fYwg/z9b3RJpXsDqgxg/jOGi71RPy
+   zHV2Yh+JT2U9tLXGeinzx78hE5PxPkGeBF/SDhJX+zaSzsldbaovUE2W8
+   xJfqX/r/qrTef+GvOzu0NmEqvIxQIhaqxn2YTUSUb9izmoTezea3U7yzw
+   Uv6wVqye5VIH3NjvV+4WGikANAbbksG08CNu3NlB2wRX8JD/RskjOZ86t
    w==;
-X-CSE-ConnectionGUID: KZivX5a4RSy21WMxuglaPA==
-X-CSE-MsgGUID: CucxzMtqRX+7fB2KM1qfCg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="32531417"
+X-CSE-ConnectionGUID: f/CiWelRToWX71fZJvAFIQ==
+X-CSE-MsgGUID: uG42W1ywTOOwCY44Jj5FmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44554755"
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="32531417"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 23:35:47 -0800
-X-CSE-ConnectionGUID: ISxdjC8ITZ+37D7F/nTO1Q==
-X-CSE-MsgGUID: 0HA4bhEYTLeAYMV7LxJYzQ==
+   d="scan'208";a="44554755"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 00:33:05 -0800
+X-CSE-ConnectionGUID: gdI4mJQ+QZO+DTY+WYj4fg==
+X-CSE-MsgGUID: KKWUhWzOSASUJU0KaRey4Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="92517454"
+   d="scan'208";a="97766387"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 29 Nov 2024 23:35:46 -0800
+  by orviesa004.jf.intel.com with ESMTP; 30 Nov 2024 00:33:04 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHI11-0000B6-2y;
-	Sat, 30 Nov 2024 07:35:43 +0000
-Date: Sat, 30 Nov 2024 15:35:28 +0800
+	id 1tHIuT-0000QF-2z;
+	Sat, 30 Nov 2024 08:33:01 +0000
+Date: Sat, 30 Nov 2024 16:32:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.12.0-scu4-dt-overlay 24/30]
- drivers/gpio/gpiolib-of.c:1243:12: warning: assignment to 'struct
- device_node *' from 'int' makes pointer from integer without a cast
-Message-ID: <202411301557.jjSMc67v-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 114/119]
+ sound/soc/apple/macaudio.c:1508:30: sparse: sparse: symbol
+ 'macaudio_j316_cfg' was not declared. Should it be static?
+Message-ID: <202411301633.o4NSfSqR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +63,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
-head:   6a87eb702125c86f68c9c466c941b914713c8252
-commit: 3003e9eae5cddbc635a165d44194a95e1d26b5be [24/30] gpio: Dynamically add OF nodes if not present
-config: arc-tb10x_defconfig (https://download.01.org/0day-ci/archive/20241130/202411301557.jjSMc67v-lkp@intel.com/config)
-compiler: arc-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301557.jjSMc67v-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   070347d4a0876921be5b0bbc11fff848c2ed3e59
+commit: b88fdf069d7fbd0fadeb4091af54768599ace1f0 [114/119] READ COMMIT MESSAGE! macaudio: Enable first round of models
+config: sparc64-randconfig-r122-20241118 (https://download.01.org/0day-ci/archive/20241130/202411301633.o4NSfSqR-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241130/202411301633.o4NSfSqR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301557.jjSMc67v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301633.o4NSfSqR-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/apple/macaudio.c:1289:1: sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1299:1: sparse: sparse: symbol 'macaudio_hp_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1489:30: sparse: sparse: symbol 'macaudio_j180_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1492:30: sparse: sparse: symbol 'macaudio_j274_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1496:30: sparse: sparse: symbol 'macaudio_j293_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1500:30: sparse: sparse: symbol 'macaudio_j313_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1504:30: sparse: sparse: symbol 'macaudio_j314_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1508:30: sparse: sparse: symbol 'macaudio_j316_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1512:30: sparse: sparse: symbol 'macaudio_j37x_j47x_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1516:30: sparse: sparse: symbol 'macaudio_j413_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1520:30: sparse: sparse: symbol 'macaudio_j415_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1524:30: sparse: sparse: symbol 'macaudio_j45x_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1528:30: sparse: sparse: symbol 'macaudio_j493_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1532:30: sparse: sparse: symbol 'macaudio_fallback_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
 
-   drivers/gpio/gpiolib-of.c:1191:6: error: redefinition of 'of_gpiochip_remove_dev_node'
-    1191 | void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpio/gpiolib-of.c:26:
-   drivers/gpio/gpiolib-of.h:50:20: note: previous definition of 'of_gpiochip_remove_dev_node' with type 'void(struct gpio_chip *)'
-      50 | static inline void of_gpiochip_remove_dev_node(struct gpio_chip *chip) {};
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_remove_dev_node':
-   drivers/gpio/gpiolib-of.c:1201:9: error: implicit declaration of function 'of_changeset_revert' [-Werror=implicit-function-declaration]
-    1201 |         of_changeset_revert(np->data);
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c:1202:9: error: implicit declaration of function 'of_changeset_destroy' [-Werror=implicit-function-declaration]
-    1202 |         of_changeset_destroy(np->data);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_add_properties':
-   drivers/gpio/gpiolib-of.c:1217:15: error: implicit declaration of function 'of_changeset_add_prop_bool' [-Werror=implicit-function-declaration]
-    1217 |         ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c:1221:16: error: implicit declaration of function 'of_changeset_add_prop_u32' [-Werror=implicit-function-declaration]
-    1221 |         return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: At top level:
-   drivers/gpio/gpiolib-of.c:1224:6: error: redefinition of 'of_gpiochip_make_dev_node'
-    1224 | void of_gpiochip_make_dev_node(struct gpio_chip *chip)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.h:49:20: note: previous definition of 'of_gpiochip_make_dev_node' with type 'void(struct gpio_chip *)'
-      49 | static inline void of_gpiochip_make_dev_node(struct gpio_chip *chip) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_make_dev_node':
-   drivers/gpio/gpiolib-of.c:1241:9: error: implicit declaration of function 'of_changeset_init' [-Werror=implicit-function-declaration]
-    1241 |         of_changeset_init(cset);
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c:1243:14: error: implicit declaration of function 'of_changeset_create_node' [-Werror=implicit-function-declaration]
-    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpiolib-of.c:1243:12: warning: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
-         |            ^
-   drivers/gpio/gpiolib-of.c:1251:15: error: implicit declaration of function 'of_changeset_apply' [-Werror=implicit-function-declaration]
-    1251 |         ret = of_changeset_apply(cset);
-         |               ^~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+vim +/macaudio_j316_cfg +1508 sound/soc/apple/macaudio.c
 
-
-vim +1243 drivers/gpio/gpiolib-of.c
-
-  1223	
-  1224	void of_gpiochip_make_dev_node(struct gpio_chip *chip)
-  1225	{
-  1226		struct device_node *np = NULL;
-  1227		struct of_changeset *cset;
-  1228		int ret;
-  1229	
-  1230		/*
-  1231		 * If there is already a device tree node linked to this device,
-  1232		 * return immediately.
-  1233		 */
-  1234		if (chip->gpiodev->dev.of_node)
-  1235			return;
-  1236	
-  1237		cset = kmalloc(sizeof(*cset), GFP_KERNEL);
-  1238		if (!cset)
-  1239		       return;
-  1240	
-> 1241		of_changeset_init(cset);
-  1242	
-> 1243		np = of_changeset_create_node(cset, of_root, chip->label);
+  1507	
+> 1508	struct macaudio_platform_cfg macaudio_j316_cfg = {
+  1509		false,	AMP_SN012776,	SPKR_2W1T,	true,	15,	-20,
+  1510	};
+  1511	
 
 -- 
 0-DAY CI Kernel Test Service
