@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C561AA1DD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 20:29:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B39E17741
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 20:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732998568; cv=none; b=frNVKVNGtzyiTfWjiF5h32yd3G+B5kwjoRjq6Dto0doSJrm3pUaQsC+n0CW7MZzi1n2ocMFWAKFRNkzc7hSpa9I4VLUBe2RmO66ngtsl+5knsoy2bCa9V12YZbaKEAY9vhXDGLd6mg3M9r8eEHqjNsYH45dwVZwtIK46pyI3NT4=
+	t=1732999821; cv=none; b=nj7d9DMn3q4yBcBVL5p2q0FFIXwsXCvXtARQtszpr4m8+eN+jbtcsUEtoAgYbSwtccMREPTtN3f+zXnm03um5tsdeQlx0+kD6HdMPvl6FyMjpL6M16mVlL+Qg5/0d9xeGJ76BwUpZO1Kjq1zCezQU614nk51J0t0tge7f26aMfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732998568; c=relaxed/simple;
-	bh=kGn8EDwLKIg2/jBAYQuniH8nphdmPqKuXI8bSilRlkU=;
+	s=arc-20240116; t=1732999821; c=relaxed/simple;
+	bh=a2JVYvUA3EhoC3fjV3QJ+Ea/nuOOBKrJnQBCCSDzO/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Tf8Uk/SqIKP5R7Ierl4HvVEgjhEsZ7ftxVJiXaXlf31IHkDfqeUqGVU4pJioAx9nSVTH51nYyuwsaouWHB2CQrHiGfWmlIDiYi6p89NZt3m2Chk9z/H/i1S06pb8A1oZ63s/xVjcQaSe02H8GDz88+sQzbmkFesClQjtotvpdZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aM2I/zgZ; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=AGtMidrNuT4GLDPTc142DH+ngntovEcgAF7ZpFHq8WRzbxf2TiaF4/P4mtJvQADfsqC9rpCQI+dksutJyqJARfR1UqzVMnlBaUVLxWfIqk9q/WbJwr8xE0lWP+e3iGzITUzve2svxjj+z8y7yrHVgtsZml+542rIpJnQCmyEWLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AFYMKCuW; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aM2I/zgZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AFYMKCuW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732998566; x=1764534566;
+  t=1732999818; x=1764535818;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kGn8EDwLKIg2/jBAYQuniH8nphdmPqKuXI8bSilRlkU=;
-  b=aM2I/zgZK/LnQZ3demAr7sd11xw+aiOXEP6bgLDAjYUBsyFmatkvgiKz
-   JrUotFg6eBDJYWEuism3nF55yH4hSwrFncQMii/qYto6ggWS6AQZOL87c
-   wbIt5ZTXWWlpnsck2Se0ex7z/VeAxAj+YHVDHMu4wDBpNPxR4U9JSj51D
-   lkglDZOJw270ZG5wJL937hcjAk9F7v+kC9KPf5cK2kWJ+TXCuYkVha+Za
-   AhGvNsVQM2qFI23pyRwUG93HBv43sw/Pw/vdOR/WH0udJEZMDaU/T0eSk
-   RsaL1zZDdumLvcSrCORXVF6r8Ner63HKTw+CjLBc9JoSAvJI4UCyoklCA
-   A==;
-X-CSE-ConnectionGUID: yaC3RH3ORiK/6ygc9nzAHg==
-X-CSE-MsgGUID: BnR47nJkSjqUg+we8W8dHg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="55684895"
+  bh=a2JVYvUA3EhoC3fjV3QJ+Ea/nuOOBKrJnQBCCSDzO/I=;
+  b=AFYMKCuWWhEgqJBVtv7l2HHovqFwiVKUrpjQnSc/oJni6nIAuiTJAOU1
+   s1kVGo3qSEeqxwu6HnjN65Nzbv+FLbFmFdPmjCNLwMgRFC9DHJ99tlDGQ
+   lGKCzayLGd1uLoqbVT1N+mT0i5bNlzqoOT1C8F8bmnv0OPqt3ILVdH63t
+   vExltMDl4bDthEQiNCTcDUkQEWwWxUZjrCbTFbF27R22l59u7FNDMGqxi
+   D4AqHrvB6LjQYMAT5a1MJKt2PX/CWM6DlaiDCUUHXLLh6J4xzqe9x47si
+   mvHQmlKZPrxdAkO/beVUGadxkau2l90V5YvYsdrGrh5OrzfLwsJt0nTLT
+   Q==;
+X-CSE-ConnectionGUID: NDrF86a7RnW8p8+akQvDZA==
+X-CSE-MsgGUID: xMIVsD2DRVOLKWwhS/Tbiw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="32550607"
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="55684895"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 12:29:25 -0800
-X-CSE-ConnectionGUID: wf8QXQXOTPGTBIZKrbo7DQ==
-X-CSE-MsgGUID: ungxZJx6RtusIcmWEiOdtA==
+   d="scan'208";a="32550607"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 12:50:18 -0800
+X-CSE-ConnectionGUID: kkRQQ/o/RLamv5PKc6Vm6A==
+X-CSE-MsgGUID: kL62opGgS72L0jG6IAssNQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="130222520"
+   d="scan'208";a="92553704"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 Nov 2024 12:29:25 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 30 Nov 2024 12:50:17 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHU5i-0000xl-1z;
-	Sat, 30 Nov 2024 20:29:22 +0000
-Date: Sun, 1 Dec 2024 04:28:35 +0800
+	id 1tHUPN-0000y9-2I;
+	Sat, 30 Nov 2024 20:49:48 +0000
+Date: Sun, 1 Dec 2024 04:49:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pali =?unknown-8bit?B?Um9ow6Fy?= <pali@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [pali:cifs 6/20] fs/smb/client/reparse.c:907:45: sparse: sparse:
- incorrect type in argument 4 (different base types)
-Message-ID: <202412010441.v34pfCXa-lkp@intel.com>
+Subject: [android-common:android15-6.6-desktop 13321/24492]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb:
+ gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names',
+ 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202412010410.GGVaDfJB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +64,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pali/linux.git cifs
-head:   f36b8c5bb788de2feea99660389db8e290cb36c5
-commit: 811d283b82113b5c52ed723a5565c365a713f054 [6/20] cifs: Add support for parsing WSL-style symlinks
-config: x86_64-randconfig-122-20241117 (https://download.01.org/0day-ci/archive/20241201/202412010441.v34pfCXa-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010441.v34pfCXa-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   e7a21ea2fe3e2a61b2c8aaed984064efdad3fac4
+commit: cc568b4d81af55d05691978d8d286360397ffda0 [13321/24492] CHROMIUM: arm64: dts: mt8186: Add voltorb board
+config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241201/202412010410.GGVaDfJB-lkp@intel.com/config)
+compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010410.GGVaDfJB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010441.v34pfCXa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412010410.GGVaDfJB-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   fs/smb/client/reparse.c:145:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got int @@
-   fs/smb/client/reparse.c:145:25: sparse:     expected restricted __le16 [usertype]
-   fs/smb/client/reparse.c:145:25: sparse:     got int
-   fs/smb/client/reparse.c:146:35: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got int @@
-   fs/smb/client/reparse.c:146:35: sparse:     expected restricted __le16 [usertype]
-   fs/smb/client/reparse.c:146:35: sparse:     got int
-   fs/smb/client/reparse.c:147:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] @@     got int @@
-   fs/smb/client/reparse.c:147:25: sparse:     expected restricted __le16 [usertype]
-   fs/smb/client/reparse.c:147:25: sparse:     got int
->> fs/smb/client/reparse.c:907:45: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected unsigned short [usertype] *pwcs @@     got restricted __le16 [usertype] *[assigned] symname_utf16 @@
-   fs/smb/client/reparse.c:907:45: sparse:     expected unsigned short [usertype] *pwcs
-   fs/smb/client/reparse.c:907:45: sparse:     got restricted __le16 [usertype] *[assigned] symname_utf16
-   fs/smb/client/reparse.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-
-vim +907 fs/smb/client/reparse.c
-
-   877	
-   878	static int parse_reparse_wsl_symlink(struct reparse_wsl_symlink_data_buffer *buf,
-   879					     struct cifs_sb_info *cifs_sb,
-   880					     struct cifs_open_info_data *data)
-   881	{
-   882		int len = le16_to_cpu(buf->ReparseDataLength);
-   883		int symname_utf8_len;
-   884		__le16 *symname_utf16;
-   885		int symname_utf16_len;
-   886	
-   887		if (len <= sizeof(buf->Flags)) {
-   888			cifs_dbg(VFS, "srv returned malformed wsl symlink buffer\n");
-   889			return -EIO;
-   890		}
-   891	
-   892		/* PathBuffer is in UTF-8 but without trailing null-term byte */
-   893		symname_utf8_len = len - sizeof(buf->Flags);
-   894		/*
-   895		 * Check that buffer does not contain null byte
-   896		 * because Linux cannot process symlink with null byte.
-   897		 */
-   898		if (strnlen(buf->PathBuffer, symname_utf8_len) != symname_utf8_len) {
-   899			cifs_dbg(VFS, "srv returned null byte in wsl symlink target location\n");
-   900			return -EIO;
-   901		}
-   902		symname_utf16 = kzalloc(symname_utf8_len * 2, GFP_KERNEL);
-   903		if (!symname_utf16)
-   904			return -ENOMEM;
-   905		symname_utf16_len = utf8s_to_utf16s(buf->PathBuffer, symname_utf8_len,
-   906						    UTF16_LITTLE_ENDIAN,
- > 907						    symname_utf16, symname_utf8_len * 2);
-   908		if (symname_utf16_len < 0) {
-   909			kfree(symname_utf16);
-   910			return symname_utf16_len;
-   911		}
-   912		symname_utf16_len *= 2; /* utf8s_to_utf16s() returns number of u16 items, not byte length */
-   913	
-   914		data->symlink_target = cifs_strndup_from_utf16((u8 *)symname_utf16,
-   915							       symname_utf16_len, true,
-   916							       cifs_sb->local_nls);
-   917		kfree(symname_utf16);
-   918		if (!data->symlink_target)
-   919			return -ENOMEM;
-   920	
-   921		return 0;
-   922	}
-   923	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #address-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: usb@11280000: #size-cells: 0 was expected
+   	from schema $id: http://devicetree.org/schemas/usb/mediatek,mtk-xhci.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: efuse@11cb0000: Unevaluated properties are not allowed ('calib', 'data1', 'data1-1' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/nvmem/mediatek,efuse.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: gpu@13040000: sram-supply: False schema does not allow [[131]]
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: dpi@1400a000: pinctrl-names:0: 'default' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: dpi@1400a000: pinctrl-names:1: 'sleep' was expected
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: dpi@1400a000: Additional properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: clock-controller@15020000: 'mediatek,gce-client-reg' does not match any of the regexes: 'pinctrl-[0-9]+'
 
 -- 
 0-DAY CI Kernel Test Service
