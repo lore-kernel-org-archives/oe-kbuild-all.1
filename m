@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C0C12B93
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 09:04:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419621798F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 09:23:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732957458; cv=none; b=VXcRr0MxgG1kIRuWj3VojCpxa64iri3Qh9OgDXq6XYSX54+K2OYm1/G23kzvfDLR5eL0temWbTKWTo+BwT7zwnDLnqFB+IwrGpyEVBnjIQsf+vuXcjEVkbtykm6gRHEnvpNtp5ZpFUJESOR9np2s1tqo7ZQJ3R+kW7qGYdL5GnA=
+	t=1732958619; cv=none; b=eb1l6E39aZld/dFxtdlQdxxoztkK2Q7+8bgF52rwOcdjeoJ6YrKMSDwhg2Lm3fzoy8lsDyhtcghpPIniJnm3VgJNgYLIdyJ1Huy2nSODEhpK2TdvR9DT0t/2wptBZ6UE8SKDMMPFiN8l7fzLbNOWfH4mZmQArdMSCKPwJSeKM7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732957458; c=relaxed/simple;
-	bh=3nuOyvxSkl7X+WrA6q5g4SYDGnS8tYWv1pQC6Jo1WhA=;
+	s=arc-20240116; t=1732958619; c=relaxed/simple;
+	bh=2OUJ9SDYuxvrAszaGJx5goSgwzTBjfsfjjDOxlDI73o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lL89S7hHfcQ5jG12T7SADBvCW27bZHXhMdRsIoyfQtpHIyzLmGBaY6+SPfAr/9kGPJrVdaUP/Ja9fd6DGStXP82Dt4yxWOK/Kww+fXDX69M4NqThXz82cgefaw7CndoTfs+gCWPn3RvNPZGN1fCIA4jGNOh4O7GtJVkt+xFTn/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D4L/Dy1+; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=oWqWs9jXs3k+4V8lFOxXUdPvy5SLL3p3Dhmnr9d0UmkTmvkah+8qdmd5J6fS7vk5oj6jXzh5wjvG5w8OTUbrWgYavbxLMf2cSKahM+w7LIkjevTQVV3zDPI1VAUpC8nT4e4D8JuT2HanYHnEUcQqAn5+/1tAC/MiLy3rh4mR+EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F079CVNE; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D4L/Dy1+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732957456; x=1764493456;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3nuOyvxSkl7X+WrA6q5g4SYDGnS8tYWv1pQC6Jo1WhA=;
-  b=D4L/Dy1+fChoE7RQk5lh8rxIXv0gnO8Oogm89rGta8AuUB+xmc/fDx7+
-   sy/PBiP3pgCmtHr6rdVSXz/Ndeaa+Ebm9s6BxgnsZcVBuQgehDt/T5c+Z
-   r/h4KDtGVJA0j2ueIrCIoPgi5WWyvyHn+lJaybZniIC5mbVtz+qnUHZNA
-   sbJyIOny+Tjc5fdwNlY8PHxXG5GyZ821tl0GTV4PaLiXakfvWuuVDEazx
-   v3vmosvw6Ssj2zf6DYvV8QWo7PMlyJ97NAin9Nvo4KeXFTsd/FMvyAsne
-   yLbhlBvx4KgSaVSDVpzfn+jrVU7bWvPrks68LUuPv1Vo0GQEr1KdivMSZ
-   A==;
-X-CSE-ConnectionGUID: 1aG/0F22S7e28DZzCBcVLQ==
-X-CSE-MsgGUID: pjeALnHWRI+n4Z4kcO6Zmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="33305015"
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="33305015"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 01:04:15 -0800
-X-CSE-ConnectionGUID: DT9QWbKARZ+paX1L47sBRw==
-X-CSE-MsgGUID: k69bCM7OTXq/c53egqEEXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="97427258"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Nov 2024 01:04:14 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tHJOe-0000Sd-08;
-	Sat, 30 Nov 2024 09:04:12 +0000
-Date: Sat, 30 Nov 2024 17:03:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 25/48]
- drivers/iommu/generic_pt/fmt/amdv1.h:298:13: warning: unused variable 'new'
-Message-ID: <202411301716.o0yY86D0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F079CVNE"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5ceb03aadb1so2910800a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 01:23:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732958615; x=1733563415; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wNn0N9jDq1p/ntWtIe2lUxsxzv49kXbS9L8bGEae5TY=;
+        b=F079CVNEJF0bpBOoT2JEN6RXltfd59MC1taE2zHZRN7iU6V8sS3WvNrEGIcAyrX5Vr
+         jSD51n+K4o1sJK18dwYKqFyMDCOHFvOHUg9PUA/eXsYFKjPPvVA4soYB/3wEn9pBw5X5
+         EQr5UeVVCsgK4BV5dmXUAuPhEbgTrUBr65R05Kx4qtvdL8NbudOY4k5SVJJkbIX45zne
+         SGWv+irVWnNdl4osW0dFbGXXKtVhj4tr6LT++XZE4Po2lgMKTOCjZOlH9iS8IEeaz1BE
+         om/DM97H9Ui9wUMEwhQK5/AwxjaLzKsC2ZD0Ucf/PdU/mY/3gJBBEo7n5tge7Z2M3jfk
+         v3ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732958615; x=1733563415;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wNn0N9jDq1p/ntWtIe2lUxsxzv49kXbS9L8bGEae5TY=;
+        b=ZPq0iLBdo2DFmoWwktup/cd1RfHILfD31iDOmwvkKlu6B+1jAfolM5frPSbvkpYyfr
+         EKWlljAU/4G6xfX1OzVIIkS8nkuamk2SKbUvmhmcmP804AJcmNnOmprfgxvZnYMj9Wsr
+         R7xpvlWmMhrwwyeAuMmKaapN4yBWNb8lXWi6kMng2jUxmigUcfPe8E8N1Wff28BuFAGM
+         zcDuze3scQFRC/3tHzutrMxt8Jz3vCGvZ0QSHTjO1gaunp7JfQG1j7U9Zl4fWI+xkOqN
+         x55n8PgqVFkdo38+FxWThyuLocgNdYYKTMJyloBdWe06vp/+sxvRCCWaC3G1uh1dvKNi
+         AiwA==
+X-Forwarded-Encrypted: i=1; AJvYcCX5duO8f+kCJjGhn4gy4BK9Cj3gEuLOzSZriiwHxQz9FHwjEyp6pkSrix5F+Yan3awHOnHjfiNFxfCyaE5V@lists.linux.dev
+X-Gm-Message-State: AOJu0YyOtO10cJ1wP89j7m/uxDMZyZeeBhNSGaR6FU3i1jWg59Si/fFP
+	gi91/wfAwsSl7tmpeZKoMYI0b9W9KnOSARrG9Oq3TrqKZC9Z+EbyIQOQE+EKptHKks4LA9ItC+r
+	2TM+2tQ==
+X-Gm-Gg: ASbGncsfY3wny4GsuxpwUSb17V2SJQ0dKydAMcHlzY9gGrWvZd+EsjTUheldREORRy9
+	g2kGts3dlNBxYrx1W4/a18mtzVkqz6oOAhP3v/N/rkGl6EenZkhaXUSAiDk2XCGSaUY9pZyWgNQ
+	BPCvZxbJIm2xyZPPEzIjASnEihv+id9iYsD5liPzj9FevubJ/PhhWLZbolmw4cJMmla3YlldDUu
+	vSYaWKadpn+CWDY3evLeJSbgy53fW6lsMH+anemF2gZItq3Ros=
+X-Google-Smtp-Source: AGHT+IExn+HuCRy5UB+VuKnRtU4BZvaKp3wYwlJ79i9R5J2BE7cmWFVMlJ7YAf6e6Ov5l7d8xM339Q==
+X-Received: by 2002:a05:6402:43c9:b0:5d0:c649:b2ba with SMTP id 4fb4d7f45d1cf-5d0c649bb5bmr4090706a12.32.1732958615549;
+        Sat, 30 Nov 2024 01:23:35 -0800 (PST)
+Received: from localhost ([41.210.145.9])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d098330dd2sm2680751a12.14.2024.11.30.01.23.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2024 01:23:35 -0800 (PST)
+Date: Sat, 30 Nov 2024 12:23:30 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Christoph Hellwig <hch@lst.de>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [hch-xfs:xfs-zoned 89/98] fs/xfs/xfs_fsops.c:346 xfs_growfs_data()
+ warn: inconsistent returns '&mp->m_growlock'.
+Message-ID: <3d59369c-6c9f-4e95-b754-1c9998c96097@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,97 +71,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   87e70b0c76695339b0163fde25b260773b0720c2
-commit: b7d6aaa64d8e078f38e5958b76c4b9bb37fb9fb7 [25/48] iommupt: Add the AMD IOMMU v1 page table format
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20241130/202411301716.o0yY86D0-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301716.o0yY86D0-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-zoned
+head:   1d218c27f2f5a8c87669b49292f1fd3432112426
+commit: a37a349d7a21f1c61dc54c5771a81aee04a265cd [89/98] xfs: don't allow growfs of the data device with internal RT device
+config: x86_64-randconfig-161-20241123 (https://download.01.org/0day-ci/archive/20241123/202411232011.Zes6bDSz-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301716.o0yY86D0-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411232011.Zes6bDSz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+fs/xfs/xfs_fsops.c:346 xfs_growfs_data() warn: inconsistent returns '&mp->m_growlock'.
 
-   In file included from include/linux/atomic.h:80,
-                    from drivers/iommu/generic_pt/fmt/../pt_defs.h:17,
-                    from drivers/iommu/generic_pt/fmt/iommu_template.h:35,
-                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:9:
-   drivers/iommu/generic_pt/fmt/../pt_defs.h: In function 'pt_table_install64':
-   include/linux/atomic/atomic-arch-fallback.h:295:14: error: void value not ignored as it ought to be
-     295 |         ___r = raw_cmpxchg64_release((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4937:9: note: in expansion of macro 'raw_try_cmpxchg64_release'
-    4937 |         raw_try_cmpxchg64_release(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/../pt_defs.h:144:16: note: in expansion of macro 'try_cmpxchg64_release'
-     144 |         return try_cmpxchg64_release(entryp, &old_entry, table_entry);
-         |                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_make_write_dirty':
-   include/linux/atomic/atomic-arch-fallback.h:259:14: error: void value not ignored as it ought to be
-     259 |         ___r = raw_cmpxchg64((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4918:9: note: in expansion of macro 'raw_try_cmpxchg64'
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h:300:16: note: in expansion of macro 'try_cmpxchg64'
-     300 |         return try_cmpxchg64(tablep, &pts->entry, new);
-         |                ^~~~~~~~~~~~~
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36:
->> drivers/iommu/generic_pt/fmt/amdv1.h:298:13: warning: unused variable 'new' [-Wunused-variable]
-     298 |         u64 new = pts->entry | AMDV1PT_FMT_D;
-         |             ^~~
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:40:
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h: In function 'pt_iommu_init_domain':
-   drivers/iommu/generic_pt/fmt/../iommu_pt.h:1144:15: error: 'struct iommu_domain' has no member named 'iommupt'
-    1144 |         domain->iommupt = iommu_table;
-         |               ^~
---
-   In file included from include/linux/atomic.h:80,
-                    from drivers/iommu/generic_pt/fmt/../pt_defs.h:17,
-                    from drivers/iommu/generic_pt/fmt/iommu_template.h:35,
-                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:9:
-   drivers/iommu/generic_pt/fmt/../pt_defs.h: In function 'pt_table_install64':
-   include/linux/atomic/atomic-arch-fallback.h:295:14: error: void value not ignored as it ought to be
-     295 |         ___r = raw_cmpxchg64_release((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4937:9: note: in expansion of macro 'raw_try_cmpxchg64_release'
-    4937 |         raw_try_cmpxchg64_release(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/../pt_defs.h:144:16: note: in expansion of macro 'try_cmpxchg64_release'
-     144 |         return try_cmpxchg64_release(entryp, &old_entry, table_entry);
-         |                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h: In function 'amdv1pt_entry_make_write_dirty':
-   include/linux/atomic/atomic-arch-fallback.h:259:14: error: void value not ignored as it ought to be
-     259 |         ___r = raw_cmpxchg64((_ptr), ___o, (_new)); \
-         |              ^
-   include/linux/atomic/atomic-instrumented.h:4918:9: note: in expansion of macro 'raw_try_cmpxchg64'
-    4918 |         raw_try_cmpxchg64(__ai_ptr, __ai_oldp, __VA_ARGS__); \
-         |         ^~~~~~~~~~~~~~~~~
-   drivers/iommu/generic_pt/fmt/amdv1.h:300:16: note: in expansion of macro 'try_cmpxchg64'
-     300 |         return try_cmpxchg64(tablep, &pts->entry, new);
-         |                ^~~~~~~~~~~~~
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36:
->> drivers/iommu/generic_pt/fmt/amdv1.h:298:13: warning: unused variable 'new' [-Wunused-variable]
-     298 |         u64 new = pts->entry | AMDV1PT_FMT_D;
-         |             ^~~
+vim +346 fs/xfs/xfs_fsops.c
 
+^1da177e4c3f41 Linus Torvalds      2005-04-16  298  int
+^1da177e4c3f41 Linus Torvalds      2005-04-16  299  xfs_growfs_data(
+87444b8c267a5c Dave Chinner        2018-05-13  300  	struct xfs_mount	*mp,
+87444b8c267a5c Dave Chinner        2018-05-13  301  	struct xfs_growfs_data	*in)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  302  {
+87444b8c267a5c Dave Chinner        2018-05-13  303  	int			error = 0;
+743bb4650da9e2 sandeen@sandeen.net 2008-11-25  304  
+743bb4650da9e2 sandeen@sandeen.net 2008-11-25  305  	if (!capable(CAP_SYS_ADMIN))
+2451337dd04390 Dave Chinner        2014-06-25  306  		return -EPERM;
+cc92e7ac8d9641 Christoph Hellwig   2007-08-30  307  	if (!mutex_trylock(&mp->m_growlock))
+                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-vim +/new +298 drivers/iommu/generic_pt/fmt/amdv1.h
+2451337dd04390 Dave Chinner        2014-06-25  308  		return -EWOULDBLOCK;
+87444b8c267a5c Dave Chinner        2018-05-13  309  
+a37a349d7a21f1 Christoph Hellwig   2024-11-22  310  	/* we can't grow the data section when an internal RT section exists */
+a37a349d7a21f1 Christoph Hellwig   2024-11-22  311  	if (in->newblocks != mp->m_sb.sb_dblocks && mp->m_sb.sb_rtstart)
+a37a349d7a21f1 Christoph Hellwig   2024-11-22  312  		return -EINVAL;
 
-   294	
-   295	static inline bool amdv1pt_entry_make_write_dirty(struct pt_state *pts)
-   296	{
-   297		u64 *tablep = pt_cur_table(pts, u64) + pts->index;
- > 298		u64 new = pts->entry | AMDV1PT_FMT_D;
-   299	
-   300		return try_cmpxchg64(tablep, &pts->entry, new);
-   301	}
-   302	#define pt_entry_make_write_dirty amdv1pt_entry_make_write_dirty
-   303	
+Needs to unlock before returning.
+
+a37a349d7a21f1 Christoph Hellwig   2024-11-22  313  
+87444b8c267a5c Dave Chinner        2018-05-13  314  	/* update imaxpct separately to the physical grow of the filesystem */
+87444b8c267a5c Dave Chinner        2018-05-13  315  	if (in->imaxpct != mp->m_sb.sb_imax_pct) {
+87444b8c267a5c Dave Chinner        2018-05-13  316  		error = xfs_growfs_imaxpct(mp, in->imaxpct);
+87444b8c267a5c Dave Chinner        2018-05-13  317  		if (error)
+87444b8c267a5c Dave Chinner        2018-05-13  318  			goto out_error;
+87444b8c267a5c Dave Chinner        2018-05-13  319  	}
+87444b8c267a5c Dave Chinner        2018-05-13  320  
+87444b8c267a5c Dave Chinner        2018-05-13  321  	if (in->newblocks != mp->m_sb.sb_dblocks) {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  322  		error = xfs_growfs_data_private(mp, in);
+87444b8c267a5c Dave Chinner        2018-05-13  323  		if (error)
+87444b8c267a5c Dave Chinner        2018-05-13  324  			goto out_error;
+87444b8c267a5c Dave Chinner        2018-05-13  325  	}
+87444b8c267a5c Dave Chinner        2018-05-13  326  
+87444b8c267a5c Dave Chinner        2018-05-13  327  	/* Post growfs calculations needed to reflect new state in operations */
+87444b8c267a5c Dave Chinner        2018-05-13  328  	if (mp->m_sb.sb_imax_pct) {
+87444b8c267a5c Dave Chinner        2018-05-13  329  		uint64_t icount = mp->m_sb.sb_dblocks * mp->m_sb.sb_imax_pct;
+87444b8c267a5c Dave Chinner        2018-05-13  330  		do_div(icount, 100);
+ef325959993edd Darrick J. Wong     2019-06-05  331  		M_IGEO(mp)->maxicount = XFS_FSB_TO_INO(mp, icount);
+87444b8c267a5c Dave Chinner        2018-05-13  332  	} else
+ef325959993edd Darrick J. Wong     2019-06-05  333  		M_IGEO(mp)->maxicount = 0;
+87444b8c267a5c Dave Chinner        2018-05-13  334  
+83a7f86e39ff5d Dave Chinner        2018-05-13  335  	/* Update secondary superblocks now the physical grow has completed */
+b16817b66b6c97 Dave Chinner        2018-05-13  336  	error = xfs_update_secondary_sbs(mp);
+83a7f86e39ff5d Dave Chinner        2018-05-13  337  
+87444b8c267a5c Dave Chinner        2018-05-13  338  out_error:
+527851124d10f9 Christoph Hellwig   2015-02-16  339  	/*
+527851124d10f9 Christoph Hellwig   2015-02-16  340  	 * Increment the generation unconditionally, the error could be from
+527851124d10f9 Christoph Hellwig   2015-02-16  341  	 * updating the secondary superblocks, in which case the new size
+527851124d10f9 Christoph Hellwig   2015-02-16  342  	 * is live already.
+527851124d10f9 Christoph Hellwig   2015-02-16  343  	 */
+527851124d10f9 Christoph Hellwig   2015-02-16  344  	mp->m_generation++;
+cc92e7ac8d9641 Christoph Hellwig   2007-08-30  345  	mutex_unlock(&mp->m_growlock);
+^1da177e4c3f41 Linus Torvalds      2005-04-16 @346  	return error;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  347  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
