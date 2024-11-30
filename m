@@ -1,159 +1,91 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2088.outbound.protection.outlook.com [40.107.212.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230C1143871;
-	Sat, 30 Nov 2024 21:02:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.88
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733000543; cv=fail; b=tJXWL5k0linnFy1cxeF5SpSI2Vns2k15joCnRA30UUr+40gCMVS0xrIMCpj2b2Abx7xfpQ9rlHMMarZ9A47JT+qXoJGOAh651uIzlqBsLvCpDgjG5ebogx7X//ZSW/R8OaLHF+NJrVORN7yayuGB7kQYFNxfuztvftvnQu3uMpU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733000543; c=relaxed/simple;
-	bh=ntb0QGydQfU11jSzuyOsRg8/RK2DIACaQNZQ76OGwDk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=EaTGOCtr6orar2/fabXKPv+Nxz5vmKfA60BDhVhxEfqgGLn8iwcQBns9E1picDvnzUyup4jUWpAtd02enKfI6tiChdPjxiup/pf4Y0rTu2Udx1yRWd8KNqzmelEqRSC56HPdRDCyR0rN12ePpCyZ2rMo5yGossai6Ohbe/rjRVw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jkBTBrwN; arc=fail smtp.client-ip=40.107.212.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F057081A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 21:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733001701; cv=none; b=KLfzxYzbBXPO+saCCGmfmMMv6P0Roe2f/KLLWSYzqi9OeJWqJILFlb8ianN24lM+SqjtpK1ivQ+I/V3lZqQ8rgrDaI6E9IqyNYgpev/UFBREMKWxEZ0AokZoYxc+QU7iqev6alBJhgK0wDTMeaa8EqmB4o/R2GC8kBNnXugHO7Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733001701; c=relaxed/simple;
+	bh=vhDHRZ4YvqJEMsaNwywMcd5E7eZGg0VUJ+IFCSiNVqM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BUeRu/OOUNwLZXhhHgCVXbLySQ/e+KKWNE7BDYxRByEvOLPtrg7erfROFPKMgDEUlJ0c84uRzLvw5cDpYBJjZAYffds05xNWCVhoebIL06cqxtpdgqi0dZ/bhNYpURrad2KuVOWmwFNzdd+nIq4NUXE1LyDqPFlqCQHQoX4zuFE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwZbIrSQ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jkBTBrwN"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MNb1lWS8B/25Zl4VaSSHoo/6vJMZOQwGFnyDt+Gp/PwyQ/WxNZ1p9iu8mbsyiGU/O/h6u1JOkJ3n1vsO4SoRISOo14zo/JF+kW4yYmVrvsUbX8q9Fe3/WZ5k+CH+B4Dy9nYj7VdheawiA0KHgCizg3yUKzHj/mXwBDgVECNbFxb4GdjIE20c//HmW2D3reS1gYh2nWJtic90RIUg+sdJO3rly/K1zx5r162gXpahpVTrLZi3N5fsEfJWpphuPQo0+NGC6TDF2rFA9rH4Wu7jEyLNaRyWi5j5LzsCx4Pyc91ZAKjg176pSOnMLwRBAsDqKB6FxrW0QUxeLlPcwhC68w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=k/5p5ibaS/CXKkG2Q3RHA5iLkBdF0jzoHRm0QfD1bao=;
- b=teLYMq/wXo1xj8ffXZzYpjI1jjL02h1CJ1utIAlYIfsA+AkYPchXu5BRfeDgkXeCwM+aBq9GhH4pchwQRBbGk9pHGUxeUuDRn/ww1KR6er7v2dRa2i6/T2kNBZIlmtw8wL19/xBQPXTE83XEKwTAlOduBDRuvaxgYh+t7UMNdPQqEUQc3apaP6pFZa4dp1nnJYOXGpGRmARurOTdZftqkr+5Odxc1dpmXke4nMvFif+hJq59TN0PoCx+rCYqk2QAWZYN7YbQIXEFYLfVdiWMs5g3L102EkpcHzAGzdqhOqlct1ZsiEub55CEHKAl3AHrlgDvwT7vQukcVC1PhanVbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k/5p5ibaS/CXKkG2Q3RHA5iLkBdF0jzoHRm0QfD1bao=;
- b=jkBTBrwNynhQamDLnAMTY1D3MnANnKomLeh5/sVe2hEG47thQkWKt5X+F+VPNxpnsynoqcPyyrwk+fZU31R4yR740AEary6N9R6m7plG3A4YJAwzPYm2CvJ2y7Fmp1oCEr3lYiT4BQLZWWbnVNiop02eSDwR0VN6/l1ksrMI7DM=
-Received: from BN9P220CA0022.NAMP220.PROD.OUTLOOK.COM (2603:10b6:408:13e::27)
- by MW6PR12MB8836.namprd12.prod.outlook.com (2603:10b6:303:241::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.16; Sat, 30 Nov
- 2024 21:02:16 +0000
-Received: from BN1PEPF00004682.namprd03.prod.outlook.com
- (2603:10b6:408:13e:cafe::3a) by BN9P220CA0022.outlook.office365.com
- (2603:10b6:408:13e::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8207.15 via Frontend Transport; Sat,
- 30 Nov 2024 21:02:15 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN1PEPF00004682.mail.protection.outlook.com (10.167.243.88) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8230.7 via Frontend Transport; Sat, 30 Nov 2024 21:02:15 +0000
-Received: from [10.23.197.56] (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Sat, 30 Nov
- 2024 15:02:14 -0600
-Message-ID: <5068baf4-7065-47c7-b339-b211b8fa80ed@amd.com>
-Date: Sat, 30 Nov 2024 13:02:08 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwZbIrSQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1733001699; x=1764537699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vhDHRZ4YvqJEMsaNwywMcd5E7eZGg0VUJ+IFCSiNVqM=;
+  b=PwZbIrSQIQfRjOd+Pv6z2rqo2wfLtgzcK6Mg951Ij3iXCiawT90FUUM0
+   Z++ZnX+4mxwm4+hr21K25suj+x5REp1pzLldhVWE5i82jHahvk8xIX97X
+   DyErXI3K4sEYf0SjtfboChQgQvsPnmvx/0KCLdNoai6Q4be03E1NgSV7M
+   m730j8qWnXi4bWQad8Vr+pMqqNT05ktxEkvYgkxAMrP9uermkuN02WrHq
+   lWaK8Uts9RfhFaSNhAV7ug88Vd7F6lwXtKLi83olP/hHPXbf9alAutsri
+   MNBM4jCHD3no7U7qUOmM86EsFztuO4eZNy0Kdzn5vOH2/clj02tSniPo2
+   Q==;
+X-CSE-ConnectionGUID: c4A4s5qnTCS18LUM6bU4qw==
+X-CSE-MsgGUID: yjSDPpJZTqeLeqXupswBDg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33340974"
+X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
+   d="scan'208";a="33340974"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 13:21:39 -0800
+X-CSE-ConnectionGUID: 6f+krGuhSbef0R5emJRIXg==
+X-CSE-MsgGUID: 9z+u9zzmSfa6+O9hjb85Sg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
+   d="scan'208";a="97709704"
+Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
+  by orviesa005.jf.intel.com with ESMTP; 30 Nov 2024 13:21:38 -0800
+Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tHUuF-0000z5-1O;
+	Sat, 30 Nov 2024 21:21:35 +0000
+Date: Sun, 1 Dec 2024 05:21:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tiezhu Yang <yangtiezhu@loongson.cn>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Huacai Chen <chenhuacai@kernel.org>,
+	Jinyang He <hejinyang@loongson.cn>,
+	Youling Tang <tangyouling@loongson.cn>
+Subject: arch/loongarch/kernel/machine_kexec.o: warning: objtool: .text:
+ unexpected end of section
+Message-ID: <202412010508.PLHqFGSx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/7] KVM: SVM: Inject MCEs when restricted injection is
- active
-To: kernel test robot <lkp@intel.com>, <kvm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <x86@kernel.org>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, "Sean
- Christopherson" <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	"Tom Lendacky" <thomas.lendacky@amd.com>, Neeraj Upadhyay
-	<neeraj.upadhyay@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, Michael Roth
-	<michael.roth@amd.com>, Pankaj Gupta <pankaj.gupta@amd.com>
-References: <20241127225539.5567-6-huibo.wang@amd.com>
- <202411282157.6f84J7Wh-lkp@intel.com>
-Content-Language: en-US
-From: "Melody (Huibo) Wang" <huibo.wang@amd.com>
-In-Reply-To: <202411282157.6f84J7Wh-lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004682:EE_|MW6PR12MB8836:EE_
-X-MS-Office365-Filtering-Correlation-Id: 210ddc77-6890-466e-d19c-08dd118244cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?OTZUL3pkVWxDNU9rRmVEOGFQRm03L2NqQmhXOGY2aHVqNUxCdjVUK2xaUGtN?=
- =?utf-8?B?UzZCUjhGNWRCaUt6dHFBSTl4WXpQL1dLUzZjKzNJNUcydXQ3U01sV0hLdkh0?=
- =?utf-8?B?WDZXTU55U3lESm1IN09vUFFZdTl6YVdwN1VEdVlwWGhLY0Q1ZjkwazAvNG16?=
- =?utf-8?B?MEwvRzUvZXNtQVpGbnNFRU01Z1NVRG9vdXpLbzB1amlZZGZVMTZKMUVVRVBM?=
- =?utf-8?B?aXprSjdDTHJSOHBuSmc2NjJlT0x5THlhQUh3SnVVY0Q2QUxnSTJEWkExVUdk?=
- =?utf-8?B?d1dPelNJdFBSTUVIaEE3MmFHb21EcGFPbHB3ajl0U1I1S3lSSFNqUGwwZVpN?=
- =?utf-8?B?UGRpOWdabkFTQUhIQXdTMjgvM2tXalViU1daczM3aW93YXpadWtzTFFrelVn?=
- =?utf-8?B?NExWbTBVbW1ERk5rYUhvWG9oWGp0ckZMeVJidDVWZ25tOGE5WXVHRzVNVE9O?=
- =?utf-8?B?dExYU1RHWFh0a2Z6TEdFQzB3bVNXYVZmOVFCMXVUM2g5TEtCZWw0MVVOTENS?=
- =?utf-8?B?R1dvZzRrc3V0TG11L1NvOVFJZnRjK2FGa0tSSW12WGVOdjBaZm04bFRDYTZU?=
- =?utf-8?B?NHFmSEw5U0lEUmxLQlFVT0pBWXUxbjJKYmFnWlZhdHZmTkpobWxEQlhiTjB5?=
- =?utf-8?B?Ui9PTE81S3l1UDNsYmg4Z3loZGJUSnpWWW1IbjR1Umx2T213NXd3VjFib0h0?=
- =?utf-8?B?MlNqQk9sL293RTRETzdyVkNmQ3p5QStOVFd1cE5wUkZUbWwwOFMvL2FEV3Iw?=
- =?utf-8?B?YXAwT0FNQjdJbGoyYjZURC9FeFlGcTN0dHVZUlZhZVRZZGxob2NHVEw3YmRT?=
- =?utf-8?B?YjMwZ1o2U2VzQVlMZkt4K24zdUZnMEV4bmtuS0d6Q0o1bmxTdVhNSEk3SVUz?=
- =?utf-8?B?WU4vSm5SNHlVTFNITkNoZlFMM0M1bjVoUEFYb2d5TXdhT0d2YkE5OE5xOEh1?=
- =?utf-8?B?bnFFOHpRWDladnAzVWdVR1ZRdUV4NjljN1AwQjBtRkNaYWRpU1pnYVVuVnIr?=
- =?utf-8?B?ZUthTDNqK2VlaXh2TGVNbnFEaFRPRlY3UmZOdWpUVHZqcHVIY1lTM09qQlBW?=
- =?utf-8?B?MUJsM3RaS2dLZzFSNUJWRGd3aUVSLysvR3V6bUNPcnViRXMvdUNiTklEVnRz?=
- =?utf-8?B?RWN6WEI1OHlKeURLTkNzMXNYNmhLS3I5Ly9vQ3hBSUQ3bXQxYXFRcW5BUDdy?=
- =?utf-8?B?ZGN3S2ZMb3dKKzUzTEs1bi9ORTVqN3VIK29IWjJhOXI1blZyU2ZZSUtveGtx?=
- =?utf-8?B?TFNKcXArMlpOckQ4ZldRR1MzdVNiMDd0N1QrRWN2ME1UWnhnQUhDRmdjTjVY?=
- =?utf-8?B?V3pmZHBCUEp5OThCbGV1cE9HcFBNLytYMlFtL0U1RHpaZ2FUSG1rbFBzZTFV?=
- =?utf-8?B?Kyt3ak80ajVjQ3Rjd0gwV2t2WVRZOEkxQWpXNWgwRFFUTzl0cDdpVnl2YkZo?=
- =?utf-8?B?WVBKOUdPdnIrZDJvN1JXL2JqbUplRHZJQzBrTHdKcy84azlWa0NXWUNQRllW?=
- =?utf-8?B?b2s5NDAwcTlCckRnWCtMNGViN0pwbW9oV1poaE50WjBORVdKRkdhY3B2SWdN?=
- =?utf-8?B?emJVekVVQ2ZEeWFIWkNaa29jMnJtTk5LeVlXMnpUd1d1UTZkVVgrblNubWxx?=
- =?utf-8?B?NFU3RGM4TUdhUThqWVBBYnluVHpXZzhNMkw3RExwSjFhenRCQzRrcTYxZDNT?=
- =?utf-8?B?TGpCdkF4TjkzWTgvU1ZmVk9PWEFabjY4SlNUQ2lyWURXOGpPMGliK0p2WXpY?=
- =?utf-8?B?MnNoVStod2dSUkVwTEVIaXl5eElKQUk2eXB3VzlvYm5UTzEvYzB0MCtrWWdL?=
- =?utf-8?B?Q3FNVzdZOUVOdVpFQXZNelFEK1BxQ1UvTHZPQVFxNkYwYWZPcHNIS3Mwa1dR?=
- =?utf-8?B?cFR4aG5nOWwrMTVQSmVIOGp3Y2F6RlE4SDZndHR4VlFZcUZZOWtlbXRLZDA2?=
- =?utf-8?Q?PNaT8srD4TlmhIigj6jw0Cb/OBE+7i93?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Nov 2024 21:02:15.3547
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 210ddc77-6890-466e-d19c-08dd118244cc
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004682.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8836
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi Tiezhu,
 
-On 11/28/2024 5:41 AM, kernel test robot wrote:
-> Hi Melody,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on kvm/queue]
-> [also build test WARNING on mst-vhost/linux-next tip/x86/core linus/master v6.12 next-20241128]
-> [cannot apply to kvm/linux-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-The base of my tree is 
+FYI, the error/warning still remains.
 
-4d911c7abee5 ("Merge tag 'kvm-riscv-6.13-2' of https://github.com/kvm-riscv/linux into HEAD")
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   0e287d31b62bb53ad81d5e59778384a40f8b6f56
+commit: cb8a2ef0848ca80d67d6d56e2df757cfdf6b3355 LoongArch: Add ORC stack unwinder support
+date:   9 months ago
+config: loongarch-randconfig-r053-20241201 (https://download.01.org/0day-ci/archive/20241201/202412010508.PLHqFGSx-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010508.PLHqFGSx-lkp@intel.com/reproduce)
 
-which is the current kvm/next branch. 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412010508.PLHqFGSx-lkp@intel.com/
 
-Thanks,
-Melody
+All warnings (new ones prefixed by >>):
+
+>> arch/loongarch/kernel/machine_kexec.o: warning: objtool: .text: unexpected end of section
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
