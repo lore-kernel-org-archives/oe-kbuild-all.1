@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F5742AA4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 15:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112BB42AA4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 15:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732981301; cv=none; b=LjixzHvllcjL0Uo3njit2vn+73KgtckTaMCW8TtDRVzEOE99Ma3wt6B5rfRgZs+N/8IignrhBc0/e0kFQbYphP943NOzU4QhHo8PAQzCaNKPSFcJ8EXtXz/sDqAySEaEmAvKj6K4Rd5u9lALKhV/wNqlrjnNgDw5Dv8qd40kioA=
+	t=1732981365; cv=none; b=KuLbgFQgMdjRKSQ81d2RbgfYk7bmFcQZTevD9dfjGFJRPal2UbbhGXfnU2iMq/lmaTBTYsbceQjBFVRuxbiSGF1qMH1YbCs5Qz2lgM+2tRZCDIkujeCLZ/I4rqcvok664O5EKcB36ZBiauIklnvV7XXRL9xePMLoSQ2RPbkcyXs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732981301; c=relaxed/simple;
-	bh=oPf4gw3dbjUjnmtpaGRCi/4jiGfijl1FSOL1OFombhI=;
+	s=arc-20240116; t=1732981365; c=relaxed/simple;
+	bh=ZjE5f1j0mljqEf/b9z45iktwJG3jVw4Y40YHRV6nJkU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CqkeUEN5MSuelT98+y+AFXSm0leu8e1eH9kSJt2lrmeks3OqN3NZgS/3B1Glr6A7bTkSm8W7XSd8dqsLId6fQ/yS6nJxLzt+pb4w16p0pudSnr7a5pKfrj7fkQePoIn91IkKN+0Nqcco8SOXf9YE2FxOZ4EAbJziEHI0BJBKXbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9Y8opmC; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition; b=Wx9gcjYEIyo1BDX+QdJI7aS3yyZAS7lG183+tlPTRsvgXx+KKaS6P6YXq0Q7JMhZPG8H3m5KNQc+1Y4aQsJcK7ym/d152yXRMTLJmkmsH4vcm+/D6fL7b2mJ1jbVXcLXpzII4cwvWfj7aqkeyhCJzG2jsl7TXzBdCmW5HviRsVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pQIq3qRW; arc=none smtp.client-ip=209.85.208.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9Y8opmC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732981299; x=1764517299;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oPf4gw3dbjUjnmtpaGRCi/4jiGfijl1FSOL1OFombhI=;
-  b=Q9Y8opmCVixt06LsGb21aQnMz2/DOk+5FPpLp2c6GttNabO+bWt1Ts+w
-   po5Gs356LemiD1NFLZkGnU5WaZoMOqjSudj8aAJMeFN18CWXUPXgrvQ+p
-   7ic8SQZokg4dv3RbCweiYG9eGyAXZ7phOLsWDNn4iLhpJUjSnL7717nYZ
-   kdpmVKOwzTS7aEU+0osrvGkjxEXrCTz1tQ2NaacCwrGICom6CeSKVUeC4
-   xEAxSSrTACREymnjDo+gTE+200UX+qMFNpQsuRWCElIukt63oftCCaWaL
-   697u/yVk69B28KeXdrqFMYm9brDhi0FiDbTmvqtyyZQs7VNA3/wRBKCEW
-   g==;
-X-CSE-ConnectionGUID: c8QoRKbFRzm8MyWBQsnwvA==
-X-CSE-MsgGUID: o9JkNr16SCaIj5cOpbgVCA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36964363"
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="36964363"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 07:41:38 -0800
-X-CSE-ConnectionGUID: H1a9EL6VQVG8scQVcd4oOw==
-X-CSE-MsgGUID: NKiE375OS8GYcd/t1oC/+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="93174942"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Nov 2024 07:41:36 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tHPau-0000ll-22;
-	Sat, 30 Nov 2024 15:41:22 +0000
-Date: Sat, 30 Nov 2024 23:39:27 +0800
-From: kernel test robot <lkp@intel.com>
-To: JP Abgrall <jpa@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Todd Kjos <tkjos@google.com>,
-	Alistair Strachan <astrachan@google.com>
-Subject: net/netfilter/xt_quota2.c:172:37: warning: 'q2_counter_fops' defined
- but not used
-Message-ID: <202411302355.9b9JQRtF-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="pQIq3qRW"
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5d0b922a637so1875809a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 07:42:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732981361; x=1733586161; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PSlLKcvmbvHk0k3PNrewBm+ZelaCFOz/tKwtMYmx6Fc=;
+        b=pQIq3qRWA+WNQfMLWKoYr0Q3+IuCC6Q2F8aZprHfzlqD0JOENDK9/cMhoW5tvR4C8l
+         JEf+aVNPdbl76QsgVIu3TC3Uo/UARqUycVXOt6J6ZH6Gtmi5TmXqHJcxgnh0PL46++r1
+         hPjCsTyR+5RPwa1beJP8pIIljy8HC5GR/g46pCS6Y97Kdynp2zDduBrMkpxPGfmi2SBP
+         V5fHvbOofZw/E/X6i6tnYNBVQiUiYLqL/Dj/COQWX3t6fcFcSIW+lLKDxiwuqAJ6aUMw
+         hrZ2LAQx/CxcqJD/uonVmrkrTrU3M6Gmstx/7snYTAAIEsnJspmoGZzpoop2UG7ZAeqC
+         cLIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732981361; x=1733586161;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PSlLKcvmbvHk0k3PNrewBm+ZelaCFOz/tKwtMYmx6Fc=;
+        b=oBVnNJRZKQQ4p46Qv4bQKwQ3hNumKszFp2ecfo2YNDVnHZg5Gbj8W3OqGWbj5BZi9U
+         grb/XQBD7NxxinoRpbsLopJw0yTgqh5wLkSgFzHhX9R+YTbv5094LEtG6TxZ1E//lT4B
+         U5mlFJUwhDoBjq1QWQZsIrTFfnXB/GdTODXqjn66QNvh8+NAHl3wqnqfJhjUJaWs2tvl
+         SBDMArpZBPgg5VQnjUzOlnFk/+hfbkz8wkiEj0Shq+pOQ23OQ4D7/8WvJO+5iIX1o/H2
+         wGbtYsj1oXKLpFFck6tkHC8wGXyeyJGf7m9EeeQA8637e1w4h5mOpqV55o0xkaJnJI6e
+         nrzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWMvFp0SMkqfHMpLsFkqaSPwb7CTSHcJx1T2w1lTbLb55e6ePOQZ8YsFPAw6DvhmF2DnWc7IuG4ktn/S1JA@lists.linux.dev
+X-Gm-Message-State: AOJu0YydC9G3CVkQ29eNJ2x1nmsVHQEJYKSQ52oGvgU/ZW4INr/yehQq
+	HnGGenXW53LVQM9Fs3SOwxTb4oclBP/5lbK2TtZuUSGXf34w5cyg98FEWvYjpik=
+X-Gm-Gg: ASbGnctxYfBc+/H6T3iCgZq6z4HC7Mg6tccmxcbCCLHkkpqzKtQkvcOWKoEbd1y9cgG
+	/2m2tuUD7rQ/a6ynrr/E+EYmp6MSoCOV9/1kd8bbP87FRZmO81/jqyi5b0V2fO1tvQY7bME6Zoc
+	LNbwTLdsaphX4XDvMON5+QJgaxjfHsmELQqH1Q+/+vtuCBhlFeg3D/oKxoKebIVBFupcYP8X1LF
+	nUQaXAuIUs6E/OnZoHJA0o7leDjIMbriN15kce4YygE3m3UjHU=
+X-Google-Smtp-Source: AGHT+IERKPOUwCa2ntGDo8N7kUSwQa5zsZ313jvf4rSIvuQkKUouo9rMs4TsB49Eedu2xKjJ3Vi00g==
+X-Received: by 2002:a17:906:1bb1:b0:aa5:3e7b:c117 with SMTP id a640c23a62f3a-aa580f3505amr1356781266b.28.1732981361240;
+        Sat, 30 Nov 2024 07:42:41 -0800 (PST)
+Received: from localhost ([41.210.145.9])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa59994e43dsm287451566b.177.2024.11.30.07.42.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 30 Nov 2024 07:42:40 -0800 (PST)
+Date: Sat, 30 Nov 2024 18:42:29 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.1 5/16] mm/vmscan.c:3679 reset_ctrl_pos()
+ error: buffer overflow 'lrugen->nr_pages[next_gen][type]' 3 <= 3
+Message-ID: <49c4229d-3f48-4aad-a90d-ec407a813052@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,44 +70,69 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi JP,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/ambarus/linux-0day syzkaller-id-5ecbc557fcdb8a2864e876f690ef377db999c50f
-head:   caa714448992ba4eb583735a4acb26917fbc67a8
-commit: 10cda83af99dd606e19a39bb97cf1d90bf2b0f36 ANDROID: netfilter: xt_quota2: adding the original quota2 from xtables-addons
-date:   6 years ago
-config: arm-randconfig-003-20241122 (https://download.01.org/0day-ci/archive/20241130/202411302355.9b9JQRtF-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411302355.9b9JQRtF-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.1
+head:   b2b621a35c99ae939056ecf51631858aff950acc
+commit: 31ee01d6177c6425cac96c3a479ac109013f5755 [5/16] CHROMIUM: mm/mglru: age at different rates
+config: x86_64-randconfig-161-20241123 (https://download.01.org/0day-ci/archive/20241125/202411252126.fpKorPPx-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411302355.9b9JQRtF-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202411252126.fpKorPPx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+mm/vmscan.c:3679 reset_ctrl_pos() error: buffer overflow 'lrugen->nr_pages[next_gen][type]' 3 <= 3
 
->> net/netfilter/xt_quota2.c:172:37: warning: 'q2_counter_fops' defined but not used [-Wunused-const-variable=]
-     172 | static const struct file_operations q2_counter_fops = {
-         |                                     ^~~~~~~~~~~~~~~
-   net/netfilter/xt_quota2.c:48: warning: Cannot understand  * @lock:       lock to protect quota writers from each other
-    on line 48 - I thought it was a doc line
-   net/netfilter/xt_quota2.c:206: warning: Function parameter or member 'q' not described in 'q2_get_counter'
-   net/netfilter/xt_quota2.c:206: warning: Excess function parameter 'name' description in 'q2_get_counter'
+vim +3679 mm/vmscan.c
 
+2b29ac9f92f57d7 David Stevens 2024-07-12  3653  static void reset_ctrl_pos(struct lruvec *lruvec, int type)
+2b29ac9f92f57d7 David Stevens 2024-07-12  3654  {
+2b29ac9f92f57d7 David Stevens 2024-07-12  3655  	int hist, tier;
+2b29ac9f92f57d7 David Stevens 2024-07-12  3656  	struct lru_gen_folio *lrugen = &lruvec->lrugen;
+31ee01d6177c642 David Stevens 2024-06-06  3657  	unsigned long carry_from_seq = lrugen->min_seq[type];
+31ee01d6177c642 David Stevens 2024-06-06  3658  	unsigned long next_seq = carry_from_seq + 1;
+31ee01d6177c642 David Stevens 2024-06-06  3659  	unsigned long next_gen = lru_gen_from_seq(next_seq);
+31ee01d6177c642 David Stevens 2024-06-06  3660  	long total_nr_pages = 0;
+2b29ac9f92f57d7 David Stevens 2024-07-12  3661  
+2b29ac9f92f57d7 David Stevens 2024-07-12  3662  	lockdep_assert_held(&lruvec->lru_lock);
+ac35a490237446b Yu Zhao       2022-09-18  3663  
+31ee01d6177c642 David Stevens 2024-06-06  3664  	hist = lru_hist_from_seq(carry_from_seq);
+ac35a490237446b Yu Zhao       2022-09-18  3665  
+ac35a490237446b Yu Zhao       2022-09-18  3666  	for (tier = 0; tier < MAX_NR_TIERS; tier++) {
+                                                                              ^^^^^^^^^^^^^
 
-vim +/q2_counter_fops +172 net/netfilter/xt_quota2.c
+ac35a490237446b Yu Zhao       2022-09-18  3667  		unsigned long sum;
+ac35a490237446b Yu Zhao       2022-09-18  3668  
+ac35a490237446b Yu Zhao       2022-09-18  3669  		sum = lrugen->avg_refaulted[type][tier] +
+ac35a490237446b Yu Zhao       2022-09-18  3670  		      atomic_long_read(&lrugen->refaulted[hist][type][tier]);
+ac35a490237446b Yu Zhao       2022-09-18  3671  		WRITE_ONCE(lrugen->avg_refaulted[type][tier], sum / 2);
+ac35a490237446b Yu Zhao       2022-09-18  3672  
+ac35a490237446b Yu Zhao       2022-09-18  3673  		sum = lrugen->avg_total[type][tier] +
+ac35a490237446b Yu Zhao       2022-09-18  3674  		      atomic_long_read(&lrugen->evicted[hist][type][tier]);
+ac35a490237446b Yu Zhao       2022-09-18  3675  		if (tier)
+ac35a490237446b Yu Zhao       2022-09-18  3676  			sum += lrugen->protected[hist][type][tier - 1];
+ac35a490237446b Yu Zhao       2022-09-18  3677  		WRITE_ONCE(lrugen->avg_total[type][tier], sum / 2);
+ac35a490237446b Yu Zhao       2022-09-18  3678  
+31ee01d6177c642 David Stevens 2024-06-06 @3679  		total_nr_pages += lrugen->nr_pages[next_gen][type][tier];
 
-   171	
- > 172	static const struct file_operations q2_counter_fops = {
-   173		.read		= quota_proc_read,
-   174		.write		= quota_proc_write,
-   175		.llseek		= default_llseek,
-   176	};
-   177	
+There is a mixup between MAX_NR_TIERS (4) and MAX_NR_ZONES (3) which
+results in an out of bounds read.
+
+ac35a490237446b Yu Zhao       2022-09-18  3680  	}
+31ee01d6177c642 David Stevens 2024-06-06  3681  	/* nr_pages is eventually consistent, so fix up the estimate if it's negative. */
+31ee01d6177c642 David Stevens 2024-06-06  3682  	total_nr_pages = max(total_nr_pages, 0);
+2b29ac9f92f57d7 David Stevens 2024-07-12  3683  
+2b29ac9f92f57d7 David Stevens 2024-07-12  3684  	if (NR_HIST_GENS == 1)
+31ee01d6177c642 David Stevens 2024-06-06  3685  		reset_histograms(lruvec, type, carry_from_seq);
+31ee01d6177c642 David Stevens 2024-06-06  3686  
+31ee01d6177c642 David Stevens 2024-06-06  3687  	hist = lru_hist_from_seq(next_seq);
+31ee01d6177c642 David Stevens 2024-06-06  3688  	WRITE_ONCE(lrugen->victim_seq[hist][type], READ_ONCE(lrugen->min_seq[!type]));
+31ee01d6177c642 David Stevens 2024-06-06  3689  	WRITE_ONCE(lrugen->oldest_gen_size[hist][type], total_nr_pages);
+31ee01d6177c642 David Stevens 2024-06-06  3690  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
