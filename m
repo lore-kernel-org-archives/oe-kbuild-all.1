@@ -1,123 +1,115 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21391A4F12
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 17:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4012F192D6E;
+	Sat, 30 Nov 2024 18:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732989272; cv=none; b=bK/wI4BQxzSXcDryjCBPUSKKy+vr/42PzyFYRu9WCxVESr/VhAg848kXG7zTW4n1c2K4tPrtVB5I1h0Ccr6bKHdzppoXoa9Tk9WrSvlNqUE1DgxFQvR1boGOtXkzwKoislhh/bjFzK0pvZXd/vGdfzdYRxNEpnGgoXiQCWfixMI=
+	t=1732990134; cv=none; b=F58FRwiEyntCJXOqX/LltllXmFe2UdYFx0gTWHrpXS72dmpN9pTmcvmpPfWmaiFSpidcZ8CmEm/QN3xwY91ZO4E5JYXQcgccaCp/EGBjM3i+2aaaEmAp5IzYCDwlqzCEvZsq+GaO4JeEkuPYmqmRrkRmTPsUEF4LMSvCJ/0bEgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732989272; c=relaxed/simple;
-	bh=rbXYpOJKDPeAlSh9kRAlmXC6swlI1qy+eiAxmzaRgj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=el/1akoWVpCGwQ8n7K0IS0jJ7iHNklo5xV3+SqAI5gV/ySZ6Z4mlBpnbQmUw7Q1Dv04bCy3w2PcKGnXHpMQXz7G6IDM/lAe7hGxWY9b6VhKR7kQ1M+UgTj6UI8lmwODhhjc1sDUfaWH/Cf5yMZVsujEmwI9tOynrdy8FxjVG7p4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9YJN6nE; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1732990134; c=relaxed/simple;
+	bh=OLFgKRmtTL1ozpXOhlhvYa/HZKHBwX8YzJP43LrcI4w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LvKpnDB/Rx+4leXLFChOzHvLSOpwbmfUHu7pJnpZknjXaq52AAo/maurSHhjvc6g94jT7owGLmlrXKcZiEtKewdkTLJViIpDMV5bKBK12ubR0UXmEnyuqPFrzOUN82OAXtkY1CKp2B50QTtj7rXwKu4Ub7SzB4m+hqFx36wOzb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fVFURK4A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9YJN6nE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732989271; x=1764525271;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rbXYpOJKDPeAlSh9kRAlmXC6swlI1qy+eiAxmzaRgj0=;
-  b=Y9YJN6nE74t1i0sS5+e0tMWfaE3LmFp9cO4gKExDL0fDjNKlUXtQQnZs
-   lscj+7gPaU1WpjNLgco4KL/dGyGHUKsDsXQSCCRa6u4iBe2YNiS9bz8Fj
-   Eqt0BhCdYG24DpU6K6CsqQJ2m9pj4Er12FLT1JRnhwWlhiIgxKcsG1mhy
-   U9fG8dJrvcZbKxfNzDK2tSg0BwJmShoRq35EnkcHaSkKr/pPnspo3Ty3c
-   6M7zCFnzJJay4AeuNjJ3gJJnuNPv9o+Pt61TNkEhCzS5udWjNRH71XzR/
-   FKuskR6M1DrHEFgLxEkLOh+Q9iZ++RGhC79TE3SeRsZdO035xpLiPKDO4
-   w==;
-X-CSE-ConnectionGUID: QHL+HpqdRCeRC7FFLILC7w==
-X-CSE-MsgGUID: fzPNKV+NT+a5I4w81UXn8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33118786"
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="33118786"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 09:54:30 -0800
-X-CSE-ConnectionGUID: K+xZ/KcSSESxdxTmID9zQA==
-X-CSE-MsgGUID: tCBA+8bqSLiCd8Es4kVyRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="93547383"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 30 Nov 2024 09:54:28 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tHRfl-0000sZ-1U;
-	Sat, 30 Nov 2024 17:54:25 +0000
-Date: Sun, 1 Dec 2024 01:54:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ryan Wilson <ryantimwilson@gmail.com>, bpf@vger.kernel.org,
-	ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net
-Cc: oe-kbuild-all@lists.linux.dev, ryantimwilson@meta.com
-Subject: Re: [PATCH bpf-next] bpf: Add multi-prog support for XDP BPF programs
-Message-ID: <202412010119.qyfY5hLk-lkp@intel.com>
-References: <20241114170721.3939099-1-ryantimwilson@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fVFURK4A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ACDF0C4CECC;
+	Sat, 30 Nov 2024 18:08:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1732990133;
+	bh=OLFgKRmtTL1ozpXOhlhvYa/HZKHBwX8YzJP43LrcI4w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=fVFURK4Ai4+7bpUYlItetom46Xh+kBXetWO2EbZljpJjjf/wG3Oj1I1yI3V8ytind
+	 OquEO07kyw1EILgkxz4VLAPLUp/mOMqE4DpAL7cpDL3lAOHfsEcebe6/nZZcAj6+DH
+	 qw32T/+lQIIz6NR7nUrarK0zXGZsnOfY2EpXerNgjzrg1fdP1A/6pJ5IBF7ro7z8YD
+	 LQgJmVu3cPVNLVR3U2UYkga37d19rCGAxnmx0aYic+mVoIf6Dkqkm94aoZENG7Qhu2
+	 sFFvxsUdTWyFq0YiyzWlBm2cELGtBRzg5x+1civwkzoQXHfLs0xgY8NJfUzjFqu7ep
+	 XuEgj0D0awQFA==
+Date: Sat, 30 Nov 2024 18:08:44 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen
+ <mazziesaccount@gmail.com>, oe-kbuild-all@lists.linux.dev, Lars-Peter
+ Clausen <lars@metafoo.de>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
+Message-ID: <20241130180844.27a5c8e0@jic23-huawei>
+In-Reply-To: <202411290107.KXHPQXRf-lkp@intel.com>
+References: <9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount@gmail.com>
+	<202411290107.KXHPQXRf-lkp@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241114170721.3939099-1-ryantimwilson@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ryan,
+On Fri, 29 Nov 2024 01:20:41 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Matti,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on a61ff7eac77e86de828fe28c4e42b8ae9ec2b195]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Matti-Vaittinen/iio-accel-kx022a-Use-cleanup-h-helpers/20241128-170626
+> base:   a61ff7eac77e86de828fe28c4e42b8ae9ec2b195
+> patch link:    https://lore.kernel.org/r/9b63813ecf10b1cd0126cb950bc09514c4287b9a.1732783834.git.mazziesaccount%40gmail.com
+> patch subject: [PATCH v3 7/7] iio: accel: kx022a: align with subsystem way
+> config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241129/202411290107.KXHPQXRf-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 14.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241129/202411290107.KXHPQXRf-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202411290107.KXHPQXRf-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/iio/accel/kionix-kx022a.c: In function 'kx022a_write_raw':
+>    drivers/iio/accel/kionix-kx022a.c:507:9: error: implicit declaration of function 'if_not_cond_guard' [-Wimplicit-function-declaration]
+>      507 |         if_not_cond_guard(iio_claim_direct_try, idev)
+>          |         ^~~~~~~~~~~~~~~~~
+>    drivers/iio/accel/kionix-kx022a.c:507:27: error: 'iio_claim_direct_try' undeclared (first use in this function); did you mean 'class_iio_claim_direct_try_t'?
+>      507 |         if_not_cond_guard(iio_claim_direct_try, idev)
+>          |                           ^~~~~~~~~~~~~~~~~~~~
+>          |                           class_iio_claim_direct_try_t
+>    drivers/iio/accel/kionix-kx022a.c:507:27: note: each undeclared identifier is reported only once for each function it appears in
+>    drivers/iio/accel/kionix-kx022a.c:507:54: error: expected ';' before 'return'
+>      507 |         if_not_cond_guard(iio_claim_direct_try, idev)
+>          |                                                      ^
+>          |                                                      ;
+>      508 |                 return -EBUSY;
+>          |                 ~~~~~~                                
+>    In file included from drivers/iio/accel/kionix-kx022a.c:8:
+> >> include/linux/cleanup.h:308:9: warning: this statement may fall through [-Wimplicit-fallthrough=]  
+>      308 |         for (CLASS(_name, scope)(args),                                 \
+>          |         ^~~
+>    drivers/iio/accel/kionix-kx022a.c:521:17: note: in expansion of macro 'scoped_guard'
+>      521 |                 scoped_guard(mutex, &data->mutex) {
+>          |                 ^~~~~~~~~~~~
+>    drivers/iio/accel/kionix-kx022a.c:532:9: note: here
+>      532 |         case IIO_CHAN_INFO_SCALE:
+>          |         ^~~~
+> 
+The precursor is coming through tip as I understand it.
 
-[auto build test WARNING on bpf-next/master]
+I'll have to hold off on applying this until after rc1.
+> 
+> vim +308 include/linux/cleanup.h
+> 
+> e4ab322fbaaaf8 Peter Zijlstra 2023-09-17  306  
+> 54da6a0924311c Peter Zijlstra 2023-05-26  307  #define scoped_guard(_name, args...)					\
+> 54da6a0924311c Peter Zijlstra 2023-05-26 @308  	for (CLASS(_name, scope)(args),					\
+> e4ab322fbaaaf8 Peter Zijlstra 2023-09-17  309  	     *done = NULL; __guard_ptr(_name)(&scope) && !done; done = (void *)1)
+> e4ab322fbaaaf8 Peter Zijlstra 2023-09-17  310  
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wilson/bpf-Add-multi-prog-support-for-XDP-BPF-programs/20241115-015104
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20241114170721.3939099-1-ryantimwilson%40gmail.com
-patch subject: [PATCH bpf-next] bpf: Add multi-prog support for XDP BPF programs
-config: x86_64-randconfig-122-20241117 (https://download.01.org/0day-ci/archive/20241201/202412010119.qyfY5hLk-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010119.qyfY5hLk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010119.qyfY5hLk-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
-   net/core/dev.c:3387:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
-   net/core/dev.c:3387:23: sparse:     expected restricted __wsum [usertype] csum
-   net/core/dev.c:3387:23: sparse:     got unsigned int
-   net/core/dev.c:3387:23: sparse: sparse: cast from restricted __wsum
->> net/core/dev.c:9416:76: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct bpf_mprog_entry *entry @@     got struct bpf_mprog_entry [noderef] __rcu * @@
-   net/core/dev.c:9416:76: sparse:     expected struct bpf_mprog_entry *entry
-   net/core/dev.c:9416:76: sparse:     got struct bpf_mprog_entry [noderef] __rcu *
-   net/core/dev.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
-   net/core/dev.c:3837:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
-   net/core/dev.c:4800:9: sparse: sparse: context imbalance in 'kick_defer_list_purge' - different lock contexts for basic block
-   net/core/dev.c:4901:19: sparse: sparse: context imbalance in 'enqueue_to_backlog' - different lock contexts for basic block
-   net/core/dev.c:5315:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
-   net/core/dev.c:5996:9: sparse: sparse: context imbalance in 'flush_backlog' - different lock contexts for basic block
-   net/core/dev.c:6123:9: sparse: sparse: context imbalance in 'process_backlog' - different lock contexts for basic block
-
-vim +9416 net/core/dev.c
-
-  9409	
-  9410	u8 dev_xdp_prog_count(struct net_device *dev)
-  9411	{
-  9412		u8 count = 0;
-  9413		int i;
-  9414	
-  9415		for (i = 0; i < __MAX_XDP_MODE; i++)
-> 9416			if (dev->xdp_state[i] && xdp_entry_is_active(dev->xdp_state[i]))
-  9417				count++;
-  9418		return count;
-  9419	}
-  9420	EXPORT_SYMBOL_GPL(dev_xdp_prog_count);
-  9421	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
