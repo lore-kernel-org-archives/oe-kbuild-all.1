@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F057081A
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 21:21:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1DD78289
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 21:49:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733001701; cv=none; b=KLfzxYzbBXPO+saCCGmfmMMv6P0Roe2f/KLLWSYzqi9OeJWqJILFlb8ianN24lM+SqjtpK1ivQ+I/V3lZqQ8rgrDaI6E9IqyNYgpev/UFBREMKWxEZ0AokZoYxc+QU7iqev6alBJhgK0wDTMeaa8EqmB4o/R2GC8kBNnXugHO7Q=
+	t=1733003373; cv=none; b=IcYX8w/GDf2cWDN4D/bG7PpJHv/N9jFkcQlp351sN9p5iQO2bJO6YdF/Sy1oQagAs4oUbbEdpKfKfTVpCURNdHwctzUx0DQDTO8DoU+LztP+0CnmA+THCp/njMMivfjcgfMDKJeEBdLSQ8hHoUZqXnmVEjqL6z41vzd4wB9QukE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733001701; c=relaxed/simple;
-	bh=vhDHRZ4YvqJEMsaNwywMcd5E7eZGg0VUJ+IFCSiNVqM=;
+	s=arc-20240116; t=1733003373; c=relaxed/simple;
+	bh=QXJQUSp2pj/NjNHdCsdsQCu+T9ISeGM1/Uv5xnaWaeU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BUeRu/OOUNwLZXhhHgCVXbLySQ/e+KKWNE7BDYxRByEvOLPtrg7erfROFPKMgDEUlJ0c84uRzLvw5cDpYBJjZAYffds05xNWCVhoebIL06cqxtpdgqi0dZ/bhNYpURrad2KuVOWmwFNzdd+nIq4NUXE1LyDqPFlqCQHQoX4zuFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PwZbIrSQ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition:In-Reply-To; b=ZN+zORkzgolJKIHJ1Jy0jhQ7FrbvT2naX5ENeFEl5crFHWa5lRV071lXUfvFfaDK+FnodMxJPpuVE0vOR//loxYhUZ6mmAc9EUIl176fMeBVfNpBfPHBgQbRoHRuRxEU083XFdP0NV64BzQdOTv2sEimtC9hOHml2VjbvRUB+pE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SEpSfbav; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PwZbIrSQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SEpSfbav"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733001699; x=1764537699;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vhDHRZ4YvqJEMsaNwywMcd5E7eZGg0VUJ+IFCSiNVqM=;
-  b=PwZbIrSQIQfRjOd+Pv6z2rqo2wfLtgzcK6Mg951Ij3iXCiawT90FUUM0
-   Z++ZnX+4mxwm4+hr21K25suj+x5REp1pzLldhVWE5i82jHahvk8xIX97X
-   DyErXI3K4sEYf0SjtfboChQgQvsPnmvx/0KCLdNoai6Q4be03E1NgSV7M
-   m730j8qWnXi4bWQad8Vr+pMqqNT05ktxEkvYgkxAMrP9uermkuN02WrHq
-   lWaK8Uts9RfhFaSNhAV7ug88Vd7F6lwXtKLi83olP/hHPXbf9alAutsri
-   MNBM4jCHD3no7U7qUOmM86EsFztuO4eZNy0Kdzn5vOH2/clj02tSniPo2
-   Q==;
-X-CSE-ConnectionGUID: c4A4s5qnTCS18LUM6bU4qw==
-X-CSE-MsgGUID: yjSDPpJZTqeLeqXupswBDg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33340974"
+  t=1733003373; x=1764539373;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=QXJQUSp2pj/NjNHdCsdsQCu+T9ISeGM1/Uv5xnaWaeU=;
+  b=SEpSfbavYIMSXJMd53aQMlLt1CR5msmqAFx9RTSQQLc5ruy/9jDhqzi0
+   seI+YVOu7xCP0X5vZsdMpfJPeO8VnNNljQnN3ieaRBe3YOoTf3teTSzNm
+   NjKJC085TxMFr5/Hk9gDVJVNzPZqazmfdVwgyn8U9KdhpiY1m5Hu5Ji98
+   7l7ygRtaBrH49D1bkEHjGunhlDTVs74O0QbKNs0JXEl3JYD0/0zOxG0j/
+   ZFg5/+RBG5K8k+k3Cy0ziL7egiboCkD0r6pPqxa8CJatTysNHmf81QVjD
+   H0Yx8OcOYF4L6PXD2u7dWii1EbmpofA7ryEVWYv/S2IWZOoiCUiIPRpql
+   A==;
+X-CSE-ConnectionGUID: F1R8MsC1QJqvgcjUptkyOw==
+X-CSE-MsgGUID: aOcJSgviTN6wtHKVyhopRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="44574181"
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="33340974"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 13:21:39 -0800
-X-CSE-ConnectionGUID: 6f+krGuhSbef0R5emJRIXg==
-X-CSE-MsgGUID: 9z+u9zzmSfa6+O9hjb85Sg==
+   d="scan'208";a="44574181"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 13:49:32 -0800
+X-CSE-ConnectionGUID: rjZxXkS6Tc6Ke5V1olRBOg==
+X-CSE-MsgGUID: q0ZWNx95TWyE0k2DLUJaNw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="97709704"
+   d="scan'208";a="97858379"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 Nov 2024 13:21:38 -0800
+  by orviesa004.jf.intel.com with ESMTP; 30 Nov 2024 13:49:31 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHUuF-0000z5-1O;
-	Sat, 30 Nov 2024 21:21:35 +0000
-Date: Sun, 1 Dec 2024 05:21:01 +0800
+	id 1tHVKn-0000zd-0b;
+	Sat, 30 Nov 2024 21:49:22 +0000
+Date: Sun, 1 Dec 2024 05:48:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tiezhu Yang <yangtiezhu@loongson.cn>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Huacai Chen <chenhuacai@kernel.org>,
-	Jinyang He <hejinyang@loongson.cn>,
-	Youling Tang <tangyouling@loongson.cn>
-Subject: arch/loongarch/kernel/machine_kexec.o: warning: objtool: .text:
- unexpected end of section
-Message-ID: <202412010508.PLHqFGSx-lkp@intel.com>
+To: Celeste Liu <uwu@coelacanthus.name>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] riscv/ptrace: add new regset to get original a0 register
+Message-ID: <Z0uIQYqvZUfYwcHM@ff21b5d8d570>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,28 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241201-riscv-new-regset-v1-1-c83c58abcc7b@coelacanthus.name>
 
-Hi Tiezhu,
+Hi,
 
-FYI, the error/warning still remains.
+Thanks for your patch.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0e287d31b62bb53ad81d5e59778384a40f8b6f56
-commit: cb8a2ef0848ca80d67d6d56e2df757cfdf6b3355 LoongArch: Add ORC stack unwinder support
-date:   9 months ago
-config: loongarch-randconfig-r053-20241201 (https://download.01.org/0day-ci/archive/20241201/202412010508.PLHqFGSx-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010508.PLHqFGSx-lkp@intel.com/reproduce)
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010508.PLHqFGSx-lkp@intel.com/
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-All warnings (new ones prefixed by >>):
-
->> arch/loongarch/kernel/machine_kexec.o: warning: objtool: .text: unexpected end of section
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] riscv/ptrace: add new regset to get original a0 register
+Link: https://lore.kernel.org/stable/20241201-riscv-new-regset-v1-1-c83c58abcc7b%40coelacanthus.name
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
