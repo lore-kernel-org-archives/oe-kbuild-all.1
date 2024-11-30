@@ -1,81 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3FBB1A9B30
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 17:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21391A4F12
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 17:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732988600; cv=none; b=lZhFD4sJC93KQhT1ku4WKhbmhOR8wfrDVB5wKX/PswMRJydvkjjHIcOq8GhaLNt5MUpXBG5K+qc2uiydUO89FoMeZuFHuQzHimwO/ODREV741KgwCuWfau07RyW8cQ7J6cBa+/ePf4zZsUlAbL5Fa/PWFtPZz8E+U3yNQwM+N9c=
+	t=1732989272; cv=none; b=bK/wI4BQxzSXcDryjCBPUSKKy+vr/42PzyFYRu9WCxVESr/VhAg848kXG7zTW4n1c2K4tPrtVB5I1h0Ccr6bKHdzppoXoa9Tk9WrSvlNqUE1DgxFQvR1boGOtXkzwKoislhh/bjFzK0pvZXd/vGdfzdYRxNEpnGgoXiQCWfixMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732988600; c=relaxed/simple;
-	bh=hp79E4kQ26QL67QnIKLFTCKPhH95s/jPskxdhk6jR3A=;
+	s=arc-20240116; t=1732989272; c=relaxed/simple;
+	bh=rbXYpOJKDPeAlSh9kRAlmXC6swlI1qy+eiAxmzaRgj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h/DjYysr7bOhD0R40EwRthSmSzXeHemJ+Cm38yppxTzg3beHcP5KtmojSGftGT2zljDb32v5O4qxKHRdgDgUzUrVVyruGBx6VeTZ21apwqu8M4ZWF93ztfmdW1DkTuTTC4HaG5/66MWsN1BMSqnTdpDPSmxl7xZCdd8ATt4kScg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVsBsjWR; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=el/1akoWVpCGwQ8n7K0IS0jJ7iHNklo5xV3+SqAI5gV/ySZ6Z4mlBpnbQmUw7Q1Dv04bCy3w2PcKGnXHpMQXz7G6IDM/lAe7hGxWY9b6VhKR7kQ1M+UgTj6UI8lmwODhhjc1sDUfaWH/Cf5yMZVsujEmwI9tOynrdy8FxjVG7p4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y9YJN6nE; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVsBsjWR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y9YJN6nE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732988599; x=1764524599;
+  t=1732989271; x=1764525271;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hp79E4kQ26QL67QnIKLFTCKPhH95s/jPskxdhk6jR3A=;
-  b=KVsBsjWRuN2cN0wCJDJbq7KFL907NGl6wAp/N6bFv/TRXZaMuwWukx7U
-   eJAUcxihT8JpSzidaphshqcR4OqDjcyafJ3QlqXE3+duQ3klX+423favA
-   6bkqWT2QTUZPT4hrcqEbiiqRh2OmykI3u84Vo3lDxw9dzUz+ObMa6yRHU
-   IoOdJZFSD7n7ebV2WmadX8KmzT9ERU1W7IrXD9Agx93wLI4swF0TRtZ4P
-   KcNYeUHSY+VK8VDcM1ympygWP0mavyseQs6Aox2UkTckDQX/2mi99QlsC
-   jekK7JamVCbLnRwX/PhWvGiR2Vdq+4UB5kvbhFBrJ+VsclDv2d7oVx/2Z
+  bh=rbXYpOJKDPeAlSh9kRAlmXC6swlI1qy+eiAxmzaRgj0=;
+  b=Y9YJN6nE74t1i0sS5+e0tMWfaE3LmFp9cO4gKExDL0fDjNKlUXtQQnZs
+   lscj+7gPaU1WpjNLgco4KL/dGyGHUKsDsXQSCCRa6u4iBe2YNiS9bz8Fj
+   Eqt0BhCdYG24DpU6K6CsqQJ2m9pj4Er12FLT1JRnhwWlhiIgxKcsG1mhy
+   U9fG8dJrvcZbKxfNzDK2tSg0BwJmShoRq35EnkcHaSkKr/pPnspo3Ty3c
+   6M7zCFnzJJay4AeuNjJ3gJJnuNPv9o+Pt61TNkEhCzS5udWjNRH71XzR/
+   FKuskR6M1DrHEFgLxEkLOh+Q9iZ++RGhC79TE3SeRsZdO035xpLiPKDO4
    w==;
-X-CSE-ConnectionGUID: 3oyRdcjFSgqAIJIgCGsc7Q==
-X-CSE-MsgGUID: lRccTSY3Ri+WAzEqAqN6Eg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33319834"
+X-CSE-ConnectionGUID: QHL+HpqdRCeRC7FFLILC7w==
+X-CSE-MsgGUID: fzPNKV+NT+a5I4w81UXn8A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33118786"
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="33319834"
+   d="scan'208";a="33118786"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 09:43:18 -0800
-X-CSE-ConnectionGUID: STfJSgtMSQuLn6aITruuUg==
-X-CSE-MsgGUID: 9i8jZTqRS2GKg5alYFu95w==
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 09:54:30 -0800
+X-CSE-ConnectionGUID: K+xZ/KcSSESxdxTmID9zQA==
+X-CSE-MsgGUID: tCBA+8bqSLiCd8Es4kVyRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="93546463"
+   d="scan'208";a="93547383"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 30 Nov 2024 09:43:12 -0800
+  by orviesa008.jf.intel.com with ESMTP; 30 Nov 2024 09:54:28 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHRUs-0000s3-29;
-	Sat, 30 Nov 2024 17:43:10 +0000
-Date: Sun, 1 Dec 2024 01:42:47 +0800
+	id 1tHRfl-0000sZ-1U;
+	Sat, 30 Nov 2024 17:54:25 +0000
+Date: Sun, 1 Dec 2024 01:54:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <mario.limonciello@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?unknown-8bit?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Rafael J . Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Maximilian Luz <luzmaximilian@gmail.com>,
-	Lee Chun-Yi <jlee@suse.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Corentin Chary <corentin.chary@gmail.com>,
-	"Luke D . Jones" <luke@ljones.dev>,
-	Ike Panhc <ike.pan@canonical.com>,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Alexis Belmonte <alexbelm48@gmail.com>,
-	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Ai Chao <aichao@kylinos.cn>, Gergo Koteles <soyer@irl.hu>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:ACPI" <linux-acpi@vger.kernel.org>,
-	"open list:MICROSOFT SURFACE PLATFORM PROFILE DRIVER" <platform-driver-x86@vger.kernel.org>,
-	"open list:THINKPAD ACPI EXTRAS DRIVER" <ibm-acpi-devel@lists.sourceforge.net>,
-	Mark Pearson <mpearson-lenovo@squebb.ca>,
-	Matthew Schwartz <matthew.schwartz@linux.dev>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Armin Wolf <W_Armin@gmx.de>
-Subject: Re: [PATCH v8 02/22] platform/x86/dell: dell-pc: Create platform
- device
-Message-ID: <202412010129.zSeGQmOm-lkp@intel.com>
-References: <20241130140454.455-3-mario.limonciello@amd.com>
+To: Ryan Wilson <ryantimwilson@gmail.com>, bpf@vger.kernel.org,
+	ast@kernel.org, andrii@kernel.org, daniel@iogearbox.net
+Cc: oe-kbuild-all@lists.linux.dev, ryantimwilson@meta.com
+Subject: Re: [PATCH bpf-next] bpf: Add multi-prog support for XDP BPF programs
+Message-ID: <202412010119.qyfY5hLk-lkp@intel.com>
+References: <20241114170721.3939099-1-ryantimwilson@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -84,105 +63,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241130140454.455-3-mario.limonciello@amd.com>
+In-Reply-To: <20241114170721.3939099-1-ryantimwilson@gmail.com>
 
-Hi Mario,
+Hi Ryan,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2ba9f676d0a2e408aef14d679984c26373bf37b7]
+[auto build test WARNING on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/ACPI-platform-profile-Add-a-name-member-to-handlers/20241130-221102
-base:   2ba9f676d0a2e408aef14d679984c26373bf37b7
-patch link:    https://lore.kernel.org/r/20241130140454.455-3-mario.limonciello%40amd.com
-patch subject: [PATCH v8 02/22] platform/x86/dell: dell-pc: Create platform device
-config: i386-buildonly-randconfig-003-20241130 (https://download.01.org/0day-ci/archive/20241201/202412010129.zSeGQmOm-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Wilson/bpf-Add-multi-prog-support-for-XDP-BPF-programs/20241115-015104
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20241114170721.3939099-1-ryantimwilson%40gmail.com
+patch subject: [PATCH bpf-next] bpf: Add multi-prog support for XDP BPF programs
+config: x86_64-randconfig-122-20241117 (https://download.01.org/0day-ci/archive/20241201/202412010119.qyfY5hLk-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010129.zSeGQmOm-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010119.qyfY5hLk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010129.zSeGQmOm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412010119.qyfY5hLk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   net/core/dev.c:3387:23: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected restricted __wsum [usertype] csum @@     got unsigned int @@
+   net/core/dev.c:3387:23: sparse:     expected restricted __wsum [usertype] csum
+   net/core/dev.c:3387:23: sparse:     got unsigned int
+   net/core/dev.c:3387:23: sparse: sparse: cast from restricted __wsum
+>> net/core/dev.c:9416:76: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct bpf_mprog_entry *entry @@     got struct bpf_mprog_entry [noderef] __rcu * @@
+   net/core/dev.c:9416:76: sparse:     expected struct bpf_mprog_entry *entry
+   net/core/dev.c:9416:76: sparse:     got struct bpf_mprog_entry [noderef] __rcu *
+   net/core/dev.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/xarray.h, ...):
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:237:46: sparse: sparse: self-comparison always evaluates to false
+   net/core/dev.c:3837:17: sparse: sparse: context imbalance in '__dev_queue_xmit' - different lock contexts for basic block
+   net/core/dev.c:4800:9: sparse: sparse: context imbalance in 'kick_defer_list_purge' - different lock contexts for basic block
+   net/core/dev.c:4901:19: sparse: sparse: context imbalance in 'enqueue_to_backlog' - different lock contexts for basic block
+   net/core/dev.c:5315:17: sparse: sparse: context imbalance in 'net_tx_action' - different lock contexts for basic block
+   net/core/dev.c:5996:9: sparse: sparse: context imbalance in 'flush_backlog' - different lock contexts for basic block
+   net/core/dev.c:6123:9: sparse: sparse: context imbalance in 'process_backlog' - different lock contexts for basic block
 
-   drivers/platform/x86/dell/dell-pc.c: In function 'thermal_init':
->> drivers/platform/x86/dell/dell-pc.c:252:32: warning: passing argument 1 of 'ERR_PTR' makes integer from pointer without a cast [-Wint-conversion]
-     252 |                 return ERR_PTR(platform_device);
-         |                                ^~~~~~~~~~~~~~~
-         |                                |
-         |                                struct platform_device *
-   In file included from include/linux/kernfs.h:9,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/dmi.h:6,
-                    from drivers/platform/x86/dell/dell-pc.c:15:
-   include/linux/err.h:39:48: note: expected 'long int' but argument is of type 'struct platform_device *'
-      39 | static inline void * __must_check ERR_PTR(long error)
-         |                                           ~~~~~^~~~~
->> drivers/platform/x86/dell/dell-pc.c:252:24: warning: returning 'void *' from a function with return type 'int' makes integer from pointer without a cast [-Wint-conversion]
-     252 |                 return ERR_PTR(platform_device);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+vim +9416 net/core/dev.c
 
-
-vim +/ERR_PTR +252 drivers/platform/x86/dell/dell-pc.c
-
-   233	
-   234	static int thermal_init(void)
-   235	{
-   236		int ret;
-   237		int supported_modes;
-   238	
-   239		/* If thermal commands are not supported, exit without error */
-   240		if (!dell_smbios_class_is_supported(CLASS_INFO))
-   241			return 0;
-   242	
-   243		/* If thermal modes are not supported, exit without error */
-   244		ret = thermal_get_supported_modes(&supported_modes);
-   245		if (ret < 0)
-   246			return ret;
-   247		if (!supported_modes)
-   248			return 0;
-   249	
-   250		platform_device = platform_device_register_simple("dell-pc", PLATFORM_DEVID_NONE, NULL, 0);
-   251		if (IS_ERR(platform_device))
- > 252			return ERR_PTR(platform_device);
-   253	
-   254		thermal_handler = devm_kzalloc(&platform_device->dev, sizeof(*thermal_handler), GFP_KERNEL);
-   255		if (!thermal_handler) {
-   256			ret = -ENOMEM;
-   257			goto cleanup_platform_device;
-   258		}
-   259		thermal_handler->name = "dell-pc";
-   260		thermal_handler->profile_get = thermal_platform_profile_get;
-   261		thermal_handler->profile_set = thermal_platform_profile_set;
-   262	
-   263		if (supported_modes & DELL_QUIET)
-   264			set_bit(PLATFORM_PROFILE_QUIET, thermal_handler->choices);
-   265		if (supported_modes & DELL_COOL_BOTTOM)
-   266			set_bit(PLATFORM_PROFILE_COOL, thermal_handler->choices);
-   267		if (supported_modes & DELL_BALANCED)
-   268			set_bit(PLATFORM_PROFILE_BALANCED, thermal_handler->choices);
-   269		if (supported_modes & DELL_PERFORMANCE)
-   270			set_bit(PLATFORM_PROFILE_PERFORMANCE, thermal_handler->choices);
-   271	
-   272		/* Clean up if failed */
-   273		ret = platform_profile_register(thermal_handler);
-   274		if (ret)
-   275			goto cleanup_thermal_handler;
-   276	
-   277		return 0;
-   278	
-   279	cleanup_thermal_handler:
-   280		thermal_handler = NULL;
-   281	
-   282	cleanup_platform_device:
-   283		platform_device_unregister(platform_device);
-   284	
-   285		return ret;
-   286	}
-   287	
+  9409	
+  9410	u8 dev_xdp_prog_count(struct net_device *dev)
+  9411	{
+  9412		u8 count = 0;
+  9413		int i;
+  9414	
+  9415		for (i = 0; i < __MAX_XDP_MODE; i++)
+> 9416			if (dev->xdp_state[i] && xdp_entry_is_active(dev->xdp_state[i]))
+  9417				count++;
+  9418		return count;
+  9419	}
+  9420	EXPORT_SYMBOL_GPL(dev_xdp_prog_count);
+  9421	
 
 -- 
 0-DAY CI Kernel Test Service
