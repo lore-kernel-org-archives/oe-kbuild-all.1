@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44691C6A3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 06:10:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEBB1369AA
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 06:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732947035; cv=none; b=jFwi2L76+otY5fftUv0jFJ6RS8mCcTt6k7hoQzTaMqoMyysQzkSUt4QWscmS0JEbfx0n+KC/YIgVOLF1SRGU/PgKSXjr+ieTqw0S/5yYiIePFEbB/kENsjZufhIs8WeqYpfliIV2e981IECqKSy+Jk3S/X+Se0QMu5I3dotYGOE=
+	t=1732947698; cv=none; b=TqyNVPPlyi4QGgUEMzZZbVEXv5+dPYRzFTewbh9AXyme+4+TCVksEvQV9xulSCgEicvTn3oe7AniQtP9DdNCBy87QMcZeYXgHREZdHVu2CEcRAiWAlYx8T2NiQ9biEshSFYP38ME4VJHXixmoegjadZawnVI+gh3jucxXDyMaPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732947035; c=relaxed/simple;
-	bh=cVLBXwCMO+gO0OovtM5sTveM87fGg37tDmbFYG9Ext8=;
+	s=arc-20240116; t=1732947698; c=relaxed/simple;
+	bh=vyep6ZJeE0dj9MacX9WcB2e3c5BtOhWZ1Nw2RLYz0Rk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U2OCVnYsdLyb0UHfc8grdjE/uRB/DBLsGFrO7CzusND3RBrm3tj9Xbm3Boc+zzMzogmYymsGMzel9MfMuBRCAZOxpZRAkjVXrUoQzIx5d3MItiuFI8uUXAlnkg3kzQ1Nq6w5CdClm0XI7Te2rRqO3R9L07+NrX1CAa5X+MO1mjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nabL/NTg; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=ISjfjM3clUn+uRiqWCY+eMCH1l6fAq9LWa0DJdkLlcjZXZiY/dbnSArpq2YjIKDJ00I7+IfaSptGm6XVKBKGpCa5JMMcIHZt/j6i94eeFRADkeanC6jIUygT4qFFRSEL41Wr7/bBuHUjgR5O7RLxcQY6AoL4q4E4pqJQi9+DtQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JWDAG/A6; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nabL/NTg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JWDAG/A6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732947033; x=1764483033;
+  t=1732947696; x=1764483696;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cVLBXwCMO+gO0OovtM5sTveM87fGg37tDmbFYG9Ext8=;
-  b=nabL/NTg1rcoN6DPs7ocuhVs8qhyRTeIPSorsVfKc/HaMkpnV9VuVinU
-   D65txFGOiGCamjLo9aL9Tqx4lF+Wsmcp004nRhsGPPt+6EXF8MVujjSDj
-   BncpfavtwyltbmDCp2bnVQRqVH4PNgnaQEZ1ijP07F8nEwjEhGknprKNM
-   xrxIkrQInyx0/OoKk4Jm18eZ7Shk01Rs3oIbSZ9HKGPIL2Ri4uWArJVpe
-   qu+AcX1JwcT3QsygypqjABj4I21UtEQXvNsElJFtVJiDYBPQ/gTqqjeUW
-   gZ2PmRlWoErqNffh2qEKr+4bLIrzkr28LjcllcocepCLRNwNf+HrxFEZs
-   w==;
-X-CSE-ConnectionGUID: Ryrf0HXpQRCSJykDa8Y0Bg==
-X-CSE-MsgGUID: WhwIHYCITbWC/OAZTctH5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="43785018"
+  bh=vyep6ZJeE0dj9MacX9WcB2e3c5BtOhWZ1Nw2RLYz0Rk=;
+  b=JWDAG/A6NhKt4WtQbKanV3La7X574f+TVKMVsndKaZcH9kvmY1bcLpqX
+   s6/btXEotH2D1M/pNY2aMuEWSEirq9WUY4o0QuDQZKwo8RWWnTWQL3LcT
+   PlWyH5nvcdVZJoeYyGgfMJ59FVtFB/FM8Whol5S8jMBVDJDxgyx8Rn5sy
+   Nz+yOXMMB2JyoD9f/Hgf3lrcKRfPwBO6E9lJhtbofoUozufF5mBF+CNXq
+   5ecfwplufR3MVFZuDQ94R4Mj1MrC0Rz6iXpg6MQUPt+ht5V3/Vq662Rwy
+   g/JUBLFINosXjMUhH24X3zJaPtaCBF1ZS3B2ZcFljgCsVRuCY4k+uAE0G
+   Q==;
+X-CSE-ConnectionGUID: K1WwpEdWRZCaHQM8zzxDaw==
+X-CSE-MsgGUID: B/UyJJz1QTCW1Rau0G93rg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="33224548"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="43785018"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 22:10:32 -0800
-X-CSE-ConnectionGUID: mY3kxJL8TmSz17EnPk4SeQ==
-X-CSE-MsgGUID: RpFXe2pZSDicdax4vJo2iw==
+   d="scan'208";a="33224548"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 22:21:34 -0800
+X-CSE-ConnectionGUID: +AUBWU1QQ6e6+uSnRQNwsQ==
+X-CSE-MsgGUID: O7xPA0iiRYitXsC/BkREDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="93108975"
+   d="scan'208";a="93023916"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2024 22:10:31 -0800
+  by orviesa007.jf.intel.com with ESMTP; 29 Nov 2024 22:21:33 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHGgX-000083-0d;
-	Sat, 30 Nov 2024 06:10:29 +0000
-Date: Sat, 30 Nov 2024 14:09:35 +0800
+	id 1tHGrC-00008Q-1o;
+	Sat, 30 Nov 2024 06:21:30 +0000
+Date: Sat, 30 Nov 2024 14:21:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.13-mt7988upstream 34/35]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /: memory: False
- schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-Message-ID: <202411301453.OTXYrChH-lkp@intel.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>
+Subject: [lumag-msm:test-dpu-virtual-wide 18/25]
+ drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:803: warning: Function parameter or
+ struct member 'global_state' not described in 'dpu_rm_release_all_sspp'
+Message-ID: <202411301404.a00Ee0Fp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +64,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-mt7988upstream
-head:   0394c5dd3789237469301f096d1e011365f926be
-commit: ffd16726c46e4e64dab2a85573165f5ce10ae7cc [34/35] WIP: dts: r4: fix some compile errors
-config: arm64-randconfig-051-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301453.OTXYrChH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301453.OTXYrChH-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/lumag/msm test-dpu-virtual-wide
+head:   1fa167178f166a008766557a7b968a4d9d8e83fa
+commit: 21c2f756cc574238b8732e41d49aadc963429dc3 [18/25] drm/msm/dpu: add support for virtual planes
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241130/202411301404.a00Ee0Fp-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301404.a00Ee0Fp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301453.OTXYrChH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301404.a00Ee0Fp-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dts:33.9-35.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /: memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /: memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
---
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/syscon@10070000: failed to match any schema with compatible: ['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys1', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: i2c-switch@70: $nodename:0: 'i2c-switch@70' does not match '^(i2c-?)?mux'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: i2c-switch@70: Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-mux-pca954x.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: eeprom@57: Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: spi_nand@0: $nodename:0: 'spi_nand@0' does not match '^(flash|.*sram|nand)(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mtd/spi-nand.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: spi_nand@0: Unevaluated properties are not allowed ('partitions', 'spi-rx-buswidth', 'spi-tx-buswidth' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/spi-nand.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000: volumes:ubi-volume-ubootenv:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000: volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000: Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/spi_nand@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: reg: [[0, 353370112, 0, 524288], [0, 356515840, 0, 3670016]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:0: 'crypto' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:1: 'fe' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:2: 'gp2' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:20: 'top_netsys_warp_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:21: 'xgp1' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:22: 'xgp2' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:23: 'xgp3' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: Unevaluated properties are not allowed ('mac@2', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: gpio-keys: 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:803: warning: Function parameter or struct member 'global_state' not described in 'dpu_rm_release_all_sspp'
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c:803: warning: Excess function parameter 'rm' description in 'dpu_rm_release_all_sspp'
+
+
+vim +803 drivers/gpu/drm/msm/disp/dpu1/dpu_rm.c
+
+   794	
+   795	/**
+   796	 * dpu_rm_release_all_sspp - Given the CRTC, release all SSPP
+   797	 *	blocks previously reserved for that use case.
+   798	 * @rm: DPU Resource Manager handle
+   799	 * @crtc: DRM CRTC handle
+   800	 */
+   801	void dpu_rm_release_all_sspp(struct dpu_global_state *global_state,
+   802				     struct drm_crtc *crtc)
+ > 803	{
+   804		uint32_t crtc_id = crtc->base.id;
+   805	
+   806		_dpu_rm_clear_mapping(global_state->sspp_to_crtc_id,
+   807			ARRAY_SIZE(global_state->sspp_to_crtc_id), crtc_id);
+   808	}
+   809	
 
 -- 
 0-DAY CI Kernel Test Service
