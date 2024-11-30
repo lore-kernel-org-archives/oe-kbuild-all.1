@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C5C29A0;
-	Sat, 30 Nov 2024 05:17:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC8B29A0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 05:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732943828; cv=none; b=PzgW8yWJJLriFsfsoxJPGiYOGxE4YlWuJh+z2JDwjHEUtPUkCRVPcZgvk0pgCvNLipQEoNkeBVuV5vxnmvyfybp+ENjiSii4sj9M3F81Ej71mVZyUxNnfywMQhtTSjD7pFjURrDv0uj1lm/ppLYd47kL+1ZD9O+PqXL8OfOLs/U=
+	t=1732944428; cv=none; b=AOsVXqi9Qi8bJNwlgw+uF+p7NwPVVNHczbPnKPk4QXkhZ5o73SRfMjPDoiwMxTL6Cw8K62qvtmC07iEdcJnOu2fRaDSAC8yG8FWAHSRV3zx5VCsCL8LKOtQBCOEHNzRQtrMKI/Io0ALAKO6fBYErEJIZUdvFX5lD6njSZeNB8So=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732943828; c=relaxed/simple;
-	bh=u6sPGOa5xVzmic7r1NYocbdxD7BAe5llpde9RnS7J0U=;
+	s=arc-20240116; t=1732944428; c=relaxed/simple;
+	bh=0XCoC2sLQ7FLBzF0SOy+rpTZ+tH63/lT+HL88tRA4hg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dz2tZFoendGOdWqffUhrxNnoP4knnN6BS44dLVXpmfkyOC3lQKAdlr623mtLOhaAwW725xuLJJQbyAZDtY1x54I2uQZ0Vw9WF+VWJbIZ9PMKkeKBHcEo+vQ5DvULkYTfsNljD2awXNnLpaTllwl+P/sbQKl3S6W6opBjp0n/ni0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A4Qy0FuD; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=iBWPmhBpnRf7TrqjzKJj8Kq+i6uTrQG3u4iNDaRNUR66wFhU5xfupT6Md8PcalmSCmhyr+F7eSSuxOV/S1YZaujJPrC6xqYVvAIKrPx3JropR8ihWO5T4VNSbu6mIfhiOHdmDMpAFdMwQVd4yCtzqDWM1rRriGsMPLIpdgDl0AY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNVgPcWq; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A4Qy0FuD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNVgPcWq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732943825; x=1764479825;
+  t=1732944426; x=1764480426;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u6sPGOa5xVzmic7r1NYocbdxD7BAe5llpde9RnS7J0U=;
-  b=A4Qy0FuD8pbrj835HwCdxpT+arovc94QVxuR0haaJapoQtNB+IFo98+j
-   Za/iR3aofZkQwvcD3MPqYa9YVmovBG27tPDOscb6s47s6kfNp9lBOOuSQ
-   CqZc8kyB4M19D9TpPN5OdqNiR7Hl9rhw1Dsv1LEbA7eGbMwOnHh6liiq2
-   1dR+ACv1cAmYc8b8zF89uClCq8C4BZ5S2E9hcxHqSvTDaq3WejTTPUrgl
-   8agFCPsN++gtpVKaSnz1E7MICObIKamVaNx3XNYHeJ5dwNCJFlBjABAPa
-   4f2HL47NeyMu2jAtn4cB36TU/AAkAtv2ygwnC1Zoq1Xwmn/eGgIqycx4p
+  bh=0XCoC2sLQ7FLBzF0SOy+rpTZ+tH63/lT+HL88tRA4hg=;
+  b=UNVgPcWqFtJ/VhhrWE60BYSJK/Lrgtmp2vFPCOjQ64dC5a398v/diD4T
+   T/IYVMqZXpcb8X96daf9+iG6K/xlB47Y1DVCRwplasA5ZFv34cgCapioO
+   2IP//JI6HfE1hyEM8Iz5O44a+hLGHnGqRR37telc4WCGsIdAxSSMuJP5q
+   m0OufyWzmlVEsKgLm7YCs+u1lWvw2qX78MrHCFHCO8F+1WoyauSVMeCsW
+   owmLuMubmmBMeRFw0mTMNHBrCtmpp3F12wZxZmBG8JeSommnCmu+mrejW
+   1M3ZpXVQnjI/T5i0A+rkbMvWdKQ8AtecloKR3G7i3jFh2Y+sAH3GSlhqB
    w==;
-X-CSE-ConnectionGUID: B69L5FMsTb+epklSr7+OFA==
-X-CSE-MsgGUID: 1EvtLLmRQnG2OJ5q/DBFWw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="33219609"
+X-CSE-ConnectionGUID: Z9kA2s+yQ7GA2nVXFCJveA==
+X-CSE-MsgGUID: BSPCU904SQCZ9WD23G3Phw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44549787"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="33219609"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 21:17:05 -0800
-X-CSE-ConnectionGUID: sUfMkDUJRO65DYIes9zuJQ==
-X-CSE-MsgGUID: LFEnlM8kSP2RvUejZPfpUw==
+   d="scan'208";a="44549787"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 21:27:05 -0800
+X-CSE-ConnectionGUID: aE8UpyJqQTeNS6buiqWj2Q==
+X-CSE-MsgGUID: GMsFSr/JSTmJCIZGa+NO8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="93103378"
+   d="scan'208";a="97050758"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2024 21:17:03 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 29 Nov 2024 21:27:04 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHFqX-000069-2H;
-	Sat, 30 Nov 2024 05:16:49 +0000
-Date: Sat, 30 Nov 2024 13:16:21 +0800
+	id 1tHG0U-00006p-07;
+	Sat, 30 Nov 2024 05:27:02 +0000
+Date: Sat, 30 Nov 2024 13:26:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt 29/48]
- drivers/iommu/generic_pt/fmt/../kunit_iommu_cmp.h:323:36: warning: result of
- comparison of constant 18446744073709551615 with expression of type
- 'pt_vaddr_t' (aka 'unsigned int') is always false
-Message-ID: <202411301317.nM3azfEl-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.13-mt7988upstream 30/35]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000:
+ pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
+Message-ID: <202411301302.IGXc4bTA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,152 +63,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt
-head:   87e70b0c76695339b0163fde25b260773b0720c2
-commit: 3203d9625915912d06fcf248ae426d3e37af51d4 [29/48] iommupt: Add the 32 bit ARMv7s page table format
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20241130/202411301317.nM3azfEl-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301317.nM3azfEl-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-mt7988upstream
+head:   0394c5dd3789237469301f096d1e011365f926be
+commit: 702368cf2829f1358e16ff2d1ba1347192d7f51f [30/35] arm64: dts: mediatek: mt7988: add ethernet-nodes
+config: arm64-randconfig-051-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301302.IGXc4bTA-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+dtschema version: 2024.12.dev3+g93ee800
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301302.IGXc4bTA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301317.nM3azfEl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301302.IGXc4bTA-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv7s.c:11:
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36:
-   In file included from drivers/iommu/generic_pt/fmt/armv7s.h:361:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv7s.c:11:
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36:
-   In file included from drivers/iommu/generic_pt/fmt/armv7s.h:361:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv7s.c:11:
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36:
-   In file included from drivers/iommu/generic_pt/fmt/armv7s.h:361:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv7s.c:11:
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:36:
-   In file included from drivers/iommu/generic_pt/fmt/armv7s.h:361:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:693:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     693 |         readsb(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:701:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     701 |         readsw(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:709:20: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     709 |         readsl(PCI_IOBASE + addr, buffer, count);
-         |                ~~~~~~~~~~ ^
-   include/asm-generic/io.h:718:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     718 |         writesb(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:727:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     727 |         writesw(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   include/asm-generic/io.h:736:21: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     736 |         writesl(PCI_IOBASE + addr, buffer, count);
-         |                 ~~~~~~~~~~ ^
-   In file included from drivers/iommu/generic_pt/fmt/iommu_armv7s.c:11:
-   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:49:
->> drivers/iommu/generic_pt/fmt/../kunit_iommu_cmp.h:323:36: warning: result of comparison of constant 18446744073709551615 with expression of type 'pt_vaddr_t' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
-     323 |         if (pt_top_range(priv->common).va >= ULONG_MAX) {
-         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~
-   14 warnings generated.
-
-
-vim +323 drivers/iommu/generic_pt/fmt/../kunit_iommu_cmp.h
-
-de667502f1c0fb Jason Gunthorpe 2024-06-28  306  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  307  static int pt_kunit_iommu_cmp_init(struct kunit *test)
-de667502f1c0fb Jason Gunthorpe 2024-06-28  308  {
-de667502f1c0fb Jason Gunthorpe 2024-06-28  309  	struct kunit_iommu_cmp_priv *cmp_priv;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  310  	struct kunit_iommu_priv *priv;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  311  	int ret;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  312  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  313  	test->priv = cmp_priv = kzalloc(sizeof(*cmp_priv), GFP_KERNEL);
-de667502f1c0fb Jason Gunthorpe 2024-06-28  314  	if (!cmp_priv)
-de667502f1c0fb Jason Gunthorpe 2024-06-28  315  		return -ENOMEM;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  316  	priv = &cmp_priv->fmt;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  317  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  318  	ret = pt_kunit_priv_init(test, priv);
-de667502f1c0fb Jason Gunthorpe 2024-06-28  319  	if (ret)
-de667502f1c0fb Jason Gunthorpe 2024-06-28  320  		goto err_priv;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  321  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  322  	/* io-pgtable uses unsigned long for passing the IOVA, not dma_addr_t */
-de667502f1c0fb Jason Gunthorpe 2024-06-28 @323  	if (pt_top_range(priv->common).va >= ULONG_MAX) {
-de667502f1c0fb Jason Gunthorpe 2024-06-28  324  		kunit_skip(test,
-de667502f1c0fb Jason Gunthorpe 2024-06-28  325  			   "This configuration cannot be tested on 32 bit");
-de667502f1c0fb Jason Gunthorpe 2024-06-28  326  		return -EOPNOTSUPP;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  327  	}
-de667502f1c0fb Jason Gunthorpe 2024-06-28  328  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  329  	cmp_priv->pgtbl_ops = pt_iommu_alloc_io_pgtable(
-de667502f1c0fb Jason Gunthorpe 2024-06-28  330  		&priv->cfg, priv->dummy_dev, &cmp_priv->fmt_memory);
-de667502f1c0fb Jason Gunthorpe 2024-06-28  331  	if (cmp_priv->pgtbl_ops == ERR_PTR(-EOPNOTSUPP)) {
-de667502f1c0fb Jason Gunthorpe 2024-06-28  332  		cmp_priv->pgtbl_ops = NULL;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  333  		kunit_skip(test,
-de667502f1c0fb Jason Gunthorpe 2024-06-28  334  			   "io-pgtable does not support this configuration");
-de667502f1c0fb Jason Gunthorpe 2024-06-28  335  		return -EOPNOTSUPP;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  336  	}
-de667502f1c0fb Jason Gunthorpe 2024-06-28  337  	if (!cmp_priv->pgtbl_ops) {
-de667502f1c0fb Jason Gunthorpe 2024-06-28  338  		ret = -ENOMEM;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  339  		goto err_fmt_table;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  340  	}
-de667502f1c0fb Jason Gunthorpe 2024-06-28  341  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  342  	cmp_priv->ref_table = priv->fmt_table;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  343  	return 0;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  344  
-de667502f1c0fb Jason Gunthorpe 2024-06-28  345  err_fmt_table:
-de667502f1c0fb Jason Gunthorpe 2024-06-28  346  	pt_iommu_deinit(priv->iommu);
-de667502f1c0fb Jason Gunthorpe 2024-06-28  347  err_priv:
-de667502f1c0fb Jason Gunthorpe 2024-06-28  348  	kfree(test->priv);
-de667502f1c0fb Jason Gunthorpe 2024-06-28  349  	test->priv = NULL;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  350  	return ret;
-de667502f1c0fb Jason Gunthorpe 2024-06-28  351  }
-de667502f1c0fb Jason Gunthorpe 2024-06-28  352  
-
-:::::: The code at line 323 was first introduced by commit
-:::::: de667502f1c0fb0d99e1930a056103d5b4e1116c iommupt: Add a kunit test to compare against iopt
-
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd'] is too long
+   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
+   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
+   	'syscon' was expected
+   	'simple-mfd' was expected
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/syscon@10060000: failed to match any schema with compatible: ['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: compatible: 'oneOf' conditional failed, one must be fixed:
+   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys1', 'syscon', 'simple-mfd'] is too long
+   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
+   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
+   	'syscon' was expected
+   	'simple-mfd' was expected
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/syscon@10070000: failed to match any schema with compatible: ['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys1', 'syscon', 'simple-mfd']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: reg: [[0, 353370112, 0, 524288], [0, 356515840, 0, 3670016]] is too long
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:0: 'crypto' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:1: 'fe' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:2: 'gp2' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:3: 'gp1' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:4: 'gp3' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:19: 'top_netsys_ppefb_250m_sel' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:20: 'top_netsys_warp_sel' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:21: 'xgp1' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:22: 'xgp2' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:23: 'xgp3' was expected
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: Unevaluated properties are not allowed ('mac@2', 'reg' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
