@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3981E156CA
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 06:53:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A9A13C3D3;
+	Sat, 30 Nov 2024 07:03:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732949625; cv=none; b=fX88nKn9F2ofglsLSZ+gskr281XtuVd7un5owSfNOde2yGh2NtIcPUv9ET3eT+LSn1A1CqdRj9r8FIVu8BpwrWwG0Fx7BCbJ2agdKcREYk8Fdo3YyJDYUHrUkeEHH2hNvMTUdR8zfj88abzImLk8T1a4zy0NuawGR/pf0VtTFoQ=
+	t=1732950226; cv=none; b=QfdKnSZC+kM0uzQUqMXkyPkyigrXXlj+TleDEnQsr8fP+jy0dfPNeztg1edWQ2cJIpPx/7sXNO+yX7CEWqOMmfme48FR+UuWfuYbIabkr6WiPaozNQDQ02V03Pe1TpHDldx0pbdJlTNOadR2aWHI39t+M/2qSaGRGr+iMv0ErEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732949625; c=relaxed/simple;
-	bh=xgajP9dMH6lZviRBEJAPAKpBaASLPxNWn52Tnj+gMuM=;
+	s=arc-20240116; t=1732950226; c=relaxed/simple;
+	bh=YfiMztccSiKe3YBK5wXH7dyEjzjJD3Ix0Pp3ghKMdHM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jUvOflPXH1pO+k5UA11Uu93flUSlbV44pmZalv6uVHKGySvexuYTts29bl4IEoTBla0MDUae9JrZVKhMhLjDjYs/oNSUv6/zvZsm1JCjmMRIhCc358WoUdEVYEq7QsJgc2Dka0hju4rn/hOfxaT+vdY8Omef+vKvfp8nXZNSVIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QLmTXM0s; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=jUlT7HwRtSojMSTyMKCHRhfWp4nICNcuplGc/d6DWapIl9QtR6u0Nrj+AmtJGg1AnUl4x3QZFknQYjIHsovHSDrc6KB5r/NR8xUUz69xjqjgadTd7Jt8LTS2m0IoMh9Y95yRrd5ajsId/IOyvSD1biF/QCagTsmILAaUsgvMEH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b1ItzbGt; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QLmTXM0s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b1ItzbGt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732949623; x=1764485623;
+  t=1732950224; x=1764486224;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xgajP9dMH6lZviRBEJAPAKpBaASLPxNWn52Tnj+gMuM=;
-  b=QLmTXM0syHiv3CTNuXnRF8vlBuTM2+q7iVLLM0HC85Uyf0K341bwEEv7
-   Rmy+AZ5hzxGXqRwZ+PCB+2Nq7rIZqMRtB2I5i2JVTduhmShxrolNDqUUE
-   2xK0mODdydfFlowBpy4qOZhOj6KZJr7P16dyF9aWcWvDKp2KP/kuVoy+s
-   ByKPZWFtdgtT51fRInFQ7B0qAyJ18htIelBr54uzQaYwxvdnLvADIrW/c
-   Gb/VrPKUPolGxZEE5NypgzSab/pXzQr4EyutXUxU+MXBh1R/W5bopq2Ov
-   /uWsSdmj1Wol/aunZgzh7tfjNifSTOBpAYaY8UKiYTsM1pRIxwJXLl1gC
-   w==;
-X-CSE-ConnectionGUID: iKtrgZCFRjueQZ1jmb5+6Q==
-X-CSE-MsgGUID: fsWRnaDpSRK9bumuYEMBmA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="20758291"
-X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="20758291"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 22:53:42 -0800
-X-CSE-ConnectionGUID: 6CvPldLXTPyK7sTkupWdsg==
-X-CSE-MsgGUID: AqzDEAy4Rtmgwmgmbvz2SQ==
+  bh=YfiMztccSiKe3YBK5wXH7dyEjzjJD3Ix0Pp3ghKMdHM=;
+  b=b1ItzbGtSRza2TCLesgYGiJFh0yLkxYmSuV2JKumJPR9RyXLfUeDN/JD
+   U4R2LNnTszBjfhrRUM8CzArvmDTjapJ6HWAYQew5COvMLFF6canQ/Gki7
+   0U4BDeFgJ+yBRUzb0ljQfuXmxAKxoi59mEMo8cOFIr3ywWD8tqpYKGhrw
+   dfuQPhiQ9B+J4A3an0JQDcLL5IR37H1TrKOXsA01nvrI40a09IVDGxjWz
+   mrMFY/5IBZEUJsTioMyFnJduVgYFg7cbSUs9q6qKxnz02+IHcH2ZrI+5Q
+   rl/oBj0A5n4GeRwa4vMCnqx97zAcQxxLj3ffk1PjuwaNzJOKqEDnczBy4
+   A==;
+X-CSE-ConnectionGUID: Z+Y59gdUT+KWkYMfq2gVOA==
+X-CSE-MsgGUID: YkthMkkTQ46dB2oTAypRRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="37103629"
+X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
+   d="scan'208";a="37103629"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 23:03:44 -0800
+X-CSE-ConnectionGUID: ukG/bsjtQNGVIPKqBCfwng==
+X-CSE-MsgGUID: EJPLnNDaRrG81S7SiZc4Og==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="97677377"
+X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
+   d="scan'208";a="93028917"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 29 Nov 2024 22:53:42 -0800
+  by orviesa007.jf.intel.com with ESMTP; 29 Nov 2024 23:03:42 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHHMJ-00009P-0I;
-	Sat, 30 Nov 2024 06:53:39 +0000
-Date: Sat, 30 Nov 2024 14:52:53 +0800
+	id 1tHHVz-00009v-31;
+	Sat, 30 Nov 2024 07:03:39 +0000
+Date: Sat, 30 Nov 2024 15:03:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 4/4]
- include/linux/cgroup-defs.h:588:2: error: static assertion failed due to
- requirement 'sizeof(struct cgroup_root::(unnamed at
- include/linux/cgroup-defs.h:588:2)) <= sizeof(struct cgroup_root::(unnamed
- at include/linux/cgroup-defs.h:588:2))': include/linux/...
-Message-ID: <202411301456.Tpw0TC1k-lkp@intel.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.12.0-scu4-dt-overlay 24/30]
+ drivers/gpio/gpiolib-of.c:1201:2: error: call to undeclared function
+ 'of_changeset_revert'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202411301523.8UcTC7Yz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,124 +64,126 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   d66e9166bfa175691dd2d0ad7f65c9fec54aa520
-commit: d66e9166bfa175691dd2d0ad7f65c9fec54aa520 [4/4] ANDROID: fix ABI-break in struct cgroup_root
-config: x86_64-randconfig-122-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301456.Tpw0TC1k-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301456.Tpw0TC1k-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
+head:   6a87eb702125c86f68c9c466c941b914713c8252
+commit: 3003e9eae5cddbc635a165d44194a95e1d26b5be [24/30] gpio: Dynamically add OF nodes if not present
+config: arm-integrator_defconfig (https://download.01.org/0day-ci/archive/20241130/202411301523.8UcTC7Yz-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301523.8UcTC7Yz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301456.Tpw0TC1k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301523.8UcTC7Yz-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-   scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-   scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
-   In file included from arch/x86/kernel/asm-offsets.c:10:
-   In file included from include/crypto/aria.h:22:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/x86/include/asm/elf.h:8:
-   In file included from include/linux/page_size_compat.h:33:
-   In file included from include/linux/mman.h:5:
-   In file included from include/linux/mm.h:2238:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from arch/x86/kernel/asm-offsets.c:14:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:13:
-   In file included from include/linux/cgroup.h:29:
->> include/linux/cgroup-defs.h:588:2: error: static assertion failed due to requirement 'sizeof(struct cgroup_root::(unnamed at include/linux/cgroup-defs.h:588:2)) <= sizeof(struct cgroup_root::(unnamed at include/linux/cgroup-defs.h:588:2))': include/linux/cgroup-defs.h:589: struct callback_head rcu is larger than u8 __attribute__((__aligned__(8))) android_backport_reserved1[CGROUP_SUBSYS_COUNT * sizeof(atomic_t)]
-     588 |         ANDROID_BACKPORT_USE_ARRAY(1, CGROUP_SUBSYS_COUNT * sizeof(atomic_t),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     589 |                                    struct rcu_head rcu);
-         |                                    ~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:157:2: note: expanded from macro 'ANDROID_BACKPORT_USE_ARRAY'
-     157 |         _ANDROID_KABI_REPLACE(_ANDROID_BACKPORT_RESERVE_ARRAY(number, bytes), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:67:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
-      67 |                 __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new);   \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:43:18: note: expanded from macro '__ANDROID_KABI_CHECK_SIZE_ALIGN'
-      43 |                 _Static_assert(sizeof(struct{_new;}) <= sizeof(struct{_orig;}), \
-         |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/cgroup-defs.h:588:2: note: expression evaluates to '16 <= 0'
-     588 |         ANDROID_BACKPORT_USE_ARRAY(1, CGROUP_SUBSYS_COUNT * sizeof(atomic_t),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     589 |                                    struct rcu_head rcu);
-         |                                    ~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:157:2: note: expanded from macro 'ANDROID_BACKPORT_USE_ARRAY'
-     157 |         _ANDROID_KABI_REPLACE(_ANDROID_BACKPORT_RESERVE_ARRAY(number, bytes), _new)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:67:3: note: expanded from macro '_ANDROID_KABI_REPLACE'
-      67 |                 __ANDROID_KABI_CHECK_SIZE_ALIGN(_orig, _new);   \
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/android_kabi.h:43:40: note: expanded from macro '__ANDROID_KABI_CHECK_SIZE_ALIGN'
-      43 |                 _Static_assert(sizeof(struct{_new;}) <= sizeof(struct{_orig;}), \
-         |                                ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
-   make[3]: *** [scripts/Makefile.build:116: arch/x86/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1266: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:252: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:252: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+   drivers/gpio/gpiolib-of.c:1191:6: error: redefinition of 'of_gpiochip_remove_dev_node'
+    1191 | void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
+         |      ^
+   drivers/gpio/gpiolib-of.h:50:20: note: previous definition is here
+      50 | static inline void of_gpiochip_remove_dev_node(struct gpio_chip *chip) {};
+         |                    ^
+>> drivers/gpio/gpiolib-of.c:1201:2: error: call to undeclared function 'of_changeset_revert'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1201 |         of_changeset_revert(np->data);
+         |         ^
+>> drivers/gpio/gpiolib-of.c:1202:2: error: call to undeclared function 'of_changeset_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1202 |         of_changeset_destroy(np->data);
+         |         ^
+>> drivers/gpio/gpiolib-of.c:1217:8: error: call to undeclared function 'of_changeset_add_prop_bool'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1217 |         ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
+         |               ^
+>> drivers/gpio/gpiolib-of.c:1221:9: error: call to undeclared function 'of_changeset_add_prop_u32'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1221 |         return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
+         |                ^
+   drivers/gpio/gpiolib-of.c:1224:6: error: redefinition of 'of_gpiochip_make_dev_node'
+    1224 | void of_gpiochip_make_dev_node(struct gpio_chip *chip)
+         |      ^
+   drivers/gpio/gpiolib-of.h:49:20: note: previous definition is here
+      49 | static inline void of_gpiochip_make_dev_node(struct gpio_chip *chip) {}
+         |                    ^
+>> drivers/gpio/gpiolib-of.c:1241:2: error: call to undeclared function 'of_changeset_init'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1241 |         of_changeset_init(cset);
+         |         ^
+>> drivers/gpio/gpiolib-of.c:1243:7: error: call to undeclared function 'of_changeset_create_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
+         |              ^
+>> drivers/gpio/gpiolib-of.c:1243:5: error: incompatible integer to pointer conversion assigning to 'struct device_node *' from 'int' [-Wint-conversion]
+    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
+         |            ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpiolib-of.c:1251:8: error: call to undeclared function 'of_changeset_apply'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1251 |         ret = of_changeset_apply(cset);
+         |               ^
+   drivers/gpio/gpiolib-of.c:1263:2: error: call to undeclared function 'of_changeset_destroy'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1263 |         of_changeset_destroy(cset);
+         |         ^
+   11 errors generated.
 
 
-vim +588 include/linux/cgroup-defs.h
+vim +/of_changeset_revert +1201 drivers/gpio/gpiolib-of.c
 
-   548	
-   549	/*
-   550	 * A cgroup_root represents the root of a cgroup hierarchy, and may be
-   551	 * associated with a kernfs_root to form an active hierarchy.  This is
-   552	 * internal to cgroup core.  Don't access directly from controllers.
-   553	 */
-   554	struct cgroup_root {
-   555		struct kernfs_root *kf_root;
-   556	
-   557		/* The bitmask of subsystems attached to this hierarchy */
-   558		unsigned int subsys_mask;
-   559	
-   560		/* Unique id for this hierarchy. */
-   561		int hierarchy_id;
-   562	
-   563		/*
-   564		 * The root cgroup. The containing cgroup_root will be destroyed on its
-   565		 * release. cgrp->ancestors[0] will be used overflowing into the
-   566		 * following field. cgrp_ancestor_storage must immediately follow.
-   567		 */
-   568		struct cgroup cgrp;
-   569	
-   570		/* must follow cgrp for cgrp->ancestors[0], see above */
-   571		struct cgroup *cgrp_ancestor_storage;
-   572	
-   573		/* Number of cgroups in the hierarchy, used only for /proc/cgroups */
-   574		atomic_t nr_cgrps;
-   575	
-   576		/* A list running through the active hierarchies */
-   577		struct list_head root_list;
-   578	
-   579		/* Hierarchy-specific flags */
-   580		unsigned int flags;
-   581	
-   582		/* The path to use for release notifications. */
-   583		char release_agent_path[PATH_MAX];
-   584	
-   585		/* The name for this hierarchy - may be empty */
-   586		char name[MAX_CGROUP_ROOT_NAMELEN];
-   587	
- > 588		ANDROID_BACKPORT_USE_ARRAY(1, CGROUP_SUBSYS_COUNT * sizeof(atomic_t),
-   589					   struct rcu_head rcu);
-   590	};
-   591	
+  1190	
+  1191	void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
+  1192	{
+  1193		struct device_node *np;
+  1194	
+  1195		np = dev_of_node(&chip->gpiodev->dev);
+  1196		if (!np || !of_node_check_flag(np, OF_DYNAMIC))
+  1197			return;
+  1198	
+  1199		chip->gpiodev->dev.of_node = NULL;
+  1200	
+> 1201		of_changeset_revert(np->data);
+> 1202		of_changeset_destroy(np->data);
+  1203		of_node_put(np);
+  1204	}
+  1205	
+  1206	static int of_gpiochip_add_properties(struct gpio_chip *chip,
+  1207					      struct of_changeset *ocs,
+  1208					      struct device_node *np)
+  1209	{
+  1210		int ret;
+  1211	
+  1212		/*
+  1213		 * The added properties will be released when the
+  1214		 * changeset is destroyed.
+  1215		 */
+  1216	
+> 1217		ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
+  1218		if (ret)
+  1219			return ret;
+  1220	
+> 1221		return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
+  1222	}
+  1223	
+  1224	void of_gpiochip_make_dev_node(struct gpio_chip *chip)
+  1225	{
+  1226		struct device_node *np = NULL;
+  1227		struct of_changeset *cset;
+  1228		int ret;
+  1229	
+  1230		/*
+  1231		 * If there is already a device tree node linked to this device,
+  1232		 * return immediately.
+  1233		 */
+  1234		if (chip->gpiodev->dev.of_node)
+  1235			return;
+  1236	
+  1237		cset = kmalloc(sizeof(*cset), GFP_KERNEL);
+  1238		if (!cset)
+  1239		       return;
+  1240	
+> 1241		of_changeset_init(cset);
+  1242	
+> 1243		np = of_changeset_create_node(cset, of_root, chip->label);
+  1244		if (!np)
+  1245			goto out_destroy_cset;
+  1246	
+  1247		ret = of_gpiochip_add_properties(chip, cset, np);
+  1248		if (ret)
+  1249			goto out_free_node;
+  1250	
+> 1251		ret = of_changeset_apply(cset);
 
 -- 
 0-DAY CI Kernel Test Service
