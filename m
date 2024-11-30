@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC8B29A0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 05:27:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F0492F2E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 05:48:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732944428; cv=none; b=AOsVXqi9Qi8bJNwlgw+uF+p7NwPVVNHczbPnKPk4QXkhZ5o73SRfMjPDoiwMxTL6Cw8K62qvtmC07iEdcJnOu2fRaDSAC8yG8FWAHSRV3zx5VCsCL8LKOtQBCOEHNzRQtrMKI/Io0ALAKO6fBYErEJIZUdvFX5lD6njSZeNB8So=
+	t=1732945710; cv=none; b=YUcyCVGgoa9k3hnUyF2YVedJJ/tLsc22FiDdltUnXpDFmz38rRdx08uK45ny/PS74U1NrtioBaq4cZ1GyNLJC7b3VvfdWOQr0LWDKcR+JiCtSHay250zgj50iKzjl955plEdWyE9RGlHweTKBfX/OAqA2QxnkaKZ57jcoreJ+ks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732944428; c=relaxed/simple;
-	bh=0XCoC2sLQ7FLBzF0SOy+rpTZ+tH63/lT+HL88tRA4hg=;
+	s=arc-20240116; t=1732945710; c=relaxed/simple;
+	bh=mCG+4mC1v0rWPkIVBlAT/ZeaE90pdRBKTzJSkw/OSvk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iBWPmhBpnRf7TrqjzKJj8Kq+i6uTrQG3u4iNDaRNUR66wFhU5xfupT6Md8PcalmSCmhyr+F7eSSuxOV/S1YZaujJPrC6xqYVvAIKrPx3JropR8ihWO5T4VNSbu6mIfhiOHdmDMpAFdMwQVd4yCtzqDWM1rRriGsMPLIpdgDl0AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UNVgPcWq; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=KnJjRb8QpInGVyZBRTSgn41LiCFJS9gVE+lc+SfJZsdvQfmEJcMfOxnunamJykxiyxK8w6Z/8IO7eJTT5lEdpQRUcxFlnwqV+f7YFK9KJRiG6HO0UdzKZyND11mociIknFNocIrBf29nqnixpMYJXMq2f6h8KlnSFIf353ti4OU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JL1D5IKc; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UNVgPcWq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JL1D5IKc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732944426; x=1764480426;
+  t=1732945708; x=1764481708;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0XCoC2sLQ7FLBzF0SOy+rpTZ+tH63/lT+HL88tRA4hg=;
-  b=UNVgPcWqFtJ/VhhrWE60BYSJK/Lrgtmp2vFPCOjQ64dC5a398v/diD4T
-   T/IYVMqZXpcb8X96daf9+iG6K/xlB47Y1DVCRwplasA5ZFv34cgCapioO
-   2IP//JI6HfE1hyEM8Iz5O44a+hLGHnGqRR37telc4WCGsIdAxSSMuJP5q
-   m0OufyWzmlVEsKgLm7YCs+u1lWvw2qX78MrHCFHCO8F+1WoyauSVMeCsW
-   owmLuMubmmBMeRFw0mTMNHBrCtmpp3F12wZxZmBG8JeSommnCmu+mrejW
-   1M3ZpXVQnjI/T5i0A+rkbMvWdKQ8AtecloKR3G7i3jFh2Y+sAH3GSlhqB
-   w==;
-X-CSE-ConnectionGUID: Z9kA2s+yQ7GA2nVXFCJveA==
-X-CSE-MsgGUID: BSPCU904SQCZ9WD23G3Phw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="44549787"
+  bh=mCG+4mC1v0rWPkIVBlAT/ZeaE90pdRBKTzJSkw/OSvk=;
+  b=JL1D5IKc6Ta0YZWfJDFWk7f3enw1TYzs8WjBCRbgPlVGRmsoGtH706/o
+   UQx67uSXTeyJEWfVICZsuszhYfkFrYW0g9fb4XY041yvM2zPmzS9DkpWC
+   F+UppHlmoSZQ3hX/2p1ZzmEo4sfUKR58PvfaTle5TLR73FFyWq4G13Afg
+   0V6dYyopkBU+BcHqXtdkqgYdVilEXQESuj31uAAOAIQZmKnXJpKtYeSSv
+   7pSg0fkmhduDEafWJf6IqaavBZQmRKw2iGxpYdqG5cLFmA1N+1i/pPvC8
+   Hzrkh9ooxPETK/7FV++et740w5jw2RAu7zSp4QH8VCzP/sN8SMN5qDLL0
+   A==;
+X-CSE-ConnectionGUID: 8U8OynKMQ/eI2h+oy66C0g==
+X-CSE-MsgGUID: 9xmg8n6ISTq18ywh3YCjlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="33299897"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="44549787"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 21:27:05 -0800
-X-CSE-ConnectionGUID: aE8UpyJqQTeNS6buiqWj2Q==
-X-CSE-MsgGUID: GMsFSr/JSTmJCIZGa+NO8w==
+   d="scan'208";a="33299897"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 21:48:27 -0800
+X-CSE-ConnectionGUID: O+z30PFBQQ2gF/YCt6nBwg==
+X-CSE-MsgGUID: n1LqJ4o3R3WhzN22fVJrhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="97050758"
+   d="scan'208";a="92804202"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 29 Nov 2024 21:27:04 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 29 Nov 2024 21:48:26 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHG0U-00006p-07;
-	Sat, 30 Nov 2024 05:27:02 +0000
-Date: Sat, 30 Nov 2024 13:26:40 +0800
+	id 1tHGL9-00007V-1E;
+	Sat, 30 Nov 2024 05:48:23 +0000
+Date: Sat, 30 Nov 2024 13:47:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.13-mt7988upstream 30/35]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000:
- pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202411301302.IGXc4bTA-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: oe-kbuild-all@lists.linux.dev, Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/070-audio 65/119]
+ sound/soc/apple/macaudio.c:1111:30: sparse: sparse: symbol
+ 'macaudio_j274_cfg' was not declared. Should it be static?
+Message-ID: <202411301317.oGUTYmxF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,72 +63,205 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.13-mt7988upstream
-head:   0394c5dd3789237469301f096d1e011365f926be
-commit: 702368cf2829f1358e16ff2d1ba1347192d7f51f [30/35] arm64: dts: mediatek: mt7988: add ethernet-nodes
-config: arm64-randconfig-051-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301302.IGXc4bTA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301302.IGXc4bTA-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/070-audio
+head:   070347d4a0876921be5b0bbc11fff848c2ed3e59
+commit: 4da5f1457485098662c840c4ad8f6b2833a1cbb8 [65/119] macaudio: speaker volume safety interlocks
+config: sparc64-randconfig-r122-20241118 (https://download.01.org/0day-ci/archive/20241130/202411301317.oGUTYmxF-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241130/202411301317.oGUTYmxF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301302.IGXc4bTA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301317.oGUTYmxF-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10060000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/syscon@10060000: failed to match any schema with compatible: ['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys0', 'syscon', 'simple-mfd']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: compatible: 'oneOf' conditional failed, one must be fixed:
-   	['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys1', 'syscon', 'simple-mfd'] is too long
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7622-sgmiisys', 'mediatek,mt7629-sgmiisys', 'mediatek,mt7981-sgmiisys_0', 'mediatek,mt7981-sgmiisys_1', 'mediatek,mt7986-sgmiisys_0', 'mediatek,mt7986-sgmiisys_1']
-   	'mediatek,mt7988-sgmiisys' is not one of ['mediatek,mt7988-sgmiisys0', 'mediatek,mt7988-sgmiisys1']
-   	'syscon' was expected
-   	'simple-mfd' was expected
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: pcs: '#pcs-cells', 'phys' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: syscon@10070000: 'resets' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,sgmiisys.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/syscon@10070000: failed to match any schema with compatible: ['mediatek,mt7988-sgmiisys', 'mediatek,mt7988-sgmiisys1', 'syscon', 'simple-mfd']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/topmisc@11d10000: failed to match any schema with compatible: ['mediatek,mt7988-topmisc', 'syscon', 'mediatek,mt7988-power-controller']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: reg: [[0, 353370112, 0, 524288], [0, 356515840, 0, 3670016]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:0: 'crypto' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:1: 'fe' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:2: 'gp2' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:3: 'gp1' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:4: 'gp3' was expected
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:19: 'top_netsys_ppefb_250m_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:20: 'top_netsys_warp_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:21: 'xgp1' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:22: 'xgp2' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: clock-names:23: 'xgp3' was expected
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: ethernet@15100000: Unevaluated properties are not allowed ('mac@2', 'reg' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/apple/macaudio.c:1111:30: sparse: sparse: symbol 'macaudio_j274_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1147:30: sparse: sparse: symbol 'macaudio_j313_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1192:30: sparse: sparse: symbol 'macaudio_j314_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1200:30: sparse: sparse: symbol 'macaudio_j413_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1210:30: sparse: sparse: symbol 'macaudio_j415_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1237:30: sparse: sparse: symbol 'macaudio_j375_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1259:30: sparse: sparse: symbol 'macaudio_j493_cfg' was not declared. Should it be static?
+>> sound/soc/apple/macaudio.c:1275:30: sparse: sparse: symbol 'macaudio_fallback_cfg' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1286:1: sparse: sparse: symbol 'macaudio_spk_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1296:1: sparse: sparse: symbol 'macaudio_hp_mux_enum' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c:1384:5: sparse: sparse: symbol 'macaudio_slk_lock' was not declared. Should it be static?
+   sound/soc/apple/macaudio.c: note: in included file (through include/linux/mmzone.h, include/linux/gfp.h, include/linux/umh.h, include/linux/kmod.h, ...):
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+   include/linux/page-flags.h:235:46: sparse: sparse: self-comparison always evaluates to false
+
+vim +/macaudio_j274_cfg +1111 sound/soc/apple/macaudio.c
+
+  1110	
+> 1111	struct macaudio_platform_cfg macaudio_j274_cfg = {
+  1112		.fixup = macaudio_j274_fixup_controls,
+  1113	};
+  1114	
+  1115	static int macaudio_j313_fixup_controls(struct snd_soc_card *card) {
+  1116		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1117	
+  1118		if (ma->has_speakers) {
+  1119			if (!please_blow_up_my_speakers) {
+  1120				dev_err(card->dev, "driver can't assure safety on this model, refusing probe\n");
+  1121				return -EINVAL;
+  1122			}
+  1123	
+  1124			CHECK(snd_soc_set_enum_kctl, "* ASI1 Sel", "Left");
+  1125			CHECK(snd_soc_deactivate_kctl, "* ASI1 Sel", 0);
+  1126	
+  1127			/* !!! This is copied from j274, not obtained by looking at
+  1128			 *     what macOS sets.
+  1129			 */
+  1130			CHECK(snd_soc_limit_volume, "* Amp Gain Volume", 14);
+  1131	
+  1132			/*
+  1133			 * Since we don't set the right slots yet to avoid
+  1134			 * driver conflict on the I2S bus sending ISENSE/VSENSE
+  1135			 * samples from the codecs back to us, disable the
+  1136			 * controls.
+  1137			 */
+  1138			CHECK(snd_soc_deactivate_kctl, "* VSENSE Switch", 0);
+  1139			CHECK(snd_soc_deactivate_kctl, "* ISENSE Switch", 0);
+  1140	
+  1141			macaudio_vlimit_update(ma);
+  1142		}
+  1143	
+  1144		return 0;
+  1145	}
+  1146	
+> 1147	struct macaudio_platform_cfg macaudio_j313_cfg = {
+  1148		.fixup = macaudio_j313_fixup_controls,
+  1149	};
+  1150	
+  1151	static int macaudio_j314_fixup_controls(struct snd_soc_card *card)
+  1152	{
+  1153		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1154	
+  1155		if (ma->has_speakers) {
+  1156			if (!please_blow_up_my_speakers) {
+  1157				dev_err(card->dev, "driver can't assure safety on this model, refusing probe\n");
+  1158				return -EINVAL;
+  1159			}
+  1160	
+  1161			CHECK(snd_soc_set_enum_kctl, "* ASI1 Sel", "Left");
+  1162			CHECK(snd_soc_deactivate_kctl, "* ASI1 Sel", 0);
+  1163			CHECK(snd_soc_limit_volume, "* Amp Gain Volume", 9); // 15 set by macOS, this is 3 dB below
+  1164			CHECK(snd_soc_set_enum_kctl, "* Tweeter HPF Corner Frequency", "800 Hz");
+  1165			CHECK(snd_soc_deactivate_kctl, "* Tweeter HPF Corner Frequency", 0);
+  1166	
+  1167			/*
+  1168			 * The speaker amps suffer from spurious overcurrent
+  1169			 * events on their unmute, so enable autoretry.
+  1170			 */
+  1171			CHECK(snd_soc_set_enum_kctl, "* OCE Handling", "Retry");
+  1172			CHECK(snd_soc_deactivate_kctl, "* OCE Handling", 0);
+  1173	
+  1174			/*
+  1175			 * Since we don't set the right slots yet to avoid
+  1176			 * driver conflict on the I2S bus sending ISENSE/VSENSE
+  1177			 * samples from the codecs back to us, disable the
+  1178			 * controls.
+  1179			 */
+  1180	#if 0
+  1181			CHECK(snd_soc_deactivate_kctl, "* VSENSE Switch", 0);
+  1182			CHECK(snd_soc_deactivate_kctl, "* ISENSE Switch", 0);
+  1183	#endif
+  1184	
+  1185			macaudio_vlimit_update(ma);
+  1186		}
+  1187	
+  1188		return 0;
+  1189	}
+  1190	
+  1191	
+> 1192	struct macaudio_platform_cfg macaudio_j314_cfg = {
+  1193		.fixup = macaudio_j314_fixup_controls,
+  1194		.limits = {
+  1195			{.match = "* Tweeter Speaker Volume", TAS2764_DB_REDUCTION(20), TAS2764_0DB},
+  1196			{.match = "* Woofer Speaker Volume", TAS2764_DB_REDUCTION(20), TAS2764_0DB},
+  1197		}
+  1198	};
+  1199	
+> 1200	struct macaudio_platform_cfg macaudio_j413_cfg = {
+  1201		.fixup = macaudio_j314_fixup_controls,
+  1202		.limits = {
+  1203			/* Min gain: -17.47 dB */
+  1204			{.match = "* Tweeter Speaker Volume", TAS2764_DB_REDUCTION(20), TAS2764_0DB},
+  1205			/* Min gain: -10.63 dB */
+  1206			{.match = "* Woofer Speaker Volume", TAS2764_DB_REDUCTION(14), TAS2764_0DB},
+  1207		}
+  1208	};
+  1209	
+> 1210	struct macaudio_platform_cfg macaudio_j415_cfg = {
+  1211		.fixup = macaudio_j314_fixup_controls,
+  1212		.limits = {
+  1213			{.match = "* Tweeter Speaker Volume", TAS2764_DB_REDUCTION(20), TAS2764_0DB},
+  1214			{.match = "* Woofer 1 Speaker Volume", TAS2764_DB_REDUCTION(20), TAS2764_0DB},
+  1215			{.match = "* Woofer 2 Speaker Volume", TAS2764_DB_REDUCTION(20), TAS2764_0DB},
+  1216		}
+  1217	};
+  1218	
+  1219	static int macaudio_j375_fixup_controls(struct snd_soc_card *card)
+  1220	{
+  1221		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1222	
+  1223		if (ma->has_speakers) {
+  1224			if (!please_blow_up_my_speakers) {
+  1225				dev_err(card->dev, "driver can't assure safety on this model, refusing probe\n");
+  1226				return -EINVAL;
+  1227			}
+  1228	
+  1229			CHECK(snd_soc_limit_volume, "* Amp Gain Volume", 14); // 20 set by macOS, this is 3 dB below
+  1230	
+  1231			macaudio_vlimit_update(ma);
+  1232		}
+  1233	
+  1234		return 0;
+  1235	}
+  1236	
+  1237	struct macaudio_platform_cfg macaudio_j375_cfg = {
+  1238		.fixup = macaudio_j375_fixup_controls,
+  1239	};
+  1240	
+  1241	static int macaudio_j493_fixup_controls(struct snd_soc_card *card)
+  1242	{
+  1243		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1244	
+  1245		if (ma->has_speakers) {
+  1246			if (!please_blow_up_my_speakers) {
+  1247				dev_err(card->dev, "driver can't assure safety on this model, refusing probe\n");
+  1248				return -EINVAL;
+  1249			}
+  1250	
+  1251			CHECK(snd_soc_limit_volume, "* Amp Gain Volume", 9); // 15 set by macOS, this is 3 dB below
+  1252	
+  1253			macaudio_vlimit_update(ma);
+  1254		}
+  1255	
+  1256		return 0;	
+  1257	}
+  1258	
+> 1259	struct macaudio_platform_cfg macaudio_j493_cfg = {
+  1260		.fixup = macaudio_j493_fixup_controls
+  1261	};
+  1262	
+  1263	static int macaudio_fallback_fixup_controls(struct snd_soc_card *card)
+  1264	{
+  1265		struct macaudio_snd_data *ma = snd_soc_card_get_drvdata(card);
+  1266	
+  1267		if (ma->has_speakers && !please_blow_up_my_speakers) {
+  1268			dev_err(card->dev, "driver can't assure safety on this model, refusing probe\n");
+  1269			return -EINVAL;
+  1270		}
+  1271	
+  1272		return 0;
+  1273	}
+  1274	
+> 1275	struct macaudio_platform_cfg macaudio_fallback_cfg = {
+  1276		.fixup = macaudio_fallback_fixup_controls
+  1277	};
+  1278	
 
 -- 
 0-DAY CI Kernel Test Service
