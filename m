@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E634A3B796;
-	Sat, 30 Nov 2024 01:38:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4599B27447
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 02:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732930702; cv=none; b=hDzyEmOZndf7LgCKWMr9CQx60VRYIFbmAYZ7mPnjmt5KfBby05FB8rVlXA2RVoHIn4d5uyqwgUml9Whm0JGy48y0qIa+LKDwb78tHc3xlFs+LlopxfXVnUkPJZZYtRyRyhWNi5x6epHan3cJLHeLp/WarJO8BA+UQsg6SWiIgI8=
+	t=1732933808; cv=none; b=NPPpCgGNwN/UiviiZXLC7+6if1Szw7vjtkA1XJUQxeyPT7V+jbbUuhKUYIMV4s3L9CJBP/zzj8f7VGB3qqkneU+MyKSjB2n28fQp3VtPDNboqyiLArGI6YglHAlL/kcNdSiCNPB7qHx9mGFsRVThDewOjbsfBejthPetjF8x+W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732930702; c=relaxed/simple;
-	bh=LXvP6fh7UVGNRiNPpbQbbhHYAFfxDAufX8H8x8MSoOk=;
+	s=arc-20240116; t=1732933808; c=relaxed/simple;
+	bh=lK+TzXRHgRRsWqPRHMqrzFwlErxLapxQJJGtk7ALLMY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=R/lwaoe24WdY29MCPeyG1qsTLDLdTcwhV9VR+qXMJhWUU+r0Vondjy2ixAupxJhUF1zsU7+y5lACYUCKsgQLmhk46wYpz0H21m2EDQF8wWfbjc5lobS5fFou7hyXdSf+Ez12ZGtMS/rB3/0WTxi87P91b2MMR5sM4E41raNQEFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLfV2nPE; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=WWAnechNjAjKC3V1ca7yhPdjQZDhEhOS68AK89T47z8+lcJjyZtx8Niy408INA1PGFe9aBm4oBRph6hs55mOeklUkHpV4yAve8g/bqpBUcOll+pP3FhOK9c7d9tXvMvD+n3fBCxavkLeTQg1cZhNdaTYNdL2HVHVDUvbmMC8JVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpOheM/y; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLfV2nPE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpOheM/y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732930700; x=1764466700;
+  t=1732933806; x=1764469806;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LXvP6fh7UVGNRiNPpbQbbhHYAFfxDAufX8H8x8MSoOk=;
-  b=ZLfV2nPEjvANk4Tm/oOfy9xjm31YWj+khHxbiLa9Wr+yX4VRoGhPNrk9
-   rrmsetj1KFzAHm+fJDqOUfYw48e1QWMhlzsgdxJlC3uEjPuGqhNk+roXv
-   8oh1Od38Kq1hp5rvRcIRRpoXHeqynKTB/TI/xsItFpQBdcmxEmoSsLlj/
-   2M2KeZXZy/Xhkyy5qdjXLoGqhwZ/2+iW6EhZ7L/FjXBHRUaiYgoB7G+D5
-   SvBeO9LCXG1sKPY0wWj6IdBVN94x9E+5nAxa2LcNYrgp/FtCw2Yy6IACS
-   QB7TA4bjjG2Z9o1xHBCDJv7qdw5dGNv9yDks35nRgoMP1O/1CtkBVstd5
+  bh=lK+TzXRHgRRsWqPRHMqrzFwlErxLapxQJJGtk7ALLMY=;
+  b=QpOheM/y5ovp8DgpYJFyndhiCdX9yfDQadr4AYJnqzFWQti7rbZ86jfE
+   BWhNjNr4PGQ+VaH5AXN3Qip9sKbLYB9DVV3AHKDCl9+f7IpDCgsbSyYji
+   0k/ZNj0wkXtpHofawmyV0yWSH/Xc87tRTC1p429fxF0SWWeRA6bO/apm7
+   MiQ89OXkGC/bIoPNv+UdipZVP1aaqOJg4CtfmbXOMKDUWax9Lje0o+b9/
+   lGVX2LZhYrB5tZFkRBe5ou55BTQHJSOTBB/sSls2KeU7vkahZLA/PpT9c
+   6U8V95iI5sv7wCeGR9Rtg8xxEtRwpbdbUDdX0eVLp/W+NfLyJgaQJsUe0
    A==;
-X-CSE-ConnectionGUID: 85cjOZKjQuW2LfBLMWDQVA==
-X-CSE-MsgGUID: kS9Y0sfFTQmRnRTJlp8zWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="50564879"
+X-CSE-ConnectionGUID: /6ZMHF71S8WI43UtVoj53A==
+X-CSE-MsgGUID: QPGmiH4KTcmLfwYrrK4Vmw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="58564483"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="50564879"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 17:38:17 -0800
-X-CSE-ConnectionGUID: KK1eheVhQlWuik8WhTaOeA==
-X-CSE-MsgGUID: ppA0ACreR8uEX8pw2x9ojQ==
+   d="scan'208";a="58564483"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 18:30:05 -0800
+X-CSE-ConnectionGUID: gFiFaB9STMiWmiEwFiDBLA==
+X-CSE-MsgGUID: KBwJ8akoTjGZxFluBLWdUw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="93434310"
-Received: from lkp-server01.sh.intel.com (HELO 5e2646291792) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 29 Nov 2024 17:38:17 -0800
-Received: from kbuild by 5e2646291792 with local (Exim 4.96)
+   d="scan'208";a="97380629"
+Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
+  by fmviesa004.fm.intel.com with ESMTP; 29 Nov 2024 18:30:02 -0800
+Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHCR3-0000qF-3B;
-	Sat, 30 Nov 2024 01:38:13 +0000
-Date: Sat, 30 Nov 2024 09:37:38 +0800
+	id 1tHDEh-00001r-13;
+	Sat, 30 Nov 2024 02:29:48 +0000
+Date: Sat, 30 Nov 2024 10:29:09 +0800
 From: kernel test robot <lkp@intel.com>
 To: Andrew Lunn <andrew@lunn.ch>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.12.0-scu4-dt-overlay 29/30] drivers/i2c/i2c-core.h:97:49:
- error: must use 'struct' tag to refer to type 'gpio_chip'
-Message-ID: <202411300910.FpiIxT3v-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lunn:v6.12.0-scu4-dt-overlay 24/30]
+ drivers/gpio/gpiolib-of.c:1191:6: error: redefinition of
+ 'of_gpiochip_remove_dev_node'
+Message-ID: <202411301047.R1m9MUEW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,60 +65,125 @@ Content-Disposition: inline
 
 tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
 head:   6a87eb702125c86f68c9c466c941b914713c8252
-commit: 8aae31b5d95b83a200d406db1b9c0108e36eb5a4 [29/30] i2c: Add node with phandle and entry to __symbols__ for DT overlays
-config: i386-buildonly-randconfig-002-20241130 (https://download.01.org/0day-ci/archive/20241130/202411300910.FpiIxT3v-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411300910.FpiIxT3v-lkp@intel.com/reproduce)
+commit: 3003e9eae5cddbc635a165d44194a95e1d26b5be [24/30] gpio: Dynamically add OF nodes if not present
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241130/202411301047.R1m9MUEW-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301047.R1m9MUEW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411300910.FpiIxT3v-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301047.R1m9MUEW-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/i2c/i2c-core-base.c:24:
-   In file included from include/linux/i2c.h:19:
-   In file included from include/linux/regulator/consumer.h:35:
-   In file included from include/linux/suspend.h:5:
-   In file included from include/linux/swap.h:9:
-   In file included from include/linux/memcontrol.h:21:
-   In file included from include/linux/mm.h:2213:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   In file included from drivers/i2c/i2c-core-base.c:46:
->> drivers/i2c/i2c-core.h:97:49: error: must use 'struct' tag to refer to type 'gpio_chip'
-      97 | static inline void of_i2c_make_adapter_dev_node(gpio_chip *chip) {};
-         |                                                 ^
-         |                                                 struct 
->> drivers/i2c/i2c-core.h:97:20: error: conflicting types for 'of_i2c_make_adapter_dev_node'
-      97 | static inline void of_i2c_make_adapter_dev_node(gpio_chip *chip) {};
-         |                    ^
-   drivers/i2c/i2c-core.h:96:20: note: previous definition is here
-      96 | static inline void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap) {};
-         |                    ^
->> drivers/i2c/i2c-core-base.c:1797:2: error: call to undeclared function 'of_i2c_remove_adapter_dev_node'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1797 |         of_i2c_remove_adapter_dev_node(adap);
-         |         ^
-   drivers/i2c/i2c-core-base.c:1797:2: note: did you mean 'of_i2c_make_adapter_dev_node'?
-   drivers/i2c/i2c-core.h:96:20: note: 'of_i2c_make_adapter_dev_node' declared here
-      96 | static inline void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap) {};
-         |                    ^
-   1 warning and 3 errors generated.
+>> drivers/gpio/gpiolib-of.c:1191:6: error: redefinition of 'of_gpiochip_remove_dev_node'
+    1191 | void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/gpio/gpiolib-of.c:26:
+   drivers/gpio/gpiolib-of.h:50:20: note: previous definition of 'of_gpiochip_remove_dev_node' with type 'void(struct gpio_chip *)'
+      50 | static inline void of_gpiochip_remove_dev_node(struct gpio_chip *chip) {};
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_remove_dev_node':
+>> drivers/gpio/gpiolib-of.c:1201:9: error: implicit declaration of function 'of_changeset_revert' [-Wimplicit-function-declaration]
+    1201 |         of_changeset_revert(np->data);
+         |         ^~~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpiolib-of.c:1202:9: error: implicit declaration of function 'of_changeset_destroy' [-Wimplicit-function-declaration]
+    1202 |         of_changeset_destroy(np->data);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_add_properties':
+>> drivers/gpio/gpiolib-of.c:1217:15: error: implicit declaration of function 'of_changeset_add_prop_bool' [-Wimplicit-function-declaration]
+    1217 |         ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
+         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpiolib-of.c:1221:16: error: implicit declaration of function 'of_changeset_add_prop_u32' [-Wimplicit-function-declaration]
+    1221 |         return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-of.c: At top level:
+>> drivers/gpio/gpiolib-of.c:1224:6: error: redefinition of 'of_gpiochip_make_dev_node'
+    1224 | void of_gpiochip_make_dev_node(struct gpio_chip *chip)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-of.h:49:20: note: previous definition of 'of_gpiochip_make_dev_node' with type 'void(struct gpio_chip *)'
+      49 | static inline void of_gpiochip_make_dev_node(struct gpio_chip *chip) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_make_dev_node':
+>> drivers/gpio/gpiolib-of.c:1241:9: error: implicit declaration of function 'of_changeset_init' [-Wimplicit-function-declaration]
+    1241 |         of_changeset_init(cset);
+         |         ^~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpiolib-of.c:1243:14: error: implicit declaration of function 'of_changeset_create_node' [-Wimplicit-function-declaration]
+    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpio/gpiolib-of.c:1243:12: error: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
+         |            ^
+>> drivers/gpio/gpiolib-of.c:1251:15: error: implicit declaration of function 'of_changeset_apply' [-Wimplicit-function-declaration]
+    1251 |         ret = of_changeset_apply(cset);
+         |               ^~~~~~~~~~~~~~~~~~
 
 
-vim +97 drivers/i2c/i2c-core.h
+vim +/of_gpiochip_remove_dev_node +1191 drivers/gpio/gpiolib-of.c
 
-    91	
-    92	#ifdef CONFIG_OF_DYNAMIC
-    93	void of_i2c_remove_adapter_dev_node(struct i2c_adapter *adap);
-    94	void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap);
-    95	#else
-    96	static inline void of_i2c_make_adapter_dev_node(struct i2c_adapter *adap) {};
-  > 97	static inline void of_i2c_make_adapter_dev_node(gpio_chip *chip) {};
-    98	#endif
-    99	
+  1190	
+> 1191	void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
+  1192	{
+  1193		struct device_node *np;
+  1194	
+  1195		np = dev_of_node(&chip->gpiodev->dev);
+  1196		if (!np || !of_node_check_flag(np, OF_DYNAMIC))
+  1197			return;
+  1198	
+  1199		chip->gpiodev->dev.of_node = NULL;
+  1200	
+> 1201		of_changeset_revert(np->data);
+> 1202		of_changeset_destroy(np->data);
+  1203		of_node_put(np);
+  1204	}
+  1205	
+  1206	static int of_gpiochip_add_properties(struct gpio_chip *chip,
+  1207					      struct of_changeset *ocs,
+  1208					      struct device_node *np)
+  1209	{
+  1210		int ret;
+  1211	
+  1212		/*
+  1213		 * The added properties will be released when the
+  1214		 * changeset is destroyed.
+  1215		 */
+  1216	
+> 1217		ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
+  1218		if (ret)
+  1219			return ret;
+  1220	
+> 1221		return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
+  1222	}
+  1223	
+> 1224	void of_gpiochip_make_dev_node(struct gpio_chip *chip)
+  1225	{
+  1226		struct device_node *np = NULL;
+  1227		struct of_changeset *cset;
+  1228		int ret;
+  1229	
+  1230		/*
+  1231		 * If there is already a device tree node linked to this device,
+  1232		 * return immediately.
+  1233		 */
+  1234		if (chip->gpiodev->dev.of_node)
+  1235			return;
+  1236	
+  1237		cset = kmalloc(sizeof(*cset), GFP_KERNEL);
+  1238		if (!cset)
+  1239		       return;
+  1240	
+> 1241		of_changeset_init(cset);
+  1242	
+> 1243		np = of_changeset_create_node(cset, of_root, chip->label);
+  1244		if (!np)
+  1245			goto out_destroy_cset;
+  1246	
+  1247		ret = of_gpiochip_add_properties(chip, cset, np);
+  1248		if (ret)
+  1249			goto out_free_node;
+  1250	
+> 1251		ret = of_changeset_apply(cset);
 
 -- 
 0-DAY CI Kernel Test Service
