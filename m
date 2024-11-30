@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77AAE1A0BFF
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 16:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56AB542AA4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 16:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732983086; cv=none; b=k1VOK5ll8ZToRZpjVXGva9mq36tjIJ/eBWT6rj5Y9srIDHFKtjCMHMIX7vtcZedtRdQdcjzmjkx4UOSaUSwvDxVbudHFBMThMrmC+MoYrw3fWuAhd53LIre638GaJJKKUsM/5h8I8RUdRAQuK3g5Up3tIB6XiSA4hA6NYLClqUQ=
+	t=1732983707; cv=none; b=RbRtPzlhQaeoqq/b6UwHYmQ/4ZI19mXIv+Ygal17ByEDZo76epal2oF3ijkkcSrgvZjDbzBK4N9aPYLWHxsmK+X4Ntj953od7IGMsBgQuqF3UumB/QKU0PKEojUrkkXe1/GxUzskjWbI3s3ftZZGF+HP8i4gJqG1RJ7PwNs4kAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732983086; c=relaxed/simple;
-	bh=+g2EDYAU42gL4FZ8G+k82ZDOVly5+JNxBL7rRsPg8Vg=;
+	s=arc-20240116; t=1732983707; c=relaxed/simple;
+	bh=o5CvSq290kheCjnulbnIRpU1xb3T8NWlAD1lL7xsNjw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZAWIQ/kjyZDw5R5qIQzK/+mIVth3/bGfuXviia1QXLvwgSKd2K8Ze7K0oVS4LRC6MLnZCyc8Tb1OLMXRn6KR6DeoPplG2yVxU0Hyf66dyrvXWuG5RnVLkQxIm0uib+eqRpXfC51/gk/eHkmIwzZ7tPD0qob0AI60AtX2SuCNGkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZtEfe21u; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=iufD9DTOJ3rHPJpGM/STVMZzn7hAX1RzaERAnjzF78v0YeV/27/d98JZ5jPhimcGrCwXgUXGU6hy55LzNk1PkTVPBSpn4wTbreqZVDAp8v6a1Zan/Z6U6evdFD+UTTCOk2mDe87LJ7MB8rTOaX7KZ8Y/mE6s6awSOZHtN9AvTP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lhIqK6A8; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZtEfe21u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lhIqK6A8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732983085; x=1764519085;
+  t=1732983706; x=1764519706;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+g2EDYAU42gL4FZ8G+k82ZDOVly5+JNxBL7rRsPg8Vg=;
-  b=ZtEfe21us1rBxBGjt5zJcKxLOixBQyAJEkz64p0F0b4uG0OrSZUxF6rG
-   nh4aOJeVQyuzskw3T7D+WTz8yT+a2/OiJwcSVfHOTUQfwQfO4teLRAOvI
-   42kPKHvu8In8TNOsJfR3BOIhoB25/3mm57puI4Zk+d7M63Fiv5JSFv3ro
-   C9ZAFwOXLHT4QXPzheuBonhwYiJxcxyp0o12Db3oSiVxpu3febFVSnoFr
-   Qs9fg0O9xS+/tnyhVY3ftnIDdXj08GXsbxR//mDOv/fQc2C9ydS3NB7uU
-   VhbRXh9jO3BC9Pk/C4WGoNkVuJWD/oeTjv1PK82IZ5wFaldRgMZnYH57A
-   w==;
-X-CSE-ConnectionGUID: dII7WMgzSLK56DSmh23n9g==
-X-CSE-MsgGUID: lNnoJ8XQS9KxruBtvruGuA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33429814"
+  bh=o5CvSq290kheCjnulbnIRpU1xb3T8NWlAD1lL7xsNjw=;
+  b=lhIqK6A8ThJsAcyBkhwYkuqtuvc/OachBlT2kZyzuSGWK7akDFfthMzY
+   D2G88MWLgEnE52xHwfxcUM59/AtbhDWvYUnauukg7CBYYQuhXQXPOdxO9
+   SIpDexZ4dbvWuMO1nbyuG/1ENFsx9coq6bAlR93yhHFMxdN99j6PahWUF
+   zzHQVdcf4lKhgo8KGBGbcbbOA6Q+j6kKibGpjVENnGFIiEW3ZoLENvs4R
+   1rTZ5wZBhntJ9ty/8GXo4lbXYNXeAGS1gxZNPvn0gJ7a/F3n3Gr3NgFRT
+   MfK53FOYfv3Z4S4+Mb9i8+1RchadOGEHhkGj5l0SIFZBSdu32HxvjopaG
+   A==;
+X-CSE-ConnectionGUID: 6jbBkgpoT5mdXCBouVn76Q==
+X-CSE-MsgGUID: tnJEBmGYTsaBKeCPyRWPSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33121218"
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="33429814"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 08:11:24 -0800
-X-CSE-ConnectionGUID: ssLgHDJ+TCe4sqkw/8HMNg==
-X-CSE-MsgGUID: FpBCr8smQRyo3I+AO+h6Ng==
+   d="scan'208";a="33121218"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 08:21:45 -0800
+X-CSE-ConnectionGUID: TRNoYBolS/ast1FYZ3Tg3w==
+X-CSE-MsgGUID: GwtkDPT1TF2vY3A9K2XSOA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="92590853"
+   d="scan'208";a="97825799"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa010.jf.intel.com with ESMTP; 30 Nov 2024 08:11:22 -0800
+  by orviesa004.jf.intel.com with ESMTP; 30 Nov 2024 08:21:44 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHQ40-0000nL-1Q;
-	Sat, 30 Nov 2024 16:11:20 +0000
-Date: Sun, 1 Dec 2024 00:10:34 +0800
+	id 1tHQDu-0000o3-2P;
+	Sat, 30 Nov 2024 16:21:36 +0000
+Date: Sun, 1 Dec 2024 00:20:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Ard Biesheuvel <ardb@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 12/24] fs/fuse/backing.c:142:16:
- sparse: sparse: Using plain integer as NULL pointer
-Message-ID: <202412010018.CHZHDyUc-lkp@intel.com>
+Subject: [ardb:x86-pie-v2 28/31] net/rose/rose_subr.o: warning: objtool:
+ rose_parse_national+0x2b3: can't find switch jump table
+Message-ID: <202412010003.j1LalFPJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,57 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   d66e9166bfa175691dd2d0ad7f65c9fec54aa520
-commit: 8b16bb6b6f0a233c0b1717efdaf7a959ba4f5b71 [12/24] ANDROID: fuse-bpf: fuse-bpf v1.2
-config: arm64-randconfig-r123-20241117 (https://download.01.org/0day-ci/archive/20241201/202412010018.CHZHDyUc-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241201/202412010018.CHZHDyUc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git x86-pie-v2
+head:   1295be6d1a5cb6a30132ee8b01c79018794d0c3e
+commit: c5a8bf8bcd7fe8f90221ba108c20650617c16fa2 [28/31] x86: Use PIE codegen for the core kernel
+config: x86_64-randconfig-075-20241004 (https://download.01.org/0day-ci/archive/20241201/202412010003.j1LalFPJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010003.j1LalFPJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010018.CHZHDyUc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412010003.j1LalFPJ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/fuse/backing.c:142:16: sparse: sparse: Using plain integer as NULL pointer
-   fs/fuse/backing.c:300:16: sparse: sparse: Using plain integer as NULL pointer
-   fs/fuse/backing.c: note: in included file (through arch/arm64/include/asm/smp.h, include/linux/smp.h, arch/arm64/include/asm/arch_timer.h, ...):
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   fs/fuse/backing.c: note: in included file (through arch/arm64/include/asm/elf.h, include/linux/elf.h, include/linux/module.h, ...):
-   include/linux/fs.h:3273:20: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __kernel_rwf_t @@     got int @@
-   include/linux/fs.h:3273:20: sparse:     expected restricted __kernel_rwf_t
-   include/linux/fs.h:3273:20: sparse:     got int
-   include/linux/fs.h:3273:20: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __kernel_rwf_t @@     got int @@
-   include/linux/fs.h:3273:20: sparse:     expected restricted __kernel_rwf_t
-   include/linux/fs.h:3273:20: sparse:     got int
-   fs/fuse/backing.c: note: in included file (through arch/arm64/include/asm/smp.h, include/linux/smp.h, arch/arm64/include/asm/arch_timer.h, ...):
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ff)
-   arch/arm64/include/asm/percpu.h:127:1: sparse: sparse: cast truncates bits from constant value (ffffffff becomes ffff)
->> fs/fuse/backing.c:2078:18: sparse: sparse: Initializer entry defined twice
-   fs/fuse/backing.c:2079:18: sparse:   also defined here
+All warnings (new ones prefixed by >>):
 
-vim +142 fs/fuse/backing.c
-
-   131	
-   132	void *fuse_open_finalize(struct fuse_bpf_args *fa,
-   133			       struct inode *inode, struct file *file, bool isdir)
-   134	{
-   135		struct fuse_file *ff = file->private_data;
-   136		struct fuse_open_out *foo = fa->out_args[0].value;
-   137	
-   138		if (ff) {
-   139			ff->fh = foo->fh;
-   140			ff->nodeid = get_fuse_inode(inode)->nodeid;
-   141		}
- > 142		return 0;
-   143	}
-   144	
+>> net/rose/rose_subr.o: warning: objtool: rose_parse_national+0x2b3: can't find switch jump table
+--
+>> security/smack/smackfs.o: warning: objtool: smk_perm_from_str+0x91: can't find switch jump table
+--
+>> net/rds/bind.o: warning: objtool: jhash+0x1f1: can't find switch jump table
+--
+>> arch/x86/entry/entry_fred.o: warning: objtool: fred_hwexc.constprop.0+0x2b: can't find switch jump table
+--
+>> net/bluetooth/hci_event.o: warning: objtool: conn_set_key+0xbf: can't find switch jump table
+--
+>> net/lapb/lapb_in.o: warning: objtool: lapb_data_input+0x136: can't find switch jump table
+--
+>> net/openvswitch/flow.o: warning: objtool: get_ipv6_ext_hdrs.isra.0+0x141: can't find switch jump table
+--
+>> net/openvswitch/vport.o: warning: objtool: jhash+0x1f1: can't find switch jump table
+--
+>> drivers/media/dvb-frontends/rtl2832.o: warning: objtool: rtl2832_get_frontend+0x4cc: can't find switch jump table
+--
+>> drivers/media/dvb-frontends/af9013.o: warning: objtool: af9013_get_frontend+0x479: can't find switch jump table
+--
+>> drivers/media/dvb-frontends/af9033.o: warning: objtool: af9033_get_frontend+0x548: can't find switch jump table
+..
 
 -- 
 0-DAY CI Kernel Test Service
