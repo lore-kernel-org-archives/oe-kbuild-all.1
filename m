@@ -1,142 +1,116 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D5182C5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 15:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D4B433BC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 15:54:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732981978; cv=none; b=hp0XLS1M2Mfwm7KOUWNusN9yTfGc3HSo4q6Oe++6fw0FZxPY7+bqsQdbpc/oLqCi4166eVfDNcY0YKLPVxKC/IfqN/mU1QqYUOIPFqaub0+9MoAuS8b90tO5B5j32PXND5YxuZ7S/7swFg6UDyFtZ0ADrgUIY3dVhoDrp0krGGI=
+	t=1732982072; cv=none; b=Q620WjcsF47aL0Maao1Sn+owx/YY3sTQ2oDMFr1JrcDX8Ed3sUUL+5Ggh4nfKm7D1t1oQnYsUq84b5datpL+W6oqSvmzEYExwk6l7hI0MzQBwEXK64U9Z2sco4hZtuW+5jKsrN+V8Klx8pHl5Ez/P08kEv3IBO1b7OHpy/D9acI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732981978; c=relaxed/simple;
-	bh=I49dnAtKBkyWUVfHE4NJM9pZnpMFI+AtbmHuC3Azwv0=;
+	s=arc-20240116; t=1732982072; c=relaxed/simple;
+	bh=fPINurpBvzEOEixbYbqSeiiaOJB6aUyizq1CxAy61Y4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZvjkYAvtXPzuCfqwHztxsL9kC7VtVUgHSzwJELam8CCGYG48rMqxRPeKwPP0YMhLHvcKn7RUhTk9+hY6/MnkcRJ7qRKWV3WalKuzP54Udd5WnsciWJ6niKauHScXYH0x7OshsBpbu5eSozYLCFPkBfLFror3a6ryoVhq5Cvti08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MTEnMKpo; arc=none smtp.client-ip=209.85.218.49
+	 Content-Disposition; b=ADAtUBn0SxygM9JxZXMA2zM+fMuRS9JkO6xdX8WVmHyz9z4fSJls/na2t5hMyxZ9WQq/pbNVzzw/w27i7A2eQ9QfLqrhSAbpugH72FDH3I7jyCv5ad3To0Cf+sobGbvkQ3sSLvj8jE7HFw13DiZe+AKS0LDW69AXa8oE7W7UiW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vKR+3gyT; arc=none smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MTEnMKpo"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aa549d9dffdso417591966b.2
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 07:52:56 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vKR+3gyT"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5d0bf80972dso693870a12.2
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 07:54:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1732981975; x=1733586775; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Y81XCOype9REO2oETu3qZYpgEdRmUvV0yjKKrqT3ACc=;
-        b=MTEnMKpoSj58SnNGhbJv+ryaxegTpgCPJGg267ELVWlpzVsgHYM86Pz+BxJwFqqcRw
-         96PeMUvJNgyXKqraDhyT2vLg8Gs+Rp8QKuAfdSEw2D4DO2zGvsUNsxaEDDRIICX+09G5
-         E0oTq12gx0Z7R8DyMW4tyDZngpP5nEm6sduP6slGifdQSGoxQy/YKE4u6EzSLHnen0zn
-         1DOVAifWA04epgRUsfQpljyiIKESyfFMFSj/dJ1s+IA+aRIISYhtg92LKxYabUVf/8Vw
-         mmK7/0Pyd+fFrJ9v4wRw+N7loz3JiAMihpTH9CbJjnpHf5SI6O/wo3RQsgE1XwLTZlFW
-         IISA==
+        d=linaro.org; s=google; t=1732982067; x=1733586867; darn=lists.linux.dev;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PKwWzGZlj30zR5uG3r8pc5O9AbO9pAuOvOctXvF3moE=;
+        b=vKR+3gyTI+gbfXd7MOCq9C/XVcbQSdgyM+Vv3MBOT0/nG1uOLgFy9Wt328KL8MzJiJ
+         RqVjmnC6fFq/iI6t4UHbOXbhX0seagA5rkwu2OtJs3W8t+Gr8IWVvSTOz1kmoWhHZPK+
+         aPGMxvOXR5J9IkF7wcdsPJppMB3u+6W9PzJpncVkF/BKfE3FTM4pxiIUscs9gy6mnDfe
+         SrwUhzybP31E+b7EvePUksBLioAVjRYx8xP+RsY/4L27Y4dWZ1bQ6CbEGYL/e0q5S/TS
+         ciqz72T9hFKhJhsVqD1t9/LhOexU45CvvNT5OgtwB0NFHWpLzg5BBGODuoOBuNRbP92b
+         6BaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732981975; x=1733586775;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Y81XCOype9REO2oETu3qZYpgEdRmUvV0yjKKrqT3ACc=;
-        b=QfbYer58shcBAOitx7AFW/oSVP2z6G0tRPkYJXPcINbimekXAqQoCAPO4+/5R9h6X7
-         tEvAz20doBV8GivyLCGuGD6vPdCY+Js6LnMZ1wH78nrWogcHV2XfQNYTc5Wxpyl9+FcZ
-         XjM1vE9AuIBzEroz1GQzV5jCdBaWLRI1My9WGpzYShHFjcpigLeljFGVM5WCdLL7tY0/
-         uk3e6GiZk67P16AbWJrrGxnuEKYSmHWyfh3o+m7vzrIcnGN1fVW0WdYajjDZKCy9VgAz
-         cy/6wIsdTnvdI3dNWey03XuATdknqSjU8yOVDaMsIo7JdsFcizKy70vRv8xafLXWd0xz
-         8KKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhWlrmugQ4FPMNYHODd9tMSzRu94aXAl2lb9VdgPkl9tzCBDQHrRZdIOxz7Zjkv3TR/uIRcjbgxYtxr/kJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YyLEo9c8EcusXEIruLJ036+guU0h2piwShhhzakKnS4sN9jYUVF
-	Xa6sPhacpz1XwU0feRwcE2cJ5huJeqKThN4KZG8vCIadUUT0oQeZSZVwYD3BrLs=
-X-Gm-Gg: ASbGncvZ9PucvOledRBUlWRazIrITc/MCBYT92cnd31RPNMWZH2OI3eaX0bGaizveQA
-	DDYd69eqS+d1X1eIkLKSvchu3YYKfumg3QRUHXdkEPrHNUG9+sNYieOMcjachWhSVJYeD3QaEaX
-	bQuEMHA+sRLUsM8CFfJU63IzKAWrpENU+g4ZuMR+/zVDcI3tMl4KLnGzZ1XzFQBWm/3CaNBTBLP
-	QgnyF0ksjmljVgFQ1bz1Ts0jo7ZJ6b1bCRTG1XqWJA/xzGVjc6JGyMGDlvRr31ubrP35qIv
-X-Google-Smtp-Source: AGHT+IHpPVO/Cbm9ckrbmermEfSlzy4cXf5lsqqqCGkiVXda+dGtuMzjOZsPJqQgmzIJDcfLsihpuQ==
-X-Received: by 2002:a17:907:77cc:b0:aa5:4cc1:1967 with SMTP id a640c23a62f3a-aa580eede36mr1209839566b.9.1732981975324;
-        Sat, 30 Nov 2024 07:52:55 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732982067; x=1733586867;
+        h=content-transfer-encoding:content-disposition:mime-version
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PKwWzGZlj30zR5uG3r8pc5O9AbO9pAuOvOctXvF3moE=;
+        b=O1R7PTPNpBUejvV/EUEIBKq/jO+MGIMadCPmt29O0QtmiLwDf6RQvIdHzkGSvvRf+x
+         fp4HLARN5gM7sQJirZJu8KstyRyo3rR7tAbRLTVo+JfyGzanT7B329Ueuxktkrs0FvlM
+         jERF75sTPDYNHRcBXg7h/a29qKBW6zFVVF0JXMIEybzTEtw2kEB9q7Gys0pzpq8l2UeL
+         j8r1L3kvx7oHUA0xfL7TTyLqKFzbxbH+xlhfh2w1kkU6oU+sRM39nD6T5NoAH6rX7vH7
+         JIoHELy6T3mS6rmmB51Xilw8NlXjIZYm5X50SKBBfgJrvPzkOA4FiGQD3Eh+YXkfD09x
+         /kTw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXFIt8X7sSp6WUY23/nibRGiGk1j2jBpAzWk95wwJBUlxvmK03VeN3q5WSsVPgTL3p1KdLbbewnP/pBiyM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzYWNG86Fq5lerrjANlf1/1eeLOLf547s5XiaW3rv9VvsF2spqh
+	TNbb5wrKuNEdSU8h10PZ1jRBId+5rqIXb7EEelQ31u0/gTOC5DAq8Ouc6lfuolU=
+X-Gm-Gg: ASbGncucv+QxuL4K77w9NOSBVFsn9N2YqSiGuF76AAFeYX9vq67Bu9LpMWfLL974Mq8
+	Jd5NsXpOPr8K82BRpetkZliNeoQC5Gt1Z1XgL9uu6CuV11jSfFGu7+dib0E3AeqVu1yefNY86LZ
+	cgCClbJxpyhpXhaOCgQJS4zDeJV4kNakrEwIhJ1THI92sYlIZ+b3ppQ3rEHFiel/VnFWeePluyG
+	qJizEXpg6W0rrEh2AcLUvj1YU7bhFdLfuiEe5IqMGIoQNzQPnFl9ziW7RheBh0vHqleB0u5
+X-Google-Smtp-Source: AGHT+IHBkIAuWmfbDNtg/9ztOOmya2ShVS9Hw3bM4eNoJLWIM5eK9WriL+fLJVTbXc07AX+5qZtP9g==
+X-Received: by 2002:a05:6402:42c3:b0:5d0:96db:dd97 with SMTP id 4fb4d7f45d1cf-5d096dbe5a8mr13940585a12.10.1732982067548;
+        Sat, 30 Nov 2024 07:54:27 -0800 (PST)
 Received: from localhost (h1109.n1.ips.mtn.co.ug. [41.210.145.9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa59990a848sm291723966b.150.2024.11.30.07.52.54
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d0c6a8e9b0sm1062632a12.41.2024.11.30.07.54.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 Nov 2024 07:52:54 -0800 (PST)
-Date: Sat, 30 Nov 2024 18:52:49 +0300
+        Sat, 30 Nov 2024 07:54:27 -0800 (PST)
+Date: Sat, 30 Nov 2024 18:54:21 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>
+To: oe-kbuild@lists.linux.dev, Linus Walleij <linus.walleij@linaro.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-Subject: [plbossart-sound:sdw/fix-bool-properties 16/19]
- sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error:
- uninitialized symbol 'string'.
-Message-ID: <83752380-7b5b-43ca-9f21-f9136d2e3f33@stanley.mountain>
+	linux-kernel@vger.kernel.org, Kalle Valo <kvalo@kernel.org>
+Subject: drivers/net/wireless/st/cw1200/cw1200_spi.c:440
+ cw1200_spi_disconnect() error: we previously assumed 'self' could be null
+ (see line 433)
+Message-ID: <72e9e3bb-e96a-445a-8c31-8505f3a4ffaa@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/plbossart/sound sdw/fix-bool-properties
-head:   cc66cbd8eb2728b3b654f29c0a44009826c7a108
-commit: 98ab12fb50b6f367cd21ac2c59898574a0a6297c [16/19] ASoC: SOF: debug-dsp-ops: Add a debugfs entry to read current FW status
-config: nios2-randconfig-r073-20241126 (https://download.01.org/0day-ci/archive/20241127/202411270232.zEnUph1v-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aaf20f870da056752f6386693cc0d8e25421ef35
+commit: 2719a9e7156c4b3983b43db467c1ff96801bda99 wifi: cw1200: Convert to GPIO descriptors
+config: riscv-randconfig-r073-20241111 (https://download.01.org/0day-ci/archive/20241127/202411271742.Xa7CNVh1-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 14.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202411270232.zEnUph1v-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202411271742.Xa7CNVh1-lkp@intel.com/
 
 smatch warnings:
-sound/soc/sof/debug-dsp-ops.c:174 sof_dsp_ops_tester_dfs_read() error: uninitialized symbol 'string'.
+drivers/net/wireless/st/cw1200/cw1200_spi.c:440 cw1200_spi_disconnect() error: we previously assumed 'self' could be null (see line 433)
 
-vim +/string +174 sound/soc/sof/debug-dsp-ops.c
+vim +/self +440 drivers/net/wireless/st/cw1200/cw1200_spi.c
 
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  142  static ssize_t sof_dsp_ops_tester_dfs_read(struct file *file, char __user *buffer,
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  143  					   size_t count, loff_t *ppos)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  144  {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  145  	struct snd_sof_dfsentry *dfse = file->private_data;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  146  	struct snd_sof_dev *sdev = dfse->sdev;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  147  	struct dentry *dentry;
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  148  	const char *string;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  149  	size_t size_ret;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  150  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  151  	/* return the FW filename or path */
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  152  	dentry = file->f_path.dentry;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  153  	if (!strcmp(dentry->d_name.name, "fw_filename")) {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  154  		string = sdev->test_profile.fw_name;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  155  	} else if (!strcmp(dentry->d_name.name, "fw_path")) {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  156  		string = sdev->test_profile.fw_path;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  157  	} else if (!strcmp(dentry->d_name.name, "dsp_power_state")) {
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  158  		switch (sdev->dsp_power_state.state) {
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  159  		case SOF_DSP_PM_D0:
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  160  			string = "D0\n";
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  161  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  162  		case SOF_DSP_PM_D3:
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  163  			string = "D3\n";
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  164  			break;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  165  		default:
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  166  			break;
+a0386bba70934d drivers/net/wireless/st/cw1200/cw1200_spi.c Uwe Kleine-König 2022-01-23  429  static void cw1200_spi_disconnect(struct spi_device *func)
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  430  {
+911373cca1b455 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-06-01  431  	struct hwbus_priv *self = spi_get_drvdata(func);
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  432  
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24 @433  	if (self) {
 
-string not initialized here
+Check for NULL
 
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  167  		}
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  168  	} else if (!strcmp(dentry->d_name.name, "fw_state")) {
-98ab12fb50b6f3 Ranjani Sridharan 2024-03-25  169  		return sof_dsp_ops_fw_state_read(sdev, buffer, count, ppos);
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  170  	} else {
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  171  		return 0;
-b5d1176eefb868 Ranjani Sridharan 2024-03-25  172  	}
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  173  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21 @174  	if (*ppos || !string)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  175  		return 0;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  176  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  177  	count = min_t(size_t, count, strlen(string));
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  178  	size_ret = copy_to_user(buffer, string, count);
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  179  	if (size_ret)
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  180  		return -EFAULT;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  181  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  182  	*ppos += count;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  183  
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  184  	return count;
-0858d83e4c4122 Ranjani Sridharan 2024-03-21  185  }
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  434  		cw1200_spi_irq_unsubscribe(self);
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  435  		if (self->core) {
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  436  			cw1200_core_release(self->core);
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  437  			self->core = NULL;
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  438  		}
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  439  	}
+2719a9e7156c4b drivers/net/wireless/st/cw1200/cw1200_spi.c Linus Walleij    2024-01-31 @440  	cw1200_spi_off(self, dev_get_platdata(&func->dev));
+                                                                                                               ^^^^
+Unchecked dereference
+
+a910e4a94f6923 drivers/net/wireless/cw1200/cw1200_spi.c    Solomon Peachy   2013-05-24  441  }
 
 -- 
 0-DAY CI Kernel Test Service
