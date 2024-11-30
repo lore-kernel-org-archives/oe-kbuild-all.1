@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11245149DF4
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 10:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D2F13C695
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 11:19:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732963744; cv=none; b=JESenOalwMdphT1WEhfF95KpEKdF0GFe+pixL8CeKJgILx0oDnvxE3kyYDgkPDRr3dtIR+F/PB5zJ0zsNAghXQ3SHz+NJwh8RXY0ZYSe1sowZZTdrdjxZVYhokCSuHTqLqHyr8bjxtfE2aq56ET4VccmA3rcmdEDecz6a5wvF3s=
+	t=1732965571; cv=none; b=ScktOlvL5nhLMMJdr70w3SDOkjcLYbuACOGw/ilDr0aITHQDnmCVmvJayZqL/VTBM5mYyD+R43iZ9QKkYZiIjD8G9EWFyQ0ftIrwlS4ztLiKXs3Ux8tF6XlTaO2tQ1yERCW/vmv90JDo90FDpaNqHKltDMJLgRADIlJjcwZDFf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732963744; c=relaxed/simple;
-	bh=MVvl0W1+H3sOktW4I+R3Dq6tD3ip0O/yNIfi6Whjllg=;
+	s=arc-20240116; t=1732965571; c=relaxed/simple;
+	bh=vV0CrhY5ERivvorl59Qose3xGU8M3PP6bHFHeC//1Hk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eXLOMK/jVqcXurX4GhkUYafvf8Ih+4oJ1kyZSxAl8viwoEMnak1CZgUKPbmQsCozF0IHSFvT53NRt/dndRmISjHBp5EqgwZ5yAbV8fJV+gv1eJQ8hSMjELE3faDHyzpTXxe3gL2R1fcl7dMcCILJpXL1qv2dFksV846Q662/RQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fcszgs8u; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=f/j0efylhOYdBefcFwuoGP6bV66Rb3QP65GQuJ11Jqihc0c3cLXU/qKV6K/kOByMOUgLw5Kkx7DOh5eTIajY/mPUDTXimALmr4jwYpJ/ky95ex4Rea7x64mghk02z6o9MRKfwEtwaslIo2IK4t05QNLTyYWEYMSpuCoZbvUljV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f6oE0eaJ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fcszgs8u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f6oE0eaJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732963743; x=1764499743;
+  t=1732965570; x=1764501570;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MVvl0W1+H3sOktW4I+R3Dq6tD3ip0O/yNIfi6Whjllg=;
-  b=Fcszgs8uuKLE7uR1OBwmhmjKwQSLtg0GjkCehrMk+z77Fwezkv5Jsajq
-   XcB+9Si1eBPxmo/7O1+w0xlYgEZ/Xrv404U4dp4UjpWIvlQGS7q/EkNbn
-   kz4uvLFyhRecag+Z5EOuWfFAbICsIi3GozexZxtq5FW5iiI+8g+ICBrsT
-   cZ0fdeX2H2zfAJdnOW5UlG6uKAjJn/838G1HyBo+1PASTsh293XwrdmkC
-   ThS/lh70eOKjPiCKL43CSvGGKWBy9vMS/+W2AdGdinyLFwQVl3iXW3FEs
-   mZ+Qt68flqVkAuHjWFxVX6ZL1loldXI9nzecDb+iEA7RGi/7LKLzbXQcQ
-   g==;
-X-CSE-ConnectionGUID: +sqYvwt9SKWyM5lAU1pdfQ==
-X-CSE-MsgGUID: rKFIEclqT1iYOaeLC50mow==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="20764204"
+  bh=vV0CrhY5ERivvorl59Qose3xGU8M3PP6bHFHeC//1Hk=;
+  b=f6oE0eaJ0TZLNbo1sIvhdhgcybzdl62f3veYHRHDfwf4INTZi2XKTrhg
+   2Rina09VQijHmlkst3/gGiIRHbPsbUIM4MGFgHO6QbyCMnlErjMJ+uN5F
+   YY5dEKRT6NfdrA3RXkTHkzCCQvKZpc6BJe4V7oh2g9L0cu7EHMT1I8ZGJ
+   6L8Kkf//c8BwtQVq0ZEzc8EUi2ma4d8IjuUgK8xoJ6k3ei/gSFo1OgeLo
+   hK4oE/sKan6vcfnY3U9eewylv/WkeDgUo4v0+v6F3nIgtTl/oBRGmbRWE
+   Z/R6rR68lyPBSpP2MorJuTgzok82xHupxTSzJuVrIpQ5bxcUWtdG2d0xo
+   A==;
+X-CSE-ConnectionGUID: sY8NvNXiT86k+W3OxrSsHw==
+X-CSE-MsgGUID: eYshLMyBSkWtUgeePosu8Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="36957649"
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="20764204"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 02:49:02 -0800
-X-CSE-ConnectionGUID: XUN5KfFnRBSDDaxiqNgkuQ==
-X-CSE-MsgGUID: YEDs9fPFR3CIqt+bkW4Xag==
+   d="scan'208";a="36957649"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 03:19:29 -0800
+X-CSE-ConnectionGUID: S8wNgLXNTRijomJzQXxaPw==
+X-CSE-MsgGUID: yltgvo2jTCuoUfZ/24htxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,198,1728975600"; 
-   d="scan'208";a="97640669"
+   d="scan'208";a="123541833"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa005.jf.intel.com with ESMTP; 30 Nov 2024 02:48:59 -0800
+  by orviesa002.jf.intel.com with ESMTP; 30 Nov 2024 03:19:26 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHL20-0000ad-2e;
-	Sat, 30 Nov 2024 10:48:56 +0000
-Date: Sat, 30 Nov 2024 18:48:02 +0800
+	id 1tHLVT-0000bj-2x;
+	Sat, 30 Nov 2024 11:19:23 +0000
+Date: Sat, 30 Nov 2024 19:19:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jocelyn Falempe <jfalempe@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Jocelyn Falempe <jfalempe@redhat.com>
-Subject: Re: [PATCH 5/5] drm/i915: Add drm_panic support
-Message-ID: <202411302022.wlwTKMBh-lkp@intel.com>
-References: <20241129162232.7594-6-jfalempe@redhat.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>, jic23@kernel.org,
+	robh@kernel.org, conor+dt@kernel.org, dlechner@baylibre.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
+Subject: Re: [PATCH v7 8/8] iio: adc: ad4851: add ad485x driver
+Message-ID: <202411301859.sT9xRNb1-lkp@intel.com>
+References: <20241129153546.63584-9-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,92 +66,155 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241129162232.7594-6-jfalempe@redhat.com>
+In-Reply-To: <20241129153546.63584-9-antoniu.miclaus@analog.com>
 
-Hi Jocelyn,
+Hi Antoniu,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 44cff6c5b0b17a78bc0b30372bcd816cf6dd282a]
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.12 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jocelyn-Falempe/drm-i915-fbdev-Add-intel_fbdev_getvaddr/20241130-002536
-base:   44cff6c5b0b17a78bc0b30372bcd816cf6dd282a
-patch link:    https://lore.kernel.org/r/20241129162232.7594-6-jfalempe%40redhat.com
-patch subject: [PATCH 5/5] drm/i915: Add drm_panic support
-config: i386-randconfig-061-20241130 (https://download.01.org/0day-ci/archive/20241130/202411302022.wlwTKMBh-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411302022.wlwTKMBh-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-backend-add-API-for-interface-get/20241129-233931
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20241129153546.63584-9-antoniu.miclaus%40analog.com
+patch subject: [PATCH v7 8/8] iio: adc: ad4851: add ad485x driver
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241130/202411301859.sT9xRNb1-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301859.sT9xRNb1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411302022.wlwTKMBh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301859.sT9xRNb1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_atomic_plane.c:1273:55: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void [noderef] __iomem *vaddr_iomem @@     got void *[assigned] ptr @@
-   drivers/gpu/drm/i915/display/intel_atomic_plane.c:1273:55: sparse:     expected void [noderef] __iomem *vaddr_iomem
-   drivers/gpu/drm/i915/display/intel_atomic_plane.c:1273:55: sparse:     got void *[assigned] ptr
+All error/warnings (new ones prefixed by >>):
 
-vim +1273 drivers/gpu/drm/i915/display/intel_atomic_plane.c
+>> drivers/iio/adc/ad4851.c:963:35: warning: 'ad4858_channels' defined but not used [-Wunused-const-variable=]
+     963 | static const struct iio_chan_spec ad4858_channels[] = {
+         |                                   ^~~~~~~~~~~~~~~
+>> drivers/iio/adc/ad4851.c:889:35: warning: 'ad4851_scan_type_16' defined but not used [-Wunused-const-variable=]
+     889 | static const struct iio_scan_type ad4851_scan_type_16 = {
+         |                                   ^~~~~~~~~~~~~~~~~~~
+--
+   arch/openrisc/kernel/head.o: in function `_dispatch_do_ipage_fault':
+>> (.text+0x900): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   (.text+0xa00): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   arch/openrisc/kernel/head.o: in function `exit_with_no_dtranslation':
+>> (.head.text+0x21bc): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   arch/openrisc/kernel/head.o: in function `exit_with_no_itranslation':
+   (.head.text+0x2264): relocation truncated to fit: R_OR1K_INSN_REL_26 against `no symbol'
+   init/main.o: in function `trace_event_raw_event_initcall_level':
+   main.c:(.text+0x28c): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `strlen' defined in .text section in lib/string.o
+   init/main.o: in function `initcall_blacklisted':
+   main.c:(.text+0x6f4): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `strcmp' defined in .text section in lib/string.o
+   init/main.o: in function `trace_initcall_finish_cb':
+   main.c:(.text+0x814): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x864): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x894): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x8d0): relocation truncated to fit: R_OR1K_INSN_REL_26 against symbol `__muldi3' defined in .text section in ../lib/gcc/or1k-linux/14.2.0/libgcc.a(_muldi3.o)
+   main.c:(.text+0x934): additional relocation overflows omitted from the output
 
-  1228	
-  1229	static int intel_get_scanout_buffer(struct drm_plane *plane,
-  1230					    struct drm_scanout_buffer *sb)
-  1231	{
-  1232		struct intel_plane_state *plane_state;
-  1233		struct drm_gem_object *gem_obj;
-  1234		struct drm_i915_gem_object *obj;
-  1235		struct drm_framebuffer *fb;
-  1236		struct drm_i915_private *dev_priv = to_i915(plane->dev);
-  1237		void *ptr;
-  1238		enum i915_map_type has_type;
-  1239	
-  1240		if (!plane->state || !plane->state->fb || !plane->state->visible)
-  1241			return -ENODEV;
-  1242	
-  1243		plane_state = to_intel_plane_state(plane->state);
-  1244		fb = plane_state->hw.fb;
-  1245		gem_obj = intel_fb_bo(fb);
-  1246		if (!gem_obj)
-  1247			return -ENODEV;
-  1248	
-  1249		obj = to_intel_bo(gem_obj);
-  1250	
-  1251		if (to_intel_framebuffer(fb) == intel_fbdev_framebuffer(dev_priv->display.fbdev.fbdev)) {
-  1252			ptr = intel_fbdev_getvaddr(dev_priv->display.fbdev.fbdev);
-  1253			if (!ptr)
-  1254				return -ENOMEM;
-  1255		} else {
-  1256			/* can't disable tiling if DPT is in use */
-  1257			if (fb->modifier && HAS_DPT(dev_priv))
-  1258				return -EOPNOTSUPP;
-  1259	
-  1260			/* Taken from i915_gem_object_pin_map() */
-  1261			ptr = page_unpack_bits(obj->mm.mapping, &has_type);
-  1262			if (!ptr) {
-  1263				if (i915_gem_object_has_struct_page(obj))
-  1264					ptr = i915_gem_object_map_page(obj, I915_MAP_WB);
-  1265				else
-  1266					ptr = i915_gem_object_map_pfn(obj, I915_MAP_WB);
-  1267				if (IS_ERR(ptr))
-  1268					return -ENOMEM;
-  1269			}
-  1270		}
-  1271	
-  1272		if (i915_gem_object_has_iomem(obj))
-> 1273			iosys_map_set_vaddr_iomem(&panic_map, ptr);
-  1274		else
-  1275			iosys_map_set_vaddr(&panic_map, ptr);
-  1276	
-  1277		sb->map[0] = panic_map;
-  1278		sb->width = fb->width;
-  1279		sb->height = fb->height;
-  1280		sb->format = fb->format;
-  1281		sb->pitch[0] = fb->pitches[0];
-  1282	
-  1283		return 0;
-  1284	}
-  1285	
+
+vim +/ad4858_channels +963 drivers/iio/adc/ad4851.c
+
+   888	
+ > 889	static const struct iio_scan_type ad4851_scan_type_16 = {
+   890		.sign = 's',
+   891		.realbits = 16,
+   892		.storagebits = 16,
+   893	};
+   894	
+   895	static const struct iio_scan_type ad4851_scan_type_20_0[] = {
+   896		[AD4851_SCAN_TYPE_NORMAL] = {
+   897			.sign = 'u',
+   898			.realbits = 20,
+   899			.storagebits = 32,
+   900		},
+   901		[AD4851_SCAN_TYPE_RESOLUTION_BOOST] = {
+   902			.sign = 'u',
+   903			.realbits = 24,
+   904			.storagebits = 32,
+   905		},
+   906	};
+   907	
+   908	static const struct iio_scan_type ad4851_scan_type_20_1[] = {
+   909		[AD4851_SCAN_TYPE_NORMAL] = {
+   910			.sign = 's',
+   911			.realbits = 20,
+   912			.storagebits = 32,
+   913		},
+   914		[AD4851_SCAN_TYPE_RESOLUTION_BOOST] = {
+   915			.sign = 's',
+   916			.realbits = 24,
+   917			.storagebits = 32,
+   918		},
+   919	};
+   920	
+   921	static int ad4851_get_current_scan_type(const struct iio_dev *indio_dev,
+   922						const struct iio_chan_spec *chan)
+   923	{
+   924		struct ad4851_state *st = iio_priv(indio_dev);
+   925	
+   926		return st->resolution_boost_enabled ? AD4851_SCAN_TYPE_RESOLUTION_BOOST
+   927						    : AD4851_SCAN_TYPE_NORMAL;
+   928	}
+   929	
+   930	#define AD4851_IIO_CHANNEL(index, ch, diff)					\
+   931		.type = IIO_VOLTAGE,							\
+   932		.info_mask_separate = BIT(IIO_CHAN_INFO_CALIBSCALE) |			\
+   933			BIT(IIO_CHAN_INFO_CALIBBIAS) |					\
+   934			BIT(IIO_CHAN_INFO_SCALE),					\
+   935		.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SAMP_FREQ) |		\
+   936			BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),				\
+   937		.info_mask_shared_by_all_available =					\
+   938			BIT(IIO_CHAN_INFO_OVERSAMPLING_RATIO),				\
+   939		.info_mask_separate_available = BIT(IIO_CHAN_INFO_SCALE),		\
+   940		.indexed = 1,								\
+   941		.differential = diff,							\
+   942		.channel = ch,								\
+   943		.channel2 = ch + (diff * 8),						\
+   944		.scan_index = index,							\
+   945	
+   946	#define AD4858_IIO_CHANNEL(index, ch, diff, bits)				\
+   947	{										\
+   948		AD4851_IIO_CHANNEL(index, ch, diff)					\
+   949		.ext_scan_type = ad4851_scan_type_##bits##_##diff,			\
+   950		.num_ext_scan_type = ARRAY_SIZE(ad4851_scan_type_##bits##_##diff),	\
+   951	}
+   952	
+   953	#define AD4857_IIO_CHANNEL(index, ch, diff, bits)				\
+   954	{										\
+   955		AD4851_IIO_CHANNEL(index, ch, diff)					\
+   956		.scan_type = {								\
+   957			.sign = 's',							\
+   958			.realbits = bits,						\
+   959			.storagebits = bits,						\
+   960		},									\
+   961	}
+   962	
+ > 963	static const struct iio_chan_spec ad4858_channels[] = {
+   964		AD4858_IIO_CHANNEL(0, 0, 0, 20),
+   965		AD4858_IIO_CHANNEL(1, 0, 1, 20),
+   966		AD4858_IIO_CHANNEL(2, 1, 0, 20),
+   967		AD4858_IIO_CHANNEL(3, 1, 1, 20),
+   968		AD4858_IIO_CHANNEL(4, 2, 0, 20),
+   969		AD4858_IIO_CHANNEL(5, 2, 1, 20),
+   970		AD4858_IIO_CHANNEL(6, 3, 0, 20),
+   971		AD4858_IIO_CHANNEL(7, 3, 1, 20),
+   972		AD4858_IIO_CHANNEL(8, 4, 0, 20),
+   973		AD4858_IIO_CHANNEL(9, 4, 1, 20),
+   974		AD4858_IIO_CHANNEL(10, 5, 0, 20),
+   975		AD4858_IIO_CHANNEL(11, 5, 1, 20),
+   976		AD4858_IIO_CHANNEL(12, 6, 0, 20),
+   977		AD4858_IIO_CHANNEL(13, 6, 1, 20),
+   978		AD4858_IIO_CHANNEL(14, 7, 0, 20),
+   979		AD4858_IIO_CHANNEL(15, 7, 1, 20),
+   980	};
+   981	
 
 -- 
 0-DAY CI Kernel Test Service
