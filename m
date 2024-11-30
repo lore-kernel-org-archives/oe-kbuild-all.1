@@ -1,189 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4599B27447
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 02:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E8B224FD
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 30 Nov 2024 02:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1732933808; cv=none; b=NPPpCgGNwN/UiviiZXLC7+6if1Szw7vjtkA1XJUQxeyPT7V+jbbUuhKUYIMV4s3L9CJBP/zzj8f7VGB3qqkneU+MyKSjB2n28fQp3VtPDNboqyiLArGI6YglHAlL/kcNdSiCNPB7qHx9mGFsRVThDewOjbsfBejthPetjF8x+W0=
+	t=1732933825; cv=none; b=tTKJXLhobYG8jX9PMEhwMb3BmPnKu4+J58CgIGFQZRY6nWKLS51CsDGOAzRKt/Lw3j2Ar1SgPxmN5JmYjLHS7ER7Vuecs0uxXYprONuRWFUtJrUFDNzlTTo3CxrLrbLD6jQQc9i0ARjwDuTi0HNR8sgOMaprWCuf9ejYmpAmAt8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1732933808; c=relaxed/simple;
-	bh=lK+TzXRHgRRsWqPRHMqrzFwlErxLapxQJJGtk7ALLMY=;
+	s=arc-20240116; t=1732933825; c=relaxed/simple;
+	bh=QTTzkZOC5MBVdCuadILcBtuFm4pszBJTnpD249ArpeA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WWAnechNjAjKC3V1ca7yhPdjQZDhEhOS68AK89T47z8+lcJjyZtx8Niy408INA1PGFe9aBm4oBRph6hs55mOeklUkHpV4yAve8g/bqpBUcOll+pP3FhOK9c7d9tXvMvD+n3fBCxavkLeTQg1cZhNdaTYNdL2HVHVDUvbmMC8JVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QpOheM/y; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=OsPP3yY/KPs4wDY6QwB+xAhDrkkZqBqKSd6ElUBy7brOjH3nkkr1rDboBrv3sAr4hoFPNWDNtR4ZBPicR2pMOtoGtvByU3xFcMG25IGjnT0ckcgD9f8PZvCTeNT6e43c01yrX6dCxEGu0VvdDeQzSoyvdwo8Iim8NQymMJGn2gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kAcksueG; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QpOheM/y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kAcksueG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732933806; x=1764469806;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lK+TzXRHgRRsWqPRHMqrzFwlErxLapxQJJGtk7ALLMY=;
-  b=QpOheM/y5ovp8DgpYJFyndhiCdX9yfDQadr4AYJnqzFWQti7rbZ86jfE
-   BWhNjNr4PGQ+VaH5AXN3Qip9sKbLYB9DVV3AHKDCl9+f7IpDCgsbSyYji
-   0k/ZNj0wkXtpHofawmyV0yWSH/Xc87tRTC1p429fxF0SWWeRA6bO/apm7
-   MiQ89OXkGC/bIoPNv+UdipZVP1aaqOJg4CtfmbXOMKDUWax9Lje0o+b9/
-   lGVX2LZhYrB5tZFkRBe5ou55BTQHJSOTBB/sSls2KeU7vkahZLA/PpT9c
-   6U8V95iI5sv7wCeGR9Rtg8xxEtRwpbdbUDdX0eVLp/W+NfLyJgaQJsUe0
-   A==;
-X-CSE-ConnectionGUID: /6ZMHF71S8WI43UtVoj53A==
-X-CSE-MsgGUID: QPGmiH4KTcmLfwYrrK4Vmw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="58564483"
+  t=1732933822; x=1764469822;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QTTzkZOC5MBVdCuadILcBtuFm4pszBJTnpD249ArpeA=;
+  b=kAcksueGJL8WE+dHfIFSCUGEnnqdfdi1NfHzi0z62tXijF0a9ixe8cqx
+   0i/Cpgi62QBgDWan2odAgOHqcQyDpWktwQFQ2BIWT0QO/YRF4PLq/MPfj
+   CSyu0ndbhrvFWz+CpQd18jBUMCR7MQ1ipXP8hBIKA/nRMiNxLlzJ9D232
+   iBND4cblDYO4hm6cY7KXECln+zAoFNs6pFk5XuBrL1iRHvZRxU5wkxs32
+   RwzpxRmIEkgKIWfW1ItbGSs7RNla35EZEHbkV+hMN2iwTxH8sQf+B6KDF
+   XB53FUwAawsXd0ozyGLswkfPp3G5TMg8V2GW+sNA0+wyXfaNbHaDdOFnm
+   w==;
+X-CSE-ConnectionGUID: 3QoqIpiFS6WlbeTBmVEyzQ==
+X-CSE-MsgGUID: d5WfGbfYTW+A7LSc5h5jeA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11271"; a="32526276"
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="58564483"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 18:30:05 -0800
-X-CSE-ConnectionGUID: gFiFaB9STMiWmiEwFiDBLA==
-X-CSE-MsgGUID: KBwJ8akoTjGZxFluBLWdUw==
+   d="scan'208";a="32526276"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2024 18:30:22 -0800
+X-CSE-ConnectionGUID: uVEm4WtUTciVvL2pT+q+bA==
+X-CSE-MsgGUID: x9PUayGlTWuTK2Tk70Es5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,197,1728975600"; 
-   d="scan'208";a="97380629"
+   d="scan'208";a="93082941"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 29 Nov 2024 18:30:02 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 29 Nov 2024 18:30:20 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHDEh-00001r-13;
-	Sat, 30 Nov 2024 02:29:48 +0000
-Date: Sat, 30 Nov 2024 10:29:09 +0800
+	id 1tHDFA-00001t-0E;
+	Sat, 30 Nov 2024 02:30:06 +0000
+Date: Sat, 30 Nov 2024 10:29:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [lunn:v6.12.0-scu4-dt-overlay 24/30]
- drivers/gpio/gpiolib-of.c:1191:6: error: redefinition of
- 'of_gpiochip_remove_dev_node'
-Message-ID: <202411301047.R1m9MUEW-lkp@intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Ilpo =?unknown-8bit?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>
+Subject: drivers/platform/x86/x86-android-tablets/other.c:605:12: sparse:
+ sparse: symbol 'crystal_cove_pwrsrc_psy' was not declared. Should it be
+ static?
+Message-ID: <202411301001.1glTy7Xm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=unknown-8bit
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
-head:   6a87eb702125c86f68c9c466c941b914713c8252
-commit: 3003e9eae5cddbc635a165d44194a95e1d26b5be [24/30] gpio: Dynamically add OF nodes if not present
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20241130/202411301047.R1m9MUEW-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301047.R1m9MUEW-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   2ba9f676d0a2e408aef14d679984c26373bf37b7
+commit: 06f876def3469b44737df6c2efe6dd811838c9e7 platform/x86: x86-android-tablets: Add support for Vexia EDU ATLA 10 tablet
+date:   3 weeks ago
+config: i386-randconfig-061-20241130 (https://download.01.org/0day-ci/archive/20241130/202411301001.1glTy7Xm-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241130/202411301001.1glTy7Xm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202411301047.R1m9MUEW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202411301001.1glTy7Xm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/platform/x86/x86-android-tablets/other.c:605:12: sparse: sparse: symbol 'crystal_cove_pwrsrc_psy' was not declared. Should it be static?
+>> drivers/platform/x86/x86-android-tablets/other.c:612:28: sparse: sparse: symbol 'vexia_edu_atla10_ulpmc_node' was not declared. Should it be static?
 
->> drivers/gpio/gpiolib-of.c:1191:6: error: redefinition of 'of_gpiochip_remove_dev_node'
-    1191 | void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/gpio/gpiolib-of.c:26:
-   drivers/gpio/gpiolib-of.h:50:20: note: previous definition of 'of_gpiochip_remove_dev_node' with type 'void(struct gpio_chip *)'
-      50 | static inline void of_gpiochip_remove_dev_node(struct gpio_chip *chip) {};
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_remove_dev_node':
->> drivers/gpio/gpiolib-of.c:1201:9: error: implicit declaration of function 'of_changeset_revert' [-Wimplicit-function-declaration]
-    1201 |         of_changeset_revert(np->data);
-         |         ^~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpiolib-of.c:1202:9: error: implicit declaration of function 'of_changeset_destroy' [-Wimplicit-function-declaration]
-    1202 |         of_changeset_destroy(np->data);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_add_properties':
->> drivers/gpio/gpiolib-of.c:1217:15: error: implicit declaration of function 'of_changeset_add_prop_bool' [-Wimplicit-function-declaration]
-    1217 |         ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpiolib-of.c:1221:16: error: implicit declaration of function 'of_changeset_add_prop_u32' [-Wimplicit-function-declaration]
-    1221 |         return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: At top level:
->> drivers/gpio/gpiolib-of.c:1224:6: error: redefinition of 'of_gpiochip_make_dev_node'
-    1224 | void of_gpiochip_make_dev_node(struct gpio_chip *chip)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.h:49:20: note: previous definition of 'of_gpiochip_make_dev_node' with type 'void(struct gpio_chip *)'
-      49 | static inline void of_gpiochip_make_dev_node(struct gpio_chip *chip) {}
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.c: In function 'of_gpiochip_make_dev_node':
->> drivers/gpio/gpiolib-of.c:1241:9: error: implicit declaration of function 'of_changeset_init' [-Wimplicit-function-declaration]
-    1241 |         of_changeset_init(cset);
-         |         ^~~~~~~~~~~~~~~~~
->> drivers/gpio/gpiolib-of.c:1243:14: error: implicit declaration of function 'of_changeset_create_node' [-Wimplicit-function-declaration]
-    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpio/gpiolib-of.c:1243:12: error: assignment to 'struct device_node *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1243 |         np = of_changeset_create_node(cset, of_root, chip->label);
-         |            ^
->> drivers/gpio/gpiolib-of.c:1251:15: error: implicit declaration of function 'of_changeset_apply' [-Wimplicit-function-declaration]
-    1251 |         ret = of_changeset_apply(cset);
-         |               ^~~~~~~~~~~~~~~~~~
+vim +/crystal_cove_pwrsrc_psy +605 drivers/platform/x86/x86-android-tablets/other.c
 
-
-vim +/of_gpiochip_remove_dev_node +1191 drivers/gpio/gpiolib-of.c
-
-  1190	
-> 1191	void of_gpiochip_remove_dev_node(struct gpio_chip *chip)
-  1192	{
-  1193		struct device_node *np;
-  1194	
-  1195		np = dev_of_node(&chip->gpiodev->dev);
-  1196		if (!np || !of_node_check_flag(np, OF_DYNAMIC))
-  1197			return;
-  1198	
-  1199		chip->gpiodev->dev.of_node = NULL;
-  1200	
-> 1201		of_changeset_revert(np->data);
-> 1202		of_changeset_destroy(np->data);
-  1203		of_node_put(np);
-  1204	}
-  1205	
-  1206	static int of_gpiochip_add_properties(struct gpio_chip *chip,
-  1207					      struct of_changeset *ocs,
-  1208					      struct device_node *np)
-  1209	{
-  1210		int ret;
-  1211	
-  1212		/*
-  1213		 * The added properties will be released when the
-  1214		 * changeset is destroyed.
-  1215		 */
-  1216	
-> 1217		ret = of_changeset_add_prop_bool(ocs, np, "gpio-controller");
-  1218		if (ret)
-  1219			return ret;
-  1220	
-> 1221		return of_changeset_add_prop_u32(ocs, np, "#gpio-cells", 2);
-  1222	}
-  1223	
-> 1224	void of_gpiochip_make_dev_node(struct gpio_chip *chip)
-  1225	{
-  1226		struct device_node *np = NULL;
-  1227		struct of_changeset *cset;
-  1228		int ret;
-  1229	
-  1230		/*
-  1231		 * If there is already a device tree node linked to this device,
-  1232		 * return immediately.
-  1233		 */
-  1234		if (chip->gpiodev->dev.of_node)
-  1235			return;
-  1236	
-  1237		cset = kmalloc(sizeof(*cset), GFP_KERNEL);
-  1238		if (!cset)
-  1239		       return;
-  1240	
-> 1241		of_changeset_init(cset);
-  1242	
-> 1243		np = of_changeset_create_node(cset, of_root, chip->label);
-  1244		if (!np)
-  1245			goto out_destroy_cset;
-  1246	
-  1247		ret = of_gpiochip_add_properties(chip, cset, np);
-  1248		if (ret)
-  1249			goto out_free_node;
-  1250	
-> 1251		ret = of_changeset_apply(cset);
+   600	
+   601	/*
+   602	 * Vexia EDU ATLA 10 tablet, Android 4.2 / 4.4 + Guadalinex Ubuntu tablet
+   603	 * distributed to schools in the Spanish Andalucía region.
+   604	 */
+ > 605	const char * const crystal_cove_pwrsrc_psy[] = { "crystal_cove_pwrsrc" };
+   606	
+   607	static const struct property_entry vexia_edu_atla10_ulpmc_props[] = {
+   608		PROPERTY_ENTRY_STRING_ARRAY("supplied-from", crystal_cove_pwrsrc_psy),
+   609		{ }
+   610	};
+   611	
+ > 612	const struct software_node vexia_edu_atla10_ulpmc_node = {
+   613		.properties = vexia_edu_atla10_ulpmc_props,
+   614	};
+   615	
 
 -- 
 0-DAY CI Kernel Test Service
