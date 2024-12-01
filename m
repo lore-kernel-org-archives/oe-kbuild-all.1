@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DC3E70803
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 14:57:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5960970821
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 15:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733065075; cv=none; b=AijVHwvScSvFdXNqG2n596Lf6wUGABBmWPEbyUD4N0ncVPVEZPyNEc4mB3YhaOjsT9rFNM5qrY/ytyD3t4CmOADa47EC6sPHCR3aFKM2ceEkGUxJSvhgIEBgTH1E30w0k/YWHSUpEL92CxHkp6ExHi9JtQgCl1JvyN1jqibB/3I=
+	t=1733065748; cv=none; b=MgnVe1AHkd334gKyy5/ev/KAxj9o4Hw85op/NkIQVhgCt1EMlq3EcGLxOiPerIyXtdaJjHZLGQav5mDE+Vv3kePi1HCHMMX7gJd7mj1SzWvIxdPoNotu5uzJceOOOoCPyYhdfBwyON4yYDF9NJ1Um01k7yO91pt9rRfj/6lOHEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733065075; c=relaxed/simple;
-	bh=n/g4jYS8xZp0DP1e5eouEXOqmsJ539KcvN78+upW5Fc=;
+	s=arc-20240116; t=1733065748; c=relaxed/simple;
+	bh=l1uhY0DcodVpm5u7GXbDMzFR2AM58uT2dOZCsIoWzlY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gKp/35COmZ3IxyJqahQQKYIyFsgJLZ3IfPRDgKvIxxfeZmQmicMVTZHNXgv8MrljWb5YhRZ/uLiDNIOP3Wv65ihRv4N2S8d7JJsbK4VkdAZFyriu8pETHuneNi/7rBrnNHJk054ojhMXANYkdhF7u/IENhgrtqjoSLtiGthJoDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IuwoUwLa; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=HVGt6KuiNyeXZOBlIL8fDDrxxUX3n8BGNVAGkBrnRr8bdLlZibnoYcz3qamLv+XVffTW/G4xEmd8PCmlrCod+FxbBRqSYlp1izkeaxHW7p2NXyE6LQq418Jy4DmGQdJAsSJ+iqLsMxMFMvEnUHPVGrtd/uJvthT6Slld/nJX5lw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UajVsKTA; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IuwoUwLa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UajVsKTA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733065073; x=1764601073;
+  t=1733065746; x=1764601746;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n/g4jYS8xZp0DP1e5eouEXOqmsJ539KcvN78+upW5Fc=;
-  b=IuwoUwLaMHfBQvVM06iC6bYCx1hvOtnO9oSajA4CAOBOlTJz/0sFBvfR
-   Ai/I7nB20jC1q8HTR251ojWfudxWRsvhfLVkLNowvl7NZkxOE71+qv4y8
-   vv3aOtTA2G/p+IrOw0ngAaG9rvQkyX2ns3AOHQLUTeQRgFjhwvxUzHVkU
-   Cx3uD7ywEsTtfkjavhUrZVqdEWTKJ/kad1jY7muDF/xqB5KIP6O5+oRYr
-   USevNdWWDqrRm2ls7GMsz9WvGdhb0woBJYxCzVSMXOafxkaNNLdkYWVp5
-   rtPweK3JoQKPSfIu4JkMthFPIh04yoJURNMKWQu0vX44iryeFWM1cVQOb
-   Q==;
-X-CSE-ConnectionGUID: IpDiAQD8Tda5WZcJ0ctIfA==
-X-CSE-MsgGUID: TsuELtM/RymI3KGx9eNjMg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="36902035"
+  bh=l1uhY0DcodVpm5u7GXbDMzFR2AM58uT2dOZCsIoWzlY=;
+  b=UajVsKTA667KQhxaCQQ7Kf+R4w6ecQRcz0Paec4NwqTTfEe2hBr7zIvT
+   O0EQshvyX+36HTK03fa0SNmizz8r2O7Ec1rKAkshtpfoouXtJmiD2i2h5
+   kWpuBRqKcTEWtVvLJkxl3HS19yVOqTxeaHxCU2Cddlrd9h1XjuzoIBvT8
+   z9zrmglaYv9oVU24z79YDbEJVavQSZrR8EaCTbv3jmJlCyQgK/mv6xRBn
+   6K10QGsS3nyFWQWK0tggPLjqBRkTbpBKVHoPVsVAjqrTuVk5o/9akWega
+   DmVwIIGa3mkaSFYt0hvAQuDmYWKMXpy+Etu15t24gmbUWx7KcVkezOR14
+   A==;
+X-CSE-ConnectionGUID: xykjtrYkQRCDEwsGQC5D5w==
+X-CSE-MsgGUID: 2EZiF4q3QZSi+l+DU6QLFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33290156"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="36902035"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 06:57:52 -0800
-X-CSE-ConnectionGUID: lKk4k3d1Sj2rapGOA3YmFw==
-X-CSE-MsgGUID: Mr8aeOtPRT25b8F8Ehp7ZA==
+   d="scan'208";a="33290156"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 07:09:05 -0800
+X-CSE-ConnectionGUID: ezDO5Be/QqGbuCDz/BxsAw==
+X-CSE-MsgGUID: cVQebvjjTRSkssohwJCK8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="92983478"
+   d="scan'208";a="97653318"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 01 Dec 2024 06:57:51 -0800
+  by fmviesa004.fm.intel.com with ESMTP; 01 Dec 2024 07:09:04 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHlOP-0001bh-09;
-	Sun, 01 Dec 2024 14:57:49 +0000
-Date: Sun, 1 Dec 2024 22:56:59 +0800
+	id 1tHlZ4-0001cD-09;
+	Sun, 01 Dec 2024 15:08:54 +0000
+Date: Sun, 1 Dec 2024 23:08:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
- drivers/misc/uacce/uacce.c:739:6: error: implicit declaration of function
- 'module_refcount'
-Message-ID: <202412012257.hGdfU2Vv-lkp@intel.com>
+Subject: [thomas-weissschuh:b4/sysfs-const-attr 69/71]
+ drivers/cpufreq/intel_pstate.c:822:1: sparse: sparse: Initializer entry
+ defined twice
+Message-ID: <202412012312.O9jgUbPI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,70 +63,284 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yu'an,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b5504db0db8375a77340b5bb54c17cfb75d3c754
-commit: 451823febcb610969f048556cedc41b5e08fafb1 [1294/1294] UACCE backport from mainline
-config: x86_64-buildonly-randconfig-002-20241113 (https://download.01.org/0day-ci/archive/20241201/202412012257.hGdfU2Vv-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412012257.hGdfU2Vv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/sysfs-const-attr
+head:   894533cd9290280e8b523fcaa2232662ceccd57b
+commit: a0965582e0a49944224cef0b8ea6dd3f961630fd [69/71] _Generic
+config: x86_64-randconfig-123-20241201 (https://download.01.org/0day-ci/archive/20241201/202412012312.O9jgUbPI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412012312.O9jgUbPI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412012257.hGdfU2Vv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412012312.O9jgUbPI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/cpufreq/intel_pstate.c:822:1: sparse: sparse: Initializer entry defined twice
+   drivers/cpufreq/intel_pstate.c:822:1: sparse:   also defined here
+   drivers/cpufreq/intel_pstate.c:910:1: sparse: sparse: Initializer entry defined twice
+   drivers/cpufreq/intel_pstate.c:910:1: sparse:   also defined here
+   drivers/cpufreq/intel_pstate.c:932:1: sparse: sparse: Initializer entry defined twice
+   drivers/cpufreq/intel_pstate.c:932:1: sparse:   also defined here
+--
+>> fs/smb/server/server.c:523:8: sparse: sparse: Initializer entry defined twice
+   fs/smb/server/server.c:523:8: sparse:   also defined here
+   fs/smb/server/server.c:524:8: sparse: sparse: Initializer entry defined twice
+   fs/smb/server/server.c:524:8: sparse:   also defined here
+   fs/smb/server/server.c:525:8: sparse: sparse: Initializer entry defined twice
+   fs/smb/server/server.c:525:8: sparse:   also defined here
+--
+>> drivers/infiniband/core/sysfs.c:418:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:418:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:419:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:419:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:420:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:420:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:421:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:421:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:422:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:422:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:423:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:423:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:424:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:424:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:425:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:425:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:426:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:426:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:643:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:643:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:644:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:644:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:645:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:645:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:646:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:646:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:647:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:647:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:648:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:648:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:649:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:649:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:650:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:650:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:651:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:651:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:652:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:652:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:653:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:653:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:654:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:654:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:655:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:655:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:656:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:656:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:657:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:657:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:658:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:658:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:659:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:659:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:664:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:664:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:665:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:665:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:666:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:666:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:667:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:667:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:668:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:668:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:669:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:669:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:670:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:670:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c:671:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/sysfs.c:671:8: sparse:   also defined here
+   drivers/infiniband/core/sysfs.c: note: in included file (through drivers/infiniband/core/core_priv.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+   drivers/infiniband/core/cm.c:1296:20: sparse: sparse: cast from restricted __be32
+   drivers/infiniband/core/cm.c: note: in included file (through include/linux/swait.h, include/linux/completion.h):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+>> drivers/infiniband/core/cm.c:4346:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4346:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4347:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4347:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4348:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4348:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   drivers/infiniband/core/cm.c:4349:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/core/cm.c:4349:1: sparse:   also defined here
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+--
+>> drivers/infiniband/hw/qib/qib_sysfs.c:86:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:86:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:102:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:102:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:122:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:122:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:135:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:135:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:191:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:191:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:325:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:325:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:326:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:326:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:327:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:327:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:328:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:328:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:329:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:329:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:330:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:330:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:331:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:331:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:332:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:332:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:333:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:333:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:334:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:334:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:335:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:335:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:336:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:336:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:337:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:337:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:338:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:338:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:339:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:339:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:340:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:340:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:413:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:413:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:414:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:414:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:415:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:415:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:416:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:416:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:417:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:417:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:418:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:418:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:419:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:419:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:420:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:420:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:421:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:421:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:422:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:422:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:423:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:423:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:424:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:424:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:425:1: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:425:1: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:475:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:475:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:498:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:498:8: sparse:   also defined here
+   drivers/infiniband/hw/qib/qib_sysfs.c:521:8: sparse: sparse: Initializer entry defined twice
+   drivers/infiniband/hw/qib/qib_sysfs.c:521:8: sparse:   also defined here
 
->> drivers/misc/uacce/uacce.c:739:6: error: implicit declaration of function 'module_refcount' [-Werror,-Wimplicit-function-declaration]
-     739 |         if (module_refcount(uacce->pdev->driver->owner) > 0)
-         |             ^
-   drivers/misc/uacce/uacce.c:1032:16: warning: unused variable 'uacce' [-Wunused-variable]
-    1032 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
-         |                       ^~~~~
-   drivers/misc/uacce/uacce.c:1046:16: warning: unused variable 'uacce' [-Wunused-variable]
-    1046 |         struct uacce *uacce = UACCE_FROM_CDEV_ATTR(dev);
-         |                       ^~~~~
-   2 warnings and 1 error generated.
+vim +822 drivers/cpufreq/intel_pstate.c
 
+984edbdccc6ff0 Srinivas Pandruvada 2016-12-06  821  
+984edbdccc6ff0 Srinivas Pandruvada 2016-12-06 @822  cpufreq_freq_attr_ro(energy_performance_available_preferences);
+984edbdccc6ff0 Srinivas Pandruvada 2016-12-06  823  
 
-vim +/module_refcount +739 drivers/misc/uacce/uacce.c
+:::::: The code at line 822 was first introduced by commit
+:::::: 984edbdccc6ff01b953492f72296685ce3ea2497 cpufreq: intel_pstate: Support for energy performance hints with HWP
 
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  717  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  718  /*
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  719   * While user space releases a queue, all the relatives on the queue
-76dbd49be7fc95 drivers/uacce/uacce.c xuzaibo        2019-07-11  720   * should be released imediately by this putting.
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  721   */
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  722  static void uacce_put_queue(struct uacce_queue *q)
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  723  {
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  724  	struct uacce *uacce = q->uacce;
-e3234bd66f0c97 drivers/uacce/uacce.c xuzaibo        2019-05-13  725  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  726  	/*
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  727  	 * To do: we should vm_munmap mmio and dus regions, currently we munmap
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  728  	 * mmio and dus region before put queue.
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  729  	 */
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  730  	if (uacce->ops->stop_queue)
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  731  		uacce->ops->stop_queue(q);
-299b4bc20a682a drivers/uacce/uacce.c lingmingqiang  2019-05-06  732  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  733  	if (uacce->ops->put_queue)
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  734  		uacce->ops->put_queue(q);
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  735  
-8bf65d5558d0bd drivers/uacce/uacce.c Mingqiang Ling 2019-07-11  736  	q->state = UACCE_Q_ZOMBIE;
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  737  	q->filep->private_data = NULL;
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  738  	uacce_queue_drain(q);
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20 @739  	if (module_refcount(uacce->pdev->driver->owner) > 0)
-f7acb5166348bf drivers/uacce/uacce.c Yu'an Wang     2020-02-20  740  		module_put(uacce->pdev->driver->owner);
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  741  }
-1998d80a018804 drivers/uacce/uacce.c Mingqiang Ling 2019-04-23  742  
-
-:::::: The code at line 739 was first introduced by commit
-:::::: f7acb5166348bf6c75ac40c5e6e14726bc3ca578 uacce: Remove uacce mode 1 relatives
-
-:::::: TO: Yu'an Wang <wangyuan46@huawei.com>
-:::::: CC: Yang Yingliang <yangyingliang@huawei.com>
+:::::: TO: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
