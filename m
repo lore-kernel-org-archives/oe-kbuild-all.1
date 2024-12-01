@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4BA2AE94
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 16:34:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481631CD15
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 16:56:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733070868; cv=none; b=DKoaypBHHIP1hscb+n4mUWXJwwOVWM9RMP5slF+7IRvD4S0RLNMBSjMilmSlK9Mg5QqVTgDp54/yokynXagpxr60PGOugDjreHKT2LnD36a0QFJCPi5QSk7vZPuD8xrgJVMpOf95QACpRbaydJZBo1Zv5rSSJ+M7yV9h7jZpNNM=
+	t=1733072196; cv=none; b=Ifs1xUus+GOa2y1iC4Df0x2qPvjOrT7JKQU5JERi/ARRkuO8jmLivL6ZWFiUbSgzzqaVcGjwmk1eQ8ccADI0nmM7EDe/dnzyImVlb029WvwYiF/i0bTuxIUxBSQXUxWMMz8/vLEJn3Yivmd1XnOIqtjOmilItEqj4pwqRRmrMqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733070868; c=relaxed/simple;
-	bh=jJXuOpPj+ne8na3iaeD4xL9q+lDWO8xJHF7IYa9FNNs=;
+	s=arc-20240116; t=1733072196; c=relaxed/simple;
+	bh=xuxdmsHGnwStZcU53apGCEwVHH/YA5/G7nzWhXhNKJc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=otCHWvWn6EGUx2UaQGsFA6hp6toblXmjwyAAtSI1KC9iCDJzKnFOTTSs8vPuFY5gkjkn1nK799PN570ShqnYyZnRMYCQOAbU/gd0wLx5eOM5wDwFWBLfHh7fn7fGdcMDZMLpozjWkekS8Fc4p5PFNVeUYsl8kEeC+8srZsl8fQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1lg2xtG; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=aZl+62SzXAXOZnjXF/W56FgaWk5y2DLP+RRxMbSPuHSP0ombULfgp3S9LQt7f+te3Pj9GHpqVEgeKR3VOjhqQ19i3mTbeOiDGkMkxoTDyGSq3Vfo2YHNROBHihfcuRad2J+wAb9gXPUnqncRJSjzYJvqS9h/pDK89STClsW7iq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R3aCzNjt; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1lg2xtG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R3aCzNjt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733070867; x=1764606867;
+  t=1733072194; x=1764608194;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=jJXuOpPj+ne8na3iaeD4xL9q+lDWO8xJHF7IYa9FNNs=;
-  b=c1lg2xtGKp/wE7u9TpsJ7mgrnVK6bJQMLPQ9I+MaFiBPYwJORolMrFlz
-   kFYpeX+lqnOB0K2GS8NCjcXTypOvuFJF4h/V3bnDeAhKdxEdgjOVG+Is9
-   Jk1NV448vAybavzvbczOQY9mzC4lOJVKc+SW+hE7rBegh8eJQQrmo9uC+
-   uqn1QvGgP44lyYQZf/Fcli8+ooLrjB9FOVH+2bM5iiIdQR3fTMoqr4AIp
-   RPsAMXzK2LzSf+5ljrmFS2ycVxvApMq6ru7lT7QkAdHV6BLmb8B6EHhFV
-   jyG3tkXFtNigIxIsP+I6ync9Tv3/eEUDD4C9db1go5WSTITfkehJVL8KU
+  bh=xuxdmsHGnwStZcU53apGCEwVHH/YA5/G7nzWhXhNKJc=;
+  b=R3aCzNjt+aYFDONaPa3fdWReF3QKWDWmPr66UJ3j0biRir5ZrTsOMMMJ
+   bVC0387KGWt341HHxQTGdL8q6nJvyjg6J1kCDt91GTQfdPkAwa9GCCyv/
+   rdn6NotH/jG2St+lk+WCMSTzr1N3IzwgBLzcKd4vsl8kTuu1UMj0gZr+F
+   wau9wxglvzCFzsF9/iw956IClaBHpfXKXuPiRKh/Cdm06HUqSCoaT6y6g
+   jwYkRnfIUIbEjUsnnWfbg9Wt8ZkHUKZE+1YIDi5rp01GLWbtmJYFHRgQZ
+   3iFlf/1Qm313XvZZ1lBbsaBOUwtfCuhdarG0RFZn4sRxzbOhv67QZd1LO
    Q==;
-X-CSE-ConnectionGUID: nv+sme9aTvOYjtQW1H4+gw==
-X-CSE-MsgGUID: 2rnZU2tsR8StRwBSi6k/3A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44619793"
+X-CSE-ConnectionGUID: wFFR20wFRUeq9agL6oZg6w==
+X-CSE-MsgGUID: aQzLxAMQRPC7+EVEShrlAg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="36100597"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="44619793"
+   d="scan'208";a="36100597"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 08:34:26 -0800
-X-CSE-ConnectionGUID: yW5lafW9S4KOWDvu+7KAtw==
-X-CSE-MsgGUID: kHFjNjGAQ7+1FafNbE3Z0g==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 08:56:34 -0800
+X-CSE-ConnectionGUID: MbNn9o6CS1G/eLPuULP90A==
+X-CSE-MsgGUID: SA3agrw4RvOH0zIFzsMKpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="92808979"
+   d="scan'208";a="92811828"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 01 Dec 2024 08:34:26 -0800
+  by orviesa009.jf.intel.com with ESMTP; 01 Dec 2024 08:56:32 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHmtq-0001g5-2U;
-	Sun, 01 Dec 2024 16:34:22 +0000
-Date: Mon, 2 Dec 2024 00:34:14 +0800
+	id 1tHnFG-0001hV-1J;
+	Sun, 01 Dec 2024 16:56:30 +0000
+Date: Mon, 2 Dec 2024 00:55:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yuan Can <yuancan@huawei.com>
+To: Andrew Lunn <andrew@lunn.ch>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1459/1459] mm/memcontrol.c:3147:6: warning: no
- previous prototype for 'hisi_oom_recover'
-Message-ID: <202412020047.bA4x90tl-lkp@intel.com>
+Subject: [lunn:v6.12.0-scu4-dt-overlay 25/30] include/linux/of.h:1773:5:
+ warning: "CONFIG_OF_RESOLVE" is not defined, evaluates to 0
+Message-ID: <202412020002.hCJrP1Tw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +62,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Weilong,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   df4c334beecb4cf58e4e8d63b491aa5ac0a84f46
-commit: b498d9f1bacd40d583c0970cab02ad522127a7e7 [1459/1459] arm64/ascend: Add new enable_oom_killer interface for oom contrl
-config: arm64-randconfig-003-20241113 (https://download.01.org/0day-ci/archive/20241202/202412020047.bA4x90tl-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020047.bA4x90tl-lkp@intel.com/reproduce)
+tree:   https://github.com/lunn/linux.git v6.12.0-scu4-dt-overlay
+head:   b21db3c3b59085d88243972fcb891a13ddd86b7a
+commit: e8a03ab091c87d818bdaa61873dfd96c6f6df5da [25/30] of: resolver: Add helper to add to __symbols__
+config: arc-axs103_defconfig (https://download.01.org/0day-ci/archive/20241202/202412020002.hCJrP1Tw-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020002.hCJrP1Tw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412020047.bA4x90tl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412020002.hCJrP1Tw-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memcontrol.c:3147:6: warning: no previous prototype for 'hisi_oom_recover' [-Wmissing-prototypes]
-    3147 | void hisi_oom_recover(struct obj_cgroup *objcg)
-         |      ^~~~~~~~~~~~~~~~
+   In file included from lib/logic_pio.c:11:
+>> include/linux/of.h:1773:5: warning: "CONFIG_OF_RESOLVE" is not defined, evaluates to 0 [-Wundef]
+    1773 | #if CONFIG_OF_RESOLVE
+         |     ^~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/clk-provider.h:9,
+                    from lib/vsprintf.c:23:
+>> include/linux/of.h:1773:5: warning: "CONFIG_OF_RESOLVE" is not defined, evaluates to 0 [-Wundef]
+    1773 | #if CONFIG_OF_RESOLVE
+         |     ^~~~~~~~~~~~~~~~~
+   lib/vsprintf.c: In function 'va_format':
+   lib/vsprintf.c:1683:9: warning: function 'va_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+    1683 |         buf += vsnprintf(buf, end > buf ? end - buf : 0, va_fmt->fmt, va);
+         |         ^~~
 
 
-vim +/hisi_oom_recover +3147 mm/memcontrol.c
+vim +/CONFIG_OF_RESOLVE +1773 include/linux/of.h
 
-  3145	
-  3146	#ifdef CONFIG_ASCEND_OOM
-> 3147	void hisi_oom_recover(struct obj_cgroup *objcg)
-  3148	{
-  3149		struct mem_cgroup *memcg;
-  3150	
-  3151		memcg = get_mem_cgroup_from_objcg(objcg);
-  3152		if (!mem_cgroup_is_root(memcg))
-  3153			memcg_oom_recover(memcg);
-  3154		css_put(&memcg->css);
-  3155	}
-  3156	#else
-  3157	static inline void hisi_oom_recover(struct obj_cgroup *objcg) { }
-  3158	#endif
-  3159	
+  1772	
+> 1773	#if CONFIG_OF_RESOLVE
+  1774	int of_add_resolver_symbol(const char *name, const struct device *dev,
+  1775				   const char *path);
+  1776	#else
+  1777	static inline int of_add_resolver_symbol(const char *name,
+  1778						 const struct device *dev,
+  1779						 const char *path)
+  1780	{
+  1781		return 0;
+  1782	}
+  1783	#endif
+  1784	
 
 -- 
 0-DAY CI Kernel Test Service
