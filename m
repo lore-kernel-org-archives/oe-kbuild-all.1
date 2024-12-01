@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04E562566;
-	Sun,  1 Dec 2024 01:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905A6AD23
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 02:01:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733017335; cv=none; b=OCnDmJ37YeG6I3uQo3gIzm6KpNqjF/TFit5dT7sR3qxbh9yamT6OMMMx4efUah96cPfkXW5Ec76R0dDZMKTUt0yRL4YoOhvu55HG2N/BBrZmJkqFxup4Z6nQbpRtQCOi0uob5cE8XGtpcJLzpEGUXZxRX2oQuNAIeaY2AmDxQ1M=
+	t=1733018508; cv=none; b=jaFmOlKjYy5uRc+Fw9ryr6BK70wD/Akowb4wslGt9D8grYQGTBHoxO89ZTldvTqu6hhcSOAdw5LR4+lRbX/mV/zCgJFki/xoMWz3IZh5QM6EF7l4zdRDCKiMZWPHwA2a+MTo7TBARGjhZkNkoTXe0zeT9zNLGDh68Jad5Ta46S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733017335; c=relaxed/simple;
-	bh=72kbCSe3OyN7jS3TfHtNoISRrHpeb9cjxGqm2HF/5mI=;
+	s=arc-20240116; t=1733018508; c=relaxed/simple;
+	bh=3C2jU3oafWCffi1CIVU/bhZ4LIFwlexh1pPiVDn1EZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UHJiyvAIY2NfmGLpEEBNvmbH0/MINlayddDpHjj9ktUd9IWX0Xy1QemlZvnIHQeKvBwNrgoJGzkA3a/Aoxwpf748vuiV3S0Lmx5TkPfS8iMKI9WSvXRK8sOmNpA2a/iuKnWkpGR8K3doBVYJGAqXdDJpWD1AT4zqPHp8Kenjg0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjwBr4Xz; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=cTP7L8zDxeEToofwnt55kFGr4DLle83LZzdbslrC7HjDiiyotXeACZu6eHCqHxnG6BR30GX3MAbQB+9rdLXOnqMrmYY1Ff/ufKNwyfRNwxHN73+DLUcf7EnARgGs3Uv0BAp2xvtvX4oWxOUrk9JCNgvKeIiBk7e8OQfGr9iPBxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WasVBEud; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjwBr4Xz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WasVBEud"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733017333; x=1764553333;
+  t=1733018507; x=1764554507;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=72kbCSe3OyN7jS3TfHtNoISRrHpeb9cjxGqm2HF/5mI=;
-  b=JjwBr4XzUUwp5gQP+gG17zKhAhlMSqybaMScCF1BNc2rYsht9qUiIE+V
-   XiTG8sZ+XDEvXhhTZNMwN/7pTvlikSGvS/kb72KwEU7ANn+AC6r5XhMA6
-   lWGLkBvvlxl4GHFvyIk/1QRTy5IXV448kfncr9xCDK/pUpOdmJjS3UjPs
-   MTlGx4xmluKvJ5I2OfWvO+tw164Sk0YbeufarYcCc1wcUEar1aW85KuNZ
-   WS1d3jywsqZr7N9Qpsg83ZZqvUKp0WD+YIO/UQtq3gyTQwXFnVBvJFZxr
-   meG6kH+MP1lqeFe2miaX7pBFxQPO2OI+7/TeYEbA1tmBkIKZ51L/xf1l1
-   g==;
-X-CSE-ConnectionGUID: z7sndHPBT1qzRVtVMWmaxw==
-X-CSE-MsgGUID: 3ILQDiifTiqoJ2Fzp6BfCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="43875854"
+  bh=3C2jU3oafWCffi1CIVU/bhZ4LIFwlexh1pPiVDn1EZU=;
+  b=WasVBEudko1UFDJUvhN597/7+hT8W8Ipr2RjmWL2WRZy2JEfo2xV6nfp
+   plciP8OJVImiKr3quASA8e4ve/az2OjB6Qehnyu2DWjL77hu7s6HNfr54
+   ZS7NOzhWLIkZdghnNga2NUcQfoQaNwJhO3ZDUKiT0NNZ3SuZD5++V5fg/
+   5BdMPHLnqrqqDIzTPHhpmIOJAPnvWPNcjABD10sOCNUZmh8cB0rz+6wk5
+   vkt1Ni6X+Ol5Ywzw2BaIiRxAZO8TwgNlNtNG8yyHkCPPVlEPleNi1aS81
+   ZrsQTIamFClLsA6CdRbo8c6wjdZKf3F8HzItCrSFEZmEGf0L9wW5xHe3H
+   Q==;
+X-CSE-ConnectionGUID: Bd0+aHfETZueXbFEyBLjHg==
+X-CSE-MsgGUID: uOdgPOJMSnmz92uQ+xG7MA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36065163"
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="43875854"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 17:42:12 -0800
-X-CSE-ConnectionGUID: Dfai3mu1S/euEr7/4Lbvfg==
-X-CSE-MsgGUID: d5m37Y1STBqQKsb6F3qlPA==
+   d="scan'208";a="36065163"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 18:01:46 -0800
+X-CSE-ConnectionGUID: YlfCK7/YSnGHJnULaGvP6g==
+X-CSE-MsgGUID: 3t7jccnnRq2W+oC8jO32Rw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="130255121"
+   d="scan'208";a="123726556"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 30 Nov 2024 17:42:11 -0800
+  by fmviesa001.fm.intel.com with ESMTP; 30 Nov 2024 18:01:45 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHYy4-00017b-0l;
-	Sun, 01 Dec 2024 01:41:54 +0000
-Date: Sun, 1 Dec 2024 09:40:23 +0800
+	id 1tHZHK-00018P-2g;
+	Sun, 01 Dec 2024 02:01:42 +0000
+Date: Sun, 1 Dec 2024 10:01:16 +0800
 From: kernel test robot <lkp@intel.com>
 To: Thomas =?unknown-8bit?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev
 Subject: [thomas-weissschuh:b4/sysfs-const-attr 69/71]
- drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:362:8: error: field
- designator 'show_new' does not refer to any field in type 'struct
- overlay_attribute'
-Message-ID: <202412010956.bI8sPKhN-lkp@intel.com>
+ include/linux/sysfs.h:239:21: error: initialized field overwritten
+Message-ID: <202412010926.0Xksa2jx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,404 +65,101 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/sysfs-const-attr
 head:   aed513ca2679dc1dac28c9fc5e230c9102c73a72
 commit: a0965582e0a49944224cef0b8ea6dd3f961630fd [69/71] _Generic
-config: i386-buildonly-randconfig-003-20241201 (https://download.01.org/0day-ci/archive/20241201/202412010956.bI8sPKhN-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010956.bI8sPKhN-lkp@intel.com/reproduce)
+config: x86_64-randconfig-161-20241201 (https://download.01.org/0day-ci/archive/20241201/202412010926.0Xksa2jx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412010926.0Xksa2jx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412010956.bI8sPKhN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412010926.0Xksa2jx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:362:8: error: field designator 'show_new' does not refer to any field in type 'struct overlay_attribute'
-     362 | static OVERLAY_ATTR(name, S_IRUGO, overlay_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
+   In file included from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/acpi.h:14,
+                    from drivers/gpu/drm/drm_sysfs.c:13:
+>> include/linux/sysfs.h:239:21: error: initialized field overwritten [-Werror=override-init]
      239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
->> drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:362:8: error: field designator 'store_new' does not refer to any field in type 'struct overlay_attribute'
-     362 | static OVERLAY_ATTR(name, S_IRUGO, overlay_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
+         |                     ^~~~~~~~
+   include/linux/sysfs.h:254:9: note: in expansion of macro '__ATTR_SHOW'
+     254 |         __ATTR_SHOW(_show),                                             \
+         |         ^~~~~~~~~~~
+   include/linux/device/class.h:217:11: note: in expansion of macro '__ATTR'
+     217 |         { __ATTR(_name, _mode, show_class_attr_string, NULL), _str }
+         |           ^~~~~~
+   include/linux/device/class.h:220:17: note: in expansion of macro '_CLASS_ATTR_STRING'
+     220 |                 _CLASS_ATTR_STRING(_name, _mode, _str)
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:129:8: note: in expansion of macro 'CLASS_ATTR_STRING'
+     129 | static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+         |        ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:239:21: note: (near initialization for 'class_attr_version.attr.<anonymous>.show_new')
+     239 |         .show_new = _Generic(_show,                                     \
+         |                     ^~~~~~~~
+   include/linux/sysfs.h:254:9: note: in expansion of macro '__ATTR_SHOW'
+     254 |         __ATTR_SHOW(_show),                                             \
+         |         ^~~~~~~~~~~
+   include/linux/device/class.h:217:11: note: in expansion of macro '__ATTR'
+     217 |         { __ATTR(_name, _mode, show_class_attr_string, NULL), _str }
+         |           ^~~~~~
+   include/linux/device/class.h:220:17: note: in expansion of macro '_CLASS_ATTR_STRING'
+     220 |                 _CLASS_ATTR_STRING(_name, _mode, _str)
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:129:8: note: in expansion of macro 'CLASS_ATTR_STRING'
+     129 | static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+         |        ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:247:22: error: initialized field overwritten [-Werror=override-init]
      247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:363:8: error: field designator 'show_new' does not refer to any field in type 'struct overlay_attribute'
-     363 | static OVERLAY_ATTR(manager, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     364 |                 overlay_manager_show, overlay_manager_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:363:8: error: field designator 'store_new' does not refer to any field in type 'struct overlay_attribute'
-     363 | static OVERLAY_ATTR(manager, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     364 |                 overlay_manager_show, overlay_manager_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
+         |                      ^~~~~~~~
+   include/linux/sysfs.h:255:9: note: in expansion of macro '__ATTR_STORE'
      255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
+         |         ^~~~~~~~~~~~
+   include/linux/device/class.h:217:11: note: in expansion of macro '__ATTR'
+     217 |         { __ATTR(_name, _mode, show_class_attr_string, NULL), _str }
+         |           ^~~~~~
+   include/linux/device/class.h:220:17: note: in expansion of macro '_CLASS_ATTR_STRING'
+     220 |                 _CLASS_ATTR_STRING(_name, _mode, _str)
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:129:8: note: in expansion of macro 'CLASS_ATTR_STRING'
+     129 | static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+         |        ^~~~~~~~~~~~~~~~~
+   include/linux/sysfs.h:247:22: note: (near initialization for 'class_attr_version.attr.<anonymous>.store_new')
      247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:365:8: error: field designator 'show_new' does not refer to any field in type 'struct overlay_attribute'
-     365 | static OVERLAY_ATTR(input_size, S_IRUGO, overlay_input_size_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:365:8: error: field designator 'store_new' does not refer to any field in type 'struct overlay_attribute'
-     365 | static OVERLAY_ATTR(input_size, S_IRUGO, overlay_input_size_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
+         |                      ^~~~~~~~
+   include/linux/sysfs.h:255:9: note: in expansion of macro '__ATTR_STORE'
      255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:366:8: error: field designator 'show_new' does not refer to any field in type 'struct overlay_attribute'
-     366 | static OVERLAY_ATTR(screen_width, S_IRUGO, overlay_screen_width_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:360:2: note: expanded from macro 'OVERLAY_ATTR'
-     360 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c:366:8: error: field designator 'store_new' does not refer to any field in type 'struct overlay_attribute'
---
->> drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:243:8: error: field designator 'show_new' does not refer to any field in type 'struct display_attribute'
-     243 | static DISPLAY_ATTR(name, S_IRUGO, display_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
->> drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:243:8: error: field designator 'store_new' does not refer to any field in type 'struct display_attribute'
-     243 | static DISPLAY_ATTR(name, S_IRUGO, display_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:244:8: error: field designator 'show_new' does not refer to any field in type 'struct display_attribute'
-     244 | static DISPLAY_ATTR(display_name, S_IRUGO, display_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:244:8: error: field designator 'store_new' does not refer to any field in type 'struct display_attribute'
-     244 | static DISPLAY_ATTR(display_name, S_IRUGO, display_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:245:8: error: field designator 'show_new' does not refer to any field in type 'struct display_attribute'
-     245 | static DISPLAY_ATTR(enabled, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     246 |                 display_enabled_show, display_enabled_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:245:8: error: field designator 'store_new' does not refer to any field in type 'struct display_attribute'
-     245 | static DISPLAY_ATTR(enabled, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     246 |                 display_enabled_show, display_enabled_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:247:8: error: field designator 'show_new' does not refer to any field in type 'struct display_attribute'
-     247 | static DISPLAY_ATTR(tear_elim, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 display_tear_show, display_tear_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c:241:2: note: expanded from macro 'DISPLAY_ATTR'
-     241 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
---
->> drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:426:8: error: field designator 'show_new' does not refer to any field in type 'struct manager_attribute'
-     426 | static MANAGER_ATTR(name, S_IRUGO, manager_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
->> drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:426:8: error: field designator 'store_new' does not refer to any field in type 'struct manager_attribute'
-     426 | static MANAGER_ATTR(name, S_IRUGO, manager_name_show, NULL);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:427:8: error: field designator 'show_new' does not refer to any field in type 'struct manager_attribute'
-     427 | static MANAGER_ATTR(display, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     428 |                 manager_display_show, manager_display_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:427:8: error: field designator 'store_new' does not refer to any field in type 'struct manager_attribute'
-     427 | static MANAGER_ATTR(display, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     428 |                 manager_display_show, manager_display_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:429:8: error: field designator 'show_new' does not refer to any field in type 'struct manager_attribute'
-     429 | static MANAGER_ATTR(default_color, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     430 |                 manager_default_color_show, manager_default_color_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     240 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     241 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:429:8: error: field designator 'store_new' does not refer to any field in type 'struct manager_attribute'
-     429 | static MANAGER_ATTR(default_color, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     430 |                 manager_default_color_show, manager_default_color_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:255:2: note: expanded from macro '__ATTR'
-     255 |         __ATTR_STORE(_store),                                           \
-         |         ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:247:3: note: expanded from macro '__ATTR_STORE'
-     247 |         .store_new = _Generic(_store,                                   \
-         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     248 |                 default : NULL                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     249 |         )
-         |         ~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:431:8: error: field designator 'show_new' does not refer to any field in type 'struct manager_attribute'
-     431 | static MANAGER_ATTR(trans_key_type, S_IRUGO|S_IWUSR,
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     432 |                 manager_trans_key_type_show, manager_trans_key_type_store);
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c:424:2: note: expanded from macro 'MANAGER_ATTR'
-     424 |         __ATTR(_name, _mode, _show, _store)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:254:2: note: expanded from macro '__ATTR'
-     254 |         __ATTR_SHOW(_show),                                             \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/sysfs.h:239:3: note: expanded from macro '__ATTR_SHOW'
-     239 |         .show_new = _Generic(_show,                                     \
+         |         ^~~~~~~~~~~~
+   include/linux/device/class.h:217:11: note: in expansion of macro '__ATTR'
+     217 |         { __ATTR(_name, _mode, show_class_attr_string, NULL), _str }
+         |           ^~~~~~
+   include/linux/device/class.h:220:17: note: in expansion of macro '_CLASS_ATTR_STRING'
+     220 |                 _CLASS_ATTR_STRING(_name, _mode, _str)
+         |                 ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/drm_sysfs.c:129:8: note: in expansion of macro 'CLASS_ATTR_STRING'
+     129 | static CLASS_ATTR_STRING(version, S_IRUGO, "drm 1.1.0 20060810");
+         |        ^~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
 
 
-vim +362 drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
+vim +239 include/linux/sysfs.h
 
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  357  
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  358  #define OVERLAY_ATTR(_name, _mode, _show, _store) \
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  359  	struct overlay_attribute overlay_attr_##_name = \
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  360  	__ATTR(_name, _mode, _show, _store)
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  361  
-f76ee892a99e68 Tomi Valkeinen 2015-12-09 @362  static OVERLAY_ATTR(name, S_IRUGO, overlay_name_show, NULL);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  363  static OVERLAY_ATTR(manager, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  364  		overlay_manager_show, overlay_manager_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  365  static OVERLAY_ATTR(input_size, S_IRUGO, overlay_input_size_show, NULL);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  366  static OVERLAY_ATTR(screen_width, S_IRUGO, overlay_screen_width_show, NULL);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  367  static OVERLAY_ATTR(position, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  368  		overlay_position_show, overlay_position_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  369  static OVERLAY_ATTR(output_size, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  370  		overlay_output_size_show, overlay_output_size_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  371  static OVERLAY_ATTR(enabled, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  372  		overlay_enabled_show, overlay_enabled_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  373  static OVERLAY_ATTR(global_alpha, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  374  		overlay_global_alpha_show, overlay_global_alpha_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  375  static OVERLAY_ATTR(pre_mult_alpha, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  376  		overlay_pre_mult_alpha_show,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  377  		overlay_pre_mult_alpha_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  378  static OVERLAY_ATTR(zorder, S_IRUGO|S_IWUSR,
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  379  		overlay_zorder_show, overlay_zorder_store);
-f76ee892a99e68 Tomi Valkeinen 2015-12-09  380  
-
-:::::: The code at line 362 was first introduced by commit
-:::::: f76ee892a99e68b55402b8d4b8aeffcae2aff34d omapfb: copy omapdss & displays for omapfb
-
-:::::: TO: Tomi Valkeinen <tomi.valkeinen@ti.com>
-:::::: CC: Tomi Valkeinen <tomi.valkeinen@ti.com>
+   229	
+   230	/*
+   231	 * Use these macros to make defining attributes easier.
+   232	 * See include/linux/device.h for examples..
+   233	 */
+   234	
+   235	#define __ATTR_SHOW(_show)						\
+   236		.show	= _Generic(_show,					\
+   237			default : _show						\
+   238		),								\
+ > 239		.show_new = _Generic(_show,					\
+   240			default : NULL						\
+   241		)
+   242	
 
 -- 
 0-DAY CI Kernel Test Service
