@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79682AD23
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 02:12:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B15AC79FD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 02:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733019149; cv=none; b=koUjDFpuJSNeTY1Fz2UQb7D1GcrJHykO15M2/hfT/590LvFDFoxyQ2xoYrZWB/tcu3Sbhi2vyc4Y2EYpRcSSoSwqgRUO+po33BP4qp4sqLnAsfsmqb4q6vaijH55//ZKLLBz4/5ZkokBt/tmrqP9klGVJMT04KBMGTxB9Kzqbgk=
+	t=1733020413; cv=none; b=Hy1Vw8yEKRZZjj9LssBaU9+E05qwl305AJZvAGSIXBdq3DqVqvCYU0xZpaj6Bc2qKO9B1xY5giXCWVvWIzzPminnyRbfuqXb80kDaP06/VKyXB4ePWDnXuMEDFH77iU1ET7rEVyBOl5kCVBX+yyQbEM3r2MHkGQvFZ+/oiesLvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733019149; c=relaxed/simple;
-	bh=J/wUxKYlG07eGTFBQlS196/dCwEk6KnTaQ1aehgqP0g=;
+	s=arc-20240116; t=1733020413; c=relaxed/simple;
+	bh=OimiFsLOOKPfDXi5SZrnYrVngS//hSi2taR9num6zJs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=o6AeaxXXPS7fIzw9Arb7qKS8MUf0BdocNq+4G4vzelDiqDnUm32C/uWzCkCowwaUBtubzkrOyDUBnIlHfDEuTC5TWCdQlwrpPWozcWzhTj70EjGWWRaQ0XDSWWTP2IBfntFlwr4W7pFhAiYrFHzt2F5PGuXD5tCCmkBCAVZ6r1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=evisfQM+; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=QXM6XWS05YkzE9wmuLMnBLvMVy0sKnBQxqNzF6Z8BbUVmiJ+q5kJ0dgLawaZaSgiYXI4gJJeJiup8MrSbbMLXoUQvYFBYIT2KwCdOr56oEGUVlJGd7HqaMbuuo4qHw/VccUSz8OpqkbEIUY20puC8lHV86Seqy+Tvd20ppNmuOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijdnRZub; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="evisfQM+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijdnRZub"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733019148; x=1764555148;
+  t=1733020412; x=1764556412;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=J/wUxKYlG07eGTFBQlS196/dCwEk6KnTaQ1aehgqP0g=;
-  b=evisfQM+1NFKehv/35Go+EcYm+meKNqXg0/izE+22p1q06uZEqE4a7sl
-   1nHHxwKnrajKXivUo8T81vvCkuk9Xx5w4C27hAQ1OP1MQ5BM+kDboWLPX
-   ptYITohShpdA3HhT3YLlG0m9NsaxrPbZ3+lOIS8xeENa3u5l8FokRl9vb
-   84FbKgmQiDtIrj4CLaabRXWyy6nlOBgQHDfjg8q340UiriKNr1NslHs0Q
-   zvn9R3egPoRhtLbC9ZybzB8pW0pX1yLSttuZ6rEMI3MHp5rHzeIZySupI
-   6cn9rPDn035+DuslEZZkH1YwVPdc7xhCH61YLufQSeYGX1iskwBKlE1MK
-   g==;
-X-CSE-ConnectionGUID: zsNEJSojSk26OSdog7BxmQ==
-X-CSE-MsgGUID: MNJBj3czRvmcW/wkAyWTXw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33449394"
+  bh=OimiFsLOOKPfDXi5SZrnYrVngS//hSi2taR9num6zJs=;
+  b=ijdnRZub7U1cvRAU8z3UhzqSEGxHTZLoUakUsPlkyPbaHVCCTEdP9Kld
+   XYVQG+vE1+zdcoV+u2Xnv01C0YqwvB+vXjBPNICFjGjcJW3wIGYF+WuQU
+   bLb2zBI7gmSbzGYBHq6PRN/Hku6x9byZM8rj18+biKKOO/eWPV1jBBHG2
+   MtVJoM4hU6Fm4YDiBRG5rM564Yw8top98bM57KtbxPTWmSittEnHVaZd9
+   UKOEzsY10Qd/b+2JFOVY5MR/dpUdFu4lWh4P77Bt5VA0rDqgRuI4xDqPZ
+   zbdsuZwpg9I86NUBFiXNiJDSmoGyMgsV29mk7Di9+YFOk9wlFsL/RZds1
+   Q==;
+X-CSE-ConnectionGUID: GenfOdSMRuGgR1qNd+aZoA==
+X-CSE-MsgGUID: klR5GRfvQdO6MmIg8Eqd/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="44573541"
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="33449394"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 18:12:27 -0800
-X-CSE-ConnectionGUID: GK8ZKd5tSsO9v10wVTylXA==
-X-CSE-MsgGUID: oZRzBf3cRpaRJVW9T8ZFNQ==
+   d="scan'208";a="44573541"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 18:33:32 -0800
+X-CSE-ConnectionGUID: 5Lbfg5RzRZC3VG+PYSo3+Q==
+X-CSE-MsgGUID: +7csbx3NT7qZ1ST6r5amQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="93246332"
+   d="scan'208";a="92657157"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Nov 2024 18:12:25 -0800
+  by orviesa010.jf.intel.com with ESMTP; 30 Nov 2024 18:33:30 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHZRf-00018n-21;
-	Sun, 01 Dec 2024 02:12:23 +0000
-Date: Sun, 1 Dec 2024 10:11:28 +0800
+	id 1tHZlo-00019x-19;
+	Sun, 01 Dec 2024 02:33:14 +0000
+Date: Sun, 1 Dec 2024 10:32:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20241114 6/22]
- include/linux/compiler_types.h:523:45: error: call to
- '__compiletime_assert_885' declared with attribute error: BUILD_BUG_ON
- failed: conf->keylen < WLAN_KEY_LEN_CCMP
-Message-ID: <202412011049.nqm0p1W8-lkp@intel.com>
+To: Nick Terrell <terrelln@fb.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/x86/boot/compressed/../../../../lib/zstd/decompress/zstd_decompress_internal.h:206
+ ZSTD_DCtx_get_bmi2() warn: inconsistent indenting
+Message-ID: <202412011024.uk7IjTsa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,127 +62,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Gustavo,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20241114
-head:   ffa0ea7cd2216fa4db0e24844e1675e94b7db1aa
-commit: 08dd8b1c450b2e86a7bdaec5e23ff58fcff6ae01 [6/22] wifi: iwlwifi: mvm: Use __counted_by() and avoid -Wfamnae warnings
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20241201/202412011049.nqm0p1W8-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011049.nqm0p1W8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cfd47302ac64b595beb0a67a337b81942146448a
+commit: 2aa14b1ab2c41a4fe41efae80d58bb77da91f19f zstd: import usptream v1.5.2
+date:   2 years, 1 month ago
+config: i386-randconfig-141-20241119 (https://download.01.org/0day-ci/archive/20241201/202412011024.uk7IjTsa-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011049.nqm0p1W8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011024.uk7IjTsa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/zstd_decompress_internal.h:206 ZSTD_DCtx_get_bmi2() warn: inconsistent indenting
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/zstd_decompress_block.c:894 ZSTD_execSequenceEnd() warn: inconsistent indenting
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/zstd_decompress_block.c:942 ZSTD_execSequenceEndSplitLitBuffer() warn: inconsistent indenting
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/zstd_decompress_block.c:1009 ZSTD_execSequence() warn: inconsistent indenting
 
-   In file included from <command-line>:
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c: In function 'iwl_mvm_gtk_rekey':
->> include/linux/compiler_types.h:523:45: error: call to '__compiletime_assert_885' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:504:25: note: in definition of macro '__compiletime_assert'
-     504 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:523:9: note: in expansion of macro '_compiletime_assert'
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2169:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2169 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
-         |         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:523:45: error: call to '__compiletime_assert_886' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:504:25: note: in definition of macro '__compiletime_assert'
-     504 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:523:9: note: in expansion of macro '_compiletime_assert'
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/intel/iwlwifi/mvm/d3.c:2170:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2170 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
-         |         ^~~~~~~~~~~~
---
-   In file included from <command-line>:
-   d3.c: In function 'iwl_mvm_gtk_rekey':
->> include/linux/compiler_types.h:523:45: error: call to '__compiletime_assert_885' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_CCMP
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:504:25: note: in definition of macro '__compiletime_assert'
-     504 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:523:9: note: in expansion of macro '_compiletime_assert'
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   d3.c:2169:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2169 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_CCMP);
-         |         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:523:45: error: call to '__compiletime_assert_886' declared with attribute error: BUILD_BUG_ON failed: conf->keylen < WLAN_KEY_LEN_GCMP_256
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:504:25: note: in definition of macro '__compiletime_assert'
-     504 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:523:9: note: in expansion of macro '_compiletime_assert'
-     523 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   d3.c:2170:9: note: in expansion of macro 'BUILD_BUG_ON'
-    2170 |         BUILD_BUG_ON(conf->keylen < WLAN_KEY_LEN_GCMP_256);
-         |         ^~~~~~~~~~~~
+Old smatch warnings:
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:598 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead of &
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:598 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead of &
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:1292 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instead of &
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:1292 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instead of &
 
+vim +206 arch/x86/boot/compressed/../../../../lib/zstd/decompress/zstd_decompress_internal.h
 
-vim +/__compiletime_assert_885 +523 include/linux/compiler_types.h
-
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  509  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  510  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  511  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  512  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  513  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  514   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  515   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  516   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  517   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  518   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  519   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  520   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  521   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  522  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @523  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  524  
-
-:::::: The code at line 523 was first introduced by commit
-:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
-
-:::::: TO: Will Deacon <will@kernel.org>
-:::::: CC: Will Deacon <will@kernel.org>
+   200	
+   201	MEM_STATIC int ZSTD_DCtx_get_bmi2(const struct ZSTD_DCtx_s *dctx) {
+   202	#if DYNAMIC_BMI2 != 0
+   203		return dctx->bmi2;
+   204	#else
+   205	    (void)dctx;
+ > 206		return 0;
+   207	#endif
+   208	}
+   209	
 
 -- 
 0-DAY CI Kernel Test Service
