@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609C41D7E30;
-	Sun,  1 Dec 2024 21:05:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4E425789D
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 21:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733087149; cv=none; b=VM8ll8S2JVPSCmQ0r09R8n8nCuU25A0dHUzVwDzIlxYr/+K+YcTlKDhsAONOkkesMM5w9QEc4ls09o4jB7lpcMS3fPQyWM3OHaPF4geNtm2Knv2A2CKy7G39T1qudHiBuAVvaA2HO27cHkK0Q8Te3tjFm3VhKRAQOlpeP7WeleU=
+	t=1733087149; cv=none; b=nK6hpDimYXZXCotj51xNyLkcgjSD1wxKSltaUQi1f4HfAYCJVGAa2ShvV6pTPzBpJCGxQmXZcFKjx26yir68HAiohK5Sy2hDEjhuJA8CECaI0OsGelR8EKLxb+ZF5Uy+HYXftN+g7OGQ4a7FFTXjom2n3mSfBiB2iKZQ1QCeDJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1733087149; c=relaxed/simple;
-	bh=lGaqOCq0UyLotf80FywLXX/qI1H6W4CyJle9/4RdXXw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EYR7i+hQKzF5N15O0Fg10Abk63EXNqU1FUMgIVJ4COOTt6CDG24cWmlOX4tTA6AWaudCphoQzJO3QCSo4yS9ntg41Vg4koyLFCZyEyMiDPwotsUceJn60wZVQxy43o/1+cPHM5TSuXNMcqzIFGMaYqtoErcTkA59veI3RC8aQoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqVyzOZb; arc=none smtp.client-ip=198.175.65.11
+	bh=7+hKjwfDVWD8sLEzvKkHVcYUay6KQ0coHW/BqNaCA7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fY9GOj4DH3VZZks9Os+AZ9MfImFGuHaB3sSLun8zrr+0XUDJNf+62cxF2pHgAU7ol/JSPFZx8C7RGjiVJNMzU94Gn+/LCKxUC6k8tOmZrYyvG350BB0czsMthxETJ7rjcZHtd36bGGUy2TvsABRlnMOEuAubWxRfCexl4nRpMgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YGNIjOr4; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqVyzOZb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YGNIjOr4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733087147; x=1764623147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lGaqOCq0UyLotf80FywLXX/qI1H6W4CyJle9/4RdXXw=;
-  b=HqVyzOZbY2eExooLl8zF2elCZ+7vcBa5tr0A0dNWNTU399XQ1a1gmjmD
-   KnEyIY5TagF9cstg3LoqbfJKxeBq2ZOt5gqfLUG1qMN6v0XxxxMLk7aRr
-   mBSWDEeY/6xZNeXvRkWA9VcRTSa23ugCp0xS0MrUigghB8arhlfuGTgHp
-   aL+EEY3hMo8dtxI4sgo7ASZdxO8caOLmJnTZMgeeOg+Rl/+juFeNe+EsY
-   CQN4MB4aENQ0NfSO/bNNua3toGLRFrWk9WUTeQ3eIEt9oKl8usU0M5tK0
-   45BUV4CpbmS6L4JPlmnGCzHP1yDOBYwdc6UkHfyXfQOTOcB3/F8gdRa1u
-   g==;
-X-CSE-ConnectionGUID: bKGPVoDqT5uprJfCdACYTw==
-X-CSE-MsgGUID: JA9XoaykRNmPXFR0QLGoMQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="43730981"
+  t=1733087148; x=1764623148;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7+hKjwfDVWD8sLEzvKkHVcYUay6KQ0coHW/BqNaCA7Y=;
+  b=YGNIjOr4xZHeY2/xdlc2LfzycxQ3EMqJbjr/3fttKb6HKzqtZH/IEbnN
+   1nZUx8oM8gLx0bHnyR3HwgS6WFFECWvmhnIK6szGgctChRIQyaxxDHPjr
+   Zx/pg7mhpIZQnIx1lxqMuM1C/0PSdMspDfl7tumMZAizVyXu2h//6JMQN
+   hfE0vN7e1xDcTtXkz19ISi4jKZCDtHLu/8P57Lg0DOlEQjZj5s7Zy0kPf
+   mAGjN7NIr0AMC0uLTpd94ridREjcq6iHcgKfh16nEAvYM8xeLuX/rF8JG
+   eCp30AA53lEdoEETtNWb6v0SEinx0E+SuH0Ktp8noeMWaXOZam+3hD3gu
+   w==;
+X-CSE-ConnectionGUID: gEKLDvrZQBW0Mi7QX/33Jw==
+X-CSE-MsgGUID: 2hjbY7Z+Tm+8vBa6rzOTuA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="43730982"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="43730981"
+   d="scan'208";a="43730982"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 13:05:45 -0800
-X-CSE-ConnectionGUID: giqLi05CSd2KTcIc0zov4A==
-X-CSE-MsgGUID: oed2xUWoSV+YLjEl8pNVUA==
+X-CSE-ConnectionGUID: frzLB2omR7Ouh19Hb9JrsA==
+X-CSE-MsgGUID: k1shUHA3S2yxxR4Lh3OVuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93403079"
+   d="scan'208";a="93403080"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
   by fmviesa009.fm.intel.com with ESMTP; 01 Dec 2024 13:05:43 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHr8P-0001qP-18;
+	id 1tHr8P-0001qU-1J;
 	Sun, 01 Dec 2024 21:05:41 +0000
-Date: Mon, 2 Dec 2024 05:05:19 +0800
+Date: Mon, 2 Dec 2024 05:05:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Raghavendra K T <raghavendra.kt@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH V0 03/10] mm: Scan the mm and create a migration list
-Message-ID: <202412020401.kTXL2n6L-lkp@intel.com>
-References: <20241201153818.2633616-4-raghavendra.kt@amd.com>
+To: kernel@openeuler.org, Li Shuo <lishuo@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2418/2418]
+ drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may
+ be truncated copying 32 bytes from a string of length 439
+Message-ID: <202412020425.dy2mIVv8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,86 +62,163 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241201153818.2633616-4-raghavendra.kt@amd.com>
 
-Hi Raghavendra,
+Hi Li,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Raghavendra-K-T/mm-Add-kmmscand-kernel-daemon/20241201-234153
-base:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
-patch link:    https://lore.kernel.org/r/20241201153818.2633616-4-raghavendra.kt%40amd.com
-patch subject: [RFC PATCH V0 03/10] mm: Scan the mm and create a migration list
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241202/202412020401.kTXL2n6L-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020401.kTXL2n6L-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a2b4d661a5ca59dd7cf972c1cce8b98422102ab7
+commit: b2a83bcdafcaaaa60199147d04798d431cc800cc [2418/2418] DRM: Phytium display DRM driver
+config: arm64-randconfig-001-20241112 (https://download.01.org/0day-ci/archive/20241202/202412020425.dy2mIVv8-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020425.dy2mIVv8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412020401.kTXL2n6L-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412020425.dy2mIVv8-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from mm/kmmscand.c:2:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   In file included from mm/kmmscand.c:14:
-   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
-         |                                    ~~~~~~~~~~~ ^ ~~~
-   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
-         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
->> mm/kmmscand.c:159:36: error: use of undeclared identifier 'vma'
-     159 |         VM_BUG_ON_VMA(address == -EFAULT, vma);
-         |                                           ^
-   6 warnings and 1 error generated.
+   drivers/gpu/drm/phytium/phytium_dp.c:503:6: warning: no previous prototype for 'phytium_dp_coding_8b10b_need_enable' [-Wmissing-prototypes]
+     503 | bool phytium_dp_coding_8b10b_need_enable(unsigned char test_pattern)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:520:6: warning: no previous prototype for 'phytium_dp_scrambled_need_enable' [-Wmissing-prototypes]
+     520 | bool phytium_dp_scrambled_need_enable(unsigned char test_pattern)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:653:6: warning: no previous prototype for 'phytium_dp_hw_enable_audio' [-Wmissing-prototypes]
+     653 | void phytium_dp_hw_enable_audio(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:822:6: warning: no previous prototype for 'phytium_dp_hw_disable_video' [-Wmissing-prototypes]
+     822 | void phytium_dp_hw_disable_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:833:6: warning: no previous prototype for 'phytium_dp_hw_video_is_enable' [-Wmissing-prototypes]
+     833 | bool phytium_dp_hw_video_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:844:6: warning: no previous prototype for 'phytium_dp_hw_enable_video' [-Wmissing-prototypes]
+     844 | void phytium_dp_hw_enable_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:856:6: warning: no previous prototype for 'phytium_dp_hw_config_video' [-Wmissing-prototypes]
+     856 | void phytium_dp_hw_config_video(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:945:6: warning: no previous prototype for 'phytium_dp_hw_disable_output' [-Wmissing-prototypes]
+     945 | void phytium_dp_hw_disable_output(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:957:6: warning: no previous prototype for 'phytium_dp_hw_enable_output' [-Wmissing-prototypes]
+     957 | void phytium_dp_hw_enable_output(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:969:6: warning: no previous prototype for 'phytium_dp_hw_enable_input_source' [-Wmissing-prototypes]
+     969 | void phytium_dp_hw_enable_input_source(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:980:6: warning: no previous prototype for 'phytium_dp_hw_disable_input_source' [-Wmissing-prototypes]
+     980 | void phytium_dp_hw_disable_input_source(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:990:6: warning: no previous prototype for 'phytium_dp_hw_output_is_enable' [-Wmissing-prototypes]
+     990 | bool phytium_dp_hw_output_is_enable(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1027:6: warning: no previous prototype for 'phytium_dp_hw_hpd_irq_setup' [-Wmissing-prototypes]
+    1027 | void phytium_dp_hw_hpd_irq_setup(struct phytium_dp_device *phytium_dp, bool enable)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1042:5: warning: no previous prototype for 'phytium_dp_hw_init' [-Wmissing-prototypes]
+    1042 | int phytium_dp_hw_init(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1220:6: warning: no previous prototype for 'phytium_dp_dpcd_sink_dpms' [-Wmissing-prototypes]
+    1220 | void phytium_dp_dpcd_sink_dpms(struct phytium_dp_device *phytium_dp, int mode)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1445:5: warning: no previous prototype for 'phytium_dp_get_link_train_fallback_values' [-Wmissing-prototypes]
+    1445 | int phytium_dp_get_link_train_fallback_values(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1494:5: warning: no previous prototype for 'phytium_dp_start_link_train' [-Wmissing-prototypes]
+    1494 | int phytium_dp_start_link_train(struct phytium_dp_device *phytium_dp)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1799:6: warning: no previous prototype for 'phytium_dp_hpd_poll_handler' [-Wmissing-prototypes]
+    1799 | void phytium_dp_hpd_poll_handler(struct phytium_display_private *priv)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:1946:6: warning: no previous prototype for 'phytium_dp_fast_link_train' [-Wmissing-prototypes]
+    1946 | bool phytium_dp_fast_link_train(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2137:6: warning: no previous prototype for 'phytium_dp_adjust_link_train_parameter' [-Wmissing-prototypes]
+    2137 | void phytium_dp_adjust_link_train_parameter(struct phytium_dp_device *phytium_dp)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2197:1: warning: no previous prototype for 'phytium_encoder_mode_valid' [-Wmissing-prototypes]
+    2197 | phytium_encoder_mode_valid(struct drm_encoder *encoder, const struct drm_display_mode *mode)
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c:2447:5: warning: no previous prototype for 'phytium_get_encoder_crtc_mask' [-Wmissing-prototypes]
+    2447 | int phytium_get_encoder_crtc_mask(struct phytium_dp_device *phytium_dp, int port)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/phytium/phytium_dp.c: In function 'phytium_connector_add_common_modes':
+>> drivers/gpu/drm/phytium/phytium_dp.c:300:17: warning: 'strncpy' output may be truncated copying 32 bytes from a string of length 439 [-Wstringop-truncation]
+     300 |                 strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/vma +159 mm/kmmscand.c
+vim +/strncpy +300 drivers/gpu/drm/phytium/phytium_dp.c
 
-   145	
-   146	static void page_idle_clear_pte_refs(struct page *page, pte_t *pte, struct mm_walk *walk)
-   147	{
-   148		bool need_lock;
-   149		struct folio *folio =  page_folio(page);
-   150		unsigned long address;
-   151	
-   152		if (!folio_mapped(folio) || !folio_raw_mapping(folio))
-   153			return;
-   154	
-   155		need_lock = !folio_test_anon(folio) || folio_test_ksm(folio);
-   156		if (need_lock && !folio_trylock(folio))
-   157			return;
-   158		address = vma_address(walk->vma, page_pgoff(folio, page), compound_nr(page));
- > 159		VM_BUG_ON_VMA(address == -EFAULT, vma);
-   160		folio_idle_clear_pte_refs_one(folio, walk->vma, address, pte);
-   161	
-   162		if (need_lock)
-   163			folio_unlock(folio);
-   164	}
-   165	
+   244	
+   245	static int phytium_connector_add_common_modes(struct phytium_dp_device *phytium_dp)
+   246	{
+   247		int i = 0, ret = 0;
+   248		struct drm_device *dev =  phytium_dp->dev;
+   249		struct drm_display_mode *mode = NULL, *current_mode = NULL;
+   250		struct drm_display_mode *native_mode = &phytium_dp->native_mode;
+   251		bool mode_existed = false;
+   252		struct mode_size {
+   253			char name[DRM_DISPLAY_MODE_LEN];
+   254			int w;
+   255			int h;
+   256		} common_mode[] = {
+   257			{  "640x480",  640,  480},
+   258			{  "800x600",  800,  600},
+   259			{ "1024x768", 1024,  768},
+   260			{ "1280x720", 1280,  720},
+   261			{ "1280x800", 1280,  800},
+   262			{"1280x1024", 1280, 1024},
+   263			{ "1440x900", 1440,  900},
+   264			{"1680x1050", 1680, 1050},
+   265			{"1600x1200", 1600, 1200},
+   266			{"1920x1080", 1920, 1080},
+   267			{"1920x1200", 1920, 1200}
+   268		};
+   269	
+   270		if (native_mode->clock == 0)
+   271			return ret;
+   272	
+   273		for (i = 0; i < ARRAY_SIZE(common_mode); i++) {
+   274			mode_existed = false;
+   275	
+   276			if (common_mode[i].w > native_mode->hdisplay ||
+   277			    common_mode[i].h > native_mode->vdisplay ||
+   278			    (common_mode[i].w == native_mode->hdisplay &&
+   279			    common_mode[i].h == native_mode->vdisplay))
+   280				continue;
+   281	
+   282			list_for_each_entry(current_mode, &phytium_dp->connector.probed_modes, head) {
+   283				if (common_mode[i].w == current_mode->hdisplay &&
+   284				    common_mode[i].h == current_mode->vdisplay) {
+   285					mode_existed = true;
+   286					break;
+   287				}
+   288			}
+   289	
+   290			if (mode_existed)
+   291				continue;
+   292	
+   293			mode = drm_mode_duplicate(dev, native_mode);
+   294			if (mode == NULL)
+   295				continue;
+   296	
+   297			mode->hdisplay = common_mode[i].w;
+   298			mode->vdisplay = common_mode[i].h;
+   299			mode->type &= ~DRM_MODE_TYPE_PREFERRED;
+ > 300			strncpy(mode->name, common_mode[i].name, DRM_DISPLAY_MODE_LEN);
+   301			drm_mode_probed_add(&phytium_dp->connector, mode);
+   302			ret++;
+   303		}
+   304	
+   305		return ret;
+   306	}
+   307	
 
 -- 
 0-DAY CI Kernel Test Service
