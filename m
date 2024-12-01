@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA42D4C66
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 07:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6879F33F6
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 07:36:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733037985; cv=none; b=NgvGnDAUCBWLX6n5hotOI3znJ6OpiwyKzBem9cTcEMdBem8ZMuKE0dtYBIJu26DVO5XBLMpoQcE9iSEAIayTNqyr7djux44vLzQld/CK2zNDaKsfkSjsch1GPAh7/gb5dIEPI9yUZQoqoViqEOwt3D28cTDS0yOCRqn5oGZeg3Y=
+	t=1733038577; cv=none; b=IHN399PAysLeskwBA7ccOuxVjpdRRld+4Iyi/cXGUNs+7PUldxkBbZI4NTmTnLwsbE0KTFjSxuYua/ONiZZ+8ikDveCigbA2VwufThsWAZfR+XlPgWtwr9qp/MvnlcLqtq1yxeIA496bt/eciYMQGrlLsn1/ZsnrYZSVKTm/9PE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733037985; c=relaxed/simple;
-	bh=0L8MR/NAQvztIMNw0sR/rVBFx3rsMt8weqYYdB3grG8=;
+	s=arc-20240116; t=1733038577; c=relaxed/simple;
+	bh=iZP9sM/U+P7yuRZXhDH2qAJBCiOxr54P05QEZw+cBWM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iwktYafnXQgM+Lm7iwiiODVDbGT49BBmyxNWQRjZY2E1HDy0S7c4/ciyQx9/rFLEGbB41VdihntHloBLafM7yafYpUQilSI5wPENyzS/khxGV3K97VQLEhWoKQXBqZ5b8q8bOZLsdmB5p8Ows6Aep0sal9lUOY+QZsUrNaS+y/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dWWPDsQW; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=eaaA5jALi/TCvlwx9J9AKCnj2NhU23z46jXrPDPVNyTTo+4cNCAzv5vufXvPJtOw7rLJN+n3IyCfSl44yUlQLOuD0udIBfElTVolKNgJWg/lXCybEZhjT6Af7902vQgxCIRePAGfvSVqGFMHIr/rt6HEboVM3hJnEsyhM2dIGZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S+AHDmod; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dWWPDsQW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S+AHDmod"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733037983; x=1764573983;
+  t=1733038575; x=1764574575;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0L8MR/NAQvztIMNw0sR/rVBFx3rsMt8weqYYdB3grG8=;
-  b=dWWPDsQWmZgvXe0BZWApIitzlX4XX1N57R4ymSBk86YQodr2G0/w0SMY
-   coyeOO/Ox2ttOQg26W6VpB1EEgA3modHGrTOyPIylamyuArsuYSRaY8jA
-   MfnQykCgMqJeBx45Cx3iCEIHXhpQP96mVjDaGGs3SqiCS/0cuFcpdD9Z2
-   AXk6NrPI8pCB+YwcRy9IrZBNIsPJlBwSIweuCa/+QVOPfBdsEAZuA0uZf
-   eLklZSqign6gEryN1/k+72NmLlfSVwXLZLf+WZsqJvut9kFfMMNRSopfY
-   S8Ija+TtmoJHPCuS3OyV/Ju4M5jdojkUTJhPO1TP1+eHrN3QTjNm4fd01
-   Q==;
-X-CSE-ConnectionGUID: 6NZh3wHsQNq+0qD10rQSjA==
-X-CSE-MsgGUID: 4wVGlgyOTYObyga2BxFv3g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="20802636"
+  bh=iZP9sM/U+P7yuRZXhDH2qAJBCiOxr54P05QEZw+cBWM=;
+  b=S+AHDmodr36X00DNjwR6k/RkClyQQ2gsDImXkyAQr2WxLhdsGViawhMh
+   MOnQit5JWzEpxHdwnjvZ7eL0AkRSIPTaUkCrQa6MjMpv/gnIivpq8odWS
+   zUMbn80cGgUsSTOeQ65JCu9EgBEgTG4QQILZrrjULNwCELFa1R109TQpJ
+   yN0yoNdX1uQ+/GXbeD3noLlo6+hEKnu+NyaZLv/88cQLxSyph/Ut5xxuh
+   k8vhs8rOW7xL6GGrWNjxWHA9sNFVDWa8KVoLH4o5DsL69qXAw7I9A7se5
+   pIuSyUbFz/IZvtgdnbGbFhGAYxBTiMDndZFbh/vy9oAb7QQyPEA0Uc4IV
+   w==;
+X-CSE-ConnectionGUID: vEdFg3UuSVKeJ5F8NxfY1A==
+X-CSE-MsgGUID: MVW6N7CuRcS3psQTyk/r8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33459419"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="20802636"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 23:26:23 -0800
-X-CSE-ConnectionGUID: pCsCMlD2TH2632Uojl+HeQ==
-X-CSE-MsgGUID: wIPldqbPQQOSJ0samlGjVA==
+   d="scan'208";a="33459419"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 23:36:14 -0800
+X-CSE-ConnectionGUID: wOta2QS9ScmuaumczXrXMA==
+X-CSE-MsgGUID: jfaqBu1YTou6MjYMysiB7Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
-   d="scan'208";a="97835071"
+X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
+   d="scan'208";a="97927467"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 30 Nov 2024 23:26:22 -0800
+  by orviesa004.jf.intel.com with ESMTP; 30 Nov 2024 23:36:13 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHeKx-0001L3-1t;
-	Sun, 01 Dec 2024 07:25:54 +0000
-Date: Sun, 1 Dec 2024 15:25:18 +0800
+	id 1tHeUS-0001LN-2A;
+	Sun, 01 Dec 2024 07:35:47 +0000
+Date: Sun, 1 Dec 2024 15:35:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: kernel@openeuler.org, Zhang Zekun <zhangzekun11@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2430/2430] arch/arm64/mm/quick_kexec.c:21:13:
- warning: no previous prototype for 'reserve_quick_kexec'
-Message-ID: <202412011507.pSC7pXCi-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2430/2430] mm/hugetlb.c:6315:14: warning: no
+ previous prototype for 'hugetlb_alloc_hugepage_nodemask'
+Message-ID: <202412011502.CoFCt6aY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,62 +62,66 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Kefeng,
+Hi Chen,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+FYI, the error/warning still remains.
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   a2b4d661a5ca59dd7cf972c1cce8b98422102ab7
-commit: d61f4ca086e99bb481961b1120e10e7a4296c392 [2430/2430] arm64: quick_kexec: Move to stand-alone file
-config: arm64-randconfig-003-20241114 (https://download.01.org/0day-ci/archive/20241201/202412011507.pSC7pXCi-lkp@intel.com/config)
+commit: 8deff3a60ce1a9dffb552210f065fc9ed6a55f84 [2430/2430] mm/sharepool: Add mg_sp_alloc_nodemask
+config: arm64-randconfig-002-20241114 (https://download.01.org/0day-ci/archive/20241201/202412011502.CoFCt6aY-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011507.pSC7pXCi-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011502.CoFCt6aY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011507.pSC7pXCi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011502.CoFCt6aY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/mm/quick_kexec.c:21:13: warning: no previous prototype for 'reserve_quick_kexec' [-Wmissing-prototypes]
-      21 | void __init reserve_quick_kexec(void)
-         |             ^~~~~~~~~~~~~~~~~~~
->> arch/arm64/mm/quick_kexec.c:47:13: warning: no previous prototype for 'request_quick_kexec_res' [-Wmissing-prototypes]
-      47 | void __init request_quick_kexec_res(struct resource *res)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~
+>> mm/hugetlb.c:6315:14: warning: no previous prototype for 'hugetlb_alloc_hugepage_nodemask' [-Wmissing-prototypes]
+    6315 | struct page *hugetlb_alloc_hugepage_nodemask(int nid, int flag, nodemask_t *nodemask)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/reserve_quick_kexec +21 arch/arm64/mm/quick_kexec.c
+vim +/hugetlb_alloc_hugepage_nodemask +6315 mm/hugetlb.c
 
-    20	
-  > 21	void __init reserve_quick_kexec(void)
-    22	{
-    23		unsigned long long mem_start, mem_len;
-    24	
-    25		mem_len = quick_kexec_res.end;
-    26		if (mem_len == 0)
-    27			return;
-    28	
-    29		/* Current arm64 boot protocol requires 2MB alignment */
-    30		mem_start = memblock_find_in_range(0, arm64_dma_phys_limit,
-    31				mem_len, SZ_2M);
-    32		if (mem_start == 0) {
-    33			pr_warn("cannot allocate quick kexec mem (size:0x%llx)\n",
-    34				mem_len);
-    35			quick_kexec_res.end = 0;
-    36			return;
-    37		}
-    38	
-    39		memblock_reserve(mem_start, mem_len);
-    40		pr_info("quick kexec mem reserved: 0x%016llx - 0x%016llx (%lld MB)\n",
-    41			mem_start, mem_start + mem_len,	mem_len >> 20);
-    42	
-    43		quick_kexec_res.start = mem_start;
-    44		quick_kexec_res.end = mem_start + mem_len - 1;
-    45	}
-    46	
-  > 47	void __init request_quick_kexec_res(struct resource *res)
+  6311	
+  6312	/*
+  6313	 * Allocate hugepage without reserve
+  6314	 */
+> 6315	struct page *hugetlb_alloc_hugepage_nodemask(int nid, int flag, nodemask_t *nodemask)
+  6316	{
+  6317		struct hstate *h = &default_hstate;
+  6318		gfp_t gfp_mask = htlb_alloc_mask(h);
+  6319		struct page *page = NULL;
+  6320	
+  6321		if (nid == NUMA_NO_NODE)
+  6322			nid = numa_mem_id();
+  6323	
+  6324		if (nid < 0 || nid >= MAX_NUMNODES)
+  6325			return NULL;
+  6326	
+  6327		if (flag & ~HUGETLB_ALLOC_MASK)
+  6328			return NULL;
+  6329	
+  6330		if (enable_charge_mighp)
+  6331			gfp_mask |= __GFP_ACCOUNT;
+  6332	
+  6333		if (flag & HUGETLB_ALLOC_NORECLAIM)
+  6334			gfp_mask &= ~__GFP_RECLAIM;
+  6335	
+  6336		if (flag & HUGETLB_ALLOC_NORMAL)
+  6337			page = hugetlb_alloc_hugepage_normal(h, gfp_mask, nid);
+  6338		else if (flag & HUGETLB_ALLOC_BUDDY)
+  6339			page = alloc_migrate_huge_page(h, gfp_mask, nid, nodemask);
+  6340		else
+  6341			page = alloc_huge_page_nodemask(h, nid, nodemask, gfp_mask);
+  6342	
+  6343		return page;
+  6344	}
+  6345	
 
 -- 
 0-DAY CI Kernel Test Service
