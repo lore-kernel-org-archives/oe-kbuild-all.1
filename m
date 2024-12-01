@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365871BC5C
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 03:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344E633086
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 04:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733025485; cv=none; b=eaVy4mct4c66TyiwqcNJqMK7p2HYIWoXn/+k1AR7Vsc3Bq/HHXtQdR6fWCPSxsIxJDE0ZZY8643+Iu/yrHVcHOsAFZblPzqUyvQyWv2fSLvVGYCfMxP/cJiYz9PRysA7M5qMjxSXpv9m7u9MpJdDZsVOzQ1vZKztMNzl0q3VLRI=
+	t=1733027350; cv=none; b=YQX07dzJgarzISwUVdctTeWA0dT9hmA+djgtdrTGuolT7jmzQsSkn0z72gmlx50TlfLU9D9V69VQ1532bnrY9U6soMU7hbMMuFpD+MtAYcV5GbaBpnssFVde3GQ9AMgzobIb5p3coUIKUYAEWhGT6CGNRuC6VQuw4y5zvVSqbU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733025485; c=relaxed/simple;
-	bh=pa0F635w48338qtLAzHtskVyXTXa+xiEacSC7VpVfZM=;
+	s=arc-20240116; t=1733027350; c=relaxed/simple;
+	bh=hoQpx80ABvAg7lxwf+LSvlEv7CQp55ZLaDJpQtQSB2U=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pGxw7HLCp2vk4PWw/el7CeBCefl+5BoIFCFs/ixd4BE+vst2LReAY8rt7SuJozmElIWd4gnRRpAm6jsiG4lygaMJeG7qn0ioB/s8OUlt4GgaA8mgKsOi0oeDEUblX/ftnz6UBP0mo5i2/O5q0Vadzb9wanKW/oTd0HXn06TSVFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ccnfNQM1; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=MLI23hexPKN03V2ZqJaTb9iF3qIGRlWhBOlz7lr0Je5QFHPXMVUeRcz+49/WM/WRZwwP2AvgI9gy2QR5Kw/0cN3SDeObOsa0VzaorVjwgDhLD/Fo1fxfgAeDSdgyjuTrVHob3lNQRrGyMaSjo1HVXs9lWj/bgokJK+GZRPMtJVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KumIus/V; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ccnfNQM1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KumIus/V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733025483; x=1764561483;
+  t=1733027348; x=1764563348;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pa0F635w48338qtLAzHtskVyXTXa+xiEacSC7VpVfZM=;
-  b=ccnfNQM1xo3LNYSs3zexDg2HwqGX7XlMxjpldLeqNbGBZxRDDQ7z4pwI
-   /RQZKsiRad/qO0N8x3RQcgnao1YzclCjRjUb8+KvYrIlTXGygYrVwkchr
-   fuk4fdxpcMjxzpBfEVFhb4wzS8e8LSsCzmfGGcCOjjvq0cnPSANEBZ6+U
-   X2eoyA64tkeaQwb/WvpMTq/D3Iwc33SGk5mKtOwrTZ5x66N6M1cNXXPLD
-   MoPdKi9YsYLLSXAnxm9EPGzpT+9vEFZw6d3+b8Kvwn+cdOPITOG/wyLlb
-   5SWbFYdLBPCF6ENfbqE25PrlOIHKG75nCf2O3cLS1fR9nbW/5vdIjFSMi
+  bh=hoQpx80ABvAg7lxwf+LSvlEv7CQp55ZLaDJpQtQSB2U=;
+  b=KumIus/VkXii2bXstais5eU+4uLkEjIbg5Ho+4FCjBToq49aqpBlre5S
+   YUxeWRCW3U0htbhoZvVV6FZYQXAp1kmhQrmNUEDrCFoMHOjDxEk7Zindl
+   1y7eqT5VSHZNPeOhFfnxHnvfIUMPcCPj9Zi/1+HqnyHTkb+t2jePLGwE3
+   6nofuxvpQT0JGDa8zLvT+ClgsWRsH/JPfoYP+299y1IHdqMkYtGDljsjt
+   oMWG8xfjf4PXQPYLytQaw9K7YwMnhXILjfYj6xL8lM7XehkBe3uGkrEZx
+   P5bH0kPmiRmvS0Goek3AeBRGaMUQ6+VrjgeTyC509Jj05ypUHWisYu58V
    Q==;
-X-CSE-ConnectionGUID: 1cPolg7fQyqk1Vf0HeLBUw==
-X-CSE-MsgGUID: EfijDUtnTZ+LN5ipxgzliw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36067654"
+X-CSE-ConnectionGUID: 3VH+o+fLSY+BvHaTXNvpkQ==
+X-CSE-MsgGUID: o6yPLYR4TX6Np7Scs6q7aQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="55696335"
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="36067654"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 19:58:00 -0800
-X-CSE-ConnectionGUID: +Mr26FEnTC+2Nw3IWzVUqg==
-X-CSE-MsgGUID: rGRqjQmMRdWHk4aBeYY6ng==
+   d="scan'208";a="55696335"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 20:29:07 -0800
+X-CSE-ConnectionGUID: ynhSQ+QfS3SJvi1jsbRmUQ==
+X-CSE-MsgGUID: nYyDsLLbRE+gUpNDqD3BTQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="116060268"
+   d="scan'208";a="96866184"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 30 Nov 2024 19:57:59 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 30 Nov 2024 20:29:06 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHb5o-0001DJ-2q;
-	Sun, 01 Dec 2024 03:57:56 +0000
-Date: Sun, 1 Dec 2024 11:57:07 +0800
+	id 1tHbZw-0001Eg-1R;
+	Sun, 01 Dec 2024 04:29:04 +0000
+Date: Sun, 1 Dec 2024 12:28:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Yejian <zhengyejian1@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474] kernel/livepatch/core.c:2006:12:
- warning: no previous prototype for function 'arch_klp_check_breakpoint'
-Message-ID: <202412011107.mRfBU6d7-lkp@intel.com>
+Subject: [android-common:android16-6.12 109/328]
+ kernel/trace/ring_buffer.c:2455: warning: Function parameter or struct
+ member 'writer' not described in '__ring_buffer_alloc'
+Message-ID: <202412011243.6Q4nJOzd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,112 +63,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zheng,
+Hi Vincent,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   df4c334beecb4cf58e4e8d63b491aa5ac0a84f46
-commit: 470628a716984e1325b92bef4fa2140ff5a062a5 [1474/1474] livepatch: Use breakpoint exception to optimize enabling livepatch
-config: arm64-randconfig-003-20241117 (https://download.01.org/0day-ci/archive/20241201/202412011107.mRfBU6d7-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011107.mRfBU6d7-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   55ff5f6bc99d57f4b10bbbfa45b626de7117f676
+commit: 162c11d25bcd8e91df9b1410358d8a92b30a0700 [109/328] FROMLIST: ring-buffer: Introducing ring-buffer writer
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20241201/202412011243.6Q4nJOzd-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011243.6Q4nJOzd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011107.mRfBU6d7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011243.6Q4nJOzd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/livepatch/core.c:1728:12: warning: no previous prototype for function 'arch_klp_check_activeness_func' [-Wmissing-prototypes]
-   int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-              ^
-   kernel/livepatch/core.c:1728:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-   ^
-   static 
-   kernel/livepatch/core.c:1983:14: warning: no previous prototype for function 'arch_klp_mem_alloc' [-Wmissing-prototypes]
-   void __weak *arch_klp_mem_alloc(size_t size)
-                ^
-   kernel/livepatch/core.c:1983:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak *arch_klp_mem_alloc(size_t size)
-   ^
-   static 
-   kernel/livepatch/core.c:1988:13: warning: no previous prototype for function 'arch_klp_mem_free' [-Wmissing-prototypes]
-   void __weak arch_klp_mem_free(void *mem)
-               ^
-   kernel/livepatch/core.c:1988:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_mem_free(void *mem)
-   ^
-   static 
-   kernel/livepatch/core.c:1993:13: warning: no previous prototype for function 'arch_klp_code_modify_prepare' [-Wmissing-prototypes]
-   void __weak arch_klp_code_modify_prepare(void)
-               ^
-   kernel/livepatch/core.c:1993:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_code_modify_prepare(void)
-   ^
-   static 
-   kernel/livepatch/core.c:1997:13: warning: no previous prototype for function 'arch_klp_code_modify_post_process' [-Wmissing-prototypes]
-   void __weak arch_klp_code_modify_post_process(void)
-               ^
-   kernel/livepatch/core.c:1997:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_code_modify_post_process(void)
-   ^
-   static 
->> kernel/livepatch/core.c:2006:12: warning: no previous prototype for function 'arch_klp_check_breakpoint' [-Wmissing-prototypes]
-   int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-              ^
-   kernel/livepatch/core.c:2006:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-   ^
-   static 
-   kernel/livepatch/core.c:2011:12: warning: no previous prototype for function 'arch_klp_add_breakpoint' [-Wmissing-prototypes]
-   int __weak arch_klp_add_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-              ^
-   kernel/livepatch/core.c:2011:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_add_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-   ^
-   static 
-   kernel/livepatch/core.c:2016:13: warning: no previous prototype for function 'arch_klp_remove_breakpoint' [-Wmissing-prototypes]
-   void __weak arch_klp_remove_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-               ^
-   kernel/livepatch/core.c:2016:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_remove_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-   ^
-   static 
->> kernel/livepatch/core.c:2020:13: warning: no previous prototype for function 'arch_klp_set_brk_func' [-Wmissing-prototypes]
-   void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-               ^
-   kernel/livepatch/core.c:2020:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-   ^
-   static 
-   9 warnings generated.
+>> kernel/trace/ring_buffer.c:2455: warning: Function parameter or struct member 'writer' not described in '__ring_buffer_alloc'
 
 
-vim +/arch_klp_check_breakpoint +2006 kernel/livepatch/core.c
+vim +2455 kernel/trace/ring_buffer.c
 
-  2005	
-> 2006	int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-  2007	{
-  2008		return 0;
-  2009	}
-  2010	
-  2011	int __weak arch_klp_add_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-  2012	{
-  2013		return -EOPNOTSUPP;
-  2014	}
-  2015	
-  2016	void __weak arch_klp_remove_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-  2017	{
-  2018	}
-  2019	
-> 2020	void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-  2021	{
-  2022		func_node->brk_func = new_func;
-  2023	}
-  2024	
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2440) 
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2441) /**
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2442)  * __ring_buffer_alloc - allocate a new ring_buffer
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2443)  * @size: the size in bytes per cpu that is needed.
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2444)  * @flags: attributes to set for the ring buffer.
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2445)  * @key: ring buffer reader_lock_key.
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2446)  *
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2447)  * Currently the only flag that is available is the RB_FL_OVERWRITE
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2448)  * flag. This flag means that the buffer will overwrite old data
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2449)  * when the buffer wraps. If this flag is not set, the buffer will
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2450)  * drop data when the tail hits the head.
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2451)  */
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2452) struct trace_buffer *__ring_buffer_alloc(unsigned long size, unsigned flags,
+162c11d25bcd8e Vincent Donnefort       2024-09-11  2453  					 struct lock_class_key *key,
+162c11d25bcd8e Vincent Donnefort       2024-09-11  2454  					 struct ring_buffer_writer *writer)
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12 @2455) {
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2456) 	/* Default buffer page size - one system page */
+162c11d25bcd8e Vincent Donnefort       2024-09-11  2457  	return alloc_buffer(size, flags, 0, 0, 0, key, writer);
+be68d63a139bd4 Steven Rostedt (Google  2024-06-12  2458) 
+
+:::::: The code at line 2455 was first introduced by commit
+:::::: be68d63a139bd4a0eae44d06234eaff8c07d207c ring-buffer: Add ring_buffer_alloc_range()
+
+:::::: TO: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
