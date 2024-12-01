@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 235635789D
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 21:05:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 609C41D7E30;
+	Sun,  1 Dec 2024 21:05:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733087147; cv=none; b=FRftH7j/q8Yj4bwsXEC2yV3+guQFciQXAkenU9Oobq2qyisFtkGKA3m1Rmp0qxJYr7T/iBxMJao/0fYrYRfhVX6rzLx2/J75d/7WWgLdd1CuSKT29gFAmb+aK0DVA2gNffg2CZdXPVZXVYH8ynB6wjqQ0inhWiPOcYshmRGsKUk=
+	t=1733087149; cv=none; b=VM8ll8S2JVPSCmQ0r09R8n8nCuU25A0dHUzVwDzIlxYr/+K+YcTlKDhsAONOkkesMM5w9QEc4ls09o4jB7lpcMS3fPQyWM3OHaPF4geNtm2Knv2A2CKy7G39T1qudHiBuAVvaA2HO27cHkK0Q8Te3tjFm3VhKRAQOlpeP7WeleU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733087147; c=relaxed/simple;
-	bh=yPF8cnRZT0rGkZxjogU+auVEbC+VsYhhnkTJWgeOx9M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AQZu6pQLXGVW7OQj9QKE134QRH6CPVfMaRXW67CFDaiSfZatYFBUGlAobFZr7929fHyrH+4gxmLtoJ7tXFhWH4Q6apCO79OpCpjhSk/cwIok2IeHU9zkoYAJC8s390V+wFLG/S96HgUU8nK4o9nTtE0wEfQvIS4qO/DSWfm3cdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=S80Y1Bqy; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1733087149; c=relaxed/simple;
+	bh=lGaqOCq0UyLotf80FywLXX/qI1H6W4CyJle9/4RdXXw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EYR7i+hQKzF5N15O0Fg10Abk63EXNqU1FUMgIVJ4COOTt6CDG24cWmlOX4tTA6AWaudCphoQzJO3QCSo4yS9ntg41Vg4koyLFCZyEyMiDPwotsUceJn60wZVQxy43o/1+cPHM5TSuXNMcqzIFGMaYqtoErcTkA59veI3RC8aQoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HqVyzOZb; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="S80Y1Bqy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HqVyzOZb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733087145; x=1764623145;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yPF8cnRZT0rGkZxjogU+auVEbC+VsYhhnkTJWgeOx9M=;
-  b=S80Y1BqyHaXH/1RCfqNLUtyAajNgJKkmQ1kKUelAdVbjV4pmnfIcv0/P
-   /svE3VvnKhXOTOSrMUW/RLS4iOFAnINtp5eMa4s/S8HgCzZucyz7aCWL8
-   7ubU5gRcxypsZzWzmDQT1RujRS/0iN9GUYoQ++UZYiooHGESUMKjvnZrT
-   z/6RTqTxvEBLXEBaz2NBxBwZHc2veehA4JvXAFBBAoeHG/lykGH/8h+Lb
-   fGh00nYPaPGoLFyr68Ron9CkW9UEseV6po+ATDU1ZEbiZu/HF3PIU88ux
-   02iIketfRzpCtH1IZVKIviz4wdHoFmmBx3qoh3dS0ri2OT3c6vK+PmHCg
-   A==;
-X-CSE-ConnectionGUID: jixlcZaqTEG8IHlibf0V+A==
-X-CSE-MsgGUID: EwM0TpmJTlOr8JSv72Dqew==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="43730978"
+  t=1733087147; x=1764623147;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lGaqOCq0UyLotf80FywLXX/qI1H6W4CyJle9/4RdXXw=;
+  b=HqVyzOZbY2eExooLl8zF2elCZ+7vcBa5tr0A0dNWNTU399XQ1a1gmjmD
+   KnEyIY5TagF9cstg3LoqbfJKxeBq2ZOt5gqfLUG1qMN6v0XxxxMLk7aRr
+   mBSWDEeY/6xZNeXvRkWA9VcRTSa23ugCp0xS0MrUigghB8arhlfuGTgHp
+   aL+EEY3hMo8dtxI4sgo7ASZdxO8caOLmJnTZMgeeOg+Rl/+juFeNe+EsY
+   CQN4MB4aENQ0NfSO/bNNua3toGLRFrWk9WUTeQ3eIEt9oKl8usU0M5tK0
+   45BUV4CpbmS6L4JPlmnGCzHP1yDOBYwdc6UkHfyXfQOTOcB3/F8gdRa1u
+   g==;
+X-CSE-ConnectionGUID: bKGPVoDqT5uprJfCdACYTw==
+X-CSE-MsgGUID: JA9XoaykRNmPXFR0QLGoMQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="43730981"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="43730978"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+   d="scan'208";a="43730981"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 13:05:45 -0800
-X-CSE-ConnectionGUID: wMuwf3TqRua9Mx+rEAzL8w==
-X-CSE-MsgGUID: J3ogunxpQW2t9vJOdTGCgg==
+X-CSE-ConnectionGUID: giqLi05CSd2KTcIc0zov4A==
+X-CSE-MsgGUID: oed2xUWoSV+YLjEl8pNVUA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93093111"
+   d="scan'208";a="93403079"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Dec 2024 13:05:43 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 01 Dec 2024 13:05:43 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHr8P-0001qR-1F;
+	id 1tHr8P-0001qP-18;
 	Sun, 01 Dec 2024 21:05:41 +0000
-Date: Mon, 2 Dec 2024 05:05:16 +0800
+Date: Mon, 2 Dec 2024 05:05:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10 382/30000]
- arch/arm64/kvm/hyp/include/hyp/switch.h:216:9: error: implicit declaration
- of function 'sve_cond_update_zcr_vq'
-Message-ID: <202412020400.2YhUc55k-lkp@intel.com>
+To: Raghavendra K T <raghavendra.kt@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH V0 03/10] mm: Scan the mm and create a migration list
+Message-ID: <202412020401.kTXL2n6L-lkp@intel.com>
+References: <20241201153818.2633616-4-raghavendra.kt@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,119 +62,86 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241201153818.2633616-4-raghavendra.kt@amd.com>
 
-Hi Marc,
+Hi Raghavendra,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10
-head:   b0e9b554c383a988e7185baf9fdee7d959b8de3e
-commit: 1105b4d1cef4bc19ad20129a716194268c937eaf [382/30000] BACKPORT: FROMGIT: KVM: arm64: Rework SVE host-save/guest-restore
-config: arm64-randconfig-r062-20241112 (https://download.01.org/0day-ci/archive/20241202/202412020400.2YhUc55k-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020400.2YhUc55k-lkp@intel.com/reproduce)
+[auto build test ERROR on bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Raghavendra-K-T/mm-Add-kmmscand-kernel-daemon/20241201-234153
+base:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
+patch link:    https://lore.kernel.org/r/20241201153818.2633616-4-raghavendra.kt%40amd.com
+patch subject: [RFC PATCH V0 03/10] mm: Scan the mm and create a migration list
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241202/202412020401.kTXL2n6L-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020401.kTXL2n6L-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412020400.2YhUc55k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412020401.kTXL2n6L-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/kvm/hyp/vhe/switch.c:8:
-   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
->> arch/arm64/kvm/hyp/include/hyp/switch.h:216:9: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
-     216 |         sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/vhe/switch.c: At top level:
-   arch/arm64/kvm/hyp/vhe/switch.c:227:17: warning: no previous prototype for 'kvm_unexpected_el2_exception' [-Wmissing-prototypes]
-     227 | asmlinkage void kvm_unexpected_el2_exception(void)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/arm64/kvm/hyp/nvhe/switch.c:8:
-   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
->> arch/arm64/kvm/hyp/include/hyp/switch.h:216:9: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
-     216 |         sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/switch.c: At top level:
-   arch/arm64/kvm/hyp/nvhe/switch.c:282:17: warning: no previous prototype for 'kvm_unexpected_el2_exception' [-Wmissing-prototypes]
-     282 | asmlinkage void kvm_unexpected_el2_exception(void)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/arm64/kvm/hyp/nvhe/hyp-main.c:7:
-   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
->> arch/arm64/kvm/hyp/include/hyp/switch.h:216:9: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
-     216 |         sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c: At top level:
-   arch/arm64/kvm/hyp/nvhe/hyp-main.c:233:6: warning: no previous prototype for 'handle_trap' [-Wmissing-prototypes]
-     233 | void handle_trap(struct kvm_cpu_context *host_ctxt)
-         |      ^~~~~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from arch/arm64/kvm/hyp/nvhe/mem_protect.c:15:
-   arch/arm64/kvm/hyp/include/hyp/switch.h: In function '__hyp_sve_restore_guest':
->> arch/arm64/kvm/hyp/include/hyp/switch.h:216:9: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
-     216 |         sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=n] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for HVC_DRIVER
-   Depends on [n]: TTY [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   In file included from mm/kmmscand.c:2:
+   In file included from include/linux/mm.h:2223:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   In file included from mm/kmmscand.c:14:
+   include/linux/mm_inline.h:47:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      47 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+   include/linux/mm_inline.h:49:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      49 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+>> mm/kmmscand.c:159:36: error: use of undeclared identifier 'vma'
+     159 |         VM_BUG_ON_VMA(address == -EFAULT, vma);
+         |                                           ^
+   6 warnings and 1 error generated.
 
 
-vim +/sve_cond_update_zcr_vq +216 arch/arm64/kvm/hyp/include/hyp/switch.h
+vim +/vma +159 mm/kmmscand.c
 
-   213	
-   214	static inline void __hyp_sve_restore_guest(struct kvm_vcpu *vcpu)
-   215	{
- > 216		sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1, SYS_ZCR_EL2);
-   217		__sve_restore_state(vcpu_sve_pffr(vcpu),
-   218				    &vcpu->arch.ctxt.fp_regs.fpsr);
-   219		write_sysreg_el1(__vcpu_sys_reg(vcpu, ZCR_EL1), SYS_ZCR);
-   220	}
-   221	
+   145	
+   146	static void page_idle_clear_pte_refs(struct page *page, pte_t *pte, struct mm_walk *walk)
+   147	{
+   148		bool need_lock;
+   149		struct folio *folio =  page_folio(page);
+   150		unsigned long address;
+   151	
+   152		if (!folio_mapped(folio) || !folio_raw_mapping(folio))
+   153			return;
+   154	
+   155		need_lock = !folio_test_anon(folio) || folio_test_ksm(folio);
+   156		if (need_lock && !folio_trylock(folio))
+   157			return;
+   158		address = vma_address(walk->vma, page_pgoff(folio, page), compound_nr(page));
+ > 159		VM_BUG_ON_VMA(address == -EFAULT, vma);
+   160		folio_idle_clear_pte_refs_one(folio, walk->vma, address, pte);
+   161	
+   162		if (need_lock)
+   163			folio_unlock(folio);
+   164	}
+   165	
 
 -- 
 0-DAY CI Kernel Test Service
