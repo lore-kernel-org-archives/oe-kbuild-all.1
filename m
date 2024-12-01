@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C904C66
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 05:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38EA8BEE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 06:04:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733029372; cv=none; b=LlyPtRQOrjN9Gg/ytQgZM4uQNYz6jYO/Ium8XZujP4Bg57GyPys1MtJCVEk9+4YzFHGHVmm5Fp25xqh7S1Om5D2ZLifXVsrlYdi3fXzVCcheuW0CH+RTPNUU+2UAAIKR6t7UiAG4H1jLGNgELAtCRx8MEW0gRgkfVHGh3k/JAy4=
+	t=1733033090; cv=none; b=lbxlqPJ8JOeAsoCX+E+kfCS+riJNpGYfI1yEeeWJYdtZPrPkj8QZnCYoqJ/+SeSjFsO32MXgslJ0LSc/VHVaN9qj2uXPn+ccXVEA78TTsF1cGFTV+I6YxK2M5oq08Qc8nu7iB7mqxhZf+aIrtNO/Gi5tqyAuGNL62GHE4eqSUUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733029372; c=relaxed/simple;
-	bh=8PRgN56N+0Bd0VkX/pdCPtVO37Jhyyn7Gv4Taf6LccQ=;
+	s=arc-20240116; t=1733033090; c=relaxed/simple;
+	bh=LXwyasLE6NOFWlAFeI/ktzglPl3P6hLqhGNfNJfRqhc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=nrx0sNDKhxSWcHM4ikkVglrChju4HHJ+RNvTgk6CSiGv1Fa7tLRDX/SyU11ZEf+dH4orZI8FXhV7ltbztqPEvL+1rUvswk0BsnEinBA6fUcnV87Kwsx+YaiL9hGQ/CqFwyO78Nfyx+pc1fLrpFYum3wkuUPk01bAB+oYugXfglk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJHvMFu1; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=PMUNSbkZaLoUhPMCsPOa0RHxv/CLcG0y2ROd/kb2X5aAYdzYYP7/dsinDJak6Gm8eYZYW1uInHaKlAQq9T7vjxNotAZ3Mhd5LZlnbYYjiY+9kiHyXzWuLFuYfki9AgMddcqt7LDwR3zYCER42sndVmtPz1eSVSI0Ge9hoJTuGT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nHPYmJGl; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJHvMFu1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nHPYmJGl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733029370; x=1764565370;
+  t=1733033087; x=1764569087;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8PRgN56N+0Bd0VkX/pdCPtVO37Jhyyn7Gv4Taf6LccQ=;
-  b=OJHvMFu1hIBGmRflcHqwrV9lLguYV377ALAS5SDUWVB+gPdC7GmDxwUA
-   HjI0Mih7lTGPTi5Rp6AGOlKELU9Cbvy99uQc3NyXe/1nEptHeU+SYTAg6
-   /FpD3Yn/+iEWQNAcUULyNcqVmV98lX/b7tm7EY4xPU3odxmk+OD07CnbL
-   qT8fsQwh0oby+KD0BD5u9CCjshQbhkLulW/PspIfquFp/J0SRbBDocb1S
-   AkhTh0UAU5DjIVQHIxa9AeC8QGbE7KCOWdGhUHJCynwX7pQxu3IOM7Tue
-   4ngqQFO0ZP+BD09Ap5fXl9qPCjiYPiY9viSVUtWfWBjyfW+iFmMy+5x6a
-   w==;
-X-CSE-ConnectionGUID: 5IrLI50JQ1mCxLHG9bVeIw==
-X-CSE-MsgGUID: f5uAgrGkQp2/0oFjRxc2fA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="44250911"
-X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="44250911"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 21:02:49 -0800
-X-CSE-ConnectionGUID: wfvGqOYIRu+EltNwnpHjRA==
-X-CSE-MsgGUID: kMLE1BDhSv+tAHt3kYQIiw==
+  bh=LXwyasLE6NOFWlAFeI/ktzglPl3P6hLqhGNfNJfRqhc=;
+  b=nHPYmJGl7Sb0qoAds7YkKOSBAvEfk31G/72Y1rPhvmS1zqG1BugI1/vG
+   NLPuXafB/zItWo4WTUDCUY4Go7lN/r+cV50+F5ufKEZp2ViS+aP+D4n5H
+   na7lW287znXWwlPh0J1JRCZ27lleGv8G00DHGHUM1vz4FQHWFl/zd35S9
+   kdQZ15P1ye/YdVOJ0kGijz/dUwNrNOBfqRR3xQpV9Z7xmkOm7WEeUfD/W
+   RRa5W6E3zuF8ybZ3piraiYLV3SkEvr0kgN1fO9EAto3dO4HPwrC9KdP9C
+   tvheYX0Y146E9EciHja84dub2kEYrq/bZraYOvIdsbRLFUte7UCs+BIw3
+   A==;
+X-CSE-ConnectionGUID: 0/pVSmTvQJarKPFWGwkZEw==
+X-CSE-MsgGUID: FIZGZOwnRIaIVbwpDRHFtQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="32569358"
+X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
+   d="scan'208";a="32569358"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2024 22:04:46 -0800
+X-CSE-ConnectionGUID: MR6DPwhET/O+U+aYzEZTmw==
+X-CSE-MsgGUID: Xz2HpjctSViexfFtepMfCw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,199,1728975600"; 
-   d="scan'208";a="97212794"
+X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
+   d="scan'208";a="97766363"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Nov 2024 21:02:45 -0800
+  by orviesa005.jf.intel.com with ESMTP; 30 Nov 2024 22:04:45 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHc4y-0001Fr-0a;
-	Sun, 01 Dec 2024 05:01:27 +0000
-Date: Sun, 1 Dec 2024 12:59:36 +0800
+	id 1tHd4K-0001IK-0D;
+	Sun, 01 Dec 2024 06:04:36 +0000
+Date: Sun, 1 Dec 2024 14:01:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Yejian <zhengyejian1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474] kernel/livepatch/core.c:97:12:
- warning: no previous prototype for function 'arch_klp_init_func'
-Message-ID: <202412011224.cLtYmSDE-lkp@intel.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse: sparse:
+ incorrect type in argument 1 (different address spaces)
+Message-ID: <202412011304.VN1y3T8N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,92 +62,233 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Zheng,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   df4c334beecb4cf58e4e8d63b491aa5ac0a84f46
-commit: eabc33c6f2c91168537f10e9275b0921c9f78c45 [1474/1474] livepatch/ppc64: Implement livepatch without ftrace for ppc64be
-config: arm64-randconfig-003-20241117 (https://download.01.org/0day-ci/archive/20241201/202412011224.cLtYmSDE-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011224.cLtYmSDE-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
+commit: 6c370dc65374db5afbc5c6c64c662f922a2555ad Merge branch 'kvm-guestmemfd' into HEAD
+date:   1 year, 1 month ago
+config: x86_64-randconfig-122-20241116 (https://download.01.org/0day-ci/archive/20241201/202412011304.VN1y3T8N-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011304.VN1y3T8N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011224.cLtYmSDE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011304.VN1y3T8N-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:76:17: sparse: sparse: context imbalance in 'kvm_gmem_invalidate_begin' - different lock contexts for basic block
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: note: in included file (through include/linux/wait.h, include/linux/wait_bit.h, include/linux/fs.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse:     expected struct file **f
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse:     got struct file [noderef] __rcu **
+>> arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file **f @@     got struct file [noderef] __rcu ** @@
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse:     expected struct file **f
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:248:33: sparse:     got struct file [noderef] __rcu **
 
->> kernel/livepatch/core.c:97:12: warning: no previous prototype for function 'arch_klp_init_func' [-Wmissing-prototypes]
-   int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
-              ^
-   kernel/livepatch/core.c:97:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
-   ^
-   static 
-   kernel/livepatch/core.c:1756:12: warning: no previous prototype for function 'arch_klp_check_activeness_func' [-Wmissing-prototypes]
-   int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-              ^
-   kernel/livepatch/core.c:1756:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_check_activeness_func(struct klp_func *func, int enable,
-   ^
-   static 
-   kernel/livepatch/core.c:2011:14: warning: no previous prototype for function 'arch_klp_mem_alloc' [-Wmissing-prototypes]
-   void __weak *arch_klp_mem_alloc(size_t size)
-                ^
-   kernel/livepatch/core.c:2011:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak *arch_klp_mem_alloc(size_t size)
-   ^
-   static 
-   kernel/livepatch/core.c:2016:13: warning: no previous prototype for function 'arch_klp_mem_free' [-Wmissing-prototypes]
-   void __weak arch_klp_mem_free(void *mem)
-               ^
-   kernel/livepatch/core.c:2016:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_mem_free(void *mem)
-   ^
-   static 
-   kernel/livepatch/core.c:2021:13: warning: no previous prototype for function 'arch_klp_code_modify_prepare' [-Wmissing-prototypes]
-   void __weak arch_klp_code_modify_prepare(void)
-               ^
-   kernel/livepatch/core.c:2021:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_code_modify_prepare(void)
-   ^
-   static 
-   kernel/livepatch/core.c:2025:13: warning: no previous prototype for function 'arch_klp_code_modify_post_process' [-Wmissing-prototypes]
-   void __weak arch_klp_code_modify_post_process(void)
-               ^
-   kernel/livepatch/core.c:2025:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_code_modify_post_process(void)
-   ^
-   static 
-   kernel/livepatch/core.c:2038:12: warning: no previous prototype for function 'arch_klp_check_breakpoint' [-Wmissing-prototypes]
-   int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-              ^
-   kernel/livepatch/core.c:2038:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   int __weak arch_klp_check_breakpoint(struct arch_klp_data *arch_data, void *old_func)
-   ^
-   static 
-   kernel/livepatch/core.c:2052:13: warning: no previous prototype for function 'arch_klp_set_brk_func' [-Wmissing-prototypes]
-   void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-               ^
-   kernel/livepatch/core.c:2052:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void __weak arch_klp_set_brk_func(struct klp_func_node *func_node, void *new_func)
-   ^
-   static 
-   8 warnings generated.
+vim +248 arch/x86/kvm/../../../virt/kvm/guest_memfd.c
 
-
-vim +/arch_klp_init_func +97 kernel/livepatch/core.c
-
-    96	
-  > 97	int __weak arch_klp_init_func(struct klp_object *obj, struct klp_func *func)
-    98	{
-    99		return 0;
-   100	}
-   101	#endif /* CONFIG_LIVEPATCH_FTRACE */
-   102	
+    50	
+    51	static void kvm_gmem_invalidate_begin(struct kvm_gmem *gmem, pgoff_t start,
+    52					      pgoff_t end)
+    53	{
+    54		bool flush = false, found_memslot = false;
+    55		struct kvm_memory_slot *slot;
+    56		struct kvm *kvm = gmem->kvm;
+    57		unsigned long index;
+    58	
+    59		xa_for_each_range(&gmem->bindings, index, slot, start, end - 1) {
+    60			pgoff_t pgoff = slot->gmem.pgoff;
+    61	
+    62			struct kvm_gfn_range gfn_range = {
+    63				.start = slot->base_gfn + max(pgoff, start) - pgoff,
+    64				.end = slot->base_gfn + min(pgoff + slot->npages, end) - pgoff,
+    65				.slot = slot,
+    66				.may_block = true,
+    67			};
+    68	
+    69			if (!found_memslot) {
+    70				found_memslot = true;
+    71	
+    72				KVM_MMU_LOCK(kvm);
+    73				kvm_mmu_invalidate_begin(kvm);
+    74			}
+    75	
+  > 76			flush |= kvm_mmu_unmap_gfn_range(kvm, &gfn_range);
+    77		}
+    78	
+    79		if (flush)
+    80			kvm_flush_remote_tlbs(kvm);
+    81	
+    82		if (found_memslot)
+    83			KVM_MMU_UNLOCK(kvm);
+    84	}
+    85	
+    86	static void kvm_gmem_invalidate_end(struct kvm_gmem *gmem, pgoff_t start,
+    87					    pgoff_t end)
+    88	{
+    89		struct kvm *kvm = gmem->kvm;
+    90	
+    91		if (xa_find(&gmem->bindings, &start, end - 1, XA_PRESENT)) {
+    92			KVM_MMU_LOCK(kvm);
+    93			kvm_mmu_invalidate_end(kvm);
+    94			KVM_MMU_UNLOCK(kvm);
+    95		}
+    96	}
+    97	
+    98	static long kvm_gmem_punch_hole(struct inode *inode, loff_t offset, loff_t len)
+    99	{
+   100		struct list_head *gmem_list = &inode->i_mapping->private_list;
+   101		pgoff_t start = offset >> PAGE_SHIFT;
+   102		pgoff_t end = (offset + len) >> PAGE_SHIFT;
+   103		struct kvm_gmem *gmem;
+   104	
+   105		/*
+   106		 * Bindings must be stable across invalidation to ensure the start+end
+   107		 * are balanced.
+   108		 */
+   109		filemap_invalidate_lock(inode->i_mapping);
+   110	
+   111		list_for_each_entry(gmem, gmem_list, entry)
+   112			kvm_gmem_invalidate_begin(gmem, start, end);
+   113	
+   114		truncate_inode_pages_range(inode->i_mapping, offset, offset + len - 1);
+   115	
+   116		list_for_each_entry(gmem, gmem_list, entry)
+   117			kvm_gmem_invalidate_end(gmem, start, end);
+   118	
+   119		filemap_invalidate_unlock(inode->i_mapping);
+   120	
+   121		return 0;
+   122	}
+   123	
+   124	static long kvm_gmem_allocate(struct inode *inode, loff_t offset, loff_t len)
+   125	{
+   126		struct address_space *mapping = inode->i_mapping;
+   127		pgoff_t start, index, end;
+   128		int r;
+   129	
+   130		/* Dedicated guest is immutable by default. */
+   131		if (offset + len > i_size_read(inode))
+   132			return -EINVAL;
+   133	
+   134		filemap_invalidate_lock_shared(mapping);
+   135	
+   136		start = offset >> PAGE_SHIFT;
+   137		end = (offset + len) >> PAGE_SHIFT;
+   138	
+   139		r = 0;
+   140		for (index = start; index < end; ) {
+   141			struct folio *folio;
+   142	
+   143			if (signal_pending(current)) {
+   144				r = -EINTR;
+   145				break;
+   146			}
+   147	
+   148			folio = kvm_gmem_get_folio(inode, index);
+   149			if (!folio) {
+   150				r = -ENOMEM;
+   151				break;
+   152			}
+   153	
+   154			index = folio_next_index(folio);
+   155	
+   156			folio_unlock(folio);
+   157			folio_put(folio);
+   158	
+   159			/* 64-bit only, wrapping the index should be impossible. */
+   160			if (WARN_ON_ONCE(!index))
+   161				break;
+   162	
+   163			cond_resched();
+   164		}
+   165	
+   166		filemap_invalidate_unlock_shared(mapping);
+   167	
+   168		return r;
+   169	}
+   170	
+   171	static long kvm_gmem_fallocate(struct file *file, int mode, loff_t offset,
+   172				       loff_t len)
+   173	{
+   174		int ret;
+   175	
+   176		if (!(mode & FALLOC_FL_KEEP_SIZE))
+   177			return -EOPNOTSUPP;
+   178	
+   179		if (mode & ~(FALLOC_FL_KEEP_SIZE | FALLOC_FL_PUNCH_HOLE))
+   180			return -EOPNOTSUPP;
+   181	
+   182		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
+   183			return -EINVAL;
+   184	
+   185		if (mode & FALLOC_FL_PUNCH_HOLE)
+   186			ret = kvm_gmem_punch_hole(file_inode(file), offset, len);
+   187		else
+   188			ret = kvm_gmem_allocate(file_inode(file), offset, len);
+   189	
+   190		if (!ret)
+   191			file_modified(file);
+   192		return ret;
+   193	}
+   194	
+   195	static int kvm_gmem_release(struct inode *inode, struct file *file)
+   196	{
+   197		struct kvm_gmem *gmem = file->private_data;
+   198		struct kvm_memory_slot *slot;
+   199		struct kvm *kvm = gmem->kvm;
+   200		unsigned long index;
+   201	
+   202		/*
+   203		 * Prevent concurrent attempts to *unbind* a memslot.  This is the last
+   204		 * reference to the file and thus no new bindings can be created, but
+   205		 * dereferencing the slot for existing bindings needs to be protected
+   206		 * against memslot updates, specifically so that unbind doesn't race
+   207		 * and free the memslot (kvm_gmem_get_file() will return NULL).
+   208		 */
+   209		mutex_lock(&kvm->slots_lock);
+   210	
+   211		filemap_invalidate_lock(inode->i_mapping);
+   212	
+   213		xa_for_each(&gmem->bindings, index, slot)
+   214			rcu_assign_pointer(slot->gmem.file, NULL);
+   215	
+   216		synchronize_rcu();
+   217	
+   218		/*
+   219		 * All in-flight operations are gone and new bindings can be created.
+   220		 * Zap all SPTEs pointed at by this file.  Do not free the backing
+   221		 * memory, as its lifetime is associated with the inode, not the file.
+   222		 */
+   223		kvm_gmem_invalidate_begin(gmem, 0, -1ul);
+   224		kvm_gmem_invalidate_end(gmem, 0, -1ul);
+   225	
+   226		list_del(&gmem->entry);
+   227	
+   228		filemap_invalidate_unlock(inode->i_mapping);
+   229	
+   230		mutex_unlock(&kvm->slots_lock);
+   231	
+   232		xa_destroy(&gmem->bindings);
+   233		kfree(gmem);
+   234	
+   235		kvm_put_kvm(kvm);
+   236	
+   237		return 0;
+   238	}
+   239	
+   240	static inline struct file *kvm_gmem_get_file(struct kvm_memory_slot *slot)
+   241	{
+   242		/*
+   243		 * Do not return slot->gmem.file if it has already been closed;
+   244		 * there might be some time between the last fput() and when
+   245		 * kvm_gmem_release() clears slot->gmem.file, and you do not
+   246		 * want to spin in the meanwhile.
+   247		 */
+ > 248		return get_file_active(&slot->gmem.file);
+   249	}
+   250	
 
 -- 
 0-DAY CI Kernel Test Service
