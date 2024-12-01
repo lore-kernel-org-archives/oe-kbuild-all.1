@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A3F1CCB22
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 13:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888361CCB23
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 13:21:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733059283; cv=none; b=kffJLlkDLuuwVI2sugxDinwp4xW2vUmyLL4gItUUc7/Zn0NgixtV2wdKABF6X+hbvHpLq9/H4ecY/x/j50F18NWHEmQnE/tDZJCZs9jN7gi6LVO9V0CB71ETfBrUUjl5uErbnPZuu/WE7Q/nlhkp1qC/44n94AIfqlwwlf/EZS4=
+	t=1733059284; cv=none; b=nkb7GZ8rmibdr6suQxtdAXxfA4cWWujy046wi4/Sj4t4bnTlzNNklNuPyuo4uDXAVoDl8CAK1qzU7LYomxkY51FqG7EnAjGa2xWsIpwE8Alh+8ZioyAm/N6NG4DkloXeGN1iCtffyaM7GyA1X5H5Phb5ENloZ4F4LEpN+oWMCWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733059283; c=relaxed/simple;
-	bh=nxy8KfC+EW6mENvxzJjyC5CnPTnTYlS45eT9yzgXJuI=;
+	s=arc-20240116; t=1733059284; c=relaxed/simple;
+	bh=LzbCug0RI2BDoJubCuOctZEDeZuq9zBpw6PBqK2RzgU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=d1ksVZ3q0BYclZRa2m7XKE0tcaV2jkR8iHDJ77uFN35T6H7jfONjnd8ZfAy27atQbuSeakxHr5ypIJtCGuoQS08BfBchDWRQ5SpHpcbrYlkj78YdB5N5OEvlTGTwJS0UacnqKBVtDmS37U/ZnWVMNPqR2J6oYndbgs2uI62/SBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aRoyyheF; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=XSobIJZWtZadvXwCaf5++7TCl32WcOFtGbwJVOg9QW96cOfJ33BZaaifNe+voOJTDD62v4kMGDPNzB73Pm6gtgRHhlZHhv1QLR9AFUr5t4mg8c1w40TUDD8vH4hKh/qbli+T0efu9rROPiHKq+0dCAi6VBm92lGbhzwUSr5FUOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kom+eSJg; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aRoyyheF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kom+eSJg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733059281; x=1764595281;
+  t=1733059283; x=1764595283;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nxy8KfC+EW6mENvxzJjyC5CnPTnTYlS45eT9yzgXJuI=;
-  b=aRoyyheFHLsZU2jU3+yFNKzXYCoAYlKrM4Ur+gE2HJ03AS8DAlDvCN58
-   upRLJ7n0C+uU0ScA7XXaY6qXwtZoZR7Hn2Y79y6PJr8XoO1GZJuElU2WL
-   7gyGIb/QVeDYPmo+1si8MSYqe51QU/YsdwC+NhGjlqt9o3A3djeSZ36Eq
-   Ar565ZtWYgyHUCmK+L/J01b24H/FoxBSwnhTxSUyZlaHeh0crKwqQhz+J
-   l8YSVNPhIocrBdTiYiESorlwhR1JqU19e+8IUQSI6JHfda6usn8aO/gai
-   VydhhNDIuP8hwyOQMhHcSCi+/tBz1xm3+647VyLZhNpq5O73K68kQ7Fhb
-   Q==;
-X-CSE-ConnectionGUID: rPsVtBJmS9iI0XpnkfUXYw==
-X-CSE-MsgGUID: XJw+EG5TToSiEd+eVm7TIA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44603037"
+  bh=LzbCug0RI2BDoJubCuOctZEDeZuq9zBpw6PBqK2RzgU=;
+  b=Kom+eSJgBsSI51XzhrZiJnFrRHtOiuAxwWHihTrRHgDVpaSUokedY9Bv
+   0J8v7aaI1kZeDr52gOzdyKtv+3CP13cqQwIzghGq/Frjxh8MA1idTtu0l
+   H5HX6q9PGN6XO3xP30BTDRnYbZLLJKscnIVsgfsxdxfGg/0Io2/wFOOLe
+   ajSxSXfKueniPdbxzZk8vMVRfFiK76Unf2Jf7eK+holJNzEzJ6SVdzZz1
+   X+IFcUBhNXRC1DbZvCI5Nr+CKvC+Yl8wzd/59ctKLmMnYdoFcnzANu3cO
+   ue46UdSS0NVVAa4tjelL+ZGcuFPhGMuihabywwp9blfZb8AJnnWp41la0
+   g==;
+X-CSE-ConnectionGUID: klMez5qYQYW10g3yScYEpg==
+X-CSE-MsgGUID: nYArADdaQDyyTqd9E2C9RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="58624347"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="44603037"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 05:21:20 -0800
-X-CSE-ConnectionGUID: U190/McRQ1i5u7BIrdpALw==
-X-CSE-MsgGUID: yr6Nta/gQvepEfQ7ubMXHA==
+   d="scan'208";a="58624347"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 05:21:20 -0800
+X-CSE-ConnectionGUID: oJHh4Gc+QzaayTsn1Qpj7w==
+X-CSE-MsgGUID: kat6xDgrSjOMFtXIY5El1w==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="96949088"
+X-IronPort-AV: E=Sophos;i="6.11,199,1725346800"; 
+   d="scan'208";a="97895467"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Dec 2024 05:21:18 -0800
+  by orviesa003.jf.intel.com with ESMTP; 01 Dec 2024 05:21:18 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHjsy-0001YJ-0l;
+	id 1tHjsy-0001YM-0p;
 	Sun, 01 Dec 2024 13:21:16 +0000
-Date: Sun, 1 Dec 2024 21:20:55 +0800
+Date: Sun, 1 Dec 2024 21:20:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [freescale-fslc:5.15-2.2.x-imx 4435/30000]
- drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2305:17:
- warning: implicit conversion from 'fm_macsec_unknown_sci_frame_treatment' to
- 'e_FmMacsecUnknownSciFrameTreatment'
-Message-ID: <202412012126.C4z1IuT2-lkp@intel.com>
+To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: [jgunthorpe:iommu_pt 47/48] drivers/iommu/amd/iommu.c:1835:
+ undefined reference to `pt_iommu_amdv1_hw_info'
+Message-ID: <202412012157.6OW1rS79-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,463 +62,226 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Li,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/Freescale/linux-fslc 5.15-2.2.x-imx
-head:   411c52448fdc0906f70c4585c7e05359c0b05c11
-commit: f8642d6c1b9918bf9a50e6449b09f17f60c6a3c6 [4435/30000] net: sdk_fman: remove obsolete modversions.h includes
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20241201/202412012126.C4z1IuT2-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412012126.C4z1IuT2-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt
+head:   87e70b0c76695339b0163fde25b260773b0720c2
+commit: b17f0e7b887fa38ca758c7b2ee98e7963f532138 [47/48] iommu/amd: Use the generic iommu page table
+config: x86_64-randconfig-122-20241201 (https://download.01.org/0day-ci/archive/20241201/202412012157.6OW1rS79-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412012157.6OW1rS79-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412012126.C4z1IuT2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412012157.6OW1rS79-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/fsl_usdpaa.h:17,
-                    from drivers/staging/fsl_qbman/dpa_sys.h:66,
-                    from drivers/staging/fsl_qbman/fsl_usdpaa.c:29:
-   include/linux/fsl_qman.h:415:1: error: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Werror=packed-not-aligned]
-     415 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:469:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
-     469 |                 } __packed ern;
-         |                 ^
-   include/linux/fsl_qman.h:468:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
-     468 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:486:17: error: alignment 1 of 'struct <anonymous>' is less than 8 [-Werror=packed-not-aligned]
-     486 |                 } __packed dcern;
-         |                 ^
-   include/linux/fsl_qman.h:485:38: error: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Werror=packed-not-aligned]
-     485 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:1679:1: error: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Werror=packed-not-aligned]
-    1679 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:1677:22: error: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Werror=packed-not-aligned]
-    1677 |         struct qm_fd fd;
-         |                      ^~
-   In file included from drivers/staging/fsl_qbman/fsl_usdpaa.c:32:
-   drivers/staging/fsl_qbman/qman_low.h: In function 'qm_shutdown_fq':
-   drivers/staging/fsl_qbman/qman_low.h:1291:29: error: variable 'dequeue_wq' set but not used [-Werror=unused-but-set-variable]
-    1291 |                         u16 dequeue_wq = 0;
-         |                             ^~~~~~~~~~
-   drivers/staging/fsl_qbman/fsl_usdpaa.c: At top level:
->> drivers/staging/fsl_qbman/fsl_usdpaa.c:410:6: error: no previous prototype for 'dbci_portal' [-Werror=missing-prototypes]
-     410 | void dbci_portal(void *addr)
-         |      ^~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   In file included from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth.h:37,
-                    from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_sg.c:48:
-   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
-     415 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     469 |                 } __packed ern;
-         |                 ^
-   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     468 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     486 |                 } __packed dcern;
-         |                 ^
-   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     485 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
-    1679 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
-    1677 |         struct qm_fd fd;
-         |                      ^~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_sg.c: In function 'dpa_tx':
->> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_sg.c:1060:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    1060 |         struct qman_fq *egress_fq, *conf_fq;
-         |         ^~~~~~
---
-   In file included from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.h:45,
-                    from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.h:38,
-                    from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:34:
-   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
-     415 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     469 |                 } __packed ern;
-         |                 ^
-   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     468 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     486 |                 } __packed dcern;
-         |                 ^
-   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     485 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
-    1679 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
-    1677 |         struct qm_fd fd;
-         |                      ^~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1911:33: error: initialization of 'int (*)(struct Qdisc *, long unsigned int,  struct netlink_ext_ack *)' from incompatible pointer type 'int (*)(struct Qdisc *, long unsigned int)' [-Werror=incompatible-pointer-types]
-    1911 |         .delete         =       ceetm_cls_delete,
-         |                                 ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1911:33: note: (near initialization for 'ceetm_cls_ops.delete')
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c: In function 'ceetm_classify':
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1945:51: error: passing argument 2 of 'tcf_classify' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1945 |         while (tcf && (result = tcf_classify(skb, tcf, &res, false)) >= 0) {
-         |                                                   ^~~
-         |                                                   |
-         |                                                   struct tcf_proto *
-   In file included from drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.h:36:
-   include/net/pkt_cls.h:80:42: note: expected 'const struct tcf_block *' but argument is of type 'struct tcf_proto *'
-      80 |                  const struct tcf_block *block,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1945:56: error: passing argument 3 of 'tcf_classify' from incompatible pointer type [-Werror=incompatible-pointer-types]
-    1945 |         while (tcf && (result = tcf_classify(skb, tcf, &res, false)) >= 0) {
-         |                                                        ^~~~
-         |                                                        |
-         |                                                        struct tcf_result *
-   include/net/pkt_cls.h:81:42: note: expected 'const struct tcf_proto *' but argument is of type 'struct tcf_result *'
-      81 |                  const struct tcf_proto *tp, struct tcf_result *res,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~^~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1945:33: error: too few arguments to function 'tcf_classify'
-    1945 |         while (tcf && (result = tcf_classify(skb, tcf, &res, false)) >= 0) {
-         |                                 ^~~~~~~~~~~~
-   include/net/pkt_cls.h:79:5: note: declared here
-      79 | int tcf_classify(struct sk_buff *skb,
-         |     ^~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c: In function 'ceetm_tx':
->> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:2016:9: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
-    2016 |         struct Qdisc *sch = net_dev->qdisc;
-         |         ^~~~~~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c: In function 'ceetm_classify':
->> drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1951:31: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    1951 |                         *qerr = NET_XMIT_SUCCESS | __NET_XMIT_STOLEN;
-         |                         ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_dpaa/dpaa_eth_ceetm.c:1953:17: note: here
-    1953 |                 case TC_ACT_SHOT:
-         |                 ^~~~
-   cc1: some warnings being treated as errors
---
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_Config':
->> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:3442:45: warning: implicit conversion from 'enum e_FmDmaAidMode' to 'enum fman_dma_aid_mode' [-Wenum-conversion]
-    3442 |         p_Fm->p_FmDriverParam->dma_aid_mode = e_FM_DMA_AID_OUT_PORT_ID;
-         |                                             ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_Init':
->> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:3691:51: warning: cast between incompatible function types from 't_Error (*)(void *)' {aka 'unsigned int (*)(void *)'} to 'void (*)(void *)' [-Wcast-function-type]
-    3691 |         XX_SetIntr(p_Fm->p_FmStateStruct->errIrq, (void (*) (t_Handle))FM_ErrorIsr, p_Fm);
-         |                                                   ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: At top level:
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:5204:6: warning: no previous prototype for 'FM_ChangeClock' [-Wmissing-prototypes]
-    5204 | void FM_ChangeClock(t_Handle h_Fm, int hardwarePortId)
-         |      ^~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_ChangeClock':
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:5206:13: warning: variable 'macId' set but not used [-Wunused-but-set-variable]
-    5206 |         int macId;
-         |             ^~~~~
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c: In function 'FM_GetCounter':
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:4809:64: warning: this statement may fall through [-Wimplicit-fallthrough=]
-    4809 |             if ((p_Fm->p_FmStateStruct->revInfo.majorRev == 4) ||
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-    4810 |                 (p_Fm->p_FmStateStruct->revInfo.majorRev >= 6))
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/fm.c:4816:9: note: here
-    4816 |         case (e_FM_COUNTERS_ENQ_TOTAL_FRAME):
-         |         ^~~~
---
-   In file included from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.h:45,
-                    from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:75:
-   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
-     415 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     469 |                 } __packed ern;
-         |                 ^
-   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     468 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     486 |                 } __packed dcern;
-         |                 ^
-   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     485 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
-    1679 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
-    1677 |         struct qm_fd fd;
-         |                      ^~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_get_max_frm':
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:157:5: warning: old-style function definition [-Wold-style-definition]
-     157 | int fm_get_max_frm()
-         |     ^~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_get_rx_extra_headroom':
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:163:5: warning: old-style function definition [-Wold-style-definition]
-     163 | int fm_get_rx_extra_headroom()
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: At top level:
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:769:21: warning: no previous prototype for 'GetFmAdvArgsDevTreeNode' [-Wmissing-prototypes]
-     769 | struct device_node *GetFmAdvArgsDevTreeNode (uint8_t fmIndx)
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:1615:5: warning: no previous prototype for 'ar_showmem' [-Wmissing-prototypes]
-    1615 | int ar_showmem(struct file *file, const char __user *buffer,
-         |     ^~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_config_unknown_sci_frame_treatment':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2305:17: warning: implicit conversion from 'fm_macsec_unknown_sci_frame_treatment' to 'e_FmMacsecUnknownSciFrameTreatment' [-Wenum-conversion]
-    2305 |                 treat_mode);
-         |                 ^~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_config_untag_frame_treatment':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2352:66: warning: implicit conversion from 'fm_macsec_untag_frame_treatment' to 'e_FmMacsecUntagFrameTreatment' [-Wenum-conversion]
-    2352 |         err = FM_MACSEC_ConfigUntagFrameTreatment(fm_macsec_dev, treat_mode);
-         |                                                                  ^~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_config_exception':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2410:56: warning: implicit conversion from 'fm_macsec_exception' to 'e_FmMacsecExceptions' [-Wenum-conversion]
-    2410 |         err = FM_MACSEC_ConfigException(fm_macsec_dev, exception, enable);
-         |                                                        ^~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_set_exception':
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2468:53: warning: implicit conversion from 'fm_macsec_exception' to 'e_FmMacsecExceptions' [-Wenum-conversion]
-    2468 |         err = FM_MACSEC_SetException(fm_macsec_dev, exception, enable);
-         |                                                     ^~~~~~~~~
-   In file included from include/uapi/linux/swab.h:6,
-                    from include/linux/swab.h:5,
-                    from arch/arm/include/asm/opcodes.h:86,
-                    from arch/arm/include/asm/bug.h:7,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/gfp.h:5,
-                    from include/linux/slab.h:15,
-                    from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:41:
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config':
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2483:37: warning: ordered comparison of pointer with integer zero [-Wextra]
-    2483 |         if (unlikely(fm_macsec_secy < 0))
-         |                                     ^
-   include/linux/compiler.h:78:45: note: in definition of macro 'unlikely'
-      78 | # define unlikely(x)    __builtin_expect(!!(x), 0)
-         |                                             ^
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_sci_insertion_mode':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2525:41: warning: implicit conversion from 'fm_macsec_sci_insertion_mode' to 'e_FmMacsecSciInsertionMode' [-Wenum-conversion]
-    2525 |                                         sci_insertion_mode);
-         |                                         ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_validation_mode':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2573:53: warning: implicit conversion from 'fm_macsec_valid_frame_behavior' to 'e_FmMacsecValidFrameBehavior' [-Wenum-conversion]
-    2573 |                                                     validate_frames);
-         |                                                     ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_exception':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2623:66: warning: implicit conversion from 'fm_macsec_secy_exception' to 'e_FmMacsecSecYExceptions' [-Wenum-conversion]
-    2623 |         err = FM_MACSEC_SECY_ConfigException(fm_macsec_secy_dev, exception,
-         |                                                                  ^~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c: In function 'fm_macsec_secy_config_event':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c:2641:62: warning: implicit conversion from 'fm_macsec_secy_event' to 'e_FmMacsecSecYEvents' [-Wenum-conversion]
-    2641 |         err = FM_MACSEC_SECY_ConfigEvent(fm_macsec_secy_dev, event, enable);
-         |                                                              ^~~~~
---
-   In file included from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.h:45,
-                    from drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:80:
-   include/linux/fsl_qman.h:415:1: warning: alignment 1 of 'struct qm_eqcr_entry' is less than 8 [-Wpacked-not-aligned]
-     415 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:469:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     469 |                 } __packed ern;
-         |                 ^
-   include/linux/fsl_qman.h:468:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     468 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:486:17: warning: alignment 1 of 'struct <anonymous>' is less than 8 [-Wpacked-not-aligned]
-     486 |                 } __packed dcern;
-         |                 ^
-   include/linux/fsl_qman.h:485:38: warning: 'fd' offset 15 in 'struct <anonymous>' isn't aligned to 8 [-Wpacked-not-aligned]
-     485 |                         struct qm_fd fd;
-         |                                      ^~
-   include/linux/fsl_qman.h:1679:1: warning: alignment 1 of 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' is less than 8 [-Wpacked-not-aligned]
-    1679 | } __packed;
-         | ^
-   include/linux/fsl_qman.h:1677:22: warning: 'fd' offset 14 in 'struct qm_mcr_ceetm_cq_peek_pop_xsfdrread' isn't aligned to 8 [-Wpacked-not-aligned]
-    1677 |         struct qm_fd fd;
-         |                      ^~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: In function 'LnxwrpFmPcdIOCTL':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:735:69: warning: implicit conversion from 'ioc_fm_pcd_exceptions' to 'e_FmPcdExceptions' [-Wenum-conversion]
-     735 |             err = FM_PCD_SetException(p_LnxWrpFmDev->h_PcdDev, param->exception, param->enable);
-         |                                                                ~~~~~^~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: At top level:
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:3441:6: warning: no previous prototype for 'FM_Get_Api_Version' [-Wmissing-prototypes]
-    3441 | void FM_Get_Api_Version(ioc_fm_api_version_t *p_version)
-         |      ^~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c: In function 'LnxwrpFmIOCTL':
->> drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:3554:63: warning: implicit conversion from 'ioc_fm_counters' to 'e_FmCounters' [-Wenum-conversion]
-    3554 |             err = FM_ModifyCounter(p_LnxWrpFmDev->h_Dev, param->cnt, param->val);
-         |                                                          ~~~~~^~~~~
-   drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_ioctls_fm.c:3589:67: warning: implicit conversion from 'ioc_fm_counters' to 'e_FmCounters' [-Wenum-conversion]
-    3589 |             param->val = FM_GetCounter(p_LnxWrpFmDev->h_Dev, param->cnt);
-         |                                                              ~~~~~^~~~~
---
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c: In function 'FM_VSP_Config':
->> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:430:64: warning: implicit conversion from 'enum fman_dma_cache_option' to 'e_FmDmaCacheOption' [-Wenum-conversion]
-     430 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaHeaderCacheAttr = fm_vsp_params.header_cache_attr;
-         |                                                                ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:431:68: warning: implicit conversion from 'enum fman_dma_cache_option' to 'e_FmDmaCacheOption' [-Wenum-conversion]
-     431 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaIntContextCacheAttr = fm_vsp_params.int_context_cache_attr;
-         |                                                                    ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:432:71: warning: implicit conversion from 'enum fman_dma_cache_option' to 'e_FmDmaCacheOption' [-Wenum-conversion]
-     432 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaScatterGatherCacheAttr = fm_vsp_params.scatter_gather_cache_attr;
-         |                                                                       ^
->> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:433:57: warning: implicit conversion from 'enum fman_dma_swap_option' to 'e_FmDmaSwapOption' [-Wenum-conversion]
-     433 |     p_FmVspEntry->p_FmVspEntryDriverParams->dmaSwapData = fm_vsp_params.dma_swap_data;
-         |                                                         ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c: In function 'FM_VSP_Init':
->> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:507:46: warning: implicit conversion from 'e_FmDmaSwapOption' to 'enum fman_dma_swap_option' [-Wenum-conversion]
-     507 |     fm_vsp_params.dma_swap_data              = p_FmVspEntry->p_FmVspEntryDriverParams->dmaSwapData;
-         |                                              ^
->> drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:508:46: warning: implicit conversion from 'e_FmDmaCacheOption' to 'enum fman_dma_cache_option' [-Wenum-conversion]
-     508 |     fm_vsp_params.int_context_cache_attr     = p_FmVspEntry->p_FmVspEntryDriverParams->dmaIntContextCacheAttr;
-         |                                              ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:509:46: warning: implicit conversion from 'e_FmDmaCacheOption' to 'enum fman_dma_cache_option' [-Wenum-conversion]
-     509 |     fm_vsp_params.header_cache_attr          = p_FmVspEntry->p_FmVspEntryDriverParams->dmaHeaderCacheAttr;
-         |                                              ^
-   drivers/net/ethernet/freescale/sdk_fman/Peripherals/FM/SP/fm_sp.c:510:46: warning: implicit conversion from 'e_FmDmaCacheOption' to 'enum fman_dma_cache_option' [-Wenum-conversion]
-     510 |     fm_vsp_params.scatter_gather_cache_attr  = p_FmVspEntry->p_FmVspEntryDriverParams->dmaScatterGatherCacheAttr;
-         |                                              ^
+   ld: vmlinux.o: in function `set_dte_entry':
+>> drivers/iommu/amd/iommu.c:1835: undefined reference to `pt_iommu_amdv1_hw_info'
+   ld: vmlinux.o: in function `init_gcr3_table':
+>> drivers/iommu/amd/iommu.c:1979: undefined reference to `pt_iommu_x86pae_hw_info'
+   ld: vmlinux.o: in function `amd_iommu_domain_alloc_paging_v2':
+>> drivers/iommu/amd/iommu.c:2415: undefined reference to `pt_iommu_x86pae_init'
+   ld: vmlinux.o: in function `amd_iommu_domain_alloc_paging_v1':
+>> drivers/iommu/amd/iommu.c:2375: undefined reference to `pt_iommu_amdv1_init'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMU_PT_AMDV1
+   Depends on [n]: GENERIC_PT [=n] && IOMMU_PT [=n] && !GENERIC_ATOMIC64 [=n]
+   Selected by [y]:
+   - AMD_IOMMU [=y] && IOMMU_SUPPORT [=y] && X86_64 [=y] && PCI [=y] && ACPI [=y] && HAVE_CMPXCHG_DOUBLE [=y]
+   WARNING: unmet direct dependencies detected for IOMMU_PT_X86PAE
+   Depends on [n]: GENERIC_PT [=n] && IOMMU_PT [=n] && !GENERIC_ATOMIC64 [=n]
+   Selected by [y]:
+   - AMD_IOMMU [=y] && IOMMU_SUPPORT [=y] && X86_64 [=y] && PCI [=y] && ACPI [=y] && HAVE_CMPXCHG_DOUBLE [=y]
 
 
-vim +2305 drivers/net/ethernet/freescale/sdk_fman/src/wrapper/lnxwrp_fm.c
+vim +1835 drivers/iommu/amd/iommu.c
 
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2296  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2297  int fm_macsec_config_unknown_sci_frame_treatment(struct fm_macsec_dev
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2298  				*fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2299  				fm_macsec_unknown_sci_frame_treatment treat_mode)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2300  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2301  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2302  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2303  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2304  	err = FM_MACSEC_ConfigUnknownSciFrameTreatment(fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27 @2305  		treat_mode);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2306  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2307  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2308  		pr_err("FM_MACSEC_ConfigUnknownSciFrameTreatmen() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2309  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2310  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2311  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2312  EXPORT_SYMBOL(fm_macsec_config_unknown_sci_frame_treatment);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2313  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2314  int fm_macsec_config_invalid_tags_frame_treatment(struct fm_macsec_dev *fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2315  				bool deliver_uncontrolled)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2316  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2317  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2318  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2319  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2320  	err = FM_MACSEC_ConfigInvalidTagsFrameTreatment(fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2321  						deliver_uncontrolled);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2322  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2323  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2324  		pr_err("FM_MAC_ConfigMaxFrameLength() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2325  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2326  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2327  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2328  EXPORT_SYMBOL(fm_macsec_config_invalid_tags_frame_treatment);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2329  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2330  int fm_macsec_config_kay_frame_treatment(struct fm_macsec_dev *fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2331  				bool discard_uncontrolled)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2332  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2333  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2334  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2335  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2336  	err = FM_MACSEC_ConfigEncryptWithNoChangedTextFrameTreatment(fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2337  						discard_uncontrolled);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2338  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2339  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2340  		pr_err("FM_MACSEC_ConfigEncryptWithNoChangedTextFrameTreatmen() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2341  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2342  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2343  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2344  EXPORT_SYMBOL(fm_macsec_config_kay_frame_treatment);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2345  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2346  int fm_macsec_config_untag_frame_treatment(struct fm_macsec_dev *fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2347  				    fm_macsec_untag_frame_treatment treat_mode)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2348  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2349  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2350  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2351  
-3f9aacad7d9737 Madalin Bucur 2020-02-27 @2352  	err = FM_MACSEC_ConfigUntagFrameTreatment(fm_macsec_dev, treat_mode);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2353  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2354  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2355  		pr_err("FM_MACSEC_ConfigUntagFrameTreatment() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2356  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2357  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2358  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2359  EXPORT_SYMBOL(fm_macsec_config_untag_frame_treatment);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2360  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2361  int fm_macsec_config_pn_exhaustion_threshold(struct fm_macsec_dev *fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2362  					uint32_t pn_exh_thr)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2363  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2364  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2365  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2366  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2367  	err = FM_MACSEC_ConfigPnExhaustionThreshold(fm_macsec_dev, pn_exh_thr);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2368  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2369  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2370  		pr_err("FM_MACSEC_ConfigPnExhaustionThreshold() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2371  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2372  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2373  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2374  EXPORT_SYMBOL(fm_macsec_config_pn_exhaustion_threshold);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2375  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2376  int fm_macsec_config_keys_unreadable(struct fm_macsec_dev *fm_macsec_dev)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2377  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2378  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2379  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2380  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2381  	err =  FM_MACSEC_ConfigKeysUnreadable(fm_macsec_dev);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2382  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2383  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2384  		pr_err("FM_MACSEC_ConfigKeysUnreadable() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2385  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2386  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2387  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2388  EXPORT_SYMBOL(fm_macsec_config_keys_unreadable);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2389  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2390  int fm_macsec_config_sectag_without_sci(struct fm_macsec_dev *fm_macsec_dev)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2391  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2392  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2393  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2394  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2395  	err =  FM_MACSEC_ConfigSectagWithoutSCI(fm_macsec_dev);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2396  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2397  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2398  		pr_err("FM_MACSEC_ConfigSectagWithoutSCI() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2399  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2400  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2401  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2402  EXPORT_SYMBOL(fm_macsec_config_sectag_without_sci);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2403  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2404  int fm_macsec_config_exception(struct fm_macsec_dev *fm_macsec_dev,
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2405  			    fm_macsec_exception exception, bool enable)
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2406  {
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2407  	int err;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2408  	int _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2409  
-3f9aacad7d9737 Madalin Bucur 2020-02-27 @2410  	err = FM_MACSEC_ConfigException(fm_macsec_dev, exception, enable);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2411  	_errno = -GET_ERROR_TYPE(err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2412  	if (unlikely(_errno < 0))
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2413  		pr_err("FM_MACSEC_ConfigException() = 0x%08x\n", err);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2414  
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2415  	return _errno;
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2416  }
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2417  EXPORT_SYMBOL(fm_macsec_config_exception);
-3f9aacad7d9737 Madalin Bucur 2020-02-27  2418  
-
-:::::: The code at line 2305 was first introduced by commit
-:::::: 3f9aacad7d973711cdfbdc9dbbf19f972f39c7d9 sdk_fman: add LSDK-19.09-V4.14 SDK DPAA FMan files
-
-:::::: TO: Madalin Bucur <madalin.bucur@oss.nxp.com>
-:::::: CC: Dong Aisheng <aisheng.dong@nxp.com>
+  1803	
+  1804	static void set_dte_entry(struct amd_iommu *iommu,
+  1805				  struct iommu_dev_data *dev_data,
+  1806				  phys_addr_t top_paddr, unsigned int top_level)
+  1807	{
+  1808		u64 pte_root = 0;
+  1809		u64 flags = 0;
+  1810		u32 old_domid;
+  1811		u16 devid = dev_data->devid;
+  1812		u16 domid;
+  1813		struct protection_domain *domain = dev_data->domain;
+  1814		struct dev_table_entry *dev_table = get_dev_table(iommu);
+  1815		struct gcr3_tbl_info *gcr3_info = &dev_data->gcr3_info;
+  1816		struct pt_iommu_amdv1_hw_info pt_info;
+  1817	
+  1818		if (gcr3_info && gcr3_info->gcr3_tbl)
+  1819			domid = dev_data->gcr3_info.domid;
+  1820		else {
+  1821			domid = domain->id;
+  1822	
+  1823			if (domain->domain.type & __IOMMU_DOMAIN_PAGING) {
+  1824				/*
+  1825				 * When updating the IO pagetable, the new top and level
+  1826				 * are provided as parameters. For other operations i.e.
+  1827				 * device attach, retrieve the current pagetable info
+  1828				 * via the IOMMU PT API.
+  1829				 */
+  1830				if (top_paddr) {
+  1831					pt_info.host_pt_root = top_paddr;
+  1832					pt_info.mode = top_level + 1;
+  1833				} else {
+  1834					WARN_ON(top_paddr || top_level);
+> 1835					pt_iommu_amdv1_hw_info(&domain->amdv1,
+  1836							       &pt_info);
+  1837				}
+  1838	
+  1839				pte_root = pt_info.host_pt_root;
+  1840				pte_root |= (pt_info.mode & DEV_ENTRY_MODE_MASK)
+  1841					    << DEV_ENTRY_MODE_SHIFT;
+  1842			}
+  1843		}
+  1844	
+  1845		pte_root |= DTE_FLAG_IR | DTE_FLAG_IW | DTE_FLAG_V;
+  1846	
+  1847		/*
+  1848		 * When SNP is enabled, Only set TV bit when IOMMU
+  1849		 * page translation is in use.
+  1850		 */
+  1851		if (!amd_iommu_snp_en || (domid != 0))
+  1852			pte_root |= DTE_FLAG_TV;
+  1853	
+  1854		flags = dev_table[devid].data[1];
+  1855	
+  1856		if (dev_data->ats_enabled)
+  1857			flags |= DTE_FLAG_IOTLB;
+  1858	
+  1859		if (dev_data->ppr)
+  1860			pte_root |= 1ULL << DEV_ENTRY_PPR;
+  1861	
+  1862		if (domain->dirty_tracking)
+  1863			pte_root |= DTE_FLAG_HAD;
+  1864	
+  1865		if (gcr3_info && gcr3_info->gcr3_tbl) {
+  1866			u64 gcr3 = iommu_virt_to_phys(gcr3_info->gcr3_tbl);
+  1867			u64 glx  = gcr3_info->glx;
+  1868			u64 tmp;
+  1869	
+  1870			pte_root |= DTE_FLAG_GV;
+  1871			pte_root |= (glx & DTE_GLX_MASK) << DTE_GLX_SHIFT;
+  1872	
+  1873			/* First mask out possible old values for GCR3 table */
+  1874			tmp = DTE_GCR3_VAL_B(~0ULL) << DTE_GCR3_SHIFT_B;
+  1875			flags    &= ~tmp;
+  1876	
+  1877			tmp = DTE_GCR3_VAL_C(~0ULL) << DTE_GCR3_SHIFT_C;
+  1878			flags    &= ~tmp;
+  1879	
+  1880			/* Encode GCR3 table into DTE */
+  1881			tmp = DTE_GCR3_VAL_A(gcr3) << DTE_GCR3_SHIFT_A;
+  1882			pte_root |= tmp;
+  1883	
+  1884			tmp = DTE_GCR3_VAL_B(gcr3) << DTE_GCR3_SHIFT_B;
+  1885			flags    |= tmp;
+  1886	
+  1887			tmp = DTE_GCR3_VAL_C(gcr3) << DTE_GCR3_SHIFT_C;
+  1888			flags    |= tmp;
+  1889	
+  1890			if (amd_iommu_gpt_level == PAGE_MODE_5_LEVEL) {
+  1891				dev_table[devid].data[2] |=
+  1892					((u64)GUEST_PGTABLE_5_LEVEL << DTE_GPT_LEVEL_SHIFT);
+  1893			}
+  1894	
+  1895			/* GIOV is supported with V2 page table mode only */
+  1896			if (pdom_is_v2_pgtbl_mode(domain))
+  1897				pte_root |= DTE_FLAG_GIOV;
+  1898		}
+  1899	
+  1900		flags &= ~DEV_DOMID_MASK;
+  1901		flags |= domid;
+  1902	
+  1903		old_domid = dev_table[devid].data[1] & DEV_DOMID_MASK;
+  1904		dev_table[devid].data[1]  = flags;
+  1905		dev_table[devid].data[0]  = pte_root;
+  1906	
+  1907		/*
+  1908		 * A kdump kernel might be replacing a domain ID that was copied from
+  1909		 * the previous kernel--if so, it needs to flush the translation cache
+  1910		 * entries for the old domain ID that is being overwritten
+  1911		 */
+  1912		if (old_domid) {
+  1913			amd_iommu_flush_tlb_domid(iommu, old_domid);
+  1914		}
+  1915	}
+  1916	
+  1917	static void clear_dte_entry(struct amd_iommu *iommu, u16 devid)
+  1918	{
+  1919		struct dev_table_entry *dev_table = get_dev_table(iommu);
+  1920	
+  1921		/* remove entry from the device table seen by the hardware */
+  1922		dev_table[devid].data[0]  = DTE_FLAG_V;
+  1923	
+  1924		if (!amd_iommu_snp_en)
+  1925			dev_table[devid].data[0] |= DTE_FLAG_TV;
+  1926	
+  1927		dev_table[devid].data[1] &= DTE_FLAG_MASK;
+  1928	
+  1929		amd_iommu_apply_erratum_63(iommu, devid);
+  1930	}
+  1931	
+  1932	/* Update and flush DTE for the given device */
+  1933	static void dev_update_dte(struct iommu_dev_data *dev_data, bool set)
+  1934	{
+  1935		struct amd_iommu *iommu = get_amd_iommu_from_dev(dev_data->dev);
+  1936	
+  1937		if (set)
+  1938			set_dte_entry(iommu, dev_data, 0, 0);
+  1939		else
+  1940			clear_dte_entry(iommu, dev_data->devid);
+  1941	
+  1942		clone_aliases(iommu, dev_data->dev);
+  1943		device_flush_dte(dev_data);
+  1944		iommu_completion_wait(iommu);
+  1945	}
+  1946	
+  1947	/*
+  1948	 * If domain is SVA capable then initialize GCR3 table. Also if domain is
+  1949	 * in v2 page table mode then update GCR3[0].
+  1950	 */
+  1951	static int init_gcr3_table(struct iommu_dev_data *dev_data,
+  1952				   struct protection_domain *pdom)
+  1953	{
+  1954		struct amd_iommu *iommu = get_amd_iommu_from_dev_data(dev_data);
+  1955		int max_pasids = dev_data->max_pasids;
+  1956		struct pt_iommu_x86pae_hw_info pt_info;
+  1957		int ret = 0;
+  1958	
+  1959		 /*
+  1960		  * If domain is in pt mode then setup GCR3 table only if device
+  1961		  * is PASID capable
+  1962		  */
+  1963		if (pdom_is_in_pt_mode(pdom) && !pdev_pasid_supported(dev_data))
+  1964			return ret;
+  1965	
+  1966		/*
+  1967		 * By default, setup GCR3 table to support MAX PASIDs
+  1968		 * supported by the device/IOMMU.
+  1969		 */
+  1970		ret = setup_gcr3_table(&dev_data->gcr3_info, iommu,
+  1971				       max_pasids > 0 ?  max_pasids : 1);
+  1972		if (ret)
+  1973			return ret;
+  1974	
+  1975		/* Setup GCR3[0] only if domain is setup with v2 page table mode */
+  1976		if (!pdom_is_v2_pgtbl_mode(pdom))
+  1977			return ret;
+  1978	
+> 1979		pt_iommu_x86pae_hw_info(&pdom->amdv2, &pt_info);
+  1980		ret = update_gcr3(dev_data, 0, pt_info.gcr3_pt, true);
+  1981		if (ret)
+  1982			free_gcr3_table(&dev_data->gcr3_info);
+  1983	
+  1984		return ret;
+  1985	}
+  1986	
 
 -- 
 0-DAY CI Kernel Test Service
