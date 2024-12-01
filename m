@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530A318654
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 08:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBE318654
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 08:10:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733040547; cv=none; b=tic3K56jppp9Ep1ARqilkVyXVlCckNjOWopFcNPAFKAOYVv0u8Y3TAqROB5vjMWUKTJ/BSs74QsZ73M9NC524j4cwicMKwQtZPPXmoJuvhGK73v87aaNVk7CL0sRoWIOa/XCrJyrQj8s+wD2N2hmH+dauVBD+AMwviJRaDifS2Q=
+	t=1733040659; cv=none; b=N0fZAlZD0/U/L8k94eQtL9vy5f9+tMepSX45vefbMjaPQ83M2fU2pgXi2/IFt+tseB1hEG90qh8w8Z/4MbwpitbwJtUhr3hhxFYOWj4qwusrZXUGNnINPMO0ZrbjMJw146kfkPERcX1Ze74YHkAR58l7R/Qt77D/7XQhSi8B1s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733040547; c=relaxed/simple;
-	bh=KiOffa7n1Ugx7G2wy+JSVHLsHihgi/1JVOwpg8Mn1fA=;
+	s=arc-20240116; t=1733040659; c=relaxed/simple;
+	bh=0+pgO/7qnysvbLifVDdhqfVsDMvDtd7xOM81/6jbjF8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZvrjQfz4jQDuB6m7vWJP5iX3ZjKXh5ACktOG6olQPgEPc9d93Zht16qLKBDRCW79j5di8aurxaqYg+wTTLfUEoOA0iEvpNnwwJ3WRJbnyYNw0fCFyrqopS6AQ//dGYIYevd18ZyLpsB2kEwiAluGARbMzTaGn2RllfgGzEXXfDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qa89wkyu; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=eujuSGHyWBEtk8x4Lal4YNIqqn2yQW3zLZCR0eSxYs2gh5b8IczO5+YlX6b9pnc8EQfsvCboXLPLEWU3DtjocnWbyrDUvXm2uftMtXYhsdeiMy1jeQIAm1ebmDVleJE2iJN0Euy9dMq/d+nwf5hoboVCXQRDk4RfSrj2mVRrmuw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCgiUxWK; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qa89wkyu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCgiUxWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733040545; x=1764576545;
+  t=1733040657; x=1764576657;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KiOffa7n1Ugx7G2wy+JSVHLsHihgi/1JVOwpg8Mn1fA=;
-  b=Qa89wkyuM/rgYu7GNqMpkoJ15+Aome9NbE2rqoXfX0/Bun3IJg+BDe/u
-   HT3BcTID338MY/xWa73LQo+/p9TPjHq/kOAr7BJR5PITEgOucWDgmsF3A
-   gOqwWhUxvexOIqMYEQCxqagTC4TyeZANpaN/y9h7q+YbySvZrh1Z/uSbv
-   p/cndGrbyC8x0jsIIyueo4zaRpYZ5uCT68hrhY3M0yTPRw4xDHWMQ+utM
-   L4s/zSirDYu4tFNYT/6UbdYFazKUaC6xOKjUokXSjGMHXmo9uAoLahq1P
-   6ps+d/UnKduga66WxyzHn3DabTKPBlpQvC31n7Hql3RocO6H82yUJnHQA
-   A==;
-X-CSE-ConnectionGUID: wgFv/kHdT2WB2wk8cceJOA==
-X-CSE-MsgGUID: OH/FoY+yR7Oo4jhBRfMTSQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="44256272"
+  bh=0+pgO/7qnysvbLifVDdhqfVsDMvDtd7xOM81/6jbjF8=;
+  b=gCgiUxWKpsoiHaXF1d6Fu8lLUcOnplfKuxDyxYLLmPmcNyysbLgo+1dW
+   br28p5Pq6QwEhhalBMHbdpVL5EnDmzR6+/HggXI1amBAS8HJ96tFoQSi7
+   7mUU8aDPNXPuW6Z9RMp2U1KFl8wwU3aCfWvnjIfNpSEeqH2MfpsVOtbGu
+   K39cXEFvmJnGj0qRVY9vhTLWV6wvmm/U31EJq8VxbcWkOoioIYmVqpUF0
+   KUDD/j2hsmj23PBGxt1uqOGZLqAaLlFoFrGzy5EaIe8/IvQqAlzj7SvG4
+   R0aPvK4tX2TgSgmXmxYKQccfoNI/QVLlYyV+gF8mACeV0HJVGhB0sWC/A
+   w==;
+X-CSE-ConnectionGUID: nkqTzJ0JSquZTYYClx39Aw==
+X-CSE-MsgGUID: Mxt3/1+qQuWulxA8APN1Qw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="36877942"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="44256272"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 00:09:04 -0800
-X-CSE-ConnectionGUID: lCBSXL3cQgiTlMk1FYeiUw==
-X-CSE-MsgGUID: 27VM055ZQHCsJRFIlk+kHA==
+   d="scan'208";a="36877942"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 00:10:56 -0800
+X-CSE-ConnectionGUID: CqnG80AFSWKbxVgF/Hj7+g==
+X-CSE-MsgGUID: VY8pMU5bRIOk3NwNG5HeQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="92630134"
+   d="scan'208";a="116088813"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Dec 2024 00:09:03 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 01 Dec 2024 00:10:55 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHf0A-0001Mx-1N;
-	Sun, 01 Dec 2024 08:08:32 +0000
+	id 1tHf1T-0001N5-1w;
+	Sun, 01 Dec 2024 08:09:50 +0000
 Date: Sun, 1 Dec 2024 16:06:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tian Wei <tianwei@phytium.com.cn>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
- drivers/gpio/gpio-phytium-platform.c:30:36: warning:
- 'phytium_gpio_acpi_match' defined but not used
-Message-ID: <202412011639.nWeLS0HH-lkp@intel.com>
+To: John Crispin <john@phrozen.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Paul Burton <paul.burton@mips.com>
+Subject: drivers/irqchip/irq-ath79-cpu.c:92:13: sparse: sparse: symbol
+ 'ath79_cpu_irq_init' was not declared. Should it be static?
+Message-ID: <202412011509.kGQkDr1y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,44 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Tian,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b5504db0db8375a77340b5bb54c17cfb75d3c754
-commit: 00711bad7e372a30c4975ba43811ffa666aff0e1 [1294/1294] gpio: add phytium gpio driver
-config: arm64-randconfig-001-20241114 (https://download.01.org/0day-ci/archive/20241201/202412011639.nWeLS0HH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011639.nWeLS0HH-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
+commit: 51fa4f8912c0934cf1410f435516d2abbcf88a9e MIPS: ath79: drop legacy IRQ code
+date:   6 years ago
+config: mips-randconfig-r122-20241119 (https://download.01.org/0day-ci/archive/20241201/202412011509.kGQkDr1y-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241201/202412011509.kGQkDr1y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011639.nWeLS0HH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011509.kGQkDr1y-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/irqchip/irq-ath79-cpu.c:92:13: sparse: sparse: symbol 'ath79_cpu_irq_init' was not declared. Should it be static?
 
->> drivers/gpio/gpio-phytium-platform.c:30:36: warning: 'phytium_gpio_acpi_match' defined but not used [-Wunused-const-variable=]
-      30 | static const struct acpi_device_id phytium_gpio_acpi_match[] = {
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~
+vim +/ath79_cpu_irq_init +92 drivers/irqchip/irq-ath79-cpu.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
-   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
-   Selected by [y]:
-   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  58  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  59  static int __init ar79_cpu_intc_of_init(
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  60  	struct device_node *node, struct device_node *parent)
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  61  {
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  62  	int err, i, count;
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  63  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  64  	/* Fill the irq_wb_chan table */
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  65  	count = of_count_phandle_with_args(
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  66  		node, "qca,ddr-wb-channels", "#qca,ddr-wb-channel-cells");
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  67  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  68  	for (i = 0; i < count; i++) {
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  69  		struct of_phandle_args args;
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  70  		u32 irq = i;
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  71  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  72  		of_property_read_u32_index(
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  73  			node, "qca,ddr-wb-channel-interrupts", i, &irq);
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  74  		if (irq >= ARRAY_SIZE(irq_wb_chan))
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  75  			continue;
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  76  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  77  		err = of_parse_phandle_with_args(
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  78  			node, "qca,ddr-wb-channels",
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  79  			"#qca,ddr-wb-channel-cells",
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  80  			i, &args);
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  81  		if (err)
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  82  			return err;
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  83  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  84  		irq_wb_chan[irq] = args.args[0];
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  85  	}
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  86  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  87  	return mips_cpu_irq_of_init(node, parent);
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  88  }
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  89  IRQCHIP_DECLARE(ar79_cpu_intc, "qca,ar7100-cpu-intc",
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  90  		ar79_cpu_intc_of_init);
+81ffb18ce4a0c4 Alban Bedel 2016-01-23  91  
+81ffb18ce4a0c4 Alban Bedel 2016-01-23 @92  void __init ath79_cpu_irq_init(unsigned irq_wb_chan2, unsigned irq_wb_chan3)
 
+:::::: The code at line 92 was first introduced by commit
+:::::: 81ffb18ce4a0c400b051c3df67e452410d6be1ec irqchip/ath79-cpu: Move the CPU IRQ driver from arch/mips/ath79/
 
-vim +/phytium_gpio_acpi_match +30 drivers/gpio/gpio-phytium-platform.c
-
-    29	
-  > 30	static const struct acpi_device_id phytium_gpio_acpi_match[] = {
-    31		{ "PHYT0001", 0 },
-    32		{ }
-    33	};
-    34	MODULE_DEVICE_TABLE(acpi, phytium_gpio_acpi_match);
-    35	
+:::::: TO: Alban Bedel <albeu@free.fr>
+:::::: CC: Jason Cooper <jason@lakedaemon.net>
 
 -- 
 0-DAY CI Kernel Test Service
