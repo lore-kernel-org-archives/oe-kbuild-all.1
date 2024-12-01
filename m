@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFDE7DA6C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D11C3B1A1
 	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 11:05:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733051140; cv=none; b=eVU/ZCbwr2NwlWqmTx4eMdRBBF4Pw/o6moyX2KBquTUwkBLzrrnU3gdaU/kgMaFMfmqvGp5ntPx/GoTm7XrlhtvzTMvOWX/Kc9fhwmTJTrhc1htKeba8oo4KGMEm0j1429t8Uf0LI4Zfgn7B25b3KpNCIGZA0SP1r1SYt6GPDz0=
+	t=1733051141; cv=none; b=rvX/h4qJXH8EXPXLKkdJXBX53bGv4LwSOCfsWbA1PZTGr+AGb6nnMTM8a+aH+d2t08WOFa05E23ZOpEICB5J81QO6v7lkeNHNYk24+NEJD3BKOtt8M9FLyv9Xw4n8M5BPKUdaOF79gaxG4jSiPrI8hs+dfgyrqUs4mjn5eBCZoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733051140; c=relaxed/simple;
-	bh=PUxecbSS5EInyBb68/iQiBj5NiMlrlwcuRB6hu9BPm8=;
+	s=arc-20240116; t=1733051141; c=relaxed/simple;
+	bh=HALIbz4s2YRGdPjdnzVz3gtEcq5r7ZwQr6IBm+hWpU0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qVm3zcfdpaWoDIEF9G/6r874NxG0veTWAhe86aVfCcebfbqzhIPBeGBcx3wWk1pD93ej9df7GpdstHchFzQerKoDBvj4pofguKf2yA7+5SVkY4HLv4mZn5Fjw4BR9H+L0lhi7B3fpxpmENg6UYgCBvZUxNSV71YaUdxkH3aum5A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M9zkob0h; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=jb8xpWBZaMqS4UqvIaJioeDTcD35bSKdhxWjq5E6fKR81alc2AWiiKG6tkXkUNLwEo0dm4mqg86mw+GHTevI1UYdi785a7wmFp12NPDOqXJsz2+C2wdnxG7LoQ6uvnbalSeOhvIcZJsdFu983DH7CdikbbXtLMv1DyD7VwyTF/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P1MmeQU9; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M9zkob0h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P1MmeQU9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1733051139; x=1764587139;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PUxecbSS5EInyBb68/iQiBj5NiMlrlwcuRB6hu9BPm8=;
-  b=M9zkob0hMK+gVtTASnMedhhqRn1o/B6T+8gBs7am6pYqnWMKn79k7zp/
-   XTsIvMwqcbk3w/VLSVIQ7LCMBhMbEkIeLfCc+uuz7hsvm6bOHAjU2fUQn
-   nNCkSXho05gUbl0TivcznjcoJjYEoec+2Oijjih5Fe3fON4hVgOsrueuH
-   9yZpbJiOHF6/OfyLgjXnR/TNK0RfTn3YqQsWdGYq04hxjU096NZkMO9zs
-   3fAlpc1r/cOm+RMDI4/7WgxSgGlmhk4eN5gX68BIW+hSOsAvTsM2FG2NG
-   jSEMBwQlqfpop04IGirktBihb27S6uVsMxf62S9qjkE36xevF4LAPl9nt
+  bh=HALIbz4s2YRGdPjdnzVz3gtEcq5r7ZwQr6IBm+hWpU0=;
+  b=P1MmeQU9PeKGokvwSq22WpNKEu2146Z7m1VK5yB1hApR6INZFn0tdPvG
+   09iJHzBxdgN4UnRIayM7ACPk6llEQy1oagxyHgpS4q7sju3U673AEBd14
+   oQ7F3mfAw1VUFWAusV/IwJNWPZdBohVQochuXxpaE1+LMKJpiRpBAUkTl
+   x/slRvgft1/RxGe6dN4fHmsq7iB+biI+e+61AxU52XEeXYPvkUo8ogAK5
+   2UHk2u0OM6jQwO5Qqf9HEQNcUcqKUrF1C0Dh9tAffTG2FWGMJbXbfBIe2
+   JFsWtSHYSvB6OrMxBufZ5e9T0w/42U3uIECeAxi9rTMu4MxmR4c5pB9/6
    A==;
-X-CSE-ConnectionGUID: 1d+eKtAZSEqZAJuBBxqVlg==
-X-CSE-MsgGUID: nxDbAHwwT1SncMX7h1n7YQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33155069"
+X-CSE-ConnectionGUID: 7udkTUcyQ82STssbAcLOuQ==
+X-CSE-MsgGUID: pGHfO8a7RkObkA3mbVdPJw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="33373998"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="33155069"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 03:05:38 -0800
-X-CSE-ConnectionGUID: 0cYNjfQOQNWVfNA2tXtkiw==
-X-CSE-MsgGUID: Acrrhqp9TreEg3JZjtZo8A==
+   d="scan'208";a="33373998"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 03:05:39 -0800
+X-CSE-ConnectionGUID: iKyKunp8T3eT7i5I6Ysc0A==
+X-CSE-MsgGUID: V/9Etc/DRhu4EoaugM9Kzw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="116113916"
+   d="scan'208";a="92947396"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 01 Dec 2024 03:05:37 -0800
+  by orviesa006.jf.intel.com with ESMTP; 01 Dec 2024 03:05:37 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHhle-0001Tl-18;
+	id 1tHhle-0001Tp-1M;
 	Sun, 01 Dec 2024 11:05:34 +0000
 Date: Sun, 1 Dec 2024 19:04:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wolfram Sang <wsa-dev@sang-engineering.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1298/1298]
- drivers/i2c/busses/i2c-qcom-geni.o: warning: objtool: missing symbol for
- section .init.text
-Message-ID: <202412011940.QJsnBEa8-lkp@intel.com>
+To: Vineet Gupta <vgupta@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org
+Subject: include/linux/compiler_types.h:328:45: error: call to
+ '__compiletime_assert_292' declared with attribute error: BUILD_BUG_ON
+ failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
+Message-ID: <202412011908.nBxlyBTQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +64,77 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b5504db0db8375a77340b5bb54c17cfb75d3c754
-commit: 37692de5d5235304835f4fdd5b3e5d5bae72fc16 [1298/1298] i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller
-config: x86_64-buildonly-randconfig-006-20241118 (https://download.01.org/0day-ci/archive/20241201/202412011940.QJsnBEa8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011940.QJsnBEa8-lkp@intel.com/reproduce)
+Hi Vineet,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   bcc8eda6d34934d80b96adb8dc4ff5dfc632a53a
+commit: d9820ff76f95fa26d33e412254a89cd65b23142d ARC: mm: switch pgtable_t back to struct page *
+date:   3 years, 3 months ago
+config: arc-randconfig-r131-20241118 (https://download.01.org/0day-ci/archive/20241201/202412011908.nBxlyBTQ-lkp@intel.com/config)
+compiler: arc-elf-gcc (GCC) 13.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20241201/202412011908.nBxlyBTQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011940.QJsnBEa8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011908.nBxlyBTQ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from drivers/i2c/busses/i2c-qcom-geni.c:10:
-   include/linux/module.h:138:14: warning: 'cleanup_module' specifies less restrictive attribute than its target 'geni_i2c_driver_exit': 'cold' [-Wmissing-attributes]
-     138 |         void cleanup_module(void) __attribute__((alias(#exitfn)));
-         |              ^~~~~~~~~~~~~~
-   include/linux/device.h:1558:1: note: in expansion of macro 'module_exit'
-    1558 | module_exit(__driver##_exit);
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
-     228 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:670:1: note: in expansion of macro 'module_platform_driver'
-     670 | module_platform_driver(geni_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/dma-mapping.h:7,
-                    from drivers/i2c/busses/i2c-qcom-geni.c:5:
-   drivers/i2c/busses/i2c-qcom-geni.c:670:24: note: 'cleanup_module' target declared here
-     670 | module_platform_driver(geni_i2c_driver);
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/device.h:1554:20: note: in definition of macro 'module_driver'
-    1554 | static void __exit __driver##_exit(void) \
-         |                    ^~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:670:1: note: in expansion of macro 'module_platform_driver'
-     670 | module_platform_driver(geni_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/module.h:132:13: warning: 'init_module' specifies less restrictive attribute than its target 'geni_i2c_driver_init': 'cold' [-Wmissing-attributes]
-     132 |         int init_module(void) __attribute__((alias(#initfn)));
-         |             ^~~~~~~~~~~
-   include/linux/device.h:1553:1: note: in expansion of macro 'module_init'
-    1553 | module_init(__driver##_init); \
-         | ^~~~~~~~~~~
-   include/linux/platform_device.h:228:9: note: in expansion of macro 'module_driver'
-     228 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:670:1: note: in expansion of macro 'module_platform_driver'
-     670 | module_platform_driver(geni_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:670:24: note: 'init_module' target declared here
-     670 | module_platform_driver(geni_i2c_driver);
-         |                        ^~~~~~~~~~~~~~~
-   include/linux/device.h:1549:19: note: in definition of macro 'module_driver'
-    1549 | static int __init __driver##_init(void) \
-         |                   ^~~~~~~~
-   drivers/i2c/busses/i2c-qcom-geni.c:670:1: note: in expansion of macro 'module_platform_driver'
-     670 | module_platform_driver(geni_i2c_driver);
-         | ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/i2c/busses/i2c-qcom-geni.o: warning: objtool: missing symbol for section .init.text
+   arch/arc/mm/init.c:35:13: warning: no previous prototype for 'arc_get_mem_sz' [-Wmissing-prototypes]
+      35 | long __init arc_get_mem_sz(void)
+         |             ^~~~~~~~~~~~~~
+   arch/arc/mm/init.c:88:13: warning: no previous prototype for 'setup_arch_memory' [-Wmissing-prototypes]
+      88 | void __init setup_arch_memory(void)
+         |             ^~~~~~~~~~~~~~~~~
+   In file included from <command-line>:
+   arch/arc/mm/init.c: In function 'mem_init':
+>> include/linux/compiler_types.h:328:45: error: call to '__compiletime_assert_292' declared with attribute error: BUILD_BUG_ON failed: (PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:309:25: note: in definition of macro '__compiletime_assert'
+     309 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:328:9: note: in expansion of macro '_compiletime_assert'
+     328 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/arc/mm/init.c:194:9: note: in expansion of macro 'BUILD_BUG_ON'
+     194 |         BUILD_BUG_ON((PTRS_PER_PTE * sizeof(pte_t)) > PAGE_SIZE);
+         |         ^~~~~~~~~~~~
+
+
+vim +/__compiletime_assert_292 +328 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  314  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  315  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  316  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  317  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  318  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  319   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  320   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  321   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  322   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  323   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  324   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  325   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  326   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  327  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @328  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  329  
+
+:::::: The code at line 328 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
