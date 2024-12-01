@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37CC91D88DD
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 22:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DDD10A3E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 23:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733093514; cv=none; b=TEInkRsbf7xY3ojPDN8b8XuYL47kNz804s4iOD9sj+4S1DP4ZckWKnZoQ0FyVIGSn15fLn0rwNyKNiHTUVKqWIPER++USJIq0NDzEUReDFyfP7+7dN3x1fxfkzXgelYZjdt5LcyXF+GYJMAuYJ9rQZUgC4sp7tW62VTI7YAsRBk=
+	t=1733094185; cv=none; b=QtHh/QrQcVmrjGlMpAvwI+Ja/eC9llsun3BGq/bb1mqJxf8nHKWhdVLbvlHqYvfOQR1Dix/T6UpFm7YCPjcX15ADiVGYglNUsynoGK0ouqE+01zftCGKYcB9ud7YTW1qyUpguUSEc2o/cisRWLLRLsqLhggV8Kb7DKm/Swh+dcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733093514; c=relaxed/simple;
-	bh=RShDDrM725O0itP1KRatNC6aA27lUWMswsm35rnHvZ0=;
+	s=arc-20240116; t=1733094185; c=relaxed/simple;
+	bh=k+EJtSIgRkh/iccwU83KWjkFyR2TsOvUK4BcxYC3Tgg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DA+WdMjAoqJdb0RKKTefJz5YXdM3cJhr9E2D2Y9rNPb9Xrp0AKYedsJ/1vWBjbjWgUuOvrIVGeSUuxJVHCh/ESHmxqC0M8A/CQI+JAcz+PpLLpF6Or+Rv5YAboqrbv15kqvUFxEwFY2UtoajrY7qUPV2bcGnYw+J9puXSGX68NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nftOgwdg; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=V/DHyVErZgSLktZU7WZuhozKUH2H3bQsYLShSQ9H/iBty5kK7L5xC0uOx+wd6ID8iYn/ovJbpSM7JSfQc7oYe1EROa0SwGT2nKa4v4Zouj5Fa5VCe2HfYgDY6tCAMiiGa8/RqvyIIoPheJ/Ijv2FeuMOglymSV0ldKrNHYIkHFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=caRREFN3; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nftOgwdg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="caRREFN3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733093512; x=1764629512;
+  t=1733094183; x=1764630183;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RShDDrM725O0itP1KRatNC6aA27lUWMswsm35rnHvZ0=;
-  b=nftOgwdgyjlydicqXiChRktfcy4YE5IVUNbpMjwhpaRGayHcUwDNmxoU
-   3O4rqRbUxHxYtc7XiG49Iz8IlnuCf+ypax+gRUomPIzcIRBDJCFYB0yM0
-   SYlPFI3qa28yzGvzdVoQu8g5fC3hUv4J1UBNfZI3lBp2peyhBrhhHffPJ
-   V2JqWUZEEr2+ZmSvdqVexQgrn+ceLHZAd4LAWbKLqjR/jZFfMp+Pj4SMJ
-   4JbF890Qvp47lIxlrVfXF213VvgzQk3BLbber3XDLDlATbRUvL3lzYGQB
-   /Yj9LDC1yXzLrEQrDIsTBoElt0th4oetyabQ1G8nT80ibxoA9r+SpXVKx
+  bh=k+EJtSIgRkh/iccwU83KWjkFyR2TsOvUK4BcxYC3Tgg=;
+  b=caRREFN3mT5cfvPtMQA34w1m7Xeuq5e6n8u1/luV86WWGTUA4RL8DJiF
+   pu7MMQ4CL3UMJu4YEceuEIZ9RoKJSdx2Ihcj44I7oI6qNewPtkNKxrs/S
+   S0lnxM04yUVWGN9/H6DMOJ4bGeEnc7eamaRODJfjwxlERKYrICV+6ScFI
+   YJu7HEfgKvMibkDthMQTOMOyQ3gNJ3J5b2Gqzhx1WjjsR7S5RYQzY+1xq
+   bPX8kkxUOto8NK/dElwWPXs69Z6+v6pkczC8HBEl0WQGnRKdXr0QfLbLV
+   yakUu6KohhxzoQAEdHb+ydK+ueemawWoS1qJuyTgyAZ2onxNcTg5OQIyX
    A==;
-X-CSE-ConnectionGUID: 7UANPQvCRp6CqsZkYsJohQ==
-X-CSE-MsgGUID: 8dddUbBSTaq09vCu1l0B6w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="55740269"
+X-CSE-ConnectionGUID: G49L99EgR2u/GSJug9kGrQ==
+X-CSE-MsgGUID: uCkTxf+mRQai0iz1SBJ++g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="44622161"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="55740269"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 14:51:49 -0800
-X-CSE-ConnectionGUID: yIvv+lnvTzmWkmMipSO2JQ==
-X-CSE-MsgGUID: +mvTUcXjQoW4sfLhnMG8CA==
+   d="scan'208";a="44622161"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 15:03:03 -0800
+X-CSE-ConnectionGUID: 2alKTuYPSGG83EFVPBnkCg==
+X-CSE-MsgGUID: eK1WB/lYRxmX+3LPJKM2eg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="98065407"
+   d="scan'208";a="116208497"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 01 Dec 2024 14:51:48 -0800
+  by fmviesa002.fm.intel.com with ESMTP; 01 Dec 2024 15:03:02 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHsn3-0001u7-2N;
-	Sun, 01 Dec 2024 22:51:45 +0000
-Date: Mon, 2 Dec 2024 06:50:52 +0800
+	id 1tHsxv-0001ud-1t;
+	Sun, 01 Dec 2024 23:02:59 +0000
+Date: Mon, 2 Dec 2024 07:02:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wenkuan Wang <Wenkuan.Wang@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 1474/1474] arch/x86/events/amd/uncore.c:601:10:
- sparse: sparse: incorrect type in initializer (different address spaces)
-Message-ID: <202412020612.qu4Z3kVG-lkp@intel.com>
+Subject: [android-common:android12-5.10 386/30000]
+ arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function
+ 'sve_cond_update_zcr_vq'
+Message-ID: <202412020627.6FevFwYq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +63,97 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   df4c334beecb4cf58e4e8d63b491aa5ac0a84f46
-commit: e31410969eb2ea5a4eb26d54616a6bba88cc0dbc [1474/1474] perf/x86/amd/uncore: Move discovery and registration
-config: x86_64-randconfig-121-20241118 (https://download.01.org/0day-ci/archive/20241202/202412020612.qu4Z3kVG-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020612.qu4Z3kVG-lkp@intel.com/reproduce)
+Hi Marc,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android12-5.10
+head:   b0e9b554c383a988e7185baf9fdee7d959b8de3e
+commit: b0e15c8c44275afef4aacfb1560e38b974b02ac8 [386/30000] FROMGIT: KVM: arm64: Save/restore SVE state for nVHE
+config: arm64-randconfig-r062-20241112 (https://download.01.org/0day-ci/archive/20241202/202412020627.6FevFwYq-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020627.6FevFwYq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412020612.qu4Z3kVG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412020627.6FevFwYq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/x86/events/amd/uncore.c:601:10: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:601:10: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:601:10: sparse:     got union amd_uncore_info *
-   arch/x86/events/amd/uncore.c:730:10: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:730:10: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:730:10: sparse:     got union amd_uncore_info *
->> arch/x86/events/amd/uncore.c:847:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected union amd_uncore_info *[noderef] info @@     got union amd_uncore_info [noderef] __percpu * @@
-   arch/x86/events/amd/uncore.c:847:30: sparse:     expected union amd_uncore_info *[noderef] info
-   arch/x86/events/amd/uncore.c:847:30: sparse:     got union amd_uncore_info [noderef] __percpu *
->> arch/x86/events/amd/uncore.c:881:43: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got union amd_uncore_info *[noderef] info @@
-   arch/x86/events/amd/uncore.c:881:43: sparse:     expected void [noderef] __percpu *__pdata
-   arch/x86/events/amd/uncore.c:881:43: sparse:     got union amd_uncore_info *[noderef] info
-   arch/x86/events/amd/uncore.c:904:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __percpu *__pdata @@     got union amd_uncore_info *[noderef] info @@
-   arch/x86/events/amd/uncore.c:904:35: sparse:     expected void [noderef] __percpu *__pdata
-   arch/x86/events/amd/uncore.c:904:35: sparse:     got union amd_uncore_info *[noderef] info
-   arch/x86/events/amd/uncore.c:358:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:358:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:358:39: sparse:     got union amd_uncore_info *
->> arch/x86/events/amd/uncore.c:358:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:358:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:358:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:358:39: sparse:     got union amd_uncore_info *
->> arch/x86/events/amd/uncore.c:358:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:601:10: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:365:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:365:39: sparse:     got union amd_uncore_info *
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:730:10: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got union amd_uncore_info * @@
-   arch/x86/events/amd/uncore.c:365:39: sparse:     expected void const [noderef] __percpu *__vpp_verify
-   arch/x86/events/amd/uncore.c:365:39: sparse:     got union amd_uncore_info *
-   arch/x86/events/amd/uncore.c:365:39: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:848:22: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:880:21: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:881:37: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:882:25: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:901:22: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:904:29: sparse: sparse: dereference of noderef expression
-   arch/x86/events/amd/uncore.c:905:17: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +601 arch/x86/events/amd/uncore.c
+   arch/arm64/kvm/fpsimd.c: In function 'kvm_arch_vcpu_put_fp':
+>> arch/arm64/kvm/fpsimd.c:129:33: error: implicit declaration of function 'sve_cond_update_zcr_vq' [-Werror=implicit-function-declaration]
+     129 |                                 sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
+         |                                 ^~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
-   582	
-   583	static
-   584	void amd_uncore_df_ctx_scan(struct amd_uncore *uncore, unsigned int cpu)
-   585	{
-   586		union cpuid_0x80000022_ebx ebx;
-   587		union amd_uncore_info info;
-   588	
-   589		if (!boot_cpu_has(X86_FEATURE_PERFCTR_NB))
-   590			return;
-   591	
-   592		info.split.aux_data = 0;
-   593		info.split.num_pmcs = NUM_COUNTERS_NB;
-   594		info.split.cid = topology_die_id(cpu);
-   595	
-   596		if (pmu_version >= 2) {
-   597			ebx.full = cpuid_ebx(EXT_PERFMON_DEBUG_FEATURES);
-   598			info.split.num_pmcs = ebx.split.num_df_pmc;
-   599		}
-   600	
- > 601		*per_cpu_ptr(uncore->info, cpu) = info;
-   602	}
-   603	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for DRM_KMS_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for DRM_GEM_CMA_HELPER
+   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_DRM_CONFIGS [=y]
+
+
+vim +/sve_cond_update_zcr_vq +129 arch/arm64/kvm/fpsimd.c
+
+   108	
+   109	/*
+   110	 * Write back the vcpu FPSIMD regs if they are dirty, and invalidate the
+   111	 * cpu FPSIMD regs so that they can't be spuriously reused if this vcpu
+   112	 * disappears and another task or vcpu appears that recycles the same
+   113	 * struct fpsimd_state.
+   114	 */
+   115	void kvm_arch_vcpu_put_fp(struct kvm_vcpu *vcpu)
+   116	{
+   117		unsigned long flags;
+   118		bool host_has_sve = system_supports_sve();
+   119		bool guest_has_sve = vcpu_has_sve(vcpu);
+   120	
+   121		local_irq_save(flags);
+   122	
+   123		if (vcpu->arch.flags & KVM_ARM64_FP_ENABLED) {
+   124			if (guest_has_sve) {
+   125				__vcpu_sys_reg(vcpu, ZCR_EL1) = read_sysreg_el1(SYS_ZCR);
+   126	
+   127				/* Restore the VL that was saved when bound to the CPU */
+   128				if (!has_vhe())
+ > 129					sve_cond_update_zcr_vq(vcpu_sve_max_vq(vcpu) - 1,
 
 -- 
 0-DAY CI Kernel Test Service
