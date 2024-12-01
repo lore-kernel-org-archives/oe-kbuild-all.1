@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64186FD5
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 08:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B78B6FD5
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Dec 2024 08:59:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733042918; cv=none; b=bWFKTyk9/j7U7VZqwOUrESk/Yj3uPDCozbws3iRI0W+FljpmyXOWneafDAL8iN/9yii1KRtemdrH+MU4COxg+JUL1+XwoVByctIfFzSRE2weUaFqHwS2TJ4YJ2TyYkLv24ZCQ83zp/ZeC1nzKf+llhbgpbooJIx3klUrrlLMgS8=
+	t=1733043548; cv=none; b=L52XJE3NQUqXeq3+eb+5Q6FtGte1HvMJWhQGCXFyAulIYq9rSBN9A5MPqLac98y31Xm/Z0QP49IIc6ekdQMEoWl27b9NNEEAA2sCp1OHYbejw45wDnQSfoPqJQStVo+Durmm9lomCpHBJi+VNjHzH7K8zbDYBpKRrdfh8jeiw2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733042918; c=relaxed/simple;
-	bh=vKLBJNH6VxMfcpWpu4PcpQSA1V/QtZdldi27Kb1BM0o=;
+	s=arc-20240116; t=1733043548; c=relaxed/simple;
+	bh=ecF3wuO4Ce9BBJb/28qcgvXvAm7FlvwNfKJg4EUwF54=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NjQDXZc4hnYKu3Vqalom28E+5UHJKCnEMglB5fqSur5KRne7A4n/zxtQe/CMzY2p/qxD83qCDuXmjWCTs92wO5zCPdlMPJMnsYw0lwjE7+3W7gsfjWt0klvXKh744gBPhMxwe+aiYH37W0OOnA5zAYb9hkcV/nGTKKRE9YdEvDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpVC0WPg; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=PHxOofv0D8g8gOYfHAjm/dprxx/TVLrZtXcgl0OJIzRX0S8qnmMMV6aiG7rxBbJgKu0KYUxceRliQer+BsPd5PWII+geDnkG1BH3ogZ8TmGxsX7S3jKYUP+t9rGH4r47FfVbd3/H+TM8upTNNyG+OzH/RfuiJsoLMWIMS4frck4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHj3OPMJ; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpVC0WPg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHj3OPMJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733042916; x=1764578916;
+  t=1733043547; x=1764579547;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=vKLBJNH6VxMfcpWpu4PcpQSA1V/QtZdldi27Kb1BM0o=;
-  b=lpVC0WPg9AUf3X3uH3jxIkiKDvbmcNJupPcs7LLBLDCzr6TP8P6KjOdx
-   GlC9KV4nIJ4iEqkqm/5bAUN23+Ol3ddXLwMOk5ydDwmSdOd+NHavE9eMT
-   tnKhz8+dAiboeQalr8GtHEsMXFiGhcWaVgTh9H2fuvPrwy7oE3XUii2+R
-   mxotQHT0v9Z4la+iDGaJ5BGD6+0UZhsvjoYfDxpY+OgJyYY6w4JFRXq4x
-   D827KBm4KKFv9wPObNQrYTzUkBZKmpyEXGPrnh2gIDmT2tj/rrJQOXAzp
-   V8y6o2g1lWswBLPXtMLvU5VfFVdfatAMQHx8wZPElI0QlUGg/wFbrKNTK
-   Q==;
-X-CSE-ConnectionGUID: Lca0fYxwRjKxwMjKUWSzHw==
-X-CSE-MsgGUID: V1/Cs/pWTOy9t6LAySA+kg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="37153638"
+  bh=ecF3wuO4Ce9BBJb/28qcgvXvAm7FlvwNfKJg4EUwF54=;
+  b=JHj3OPMJbDw0aXaDR46/BncqfgzYkbgtUqVATaE0JXDKJrteMgp1lBU8
+   RgM3yrqErOeMtNfWC3afG7wbN7vW/TrtOqDa31ZyPyuWjp2up5Ss42bpI
+   vYZeodZ72TRbLjZ9wAd7wN4P0D93i4lJ0bUblFaQffubuOoubbsxOFqrf
+   ieO/ODD0q2cyjiChEInQOKyzdGmLUgtHpraiwP6N/s+bVE3Muw74xKqbC
+   pwpvbc3xkJkAa5qIswH/6J31E1o7HOqyQDVjr6JyFetlRh9eGrgExMjss
+   TpcYrwpK1neqelcBXkY7eAegpzClZBWetFlb3ANmCFy6sLdTHiipRDMbS
+   A==;
+X-CSE-ConnectionGUID: ul/mCc7XTqyuU3vKDC5wIA==
+X-CSE-MsgGUID: A3pPrMdlTCiubt1cSEMhBg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11272"; a="32964087"
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="37153638"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 00:48:35 -0800
-X-CSE-ConnectionGUID: VaZvRBfBTwCMgE9cT9gpug==
-X-CSE-MsgGUID: 6F8JvbgcSpur7FCzMN0ebA==
+   d="scan'208";a="32964087"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 00:59:06 -0800
+X-CSE-ConnectionGUID: CM5IfyTWRCadI2MvaMzYbA==
+X-CSE-MsgGUID: J4h5d6MYTbKxiFmZvw8wJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,200,1728975600"; 
-   d="scan'208";a="93153115"
+   d="scan'208";a="92927034"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Dec 2024 00:48:34 -0800
+  by orviesa006.jf.intel.com with ESMTP; 01 Dec 2024 00:59:05 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHfcj-0001Ob-2l;
-	Sun, 01 Dec 2024 08:48:19 +0000
-Date: Sun, 1 Dec 2024 16:48:08 +0800
+	id 1tHfn2-0001Or-0K;
+	Sun, 01 Dec 2024 08:58:55 +0000
+Date: Sun, 1 Dec 2024 16:58:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjiang Tu <tujinjiang@huawei.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2441/2441] mm/swapfile.o: warning: objtool:
- free_swap_and_cache()+0xfc: unreachable instruction
-Message-ID: <202412011634.AmMCv17V-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2441/2441] mm/kasan/common.c:471:16: error: void
+ value not ignored as it ought to be
+Message-ID: <202412011647.JJxaTRfd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +62,82 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ryan,
-
-FYI, the error/warning still remains.
-
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   a2b4d661a5ca59dd7cf972c1cce8b98422102ab7
-commit: 1d94cc3410041f99602b68b4d1d79e57fbebf6ca [2441/2441] mm: swap: fix race between free_swap_and_cache() and swapoff()
-config: x86_64-buildonly-randconfig-001-20241118 (https://download.01.org/0day-ci/archive/20241201/202412011634.AmMCv17V-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011634.AmMCv17V-lkp@intel.com/reproduce)
+commit: d5ddd7080c7442f22d6b92d6fed0dacc606013d1 [2441/2441] kasan: sanitize objects when metadata doesn't fit
+config: arm64-randconfig-003-20241118 (https://download.01.org/0day-ci/archive/20241201/202412011647.JJxaTRfd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241201/202412011647.JJxaTRfd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412011634.AmMCv17V-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412011647.JJxaTRfd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/swapfile.o: warning: objtool: free_swap_and_cache()+0xfc: unreachable instruction
+   In file included from mm/kasan/common.c:40:
+   mm/kasan/kasan.h: In function 'quarantine_put':
+   mm/kasan/kasan.h:198:84: warning: 'return' with a value, in function returning void [-Wreturn-mismatch]
+     198 | static inline void quarantine_put(struct kmem_cache *cache, void *object) { return false; }
+         |                                                                                    ^~~~~
+   mm/kasan/kasan.h:198:20: note: declared here
+     198 | static inline void quarantine_put(struct kmem_cache *cache, void *object) { return false; }
+         |                    ^~~~~~~~~~~~~~
+   mm/kasan/common.c: In function '__kasan_slab_free':
+>> mm/kasan/common.c:471:16: error: void value not ignored as it ought to be
+     471 |         return quarantine_put(cache, object);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/kasan/common.c:472:1: warning: control reaches end of non-void function [-Wreturn-type]
+     472 | }
+         | ^
+
+
+vim +471 mm/kasan/common.c
+
+   431	
+   432	static bool __kasan_slab_free(struct kmem_cache *cache, void *object,
+   433				      unsigned long ip, bool quarantine)
+   434	{
+   435		s8 shadow_byte;
+   436		u8 tag;
+   437		void *tagged_object;
+   438		unsigned long rounded_up_size;
+   439	
+   440		tag = get_tag(object);
+   441		tagged_object = object;
+   442		object = reset_tag(object);
+   443	
+   444		if (is_kfence_address(object))
+   445			return false;
+   446	
+   447		if (unlikely(nearest_obj(cache, virt_to_head_page(object), object) !=
+   448		    object)) {
+   449			kasan_report_invalid_free(tagged_object, ip);
+   450			return true;
+   451		}
+   452	
+   453		/* RCU slabs could be legally used after free within the RCU period */
+   454		if (unlikely(cache->flags & SLAB_TYPESAFE_BY_RCU))
+   455			return false;
+   456	
+   457		shadow_byte = READ_ONCE(*(s8 *)kasan_mem_to_shadow(object));
+   458		if (shadow_invalid(tag, shadow_byte)) {
+   459			kasan_report_invalid_free(tagged_object, ip);
+   460			return true;
+   461		}
+   462	
+   463		rounded_up_size = round_up(cache->object_size, KASAN_SHADOW_SCALE_SIZE);
+   464		kasan_poison_shadow(object, rounded_up_size, KASAN_KMALLOC_FREE);
+   465	
+   466		if ((IS_ENABLED(CONFIG_KASAN_GENERIC) && !quarantine))
+   467			return false;
+   468	
+   469		kasan_set_free_info(cache, object, tag);
+   470	
+ > 471		return quarantine_put(cache, object);
+   472	}
+   473	
 
 -- 
 0-DAY CI Kernel Test Service
