@@ -1,63 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DD0B1FECAC;
-	Mon,  2 Dec 2024 12:41:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C80A95C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 12:51:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733143316; cv=none; b=Qy1A7/KLHt/cL1znrDMnyprt3owOX5vTgSqmIwMq98LvxNvRIH9sGmjA/aCvw+caoyjTOA9xrbqjO0MMXasFIFSzwW2CGBGGSLdfEMqP/JKO+qXkNLV8a8a4pNk8zREr8m/dYcm+HQmrtGxEDdQJyWtELYQZX7c2la6UQqUWlH0=
+	t=1733143916; cv=none; b=SRHa1ypjYZmQteyV508+L1uQwdbnN2VW6oo/ROWS5cffOIXw7ikZlkuUPvuh0YCTu07SXwOkEUSU5qoshCoboHU3KmSr0tyc5LsIxCJMRGjcmYf83l8MA3ix0vleLICa1rHvhT9GRarZDcLg+l5uteuqVIV+D5sZKbduwD3+0mk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733143316; c=relaxed/simple;
-	bh=MemJTRZl5TjeSjQ/ni8puxh+g7YvwKhakiHnwne5UwM=;
+	s=arc-20240116; t=1733143916; c=relaxed/simple;
+	bh=TI1eNec6e71hXIflgWeSYtQQA2WlLOWs5lDyHo3slqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uYukoLO8ekUVU63/8rXB9EEi/60lYP+RqLgb4lBqGStnckvG7cKIgBDTv4+CCDUvaaeXLB87gJi2foaepNB4fDPuSTfDYgcSkWjZqA4FpaxPp9/J7QIlrMp7vKs6euL4tv80mMOETd+VHMJtEXcCjZsapGjKLeK8SQYjiir7YzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GDs6t3kF; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=AQZmYdAfZH6uZJsByYFzWea7Wbgqa+7UrE/ZzDupb75LkZnHNAa3vBC4Oq0RRbKJUWzy7G/9Rt4wWI8QjqVvL4QqK295RuUlpRbFcm+JE1UyBn30iHAc3E4K8rSSIydF1S4t//dtIwPRGm8/vQDFqPA6JSGm0ISggKwRZ1MjNkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIG2m5o2; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GDs6t3kF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIG2m5o2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733143313; x=1764679313;
+  t=1733143915; x=1764679915;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=MemJTRZl5TjeSjQ/ni8puxh+g7YvwKhakiHnwne5UwM=;
-  b=GDs6t3kFbwuRljv5LdNZlcULEkCeA/v+s2n36pXqm2AWnMCb+1VCyHev
-   C0cvSqnkTlGfyxIFb6+FSwrLdrTs+7qk4H1UUavzhBi+afJahvQfNCzKW
-   OOdWaYrjsdMVcaLFNnPT1DhVATewBhjZt6doF+WYUnDuSTfzSudeOe7me
-   JNCVftlxlKN7xzY0w/R/So90fXubSOlQuF3kk6y8410COxmASGjFh0o/G
-   i9+y8g6iUzSw6xFWfdBuwLjUetfKvbou5/RUn7NfBiAQQ6pyIChhpOCLs
-   mG/JI7cy24o58BXUjL8DlBUXOoakDE75klHB+M2wlpYYsRfH+Z00W9Po4
+  bh=TI1eNec6e71hXIflgWeSYtQQA2WlLOWs5lDyHo3slqs=;
+  b=GIG2m5o2WZuz7r0Zn1f6WIiQQQrTFS6CGAN87j/oo9F5+Bc85I3ZiiL0
+   00dadTGplS5VlgjRF/lLg9Oayvh/5VR6n/l8REBEIUEX6jCawcjmXJA8Z
+   3Z5dyz1igMiQXH5up3ps/j1aypNnoXlz/shLGDSFZ2tQxu/7+wnDon1Gd
+   /tg6Dtp1eBmW9AiM43i6nVnc0NuBhvu6CorJl2qjXDe/XKfwXMQJladHB
+   e3MkFvsMQRa/tn0iAAaMQTaTJCGSDtQZtxdXc4aNYFjxutbdlFfzzM+yT
+   TXnodsIc4ZiY02sSWt3NtXz4mx7C825qCGTRXEMCmYfcHonnSbclFU8RW
    Q==;
-X-CSE-ConnectionGUID: Ta4F/5F2Sy+Zx3JuxSl8yQ==
-X-CSE-MsgGUID: g8CXbPjoS02cjHSKl+1IMA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="43919571"
+X-CSE-ConnectionGUID: +5CnPR7eS5qL69AJtybAgw==
+X-CSE-MsgGUID: 2PFvfoB2SA2kIRWGSzrpxw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="36172266"
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="43919571"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 04:41:51 -0800
-X-CSE-ConnectionGUID: DkRXwkisQfu7IqsG1sjx7g==
-X-CSE-MsgGUID: sWl/fmRpQ22pcS64WqzZXw==
+   d="scan'208";a="36172266"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 04:51:54 -0800
+X-CSE-ConnectionGUID: hZZzPD2sS56sMvWpKO/qqA==
+X-CSE-MsgGUID: QLZ/Vjq/Rn2q1j2B+4Fdww==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="116355048"
+   d="scan'208";a="93267633"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Dec 2024 04:41:49 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 02 Dec 2024 04:51:50 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI5kI-0002QG-30;
-	Mon, 02 Dec 2024 12:41:46 +0000
-Date: Mon, 2 Dec 2024 20:41:19 +0800
+	id 1tI5tz-0002Qj-2c;
+	Mon, 02 Dec 2024 12:51:47 +0000
+Date: Mon, 2 Dec 2024 20:51:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Yuxue Liu yuxue.liu@jaguarmicro.com" <yuxue.liu@jaguarmicro.com>,
-	jasowang@redhat.com, mst@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	xuanzhuo@linux.alibaba.com, virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org, yuxue.liu@jaguarmicro.com,
-	angus.chen@jaguarmicro.com
-Subject: Re: [PATCH] vdpa/vp_vdpa: implement kick_vq_with_data callback
-Message-ID: <202412022030.EVj2Z5mv-lkp@intel.com>
-References: <20241202033611.1374-1-yuxue.liu@jaguarmicro.com>
+To: Sachin Gupta <quic_sachgupt@quicinc.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	quic_cang@quicinc.com, quic_nguyenb@quicinc.com,
+	quic_bhaskarv@quicinc.com, quic_mapa@quicinc.com,
+	quic_narepall@quicinc.com, quic_nitirawa@quicinc.com,
+	quic_rampraka@quicinc.com, quic_sachgupt@quicinc.com,
+	quic_sartgarg@quicinc.com
+Subject: Re: [PATCH] mmc: sdhci-msm: Command Queue (CQ) Register changes for
+ v5.0
+Message-ID: <202412022051.5NYO7EbI-lkp@intel.com>
+References: <20241202085631.13468-1-quic_sachgupt@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,75 +71,111 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202033611.1374-1-yuxue.liu@jaguarmicro.com>
+In-Reply-To: <20241202085631.13468-1-quic_sachgupt@quicinc.com>
 
-Hi Yuxue,
+Hi Sachin,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.13-rc1 next-20241128]
+[auto build test WARNING on linus/master]
+[also build test WARNING on ulf-hansson-mmc-mirror/next v6.13-rc1 next-20241128]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yuxue-Liu-yuxue-liu-jaguarmicro-com/vdpa-vp_vdpa-implement-kick_vq_with_data-callback/20241202-114053
+url:    https://github.com/intel-lab-lkp/linux/commits/Sachin-Gupta/mmc-sdhci-msm-Command-Queue-CQ-Register-changes-for-v5-0/20241202-170044
 base:   linus/master
-patch link:    https://lore.kernel.org/r/20241202033611.1374-1-yuxue.liu%40jaguarmicro.com
-patch subject: [PATCH] vdpa/vp_vdpa: implement kick_vq_with_data callback
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20241202/202412022030.EVj2Z5mv-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412022030.EVj2Z5mv-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20241202085631.13468-1-quic_sachgupt%40quicinc.com
+patch subject: [PATCH] mmc: sdhci-msm: Command Queue (CQ) Register changes for v5.0
+config: arm64-randconfig-001-20241202 (https://download.01.org/0day-ci/archive/20241202/202412022051.5NYO7EbI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412022051.5NYO7EbI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412022030.EVj2Z5mv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412022051.5NYO7EbI-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/vdpa/virtio_pci/vp_vdpa.c:12:
-   In file included from include/linux/module.h:19:
-   In file included from include/linux/elf.h:6:
-   In file included from arch/s390/include/asm/elf.h:181:
-   In file included from arch/s390/include/asm/mmu_context.h:11:
-   In file included from arch/s390/include/asm/pgalloc.h:18:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> drivers/vdpa/virtio_pci/vp_vdpa.c:372:39: error: use of undeclared identifier 'vdpa'
-     372 |         struct vp_vdpa *vp_vdpa = vdpa_to_vp(vdpa);
-         |                                              ^
-   4 warnings and 1 error generated.
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/arm64/include/asm/bug.h:26,
+                    from include/linux/bug.h:5,
+                    from arch/arm64/include/asm/cpufeature.h:24,
+                    from arch/arm64/include/asm/hwcap.h:9,
+                    from arch/arm64/include/asm/arch_timer.h:12,
+                    from arch/arm64/include/asm/timex.h:8,
+                    from include/linux/timex.h:67,
+                    from include/linux/time32.h:13,
+                    from include/linux/time.h:60,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from drivers/mmc/host/sdhci-msm.c:8:
+   drivers/mmc/host/sdhci-msm.c: In function 'sdhci_msm_dump_vendor_regs':
+>> drivers/mmc/host/sdhci-msm.c:2289:38: warning: 'cq_host' is used uninitialized [-Wuninitialized]
+    2289 |                 readl_relaxed(cq_host->mmio + CQHCI_VENDOR_CFG + offset));
+         |                               ~~~~~~~^~~~~~
+   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
+     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                                 ^~~~~~~~~~~
+   include/linux/printk.h:544:9: note: in expansion of macro 'printk'
+     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~
+   drivers/mmc/host/sdhci-msm.c:2257:9: note: in expansion of macro 'pr_err'
+    2257 |         pr_err("%s: " DRV_NAME ": " f, mmc_hostname(host->mmc), ## x)
+         |         ^~~~~~
+   drivers/mmc/host/sdhci-msm.c:2288:9: note: in expansion of macro 'CQHCI_DUMP'
+    2288 |         CQHCI_DUMP("Vendor cfg 0x%08x\n",
+         |         ^~~~~~~~~~
+   drivers/mmc/host/sdhci-msm.c:2264:28: note: 'cq_host' was declared here
+    2264 |         struct cqhci_host *cq_host;
+         |                            ^~~~~~~
 
 
-vim +/vdpa +372 drivers/vdpa/virtio_pci/vp_vdpa.c
+vim +/cq_host +2289 drivers/mmc/host/sdhci-msm.c
 
-   369	
-   370	static void vp_vdpa_kick_vq_with_data(struct vdpa_device *vdpa_dev, u32 data)
-   371	{
- > 372		struct vp_vdpa *vp_vdpa = vdpa_to_vp(vdpa);
-   373		u16 qid = data & 0xFFFF;
-   374	
-   375		vp_iowrite32(data, vp_vdpa->vring[qid].notify);
-   376	}
-   377	
+  2250	
+  2251	#define DRIVER_NAME "sdhci_msm"
+  2252	#define SDHCI_MSM_DUMP(f, x...) \
+  2253		pr_err("%s: " DRIVER_NAME ": " f, mmc_hostname(host->mmc), ## x)
+  2254	
+  2255	#define DRV_NAME "cqhci"
+  2256	#define CQHCI_DUMP(f, x...) \
+  2257		pr_err("%s: " DRV_NAME ": " f, mmc_hostname(host->mmc), ## x)
+  2258	
+  2259	static void sdhci_msm_dump_vendor_regs(struct sdhci_host *host)
+  2260	{
+  2261		struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
+  2262		struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
+  2263		const struct sdhci_msm_offset *msm_offset = msm_host->offset;
+  2264		struct cqhci_host *cq_host;
+  2265		int offset = 0;
+  2266	
+  2267		if (msm_host->cqhci_offset_changed)
+  2268			offset = CQE_V5_VENDOR_CFG;
+  2269	
+  2270		SDHCI_MSM_DUMP("----------- VENDOR REGISTER DUMP -----------\n");
+  2271	
+  2272		SDHCI_MSM_DUMP(
+  2273				"DLL sts: 0x%08x | DLL cfg:  0x%08x | DLL cfg2: 0x%08x\n",
+  2274			readl_relaxed(host->ioaddr + msm_offset->core_dll_status),
+  2275			readl_relaxed(host->ioaddr + msm_offset->core_dll_config),
+  2276			readl_relaxed(host->ioaddr + msm_offset->core_dll_config_2));
+  2277		SDHCI_MSM_DUMP(
+  2278				"DLL cfg3: 0x%08x | DLL usr ctl:  0x%08x | DDR cfg: 0x%08x\n",
+  2279			readl_relaxed(host->ioaddr + msm_offset->core_dll_config_3),
+  2280			readl_relaxed(host->ioaddr + msm_offset->core_dll_usr_ctl),
+  2281			readl_relaxed(host->ioaddr + msm_offset->core_ddr_config));
+  2282		SDHCI_MSM_DUMP(
+  2283				"Vndr func: 0x%08x | Vndr func2 : 0x%08x Vndr func3: 0x%08x\n",
+  2284			readl_relaxed(host->ioaddr + msm_offset->core_vendor_spec),
+  2285			readl_relaxed(host->ioaddr +
+  2286				msm_offset->core_vendor_spec_func2),
+  2287			readl_relaxed(host->ioaddr + msm_offset->core_vendor_spec3));
+  2288		CQHCI_DUMP("Vendor cfg 0x%08x\n",
+> 2289			readl_relaxed(cq_host->mmio + CQHCI_VENDOR_CFG + offset));
+  2290	}
+  2291	
 
 -- 
 0-DAY CI Kernel Test Service
