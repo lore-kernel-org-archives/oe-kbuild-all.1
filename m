@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17F61DED6F;
-	Mon,  2 Dec 2024 20:36:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2561A166F3D
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 20:36:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733171768; cv=none; b=fAQGOROU50bjKnnORkfkjLg4w3Aeku01dtYK8SMZ9TFoQko5lNMgT/P03TNNeA8caLAA1w2JaR2S3h1WR26O+96v0kmE9c7rOKgQNnDCS3A9LkwH8PlOIEUtDOP15Vh7msJWANyqRMwr2SfRf242Uc0+8+PRH2uJn5Q2N0gpXUA=
+	t=1733171808; cv=none; b=kdgAGsHB/+qkEXK9D6RLewaM1r8AcEernkaZHNsbsIuPPdNq42K3WDbuZA/+WA5W2eRy66QIgMWTcOn8L7gnWjrztTPWdm6uHc70en8VfR+L9XCZ1guOscAmhUBIVfcJ+KCOo9LXPcCJ9p4YzKPdGjiEK0Yp8wv0XwCxmDJUPfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733171768; c=relaxed/simple;
-	bh=AFKSCUypHwXVOLHrBjU96IpLAARRE/zEft7It6LMgo8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dfaAUrINqMYN98doQ+sq/VmrlmbyQzdMddqnHdwCgXJLC+ImRRinPSH1V1iQKzMC1eLt0Unmke7mo948+jRpINYS+vqXe2LfbOF/+CnpD8CsTAiDCEq3GY9QQlicC4t2DceoIr1ckgHve8qysSM08tIrLR8FKKzm0HQgEa+uqZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hyaKlVhg; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1733171808; c=relaxed/simple;
+	bh=L6j0FAYWeFXszz/n1qMw34QhZ/STyR4W1Uzcn7vhiYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KAN/gKFLUCDwboIqB5Q181vktcpYFzZQ/MO/ShLeccbzN3FVjlT8rrpJJ6zNTVJdDb6a0s2ktyFSMcsZsYO5x4TpaiUZqMOuya0Yml/Hhid5mF+DekpDhh3EOH2FWxwReX92EdYm/y1vDquVTBy0I5n+7NH/TH2AHJ1TyEIN6Ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YvFPvj8o; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hyaKlVhg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YvFPvj8o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733171766; x=1764707766;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AFKSCUypHwXVOLHrBjU96IpLAARRE/zEft7It6LMgo8=;
-  b=hyaKlVhgZwBho7syv/e9O8objNMFY7glCIbYR2fcMETmQQgEzzuHS48k
-   W0HrqMo8nr0v4dflesM3evyjwi489JWOp5kb6D9KH9uFspG/gJ9z9wULm
-   cgymOARC1vuhnxYfsdn8T2wjrw5LYfWAgb27Kafz9gdc3o8PBWDx0EOVW
-   RQB/Thu+04v9loktBp1y5dJ1W83vlkMDLhGJqcmOl2xL30DWg7zxZXzsK
-   bVN1TwwGB97JEG+eos386QRTSA2VNDrMQOFdpn6IRmymApK1lTUGZBv8M
-   DdUqU18Qiw4fVzvA5R2HRUnDHZkwqY+MktAoxlGVbq13Bmoe6NxUlY9g6
-   w==;
-X-CSE-ConnectionGUID: qOrKvOrmToSzmSG7socRmg==
-X-CSE-MsgGUID: RiMUxkVkSS+O9r7y8cme+Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="20950356"
+  t=1733171806; x=1764707806;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L6j0FAYWeFXszz/n1qMw34QhZ/STyR4W1Uzcn7vhiYU=;
+  b=YvFPvj8oZtg+u9gue4x7W9Ax0WtXuLAS47OY6bJRuYKN1sn1/R8gJ8ws
+   eIA0XrC4jiIySJCLIY2ct25cQoO5nCww2ZyiT66So65CVqzdjl1bv4xZr
+   rR6h3Fxfk/71FSLgNjDilSQaZ79XG3dcRrQOiUg8A0ekI3kizailxtK0f
+   XYMiWuKU2BFteroT3A3nlEV13kRTdSgK/FgmWvU1IvEPXa0QdjaIPPFCx
+   L5KL4ihGa/rHcC4tQJ9YqRNQB9Vkc1tU/TXarQhDMYC33LvAxknos23vH
+   k2/yHLjmjf2GuWLSav2bgt/KILZBLUMn42NeeC1HUBlZyDe2STjZiZ7kb
+   g==;
+X-CSE-ConnectionGUID: h5/Qys8DSjKntl72cbPsfA==
+X-CSE-MsgGUID: IzGbjLXbRbykbXC+yg6qkA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="32709457"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="20950356"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 12:36:05 -0800
-X-CSE-ConnectionGUID: MKGlhwU7Q++lln8d+JSFTw==
-X-CSE-MsgGUID: C5+voUgqTYiyoJnVoWKXDQ==
+   d="scan'208";a="32709457"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 12:36:45 -0800
+X-CSE-ConnectionGUID: V6+jxiZ1QX+9fellRCDY7A==
+X-CSE-MsgGUID: MQhAzhIEQpu1ROtg7NBpSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="130679051"
+   d="scan'208";a="93616287"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 02 Dec 2024 12:36:03 -0800
+  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2024 12:36:45 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tID8x-0002s5-1r;
-	Mon, 02 Dec 2024 20:35:49 +0000
-Date: Tue, 3 Dec 2024 04:34:33 +0800
+	id 1tID9Z-0002sB-08;
+	Mon, 02 Dec 2024 20:36:24 +0000
+Date: Tue, 3 Dec 2024 04:34:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	Matthew Wilcox <willy@infradead.org>,
-	David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH] intel_th: avoid using deprecated page->mapping, index
- fields
-Message-ID: <202412030410.qX3ejEnD-lkp@intel.com>
-References: <20241202122127.51313-1-lorenzo.stoakes@oracle.com>
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2516/2516]
+ drivers/ub/urma/ubcore/ubcore_umem.c:227:21: warning: no previous prototype
+ for 'ubcore_umem_get'
+Message-ID: <202412030455.2cb7zJmc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,34 +62,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202122127.51313-1-lorenzo.stoakes@oracle.com>
 
-Hi Lorenzo,
+Hi Yizhen,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.13-rc1 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/intel_th-avoid-using-deprecated-page-mapping-index-fields/20241202-202330
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241202122127.51313-1-lorenzo.stoakes%40oracle.com
-patch subject: [PATCH] intel_th: avoid using deprecated page->mapping, index fields
-config: arm-randconfig-004-20241202 (https://download.01.org/0day-ci/archive/20241203/202412030410.qX3ejEnD-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030410.qX3ejEnD-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   929a9df37c1b7dec73fd417d79a116d02a8f9380
+commit: f6206cf05e28a7f455850a4e2de8162890f50073 [2516/2516] ub: add memory map api in ubcore
+config: arm64-randconfig-003-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030455.2cb7zJmc-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030455.2cb7zJmc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030410.qX3ejEnD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030455.2cb7zJmc-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "vmf_insert_mixed" [drivers/hwtracing/intel_th/intel_th_msu.ko] undefined!
+>> drivers/ub/urma/ubcore/ubcore_umem.c:227:21: warning: no previous prototype for 'ubcore_umem_get' [-Wmissing-prototypes]
+     227 | struct ubcore_umem *ubcore_umem_get(struct ubcore_device *dev, uint64_t va, uint64_t len,
+         |                     ^~~~~~~~~~~~~~~
+>> drivers/ub/urma/ubcore/ubcore_umem.c:245:6: warning: no previous prototype for 'ubcore_umem_release' [-Wmissing-prototypes]
+     245 | void ubcore_umem_release(struct ubcore_umem *umem)
+         |      ^~~~~~~~~~~~~~~~~~~
+
+
+vim +/ubcore_umem_get +227 drivers/ub/urma/ubcore/ubcore_umem.c
+
+   226	
+ > 227	struct ubcore_umem *ubcore_umem_get(struct ubcore_device *dev, uint64_t va, uint64_t len,
+   228					    union ubcore_umem_flag flag)
+   229	{
+   230		struct page **page_list;
+   231		int ret;
+   232	
+   233		ret = umem_verify_input(dev, va, len, flag);
+   234		if (ret < 0)
+   235			return ERR_PTR(ret);
+   236	
+   237		page_list = (struct page **)__get_free_page(GFP_KERNEL);
+   238		if (page_list == 0)
+   239			return ERR_PTR(-ENOMEM);
+   240	
+   241		return ubcore_get_target_umem(dev, va, len, flag, page_list);
+   242	}
+   243	EXPORT_SYMBOL(ubcore_umem_get);
+   244	
+ > 245	void ubcore_umem_release(struct ubcore_umem *umem)
 
 -- 
 0-DAY CI Kernel Test Service
