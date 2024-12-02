@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFF5A1DFD8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 01:21:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A85518494
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 01:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733102486; cv=none; b=tMJybAJTFaImMOzj/PAbleBBsMGX+vI0Sx2ryNxRxrhUBlHLIv0evOTvK1ivYDWveBe9kMxVvThxRByvLptHpXJkQHclgg3uTAYalRAaAruZtY7M5rIYT05JS2a+JwJ4Uu5GcobB6B8hEVefANOo7/A/fxSXI9vFVrKX9cZjgbQ=
+	t=1733102953; cv=none; b=gOAVPERwIg4vBrsYYBdPJaAesBSbxyrWgcXqwoyI4zN9tv7pJKa236vMj79Q/9dVLVVLNTi5ahm8V05SQQvl4Fwiv5qhY1x6jHGJvl4lnPZFqWPHDxHc+s+qbMOdJjoMQ80iPNTnKg0TjAp10Cl69aQyXOQrhNHhrky3HnOPnbw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733102486; c=relaxed/simple;
-	bh=hLoMaypYZnaI4cs7Bp9ZDv86FtdMuA1pqSZ8plCY1mU=;
+	s=arc-20240116; t=1733102953; c=relaxed/simple;
+	bh=Wyb3eD+3plbaKeedyfnO/Tepb77uRLjEn+fvCsOUXJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=D3Z42yg8h4KdVMZQkpkrgOXs9zS6SYKHonBH6A6Oe5B9e5y9OWSA+J1KIs4f/ps0aPovBkmeldJ4qz4qM6ITvJZHnlQj0BwqabAnbG/WwogMGP4TUrKKUGPBCm7QB+xXYNSAVZFKiok+bg/lbgssQbquxGmem+c1evAFPqw174I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a74CRRXO; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=Dz46rFYg5E1ZMrt1+UEg54OYtPVTuwfmSDMcWiEWn3ioZC3751fFLKEpd3LAtaGxDxbpz6QclAc55VZek/WQe6sYuLGZzT9n59ZAuBry3Uma4V4q0gj2IXKFPc/J74fS6jgg1JxwUOKOtmYlGsnkvp0xJjleeVzkg8uRHj340QY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GoDzUHtJ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a74CRRXO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GoDzUHtJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733102484; x=1764638484;
+  t=1733102951; x=1764638951;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hLoMaypYZnaI4cs7Bp9ZDv86FtdMuA1pqSZ8plCY1mU=;
-  b=a74CRRXOMfWsGIfzW1ajHYuVq12/PRHQOE1ppPT+iXGqas9+yEbOf6Y9
-   dgCTtwWUwJBoMW3dji2wqPn2ZazYH8QBCGT0PuMfafQOh7d/YJIKjcNwp
-   Om09cYrmVv2mvgkxcvupXzzRwyb0+ztwSssn8LC4eoDc6POMAWD9U6hDR
-   HnH1fDd7pUgOC+vnyENjRAa1WN98FIbcddDG0zt3BLru+9UylCumo5qV7
-   WKov5FnOnxbfHRPBLvADzr6mtAknHuNMUK7a3sJhtKszfxRyeE9PZYJ23
-   BjNuVxYW0wWJzmaAGidArSCcuDVPO4YY6nKjuLvytLH5j0BuLLaLEJgQC
+  bh=Wyb3eD+3plbaKeedyfnO/Tepb77uRLjEn+fvCsOUXJ4=;
+  b=GoDzUHtJMytGdHisN6tCDQr0yl2t8Z4x1OE+BsQqGchWspGg71shPdDA
+   +QtvGwhGue5xBT6Csd/EkXw/DVr1Np/TLgE0+nzvACa7y/uFImcHOgoOF
+   kw9xJ3jTaTyE74X2+7/xg16GBJRcVfKssclTHDmo15DCX1EdvhK9K8B2N
+   qSku9iL2XD6tr2Ml6tF45zqSlqNfKVqcWzUem0peeahXwVVW13OMW01kb
+   KT5SDBd1A8M65G0IKecvKbV4WWFopbtsEGVii5nJcI/BW0AizbPxAn+xx
+   lXkby/T7K9foG0MIJ90joHY8wCK4lh7i05ZvObIMjxm5IavawwWJUnAhS
    g==;
-X-CSE-ConnectionGUID: QNfQoscjR0KzKaDW/N6Mew==
-X-CSE-MsgGUID: NyC9o0JKQPC6bJejO0WC2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="36119814"
+X-CSE-ConnectionGUID: 58503oz8Rs+c5lq9XzGhJw==
+X-CSE-MsgGUID: Cl72GTfxSCWtPs8pbzswQw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33384410"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="36119814"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 17:21:23 -0800
-X-CSE-ConnectionGUID: Te9a1TrjQgegmFcFyU4JrA==
-X-CSE-MsgGUID: v+CdLLe+Ql+U0+Cp1juWeA==
+   d="scan'208";a="33384410"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 17:29:11 -0800
+X-CSE-ConnectionGUID: DJX1ytfYQ8CEx+ZANjTbbg==
+X-CSE-MsgGUID: GVzvSnncQgyjZdQs4X8IWw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="92604934"
+   d="scan'208";a="93129955"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Dec 2024 17:21:22 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 01 Dec 2024 17:29:09 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHv6l-0001z1-34;
-	Mon, 02 Dec 2024 01:20:27 +0000
-Date: Mon, 2 Dec 2024 09:18:25 +0800
+	id 1tHvFL-0001zT-2M;
+	Mon, 02 Dec 2024 01:29:07 +0000
+Date: Mon, 2 Dec 2024 09:28:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
+To: kernel@openeuler.org, leoliu-oc <leoliu-oc@zhaoxin.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1298/1298]
- arch/x86/include/asm/msr.h:272:9: warning: 'mcu_ctrl' may be used
- uninitialized
-Message-ID: <202412020932.YwT4OkOM-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1474/1474]
+ arch/x86/events/zhaoxin/uncore.c:2761:6: sparse: sparse: symbol
+ 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+Message-ID: <202412020914.wVMtku1t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,71 +63,60 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Daniel,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   b5504db0db8375a77340b5bb54c17cfb75d3c754
-commit: 99dec2700cf36e58d3fdb295e1fed7e9d04a916c [1298/1298] x86/speculation: Add Gather Data Sampling mitigation
-config: x86_64-buildonly-randconfig-006-20241118 (https://download.01.org/0day-ci/archive/20241202/202412020932.YwT4OkOM-lkp@intel.com/config)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   df4c334beecb4cf58e4e8d63b491aa5ac0a84f46
+commit: dc5b97374ba722156acbdfc4e3adbc69e2dbe7f4 [1474/1474] perf/x86/zhaoxin/uncore: Add KX-7000 support
+config: x86_64-randconfig-121-20241118 (https://download.01.org/0day-ci/archive/20241202/202412020914.wVMtku1t-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020932.YwT4OkOM-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412020914.wVMtku1t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412020932.YwT4OkOM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412020914.wVMtku1t-lkp@intel.com/
 
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/events/zhaoxin/uncore.c:2387:28: sparse: sparse: symbol 'uncore_msr_cluster_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2392:28: sparse: sparse: symbol 'uncore_msr_subnode_uncores' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2398:28: sparse: sparse: symbol 'uncore_pci_subnode_uncores' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2761:6: sparse: sparse: symbol 'kx5000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2770:6: sparse: sparse: symbol 'kh40000_uncore_cpu_init' was not declared. Should it be static?
+>> arch/x86/events/zhaoxin/uncore.c:2775:5: sparse: sparse: symbol 'kh40000_uncore_pci_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2791:6: sparse: sparse: symbol 'kx8000_uncore_cpu_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2796:5: sparse: sparse: symbol 'kx8000_uncore_pci_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c:2804:6: sparse: sparse: symbol 'kx8000_uncore_mmio_init' was not declared. Should it be static?
+   arch/x86/events/zhaoxin/uncore.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
+   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
 
-All warnings (new ones prefixed by >>):
+vim +/kx5000_uncore_cpu_init +2761 arch/x86/events/zhaoxin/uncore.c
 
-   arch/x86/kernel/cpu/bugs.c:2407:9: warning: no previous prototype for 'cpu_show_gds' [-Wmissing-prototypes]
-    2407 | ssize_t cpu_show_gds(struct device *dev, struct device_attribute *attr, char *buf)
-         |         ^~~~~~~~~~~~
-   In file included from arch/x86/include/asm/processor.h:21,
-                    from arch/x86/include/asm/cpufeature.h:5,
-                    from arch/x86/include/asm/thread_info.h:53,
-                    from include/linux/thread_bits.h:22,
-                    from include/linux/thread_info.h:14,
-                    from arch/x86/include/asm/preempt.h:7,
-                    from include/linux/preempt.h:81,
-                    from include/linux/rcupdate.h:40,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/utsname.h:6,
-                    from arch/x86/kernel/cpu/bugs.c:12:
-   In function 'wrmsrl',
-       inlined from 'update_gds_msr' at arch/x86/kernel/cpu/bugs.c:689:2:
->> arch/x86/include/asm/msr.h:272:9: warning: 'mcu_ctrl' may be used uninitialized [-Wmaybe-uninitialized]
-     272 |         native_write_msr(msr, (u32)(val & 0xffffffffULL), (u32)(val >> 32));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/bugs.c: In function 'update_gds_msr':
-   arch/x86/kernel/cpu/bugs.c:667:13: note: 'mcu_ctrl' was declared here
-     667 |         u64 mcu_ctrl;
-         |             ^~~~~~~~
-
-
-vim +/mcu_ctrl +272 arch/x86/include/asm/msr.h
-
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  266  
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  267  #define rdmsrl(msr, val)			\
-abb0ade013507c include/asm-x86/msr.h      Joe Perches     2008-03-23  268  	((val) = native_read_msr((msr)))
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  269  
-5d07c2cc1962fa arch/x86/include/asm/msr.h Borislav Petkov 2016-11-02  270  static inline void wrmsrl(unsigned int msr, u64 val)
-47edb65178cb70 arch/x86/include/asm/msr.h Andy Lutomirski 2015-07-23  271  {
-679bcea857d728 arch/x86/include/asm/msr.h Borislav Petkov 2015-11-23 @272  	native_write_msr(msr, (u32)(val & 0xffffffffULL), (u32)(val >> 32));
-47edb65178cb70 arch/x86/include/asm/msr.h Andy Lutomirski 2015-07-23  273  }
-be7baf80a69964 include/asm-x86/msr.h      Thomas Gleixner 2007-10-23  274  
-
-:::::: The code at line 272 was first introduced by commit
-:::::: 679bcea857d72868e3431dde3a0e158bf0ed9119 x86/MSR: Chop off lower 32-bit value
-
-:::::: TO: Borislav Petkov <bp@suse.de>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+  2760	
+> 2761	void kx5000_uncore_cpu_init(void)
+  2762	{
+  2763		uncore_msr_uncores = kx5000_msr_uncores;
+  2764	}
+  2765	
+  2766	static const struct zhaoxin_uncore_init_fun kx5000_uncore_init __initconst = {
+  2767		.cpu_init = kx5000_uncore_cpu_init,
+  2768	};
+  2769	
+> 2770	void kh40000_uncore_cpu_init(void)
+  2771	{
+  2772		uncore_msr_uncores = kh40000_msr_uncores;
+  2773	}
+  2774	
+> 2775	int kh40000_uncore_pci_init(void)
+  2776	{
+  2777		int ret = kh40000_pci2node_map_init();/*pci_bus to package mapping, do nothing*/
+  2778	
+  2779		if (ret)
+  2780			return ret;
+  2781		uncore_pci_uncores = kh40000_pci_uncores;
+  2782		uncore_pci_driver = &kh40000_uncore_pci_driver;
+  2783		return 0;
+  2784	}
+  2785	
 
 -- 
 0-DAY CI Kernel Test Service
