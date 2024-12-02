@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645ED1FCCF0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 10:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3695A1FC7C5
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 10:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733135953; cv=none; b=uwgholZS/PZPxIKHlLu7ax6Twlhtt9hSLddkjLjsmWAbu+7Mal/zgyRt47M80UptMevz1fs901arM6Ec5px+48UNtw0Ix/5ueMlkAwlrDLjS86mdYHgeTaJfct7Rx6sgANZoPHRFlCJCJeSM4gCXyR9kqXboKmwgqbU3V4JYyMU=
+	t=1733135959; cv=none; b=VpNvjY02wGpc6m5nDwOInhSVzVstda7L1qEej4ThylbXfREytpR9V2l/4ZIZFFZjd8S/kH//+WZDurkjm1Q2YU2F+FZsfrmXA1u0uqsFN2qKpqTGDacrDoV34CvftaiX3uSGcUljdhR0NTT7VjPyJXB66sZAIn+Wrj819xvXzqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733135953; c=relaxed/simple;
-	bh=dpIutaqyTYb8IwxiSmGIAMjbEo/YuvZhvmE5LhSaUwg=;
+	s=arc-20240116; t=1733135959; c=relaxed/simple;
+	bh=+g1M5Ua9YLDdxYF2x6DwMSE2wHAQTzu5N1LrJAVtnhg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qp8eS6uEsK8GnEU/t5P7t1MsmSRf6S2UC2OTTwRVJeH5CxvO5KQ6Zo8vdlnE++G/zIaPPEth2MtcQsiQm1YPZfQtTEkdXtCSNVS2WIxYppnh9XkSGG+sDDuRNyBGCJfbAW3dmkO0E3LTwit86/c4oYL3SiV/VtqqtIs6prZTNS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kjq9gL48; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=qCOPXxGIZC8ck+Q65giczeNHr6/akomzLIjUcXKtFEfNcPunxYA0uJ3frFRV6E0rg7WDLF47wCqYZCU6U9H1obIffLsd0cF7oDSNClr+V47NxPwx62QQGF1dkn59WXdPoi1JN/WT5oZFIGz99pKVtTUMtuxXBBCnJL1wl2iX0cM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zq8jFNLL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kjq9gL48"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zq8jFNLL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733135950; x=1764671950;
+  t=1733135958; x=1764671958;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dpIutaqyTYb8IwxiSmGIAMjbEo/YuvZhvmE5LhSaUwg=;
-  b=Kjq9gL48n4f9qGqCd9WcdNBKMOHWlj6aQ7YVI/KQXTPao8Emcia8O+Te
-   ilLz2aI8VcIzfVetAPuzjY+ZkK+3oPCGr77H0VclPgqREHr+tg9C69OuX
-   Gox5FE6nqE6oUq183Eg+PqixslGEFxE6SJ8vg/bCt3BAZA6FI2ZNH9PZr
-   ibrX6+1lYooF3nKiXMY32yWKHaW6rAl9n/bNX3i4Y4Lbg9DWIsd81C5q6
-   4kde6ML8EkepxZ4OVzeubFSc/WNCoQp1M+ZjxSqE4ZPV/CK71/yOuq79X
-   WkDrMMbZQmOx0yOn5/NRnk/TgPO3trq4pAR0fPYKlHKnYhdoE45TmxD2P
-   g==;
-X-CSE-ConnectionGUID: cvA/eTRRQTmMo6ivhe7gyA==
-X-CSE-MsgGUID: DSUAJtrLSZONjIh/xFj51g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="36958758"
+  bh=+g1M5Ua9YLDdxYF2x6DwMSE2wHAQTzu5N1LrJAVtnhg=;
+  b=Zq8jFNLL5FLAbZdKo8Ymu/eKUOFM+6cXNA+tL9qYivJK4ktyX8xjZgGy
+   5BAQ362lhjYRMfsEW7RBs64Imiwb8dzP7QPB+aQKFf+kgZPMDpBqoJrHH
+   WshU+F6hE82L1y4Z3SZ9qx/bsBdOEWeKVCLigUQFhEUWuMm5cXQ6b6g08
+   4OC1noco+ldgdClo90zow9DCGe3y6KY8AKd+qdDF7t3aWP+3u4d0xRiqY
+   DwR683RXJhKJn0vAy9KjBZZXa+EFB1LQCJ1oAzjzsUWRrnJBzkmjt1/Ze
+   hThLSkY9fF/ipnq3NMbCSHw5FLOx17y6Nb36/sPElPGbEO5XW8VI0YcKc
+   w==;
+X-CSE-ConnectionGUID: rq02BSH/SDWYhyNlhqFQYg==
+X-CSE-MsgGUID: Vl4K+DlOQNOJMFLFNdfwnQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="36958770"
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="36958758"
+   d="scan'208";a="36958770"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 02:39:09 -0800
-X-CSE-ConnectionGUID: KWv4KvqTRXGJW6cknGm/cg==
-X-CSE-MsgGUID: nD4zC+LbS9OzDxDgFelUEg==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 02:39:17 -0800
+X-CSE-ConnectionGUID: rCoDS4qVTtK8/nltPTMcqw==
+X-CSE-MsgGUID: Y1qaVtW+Tx+wQas7BtyNAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="93908565"
+   d="scan'208";a="93908582"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 02 Dec 2024 02:39:08 -0800
+  by orviesa008.jf.intel.com with ESMTP; 02 Dec 2024 02:39:16 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI3oy-0002Kr-1t;
-	Mon, 02 Dec 2024 10:38:36 +0000
-Date: Mon, 2 Dec 2024 18:37:45 +0800
+	id 1tI3pZ-0002Kt-12;
+	Mon, 02 Dec 2024 10:39:12 +0000
+Date: Mon, 2 Dec 2024 18:37:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, Wenyu Huang <huangwenyu5@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-ea7682dbe6cf 101/520]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb:
- regulators: vrf18: Unevaluated properties are not allowed ('compatible' was
- unexpected)
-Message-ID: <202412021847.NtC2I39i-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1455/1455] kernel/sched/fair.c:8325:9: error:
+ call to undeclared function 'sched_idle_cpu'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202412021846.xYjhWfl0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,283 +63,65 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-ea7682dbe6cf
-head:   ac7a77c24fbce62cf3a673f994358d50cb59808a
-commit: e42e66a74d8acb26608a26fb9b6ddfd0b2ada56a [101/520] CHROMIUM: arn64: dts: mt8186: Update regulators voltages
-config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241202/202412021847.NtC2I39i-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021847.NtC2I39i-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   b3dd80fc71d804c0f15eb93352cf23452f7f2191
+commit: 926b9b0cd97e640ee680347cf449c3dc152dddd2 [1455/1455] sched: Throttle qos cfs_rq when current cpu is running online task
+config: x86_64-randconfig-005-20241112 (https://download.01.org/0day-ci/archive/20241202/202412021846.xYjhWfl0-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021846.xYjhWfl0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412021847.NtC2I39i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412021846.xYjhWfl0-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393216.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393217.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-magneton-sku393218.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-rusty-sku196608.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131072.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-steelix-sku131073.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2226.35-2230.8: Warning (unit_address_vs_reg): /soc/thermal-zones/soc_max/trips/soc_max_crit@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186.dtsi:2206.32-2323.5: Warning (simple_bus_reg): /soc/thermal-zones: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:456.11-465.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:473.11-482.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/timer@10017000: failed to match any schema with compatible: ['mediatek,mt8186-timer', 'mediatek,mt6765-timer']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: dp-bridge@5c: '#sound-dai-cells' does not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/thermal-sensor@1100b000: failed to match any schema with compatible: ['mediatek,mt8186-lvts']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: ec@0: typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
---
-   	'google,spherion-rev1' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /: failed to match any schema with compatible: ['google,voltorb-sku589824', 'google,voltorb', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /: failed to match any schema with compatible: ['google,voltorb-sku589824', 'google,voltorb', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: pmic@6: compatible:0: 'mediatek,mt6315-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: pmic@6: compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator'] is too long
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589824.dtb: /soc/spmi@10015000/pmic@6: failed to match any schema with compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator']
---
-   	'google,spherion-rev1' was expected
-   	from schema $id: http://devicetree.org/schemas/arm/mediatek.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /: failed to match any schema with compatible: ['google,voltorb-sku589825', 'google,voltorb', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /: failed to match any schema with compatible: ['google,voltorb-sku589825', 'google,voltorb', 'mediatek,mt8186']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: soc: thermal-zones: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: regulators: vrf18: Unevaluated properties are not allowed ('compatible' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/mediatek,mt6358-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: spmi@10015000: Unevaluated properties are not allowed ('interrupts' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/spmi/mtk,spmi-mtk-pmif.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: pmic@6: compatible:0: 'mediatek,mt6315-regulator' was expected
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: pmic@6: compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator'] is too long
-   	from schema $id: http://devicetree.org/schemas/regulator/mt6315-regulator.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb-sku589825.dtb: /soc/spmi@10015000/pmic@6: failed to match any schema with compatible: ['mediatek,mt6319-regulator', 'mediatek,mt6315-regulator']
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/sched/fair.c:25:
+   In file included from include/linux/hugetlb_inline.h:7:
+   In file included from include/linux/mm.h:2174:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/sched/fair.c:8325:9: error: call to undeclared function 'sched_idle_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    8325 |                      !sched_idle_cpu(smp_processor_id()) &&
+         |                       ^
+   kernel/sched/fair.c:8325:9: note: did you mean 'sched_idle_rq'?
+   kernel/sched/fair.c:6517:12: note: 'sched_idle_rq' declared here
+    6517 | static int sched_idle_rq(struct rq *rq)
+         |            ^
+>> kernel/sched/fair.c:8328:23: error: no member named 'online' in 'struct rq'
+    8328 |                 if (!rq_of(cfs_rq)->online)
+         |                      ~~~~~~~~~~~~~  ^
+>> kernel/sched/fair.c:8531:7: error: no member named 'idle_stamp' in 'struct rq'; did you mean 'idle_state'?
+    8531 |                 rq->idle_stamp = 0;
+         |                     ^~~~~~~~~~
+         |                     idle_state
+   kernel/sched/sched.h:1143:24: note: 'idle_state' declared here
+    1143 |         struct cpuidle_state    *idle_state;
+         |                                  ^
+   1 warning and 3 errors generated.
+
+
+vim +/sched_idle_cpu +8325 kernel/sched/fair.c
+
+  8321	
+  8322	static bool check_qos_cfs_rq(struct cfs_rq *cfs_rq)
+  8323	{
+  8324		if (unlikely(cfs_rq && cfs_rq->tg->qos_level < 0 &&
+> 8325			     !sched_idle_cpu(smp_processor_id()) &&
+  8326			     cfs_rq->h_nr_running == cfs_rq->idle_h_nr_running)) {
+  8327	
+> 8328			if (!rq_of(cfs_rq)->online)
+  8329				return false;
+  8330	
+  8331			throttle_qos_cfs_rq(cfs_rq);
+  8332			return true;
+  8333		}
+  8334	
+  8335		return false;
+  8336	}
+  8337	
 
 -- 
 0-DAY CI Kernel Test Service
