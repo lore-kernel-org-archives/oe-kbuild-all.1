@@ -1,62 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EA21DB527
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 19:34:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B91791DDC39;
+	Mon,  2 Dec 2024 19:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733168052; cv=none; b=XsxDQYCDaC1xhtibhu+yiWhdBXBK0LwnNqhLI1HnOL9PIOdQMrLoyj5M7k60DbjOH7kNZN8JOuzIFEqUHa1WVzMOdOWNj98JI6FYNLrm5Kt9E0TwJD2ZrCD5bvfLVdvmMd0ECYTN5ZcN3RzZ+OBY/uDFnFkAKgdjsuhBuuO+wCY=
+	t=1733168603; cv=none; b=suoSwVrqeFivXktkmhvDSbHmuzTKpfsYiUX7/R3MBQaFbXahQfOLvNdSNCn9J7EaL4Sg4M9YZeRkPXOqKz/4BPKjqzMtFawZmFJbt2rnML++LJuGRqVegEjo5FgEX5L+HXnrKKGblYHVzzUCZDO1jCT6PUicj6fmL15Kucvac9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733168052; c=relaxed/simple;
-	bh=telg62VhWEef+uUdzmCeDxEX7vUPIFuuccOnRTtC0os=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Om922KI4LSHHyNSMyx6F1RSwCU4f7fUaKTwWwA59OqA0Ahm7fAkwQhByirqEempZYNFJQyAK/3lqHfN/Tglxfc5aU5so61iC2PKLTKAxNSKuXBZhDiD2kI9EEgGUq/zNYYznl5+DnA9FDW0tiQRnj1SMxtyyZyxZtoV2dmM0Vkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6pq5RL7; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1733168603; c=relaxed/simple;
+	bh=GEQZ+5VP0bAMXs4OdjIffS9/4coWZF1Fol1t8/IgCrE=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ka3Hpu46Wrvh8y59Gnsg6xa0sc4uZXAbgVvVh/R6XMe9pty6EBi8PfbKFOTdmCqeGENo8++JY04F+OnBo6V927ZgIjJH8i+CQwwsqbGn2zZrhUWlDk567cKtSTSt0oTvy0X4MvE22+NgRIe+ZRm5USgIJpaEazJs2sGAU1CHVQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ODzeNDwt; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j6pq5RL7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ODzeNDwt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733168049; x=1764704049;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=telg62VhWEef+uUdzmCeDxEX7vUPIFuuccOnRTtC0os=;
-  b=j6pq5RL70BLh7KFnXGmVoUsdnet8GY6DjFpmHzQw9fXiixZqkb/Zt14O
-   yGKeMXUCgkaKNQ4zJOOF0QSGnD2dX8+ZaF4njjmLznKYpkBen5jEVbcAP
-   v4QiJn+b3q822WCmjfrKHpR1h9SxL9vuHbtvn0F+GbwffY0/1DEippADi
-   zZCI6CCGjekRsJqi6v3DKJ9y5GBVxgBbNliBP/LSucQ+2gHgf1S0OaUHf
-   oiWvTK90WvErPVYpcGjiV0uhqApKv2Fri5mU1w24W9A1F9FIVuBQsMwOr
-   aFf9Ilq7swsseyB0nuHS2ZqdBCWz634To3TiJAizP+9KK50wxBOX0cUz9
-   w==;
-X-CSE-ConnectionGUID: zY5bZXk8TUGr9n5xuiQ2DQ==
-X-CSE-MsgGUID: pfAyBs3jTFKn042lxZTSsg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37020387"
+  t=1733168601; x=1764704601;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=GEQZ+5VP0bAMXs4OdjIffS9/4coWZF1Fol1t8/IgCrE=;
+  b=ODzeNDwt616TQ1euhLjyV80bC1S7hOKbmJs5NZ5p4MxhBacTPi0nqXve
+   bUSWaggaeWcBSR805V0Rw65fwl2jx9xYt0S2w24Ln3zrdd1+Ipou7tmq4
+   vL2krbciInkNCPXeSSGvK4Ap6nyiAYXWq/Ordr0j8P6yuLPP5ZCoyghGa
+   9/TibSHaEjpleEygqrTkqjes1kYJ+6Kv25GoHlts85VMJMl5k7j92fvSB
+   64jOyVUrmG4O+TNGx4JgBcDoOTcTUo9TafmhWy6sdLwpZxpxjXpy6eaYz
+   vLscE5eFKSjMwy4PkcnIzJIDv596yxJZcRSDpd/EobVla5x/CsJ/KR+UP
+   Q==;
+X-CSE-ConnectionGUID: bOuXwsoYQjaEXnxSr6KaAA==
+X-CSE-MsgGUID: ukBbO+5QTBSbMDlh4osTlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33098667"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="37020387"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 11:34:08 -0800
-X-CSE-ConnectionGUID: JQSLHB7FSmydvJ4sQy755g==
-X-CSE-MsgGUID: T64WW8wCT0SC8tVEy7xLoQ==
+   d="scan'208";a="33098667"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 11:43:20 -0800
+X-CSE-ConnectionGUID: 0eGbb2gPS+GzFb35E7IlQQ==
+X-CSE-MsgGUID: 9B2/oYt6T3CXmQKSquCNHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="93106533"
+   d="scan'208";a="97636239"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa009.jf.intel.com with ESMTP; 02 Dec 2024 11:34:07 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 11:43:19 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tICAr-0002oz-1b;
-	Mon, 02 Dec 2024 19:33:45 +0000
-Date: Tue, 3 Dec 2024 03:32:02 +0800
+	id 1tICJt-0002pV-1q;
+	Mon, 02 Dec 2024 19:43:02 +0000
+Date: Tue, 3 Dec 2024 03:42:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: alucerop@amd.com, linux-cxl@vger.kernel.org, netdev@vger.kernel.org,
-	dan.j.williams@intel.com, Jonathan.Cameron@huawei.com,
-	nifan.cxl@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>
-Subject: Re: [PATCHv3] cxl: avoid driver data for obtaining cxl_dev_state
- reference
-Message-ID: <202412030337.aesRtC2T-lkp@intel.com>
-References: <20241202130009.49021-1-alucerop@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt 46/48] drivers/iommu/amd/iommu.o: warning:
+ objtool: amd_iommu_domain_alloc_paging_flags+0x5d: unreachable instruction
+Message-ID: <202412030303.5Ho0p8Ps-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,152 +60,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202130009.49021-1-alucerop@amd.com>
 
-Hi,
+TO: Jason Gunthorpe <jgg@nvidia.com>
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on cxl/next]
-[also build test ERROR on linus/master v6.13-rc1 next-20241128]
-[cannot apply to cxl/pending horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/alucerop-amd-com/cxl-avoid-driver-data-for-obtaining-cxl_dev_state-reference/20241202-210705
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
-patch link:    https://lore.kernel.org/r/20241202130009.49021-1-alucerop%40amd.com
-patch subject: [PATCHv3] cxl: avoid driver data for obtaining cxl_dev_state reference
-config: x86_64-buildonly-randconfig-005-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030337.aesRtC2T-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030337.aesRtC2T-lkp@intel.com/reproduce)
+tree:   https://github.com/jgunthorpe/linux iommu_pt
+head:   87e70b0c76695339b0163fde25b260773b0720c2
+commit: 0667c7244f231f7ef13c6b7cb5a37e47e5303b31 [46/48] iommu/amd: Fully decode all combinations of alloc_paging_flags
+config: x86_64-buildonly-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030303.5Ho0p8Ps-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030303.5Ho0p8Ps-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030337.aesRtC2T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030303.5Ho0p8Ps-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/perf/../cxl/cxlpci.h:6,
-                    from drivers/perf/cxl_pmu.c:23:
->> drivers/perf/../cxl/cxl.h:823:32: warning: 'struct cxl_dev_state' declared inside parameter list will not be visible outside of this definition or declaration
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |                                ^~~~~~~~~~~~~
---
-   In file included from drivers/cxl/cxlmem.h:12,
-                    from drivers/cxl/mem.c:8:
->> drivers/cxl/cxl.h:823:32: warning: 'struct cxl_dev_state' declared inside parameter list will not be visible outside of this definition or declaration
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |                                ^~~~~~~~~~~~~
---
-   In file included from drivers/cxl/cxlmem.h:12,
-                    from drivers/cxl/port.c:7:
->> drivers/cxl/cxl.h:823:32: warning: 'struct cxl_dev_state' declared inside parameter list will not be visible outside of this definition or declaration
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |                                ^~~~~~~~~~~~~
-   drivers/cxl/port.c: In function 'cxl_endpoint_port_probe':
->> drivers/cxl/port.c:101:34: error: passing argument 1 of 'cxl_dvsec_rr_decode' from incompatible pointer type [-Werror=incompatible-pointer-types]
-     101 |         rc = cxl_dvsec_rr_decode(cxlds, &info);
-         |                                  ^~~~~
-         |                                  |
-         |                                  struct cxl_dev_state *
-   drivers/cxl/cxl.h:823:47: note: expected 'struct cxl_dev_state *' but argument is of type 'struct cxl_dev_state *'
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |                         ~~~~~~~~~~~~~~~~~~~~~~^~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/cxl/cxlpci.h:6,
-                    from drivers/cxl/core/pci.c:10:
->> drivers/cxl/cxl.h:823:32: warning: 'struct cxl_dev_state' declared inside parameter list will not be visible outside of this definition or declaration
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |                                ^~~~~~~~~~~~~
->> drivers/cxl/core/pci.c:294:5: error: conflicting types for 'cxl_dvsec_rr_decode'; have 'int(struct cxl_dev_state *, struct cxl_endpoint_dvsec_info *)'
-     294 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |     ^~~~~~~~~~~~~~~~~~~
-   drivers/cxl/cxl.h:823:5: note: previous declaration of 'cxl_dvsec_rr_decode' with type 'int(struct cxl_dev_state *, struct cxl_endpoint_dvsec_info *)'
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |     ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/linkage.h:7,
-                    from include/linux/printk.h:8,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:99,
-                    from include/linux/bug.h:5,
-                    from include/linux/io.h:12,
-                    from include/linux/io-64-nonatomic-lo-hi.h:5,
-                    from drivers/cxl/core/pci.c:4:
-   drivers/cxl/core/pci.c:389:22: error: conflicting types for 'cxl_dvsec_rr_decode'; have 'int(struct cxl_dev_state *, struct cxl_endpoint_dvsec_info *)'
-     389 | EXPORT_SYMBOL_NS_GPL(cxl_dvsec_rr_decode, CXL);
-         |                      ^~~~~~~~~~~~~~~~~~~
-   include/linux/export.h:56:28: note: in definition of macro '__EXPORT_SYMBOL'
-      56 |         extern typeof(sym) sym;                                 \
-         |                            ^~~
-   drivers/cxl/core/pci.c:389:1: note: in expansion of macro 'EXPORT_SYMBOL_NS_GPL'
-     389 | EXPORT_SYMBOL_NS_GPL(cxl_dvsec_rr_decode, CXL);
-         | ^~~~~~~~~~~~~~~~~~~~
-   drivers/cxl/cxl.h:823:5: note: previous declaration of 'cxl_dvsec_rr_decode' with type 'int(struct cxl_dev_state *, struct cxl_endpoint_dvsec_info *)'
-     823 | int cxl_dvsec_rr_decode(struct cxl_dev_state *cxlds,
-         |     ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/cxl_dvsec_rr_decode +101 drivers/cxl/port.c
-
-    91	
-    92	static int cxl_endpoint_port_probe(struct cxl_port *port)
-    93	{
-    94		struct cxl_endpoint_dvsec_info info = { .port = port };
-    95		struct cxl_memdev *cxlmd = to_cxl_memdev(port->uport_dev);
-    96		struct cxl_dev_state *cxlds = cxlmd->cxlds;
-    97		struct cxl_hdm *cxlhdm;
-    98		struct cxl_port *root;
-    99		int rc;
-   100	
- > 101		rc = cxl_dvsec_rr_decode(cxlds, &info);
-   102		if (rc < 0)
-   103			return rc;
-   104	
-   105		cxlhdm = devm_cxl_setup_hdm(port, &info);
-   106		if (IS_ERR(cxlhdm)) {
-   107			if (PTR_ERR(cxlhdm) == -ENODEV)
-   108				dev_err(&port->dev, "HDM decoder registers not found\n");
-   109			return PTR_ERR(cxlhdm);
-   110		}
-   111	
-   112		/* Cache the data early to ensure is_visible() works */
-   113		read_cdat_data(port);
-   114		cxl_endpoint_parse_cdat(port);
-   115	
-   116		get_device(&cxlmd->dev);
-   117		rc = devm_add_action_or_reset(&port->dev, schedule_detach, cxlmd);
-   118		if (rc)
-   119			return rc;
-   120	
-   121		rc = cxl_hdm_decode_init(cxlds, cxlhdm, &info);
-   122		if (rc)
-   123			return rc;
-   124	
-   125		rc = devm_cxl_enumerate_decoders(cxlhdm, &info);
-   126		if (rc)
-   127			return rc;
-   128	
-   129		/*
-   130		 * This can't fail in practice as CXL root exit unregisters all
-   131		 * descendant ports and that in turn synchronizes with cxl_port_probe()
-   132		 */
-   133		struct cxl_root *cxl_root __free(put_cxl_root) = find_cxl_root(port);
-   134	
-   135		root = &cxl_root->port;
-   136	
-   137		/*
-   138		 * Now that all endpoint decoders are successfully enumerated, try to
-   139		 * assemble regions from committed decoders
-   140		 */
-   141		device_for_each_child(&port->dev, root, discover_region);
-   142	
-   143		return 0;
-   144	}
-   145	
+   In file included from drivers/iommu/amd/iommu.c:12:
+   In file included from include/linux/pci.h:1650:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     505 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     512 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     525 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   4 warnings generated.
+>> drivers/iommu/amd/iommu.o: warning: objtool: amd_iommu_domain_alloc_paging_flags+0x5d: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
