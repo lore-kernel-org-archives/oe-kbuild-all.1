@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8921E0DDB
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 22:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708171DE89C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 22:28:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733177262; cv=none; b=PUx/AzOVIYsHLNwaLEc3SsblsxaBs4M9rj7TBH7ov0gk15n3wcJpk57dAXYa9j9VgmvifOCyRk0Pqf7HBEO1S0yepdkVbuFknHt+JwFAZpII0SzFASyQj0VyqBWwQbVcxGcz+5DbuKD8HT1c5Lt2bgQ8UxHopbIAhzP+VsZIygU=
+	t=1733178540; cv=none; b=kTyq5bdYJIU/ZXJ9GQZUyaWytSnzWXbrPP0Vz3WXERGbpQ/WH995m993b43ku9jkZfokCHNsu1rFcQLyU6IS0L/uRKO7leSwzSMguJ8V7KQel1hPNXQLOJZw8eXDsIzTXHvVNL26K7dWpXbBpxSnr8rVggT0j45QSSz5mytGhPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733177262; c=relaxed/simple;
-	bh=/7uOvTHO15DE4mt5obi8ozfgCwJ7keTUXgu3dpCOCGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZUuKDD9N5L2vYM3bx/H44BeQIGr3iAztCi3AtDnKK69W0K3wQCGEI5ShMGjL11G8i9Fi9msPvZ1A0OsNJRtaO3/FvDA7yH6qFcMclvGr4qQfmZsHnzPjRl/eaxgA/OAUucVcZmmZmCc6jefH6vAaD3LnQAG/ndwk2RH5QnXX26U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERP9yDVO; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1733178540; c=relaxed/simple;
+	bh=qQxWXO6DZ0mP1MuZox3W4Vto2USRJPLnnb7oK/2ijiI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=D48ov6lAQwdl0hz/9pjchPp8t4CUwmCrAmvQAkDYFcrel3PSVi0yHi0tHHMFuD46y/WTNgdZf25q3Axv6pzqe7JgU4pwk8CKqDTXyyAmsfNsXIE3olVm+5mFbX+0a6WRtJ7Iugrt2PqWsD4ZD8DOx8vyR37zIXAltdHCAvoUMvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cYZ90lZs; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERP9yDVO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cYZ90lZs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733177260; x=1764713260;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/7uOvTHO15DE4mt5obi8ozfgCwJ7keTUXgu3dpCOCGw=;
-  b=ERP9yDVOVQ3+ABs8sfGG0Aa3Hd8iyifMp9pvwUdBP9/rjrMT5USh4N67
-   FS1aqOKFdZDwbN+92t5DRoA+V+OQQj7Q3oVPQD7Ky5hkkI3xlQybYQL8i
-   aF99QIKA9IkOFhY6IuprVeTCKudUD9LJ97x9j5WSsaP6LbpuIkOOypieL
-   2i0uzOqigU124bJhTTgI+Dg0rW5SfvzkHugMBJ2wUwMsWde7JN/TIu+7N
-   1fLCzddvkU7eynPZv3RFJidoXQ4j0ibwQC3yEqYGVs3AfOq9YIvsUg0kB
-   1zCzN3OyAYK2EUfAjVeT6MhpRiwEAaN84ll7mfjLNDNmYS3KOreWPOMB/
-   Q==;
-X-CSE-ConnectionGUID: hFK9nOCPQO2C4U6Fxj9Uxw==
-X-CSE-MsgGUID: rIuosLGYTCGTOESSW+9lUA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33295914"
+  t=1733178538; x=1764714538;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qQxWXO6DZ0mP1MuZox3W4Vto2USRJPLnnb7oK/2ijiI=;
+  b=cYZ90lZsFnAaMjXnQT1grZJpjR9s5WHJoil6smcfNqThGxnBA6Fo086C
+   Z4W6WXaM/T1hAND3wo5ynzi6nMVqXTtwONzw8cxznXsJjHBAoefk2F1Ol
+   xswV0b7yRfHTfSi9GRIXkdInzs9Mfotglw3tnUJAZBEQ4jJ4uG2J8p2h0
+   ImVK92ez4V/9V/t12ve7IF9Li9WBbwKh47Vt04/t/2CXSy1zY4efH0IAg
+   pzID1arFjXdqPLuEDvYs74Z2xM3e7RCJnxn1AFIHNEpHkDuieM0uLSHd6
+   wqTJfkKlBGmNCQZpFtdjEDfOu9D6dGlpxKl/sveLY+69Lz2Vcqvv+DdNJ
+   w==;
+X-CSE-ConnectionGUID: K2MdwmuGQBWESUcmMfioJA==
+X-CSE-MsgGUID: OLTiJzO1ToCyMAimwSPWMg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37307516"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="33295914"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 14:07:40 -0800
-X-CSE-ConnectionGUID: +hVLYfDWS2a+a036nLZKFA==
-X-CSE-MsgGUID: DAbXJg+5QAKTVpTmxF/TxQ==
+   d="scan'208";a="37307516"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 14:28:55 -0800
+X-CSE-ConnectionGUID: 8n5jBM7TRCmrbR+yO+FCXA==
+X-CSE-MsgGUID: qUU4eePsR0We6+u/6PJjwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="98009834"
+   d="scan'208";a="93563704"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Dec 2024 14:07:37 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Dec 2024 14:28:54 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIEZr-0002wv-0X;
-	Mon, 02 Dec 2024 22:07:35 +0000
-Date: Tue, 3 Dec 2024 06:07:03 +0800
+	id 1tIEuO-0002xx-0c;
+	Mon, 02 Dec 2024 22:28:49 +0000
+Date: Tue, 3 Dec 2024 06:28:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank van der Linden <fvdl@google.com>, linux-mm@kvack.org,
-	akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, Muchun Song <muchun.song@linux.dev>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Oscar Salvador <osalvador@suse.de>,
-	David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	Frank van der Linden <fvdl@google.com>
-Subject: Re: [PATCH] mm/hugetlb: optionally pre-zero hugetlb pages
-Message-ID: <202412030519.W14yll4e-lkp@intel.com>
-References: <20241202202058.3249628-1-fvdl@google.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2516/2516] arch/arm64/mm/pmem_reserve.c:13:13:
+ warning: no previous prototype for 'setup_reserve_pmem'
+Message-ID: <202412030629.xfIRDSCP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,71 +61,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202202058.3249628-1-fvdl@google.com>
 
-Hi Frank,
+Hi Zhuling,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on v6.12]
-[cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all linus/master v6.13-rc1 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Frank-van-der-Linden/mm-hugetlb-optionally-pre-zero-hugetlb-pages/20241203-042817
-base:   v6.12
-patch link:    https://lore.kernel.org/r/20241202202058.3249628-1-fvdl%40google.com
-patch subject: [PATCH] mm/hugetlb: optionally pre-zero hugetlb pages
-config: powerpc-ps3_defconfig (https://download.01.org/0day-ci/archive/20241203/202412030519.W14yll4e-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030519.W14yll4e-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   929a9df37c1b7dec73fd417d79a116d02a8f9380
+commit: db4cd75bc674e6f473c0a7303b1744155352882c [2516/2516] arm64: register persistent memory via protected memory
+config: arm64-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030629.xfIRDSCP-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030629.xfIRDSCP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030519.W14yll4e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030629.xfIRDSCP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/hugetlb.c: In function 'prezero_enabled_store':
->> mm/hugetlb.c:4290:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    4290 |         int err;
-         |             ^~~
+>> arch/arm64/mm/pmem_reserve.c:13:13: warning: no previous prototype for 'setup_reserve_pmem' [-Wmissing-prototypes]
+      13 | void __init setup_reserve_pmem(u64 start, u64 size)
+         |             ^~~~~~~~~~~~~~~~~~
+>> arch/arm64/mm/pmem_reserve.c:25:13: warning: no previous prototype for 'request_pmem_res_resource' [-Wmissing-prototypes]
+      25 | void __init request_pmem_res_resource(void)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/arm64/mm/pmem_reserve.c:40:13: warning: no previous prototype for 'reserve_pmem' [-Wmissing-prototypes]
+      40 | void __init reserve_pmem(void)
+         |             ^~~~~~~~~~~~
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
+   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   Selected by [y]:
+   - SDEI_WATCHDOG [=y] && ARM64 [=y] && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+   WARNING: unmet direct dependencies detected for PGP_PRELOAD
+   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
+   Selected by [y]:
+   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
 
 
-vim +/err +4290 mm/hugetlb.c
+vim +/setup_reserve_pmem +13 arch/arm64/mm/pmem_reserve.c
 
-  4284	
-  4285	static ssize_t prezero_enabled_store(struct kobject *kobj,
-  4286						  struct kobj_attribute *attr,
-  4287						  const char *buf, size_t count)
-  4288	{
-  4289		struct hstate *h;
-> 4290		int err;
-  4291		long val;
-  4292		bool prezero_enabled;
-  4293	
-  4294		err = kstrtol(buf, 10, &val);
-  4295		if (val != 0 && val != 1)
-  4296			return -EINVAL;
-  4297	
-  4298		prezero_enabled = !!val;
-  4299	
-  4300		h = kobj_to_hstate(kobj, NULL);
-  4301		if (prezero_enabled == h->prezero_enabled)
-  4302			return count;
-  4303	
-  4304		h->prezero_enabled = prezero_enabled;
-  4305	
-  4306		mem_hotplug_begin();
-  4307		khzerod_run_hstate(h);
-  4308		mem_hotplug_done();
-  4309	
-  4310		return count;
-  4311	}
-  4312	HSTATE_ATTR(prezero_enabled);
-  4313	
+    12	
+  > 13	void __init setup_reserve_pmem(u64 start, u64 size)
+    14	{
+    15		if (pmem_res_cnt >= MAX_REGIONS) {
+    16			pr_err("protected memory regions above upper limit %d\n", MAX_REGIONS);
+    17			return;
+    18		}
+    19	
+    20		pmem_res[pmem_res_cnt].start = start;
+    21		pmem_res[pmem_res_cnt].end = start + size - 1;
+    22		pmem_res_cnt++;
+    23	}
+    24	
+  > 25	void __init request_pmem_res_resource(void)
+    26	{
+    27		struct resource *res;
+    28		int i;
+    29	
+    30		for (i = 0; i < pmem_res_cnt; i++) {
+    31			res = &pmem_res[i];
+    32			res->name = "Persistent Memory (legacy)";
+    33			res->flags = IORESOURCE_MEM;
+    34			res->desc = IORES_DESC_PERSISTENT_MEMORY_LEGACY;
+    35			if (res->start && res->end)
+    36				request_resource(&iomem_resource, res);
+    37		}
+    38	}
+    39	
+  > 40	void __init reserve_pmem(void)
 
 -- 
 0-DAY CI Kernel Test Service
