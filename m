@@ -1,68 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1C80A95C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 12:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11AB51FCCEC
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 13:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733143916; cv=none; b=SRHa1ypjYZmQteyV508+L1uQwdbnN2VW6oo/ROWS5cffOIXw7ikZlkuUPvuh0YCTu07SXwOkEUSU5qoshCoboHU3KmSr0tyc5LsIxCJMRGjcmYf83l8MA3ix0vleLICa1rHvhT9GRarZDcLg+l5uteuqVIV+D5sZKbduwD3+0mk=
+	t=1733146347; cv=none; b=XcWcaQLHardExKZmhY4b6Mz1xVD7bS/GxrCGfF6Ty5+/UZNRMzYKsndw3p6RBid0V5fwE+MJarMXjXRHfQXFQ20vVawka84Zc+d3OngbxBeSBgMfqMN2ieKJc9km+lukNZzPD28Dw8W5eJB/1BzH7bYc9yLOsW2EsaxDOVolSKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733143916; c=relaxed/simple;
-	bh=TI1eNec6e71hXIflgWeSYtQQA2WlLOWs5lDyHo3slqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AQZmYdAfZH6uZJsByYFzWea7Wbgqa+7UrE/ZzDupb75LkZnHNAa3vBC4Oq0RRbKJUWzy7G/9Rt4wWI8QjqVvL4QqK295RuUlpRbFcm+JE1UyBn30iHAc3E4K8rSSIydF1S4t//dtIwPRGm8/vQDFqPA6JSGm0ISggKwRZ1MjNkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GIG2m5o2; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1733146347; c=relaxed/simple;
+	bh=cOdaeX+FblNpVKCP2dPiorDvGzkrwfC3myVuKOCMji4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=f0xZeKw45ISiWy2r0+oDeL30YwRNruRaQ7x3t+iQSTRnQ/TLgnT3mmif3nW9V2jpFIoO7Oxuc3xuV3diVBQidP0UPexxG7AyV6FADV4I+UNSoPGc/wuJnXGYhIi3nC+EjLGJ3pJS1Mn4ewOEK5kC+AVrCvN0eNAlOek6b4VQdDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OUCgnsLj; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GIG2m5o2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OUCgnsLj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733143915; x=1764679915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TI1eNec6e71hXIflgWeSYtQQA2WlLOWs5lDyHo3slqs=;
-  b=GIG2m5o2WZuz7r0Zn1f6WIiQQQrTFS6CGAN87j/oo9F5+Bc85I3ZiiL0
-   00dadTGplS5VlgjRF/lLg9Oayvh/5VR6n/l8REBEIUEX6jCawcjmXJA8Z
-   3Z5dyz1igMiQXH5up3ps/j1aypNnoXlz/shLGDSFZ2tQxu/7+wnDon1Gd
-   /tg6Dtp1eBmW9AiM43i6nVnc0NuBhvu6CorJl2qjXDe/XKfwXMQJladHB
-   e3MkFvsMQRa/tn0iAAaMQTaTJCGSDtQZtxdXc4aNYFjxutbdlFfzzM+yT
-   TXnodsIc4ZiY02sSWt3NtXz4mx7C825qCGTRXEMCmYfcHonnSbclFU8RW
+  t=1733146345; x=1764682345;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cOdaeX+FblNpVKCP2dPiorDvGzkrwfC3myVuKOCMji4=;
+  b=OUCgnsLjXjgaWib4e7G7FImKnU7Ozcby9tD5Rd5/q5maagOeYW51551T
+   rsCZANUTBVM8QFv98NhuZQLSZ5r0QlghrH96WjeYAlR3Eu1EEk8iMN5cO
+   QpMHirxh5KpCRFla0fe2eO9MFlWqHqaYrVdz1dNoc+u/0j4GzdI1mNWsn
+   Y/UAPNXbdONLcO50UdWEpMkKoluinDt7ukP7Pvu6lImhL720igTu6ZLYU
+   OBhm+6cRn0rxB6qpmW4oUWJQjYebCGRIXgTM4/Dc/hDwpYOwQq09+JKrT
+   PkFE3nC5cGuj0hyZgu0ggBxKdKNYB6vB1Q1rqjYPbmt3c9H5SoQvXIZK9
    Q==;
-X-CSE-ConnectionGUID: +5CnPR7eS5qL69AJtybAgw==
-X-CSE-MsgGUID: 2PFvfoB2SA2kIRWGSzrpxw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="36172266"
+X-CSE-ConnectionGUID: P3YoqSp7Sj6yUouLuRtRJA==
+X-CSE-MsgGUID: Sn5dLk/EQ+6FrQ+vXXM7RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33235558"
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="36172266"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 04:51:54 -0800
-X-CSE-ConnectionGUID: hZZzPD2sS56sMvWpKO/qqA==
-X-CSE-MsgGUID: QLZ/Vjq/Rn2q1j2B+4Fdww==
+   d="scan'208";a="33235558"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 05:32:24 -0800
+X-CSE-ConnectionGUID: rxOBIHr7Qq6qIoEeFuZeEA==
+X-CSE-MsgGUID: edpNhfUCT6K86tXRWPKgSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="93267633"
+   d="scan'208";a="130584298"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Dec 2024 04:51:50 -0800
+  by orviesa001.jf.intel.com with ESMTP; 02 Dec 2024 05:32:23 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI5tz-0002Qj-2c;
-	Mon, 02 Dec 2024 12:51:47 +0000
-Date: Mon, 2 Dec 2024 20:51:34 +0800
+	id 1tI6XE-0002S3-1p;
+	Mon, 02 Dec 2024 13:32:20 +0000
+Date: Mon, 2 Dec 2024 21:32:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sachin Gupta <quic_sachgupt@quicinc.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-mmc@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	quic_cang@quicinc.com, quic_nguyenb@quicinc.com,
-	quic_bhaskarv@quicinc.com, quic_mapa@quicinc.com,
-	quic_narepall@quicinc.com, quic_nitirawa@quicinc.com,
-	quic_rampraka@quicinc.com, quic_sachgupt@quicinc.com,
-	quic_sartgarg@quicinc.com
-Subject: Re: [PATCH] mmc: sdhci-msm: Command Queue (CQ) Register changes for
- v5.0
-Message-ID: <202412022051.5NYO7EbI-lkp@intel.com>
-References: <20241202085631.13468-1-quic_sachgupt@quicinc.com>
+To: kernel@openeuler.org, Cheng Yu <serein.chengyu@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2417/2417] kernel/sched/core.c:8279:46: error:
+ 'TG_STEAL_NO' undeclared; did you mean 'PGSTEAL_ANON'?
+Message-ID: <202412022133.n8HK8mnc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,111 +61,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202085631.13468-1-quic_sachgupt@quicinc.com>
 
-Hi Sachin,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on ulf-hansson-mmc-mirror/next v6.13-rc1 next-20241128]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sachin-Gupta/mmc-sdhci-msm-Command-Queue-CQ-Register-changes-for-v5-0/20241202-170044
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20241202085631.13468-1-quic_sachgupt%40quicinc.com
-patch subject: [PATCH] mmc: sdhci-msm: Command Queue (CQ) Register changes for v5.0
-config: arm64-randconfig-001-20241202 (https://download.01.org/0day-ci/archive/20241202/202412022051.5NYO7EbI-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412022051.5NYO7EbI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   a1fd264a5653d0f3d66669ec3b88a99b929f8717
+commit: b7772972a0a76efac27078392f3f706914fe2af7 [2417/2417] sched/core: Add cpu.steal_task in cgroup v1 cpu subsystem
+config: x86_64-randconfig-071-20241112 (https://download.01.org/0day-ci/archive/20241202/202412022133.n8HK8mnc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412022133.n8HK8mnc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412022051.5NYO7EbI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412022133.n8HK8mnc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:22,
-                    from arch/arm64/include/asm/bug.h:26,
-                    from include/linux/bug.h:5,
-                    from arch/arm64/include/asm/cpufeature.h:24,
-                    from arch/arm64/include/asm/hwcap.h:9,
-                    from arch/arm64/include/asm/arch_timer.h:12,
-                    from arch/arm64/include/asm/timex.h:8,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/mmc/host/sdhci-msm.c:8:
-   drivers/mmc/host/sdhci-msm.c: In function 'sdhci_msm_dump_vendor_regs':
->> drivers/mmc/host/sdhci-msm.c:2289:38: warning: 'cq_host' is used uninitialized [-Wuninitialized]
-    2289 |                 readl_relaxed(cq_host->mmio + CQHCI_VENDOR_CFG + offset));
-         |                               ~~~~~~~^~~~~~
-   include/linux/printk.h:473:33: note: in definition of macro 'printk_index_wrap'
-     473 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:544:9: note: in expansion of macro 'printk'
-     544 |         printk(KERN_ERR pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   drivers/mmc/host/sdhci-msm.c:2257:9: note: in expansion of macro 'pr_err'
-    2257 |         pr_err("%s: " DRV_NAME ": " f, mmc_hostname(host->mmc), ## x)
-         |         ^~~~~~
-   drivers/mmc/host/sdhci-msm.c:2288:9: note: in expansion of macro 'CQHCI_DUMP'
-    2288 |         CQHCI_DUMP("Vendor cfg 0x%08x\n",
-         |         ^~~~~~~~~~
-   drivers/mmc/host/sdhci-msm.c:2264:28: note: 'cq_host' was declared here
-    2264 |         struct cqhci_host *cq_host;
-         |                            ^~~~~~~
+   kernel/sched/core.c:2750:6: warning: no previous prototype for 'sched_set_stop_task' [-Wmissing-prototypes]
+    2750 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         |      ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c: In function 'sched_init':
+   kernel/sched/core.c:8279:17: error: 'root_task_group' undeclared (first use in this function); did you mean 'task_group'?
+    8279 |                 root_task_group.steal_task = TG_STEAL_NO;
+         |                 ^~~~~~~~~~~~~~~
+         |                 task_group
+   kernel/sched/core.c:8279:17: note: each undeclared identifier is reported only once for each function it appears in
+>> kernel/sched/core.c:8279:46: error: 'TG_STEAL_NO' undeclared (first use in this function); did you mean 'PGSTEAL_ANON'?
+    8279 |                 root_task_group.steal_task = TG_STEAL_NO;
+         |                                              ^~~~~~~~~~~
+         |                                              PGSTEAL_ANON
 
 
-vim +/cq_host +2289 drivers/mmc/host/sdhci-msm.c
+vim +8279 kernel/sched/core.c
 
-  2250	
-  2251	#define DRIVER_NAME "sdhci_msm"
-  2252	#define SDHCI_MSM_DUMP(f, x...) \
-  2253		pr_err("%s: " DRIVER_NAME ": " f, mmc_hostname(host->mmc), ## x)
-  2254	
-  2255	#define DRV_NAME "cqhci"
-  2256	#define CQHCI_DUMP(f, x...) \
-  2257		pr_err("%s: " DRV_NAME ": " f, mmc_hostname(host->mmc), ## x)
-  2258	
-  2259	static void sdhci_msm_dump_vendor_regs(struct sdhci_host *host)
-  2260	{
-  2261		struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-  2262		struct sdhci_msm_host *msm_host = sdhci_pltfm_priv(pltfm_host);
-  2263		const struct sdhci_msm_offset *msm_offset = msm_host->offset;
-  2264		struct cqhci_host *cq_host;
-  2265		int offset = 0;
-  2266	
-  2267		if (msm_host->cqhci_offset_changed)
-  2268			offset = CQE_V5_VENDOR_CFG;
-  2269	
-  2270		SDHCI_MSM_DUMP("----------- VENDOR REGISTER DUMP -----------\n");
-  2271	
-  2272		SDHCI_MSM_DUMP(
-  2273				"DLL sts: 0x%08x | DLL cfg:  0x%08x | DLL cfg2: 0x%08x\n",
-  2274			readl_relaxed(host->ioaddr + msm_offset->core_dll_status),
-  2275			readl_relaxed(host->ioaddr + msm_offset->core_dll_config),
-  2276			readl_relaxed(host->ioaddr + msm_offset->core_dll_config_2));
-  2277		SDHCI_MSM_DUMP(
-  2278				"DLL cfg3: 0x%08x | DLL usr ctl:  0x%08x | DDR cfg: 0x%08x\n",
-  2279			readl_relaxed(host->ioaddr + msm_offset->core_dll_config_3),
-  2280			readl_relaxed(host->ioaddr + msm_offset->core_dll_usr_ctl),
-  2281			readl_relaxed(host->ioaddr + msm_offset->core_ddr_config));
-  2282		SDHCI_MSM_DUMP(
-  2283				"Vndr func: 0x%08x | Vndr func2 : 0x%08x Vndr func3: 0x%08x\n",
-  2284			readl_relaxed(host->ioaddr + msm_offset->core_vendor_spec),
-  2285			readl_relaxed(host->ioaddr +
-  2286				msm_offset->core_vendor_spec_func2),
-  2287			readl_relaxed(host->ioaddr + msm_offset->core_vendor_spec3));
-  2288		CQHCI_DUMP("Vendor cfg 0x%08x\n",
-> 2289			readl_relaxed(cq_host->mmio + CQHCI_VENDOR_CFG + offset));
-  2290	}
-  2291	
+  8253	
+  8254		wait_bit_init();
+  8255	
+  8256	#ifdef CONFIG_FAIR_GROUP_SCHED
+  8257		ptr += 2 * nr_cpu_ids * sizeof(void **);
+  8258	#endif
+  8259	#ifdef CONFIG_RT_GROUP_SCHED
+  8260		ptr += 2 * nr_cpu_ids * sizeof(void **);
+  8261	#endif
+  8262		if (ptr) {
+  8263			ptr = (unsigned long)kzalloc(ptr, GFP_NOWAIT);
+  8264	
+  8265	#ifdef CONFIG_FAIR_GROUP_SCHED
+  8266			root_task_group.se = (struct sched_entity **)ptr;
+  8267			ptr += nr_cpu_ids * sizeof(void **);
+  8268	
+  8269			root_task_group.cfs_rq = (struct cfs_rq **)ptr;
+  8270			ptr += nr_cpu_ids * sizeof(void **);
+  8271	
+  8272			root_task_group.shares = ROOT_TASK_GROUP_LOAD;
+  8273			init_cfs_bandwidth(&root_task_group.cfs_bandwidth);
+  8274	#endif /* CONFIG_FAIR_GROUP_SCHED */
+  8275	#ifdef CONFIG_QOS_SCHED_SMT_EXPELLER
+  8276			root_task_group.smt_expell = TG_SMT_EXPELL;
+  8277	#endif
+  8278	#ifdef CONFIG_SCHED_STEAL
+> 8279			root_task_group.steal_task = TG_STEAL_NO;
+  8280	#endif
+  8281	#ifdef CONFIG_RT_GROUP_SCHED
+  8282			root_task_group.rt_se = (struct sched_rt_entity **)ptr;
+  8283			ptr += nr_cpu_ids * sizeof(void **);
+  8284	
+  8285			root_task_group.rt_rq = (struct rt_rq **)ptr;
+  8286			ptr += nr_cpu_ids * sizeof(void **);
+  8287	
 
 -- 
 0-DAY CI Kernel Test Service
