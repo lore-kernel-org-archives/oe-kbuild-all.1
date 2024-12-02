@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E154C85
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 07:11:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B801F9ABD
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 08:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733123520; cv=none; b=WoUhe8T8+SDDtsDaTYaZnpUXXLcEGJli1eJz5Hvab2rpJxecJQbM+zm+6O5Z17GOq1WaOfO7WN3QBgsfEA/DpmO19zoorzLEsYBYo2qcpGpNQmOp9fF3KLPyvySWLAEhfYDKxnE+Y+muwwP7sD3rlPU8g6qp9GvQHK0yy5NGpCQ=
+	t=1733127281; cv=none; b=FMz//LYbMYPDD8ynoqEzXX4Xwcw8kgbzzUtPOUI09t/27AJSGb0/o4hoK7t1BVXge9dxLmc5Zv6/bH+T3sySkCBrMxFpiP6Lu/7boPuxy3IJwP+Pf10dsGN9P0gcIy07nlve6ywEFH/F3pMLOxY45z+km5QdqxnMcGqA+Ra1MBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733123520; c=relaxed/simple;
-	bh=apAPBvnlOUu9jB7BXUQK785uKvrqpJoGfXp840wWtAI=;
+	s=arc-20240116; t=1733127281; c=relaxed/simple;
+	bh=1wfWeKWrJLetTrCCm6umjj0RDLwBCmtp+t8eULkVoSM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N/HxnsZRscvZin1XZXBaENofhRoTWm3FW+xDgKsR8s3ztrlU6c5FMx7Kspdm2eDIE92hfgIP9DdeU1tbOxsAZMTnjSl8HqV0aF2pXYQGmSGRGIzQCgL4N94hZTGzgzqOZypiOZ4WRg/pojEgaI/o/3mENoNnQjvSw4s8HnEqs9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cl9vPmC3; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=ho8qM38IXIlWXAP4boZavicgHg+V0RU0nwAFcbvxk42qszYre5h3M9YYozcZaguvQgSnwEhQOmSGV4qM8zI29BkfMrixSQLi+XOgTNzJmsQcA73qQo1roxCn8ZkMbwqwd3ZreRhc0nWHra006mEukIbXCReSX5B5hZwHgm86W+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H1BDS+he; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cl9vPmC3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H1BDS+he"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733123519; x=1764659519;
+  t=1733127279; x=1764663279;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=apAPBvnlOUu9jB7BXUQK785uKvrqpJoGfXp840wWtAI=;
-  b=Cl9vPmC3Ip2fBay+x78DVm1tI1ve9dAidThciLxlfAJEVqKe6aIi878t
-   xlBEkX8XAmQgbDkYq44epYI28OWdWLYEf2SNazel0o8o3qXRhFmdVbBEL
-   6+vhSZMhNkLddHWKrNQLfbGyW9aRrnLrJIESm/O08Ktu9TPKm8q3HeMDw
-   w7yK8nqjW4ThzRky/vWmIroxHCU8ZJMK1oXCzKiK2ZFHhtkZPubN3W2gF
-   EByRciq0oR6tIufZvSkLzE/qUwGhAMBc67EUixJYJXsXGFH/rVUa//BFO
-   LpYEAZZrwxpNbP7LFMLFClvQ2D4EFg8Fm3l5PZ9YF0LyBkVbFfdFY6KY6
+  bh=1wfWeKWrJLetTrCCm6umjj0RDLwBCmtp+t8eULkVoSM=;
+  b=H1BDS+henDV0aLIvr6xzGVHawraFjyWD1jKuyp9peGmmBxD8kRPJaZY0
+   ygp+/jSm0+3xc6yNipucdag1WxqhxN2AWLBAkHON73Hi7AJlgrQlO4+tK
+   4+x6gdPMdKfX4IfPej++46YoS210AtIKDNPnPasV2kTqHJuFZ0iqksNi/
+   mcNBSXS46wAJoSY1rMNiPnOATeBGWI9U+aOtg3tK65uDskQ73sAm3CsVf
+   tOG+7l3edcNoq+6MjeueGsmU6QSECnHEzWt29KPdFP1HLmyJqL00nkGs4
+   4sqsUa2W6/0ttvhBWvha89wP2Qcw0feunAGgsU1wimlIXeYjnJ3gmb45h
    w==;
-X-CSE-ConnectionGUID: SmndqaF3R4KWZBPP15TDjg==
-X-CSE-MsgGUID: A+luI7HSRJaSlckH0C3MDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33197278"
+X-CSE-ConnectionGUID: cJYwNiu7Q3K1O2Wk6yXEKQ==
+X-CSE-MsgGUID: LlD0ky7iSxq+ylQSJMBC2A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33342012"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="33197278"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 23:11:58 -0800
-X-CSE-ConnectionGUID: HKs8UtPFRBOAl1P7eB0/SA==
-X-CSE-MsgGUID: nFDOjCpiQjGZASCys1pQYg==
+   d="scan'208";a="33342012"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 00:14:39 -0800
+X-CSE-ConnectionGUID: j7BbsX+hQaG4qfcQv13Dyw==
+X-CSE-MsgGUID: wwnZZlBNREKqblcW7nPf3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93199542"
+   d="scan'208";a="97109247"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa008.fm.intel.com with ESMTP; 01 Dec 2024 23:11:56 -0800
+  by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2024 00:14:38 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI0b3-0002AK-2a;
-	Mon, 02 Dec 2024 07:11:53 +0000
-Date: Mon, 2 Dec 2024 15:11:08 +0800
+	id 1tI1Yz-0002Bp-0a;
+	Mon, 02 Dec 2024 08:14:01 +0000
+Date: Mon, 2 Dec 2024 16:13:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Bianconi <lorenzo@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse:
- incorrect type in argument 1 (different base types)
-Message-ID: <202412021536.QdX5fFb7-lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1268/1268] drivers/dax/.tmp_kmem.o:
+ warning: objtool: missing symbol for section .init.text
+Message-ID: <202412021601.Wu04GQ8O-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,89 +62,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Lorenzo,
-
-First bad commit (maybe != root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: a3c62a042237d1adeb0290dcb768e17edd6dcd25 net: mtk_eth: add COMPILE_TEST support
-date:   3 years ago
-config: nios2-randconfig-r121-20241116 (https://download.01.org/0day-ci/archive/20241202/202412021536.QdX5fFb7-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 14.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20241202/202412021536.QdX5fFb7-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a736cbd663d2a0d3024657aef143d1defaceae0f
+commit: be13c6c633412a576f1a666c07dbaae19331b0fc [1268/1268] Intel: device-dax: "Hotplug" persistent memory for use like normal RAM
+config: x86_64-buildonly-randconfig-004-20241103 (https://download.01.org/0day-ci/archive/20241202/202412021601.Wu04GQ8O-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021601.Wu04GQ8O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412021536.QdX5fFb7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412021601.Wu04GQ8O-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1113:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __sum16 [usertype] check @@     got restricted __be16 [usertype] @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1113:45: sparse:     expected restricted __sum16 [usertype] check
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1113:45: sparse:     got restricted __be16 [usertype]
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1801:22: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] ip @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1801:22: sparse:     expected unsigned int [usertype] val
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1801:22: sparse:     got restricted __be32 [usertype] ip
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse: cast from restricted __be32
->> drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected unsigned int [usertype] val @@     got restricted __be32 [usertype] ip4dst @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse:     expected unsigned int [usertype] val
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse:     got restricted __be32 [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1846:40: sparse: sparse: cast from restricted __be32
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1903:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4dst @@     got unsigned int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1903:38: sparse:     expected restricted __be32 [usertype] ip4dst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1903:38: sparse:     got unsigned int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1907:38: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be32 [usertype] ip4src @@     got unsigned int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1907:38: sparse:     expected restricted __be32 [usertype] ip4src
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1907:38: sparse:     got unsigned int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1909:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] psrc @@     got int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1909:36: sparse:     expected restricted __be16 [usertype] psrc
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1909:36: sparse:     got int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1911:36: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] pdst @@     got int @@
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1911:36: sparse:     expected restricted __be16 [usertype] pdst
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:1911:36: sparse:     got int
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:652:9: sparse: sparse: context imbalance in 'mtk_stats_update' - different lock contexts for basic block
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c:677:50: sparse: sparse: context imbalance in 'mtk_get_stats64' - wrong count at exit
-   drivers/net/ethernet/mediatek/mtk_eth_soc.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+All warnings (new ones prefixed by >>):
 
-vim +1846 drivers/net/ethernet/mediatek/mtk_eth_soc.c
-
-7aab747e5563ec Nelson Chang 2016-09-17  1831  
-7aab747e5563ec Nelson Chang 2016-09-17  1832  static int mtk_hwlro_add_ipaddr(struct net_device *dev,
-7aab747e5563ec Nelson Chang 2016-09-17  1833  				struct ethtool_rxnfc *cmd)
-7aab747e5563ec Nelson Chang 2016-09-17  1834  {
-7aab747e5563ec Nelson Chang 2016-09-17  1835  	struct ethtool_rx_flow_spec *fsp =
-7aab747e5563ec Nelson Chang 2016-09-17  1836  		(struct ethtool_rx_flow_spec *)&cmd->fs;
-7aab747e5563ec Nelson Chang 2016-09-17  1837  	struct mtk_mac *mac = netdev_priv(dev);
-7aab747e5563ec Nelson Chang 2016-09-17  1838  	struct mtk_eth *eth = mac->hw;
-7aab747e5563ec Nelson Chang 2016-09-17  1839  	int hwlro_idx;
-7aab747e5563ec Nelson Chang 2016-09-17  1840  
-7aab747e5563ec Nelson Chang 2016-09-17  1841  	if ((fsp->flow_type != TCP_V4_FLOW) ||
-7aab747e5563ec Nelson Chang 2016-09-17  1842  	    (!fsp->h_u.tcp_ip4_spec.ip4dst) ||
-7aab747e5563ec Nelson Chang 2016-09-17  1843  	    (fsp->location > 1))
-7aab747e5563ec Nelson Chang 2016-09-17  1844  		return -EINVAL;
-7aab747e5563ec Nelson Chang 2016-09-17  1845  
-7aab747e5563ec Nelson Chang 2016-09-17 @1846  	mac->hwlro_ip[fsp->location] = htonl(fsp->h_u.tcp_ip4_spec.ip4dst);
-7aab747e5563ec Nelson Chang 2016-09-17  1847  	hwlro_idx = (mac->id * MTK_MAX_LRO_IP_CNT) + fsp->location;
-7aab747e5563ec Nelson Chang 2016-09-17  1848  
-7aab747e5563ec Nelson Chang 2016-09-17  1849  	mac->hwlro_ip_cnt = mtk_hwlro_get_ip_cnt(mac);
-7aab747e5563ec Nelson Chang 2016-09-17  1850  
-7aab747e5563ec Nelson Chang 2016-09-17  1851  	mtk_hwlro_val_ipaddr(eth, hwlro_idx, mac->hwlro_ip[fsp->location]);
-7aab747e5563ec Nelson Chang 2016-09-17  1852  
-7aab747e5563ec Nelson Chang 2016-09-17  1853  	return 0;
-7aab747e5563ec Nelson Chang 2016-09-17  1854  }
-7aab747e5563ec Nelson Chang 2016-09-17  1855  
-
-:::::: The code at line 1846 was first introduced by commit
-:::::: 7aab747e5563ecbc9f3cb64ddea13fe7b9fee2bd net: ethernet: mediatek: add ethtool functions to configure RX flows of HW LRO
-
-:::::: TO: Nelson Chang <nelson.chang@mediatek.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   drivers/dax/kmem.c:17:5: warning: no previous prototype for 'dev_dax_kmem_probe' [-Wmissing-prototypes]
+      17 | int dev_dax_kmem_probe(struct device *dev)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/dax/.tmp_kmem.o: warning: objtool: missing symbol for section .init.text
 
 -- 
 0-DAY CI Kernel Test Service
