@@ -1,58 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1211DF988
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 23:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CE401DFD99
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 23:51:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733183482; cv=none; b=VHXTpgruZ+jbSoR1CRRDwXP3SP8T06piuQfjYFDUi5gNIP+4d2JoWQLSaZ5OlrfpumySSGkw2LZJZ2KGLy8pcqcYoayDvjAT0ZVTFBzjpkTWWeEe6dzRSWb+3IPPZJpx+fGAiq9wbt0srg5ZfypfK/UFNo5fzhuD5r0yxsKDojc=
+	t=1733183484; cv=none; b=FJ7XnsDgAfnXpD3nNeJvJLE5tHAKUZkFhsgoOEu6F8rA5s6ppSWilh5EsCr5Xq7lkdnAgGRoCJ+gQq+o9f/VWKcsAuOVsvz7RvndX7K8fwIaORKRrGU/efJ7IJg3Pmx4Br4qUjErJmqdjNLC3vHU6+a/kB9RJp8kqUYv1DIyka8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733183482; c=relaxed/simple;
-	bh=lMzHAVxu5QQEKue9NP4Qsy4ldMhVgr8+fQmGReX/L7M=;
+	s=arc-20240116; t=1733183484; c=relaxed/simple;
+	bh=q1lhwoJwtXD+U/7J90kpNMqvEmgDaTU1RRg70Epp3kM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OqoKLWnlBGmP9jGaVhCFM3ie8lsmXhN7hiqXHANZ+gVQxFDVv58Wnd5J39bdXuAnEup4QTE5kkx122uabPCA/hO0SXewiiJGeorMDTwNgNO7XtvEmU7OdVqwLpZlRaDRbu7Zxbxkb9iUr6Jz3ua9rl/fiR1qDdULid+F9Bc+COA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHuLUFHs; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=BTsNWNxVgvyKoMkcaHEg4Z6Vzflaycbb0z+hQ42a76nCnNvVNLOsq8tV/vKqF1Am6eTOMJNcqUICi0q1w4QcB6W28vK0VDc/9hwQNwr1qebxNdSeol0gBM3VQKfgZr/ZKUQ5GWKFUHlMp7BQ1eAxM6LL3naxNca54mgZeE3A/Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A0OKDsXG; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHuLUFHs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A0OKDsXG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733183480; x=1764719480;
+  t=1733183482; x=1764719482;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lMzHAVxu5QQEKue9NP4Qsy4ldMhVgr8+fQmGReX/L7M=;
-  b=PHuLUFHslvj2wP2YvQXKdz8y5NJu6HiPDU6hWOoinFF6to3bYAQcMmUI
-   By6jCmAFos0w8iuAF0pPzRsW6yD52F8JPoDgqopZ8jgaGP+BCVAFNaVl3
-   E4Z3nF9LW6m1fo9SPyUsaC3fYiOQQ8RTkPTVKI6H8YqomiqI+RY3e/grg
-   mf3eo6qDZy6DEMZHbp+JsBTYAGEzWntvzjDc1fxkqlWbg9XyLE+g0A3SY
-   Bj4J9NpcSsfPQ4OyxSObKBRiQY9btmd6Jz7tvC8QbtrZO7jihPMRmCVgp
-   qnyRw/+urD5e2leIvbrrEH+BozezBfTTQ5vbJ5b6n/y2CN3UQ3apz7UIG
-   Q==;
-X-CSE-ConnectionGUID: GE/WbKj0TrW7oNeJj9PqwQ==
-X-CSE-MsgGUID: KkGMpbg0QuKuiBbgRsTIdQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37313894"
+  bh=q1lhwoJwtXD+U/7J90kpNMqvEmgDaTU1RRg70Epp3kM=;
+  b=A0OKDsXGTMpmFEFs4ErQVKidonvo32kWrmYjGCHEjuayDu1pm40yr6+C
+   oMXNB5hemfrqwEKG8k/s/LnlNpUMRK0vYaM5IEo64z0/X2t1HZq0LP/qw
+   RmBDnd8i0Fc/7Qf31MLWU/AIyaU/AfDETwfYbm5h4FCan6QX9oM642nTU
+   474vamD+XD71jZVcaZdYkscvBdMYLRe2kUGLOloKw+/PlhWQrUUv+lTLI
+   w+yqw/V/Sui07rRlGX19KwaH3z8h443DL+brHIRZEaH49jfLovtlU7xj6
+   oCcSQw+Nu6foTFfVRPM+YUDVqePuE2vfBaGWBNAMP3oCkgQ5TSOS5kqee
+   g==;
+X-CSE-ConnectionGUID: G8Uj9Y6UQ1uIKlp7L7M3ug==
+X-CSE-MsgGUID: tmoxQFogS3uHCboiVPMI7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37313895"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="37313894"
+   d="scan'208";a="37313895"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 15:51:19 -0800
-X-CSE-ConnectionGUID: iNZxTMmWSCmDTw0xOwhVBA==
-X-CSE-MsgGUID: FBb+J6nZTM+SXSN20wOcmQ==
+X-CSE-ConnectionGUID: 64/7J9igS62EeVgOMbUcpA==
+X-CSE-MsgGUID: LOPlHdqITQWvWW/+tx5JkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="97325707"
+   d="scan'208";a="97325708"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
   by fmviesa003.fm.intel.com with ESMTP; 02 Dec 2024 15:51:18 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIGCC-00031x-0W;
+	id 1tIGCC-00031v-0N;
 	Mon, 02 Dec 2024 23:51:16 +0000
-Date: Tue, 3 Dec 2024 07:50:30 +0800
+Date: Tue, 3 Dec 2024 07:50:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matthew Wilcox <willy@infradead.org>
+To: kernel@openeuler.org, Song Zhang <zhangsong34@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [willy-pagecache:shrunk-page 59/59] kernel/events/core.c:6306:18:
- error: 'struct page' has no member named 'index'
-Message-ID: <202412030746.gJlU0aJj-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 1455/1455] kernel/sched/fair.c:3612:36: error: no
+ member named 'cfs_offline_tasks' in 'struct rq'
+Message-ID: <202412030733.746Ood8y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,70 +62,70 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   git://git.infradead.org/users/willy/pagecache shrunk-page
-head:   b404c9609385180a63470cd3fe6f03735ad2ec7d
-commit: b404c9609385180a63470cd3fe6f03735ad2ec7d [59/59] mm: Rename page->index to page->__folio_index
-config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20241203/202412030746.gJlU0aJj-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030746.gJlU0aJj-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   9809e40d1abbcdf278f3db91f03a94507bdbb442
+commit: 89bf80a4d6d5ba852b9042480e0be23c2c4a628c [1455/1455] sched: Introduce priority load balance for qos scheduler
+config: x86_64-randconfig-005-20241112 (https://download.01.org/0day-ci/archive/20241203/202412030733.746Ood8y-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030733.746Ood8y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030746.gJlU0aJj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030733.746Ood8y-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/events/core.c: In function 'perf_mmap_fault':
->> kernel/events/core.c:6306:18: error: 'struct page' has no member named 'index'
-    6306 |         vmf->page->index   = vmf->pgoff;
-         |                  ^~
+   In file included from kernel/sched/fair.c:25:
+   In file included from include/linux/hugetlb_inline.h:7:
+   In file included from include/linux/mm.h:2181:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/sched/fair.c:3612:36: error: no member named 'cfs_offline_tasks' in 'struct rq'
+    3612 |                 (*list_op)(&se->group_node, &rq->cfs_offline_tasks);
+         |                                              ~~  ^
+>> kernel/sched/fair.c:3614:36: error: no member named 'cfs_tasks' in 'struct rq'
+    3614 |                 (*list_op)(&se->group_node, &rq->cfs_tasks);
+         |                                              ~~  ^
+   kernel/sched/fair.c:8678:9: error: call to undeclared function 'sched_idle_cpu'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    8678 |                      !sched_idle_cpu(smp_processor_id()) &&
+         |                       ^
+   kernel/sched/fair.c:8678:9: note: did you mean 'sched_idle_rq'?
+   kernel/sched/fair.c:6707:12: note: 'sched_idle_rq' declared here
+    6707 | static int sched_idle_rq(struct rq *rq)
+         |            ^
+   kernel/sched/fair.c:8681:23: error: no member named 'online' in 'struct rq'
+    8681 |                 if (!rq_of(cfs_rq)->online)
+         |                      ~~~~~~~~~~~~~  ^
+   kernel/sched/fair.c:8960:7: error: no member named 'idle_stamp' in 'struct rq'; did you mean 'idle_state'?
+    8960 |                 rq->idle_stamp = 0;
+         |                     ^~~~~~~~~~
+         |                     idle_state
+   kernel/sched/sched.h:1146:24: note: 'idle_state' declared here
+    1146 |         struct cpuidle_state    *idle_state;
+         |                                  ^
+   1 warning and 5 errors generated.
 
 
-vim +6306 kernel/events/core.c
+vim +3612 kernel/sched/fair.c
 
-37d81828385f8ff kernel/perf_counter.c Paul Mackerras          2009-03-23  6279  
-9e3ed2d7597ccbc kernel/events/core.c  Souptick Joarder        2018-05-21  6280  static vm_fault_t perf_mmap_fault(struct vm_fault *vmf)
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6281  {
-11bac80004499ea kernel/events/core.c  Dave Jiang              2017-02-24  6282  	struct perf_event *event = vmf->vma->vm_file->private_data;
-56de4e8f9146680 kernel/events/core.c  Steven Rostedt (VMware  2019-12-13  6283) 	struct perf_buffer *rb;
-9e3ed2d7597ccbc kernel/events/core.c  Souptick Joarder        2018-05-21  6284  	vm_fault_t ret = VM_FAULT_SIGBUS;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6285  
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6286  	if (vmf->flags & FAULT_FLAG_MKWRITE) {
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6287  		if (vmf->pgoff == 0)
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6288  			ret = 0;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6289  		return ret;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6290  	}
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6291  
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6292  	rcu_read_lock();
-76369139ceb955d kernel/events/core.c  Frederic Weisbecker     2011-05-19  6293  	rb = rcu_dereference(event->rb);
-76369139ceb955d kernel/events/core.c  Frederic Weisbecker     2011-05-19  6294  	if (!rb)
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6295  		goto unlock;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6296  
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6297  	if (vmf->pgoff && (vmf->flags & FAULT_FLAG_WRITE))
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6298  		goto unlock;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6299  
-76369139ceb955d kernel/events/core.c  Frederic Weisbecker     2011-05-19  6300  	vmf->page = perf_mmap_to_page(rb, vmf->pgoff);
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6301  	if (!vmf->page)
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6302  		goto unlock;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6303  
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6304  	get_page(vmf->page);
-11bac80004499ea kernel/events/core.c  Dave Jiang              2017-02-24  6305  	vmf->page->mapping = vmf->vma->vm_file->f_mapping;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21 @6306  	vmf->page->index   = vmf->pgoff;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6307  
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6308  	ret = 0;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6309  unlock:
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6310  	rcu_read_unlock();
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6311  
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6312  	return ret;
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6313  }
-906010b2134e14a kernel/perf_event.c   Peter Zijlstra          2009-09-21  6314  
-
-:::::: The code at line 6306 was first introduced by commit
-:::::: 906010b2134e14a2e377decbadd357b3d0ab9c6a perf_event: Provide vmalloc() based mmap() backing
-
-:::::: TO: Peter Zijlstra <a.p.zijlstra@chello.nl>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+  3602	
+  3603	#ifdef CONFIG_QOS_SCHED_PRIO_LB
+  3604	static void
+  3605	adjust_rq_cfs_tasks(void (*list_op)(struct list_head *, struct list_head *),
+  3606		struct rq *rq,
+  3607		struct sched_entity *se)
+  3608	{
+  3609		struct task_group *tg = task_group(task_of(se));
+  3610	
+  3611		if (sysctl_sched_prio_load_balance_enabled && tg->qos_level == -1)
+> 3612			(*list_op)(&se->group_node, &rq->cfs_offline_tasks);
+  3613		else
+> 3614			(*list_op)(&se->group_node, &rq->cfs_tasks);
+  3615	}
+  3616	#endif
+  3617	
 
 -- 
 0-DAY CI Kernel Test Service
