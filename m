@@ -1,60 +1,65 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12D1D1E0DD8
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 22:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8921E0DDB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 22:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733177261; cv=none; b=CUJ4h1WEcopyb2P9J0hp+k0vNK5XlHEUywBQqs3pOf5tnld28CSU6CDtlRHvEYAFAQ7gIy4I4PQR5ewRK1ZI6Mk+B7jCANPHSwvC/KC/ZLlpwHL59kjU0/OpnoOOZ/ie4NAGhRgMCv6FvZam62epJ7hefhbQTDZ1JNNAEc3ahlY=
+	t=1733177262; cv=none; b=PUx/AzOVIYsHLNwaLEc3SsblsxaBs4M9rj7TBH7ov0gk15n3wcJpk57dAXYa9j9VgmvifOCyRk0Pqf7HBEO1S0yepdkVbuFknHt+JwFAZpII0SzFASyQj0VyqBWwQbVcxGcz+5DbuKD8HT1c5Lt2bgQ8UxHopbIAhzP+VsZIygU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733177261; c=relaxed/simple;
-	bh=8pbw99LUT4cGTe4+kqBOyM+0ye0Qo68GeYH3kSodAJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VT7lrr5z1OxOcX3XaHvwJ/MGQINqLRai5N7kjGS5XyZfR/7Xpv9nMJZHJRg5vboNQe/WjIUizSpRv5RepjRIso+U3cTFLxQoUTc0qkUPCGwBowMgweNsUhoa51x++HtNelp7g9d6T0DuMPA9P//T5KM8iq3d5geRGb7abw1S1SQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=knLMc7na; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1733177262; c=relaxed/simple;
+	bh=/7uOvTHO15DE4mt5obi8ozfgCwJ7keTUXgu3dpCOCGw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZUuKDD9N5L2vYM3bx/H44BeQIGr3iAztCi3AtDnKK69W0K3wQCGEI5ShMGjL11G8i9Fi9msPvZ1A0OsNJRtaO3/FvDA7yH6qFcMclvGr4qQfmZsHnzPjRl/eaxgA/OAUucVcZmmZmCc6jefH6vAaD3LnQAG/ndwk2RH5QnXX26U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERP9yDVO; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="knLMc7na"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERP9yDVO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733177259; x=1764713259;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8pbw99LUT4cGTe4+kqBOyM+0ye0Qo68GeYH3kSodAJ8=;
-  b=knLMc7naTkaVvzMWisZD2NfGF5EsdfJTSWRSmUdgY5wMT1I93Bx6VfIB
-   TtuJE99UQoohGpeXb0MoVkOUkwgW1iJWUwLzyxkVwUIf42rYgAq70xSn3
-   5ip7AWkhPNR5KW5ExzaMneNXKiLtuayi2tGsiFd0G8lJc9ik43pn/Jxjz
-   Woia3tup0ukGeQCHBl6t0vALUIOB+nr9i60TKbmYcKMjauJ2nmqw8rtcX
-   O1N6NuHFoxVSbSrkDxR/16BkhI5Za6uFZSCdM/E6WhUedofe8012ZU0zj
-   ekmkPKxwWouMphtybzoFt+wpQcbHeDV5QS1QZJbCuZPTkqfiABPHQNIPC
-   w==;
-X-CSE-ConnectionGUID: ufguCofVR3iLIPb20iIWtw==
-X-CSE-MsgGUID: L9bOEAlSR/6T5mJ5ctmmLA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33295908"
+  t=1733177260; x=1764713260;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/7uOvTHO15DE4mt5obi8ozfgCwJ7keTUXgu3dpCOCGw=;
+  b=ERP9yDVOVQ3+ABs8sfGG0Aa3Hd8iyifMp9pvwUdBP9/rjrMT5USh4N67
+   FS1aqOKFdZDwbN+92t5DRoA+V+OQQj7Q3oVPQD7Ky5hkkI3xlQybYQL8i
+   aF99QIKA9IkOFhY6IuprVeTCKudUD9LJ97x9j5WSsaP6LbpuIkOOypieL
+   2i0uzOqigU124bJhTTgI+Dg0rW5SfvzkHugMBJ2wUwMsWde7JN/TIu+7N
+   1fLCzddvkU7eynPZv3RFJidoXQ4j0ibwQC3yEqYGVs3AfOq9YIvsUg0kB
+   1zCzN3OyAYK2EUfAjVeT6MhpRiwEAaN84ll7mfjLNDNmYS3KOreWPOMB/
+   Q==;
+X-CSE-ConnectionGUID: hFK9nOCPQO2C4U6Fxj9Uxw==
+X-CSE-MsgGUID: rIuosLGYTCGTOESSW+9lUA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33295914"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="33295908"
+   d="scan'208";a="33295914"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 14:07:38 -0800
-X-CSE-ConnectionGUID: jLr11R/FRRSj77J020ERKA==
-X-CSE-MsgGUID: 2tInDVmcSyWsY8p7cxrh3g==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 14:07:40 -0800
+X-CSE-ConnectionGUID: +hVLYfDWS2a+a036nLZKFA==
+X-CSE-MsgGUID: DAbXJg+5QAKTVpTmxF/TxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="98009833"
+   d="scan'208";a="98009834"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
   by fmviesa004.fm.intel.com with ESMTP; 02 Dec 2024 14:07:37 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIEZr-0002wx-0o;
+	id 1tIEZr-0002wv-0X;
 	Mon, 02 Dec 2024 22:07:35 +0000
-Date: Tue, 3 Dec 2024 06:07:02 +0800
+Date: Tue, 3 Dec 2024 06:07:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:chromeos-6.6-ea7682dbe6cf 102/520]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb:
- gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names',
- 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-Message-ID: <202412030638.bUez5LaC-lkp@intel.com>
+To: Frank van der Linden <fvdl@google.com>, linux-mm@kvack.org,
+	akpm@linux-foundation.org
+Cc: oe-kbuild-all@lists.linux.dev, Muchun Song <muchun.song@linux.dev>,
+	Miaohe Lin <linmiaohe@huawei.com>,
+	Oscar Salvador <osalvador@suse.de>,
+	David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
+	linux-kernel@vger.kernel.org,
+	Frank van der Linden <fvdl@google.com>
+Subject: Re: [PATCH] mm/hugetlb: optionally pre-zero hugetlb pages
+Message-ID: <202412030519.W14yll4e-lkp@intel.com>
+References: <20241202202058.3249628-1-fvdl@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,116 +68,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241202202058.3249628-1-fvdl@google.com>
 
-tree:   https://android.googlesource.com/kernel/common chromeos-6.6-ea7682dbe6cf
-head:   ac7a77c24fbce62cf3a673f994358d50cb59808a
-commit: 53b47193cd0a3ad38333e340ebbcaeec3cd19990 [102/520] CHROMIUM: arm64: dts: mt8186: Update GPU configuration for Corsola
-config: arm64-randconfig-051-20241116 (https://download.01.org/0day-ci/archive/20241203/202412030638.bUez5LaC-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project f28c006a5895fc0e329fe15fead81e37457cb1d1)
-dtschema version: 2024.12.dev3+g93ee800
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030638.bUez5LaC-lkp@intel.com/reproduce)
+Hi Frank,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on v6.12]
+[cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all linus/master v6.13-rc1 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Frank-van-der-Linden/mm-hugetlb-optionally-pre-zero-hugetlb-pages/20241203-042817
+base:   v6.12
+patch link:    https://lore.kernel.org/r/20241202202058.3249628-1-fvdl%40google.com
+patch subject: [PATCH] mm/hugetlb: optionally pre-zero hugetlb pages
+config: powerpc-ps3_defconfig (https://download.01.org/0day-ci/archive/20241203/202412030519.W14yll4e-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030519.W14yll4e-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030638.bUez5LaC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030519.W14yll4e-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327681.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacool-sku327683.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262144.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: typec: connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: connector@0: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: connector@1: ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/spi@11012000/tpm@0: failed to match any schema with compatible: ['google,cr50']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/mmc@11240000/bluetooth@2: failed to match any schema with compatible: ['mediatek,mt7921s-bluetooth']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: gpu@13040000: clocks: [[120, 0], [45, 2], [3, 10], [3, 10], [45, 75]] is too long
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: gpu@13040000: 'power_model@0', 'power_model@1', 'supply-names', 'volt-bin-mapping' do not match any of the regexes: 'pinctrl-[0-9]+'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: gpu@13040000: sram-supply: False schema does not allow [[46]]
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: video-encoder@17020000: compatible:0: 'mediatek,mt8186-vcodec-enc' is not one of ['mediatek,mt8173-vcodec-enc-vp8', 'mediatek,mt8173-vcodec-enc', 'mediatek,mt8183-vcodec-enc', 'mediatek,mt8188-vcodec-enc', 'mediatek,mt8192-vcodec-enc', 'mediatek,mt8195-vcodec-enc']
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: video-encoder@17020000: compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc'] is too long
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: video-encoder@17020000: clock-names:0: 'venc_lt_sel' was expected
-   	from schema $id: http://devicetree.org/schemas/media/mediatek,vcodec-encoder.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-tentacruel-sku262148.dtb: /soc/video-encoder@17020000: failed to match any schema with compatible: ['mediatek,mt8186-vcodec-enc', 'mediatek,mt8183-vcodec-enc']
+All warnings (new ones prefixed by >>):
+
+   mm/hugetlb.c: In function 'prezero_enabled_store':
+>> mm/hugetlb.c:4290:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+    4290 |         int err;
+         |             ^~~
+
+
+vim +/err +4290 mm/hugetlb.c
+
+  4284	
+  4285	static ssize_t prezero_enabled_store(struct kobject *kobj,
+  4286						  struct kobj_attribute *attr,
+  4287						  const char *buf, size_t count)
+  4288	{
+  4289		struct hstate *h;
+> 4290		int err;
+  4291		long val;
+  4292		bool prezero_enabled;
+  4293	
+  4294		err = kstrtol(buf, 10, &val);
+  4295		if (val != 0 && val != 1)
+  4296			return -EINVAL;
+  4297	
+  4298		prezero_enabled = !!val;
+  4299	
+  4300		h = kobj_to_hstate(kobj, NULL);
+  4301		if (prezero_enabled == h->prezero_enabled)
+  4302			return count;
+  4303	
+  4304		h->prezero_enabled = prezero_enabled;
+  4305	
+  4306		mem_hotplug_begin();
+  4307		khzerod_run_hstate(h);
+  4308		mem_hotplug_done();
+  4309	
+  4310		return count;
+  4311	}
+  4312	HSTATE_ATTR(prezero_enabled);
+  4313	
 
 -- 
 0-DAY CI Kernel Test Service
