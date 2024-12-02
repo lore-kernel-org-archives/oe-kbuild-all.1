@@ -1,68 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3857520898E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 15:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27FBA2040AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 15:35:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733153742; cv=none; b=GW1cRxumVAp1jnlhAuVNl9/9ZsJWmu7DX7/BlosO0IU4FQVVt1ut0jOO+YxtT/H2WjGr9rsYdnFTJBfzE0C9pSVvz+mLv/KwvU7UE9vqFFCHXH/zTbK0jf+diE5mi6CYtB02iRb62/fOisfQ9DEwccNvmrII4HLcVzyohORDUyQ=
+	t=1733153745; cv=none; b=EFlUk7vsdru4Tz08ZsR1Zu1E6nnwJrL0ZZDZwmNRcNGEdq9W36wnNEug3aGKpExaNgS6Ddf+CcGR1oM9Nqv/Ns/JeQ+eTE7+4hpwcbiMeDH2XQ7qdGszu6dMmNktswXDqEwPyhETbeNvyOqQRr349rSFedB6ibJ8fbUQyXw5mVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733153742; c=relaxed/simple;
-	bh=Jutse4gfVPzCl0ycY/CTBU2Kpvtp039+8k5v0EcasQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z+lSovf7LetHwvLjmmV2kmbfp69ds3CdCiT4XfD5OqrzvfV2pphZp1lmdhU4Vnq/0zuistZIkzTlJyDk8UqLaLLHda/qLRpk9NeIWR/JZNTzBIWH7FWGBndd8wVipCg6HKIr/Kp5i7ePfhVNYCj6BPUzMHKGo1caasiOASjpXdQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tams7/dP; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1733153745; c=relaxed/simple;
+	bh=9f/qoQ3rdYWyjy2OviV1FGGVeNyb/okg1jD9VLb45Fo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dwIbo41i6JNjgUHlFufKSM6eEFNCjqjPjYoYoKuSoqOIFxRyb8+jqMItVdQGzPmS6K2hVreD0B3VFluq94L2BI/BPx+nKUVad8W2gEuoxLRSp4yoi9cYfU0vYj7xhoMMZM5rQvtO0QkAAmH2Zz6UfNhHFbSBjcLeEO9w1y6wCHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k7UQIaQv; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tams7/dP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k7UQIaQv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733153740; x=1764689740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Jutse4gfVPzCl0ycY/CTBU2Kpvtp039+8k5v0EcasQk=;
-  b=Tams7/dPcYJqcLNuHJQ6JoAMnaCetalvrnq4oIR/HIHyxzBPojsGrr/8
-   4I2YyzTlvt2ON4Y0JNbJje5YDhnb0EFMeh0QZgrBgwncKojcgvJzvnL9M
-   Xy7/GZ6RZuR0645uHPUXl5zoTJkK7DQOzJDKPoGcuJo2WvKIwbcmmJcbv
-   vULHPdMIty0Vb3HNBZKPNOenICBWYNNeuIKxZYbz9JQlqQ/GO5DcQmvxH
-   1gBhjzDOn9+XpRggmPFyEN6aX6QiHvW9UHXgq3J5S2tVNRpjlNLefJ4Gh
-   ysZUs8NVcS31H7+ynNWZp+pFLkR9Thf/FTIgV+dwl6nkV9BKtqbmo+Xd/
+  t=1733153743; x=1764689743;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9f/qoQ3rdYWyjy2OviV1FGGVeNyb/okg1jD9VLb45Fo=;
+  b=k7UQIaQvR3dJs+ptE/rvM3B4ME+97S/G9MAXtEPeQsPqkoZqZskUtX3s
+   YTTPAe4vvGgrzB+fbGXRDGjdknME53Rr6i4c7oIIXn64y+3r2M3ENjDkN
+   Hj+FR7yi8Tvfr46v2gWgQKIni73g36qJ6/iD4/yuFnLve1NoCLrne5B5x
+   6nAvrA2VScTzhijofjr7hWMggN+TxkO4vykXWcrt2oyy66ThAjo/bdgDm
+   JyPEfw2g0hSfMWRMG9c2+J+oz2MZ/ncLc5eHWJXmyWOTfeKXsF0Yb6j7A
+   bzzvR+SDmSr3d+2soyWRiZZQNN+9yZTwo042/0+7+86NA35OHpqVWgycF
    A==;
-X-CSE-ConnectionGUID: QY24DuXlT0260wB8uVDA0g==
-X-CSE-MsgGUID: /dfTNnKuRraq9e/sdmNzuQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="58722904"
+X-CSE-ConnectionGUID: uXQ3Fm3aSQm72nDREwuUFw==
+X-CSE-MsgGUID: ZTNIuTVLRL+aljBCMLiG2Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="58722911"
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="58722904"
+   d="scan'208";a="58722911"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 07:35:39 -0800
-X-CSE-ConnectionGUID: kv74GcruQc6PmJ+CoNNxgA==
-X-CSE-MsgGUID: Ybb0niWZQOWDsM6Rq4AJUA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 07:35:41 -0800
+X-CSE-ConnectionGUID: lFJ4jYU4SOmAEQX1hOXKcA==
+X-CSE-MsgGUID: 0ElO980wRJa+Glby6+Yq+A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,202,1728975600"; 
-   d="scan'208";a="93607621"
+   d="scan'208";a="93607627"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 02 Dec 2024 07:35:37 -0800
+  by fmviesa009.fm.intel.com with ESMTP; 02 Dec 2024 07:35:40 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI8SU-0002Wr-2W;
-	Mon, 02 Dec 2024 15:35:34 +0000
-Date: Mon, 2 Dec 2024 23:34:33 +0800
+	id 1tI8SY-0002X1-1e;
+	Mon, 02 Dec 2024 15:35:38 +0000
+Date: Mon, 2 Dec 2024 23:34:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, Borislav Petkov <bp@alien8.de>
-Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"(maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT))" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	"(open list:X86 ARCHITECTURE (32-BIT AND 64-BIT))" <linux-kernel@vger.kernel.org>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Perry Yuan <perry.yuan@amd.com>
-Subject: Re: [PATCH] x86/cpu: Enable SD_ASYM_PACKING for PKG domain on
- systems with AMD preferred cores
-Message-ID: <202412022352.jwqoAZXs-lkp@intel.com>
-References: <20241202043724.3929062-1-superm1@kernel.org>
+To: kernel@openeuler.org, Tian Wei <tianwei@phytium.com.cn>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1294/1294]
+ drivers/iio/adc/phytium-adc.c:662:12: warning: 'phytium_adc_resume' defined
+ but not used
+Message-ID: <202412022331.nyd9c2hV-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,50 +62,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202043724.3929062-1-superm1@kernel.org>
 
-Hi Mario,
+Hi Tian,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 40384c840ea1944d7c5a392e8975ed088ecf0b37]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/x86-cpu-Enable-SD_ASYM_PACKING-for-PKG-domain-on-systems-with-AMD-preferred-cores/20241202-124012
-base:   40384c840ea1944d7c5a392e8975ed088ecf0b37
-patch link:    https://lore.kernel.org/r/20241202043724.3929062-1-superm1%40kernel.org
-patch subject: [PATCH] x86/cpu: Enable SD_ASYM_PACKING for PKG domain on systems with AMD preferred cores
-config: x86_64-randconfig-r061-20241202 (https://download.01.org/0day-ci/archive/20241202/202412022352.jwqoAZXs-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   312efa97a54edf7e64f108312c4d8c6961a1abaf
+commit: 69245da182c15b365e3b770e7ac56db0f8118165 [1294/1294] adc: add phytium adc driver
+config: arm64-randconfig-002-20241114 (https://download.01.org/0day-ci/archive/20241202/202412022331.nyd9c2hV-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412022331.nyd9c2hV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412022352.jwqoAZXs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412022331.nyd9c2hV-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> arch/x86/kernel/smpboot.c:513:2-3: Unneeded semicolon
+All warnings (new ones prefixed by >>):
 
-vim +513 arch/x86/kernel/smpboot.c
+>> drivers/iio/adc/phytium-adc.c:662:12: warning: 'phytium_adc_resume' defined but not used [-Wunused-function]
+     662 | static int phytium_adc_resume(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~
+>> drivers/iio/adc/phytium-adc.c:651:12: warning: 'phytium_adc_suspend' defined but not used [-Wunused-function]
+     651 | static int phytium_adc_suspend(struct device *dev)
+         |            ^~~~~~~~~~~~~~~~~~~
 
-   499	
-   500	static int x86_die_flags(void)
-   501	{
-   502		if (cpu_feature_enabled(X86_FEATURE_HYBRID_CPU))
-   503			return x86_sched_itmt_flags();
-   504	
-   505		switch (boot_cpu_data.x86_vendor) {
-   506		case X86_VENDOR_AMD:
-   507		case X86_VENDOR_HYGON:
-   508			bool prefcore = false;
-   509	
-   510			amd_detect_prefcore(&prefcore);
-   511			if (prefcore || cpu_feature_enabled(X86_FEATURE_AMD_HETEROGENEOUS_CORES))
-   512				return x86_sched_itmt_flags();
- > 513		};
-   514	
-   515		return 0;
-   516	}
-   517	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
+   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
+   Selected by [y]:
+   - SDEI_WATCHDOG [=y] && <choice> && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
+
+
+vim +/phytium_adc_resume +662 drivers/iio/adc/phytium-adc.c
+
+   649	
+   650	#ifdef CONFIG_PM
+ > 651	static int phytium_adc_suspend(struct device *dev)
+   652	{
+   653		struct iio_dev *indio_dev = dev_get_drvdata(dev);
+   654		struct phytium_adc *adc = iio_priv(indio_dev);
+   655	
+   656		phytium_adc_power_setup(adc, false);
+   657		clk_disable_unprepare(adc->adc_clk);
+   658	
+   659		return 0;
+   660	}
+   661	
+ > 662	static int phytium_adc_resume(struct device *dev)
+   663	{
+   664		struct iio_dev *indio_dev = dev_get_drvdata(dev);
+   665		struct phytium_adc *adc = iio_priv(indio_dev);
+   666	
+   667		clk_prepare_enable(adc->adc_clk);
+   668		phytium_adc_power_setup(adc, true);
+   669	
+   670		return 0;
+   671	}
+   672	#endif
+   673	
 
 -- 
 0-DAY CI Kernel Test Service
