@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B927A50
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 05:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11D521F8AF6
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 06:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733116724; cv=none; b=afw4lg8NmLe6xCi5iMHp6dGIz8szXcBzJBnJlMVdrXyxd8TxDSks0hU9pje01KQfJ/P00k0VAcbyytSHb80lCyD9q14mPBePOJ1JLQ36ru7IREvmf2WMizUXeMvNhmHpbCvPzkShzDjWaqvFUseaiVxpUskV6h9ubtYybPtQbAw=
+	t=1733121651; cv=none; b=OS6fJDPFrGCKn2a+zbvh7WUPTlY1Gywj8efPz4Yg8hNWSs5mZg6GEyzbK4BMm9KrjqYSlvWkNi/6atDUAH+uk3XfOnwuHS7klOTVKfDCPFEvTjeFULHNEDFmQJmiHsSCY1+HaJdqPE8eGZ8yPdW7aeHvUDQeffOdgmltOnM+Q20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733116724; c=relaxed/simple;
-	bh=F86biJbl+/WQfOZfbXWoP3U3NSVgPocY5z06UdIyWwE=;
+	s=arc-20240116; t=1733121651; c=relaxed/simple;
+	bh=2mDNcFacOxZBppEPocW1czO7GBgsGPM7MT0U5ArOiuc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=t8DKexWXuE3lwEFj3UEKayhy0fNB/4bXeX6FH/kTuQu8vsJxVF+xMQHCPcNe9GROjbP+tZxhKnwfgiO5Iz3whbet4zWm2XdYjmLBrrrAJteA5eiqKmu97v3HcDgiMBrFGx+Tt8mvuotuN1eN79gmzgo9aKbnh1u3LgLlvqNhV4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MxrW77OW; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=DVMb6KjWniCYRm8h3fSkJuXRAEiaGBuMXOBjZNhmDnIpFTDbv9s0D/7XUx7nsTc2ycDJ/nTtXbUCGV2es72gYbjqNW9TPSULbkgJo2Q/FqDAJAGqro2FTEVQxx+znO+A/bBp+2uIvX24sKYSjjon7QDshATEG6HU4XrsmRRfc08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hKmA7lJk; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MxrW77OW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hKmA7lJk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733116722; x=1764652722;
+  t=1733121649; x=1764657649;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F86biJbl+/WQfOZfbXWoP3U3NSVgPocY5z06UdIyWwE=;
-  b=MxrW77OW+F7QFIGbvOnIsFfUqJaAU+tYgSSnr2Jq92We500BPefq6Prg
-   cUWud2+AkYCvrJtfHuIfjoeYtxSGCg1dhTr+T3a33BE7eIXrtWY8ACPEp
-   ic0diJQc3JeElX/x64xrhXy3Vf3wtqBPdWfr9mOz+hi9+JDUcSVJtfe8E
-   3/3yLsV+Spk5wPbZFOtPTKTo3/rd7hIwPSydXmUhCh6n2yqE8gJYQDTqk
-   wShamkxEpk4jW4RTfGpeH1OmDlWNq8oQle43iDCoiW0GCuOFpWMEDkJAH
-   Q7LbI9BykzMk673LcSww0cN4sQHLbfkyCEH1Q0VGjJmveJKyH3SUoeWn3
-   A==;
-X-CSE-ConnectionGUID: QkbGxv+ZRVWWf0BEHIFfSg==
-X-CSE-MsgGUID: spO1CAVFTHigmecYPaF3PQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33013127"
+  bh=2mDNcFacOxZBppEPocW1czO7GBgsGPM7MT0U5ArOiuc=;
+  b=hKmA7lJkwpHemApR33Jd+vG2PBwa/SlH/ffASmSmaAEWABd/RlUUF1Dz
+   9YdQdf2BAYGbTWci0bvIfuzbPYhDV1JTQFfWKcUxDPkj3FBzSylWvKudu
+   gqffdBqwYYRhmhg1YQN3tIKzqJn3b/s89RVXy87X/ANV0JXvwXIzIzdxw
+   hXv3bzZ1EOZqDDLM/EVdr3+H/NyvTx1mITzi97vfYRRYmvFhiutm3a8Vy
+   07DclxHNWFFubvbO+NrkXFyKwT89Ugz1Oe8/aV6fEAph7zFDMaM5JXAB2
+   wNAqlF9zSJmi1zCtXfQ5/LQXidwVJrE0Zq+6mqVVdHewoI+5C+dUq9Fef
+   w==;
+X-CSE-ConnectionGUID: 8h6nVmDnQUuSlnUtevNcrQ==
+X-CSE-MsgGUID: YHRx0PvMS7qC1r37avy5+A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11273"; a="33153205"
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="33013127"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 21:18:41 -0800
-X-CSE-ConnectionGUID: IAVbfQOnS76AtU0XsYRLKA==
-X-CSE-MsgGUID: rC6E8V5LRf2lMowkeo4bHg==
+   d="scan'208";a="33153205"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2024 22:40:49 -0800
+X-CSE-ConnectionGUID: qCJ+DMjHRcad5wmJLxfIgw==
+X-CSE-MsgGUID: DJk+gHIwQlKI3115cfHDwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,201,1728975600"; 
-   d="scan'208";a="93474272"
+   d="scan'208";a="123872851"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 01 Dec 2024 21:18:39 -0800
+  by orviesa002.jf.intel.com with ESMTP; 01 Dec 2024 22:40:47 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tHypR-00026T-1K;
-	Mon, 02 Dec 2024 05:18:37 +0000
-Date: Mon, 2 Dec 2024 13:18:31 +0800
+	id 1tI06u-00029B-3B;
+	Mon, 02 Dec 2024 06:40:44 +0000
+Date: Mon, 2 Dec 2024 14:40:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6 10091/20103]
- arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:338:17: error: no member named 'end'
- in 'struct iommu_iotlb_gather'
-Message-ID: <202412021305.4e1AEJod-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 1/1] kernel/sys_ni.c:50:1:
+ sparse: sparse: symbol '__ia32_compat_sys_io_pgetevents_time64' was not
+ declared. Should it be static?
+Message-ID: <202412021425.nXSolxTn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,141 +63,144 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Mostafa,
-
-FYI, the error/warning still remains.
-
-tree:   https://android.googlesource.com/kernel/common android15-6.6
-head:   d66e9166bfa175691dd2d0ad7f65c9fec54aa520
-commit: c220ef36a11e4fe05cc1e583f8e24d2a61541a87 [10091/20103] ANDROID: KVM: arm64: iommu: support iommu_iotlb_gather
-config: arm64-randconfig-004-20241111 (https://download.01.org/0day-ci/archive/20241202/202412021305.4e1AEJod-lkp@intel.com/config)
-compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021305.4e1AEJod-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   41c0c4731ef0e1dd9af23593d3b52f4051166bd7
+commit: eda496b71ba25af137e1c3a28a89c6c77eb30397 [1/1] ANDROID: Reapply changes from previously skipped merge 'android12-5.10.223_r00'
+config: x86_64-randconfig-121-20241201 (https://download.01.org/0day-ci/archive/20241202/202412021425.nXSolxTn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241202/202412021425.nXSolxTn-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412021305.4e1AEJod-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412021425.nXSolxTn-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sys_ni.c:39:1: sparse: sparse: symbol '__x64_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:39:1: sparse: sparse: symbol '__ia32_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:40:1: sparse: sparse: symbol '__ia32_compat_sys_io_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:41:1: sparse: sparse: symbol '__x64_sys_io_destroy' was not declared. Should it be static?
+   kernel/sys_ni.c:41:1: sparse: sparse: symbol '__ia32_sys_io_destroy' was not declared. Should it be static?
+   kernel/sys_ni.c:42:1: sparse: sparse: symbol '__x64_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:42:1: sparse: sparse: symbol '__ia32_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:43:1: sparse: sparse: symbol '__ia32_compat_sys_io_submit' was not declared. Should it be static?
+   kernel/sys_ni.c:44:1: sparse: sparse: symbol '__x64_sys_io_cancel' was not declared. Should it be static?
+   kernel/sys_ni.c:44:1: sparse: sparse: symbol '__ia32_sys_io_cancel' was not declared. Should it be static?
+   kernel/sys_ni.c:45:1: sparse: sparse: symbol '__x64_sys_io_getevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:45:1: sparse: sparse: symbol '__ia32_sys_io_getevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:46:1: sparse: sparse: symbol '__x64_sys_io_getevents' was not declared. Should it be static?
+   kernel/sys_ni.c:46:1: sparse: sparse: symbol '__ia32_sys_io_getevents' was not declared. Should it be static?
+   kernel/sys_ni.c:47:1: sparse: sparse: symbol '__x64_sys_io_pgetevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:47:1: sparse: sparse: symbol '__ia32_sys_io_pgetevents_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:48:1: sparse: sparse: symbol '__x64_sys_io_pgetevents' was not declared. Should it be static?
+   kernel/sys_ni.c:48:1: sparse: sparse: symbol '__ia32_sys_io_pgetevents' was not declared. Should it be static?
+   kernel/sys_ni.c:49:1: sparse: sparse: symbol '__ia32_compat_sys_io_pgetevents' was not declared. Should it be static?
+>> kernel/sys_ni.c:50:1: sparse: sparse: symbol '__ia32_compat_sys_io_pgetevents_time64' was not declared. Should it be static?
+   kernel/sys_ni.c:51:1: sparse: sparse: symbol '__x64_sys_io_uring_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:51:1: sparse: sparse: symbol '__ia32_sys_io_uring_setup' was not declared. Should it be static?
+   kernel/sys_ni.c:52:1: sparse: sparse: symbol '__x64_sys_io_uring_enter' was not declared. Should it be static?
+   kernel/sys_ni.c:52:1: sparse: sparse: symbol '__ia32_sys_io_uring_enter' was not declared. Should it be static?
+   kernel/sys_ni.c:53:1: sparse: sparse: symbol '__x64_sys_io_uring_register' was not declared. Should it be static?
+   kernel/sys_ni.c:53:1: sparse: sparse: symbol '__ia32_sys_io_uring_register' was not declared. Should it be static?
+   kernel/sys_ni.c:60:1: sparse: sparse: symbol '__x64_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:60:1: sparse: sparse: symbol '__ia32_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:61:1: sparse: sparse: symbol '__ia32_compat_sys_lookup_dcookie' was not declared. Should it be static?
+   kernel/sys_ni.c:64:1: sparse: sparse: symbol '__x64_sys_eventfd2' was not declared. Should it be static?
+   kernel/sys_ni.c:64:1: sparse: sparse: symbol '__ia32_sys_eventfd2' was not declared. Should it be static?
+   kernel/sys_ni.c:67:1: sparse: sparse: symbol '__x64_sys_epoll_create1' was not declared. Should it be static?
+   kernel/sys_ni.c:67:1: sparse: sparse: symbol '__ia32_sys_epoll_create1' was not declared. Should it be static?
+   kernel/sys_ni.c:68:1: sparse: sparse: symbol '__x64_sys_epoll_ctl' was not declared. Should it be static?
+   kernel/sys_ni.c:68:1: sparse: sparse: symbol '__ia32_sys_epoll_ctl' was not declared. Should it be static?
+   kernel/sys_ni.c:69:1: sparse: sparse: symbol '__x64_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:69:1: sparse: sparse: symbol '__ia32_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:70:1: sparse: sparse: symbol '__ia32_compat_sys_epoll_pwait' was not declared. Should it be static?
+   kernel/sys_ni.c:75:1: sparse: sparse: symbol '__x64_sys_inotify_init1' was not declared. Should it be static?
+   kernel/sys_ni.c:75:1: sparse: sparse: symbol '__ia32_sys_inotify_init1' was not declared. Should it be static?
+   kernel/sys_ni.c:76:1: sparse: sparse: symbol '__x64_sys_inotify_add_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:76:1: sparse: sparse: symbol '__ia32_sys_inotify_add_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:77:1: sparse: sparse: symbol '__x64_sys_inotify_rm_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:77:1: sparse: sparse: symbol '__ia32_sys_inotify_rm_watch' was not declared. Should it be static?
+   kernel/sys_ni.c:82:1: sparse: sparse: symbol '__x64_sys_ioprio_set' was not declared. Should it be static?
+   kernel/sys_ni.c:82:1: sparse: sparse: symbol '__ia32_sys_ioprio_set' was not declared. Should it be static?
+   kernel/sys_ni.c:83:1: sparse: sparse: symbol '__x64_sys_ioprio_get' was not declared. Should it be static?
+   kernel/sys_ni.c:83:1: sparse: sparse: symbol '__ia32_sys_ioprio_get' was not declared. Should it be static?
+   kernel/sys_ni.c:86:1: sparse: sparse: symbol '__x64_sys_flock' was not declared. Should it be static?
+   kernel/sys_ni.c:86:1: sparse: sparse: symbol '__ia32_sys_flock' was not declared. Should it be static?
+   kernel/sys_ni.c:99:1: sparse: sparse: symbol '__x64_sys_quotactl' was not declared. Should it be static?
+   kernel/sys_ni.c:99:1: sparse: sparse: symbol '__ia32_sys_quotactl' was not declared. Should it be static?
+   kernel/sys_ni.c:110:1: sparse: sparse: symbol '__x64_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:110:1: sparse: sparse: symbol '__ia32_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:111:1: sparse: sparse: symbol '__ia32_compat_sys_signalfd4' was not declared. Should it be static?
+   kernel/sys_ni.c:120:1: sparse: sparse: symbol '__x64_sys_timerfd_create' was not declared. Should it be static?
+   kernel/sys_ni.c:120:1: sparse: sparse: symbol '__ia32_sys_timerfd_create' was not declared. Should it be static?
+   kernel/sys_ni.c:121:1: sparse: sparse: symbol '__x64_sys_timerfd_settime' was not declared. Should it be static?
+   kernel/sys_ni.c:121:1: sparse: sparse: symbol '__ia32_sys_timerfd_settime' was not declared. Should it be static?
+   kernel/sys_ni.c:122:1: sparse: sparse: symbol '__x64_sys_timerfd_settime32' was not declared. Should it be static?
+   kernel/sys_ni.c:122:1: sparse: sparse: symbol '__ia32_sys_timerfd_settime32' was not declared. Should it be static?
+   kernel/sys_ni.c:123:1: sparse: sparse: symbol '__x64_sys_timerfd_gettime' was not declared. Should it be static?
+   kernel/sys_ni.c:123:1: sparse: sparse: symbol '__ia32_sys_timerfd_gettime' was not declared. Should it be static?
+   kernel/sys_ni.c:124:1: sparse: sparse: symbol '__x64_sys_timerfd_gettime32' was not declared. Should it be static?
+   kernel/sys_ni.c:124:1: sparse: sparse: symbol '__ia32_sys_timerfd_gettime32' was not declared. Should it be static?
+   kernel/sys_ni.c:129:1: sparse: sparse: symbol '__x64_sys_acct' was not declared. Should it be static?
+   kernel/sys_ni.c:129:1: sparse: sparse: symbol '__ia32_sys_acct' was not declared. Should it be static?
+   kernel/sys_ni.c:132:1: sparse: sparse: symbol '__x64_sys_capget' was not declared. Should it be static?
+   kernel/sys_ni.c:132:1: sparse: sparse: symbol '__ia32_sys_capget' was not declared. Should it be static?
+   kernel/sys_ni.c:133:1: sparse: sparse: symbol '__x64_sys_capset' was not declared. Should it be static?
+   kernel/sys_ni.c:133:1: sparse: sparse: symbol '__ia32_sys_capset' was not declared. Should it be static?
+   kernel/sys_ni.c:141:1: sparse: sparse: symbol '__x64_sys_clone3' was not declared. Should it be static?
+   kernel/sys_ni.c:141:1: sparse: sparse: symbol '__ia32_sys_clone3' was not declared. Should it be static?
+   kernel/sys_ni.c:144:1: sparse: sparse: symbol '__x64_sys_futex' was not declared. Should it be static?
+   kernel/sys_ni.c:144:1: sparse: sparse: symbol '__ia32_sys_futex' was not declared. Should it be static?
+   kernel/sys_ni.c:145:1: sparse: sparse: symbol '__x64_sys_futex_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:145:1: sparse: sparse: symbol '__ia32_sys_futex_time32' was not declared. Should it be static?
+   kernel/sys_ni.c:146:1: sparse: sparse: symbol '__x64_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:146:1: sparse: sparse: symbol '__ia32_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:147:1: sparse: sparse: symbol '__ia32_compat_sys_set_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:148:1: sparse: sparse: symbol '__x64_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:148:1: sparse: sparse: symbol '__ia32_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:149:1: sparse: sparse: symbol '__ia32_compat_sys_get_robust_list' was not declared. Should it be static?
+   kernel/sys_ni.c:156:1: sparse: sparse: symbol '__x64_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:156:1: sparse: sparse: symbol '__ia32_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:157:1: sparse: sparse: symbol '__ia32_compat_sys_kexec_load' was not declared. Should it be static?
+   kernel/sys_ni.c:160:1: sparse: sparse: symbol '__ia32_sys_init_module' was not declared. Should it be static?
+   kernel/sys_ni.c:161:1: sparse: sparse: symbol '__x64_sys_delete_module' was not declared. Should it be static?
+   kernel/sys_ni.c:161:1: sparse: sparse: symbol '__ia32_sys_delete_module' was not declared. Should it be static?
+   kernel/sys_ni.c:166:1: sparse: sparse: symbol '__x64_sys_syslog' was not declared. Should it be static?
+   kernel/sys_ni.c:166:1: sparse: sparse: symbol '__ia32_sys_syslog' was not declared. Should it be static?
+   kernel/sys_ni.c:173:1: sparse: sparse: symbol '__x64_sys_setregid' was not declared. Should it be static?
+   kernel/sys_ni.c:174:1: sparse: sparse: symbol '__x64_sys_setgid' was not declared. Should it be static?
+   kernel/sys_ni.c:175:1: sparse: sparse: symbol '__x64_sys_setreuid' was not declared. Should it be static?
+   kernel/sys_ni.c:176:1: sparse: sparse: symbol '__x64_sys_setuid' was not declared. Should it be static?
+   kernel/sys_ni.c:179:1: sparse: sparse: symbol '__x64_sys_setresgid' was not declared. Should it be static?
+   kernel/sys_ni.c:180:1: sparse: sparse: symbol '__x64_sys_getresgid' was not declared. Should it be static?
+   kernel/sys_ni.c:191:1: sparse: sparse: symbol '__ia32_sys_mq_open' was not declared. Should it be static?
+   kernel/sys_ni.c:192:1: sparse: sparse: symbol '__ia32_compat_sys_mq_open' was not declared. Should it be static?
 
-   In file included from arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:8:
-   In file included from arch/arm64/include/asm/kvm_hyp.h:11:
-   In file included from include/linux/kvm_host.h:16:
-   In file included from include/linux/mm.h:2180:
-   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     509 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     516 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     528 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     537 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:85:5: warning: no previous prototype for function 'kvm_iommu_refill' [-Wmissing-prototypes]
-      85 | int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:85:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      85 | int kvm_iommu_refill(struct kvm_hyp_memcache *host_mc)
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:90:6: warning: no previous prototype for function 'kvm_iommu_reclaim' [-Wmissing-prototypes]
-      90 | void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
-         |      ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:90:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      90 | void kvm_iommu_reclaim(struct kvm_hyp_memcache *host_mc, int target)
-         | ^
-         | static 
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:95:5: warning: no previous prototype for function 'kvm_iommu_reclaimable' [-Wmissing-prototypes]
-      95 | int kvm_iommu_reclaimable(void)
-         |     ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:95:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      95 | int kvm_iommu_reclaimable(void)
-         | ^
-         | static 
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:338:17: error: no member named 'end' in 'struct iommu_iotlb_gather'
-     338 |         return gather->end != 0 &&
-         |                ~~~~~~  ^
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:339:22: error: no member named 'start' in 'struct iommu_iotlb_gather'
-     339 |                 (end + 1 < gather->start || start > gather->end + 1);
-         |                            ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:339:47: error: no member named 'end' in 'struct iommu_iotlb_gather'
-     339 |                 (end + 1 < gather->start || start > gather->end + 1);
-         |                                                     ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:347:14: error: no member named 'start' in 'struct iommu_iotlb_gather'
-     347 |         if (gather->start > iova)
-         |             ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:348:11: error: no member named 'start' in 'struct iommu_iotlb_gather'
-     348 |                 gather->start = iova;
-         |                 ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:349:14: error: no member named 'end' in 'struct iommu_iotlb_gather'
-     349 |         if (gather->end < end)
-         |             ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:350:11: error: no member named 'end' in 'struct iommu_iotlb_gather'
-     350 |                 gather->end = end;
-         |                 ~~~~~~  ^
->> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:358:15: error: no member named 'pgsize' in 'struct iommu_iotlb_gather'
-     358 |         if ((gather->pgsize && gather->pgsize != size) ||
-         |              ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:358:33: error: no member named 'pgsize' in 'struct iommu_iotlb_gather'
-     358 |         if ((gather->pgsize && gather->pgsize != size) ||
-         |                                ~~~~~~  ^
-   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:362:10: error: no member named 'pgsize' in 'struct iommu_iotlb_gather'
-     362 |         gather->pgsize = size;
-         |         ~~~~~~  ^
-   8 warnings and 10 errors generated.
+vim +/__ia32_compat_sys_io_pgetevents_time64 +50 kernel/sys_ni.c
 
-
-vim +338 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
-
-   332	
-   333	static bool kvm_iommu_iotlb_gather_is_disjoint(struct iommu_iotlb_gather *gather,
-   334						       unsigned long iova, size_t size)
-   335	{
-   336		unsigned long start = iova, end = start + size - 1;
-   337	
- > 338		return gather->end != 0 &&
- > 339			(end + 1 < gather->start || start > gather->end + 1);
-   340	}
-   341	
-   342	static inline void kvm_iommu_iotlb_gather_add_range(struct iommu_iotlb_gather *gather,
-   343							    unsigned long iova, size_t size)
-   344	{
-   345		unsigned long end = iova + size - 1;
-   346	
-   347		if (gather->start > iova)
- > 348			gather->start = iova;
-   349		if (gather->end < end)
-   350			gather->end = end;
-   351	}
-   352	
-   353	void kvm_iommu_iotlb_gather_add_page(void *cookie,
-   354					     struct iommu_iotlb_gather *gather,
-   355					     unsigned long iova,
-   356					     size_t size)
-   357	{
- > 358		if ((gather->pgsize && gather->pgsize != size) ||
-   359		    kvm_iommu_iotlb_gather_is_disjoint(gather, iova, size))
-   360			kvm_iommu_iotlb_sync(cookie, gather);
-   361	
-   362		gather->pgsize = size;
-   363		kvm_iommu_iotlb_gather_add_range(gather, iova, size);
-   364	}
-   365	
+    32	
+    33	/*
+    34	 * This list is kept in the same order as include/uapi/asm-generic/unistd.h.
+    35	 * Architecture specific entries go below, followed by deprecated or obsolete
+    36	 * system calls.
+    37	 */
+    38	
+    39	COND_SYSCALL(io_setup);
+    40	COND_SYSCALL_COMPAT(io_setup);
+    41	COND_SYSCALL(io_destroy);
+    42	COND_SYSCALL(io_submit);
+    43	COND_SYSCALL_COMPAT(io_submit);
+    44	COND_SYSCALL(io_cancel);
+  > 45	COND_SYSCALL(io_getevents_time32);
+    46	COND_SYSCALL(io_getevents);
+    47	COND_SYSCALL(io_pgetevents_time32);
+    48	COND_SYSCALL(io_pgetevents);
+    49	COND_SYSCALL_COMPAT(io_pgetevents);
+  > 50	COND_SYSCALL_COMPAT(io_pgetevents_time64);
+    51	COND_SYSCALL(io_uring_setup);
+    52	COND_SYSCALL(io_uring_enter);
+    53	COND_SYSCALL(io_uring_register);
+    54	
 
 -- 
 0-DAY CI Kernel Test Service
