@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F851DE89C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 22:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44B491DED5B
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 23:00:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733179173; cv=none; b=Q9A/T6dsT1IChoK10paREzoej03qp893kbo6LV1Eg2o/OsFshA+rQZ6oROUoWFEtcpZXRR4qBXWPSpvJJ5CZLhmdJgUmJePGr9kT2fMeJNDpjli0q1h24drPp5v5ZTdasTal/4hzCecDTAjRTfc5nfjvTvtlZRBXYhHh6fVfhPo=
+	t=1733180418; cv=none; b=CKcYmbXXqrEshL+EnGva1Nz7qiw7AcvjQqI0FmAN4vXc2u7JuyLBsmnJDNlQc6UxmQqm13zd3rkOBSE9tfKdcb87Ikx+h38pE+omTJ4rLP2VfyvjQMBWaOhr7KJMGBnQMpf+dJP0SoWPTlpKDoxzu31bYtgP5dOdOBRY127ClPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733179173; c=relaxed/simple;
-	bh=JIG0gZ0Rf6yIdqnqBiflP8FcFO1H09OYWZkWV9xQh1E=;
+	s=arc-20240116; t=1733180418; c=relaxed/simple;
+	bh=Ek0sPA2aE4OM68IDbfNUx4087l01ItcRSUTSKn5s5u8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sWhJ1sMlhGjTNKVjvf2xTsV+YjwAozIS7rsznJMIlNF3FRX+8w6Wo1VEF+gdA94PCu8a8yBQxP/DikVu2TCPAM5m54bNVS0z9zsOcTmqhTuBbh5oofa/pJkE5ioaVS6nBRhBUbvDON43WWSLhvxG6BlJI9VqMbAi+AcNa5yC/54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ORSRfmW9; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=CzVNjdoNyzrIZi5pB2thYsFKvhPTTUiur1ulJBTw58nikMn5JRHpHqsktm5YwkuiuQRoG1r0P1DZBjzJ9jGaic9lAos6lrk+tMlEl4RWVD8jFmj9czzfb1f8xA3D06L6F/mggnMg6XeGPRfPVvrM2x0mqY3+9QwVqsqurBM+S0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e2MRVI0N; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ORSRfmW9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e2MRVI0N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733179172; x=1764715172;
+  t=1733180417; x=1764716417;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JIG0gZ0Rf6yIdqnqBiflP8FcFO1H09OYWZkWV9xQh1E=;
-  b=ORSRfmW9onbO5T9ZDInHHtAHlGRcddy4Xn2Gx1rD7ceHaCy+Dju9GklB
-   LaD0PchMuk3f4nNNLuTj92OQITbdv45FCG8UxAtR4pD8Iqg0+QxSfTd7A
-   if6+uGz4QA0f7k099YbnD3qR85jEMLM6dVLZSelwz//jywHLBtJ6E1NoK
-   Ec2s7radRvmYwmtwRHk0XDVqJJghTzHf3McBJ7Z6yc5YvnTagTh+vU2A3
-   rAxKC6Oyv/0ZmwlQzf2AFE/gNcsj5QNAYnNOVH8P4P9JnbYHCNzlKonqO
-   g9KuEf96q6EEUcHWiD6YmhhGXKCTLF7IsapeDFhNoE0cROJVIbIPvf2PD
-   A==;
-X-CSE-ConnectionGUID: dYcfevwlRdOHO9hrWFAh0Q==
-X-CSE-MsgGUID: CyPBPAnhQUW4mX5EkC478A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="36225460"
+  bh=Ek0sPA2aE4OM68IDbfNUx4087l01ItcRSUTSKn5s5u8=;
+  b=e2MRVI0N8JfitBbCzQBjpgbrweWLdTI4S9xR5hXrmN1R6F8850M/Sh0L
+   edWslCnJRxaZrwxfFmpR3mXYalhTrHJdv9R7uqPpBPej+zsvXAYDgiVtQ
+   GsVM/yirEUfWtVVREBVxu3YGDjoqywsrCGPcCjNdGnpvVdW38jXWuj7EK
+   9LbB6tvyccHYbRWFYaJCj0yIhV79GdBE9vsZHZoEBSYKuZyW3I2h16nvR
+   thY8VV+fUFwQHrgBS0V7SyPAYCGI2u0cY9g7R27cbWsBWjKtEdoi5etyW
+   ASh6HG9GA1mH4n7fvyV6IrRkFQRO4o57yIPnobwa/q5uyW0r8W+0mb4QK
+   Q==;
+X-CSE-ConnectionGUID: jk3sCIEzTl27/Yc7vsZoUg==
+X-CSE-MsgGUID: DKT0bI3oTMuFMBqs9SZcKA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33431261"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="36225460"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 14:39:29 -0800
-X-CSE-ConnectionGUID: ng1D/ZkhSlCq6Crm5owRTA==
-X-CSE-MsgGUID: ks9E0a3TR6a24865wxfpfA==
+   d="scan'208";a="33431261"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 15:00:16 -0800
+X-CSE-ConnectionGUID: 6KpAN2ioRM6Oha026TJFYA==
+X-CSE-MsgGUID: HyS4U8x/QTaSHONUM0WdBg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="124173280"
+   d="scan'208";a="97680781"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Dec 2024 14:39:28 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 15:00:14 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIF4g-0002yf-0T;
-	Mon, 02 Dec 2024 22:39:26 +0000
-Date: Tue, 3 Dec 2024 06:38:58 +0800
+	id 1tIFOm-0002zx-0x;
+	Mon, 02 Dec 2024 23:00:12 +0000
+Date: Tue, 3 Dec 2024 06:59:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wanrenyong <wanry@yunsilicon.com>
+To: kernel@openeuler.org, fanyizhen1995 <en_0015767@163.com>
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [openeuler:OLK-5.10 2516/2516]
- drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c:167:35: error: no member
- named 'physfn' in 'struct pci_dev'
-Message-ID: <202412030645.2p5xOIF3-lkp@intel.com>
+ drivers/ub/urma/uburma/uburma_dev_ops.c:32:6: warning: no previous prototype
+ for 'uburma_release_file'
+Message-ID: <202412030644.iR7DHrYL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,101 +63,118 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
+Hi Yizhen,
+
+FYI, the error/warning still remains.
+
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   929a9df37c1b7dec73fd417d79a116d02a8f9380
-commit: d48b7d951d22f7f97d68ae7b580769827683d404 [2516/2516] drivers: initial support for xsc drivers from Yunsilicon Technology
-config: x86_64-randconfig-r063-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030645.2p5xOIF3-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030645.2p5xOIF3-lkp@intel.com/reproduce)
+commit: cd637a6dded9c0dce5f8d79898bb25be2edb927a [2516/2516] ub: uburma support open/release file ops
+config: arm64-randconfig-003-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030644.iR7DHrYL-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030644.iR7DHrYL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030645.2p5xOIF3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030644.iR7DHrYL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c:7:
-   In file included from include/linux/pci.h:1499:
-   In file included from include/linux/dmapool.h:14:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:1579:
-   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     418 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     425 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     437 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:445:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     445 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     446 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c:8:
-   In file included from drivers/net/ethernet/yunsilicon/xsc/common/xsc_core.h:24:
-   In file included from drivers/net/ethernet/yunsilicon/xsc/common/driver.h:21:
-   drivers/net/ethernet/yunsilicon/xsc/common/xsc_hsi.h:598:46: warning: overlapping comparisons always evaluate to false [-Wtautological-overlap-compare]
-     598 |         } else if (func_id >= XSC_PCIE1_PF0_FUNC_ID &&
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
-     599 |                 func_id <= XSC_PCIE1_PF_FUNC_ID_END) {
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c:12:
-   In file included from drivers/net/ethernet/yunsilicon/xsc/pci/eswitch.h:15:
-   include/net/devlink.h:28:19: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      28 |         u32 reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:25:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      25 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:29:26: warning: arithmetic between different enumeration types ('enum devlink_reload_limit' and 'enum devlink_reload_action') [-Wenum-enum-conversion]
-      29 |         u32 remote_reload_stats[DEVLINK_RELOAD_STATS_ARRAY_SIZE];
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/net/devlink.h:25:30: note: expanded from macro 'DEVLINK_RELOAD_STATS_ARRAY_SIZE'
-      25 |         (__DEVLINK_RELOAD_LIMIT_MAX * __DEVLINK_RELOAD_ACTION_MAX)
-         |          ~~~~~~~~~~~~~~~~~~~~~~~~~~ ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c:167:35: error: no member named 'physfn' in 'struct pci_dev'
-     167 |                 pf_xdev = pci_get_drvdata(pdev->physfn);
-         |                                           ~~~~  ^
-   8 warnings and 1 error generated.
+>> drivers/ub/urma/uburma/uburma_dev_ops.c:32:6: warning: no previous prototype for 'uburma_release_file' [-Wmissing-prototypes]
+      32 | void uburma_release_file(struct kref *ref)
+         |      ^~~~~~~~~~~~~~~~~~~
+>> drivers/ub/urma/uburma/uburma_dev_ops.c:49:5: warning: no previous prototype for 'uburma_open' [-Wmissing-prototypes]
+      49 | int uburma_open(struct inode *inode, struct file *filp)
+         |     ^~~~~~~~~~~
+   drivers/ub/urma/uburma/uburma_dev_ops.c: In function 'uburma_open':
+>> drivers/ub/urma/uburma/uburma_dev_ops.c:66:50: warning: the comparison will always evaluate as 'false' for the address of 'dev_name' will never be NULL [-Waddress]
+      66 |         if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
+         |                                                  ^~
+   In file included from drivers/ub/urma/uburma/uburma_dev_ops.c:25:
+   include/urma/ubcore_types.h:1589:14: note: 'dev_name' declared here
+    1589 |         char dev_name[UBCORE_MAX_DEV_NAME];
+         |              ^~~~~~~~
+   drivers/ub/urma/uburma/uburma_dev_ops.c: At top level:
+>> drivers/ub/urma/uburma/uburma_dev_ops.c:102:5: warning: no previous prototype for 'uburma_close' [-Wmissing-prototypes]
+     102 | int uburma_close(struct inode *inode, struct file *filp)
+         |     ^~~~~~~~~~~~
 
 
-vim +167 drivers/net/ethernet/yunsilicon/xsc/pci/sriov.c
+vim +/uburma_release_file +32 drivers/ub/urma/uburma/uburma_dev_ops.c
 
-   159	
-   160	int xsc_sriov_attach(struct xsc_core_device *dev)
-   161	{
-   162		struct pci_dev *pdev = dev->pdev;
-   163		struct xsc_core_device *pf_xdev;
-   164		struct xsc_core_sriov *sriov;
-   165	
-   166		if (!xsc_core_is_pf(dev)) {
- > 167			pf_xdev = pci_get_drvdata(pdev->physfn);
-   168			sriov = &pf_xdev->priv.sriov;
-   169	
-   170			sriov->vfs[dev->vf_id].vf = dev->vf_id;
-   171			sriov->vfs[dev->vf_id].dev = dev;
-   172			return 0;
-   173		}
-   174	
-   175		if (!dev->priv.sriov.num_vfs)
-   176			return 0;
-   177	
-   178		/* If sriov VFs exist in PCI level, enable them in device level */
-   179		return xsc_device_enable_sriov(dev, pci_num_vf(dev->pdev));
-   180	}
-   181	
+    31	
+  > 32	void uburma_release_file(struct kref *ref)
+    33	{
+    34		struct uburma_file *file = container_of(ref, struct uburma_file, ref);
+    35		int srcu_idx;
+    36	
+    37		srcu_idx = srcu_read_lock(&file->ubu_dev->ubc_dev_srcu);
+    38		srcu_dereference(file->ubu_dev->ubc_dev, &file->ubu_dev->ubc_dev_srcu);
+    39	
+    40		srcu_read_unlock(&file->ubu_dev->ubc_dev_srcu, srcu_idx);
+    41	
+    42		if (atomic_dec_and_test(&file->ubu_dev->refcnt))
+    43			complete(&file->ubu_dev->comp);
+    44	
+    45		kobject_put(&file->ubu_dev->kobj);
+    46		kfree(file);
+    47	}
+    48	
+  > 49	int uburma_open(struct inode *inode, struct file *filp)
+    50	{
+    51		struct uburma_device *ubu_dev;
+    52		struct ubcore_device *ubc_dev;
+    53		struct uburma_file *file;
+    54		int srcu_idx;
+    55		int ret;
+    56	
+    57		ubu_dev = container_of(inode->i_cdev, struct uburma_device, cdev);
+    58		if (!atomic_inc_not_zero(&ubu_dev->refcnt)) {
+    59			uburma_log_err("device was not ready.\n");
+    60			return -ENXIO;
+    61		}
+    62	
+    63		srcu_idx = srcu_read_lock(&ubu_dev->ubc_dev_srcu);
+    64		mutex_lock(&ubu_dev->lists_mutex);
+    65		ubc_dev = srcu_dereference(ubu_dev->ubc_dev, &ubu_dev->ubc_dev_srcu);
+  > 66		if (ubc_dev == NULL || ubc_dev->dev_name == NULL) {
+    67			uburma_log_err("can not find ubcore device.\n");
+    68			ret = EIO;
+    69			goto err;
+    70		}
+    71	
+    72		file = kzalloc(sizeof(struct uburma_file), GFP_KERNEL);
+    73		if (!file) {
+    74			ret = -ENOMEM;
+    75			uburma_log_err("can not alloc memory.\n");
+    76			goto err;
+    77		}
+    78	
+    79		file->ubu_dev = ubu_dev;
+    80		file->ucontext = NULL;
+    81		kref_init(&file->ref);
+    82		mutex_init(&file->mutex);
+    83		filp->private_data = file;
+    84	
+    85		list_add_tail(&file->list, &ubu_dev->uburma_file_list);
+    86		kobject_get(&ubu_dev->kobj); // Increase reference count for file.
+    87	
+    88		mutex_unlock(&ubu_dev->lists_mutex);
+    89		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
+    90	
+    91		uburma_log_info("device: %s open succeed.\n", ubc_dev->dev_name);
+    92		return nonseekable_open(inode, filp);
+    93	
+    94	err:
+    95		mutex_unlock(&ubu_dev->lists_mutex);
+    96		srcu_read_unlock(&ubu_dev->ubc_dev_srcu, srcu_idx);
+    97		if (atomic_dec_and_test(&ubu_dev->refcnt))
+    98			complete(&ubu_dev->comp);
+    99		return ret;
+   100	}
+   101	
+ > 102	int uburma_close(struct inode *inode, struct file *filp)
 
 -- 
 0-DAY CI Kernel Test Service
