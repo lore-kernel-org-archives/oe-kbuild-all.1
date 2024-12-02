@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0082F125B9
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Dec 2024 17:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 260B81632F2;
+	Mon,  2 Dec 2024 17:18:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733159296; cv=none; b=Bc+ReqbGLmtGevDbIys129NPDpth2di1mpe2qdBFY8cXIr9ruNUN4HF/QhN/zia7LTNLbqSJ0n94e9NDr7TzpIJznYzZDgFCni6px55nC1cKYiJhtdzYkBDBNEZHEd03efl/43+0n6ILslcpd8mJassV+i5fFLwArIAaZIHO5D4=
+	t=1733159891; cv=none; b=GFhBKrDq5p2nwXITUvGEE+4AwjkaKP5LtzVi6QozSJLgnEMYZ/stVjjbKEHAtmu1i2KvLJGzEnTdcfPs4bGnd0DlKGXGjbtHLOJnWlBABrABnZoKUWhDYuSWboA+/thO21s9VEB8d+hDtF4KccTTcRGqwHoMnnUYv9pS460hInE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733159296; c=relaxed/simple;
-	bh=VwopOxdeKmb0fYdd9RFY267KXhqAS4dKma782XlxzRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oI8K2P6YGazd2ys3hFjSL8C95wwdU/Ukm75OhHbBzmjdzDT4h7iZOJpHXbhYZkIad4riajg/3PrJ9YxHdfoIL93FnCPqzxbaFkvpk9ELDqgfQkCYYC600qyTqAjsq0AwacaRGtUSkt8MdgQFV4EqItkdc7YMXk1uAb/G6RnNiAc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DccwYcLe; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1733159891; c=relaxed/simple;
+	bh=E4Wm8kHlwPbdu6uDbIxqGDvMZJfMPRLvglVdRMcYHQU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=l4a7SyYtf6XLuPnFfEmWU9XYlGbu30tUDu0DyL6EncZH2RvNiusJRzoDzoLEV8/syiMFlwsa6Fw//oy+OgNSEl7D+6r4Fw25//68CF3kz9ehCTmNwlsD38pmVRR4+KBzYd6DYhcFIt0zQHlCXdEAsTLu5zWetRzdS9qLbKGUbos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emGFCmIv; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DccwYcLe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emGFCmIv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733159293; x=1764695293;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VwopOxdeKmb0fYdd9RFY267KXhqAS4dKma782XlxzRY=;
-  b=DccwYcLeq70FaRZGkRafmsz/2EF+r5Es3xHiyXcBE9J2JrCts9OZ4ij2
-   Gp61BTJE8oGyWC88SY+1RS+XCGtV8XDF9S93fTKADE9hpv0SoIOYFO9JD
-   MCsJltAGXUH0vLiWU7RP5mGmTkNP6Ic1oKvOr/hS4hPC1UehRRnV73piA
-   wyUqfTXEOfo366YMmI1YQDp+9ZArllwbTasJKRiTyxg4xdydGKiu/4DPK
-   RTPDKDlIHwoDwD6IkiP5jSqlmGhPoIBbfx5YT/rbCYvdQp+6Fnp7I+W1G
-   oabz90Uti9PhvTaY0aXwy7ePfAv7ChEQZaOjYIKESj8M7896BSWJHEyWq
-   A==;
-X-CSE-ConnectionGUID: HuzZXvNSTw6SpnsnpQKL7g==
-X-CSE-MsgGUID: vHcxuJimS92x/oooc8GGFA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="36198884"
+  t=1733159888; x=1764695888;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E4Wm8kHlwPbdu6uDbIxqGDvMZJfMPRLvglVdRMcYHQU=;
+  b=emGFCmIvbQmr7TEGSQ26hA50FmjCNHCy4yH+QMLz68ayoMAyahYaqe8s
+   z95pYM1v7q2GQapRnBrFybiuMv3RNCaq5ty223CJfo/noFqxAXu/r9DfN
+   +htFDexrmcx+v4XWbfIn3/QyV4UFG6273BGYXEND0Fg6xf4fSfYdxruPw
+   dbyRiYBqQUQc3NThaIwYlPqzgvZLCNnLA+cpWvMehiagokITRCfxhi5kl
+   vqIAy30R+S11HGD2Gy8tkUCvCT4XpnDx2+0dHIJyu/DIkeXVueg0jPhRh
+   fTscuKD12uogqiQOS3BIU3rTF+kYUfbD3ELxSRX7QFnS0u8bp3v/sc8ah
+   Q==;
+X-CSE-ConnectionGUID: 8hnak2BXRAWNZiJtAdOaIg==
+X-CSE-MsgGUID: BZN4ioW5Tn6/YDhBFGirOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="37006574"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="36198884"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:08:13 -0800
-X-CSE-ConnectionGUID: 024OYCbZRa6cyah2dXajIg==
-X-CSE-MsgGUID: TaBN9DNaRyWpuksdiI/Mfw==
+   d="scan'208";a="37006574"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 09:18:07 -0800
+X-CSE-ConnectionGUID: yI8Xm0+kTE6bLjDZFVP2dQ==
+X-CSE-MsgGUID: KMW8ZvaESh6n8SQ3F16E6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="116431158"
+   d="scan'208";a="93492240"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 02 Dec 2024 09:08:10 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Dec 2024 09:18:04 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tI9tk-0002e4-2w;
-	Mon, 02 Dec 2024 17:07:55 +0000
-Date: Tue, 3 Dec 2024 01:07:10 +0800
+	id 1tIA3d-0002ej-0N;
+	Mon, 02 Dec 2024 17:18:01 +0000
+Date: Tue, 3 Dec 2024 01:17:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Benjamin Coddington <bcodding@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>
-Subject: fs/nfsd/nfs4state.c:7881:29: error: variable 'sb' set but not used
-Message-ID: <202412030038.Fh8VTQwJ-lkp@intel.com>
+To: Philipp Stanner <pstanner@redhat.com>,
+	Alvaro Karsz <alvaro.karsz@solid-run.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?unknown-8bit?B?UMOpcmV6?= <eperezma@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] vdpa: solidrun: Replace deprecated PCI functions
+Message-ID: <202412030150.SVZbOVDL-lkp@intel.com>
+References: <20241202122353.9793-2-pstanner@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,267 +69,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241202122353.9793-2-pstanner@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-commit: 7e64c5bc497cf17872b38003307f320e8f077880 NLM/NFSD: Fix lock notifications for async-capable filesystems
-date:   9 weeks ago
-config: x86_64-rhel-9.4-nofixup (https://download.01.org/0day-ci/archive/20241203/202412030038.Fh8VTQwJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030038.Fh8VTQwJ-lkp@intel.com/reproduce)
+Hi Philipp,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.13-rc1 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Philipp-Stanner/vdpa-solidrun-Replace-deprecated-PCI-functions/20241202-202728
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20241202122353.9793-2-pstanner%40redhat.com
+patch subject: [PATCH] vdpa: solidrun: Replace deprecated PCI functions
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20241203/202412030150.SVZbOVDL-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030150.SVZbOVDL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030038.Fh8VTQwJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030150.SVZbOVDL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/nfsd/nfs4state.c: In function 'nfsd4_lock':
->> fs/nfsd/nfs4state.c:7881:29: error: variable 'sb' set but not used [-Werror=unused-but-set-variable]
-    7881 |         struct super_block *sb;
-         |                             ^~
-   cc1: all warnings being treated as errors
+   drivers/vdpa/solidrun/snet_main.c: In function 'psnet_open_pf_bar':
+>> drivers/vdpa/solidrun/snet_main.c:559:13: warning: unused variable 'ret' [-Wunused-variable]
+     559 |         int ret;
+         |             ^~~
 
 
-vim +/sb +7881 fs/nfsd/nfs4state.c
+vim +/ret +559 drivers/vdpa/solidrun/snet_main.c
 
-64a284d07c7d842 J. Bruce Fields      2011-10-20  7863  
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7864  /*
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7865   *  LOCK operation 
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7866   */
-b37ad28bcaa7c48 Al Viro              2006-10-19  7867  __be32
-ca3643171bc6e08 J.Bruce Fields       2006-12-13  7868  nfsd4_lock(struct svc_rqst *rqstp, struct nfsd4_compound_state *cstate,
-eb69853da945928 Christoph Hellwig    2017-05-08  7869  	   union nfsd4_op_u *u)
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7870  {
-eb69853da945928 Christoph Hellwig    2017-05-08  7871  	struct nfsd4_lock *lock = &u->lock;
-fe0750e5c43189a J. Bruce Fields      2011-07-30  7872  	struct nfs4_openowner *open_sop = NULL;
-fe0750e5c43189a J. Bruce Fields      2011-07-30  7873  	struct nfs4_lockowner *lock_sop = NULL;
-3d0fabd5a48fbf6 Trond Myklebust      2014-07-29  7874  	struct nfs4_ol_stateid *lock_stp = NULL;
-0667b1e9d8a7c0a Trond Myklebust      2014-07-29  7875  	struct nfs4_ol_stateid *open_stp = NULL;
-7214e8600eee146 Jeff Layton          2014-07-10  7876  	struct nfs4_file *fp;
-eb82dd393744107 Jeff Layton          2019-08-18  7877  	struct nfsd_file *nf = NULL;
-76d348fadff52e8 Jeff Layton          2016-09-16  7878  	struct nfsd4_blocked_lock *nbl = NULL;
-21179d81f1de37c Jeff Layton          2012-08-21  7879  	struct file_lock *file_lock = NULL;
-21179d81f1de37c Jeff Layton          2012-08-21  7880  	struct file_lock *conflock = NULL;
-2dd10de8e6bcbac Alexander Aring      2023-09-12 @7881  	struct super_block *sb;
-b37ad28bcaa7c48 Al Viro              2006-10-19  7882  	__be32 status = 0;
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7883  	int lkflg;
-b8dd7b9ab194d9a Al Viro              2006-10-19  7884  	int err;
-5db1c03feb00a72 Jeff Layton          2014-07-29  7885  	bool new = false;
-60f3154d196b5b1 Jeff Layton          2024-01-31  7886  	unsigned char type;
-60f3154d196b5b1 Jeff Layton          2024-01-31  7887  	unsigned int flags = FL_POSIX;
-3320fef19b542b8 Stanislav Kinsbursky 2012-11-14  7888  	struct net *net = SVC_NET(rqstp);
-3320fef19b542b8 Stanislav Kinsbursky 2012-11-14  7889  	struct nfsd_net *nn = net_generic(net, nfsd_net_id);
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7890  
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7891  	dprintk("NFSD: nfsd4_lock: start=%Ld length=%Ld\n",
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7892  		(long long) lock->lk_offset,
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7893  		(long long) lock->lk_length);
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7894  
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7895  	if (check_lock_length(lock->lk_offset, lock->lk_length))
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7896  		 return nfserr_inval;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7897  
-ca3643171bc6e08 J.Bruce Fields       2006-12-13  7898  	if ((status = fh_verify(rqstp, &cstate->current_fh,
-8837abcab3d1660 Miklos Szeredi       2008-06-16  7899  				S_IFREG, NFSD_MAY_LOCK))) {
-a6f6ef2f1d73291 Andy Adamson         2006-01-18  7900  		dprintk("NFSD: nfsd4_lock: permission denied!\n");
-a6f6ef2f1d73291 Andy Adamson         2006-01-18  7901  		return status;
-a6f6ef2f1d73291 Andy Adamson         2006-01-18  7902  	}
-2dd10de8e6bcbac Alexander Aring      2023-09-12  7903  	sb = cstate->current_fh.fh_dentry->d_sb;
-a6f6ef2f1d73291 Andy Adamson         2006-01-18  7904  
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7905  	if (lock->lk_is_new) {
-684e563858018d2 J. Bruce Fields      2011-11-04  7906  		if (nfsd4_has_session(cstate))
-684e563858018d2 J. Bruce Fields      2011-11-04  7907  			/* See rfc 5661 18.10.3: given clientid is ignored: */
-76f6c9e176dda6e Kinglong Mee         2015-07-13  7908  			memcpy(&lock->lk_new_clientid,
-ec59659b4972ec2 J. Bruce Fields      2021-01-21  7909  				&cstate->clp->cl_clientid,
-684e563858018d2 J. Bruce Fields      2011-11-04  7910  				sizeof(clientid_t));
-684e563858018d2 J. Bruce Fields      2011-11-04  7911  
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7912  		/* validate and update open stateid and open seqid */
-c0a5d93efbbb791 J. Bruce Fields      2011-09-06  7913  		status = nfs4_preprocess_confirmed_seqid_op(cstate,
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7914  				        lock->lk_new_open_seqid,
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7915  		                        &lock->lk_new_open_stateid,
-3320fef19b542b8 Stanislav Kinsbursky 2012-11-14  7916  					&open_stp, nn);
-375151773125f56 NeilBrown            2005-07-07  7917  		if (status)
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7918  			goto out;
-feb9dad52092800 Oleg Drokin          2016-06-14  7919  		mutex_unlock(&open_stp->st_mutex);
-fe0750e5c43189a J. Bruce Fields      2011-07-30  7920  		open_sop = openowner(open_stp->st_stateowner);
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7921  		status = nfserr_bad_stateid;
-684e563858018d2 J. Bruce Fields      2011-11-04  7922  		if (!same_clid(&open_sop->oo_owner.so_client->cl_clientid,
-76f6c9e176dda6e Kinglong Mee         2015-07-13  7923  						&lock->lk_new_clientid))
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7924  			goto out;
-64a284d07c7d842 J. Bruce Fields      2011-10-20  7925  		status = lookup_or_create_lock_state(cstate, open_stp, lock,
-5db1c03feb00a72 Jeff Layton          2014-07-29  7926  							&lock_stp, &new);
-3d0fabd5a48fbf6 Trond Myklebust      2014-07-29  7927  	} else {
-dd453dfd70538ca Benny Halevy         2009-04-03  7928  		status = nfs4_preprocess_seqid_op(cstate,
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7929  						  lock->lk_old_lock_seqid,
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7930  						  &lock->lk_old_lock_stateid,
-3f29cc82a84c23c NeilBrown            2024-01-30  7931  						  SC_TYPE_LOCK, 0, &lock_stp,
-3f29cc82a84c23c NeilBrown            2024-01-30  7932  						  nn);
-3d0fabd5a48fbf6 Trond Myklebust      2014-07-29  7933  	}
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7934  	if (status)
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7935  		goto out;
-fe0750e5c43189a J. Bruce Fields      2011-07-30  7936  	lock_sop = lockowner(lock_stp->st_stateowner);
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7937  
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7938  	lkflg = setlkflg(lock->lk_type);
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7939  	status = nfs4_check_openmode(lock_stp, lkflg);
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7940  	if (status)
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7941  		goto out;
-b34f27aa5da75b0 J. Bruce Fields      2011-08-22  7942  
-0dd395dc76071a0 NeilBrown            2005-07-07  7943  	status = nfserr_grace;
-3320fef19b542b8 Stanislav Kinsbursky 2012-11-14  7944  	if (locks_in_grace(net) && !lock->lk_reclaim)
-0dd395dc76071a0 NeilBrown            2005-07-07  7945  		goto out;
-0dd395dc76071a0 NeilBrown            2005-07-07  7946  	status = nfserr_no_grace;
-3320fef19b542b8 Stanislav Kinsbursky 2012-11-14  7947  	if (!locks_in_grace(net) && lock->lk_reclaim)
-0dd395dc76071a0 NeilBrown            2005-07-07  7948  		goto out;
-0dd395dc76071a0 NeilBrown            2005-07-07  7949  
-bb0a55bb7148a49 J. Bruce Fields      2021-08-20  7950  	if (lock->lk_reclaim)
-60f3154d196b5b1 Jeff Layton          2024-01-31  7951  		flags |= FL_RECLAIM;
-bb0a55bb7148a49 J. Bruce Fields      2021-08-20  7952  
-11b9164adad7cd1 Trond Myklebust      2014-07-29  7953  	fp = lock_stp->st_stid.sc_file;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7954  	switch (lock->lk_type) {
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7955  		case NFS4_READW_LT:
-df561f6688fef77 Gustavo A. R. Silva  2020-08-23  7956  			fallthrough;
-76d348fadff52e8 Jeff Layton          2016-09-16  7957  		case NFS4_READ_LT:
-7214e8600eee146 Jeff Layton          2014-07-10  7958  			spin_lock(&fp->fi_lock);
-eb82dd393744107 Jeff Layton          2019-08-18  7959  			nf = find_readable_file_locked(fp);
-eb82dd393744107 Jeff Layton          2019-08-18  7960  			if (nf)
-0997b173609b922 J. Bruce Fields      2011-03-02  7961  				get_lock_access(lock_stp, NFS4_SHARE_ACCESS_READ);
-7214e8600eee146 Jeff Layton          2014-07-10  7962  			spin_unlock(&fp->fi_lock);
-60f3154d196b5b1 Jeff Layton          2024-01-31  7963  			type = F_RDLCK;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7964  			break;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7965  		case NFS4_WRITEW_LT:
-df561f6688fef77 Gustavo A. R. Silva  2020-08-23  7966  			fallthrough;
-76d348fadff52e8 Jeff Layton          2016-09-16  7967  		case NFS4_WRITE_LT:
-7214e8600eee146 Jeff Layton          2014-07-10  7968  			spin_lock(&fp->fi_lock);
-eb82dd393744107 Jeff Layton          2019-08-18  7969  			nf = find_writeable_file_locked(fp);
-eb82dd393744107 Jeff Layton          2019-08-18  7970  			if (nf)
-0997b173609b922 J. Bruce Fields      2011-03-02  7971  				get_lock_access(lock_stp, NFS4_SHARE_ACCESS_WRITE);
-7214e8600eee146 Jeff Layton          2014-07-10  7972  			spin_unlock(&fp->fi_lock);
-60f3154d196b5b1 Jeff Layton          2024-01-31  7973  			type = F_WRLCK;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7974  			break;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7975  		default:
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7976  			status = nfserr_inval;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7977  		goto out;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  7978  	}
-76d348fadff52e8 Jeff Layton          2016-09-16  7979  
-eb82dd393744107 Jeff Layton          2019-08-18  7980  	if (!nf) {
-f9d7562fdb9dc0a J. Bruce Fields      2010-07-08  7981  		status = nfserr_openmode;
-f9d7562fdb9dc0a J. Bruce Fields      2010-07-08  7982  		goto out;
-f9d7562fdb9dc0a J. Bruce Fields      2010-07-08  7983  	}
-aef9583b234a4ec Kinglong Mee         2014-08-22  7984  
-7e64c5bc497cf17 Benjamin Coddington  2024-09-11  7985  	if (lock->lk_type & (NFS4_READW_LT | NFS4_WRITEW_LT) &&
-7e64c5bc497cf17 Benjamin Coddington  2024-09-11  7986  		nfsd4_has_session(cstate) &&
-7e64c5bc497cf17 Benjamin Coddington  2024-09-11  7987  		locks_can_async_lock(nf->nf_file->f_op))
-7e64c5bc497cf17 Benjamin Coddington  2024-09-11  7988  			flags |= FL_SLEEP;
-40595cdc93edf41 J. Bruce Fields      2021-12-16  7989  
-76d348fadff52e8 Jeff Layton          2016-09-16  7990  	nbl = find_or_allocate_block(lock_sop, &fp->fi_fhandle, nn);
-76d348fadff52e8 Jeff Layton          2016-09-16  7991  	if (!nbl) {
-76d348fadff52e8 Jeff Layton          2016-09-16  7992  		dprintk("NFSD: %s: unable to allocate block!\n", __func__);
-76d348fadff52e8 Jeff Layton          2016-09-16  7993  		status = nfserr_jukebox;
-76d348fadff52e8 Jeff Layton          2016-09-16  7994  		goto out;
-76d348fadff52e8 Jeff Layton          2016-09-16  7995  	}
-76d348fadff52e8 Jeff Layton          2016-09-16  7996  
-76d348fadff52e8 Jeff Layton          2016-09-16  7997  	file_lock = &nbl->nbl_lock;
-05580bbfc6bcac9 Jeff Layton          2024-01-31  7998  	file_lock->c.flc_type = type;
-05580bbfc6bcac9 Jeff Layton          2024-01-31  7999  	file_lock->c.flc_owner = (fl_owner_t)lockowner(nfs4_get_stateowner(&lock_sop->lo_owner));
-05580bbfc6bcac9 Jeff Layton          2024-01-31  8000  	file_lock->c.flc_pid = current->tgid;
-05580bbfc6bcac9 Jeff Layton          2024-01-31  8001  	file_lock->c.flc_file = nf->nf_file;
-05580bbfc6bcac9 Jeff Layton          2024-01-31  8002  	file_lock->c.flc_flags = flags;
-21179d81f1de37c Jeff Layton          2012-08-21  8003  	file_lock->fl_lmops = &nfsd_posix_mng_ops;
-21179d81f1de37c Jeff Layton          2012-08-21  8004  	file_lock->fl_start = lock->lk_offset;
-21179d81f1de37c Jeff Layton          2012-08-21  8005  	file_lock->fl_end = last_byte_offset(lock->lk_offset, lock->lk_length);
-21179d81f1de37c Jeff Layton          2012-08-21  8006  	nfs4_transform_lock_offset(file_lock);
-21179d81f1de37c Jeff Layton          2012-08-21  8007  
-21179d81f1de37c Jeff Layton          2012-08-21  8008  	conflock = locks_alloc_lock();
-21179d81f1de37c Jeff Layton          2012-08-21  8009  	if (!conflock) {
-21179d81f1de37c Jeff Layton          2012-08-21  8010  		dprintk("NFSD: %s: unable to allocate lock!\n", __func__);
-21179d81f1de37c Jeff Layton          2012-08-21  8011  		status = nfserr_jukebox;
-21179d81f1de37c Jeff Layton          2012-08-21  8012  		goto out;
-21179d81f1de37c Jeff Layton          2012-08-21  8013  	}
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8014  
-60f3154d196b5b1 Jeff Layton          2024-01-31  8015  	if (flags & FL_SLEEP) {
-20b7d86f29d39e8 Arnd Bergmann        2019-11-04  8016  		nbl->nbl_time = ktime_get_boottime_seconds();
-0cc11a61b80a1ab Jeff Layton          2016-10-20  8017  		spin_lock(&nn->blocked_locks_lock);
-76d348fadff52e8 Jeff Layton          2016-09-16  8018  		list_add_tail(&nbl->nbl_list, &lock_sop->lo_blocked);
-7919d0a27f1e7cb Jeff Layton          2016-09-16  8019  		list_add_tail(&nbl->nbl_lru, &nn->blocked_locks_lru);
-47446d74f170704 Vasily Averin        2021-12-17  8020  		kref_get(&nbl->nbl_kref);
-0cc11a61b80a1ab Jeff Layton          2016-10-20  8021  		spin_unlock(&nn->blocked_locks_lock);
-76d348fadff52e8 Jeff Layton          2016-09-16  8022  	}
-76d348fadff52e8 Jeff Layton          2016-09-16  8023  
-eb82dd393744107 Jeff Layton          2019-08-18  8024  	err = vfs_lock_file(nf->nf_file, F_SETLK, file_lock, conflock);
-76d348fadff52e8 Jeff Layton          2016-09-16  8025  	switch (err) {
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8026  	case 0: /* success! */
-9767feb2c64b297 Jeff Layton          2015-10-01  8027  		nfs4_inc_and_copy_stateid(&lock->lk_resp_stateid, &lock_stp->st_stid);
-b8dd7b9ab194d9a Al Viro              2006-10-19  8028  		status = 0;
-03f318ca652889a J. Bruce Fields      2018-06-08  8029  		if (lock->lk_reclaim)
-03f318ca652889a J. Bruce Fields      2018-06-08  8030  			nn->somebody_reclaimed = true;
-eb76b3fda1f7c2a Andy Adamson         2006-03-26  8031  		break;
-76d348fadff52e8 Jeff Layton          2016-09-16  8032  	case FILE_LOCK_DEFERRED:
-47446d74f170704 Vasily Averin        2021-12-17  8033  		kref_put(&nbl->nbl_kref, free_nbl);
-76d348fadff52e8 Jeff Layton          2016-09-16  8034  		nbl = NULL;
-df561f6688fef77 Gustavo A. R. Silva  2020-08-23  8035  		fallthrough;
-76d348fadff52e8 Jeff Layton          2016-09-16  8036  	case -EAGAIN:		/* conflock holds conflicting lock */
-eb76b3fda1f7c2a Andy Adamson         2006-03-26  8037  		status = nfserr_denied;
-eb76b3fda1f7c2a Andy Adamson         2006-03-26  8038  		dprintk("NFSD: nfsd4_lock: conflicting lock found!\n");
-21179d81f1de37c Jeff Layton          2012-08-21  8039  		nfs4_set_lock_denied(conflock, &lock->lk_denied);
-eb76b3fda1f7c2a Andy Adamson         2006-03-26  8040  		break;
-76d348fadff52e8 Jeff Layton          2016-09-16  8041  	case -EDEADLK:
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8042  		status = nfserr_deadlock;
-eb76b3fda1f7c2a Andy Adamson         2006-03-26  8043  		break;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8044  	default:
-fd85b8170dabbf0 Marc Eshel           2006-11-28  8045  		dprintk("NFSD: nfsd4_lock: vfs_lock_file() failed! status %d\n",err);
-3e77246393c0a43 J. Bruce Fields      2011-08-10  8046  		status = nfserrno(err);
-eb76b3fda1f7c2a Andy Adamson         2006-03-26  8047  		break;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8048  	}
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8049  out:
-76d348fadff52e8 Jeff Layton          2016-09-16  8050  	if (nbl) {
-76d348fadff52e8 Jeff Layton          2016-09-16  8051  		/* dequeue it if we queued it before */
-60f3154d196b5b1 Jeff Layton          2024-01-31  8052  		if (flags & FL_SLEEP) {
-0cc11a61b80a1ab Jeff Layton          2016-10-20  8053  			spin_lock(&nn->blocked_locks_lock);
-47446d74f170704 Vasily Averin        2021-12-17  8054  			if (!list_empty(&nbl->nbl_list) &&
-47446d74f170704 Vasily Averin        2021-12-17  8055  			    !list_empty(&nbl->nbl_lru)) {
-76d348fadff52e8 Jeff Layton          2016-09-16  8056  				list_del_init(&nbl->nbl_list);
-7919d0a27f1e7cb Jeff Layton          2016-09-16  8057  				list_del_init(&nbl->nbl_lru);
-47446d74f170704 Vasily Averin        2021-12-17  8058  				kref_put(&nbl->nbl_kref, free_nbl);
-47446d74f170704 Vasily Averin        2021-12-17  8059  			}
-47446d74f170704 Vasily Averin        2021-12-17  8060  			/* nbl can use one of lists to be linked to reaplist */
-0cc11a61b80a1ab Jeff Layton          2016-10-20  8061  			spin_unlock(&nn->blocked_locks_lock);
-76d348fadff52e8 Jeff Layton          2016-09-16  8062  		}
-76d348fadff52e8 Jeff Layton          2016-09-16  8063  		free_blocked_lock(nbl);
-76d348fadff52e8 Jeff Layton          2016-09-16  8064  	}
-eb82dd393744107 Jeff Layton          2019-08-18  8065  	if (nf)
-eb82dd393744107 Jeff Layton          2019-08-18  8066  		nfsd_file_put(nf);
-5db1c03feb00a72 Jeff Layton          2014-07-29  8067  	if (lock_stp) {
-5db1c03feb00a72 Jeff Layton          2014-07-29  8068  		/* Bump seqid manually if the 4.0 replay owner is openowner */
-5db1c03feb00a72 Jeff Layton          2014-07-29  8069  		if (cstate->replay_owner &&
-5db1c03feb00a72 Jeff Layton          2014-07-29  8070  		    cstate->replay_owner != &lock_sop->lo_owner &&
-5db1c03feb00a72 Jeff Layton          2014-07-29  8071  		    seqid_mutating_err(ntohl(status)))
-5db1c03feb00a72 Jeff Layton          2014-07-29  8072  			lock_sop->lo_owner.so_seqid++;
-5db1c03feb00a72 Jeff Layton          2014-07-29  8073  
-5db1c03feb00a72 Jeff Layton          2014-07-29  8074  		/*
-5db1c03feb00a72 Jeff Layton          2014-07-29  8075  		 * If this is a new, never-before-used stateid, and we are
-5db1c03feb00a72 Jeff Layton          2014-07-29  8076  		 * returning an error, then just go ahead and release it.
-5db1c03feb00a72 Jeff Layton          2014-07-29  8077  		 */
-2502072058b35e2 J. Bruce Fields      2018-01-17  8078  		if (status && new)
-5db1c03feb00a72 Jeff Layton          2014-07-29  8079  			release_lock_stateid(lock_stp);
-beeca19cf1249a9 Trond Myklebust      2017-11-03  8080  
-beeca19cf1249a9 Trond Myklebust      2017-11-03  8081  		mutex_unlock(&lock_stp->st_mutex);
-5db1c03feb00a72 Jeff Layton          2014-07-29  8082  
-3d0fabd5a48fbf6 Trond Myklebust      2014-07-29  8083  		nfs4_put_stid(&lock_stp->st_stid);
-5db1c03feb00a72 Jeff Layton          2014-07-29  8084  	}
-0667b1e9d8a7c0a Trond Myklebust      2014-07-29  8085  	if (open_stp)
-0667b1e9d8a7c0a Trond Myklebust      2014-07-29  8086  		nfs4_put_stid(&open_stp->st_stid);
-9411b1d4c7df26d J. Bruce Fields      2013-04-01  8087  	nfsd4_bump_seqid(cstate, status);
-21179d81f1de37c Jeff Layton          2012-08-21  8088  	if (conflock)
-21179d81f1de37c Jeff Layton          2012-08-21  8089  		locks_free_lock(conflock);
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8090  	return status;
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8091  }
-^1da177e4c3f415 Linus Torvalds       2005-04-16  8092  
-
-:::::: The code at line 7881 was first introduced by commit
-:::::: 2dd10de8e6bcbacf85ad758b904543c294820c63 lockd: introduce safe async lock op
-
-:::::: TO: Alexander Aring <aahringo@redhat.com>
-:::::: CC: Chuck Lever <chuck.lever@oracle.com>
+   555	
+   556	static int psnet_open_pf_bar(struct pci_dev *pdev, struct psnet *psnet)
+   557	{
+   558		char *name;
+ > 559		int ret;
+   560		unsigned short i, bars_found = 0;
+   561		void __iomem *io;
+   562	
+   563		name = devm_kasprintf(&pdev->dev, GFP_KERNEL, "psnet[%s]-bars", pci_name(pdev));
+   564		if (!name)
+   565			return -ENOMEM;
+   566	
+   567		/* We don't know which BAR will be used to communicate..
+   568		 * We will map every bar with len > 0.
+   569		 *
+   570		 * Later, we will discover the BAR and unmap all other BARs.
+   571		 */
+   572		for (i = 0; i < PCI_STD_NUM_BARS; i++) {
+   573			if (pci_resource_len(pdev, i) == 0)
+   574				continue;
+   575	
+   576			io = pcim_iomap_region(pdev, i, name);
+   577			if (IS_ERR(io)) {
+   578				SNET_ERR(pdev, "Failed to request and map PCI BARs\n");
+   579				return PTR_ERR(io);
+   580			}
+   581	
+   582			psnet->bars[i] = io;
+   583			bars_found++;
+   584		}
+   585	
+   586		/* No BAR can be used.. */
+   587		if (bars_found == 0) {
+   588			SNET_ERR(pdev, "Failed to find a PCI BAR\n");
+   589			return -ENODEV;
+   590		}
+   591	
+   592		return 0;
+   593	}
+   594	
 
 -- 
 0-DAY CI Kernel Test Service
