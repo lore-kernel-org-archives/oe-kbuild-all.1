@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B066C19C543
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 08:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11492198A0E
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 08:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733213526; cv=none; b=BQRhfkCdre+Lhu1Hp/03oEunYTrsWra9pcmnQqclQ8HDTAaDnzMW6JohbFEWAad/QL0KiJfrfnGT0zOIE+rCevZRLeTbvIjK6YdwnNZb7iOOMmxGsvQv4HG7SCYv+XdAba5Nrr1j7k/YauOOZ1EgCGjWtbhpCNj9kGZAHMS87SQ=
+	t=1733215395; cv=none; b=CP0zxpr+Bs6b9NHVI37DhygsQx/TADgKlheDAN1JftjwZHVxLJ3zQsEYpLygUBDHvmz/j5yB2swx1jYGYAIJ3jtFbzJB3Sgb1cqJfr+ON577SgMYX+aU4khf1dkBsKUBvMP1YdfkzxSEjAAMhOaarPhPabkNGbtHm3zJtY6gyCE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733213526; c=relaxed/simple;
-	bh=nC/9AgYkQYd67w3OXGLKGdZT5swgyaOeE007rjrUoJQ=;
+	s=arc-20240116; t=1733215395; c=relaxed/simple;
+	bh=hfLK2/DcSxYLCyqBn0xx2TTUK0YW1Z0m192Fs400nmI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WxP2J4CSGlF5dMzOzZH7NckIxURZ3OMXct3SlOo0B8sTCS+TO6Z+YVOz23Ddv7lmr2pQMjZQq2B6VuZe1CIRSuw6x6TPQhzV/f6Q2GMzhPQwYJ6MVTqsGjgvojVPPi67uAXXVR3smZx+Pl8hYhz7sKAuY1reyyZTJlqPMoW9JZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1AqBuYB; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=kgJr//z95PIZ7ygznP0wNsRhmZmM00bWLU0BQoX2LwSjYg7jUePl9oNoRdkgNI2wVggPl7m93Wnrh+SCqjKxz8O3aqGDO6/+WA3yjAvm5QUY2xk9TNc2p0XDIinkVn6ZYVlgRZscghRnwxfSRUYuOFS97w1iuIdcNdOjqJkPsuQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jtud4UVm; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1AqBuYB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jtud4UVm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733213525; x=1764749525;
+  t=1733215392; x=1764751392;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nC/9AgYkQYd67w3OXGLKGdZT5swgyaOeE007rjrUoJQ=;
-  b=W1AqBuYB40battxNflvui5u8Yh/s5dR+yoJFR7f0N97nRJhIgHBIQT/p
-   RtAU0keW41FjswrjfYZVsbJI8l2QA7wolKUt1YQkfT450EopB4bvS4YGW
-   kzzOQomqPOMuTMBb0wq2Ssb40NqV+i0A2rdC9nL6oANlfKOhKye1I+EtK
-   BM/BlNfU2RswsjZVMC6lrPBOE6ZSy35wbF+MfDpWi80jCcq6pbqOxsjPv
-   6QRybRUNJ7OAccFwmQcuzUNAs+VNboTFhVQ74e5WT6dSg+B9GinjJwrO0
-   lmuU9gbFPbalPuphez1eRzohvT/aQmihkDN4jctvfVxmt/Z4NeJB+2zPQ
-   w==;
-X-CSE-ConnectionGUID: tI3dLKlDTmKHGYSnYUZjEA==
-X-CSE-MsgGUID: rOe55UmeRyq31nDozJD7Qg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="50939024"
+  bh=hfLK2/DcSxYLCyqBn0xx2TTUK0YW1Z0m192Fs400nmI=;
+  b=Jtud4UVm4KgPGHNF8xdaNTP4RF+jlGL6WUzN4ds/XsYin/s7WBZFkaKN
+   uBYZeA3T+pWmZJyQD+WoZa1uLt9tRGasnHQjyKO3L6hk1IUTPqLVomZkm
+   vWDxUT++Mjak6w5hmh+o6XFFkseoNcfcmV0HkLYsE3SeLaip/PTbMmrzB
+   zw512At4ssPGwmr9RiXUryPfSGHDFQaafjuCPyEq4gaW1jHS134Ez+tjh
+   64i3skcPJWTxw3WoFqYPkcA6jtVfBtBOIQHa7uuUBOnGHI7K7OKaSrjkr
+   Yl2Q5b/sHAHo6Mf0ubDrss8pkEKbPr7Cr8O7q2RrNjCegOL8BMJ3gAyzI
+   A==;
+X-CSE-ConnectionGUID: byz6gzLhQp+MGLqncOGA0Q==
+X-CSE-MsgGUID: uBLHoUdyRiaPqbn1QmE7Vw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33291642"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="50939024"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 00:12:04 -0800
-X-CSE-ConnectionGUID: PQE6BiHJT8qD/lEFg7NBJg==
-X-CSE-MsgGUID: SjMz3sqPQsaufOC5+hVDdA==
+   d="scan'208";a="33291642"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 00:43:11 -0800
+X-CSE-ConnectionGUID: Dx2OZUwtSFm4dnrd40EDZg==
+X-CSE-MsgGUID: +pKKCQLAT3K4+Us78VhBkQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="116616497"
+   d="scan'208";a="93188455"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 03 Dec 2024 00:12:03 -0800
+  by fmviesa007.fm.intel.com with ESMTP; 03 Dec 2024 00:43:10 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIO0m-0000L6-2K;
-	Tue, 03 Dec 2024 08:12:00 +0000
-Date: Tue, 3 Dec 2024 16:11:39 +0800
+	id 1tIOUu-0000Pf-0R;
+	Tue, 03 Dec 2024 08:43:08 +0000
+Date: Tue, 3 Dec 2024 16:42:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Hui Tang <tanghui20@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2516/2516] kernel/sched/relationship.c:46:39:
- error: no member named 'mems_allowed' in 'struct task_struct'
-Message-ID: <202412031643.JKJ5FFhF-lkp@intel.com>
+To: Peng Ma <peng.ma@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>
+Subject: drivers/rtc/rtc-fsl-ftm-alarm.c:310:36: warning: 'ftm_imx_acpi_ids'
+ defined but not used
+Message-ID: <202412031620.1tzCLuCU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +63,35 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   f86196bf02fd9bea8511335c45bf10b6b0a3ea13
-commit: 2ac826b258e9aceefd719f7b0c3e3a9e73901ce5 [2516/2516] sched: Introduce task relationship by net and memory
-config: x86_64-randconfig-r063-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031643.JKJ5FFhF-lkp@intel.com/config)
-compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031643.JKJ5FFhF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
+commit: 929a3270488956316214d70cd4e2ba3fa56ffe31 rtc: fsl-ftm-alarm: enable acpi support
+date:   4 years, 8 months ago
+config: arm-randconfig-004-20240106 (https://download.01.org/0day-ci/archive/20241203/202412031620.1tzCLuCU-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031620.1tzCLuCU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031643.JKJ5FFhF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031620.1tzCLuCU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/sched/relationship.c:19:
-   In file included from include/linux/bpf_sched.h:5:
-   In file included from include/linux/bpf.h:21:
-   In file included from include/linux/kallsyms.h:12:
-   In file included from include/linux/mm.h:1581:
-   include/linux/vmstat.h:417:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     417 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     418 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:424:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     424 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     425 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:431:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     431 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:436:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     436 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     437 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:445:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     445 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     446 |                            NR_VM_NUMA_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~
-   In file included from kernel/sched/relationship.c:22:
-   kernel/sched/sched.h:1838:15: warning: cast from 'void (*)(struct rq *)' to 'void (*)(struct callback_head *)' converts to incompatible function type [-Wcast-function-type-strict]
-    1838 |         head->func = (void (*)(struct callback_head *))func;
-         |                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/relationship.c:46:39: error: no member named 'mems_allowed' in 'struct task_struct'
-      46 |                 !nodes_subset(node_online_map, tsk->mems_allowed) ||
-         |                                                ~~~  ^
-   include/linux/nodemask.h:218:30: note: expanded from macro 'nodes_subset'
-     218 |                         __nodes_subset(&(src1), &(src2), MAX_NUMNODES)
-         |                                                   ^~~~
-   6 warnings and 1 error generated.
+>> drivers/rtc/rtc-fsl-ftm-alarm.c:310:36: warning: 'ftm_imx_acpi_ids' defined but not used [-Wunused-const-variable=]
+     310 | static const struct acpi_device_id ftm_imx_acpi_ids[] = {
+         |                                    ^~~~~~~~~~~~~~~~
 
 
-vim +46 kernel/sched/relationship.c
+vim +/ftm_imx_acpi_ids +310 drivers/rtc/rtc-fsl-ftm-alarm.c
 
-    38	
-    39	bool task_relationship_supported(struct task_struct *tsk)
-    40	{
-    41		if (!task_relationship_used())
-    42			return false;
-    43	
-    44		if (!tsk->rship || !tsk->mm ||
-    45			!cpumask_subset(cpu_online_mask, tsk->cpus_ptr) ||
-  > 46			!nodes_subset(node_online_map, tsk->mems_allowed) ||
-    47			get_task_policy(tsk)->mode == MPOL_BIND ||
-    48			get_task_policy(tsk)->mode == MPOL_INTERLEAVE)
-    49			return false;
-    50	
-    51		return true;
-    52	}
-    53	
+   309	
+ > 310	static const struct acpi_device_id ftm_imx_acpi_ids[] = {
+   311		{"NXP0011",},
+   312		{ }
+   313	};
+   314	MODULE_DEVICE_TABLE(acpi, ftm_imx_acpi_ids);
+   315	
 
 -- 
 0-DAY CI Kernel Test Service
