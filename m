@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1D7817;
-	Tue,  3 Dec 2024 05:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A0E6FC3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 05:22:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733202099; cv=none; b=Fy9nSJtUiKvut/rZB34wVIT5txaYS7LUFmDZCZVBF8ycJnhz8xDjJuyCgqM9PlhpJwy21nL0ZjnWztQBUcoMtcFqaewYZydOu1cx/SoJvH1ZOTN1fFBT7eeipVjM3qcNM5kWs8xCtJO0Wn03+h5oBhISRzIQ4XQR05Sd9GLyuvI=
+	t=1733203363; cv=none; b=XhkDDRaQ744Gv9YhPo6Fa2oL2A/PNLNpJmGpKQspYywqpEqF8cWFDGJmyHm/TOBBJL5iwrmDKUSz2q2i8JpEjimRRUKUX98zaoqysv0UpB3eXGETsTUWQgBJbxe1zGCRkAhdZpmzujEVEkPzGoBYi0dBWFta5b9APV162nWufEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733202099; c=relaxed/simple;
-	bh=DXxL9/Gm7PkbMQllRo9EbsZiOND8tNSJ7A1NpL99nv4=;
+	s=arc-20240116; t=1733203363; c=relaxed/simple;
+	bh=6vWpKqNsGvSzwH6oVd3clguAZEyXEAHWtEsXD1LRbK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BkTa/5VJMFpsnk+dsW5/X76AQuXUwm8TUbVRAJiSJs1ZWnSJiudFOiYuI+NL/JlwpFzaUZIZX6vG+AhkKs1SxzDaJQYtfnnUqUfGoACbMG/3sTYq44qCuipo6tQiOICO8Y4Rr/eP04ezH8Mh1JNDAvlSfH2+0/QqjgC+g0U7scA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OFfLfbcp; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=FV3zt+TSeOXC/40NEPEMaoZYyDI+OqVTwZUq4mMEnbiLq5XoCAHtLvDtd1rjkeLcgh52ARB8lnGzF7+Mp5+IMH/0J1Zyy/+9UtabtTIGuNExvkL/T42Wui3/vN+CaFphVI4q7iJSMGJlOXFywk0zEtW4mN150Z+2y9Hr4aWpMms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TXLDIn8J; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OFfLfbcp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXLDIn8J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733202098; x=1764738098;
+  t=1733203361; x=1764739361;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DXxL9/Gm7PkbMQllRo9EbsZiOND8tNSJ7A1NpL99nv4=;
-  b=OFfLfbcp+L9irqfw691W5fLDcxsoxXSqFD0jJlKBr6cDO4oMNbtJAHPf
-   NsLb0iC7Gq1Fhf5boutpwDaJgqRzEqEZEykCEjVOnvY63+2gBznHcl7nY
-   iOUE2BIlBqogYj8Keg2kozD2pkldaCgbmOoJk726ypfw2d7IK7BbL78uv
-   I4grTMkCcNiJBwBplHBKk6Mjbdku4qSx3HHXkJyTVEMI8xf5MKUaq2MDE
-   7M1Ay0tc7yJMBqQX5btEcC9jB/WUr0njLsBejb5ygv38p+pjq6RWl1mVe
-   Cyfaa2bAPfxhG3SDX+MPJIqycrEROVgFDWDWO3Xq+AhiSDnXVWJI0yyxk
+  bh=6vWpKqNsGvSzwH6oVd3clguAZEyXEAHWtEsXD1LRbK0=;
+  b=TXLDIn8JMbdJXKqWikimWtCzc3h5JnIvRBJYU7C2qJd8+fs3PwTAzqKS
+   xZs7nQdHr3MT6lSbFxA7aoNtOpGyrzjryPThOjuhUs2nLKXo38IrucpTq
+   64VtUjrN+zFfGZJG15MUp20JbUehpJZ0WP7RIrShWBLW2GxB8teV/xtlo
+   29oMKwV6TSwcD2BKQXkDOJKSZjBdWeLuNd+m0LEzszJ75eHSO90pNTFIi
+   0ZzTWKz7G0N+2gvl3EPNc01Qx+272twtO3IMoiIqynqzWl4sgPB7SFgIc
+   chTvz7QD/cvERKDn3x9+9Qdm6lpFFGsSuxi+z17PXWPCo6+K29QzvvhNj
    w==;
-X-CSE-ConnectionGUID: 7fFp000xQuKxW5rAsDG07A==
-X-CSE-MsgGUID: 8CwcRMRLQ0aq7v0a2BK6uw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="36252492"
+X-CSE-ConnectionGUID: s1sM3e/PR6y8I5KRgUHdqw==
+X-CSE-MsgGUID: 19C70BwjSjeOpuBb18tSxg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44786176"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="36252492"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 21:01:38 -0800
-X-CSE-ConnectionGUID: ZgaU0h70QuehHoaCHdkKjQ==
-X-CSE-MsgGUID: LOz2xU4gS3C9LTZwQtHMqg==
+   d="scan'208";a="44786176"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 21:22:40 -0800
+X-CSE-ConnectionGUID: Uui82iBjS+KxSDv9sXYmLw==
+X-CSE-MsgGUID: bHMenobVRvis53qf7w1xLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="97750218"
+   d="scan'208";a="93517758"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 21:01:36 -0800
+  by fmviesa008.fm.intel.com with ESMTP; 02 Dec 2024 21:22:40 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIL2T-00008T-1m;
-	Tue, 03 Dec 2024 05:01:33 +0000
-Date: Tue, 3 Dec 2024 13:00:38 +0800
+	id 1tILMr-00009o-0L;
+	Tue, 03 Dec 2024 05:22:37 +0000
+Date: Tue, 3 Dec 2024 13:22:12 +0800
 From: kernel test robot <lkp@intel.com>
 To: Petlozu Pravareshwar <petlozup@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Thierry Reding <treding@nvidia.com>,
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Thierry Reding <treding@nvidia.com>,
 	Stefan Kristiansson <stefank@nvidia.com>
 Subject: drivers/soc/tegra/pmc.c:467: warning: Function parameter or member
  'syscore' not described in 'tegra_pmc'
-Message-ID: <202412031259.iLobeeHW-lkp@intel.com>
+Message-ID: <202412031356.AHySUdDO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,14 +72,14 @@ tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git maste
 head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
 commit: 1ddb8f6d44ff482c9953a06f800453bc372cfead soc/tegra: pmc: Fix dual edge triggered wakes
 date:   2 years, 1 month ago
-config: arm-defconfig (https://download.01.org/0day-ci/archive/20241203/202412031259.iLobeeHW-lkp@intel.com/config)
-compiler: clang version 14.0.6 (https://github.com/llvm/llvm-project.git f28c006a5895fc0e329fe15fead81e37457cb1d1)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031259.iLobeeHW-lkp@intel.com/reproduce)
+config: arm64-randconfig-001-20240106 (https://download.01.org/0day-ci/archive/20241203/202412031356.AHySUdDO-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031356.AHySUdDO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031259.iLobeeHW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031356.AHySUdDO-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
