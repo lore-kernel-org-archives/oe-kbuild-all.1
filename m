@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B74241632E4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 09:04:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F521D79B3
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 09:04:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733216657; cv=none; b=OsaC07C8IYnyIBDzj2SQ19CUL96CYyWNq88hjHGyxvnLOD133xzN8KUH90wRJVMajJ8XYs+ic9PgL0kx8Onsw931Xitl/ZOZAdARwzNoB1QI/+wc10l2cfpMvMbJDP1rIP08UlaMu9EmTu1rRK5GVu2VI+H8qBoMDYKo1h+zH8c=
+	t=1733216663; cv=none; b=kRyVzxM2AGlvRBbcYvZM/Eac/V8Hand/ORosYybJuUnQwZDFnkvaMfR4mXpDse4RgPvQ2YR4zMERkPr8Fwv7rjg5Eip7vG1FnLVt7tugj5IoiXX1JL+wFXElMKH/kqrN7Rkucg1kQa1TBUdDCphjdEv6yZWGYqwqprINkx+QhG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733216657; c=relaxed/simple;
-	bh=PKogFheRZ5x5MHjI6FGkRxA0qHArkmk+xgeA1ujDnE0=;
+	s=arc-20240116; t=1733216663; c=relaxed/simple;
+	bh=tKZRtlk6N9zgjSHUSaU6anLy5B04Yz/8c9ESPDx2qzw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f3tlXfqAaVowQFeGJJmDOzGz4C5rRbnfHehT7hsbiPRN9FL02xABQqh90Gxln4B8veMBJGpQ/boGK15d3OnHVO6vRXizBkDJBW4aWKujXqpOO8KwqPfdoXLnty/bH6d71sIpiNqU3TVQCbR7dx0wY4Sp8bB6OlT6qcfKn/v98MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g2+d67a5; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=X//X8r6DaDgKMrZkL8Mitue/F4Qb7+n+IsrfoowOQuOYejuLgRCYQcN1xz19QceAiLHTp7ZXiKcZoKBe0rHsJS4P3Q9qvmEKKmNp3kppuOD3mMYfXqv/LctXhHEXDmt/fYLBMNpOfzerKyUY+pq65ErkSlkutfLCBGr/09W6lRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPL3VevW; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2+d67a5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPL3VevW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733216656; x=1764752656;
+  t=1733216658; x=1764752658;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PKogFheRZ5x5MHjI6FGkRxA0qHArkmk+xgeA1ujDnE0=;
-  b=g2+d67a5UUPbTnZqOufCsxY7BOBahqLDCTGXw1fCyY7b/KQJqpvl+nv8
-   ae+Kb2TaHHoaoaUK/Y8vONfTYIa3r7sInKZqYhCKxT4y70SYZtac0dGj0
-   7un1BCx+vgRwMV0ScPNMm/ULKbWH9KTsuk9wBVPzuTQKfLmZPOjy5W0sy
-   lQhc1puaqTjyF5So2jmAbvvkNcFBKbfjejkIrygDoM9SLhpYbNHK/y6yF
-   rPsEGMOoRzlCIVht27GH3Cu1uxmFOw93EbVrAMqWdZkn7OczXFd0JNHON
-   iRUlor8Jz23yr06BQkbmg/kUu4Had0m1pVGRaKz98sxGg9mP2HHq1eGKs
+  bh=tKZRtlk6N9zgjSHUSaU6anLy5B04Yz/8c9ESPDx2qzw=;
+  b=jPL3VevWCR9/uiea6esbX8boZRZA3Aczr0vpCjnTVVxPdHcl5J4EFbGv
+   GYGC6diXd4F9lDPzEgrUHc6Q3xkKHfcalYYRorw/QfBBTF2ZydAQnQrCH
+   L0QFf+a5cb03dDGyWd1+dsFWzHBX2H0u5kCoPoc6M0MlsPFspJ+iSFncb
+   2jTmC4nSIbUTA+DBub5pGralfL9rzIipApqy1JkZzCeT2xysJvodioISO
+   CGdaBz9sufmcHBg8C3QZ4llhD+alXM28KQKNGVny3liaAoN9UKRVwxwn0
+   OUEkDlOjy7Op+o5CLquZs0zd3isWop7nbfPGn4AsjUNDcpXrpFru0lnQ8
    Q==;
-X-CSE-ConnectionGUID: SGOcwkOHSN6t1t136Sw+eA==
-X-CSE-MsgGUID: rBTlbfZqSiaCDCb5hqiwYg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44446766"
+X-CSE-ConnectionGUID: 23SUZ5G1RqWsJQ3nuuJ3lw==
+X-CSE-MsgGUID: uF5KlWyISs2yZw0esb1dSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44446768"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="44446766"
+   d="scan'208";a="44446768"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
   by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 01:04:15 -0800
-X-CSE-ConnectionGUID: +80FZccWR6u6RxWNJAFpPg==
-X-CSE-MsgGUID: F/lELXC9QkG1UU21CLgkKg==
+X-CSE-ConnectionGUID: CUiqpc4/S8SehIez4/tXtg==
+X-CSE-MsgGUID: yH6UTKteSAakr0C2JUNenw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="93775029"
+   d="scan'208";a="93775031"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
   by orviesa007.jf.intel.com with ESMTP; 03 Dec 2024 01:04:14 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIOpH-0000RP-2d;
+	id 1tIOpH-0000RR-2g;
 	Tue, 03 Dec 2024 09:04:11 +0000
-Date: Tue, 3 Dec 2024 17:03:14 +0800
+Date: Tue, 3 Dec 2024 17:03:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+To: Steev Klimaszewski <steev@kali.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2516/2516] fs/proc/base.c:1454:6: warning: no
- previous prototype for 'pbha_bit0_hide_file'
-Message-ID: <202412031640.QjUBley5-lkp@intel.com>
+Subject: htmldocs: Warning:
+ Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+Message-ID: <202412031645.4Ov34Rgt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +64,37 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Ma,
+Hi Yong,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   f86196bf02fd9bea8511335c45bf10b6b0a3ea13
-commit: bea38841945a52bd03004240eb0da6a5115bae21 [2516/2516] arm64: mm: Hide pbha_bit0 in procfs if pbha is not enabled
-config: arm64-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031640.QjUBley5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031640.QjUBley5-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux linux-5.10-gen-rkr3.4
+head:   39141d792534c5703bb834861c47718008c85001
+commit: 70ef2cc4d51e006d23e5d2559f395e1c1e4e7dbc UPSTREAM: dt-bindings: memory: mediatek: Convert SMI to DT schema
+date:   3 years, 8 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20241203/202412031645.4Ov34Rgt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031640.QjUBley5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031645.4Ov34Rgt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/proc/base.c:1454:6: warning: no previous prototype for 'pbha_bit0_hide_file' [-Wmissing-prototypes]
-    1454 | bool pbha_bit0_hide_file(const char *name)
-         |      ^~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HARDLOCKUP_DETECTOR
-   Depends on [n]: DEBUG_KERNEL [=n] && !S390 && (HAVE_HARDLOCKUP_DETECTOR_PERF [=n] || HAVE_HARDLOCKUP_DETECTOR_ARCH [=y])
-   Selected by [y]:
-   - SDEI_WATCHDOG [=y] && ARM64 [=y] && ARM_SDE_INTERFACE [=y] && !HARDLOCKUP_CHECK_TIMESTAMP [=n]
-   WARNING: unmet direct dependencies detected for PGP_PRELOAD
-   Depends on [n]: CRYPTO [=y] && ASYMMETRIC_KEY_TYPE [=n]
-   Selected by [y]:
-   - PGP_PRELOAD_PUBLIC_KEYS [=y] && CRYPTO [=y]
-
-
-vim +/pbha_bit0_hide_file +1454 fs/proc/base.c
-
-  1453	
-> 1454	bool pbha_bit0_hide_file(const char *name)
-  1455	{
-  1456		if (!system_support_pbha_bit0() && !strncmp("pbha_bit0", name, 9))
-  1457			return true;
-  1458	
-  1459		return false;
-  1460	}
-  1461	#else
-  1462	static bool pbha_bit0_hide_file(const char *name) { return false; }
-  1463	#endif
-  1464	
+   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+>> Warning: Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+   Warning: Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+>> Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+   Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+   Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   Warning: Documentation/devicetree/bindings/media/mediatek-mdp.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+>> Warning: Documentation/devicetree/bindings/media/mediatek-mdp.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+   Warning: Documentation/devicetree/bindings/media/mediatek-vcodec.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+   Warning: Documentation/devicetree/bindings/usb/dwc3-st.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/generic.txt
+   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
 
 -- 
 0-DAY CI Kernel Test Service
