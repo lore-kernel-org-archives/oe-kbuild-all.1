@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2E12500A2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 01:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A7233981
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 01:02:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733187778; cv=none; b=EMwS964L1nOPJzwg3g/9kZqf6hlLbWaOmVe4iDOptqYeFigKi256Ze8m6EBfm3FqyvzsZhHtf2r4GQfnVGSsQqg+kTh3cLekCTmtRnPHta+TSyEyWbaPB2KPlSlyJa4eUAZBMxSH2F1cQNOwssKEUfYzzI6lCVdXh5vmS3nevtM=
+	t=1733187782; cv=none; b=I74jX42b7jlh1fyY1B1NGBKDWMe5S2s5YOLFhrxqGK6JIkaCyIEwnSLMLN3bm+iyy1i892z4vOJB2fj1eJBYkyK/PzAPIaMXEElAAiauGZtuSinFFDn2xg9uTo1hJPCap084X+d9uaAIBT/w+XfuHdrbTV/Wxa+fK7FR9KQaD0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733187778; c=relaxed/simple;
-	bh=RRZ06k3xf/DjZDjcKtLF27mvVXG8q2fEhu2aYIitcoI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k3QXtI07CFCn465d1DLeKwSndBwUM6Sc+fQMDqJYYpl1cFgTyW7nA+ySwnREiwWV+t+rho29bds2N0zT2Q4PGRI8P/Vb18mIDQ4nxhTOAHmZR2gsU0vV4+WaGgF/6zGEeIt+lRvORPlUw411a/jBKEYzR0S0u+vjmJfeMFqLnvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X7io3Y33; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1733187782; c=relaxed/simple;
+	bh=4POFwrP5w7Ia/lQZSGjXnFzy6QodMbqKniWvlOsJ47M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jzfeiAXB7KeJB+PA4GkDzNximq25XMjyrvZkDfSjC7KttuPYaxbe+2Ph9tpNnf53oo6oYwto6blfnY+C0CabirpEMdPQFCjjKMf+IoxVHcez50S6862xQVZDaY4gSTTplHS+NRcehS23kJ07ePujc1vi+xKo1mUqMPlmhMwjzUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W5di93Xg; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X7io3Y33"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W5di93Xg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733187776; x=1764723776;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RRZ06k3xf/DjZDjcKtLF27mvVXG8q2fEhu2aYIitcoI=;
-  b=X7io3Y3313PmEXTC2lGMM43SBRoJK97j6G8zRJLT/si17EjirztOFvaj
-   Pzr92aAo7usNttKgyxc7gEntfxA4nXZwmTTFm9t/i+UdkRr3BSyB7WBVg
-   aOXHBY1+00bEb5AN1pQu5OVxoK4k8D3GO/qI4nYjvT7Xth+S9w1ZnCYnr
-   IKdk5pN6DO907P7kbt2nm9Zdp+RLPgm85qoV0Hj6d9cikQYgZCLdU4NSp
-   z4E22UWS7eOi5V0wGyOIHLzDvkBsJucqX7znXMafFfNmGXf+B1aj17nH3
-   IeIw/geKwIdwEt2OmC/uDlDxelNdEhhlrLWgM/M7JRGzdB2xfXtdfefkr
+  t=1733187780; x=1764723780;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4POFwrP5w7Ia/lQZSGjXnFzy6QodMbqKniWvlOsJ47M=;
+  b=W5di93Xg2k6XzwhS9uOcIluOCpSZZeJcEfc6o+T+29gFdKj3nUo8KPSm
+   RWJ4voKc6fV1lV3oLN6Hae6nUQS1yViWeFLZNnw6/vVIm8+rorHpinsih
+   eCcLGtTdA2rjzGn5G9/B/njEKAbB6jCJxLCTbKpz7fVNCGzj0WunzhCkA
+   j+7f2ncdPZvOQaTkf2PDdP2bTY3o0Id+QSzffZERWZ1joFMeMv80IOBTm
+   +Nb0mrzz9SieVKgfx/e6wtQ0kWCOjW5V10n/hbJjwR7rFoPhrOBKpZ+jR
+   FaXuezWeILzD7LYIrZLW0UwM+U+W5te2jGSemWQUeBnGAlbaJVxSVkKFJ
    g==;
-X-CSE-ConnectionGUID: 7MA8P7lkRYSAyW5wDqfcsw==
-X-CSE-MsgGUID: W2eQefCASTesKQlPjt2acg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="55871242"
+X-CSE-ConnectionGUID: NI0mgVuqTia7/AJNbsEFOg==
+X-CSE-MsgGUID: 8/N3+ci+TQOKrWwM4/VS4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33512479"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="55871242"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 17:02:55 -0800
-X-CSE-ConnectionGUID: so1D1V53SGy36G3A3KnCKQ==
-X-CSE-MsgGUID: RTbc51zATQW9HyBV+Zeknw==
+   d="scan'208";a="33512479"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 17:02:59 -0800
+X-CSE-ConnectionGUID: cG7cpD1/TW2DNl7/3eJurg==
+X-CSE-MsgGUID: K9X3QMJKQg2Qz8gqX9K7dw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="93680023"
+   d="scan'208";a="93599355"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2024 17:02:51 -0800
+  by fmviesa010.fm.intel.com with ESMTP; 02 Dec 2024 17:02:52 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIHJR-000365-1E;
+	id 1tIHJR-000369-1N;
 	Tue, 03 Dec 2024 01:02:49 +0000
-Date: Tue, 3 Dec 2024 09:02:14 +0800
+Date: Tue, 3 Dec 2024 09:02:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Schmidt <mschmidt@redhat.com>,
-	Rodolfo Giometti <giometti@enneenne.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Uwe =?unknown-8bit?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	Ma Ke <make24@iscas.ac.cn>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	George Spelvin <linux@horizon.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/6] pps: embed "dev" in the pps_device
-Message-ID: <202412030824.tmsDhCFT-lkp@intel.com>
-References: <20241202163451.1442566-6-mschmidt@redhat.com>
+To: Hannes Reinecke <hare@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Sagi Grimberg <sagi@grimberg.me>
+Subject: [hare-nvme:secure-concat.v12 5/10]
+ include/linux/nvme-keyring.h:21:20: warning: 'nvme_tls_psk_refresh' defined
+ but not used
+Message-ID: <202412030908.fXE7v8XZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,80 +62,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20241202163451.1442566-6-mschmidt@redhat.com>
 
-Hi Michal,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 7af08b57bcb9ebf78675c50069c54125c0a8b795]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Schmidt/pps-fix-cdev-use-after-free/20241203-025037
-base:   7af08b57bcb9ebf78675c50069c54125c0a8b795
-patch link:    https://lore.kernel.org/r/20241202163451.1442566-6-mschmidt%40redhat.com
-patch subject: [PATCH 5/6] pps: embed "dev" in the pps_device
-config: arm-randconfig-002-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030824.tmsDhCFT-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030824.tmsDhCFT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/nvme.git secure-concat.v12
+head:   93a284266ba999106a528e21d3ce5e9662b326fc
+commit: e43b364dcb5a092b3f2dd2efdc604a4ad84ca5d4 [5/10] nvme-keyring: add nvme_tls_psk_refresh()
+config: arc-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030908.fXE7v8XZ-lkp@intel.com/config)
+compiler: arceb-elf-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030908.fXE7v8XZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030824.tmsDhCFT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030908.fXE7v8XZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/cdev.h:8,
-                    from include/linux/pps_kernel.h:12,
-                    from drivers/pps/clients/pps-ktimer.c:15:
-   drivers/pps/clients/pps-ktimer.c: In function 'pps_ktimer_exit':
->> drivers/pps/clients/pps-ktimer.c:59:21: error: incompatible type for argument 1 of '_dev_info'
-      59 |         dev_info(pps->dev, "ktimer PPS source unregistered\n");
-         |                  ~~~^~~~~
-         |                     |
-         |                     struct device
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/pps/clients/pps-ktimer.c:59:9: note: in expansion of macro 'dev_info'
-      59 |         dev_info(pps->dev, "ktimer PPS source unregistered\n");
-         |         ^~~~~~~~
-   include/linux/dev_printk.h:95:37: note: expected 'const struct device *' but argument is of type 'struct device'
-      95 | void _dev_info(const struct device *dev, const char *fmt, ...)
-         |                ~~~~~~~~~~~~~~~~~~~~~^~~
-   drivers/pps/clients/pps-ktimer.c: In function 'pps_ktimer_init':
-   drivers/pps/clients/pps-ktimer.c:77:21: error: incompatible type for argument 1 of '_dev_info'
-      77 |         dev_info(pps->dev, "ktimer PPS source registered\n");
-         |                  ~~~^~~~~
-         |                     |
-         |                     struct device
-   include/linux/dev_printk.h:110:25: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                         ^~~
-   drivers/pps/clients/pps-ktimer.c:77:9: note: in expansion of macro 'dev_info'
-      77 |         dev_info(pps->dev, "ktimer PPS source registered\n");
-         |         ^~~~~~~~
-   include/linux/dev_printk.h:95:37: note: expected 'const struct device *' but argument is of type 'struct device'
-      95 | void _dev_info(const struct device *dev, const char *fmt, ...)
-         |                ~~~~~~~~~~~~~~~~~~~~~^~~
+   In file included from drivers/nvme/target/configfs.c:18:
+>> include/linux/nvme-keyring.h:21:20: warning: 'nvme_tls_psk_refresh' defined but not used [-Wunused-function]
+      21 | static struct key *nvme_tls_psk_refresh(struct key *keyring,
+         |                    ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +/_dev_info +59 drivers/pps/clients/pps-ktimer.c
+vim +/nvme_tls_psk_refresh +21 include/linux/nvme-keyring.h
 
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  52  
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  53  /*
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  54   * Module staff
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  55   */
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  56  
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  57  static void __exit pps_ktimer_exit(void)
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  58  {
-5e196d34a77642 Alexander Gordeev 2011-01-12 @59  	dev_info(pps->dev, "ktimer PPS source unregistered\n");
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  60  
-5e196d34a77642 Alexander Gordeev 2011-01-12  61  	del_timer_sync(&ktimer);
-5e196d34a77642 Alexander Gordeev 2011-01-12  62  	pps_unregister_source(pps);
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  63  }
-697fb85fcf21b5 Rodolfo Giometti  2010-03-10  64  
+    20	
+  > 21	static struct key *nvme_tls_psk_refresh(struct key *keyring,
 
 -- 
 0-DAY CI Kernel Test Service
