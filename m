@@ -1,242 +1,190 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023107.outbound.protection.outlook.com [40.107.44.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EB517555
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 02:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733193324; cv=none; b=Cg4nzzCm+tJJ14vQ5IkTRStjHYexzgLfGM/Th3IsjRtY9hEz2ql10YE0Svmx+kWb4JKgzedINZYikvismMGJxWgpLI1WmUDqbqgDM4zXZkrnkfmW2Aoq9A5cow1h3FkDRByTqMB4YJS8s6wXwzMyQGfkK8lkDjX+b2fapcdsOUc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733193324; c=relaxed/simple;
-	bh=MD7yN6T570a3dTrpXRkAY3H7sEqAvs1BZRIMz5avi2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g4UYwKPiNJ3u9S6mS/SeJac+e1S5aEPBictFFZ4DZbWm711otlrR3JgDgVp725l3EyHgdJjlu+P8F5gNa04N8/KO09Fl/NQvhjLfLGrk4mgOKfYBkB6luC6ovGO763Nco1S6l7idtk+a77J3CasVPU/edKiEgSKy33Bo27NLCJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H2fDGJjL; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBEC5A7AA;
+	Tue,  3 Dec 2024 02:37:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1733193469; cv=fail; b=hcz2hIjIO+itGexAAzXSPx26Vj3UGWtRr5S1KMcYcbE4+oGa2gJJ4Fir1w1Tks+r6Z+J8seXZ7DkI3ardVKTktjq+5MKPHSG013U4Exopr013+TaetaIWHRvpYQoIFLjGAolGqvRo+FfHkaC+lw55Xh0rBusxFHSJ23BKUOBLi8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1733193469; c=relaxed/simple;
+	bh=z+aCgE/vr9Q++2MmGL2m7ElnSHnEHn+3/bzvgfy6rho=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nBjlnUM3j/CfayUa7XGjQby/ic+pgeB1R+LPeGl4njwrmO14nfmSkgBtuoByhAZyk/8zXO7x7YEh6vWZjsLKIpxHw6gA7bERX94rvUgvEM05vdBRzoJfb2KBQYj2MM5TsvJwmzMPuGizsbTT+Z4nIez4z9um7qvDohkJwZVMjgs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jaguarmicro.com; spf=pass smtp.mailfrom=jaguarmicro.com; dkim=pass (2048-bit key) header.d=jaguarmicro.com header.i=@jaguarmicro.com header.b=c6+TrShR; arc=fail smtp.client-ip=40.107.44.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=jaguarmicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jaguarmicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H2fDGJjL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733193321; x=1764729321;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MD7yN6T570a3dTrpXRkAY3H7sEqAvs1BZRIMz5avi2s=;
-  b=H2fDGJjLTb/YrE52/JtJIZQIOBmOzjeEqY2XDMoOPY/GpQszJpG++Y3X
-   6HURA6akQDbxW2FLxvNw49tJscOFGM1jWCPyQnhS9Qef5F5yLidiuX5qh
-   VRNuPwBeryD0Fc24b1IorxNVPcgCN5ZoziXDOldHIU4owdUz2XUnC5uc3
-   xXurgioPOsFKQ55qzdy6+MRxysN9RW8FL25/S3+WrD3ClVJOYgGPfgypU
-   uwJBG9mTbWZ3E5h4ASgIwxAgu6wH02F6zOYtrhFJLLiAW9ZAzIXPykM5m
-   2b/7oumKa8o3xOZYMGwWFeZCV4q8fd1XVxanA8/Xuh3W6DdQVYHwZ+Ldq
-   Q==;
-X-CSE-ConnectionGUID: C+NIzeK9SO25LlnVsfPtqw==
-X-CSE-MsgGUID: rmDCcxj6T3WxcJYDJnsq/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="32742674"
-X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="32742674"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 18:35:20 -0800
-X-CSE-ConnectionGUID: rZ042wZRS4uW9fxR0xbrVg==
-X-CSE-MsgGUID: XovcL0hpRNSqVvKhJO9hwg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="130752458"
-Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 02 Dec 2024 18:35:17 -0800
-Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tIIks-0003Az-1x;
-	Tue, 03 Dec 2024 02:35:14 +0000
-Date: Tue, 3 Dec 2024 10:34:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
-	netdev@vger.kernel.org, dan.j.williams@intel.com,
-	martin.habets@xilinx.com, edward.cree@amd.com, davem@davemloft.net,
-	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
-	dave.jiang@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, Alejandro Lucero <alucerop@amd.com>
-Subject: Re: [PATCH v6 16/28] sfc: obtain root decoder with enough HPA free
- space
-Message-ID: <202412031010.o6gZQgE3-lkp@intel.com>
-References: <20241202171222.62595-17-alejandro.lucero-palau@amd.com>
+	dkim=pass (2048-bit key) header.d=jaguarmicro.com header.i=@jaguarmicro.com header.b="c6+TrShR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EU27LKNmqp+NoM46dbkPaNhhdsljs2uQFCAIkMvGvzQl6v8ZIb38LDwYpvPrUCizNrl0yi6jCAcOelOg0WYAl4xV3WP5keYSr3KAj1WjK3ebHr0FlFZTht2aiXYpmQGnBGdXfesdpc9UrFPjRe5QSNKcP4MNgHQNGqonSIFKfL1rEfYEefzyVhJkXOkU8l+NT2jki7TR16X+NAs9bvBuXLReP0ujcs/NC+A7fZa8kpYyT+G4a160q3x6Zwyo/bQr94EgTflDXePQnBzE5ahwI/bgPayuAtKkzcizPASU73U0Cd3GRpX8M87StXjqiDXU79lGY9a/mxNvyJ2lRD59jQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3NlcPSssFiT/Xbd9EZOQilwl4flvU6ARypuFSQmmKnQ=;
+ b=OKKcULNHgsOhpr9d9pgR3Ze3nr5QTJ8MZlCjD+WMd7YzcLf081TtwiwIHS+l4DDXpHiGUjC9uwQ1zXBpvisSHTL4xkqx5lPpH0B9on2BoQ9ZvQK5rEx4jmXYisvftb++EdxCzQp3pnAW3v0117yYTAiBQmfXRHdDeolSlyvRWYr4ljEH4Bk3EWJwLVrFeCjOtXl7qavrOvFKOKtEFkBHlM3MWlmO+EpFWGj0UzTbofQaeMV3GQVdKytdU7tRGS+8ygbJ61ItyCcP8DjQe0gXYcgFIDLhnrD9RBXlXYbmXvbS0wS9cdOyhLsQkn6cjXSS1qtPchrCaC0P8FeAj7E2xQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=jaguarmicro.com; dmarc=pass action=none
+ header.from=jaguarmicro.com; dkim=pass header.d=jaguarmicro.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jaguarmicro.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3NlcPSssFiT/Xbd9EZOQilwl4flvU6ARypuFSQmmKnQ=;
+ b=c6+TrShR4bhoaIpzTCOdXXFwsDSAV1Tx2rIeuLagDq5IwAc5RBsyzrh5OLH9bEzydY57zoiLx2BlEVMfwg9+UVrSjcU8Tx7HnIyyhOs6jqeUAM5ddO/RrSVyMgETSKBqJcNm2/9b5UnRP/2Va9uq6V6aIkzrylk0BaP6dfX+2dcwYjtOPJ/mFQKGQboZ2UPl81WflwpOBGfNKkDqK1bESMnHtBOS7u/JBqdztujGlJ35+2iHAZWfw/eQa/Hv9v6YHKG2hBEAO57TTbvdYFfdHW3SlNMLjA2XNSM/Lq4AVx+dPzJPYboefQp1QfzRmuyolToukYCmcCpP3xvrpZd3yw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=jaguarmicro.com;
+Received: from SEYPR06MB6756.apcprd06.prod.outlook.com (2603:1096:101:165::11)
+ by SEZPR06MB7186.apcprd06.prod.outlook.com (2603:1096:101:231::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.6; Tue, 3 Dec
+ 2024 02:37:41 +0000
+Received: from SEYPR06MB6756.apcprd06.prod.outlook.com
+ ([fe80::922f:a649:adbf:6634]) by SEYPR06MB6756.apcprd06.prod.outlook.com
+ ([fe80::922f:a649:adbf:6634%5]) with mapi id 15.20.8230.008; Tue, 3 Dec 2024
+ 02:37:40 +0000
+From: "Yuxue Liu yuxue.liu@jaguarmicro.com" <yuxue.liu@jaguarmicro.com>
+To: jasowang@redhat.com,
+	lkp@intel.com
+Cc: mst@redhat.com,
+	angus.chen@jaguarmicro.com,
+	linux-kernel@vger.kernel.org,
+	virtualization@lists.linux.dev,
+	xuanzhuo@linux.alibaba.com,
+	oe-kbuild-all@lists.linux.dev,
+	llvm@lists.linux.dev,
+	yuxue.liu@jaguarmicro.com
+Subject: [PATCH v2] vdpa/vp_vdpa: implement kick_vq_with_data callback
+Date: Tue,  3 Dec 2024 10:37:43 +0800
+Message-Id: <20241203023743.1757-1-yuxue.liu@jaguarmicro.com>
+X-Mailer: git-send-email 2.33.0.windows.2
+In-Reply-To: <CACGkMEvf9TS6c9PTiwWn3POr33m7m1shNfHOkviZpk-Pkbf79Q@mail.gmail.com>
+References: <CACGkMEvf9TS6c9PTiwWn3POr33m7m1shNfHOkviZpk-Pkbf79Q@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2P153CA0014.APCP153.PROD.OUTLOOK.COM (2603:1096::24) To
+ SEYPR06MB6756.apcprd06.prod.outlook.com (2603:1096:101:165::11)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241202171222.62595-17-alejandro.lucero-palau@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SEYPR06MB6756:EE_|SEZPR06MB7186:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4001c0e2-7b81-4eff-ba46-08dd13437529
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?NsIshxzEX1Nccy323Rn1SFzHM7RnN29GBkMXhbwxP8C/bGld9MIAYobkKyZn?=
+ =?us-ascii?Q?/6x/H1eszXGpN7m7rWj445J8kFd0XHs9Diz2nKISaIM7YcYgqnbhvJhB07D1?=
+ =?us-ascii?Q?iYUvqbJ8HwLz7HntUw/7EWZRB2xPGhxMF9k+xEQxbkZTsA+jKPnNptvP7DGF?=
+ =?us-ascii?Q?A3WefzE1DPpYC3vkNxEfmU5yqDx58PI2IXw/uC16qSRjty3fmpG5zd51IGYb?=
+ =?us-ascii?Q?7IB8WKGQy58AF3znnj0+vQd05r5T3KDA8kBVYvM+IfCPQoF+qVQv59GiZrar?=
+ =?us-ascii?Q?z8qjfRIKHwtr1RsPWR/aPXUTm1IWBABbfF6uLCUuz3fRveHYzzR1vALFrO/Z?=
+ =?us-ascii?Q?/DyYON1LR96NvPUyyYVULvxOaYBwBImHe/haflcfYXaezz1O5JYqBXAxCh0E?=
+ =?us-ascii?Q?610llbV1YR1QevSM5xWqXVxh0sBnX1I4MHuxG5+LMb1ZR7BxqrWnn5sDk86q?=
+ =?us-ascii?Q?mPIC+J3MXSIJvPf53E/JJ9tWm+NsDGxYUpUW5DBXPx7IgeS5SOMrT1RTJKd1?=
+ =?us-ascii?Q?kcO4ZVUEpsvaSJATj9mjrZ3SB+04ZiLpPozAvDVExJvXq0hEH7jGM3WfM64D?=
+ =?us-ascii?Q?ojdhmQ993NwrL6Z/3xJjKJb4oMu6msiywcKmpr8h4qsd5KQeJFe+1kJoWaQy?=
+ =?us-ascii?Q?YHErDxWP6S2LHgGij642LYwiLVWcpacb4eShSjCFOq3wbDij+ugz+lzI5rOt?=
+ =?us-ascii?Q?msPVoHYZSsb41IZ8PDjUyNlojmPfHRmyFLLnMVrPUPNK2R4H0PDgwK7mQuiV?=
+ =?us-ascii?Q?RUQEM2nhoLAKFoj9LS3goLXRYiSpxjZmdnp7Dfdq66z+8j7OablEdUDajgai?=
+ =?us-ascii?Q?U7XzMVMx+59i2O0N+v8sSBuIcCPlL5ho92aevc0q7iurfs5RdybTaW5KiMsP?=
+ =?us-ascii?Q?rtUD7t0NeSKYvEiYqGNo8i6Fz3BsOoVTo6mVGjw0tufwo1Hwhsuw13L//aA6?=
+ =?us-ascii?Q?s2THtASR2JOyeZ2yIL9M6RFh8COhIsQt4eqUC6DjoBWHexhN8u42DQ1UwYfr?=
+ =?us-ascii?Q?3EhkQEWHZlst+l5MO12jxcDgwrBXbi0hO/O1BxjbiH+ts78S648T+mNZRxKv?=
+ =?us-ascii?Q?bMG1ub1Cr1F1S98LAv5L0uX0R+xHdEjlwQ0AbCYWCYz5tbf8YAi80UTZMxKL?=
+ =?us-ascii?Q?PJWMpPbX/IKd4TxyYfBH1n8NNbQG3IRnI+ZW1LIT/Ydgyq6aQDA6rXdl8AFN?=
+ =?us-ascii?Q?N0nbwqmoXWpMDwmne6zrsBcwRoGTtBYUdGvioQTFj7/hHZvGnGQiXNvm3EGv?=
+ =?us-ascii?Q?xcqXDNG/bONv5YBQSDV74soiNMn5QKVDDN3BmtNALZtmGwQ85qDVozIS7fro?=
+ =?us-ascii?Q?dzuQ1v2BsmNbQYA1jDTt51KEPChBLETGKv+GpH47tm9pOWSH5VOAXb+53+ZR?=
+ =?us-ascii?Q?SSz1Kvz70WKFSMHvLmDxDo8uc7l8DjL6H/FmAst6X+Yj6eOX+Q=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR06MB6756.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Jrn0Iwo6iXfkI0qBWHDDBKNj4IgNPOJ1i/JtMgRVsFpjExLm/y3dEGBWLZJh?=
+ =?us-ascii?Q?QgLDpd6eXBqZEppSrkpGyTQYVmc1KE7QQSEOee3jARbYP/Pp3P0udbbTYqAC?=
+ =?us-ascii?Q?c7EQ1wgNDYukfadNdoK+dg2CWssvdLVPDCd2oU3CjUDM6f+T0AmWUAWIQKVa?=
+ =?us-ascii?Q?WAb6FhiKdfDl5u730aILERMb0tB61wpAKMEQAAjB+KbtNXxc1O21POZvS6cE?=
+ =?us-ascii?Q?4/ppYCHGHPyXor30eDbwoPAsPpY/OeqqjZtix/GhobhPlyo51c3wFIW1+qNv?=
+ =?us-ascii?Q?pmZ7xdl2w8yldXMN7HKRxZxfvEE48MskzKSb75R24OgASGGy38DKS1Vs8P1t?=
+ =?us-ascii?Q?ZXebPxGmNYCO8k8DmPihK9ol2p4PpTY5ZMQt4FnEMhA8KKCtw6A9M8qKLWDa?=
+ =?us-ascii?Q?nZBvf0a/dFvCteMBcRTab66oDZMLMA6q3AoE08CZKQDRZdtCET4z6I0qMs6d?=
+ =?us-ascii?Q?3N+Q939yzi7qwYnZ1cG5Q/4BdGlWapDHCu/zmiCv+CVa8cVAwt2mYcnmAOCp?=
+ =?us-ascii?Q?ZnAkuFsv/IhG1HBFBvaVpbnW5ZP3sGgZz3yUJ2GO0ofBfv3FUmeQBJ+wBtC4?=
+ =?us-ascii?Q?uLLiIsp/drg0GRgU/96Cn5/Cw45WYTThF5cQBplF15xBnT7DGAR/ENPhu4i6?=
+ =?us-ascii?Q?oDfRdfd7D3inQiCd939fUibnmmuwT5SvJhqBDdWbHsphyFj6FAjxh+ZallPw?=
+ =?us-ascii?Q?vBLBz13mFNcySfIDSkG1MUSqAaTE83tMSaPd6Fy8vjgc2Rb1O+0u7m1v0x3x?=
+ =?us-ascii?Q?v3OzJEKibnKiobB7XZhISHHufnBjUiiTDAVaMhDXisnMGjbD+/RVkxVfeUjN?=
+ =?us-ascii?Q?3FNO7/f4RyUBF6rKTa4ciLptIh0q3LtIiDlFvNwn4o71h3vuLGnnqVKaKnMe?=
+ =?us-ascii?Q?YFNTR4jXeNYU1Ow6suElKD+AJfuoMmH19XrHAfkTY8RAuNxdCeq+/W41N2pn?=
+ =?us-ascii?Q?zS5VMzHGedSuXazN/40/w5BMDoXjEedTc7Nr4vhE5dOk89d4uMQAbJwQJT+U?=
+ =?us-ascii?Q?CeC1gtESf6OmRYyGPT6CAtXGe6BRVGzjgFBa9AdFzRP070Ct4uk8KkhQfLoU?=
+ =?us-ascii?Q?TXrxw9SZsOBi54xB/WQ90ls8oIuRd+NyVIfIFm25yBaLCsjfnIqXU5oJbQom?=
+ =?us-ascii?Q?Awo6nlAW5DaP48pOpukDBHZctIg5ieuCubgcnUVxzwiRzjwKr0w5tU7znKjj?=
+ =?us-ascii?Q?B1hCtj8DOIV7xlyHGkuAS9z8dr+kassyCQ3NqOgfauioIIkEnRYkISvMz5BC?=
+ =?us-ascii?Q?A+/OUfYT+CfrIJq56975WopwFc1+8M3/n+AOeUb2y2vKI+ZiBEKsqtXEVzb+?=
+ =?us-ascii?Q?v41iv3uX04dn7kBHl9VZrnCyHMZ2pWAZJzUZA/SjGIidFIrMlvRYojL23YBL?=
+ =?us-ascii?Q?ITrfduKuMq+rh4Ji/isi4lJsrbfmRCllfFNqew8Ah5LNQwKiOymlRFO7otyx?=
+ =?us-ascii?Q?YsFfmrVHIGU2xsIbBfG/FhGUvi5nb5IsPNHhw/d8S3BLMNuPZayYF9PnVjpp?=
+ =?us-ascii?Q?kOfFoajS2FSjA2mHzlFkPhbmCe6X1Fp1sYyWbdSsU7SEGAijqg3tZYg5oFi4?=
+ =?us-ascii?Q?bpeILqfAbikLZ/DQ81rTkw1RfrdunWfJKC97rnEZrAY0FN6K1I5Yp5XioMSK?=
+ =?us-ascii?Q?Zg=3D=3D?=
+X-OriginatorOrg: jaguarmicro.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4001c0e2-7b81-4eff-ba46-08dd13437529
+X-MS-Exchange-CrossTenant-AuthSource: SEYPR06MB6756.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 02:37:40.8221
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 1e45a5c2-d3e1-46b3-a0e6-c5ebf6d8ba7b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Xm/Yffhn+htR7FsMzd5qIonDKU2jioDAHGnS7TuBiJD4Lw0dlAx+ZOTzayzREuBZdVelQxN0KxZEP9Ir0cf99AxTTDxm/LkVmZrXfB9E7gE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR06MB7186
 
-Hi,
+From: Yuxue Liu <yuxue.liu@jaguarmicro.com>
 
-kernel test robot noticed the following build warnings:
+Implement the kick_vq_with_data vDPA callback.
+On kick, we pass the next available data to the hardware by writing it in
+the kick offset.
 
-[auto build test WARNING on e70140ba0d2b1a30467d4af6bcfe761327b9ec95]
+Signed-off-by: Yuxue Liu <yuxue.liu@jaguarmicro.com>
+---
+v2: fix build error for kernel test robot
 
-url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241203-031134
-base:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
-patch link:    https://lore.kernel.org/r/20241202171222.62595-17-alejandro.lucero-palau%40amd.com
-patch subject: [PATCH v6 16/28] sfc: obtain root decoder with enough HPA free space
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20241203/202412031010.o6gZQgE3-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031010.o6gZQgE3-lkp@intel.com/reproduce)
+ drivers/vdpa/virtio_pci/vp_vdpa.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031010.o6gZQgE3-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/pci.h:37,
-                    from include/cxl/cxl.h:8,
-                    from drivers/net/ethernet/sfc/efx_cxl.c:12:
-   drivers/net/ethernet/sfc/efx_cxl.c: In function 'efx_cxl_init':
->> drivers/net/ethernet/sfc/efx_cxl.c:117:34: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     117 |                 pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
-         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   include/linux/pci.h:2694:41: note: in expansion of macro 'dev_err'
-    2694 | #define pci_err(pdev, fmt, arg...)      dev_err(&(pdev)->dev, fmt, ##arg)
-         |                                         ^~~~~~~
-   drivers/net/ethernet/sfc/efx_cxl.c:117:17: note: in expansion of macro 'pci_err'
-     117 |                 pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
-         |                 ^~~~~~~
-   drivers/net/ethernet/sfc/efx_cxl.c:117:67: note: format string is defined here
-     117 |                 pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
-         |                                                                ~~~^
-         |                                                                   |
-         |                                                                   long long unsigned int
-         |                                                                %u
-
-
-vim +117 drivers/net/ethernet/sfc/efx_cxl.c
-
-    20	
-    21	int efx_cxl_init(struct efx_probe_data *probe_data)
-    22	{
-    23		struct efx_nic *efx = &probe_data->efx;
-    24		DECLARE_BITMAP(expected, CXL_MAX_CAPS);
-    25		DECLARE_BITMAP(found, CXL_MAX_CAPS);
-    26		struct pci_dev *pci_dev;
-    27		struct efx_cxl *cxl;
-    28		struct resource res;
-    29		resource_size_t max;
-    30		u16 dvsec;
-    31		int rc;
-    32	
-    33		pci_dev = efx->pci_dev;
-    34		probe_data->cxl_pio_initialised = false;
-    35	
-    36		dvsec = pci_find_dvsec_capability(pci_dev, PCI_VENDOR_ID_CXL,
-    37						  CXL_DVSEC_PCIE_DEVICE);
-    38		if (!dvsec)
-    39			return 0;
-    40	
-    41		pci_dbg(pci_dev, "CXL_DVSEC_PCIE_DEVICE capability found\n");
-    42	
-    43		cxl = kzalloc(sizeof(*cxl), GFP_KERNEL);
-    44		if (!cxl)
-    45			return -ENOMEM;
-    46	
-    47		cxl->cxlds = cxl_accel_state_create(&pci_dev->dev);
-    48		if (IS_ERR(cxl->cxlds)) {
-    49			pci_err(pci_dev, "CXL accel device state failed");
-    50			rc = -ENOMEM;
-    51			goto err1;
-    52		}
-    53	
-    54		cxl_set_dvsec(cxl->cxlds, dvsec);
-    55		cxl_set_serial(cxl->cxlds, pci_dev->dev.id);
-    56	
-    57		res = DEFINE_RES_MEM(0, EFX_CTPIO_BUFFER_SIZE);
-    58		if (cxl_set_resource(cxl->cxlds, res, CXL_RES_DPA)) {
-    59			pci_err(pci_dev, "cxl_set_resource DPA failed\n");
-    60			rc = -EINVAL;
-    61			goto err2;
-    62		}
-    63	
-    64		res = DEFINE_RES_MEM_NAMED(0, EFX_CTPIO_BUFFER_SIZE, "ram");
-    65		if (cxl_set_resource(cxl->cxlds, res, CXL_RES_RAM)) {
-    66			pci_err(pci_dev, "cxl_set_resource RAM failed\n");
-    67			rc = -EINVAL;
-    68			goto err2;
-    69		}
-    70	
-    71		rc = cxl_pci_accel_setup_regs(pci_dev, cxl->cxlds);
-    72		if (rc) {
-    73			pci_err(pci_dev, "CXL accel setup regs failed");
-    74			goto err2;
-    75		}
-    76	
-    77		bitmap_clear(expected, 0, CXL_MAX_CAPS);
-    78		bitmap_set(expected, CXL_DEV_CAP_HDM, 1);
-    79		bitmap_set(expected, CXL_DEV_CAP_RAS, 1);
-    80	
-    81		if (!cxl_pci_check_caps(cxl->cxlds, expected, found)) {
-    82			pci_err(pci_dev,
-    83				"CXL device capabilities found(%08lx) not as expected(%08lx)",
-    84				*found, *expected);
-    85			goto err2;
-    86		}
-    87	
-    88		rc = cxl_request_resource(cxl->cxlds, CXL_RES_RAM);
-    89		if (rc) {
-    90			pci_err(pci_dev, "CXL request resource failed");
-    91			goto err2;
-    92		}
-    93	
-    94		/* We do not have the register about media status. Hardware design
-    95		 * implies it is ready.
-    96		 */
-    97		cxl_set_media_ready(cxl->cxlds);
-    98	
-    99		cxl->cxlmd = devm_cxl_add_memdev(&pci_dev->dev, cxl->cxlds);
-   100		if (IS_ERR(cxl->cxlmd)) {
-   101			pci_err(pci_dev, "CXL accel memdev creation failed");
-   102			rc = PTR_ERR(cxl->cxlmd);
-   103			goto err3;
-   104		}
-   105	
-   106		cxl->cxlrd = cxl_get_hpa_freespace(cxl->cxlmd,
-   107						   CXL_DECODER_F_RAM | CXL_DECODER_F_TYPE2,
-   108						   &max);
-   109	
-   110		if (IS_ERR(cxl->cxlrd)) {
-   111			pci_err(pci_dev, "cxl_get_hpa_freespace failed\n");
-   112			rc = PTR_ERR(cxl->cxlrd);
-   113			goto err3;
-   114		}
-   115	
-   116		if (max < EFX_CTPIO_BUFFER_SIZE) {
- > 117			pci_err(pci_dev, "%s: no enough free HPA space %llu < %u\n",
-   118				__func__, max, EFX_CTPIO_BUFFER_SIZE);
-   119			rc = -ENOSPC;
-   120			goto err3;
-   121		}
-   122	
-   123		probe_data->cxl = cxl;
-   124	
-   125		return 0;
-   126	
-   127	err3:
-   128		cxl_release_resource(cxl->cxlds, CXL_RES_RAM);
-   129	err2:
-   130		kfree(cxl->cxlds);
-   131	err1:
-   132		kfree(cxl);
-   133		return rc;
-   134	}
-   135	
-
+diff --git a/drivers/vdpa/virtio_pci/vp_vdpa.c b/drivers/vdpa/virtio_pci/vp_vdpa.c
+index 16380764275e..8787407f75b0 100644
+--- a/drivers/vdpa/virtio_pci/vp_vdpa.c
++++ b/drivers/vdpa/virtio_pci/vp_vdpa.c
+@@ -367,6 +367,14 @@ static void vp_vdpa_kick_vq(struct vdpa_device *vdpa, u16 qid)
+ 	vp_iowrite16(qid, vp_vdpa->vring[qid].notify);
+ }
+ 
++static void vp_vdpa_kick_vq_with_data(struct vdpa_device *vdpa, u32 data)
++{
++	struct vp_vdpa *vp_vdpa = vdpa_to_vp(vdpa);
++	u16 qid = data & 0xFFFF;
++
++	vp_iowrite32(data, vp_vdpa->vring[qid].notify);
++}
++
+ static u32 vp_vdpa_get_generation(struct vdpa_device *vdpa)
+ {
+ 	struct virtio_pci_modern_device *mdev = vdpa_to_mdev(vdpa);
+@@ -472,6 +480,7 @@ static const struct vdpa_config_ops vp_vdpa_ops = {
+ 	.get_vq_size	= vp_vdpa_get_vq_size,
+ 	.set_vq_address	= vp_vdpa_set_vq_address,
+ 	.kick_vq	= vp_vdpa_kick_vq,
++	.kick_vq_with_data      = vp_vdpa_kick_vq_with_data,
+ 	.get_generation	= vp_vdpa_get_generation,
+ 	.get_device_id	= vp_vdpa_get_device_id,
+ 	.get_vendor_id	= vp_vdpa_get_vendor_id,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
