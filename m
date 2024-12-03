@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEED10E3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 00:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 438C2A954;
+	Tue,  3 Dec 2024 00:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733185322; cv=none; b=tffNqks4SJmVa75wYCXkbKkU/DiRZNtveqAqLJsTb98TIdWbr0c/Gm7NdA28shiDPsvkKNV3iKrH4Q550W8m4gEMShd5NvTbu0uBUDWckYrkavPoOoJ81da8ZNvr89yCxLGwkwzO1vIAo3TkMPJegZIoczWNv+GA1U6CnxKLIF8=
+	t=1733185964; cv=none; b=Jtrv/SljyeOVtmjvN7fWP0WgBwhVypqPq4QWBTBS0lLVJ+3DVrkgpVJq382Qm6ZyKgpNxnF2bKR+oDUrfWzLj691w/NVyqxoE0EZPIooHHmZsssRtomIDEKBczc5I5gL2noobvGi6cJJrKBt2RmMebrtb6akV5PFn0qU02tywYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733185322; c=relaxed/simple;
-	bh=ZIqiEe4aHXKyut8yu0lcCiIS/JPzdSENYOxr/6qGggk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OtTTaH0/Sp0sPHVQvnW03qmcP00tO7iiMIUwQoM21A0W5GBW2jOr5tpfXpzQg3UQmU9n6RUc29a72Zk82t/rZulV0WmHrdSOanPX6s/wo1nYhnfdMI+cTvea8kZ9L8Qn4GPLluxgp6IFkYw9kbStH/26EcQvKl0YqhCQLtUXOsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROuAjmzK; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1733185964; c=relaxed/simple;
+	bh=tc4KuYkMaQjD8Yv6z+HG3OsdK2KxchFXkKiWS7msvBc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sx8Itd4MCj5RxLXg84CTdmCpeomu0BHNrWH0ypWOZEaGXvZ17oT9qZ43Pc1FXfL304VkE87WpSng6PdtxkRXh2oaxTH4QOUfTASodlgpbRgN8wmhCloY0VhpgPpFwW7X2gKS0GyFuTqdliSS6SIM/5UP+H54kIV+zbZ2Tt/1foY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EdDp+Mfr; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROuAjmzK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EdDp+Mfr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733185320; x=1764721320;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ZIqiEe4aHXKyut8yu0lcCiIS/JPzdSENYOxr/6qGggk=;
-  b=ROuAjmzK3oeihlKUH4Bd4ITeecQ7p+FxDsSlrnfDDF1t0libkDJX7BIN
-   as5Ip/M/UQaEMKRLYqYNqDSCEavAGW4CXX9pw8ssrSX6c2x5KZfzCJMC8
-   tpIsNwKCntmEz/YNt574Jdb0Nrwaql0n9eNtRRWptIjXOvhEFrVd0TaQB
-   2aV3mKDDOAfYHYNHOAhUq5Se15JprdhrR4OHk595ggHH9nuCp/2TUfW6e
-   g/cwiTrLiB7gLTO9/agU/uasUsRJnu88eE1/q3iTvDXw+3kvcs5m6bp0O
-   T6e12xac6wGF2VrdFTRQBx0ptm7F9AwQD0oWj/mdhCQxpcDkoMLGvOX1o
-   g==;
-X-CSE-ConnectionGUID: ye8uIWZMR/OkVgSPRfD6Mg==
-X-CSE-MsgGUID: +1DswnSBRy+FTY5aNLsR8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33514248"
+  t=1733185961; x=1764721961;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tc4KuYkMaQjD8Yv6z+HG3OsdK2KxchFXkKiWS7msvBc=;
+  b=EdDp+MfrpvC4pcfpTgkjGSuNWQCvMrovF4jWO1txYoXK/scbb3VRg/fY
+   amCuOt/zX3lwu2uskL8yeSr4dLXQmA2am/uSxhVFFpfEoa8bHpRj3Pux8
+   K1263yvHsxU+UWhfleyW5p/8QOEtZSvKjIwP1rRcCWrlUQJosytaX+4Bo
+   81lQyiR9d2ePDO6DIILaxA9h9RU16CfeKMzHBYnDd0JKoPkhGAb/VwH+q
+   MHu7sEu9ZEP3l6mKj9mJ3utLxVBhJlSSxBCA+tvUY+ICacADA3TMZ/LOk
+   n88zSu8PM/p1Ztqcj7WtB9X92LyODds+7qrQmtkmTE7kFT3PKJTPNuIqP
+   Q==;
+X-CSE-ConnectionGUID: kcHQi4WjSBuNxBWOnXXzBg==
+X-CSE-MsgGUID: AB+BdaVHSEmM6AgEjMQrpQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33126956"
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="33514248"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 16:22:00 -0800
-X-CSE-ConnectionGUID: MOrpJsuvShqhG2se4296NQ==
-X-CSE-MsgGUID: wA8EyWWgSlKXQ7gQe0b6FQ==
+   d="scan'208";a="33126956"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 16:32:41 -0800
+X-CSE-ConnectionGUID: S6x7zoaRQWGs8momJ4WX9A==
+X-CSE-MsgGUID: ZzfdE6t9SR+rHau2C58lfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,203,1728975600"; 
-   d="scan'208";a="93671351"
+   d="scan'208";a="93157503"
 Received: from lkp-server02.sh.intel.com (HELO 36a1563c48ff) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 02 Dec 2024 16:21:57 -0800
+  by orviesa010.jf.intel.com with ESMTP; 02 Dec 2024 16:32:39 -0800
 Received: from kbuild by 36a1563c48ff with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIGfq-000349-1B;
-	Tue, 03 Dec 2024 00:21:54 +0000
-Date: Tue, 3 Dec 2024 08:21:15 +0800
+	id 1tIGq1-00034n-1g;
+	Tue, 03 Dec 2024 00:32:32 +0000
+Date: Tue, 3 Dec 2024 08:31:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: versioncheck: ./tools/lib/bpf/bpf_helpers.h: 146: need
- linux/version.h
-Message-ID: <202412030848.SurLnYqd-lkp@intel.com>
+To: Nathan Fontenot <nathan.fontenot@amd.com>, alison.schofield@intel.com,
+	dan.j.williams@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-cxl@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH] cxl: Update Soft Reserved resources upon region creation
+Message-ID: <202412030858.l8DbOnRQ-lkp@intel.com>
+References: <20241202155542.22111-1-nathan.fontenot@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,80 +64,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241202155542.22111-1-nathan.fontenot@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-commit: 9ae2c26e43248b722e79fe867be38062c9dd1e5f libbpf: provide NULL and KERNEL_VERSION macros in bpf_helpers.h
-date:   3 years, 9 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20241203/202412030848.SurLnYqd-lkp@intel.com/reproduce)
+Hi Nathan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on cxl/next]
+[also build test ERROR on tip/x86/core]
+[cannot apply to linus/master cxl/pending v6.13-rc1 next-20241128]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nathan-Fontenot/cxl-Update-Soft-Reserved-resources-upon-region-creation/20241202-235757
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git next
+patch link:    https://lore.kernel.org/r/20241202155542.22111-1-nathan.fontenot%40amd.com
+patch subject: [PATCH] cxl: Update Soft Reserved resources upon region creation
+config: arm-randconfig-004-20241203 (https://download.01.org/0day-ci/archive/20241203/202412030858.l8DbOnRQ-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412030858.l8DbOnRQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412030848.SurLnYqd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412030858.l8DbOnRQ-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 14 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_proc.c: 3 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/mellanox/mlx5/core/main.c: 53 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 14 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/core/hcd.c: 14 linux/version.h not needed.
-   ./drivers/usb/gadget/udc/aspeed-vhub/hub.c: 33 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./include/linux/usb/composite.h: 39 linux/version.h not needed.
-   ./init/version.c: 16 linux/version.h not needed.
-   ./kernel/sys.c: 42 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
->> ./tools/lib/bpf/bpf_helpers.h: 146: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All error/warnings (new ones prefixed by >>):
+
+   In file included from kernel/resource.c:21:
+   In file included from include/linux/pseudo_fs.h:4:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2213:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/resource.c:1183:36: warning: declaration of 'union acpi_subtable_headers' will not be visible outside of this function [-Wvisibility]
+    1183 | static int srmem_parse_cfmws(union acpi_subtable_headers *hdr,
+         |                                    ^
+>> kernel/resource.c:1212:2: error: call to undeclared function 'acpi_table_parse_cedt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1212 |         acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS, srmem_parse_cfmws, &arg);
+         |         ^
+   kernel/resource.c:1212:2: note: did you mean 'acpi_table_parse'?
+   include/linux/acpi.h:914:19: note: 'acpi_table_parse' declared here
+     914 | static inline int acpi_table_parse(char *id,
+         |                   ^
+   2 warnings and 1 error generated.
+
+
+vim +/acpi_table_parse_cedt +1212 kernel/resource.c
+
+  1182	
+> 1183	static int srmem_parse_cfmws(union acpi_subtable_headers *hdr,
+  1184				     void *arg, const unsigned long unused)
+  1185	{
+  1186		struct acpi_cedt_cfmws *cfmws;
+  1187		struct srmem_arg *args = arg;
+  1188		struct resource cfmws_res;
+  1189		struct resource *res;
+  1190	
+  1191		res = args->res;
+  1192	
+  1193		cfmws = (struct acpi_cedt_cfmws *)hdr;
+  1194		cfmws_res = DEFINE_RES_MEM(cfmws->base_hpa,
+  1195					   cfmws->base_hpa + cfmws->window_size);
+  1196	
+  1197		if (resource_overlaps(&cfmws_res, res)) {
+  1198			args->overlaps += 1;
+  1199			return 1;
+  1200		}
+  1201	
+  1202		return 0;
+  1203	}
+  1204	
+  1205	static bool resource_overlaps_cfmws(struct resource *res)
+  1206	{
+  1207		struct srmem_arg arg = {
+  1208			.res = res,
+  1209			.overlaps = 0
+  1210		};
+  1211	
+> 1212		acpi_table_parse_cedt(ACPI_CEDT_TYPE_CFMWS, srmem_parse_cfmws, &arg);
+  1213	
+  1214		if (arg.overlaps)
+  1215			return true;
+  1216	
+  1217		return false;
+  1218	}
+  1219	
 
 -- 
 0-DAY CI Kernel Test Service
