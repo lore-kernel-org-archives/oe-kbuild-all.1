@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B44D81487CD
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 06:37:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A69EA187561
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 06:47:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733207872; cv=none; b=pd/2KyKksytmDwyQurZw3HrQao1ifooGE4S8qaAuGwY3KsnYO1VY9BE7k3okwW0ckZHul4a4WLkNzhij3qz5haFk3I84yewHsS3j8rMtkmJNgdg+xo/ItMPKQgGSC/TjGDqqDP6XYiwXPnY7auy55n/dB61DE3JYpUO3VzGXW5c=
+	t=1733208474; cv=none; b=mAQHTIt7IO/2ZQEqeJze3FhUExa6IpHgLltzZe7BeUEluVnXmHo2T56PU2ricF99x5ix8LonILkH+RyUegaefWLsuvjtCG0YDlikQbgHiyMjAJzwc+kEfvTyqRAqLJJotC89bDrtm7OXRLY8bz3PnoVuXRZtuAKZRZHjF52TgzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733207872; c=relaxed/simple;
-	bh=mrB2IOygV7bOaTs/OZaQ8yZNNJ2ohDVMa6wvw4r7jA8=;
+	s=arc-20240116; t=1733208474; c=relaxed/simple;
+	bh=kuugUhtBYnp+bUU+lQ1TzedAgZe5FzJFVQuffo8rzCk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AHuLyS5wuPvHsn7uoxcIwDMTSF29PQFspzGXwqniB7iY1tcumC6KaZf8FYJfaoy5d9G0HFHHeGRcD7p+KiNp1Qyf1RAnc+1vxWnc9KRrSI88irDfYq5R+AvFsZJQ5rVibOxMET6yFr9eNc1BsuekkuVXkJ+kSk7cH9bJNS6yZuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UGLI/wcN; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=PC+yD0DL/Z850LKVCMmxgs9rtAu4K7F8RQH4goupbAtaRic1ZTbZlnpISM2meNoiwM8vQIw9evdTB9bQxoDP9Po7Qe+i01XT1emk1K76Y30QaqIGvGSZJRDGa3/DVi8DUMxyAX1I6vVBqPucF1lSCUjPH0PohsLEurvLxzIu1IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uqz05e/J; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UGLI/wcN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uqz05e/J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733207871; x=1764743871;
+  t=1733208472; x=1764744472;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mrB2IOygV7bOaTs/OZaQ8yZNNJ2ohDVMa6wvw4r7jA8=;
-  b=UGLI/wcNCOjwaGK80dj/un+sTM2M7YGydBJQz3OaxaVeLB4R5JNhCp53
-   wUNsTpsN60ortBqVVHf7OSbpdDmd307dDwEyxIdFsqWOq6e/QWuSoLWZY
-   tQNyPJFs6zLGg6NK7zF28VFeigcWW+NSc+IdQXEPGAlDxXb8HvAKfiS81
-   MVync4DKrskLgV02rxRtuyjIx37oxpmEC20pjPoqQ3+xpEuGxhhJfIAb/
-   IVVEKl5LROUqPL2p/b8Iix2lAkMJBs69zV1ttjjET+DLGiMO0+dONdhEn
-   owV9S3TTpuebOQGQAGytOZEy9xfiTW3wWMVRiRlFTjNlYxskqMRaNf+Rh
+  bh=kuugUhtBYnp+bUU+lQ1TzedAgZe5FzJFVQuffo8rzCk=;
+  b=Uqz05e/JllrnInO7QH7asb4B+5pOqH9p4jThggcHU7qiJZZS9FsZuBoy
+   44mTsR7PDqVChlrQyZxKOdzHT3cQ9SUKM/0VcmBDfMBkEbUTf5U+bz4la
+   rDKPLYEBtNAkPtcwB5+/U76ktyVunRQsUr1WEI3CV5XQDBlHFaWfp+cib
+   mnjLbbMaVFy4pbZxFD7ie5OLzkHJX1Kdgo1qJsxTR9aXz/ekE0rHHbWXM
+   FOEViTwNilNQ/pt6ba28jWRwdhb+3x06T6WX7uWiMeQScPiHgwlkZzGfJ
+   +VOsrtQi/ZafEYpFgejKBiwLfDJ4FkC2K37/ihHy9PXurdFV2rDg2dTst
    A==;
-X-CSE-ConnectionGUID: Sr/dkS9bQWaI9L4dbTo+0w==
-X-CSE-MsgGUID: N/Y5bdmeR3yA81n0GVrKIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="33536967"
+X-CSE-ConnectionGUID: Hwc4J3Z9T4KPsG3Ickv4wg==
+X-CSE-MsgGUID: p3v5TbBKT3+cifcWCnDwKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44071014"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="33536967"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 22:37:50 -0800
-X-CSE-ConnectionGUID: QD0pyGCBSayA/2KNYL6SnQ==
-X-CSE-MsgGUID: tTP5WNIaSwSRfL58p9eSPw==
+   d="scan'208";a="44071014"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2024 22:47:52 -0800
+X-CSE-ConnectionGUID: xnk2nUiJQPWsUeaW4W5qQQ==
+X-CSE-MsgGUID: nwBLQwHBTjmQ29qdtaZauA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="98425402"
+   d="scan'208";a="97770675"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Dec 2024 22:37:49 -0800
+  by fmviesa005.fm.intel.com with ESMTP; 02 Dec 2024 22:47:50 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIMXa-0000E6-34;
-	Tue, 03 Dec 2024 06:37:46 +0000
-Date: Tue, 3 Dec 2024 14:37:04 +0800
+	id 1tIMhH-0000Eb-36;
+	Tue, 03 Dec 2024 06:47:47 +0000
+Date: Tue, 3 Dec 2024 14:47:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrii Nakryiko <andrii@kernel.org>
+To: Kashyap Desai <kashyap.desai@broadcom.com>
 Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: versioncheck: ./tools/lib/bpf/bpf_helpers.h: 146: need
- linux/version.h
-Message-ID: <202412031456.qLHUmwdn-lkp@intel.com>
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Hannes Reinecke <hare@suse.de>, Tomas Henzl <thenzl@redhat.com>,
+	Himanshu Madhani <himanshu.madhani@oracle.com>
+Subject: drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive
+ output may be truncated writing up to 31 bytes into a region of size 11
+Message-ID: <202412031406.ymLEG23a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,77 +67,82 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
 head:   cdd30ebb1b9f36159d66f088b61aee264e649d7a
-commit: 9ae2c26e43248b722e79fe867be38062c9dd1e5f libbpf: provide NULL and KERNEL_VERSION macros in bpf_helpers.h
-date:   3 years, 9 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20241203/202412031456.qLHUmwdn-lkp@intel.com/reproduce)
+commit: 672ae26c82166d63e0352403b7ea16ab4705edc1 scsi: mpi3mr: Add support for internal watchdog thread
+date:   3 years, 6 months ago
+config: x86_64-randconfig-015-20240106 (https://download.01.org/0day-ci/archive/20241203/202412031406.ymLEG23a-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031406.ymLEG23a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031456.qLHUmwdn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031406.ymLEG23a-lkp@intel.com/
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wtautological-compare -Wno-error=return-type -Wreturn-type -Wcast-function-type -funsigned-char -Wundef -Wformat-overflow -Wformat-truncation -Wrestrict -Wenum-conversion W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/csky/include/asm/io.h: 8 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 14 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 12 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 177: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./arch/x86/hyperv/hv_proc.c: 3 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 47 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 19 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/mellanox/mlx5/core/main.c: 53 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 10 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 10 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 14 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
-   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/core/hcd.c: 14 linux/version.h not needed.
-   ./drivers/usb/gadget/udc/aspeed-vhub/hub.c: 33 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 15 linux/version.h not needed.
-   ./include/linux/usb/composite.h: 39 linux/version.h not needed.
-   ./init/version.c: 16 linux/version.h not needed.
-   ./kernel/sys.c: 42 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
->> ./tools/lib/bpf/bpf_helpers.h: 146: need linux/version.h
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+All warnings (new ones prefixed by >>):
+
+   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_setup_isr':
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:58: warning: '%d' directive output may be truncated writing between 1 and 3 bytes into a region of size between 1 and 32 [-Wformat-truncation=]
+     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
+         |                                                          ^~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 255]
+     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
+         |                                                       ^~~~~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:55: note: directive argument in the range [0, 65535]
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:453:9: note: 'snprintf' output between 8 and 45 bytes into a destination of size 32
+     453 |         snprintf(intr_info->name, MPI3MR_NAME_LENGTH, "%s%d-msix%d",
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     454 |             mrioc->driver_name, mrioc->id, index);
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c: In function 'mpi3mr_start_watchdog':
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:60: warning: '%s' directive output may be truncated writing up to 31 bytes into a region of size 11 [-Wformat-truncation=]
+    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+         |                                                            ^~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:1549:50: note: directive argument in the range [0, 255]
+    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+         |                                                  ^~~~~~~~~~~~~~~
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:1548:9: note: 'snprintf' output between 11 and 44 bytes into a destination of size 20
+    1548 |         snprintf(mrioc->watchdog_work_q_name,
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1549 |             sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+         |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1550 |             mrioc->id);
+         |             ~~~~~~~~~~
+
+
+vim +1549 drivers/scsi/mpi3mr/mpi3mr_fw.c
+
+  1532	
+  1533	/**
+  1534	 * mpi3mr_start_watchdog - Start watchdog
+  1535	 * @mrioc: Adapter instance reference
+  1536	 *
+  1537	 * Create and start the watchdog thread to monitor controller
+  1538	 * faults.
+  1539	 *
+  1540	 * Return: Nothing.
+  1541	 */
+  1542	void mpi3mr_start_watchdog(struct mpi3mr_ioc *mrioc)
+  1543	{
+  1544		if (mrioc->watchdog_work_q)
+  1545			return;
+  1546	
+  1547		INIT_DELAYED_WORK(&mrioc->watchdog_work, mpi3mr_watchdog_work);
+  1548		snprintf(mrioc->watchdog_work_q_name,
+> 1549		    sizeof(mrioc->watchdog_work_q_name), "watchdog_%s%d", mrioc->name,
+  1550		    mrioc->id);
+  1551		mrioc->watchdog_work_q =
+  1552		    create_singlethread_workqueue(mrioc->watchdog_work_q_name);
+  1553		if (!mrioc->watchdog_work_q) {
+  1554			ioc_err(mrioc, "%s: failed (line=%d)\n", __func__, __LINE__);
+  1555			return;
+  1556		}
+  1557	
+  1558		if (mrioc->watchdog_work_q)
+  1559			queue_delayed_work(mrioc->watchdog_work_q,
+  1560			    &mrioc->watchdog_work,
+  1561			    msecs_to_jiffies(MPI3MR_WATCHDOG_INTERVAL));
+  1562	}
+  1563	
 
 -- 
 0-DAY CI Kernel Test Service
