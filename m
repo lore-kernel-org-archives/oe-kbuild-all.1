@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F521D79B3
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Dec 2024 09:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D63AA1E2039;
+	Tue,  3 Dec 2024 09:45:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1733216663; cv=none; b=kRyVzxM2AGlvRBbcYvZM/Eac/V8Hand/ORosYybJuUnQwZDFnkvaMfR4mXpDse4RgPvQ2YR4zMERkPr8Fwv7rjg5Eip7vG1FnLVt7tugj5IoiXX1JL+wFXElMKH/kqrN7Rkucg1kQa1TBUdDCphjdEv6yZWGYqwqprINkx+QhG0=
+	t=1733219126; cv=none; b=VhGrhkk1fPxyWX5G8Ey3e2a28kCfGSes3QyTXvKYNc6ASqB/I5vPA0CdMA7VnvcQi+QaC5ZnLDscpM9bARERfmiTkK8sdUENT4AB+vPWrN48O006SJH0vXlGuhgdl1cEiJqTlGOn3LS2FO7OZQaXRjEhgNYx6aKnVqfFsmJvd+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1733216663; c=relaxed/simple;
-	bh=tKZRtlk6N9zgjSHUSaU6anLy5B04Yz/8c9ESPDx2qzw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=X//X8r6DaDgKMrZkL8Mitue/F4Qb7+n+IsrfoowOQuOYejuLgRCYQcN1xz19QceAiLHTp7ZXiKcZoKBe0rHsJS4P3Q9qvmEKKmNp3kppuOD3mMYfXqv/LctXhHEXDmt/fYLBMNpOfzerKyUY+pq65ErkSlkutfLCBGr/09W6lRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jPL3VevW; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1733219126; c=relaxed/simple;
+	bh=zbvoUGnSNfCih1kEhklJgBJLXZz9g/QO4/mn1ZyxObw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p9Mx4QNy8AsB01hF5xGx8jtRZKvsEg9rftyCZxBV1kOah3NiD6DKFH6AweuCNsdcTY9JdiA1WT1gXZeEcYop0iuvb9zWq+c/gQxO2iFb27i8gBoWvNHLoMfRBjED4c7KHSRO1z1KzPB10Jna404ZsGKKUYjmHvVSg9XD4EL8OvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fffq2SAs; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jPL3VevW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fffq2SAs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1733216658; x=1764752658;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tKZRtlk6N9zgjSHUSaU6anLy5B04Yz/8c9ESPDx2qzw=;
-  b=jPL3VevWCR9/uiea6esbX8boZRZA3Aczr0vpCjnTVVxPdHcl5J4EFbGv
-   GYGC6diXd4F9lDPzEgrUHc6Q3xkKHfcalYYRorw/QfBBTF2ZydAQnQrCH
-   L0QFf+a5cb03dDGyWd1+dsFWzHBX2H0u5kCoPoc6M0MlsPFspJ+iSFncb
-   2jTmC4nSIbUTA+DBub5pGralfL9rzIipApqy1JkZzCeT2xysJvodioISO
-   CGdaBz9sufmcHBg8C3QZ4llhD+alXM28KQKNGVny3liaAoN9UKRVwxwn0
-   OUEkDlOjy7Op+o5CLquZs0zd3isWop7nbfPGn4AsjUNDcpXrpFru0lnQ8
-   Q==;
-X-CSE-ConnectionGUID: 23SUZ5G1RqWsJQ3nuuJ3lw==
-X-CSE-MsgGUID: uF5KlWyISs2yZw0esb1dSw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44446768"
+  t=1733219125; x=1764755125;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zbvoUGnSNfCih1kEhklJgBJLXZz9g/QO4/mn1ZyxObw=;
+  b=fffq2SAsU1ECiaypQ5OBBvnkyfdvT9gGI0wvanLn7e1BirhUHjL2qQZ7
+   /TMbUqrQr+/0CpFNYEPVzQaEC1v0Gethz9qivhGgvAsTfjCk9ZgbwA97O
+   lawdQPqLzE2KxUrWBC3eG6D4QX5v2NLOm8u5XKNUl9ifFi9uN4GIcb/Pa
+   cNKWiLWAEG9Zb1DiRKEdO/SYX0Mp/iy9B6GllKwZVQvff8+jsJ4nnR69E
+   R3mvvJgTx1Xz2ofno/LcQf+m+l5QiM8IsYB9QtA49s+wM6MG8yP3deQ/+
+   OZTbRz/X7LhyhlWL4zGh3t4evD/ihha4f1iO1ewB+E3n2PqoPk5C4UGOe
+   g==;
+X-CSE-ConnectionGUID: 17NH+FdrRzSXHjMK71bbPw==
+X-CSE-MsgGUID: OFHQ1bsTRIeNAQrT/JH3RA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11274"; a="44810927"
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="44446768"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 01:04:15 -0800
-X-CSE-ConnectionGUID: CUiqpc4/S8SehIez4/tXtg==
-X-CSE-MsgGUID: yH6UTKteSAakr0C2JUNenw==
+   d="scan'208";a="44810927"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2024 01:45:24 -0800
+X-CSE-ConnectionGUID: hfSV4T6JSLqyadMoHxrH7A==
+X-CSE-MsgGUID: k6GSCqcASzKLiz2AC487fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,204,1728975600"; 
-   d="scan'208";a="93775031"
+   d="scan'208";a="94217652"
 Received: from lkp-server01.sh.intel.com (HELO 388c121a226b) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 03 Dec 2024 01:04:14 -0800
+  by orviesa008.jf.intel.com with ESMTP; 03 Dec 2024 01:45:21 -0800
 Received: from kbuild by 388c121a226b with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1tIOpH-0000RR-2g;
-	Tue, 03 Dec 2024 09:04:11 +0000
-Date: Tue, 3 Dec 2024 17:03:13 +0800
+	id 1tIPT4-0000Up-2j;
+	Tue, 03 Dec 2024 09:45:18 +0000
+Date: Tue, 3 Dec 2024 17:44:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: htmldocs: Warning:
- Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
- references a file that doesn't exist:
- Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-Message-ID: <202412031645.4Ov34Rgt-lkp@intel.com>
+To: alejandro.lucero-palau@amd.com, linux-cxl@vger.kernel.org,
+	netdev@vger.kernel.org, dan.j.williams@intel.com,
+	martin.habets@xilinx.com, edward.cree@amd.com, davem@davemloft.net,
+	kuba@kernel.org, pabeni@redhat.com, edumazet@google.com,
+	dave.jiang@intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alejandro Lucero <alucerop@amd.com>
+Subject: Re: [PATCH v6 15/28] cxl: define a driver interface for HPA free
+ space enumeration
+Message-ID: <202412031722.5L3bVD47-lkp@intel.com>
+References: <20241202171222.62595-16-alejandro.lucero-palau@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +68,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20241202171222.62595-16-alejandro.lucero-palau@amd.com>
 
-Hi Yong,
+Hi,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/steev/linux linux-5.10-gen-rkr3.4
-head:   39141d792534c5703bb834861c47718008c85001
-commit: 70ef2cc4d51e006d23e5d2559f395e1c1e4e7dbc UPSTREAM: dt-bindings: memory: mediatek: Convert SMI to DT schema
-date:   3 years, 8 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20241203/202412031645.4Ov34Rgt-lkp@intel.com/reproduce)
+[auto build test WARNING on e70140ba0d2b1a30467d4af6bcfe761327b9ec95]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/alejandro-lucero-palau-amd-com/cxl-add-type2-device-basic-support/20241203-031134
+base:   e70140ba0d2b1a30467d4af6bcfe761327b9ec95
+patch link:    https://lore.kernel.org/r/20241202171222.62595-16-alejandro.lucero-palau%40amd.com
+patch subject: [PATCH v6 15/28] cxl: define a driver interface for HPA free space enumeration
+config: arm-randconfig-001-20241203 (https://download.01.org/0day-ci/archive/20241203/202412031722.5L3bVD47-lkp@intel.com/config)
+compiler: clang version 20.0.0git (https://github.com/llvm/llvm-project 592c0fe55f6d9a811028b5f3507be91458ab2713)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20241203/202412031722.5L3bVD47-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202412031645.4Ov34Rgt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202412031722.5L3bVD47-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   Warning: Documentation/arm/booting.rst references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
->> Warning: Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-   Warning: Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
->> Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-   Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-decoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-   Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-   Warning: Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-   Warning: Documentation/devicetree/bindings/media/mediatek-mdp.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
->> Warning: Documentation/devicetree/bindings/media/mediatek-mdp.txt references a file that doesn't exist: Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
-   Warning: Documentation/devicetree/bindings/media/mediatek-vcodec.txt references a file that doesn't exist: Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
-   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
-   Warning: Documentation/devicetree/bindings/usb/dwc3-st.txt references a file that doesn't exist: Documentation/devicetree/bindings/usb/generic.txt
-   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+>> drivers/cxl/core/region.c:803: warning: Function parameter or struct member 'cxlmd' not described in 'cxl_get_hpa_freespace'
+>> drivers/cxl/core/region.c:803: warning: Excess function parameter 'endpoint' description in 'cxl_get_hpa_freespace'
+
+
+vim +803 drivers/cxl/core/region.c
+
+   782	
+   783	/**
+   784	 * cxl_get_hpa_freespace - find a root decoder with free capacity per constraints
+   785	 * @endpoint: an endpoint that is mapped by the returned decoder
+   786	 * @flags: CXL_DECODER_F flags for selecting RAM vs PMEM, and HDM-H vs HDM-D[B]
+   787	 * @max_avail_contig: output parameter of max contiguous bytes available in the
+   788	 *		      returned decoder
+   789	 *
+   790	 * The return tuple of a 'struct cxl_root_decoder' and 'bytes available given
+   791	 * in (@max_avail_contig))' is a point in time snapshot. If by the time the
+   792	 * caller goes to use this root decoder's capacity the capacity is reduced then
+   793	 * caller needs to loop and retry.
+   794	 *
+   795	 * The returned root decoder has an elevated reference count that needs to be
+   796	 * put with put_device(cxlrd_dev(cxlrd)). Locking context is with
+   797	 * cxl_{acquire,release}_endpoint(), that ensures removal of the root decoder
+   798	 * does not race.
+   799	 */
+   800	struct cxl_root_decoder *cxl_get_hpa_freespace(struct cxl_memdev *cxlmd,
+   801						       unsigned long flags,
+   802						       resource_size_t *max_avail_contig)
+ > 803	{
+   804		struct cxl_port *endpoint = cxlmd->endpoint;
+   805		struct cxlrd_max_context ctx = {
+   806			.host_bridge = endpoint->host_bridge,
+   807			.flags = flags,
+   808		};
+   809		struct cxl_port *root_port;
+   810		struct cxl_root *root __free(put_cxl_root) = find_cxl_root(endpoint);
+   811	
+   812		if (!is_cxl_endpoint(endpoint)) {
+   813			dev_dbg(&endpoint->dev, "hpa requestor is not an endpoint\n");
+   814			return ERR_PTR(-EINVAL);
+   815		}
+   816	
+   817		if (!root) {
+   818			dev_dbg(&endpoint->dev, "endpoint can not be related to a root port\n");
+   819			return ERR_PTR(-ENXIO);
+   820		}
+   821	
+   822		root_port = &root->port;
+   823		down_read(&cxl_region_rwsem);
+   824		device_for_each_child(&root_port->dev, &ctx, find_max_hpa);
+   825		up_read(&cxl_region_rwsem);
+   826	
+   827		if (!ctx.cxlrd)
+   828			return ERR_PTR(-ENOMEM);
+   829	
+   830		*max_avail_contig = ctx.max_hpa;
+   831		return ctx.cxlrd;
+   832	}
+   833	EXPORT_SYMBOL_NS_GPL(cxl_get_hpa_freespace, CXL);
+   834	
 
 -- 
 0-DAY CI Kernel Test Service
